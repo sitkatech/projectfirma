@@ -1,0 +1,37 @@
+/* specific qTip2 overrides for Taurus */
+
+.qtip, .qtip {
+	max-width: none;
+}
+
+.qtip-default .qtip-content {
+	color: Black;
+}
+
+.qtip-default .qtip-titlebar 
+{
+	background-color: #007BBA;
+	color: white;
+}
+
+.qtip-default {
+	border: 2px solid;
+	border-radius: 3px 3px 3px 3px;
+}
+
+.qtip, .qtip {
+	font-size: 100%;
+	line-height: 100%;
+}
+
+.ui-tooltip-red {
+    background-color: #eb9d9e;
+	border-color: #800000;
+    font-size: 11px;
+}
+
+.ui-tooltip-help {
+    background-color: #F5F5F5;
+	border-color: #007CB9;
+    font-size: 11px;
+}

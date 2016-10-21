@@ -1,0 +1,134 @@
+﻿@using ProjectFirma.Web.Views.Shared
+@inherits ProjectFirma.Web.Views.Home.DataCenter
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+
+    <style type="text/css">
+        .bigger-glyph {
+            font-size: 2.5em;
+        }
+
+        .dataCenterSection {
+            text-align: center;
+            margin-top: 10px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            height: 170px;
+        }
+
+        div.dataCenterSection:hover {
+            background: #ADD8E6;
+        }
+
+        div.dataCenterSection {
+            position: relative;
+            border: 2px solid #999;
+            border-radius: 8px;
+        }
+
+            div.dataCenterSection a {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                margin-top: 20px;
+                top: 0;
+                left: 0;
+                text-decoration: none;
+                z-index: 10;
+                filter: alpha(opacity=1);
+            }
+
+        .sectionHeader {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .sectionDetails {
+            font-size: 0.9em;
+            color: grey;
+        }
+    </style>
+
+}
+
+
+<div>
+    @ViewDataTyped.DataCenterIntroContent
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+            <div class="summarySection dataCenterSection">
+                <a href="@ViewDataTyped.ManageIndicatorsUrl">
+                    <span class="glyphicon glyphicon-stats bigger-glyph"></span>
+                    <br /><br />
+                    <span class="sectionHeader">Indicators</span>
+                    <br /><br />
+                    <span class="sectionDetails">See details for @ViewDataTyped.IndicatorsCount Indicators</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6">
+            <div class="summarySection dataCenterSection">
+                <a href="@ViewDataTyped.ManageLocalAndRegionalPlansUrl">
+                    <span class="glyphicon glyphicon-book bigger-glyph"></span>
+                    <br /><br />
+                    <span class="sectionHeader">Local and Regional Plans</span>
+                    <br /><br />
+                    <span class="sectionDetails">See details for @ViewDataTyped.LocalAndRegionalPlansCount Local and Regional Plans</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6">
+            <div class="summarySection dataCenterSection">
+                <a href="@ViewDataTyped.ManageWaterShedUrl">
+                    <span class="glyphicon glyphicon-tint bigger-glyph"></span>
+                    <br /><br />
+                    <span class="sectionHeader">Watersheds</span>
+                    <br /><br />
+                    <span class="sectionDetails">See details for @ViewDataTyped.WatershedsCount Watersheds</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6">
+            <div class="summarySection dataCenterSection">
+                <a href="@ViewDataTyped.ManageOrganizationsUrl">
+                    <span class="glyphicon glyphicon-user bigger-glyph"></span>
+                    <br /><br />
+                    <span class="sectionHeader">Organizations</span>
+                    <br /><br />
+                    <span class="sectionDetails">See details for @ViewDataTyped.OrganizationsCount Organizations</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6">
+            <div class="summarySection dataCenterSection">
+                <a href="@ViewDataTyped.ManageMonitoringProgramsUrl">
+                    <span class="glyphicon glyphicon-eye-open bigger-glyph"></span>
+                    <br /><br />
+                    <span class="sectionHeader">Monitoring Programs</span>
+                    <br /><br />
+                    <span class="sectionDetails">See details for @ViewDataTyped.MonitoringProgramsCount Monitoring Programs</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6">
+            <div class="summarySection dataCenterSection">
+                <a href="@ViewDataTyped.WebServicesUrl">
+                    <span class="glyphicon glyphicon-cloud-download bigger-glyph"></span>
+                    <br /><br />
+                    <span class="sectionHeader">Web Services</span>
+                    <br /><br />
+                    <span class="sectionDetails">See details for our web services API</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

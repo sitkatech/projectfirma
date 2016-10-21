@@ -1,0 +1,5 @@
+﻿@model HttpPostedFileBase
+@Html.TextBox("", null, new { type = "file" })
+<script>
+    jQuery("#@ViewData.TemplateInfo.HtmlFieldPrefix").fileinput({ showUpload: false, showPreview: false, showRemove: false, defaultPreviewContent: "", allowedPreviewTypes: false, multiple: false, showCaption: true, browseClass: "btn btn-sm btn-trpa" });
+</script>

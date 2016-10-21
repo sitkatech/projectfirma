@@ -1,0 +1,12 @@
+﻿@using ProjectFirma.Web.Common
+@inherits ProjectFirma.Web.Views.Shared.TextControls.EditRtfContent
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+    <div style="max-height: 600px; overflow-y: auto">
+        @Html.CkEditorFor(x => x.RtfContent, ViewDataTyped.CkEditorToolbar, true, false, ViewDataTyped.FileBrowserImageUploadUrl, 300)
+    </div>
+
+    <script type="text/javascript" src="/Scripts/CustomScripts/CkEditorReady.js"></script>
+}

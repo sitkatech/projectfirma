@@ -1,0 +1,31 @@
+﻿@using ProjectFirma.Web.Areas.Threshold.Controllers
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.Mvc
+@using Microsoft.Web.Mvc
+@inherits ProjectFirma.Web.Areas.Threshold.Views.ThresholdIndicatorImage.New
+@using (Html.BeginForm<ThresholdIndicatorImageController>(x => x.New(ViewDataTyped.ThresholdIndicator.ThresholdIndicatorID, null), FormMethod.Post, new {enctype = "multipart/form-data"}))
+{
+    <div class="row">
+        <div class="col-md-4">@Html.LabelFor(x => x.FileResourceData): </div>
+        <div class="col-md-8">
+            @Html.EditorFor(x => x.FileResourceData)
+            <span class="smallExplanationText">
+                Allowed Extensions: @Model.GetFileExtensions(x => x.FileResourceData)
+            </span>
+            @Html.ValidationMessageFor(x => x.FileResourceData)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">@Html.LabelWithFieldDefinitionFor(x => x.Caption): </div>
+        <div class="col-md-8">
+            @Html.TextBoxFor(x => x.Caption, new {style = "width:380px"})
+            <div class="smallExplanationText">Be concise yet still descriptive. Thumbnails above will display alphabetically by caption.</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">@Html.LabelWithFieldDefinitionFor(x => x.Credit): </div>
+        <div class="col-md-8">
+            @Html.TextBoxFor(x => x.Credit, new {style = "width:380px"})
+        </div>
+    </div>
+}

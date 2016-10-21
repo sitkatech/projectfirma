@@ -1,0 +1,26 @@
+//  IMPORTANT:
+//  This file is generated. Your changes will be lost.
+//  Use the corresponding partial class for customizations.
+//  Source Table: dbo.AuditLogEventType
+using ProjectFirma.Web.Common;
+using LtInfo.Common.DesignByContract;
+using LtInfo.Common.Models;
+
+namespace ProjectFirma.Web.Models
+{
+    public class AuditLogEventTypePrimaryKey : LtInfo.Common.EntityModelBinding.LtInfoEntityPrimaryKey<AuditLogEventType>
+    {
+        public AuditLogEventTypePrimaryKey(int primaryKeyValue) : base(primaryKeyValue){}
+        public AuditLogEventTypePrimaryKey(AuditLogEventType auditLogEventType) : base(auditLogEventType){}
+
+        public static implicit operator AuditLogEventTypePrimaryKey(int primaryKeyValue)
+        {
+            return new AuditLogEventTypePrimaryKey(primaryKeyValue);
+        }
+
+        public static implicit operator AuditLogEventTypePrimaryKey(AuditLogEventType auditLogEventType)
+        {
+            return new AuditLogEventTypePrimaryKey(auditLogEventType);
+        }
+    }
+}

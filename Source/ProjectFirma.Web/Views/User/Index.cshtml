@@ -1,0 +1,16 @@
+﻿@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.DhtmlWrappers
+@inherits ProjectFirma.Web.Views.User.Index
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+<p>
+    Users listed here all have Single Sign On (SSO) accounts provisioned by <a href="@ViewDataTyped.KeystoneUrl">Sitka's Keystone service</a>. To create a new account, end users must <a href="@ViewDataTyped.KeystoneRegisterUserUrl">request an account</a>.
+</p>
+
+<div style="margin-top: 10px">
+    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+</div>

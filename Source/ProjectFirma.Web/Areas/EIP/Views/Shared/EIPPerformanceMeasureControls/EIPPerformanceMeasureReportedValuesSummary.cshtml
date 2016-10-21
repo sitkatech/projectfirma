@@ -1,0 +1,66 @@
+﻿@using ProjectFirma.Web.Areas.EIP.Views.Shared
+@using ProjectFirma.Web.Models
+@using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Areas.EIP.Views.Shared.EIPPerformanceMeasureControls.EIPPerformanceMeasureReportedValuesSummary
+
+@if (ViewDataTyped.EIPPerformanceMeasureSubcategoriesCalendarYearReportedValues.Any())
+{
+    <table class="summaryLayout">
+        <colgroup>
+            <col>
+            <col>
+            @foreach (var calendarYear in ViewDataTyped.CalendarYearsForEIPPerformanceMeasures.OrderBy(x => x.CalendarYear))
+            {
+                switch (calendarYear.AddedDeletedOrRealElement)
+                {
+                    case AddedDeletedOrRealElement.AddedElement:
+                        <col class="@HtmlDiffContainer.DisplayCssClassAddedElement" style="background-color: @HtmlDiffContainer.BackgroundColorForAddedElement">
+                        break;
+                    case AddedDeletedOrRealElement.DeletedElement:
+                        <col class="@HtmlDiffContainer.DisplayCssClassDeletedElement" style="background-color: @HtmlDiffContainer.BackgroundColorForDeletedElement">
+                        break;
+                    case AddedDeletedOrRealElement.RealElement:
+                        <col>
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            <col>
+            <col>
+        </colgroup>
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.EIPPerformanceMeasure)</th>
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Subcategories)</th>
+            @foreach (var calendarYear in ViewDataTyped.CalendarYearsForEIPPerformanceMeasures.OrderBy(cy => cy.CalendarYear))
+            {
+                <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYear</th>
+            }
+            <th style="text-align: right">Total</th>
+            <th></th>
+        </tr>
+        @foreach (var eipPerformanceMeasureCalendarYearReportedValue in ViewDataTyped.EIPPerformanceMeasureSubcategoriesCalendarYearReportedValues.OrderBy(x => x.EIPPerformanceMeasureID))
+        {
+            foreach (var subcategoriesReportedValue in eipPerformanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.OrderBy(x => x.IndicatorSubcategories))
+            {
+                <tr class="@eipPerformanceMeasureCalendarYearReportedValue.DisplayCssClass">
+                    <td>@eipPerformanceMeasureCalendarYearReportedValue.EIPPerformanceMeasureDisplayNameAsUrl</td>
+                    <td>@Html.Raw(subcategoriesReportedValue.IndicatorSubcategories)</td>
+                    @foreach (var calendarYear in ViewDataTyped.CalendarYearsForEIPPerformanceMeasures.OrderBy(cy => cy.CalendarYear))
+                    {
+                        <td class="@calendarYear.DisplayCssClass" style="text-align: right">
+                            <span>@(subcategoriesReportedValue.CalendarYearReportedValue.ContainsKey(calendarYear.CalendarYear) ? eipPerformanceMeasureCalendarYearReportedValue.MeasurementUnitType == MeasurementUnitType.Dollars ? subcategoriesReportedValue.CalendarYearReportedValue[calendarYear.CalendarYear].ToStringCurrency() : subcategoriesReportedValue.CalendarYearReportedValue[calendarYear.CalendarYear].ToGroupedNumeric() : "0")</span>
+                        </td>
+                    }
+                    <th style="text-align: right">
+                        <span>@eipPerformanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(subcategoriesReportedValue.CalendarYearReportedValue.Sum(z => z.Value))</span>
+                    </th>
+                    <th>
+                        <span>@(eipPerformanceMeasureCalendarYearReportedValue.MeasurementUnitType != MeasurementUnitType.Dollars ? eipPerformanceMeasureCalendarYearReportedValue.MeasurementUnitType.MeasurementUnitTypeDisplayName : string.Empty)</span>
+                    </th>
+                </tr>
+            }
+        }
+    </table>
+}

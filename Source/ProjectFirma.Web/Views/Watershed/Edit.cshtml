@@ -1,0 +1,15 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Views.Watershed.Edit
+@using (Html.BeginForm())
+{
+    <table class="dialogFormLayout">
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.WatershedName):</th>
+            <td>
+                @Html.TextBoxFor(m => m.WatershedName, new {style = "width:522px"})
+                @Html.ValidationMessageFor(m => m.WatershedName)
+            </td>
+        </tr>
+    </table>
+    @Html.HiddenFor(m => m.WatershedID)
+}

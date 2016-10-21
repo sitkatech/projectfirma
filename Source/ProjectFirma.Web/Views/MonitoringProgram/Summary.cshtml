@@ -1,0 +1,112 @@
+﻿@using ProjectFirma.Web.Models
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@inherits ProjectFirma.Web.Views.MonitoringProgram.Summary
+
+@section JavascriptAndStylesContent
+{
+    <script src="@Url.Content("~/Views/MonitoringProgramPartner/MonitoringProgramPartnerController.js")" type="text/javascript"></script>
+}
+
+
+<div class="summarySection">
+    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditMonitoringProgramUrl, string.Format("Edit Local and Regional Plan - {0}", ViewDataTyped.MonitoringProgram.MonitoringProgramName), ViewDataTyped.UserHasMonitoringProgramManagePermissions) Basics</h2>
+    <div class="contentWrapper">
+        <table class="summaryLayout">
+            <tr>
+                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgram):</th>
+                <td>
+                    @ViewDataTyped.MonitoringProgram.MonitoringProgramName
+                </td>
+            </tr>
+            <tr>
+                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringApproach):</th>
+                <td>
+                    @ViewDataTyped.MonitoringProgram.MonitoringApproach
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgramUrl, "Home Page"):</th>
+                <td>
+                    <a href="@ViewDataTyped.MonitoringProgram.MonitoringProgramUrl">@ViewDataTyped.MonitoringProgram.MonitoringProgramUrl</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="summarySection">
+    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditMonitoringProgramPartnersUrl, "Edit Monitoring Program Partners", ViewDataTyped.UserHasMonitoringProgramManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgramPartner, "Partners")</h2>
+    <div class="contentWrapper">
+        @if (ViewDataTyped.MonitoringProgram.MonitoringProgramPartners.Any())
+        {
+            <ul>
+                @foreach (var monitoringProgramPartner in ViewDataTyped.MonitoringProgram.MonitoringProgramPartners.OrderBy(x => x.Organization.DisplayName))
+                {
+                    <li>
+                        <a href="@monitoringProgramPartner.Organization.GetSummaryUrl()">@monitoringProgramPartner.Organization.DisplayName</a>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="systemText">No partners for this monitoring program.</p>
+        }
+    </div>
+</div>
+
+<div class="summarySection">
+    <h2>Documents</h2>
+    <div class="contentWrapper">
+        <div class="pull-right">
+            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("<span class='glyphicon glyphicon-plus-sign' style='margin-right: 3px'></span>Add {0}", "PDF"), ViewDataTyped.MonitoringProgram.NewMonitoringProgramDocumentUrl, "Add New PDF", ViewDataTyped.UserHasMonitoringProgramManagePermissions)
+        </div>
+
+        @if (ViewDataTyped.MonitoringProgram.MonitoringProgramDocuments.Any())
+        {
+            <ul>
+                @foreach (var monitoringProgramDocument in ViewDataTyped.MonitoringProgram.MonitoringProgramDocuments.OrderBy(x => x.DisplayName))
+                {
+                    <li>
+                        <a href="@monitoringProgramDocument.FileResource.FileResourceUrl">@monitoringProgramDocument.DisplayName</a>
+                        <span class="DeletePhotoButtonClass">
+                            @ModalDialogFormHelper.MakeDeleteLink("<span class='glyphicon glyphicon-trash' style='margin-right: 3px'></span>", monitoringProgramDocument.DeleteMonitoringProgramDocumentUrl, ViewDataTyped.UserHasMonitoringProgramManagePermissions)
+                        </span>
+
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="systemText">No documents have been uploaded for this monitoring program.</p>
+        }
+    </div>
+</div>
+
+<div class="summarySection">
+    <h2>Associated Indicators</h2>
+    <div class="contentWrapper">
+        @if (ViewDataTyped.MonitoringProgram.IndicatorMonitoringPrograms.Any())
+        {
+            <ul>
+                @foreach (var indicatorMonitoringProgram in ViewDataTyped.MonitoringProgram.IndicatorMonitoringPrograms.OrderBy(x => x.Indicator.IndicatorDisplayName))
+                {
+                    <li>
+                        <a href="@indicatorMonitoringProgram.Indicator.GetSummaryUrl()">@indicatorMonitoringProgram.Indicator.IndicatorDisplayName</a>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="systemText">No partners for this monitoring program.</p>
+        }
+    </div>
+</div>
+
+<div style="margin-top: 20px">
+    <a class="btn btn-blue" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
+</div>

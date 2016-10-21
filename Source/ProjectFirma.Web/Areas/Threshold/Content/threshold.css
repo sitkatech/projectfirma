@@ -1,0 +1,7 @@
+﻿/*This file is for any custom Threshold Dashboard theme*/
+
+.thresholdHeader {
+    background: #2098AE no-repeat center;
+    background-image: url("threshold-bg.jpg");
+    background-size: cover;
+}

@@ -1,0 +1,90 @@
+using System;
+using System.Linq;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.HtmlHelperExtensions;
+
+namespace ProjectFirma.Web.Areas.EIP.Views.ProjectUpdate
+{
+    public class PeopleReceivingReminderGridSpec : GridSpec<Person>
+    {
+        public PeopleReceivingReminderGridSpec(bool showCheckbox)
+        {
+            if (showCheckbox)
+            {
+                AddCheckBoxColumn();
+                Add("PersonID", x => x.PersonID, 0);
+            }
+            Add(Models.FieldDefinition.PrimaryContact.ToGridHeaderString(), x => x.GetFullNameFirstLastAndOrgAsUrl(), 220);
+            Add("Email", a => a.Email, 170);
+            Add("Projects Requiring Update",
+                x => x.GetPrimaryContactUpdatableProjects().Count,
+                70, DhtmlxGridColumnAggregationType.Total);
+            Add("Updates Not Started",
+                x =>
+                {
+                    return x.GetPrimaryContactUpdatableProjects().Count(y =>
+                    {
+                        var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
+                        var latestApprovedUpdateBatch = y.GetLatestApprovedUpdateBatch();
+                        return latestNotApprovedUpdateBatch == null &&
+                               (latestApprovedUpdateBatch == null || latestApprovedUpdateBatch.LastUpdateDate < ProjectFirmaDateUtilities.LastReportingPeriodStartDate());
+                    });
+                },
+                70, DhtmlxGridColumnAggregationType.Total);
+            Add("Updates In Progress",
+                x =>
+                {
+                    return x.GetPrimaryContactUpdatableProjects().Count(y =>
+                    {
+                        var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
+                        return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsCreated;
+                    });
+                },
+                70, DhtmlxGridColumnAggregationType.Total);
+            Add("Updates Submitted",
+                x =>
+                {
+                    return x.GetPrimaryContactUpdatableProjects().Count(y =>
+                    {
+                        var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
+                        return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsSubmitted;
+                    });
+                },
+                75, DhtmlxGridColumnAggregationType.Total);
+            Add("Updates Returned",
+                x =>
+                {
+                    return x.GetPrimaryContactUpdatableProjects().Count(y =>
+                    {
+                        var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
+                        return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsReturned;
+                    });
+                },
+                70, DhtmlxGridColumnAggregationType.Total);
+            Add("Updates Approved",
+                x =>
+                {
+                    return x.GetPrimaryContactUpdatableProjects().Count(y =>
+                    {
+                        var latestApprovedUpdateBatch = y.GetLatestApprovedUpdateBatch();
+                        return latestApprovedUpdateBatch != null && latestApprovedUpdateBatch.LastUpdateDate >= ProjectFirmaDateUtilities.LastReportingPeriodStartDate();
+                    });
+                },
+                70, DhtmlxGridColumnAggregationType.Total);
+            Add("Reminders Sent",
+                x =>
+                    x.Notifications.Count(
+                        y =>
+                            y.NotificationType == NotificationType.ProjectUpdateReminder &&
+                            y.NotificationDate >= ProjectFirmaDateUtilities.LastReportingPeriodStartDate()),
+                80);
+            Add("Date of Last Reminder Message", x =>
+            {
+                var mostRecentReminder = x.GetMostRecentReminder();
+                return mostRecentReminder == null ? (DateTime?) null : mostRecentReminder.NotificationDate;
+            }, 130);
+        }
+    }
+}

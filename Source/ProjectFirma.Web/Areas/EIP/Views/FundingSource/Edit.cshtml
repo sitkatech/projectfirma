@@ -1,0 +1,43 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Areas.EIP.Views.FundingSource.Edit
+@using (Html.BeginForm())
+{
+    <table class="dialogFormLayout">
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.FundingSourceName):</th>
+            <td>
+                @Html.TextBoxFor(m => m.FundingSourceName, new {style = "width:480px"})
+                @Html.ValidationMessageFor(m => m.FundingSourceName)
+            </td>
+        </tr>
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.FundingSourceDescription):</th>
+            <td>
+                @Html.TextAreaWithMaxLengthFor(m => m.FundingSourceDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null)
+                @Html.ValidationMessageFor(m => m.FundingSourceDescription)
+            </td>
+        </tr>
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.OrganizationID):</th>
+            <td>
+                @Html.DropDownListFor(m => m.OrganizationID, ViewDataTyped.Organizations)
+                @Html.ValidationMessageFor(m => m.OrganizationID)
+            </td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(m => m.IsActive):</th>
+            <td>
+                @Html.CheckBoxFor(m => m.IsActive)
+                @Html.ValidationMessageFor(m => m.IsActive)
+            </td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(m => m.IsTransportationFundingSource):</th>
+            <td>
+                @Html.CheckBoxFor(m => m.IsTransportationFundingSource)
+                @Html.ValidationMessageFor(m => m.IsTransportationFundingSource)
+            </td>
+        </tr>
+    </table>
+    @Html.HiddenFor(m => m.FundingSourceID)
+}

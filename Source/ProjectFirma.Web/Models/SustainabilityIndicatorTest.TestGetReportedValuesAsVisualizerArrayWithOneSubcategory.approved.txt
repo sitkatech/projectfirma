@@ -1,0 +1,66 @@
+﻿{
+  "cols": [
+    {
+      "id": "Reporting Period",
+      "label": "Reporting Period",
+      "type": "string"
+    },
+    {
+      "id": "Option 1",
+      "label": "Option 1",
+      "type": "number"
+    },
+    {
+      "id": "Option 2",
+      "label": "Option 2",
+      "type": "number"
+    }
+  ],
+  "rows": [
+    {
+      "c": [
+        {
+          "v": "2000"
+        },
+        {
+          "v": 10.0,
+          "f": "10 acres"
+        },
+        {
+          "v": 7.0,
+          "f": "7 acres"
+        }
+      ]
+    },
+    {
+      "c": [
+        {
+          "v": "2001"
+        },
+        {
+          "v": 11.0,
+          "f": "11 acres"
+        },
+        {
+          "v": 9.0,
+          "f": "9 acres"
+        }
+      ]
+    },
+    {
+      "c": [
+        {
+          "v": "2002"
+        },
+        {
+          "v": 11.0,
+          "f": "11 acres"
+        },
+        {
+          "v": 5.0,
+          "f": "5 acres"
+        }
+      ]
+    }
+  ]
+}

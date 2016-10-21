@@ -1,0 +1,29 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Areas.Threshold.Views.ThresholdIndicator.EditStandardsMetadata
+
+@using (Html.BeginForm())
+{
+    <div class="container-fluid container-fluid-dialog-form" style="max-height: 600px; overflow-y: auto">
+        <div class="row">
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(x => x.ApplicableStandard):</div>
+            <div class="col-md-8">
+                @Html.TextAreaWithMaxLengthFor(m => m.ApplicableStandard, new TextAreaForExtensions.TextAreaDimensions(null, 4), null)
+                @Html.ValidationMessageFor(m => m.ApplicableStandard)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(x => x.ThresholdStandardTypeEnum, "Type"):</div>
+            <div class="col-md-8">
+                @Html.DropDownListFor(m => m.ThresholdStandardTypeEnum, ViewDataTyped.ThresholdStandardTypes)
+                @Html.ValidationMessageFor(m => m.ThresholdStandardTypeEnum)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(x => x.StandardNarrative):</div>
+            <div class="col-md-8">
+                @Html.TextAreaWithMaxLengthFor(m => m.StandardNarrative, new TextAreaForExtensions.TextAreaDimensions(null, 4), null)
+                @Html.ValidationMessageFor(m => m.StandardNarrative)
+            </div>
+        </div>
+    </div>
+}

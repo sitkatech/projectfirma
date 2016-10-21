@@ -1,0 +1,108 @@
+﻿.row {
+    margin: 0 auto !important;
+}
+
+hr {
+    border-color: rgb(11, 64, 107);
+}
+
+.editButtonDisabled {
+    background-color: lightgray !important;
+    color: gray !important;
+}
+
+
+.label.blue {
+    color: #FFFFFF;
+}
+
+.ltinfo-modal-dialog
+{
+    font-size: 14px !important;
+}
+.ltinfo-modal-dialog .btn {
+    color: #fff;
+    font-family: "ff-meta-serif-web-pro", serif;
+    font-weight: 700;
+    padding: 0.9375em 1.5625em 0.75em;
+    position: relative;
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-block;
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.ltinfo-modal-dialog .modal-close-button
+{
+    padding: 3px 6px;
+}
+
+textarea {
+    color: black;
+}
+
+div.summarySection h2
+{
+    font-family: "Basic",sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus
+{
+    background-color: transparent;
+    border-color: white;
+}
+
+.nav .btn:hover
+{
+    background-color: transparent;
+}
+
+a .glyphicon
+{
+    border-bottom: none;
+}
+
+.ltinfo-modal-dialog .modal-title
+{
+    font-weight: normal;
+}
+
+body.sustainability-dashboard {font-size: 16px;}
+
+footer.sustainability-dashboard {font-size: 16px; }
+
+h3.entityName
+{
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+h1.pageTitle
+{
+    margin-top: 0;
+    margin-bottom: 5px;
+    border-bottom: 1px solid lightgray;
+}
+
+.rightOfPageTitle {float: right;margin-top: 10px;margin-bottom: 5px; vertical-align: text-bottom}
+
+.ltInfoSiteExplorer .dropdown-toggle:hover
+    {
+        background-color: rgb(98, 136, 175);
+    }

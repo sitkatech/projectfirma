@@ -1,0 +1,5 @@
+﻿@using ProjectFirma.Web.Views
+@using LtInfo.Common.DhtmlWrappers
+@inherits ProjectFirma.Web.Areas.EIP.Views.Results.ProjectFundingSourceExpendituresBySector
+
+@Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:400px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

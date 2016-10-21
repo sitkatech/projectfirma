@@ -1,0 +1,37 @@
+﻿@using ProjectFirma.Web.Views
+@using LtInfo.Common
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@using LtInfo.Common.Views
+@inherits ProjectFirma.Web.Views.Shared.TextControls.EntityNotes
+
+@if (ViewDataTyped.CanEditNotes)
+{
+    <div class="summaryLayoutUpdateControls"style="float: right">
+        <span style="display: inline-block">
+            @ModalDialogFormHelper.ModalDialogFormLink(ProjectFirmaDhtmlxGridHtmlHelpers.PlusIcon.ToString(), ViewDataTyped.AddNoteUrl, string.Format("New Note for {0}", ViewDataTyped.EntityName), ViewDataTyped.CanEditNotes)
+        </span>
+        <span style="display: inline-block; vertical-align: top">
+            @ModalDialogFormHelper.ModalDialogFormLink("Add Note", ViewDataTyped.AddNoteUrl, string.Format("New Note for {0}", ViewDataTyped.EntityName), ViewDataTyped.CanEditNotes)
+        </span>
+    </div>
+}
+@if (ViewDataTyped.Notes.Any())
+{
+    <table class="summaryLayout">
+        @foreach (var entityNote in ViewDataTyped.Notes.OrderByDescending(x => x.LastUpdated))
+        {
+            <tr class="@entityNote.DisplayCssClass">
+                <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeEditIconLink(entityNote.EditUrl, string.Format("Edit Note for {0}", ViewDataTyped.EntityName), ViewDataTyped.CanEditNotes)</td>
+                <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), entityNote.DeleteUrl, ViewDataTyped.CanEditNotes)</td>
+                <td>@entityNote.LastUpdated.ToStringDateTime()</td>
+                <td>@entityNote.LastUpdatedBy</td>
+                <td>@Html.Raw(entityNote.Note.HtmlEncodeWithBreaks())</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p class="systemText">No notes entered.</p>
+}

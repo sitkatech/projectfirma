@@ -1,0 +1,86 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Views.Role.Summary
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+<div class="summarySection">
+    <h2>Basics</h2>
+    <table class="summaryLayout">
+        <tr>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.SiteArea)</th>
+            <td>@(ViewDataTyped.LTInfoAreaName)</td>
+        </tr>
+        <tr>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.RoleName)</th>
+            <td>@(ViewDataTyped.RoleName)</td>
+        </tr>
+
+        <tr>
+            <th style="white-space: nowrap">Description:</th>
+            <td>@(ViewDataTyped.RoleDescription)</td>
+        </tr>
+    </table>
+</div>
+
+
+
+<div class="summarySection">
+    <h2>Approved Permissions</h2>
+
+    <table class="table table-striped" style="background-color: #d9d9f9;">
+        @foreach (var featurePermission in ViewDataTyped.ApprovedFeatures.OrderByDescending(x => x.HasPermission).ThenBy(x => x.FeatureName))
+        {
+            <tr>
+                <td>@featurePermission.FeatureName</td>
+                <td style="text-align: center">
+                    @featurePermission.HasPermission.ToYesNo()
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+<div class="summarySection">
+    <h2>Denied Permissions</h2>
+
+    <table class="table table-striped">
+        @if (ViewDataTyped.DeniedFeatures.Any())
+        {
+            foreach (var featurePermission in ViewDataTyped.DeniedFeatures.OrderByDescending(x => x.HasPermission).ThenBy(x => x.FeatureName))
+             {
+                 <tr>
+                     <td><span style="color: lightgray">@featurePermission.FeatureName</span></td>
+                     <td style="text-align: center">
+                         <span style="color: lightgray">@featurePermission.HasPermission.ToYesNo()</span>
+                     </td>
+                 </tr>
+             }
+        }
+        else
+        {
+            <tr>
+                <td>
+                    <span class="systemText">This role has access to all permissions.</span>
+                </td>
+            </tr>            
+        }
+    </table>
+</div>
+
+@if (ViewDataTyped.LTInfoAreaEnum != null)
+{
+    <div class="summarySection">
+        <h2>People wtih this role:</h2>
+        <div class="contentWrapper">
+            @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+        </div>
+    </div>
+}

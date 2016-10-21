@@ -1,0 +1,144 @@
+﻿@using ProjectFirma.Web.Views
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@using LtInfo.Common.Views
+@inherits ProjectFirma.Web.Views.Shared.ImageGallery
+
+<style>
+    p.img {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+    .img img {
+        margin-left: 4px;
+    }
+</style>
+
+<script type="text/javascript">
+    // <![CDATA[
+    jQuery(document).ready(function()
+    {
+        var galleryScope = jQuery("#@ViewDataTyped.GalleryName");
+        galleryScope.find(".keyPhotoButton").click(function()
+        {
+            var selectKeyPhotoButton = jQuery(this);
+            var selectKeyPhotoButtonLabel = selectKeyPhotoButton.find("label");
+            var selectionMode = selectKeyPhotoButtonLabel.html() == "Done";
+            var filmStrip = galleryScope.find("ul.filmStrip");
+            var galleryImagesContainer = galleryScope.find(".gallery");
+            var galleryImages = filmStrip.find("li");
+            var galleryImageEditIcon = galleryScope.find(".EditPhotoButtonClass");
+            var galleryImageDeleteIcon = galleryScope.find(".DeletePhotoButtonClass");
+            var addPhotoButton = galleryScope.find(".AddPhotoButtonClass");
+            if (!selectionMode)
+            {
+                selectKeyPhotoButtonLabel.html("Done");
+                addPhotoButton.hide();
+                galleryImageEditIcon.hide();
+                galleryImageDeleteIcon.hide();
+
+                galleryImagesContainer.unbind("click.fb"); //unhooks fancybox
+
+                filmStrip.css("background-color", "#BACF9E");
+                galleryImages.click(function()
+                {
+                    var listItem = jQuery(this);
+                    filmStrip.find("li .keyPhotoIcon").removeClass("setKeyPhoto");
+                    listItem.addClass("setKeyPhoto");
+                    listItem.find(".keyPhotoIcon").addClass("setKeyPhoto");
+                    return false; //this stops the click from propigating to the a tag.
+                });
+            }
+            else
+            {
+                selectKeyPhotoButtonLabel.html("Select Key @ViewDataTyped.ImageEntityName");
+                addPhotoButton.show();
+                galleryImageEditIcon.show();
+                galleryImageDeleteIcon.show();
+
+                galleryImagesContainer.fancybox({ "type": "image" }); //hook up fancybox again.
+
+                filmStrip.css("background-color", "transparent"); //reset background color
+                galleryImages.unbind("click"); //unbind key image selection event
+
+                var selectImageUrl = "@ViewDataTyped.SelectKeyImageUrl";
+                var selectedImageId = filmStrip.find("li .setKeyPhoto").first().attr("data-image-id");
+                if (selectedImageId != @ViewDataTyped.CurrentKeyPhotoID)
+                {
+                    var url = new Sitka.UrlTemplate(selectImageUrl).ParameterReplace(selectedImageId);
+                SitkaAjax.post(url, new Object(), function(data)
+                {
+                    if (!data.Success)
+                    {
+                        alert(data.Message);
+                    }
+                },
+                function() { alert("There was an error setting your Key @ViewDataTyped.ImageEntityName."); });
+            }
+        }
+        });
+    });
+    // ]]>
+</script>
+
+<div id="@ViewDataTyped.GalleryName">
+    @if (ViewDataTyped.UserCanAddPhotos)
+    {
+        <div class="pull-right">
+            @if (ViewDataTyped.GalleryImages.Any() && ViewDataTyped.UserCanSelectKeyPhoto)
+            {
+                <span class="keyPhotoButton">
+                    <span style="display: inline-block; vertical-align: top">
+                        <img src="~/Content/img/keys.png" alt="Select Key @ViewDataTyped.ImageEntityName" />
+                    </span>
+                    <label>Select Key @ViewDataTyped.ImageEntityName</label>
+                </span>
+            }
+            <span style="display: inline-block; vertical-align: top">
+                @ModalDialogFormHelper.ModalDialogFormLink(string.Format("<span class='glyphicon glyphicon-plus-sign' style='margin-right: 3px'></span>Add {0}", ViewDataTyped.ImageEntityName), ViewDataTyped.AddNewPhotoUrl, string.Format("Add New {0}", ViewDataTyped.ImageEntityName), 700, "Upload", "Cancel", new List<string> { "AddPhotoButtonClass" }, null, null)
+            </span>
+        </div>
+    }
+
+    @if (ViewDataTyped.GalleryImages.Any())
+    {
+        <div>
+            <ul class="filmStrip" style="margin-top: 5px;">
+                @foreach (var galleryImage in ViewDataTyped.GalleryImages.OrderBy(x => x.OrderBy))
+                {
+                    <li style="overflow: hidden">
+                        <div class="@Html.Raw(string.Join(" ", galleryImage.AdditionalCssClasses).HtmlEncodeWithBreaks())">
+                            <div class="icons">
+                                <span data-image-id="@galleryImage.PrimaryKey" class="keyPhotoIcon @Html.Raw(galleryImage.IsKeyPhoto ? "setKeyPhoto" : string.Empty)">
+                                    <img src="/Content/img/keys.png" alt="Key @ViewDataTyped.ImageEntityName" />
+                                </span>
+                                <span class="EditPhotoButtonClass">
+                                    @ModalDialogFormHelper.MakeEditIconLink(galleryImage.EditUrl, string.Format("Edit {0}", ViewDataTyped.ImageEntityName), ViewDataTyped.UserCanAddPhotos)
+                                </span>
+                                <span class="DeletePhotoButtonClass">
+                                    @ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), galleryImage.DeleteUrl, ViewDataTyped.UserCanAddPhotos)
+                                </span>
+                                &nbsp;
+                            </div>
+                            <a class="@(ViewDataTyped.IsGalleryMode ? "gallery" : string.Empty)" rel="group" href="@galleryImage.PhotoUrl" title="@galleryImage.CaptionOnFullView" data-caption="@Html.Raw(galleryImage.CaptionOnFullView.HtmlEncode())">
+                                <p class="img">
+                                    <img src="@galleryImage.PhotoUrlScaledThumbnail" alt="@galleryImage.CaptionOnFullView" />
+                                </p>
+                                <div class="caption">
+                                    @Html.Raw(galleryImage.CaptionOnGallery.HtmlEncodeWithBreaks())
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+    else
+    {
+        <p class="systemText">No @(ViewDataTyped.ImageEntityName.ToLower())s available.</p>
+    }
+</div>

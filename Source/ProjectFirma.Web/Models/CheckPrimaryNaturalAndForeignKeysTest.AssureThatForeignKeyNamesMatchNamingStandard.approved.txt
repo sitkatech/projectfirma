@@ -1,0 +1,1 @@
+﻿DatabaseName	TableName	ConstraintName	IdealNewConstraintName	QueryToRenameConstraint

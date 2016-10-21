@@ -1,0 +1,46 @@
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Areas.EIP.Views.Shared.ProjectLocationControls.ProjectLocationSummary
+
+<style>
+    .blockOverlay
+    {
+        z-index: 999;
+    }
+</style>
+
+<table style="width: 100%" class="summaryLayout">
+    <tr>
+        <td colspan="2">
+            To zoom, hold down the Shift key and drag a rectangle.
+            <div id="@ViewDataTyped.ProjectLocationSummaryMapInitJson.MapDivID" style="height: 390px">
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th style="vertical-align: top">
+            Location Information
+        </th>
+        <th style="vertical-align: top; white-space: nowrap">
+            Location Notes
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <div id="projectLocationInformationContainer" style="min-width:200px"></div>
+        </td>
+        <td>
+            <div style="max-height: 150px; max-width: 240px; overflow-y: auto; overflow-x: hidden">
+                @ViewDataTyped.ProjectLocationNotes
+            </div>
+        </td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+    jQuery(document).ready(function()
+    {
+        var projectLocationSummaryMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationSummaryMapInitJson).ToString(Formatting.None));
+        var projectFirmaMap = new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson, jQuery("#projectLocationInformationContainer"));
+    });
+</script>

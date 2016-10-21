@@ -1,0 +1,12 @@
+﻿@using LtInfo.Common.Mvc
+@inherits ProjectFirma.Web.Areas.Threshold.Views.ThresholdEvaluation.NewHistoricEvaluationPdfFileResource
+
+@using (Html.BeginForm())
+{
+    <div>
+        <label>Historic Evaluation PDF:</label>
+        @Html.EditorFor(x => x.FileResourceData)
+        @Html.ValidationMessageFor(x => x.FileResourceData)
+    </div>
+    <div class="smallExplanationText">Allowed Extensions: @Model.GetFileExtensions(x => x.FileResourceData)</div>
+}

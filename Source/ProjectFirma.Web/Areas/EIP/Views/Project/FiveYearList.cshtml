@@ -1,0 +1,25 @@
+﻿@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.DhtmlWrappers
+@inherits ProjectFirma.Web.Areas.EIP.Views.Project.FiveYearList
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+@section RightOfPageTitle
+{
+    @if (ViewDataTyped.HasProposedProjectPermissions)
+    {
+        <a class='btn btn-sm btn-trpa' href="@ViewDataTyped.ProposeNewProjectUrl" title="Submit a project proposal to TRPA">Propose New Project</a>
+    }
+}
+
+<div>
+    @ViewDataTyped.ProjectFirmaPage.ProjectFirmaPageContentHtmlString
+</div>
+
+<div style="margin-top: 10px">
+    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+</div>

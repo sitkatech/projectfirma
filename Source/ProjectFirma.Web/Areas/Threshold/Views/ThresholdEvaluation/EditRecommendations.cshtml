@@ -1,0 +1,28 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Areas.Threshold.Views.ThresholdEvaluation.EditRecommendations
+
+@using (Html.BeginForm())
+{
+    <div class="container-fluid container-fluid-dialog-form" style="max-height: 600px; overflow-y: auto">
+        <div class="col-header">@Html.LabelWithFieldDefinitionFor(x => x.AnalyticalApproachRecommendation, "Analytical Approach"):</div>
+        <div>
+            @Html.TextAreaWithMaxLengthFor(m => m.AnalyticalApproachRecommendation, new TextAreaForExtensions.TextAreaDimensions(null, 6), null)
+            @Html.ValidationMessageFor(m => m.AnalyticalApproachRecommendation)
+        </div>
+        <div class="col-header">@Html.LabelWithFieldDefinitionFor(x => x.MonitoringApproachRecommendation, "Monitoring Approach"):</div>
+        <div>
+            @Html.TextAreaWithMaxLengthFor(m => m.MonitoringApproachRecommendation, new TextAreaForExtensions.TextAreaDimensions(null, 6), null)
+            @Html.ValidationMessageFor(m => m.MonitoringApproachRecommendation)
+        </div>
+        <div class="col-header">@Html.LabelWithFieldDefinitionFor(x => x.ModificationOfTheThresholdStandardOrIndicator, "Modification of the Threshold Standard or Indicator"):</div>
+        <div>
+            @Html.TextAreaWithMaxLengthFor(m => m.ModificationOfTheThresholdStandardOrIndicator, new TextAreaForExtensions.TextAreaDimensions(null, 6), null)
+            @Html.ValidationMessageFor(m => m.ModificationOfTheThresholdStandardOrIndicator)
+        </div>
+        <div class="col-header">@Html.LabelWithFieldDefinitionFor(x => x.AttainOrMaintainThreshold, "Attain or Maintain Threshold"):</div>
+        <div>
+            @Html.TextAreaWithMaxLengthFor(m => m.AttainOrMaintainThreshold, new TextAreaForExtensions.TextAreaDimensions(null, 6), null)
+            @Html.ValidationMessageFor(m => m.AttainOrMaintainThreshold)
+        </div>
+    </div>
+}

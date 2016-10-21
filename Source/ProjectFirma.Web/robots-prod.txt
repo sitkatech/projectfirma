@@ -1,0 +1,39 @@
+# robots.txt file for ProjectFirma, or eip.laketahoeinfo.org
+#
+# Some tips:
+# * The lines that start with # are comments
+# * URLs are case-sensitive
+# * The /$ means the match is at the end of the URL path
+# * $ at the end means exact path match, which we want to avoid having "Index" match "IndexData"
+# * Don't have any extra blank lines because "A blank line indicates a new user agent section", use # for comment space
+# * There should be one blank line before each User-agent tag
+# * Sitemap: directive
+# ** Independent of User-agent
+# ** Must be a full URL
+# ** Can be more than one
+#
+# ===========
+# User-Agents
+# ===========
+#
+# All user agents are OK
+
+User-agent: *
+#
+# ============
+# Basic Allows
+# ============
+#
+# Home Page Allow
+# ---------------
+#
+Allow: *
+# =============================
+# Everything else is disallowed
+# =============================
+Disallow: /*GridXmlData
+Disallow: /Project/Search*
+Disallow: /Project/Find*
+Disallow: /SustainabilityDashboard*
+Disallow: /FileResource*
+Disallow: /Home/LogIn?*

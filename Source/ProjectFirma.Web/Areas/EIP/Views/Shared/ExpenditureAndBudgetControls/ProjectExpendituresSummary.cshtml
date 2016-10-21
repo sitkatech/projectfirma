@@ -1,0 +1,43 @@
+﻿@using ProjectFirma.Web.Models
+@using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Areas.EIP.Views.Shared.ExpenditureAndBudgetControls.ProjectExpendituresSummary
+
+<table class="summaryLayout">
+    <tr>
+        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.FundingSource)</th>
+        @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+        {
+            <th style="text-align: right">
+                @calendarYear
+            </th>
+        }
+        <th style="text-align: right">Total</th>
+    </tr>
+    @foreach (var fundingSourceExpenditure in ViewDataTyped.FundingSourceExpenditures.OrderBy(x => x.FundingSourceName))
+    {
+        <tr>
+            <td>@Html.Raw(fundingSourceExpenditure.FundingSourceNameAsUrl)</td>
+            @foreach (var x in fundingSourceExpenditure.CalendarYearExpenditure.Keys)
+            {
+                <td style="text-align: right">@fundingSourceExpenditure.CalendarYearExpenditure[x].ToStringCurrency()</td>
+            }
+            <th style="text-align: right">@fundingSourceExpenditure.CalendarYearExpenditure.Sum(x => x.Value).ToStringCurrency()</th>
+        </tr>
+    }
+    @if (ViewDataTyped.FundingSourceExpenditures.Any())
+    {
+        <tr>
+            <th>Total:</th>
+            @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+            {
+                <th style="text-align: right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Where(x => x.Key == calendarYear).Sum(x => x.Value).ToStringCurrency()</th>
+            }
+            <th style="text-align: right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Sum(x => x.Value).ToStringCurrency()</th>
+        </tr>
+    }
+</table>
+@if (!ViewDataTyped.FundingSourceExpenditures.Any())
+{
+    <p class="systemText">No expenditures have been reported for this project.</p>
+}

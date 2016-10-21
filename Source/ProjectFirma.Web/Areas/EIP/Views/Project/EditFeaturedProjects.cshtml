@@ -1,0 +1,41 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Models
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Areas.EIP.Views.Project.EditFeaturedProjects
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+    {
+        return {
+            AngularModel: @Html.Raw(JObject.FromObject(Model)),
+            AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
+        };
+    });
+    angular.bootstrap(jQuery("#EditFeaturedProjectsApp"), ["ProjectFirmaApp"]);
+    // ]]>
+</script>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+<div id="EditFeaturedProjectsApp" ng-controller="FeaturedProjectController">
+    Project to Add:
+    <input type="text" ng-model="ProjectToAdd" typeahead="project as project.DisplayName for project in filteredProjects() | filter:{DisplayName: $viewValue} | limitTo:8" style="width: 700px"/>
+    <button class="btn btn-xs btn-trpa" type="button" ng-click="addRow()">Add</button>
+    <table class="dialogFormLayout">
+        <tr>
+            <th></th>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Project)</th>
+        </tr>
+        <tr ng-repeat="project in AngularModel.ProjectIDList | orderBy:[getProjectName]">
+            <td>
+                <span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteRow(project)" style="cursor: pointer"></span></td>
+            <td ng-bind="getProjectName(project)"></td>
+        </tr>
+    </table>
+    @using (Html.BeginForm())
+    {
+        <input ng-repeat="project in AngularModel.ProjectIDList" type="hidden" name="@Html.NameFor(x => x.ProjectIDList)" value="{{project}}">
+    }
+</div>

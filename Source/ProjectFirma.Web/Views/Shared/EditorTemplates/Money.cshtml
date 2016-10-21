@@ -1,0 +1,4 @@
+﻿@model Money?
+<!-- ReSharper disable SpecifyACultureInStringConversionExplicitly -->
+@Html.TextBox("", (Model.HasValue ? Model.Value.ToString("C0") : string.Empty), new {@class = "sitkaCurrency", onchange = "this.value = Sitka.Methods.formatAsCurrencyFromString(this.value, 0);"})
+<!-- ReSharper restore SpecifyACultureInStringConversionExplicitly -->

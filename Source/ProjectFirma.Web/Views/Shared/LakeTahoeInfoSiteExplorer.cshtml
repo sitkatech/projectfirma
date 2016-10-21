@@ -1,0 +1,183 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@inherits LakeTahoeInfoSiteExplorer
+
+<style>
+     .ltInfoSiteExplorer
+     {
+        font-family: "Open Sans", serif;
+        color: white;
+        font-weight: bold;
+     }
+     .ltInfoSiteExplorer .btn-group
+     {
+         position: relative;
+         bottom: 0;
+     }
+
+    .laketahoeinfo-menu
+    {
+        margin-top: 25px;
+    }
+
+    .ltInfoSiteExplorer .navbar-collapse
+    {
+        width: auto;
+    }
+
+    .ltInfoSiteExplorer .dropdown-menu a
+    {
+        padding: 5px 20px 5px 10px !important;
+        font-size: 14px;
+        width: 250px;
+        font-weight: 700;
+    }
+
+    .ltInfoSiteExplorer .dropdown-toggle:hover
+    {
+        background-color: rgb(98, 136, 175);
+    }
+
+    #siteExplorerDropdownMenu
+    {
+       font-family: "Open Sans", serif;
+        background-color: transparent;
+        color: white;
+        border: none;
+        border-radius: 0;
+        padding: 10px 5px;
+        margin: 0;
+        min-height: 70px;
+    }
+
+    #siteExplorerAreaLink
+    {
+        font-family: "Montserrat", serif;
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        border: none;        
+        background-color: transparent;
+        border-radius: 0;
+        padding: 0 10px;
+        margin: 0;
+        width: @ViewDataTyped.LTInfoArea.PreferredSiteAreaLinkWidth;
+        min-height: 70px;
+        white-space: normal;
+        text-align: left;
+        text-decoration: none;
+    }
+
+    #siteExplorerDropdownMenu:hover, #siteExplorerAreaLink:hover
+    {
+        box-shadow: 0 3px 5px rgba(0, 0, 0, .125);
+    }
+    #siteExplorerDropdownMenu:active
+    {
+        box-shadow: 0 2px 2px 0 black;
+    }
+
+    .ltInfoSiteExplorer ul li a
+    {
+        font-size: 12px;
+        font-family: "Open Sans", serif;        
+        margin: 0 !important;
+    }
+
+    .ltInfoSiteExplorer .dropdown-menu
+    {
+        background-color: rgb(98, 136, 175) !important;
+        border-radius: 0;
+        margin-left: 10px;
+        margin-top: 0;
+    }
+
+    .ltInfoSiteExplorer .btn-dropdown
+    {
+        border: 0 !important;
+    }
+
+    .ltInfoSiteExplorer .btn-dropdown:hover
+    {
+        background-color: rgb(77, 112, 150) !important;
+    }
+
+    #siteExplorerAreaLink
+    {
+        border-left: 2px solid white;
+    }
+
+    .titleSection
+    {
+        display: inline;
+    }
+</style>
+
+<!-- Large desktop -->
+<style media="screen and ( min-width: 521px )">
+    .ltInfoSiteExplorer {
+        width: 520px;
+                        }
+</style>
+
+<!-- Only use this on mobile -->
+<style media="screen and ( max-width: 520px )">
+    #siteExplorerAreaLink {
+        border-left: 0;
+                          }
+
+    .titleSection {
+        display: block;
+                  }
+
+</style>
+
+<div class="ltInfoSiteExplorer">
+
+    <div class="titleSection">
+        <a href="@ViewDataTyped.HomeUrl"><img src="~/Content/img/laketahoeinfo-logo.png" alt="Lake Tahoe Info home page" /></a>
+    </div>
+
+    <div class="navigatorSection btn-group">
+        <a class="btn" id="siteExplorerAreaLink" href="@ViewDataTyped.LTInfoArea.GetHomeUrl()">
+            @ViewDataTyped.LTInfoArea.LTInfoAreaDisplayName
+        </a>
+        <button type="button" class="btn btn-default dropdown-toggle" id="siteExplorerDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <span class="glyphicon glyphicon-menu-down"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="width: 250px;">
+            <li class="">
+                <a class="btn btn-outline btn-dropdown" href="@LTInfoArea.LTInfo.GetHomeUrl()" title="">LT Info Home</a>
+            </li>
+            <li class="divider"></li>
+            <li class="">
+                <a class="btn btn-outline btn-dropdown" href="@LTInfoArea.Sustainability.GetHomeUrl()" title="">
+                    <img style="margin-right: 5px" src="@LTInfoArea.Sustainability.GetFavIconUrl()">
+                    @LTInfoArea.Sustainability.LTInfoAreaDisplayName
+                </a>
+            </li>
+            <li class="">
+                <a class="btn btn-outline btn-dropdown" href="@LTInfoArea.EIP.GetHomeUrl()" title="">
+                    <img style="margin-right: 5px" src="@LTInfoArea.EIP.GetFavIconUrl()">
+                    @LTInfoArea.EIP.LTInfoAreaDisplayName
+                </a>
+            </li>
+            <li class="">
+                <a class="btn btn-outline btn-dropdown" href="@LTInfoArea.ParcelTracker.GetHomeUrl()" title="">
+                    <img style="margin-right: 5px" src="@LTInfoArea.ParcelTracker.GetFavIconUrl()">
+                    @LTInfoArea.ParcelTracker.LTInfoAreaDisplayName
+                </a>
+            </li>
+            <li class="">
+                <a class="btn btn-outline btn-dropdown" href="@LTInfoArea.Threshold.GetHomeUrl()" title="">
+                    <img style="margin-right: 5px" src="@LTInfoArea.Threshold.GetFavIconUrl()">
+                    @LTInfoArea.Threshold.LTInfoAreaDisplayName
+                </a>
+            </li>
+            <li class="divider"></li>
+            <li class="">
+                <a class="btn btn-outline btn-dropdown" href="@ViewDataTyped.DataCenterUrl" title="">Data Center</a>
+            </li>
+        </ul>
+    </div>
+</div>

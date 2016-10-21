@@ -1,0 +1,89 @@
+﻿@using ProjectFirma.Web.Models
+@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Areas.EIP.Views.Shared.EIPPerformanceMeasureControls.EditEIPPerformanceMeasureExpected
+
+<script type="text/javascript">
+    // <![CDATA[
+
+    jQuery(document).ready(function()
+    {
+        angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+        {
+            return {
+                AngularModel: @Html.Raw(JObject.FromObject(Model)),
+                AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
+            };
+        }).directive("qtip", function($compile, $templateCache)
+        {
+            function link(scope, el, attr)
+            {
+                var eipPerformanceMeasure = scope.text;
+                ProjectFirma.Views.Methods.addHelpTooltipPopup(el, eipPerformanceMeasure.DisplayName, eipPerformanceMeasure.DefinitionAndGuidanceUrl, 800);
+            }
+
+            return {
+                link: link,
+                scope: {
+                    text: "=qtip"
+                }
+            };
+        });
+        angular.bootstrap(jQuery("#EditEIPPerformanceMeasureExpectedsApp"), ["ProjectFirmaApp"]);
+    });
+    
+    // ]]>
+</script>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+<div id="EditEIPPerformanceMeasureExpectedsApp" ng-controller="EIPPerformanceMeasureExpectedController">
+    Performance Measure to Add:
+    <select ng-model="EIPPerformanceMeasureToAdd" ng-options="eipPerformanceMeasure.DisplayName for eipPerformanceMeasure in filteredEIPPerformanceMeasures()" style="width: 700px"></select>
+    <button class="btn btn-xs btn-trpa" type="button" ng-click="addRow()">Add</button>
+    <table class="dialogFormLayout" ng-show="AngularModel.EIPPerformanceMeasureExpecteds.length > 0">
+        <tr>
+            <th></th>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EIPPerformanceMeasure)</th>
+            <th ng-show="hasAnySubcategories()">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Subcategories)</th>
+            <th colspan="2" style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ExpectedValue)</th>
+        </tr>
+        <tr ng-repeat="eipPerformanceMeasureExpected in AngularModel.EIPPerformanceMeasureExpecteds | orderBy:['EIPPerformanceMeasureID', 'CalendarYear', getProjectName]">
+            <td>
+                <span class="glyphicon glyphicon-trash blue" title="Remove row'" alt="Remove row" ng-click="deleteRow(eipPerformanceMeasureExpected)" style="cursor: pointer"></span>
+            </td>
+            <td>
+                <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get help on {{getEIPPerformanceMeasureName(eipPerformanceMeasureExpected)}}" data-qtip="getEIPPerformanceMeasure(eipPerformanceMeasureExpected.EIPPerformanceMeasureID)"></span>
+                <span ng-bind="getEIPPerformanceMeasureName(eipPerformanceMeasureExpected)"></span>
+            </td>
+            <td style="white-space: nowrap">
+                <span ng-repeat="eipPerformanceMeasureExpectedSubcategoryOption in eipPerformanceMeasureExpected.EIPPerformanceMeasureExpectedSubcategoryOptions | orderBy:[getSubcategoryName]">
+                    <select ng-model="eipPerformanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryOptionID" style="width: 120px" ng-show="getEIPPerformanceMeasure(eipPerformanceMeasureExpected.EIPPerformanceMeasureID).HasRealSubcategories">
+                        <optgroup label="{{getSubcategoryName(eipPerformanceMeasureExpectedSubcategoryOption)}}">
+                            <option ng-repeat="indicatorSubcategoryOption in getSubcategoryOptionsForSubcategory(eipPerformanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryID)" value="{{indicatorSubcategoryOption.IndicatorSubcategoryOptionID}}" ng-selected="eipPerformanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryOptionID == indicatorSubcategoryOption.IndicatorSubcategoryOptionID">{{indicatorSubcategoryOption.IndicatorSubcategoryOptionName}}</option>
+                        </optgroup>
+                    </select>
+                </span>
+            </td>
+            <td>
+                <input type="number" class="sitkaNumber" ng-model="eipPerformanceMeasureExpected.ExpectedValue" step="any"/>
+            </td>
+            <td style="white-space: nowrap" ng-bind="getMeasurementUnitTypeDisplayName(eipPerformanceMeasureExpected)"></td>
+        </tr>
+    </table>
+    @using (Html.BeginForm())
+    {
+        <div ng-repeat="eipPerformanceMeasureExpected in AngularModel.EIPPerformanceMeasureExpecteds | orderBy:'EIPPerformanceMeasureID'">
+            <input type="hidden" name="@Html.NameFor(x => x.EIPPerformanceMeasureExpecteds[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{eipPerformanceMeasureExpected.ProjectID}}">
+            <input type="hidden" name="@Html.NameFor(x => x.EIPPerformanceMeasureExpecteds[0].EIPPerformanceMeasureID).ToString().Replace("0", "{{$index}}")" value="{{eipPerformanceMeasureExpected.EIPPerformanceMeasureID}}">
+            <input type="hidden" name="@Html.NameFor(x => x.EIPPerformanceMeasureExpecteds[0].ExpectedValue).ToString().Replace("0", "{{$index}}")" value="{{eipPerformanceMeasureExpected.ExpectedValue}}">
+            <div ng-repeat="eipPerformanceMeasureExpectedSubcategoryOption in getEIPPerformanceMeasureExpectedSubcategoryOptionsWithValues(eipPerformanceMeasureExpected)">
+                <input type="hidden" name="@Html.NameFor(x => x.EIPPerformanceMeasureExpecteds[0].EIPPerformanceMeasureExpectedSubcategoryOptions[1].IndicatorSubcategoryOptionID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{eipPerformanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryOptionID}}">
+                <input type="hidden" name="@Html.NameFor(x => x.EIPPerformanceMeasureExpecteds[0].EIPPerformanceMeasureExpectedSubcategoryOptions[1].IndicatorSubcategoryID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{eipPerformanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryID}}">
+                <input type="hidden" name="@Html.NameFor(x => x.EIPPerformanceMeasureExpecteds[0].EIPPerformanceMeasureExpectedSubcategoryOptions[1].EIPPerformanceMeasureID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{eipPerformanceMeasureExpectedSubcategoryOption.EIPPerformanceMeasureID}}">
+            </div>
+        </div>
+    }
+</div>

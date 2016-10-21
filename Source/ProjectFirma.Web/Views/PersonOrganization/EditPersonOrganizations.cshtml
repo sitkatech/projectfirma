@@ -1,0 +1,43 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Models
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Views.PersonOrganization.EditPersonOrganizations
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+    {
+        return {
+            AngularModel: @Html.Raw(JObject.FromObject(Model)),
+            AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
+        };
+    });
+    angular.bootstrap(jQuery("#EditPersonOrganizationsApp"), ["ProjectFirmaApp"]);
+    // ]]>
+</script>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+<div id="EditPersonOrganizationsApp" ng-controller="PersonOrganizationController">
+
+    Organization to Add:
+    <select ng-model="OrganizationToAdd" ng-options="Organization.DisplayName for Organization in filteredOrganizations()" style="width: 700px"></select>
+
+    <button class="btn btn-xs btn-trpa" type="button" ng-click="addRow()">Add</button>
+    <table class="dialogFormLayout">
+        <tr>
+            <th></th>
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Organization)</th>
+        </tr>
+        <tr ng-repeat="OrganizationID in AngularModel.OrganizationIDs">
+            <td>
+                <span class="glyphicon glyphicon-trash blue" title="Remove row'" alt="Remove row" ng-click="deleteRow(OrganizationID)" style="cursor: pointer"></span></td>
+            <td ng-bind="getOrganizationDisplayName(OrganizationID)"></td>
+        </tr>
+    </table>
+    @using (Html.BeginForm())
+    {
+        <input ng-repeat="OrganizationID in AngularModel.OrganizationIDs" type="hidden" name="@Html.NameFor(x => x.OrganizationIDs[0]).ToString().Replace("0", "{{$index}}")" value="{{OrganizationID}}">
+    }
+</div>

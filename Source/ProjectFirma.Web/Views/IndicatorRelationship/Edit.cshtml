@@ -1,0 +1,68 @@
+﻿@using ProjectFirma.Web.Models
+@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Views.IndicatorRelationship.Edit
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+    {
+        return {
+            AngularModel: @Html.Raw(JObject.FromObject(Model)),
+            AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
+        };
+    });
+    angular.bootstrap(jQuery("#EditIndicatorRelationshipsApp"), ["ProjectFirmaApp"]);
+    // ]]>
+</script>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+<div ng-app="ProjectFirmaApp" id="EditIndicatorRelationshipsApp" ng-controller="IndicatorRelationshipController" style="max-height: 600px; overflow-y: auto">
+    @if (ViewDataTyped.FromIndicator)
+    {
+        <div style="text-align: left">
+            Threshold Reporting Category to Add:
+            <select ng-model="ThresholdReportingCategoryToAdd" ng-options="thresholdReportingCategory.DisplayName for thresholdReportingCategory in filteredThresholdReportingCategories()" style="width: 600px"></select>
+            <button class="btn btn-xs btn-trpa" type="button" ng-click="addRow()">Add</button>
+        </div>
+    }
+    else
+    {
+        <div style="text-align: left">
+            Indicator to Add:
+            <select ng-model="IndicatorToAdd" ng-options="indicator.DisplayName for indicator in filteredIndicators()" style="width: 500px"></select>
+            <button class="btn btn-xs btn-trpa" type="button" ng-click="addRow()">Add</button>
+        </div>
+    }
+    <table class="dialogFormLayout" style="margin-top: 20px; overflow: scroll" ng-show="AngularModel.IndicatorRelationships.length > 0">
+        <tr>
+            <th></th>
+            <th style="white-space: nowrap">@Html.Raw(ViewDataTyped.FromIndicator ? Html.LabelWithFieldDefinitionFor(FieldDefinition.ThresholdReportingCategory) : Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorDisplayName))</th>
+            <th>Relationship Strength</th>
+        </tr>
+        <tr ng-repeat="indicatorRelationship in AngularModel.IndicatorRelationships | orderBy:[getIndicatorName, getThresholdReportingCategoryName]">
+            <td>
+                <span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteRow(indicatorRelationship)" style="cursor: pointer"></span>
+            </td>
+            <td ng-bind="@(ViewDataTyped.FromIndicator ? "getThresholdReportingCategoryName(indicatorRelationship)" : "getIndicatorName(indicatorRelationship)")">
+            <td>
+                <select ng-model="indicatorRelationship.IndicatorRelationshipTypeID">
+                    <option ng-repeat="indicatorRelationshipType in AngularViewData.IndicatorRelationshipTypes"
+                            value="{{indicatorRelationshipType.IndicatorRelationshipTypeID}}" ng-selected="indicatorRelationship.IndicatorRelationshipTypeID == indicatorRelationshipType.IndicatorRelationshipTypeID"
+                            ng-bind="indicatorRelationshipType.DisplayName" />
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    @using (Html.BeginForm())
+    {
+        <div ng-repeat="indicatorRelationship in AngularModel.IndicatorRelationships | orderBy:[getIndicatorName, getThresholdReportingCategoryName]">
+            <input type="hidden" name="@Html.NameFor(x => x.IndicatorRelationships[0].ThresholdReportingCategoryID).ToString().Replace("0", "{{$index}}")" value="{{indicatorRelationship.ThresholdReportingCategoryID}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.IndicatorRelationships[0].IndicatorID).ToString().Replace("0", "{{$index}}")" value="{{indicatorRelationship.IndicatorID}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.IndicatorRelationships[0].IndicatorRelationshipTypeID).ToString().Replace("0", "{{$index}}")" value="{{indicatorRelationship.IndicatorRelationshipTypeID}}" />
+        </div>
+    }
+</div>

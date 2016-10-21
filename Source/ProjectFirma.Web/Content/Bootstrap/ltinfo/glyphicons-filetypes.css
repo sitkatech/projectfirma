@@ -1,0 +1,841 @@
+﻿/*!
+ *
+ *  Project:  GLYPHICONS HALFLINGS
+ *  Author:   Jan Kovarik - www.glyphicons.com
+ *  Twitter:  @jankovarik
+ *
+ */
+@font-face {
+  font-family: 'Glyphicons Filetypes Regular';
+  src: url('../fonts/glyphicons/glyphicons-filetypes-regular.eot');
+  src: url('../fonts/glyphicons/glyphicons-filetypes-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons/glyphicons-filetypes-regular.woff') format('woff'), url('../fonts/glyphicons/glyphicons-filetypes-regular.ttf') format('truetype'), url('../fonts/glyphicons/glyphicons-filetypes-regular.svg#glyphicons_filetypesregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+.glyphicon-filetypes {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Filetypes Regular';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.glyphicon-filetypes.white:before {
+  color: #fff;
+}
+.glyphicon-filetypes.txt:before {
+  content: "\E001";
+}
+.glyphicon-filetypes.doc:before {
+  content: "\E002";
+}
+.glyphicon-filetypes.rtf:before {
+  content: "\E003";
+}
+.glyphicon-filetypes.log:before {
+  content: "\E004";
+}
+.glyphicon-filetypes.tex:before {
+  content: "\E005";
+}
+.glyphicon-filetypes.msg:before {
+  content: "\E006";
+}
+.glyphicon-filetypes.text:before {
+  content: "\E007";
+}
+.glyphicon-filetypes.wpd:before {
+  content: "\E008";
+}
+.glyphicon-filetypes.wps:before {
+  content: "\E009";
+}
+.glyphicon-filetypes.docx:before {
+  content: "\E010";
+}
+.glyphicon-filetypes.page:before {
+  content: "\E011";
+}
+.glyphicon-filetypes.csv:before {
+  content: "\E012";
+}
+.glyphicon-filetypes.dat:before {
+  content: "\E013";
+}
+.glyphicon-filetypes.tar:before {
+  content: "\E014";
+}
+.glyphicon-filetypes.xml:before {
+  content: "\E015";
+}
+.glyphicon-filetypes.vcf:before {
+  content: "\E016";
+}
+.glyphicon-filetypes.pps:before {
+  content: "\E017";
+}
+.glyphicon-filetypes.key:before {
+  content: "\1F511";
+}
+.glyphicon-filetypes.ppt:before {
+  content: "\E019";
+}
+.glyphicon-filetypes.pptx:before {
+  content: "\E020";
+}
+.glyphicon-filetypes.sdf:before {
+  content: "\E021";
+}
+.glyphicon-filetypes.gbr:before {
+  content: "\E022";
+}
+.glyphicon-filetypes.ged:before {
+  content: "\E023";
+}
+.glyphicon-filetypes.mp3:before {
+  content: "\E024";
+}
+.glyphicon-filetypes.m4a:before {
+  content: "\E025";
+}
+.glyphicon-filetypes.waw:before {
+  content: "\E026";
+}
+.glyphicon-filetypes.wma:before {
+  content: "\E027";
+}
+.glyphicon-filetypes.mpa:before {
+  content: "\E028";
+}
+.glyphicon-filetypes.iff:before {
+  content: "\E029";
+}
+.glyphicon-filetypes.aif:before {
+  content: "\E030";
+}
+.glyphicon-filetypes.ra:before {
+  content: "\E031";
+}
+.glyphicon-filetypes.mid:before {
+  content: "\E032";
+}
+.glyphicon-filetypes.m3v:before {
+  content: "\E033";
+}
+.glyphicon-filetypes.e_3gp:before {
+  content: "\E034";
+}
+.glyphicon-filetypes.shf:before {
+  content: "\E035";
+}
+.glyphicon-filetypes.avi:before {
+  content: "\E036";
+}
+.glyphicon-filetypes.asx:before {
+  content: "\E037";
+}
+.glyphicon-filetypes.mp4:before {
+  content: "\E038";
+}
+.glyphicon-filetypes.e_3g2:before {
+  content: "\E039";
+}
+.glyphicon-filetypes.mpg:before {
+  content: "\E040";
+}
+.glyphicon-filetypes.asf:before {
+  content: "\E041";
+}
+.glyphicon-filetypes.vob:before {
+  content: "\E042";
+}
+.glyphicon-filetypes.wmv:before {
+  content: "\E043";
+}
+.glyphicon-filetypes.mov:before {
+  content: "\E044";
+}
+.glyphicon-filetypes.srt:before {
+  content: "\E045";
+}
+.glyphicon-filetypes.m4v:before {
+  content: "\E046";
+}
+.glyphicon-filetypes.flv:before {
+  content: "\E047";
+}
+.glyphicon-filetypes.rm:before {
+  content: "\E048";
+}
+.glyphicon-filetypes.png:before {
+  content: "\E049";
+}
+.glyphicon-filetypes.psd:before {
+  content: "\E050";
+}
+.glyphicon-filetypes.psp:before {
+  content: "\E051";
+}
+.glyphicon-filetypes.jpg:before {
+  content: "\E052";
+}
+.glyphicon-filetypes.tif:before {
+  content: "\E053";
+}
+.glyphicon-filetypes.tiff:before {
+  content: "\E054";
+}
+.glyphicon-filetypes.gif:before {
+  content: "\E055";
+}
+.glyphicon-filetypes.bmp:before {
+  content: "\E056";
+}
+.glyphicon-filetypes.tga:before {
+  content: "\E057";
+}
+.glyphicon-filetypes.thm:before {
+  content: "\E058";
+}
+.glyphicon-filetypes.yuv:before {
+  content: "\E059";
+}
+.glyphicon-filetypes.dds:before {
+  content: "\E060";
+}
+.glyphicon-filetypes.ai:before {
+  content: "\E061";
+}
+.glyphicon-filetypes.eps:before {
+  content: "\E062";
+}
+.glyphicon-filetypes.ps:before {
+  content: "\E063";
+}
+.glyphicon-filetypes.svg:before {
+  content: "\E064";
+}
+.glyphicon-filetypes.pdf:before {
+  content: "\E065";
+}
+.glyphicon-filetypes.pct:before {
+  content: "\E066";
+}
+.glyphicon-filetypes.indd:before {
+  content: "\E067";
+}
+.glyphicon-filetypes.xlr:before {
+  content: "\E068";
+}
+.glyphicon-filetypes.xls:before {
+  content: "\E069";
+}
+.glyphicon-filetypes.xlsx:before {
+  content: "\E070";
+}
+.glyphicon-filetypes.db:before {
+  content: "\E071";
+}
+.glyphicon-filetypes.dbf:before {
+  content: "\E072";
+}
+.glyphicon-filetypes.mdb:before {
+  content: "\E073";
+}
+.glyphicon-filetypes.pdb:before {
+  content: "\E074";
+}
+.glyphicon-filetypes.sql:before {
+  content: "\E075";
+}
+.glyphicon-filetypes.aacd:before {
+  content: "\E076";
+}
+.glyphicon-filetypes.app:before {
+  content: "\E077";
+}
+.glyphicon-filetypes.exe:before {
+  content: "\E078";
+}
+.glyphicon-filetypes.com:before {
+  content: "\E079";
+}
+.glyphicon-filetypes.bat:before {
+  content: "\E080";
+}
+.glyphicon-filetypes.apk:before {
+  content: "\E081";
+}
+.glyphicon-filetypes.jar:before {
+  content: "\E082";
+}
+.glyphicon-filetypes.hsf:before {
+  content: "\E083";
+}
+.glyphicon-filetypes.pif:before {
+  content: "\E084";
+}
+.glyphicon-filetypes.vb:before {
+  content: "\E085";
+}
+.glyphicon-filetypes.cgi:before {
+  content: "\E086";
+}
+.glyphicon-filetypes.css:before {
+  content: "\E087";
+}
+.glyphicon-filetypes.js:before {
+  content: "\E088";
+}
+.glyphicon-filetypes.php:before {
+  content: "\E089";
+}
+.glyphicon-filetypes.xhtml:before {
+  content: "\E090";
+}
+.glyphicon-filetypes.htm:before {
+  content: "\E091";
+}
+.glyphicon-filetypes.html:before {
+  content: "\E092";
+}
+.glyphicon-filetypes.asp:before {
+  content: "\E093";
+}
+.glyphicon-filetypes.cer:before {
+  content: "\E094";
+}
+.glyphicon-filetypes.jsp:before {
+  content: "\E095";
+}
+.glyphicon-filetypes.cfm:before {
+  content: "\E096";
+}
+.glyphicon-filetypes.aspx:before {
+  content: "\E097";
+}
+.glyphicon-filetypes.rss:before {
+  content: "\E098";
+}
+.glyphicon-filetypes.csr:before {
+  content: "\E099";
+}
+.glyphicon-filetypes.less:before {
+  content: "\003C";
+}
+.glyphicon-filetypes.otf:before {
+  content: "\E101";
+}
+.glyphicon-filetypes.ttf:before {
+  content: "\E102";
+}
+.glyphicon-filetypes.font:before {
+  content: "\E103";
+}
+.glyphicon-filetypes.fnt:before {
+  content: "\E104";
+}
+.glyphicon-filetypes.eot:before {
+  content: "\E105";
+}
+.glyphicon-filetypes.woff:before {
+  content: "\E106";
+}
+.glyphicon-filetypes.zip:before {
+  content: "\E107";
+}
+.glyphicon-filetypes.zipx:before {
+  content: "\E108";
+}
+.glyphicon-filetypes.rar:before {
+  content: "\E109";
+}
+.glyphicon-filetypes.targ:before {
+  content: "\E110";
+}
+.glyphicon-filetypes.sitx:before {
+  content: "\E111";
+}
+.glyphicon-filetypes.deb:before {
+  content: "\E112";
+}
+.glyphicon-filetypes.e_7z:before {
+  content: "\E113";
+}
+.glyphicon-filetypes.pkg:before {
+  content: "\E114";
+}
+.glyphicon-filetypes.rpm:before {
+  content: "\E115";
+}
+.glyphicon-filetypes.cbr:before {
+  content: "\E116";
+}
+.glyphicon-filetypes.gz:before {
+  content: "\E117";
+}
+.glyphicon-filetypes.dmg:before {
+  content: "\E118";
+}
+.glyphicon-filetypes.cue:before {
+  content: "\E119";
+}
+.glyphicon-filetypes.bin:before {
+  content: "\E120";
+}
+.glyphicon-filetypes.iso:before {
+  content: "\E121";
+}
+.glyphicon-filetypes.hdf:before {
+  content: "\E122";
+}
+.glyphicon-filetypes.vcd:before {
+  content: "\E123";
+}
+.glyphicon-filetypes.bak:before {
+  content: "\E124";
+}
+.glyphicon-filetypes.tmp:before {
+  content: "\E125";
+}
+.glyphicon-filetypes.ics:before {
+  content: "\E126";
+}
+.glyphicon-filetypes.msi:before {
+  content: "\E127";
+}
+.glyphicon-filetypes.cfg:before {
+  content: "\E128";
+}
+.glyphicon-filetypes.ini:before {
+  content: "\E129";
+}
+.glyphicon-filetypes.prf:before {
+  content: "\E130";
+}
+.filetype-icon {
+  display: inline-block;
+  width: 19px;
+  height: 24px;
+  margin: 0 8px 0 0;
+  line-height: 14px;
+  vertical-align: text-top;
+  background-image: url(../images/glyphicons_filetypes.svg);
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  vertical-align: top;
+  *display: inline;
+  *zoom: 1;
+  *margin-right: .3em;
+}
+.filetype-icon _:-o-prefocus,
+.filetype-icon {
+  background-image: url(../images/glyphicons_filetypes.png);
+}
+.no-inlinesvg .filetype-icon {
+  background-image: url(../images/glyphicons_filetypes.png);
+}
+.filetype-icon.white {
+  background-image: url(../images/glyphicons_filetypes-white.svg);
+}
+.filetype-icon.white _:-o-prefocus,
+.filetype-icon.white {
+  background-image: url(../images/glyphicons_filetypes-white.png);
+}
+.no-inlinesvg .filetype-icon.white {
+  background-image: url(../images/glyphicons_filetypes-white.png);
+}
+.filetype-icon.txt {
+  background-position: 0px 0px;
+}
+.filetype-icon.doc {
+  background-position: -48px 0px;
+}
+.filetype-icon.rtf {
+  background-position: -96px 0px;
+}
+.filetype-icon.log {
+  background-position: -144px 0px;
+}
+.filetype-icon.tex {
+  background-position: -192px 0px;
+}
+.filetype-icon.msg {
+  background-position: -240px 0px;
+}
+.filetype-icon.text {
+  background-position: -288px 0px;
+}
+.filetype-icon.wpd {
+  background-position: -336px 0px;
+}
+.filetype-icon.wps {
+  background-position: -384px 0px;
+}
+.filetype-icon.docx {
+  background-position: -432px 0px;
+}
+.filetype-icon.page {
+  background-position: 0px -48px;
+}
+.filetype-icon.csv {
+  background-position: -48px -48px;
+}
+.filetype-icon.dat {
+  background-position: -96px -48px;
+}
+.filetype-icon.tar {
+  background-position: -144px -48px;
+}
+.filetype-icon.xml {
+  background-position: -192px -48px;
+}
+.filetype-icon.vcf {
+  background-position: -240px -48px;
+}
+.filetype-icon.pps {
+  background-position: -288px -48px;
+}
+.filetype-icon.key {
+  background-position: -336px -48px;
+}
+.filetype-icon.ppt {
+  background-position: -384px -48px;
+}
+.filetype-icon.pptx {
+  background-position: -432px -48px;
+}
+.filetype-icon.sdf {
+  background-position: 0px -96px;
+}
+.filetype-icon.gbr {
+  background-position: -48px -96px;
+}
+.filetype-icon.ged {
+  background-position: -96px -96px;
+}
+.filetype-icon.mp3 {
+  background-position: -144px -96px;
+}
+.filetype-icon.m4a {
+  background-position: -192px -96px;
+}
+.filetype-icon.waw {
+  background-position: -240px -96px;
+}
+.filetype-icon.wma {
+  background-position: -288px -96px;
+}
+.filetype-icon.mpa {
+  background-position: -336px -96px;
+}
+.filetype-icon.iff {
+  background-position: -384px -96px;
+}
+.filetype-icon.aif {
+  background-position: -432px -96px;
+}
+.filetype-icon.ra {
+  background-position: 0px -144px;
+}
+.filetype-icon.mid {
+  background-position: -48px -144px;
+}
+.filetype-icon.m3v {
+  background-position: -96px -144px;
+}
+.filetype-icon.e_3gp {
+  background-position: -144px -144px;
+}
+.filetype-icon.shf {
+  background-position: -192px -144px;
+}
+.filetype-icon.avi {
+  background-position: -240px -144px;
+}
+.filetype-icon.asx {
+  background-position: -288px -144px;
+}
+.filetype-icon.mp4 {
+  background-position: -336px -144px;
+}
+.filetype-icon.e_3g2 {
+  background-position: -384px -144px;
+}
+.filetype-icon.mpg {
+  background-position: -432px -144px;
+}
+.filetype-icon.asf {
+  background-position: 0px -192px;
+}
+.filetype-icon.vob {
+  background-position: -48px -192px;
+}
+.filetype-icon.wmv {
+  background-position: -96px -192px;
+}
+.filetype-icon.mov {
+  background-position: -144px -192px;
+}
+.filetype-icon.srt {
+  background-position: -192px -192px;
+}
+.filetype-icon.m4v {
+  background-position: -240px -192px;
+}
+.filetype-icon.flv {
+  background-position: -288px -192px;
+}
+.filetype-icon.rm {
+  background-position: -336px -192px;
+}
+.filetype-icon.png {
+  background-position: -384px -192px;
+}
+.filetype-icon.psd {
+  background-position: -432px -192px;
+}
+.filetype-icon.psp {
+  background-position: 0px -240px;
+}
+.filetype-icon.jpg {
+  background-position: -48px -240px;
+}
+.filetype-icon.tif {
+  background-position: -96px -240px;
+}
+.filetype-icon.tiff {
+  background-position: -144px -240px;
+}
+.filetype-icon.gif {
+  background-position: -192px -240px;
+}
+.filetype-icon.bmp {
+  background-position: -240px -240px;
+}
+.filetype-icon.tga {
+  background-position: -288px -240px;
+}
+.filetype-icon.thm {
+  background-position: -336px -240px;
+}
+.filetype-icon.yuv {
+  background-position: -384px -240px;
+}
+.filetype-icon.dds {
+  background-position: -432px -240px;
+}
+.filetype-icon.ai {
+  background-position: 0px -288px;
+}
+.filetype-icon.eps {
+  background-position: -48px -288px;
+}
+.filetype-icon.ps {
+  background-position: -96px -288px;
+}
+.filetype-icon.svg {
+  background-position: -144px -288px;
+}
+.filetype-icon.pdf {
+  background-position: -192px -288px;
+}
+.filetype-icon.pct {
+  background-position: -240px -288px;
+}
+.filetype-icon.indd {
+  background-position: -288px -288px;
+}
+.filetype-icon.xlr {
+  background-position: -336px -288px;
+}
+.filetype-icon.xls {
+  background-position: -384px -288px;
+}
+.filetype-icon.xlsx {
+  background-position: -432px -288px;
+}
+.filetype-icon.db {
+  background-position: 0px -336px;
+}
+.filetype-icon.dbf {
+  background-position: -48px -336px;
+}
+.filetype-icon.mdb {
+  background-position: -96px -336px;
+}
+.filetype-icon.pdb {
+  background-position: -144px -336px;
+}
+.filetype-icon.sql {
+  background-position: -192px -336px;
+}
+.filetype-icon.aacd {
+  background-position: -240px -336px;
+}
+.filetype-icon.app {
+  background-position: -288px -336px;
+}
+.filetype-icon.exe {
+  background-position: -336px -336px;
+}
+.filetype-icon.com {
+  background-position: -384px -336px;
+}
+.filetype-icon.bat {
+  background-position: -432px -336px;
+}
+.filetype-icon.apk {
+  background-position: 0px -384px;
+}
+.filetype-icon.jar {
+  background-position: -48px -384px;
+}
+.filetype-icon.hsf {
+  background-position: -96px -384px;
+}
+.filetype-icon.pif {
+  background-position: -144px -384px;
+}
+.filetype-icon.vb {
+  background-position: -192px -384px;
+}
+.filetype-icon.cgi {
+  background-position: -240px -384px;
+}
+.filetype-icon.css {
+  background-position: -288px -384px;
+}
+.filetype-icon.js {
+  background-position: -336px -384px;
+}
+.filetype-icon.php {
+  background-position: -384px -384px;
+}
+.filetype-icon.xhtml {
+  background-position: -432px -384px;
+}
+.filetype-icon.htm {
+  background-position: 0px -432px;
+}
+.filetype-icon.html {
+  background-position: -48px -432px;
+}
+.filetype-icon.asp {
+  background-position: -96px -432px;
+}
+.filetype-icon.cer {
+  background-position: -144px -432px;
+}
+.filetype-icon.jsp {
+  background-position: -192px -432px;
+}
+.filetype-icon.cfm {
+  background-position: -240px -432px;
+}
+.filetype-icon.aspx {
+  background-position: -288px -432px;
+}
+.filetype-icon.rss {
+  background-position: -336px -432px;
+}
+.filetype-icon.csr {
+  background-position: -384px -432px;
+}
+.filetype-icon.less {
+  background-position: -432px -432px;
+}
+.filetype-icon.otf {
+  background-position: 0px -480px;
+}
+.filetype-icon.ttf {
+  background-position: -48px -480px;
+}
+.filetype-icon.font {
+  background-position: -96px -480px;
+}
+.filetype-icon.fnt {
+  background-position: -144px -480px;
+}
+.filetype-icon.eot {
+  background-position: -192px -480px;
+}
+.filetype-icon.woff {
+  background-position: -240px -480px;
+}
+.filetype-icon.zip {
+  background-position: -288px -480px;
+}
+.filetype-icon.zipx {
+  background-position: -336px -480px;
+}
+.filetype-icon.rar {
+  background-position: -384px -480px;
+}
+.filetype-icon.targ {
+  background-position: -432px -480px;
+}
+.filetype-icon.sitx {
+  background-position: 0px -528px;
+}
+.filetype-icon.deb {
+  background-position: -48px -528px;
+}
+.filetype-icon.e_7z {
+  background-position: -96px -528px;
+}
+.filetype-icon.pkg {
+  background-position: -144px -528px;
+}
+.filetype-icon.rpm {
+  background-position: -192px -528px;
+}
+.filetype-icon.cbr {
+  background-position: -240px -528px;
+}
+.filetype-icon.gz {
+  background-position: -288px -528px;
+}
+.filetype-icon.dmg {
+  background-position: -336px -528px;
+}
+.filetype-icon.cue {
+  background-position: -384px -528px;
+}
+.filetype-icon.bin {
+  background-position: -432px -528px;
+}
+.filetype-icon.iso {
+  background-position: 0px -576px;
+}
+.filetype-icon.hdf {
+  background-position: -48px -576px;
+}
+.filetype-icon.vcd {
+  background-position: -96px -576px;
+}
+.filetype-icon.bak {
+  background-position: -144px -576px;
+}
+.filetype-icon.tmp {
+  background-position: -192px -576px;
+}
+.filetype-icon.ics {
+  background-position: -240px -576px;
+}
+.filetype-icon.msi {
+  background-position: -288px -576px;
+}
+.filetype-icon.cfg {
+  background-position: -336px -576px;
+}
+.filetype-icon.ini {
+  background-position: -384px -576px;
+}
+.filetype-icon.prf {
+  background-position: -432px -576px;
+}
+/*# sourceMappingURL=glyphicons-filetypes.css.map */

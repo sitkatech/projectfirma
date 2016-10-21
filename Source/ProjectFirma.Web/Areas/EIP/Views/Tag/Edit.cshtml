@@ -1,0 +1,22 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Areas.EIP.Views.Tag.Edit
+@using (Html.BeginForm())
+{
+    <table class="dialogFormLayout">
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.TagName):</th>
+            <td>
+                @Html.TextBoxFor(m => m.TagName, new {style = "width:522px"})
+                @Html.ValidationMessageFor(m => m.TagName)
+            </td>
+        </tr>
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.TagDescription):</th>
+            <td>
+                @Html.TextAreaWithMaxLengthFor(m => m.TagDescription, new TextAreaForExtensions.TextAreaDimensions(null, 4), null)
+                @Html.ValidationMessageFor(m => m.TagDescription)
+            </td>
+        </tr>
+    </table>
+    @Html.HiddenFor(m => m.TagID)
+}

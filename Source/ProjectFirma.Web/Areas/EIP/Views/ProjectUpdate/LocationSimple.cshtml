@@ -1,0 +1,134 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Areas.EIP.Views.ProjectUpdate
+@using ProjectFirma.Web.Areas.EIP.Views.Shared.ProjectLocationControls
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.ModalDialog
+@using Newtonsoft.Json.Linq
+@inherits LocationSimple
+
+@section JavascriptAndStylesContent
+{
+    <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css"/>
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+
+    @if (ViewDataTyped.IsEditable)
+    {
+        <script type="text/javascript">
+            // <![CDATA[
+            angular.module("ProjectFirmaApp").controller("LocationSimpleController", function($scope, angularModelAndViewData)
+            {
+                $scope.AngularViewData = angularModelAndViewData.AngularViewData;
+                $scope.AngularModel = angularModelAndViewData.AngularModel;
+            });
+
+            angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+            {
+                return {
+                    AngularModel: { ShowValidationWarnings: @Model.ShowValidationWarnings.ToString().ToLower() },
+                    AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
+                };
+            });
+            // ]]>
+        </script>
+    }
+
+    <style>
+        #@ViewDataTyped.EditProjectLocationSimpleViewData.MapInitJson.MapDivID
+        {
+            height: 450px;
+        }
+    </style>
+}
+
+@if (!ViewDataTyped.IsEditable)
+{
+    ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData);
+}
+else
+{
+    /*TODO: Each view seems to have it's own Html object - The partial view below therefore never receives the validation summary messages.
+     * There may be a better way to push the Html object and/or Validation Summary messages to the partial view
+     */
+    @Html.ValidationSummary()
+
+    EditProjectLocationSimple.RenderPartialView(Html, ViewDataTyped.EditProjectLocationSimpleViewData, Model);
+
+    <hr/>
+    if (ViewDataTyped.ShowApproveAndReturnButton)
+    {
+        <table class="formLayout">
+            <tr>
+                <th>Comments:</th>
+                <td>
+                    @Html.TextAreaFor(x => x.Comments, new {@class = "sectionComments"})
+                    @Html.Hidden("Section", ViewDataTyped.SelectedProjectUpdateSection)
+                </td>
+            </tr>
+        </table>
+        <hr/>
+    }
+    SectionComments.RenderPartialView(Html, ViewDataTyped.SectionCommentsViewData);
+    <div ng-app="ProjectFirmaApp" ng-controller="LocationSimpleController">
+        <table class="summaryLayout" style="width: 100%">
+            <tr>
+                <td>
+                    @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> {"btn btn-xs btn-trpa"}, null, null)
+                </td>
+                <td>
+                    @if (ViewDataTyped.ViewDataForAngular.ValidationWarnings.Any())
+                    {
+                        <table data-ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'validationWarning' : 'hidden'">
+                            <tr data-ng-repeat="warning in AngularViewData.ValidationWarnings">
+                                <td>@Html.Raw(ProjectWizardComponents.RequiredInfoNotProvidedIcon)</td>
+                                <td data-ng-bind="warning"></td>
+                            </tr>
+                        </table>
+                    }
+                    else
+                    {
+                        <div ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'greenLight' : 'hidden'">
+                            <span>This page is all set!  Nice work.  You should take the rest of the day off.</span>
+                        </div>
+                    }
+                </td>
+                <td style="text-align: right; white-space: nowrap">
+                    @Html.CheckBoxFor(x => x.ShowValidationWarnings, new {data_ng_model = "AngularModel.ShowValidationWarnings", @class = "ignoreSerialization"})
+                    @Html.LabelFor(x => x.ShowValidationWarnings)
+                    <button class="btn btn-xs btn-trpa" type="button" style="margin-left: 10px" onclick="saveForm()">Save</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    @*This is intentionally down here because the document ready needs to be after the EditProjectLocation document ready*@
+    <script type="text/javascript">
+        // <![CDATA[
+        jQuery(document).ready(function() { HookupCheckIfFormIsDirty("#@ViewDataTyped.EditProjectLocationSimpleViewData.MapFormID", ".submitProject"); });
+
+        function saveForm()
+        {
+            var form = jQuery("#@ViewDataTyped.EditProjectLocationSimpleViewData.MapFormID");
+            // Do not submit if the form
+            // does not pass client side validation
+
+            if (!form.valid())
+            {
+                return false;
+            }
+
+            form.append('<input type="hidden" name="@Html.NameFor(x => x.ShowValidationWarnings)" value=' + jQuery("#@Html.IdFor(x => x.ShowValidationWarnings)").is(":checked") + ' />');
+            // we need to inject the comments field if we are in "Submitted" state
+            @if (ViewDataTyped.ShowApproveAndReturnButton)
+            {
+                <text>
+                    var comments = jQuery("#@Html.IdFor(x => x.Comments)").val();
+                    form.append('<input type="hidden" name="@Html.NameFor(x => x.Comments)" value="' + comments + '" />');
+                </text>
+            }
+            form.submit();
+        }
+        // ]]>
+    </script>
+}

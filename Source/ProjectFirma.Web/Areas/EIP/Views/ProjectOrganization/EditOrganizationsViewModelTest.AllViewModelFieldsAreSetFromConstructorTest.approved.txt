@@ -1,0 +1,23 @@
+﻿{
+  "LeadOrganizationID": 77777,
+  "ProjectOrganizations": [
+    {
+      "OrganizationID": 77777,
+      "OrganizationDisplayName": "Organization 77777 (Inactive)",
+      "IsFundingOrganization": false,
+      "IsImplementingOrganization": true
+    },
+    {
+      "OrganizationID": 88888,
+      "OrganizationDisplayName": "Organization 88888 (Inactive)",
+      "IsFundingOrganization": true,
+      "IsImplementingOrganization": true
+    },
+    {
+      "OrganizationID": 99999,
+      "OrganizationDisplayName": "Organization 99999 (Inactive)",
+      "IsFundingOrganization": true,
+      "IsImplementingOrganization": false
+    }
+  ]
+}

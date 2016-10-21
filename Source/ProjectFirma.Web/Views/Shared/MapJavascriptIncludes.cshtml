@@ -1,0 +1,30 @@
+﻿@inherits ProjectFirma.Web.Views.Shared.MapJavascriptIncludes
+<script type="text/javascript">
+    //<![CDATA[
+    // Only include these libraries once, using the "leaflet" check for the window.L as a way to detect leaflet
+    // We did not have any bugs from multiple includes but javascript debugging becomes trick once there are more than one copy of these files
+    if (!window.L)
+    {
+        document.write(unescape('%3Clink href="/Content/leaflet/leaflet.min.css" rel="stylesheet" type="text/css" /%3E'));
+        document.write(unescape('%3Clink href="/Content/leaflet/leaflet.markercluster/MarkerCluster.Default.css" rel="stylesheet" type="text/css" /%3E'));
+        document.write(unescape('%3Clink href="/Content/leaflet/leaflet.markercluster/MarkerCluster.css" rel="stylesheet" type="text/css" /%3E'));
+        document.write(unescape('%3Clink href="/Content/leaflet/leaflet.draw/leaflet.draw.min.css" rel="stylesheet" type="text/css" /%3E'));
+        document.write(unescape('%3Clink href="/Content/leaflet/leaflet.fullscreen/leaflet.fullscreen.css" rel="stylesheet" type="text/css" /%3E'));
+        document.write(unescape('%3Clink href="/Content/leaflet/leaflet.timeline/leaflet.timeline.min.css" rel="stylesheet" type="text/css" /%3E'));
+        
+        document.write(unescape('%3Cscript src="/Content/leaflet/leaflet.js" type="text/javascript" %3E%3C/script%3E'));
+        document.write(unescape('%3Cscript src="/Content/leaflet/leaflet.MakiMarkers/leaflet.MakiMarkers.min.js" type="text/javascript" %3E%3C/script%3E'));
+        document.write(unescape('%3Cscript src="/Content/leaflet/Bing.min.js" type="text/javascript" %3E%3C/script%3E'));
+        document.write(unescape('%3Cscript src="/Content/leaflet/leaflet.pip/leaflet-pip.min.js" type="text/javascript" %3E%3C/script%3E'));
+        document.write(unescape('%3Cscript src="/Content/leaflet/leaflet.markercluster/leaflet.markercluster.js" type="text/javascript" %3E%3C/script%3E'));
+        document.write(unescape('%3Cscript src="/Scripts/CustomScripts/Maps/ProjectFirmaMaps.min.js" type="text/javascript" %3E%3C/script%3E'));
+        document.write(unescape('%3Cscript src="/Scripts/CustomScripts/Maps/ProjectFirmaMaps.ProjectLocationSummary.min.js" type="text/javascript" %3E%3C/script%3E'));
+        document.write(unescape('%3Cscript src="/Scripts/CustomScripts/Maps/ProjectFirmaMaps.ParcelLocationSummary.min.js" type="text/javascript" %3E%3C/script%3E'));
+        document.write(unescape('%3Cscript src="/Content/leaflet/leaflet.draw/leaflet.draw.js" type="text/javascript" %3E%3C/script%3E'));
+        document.write(unescape('%3Cscript src="/Content/leaflet/leaflet.fullscreen/leaflet.fullscreen.min.js" type="text/javascript" %3E%3C/script%3E'));
+        document.write(unescape('%3Cscript src="/Content/leaflet/leaflet.timeline/leaflet.timeline.js" type="text/javascript" %3E%3C/script%3E'));
+        document.write(unescape('%3Cscript src="/Content/terraformer/terraformer.min.js" type="text/javascript" %3E%3C/script%3E'));
+        document.write(unescape('%3Cscript src="/Content/terraformer/terraformer-wkt-parser.min.js" type="text/javascript" %3E%3C/script%3E'));
+    }
+    //]]>
+</script>

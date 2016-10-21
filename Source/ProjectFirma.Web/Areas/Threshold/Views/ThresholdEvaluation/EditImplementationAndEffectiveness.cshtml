@@ -1,0 +1,31 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Areas.Threshold.Views.ThresholdEvaluation.EditImplementationAndEffectiveness
+
+@using (Html.BeginForm())
+{
+    <div class="container-fluid container-fluid-dialog-form" style="max-height: 600px; overflow-y: auto">
+        <div class="col-header">@Html.LabelWithFieldDefinitionFor(x => x.ProgramsAndActionsImplementedToImproveConditions, "Programs and Actions Implemented to Improve Conditions"):</div>
+        <div>
+            @Html.TextAreaWithMaxLengthFor(m => m.ProgramsAndActionsImplementedToImproveConditions, new TextAreaForExtensions.TextAreaDimensions(null, 5), null)
+            @Html.ValidationMessageFor(m => m.ProgramsAndActionsImplementedToImproveConditions)
+        </div>
+        <div class="col-header">@Html.LabelWithFieldDefinitionFor(x => x.EffectivenessOfProgramsAndActions, "Effectiveness of Programs and Actions"):</div>
+        <div>
+            @Html.TextAreaWithMaxLengthFor(m => m.EffectivenessOfProgramsAndActions, new TextAreaForExtensions.TextAreaDimensions(null, 5), null)
+            @Html.ValidationMessageFor(m => m.EffectivenessOfProgramsAndActions)
+        </div>
+        @if (!ViewDataTyped.HasManagementOrPolicyStatementThresholdStandard)
+        {
+            <div class="col-header">@Html.LabelWithFieldDefinitionFor(x => x.InterimTarget, "Interim Target"):</div>
+            <div>
+                @Html.TextAreaWithMaxLengthFor(m => m.InterimTarget, new TextAreaForExtensions.TextAreaDimensions(null, 2), null)
+                @Html.ValidationMessageFor(m => m.InterimTarget)
+            </div>
+            <div class="col-header">@Html.LabelWithFieldDefinitionFor(x => x.TargetAttainmentDate, "Target Attainment Date"):</div>
+            <div>
+                @Html.TextAreaWithMaxLengthFor(m => m.TargetAttainmentDate, new TextAreaForExtensions.TextAreaDimensions(null, 2), null)
+                @Html.ValidationMessageFor(m => m.TargetAttainmentDate)
+            </div>
+        }
+    </div>
+}

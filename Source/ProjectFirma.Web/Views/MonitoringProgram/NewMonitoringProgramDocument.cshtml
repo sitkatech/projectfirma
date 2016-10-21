@@ -1,0 +1,21 @@
+﻿@using LtInfo.Common.Mvc
+@inherits ProjectFirma.Web.Views.MonitoringProgram.NewMonitoringProgramDocument
+@using (Html.BeginForm())
+{
+
+    <div>
+        <label>Monitoring Program Document:</label>
+        @Html.EditorFor(x => x.FileResourceData)
+        @Html.ValidationMessageFor(x => x.FileResourceData)
+        <div class="smallExplanationText">Allowed Extensions: @Model.GetFileExtensions(x => x.FileResourceData)</div>
+    </div>
+    
+
+    <div >
+        <label>Display Name:</label>
+        @Html.TextBoxFor(x => x.DisplayName, new { style = "width:400px" })
+        @Html.ValidationMessageFor(x => x.DisplayName)
+    </div>
+    
+    
+}

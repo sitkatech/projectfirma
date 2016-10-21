@@ -1,0 +1,4 @@
+﻿@model LtInfo.Common.Models.Percentage?
+<!-- ReSharper disable SpecifyACultureInStringConversionExplicitly -->
+@Html.TextBox("", (Model.HasValue ? Model.Value.ToString() : string.Empty), new {@class = "sitkaPercentage", style = "width:50px", onchange = "this.value = Sitka.Methods.formatAsPercentFromString(this.value, 2);"})
+<!-- ReSharper restore SpecifyACultureInStringConversionExplicitly -->

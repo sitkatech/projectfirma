@@ -1,0 +1,19 @@
+﻿<div contenteditable="true" data-cke-editor-id="ProgramPageContent" id="CkEditorForProgramPageContent">
+Some html text
+</div>
+<script language="javascript" type="text/javascript">
+    // <![CDATA[
+    jQuery(document).ready(function ()
+    {
+        CKEDITOR.inline("CkEditorForProgramPageContent", {
+           toolbar:
+           [
+            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
+            { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
+            { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+            { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }
+           ]
+        });
+    });
+    // ]]>
+</script>

@@ -1,0 +1,13 @@
+﻿@inherits ProjectFirma.Web.Views.Shared.SitkaRecaptcha
+
+<div id="recaptchaDivElement"></div>
+
+<script type="text/javascript">
+    var recapctchaLoadCallback = function () {
+        grecaptcha.render('recaptchaDivElement', {
+            'sitekey': '@ViewDataTyped.RecaptchaPublicKey'
+        });
+    };
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js?onload=recapctchaLoadCallback&render=explicit" async defer></script>

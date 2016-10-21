@@ -1,0 +1,64 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.ModalDialog
+@inherits LakeTahoeInfoNavBar
+
+<div class="lakeTahoeInfoNavBar" style="margin-right: 10px">
+    <style>
+        .laketahoeinfo-menu.btn-group {
+            margin-top: 20px;
+        }
+
+        .laketahoeinfo-menu .dropdown-menu {
+            background-color: rgb(77, 112, 150);
+            border-radius: 0;
+            margin-left: 10px;
+        }
+
+        .laketahoeinfo-menu .dropdown-menu:last-child {
+            left: auto;
+            right: 0;
+        }
+
+        .navbar-nav > li > a {
+            margin-left: 10px;
+        }
+
+        .laketahoeinfo-menu .btn-dropdown {
+            border-radius: 0;
+            border: 0;
+            text-align: left;
+        }
+
+        .laketahoeinfo-menu .btn-dropdown:hover {
+            background-color: rgb(98, 136, 175);
+        }
+    </style>
+
+    <nav class="navbar">
+        <div class="collapse navbar-collapse navbar-right laketahoeinfo-menu btn-group">
+            <ul class="nav navbar-nav" style="list-style: none;">
+                @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
+                {
+                    @topLevelMenu.RenderMenu()
+                }
+            </ul>
+        </div>
+    </nav>
+    <br />
+
+    <div class="welcomeUser text-right" style="padding: 10px 0 10px 10px;">
+        @if (Request.IsAuthenticated && ViewDataTyped.CurrentPerson != null)
+        {
+            <span>Welcome&nbsp;&nbsp;@ViewDataTyped.CurrentPerson.GetFullNameFirstLastAsUrl()</span>
+        }
+        @if (Request.IsAuthenticated && ViewDataTyped.CurrentPerson != null && !ViewDataTyped.IsHomePage)
+        {
+            <span style="margin: 0 5px">|</span>
+        }
+        @if (!ViewDataTyped.IsHomePage)
+        {
+            @ModalDialogFormHelper.ModalDialogFormLink("Request Support", ViewDataTyped.RequestSupportUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
+        }
+    </div>
+</div>

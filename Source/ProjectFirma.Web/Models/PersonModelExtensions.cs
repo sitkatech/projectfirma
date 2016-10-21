@@ -1,0 +1,82 @@
+using System;
+using System.Linq;
+using System.Web;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
+using LtInfo.Common;
+
+namespace ProjectFirma.Web.Models
+{
+    /// <summary>
+    /// These have been implemented as extension methods on <see cref="Person"/> so we can handle the anonymous user as a null person object
+    /// </summary>
+    public static class PersonModelExtensions
+    {
+        public readonly static UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<UserController>.BuildUrlFromExpression(t => t.Summary(UrlTemplate.Parameter1Int)));
+
+        public static HtmlString GetFullNameFirstLastAsUrl(this Person person)
+        {
+            return UrlTemplate.MakeHrefString(person.GetSummaryUrl(), person.FullNameFirstLast);
+        }
+
+        public static HtmlString GetFullNameFirstLastAndOrgAsUrl(this Person person)
+        {
+            var userUrl = person.GetFullNameFirstLastAsUrl();
+            var orgUrl = person.Organization.GetDisplayNameAsUrl();
+            return new HtmlString(String.Format("{0} - {1}", userUrl, orgUrl));
+        }
+
+        public static HtmlString GetFullNameFirstLastAsStringAndOrgAsUrl(this Person person)
+        {
+            var userString = person.FullNameFirstLast;
+            var orgUrl = person.Organization.GetDisplayNameAsUrl();
+            return new HtmlString(String.Format("{0} - {1}", userString, orgUrl));
+        }
+
+        public static string GetEditUrl(this Person person)
+        {
+            return SitkaRoute<UserController>.BuildUrlFromExpression(t => t.EditRoles(person));
+        }
+
+        public static string GetSummaryUrl(this Person person)
+        {
+            return SummaryUrlTemplate.ParameterReplace(person.PersonID);
+        }
+
+        public static bool IsAdministrator(this Person person)
+        {
+            return person != null && person.EIPRole == EIPRole.Admin;
+        }
+
+        public static bool IsApprover(this Person person)
+        {
+            return person != null && (person.EIPRole == EIPRole.Admin || person.EIPRole == EIPRole.Approver || person.EIPRole == EIPRole.TMPOManager);
+        }
+
+        public static bool ShouldReceiveEIPNotifications(this Person person)
+        {
+            return person.ShouldReceiveSupportEmails(LTInfoArea.EIP.LTInfoAreaID);
+        }
+
+        public static bool IsReadOnlyAdmin(this Person person)
+        {
+            return person != null && person.EIPRole == EIPRole.ReadOnlyAdmin;
+        }
+
+        public static bool IsReadOnly(this Person person)
+        {
+            return (person != null && person.EIPRole == EIPRole.ReadOnlyNormal) || (person != null && person.EIPRole == EIPRole.ReadOnlyAdmin);
+        }
+
+        public static string GetKeystoneEditLink(this Person person)
+        {
+            return string.Format("{0}{1}", ProjectFirmaWebConfiguration.KeystoneUserProfileUrl, person.PersonGuid);
+        }
+
+        public static bool ShouldReceiveSupportEmails(this Person person, int ltInfoAreaID)
+        {
+            var personArea = person.PersonAreas.SingleOrDefault(x => x.LTInfoAreaID == ltInfoAreaID);
+            return personArea != null && personArea.ReceiveSupportEmails;
+        }
+    }
+}

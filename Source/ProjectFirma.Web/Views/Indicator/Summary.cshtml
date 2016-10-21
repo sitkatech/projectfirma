@@ -1,0 +1,761 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Indicator
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.TextControls
+@using LtInfo.Common
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@using LtInfo.Common.Models
+@using LtInfo.Common.Views
+@using MoreLinq
+@inherits Summary
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    <script src="@Url.Content("~/Views/Shared/EditIndicatorReportedsController.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Views/IndicatorMonitoringProgram/IndicatorMonitoringProgramController.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Views/IndicatorRelationship/IndicatorRelationshipController.js")" type="text/javascript"></script>
+
+    <style>
+        th {
+            white-space: nowrap;
+        }
+
+        .chartHeader, a.chartHeader {
+            font-weight: normal;
+        }
+
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+            background-color: #0b406b;
+            color: #fff;
+        }
+
+        .nav > li.disabled > a, .nav-tabs > li.disabled > a:hover, .nav-tabs > li.disabled > a:focus {
+            background-color: #ccc;
+        }
+
+        .panel-heading h1, .panel-heading h2, .panel-heading h3, .panel-heading h4 {
+            margin: 0;
+        }
+
+        .panel-primary .panel-heading h4 {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .rightOfPageTitle {
+            margin: 0;
+        }
+    </style>
+}
+
+@section RightOfPageTitle
+{
+    <div>
+        @if (ViewDataTyped.Indicator.ReportedInThresholdDashboard)
+        {
+            <a class="btn" href="@ViewDataTyped.Indicator.ThresholdIndicator.GetInfoSheetUrl()">@ProjectFirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Threshold Evaluation</a>
+        }
+
+        @if (ViewDataTyped.Indicator.ReportedInEIP)
+        {
+            <a class="btn" href="@ViewDataTyped.Indicator.EIPPerformanceMeasure.GetInfoSheetUrl()">@ProjectFirmaDhtmlxGridHtmlHelpers.FactSheetIcon View EIP Info Sheet</a>
+        }
+
+        @if (ViewDataTyped.Indicator.ReportedInSustainabilityDashboard)
+        {
+            <a class="btn" href="@ViewDataTyped.Indicator.SustainabilityIndicator.GetSummaryUrl()">@ProjectFirmaDhtmlxGridHtmlHelpers.FactSheetIcon View in Sustainability Dashboard</a>
+        }
+
+    </div>
+}
+
+
+<div class="row">
+    <div class="col-lg-6 col-md-5">
+        <div class="summarySection" style="margin-right: 10px">
+            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditIndicatorUrl, string.Format("Edit Indicator: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 1000, ViewDataTyped.UserHasIndicatorOverviewManagePermissions) Basics</h2>
+            <div class="contentWrapper">
+                <table class="summaryLayout">
+                    <tr>
+                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorDisplayName, "Display Name"):</th>
+                        <td>
+                            @ViewDataTyped.Indicator.IndicatorDisplayName
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorType):</th>
+                        <td>
+                            @ViewDataTyped.Indicator.IndicatorType.IndicatorTypeDisplayName
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.MeasurementUnit, "Measurement Unit"):</th>
+                        <td>
+                            @ViewDataTyped.Indicator.MeasurementUnitType.SingularDisplayName (@ViewDataTyped.Indicator.MeasurementUnitType.MeasurementUnitTypeDisplayName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorDefinition, "Definition"):
+                        </th>
+                        <td>
+                            @ViewDataTyped.Indicator.IndicatorDefinition.ToHTMLFormattedString()
+                        </td>
+                    </tr>
+                    @if (ViewDataTyped.Indicator.ReportedInThresholdDashboard)
+                    {
+                        <tr>
+                            <th>
+                                @Html.LabelWithFieldDefinitionFor(FieldDefinition.TRPAIndicator):
+                            </th>
+                            <td>
+                                @ViewDataTyped.Indicator.ThresholdIndicator.TRPAIndicator.ToHTMLFormattedString()
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-7">
+        <div class="summarySection">
+            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.Indicator.GetEditReportedValuesUrl(), "Edit Indicator Data", 1100, ViewDataTyped.UserHasIndicatorOverviewManagePermissions && !ViewDataTyped.Indicator.ReportedInEIP) Accomplishments</h2>
+            <div class="contentWrapper" style="overflow-x: hidden; margin-right: auto; margin-left: auto">
+                @{ IndicatorChart.RenderPartialView(Html, ViewDataTyped.IndicatorChartViewData); }
+
+                @if (ViewDataTyped.UserHasThresholdIndicatorManagePermissions && ViewDataTyped.Indicator.ReportedInThresholdDashboard)
+                {
+                    <div>
+                        @if (!ViewDataTyped.Indicator.ThresholdIndicator.OptionalChartImageFileResourceID.HasValue)
+                        {
+                            <div>
+                                @ModalDialogFormHelper.ModalDialogFormLink(@"<span class='glyphicon glyphicon-plus-sign' style='margin-right: 3px'></span>Add Chart Image", ViewDataTyped.Indicator.ThresholdIndicator.GetNewOptionalChartImageFileResourceUrl(), "Upload Chart Image", ViewDataTyped.UserHasThresholdIndicatorManagePermissions)
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <span class="DeletePhotoButtonClass">
+                                    @ModalDialogFormHelper.MakeDeleteLink(@"<span class='glyphicon glyphicon-trash' style='margin-right: 3px'></span>Delete Chart Image", ViewDataTyped.Indicator.ThresholdIndicator.GetDeleteOptionalChartImageFileResourceUrl(), ViewDataTyped.UserHasThresholdIndicatorManagePermissions)
+                                </span>
+                            </div>
+                        }
+                    </div>
+                }
+                <div>
+                    <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAccomplishmentsMetadataUrl, string.Format("Edit Accomplishments Metadata: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions) Chart Metadata</h2>
+                    <table class="summaryLayout" style="margin: 10px 0">
+                        <tr>
+                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorPrimarySource, "Data Source"):</th>
+                            <td>
+                                @if (!string.IsNullOrWhiteSpace(ViewDataTyped.Indicator.DataSourceUrl))
+                                {
+                                    <a href="@ViewDataTyped.Indicator.DataSourceUrl" target="_blank">@(ViewDataTyped.Indicator.DataSourceText ?? ViewDataTyped.Indicator.DataSourceUrl)</a>
+                                    <a href="@ViewDataTyped.Indicator.DataSourceUrl" target="_blank">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")</a>
+                                }
+                                else
+                                {
+                                    @ViewDataTyped.Indicator.DataSourceText
+                                }
+                            </td>
+                        </tr>
+                        @if (ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
+                        {
+                            <tr>
+                                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.ChartTitle):</th>
+                                <td>
+                                    @ViewDataTyped.Indicator.ChartTitle
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.ChartCaption):</th>
+                                <td>
+                                    @ViewDataTyped.Indicator.ChartCaption.ToHTMLFormattedString()
+                                </td>
+                            </tr>
+
+                            if (!ViewDataTyped.Indicator.ReportedInEIP)
+                            {
+                                <tr>
+                                    <th>Subcategories on x-axis?:</th>
+                                    <td>
+                                        @ViewDataTyped.Indicator.IndicatorSubcategories.Single().SwapChartAxes.ToYesNo()
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr style="border-color: #ccc" />
+    This indicator is used for @ViewDataTyped.IndicatorReportedInText reporting.
+
+    <div class="container-fluid">
+        <ul class="nav nav-tabs">
+            <li @Html.Raw(ViewDataTyped.IsActiveTabOverview ? "class=\"active\"" : string.Empty)><a role="tab" href="#overviewTab" data-toggle="tab" aria-controls="overviewTab">Overview</a></li>
+            @foreach (var lakeTahoeInfoAreaSection in ViewDataTyped.LakeTahoeInfoAreaSectons)
+            {
+                if (lakeTahoeInfoAreaSection.IsReportedInArea)
+                {
+                    <li @Html.Raw(ViewDataTyped.ActiveTab == lakeTahoeInfoAreaSection.IndicatorSummaryTab ? "class=\"active\"" : string.Empty)><a role="tab" href="#@(lakeTahoeInfoAreaSection.LakeTahoeInfoArea.LTInfoAreaName)Tab" data-toggle="tab" aria-controls="@(lakeTahoeInfoAreaSection.LakeTahoeInfoArea.LTInfoAreaName)Tab">@lakeTahoeInfoAreaSection.LakeTahoeInfoArea.LTInfoAreaDisplayName</a></li>
+                }
+            }
+        </ul>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane @(ViewDataTyped.IsActiveTabOverview ? "active" : string.Empty)" id="overviewTab">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="summarySection">
+                                <h2>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Subcategory, "Subcategories")</h2>
+                                <div class="contentWrapper">
+                                    @if (ViewDataTyped.Indicator.HasRealSubcategories)
+                                    {
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Options</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var indicatorSubcategory in ViewDataTyped.Indicator.IndicatorSubcategories)
+                                                {
+                                                    <tr>
+                                                        <td>@indicatorSubcategory.IndicatorSubcategoryDisplayName</td>
+                                                        <td>
+                                                            <div>@string.Join(", ", indicatorSubcategory.IndicatorSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.IndicatorSubcategoryOptionName).Select(x => x.IndicatorSubcategoryOptionName).Take(5))</div>
+                                                            @if (indicatorSubcategory.IndicatorSubcategoryOptions.Count > 5)
+                                                            {
+                                                                <a style="font-size: smaller; font-style: italic" role="button" data-toggle="collapse" data-target="#moreIndicatorSubcategory@(indicatorSubcategory.IndicatorSubcategoryID)Options">[@(indicatorSubcategory.IndicatorSubcategoryOptions.Count - 5) More Options]</a>
+                                                                <div class="collapse" id="moreIndicatorSubcategory@(indicatorSubcategory.IndicatorSubcategoryID)Options">@string.Join(", ", indicatorSubcategory.IndicatorSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.IndicatorSubcategoryOptionName).Select(x => x.IndicatorSubcategoryOptionName).Skip(5))</div>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    }
+                                    else
+                                    {
+                                        <p class="systemText">No subcategories for this indicator.</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="summarySection">
+                                <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditMonitoringProgramsUrl, string.Format("Edit Monitoring Programs: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasThresholdIndicatorManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgram)</h2>
+                                <div class="contentWrapper">
+                                    @if (ViewDataTyped.Indicator.IndicatorMonitoringPrograms.Any())
+                                    {
+                                        foreach (var a in ViewDataTyped.Indicator.IndicatorMonitoringPrograms)
+                                        {
+                                            <p>
+                                                <strong>Program</strong>:
+                                                @a.MonitoringProgram.DisplayNameAsUrl
+                                            </p>
+                                            <p>
+                                                <strong>Approach</strong>:
+                                                @a.MonitoringProgram.MonitoringApproach
+                                            </p>
+
+                                            <p>
+                                                <strong>Partners</strong>:
+                                                <ul>
+                                                    @Html.Raw(string.Join("\r\n", a.MonitoringProgram.MonitoringProgramPartners.Select(y => y.Organization).OrderBy(x => x.DisplayName).Select(x => string.Format("<li>{0}</li>", x.GetDisplayNameAsUrl()))))
+                                                </ul>
+                                            </p>
+                                            if (ViewDataTyped.Indicator.IndicatorMonitoringPrograms.Count > 1)
+                                            {
+                                                <hr />
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <p class="systemText">No monitoring program are yet associated with this indicator.</p>
+                                    }
+                                </div>
+                            </div>
+                            @if (ViewDataTyped.Indicator.ReportedInEIP)
+                            {
+                                <div class="summarySection">
+                                    <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditIndicatorRelationshipsUrl, string.Format("Edit Relationships: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasThresholdIndicatorManagePermissions) Relationships</h2>
+                                    <div class="contentWrapper">
+                                        @if (ViewDataTyped.Indicator.IndicatorRelationships.Any())
+                                        {
+                                            foreach (var thresholdReportingCategoryBatch in ViewDataTyped.Indicator.IndicatorRelationships.GroupBy(x => x.RelatedIndicator.ThresholdIndicator.ThresholdReportingCategory, new HavePrimaryKeyComparer<ThresholdReportingCategory>()).OrderBy(x => x.Key.FullDisplayName).Batch(2).ToList())
+                                            {
+                                                <div class="row">
+                                                    @foreach (var thresholdReportingCategory in thresholdReportingCategoryBatch)
+                                                    {
+                                                        <div class="col-md-6">
+                                                            @thresholdReportingCategory.Key.GetFullDisplayNameAsUrl()
+                                                        </div>
+                                                    }
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <p class="systemText">No indicator relationships defined for this indicator.</p>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="summarySection">
+                        <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAssociatedProgramsUrl, string.Format("Edit Associated Programs: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.AssociatedPrograms)</h2>
+                        <div class="contentWrapper">
+                            <div>
+                                @if (ViewDataTyped.Indicator.AssociatedProgramsHtmlString != null && !string.IsNullOrWhiteSpace(ViewDataTyped.Indicator.AssociatedProgramsHtmlString.ToString()))
+                                {
+                                    @ViewDataTyped.Indicator.AssociatedProgramsHtmlString
+                                }
+                                else
+                                {
+                                    <p class="systemText">Associated Programs data not provided.</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
+                    {
+                        <div class="summarySection">
+                            <h2>Change History and Rationale Notes (only visible to Administrators)</h2>
+                            <div class="contentWrapper">
+                                @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div role="tabpanel" class="tab-pane @(ViewDataTyped.IsActiveTabEIP ? "active" : string.Empty)" id="EIPTab">
+                    @if (ViewDataTyped.Indicator.ReportedInEIP)
+                    {
+                        <div class="summarySection">
+                            <h2>Reporting Guidance</h2>
+                            <div class="contentWrapper">
+                                <table class="summaryLayout">
+                                    <tr>
+                                        <th>
+                                            @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditCriticalDefinitionsUrl, string.Format("Edit Critical Definitions: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
+                                            @Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorCriticalDefinitions)
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-left: 28px">
+                                            @ViewDataTyped.Indicator.EIPPerformanceMeasure.CriticalDefinitionsHtmlString
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAccountingPeriodAndScaleUrl, string.Format("Edit Accounting Period and Scale: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
+                                            @Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorAccountingPeriodAndScale)
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-left: 28px">
+                                            @ViewDataTyped.Indicator.EIPPerformanceMeasure.AccountingPeriodAndScaleHtmlString
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit Project Reporting: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
+                                            @Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorProjectReporting)
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-left: 28px">
+                                            @ViewDataTyped.Indicator.EIPPerformanceMeasure.ProjectReportingHtmlString
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        if (ViewDataTyped.Indicator.EIPPerformanceMeasure.EIPPerformanceMeasureType != EIPPerformanceMeasureType.TMDLRelevant)
+                        {
+                            <div class="row">
+                                <div class="summarySection">
+                                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProgramsUrl, "Edit Programs", ViewDataTyped.UserHasProgramEIPPerformanceMeasureManagePermissions) Programs</h2>
+                                    <div class="contentWrapper">
+                                        @if (ViewDataTyped.EIPPerformanceMeasurePrograms.Any())
+                                        {
+                                            <table class="summaryLayout">
+                                                <tr>
+                                                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Program)</th>
+                                                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryProgram)</th>
+                                                </tr>
+                                                @foreach (var programEIPPerformanceMeasure in ViewDataTyped.EIPPerformanceMeasurePrograms)
+                                                {
+                                                    <tr>
+                                                        <td>@programEIPPerformanceMeasure.Key.DisplayNameAsUrl</td>
+                                                        <td style="text-align: center">@programEIPPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        }
+                                        else
+                                        {
+                                            <p class="systemText">No programs set for this performance measure.</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="row">
+                            <div class="summarySection">
+                                <h2>Projects (As Expected Measure)</h2>
+                                <div class="contentWrapper">
+                                    @Html.DhtmlxGrid(ViewDataTyped.EipPerformanceMeasureExpectedGridSpec, ViewDataTyped.EIPPerformanceMeasureExpectedsGridName, ViewDataTyped.EIPPerformanceMeasureExpectedsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="summarySection">
+                                <h2>Projects (As Reported Measure)</h2>
+                                <div class="contentWrapper">
+                                    @Html.DhtmlxGrid(ViewDataTyped.EIPPerformanceMeasureReportedValuesGridSpec, ViewDataTyped.EIPPerformanceMeasureReportedValuesGridName, ViewDataTyped.EIPPerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="summarySection">
+                            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditEIPContextUrl, string.Format("Edit EIP Context: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions) EIP Context</h2>
+                            <div class="contentWrapper">
+                                <div>
+                                    @if (ViewDataTyped.Indicator.EIPPerformanceMeasure.EIPContextHtmlString != null && !string.IsNullOrWhiteSpace(ViewDataTyped.Indicator.EIPPerformanceMeasure.EIPContextHtmlString.ToString()))
+                                    {
+                                        @ViewDataTyped.Indicator.EIPPerformanceMeasure.EIPContextHtmlString
+                                    }
+                                    else
+                                    {
+                                        <p class="systemText">EIP Context data not provided.</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div role="tabpanel" class="tab-pane @(ViewDataTyped.IsActiveTabSustainabilityDashboard ? "active" : string.Empty)" id="SustainabilityTab">
+                    @if (ViewDataTyped.Indicator.ReportedInSustainabilityDashboard)
+                    {                       
+                        <div class="row">
+                            <div class="summarySection">
+                                <h2>
+                                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditPublicDescriptionUrl, string.Format("Edit Sustainability Dashboard Narrative: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasSustainabilityIndicatorManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorSimpleDescription, "Narrative")
+                                </h2>
+                                <div class="contentWrapper">
+                                    @ViewDataTyped.Indicator.IndicatorPublicDescriptionHtmlString
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div role="tabpanel" class="tab-pane @(ViewDataTyped.IsActiveTabThresholdDashboard ? "active" : string.Empty)" id="ThresholdTab">
+                    @if (ViewDataTyped.Indicator.ReportedInThresholdDashboard)
+                    {
+                        <h2 style="padding: 0; margin: 0">
+                            @ViewDataTyped.Indicator.ThresholdIndicator.ThresholdReportingCategory.ThresholdCategory.GetDisplayNameAsUrl()
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            @ViewDataTyped.Indicator.ThresholdIndicator.ThresholdReportingCategory.GetDisplayNameAsUrl()
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            <span style="color:#000">@ViewDataTyped.Indicator.ThresholdIndicator.Indicator.IndicatorDisplayName</span>
+                        </h2>
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="summarySection">
+                                    <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditBackgroundUrl, string.Format("Edit Background: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasThresholdIndicatorManagePermissions) Background</h2>
+                                    <div class="contentWrapper">
+                                        <strong>Relevance</strong>
+                                        <p>@Html.Raw(ViewDataTyped.Indicator.ThresholdIndicator.Relevance.ToNotProvidedIfNull())</p>
+                                        <strong>Human and Environmental Drivers</strong>
+                                        <p>@Html.Raw(ViewDataTyped.Indicator.ThresholdIndicator.HumanAndEnvironmentalDrivers.ToNotProvidedIfNull())</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="summarySection">
+                                    <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditStandardsMetadataUrl, string.Format("Edit Standards: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasThresholdIndicatorManagePermissions) Standards</h2>
+                                    <div class="contentWrapper">
+                                        <strong>@Html.LabelWithFieldDefinitionFor(FieldDefinition.ThresholdStandardType, "Standard Type")</strong>
+                                        <p>
+                                            @ViewDataTyped.Indicator.ThresholdIndicator.ThresholdStandardType.ThresholdStandardTypeDisplayName
+                                        </p>
+                                        <strong>@Html.LabelWithFieldDefinitionFor(FieldDefinition.ApplicableStandard, "Narrative")</strong>
+                                        <p>
+                                            @ViewDataTyped.Indicator.ThresholdIndicator.ApplicableStandard.ToHTMLFormattedString()
+                                        </p>
+                                        <strong>@Html.LabelWithFieldDefinitionFor(FieldDefinition.StandardNarrative)</strong>
+                                        <p>
+                                            @ViewDataTyped.Indicator.ThresholdIndicator.StandardNarrative.ToHTMLFormattedString()
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="summarySection">
+                            @if (ViewDataTyped.Indicator.ThresholdIndicator.IsManagementOrPolicyStatement)
+                            {
+                                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.CurrentThresholdEvaluation.GetEditThresholdEvaluationManagementStatusUrl(), "Edit Management Status", 650, ViewDataTyped.UserHasThresholdIndicatorManagePermissions) Indicator Management Status</h2>
+                                <div class="contentWrapper">
+                                    <div class="row">
+                                        <div class="col-md-2 col-md-3">
+                                            <div style="margin-right: auto; margin-left: auto; padding-bottom: 20px; width: 200px;">
+                                                @ViewDataTyped.CurrentThresholdEvaluation.GenerateStatusIcon(ThresholdEvaluationModelExtensions.IconSize.Large)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10 col-sm-9">
+                                            <div class="pull-right">
+                                                @ThresholdEvaluation.MakeLegendIconLink()
+                                            </div>
+                                            <strong>Management Status</strong>: @(ViewDataTyped.CurrentThresholdEvaluation.ThresholdEvaluationManagementStatusType == null ? ViewUtilities.NotAvailableString : ViewDataTyped.CurrentThresholdEvaluation.ThresholdEvaluationManagementStatusType.ThresholdEvaluationManagementStatusTypeDisplayName)
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.CurrentThresholdEvaluation.GetEditThresholdEvaluationStatusUrl(), "Edit Status, Trend, and Confidence", 650, ViewDataTyped.UserHasThresholdIndicatorManagePermissions) Indicator Status, Trend, and Confidence</h2>
+                                <div class="contentWrapper">
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-3">
+                                            <div style="margin-right: auto; margin-left: auto; padding-bottom: 20px; width: 200px;">
+                                                @ViewDataTyped.CurrentThresholdEvaluation.GenerateStatusIcon(ThresholdEvaluationModelExtensions.IconSize.Large)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10 col-sm-9">
+                                            <div class="pull-right">
+                                                @ThresholdEvaluation.MakeLegendIconLink()
+                                            </div>
+                                            <div>
+                                                <strong>Status</strong>: @(ViewDataTyped.CurrentThresholdEvaluation.ThresholdEvaluationStatusType == null ? ViewUtilities.NotAvailableString : ViewDataTyped.CurrentThresholdEvaluation.ThresholdEvaluationStatusType.ThresholdEvaluationStatusTypeDisplayName)<br />
+                                                <strong>Trend</strong>: @(ViewDataTyped.CurrentThresholdEvaluation.ThresholdEvaluationTrendType == null ? ViewUtilities.NotAvailableString : ViewDataTyped.CurrentThresholdEvaluation.ThresholdEvaluationTrendType.ThresholdEvaluationTrendTypeDisplayName)<br />
+                                                <strong>Confidence</strong>: @(ViewDataTyped.CurrentThresholdEvaluation.ThresholdEvaluationConfidenceType == null ? ViewUtilities.NotAvailableString : ViewDataTyped.CurrentThresholdEvaluation.ThresholdEvaluationConfidenceType.ThresholdEvaluationConfidenceTypeDisplayName)<br />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.CurrentThresholdEvaluation.GetEditThresholdEvaluationStatusDetailsUrl(), "Edit Details", ViewDataTyped.UserHasThresholdIndicatorManagePermissions) Status, Trend, and Confidence Details</h2>
+                                    <div class="contentWrapper">
+                                        <div>
+                                            <strong>Status</strong>
+                                            <p>@ViewDataTyped.CurrentThresholdEvaluation.StatusRationale.ToHTMLFormattedString()</p>
+                                        </div>
+                                        <div>
+                                            <strong>Trend</strong>
+                                            <p>@ViewDataTyped.CurrentThresholdEvaluation.TrendRationale.ToHTMLFormattedString()</p>
+                                        </div>
+                                        <div>
+                                            <strong>Confidence</strong>
+                                            <div style="padding-left: 20px">
+                                                <p><strong>Status</strong>: @ViewDataTyped.CurrentThresholdEvaluation.ConfidenceStatus.ToHTMLFormattedString()</p>
+                                            </div>
+                                            <div style="padding-left: 20px">
+                                                <p><strong>Trend</strong>: @ViewDataTyped.CurrentThresholdEvaluation.ConfidenceTrend.ToHTMLFormattedString()</p>
+                                            </div>
+                                            <div style="padding-left: 20px">
+                                                <p><strong>Overall</strong>: @ViewDataTyped.CurrentThresholdEvaluation.ConfidenceOverall.ToHTMLFormattedString()</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+
+                        <div class="summarySection">
+                            <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.CurrentThresholdEvaluation.GetEditImplementationAndEffectivenessUrl(), "Edit Implementation and Effectiveness", ViewDataTyped.UserHasThresholdIndicatorManagePermissions) Implementation and Effectiveness</h2>
+                            <div class="contentWrapper">
+                                <strong>Programs and Actions Implemented to Improve Conditions</strong>
+                                <p>
+                                    @ViewDataTyped.CurrentThresholdEvaluation.ProgramsAndActionsImplementedToImproveConditions.ToHTMLFormattedString()
+                                </p>
+                                <strong>Effectiveness of Programs and Actions</strong>
+                                <p>
+                                    @ViewDataTyped.CurrentThresholdEvaluation.EffectivenessOfProgramsAndActions.ToHTMLFormattedString()
+                                </p>
+                                @if (!ViewDataTyped.Indicator.ThresholdIndicator.IsManagementOrPolicyStatement)
+                                {
+                                    <strong>Interim Target</strong>
+                                    <p>
+                                        @(string.IsNullOrWhiteSpace(ViewDataTyped.CurrentThresholdEvaluation.InterimTarget) ? new HtmlString(ViewUtilities.NotApplicableIndicatorIsInAttainment) : ViewDataTyped.CurrentThresholdEvaluation.InterimTarget.ToHTMLFormattedString())
+                                    </p>
+                                    <strong>Target Attainment Date</strong>
+                                    <p>
+                                        @(string.IsNullOrWhiteSpace(ViewDataTyped.CurrentThresholdEvaluation.TargetAttainmentDate) ? new HtmlString(ViewUtilities.NotApplicableIndicatorIsInAttainment) : ViewDataTyped.CurrentThresholdEvaluation.TargetAttainmentDate.ToHTMLFormattedString())
+                                    </p>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="summarySection">
+                            <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.CurrentThresholdEvaluation.GetEditThresholdEvaluationRecommendationsUrl(), "Edit Recommendations", ViewDataTyped.UserHasThresholdIndicatorManagePermissions) Recommendations</h2>
+                            <div class="contentWrapper">
+                                <strong>Analytic Approach</strong>
+                                <p>
+                                    @(string.IsNullOrWhiteSpace(ViewDataTyped.CurrentThresholdEvaluation.AnalyticApproachRecommendation) ? new HtmlString(ViewUtilities.NoChangesRecommended) : ViewDataTyped.CurrentThresholdEvaluation.AnalyticApproachRecommendation.ToHTMLFormattedString())
+                                </p>
+                                <strong>Monitoring Approach</strong>
+                                <p>
+                                    @(string.IsNullOrWhiteSpace(ViewDataTyped.CurrentThresholdEvaluation.MonitoringApproachRecommendation) ? new HtmlString(ViewUtilities.NoChangesRecommended) : ViewDataTyped.CurrentThresholdEvaluation.MonitoringApproachRecommendation.ToHTMLFormattedString())
+                                </p>
+                                <strong>Modification of the Threshold Standard or Indicator</strong>
+                                <p>
+                                    @(string.IsNullOrWhiteSpace(ViewDataTyped.CurrentThresholdEvaluation.ModificationOfTheThresholdStandardOrIndicator) ? new HtmlString(ViewUtilities.NoChangesRecommended) : ViewDataTyped.CurrentThresholdEvaluation.ModificationOfTheThresholdStandardOrIndicator.ToHTMLFormattedString())
+                                </p>
+                                <strong>Attain or Maintain Threshold</strong>
+                                <p>
+                                    @(string.IsNullOrWhiteSpace(ViewDataTyped.CurrentThresholdEvaluation.AttainOrMaintainThreshold) ? new HtmlString(ViewUtilities.NoChangesRecommended) : ViewDataTyped.CurrentThresholdEvaluation.AttainOrMaintainThreshold.ToHTMLFormattedString())
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="summarySection">
+                            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.CurrentThresholdEvaluation.GetEditThresholdEvaluationMapAndCaptionUrl(), "Edit Map", 800, ViewDataTyped.UserHasThresholdIndicatorManagePermissions) Map</h2>
+                            <div class="contentWrapper">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        @if (ViewDataTyped.CurrentThresholdEvaluation.MapFileResourceID.HasValue)
+                                        {
+                                            <div>
+                                                <ul style="margin-top: 5px;" class="filmStrip">
+                                                    <li style="overflow: hidden">
+                                                        <div class="">
+                                                            <div class="icons">
+                                                                <span class="DeletePhotoButtonClass">
+                                                                    @ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), ViewDataTyped.CurrentThresholdEvaluation.GetDeleteMapImageUrl(), ViewDataTyped.UserHasThresholdIndicatorManagePermissions)
+                                                                </span>
+                                                                &nbsp;
+                                                            </div>
+                                                            <a href="@ViewDataTyped.CurrentThresholdEvaluation.MapFileResource.FileResourceUrl" rel="group" class="gallery">
+                                                                <p class="img">
+                                                                    <img src="@ViewDataTyped.CurrentThresholdEvaluation.MapFileResource.FileResourceUrlScaledThumbnail">
+                                                                </p>
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <p class="systemText">Map image not provided.</p>
+                                        }
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <strong>Description</strong>
+                                        @if (!string.IsNullOrWhiteSpace(ViewDataTyped.CurrentThresholdEvaluation.MapCaption))
+                                        {
+                                            <p>
+                                                @ViewDataTyped.CurrentThresholdEvaluation.MapCaption.ToHTMLFormattedString()
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p class="systemText">Map description not provided.</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="summarySection">
+                            <h2>Additional Figures</h2>
+                            <div class="contentWrapper">
+                                @{
+                        ImageGallery.RenderPartialView(Html, ViewDataTyped.ImageGalleryViewData);
+                                }
+                            </div>
+                        </div>
+
+                        <div class="summarySection">
+                            <h2>Historic 2011 Threshold Evaluation</h2>
+                            <div class="contentWrapper">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-4">
+                                        <div style="margin-right: auto; margin-left: auto; padding-bottom: 20px; width: 200px;">
+                                            @ViewDataTyped.HistoricThresholdEvaluation.GenerateStatusIcon(ThresholdEvaluationModelExtensions.IconSize.Large)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 col-sm-8">
+                                        <div class="pull-right">
+                                            @ThresholdEvaluation.MakeLegendIconLink()
+                                        </div>
+                                        @if (ViewDataTyped.Indicator.ThresholdIndicator.IsManagementOrPolicyStatement)
+                                        {
+                                            <div>
+                                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.HistoricThresholdEvaluation.GetEditThresholdEvaluationManagementStatusUrl(), "Edit Management Status", ViewDataTyped.UserHasThresholdIndicatorManagePermissions) <strong>Management Status</strong>
+                                                <p>@(ViewDataTyped.HistoricThresholdEvaluation.ThresholdEvaluationManagementStatusType == null ? ViewUtilities.NotAvailableString : ViewDataTyped.HistoricThresholdEvaluation.ThresholdEvaluationManagementStatusType.ThresholdEvaluationManagementStatusTypeDisplayName)</p>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div>
+                                                @ModalDialogFormHelper.ModalDialogFormLink("<span class='glyphicon glyphicon-edit' style='margin-right: 3px'></span>Edit Status, Trend, and Confidence", ViewDataTyped.HistoricThresholdEvaluation.GetEditThresholdEvaluationStatusUrl(), "Edit Status", ViewDataTyped.UserHasThresholdIndicatorManagePermissions)
+                                                <br/>
+                                                <strong>Status</strong>: @(ViewDataTyped.HistoricThresholdEvaluation.ThresholdEvaluationStatusType == null ? ViewUtilities.NotAvailableString : ViewDataTyped.HistoricThresholdEvaluation.ThresholdEvaluationStatusType.ThresholdEvaluationStatusTypeDisplayName)<br />
+                                                <strong>Trend</strong>: @(ViewDataTyped.HistoricThresholdEvaluation.ThresholdEvaluationTrendType == null ? ViewUtilities.NotAvailableString : ViewDataTyped.HistoricThresholdEvaluation.ThresholdEvaluationTrendType.ThresholdEvaluationTrendTypeDisplayName)<br />
+                                                <strong>Confidence</strong>: @(ViewDataTyped.HistoricThresholdEvaluation.ThresholdEvaluationConfidenceType == null ? ViewUtilities.NotAvailableString : ViewDataTyped.HistoricThresholdEvaluation.ThresholdEvaluationConfidenceType.ThresholdEvaluationConfidenceTypeDisplayName)<br />
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                                <div>
+                                    @if (ViewDataTyped.HistoricThresholdEvaluation.HistoricEvaluationPdfFileResource == null)
+                                    {
+                                        <div class="pull-right">
+                                            @ModalDialogFormHelper.ModalDialogFormLink(@"<span class='glyphicon glyphicon-plus-sign' style='margin-right: 3px'></span>Add PDF", ViewDataTyped.HistoricThresholdEvaluation.GetNewHistoricEvaluationPdfFileResourceUrl(), "Add New PDF", ViewDataTyped.UserHasThresholdIndicatorManagePermissions)
+                                        </div>
+
+                                        <p class="systemText">The 2011 Evaluation Report has not yet be uploaded or is unavailable.</p>
+                                    }
+                                    else
+                                    {
+                                        <div class="pull-right">
+                                            <span class="DeletePhotoButtonClass">
+                                                @ModalDialogFormHelper.MakeDeleteLink(@"<span class='glyphicon glyphicon-trash' style='margin-right: 3px'></span>Delete PDF", ViewDataTyped.HistoricThresholdEvaluation.GetDeleteHistoricEvaluationPdfFileResourceUrl(), ViewDataTyped.UserHasThresholdIndicatorManagePermissions)
+                                            </span>
+                                        </div>
+
+                                        <embed style="width: 100%; height: 800px; margin-top: 10px;" src="@ViewDataTyped.HistoricThresholdEvaluation.HistoricEvaluationPdfFileResource.FileResourceUrl" />
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 20px">
+        <a class="btn btn-blue" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
+    </div>

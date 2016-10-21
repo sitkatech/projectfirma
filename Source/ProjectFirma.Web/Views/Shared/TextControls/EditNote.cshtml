@@ -1,0 +1,14 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Views.Shared.TextControls.EditNote
+@using (Html.BeginForm())
+{
+    <table class="dialogFormLayout" style="width:100%">
+        <tr>
+            <th>@Html.LabelFor(m => m.Note):</th>
+            <td>
+                @Html.TextAreaWithMaxLengthFor(m => m.Note, new TextAreaForExtensions.TextAreaDimensions(null, 8), null)
+                @Html.ValidationMessageFor(m => m.Note)
+            </td>
+        </tr>
+    </table>
+}

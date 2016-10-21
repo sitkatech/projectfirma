@@ -1,0 +1,18 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Areas.Threshold.Views.ThresholdIndicator.EditBackground
+
+@using (Html.BeginForm())
+{
+    <div class="container-fluid container-fluid-dialog-form" style="max-height: 600px; overflow-y: auto">
+        <div class="col-header">@Html.LabelWithFieldDefinitionFor(x => x.Relevance):</div>
+        <div>
+            @Html.TextAreaWithMaxLengthFor(m => m.Relevance, new TextAreaForExtensions.TextAreaDimensions(null, 2), null)
+            @Html.ValidationMessageFor(m => m.Relevance)
+        </div>
+        <div class="col-header">@Html.LabelWithFieldDefinitionFor(x => x.HumanAndEnvironmentalDrivers):</div>
+        <div>
+            @Html.TextAreaWithMaxLengthFor(m => m.HumanAndEnvironmentalDrivers, new TextAreaForExtensions.TextAreaDimensions(null, 2), null)
+            @Html.ValidationMessageFor(m => m.HumanAndEnvironmentalDrivers)
+        </div>
+    </div>
+}

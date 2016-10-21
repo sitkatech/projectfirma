@@ -1,0 +1,36 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Views.LocalAndRegionalPlan.Edit
+@using (Html.BeginForm())
+{
+    <table class="dialogFormLayout">
+        <tr>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.LocalAndRegionalPlanName):</th>
+            <td style="width:100%">
+                @Html.TextBoxFor(m => m.LocalAndRegionalPlanName, new { style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.LocalAndRegionalPlanName)
+            </td>
+        </tr>
+        <tr>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.LocalAndRegionalPlanDocumentLinkText):</th>
+            <td style="width:100%">
+                @Html.TextBoxFor(m => m.LocalAndRegionalPlanDocumentLinkText, new { style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.LocalAndRegionalPlanDocumentLinkText)
+            </td>
+        </tr>
+        <tr>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.LocalAndRegionalPlanDocumentUrl):</th>
+            <td style="width:100%">
+                @Html.TextBoxFor(m => m.LocalAndRegionalPlanDocumentUrl, new { style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.LocalAndRegionalPlanDocumentUrl)
+            </td>
+        </tr>
+        <tr>
+            <th>Transportation Plan?</th>
+            <td style="width:100%">
+                @Html.CheckBoxFor(m => m.IsTransportationPlan)
+                @Html.ValidationMessageFor(m => m.IsTransportationPlan)
+            </td>
+        </tr>
+    </table>
+    @Html.HiddenFor(m => m.LocalAndRegionalPlanID)
+}

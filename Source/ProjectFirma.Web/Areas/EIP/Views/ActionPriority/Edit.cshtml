@@ -1,0 +1,30 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Areas.EIP.Views.ActionPriority.Edit
+@using (Html.BeginForm())
+{
+    <table class="dialogFormLayout">
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.ActionPriorityName):</th>
+            <td>
+                @Html.TextBoxFor(m => m.ActionPriorityName, new {style = "width:522px"})
+                @Html.ValidationMessageFor(m => m.ActionPriorityName)
+            </td>
+        </tr>
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.ProgramID):</th>
+            <td>
+                @if (ViewDataTyped.HasProjects)
+                {
+                    @ViewDataTyped.ProgramDisplayName
+                    @Html.HiddenFor(x => x.ProgramID)
+                }
+                else
+                {
+                    @Html.DropDownListFor(m => m.ProgramID, ViewDataTyped.Programs)
+                    @Html.ValidationMessageFor(m => m.ProgramID)
+                }
+            </td>
+        </tr>
+    </table>
+    @Html.HiddenFor(m => m.ActionPriorityID)
+}

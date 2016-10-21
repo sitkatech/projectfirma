@@ -1,0 +1,92 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Models
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Areas.EIP.Views.EIPPerformanceMeasureActual.EditEIPPerformanceMeasureActuals
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+    {
+        return {
+            AngularModel: @Html.Raw(JObject.FromObject(Model)),
+            AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
+        };
+    });
+    angular.bootstrap(jQuery("#EditEIPPerformanceMeasureActualsApp"), ["ProjectFirmaApp"]);
+    // ]]>
+</script>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+<div id="EditEIPPerformanceMeasureActualsApp" ng-controller="EIPPerformanceMeasureActualController">
+    @if (Model.ProjectExemptReportingYears != null && Model.ProjectExemptReportingYears.Any())
+    {
+        <div style="margin-top: 5px">
+            <h2 ng-class="AngularViewData.ShowExemptYears ? 'expanded' : 'collapsed'" ng-click="AngularViewData.ShowExemptYears = !AngularViewData.ShowExemptYears"> What if my project has no accomplishments to report?</h2>
+            <div ng-show="AngularViewData.ShowExemptYears" style="padding: 0 0 10px 27px">
+                Select the years for which you have no accomplishments to report and provide a brief explanation.
+                <div>
+                    <label ng-repeat="projectExemptYear in AngularModel.ProjectExemptReportingYears" style="padding-right: 10px">
+                        <input type="checkbox" ng-model="projectExemptYear.IsExempt"/> <span ng-bind="projectExemptYear.CalendarYear"></span></label>
+                </div>
+                @Html.TextAreaFor(x => x.Explanation, new Dictionary<string, object> {{"style", "width:300px"}, {"placeholder", "Explanation here"}, {"ng-model", "AngularModel.Explanation"}})
+                @Html.ValidationMessageFor(x => x.Explanation)
+            </div>
+        </div>
+    }
+    Performance Measure to Add:
+    <select ng-model="EIPPerformanceMeasureToAdd" ng-options="eipPerformanceMeasure.DisplayName for eipPerformanceMeasure in filteredEIPPerformanceMeasures()" style="width: 700px"></select>
+    <button class="btn btn-xs btn-trpa" type="button" ng-click="addRow()">Add</button>
+    <table class="dialogFormLayout" ng-show="AngularModel.EIPPerformanceMeasureActuals.length > 0">
+        <tr>
+            <th></th>
+            <th style="white-space: nowrap">@Html.Raw(Html.LabelWithFieldDefinitionFor(FieldDefinition.EIPPerformanceMeasure))</th>
+            <th>Year</th>
+            <th ng-show="hasAnySubcategories()">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Subcategories)</th>
+            <th colspan="2" style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ReportedValue)</th>
+        </tr>
+        <tr ng-repeat="eipPerformanceMeasureActual in AngularModel.EIPPerformanceMeasureActuals | orderBy:['EIPPerformanceMeasureID', 'CalendarYear', getProjectName]">
+            <td>
+                <span class="glyphicon glyphicon-trash blue" title="Remove row'" alt="Remove row" ng-click="deleteRow(eipPerformanceMeasureActual)" style="cursor: pointer"></span></td>
+            <td ng-bind="getEIPPerformanceMeasureName(eipPerformanceMeasureActual)"></td>
+            <td>
+                <select ng-model="eipPerformanceMeasureActual.CalendarYear" ng-options="calendarYear for calendarYear in filteredCalendarYears()"></select>
+            </td>
+            <td style="white-space: nowrap">
+                <span ng-repeat="eipPerformanceMeasureActualSubcategoryOption in eipPerformanceMeasureActual.EIPPerformanceMeasureActualSubcategoryOptions | orderBy:[getSubcategoryName]">
+                    <select ng-model="eipPerformanceMeasureActualSubcategoryOption.IndicatorSubcategoryOptionID" style="width: 120px" ng-show="getEIPPerformanceMeasure(eipPerformanceMeasureActual.EIPPerformanceMeasureID).HasRealSubcategories">
+                        <optgroup label="{{getSubcategoryName(eipPerformanceMeasureActualSubcategoryOption)}}">
+                            <option ng-repeat="indicatorSubcategoryOption in getSubcategoryOptionsForSubcategory(eipPerformanceMeasureActualSubcategoryOption.IndicatorSubcategoryID)" value="{{indicatorSubcategoryOption.IndicatorSubcategoryOptionID}}" ng-selected="eipPerformanceMeasureActualSubcategoryOption.IndicatorSubcategoryOptionID == indicatorSubcategoryOption.IndicatorSubcategoryOptionID">{{indicatorSubcategoryOption.IndicatorSubcategoryOptionName}}</option>
+                        </optgroup>
+                    </select>
+                </span>
+            </td>
+            <td>
+                <input type="number" class="sitkaNumber" ng-model="eipPerformanceMeasureActual.ActualValue" step="any"/>
+            </td>
+            <td style="white-space: nowrap" ng-bind="getMeasurementUnitTypeDisplayName(eipPerformanceMeasureActual)"></td>
+        </tr>
+    </table>
+    @using (Html.BeginForm())
+    {
+        <div ng-repeat="eipPerformanceMeasureActual in AngularModel.EIPPerformanceMeasureActuals | orderBy:'EIPPerformanceMeasureID'">
+            <input type="hidden" name="@Html.NameFor(x => x.EIPPerformanceMeasureActuals[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{eipPerformanceMeasureActual.ProjectID}}">
+            <input type="hidden" name="@Html.NameFor(x => x.EIPPerformanceMeasureActuals[0].EIPPerformanceMeasureID).ToString().Replace("0", "{{$index}}")" value="{{eipPerformanceMeasureActual.EIPPerformanceMeasureID}}">
+            <input type="hidden" name="@Html.NameFor(x => x.EIPPerformanceMeasureActuals[0].CalendarYear).ToString().Replace("0", "{{$index}}")" value="{{eipPerformanceMeasureActual.CalendarYear}}">
+            <input type="hidden" name="@Html.NameFor(x => x.EIPPerformanceMeasureActuals[0].ActualValue).ToString().Replace("0", "{{$index}}")" value="{{eipPerformanceMeasureActual.ActualValue}}">
+            <div ng-repeat="eipPerformanceMeasureActualSubcategoryOption in eipPerformanceMeasureActual.EIPPerformanceMeasureActualSubcategoryOptions | orderBy:'IndicatorSubcategoryOptionID'">
+                <input type="hidden" name="@Html.NameFor(x => x.EIPPerformanceMeasureActuals[0].EIPPerformanceMeasureActualSubcategoryOptions[1].IndicatorSubcategoryOptionID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{eipPerformanceMeasureActualSubcategoryOption.IndicatorSubcategoryOptionID}}">
+                <input type="hidden" name="@Html.NameFor(x => x.EIPPerformanceMeasureActuals[0].EIPPerformanceMeasureActualSubcategoryOptions[1].IndicatorSubcategoryID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{eipPerformanceMeasureActualSubcategoryOption.IndicatorSubcategoryID}}">
+                <input type="hidden" name="@Html.NameFor(x => x.EIPPerformanceMeasureActuals[0].EIPPerformanceMeasureActualSubcategoryOptions[1].EIPPerformanceMeasureID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{eipPerformanceMeasureActualSubcategoryOption.EIPPerformanceMeasureID}}">
+            </div>
+        </div>
+        <div ng-repeat="projectExemptYear in AngularModel.ProjectExemptReportingYears">
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].CalendarYear).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.CalendarYear}}"/>
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.ProjectID}}"/>
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].ProjectExemptReportingYearID).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.ProjectExemptReportingYearID}}"/>
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].IsExempt).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.IsExempt}}"/>
+        </div>
+        <input type="hidden" name="@Html.NameFor(x => x.Explanation)" value="{{AngularModel.Explanation}}"/>
+    }
+</div>

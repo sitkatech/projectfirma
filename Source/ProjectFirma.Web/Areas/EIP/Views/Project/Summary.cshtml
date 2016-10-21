@@ -1,0 +1,396 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Security
+@using ProjectFirma.Web.Areas.EIP.Views.Shared.ExpenditureAndBudgetControls
+@using ProjectFirma.Web.Areas.EIP.Views.Shared.EIPPerformanceMeasureControls
+@using ProjectFirma.Web.Areas.EIP.Views.Shared.ProjectControls
+@using ProjectFirma.Web.Areas.EIP.Views.Shared.ProjectLocationControls
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.TextControls
+@using LtInfo.Common
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@using MoreLinq
+@inherits ProjectFirma.Web.Areas.EIP.Views.Project.Summary
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+    <script src="@Url.Content("~/Areas/EIP/Views/Shared/EIPPerformanceMeasureControls/EIPPerformanceMeasureExpectedController.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/EIP/Views/EIPPerformanceMeasureActual/EIPPerformanceMeasureActualController.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/EIP/Views/ProjectFundingSourceExpenditure/ProjectFundingSourceExpenditureController.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/EIP/Views/TransportationProjectBudget/TransportationProjectBudgetController.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/EIP/Views/ProjectLocalAndRegionalPlan/ProjectLocalAndRegionalPlanController.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/EIP/Views/ProjectWatershed/ProjectWatershedController.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/EIP/Views/ProjectExternalLink/ProjectExternalLinkController.js")" type="text/javascript"></script>
+    <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
+    <link href="~/Content/bootstrap-tags/bootstrap-tags.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css" />
+    <script src="@Url.Content("~/Content/bootstrap-toc/bootstrap-toc.min.js")" type="text/javascript"></script>
+}
+
+<style type="text/css">
+    .stage h3 {
+        color: white;
+        font-size: 16px;
+        margin-bottom: 0;
+        margin-top: 5px;
+    }
+
+    td.stage {
+        vertical-align: top;
+    }
+
+    .stagebody {
+        padding: 2px;
+        padding-left: 7px;
+    }
+
+    .stage.default {
+        background-color: rgb(118, 118, 118);
+    }
+
+    .stage.current {
+        background-color: rgb(43, 105, 145);
+    }
+
+    #projectTags .tag-input {
+        color: black;
+        font-size: smaller;
+    }
+
+    #projectTags .glyphicon-remove, #projectTags .glyphicon-plus {
+        margin-left: 5px;
+    }
+
+    #projectTags .glyphicon-remove:hover, #projectTags .glyphicon-plus:hover {
+        color: #265d87;
+    }
+
+    /*Hack to get scrollspy to select sections with no content*/
+    footer
+    {
+        height: 600px;
+    }
+
+</style>
+
+@section RightOfPageTitle
+{
+    @if (ViewDataTyped.Project.IsUpdateAllowed && ViewDataTyped.UserHasProjectUpdatePermissions)
+    {
+        if (ViewDataTyped.Project.IsUpdateMandatory)
+        {
+            <a href="@ViewDataTyped.Project.GetProjectUpdateUrl()" title="Update Project">@DhtmlxGridHtmlHelpers.EditIconBootstrap</a>
+            <a href="@ViewDataTyped.Project.GetProjectUpdateUrl()">Update Project</a>
+        }
+        else
+        {
+            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Update Project", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.ConfirmNonMandatoryUpdateUrl, "Update this project?", 400, "Continue", "Cancel", null, null, null)
+        }
+    }
+    <a href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@ProjectFirmaDhtmlxGridHtmlHelpers.FactSheetIcon</a> <a href="@ViewDataTyped.Project.GetFactSheetUrl()">View Fact Sheet</a>
+}
+
+@if (ViewDataTyped.LatestUpdateState == ProjectUpdateState.Submitted || ViewDataTyped.LatestUpdateState == ProjectUpdateState.Returned)
+{
+    <div class="warning" style="margin-bottom: 10px">
+        <span>
+            Updates to this project have been submitted but not yet approved. Check back later for more current information on this project.
+            @if (ViewDataTyped.UserHasProjectUpdatePermissions)
+            {
+                <span>View its <a href="@ViewDataTyped.Project.GetProjectUpdateUrl()"> project update </a></span>
+            }
+        </span>
+    </div>
+}
+
+<div>
+    <table style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; width: 100%;">
+        <tr style="padding-bottom: 0;">
+            @for (var i = 0; i < ViewDataTyped.ProjectStages.Count; i++)
+            {
+                var stage = ViewDataTyped.ProjectStages[i];
+                var nextStage = (i < ViewDataTyped.ProjectStages.Count - 1) ? ViewDataTyped.ProjectStages[i + 1] : null;
+
+                var isCurrentStage = stage == ViewDataTyped.Project.ProjectStage;
+
+                var stateName = "default";
+                if (isCurrentStage)
+                {
+                    stateName = "current";
+                }
+
+                var nextStateName = "default";
+                if (nextStage != null && nextStage == ViewDataTyped.Project.ProjectStage)
+                {
+                    nextStateName = "current";
+                }
+
+                <td class="stagebody stage @Html.Raw(stateName)">
+                    <h3>
+                        @stage.ProjectStageDisplayName
+                    </h3>
+                </td>
+
+                var imgPath = "/Content/img/project_stage_arrow_" + stateName + ".png";
+
+                if (nextStage != null)
+                {
+                    <td class="stage @Html.Raw(nextStateName)" style="width: 15px;">
+                        <img src="@imgPath" style="height: 31px" />
+                    </td>
+                }
+            }
+        </tr>
+    </table>
+</div>
+
+<div data-spy="scroll" data-target="#toc">
+    <div id="contentForTOC" class="container-fluid">
+        <div class="row">
+        <div data-target="#tableofcontents" id="scrollSpyContent" class="col-lg-2 col-md-3 hidden-sm hidden-xs hidden-print">
+            <div id="tableOfContentsAffixed" class="navSummarySection"  >
+                <h2 data-toc-skip>Page Contents</h2>
+                <nav id="tableOfContents" class="scrollSpy"></nav>
+            </div>
+        </div>
+            <div class="col-sm-12 col-md-9 col-lg-10">
+                <div class="row">
+                    <div class="col-md-12 col-lg-8">
+                        <div class="summarySection">
+                            <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUrl, string.Format("Edit {0}", ViewDataTyped.Project.DisplayName), 950, ViewDataTyped.UserHasEditProjectPermissions) Basics</h2>
+                            @{ ProjectBasics.RenderPartialView(Html, ViewDataTyped.ProjectBasicsViewData); }
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-4">
+                        <div class="summarySection">
+                            <h2>Location</h2>
+                            <div class="contentWrapper">
+                                @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Simple Location", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditSimpleProjectLocationUrl, "Edit Project Location - Simple", 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)
+                                @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Detailed Location", "<span class='glyphicon glyphicon-edit blue' style='margin:0 3px 0 20px'></span>"), ViewDataTyped.EditDetailedProjectLocationUrl, "Edit Project Location - Detail", 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)
+                                @{ ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData); }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="summarySection">
+                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasProjectOrganizationManagePermissions) Organizations</h2>
+                    <div class="contentWrapper">
+                        @if (ViewDataTyped.AllProjectOrganizations.Any())
+                        {
+                            <table class="summaryLayout">
+                                <tr>
+                                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Organization)</th>
+                                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.LeadImplementer)</th>
+                                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Implementer)</th>
+                                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Funder)</th>
+                                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PrimaryContact)</th>
+                                </tr>
+                                @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations)
+                                {
+                                    <tr>
+                                        <td>@projectOrganization.Organization.GetDisplayNameAsUrl()</td>
+                                        <td style="text-align: center">@projectOrganization.IsLeadOrganization.ToCheckboxImageOrEmpty()</td>
+                                        <td style="text-align: center">@((projectOrganization.IsImplementingOrganization && !projectOrganization.IsLeadOrganization).ToCheckboxImageOrEmpty())</td>
+                                        <td style="text-align: center">@projectOrganization.IsFundingOrganization.ToCheckboxImageOrEmpty()</td>
+                                        @if (new UserViewFeature().HasPermissionByPerson(ViewDataTyped.CurrentPerson))
+                                        {
+                                            <td>@projectOrganization.Organization.PrimaryContactPersonWithOrgAsUrl</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@projectOrganization.Organization.PrimaryContactPersonAsStringAndOrgAsUrl</td>
+                                        }
+                                    </tr>
+                                }
+                            </table>
+                        }
+                        else
+                        {
+                            <p>No organizations set for this project.</p>
+                        }
+                    </div>
+                </div>
+                @if (ViewDataTyped.Project.IsTransportationProject)
+                {
+                    <div class="summarySection">
+                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTransportationProjectBudgetUrl, "Edit Estimated Budget", 1000, ViewDataTyped.UserHasTransportationProjectBudgetManagePermissions) Estimated Budgets</h2>
+                        <div class="contentWrapper">
+                            @{ TransportationProjectBudgetSummary.RenderPartialView(Html, ViewDataTyped.TransportationProjectBudgetSummaryViewData); }
+                        </div>
+                    </div>
+                }
+
+                @if (ViewDataTyped.UserHasEIPPerformanceMeasureExpectedViewPermissions)
+                {
+                    <div class="summarySection">
+                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditEIPPerformanceMeasureExpectedsUrl, "Edit Expected Performance Measures", 1000, ViewDataTyped.UserHasEIPPerformanceMeasureExpectedManagePermissions) Expected Performance Measures</h2>
+                        <div class="contentWrapper">
+                            @{ EIPPerformanceMeasureExpectedSummary.RenderPartialView(Html, ViewDataTyped.EIPPerformanceMeasureExpectedSummaryViewData); }
+                        </div>
+                    </div>
+                }
+
+                <div class="summarySection">
+                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditEIPPerformanceMeasureActualsUrl, "Edit Reported Performance Measures", 1000, ViewDataTyped.UserHasEIPPerformanceMeasureActualManagePermissions) Reported Performance Measures</h2>
+                    <div class="contentWrapper">
+                        @{ EIPPerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.EIPPerformanceMeasureReportedValuesGroupedViewData); }
+                    </div>
+                </div>
+
+                <div class="summarySection">
+                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, "Edit Reported Expenditures", 1000, ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions) Reported Expenditures</h2>
+                    <div class="contentWrapper">
+                        @{ ProjectExpendituresSummary.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresSummaryViewData); }
+                    </div>
+                </div>
+                <div class="summarySection">
+                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditThresholdCategoriesUrl, "Edit Threshold Categories", ViewDataTyped.UserHasProjectThresholdCategoryManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.ThresholdCategory, "Threshold Categories")</h2>
+                    <div class="contentWrapper">
+                        @if (ViewDataTyped.Project.ProjectThresholdCategories.Any())
+                        {
+                            <div class="row">
+                                @foreach (var thresholdCategoriesBatch in ViewDataTyped.Project.ProjectThresholdCategories.OrderBy(x => x.ThresholdCategory.DisplayName).Batch(3))
+                                {
+                                    <div class="col-md-4">
+                                        <ul class="noListStyle">
+                                            @foreach (var thresholdCategory in thresholdCategoriesBatch.OrderBy(x => x.ThresholdCategory.DisplayName))
+                                            {
+                                                <li>@thresholdCategory.ThresholdCategory.GetDisplayNameAsUrl(): @thresholdCategory.ProjectThresholdCategoryNotes</li>                                                
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="systemText">No Threshold Categories set for this project.</p>
+                        }
+                    </div>
+                </div>
+                @if (ViewDataTyped.Project.IsTransportationProject && ViewDataTyped.UserHasTransportationProjectBudgetManagePermissions)
+                {
+                    <div class="summarySection">
+                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTransportationAssessmentUrl, "Edit Transportation Assessment", 800, ViewDataTyped.UserHasTransportationProjectBudgetManagePermissions) Transportation Assessment</h2>
+                        <div class="contentWrapper">
+                            @{ TransportationAssessmentTree.RenderPartialView(Html, ViewDataTyped.TransportationAssessmentTreeViewData);}
+                        </div>
+                    </div>
+                }
+                <div class="summarySection">
+                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditLocalAndRegionalPlansUrl, "Edit Local and Regional Plans", ViewDataTyped.UserHasProjectLocalAndRegionalPlanManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.LocalAndRegionalPlan, "Local and Regional Plans")</h2>
+                    <div class="contentWrapper">
+                        @if (ViewDataTyped.Project.ProjectLocalAndRegionalPlans.Any())
+                        {
+                            <ul class="noListStyle">
+                                @foreach (var projectLocalAndRegionalPlan in ViewDataTyped.Project.ProjectLocalAndRegionalPlans.OrderBy(x => x.LocalAndRegionalPlan.DisplayName))
+                                {
+                                    <li>
+                                        @projectLocalAndRegionalPlan.LocalAndRegionalPlan.DisplayNameAsUrl
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p class="systemText">No Local and Regional Plans set for this project.</p>
+                        }
+                    </div>
+                </div>
+                <div class="summarySection">
+                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditWatershedsUrl, "Edit Watersheds", ViewDataTyped.UserHasProjectWatershedManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.Watershed, "Watersheds")</h2>
+                    <div class="contentWrapper">
+                        @if (ViewDataTyped.Project.ProjectWatersheds.Any())
+                        {
+                            <ul class="noListStyle">
+                                @foreach (var projectWatershed in ViewDataTyped.Project.ProjectWatersheds.OrderBy(x => x.Watershed.DisplayName))
+                                {
+                                    <li>
+                                        <a href="@projectWatershed.Watershed.GetSummaryUrl()">@projectWatershed.Watershed.DisplayName</a>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p class="systemText">No watersheds set for this project.</p>
+                        }
+                    </div>
+                </div>
+                <div class="summarySection">
+                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, "Edit External Links", ViewDataTyped.UserHasProjectExternalLinkManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.ExternalLinks)</h2>
+                    <div class="contentWrapper">
+                        @{ EntityExternalLinks.RenderPartialView(Html, ViewDataTyped.EntityExternalLinksViewData); }
+                    </div>
+                </div>
+                <div class="summarySection">
+                    <h2>Photos</h2>
+                    <div class="contentWrapper">
+                        @{
+                            ImageGallery.RenderPartialView(Html, ViewDataTyped.ImageGalleryViewData);
+                        }
+                    </div>
+                </div>
+                <div class="summarySection">
+                    <h2>Notes</h2>
+                    <div class="contentWrapper">
+                        @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
+                    </div>
+                </div>
+                @if (ViewDataTyped.UserHasProjectViewEverythingPermissions)
+                {
+                    <div class="summarySection">
+                        <h2>Project Update History</h2>
+                        <div class="contentWrapper">
+                            @Html.DhtmlxGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                        </div>
+                    </div>
+                    <div class="summarySection">
+                        <h2>System Communications</h2>
+                        <div class="contentWrapper">
+                            @Html.DhtmlxGrid(ViewDataTyped.ProjectNotificationGridSpec, ViewDataTyped.ProjectNotificationGridName, ViewDataTyped.ProjectNotificationGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                        </div>
+                    </div>
+                    <div class="summarySection">
+                        <h2>Audit Log</h2>
+                        <div class="contentWrapper">
+                            @Html.DhtmlxGrid(ViewDataTyped.AuditLogsGridSpec, ViewDataTyped.AuditLogsGridName, ViewDataTyped.AuditLogsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="margin-top: 20px">
+    <a class="btn btn-sm btn-trpa" href="@ViewDataTyped.FullProjectListUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
+</div>
+
+    <script type="text/javascript">
+        jQuery(document)
+            .ready(function ()
+            {
+                Toc.init({
+                    $nav: jQuery('#tableOfContents'),
+                    $scope: jQuery('#contentForTOC')
+                });
+
+                jQuery('body').scrollspy({
+                    target: '#tableOfContents'
+                });
+
+                jQuery('#tableOfContentsAffixed')
+                    .affix({
+                        offset: {
+                            top: function() { return (this.top = jQuery("#tableOfContentsAffixed").offset().top); },
+                            bottom: function() { return (this.bottom = jQuery('footer').outerHeight(true) + 100); }
+                        }
+                    });
+            });
+    </script>

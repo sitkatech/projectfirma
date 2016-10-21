@@ -1,0 +1,33 @@
+﻿@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Areas.Sustainability.Views.Aspect.AllIndicators
+
+@section ExtraHeaderContent
+{
+    <div class="row">
+        <div class="intro large-10 large-offset-1 columns text-center">
+            <h1>All Indicators</h1>
+            <p>
+                Below are the indicators included in the sustainability dashboard. Click on a category for greater detail of the current status
+                of the @string.Join(", ", ViewDataTyped.SustainabilityCommonPageData.SustainabilityPillars.OrderBy(x => x.DisplayOrder).Select(x => x.PillarAdjective.ToLower()).ToList()) health of the Lake Tahoe Region.
+            </p>
+        </div>
+    </div>
+    <div class="categories row">
+        @foreach (var pillar in ViewDataTyped.SustainabilityCommonPageData.SustainabilityPillars.OrderBy(x => x.DisplayOrder))
+        {
+            <div class="large-4 columns">
+                <div class="category-menu @pillar.KeyColor">
+                    <h2>@pillar.SustainabilityPillarName</h2>
+                    <ul>
+                        @foreach (var aspect in pillar.SustainabilityAspects.OrderBy(x => x.DisplayOrder))
+                        {
+                            <li>
+                                <a href="@aspect.GetUrl()">@aspect.DisplayName</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
+}

@@ -1,0 +1,34 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LeadAgency](
+	[LeadAgencyID] [int] IDENTITY(1,1) NOT NULL,
+	[OrganizationID] [int] NOT NULL,
+	[LeadAgencyAbbreviation] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[SortOrder] [int] NOT NULL,
+	[CanManageRightOfWayCoverage] [bit] NOT NULL,
+ CONSTRAINT [PK_LeadAgency_LeadAgencyID] PRIMARY KEY CLUSTERED 
+(
+	[LeadAgencyID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_LeadAgency_LeadAgencyAbbreviation] UNIQUE NONCLUSTERED 
+(
+	[LeadAgencyAbbreviation] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_LeadAgency_LeadAgencyID_LeadAgencyAbbreviation] UNIQUE NONCLUSTERED 
+(
+	[LeadAgencyID] ASC,
+	[LeadAgencyAbbreviation] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_LeadAgency_OrganizationID] UNIQUE NONCLUSTERED 
+(
+	[OrganizationID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+ALTER TABLE [dbo].[LeadAgency]  WITH CHECK ADD  CONSTRAINT [FK_LeadAgency_Organization_OrganizationID] FOREIGN KEY([OrganizationID])
+REFERENCES [dbo].[Organization] ([OrganizationID])
+GO
+ALTER TABLE [dbo].[LeadAgency] CHECK CONSTRAINT [FK_LeadAgency_Organization_OrganizationID]

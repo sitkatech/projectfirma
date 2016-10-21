@@ -1,0 +1,22 @@
+﻿@using ProjectFirma.Web.Models
+@using LtInfo.Common
+@inherits ProjectFirma.Web.Views.Shared.NotFound
+
+<div style="margin-top: 20px; min-height: 200px">
+    @SitkaGlobalBase.CustomNotFoundMessageReplaceToken
+
+    @if (Request.UrlReferrer != null)
+    {
+        <p><a href="@Request.UrlReferrer">Back to previous page</a></p>
+    }
+    else
+    {
+        <ul>
+            @foreach (var a in LTInfoArea.All.OrderBy(x => x.SortOrder))
+            {
+                <li><a href="@a.GetHomeUrl()">@a.LTInfoAreaDisplayName home</a></li>
+            }
+        </ul>
+
+    }
+</div>

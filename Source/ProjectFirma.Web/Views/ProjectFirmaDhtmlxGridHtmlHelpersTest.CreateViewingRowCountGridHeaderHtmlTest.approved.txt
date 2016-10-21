@@ -1,0 +1,1 @@
+﻿Currently viewing <span id="testGridNameFilteredRowCount"></span> of <span id="testGridNameUnfilteredRowCount"></span> some things

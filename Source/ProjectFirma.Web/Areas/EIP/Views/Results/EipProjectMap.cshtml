@@ -1,0 +1,413 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Areas.EIP.Views.Shared.ProjectLocationControls
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Areas.EIP.Views.Results.EipProjectMap
+@section JavascriptAndStylesContent
+{
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+    <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="/Content/fancytree/jquery.fancytree-all.min.js"></script>
+    <link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css" />
+    <link rel="stylesheet" href="/Content/fancytree/skin-bootstrap/ui.fancytree.min.css" type="text/css" />
+
+
+    <style>
+        ul.projectList
+        {
+            margin-bottom: 15px;
+            overflow-y: auto;
+        }
+
+        /* customizing the look of the clusters*/
+
+        .marker-cluster-small
+        {
+            background-color: #9e9e9e;
+            opacity: 0.7;
+        }
+
+        .marker-cluster-small div
+        {
+            background-color: #9e9e9e;
+            opacity: 0.7;
+        }
+
+        .marker-cluster-medium
+        {
+            background-color: #6e6e6e;
+            opacity: 0.7;
+        }
+
+        .marker-cluster-medium div
+        {
+            background-color: #6e6e6e;
+            opacity: 0.7;
+        }
+
+        .marker-cluster-large
+        {
+            background-color: #3e3e3e;
+            opacity: 0.7;
+        }
+
+        .marker-cluster-large div
+        {
+            background-color: #3e3e3e;
+            opacity: 0.7;
+        }
+
+        .marker-cluster div
+        {
+            color: #e0ffff;
+            font-weight: 900;
+        }
+
+        #@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID
+        {
+            height: 700px;
+        }
+
+        .popover
+        {
+            max-width: 100%;
+        }
+
+        .mapLegendElement
+        {
+            width: 150px;
+            height: auto;
+        }
+
+        .mapCustomizations .dropdown-menu
+        {
+            font-size: 13px;
+            background-color: white;
+        }
+
+        .mapCustomizationSingleSelect button
+        {
+            font-size: 13px;
+            padding: 3px 18px 3px 5px !important;
+        }
+
+        .mapCustomizationMultiSelect button
+        {
+            font-size: 13px;
+            padding: 3px 25px 3px 5px !important;
+        }
+
+        .bootstrap-select
+        {
+            padding: 0;
+        }
+
+        #projectLocationGroupTypeTree > tbody > tr.fancytree-active > td
+        {
+            background-color: transparent !important;
+            color: initial !important;
+        }
+
+        table.fancytree-ext-table.fancytree-container > tbody > tr.fancytree-active > td span.fancytree-title
+        {
+            color: black;
+        }
+
+        span.fancytree-icon
+        {
+            visibility: hidden;
+            max-width: 0;
+            margin: 0;
+        }
+
+        span.fancytree-title
+        {
+            margin-left:0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        span.fancytree-node
+        {
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+    </style>
+    }
+
+    <div>
+        @ViewDataTyped.ProjectFirmaPage.ProjectFirmaPageContentHtmlString
+    </div>
+
+    <div class="mapCustomizations" style="display: inline-block; vertical-align: middle; margin-top: 10px">
+        <span style="font-weight: bold">Color Projects by:</span>
+        <select id="ColorPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
+            @foreach (var colorByType in ProjectColorByType.All)
+            {
+                <option value="@colorByType.ProjectColorByTypeNameWithIdentifier" data-colorby="@colorByType.ProjectColorByTypeName" data-displayname="@colorByType.ProjectColorByTypeDisplayName">@colorByType.ProjectColorByTypeDisplayName</option>
+            }
+        </select>
+
+        <span style="font-weight: bold">Filter Projects by:</span>
+        <select id="FilterPropertyName" name="FilterPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
+            @{
+                var displayGroup = -1;
+                foreach (var plft in ViewDataTyped.ProjectLocationFilterTypesAndValues.Keys.OrderBy(p => p.DisplayGroup * p.SortOrder))
+                {
+                    if (displayGroup != -1 && displayGroup != plft.DisplayGroup)
+                    {
+                        <option data-divider="true"></option>
+                    }
+                    <option value="@plft.ProjectLocationFilterTypeNameWithIdentifier" data-filter="@plft.ProjectLocationFilterTypeName">
+                        @plft.ProjectLocationFilterTypeDisplayName
+                    </option>
+                    displayGroup = plft.DisplayGroup;
+                }
+            }
+        </select>
+
+        @foreach (var keyValuePair in ViewDataTyped.ProjectLocationFilterTypesAndValues)
+        {
+            @Html.DropDownList(keyValuePair.Key.ProjectLocationFilterTypeNameWithIdentifier, keyValuePair.Value,
+            new { multiple = "", style = "display:none", @class = "btn-sm" })
+        }
+
+        <a id="customUrlPopover" data-container="body" data-toggle="popover" data-trigger="click" data-placement="top" data-html="true" href="javascript:void(0)">
+            Link to this map
+        </a>
+    </div>
+
+    <div style="font-weight: bold;">
+        <label><span class="glyphicon glyphicon-map-marker"></span> Cluster Project Locations:</label><input style="margin-left: 5px" type="checkbox" id="ClusterLocations" />
+    </div>
+
+    <div id="showBasinwideProjectsToast">
+        <a class="btn pull-right" title="Some projects operate over larger areas and are not represented on the map, but can be listed here.">
+            <span class="glyphicon glyphicon-chevron-left"></span>Show regional project list
+        </a>
+    </div>
+    <div id="hideBasinwideProjectsToast" style="display: none">
+        <a class="btn pull-right">
+            Hide regional project list<span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+
+    <div style="margin-top: 10px">To zoom into a specific area, hold down the Shift key and drag a rectangle.</div>
+    <div class="container-fluid">
+        <div class="row" style="border: 1px solid; vertical-align: top;">
+            <div class="col-md-12" id="mapPanel">
+                @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
+            </div>
+            <div id="projectsWithLocationAreaToast" style="display: none; padding: 0 8px 8px 8px">
+                <p>
+                    Some projects operate over larger areas and are not represented on the map, but are listed here:
+                </p>
+                <div style="clear: both; white-space: nowrap; overflow-x: hidden; overflow-y: auto; max-height: 750px">
+                    <table id="projectLocationGroupTypeTree" class="table table-hover table-condensed" style="margin-bottom: 10px">
+                        <colgroup>
+                            <col style="width: auto; text-overflow: ellipsis" />
+                            <col style="width: 100px; text-align:right" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function displayProjectsWithLocationArea(projectMapCustomization)
+        {
+            function renderFancyTreeColumns(event, data)
+            {
+                var node = data.node;
+                var tr = jQuery(node.tr);
+                var $tdList = tr.find(">td");
+
+                var numberOfProjectsColumn = $tdList.eq(1);
+                if (node.data.NumberOfProjects != null)
+                {
+                    numberOfProjectsColumn.text(node.data.NumberOfProjects);
+                }
+            }
+
+            var glyph_opts = {
+                map: {
+                    expanderClosed: "glyphicon glyphicon-plus",
+                    expanderOpen: "glyphicon glyphicon-minus" // glyphicon-collapse-down
+                }
+            };
+
+            var treeDiv = jQuery("#projectLocationGroupTypeTree");
+            treeDiv.fancytree({
+                extensions: ["glyph", "table"],
+                quicksearch: true,
+                glyph: glyph_opts,
+                table: {
+                    nodeColumnIdx: 0,
+                    indentation: 10
+                },
+                renderColumns: function(event, data)
+                {
+                    renderFancyTreeColumns(event, data);
+                }
+            }
+            );
+            var tree = treeDiv.fancytree("getTree");
+            tree.reload(
+            {
+                type: "POST",
+                url: @Html.Raw(ViewDataTyped.FilteredProjectsWithLocationAreasUrl.ToJS()),
+                data: { projectMapCustomization: projectMapCustomization },
+                dataType: "json"
+            });
+        };
+
+        function updateCustomUrlPopover()
+        {
+            var filterPropertyNameDropdown = jQuery("#FilterPropertyName");
+            var filterPropertyValueDropdown = jQuery("#" + filterPropertyNameDropdown.val());
+            var colorPropertyNameDropdown = jQuery("#ColorPropertyName");
+
+            var filteredUrl = "@ViewDataTyped.ProjectLocationsUrl" + "?@ProjectMapCustomization.FilterByQueryStringParameter=" + filterPropertyNameDropdown.find("option:selected").data("filter");
+
+            var selectedValuesFromDropdown = filterPropertyValueDropdown.val();
+            if (!Sitka.Methods.isUndefinedNullOrEmpty(selectedValuesFromDropdown))
+            {
+                if (selectedValuesFromDropdown.length != filterPropertyValueDropdown.find("option").length)
+                {
+                    var filterValues = selectedValuesFromDropdown.join(",");
+                    filteredUrl += "&@ProjectMapCustomization.FilterValuesQueryStringParameter=" + filterValues;
+                }
+            }
+
+            filteredUrl += "&@ProjectMapCustomization.ColorByQueryStringParameter=" + colorPropertyNameDropdown.find("option:selected").data("colorby");
+
+            var width = filteredUrl.length * 6;
+            var filterHtml = "<input id='filterHtmlInput' readonly='true' style='background-color: white; width:" + width + "px' type='url' value='" + filteredUrl + "' onclick='this.select()' />";
+
+            var filteredUrlPopover = jQuery("#customUrlPopover");
+            filteredUrlPopover.attr("data-content", filterHtml);
+            jQuery(".popover-content").html(filterHtml);
+        }
+
+        function buildAndInitializeDropdowns(map, initialCustomization)
+        {
+            var colorPropertyNameDropdown = jQuery("#ColorPropertyName");
+            colorPropertyNameDropdown.selectpicker();
+            colorPropertyNameDropdown.selectpicker('val', initialCustomization.ColorByPropertyName);
+
+            colorPropertyNameDropdown.change(function()
+            {
+                map.changePropertyToColorProjectLocationsBy(this.value);
+                jQuery("#mapLegendTitle").html(colorPropertyNameDropdown.find("option:selected").data("displayname") + ":");
+                updateCustomUrlPopover();
+            });
+
+            var filterPropertyNameDropdown = jQuery("#FilterPropertyName");
+            filterPropertyNameDropdown.selectpicker();
+            filterPropertyNameDropdown.selectpicker('val', initialCustomization.FilterPropertyName);
+
+            var filterPropertyNameOptions = jQuery("option", filterPropertyNameDropdown);
+
+            filterPropertyNameDropdown.change(function()
+            {
+                filterPropertyNameOptions.each(function(index, option)
+                {
+                    jQuery("#" + option.value).selectpicker('hide');
+                });
+                var filterPropertyValueDropdown = jQuery("#" + this.value);
+                filterPropertyValueDropdown.selectpicker('show');
+                filterPropertyValueDropdown.trigger("change");
+            });
+
+            filterPropertyNameOptions.each(function(index, option)
+            {
+                var filterPropertyNameSelected = option.value;
+                var filterPropertyValueDropdown = jQuery("#" + filterPropertyNameSelected);
+
+                filterPropertyValueDropdown.attr("data-selected-text-format", "count>1");
+                filterPropertyValueDropdown.attr("data-count-selected-text", "{0} of {1} selected");
+                filterPropertyValueDropdown.attr("data-actions-box", "true");
+                filterPropertyValueDropdown.addClass("mapCustomizationMultiSelect");
+
+                filterPropertyValueDropdown.selectpicker('hide');
+                filterPropertyValueDropdown.selectpicker('selectAll');
+
+                filterPropertyValueDropdown.change(function()
+                {
+                    var filterPropertyValueSelected = filterPropertyValueDropdown.val();
+
+                    var actualFilter = [];
+                    if (!Sitka.Methods.isUndefinedNullOrEmpty(filterPropertyValueSelected))
+                    {
+                        actualFilter = filterPropertyValueSelected;
+                    }
+                    map.changeFilter(filterPropertyNameSelected, actualFilter);
+                    var filterObject = { FilterPropertyName: filterPropertyNameSelected, FilterPropertyValues: actualFilter };
+
+                    displayProjectsWithLocationArea(filterObject);
+                    updateCustomUrlPopover();
+                });
+            });
+
+            var filterPropertyValueDropdown = jQuery("#" + initialCustomization.FilterPropertyName);
+            filterPropertyValueDropdown.selectpicker('val', initialCustomization.FilterPropertyValues);
+            filterPropertyValueDropdown.selectpicker('show');
+            displayProjectsWithLocationArea(initialCustomization);
+        }
+
+        jQuery(document).ready(function()
+        {
+            var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
+            var projectFirmaMap = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
+            projectFirmaMap.initializeProjectLocations(projectLocationsMapInitJson);
+
+            projectFirmaMap.map.scrollWheelZoom.enable();
+
+            buildAndInitializeDropdowns(projectFirmaMap, projectLocationsMapInitJson.ProjectMapCustomization);
+
+            var clusterLocationsCheckbox = jQuery("#ClusterLocations");
+            clusterLocationsCheckbox.change(function() { projectFirmaMap.changeClustering(clusterLocationsCheckbox.is(":checked")); });
+
+            jQuery('#customUrlPopover').popover({ container: "body" });
+            jQuery('#customUrlPopover').on('shown.bs.popover', function() { jQuery("#filterHtmlInput").select(); });
+
+            updateCustomUrlPopover();
+
+            jQuery('#showBasinwideProjectsToast').click(function()
+            {
+                jQuery("#mapPanel").removeClass("col-md-12");
+                jQuery("#mapPanel").addClass("col-md-8");
+                jQuery("#mapPanel").css("border-right", "1px solid");
+                jQuery("#projectsWithLocationAreaToast").addClass("col-md-4");
+                jQuery("#projectsWithLocationAreaToast").show();
+                jQuery("#showBasinwideProjectsToast").hide();
+                jQuery("#hideBasinwideProjectsToast").show();
+                projectFirmaMap.map.invalidateSize();
+            });
+
+            jQuery('#hideBasinwideProjectsToast').click(function()
+            {
+                jQuery("#mapPanel").removeClass("col-md-8");
+                jQuery("#mapPanel").addClass("col-md-12");
+                jQuery("#mapPanel").css("border-right", "0");
+                jQuery("#projectsWithLocationAreaToast").removeClass("col-md-4");
+                jQuery("#projectsWithLocationAreaToast").hide();
+                jQuery("#showBasinwideProjectsToast").show();
+                jQuery("#hideBasinwideProjectsToast").hide();
+                projectFirmaMap.map.invalidateSize();
+            });
+
+        });
+    </script>

@@ -1,0 +1,74 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@using LtInfo.Common.Mvc
+@inherits ProjectFirma.Web.Views.Organization.Edit
+@using (Html.BeginForm())
+{
+    if (ViewDataTyped.IsInKeystone)
+    {
+        <p class="systemText">This Organization is managed in Keystone. To change this organization's name, please send an @ModalDialogFormHelper.ModalDialogFormLink("email to support", ViewDataTyped.RequestOrganizationChangeUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)</p>
+    }
+    <table class="dialogFormLayout">
+        <tr>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.OrganizationName):</th>
+            <td>
+                @if (ViewDataTyped.IsInKeystone)
+                {
+                    @Model.OrganizationName
+                    @Html.HiddenFor(x => x.OrganizationName)
+                }
+                else
+                {
+                    @Html.TextBoxFor(m => m.OrganizationName, new { style = "width:100%" })
+                    @Html.ValidationMessageFor(m => m.OrganizationName)
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.OrganizationAbbreviation):</th>
+            <td>
+                @Html.TextBoxFor(m => m.OrganizationAbbreviation, new { style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.OrganizationAbbreviation)
+            </td>
+        </tr>
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.SectorID):</th>
+            <td>
+                @Html.DropDownListFor(m => m.SectorID, ViewDataTyped.Sectors, new { style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.SectorID)
+            </td>
+        </tr>
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.PrimaryContactPersonID):</th>
+            <td>
+                @Html.DropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.People, new {style = "width:100%"})
+                @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
+            </td>
+        </tr>
+        <tr>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.OrganizationUrl):</th>
+            <td>
+                @Html.TextBoxFor(m => m.OrganizationUrl, new {style = "width:100%"})
+                @Html.ValidationMessageFor(m => m.OrganizationUrl)
+            </td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(x => x.LogoFileResourceData): </th>
+            <td>
+                @Html.EditorFor(x => x.LogoFileResourceData)
+                <span class="smallExplanationText">
+                    Allowed Extensions: @Model.GetFileExtensions(x => x.LogoFileResourceData)
+                </span>
+                @Html.ValidationMessageFor(x => x.LogoFileResourceData)
+            </td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(m => m.IsActive):</th>
+            <td>
+                @Html.CheckBoxFor(m => m.IsActive)
+                @Html.ValidationMessageFor(m => m.IsActive)
+            </td>
+        </tr>
+    </table>
+    @Html.HiddenFor(m => m.OrganizationID)
+}

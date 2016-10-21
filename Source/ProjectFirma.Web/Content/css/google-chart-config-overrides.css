@@ -1,0 +1,46 @@
+﻿.google-visualization-charteditor-dialog {
+    height: auto !important;
+    width: auto !important;
+}
+
+.google-visualization-charteditor-dialog .goog-flat-menu-button {
+    height: auto !important;
+}
+
+.google-visualization-charteditor-name-input {
+    height: auto !important;
+}
+
+.google-visualization-charteditor-preview-td {
+    top: auto !important;
+}
+
+.goog-toolbar-combo-caption-gecko
+{
+    margin-top: 0 !important;
+}
+
+#google-visualization-charteditor-input-chart-name
+{
+    display: none;
+}
+
+#google-visualization-charteditor-font-style-title,
+#google-visualization-charteditor-font-style-legend,
+#google-visualization-charteditor-font-style-titlex,
+#google-visualization-charteditor-font-style-axisx,
+#google-visualization-charteditor-font-style-titley,
+#google-visualization-charteditor-font-style-axisy,
+#google-visualization-charteditor-font-style-title-right,
+#google-visualization-charteditor-font-style-axis-right,
+#google-visualization-charteditor-thumbnail-bubblechart,
+#google-visualization-charteditor-select-slant,
+div[aria-labelledby="google-visualization-charteditor-errorbars"]
+{
+    display: none;
+}
+
+#google-visualization-charteditor-select-font-name
+{
+    display: none;
+}

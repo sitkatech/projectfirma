@@ -1,0 +1,19 @@
+﻿@using LtInfo.Common.BootstrapWrappers
+@inherits ProjectFirma.Web.Views.Shared.TextControls.EntityExternalLinks
+
+@if (ViewDataTyped.ExternalLinks.Any())
+{
+    <ul class="noListStyle">
+        @foreach (var externalLink in ViewDataTyped.ExternalLinks.OrderBy(x => x.ExternalLinkLabel))
+        {
+            <li class="@externalLink.DisplayCssClass">
+                <a href="@externalLink.ExternalLinkUrl" target="_blank">@externalLink.ExternalLinkLabel</a>
+                <a href="@externalLink.ExternalLinkUrl" target="_blank">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")</a>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p class="systemText">No external links entered.</p>
+}

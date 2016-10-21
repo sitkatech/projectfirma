@@ -1,0 +1,42 @@
+﻿@using ProjectFirma.Web.Models
+@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Areas.EIP.Views.ProjectWatershed.EditProjectWatersheds
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+    {
+        return {
+            AngularModel: @Html.Raw(JObject.FromObject(Model)),
+            AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
+        };
+    });
+    angular.bootstrap(jQuery("#EditProjectWatershedsApp"), ["ProjectFirmaApp"]);
+    // ]]>
+</script>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+<div id="EditProjectWatershedsApp" ng-controller="ProjectWatershedController">
+    Watershed to Add:
+    <select ng-model="WatershedToAdd" ng-options="watershed.DisplayName for watershed in filteredWatersheds()" style="width: 700px"></select>
+    <button class="btn btn-xs btn-trpa" type="button" ng-click="addRow()">Add</button>
+    <table class="dialogFormLayout">
+        <tr>
+            <th></th>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Watershed)</th>
+        </tr>
+        <tr ng-repeat="projectWatershed in AngularModel.ProjectWatersheds | orderBy:[getWatershedName, getProjectName]">
+            <td>
+                <span class="glyphicon glyphicon-trash blue" title="Remove row'" alt="Remove row" ng-click="deleteRow(projectWatershed)" style="cursor: pointer"></span></td>
+            <td ng-bind="getWatershedName(projectWatershed)"></td>
+        </tr>
+    </table>
+    @using (Html.BeginForm())
+    {
+        <input ng-repeat="projectWatershed in AngularModel.ProjectWatersheds" type="hidden" name="@Html.NameFor(x => x.ProjectWatersheds[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectWatershed.ProjectID}}">
+        <input ng-repeat="projectWatershed in AngularModel.ProjectWatersheds" type="hidden" name="@Html.NameFor(x => x.ProjectWatersheds[0].WatershedID).ToString().Replace("0", "{{$index}}")" value="{{projectWatershed.WatershedID}}">
+    }
+</div>

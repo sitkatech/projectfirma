@@ -1,0 +1,111 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Areas.Sustainability.Views.Home.Index
+@{
+    SetLayout("~/Areas/Sustainability/Views/Shared/SiteLayout.cshtml", ViewDataTyped);
+}
+
+<header class="sustainability-home sustainability-background">
+    
+        <div class="large-6 columns">
+            @{ Html.RenderRazorSitkaPartial<LakeTahoeInfoSiteExplorer, LakeTahoeInfoSiteExplorerViewData>(ViewDataTyped.LakeTahoeInfoSiteExplorerViewData); }
+        </div>
+
+        <div class="large-6 columns text-right">
+            <div class="laketahoeinfo-menu btn-group">
+                <h3 class="show-small">Main Menu</h3>
+                <a class="btn btn-outline" href="@ViewDataTyped.SustainabilityCommonPageData.AllSustainabilityIndicatorsUrl">All Indicators</a>
+                <a class="btn btn-outline" href="@ViewDataTyped.SustainabilityCommonPageData.AboutUrl">About</a>
+                @if (Request.IsAuthenticated)
+                {
+                    <a class="btn btn-outline" href="@ViewDataTyped.SustainabilityCommonPageData.LogOutUrl">Log Out</a>
+                }
+                else
+                {
+                    <a class="btn btn-outline" href="@ViewDataTyped.SustainabilityCommonPageData.LogInUrl">Log In</a>
+                }
+            </div>
+        </div>
+
+    <br />
+    <div class="navbar-text text-right welcomeUser" style="float: right; margin-right: 15px;">
+        @if (Request.IsAuthenticated)
+        {
+            <text>
+                Welcome <a href="@ViewDataTyped.CurrentPerson.GetSummaryUrl()"> @ViewDataTyped.CurrentPerson.FullNameFirstLast</a>
+            </text>
+        }
+
+    </div>
+    <div class="row">
+        <div class="intro large-8 large-offset-2 columns">
+            <h1>Sustainability Indicators for the Lake Tahoe Region</h1>
+            @ViewDataTyped.SustainabilityIntroHtmlString
+        </div>
+    </div>
+
+    <div class="row hide-small">
+        <div class="sustainability-bubble bubble-nav large-12 columns">
+            <ul>
+                @foreach (var pillar in ViewDataTyped.SustainabilityCommonPageData.SustainabilityPillars.OrderBy(x => x.DisplayOrder))
+                {
+                    <li class="bubble @pillar.KeyColor">
+                        <div class="thumb">
+                            <img src="@pillar.GetKeyImageFullPath()" width="287" height="287" alt="" />
+                            <div class="dark-overlay"></div>
+                        </div>
+                        <ul class="menu">
+                            <li>
+                                <a href="#@pillar.SustainabilityPillarName" class="parent">@pillar.SustainabilityPillarName</a>
+                                <ul class="subpages">
+                                    @foreach (var aspect in pillar.SustainabilityAspects.OrderBy(x => x.DisplayOrder))
+                                    {
+                                        <li>
+                                            <a href="#">@aspect.DisplayName</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</header>
+
+<div class="block-grid" id="blockGrid">
+    <div class="block-center">
+        @foreach (var pillar in ViewDataTyped.SustainabilityCommonPageData.SustainabilityPillars.OrderBy(x => x.DisplayOrder))
+        {
+            <div class="block-col block-col-@pillar.DisplayOrder" id="@pillar.SustainabilityPillarName">
+                @foreach (var aspect in pillar.SustainabilityAspects.OrderBy(x => x.DisplayOrder))
+                {
+                    <div class="block-item hover-enabled" id="@aspect.SustainabilityAspectName">
+                        <div class="item-wrap">
+                            <div class="thumb-overlay"></div>
+                            <div class="text-overlay @pillar.KeyColor">
+                                <div class="text">
+                                    <h3>@aspect.DisplayName</h3>
+                                    <div class="details">
+                                        <p class="summary">
+                                            @aspect.Blurb
+                                        </p>
+                                        <a href="@aspect.GetUrl()" class="btn btn-outline">Learn More</a>
+                                    </div>
+                                    <span class="category">@pillar.SustainabilityPillarName</span>
+                                </div>
+                            </div>
+                            <img src="@aspect.GetKeyImageFullPath()" alt="" />
+                        </div>
+                    </div>
+                }
+                @Html.Raw(pillar.GetAdditionalDisplayHtml());
+            </div>
+        }
+    </div>
+</div>
+<script>
+    jQuery(document).ready(function () { loadSustainabilityDashboard(); });
+</script>

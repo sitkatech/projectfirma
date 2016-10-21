@@ -1,0 +1,68 @@
+﻿@using ProjectFirma.Web.Areas.Threshold.Views.Shared
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Areas.Threshold.Views.Shared.SiteLayout
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>LT Info | @ViewDataTyped.PageTitle</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/Areas/Threshold/Content/img/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/Areas/Threshold/Content/img/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/Areas/Threshold/Content/img/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/Areas/Threshold/Content/img/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/Areas/Threshold/Content/img/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/Areas/Threshold/Content/img/favicon/apple-icon-120x120.png">
+    <link rel="icon" type="image/png" href="/Areas/Threshold/Content/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/Areas/Threshold/Content/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/Areas/Threshold/Content/img/favicon/favicon-16x16.png" sizes="16x16">
+
+    <script type='text/javascript' src='//use.typekit.net/dpg0wpw.js?ver=1.0'></script>
+
+    @{ Html.RenderRazorSitkaPartial<LakeTahoeInfoIncludes>(); }
+    
+    <link href='@Url.Content("~/Content/css/ltinfo-root.theme.css")' type='text/css' media='all' rel='stylesheet' />
+    <link href='@Url.Content("~/Areas/Threshold/Content/threshold.min.css")' type='text/css' media='all' rel='stylesheet' />
+
+    <style>
+        #siteExplorerDropdownMenu {
+            margin-top: 25px;
+        }
+    </style>
+
+    @RenderSection("JavascriptAndStylesContent", false)
+</head>
+
+<body>
+    <header class="ltinfoHeader thresholdHeader">
+        <div class="row">
+            <div class="col-sm-6">
+                @{ Html.RenderRazorSitkaPartial<LakeTahoeInfoSiteExplorer, LakeTahoeInfoSiteExplorerViewData>(ViewDataTyped.LakeTahoeInfoSiteExplorerViewData); }
+            </div>
+            <div class="col-sm-6 text-right">
+                @{ Html.RenderRazorSitkaPartial<ThresholdNavBar, ThresholdNavBarViewData>(ViewDataTyped.ThresholdNavBarViewData);}
+            </div>
+        </div>
+    </header>
+
+    <div class="siteLayout body" style="margin: 0 50px 20px 50px;">
+        @RenderBody()
+    </div>
+    <footer class="footer">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2" style="text-align: center;">
+                @{ Html.RenderRazorSitkaPartial<FooterContent>(); }
+            </div>
+        </div>
+    </footer>
+
+    @{ Html.RenderRazorSitkaPartial<LakeTahoeInfoLateLoadingIncludes>(); }
+
+</body>
+</html>

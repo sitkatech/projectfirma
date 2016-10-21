@@ -1,0 +1,111 @@
+﻿
+#projectWizardContent {
+    padding-bottom: 10px;
+}
+
+#projectWizardContent textarea, #projectWizardContent input, #projectWizardContent select, #projectWizardContent .dropdown-toggle, #projectWizardContent .dropdown-menu {
+    background-color: #fcfcf0;
+}
+
+#projectWizardContent textarea[readonly], #projectWizardContent input[readonly], #projectWizardContent select[readonly], #projectWizardContent .dropdown-toggle[readonly], #projectWizardContent .dropdown-menu[readonly] {
+    background-color: lightgray;
+}
+
+#projectWizardContent .dropdown-menu.open, #projectWizardContent .dropdown-menu.inner
+{
+    z-index: 16000;
+}
+
+
+.greenLight, .validationWarning { 
+    font-size: 14px;
+}
+
+.greenLight ul, .validationWarning ul {
+    margin-bottom: 0;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#tab-container {
+    float: left;
+    margin: 0;
+    width: 200px;
+}
+
+#tab-container ol {
+    list-style-position: inside;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+}
+
+#tab-container ol li {
+    color: #666;
+    background-color: transparent;
+    padding-left: 5px;
+}
+
+#tab-container ol li a, #tab-container ol li a:visited {
+    text-decoration: none;
+    color: #666;
+    display: inline-block;
+    padding: 5px 5px 5px 0;
+}
+
+#tab-container ol li.selected {
+    border-right: none;
+    background-color: #fff;
+    border-left: 1px solid #666;
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #666;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+#projectWizardContent .glyphicon-flag {
+    color: green;
+}
+
+#main-container {
+    min-height: 300px;
+    margin: 0 0 0 199px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #888;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.dynamicallySizeRow {height: 72px;}
+@media only screen and (min-width: 992px)
+{
+    .dynamicallySizeRow {
+        height: 36px;
+        margin-top: 0;
+    }
+     
+}
+
+.sectionComments {
+    width: 550px;
+    background-color: #f9fab6;
+}
+
+hr.navMenu {
+    width: 90%;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#hidden-save-button {
+    display: none;
+}
+
+.disabledSection
+{
+    color: #9C9C9C !important;
+    font-style: italic;
+    cursor: not-allowed;
+}

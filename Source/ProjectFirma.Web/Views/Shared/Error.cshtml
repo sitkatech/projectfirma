@@ -1,0 +1,22 @@
+﻿@using ProjectFirma.Web.Models
+@using LtInfo.Common
+@inherits ProjectFirma.Web.Views.Shared.Error
+
+<div style="margin-top: 20px; min-height: 200px">
+    <div id="@SitkaGlobalBase.CustomErrorMessageDivID">@SitkaGlobalBase.CustomErrorMessageReplaceToken</div>
+
+    @if (Request.UrlReferrer != null)
+    {
+        <p><a href="@Request.UrlReferrer">Back to previous page</a></p>
+
+    }
+    else
+    {
+        <ul>
+            @foreach (var a in LTInfoArea.All.OrderBy(x => x.SortOrder))
+            {
+                <li><a href="@a.GetHomeUrl()">@a.LTInfoAreaDisplayName home</a></li>
+            }
+        </ul>
+    }
+</div>

@@ -1,0 +1,49 @@
+﻿@using LtInfo.Common.Views
+
+@inherits ProjectFirma.Web.Views.WebServices.List
+
+<p>
+    The objective of LT Info web services is to provide information about EIP projects and other information within the Lake Tahoe region. These web services require a "token" which you need to request from the Web Services page. This token is associated with your user account, allowing us to proactively communicate with you and other consumers of our web services in the event we need to change or update our services. If you have a token, this page will display example CSV and JSON URLs using your token. Please note we also offer <a href="/WebServices.svc">SOAP Web Services</a> that return XML.
+</p>
+
+<table style="border: 0; font-size:14px" class="table table-condensed table-striped">
+    <tr>
+        <th>Name</th>
+        <th>Short Description / Simple Use Case / URL</th>
+    </tr>
+    @foreach (var doc in ViewDataTyped.ServiceDocumentationList)
+    {
+        <tr>
+            <td class="term">@doc.Name</td>
+            <td>
+                @doc.Documentation
+                Example URLs:
+                <div style="margin-top: 5px; font-size: 11px">
+                    @{ var exampleCsvUrl = doc.GetExampleCsvUrl(ViewDataTyped.WebServiceAccessToken); }
+                    CSV:
+                    @if (!string.IsNullOrWhiteSpace(exampleCsvUrl))
+                    {
+                        <a href="@exampleCsvUrl">@exampleCsvUrl</a>
+                    }
+                    else
+                    {
+                        @ViewUtilities.NaString
+                    }
+                    <br />
+                    @{ var exampleJsonUrl = doc.GetExampleJsonUrl(ViewDataTyped.WebServiceAccessToken); }
+                    JSON:
+                    @if (!string.IsNullOrWhiteSpace(exampleJsonUrl))
+                    {
+                        <a href="@exampleJsonUrl">@exampleJsonUrl</a>
+                    }
+                    else
+                    {
+                        @ViewUtilities.NaString
+                    }
+                </div>
+                @{ var parameters = doc.GetParameters(ViewDataTyped.WebServiceAccessToken); }
+                <i>Parameters: @(!string.IsNullOrWhiteSpace(parameters) ? parameters : ViewUtilities.NaString)</i>
+            </td>
+        </tr>
+    }
+</table>

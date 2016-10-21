@@ -1,0 +1,15 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Areas.EIP.Views.TransportationStrategy.Edit
+@using (Html.BeginForm())
+{
+    <table class="dialogFormLayout">
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.TransportationStrategyName):</th>
+            <td>
+                @Html.TextBoxFor(m => m.TransportationStrategyName, new {style = "width:522px"})
+                @Html.ValidationMessageFor(m => m.TransportationStrategyName)
+            </td>
+        </tr>
+    </table>
+    @Html.HiddenFor(m => m.TransportationStrategyID)
+}

@@ -1,0 +1,42 @@
+﻿[
+  {
+    "DisplayName": "00.00.00.0000 - Project 1",
+    "CalendarYearExpenditure": {
+      "2010": 1000.0,
+      "2011": 2000.0,
+      "2012": null,
+      "2013": null,
+      "2014": null
+    }
+  },
+  {
+    "DisplayName": "00.00.00.0000 - Project 2",
+    "CalendarYearExpenditure": {
+      "2010": null,
+      "2011": null,
+      "2012": 3000.0,
+      "2013": null,
+      "2014": null
+    }
+  },
+  {
+    "DisplayName": "00.00.00.0000 - Project 3",
+    "CalendarYearExpenditure": {
+      "2010": null,
+      "2011": null,
+      "2012": null,
+      "2013": null,
+      "2014": 4000.0
+    }
+  },
+  {
+    "DisplayName": "00.00.00.0000 - Project 4",
+    "CalendarYearExpenditure": {
+      "2010": null,
+      "2011": null,
+      "2012": 5000.0,
+      "2013": null,
+      "2014": null
+    }
+  }
+]

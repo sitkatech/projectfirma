@@ -1,0 +1,111 @@
+﻿@using ProjectFirma.Web.Models
+@using LtInfo.Common.HtmlHelperExtensions
+@using MoreLinq
+@inherits ProjectFirma.Web.Areas.EIP.Views.ProposedProject.EditProposedProjectThresholdCategories
+@using (Html.BeginForm())
+{
+    <div>
+        Click the checkboxes below to associate this project with one or more @Html.LabelWithFieldDefinitionFor(FieldDefinition.ThresholdCategory, "Threshold Categories").
+    </div>
+    <table>
+        @{var i = 0;}
+        @foreach (var thresholdCategoriesBatch in ViewDataTyped.ThresholdCategories.OrderBy(x => x.DisplayName).Batch(3))
+        {
+            <tr style="border-bottom: 1px solid lightgray; padding-top: 10px">
+                @foreach (var thresholdCategory in thresholdCategoriesBatch.OrderBy(x => x.DisplayName))
+                {
+                    <td style="padding: 10px 20px 10px 0; vertical-align: top; width: 33%">
+                        <div>
+
+                            @Html.CheckBoxFor(x => x.ProposedProjectThresholdCategorySimples[i].Selected)
+
+                            <span style="font-weight: bold">@thresholdCategory.DisplayName</span>
+                            <br />
+                            <div class="systemText" style="font-size: 11px; height: 75px;">
+                                @thresholdCategory.ThresholdCategoryDescription
+                            </div>
+                            <div>
+                                @Html.TextAreaWithMaxLengthFor(x => x.ProposedProjectThresholdCategorySimples[i].ProposedProjectThresholdCategoryNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 2), "Describe how this applies to the Proposed Project.")
+                            </div>
+                            @Html.HiddenFor(x => x.ProposedProjectThresholdCategorySimples[i].ThresholdCategoryID)
+                            @{ i = i + 1; }
+                        </div>
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+    <div id="bottomOfForm" style="margin: 5px 0;">
+        <div class="pull-right">
+            <button class="btn btn-xs btn-trpa" type="button" onclick="saveForm()">Save</button>
+        </div>
+        <div>&nbsp;</div>
+    </div>
+}
+
+<script type="text/javascript">
+    // <![CDATA[
+
+    jQuery(document).ready(function () {
+        @for (var i = 0; i < ViewDataTyped.ThresholdCategories.Count; i++)
+        {
+            <text>
+                var checkBox = jQuery("#@Html.IdFor(x => x.ProposedProjectThresholdCategorySimples[i].Selected)");
+                var notesTextArea = jQuery("#@Html.IdFor(x => x.ProposedProjectThresholdCategorySimples[i].ProposedProjectThresholdCategoryNotesForBinding)");
+                var charactersRemaining = jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProposedProjectThresholdCategorySimples[i].ProposedProjectThresholdCategoryNotesForBinding))");
+
+                //Set default display
+                if (checkBox.prop("checked"))
+                {
+                    notesTextArea.css("background-color", "");
+                    notesTextArea.attr("disabled", false);
+                    notesTextArea.attr("disabled", false);
+                    charactersRemaining.css("display", "");
+                }
+                else
+                {
+                    notesTextArea.css("background-color", "#EEEEEE");
+                    notesTextArea.attr("disabled", "disabled");
+                    charactersRemaining.css("display", "none");
+                }
+
+                //Create on-change event
+                jQuery(checkBox).change(function()
+                {
+                    var notesTextAreaForCheckboxFunction = jQuery("#@Html.IdFor(x => x.ProposedProjectThresholdCategorySimples[i].ProposedProjectThresholdCategoryNotesForBinding)");
+                    var charactersRemainingFunction = 
+                        jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProposedProjectThresholdCategorySimples[i].ProposedProjectThresholdCategoryNotesForBinding))");
+
+                    if (this.checked)
+                    {
+                        notesTextAreaForCheckboxFunction.css("background-color", "");
+                        notesTextAreaForCheckboxFunction.attr("disabled", false);
+                        charactersRemainingFunction.css("display", "");
+                    }
+                    else
+                    {
+                        notesTextAreaForCheckboxFunction.css("background-color", "#EEEEEE");
+                        notesTextAreaForCheckboxFunction.attr("disabled", "disabled");
+                        charactersRemainingFunction.css("display", "none");
+                    }
+                });
+            </text>
+        }
+
+        HookupCheckIfFormIsDirty(undefined, ".submitProposal");
+    });
+
+    function saveForm() {
+        var form = jQuery("form");
+        // Do not submit if the form
+        // does not pass client side validation
+
+        if (!form.valid()) {
+            return false;
+        }
+
+        form.submit();
+    }
+
+    // ]]>
+</script>

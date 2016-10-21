@@ -1,0 +1,19 @@
+﻿@inherits ProjectFirma.Web.Areas.EIP.Views.ProjectUpdate.ReturnDialogForm
+<div>
+    @Html.Raw(ViewDataTyped.ConfirmMessage)
+</div>
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(x => x.ProjectUpdateSectionEnum)
+    @Html.HiddenFor(x => x.SectionComments)
+}
+
+<script>
+    // this is reaching in to the parent page and grabbing these from there
+    var section = jQuery("#Section");
+    if (!Sitka.Methods.isUndefinedNullOrEmpty(section))
+    {
+        jQuery("#@Html.IdFor(x => x.ProjectUpdateSectionEnum)").val(section.val());
+        jQuery("#@Html.IdFor(x => x.SectionComments)").val(jQuery("#Comments").val());
+    }
+</script>

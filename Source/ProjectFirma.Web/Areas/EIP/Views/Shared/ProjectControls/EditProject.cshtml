@@ -1,0 +1,249 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Areas.EIP.Views.Shared.ProjectControls
+@using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
+@inherits EditProject
+
+<style>
+    .bootstrap-select .disabled a, .bootstrap-select li.dropdown-header {
+        cursor: default !important;
+        font-size: 15px !important;
+    }
+
+    .bootstrap-select li:not(.disabled) > a {
+        padding-left: 42px !important;
+        font-size: 13px !important;
+    }
+
+    .bootstrap-select .dropdown-toggle {
+        font-size: 13px !important;
+        border-radius: 0 !important;
+        border: 1px solid black;
+    }
+
+    .bootstrap-select {
+        width: 100% !important;
+    }
+
+        .bootstrap-select .disabled a:hover, .bootstrap-select li.dropdown-header:hover {
+            background-color: lightgray !important;
+            color: gray !important;
+        }
+
+    .row {
+        margin-top: 5px;
+    }
+
+    .dropdown-menu {
+        background-color: #ffffff !important;
+    }
+</style>
+
+
+
+
+@Html.Raw(ViewDataTyped.EditProjectType.IntroductoryText)
+
+@using (Html.BeginForm())
+{
+    <div class="container-fluid container-fluid-dialog-form">
+        @if (ViewDataTyped.EditProjectType == EditProjectType.ExistingProject)
+        {
+            <div class="row">
+                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.ActionPriorityID, 600):</div>
+                <div class="col-md-9">
+                    @ViewDataTyped.ActionPriorityDisplayName
+                    @Html.HiddenFor(m => m.ActionPriorityID)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectNumber):</div>
+                <div class="col-md-3">@ViewDataTyped.ProjectNumberString</div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.ActionPriorityID, 600):</div>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(x => x.ActionPriorityID, ViewDataTyped.ActionPriorities, new { style = "display: inline !important; height: 0; width: 1px; border:0; box-shadow:none; color:white; overflow:hidden; margin-right:-1px;" })
+                    @Html.ValidationMessageFor(m => m.ActionPriorityID)
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.ProjectName):</div>
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.ProjectName, new { style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.ProjectName)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.ProjectDescription):</div>
+            <div class="col-md-9">
+                @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null)
+                @Html.ValidationMessageFor(m => m.ProjectDescription)
+            </div>
+        </div>
+        @if (ViewDataTyped.EditProjectType != EditProjectType.ExistingProject)
+        {
+            <div class="row">
+                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.LeadImplementerOrganizationID):</div>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(m => m.LeadImplementerOrganizationID, ViewDataTyped.Organizations, new Dictionary<string, object>() {{"style", "width:100%"}})
+                    @Html.ValidationMessageFor(m => m.LeadImplementerOrganizationID)
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionWiderFor(m => m.ProjectStageID):</div>
+            <div class="col-md-9">
+                @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStages)
+                @Html.ValidationMessageFor(m => m.ProjectStageID)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionWiderFor(m => m.FundingTypeID):</div>
+            <div class="col-md-9">
+                @Html.DropDownListFor(m => m.FundingTypeID, ViewDataTyped.FundingTypes, new { onchange = "displaySelectedFundingTypeFields()" })
+                @Html.ValidationMessageFor(m => m.FundingTypeID)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-header cap-label">@Html.LabelWithFieldDefinitionFor(m => m.EstimatedTotalCost):</div>
+            <div class="col-md-2">
+                @Html.EditorFor(m => m.EstimatedTotalCost)
+                @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
+            </div>
+            <div class="col-md-2 col-header cap-label">@Html.LabelWithFieldDefinitionFor(m => m.SecuredFunding):</div>
+            <div class="col-md-5">
+                @Html.EditorFor(m => m.SecuredFunding)
+                <span style="font-size: 12px">Total Expenditures to-date: @ViewDataTyped.TotalExpenditures.ToStringCurrency()</span>
+                @Html.ValidationMessageFor(m => m.SecuredFunding)
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-header op-label">@Html.LabelWithFieldDefinitionFor(m => m.EstimatedAnnualOperatingCost):</div>
+            <div class="col-md-2">
+                @Html.EditorFor(m => m.EstimatedAnnualOperatingCost)
+                @Html.ValidationMessageFor(m => m.EstimatedAnnualOperatingCost)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-header" style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.PlanningDesignStartYear):</div>
+            <div class="col-md-9">
+                @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.StartYearRange)
+                @Html.ValidationMessageFor(m => m.PlanningDesignStartYear)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-header" style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.ImplementationStartYear):</div>
+            <div class="col-md-9">
+                @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.StartYearRange)
+                @Html.ValidationMessageFor(m => m.ImplementationStartYear)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-header" style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.CompletionYear):</div>
+            <div class="col-md-9">
+                @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange)
+                @Html.ValidationMessageFor(m => m.CompletionYear)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @Html.CheckBoxFor(m => m.ImplementsMultipleProjects)
+                @Html.LabelWithFieldDefinitionFor(m => m.ImplementsMultipleProjects)
+                @Html.ValidationMessageFor(m => m.ImplementsMultipleProjects)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @Html.CheckBoxFor(m => m.IsTransportationProject, new { onclick = "toggleTransportationObjectivePanel()" })
+                @Html.LabelWithFieldDefinitionFor(m => m.IsTransportationProject)
+                @Html.ValidationMessageFor(m => m.IsTransportationProject)
+            </div>
+        </div>
+        <div class="row" id="transportationObjectivePanel" @Html.Raw((!Model.IsTransportationProject).ToDisplayNoneOrEmpty())>
+            <div class="col-md-12" style="padding-left: 35px">
+                <span class="col-header">@Html.LabelWithFieldDefinitionFor(m => m.TransportationObjectiveID):</span>
+                <select name="@Html.NameFor(x => x.TransportationObjectiveID)">
+                    @foreach (var transportationStrategy in ViewDataTyped.TransportationObjectives.GroupBy(x => x.TransportationStrategy).OrderBy(x => x.Key.DisplayName))
+                    {
+                        <optgroup label="@transportationStrategy.Key.DisplayName">
+                            @foreach (var transportationObjective in transportationStrategy.OrderBy(x => x.DisplayName))
+                            {
+                                <option value="@transportationObjective.TransportationObjectiveID" @((Model.TransportationObjectiveID == transportationObjective.TransportationObjectiveID).ToSelectedOrEmpty())>@transportationObjective.DisplayName</option>
+                            }
+                        </optgroup>
+                    }
+                </select>
+                @Html.ValidationMessageFor(m => m.TransportationObjectiveID)
+                <div>
+                    @Html.CheckBoxFor(m => m.OnFederalTransportationImprovementProgramList, new { onclick = "warnIfThereAreExistingProjectUpdatesWhenTogglingOnFtipCheckbox()" })
+                    @Html.LabelWithFieldDefinitionFor(m => m.OnFederalTransportationImprovementProgramList)
+                    @Html.ValidationMessageFor(m => m.OnFederalTransportationImprovementProgramList)
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(m => m.ProjectID)
+    @Html.HiddenFor(m => m.HasExistingProjectUpdate)
+    @Html.HiddenFor(m => m.OldProjectStageID)
+}
+
+<script type="text/javascript">
+    // <![CDATA[
+    function toggleTransportationObjectivePanel()
+    {
+        if (jQuery("#@Html.IdFor(x => x.IsTransportationProject)").is(":checked"))
+        {
+            jQuery("#transportationObjectivePanel").show();
+        }
+        else
+        {
+            jQuery("#transportationObjectivePanel").hide();
+        }
+    }
+
+    function displaySelectedFundingTypeFields()
+    {
+        var fundingTypeDropdown = jQuery("#@Html.IdFor(x => x.FundingTypeID)");
+        if (fundingTypeDropdown.val() == 1)
+        {
+            jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('readonly', false);
+            jQuery("#@Html.IdFor(x => x.SecuredFunding)").prop('readonly', false);
+            jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('readonly', true);
+            jQuery(".op-label").css("color", "#666");
+            jQuery(".cap-label").css("color", "");
+        }
+        else if (fundingTypeDropdown.val() == 2)
+        {
+            jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('readonly', true);
+            jQuery("#@Html.IdFor(x => x.SecuredFunding)").prop('readonly', true);
+            jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('readonly', false);
+            jQuery(".op-label").css("color", "");
+            jQuery(".cap-label").css("color", "#666");
+        }
+    }
+
+    function warnIfThereAreExistingProjectUpdatesWhenTogglingOnFtipCheckbox()
+    {
+        var hasExistingTransportationProjectBudgetUpdates = @(ViewDataTyped.HasExistingTransportationProjectBudgetUpdates ? 1 : 0);
+        if (hasExistingTransportationProjectBudgetUpdates && !jQuery("#@Html.IdFor(x => x.OnFederalTransportationImprovementProgramList)").is(":checked"))
+        {
+            alert("There are updates to this project's budget data but they have not been submitted. Making this change will delete this new budget data.");
+        }
+    }
+
+    jQuery(document).ready(function()
+    {
+        displaySelectedFundingTypeFields();
+        jQuery(@Html.IdFor(x => x.ActionPriorityID)).selectpicker(
+            {
+                size: 12, title: 'Select an Action Priority', width: '400px'
+            });
+    });
+    // ]]>
+</script>

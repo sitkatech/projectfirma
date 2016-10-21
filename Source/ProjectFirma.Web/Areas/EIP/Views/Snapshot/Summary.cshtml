@@ -1,0 +1,162 @@
+﻿@using ProjectFirma.Web.Areas.EIP.Views.Shared.EIPPerformanceMeasureControls
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+
+@inherits ProjectFirma.Web.Areas.EIP.Views.Snapshot.Summary
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+
+    <script type="text/javascript">
+        jQuery(function()
+        {
+            jQuery(".eipPerformanceMeasureTableSelector")
+                .change(function()
+                {
+                    jQuery(".eipPerformanceMeasureTable").hide();
+                    jQuery('#eipPerformanceMeasureTable_' + jQuery(this).val()).show();
+                });
+        })
+
+    </script>
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="summarySection">
+            <h2>
+                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.SnapshotEditUrl, string.Format("Edit Snapshot for {0}", ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString()), ViewDataTyped.UserHasSnapshotManagePermissions)
+                Snapshot Basics
+            </h2>
+
+            <div class="contentWrapper">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>Snapshot Date:</strong>
+                    </div>
+                    <div class="col-sm-8">
+                        @ViewDataTyped.Snapshot.SnapshotDate.ToShortDateString()
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>Snapshot Note:</strong>
+                    </div>
+                    <div class="col-sm-8">
+                        @if (!String.IsNullOrWhiteSpace(ViewDataTyped.Snapshot.SnapshotNote))
+                        {
+                            <span>@ViewDataTyped.Snapshot.SnapshotNote</span>
+                        }
+                        else
+                        {
+                            <span>(No Note Specified)</span>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>Projects Added:</strong>
+                    </div>
+                    <div class="col-sm-8">
+                        @ViewDataTyped.ProjectsAdded.Count
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>Projects Updated:</strong>
+                    </div>
+                    <div class="col-sm-8">
+                        @ViewDataTyped.ProjectsUpdated.Count
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>Project Count:</strong>
+                    </div>
+                    <div class="col-sm-8">
+                        @ViewDataTyped.Snapshot.ProjectCount
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="summarySection">
+            <h2>Snapshot of Sector Expenditures on @(ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString())</h2>
+            <table class="summaryLayout">
+                <tr>
+                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Sector)</th>
+                    @foreach (var calendarYear in ViewDataTyped.SectorExpenditureCalendarYears)
+                    {
+                        <th class="text-right">
+                            @calendarYear
+                        </th>
+                    }
+                    <th class="text-right">Total</th>
+                </tr>
+                @foreach (var sector in ViewDataTyped.Sectors)
+                {
+                    <tr>
+                        <td>@sector.SectorDisplayName</td>
+                        @foreach (var calendarYear in ViewDataTyped.SectorExpenditureCalendarYears)
+                        {
+                            <td class="text-right">@ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Where(expenditure => expenditure.CalendarYear == calendarYear && expenditure.Sector == sector).Sum(expenditure => expenditure.ExpenditureAmount).ToStringCurrency()</td>
+                        }
+                        <th class="text-right">@ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Where(expenditure => expenditure.Sector == sector).Sum(expenditure => expenditure.ExpenditureAmount).ToStringCurrency()</th>
+                    </tr>
+                }
+                @if (ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Any())
+                {
+                    <tr>
+                        <th>Total:</th>
+                        @foreach (var calendarYear in ViewDataTyped.SectorExpenditureCalendarYears)
+                        {
+                            <th class="text-right">@ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Where(expenditure => expenditure.CalendarYear == calendarYear).Sum(expenditure => expenditure.ExpenditureAmount).ToStringCurrency()</th>
+                        }
+                        <th class="text-right">@ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Sum(expenditure => expenditure.ExpenditureAmount).ToStringCurrency()</th>
+                    </tr>
+                }
+            </table>
+            @if (!ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Any())
+            {
+                <p class="systemText">No expenditures have been reported for this project.</p>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="summarySection">
+    <h2>Snapshot of Performance Measures on @(ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString())</h2>
+    <div class="contentWrapper">
+        <select class="eipPerformanceMeasureTableSelector" name="eipPerformanceMeasureTable">
+            <option value="">Select a Performance Measure</option>
+            @foreach (var eipPerformanceMeasure in ViewDataTyped.Snapshot.SnapshotEIPPerformanceMeasures.Select(x => x.EIPPerformanceMeasure).Distinct())
+            {
+                <option value="@eipPerformanceMeasure.EIPPerformanceMeasureID">@eipPerformanceMeasure.DisplayName</option>
+            }
+        </select>
+        @{ EIPPerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.SnapshotPerformanceMeasureReportedValuesGroupedViewData); }
+    </div>
+</div>
+
+<div class="summarySection">
+    <h2>Projects Changed on @(ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString())</h2>
+
+    <div class="contentWrapper">
+        @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    </div>
+</div>
+
+<div style="margin-top: 20px;">
+    <a href="@ViewDataTyped.SnapshotIndexUrl" class="btn btn-sm btn-trpa">
+        @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left")
+        &nbsp;Index
+    </a>
+</div>

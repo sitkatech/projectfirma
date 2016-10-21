@@ -1,0 +1,62 @@
+﻿@using ProjectFirma.Web.Areas.EIP.Views.Shared.EIPPerformanceMeasureControls
+@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Areas.EIP.Views.ProposedProject.ExpectedEIPPerformanceMeasureValues
+
+@section JavascriptAndStylesContent
+{
+    <script src="@Url.Content("~/Areas/EIP/Views/Shared/EIPPerformanceMeasureControls/EIPPerformanceMeasureExpectedController.js")" type="text/javascript"></script>
+    <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
+}
+<p>
+    To enter your project's anticipated accomplishments:
+    <ul>
+        <li>Add the appropriate Performance Measures (PMs) to the list below</li>
+        <li>Select Subcategory options for each PM in order to more accurately describe the anticipated accomplishment</li>
+        <li>Enter the anticipated accomplishment value if known</li>
+    </ul>
+    Once a performance measure is added, click the <span class="helpicon glyphicon glyphicon-question-sign blue" title="Help"></span>
+    icon to view reporting guidance on a specific PM.
+</p>
+<hr />
+@{ Html.RenderRazorSitkaPartial<EditEIPPerformanceMeasureExpected, EditEIPPerformanceMeasureExpectedViewData, EditEIPPerformanceMeasureExpectedViewModel>(ViewDataTyped.EditEipPerformanceMeasureExpectedViewData, Model); }
+
+<div id="ExplanationForNoMeasuresDiv" style="margin-top: 20px">
+    <p>If no Project Measures are included, please explain why:</p>
+    <div style="width: 600px">
+        @Html.TextAreaWithMaxLengthFor(m => m.IndicatorNotes, new TextAreaForExtensions.TextAreaDimensions(null, 2), null)
+    </div>
+</div>
+
+<div style="margin: 5px 0;">
+    <div class="pull-right">
+        <button class="btn btn-xs btn-trpa" type="button" onclick="saveForm()">Save</button>
+    </div>
+    <div>&nbsp;</div>
+</div>
+
+@*This is intentionally down here because the document ready needs to be after the EditProjectLocation document ready*@
+<script type="text/javascript">
+    // <![CDATA[
+
+    jQuery(document).ready(function () {       
+        HookupCheckIfFormIsDirty(undefined, ".submitProposal");
+    });
+
+    function saveForm() {
+        var form = jQuery("form");
+        // Do not submit if the form
+        // does not pass client side validation
+
+        if (!form.valid()) {
+            return false;
+        }
+
+        var noMeasuresDiv = jQuery("#ExplanationForNoMeasuresDiv");
+        noMeasuresDiv.appendTo(form);
+
+        form.submit();
+    }
+
+    // ]]>
+</script>
+

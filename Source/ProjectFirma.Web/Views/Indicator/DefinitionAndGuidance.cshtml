@@ -1,0 +1,24 @@
+﻿@using LtInfo.Common
+@inherits ProjectFirma.Web.Views.Indicator.DefinitionAndGuidance
+
+<div class="fieldDefinition" style="font-size: 13px">
+    <h3>Indicator Definition</h3>
+    <div style="margin-left: 20px">
+        <p>
+            @ViewDataTyped.Indicator.IndicatorDefinition.ToHTMLFormattedString()
+        </p>
+    </div>
+    @if (ViewDataTyped.Indicator.ReportedInEIP)
+    {
+        <hr/>
+        <h3>Critical Definitions</h3>
+        <div style="margin-left: 20px">
+            @ViewDataTyped.Indicator.EIPPerformanceMeasure.CriticalDefinitionsHtmlString
+        </div>
+        <hr/>
+        <h3>Accounting Period and Scale</h3>
+        <div style="margin-left: 20px">
+            @ViewDataTyped.Indicator.EIPPerformanceMeasure.AccountingPeriodAndScaleHtmlString
+        </div>
+    }
+</div>

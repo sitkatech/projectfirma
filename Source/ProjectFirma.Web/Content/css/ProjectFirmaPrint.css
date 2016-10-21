@@ -1,0 +1,109 @@
+﻿header, footer, #menubar, nav, .noPrint {
+    display: none;
+    border: none;
+}
+
+body {
+    background: #fff;
+    margin: 0;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact;
+}
+
+h1, h2, h3, h4, h5, h6, code, pre {
+    text-transform: none; /* because sometimes I set all-caps */
+}
+
+h1 {
+    font-size: 11pt;
+    margin-top: 1em;
+}
+
+h2 {
+    font-size: 10pt;
+}
+
+h3 {
+    font-size: 9pt;
+}
+
+h4, h5, h6 {
+    font-size: 8pt;
+}
+
+a, a:after {
+    content: normal !important;
+}
+
+.ltinfo #mainnavandcontent {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    outline: none;
+    overflow: visible;
+}
+
+.onlyOnPrint {
+    display: inline;
+}
+
+.affix
+{
+    position: static;
+}
+
+.glyphicon-edit, .helpicon {
+    display: none;
+}
+
+.col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+    float: left;
+}
+
+.col-md-12 {
+    width: 100%;
+}
+
+.col-md-11 {
+    width: 91.66666666666666%;
+}
+
+.col-md-10 {
+    width: 83.33333333333334%;
+}
+
+.col-md-9 {
+    width: 75%;
+}
+
+.col-md-8 {
+    width: 66.66666666666666%;
+}
+
+.col-md-7 {
+    width: 58.333333333333336%;
+}
+
+.col-md-6 {
+    width: 50%;
+}
+
+.col-md-5 {
+    width: 41.66666666666667%;
+}
+
+.col-md-4 {
+    width: 33.33333333333333%;
+}
+
+.col-md-3 {
+    width: 25%;
+}
+
+.col-md-2 {
+    width: 16.666666666666664%;
+}
+
+.col-md-1 {
+    width: 8.333333333333332%;
+}

@@ -1,0 +1,777 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2CF1D04E-29E2-4FA4-AC92-A46FCD22CCE1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GovXMLNet</RootNamespace>
+    <AssemblyName>GovXMLNet</AssemblyName>
+    <ProjectTypeGuids>{3D9AD99F-2412-4246-B90B-4EAA41C64699};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <StartArguments>/client:"WcfTestClient.exe"</StartArguments>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\LtInfo\NuGetPackages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccelaProxies\aeAvailableDate.cs" />
+    <Compile Include="AccelaProxies\clsAuditLog.cs" />
+    <Compile Include="AccelaProxies\clsCapStatusGroup.cs" />
+    <Compile Include="AccelaProxies\clsCapStatusGroupId.cs" />
+    <Compile Include="AccelaProxies\clsCityEnumerations.cs" />
+    <Compile Include="AccelaProxies\clsCityIdentifier.cs" />
+    <Compile Include="AccelaProxies\clsCommentsIdentifier.cs" />
+    <Compile Include="AccelaProxies\clsCostAccountIdentifier.cs" />
+    <Compile Include="AccelaProxies\clsCostUnitOfMeasureIdentifier.cs" />
+    <Compile Include="AccelaProxies\clsCurrentValue.cs" />
+    <Compile Include="AccelaProxies\clsDescriptionEnumeration.cs" />
+    <Compile Include="AccelaProxies\clsDescriptionIdentifier.cs" />
+    <Compile Include="AccelaProxies\clsDispositionHistories.cs" />
+    <Compile Include="AccelaProxies\clsDispositionHistory.cs" />
+    <Compile Include="AccelaProxies\clsDistrict.cs" />
+    <Compile Include="AccelaProxies\clsDistricts.cs" />
+    <Compile Include="AccelaProxies\clsEDMSAdapter.cs" />
+    <Compile Include="AccelaProxies\clsEDMSAdapters.cs" />
+    <Compile Include="AccelaProxies\clsEnumerationStatus.cs" />
+    <Compile Include="AccelaProxies\clsGISAttributeMapping.cs" />
+    <Compile Include="AccelaProxies\clsGISAttributeMappings.cs" />
+    <Compile Include="AccelaProxies\clsIFCActorSelectBasedOnElement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AccelaProxies\clsIFCActorSelect.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AccelaProxies\clsIFCApplication.cs" />
+    <Compile Include="AccelaProxies\clsIFCConnectionGeometry.cs" />
+    <Compile Include="AccelaProxies\clsIFCelementID.cs" />
+    <Compile Include="AccelaProxies\clsIFCelementIDList.cs" />
+    <Compile Include="AccelaProxies\clsIFCIdentifierId.cs" />
+    <Compile Include="AccelaProxies\clsIFCKeys.cs" />
+    <Compile Include="AccelaProxies\clsIFCRepresentation.cs" />
+    <Compile Include="AccelaProxies\clsIFCRepresentationContext.cs" />
+    <Compile Include="AccelaProxies\clsIFCRepresentationItem.cs" />
+    <Compile Include="AccelaProxies\GovXmlExtensions.cs" />
+    <Compile Include="AccelaProxies\lctIFCthePerson.cs" />
+    <Compile Include="AccelaProxies\clsIFCTownId.cs" />
+    <Compile Include="AccelaProxies\clsIFCUserDefinedRoleId.cs" />
+    <Compile Include="AccelaProxies\clsInspectionRelation.cs" />
+    <Compile Include="AccelaProxies\clsInspectionRelations.cs" />
+    <Compile Include="AccelaProxies\clsInspectionUnitNumberEnumerations.cs" />
+    <Compile Include="AccelaProxies\clsInspectionUnitNumberIdentifier.cs" />
+    <Compile Include="AccelaProxies\clsLicenseTypeEnumerations.cs" />
+    <Compile Include="AccelaProxies\clsLicenseTypeId.cs" />
+    <Compile Include="AccelaProxies\clsParcelRelation.cs" />
+    <Compile Include="AccelaProxies\clsParcelRelations.cs" />
+    <Compile Include="AccelaProxies\clsPartBrandIdentifier.cs" />
+    <Compile Include="AccelaProxies\clsRoleEnumerations.cs" />
+    <Compile Include="AccelaProxies\clsStatusDates.cs" />
+    <Compile Include="AccelaProxies\clsStatusEnumerationListId.cs" />
+    <Compile Include="AccelaProxies\clsStatusGroup.cs" />
+    <Compile Include="AccelaProxies\clsStreetDirections.cs" />
+    <Compile Include="AccelaProxies\clsStreetDirectionsEnumerations.cs" />
+    <Compile Include="AccelaProxies\clsStreetSuffixes.cs" />
+    <Compile Include="AccelaProxies\clsStreetSuffixesEnumerations.cs" />
+    <Compile Include="AccelaProxies\clsTimeAccounting.cs" />
+    <Compile Include="AccelaProxies\clsTimeAccountingGroup.cs" />
+    <Compile Include="AccelaProxies\clsTimeAccountings.cs" />
+    <Compile Include="AccelaProxies\clsTimeAccountingType.cs" />
+    <Compile Include="AccelaProxies\clsTypes.cs" />
+    <Compile Include="AccelaProxies\clsUnitOfMeasureIdentifier.cs" />
+    <Compile Include="AccelaProxies\clsUsage.cs" />
+    <Compile Include="AccelaProxies\clsUserDefinedRoleId.cs" />
+    <Compile Include="AccelaProxies\clsValueRange.cs" />
+    <Compile Include="AccelaProxies\lctGetGisLayersReturnElement.cs" />
+    <Compile Include="AccelaProxies\lctGetGisLayersReturnElements.cs" />
+    <Compile Include="AccelaProxies\lctGetInspectionTypesGetByCode.cs" />
+    <Compile Include="AccelaProxies\lctIFCtheOrganization.cs" />
+    <Compile Include="AccelaProxies\lctOperationsRequest.cs" />
+    <Compile Include="AccelaProxies\lctBatchOperationOperation.cs" />
+    <Compile Include="AccelaProxies\lctBatchOperationOperations.cs" />
+    <Compile Include="AccelaProxies\lctGetAddressesReturnElement.cs" />
+    <Compile Include="AccelaProxies\lctGetAddressesReturnElements.cs" />
+    <Compile Include="AccelaProxies\lctGetAddressReturnElement.cs" />
+    <Compile Include="AccelaProxies\lctGetCAPReturnElement.cs" />
+    <Compile Include="AccelaProxies\lctGetAddressReturnElements.cs" />
+    <Compile Include="AccelaProxies\lctGetCAPReturnElements.cs" />
+    <Compile Include="AccelaProxies\clsTransactionResponses.cs" />
+    <Compile Include="AccelaProxies\clsTransactionResult.cs" />
+    <Compile Include="AccelaProxies\lctGetCAPsReturnElement.cs" />
+    <Compile Include="AccelaProxies\lctGetCAPsReturnElements.cs" />
+    <Compile Include="AccelaProxies\lctGetCAPTypesReturnElement.cs" />
+    <Compile Include="AccelaProxies\lctGetCAPTypesReturnElements.cs" />
+    <Compile Include="AccelaProxies\lctGetConditionTypesReturnElement.cs" />
+    <Compile Include="AccelaProxies\lctGetConditionTypesReturnElements.cs" />
+    <Compile Include="AccelaProxies\lctGetGISObjectsReturnElement.cs" />
+    <Compile Include="AccelaProxies\lctGetGISObjectsReturnElements.cs" />
+    <Compile Include="AccelaProxies\lctGetInspectionReturnElement.cs" />
+    <Compile Include="AccelaProxies\lctGetInspectionReturnElements.cs" />
+    <Compile Include="AccelaProxies\lctGetInspectionsReturnElement.cs" />
+    <Compile Include="AccelaProxies\lctGetInspectionsReturnElements.cs" />
+    <Compile Include="AccelaProxies\lctGetInspectionTypesReturnElement.cs" />
+    <Compile Include="AccelaProxies\lctGetInspectionTypesReturnElements.cs" />
+    <Compile Include="AccelaProxies\lctGetParcelReturnElement.cs" />
+    <Compile Include="AccelaProxies\lctGetParcelReturnElements.cs" />
+    <Compile Include="AccelaProxies\lctGetParcelsReturnElement.cs" />
+    <Compile Include="AccelaProxies\lctGetParcelsReturnElements.cs" />
+    <Compile Include="AccelaProxies\lctBatchOperationResponseOperation.cs" />
+    <Compile Include="AccelaProxies\lctBatchOperationResponseOperations.cs" />
+    <Compile Include="AccelaProxies\lctPassGISAddressesReturnElements.cs" />
+    <Compile Include="AccelaProxies\lctPassGISAddressesReturnElement.cs" />
+    <Compile Include="AccelaProxies\lctPassGISObjectsReturnElement.cs" />
+    <Compile Include="AccelaProxies\lctPassGISObjectsReturnElements.cs" />
+    <Compile Include="AccelaProxies\lctViewGISMapReturnElement.cs" />
+    <Compile Include="AccelaProxies\lctViewGISMapReturnElements.cs" />
+    <Compile Include="AccelaProxies\msgAddNewDocument.cs" />
+    <Compile Include="AccelaProxies\msgAddNewDocumentResponse.cs" />
+    <Compile Include="AccelaProxies\msgBatchOperation.cs" />
+    <Compile Include="AccelaProxies\msgBatchOperationResponse.cs" />
+    <Compile Include="AccelaProxies\msgCalculateInvoices.cs" />
+    <Compile Include="AccelaProxies\msgCalculateInvoicesResponse.cs" />
+    <Compile Include="AccelaProxies\msgCalculateRoute.cs" />
+    <Compile Include="AccelaProxies\msgCalculateRouteResponse.cs" />
+    <Compile Include="AccelaProxies\msgCancelInspection.cs" />
+    <Compile Include="AccelaProxies\msgCancelInspectionResponse.cs" />
+    <Compile Include="AccelaProxies\msgCreateAsset.cs" />
+    <Compile Include="AccelaProxies\msgCreateAssetResponse.cs" />
+    <Compile Include="AccelaProxies\msgCreateDocument.cs" />
+    <Compile Include="AccelaProxies\msgCreateDocumentResponse.cs" />
+    <Compile Include="AccelaProxies\msgDeleteDocument.cs" />
+    <Compile Include="AccelaProxies\msgDeleteDocumentResponse.cs" />
+    <Compile Include="AccelaProxies\msgFinalizeCAP.cs" />
+    <Compile Include="AccelaProxies\msgFinalizeCAPResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetAdditionalInformationGroups.cs" />
+    <Compile Include="AccelaProxies\msgGetAdditionalInformationGroupsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetAddresses.cs" />
+    <Compile Include="AccelaProxies\msgGetAddressesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetAssets.cs" />
+    <Compile Include="AccelaProxies\msgGetAssetsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetAssetTypes.cs" />
+    <Compile Include="AccelaProxies\msgGetAssetTypesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetAssetUsages.cs" />
+    <Compile Include="AccelaProxies\msgGetAssetUsagesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetAuditLogs.cs" />
+    <Compile Include="AccelaProxies\msgGetAuditLogsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetAvailableInspectionDates.cs" />
+    <Compile Include="AccelaProxies\msgGetAvailableInspectionDatesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetCAPs.cs" />
+    <Compile Include="AccelaProxies\msgGetCAPsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetCAPTypes.cs" />
+    <Compile Include="AccelaProxies\msgGetCAPTypesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetCities.cs" />
+    <Compile Include="AccelaProxies\msgGetCitiesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetConditionTypes.cs" />
+    <Compile Include="AccelaProxies\msgGetConditionTypesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetContacts.cs" />
+    <Compile Include="AccelaProxies\msgGetContactsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetCostTypes.cs" />
+    <Compile Include="AccelaProxies\msgGetCostTypesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetCriterions.cs" />
+    <Compile Include="AccelaProxies\msgGetCriterionsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetDepartments.cs" />
+    <Compile Include="AccelaProxies\msgGetDepartmentsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetDispositions.cs" />
+    <Compile Include="AccelaProxies\msgGetDispositionsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetDocument.cs" />
+    <Compile Include="AccelaProxies\msgGetDocumentGroups.cs" />
+    <Compile Include="AccelaProxies\msgGetDocumentGroupsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetDocumentList.cs" />
+    <Compile Include="AccelaProxies\msgGetDocumentListResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetDocumentResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetDocuments.cs" />
+    <Compile Include="AccelaProxies\msgGetDocumentsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetGISDynamicThemes.cs" />
+    <Compile Include="AccelaProxies\msgGetGISDynamicThemesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetGISLayerGroups.cs" />
+    <Compile Include="AccelaProxies\msgGetGISLayerGroupsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetGISLayers.cs" />
+    <Compile Include="AccelaProxies\msgGetGISLayersResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetGISMapServices.cs" />
+    <Compile Include="AccelaProxies\msgGetGISMapServicesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetGISObjects.cs" />
+    <Compile Include="AccelaProxies\msgGetGISObjectsByBufferRadius.cs" />
+    <Compile Include="AccelaProxies\msgGetGISObjectsByBufferRadiusResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetGISObjectsGenealogy.cs" />
+    <Compile Include="AccelaProxies\msgGetGISObjectsGenealogyResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetGISObjectsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetGuidesheets.cs" />
+    <Compile Include="AccelaProxies\msgGetGuidesheetsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetHoldTypes.cs" />
+    <Compile Include="AccelaProxies\msgGetHoldTypesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetInspection.cs" />
+    <Compile Include="AccelaProxies\msgGetInspectionDistricts.cs" />
+    <Compile Include="AccelaProxies\msgGetInspectionDistrictsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetInspectionResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetInspections.cs" />
+    <Compile Include="AccelaProxies\msgGetInspectionsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetInspectionTypes.cs" />
+    <Compile Include="AccelaProxies\msgGetInspectionTypesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetInspectionUnitNumbers.cs" />
+    <Compile Include="AccelaProxies\msgGetInspectionUnitNumbersResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetInspectors.cs" />
+    <Compile Include="AccelaProxies\msgGetInspectorsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetInvoices.cs" />
+    <Compile Include="AccelaProxies\msgGetInvoicesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetJurisdictions.cs" />
+    <Compile Include="AccelaProxies\msgGetJurisdictionsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetLicensedProfessionals.cs" />
+    <Compile Include="AccelaProxies\msgGetLicensedProfessionalsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetLicenseTypes.cs" />
+    <Compile Include="AccelaProxies\msgGetLicenseTypesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetOwners.cs" />
+    <Compile Include="AccelaProxies\msgGetOwnersResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetParcel.cs" />
+    <Compile Include="AccelaProxies\msgGetParcelResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetParcels.cs" />
+    <Compile Include="AccelaProxies\msgGetParcelsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetPartInventory.cs" />
+    <Compile Include="AccelaProxies\msgGetPartInventoryResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetPartTypes.cs" />
+    <Compile Include="AccelaProxies\msgGetPartTypesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetRoles.cs" />
+    <Compile Include="AccelaProxies\msgGetRolesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetSeverityLevels.cs" />
+    <Compile Include="AccelaProxies\msgGetSeverityLevelsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetStandardComments.cs" />
+    <Compile Include="AccelaProxies\msgGetStandardCommentsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetTimeAccountingGroups.cs" />
+    <Compile Include="AccelaProxies\msgGetTimeAccountingGroupsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetTimeAccountingTypesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetTimeAccountingTypes.cs" />
+    <Compile Include="AccelaProxies\msgGetUserSecuritiesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetUserSecurities.cs" />
+    <Compile Include="AccelaProxies\msgGetWorksheets.cs" />
+    <Compile Include="AccelaProxies\msgGetWorksheetsResponse.cs" />
+    <Compile Include="AccelaProxies\msgInitiateCAP.cs" />
+    <Compile Include="AccelaProxies\msgInitiateCAPResponse.cs" />
+    <Compile Include="AccelaProxies\msgPassGISAddresses.cs" />
+    <Compile Include="AccelaProxies\msgPassGISAddressesResponse.cs" />
+    <Compile Include="AccelaProxies\msgPassGISObjects.cs" />
+    <Compile Include="AccelaProxies\msgPassGISObjectsResponse.cs" />
+    <Compile Include="AccelaProxies\msgPostMileage.cs" />
+    <Compile Include="AccelaProxies\msgPostMileageResponse.cs" />
+    <Compile Include="AccelaProxies\msgPostPayment.cs" />
+    <Compile Include="AccelaProxies\msgPostPaymentResponse.cs" />
+    <Compile Include="AccelaProxies\msgPostTransactionLog.cs" />
+    <Compile Include="AccelaProxies\msgPostTransactionLogResponse.cs" />
+    <Compile Include="AccelaProxies\msgRescheduleInspection.cs" />
+    <Compile Include="AccelaProxies\msgRescheduleInspectionResponse.cs" />
+    <Compile Include="AccelaProxies\msgScheduleInspection.cs" />
+    <Compile Include="AccelaProxies\msgScheduleInspectionResponse.cs" />
+    <Compile Include="AccelaProxies\msgSetGISObjectsGenealogy.cs" />
+    <Compile Include="AccelaProxies\msgSetGISObjectsGenealogyResponse.cs" />
+    <Compile Include="AccelaProxies\msgSetInspectionPriority.cs" />
+    <Compile Include="AccelaProxies\msgSetInspectionPriorityResponse.cs" />
+    <Compile Include="AccelaProxies\msgSystemChangeConfiguration.cs" />
+    <Compile Include="AccelaProxies\msgSystemChangeConfigurationResponse.cs" />
+    <Compile Include="AccelaProxies\msgSystemExecuteOperation.cs" />
+    <Compile Include="AccelaProxies\msgSystemExecuteOperationResponse.cs" />
+    <Compile Include="AccelaProxies\msgSystemGetConfiguration.cs" />
+    <Compile Include="AccelaProxies\msgSystemGetConfigurationResponse.cs" />
+    <Compile Include="AccelaProxies\msgSystemRequest.cs" />
+    <Compile Include="AccelaProxies\msgSystemResponse.cs" />
+    <Compile Include="AccelaProxies\msgUpdateAsset.cs" />
+    <Compile Include="AccelaProxies\msgUpdateAssetResponse.cs" />
+    <Compile Include="AccelaProxies\msgUpdateCAP.cs" />
+    <Compile Include="AccelaProxies\msgUpdateCAPResponse.cs" />
+    <Compile Include="AccelaProxies\msgUpdateDocument.cs" />
+    <Compile Include="AccelaProxies\msgUpdateDocumentResponse.cs" />
+    <Compile Include="AccelaProxies\msgUpdateGISObject.cs" />
+    <Compile Include="AccelaProxies\msgUpdateGISObjectResponse.cs" />
+    <Compile Include="AccelaProxies\msgUpdateGISObjects.cs" />
+    <Compile Include="AccelaProxies\msgUpdateGISObjectsResponse.cs" />
+    <Compile Include="AccelaProxies\msgUpdateInspection.cs" />
+    <Compile Include="AccelaProxies\msgUpdateInspectionResponse.cs" />
+    <Compile Include="AccelaProxies\msgUpdateParcel.cs" />
+    <Compile Include="AccelaProxies\msgUpdateParcelResponse.cs" />
+    <Compile Include="AccelaProxies\msgUpdateUser.cs" />
+    <Compile Include="AccelaProxies\msgUpdateUserResponse.cs" />
+    <Compile Include="AccelaProxies\msgUpdateWorksheet.cs" />
+    <Compile Include="AccelaProxies\msgUpdateWorksheetResponse.cs" />
+    <Compile Include="AccelaProxies\msgViewGISDynamicTheme.cs" />
+    <Compile Include="AccelaProxies\msgViewGISMap.cs" />
+    <Compile Include="AccelaProxies\msgViewGISMapResponse.cs" />
+    <Compile Include="AccelaProxies\clsActivity.cs" />
+    <Compile Include="AccelaProxies\msgGetAssetCAs.cs" />
+    <Compile Include="AccelaProxies\msgGetAssetCAsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetAssetCAStatus.cs" />
+    <Compile Include="AccelaProxies\msgGetAssetCAStatusResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetAssetCATypes.cs" />
+    <Compile Include="AccelaProxies\msgGetAssetCATypesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetEDMSAdapters.cs" />
+    <Compile Include="AccelaProxies\msgGetEDMSAdaptersResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetStandardChoices.cs" />
+    <Compile Include="AccelaProxies\msgGetStandardChoicesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetStreetDirections.cs" />
+    <Compile Include="AccelaProxies\msgGetStreetDirectionsResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetStreetSuffixes.cs" />
+    <Compile Include="AccelaProxies\msgGetStreetSuffixesResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetUsers.cs" />
+    <Compile Include="AccelaProxies\msgGetUsersResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetWorkflow.cs" />
+    <Compile Include="AccelaProxies\msgGetWorkflowHistory.cs" />
+    <Compile Include="AccelaProxies\msgGetWorkflowHistoryResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetWorkflowResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetWorkflowTaskStatusValues.cs" />
+    <Compile Include="AccelaProxies\msgGetWorkflowTaskStatusValuesResponse.cs" />
+    <Compile Include="AccelaProxies\msgUpdateAssetCA.cs" />
+    <Compile Include="AccelaProxies\msgUpdateAssetCAResponse.cs" />
+    <Compile Include="AccelaProxies\msgUpdateWorkflowTask.cs" />
+    <Compile Include="AccelaProxies\msgUpdateWorkflowTaskResponse.cs" />
+    <Compile Include="AccelaProxies\clsAssetCA.cs" />
+    <Compile Include="AccelaProxies\clsAssetCAIds.cs" />
+    <Compile Include="AccelaProxies\clsAssetCAs.cs" />
+    <Compile Include="AccelaProxies\clsAssetCAType.cs" />
+    <Compile Include="AccelaProxies\clsAssetCATypes.cs" />
+    <Compile Include="AccelaProxies\clsAuditLogs.cs" />
+    <Compile Include="AccelaProxies\TransportTest.cs" />
+    <Compile Include="AccelaProxies\undCAPDetail.cs" />
+    <Compile Include="AccelaProxies\clsDistanceAndTimes.cs" />
+    <Compile Include="AccelaProxies\undDocumentGroupIds.cs" />
+    <Compile Include="AccelaProxies\undElements.cs" />
+    <Compile Include="AccelaProxies\clsEntities.cs" />
+    <Compile Include="AccelaProxies\clsEnumerations.cs" />
+    <Compile Include="AccelaProxies\undFSystemOut.cs" />
+    <Compile Include="AccelaProxies\clsIFCActorRole.cs" />
+    <Compile Include="AccelaProxies\clsAdditionalInformation.cs" />
+    <Compile Include="AccelaProxies\clsAdditionalInformationGroup.cs" />
+    <Compile Include="AccelaProxies\clsAdditionalInformationGroupId.cs" />
+    <Compile Include="AccelaProxies\clsAdditionalInformationGroupIds.cs" />
+    <Compile Include="AccelaProxies\clsAdditionalInformationGroups.cs" />
+    <Compile Include="AccelaProxies\clsAdditionalInformationSubGroup.cs" />
+    <Compile Include="AccelaProxies\clsAdditionalItem.cs" />
+    <Compile Include="AccelaProxies\clsAdditionalItems.cs" />
+    <Compile Include="AccelaProxies\clsAddress.cs" />
+    <Compile Include="AccelaProxies\clsAddresses.cs" />
+    <Compile Include="AccelaProxies\clsApplicant.cs" />
+    <Compile Include="AccelaProxies\clsAsset.cs" />
+    <Compile Include="AccelaProxies\clsAssetId.cs" />
+    <Compile Include="AccelaProxies\clsAssetIds.cs" />
+    <Compile Include="AccelaProxies\clsAssets.cs" />
+    <Compile Include="AccelaProxies\clsAssetType.cs" />
+    <Compile Include="AccelaProxies\clsAssetTypeId.cs" />
+    <Compile Include="AccelaProxies\clsAssetTypeIds.cs" />
+    <Compile Include="AccelaProxies\clsAssetTypes.cs" />
+    <Compile Include="AccelaProxies\clsAttachment.cs" />
+    <Compile Include="AccelaProxies\clsAttribute.cs" />
+    <Compile Include="AccelaProxies\clsAttributes.cs" />
+    <Compile Include="AccelaProxies\clsIFCAddresses.cs" />
+    <Compile Include="AccelaProxies\clsIFCPostalAddress.cs" />
+    <Compile Include="AccelaProxies\clsIFCTelecomAddress.cs" />
+    <Compile Include="AccelaProxies\clsStringList.cs" />
+    <Compile Include="AccelaProxies\msgAuthenticateUser.cs" />
+    <Compile Include="AccelaProxies\msgAuthenticateUserResponse.cs" />
+    <Compile Include="AccelaProxies\clsBookPageParcel.cs" />
+    <Compile Include="AccelaProxies\clsBufferLayer.cs" />
+    <Compile Include="AccelaProxies\clsBufferObjects.cs" />
+    <Compile Include="AccelaProxies\clsBusinessLicense.cs" />
+    <Compile Include="AccelaProxies\clsBatchOperation.cs" />
+    <Compile Include="AccelaProxies\clsBatchOperationRepsonse.cs" />
+    <Compile Include="AccelaProxies\clsCAP.cs" />
+    <Compile Include="AccelaProxies\clsCAPId.cs" />
+    <Compile Include="AccelaProxies\clsCAPIds.cs" />
+    <Compile Include="AccelaProxies\clsCAPRelation.cs" />
+    <Compile Include="AccelaProxies\clsCAPRelations.cs" />
+    <Compile Include="AccelaProxies\clsCAPs.cs" />
+    <Compile Include="AccelaProxies\clsCAPStatus.cs" />
+    <Compile Include="AccelaProxies\clsCAPStatuses.cs" />
+    <Compile Include="AccelaProxies\clsCAPType.cs" />
+    <Compile Include="AccelaProxies\clsCAPTypeCategories.cs" />
+    <Compile Include="AccelaProxies\clsCAPTypeCategory.cs" />
+    <Compile Include="AccelaProxies\clsCAPTypeGroup.cs" />
+    <Compile Include="AccelaProxies\clsCAPTypeGroups.cs" />
+    <Compile Include="AccelaProxies\clsCAPTypeId.cs" />
+    <Compile Include="AccelaProxies\clsCAPTypeIds.cs" />
+    <Compile Include="AccelaProxies\clsCAPTypes.cs" />
+    <Compile Include="AccelaProxies\clsCAPTypeSubGroup.cs" />
+    <Compile Include="AccelaProxies\clsCAPTypeSubGroups.cs" />
+    <Compile Include="AccelaProxies\clsCheckItem.cs" />
+    <Compile Include="AccelaProxies\clsCheckList.cs" />
+    <Compile Include="AccelaProxies\clsCities.cs" />
+    <Compile Include="AccelaProxies\clsCompactAddress.cs" />
+    <Compile Include="AccelaProxies\clsCompactAddresses.cs" />
+    <Compile Include="AccelaProxies\clsCompactAddressId.cs" />
+    <Compile Include="AccelaProxies\clsCompactAddressIds.cs" />
+    <Compile Include="AccelaProxies\clsComplaint.cs" />
+    <Compile Include="AccelaProxies\clsCondition.cs" />
+    <Compile Include="AccelaProxies\clsConditions.cs" />
+    <Compile Include="AccelaProxies\clsConditionType.cs" />
+    <Compile Include="AccelaProxies\clsConditionTypeId.cs" />
+    <Compile Include="AccelaProxies\clsConditionTypeIds.cs" />
+    <Compile Include="AccelaProxies\clsConditionTypes.cs" />
+    <Compile Include="AccelaProxies\clsConfirmationNumbers.cs" />
+    <Compile Include="AccelaProxies\clsContact.cs" />
+    <Compile Include="AccelaProxies\clsContactId.cs" />
+    <Compile Include="AccelaProxies\clsContactIds.cs" />
+    <Compile Include="AccelaProxies\clsContacts.cs" />
+    <Compile Include="AccelaProxies\clsCostFactor.cs" />
+    <Compile Include="AccelaProxies\clsCostFactors.cs" />
+    <Compile Include="AccelaProxies\clsCostItem.cs" />
+    <Compile Include="AccelaProxies\clsCostItems.cs" />
+    <Compile Include="AccelaProxies\clsCostItemType.cs" />
+    <Compile Include="AccelaProxies\clsCostItemTypeId.cs" />
+    <Compile Include="AccelaProxies\clsCostItemTypeIds.cs" />
+    <Compile Include="AccelaProxies\clsCostItemTypes.cs" />
+    <Compile Include="AccelaProxies\clsCostType.cs" />
+    <Compile Include="AccelaProxies\clsCostTypes.cs" />
+    <Compile Include="AccelaProxies\clsCriterion.cs" />
+    <Compile Include="AccelaProxies\clsCriterionGroup.cs" />
+    <Compile Include="AccelaProxies\clsCriterionGroupId.cs" />
+    <Compile Include="AccelaProxies\clsCriterionGroupIds.cs" />
+    <Compile Include="AccelaProxies\clsCriterionGroups.cs" />
+    <Compile Include="AccelaProxies\clsCriterions.cs" />
+    <Compile Include="AccelaProxies\clsDataSource.cs" />
+    <Compile Include="AccelaProxies\clsDataType.cs" />
+    <Compile Include="AccelaProxies\clsDateRange.cs" />
+    <Compile Include="AccelaProxies\clsDateRanges.cs" />
+    <Compile Include="AccelaProxies\clsDepartment.cs" />
+    <Compile Include="AccelaProxies\clsDepartments.cs" />
+    <Compile Include="AccelaProxies\clsDetailAddress.cs" />
+    <Compile Include="AccelaProxies\clsDetailAddresses.cs" />
+    <Compile Include="AccelaProxies\clsDisposition.cs" />
+    <Compile Include="AccelaProxies\clsDispositions.cs" />
+    <Compile Include="AccelaProxies\clsDistanceAndTime.cs" />
+    <Compile Include="AccelaProxies\lctDistanceAndTimeDistance.cs" />
+    <Compile Include="AccelaProxies\lctDistanceAndTimeTime.cs" />
+    <Compile Include="AccelaProxies\clsDocument.cs" />
+    <Compile Include="AccelaProxies\clsDocumentGroup.cs" />
+    <Compile Include="AccelaProxies\clsDocumentGroupId.cs" />
+    <Compile Include="AccelaProxies\clsDocumentGroups.cs" />
+    <Compile Include="AccelaProxies\clsDocumentId.cs" />
+    <Compile Include="AccelaProxies\clsDocumentIds.cs" />
+    <Compile Include="AccelaProxies\clsDocumentLocator.cs" />
+    <Compile Include="AccelaProxies\clsDocumentLocators.cs" />
+    <Compile Include="AccelaProxies\clsDocuments.cs" />
+    <Compile Include="AccelaProxies\clsDocumentSet.cs" />
+    <Compile Include="AccelaProxies\clsDocumentSets.cs" />
+    <Compile Include="AccelaProxies\clsDocumentType.cs" />
+    <Compile Include="AccelaProxies\clsDocumentTypes.cs" />
+    <Compile Include="AccelaProxies\clsElectronicFile.cs" />
+    <Compile Include="AccelaProxies\clsElectronicFileLocator.cs" />
+    <Compile Include="AccelaProxies\clsElectronicFileUploaded.cs" />
+    <Compile Include="AccelaProxies\clsElectronicSignature.cs" />
+    <Compile Include="AccelaProxies\clsElectronicSignatures.cs" />
+    <Compile Include="AccelaProxies\clsElement.cs" />
+    <Compile Include="AccelaProxies\clsElementList.cs" />
+    <Compile Include="AccelaProxies\clsEntity.cs" />
+    <Compile Include="AccelaProxies\clsEnumeration.cs" />
+    <Compile Include="AccelaProxies\clsEnumerationList.cs" />
+    <Compile Include="AccelaProxies\clsEnumerationLists.cs" />
+    <Compile Include="AccelaProxies\clsEstablishment.cs" />
+    <Compile Include="AccelaProxies\clsEstablishmentId.cs" />
+    <Compile Include="AccelaProxies\clsExtent.cs" />
+    <Compile Include="AccelaProxies\clsFee.cs" />
+    <Compile Include="AccelaProxies\clsGISGenealogicEvents.cs" />
+    <Compile Include="AccelaProxies\clsGeographicalDescriptor.cs" />
+    <Compile Include="AccelaProxies\clsGISDynamicTheme.cs" />
+    <Compile Include="AccelaProxies\clsGISDynamicThemeGroup.cs" />
+    <Compile Include="AccelaProxies\clsGISDynamicThemeGroups.cs" />
+    <Compile Include="AccelaProxies\clsGISDynamicThemes.cs" />
+    <Compile Include="AccelaProxies\clsGISLayer.cs" />
+    <Compile Include="AccelaProxies\clsGISLayerGroup.cs" />
+    <Compile Include="AccelaProxies\clsGISLayerGroupId.cs" />
+    <Compile Include="AccelaProxies\clsGISLayerGroupIds.cs" />
+    <Compile Include="AccelaProxies\clsGISLayerGroups.cs" />
+    <Compile Include="AccelaProxies\clsGISLayerId.cs" />
+    <Compile Include="AccelaProxies\clsGISLayerIds.cs" />
+    <Compile Include="AccelaProxies\clsGISLayers.cs" />
+    <Compile Include="AccelaProxies\clsGISLineSegment.cs" />
+    <Compile Include="AccelaProxies\clsGISObject.cs" />
+    <Compile Include="AccelaProxies\clsGISObjectId.cs" />
+    <Compile Include="AccelaProxies\clsGISObjectIds.cs" />
+    <Compile Include="AccelaProxies\clsGISObjects.cs" />
+    <Compile Include="AccelaProxies\clsGISObjectType.cs" />
+    <Compile Include="AccelaProxies\clsGISObjectTypes.cs" />
+    <Compile Include="AccelaProxies\clsGISReference.cs" />
+    <Compile Include="AccelaProxies\clsGPSReference.cs" />
+    <Compile Include="AccelaProxies\clsGPSReferences.cs" />
+    <Compile Include="AccelaProxies\clsGuideitem.cs" />
+    <Compile Include="AccelaProxies\clsGuideitems.cs" />
+    <Compile Include="AccelaProxies\clsGuidesheet.cs" />
+    <Compile Include="AccelaProxies\clsGuidesheetGroup.cs" />
+    <Compile Include="AccelaProxies\clsGuidesheetGroups.cs" />
+    <Compile Include="AccelaProxies\clsGuidesheetId.cs" />
+    <Compile Include="AccelaProxies\clsGuidesheetIds.cs" />
+    <Compile Include="AccelaProxies\clsGuidesheets.cs" />
+    <Compile Include="AccelaProxies\clsHold.cs" />
+    <Compile Include="AccelaProxies\clsHoldLevel.cs" />
+    <Compile Include="AccelaProxies\clsHoldLevels.cs" />
+    <Compile Include="AccelaProxies\clsHolds.cs" />
+    <Compile Include="AccelaProxies\clsHoldType.cs" />
+    <Compile Include="AccelaProxies\clsHoldTypeId.cs" />
+    <Compile Include="AccelaProxies\clsHoldTypeIds.cs" />
+    <Compile Include="AccelaProxies\clsHoldTypes.cs" />
+    <Compile Include="AccelaProxies\clsIdentifier.cs" />
+    <Compile Include="AccelaProxies\clsIFCAddress.cs" />
+    <Compile Include="AccelaProxies\clsIFCObject.cs" />
+    <Compile Include="AccelaProxies\clsIFCObjectPlacement.cs" />
+    <Compile Include="AccelaProxies\clsIFCOwnerHistory.cs" />
+    <Compile Include="AccelaProxies\clsIFCProduct.cs" />
+    <Compile Include="AccelaProxies\clsIFCProductRepresentation.cs" />
+    <Compile Include="AccelaProxies\clsIFCRelationship.cs" />
+    <Compile Include="AccelaProxies\clsIFCRelConnects.cs" />
+    <Compile Include="AccelaProxies\clsIFCRoot.cs" />
+    <Compile Include="AccelaProxies\clsIFCSpatialStructureElement.cs" />
+    <Compile Include="AccelaProxies\clsIFC_Element.cs" />
+    <Compile Include="AccelaProxies\lctPLSSInitialPoint.cs" />
+    <Compile Include="AccelaProxies\clsInspection.cs" />
+    <Compile Include="AccelaProxies\clsInspectionDistrict.cs" />
+    <Compile Include="AccelaProxies\clsInspectionDistrictId.cs" />
+    <Compile Include="AccelaProxies\clsInspectionDistrictIds.cs" />
+    <Compile Include="AccelaProxies\clsInspectionDistricts.cs" />
+    <Compile Include="AccelaProxies\clsInspectionId.cs" />
+    <Compile Include="AccelaProxies\clsInspectionIds.cs" />
+    <Compile Include="AccelaProxies\clsInspectionSheet.cs" />
+    <Compile Include="AccelaProxies\clsInspectionSheets.cs" />
+    <Compile Include="AccelaProxies\clsInspectionStatus.cs" />
+    <Compile Include="AccelaProxies\clsInspectionStatuses.cs" />
+    <Compile Include="AccelaProxies\clsInspectionType.cs" />
+    <Compile Include="AccelaProxies\clsInspectionTypeId.cs" />
+    <Compile Include="AccelaProxies\clsInspectionTypeIds.cs" />
+    <Compile Include="AccelaProxies\clsInspectionTypes.cs" />
+    <Compile Include="AccelaProxies\clsInspectionTypeSet.cs" />
+    <Compile Include="AccelaProxies\clsInspectionTypeSetId.cs" />
+    <Compile Include="AccelaProxies\clsInspectionTypeSetIds.cs" />
+    <Compile Include="AccelaProxies\clsInspectionTypeSets.cs" />
+    <Compile Include="AccelaProxies\clsInspectionUnitNumbers.cs" />
+    <Compile Include="AccelaProxies\clsInspector.cs" />
+    <Compile Include="AccelaProxies\clsInspectorIds.cs" />
+    <Compile Include="AccelaProxies\clsInspectors.cs" />
+    <Compile Include="AccelaProxies\clsInvoice.cs" />
+    <Compile Include="AccelaProxies\clsInvoiceId.cs" />
+    <Compile Include="AccelaProxies\clsInvoiceIds.cs" />
+    <Compile Include="AccelaProxies\clsInvoices.cs" />
+    <Compile Include="AccelaProxies\clsJurisdiction.cs" />
+    <Compile Include="AccelaProxies\clsJurisdictions.cs" />
+    <Compile Include="AccelaProxies\clsKeys.cs" />
+    <Compile Include="AccelaProxies\clsLegalDescription.cs" />
+    <Compile Include="AccelaProxies\clsLicense.cs" />
+    <Compile Include="AccelaProxies\clsLicenses.cs" />
+    <Compile Include="AccelaProxies\clsLicenseTypes.cs" />
+    <Compile Include="AccelaProxies\clsMapReference.cs" />
+    <Compile Include="AccelaProxies\clsMapService.cs" />
+    <Compile Include="AccelaProxies\clsMapServiceId.cs" />
+    <Compile Include="AccelaProxies\clsMapServices.cs" />
+    <Compile Include="AccelaProxies\clsObject.cs" />
+    <Compile Include="AccelaProxies\clsObjectId.cs" />
+    <Compile Include="AccelaProxies\clsOptionSet.cs" />
+    <Compile Include="AccelaProxies\clsOptionSets.cs" />
+    <Compile Include="AccelaProxies\clsIFCOrganization.cs" />
+    <Compile Include="AccelaProxies\clsParcelId.cs" />
+    <Compile Include="AccelaProxies\clsParcelIds.cs" />
+    <Compile Include="AccelaProxies\clsParcels.cs" />
+    <Compile Include="AccelaProxies\clsPart.cs" />
+    <Compile Include="AccelaProxies\clsPartInventories.cs" />
+    <Compile Include="AccelaProxies\clsPartInventory.cs" />
+    <Compile Include="AccelaProxies\clsPartInventoryId.cs" />
+    <Compile Include="AccelaProxies\clsPartInventoryIds.cs" />
+    <Compile Include="AccelaProxies\clsPartType.cs" />
+    <Compile Include="AccelaProxies\clsPartTypes.cs" />
+    <Compile Include="AccelaProxies\clsPayment.cs" />
+    <Compile Include="AccelaProxies\clsPaymentBreakdown.cs" />
+    <Compile Include="AccelaProxies\clsPaymentBreakdowns.cs" />
+    <Compile Include="AccelaProxies\clsPaymentId.cs" />
+    <Compile Include="AccelaProxies\clsPaymentIds.cs" />
+    <Compile Include="AccelaProxies\clsPayments.cs" />
+    <Compile Include="AccelaProxies\clsPeopleId.cs" />
+    <Compile Include="AccelaProxies\clsPermit.cs" />
+    <Compile Include="AccelaProxies\clsIFCPerson.cs" />
+    <Compile Include="AccelaProxies\clsIFCPersonAndOrganization.cs" />
+    <Compile Include="AccelaProxies\clsPhysicalDocumentLocator.cs" />
+    <Compile Include="AccelaProxies\clsPIN.cs" />
+    <Compile Include="AccelaProxies\clsPLSS.cs" />
+    <Compile Include="AccelaProxies\clsRange.cs" />
+    <Compile Include="AccelaProxies\clsInspections.cs" />
+    <Compile Include="AccelaProxies\clsMessages.cs" />
+    <Compile Include="AccelaProxies\clsParcel.cs" />
+    <Compile Include="AccelaProxies\clsParts.cs" />
+    <Compile Include="AccelaProxies\clsIFCRelConnectsElements.cs" />
+    <Compile Include="AccelaProxies\clsRoles.cs" />
+    <Compile Include="AccelaProxies\clsRouteNode.cs" />
+    <Compile Include="AccelaProxies\clsRouteNodeId.cs" />
+    <Compile Include="AccelaProxies\clsRouteNodeIds.cs" />
+    <Compile Include="AccelaProxies\clsRouteNodes.cs" />
+    <Compile Include="AccelaProxies\clsRouteSegment.cs" />
+    <Compile Include="AccelaProxies\clsRouteSegments.cs" />
+    <Compile Include="AccelaProxies\clsRowStatus.cs" />
+    <Compile Include="AccelaProxies\clsRowStatuses.cs" />
+    <Compile Include="AccelaProxies\clsSeverityLevel.cs" />
+    <Compile Include="AccelaProxies\clsSeverityLevels.cs" />
+    <Compile Include="AccelaProxies\clsSignature.cs" />
+    <Compile Include="AccelaProxies\clsSpatialDescriptor.cs" />
+    <Compile Include="AccelaProxies\clsSpatialDescriptors.cs" />
+    <Compile Include="AccelaProxies\clsSpatialElement.cs" />
+    <Compile Include="AccelaProxies\clsSpatialElementConnector.cs" />
+    <Compile Include="AccelaProxies\clsSpatialElementId.cs" />
+    <Compile Include="AccelaProxies\clsSpatialElements.cs" />
+    <Compile Include="AccelaProxies\clsSpatialEntity.cs" />
+    <Compile Include="AccelaProxies\clsSpatialObject.cs" />
+    <Compile Include="AccelaProxies\clsSpatialObjectId.cs" />
+    <Compile Include="AccelaProxies\clsSpatialObjects.cs" />
+    <Compile Include="AccelaProxies\clsStaff.cs" />
+    <Compile Include="AccelaProxies\clsStaffPerson.cs" />
+    <Compile Include="AccelaProxies\clsStandardComment.cs" />
+    <Compile Include="AccelaProxies\clsStandardComments.cs" />
+    <Compile Include="AccelaProxies\clsStandardCommentsGroup.cs" />
+    <Compile Include="AccelaProxies\clsStandardCommentsGroupId.cs" />
+    <Compile Include="AccelaProxies\clsStandardCommentsGroupIds.cs" />
+    <Compile Include="AccelaProxies\clsStandardCommentsGroups.cs" />
+    <Compile Include="AccelaProxies\clsStatus.cs" />
+    <Compile Include="AccelaProxies\clsStatusDetail.cs" />
+    <Compile Include="AccelaProxies\clsStatuses.cs" />
+    <Compile Include="AccelaProxies\clsStatusesDetail.cs" />
+    <Compile Include="AccelaProxies\clsStructure.cs" />
+    <Compile Include="AccelaProxies\clsStructureId.cs" />
+    <Compile Include="AccelaProxies\clsStructures.cs" />
+    <Compile Include="AccelaProxies\clsSupplies.cs" />
+    <Compile Include="AccelaProxies\clsSupply.cs" />
+    <Compile Include="AccelaProxies\clsTextDefault.cs" />
+    <Compile Include="AccelaProxies\clsTextDefaults.cs" />
+    <Compile Include="AccelaProxies\clsUniversalResourceLocator.cs" />
+    <Compile Include="AccelaProxies\clsUserId.cs" />
+    <Compile Include="AccelaProxies\clsUserIds.cs" />
+    <Compile Include="AccelaProxies\clsUsers.cs" />
+    <Compile Include="AccelaProxies\clsWorkitem.cs" />
+    <Compile Include="AccelaProxies\clsWorkitems.cs" />
+    <Compile Include="AccelaProxies\clsWorksheet.cs" />
+    <Compile Include="AccelaProxies\clsWorksheetId.cs" />
+    <Compile Include="AccelaProxies\clsWorksheetIds.cs" />
+    <Compile Include="AccelaProxies\clsWorksheets.cs" />
+    <Compile Include="AccelaProxies\Enumerations.cs" />
+    <Compile Include="AccelaProxies\clsError.cs" />
+    <Compile Include="AccelaProxies\clsFault.cs" />
+    <Compile Include="AccelaProxies\clsFaultDetail.cs" />
+    <Compile Include="AccelaProxies\msgGetCAP.cs" />
+    <Compile Include="AccelaProxies\msgGetCAPResponse.cs" />
+    <Compile Include="AccelaProxies\msgGetUser.cs" />
+    <Compile Include="AccelaProxies\msgGetUserResponse.cs" />
+    <Compile Include="AccelaProxies\GovXML.cs" />
+    <Compile Include="AccelaProxies\clsInspectorId.cs" />
+    <Compile Include="AccelaProxies\clsMessage.cs" />
+    <Compile Include="AccelaProxies\clsOperationRequest.cs" />
+    <Compile Include="AccelaProxies\clsOperationResponse.cs" />
+    <Compile Include="AccelaProxies\clsOption.cs" />
+    <Compile Include="AccelaProxies\clsOptions.cs" />
+    <Compile Include="AccelaProxies\clsPeople.cs" />
+    <Compile Include="AccelaProxies\clsSystem.cs" />
+    <Compile Include="AccelaProxies\Transport.cs" />
+    <Compile Include="AccelaProxies\clsType.cs" />
+    <Compile Include="AccelaProxies\clsUpdateUser.cs" />
+    <Compile Include="AccelaProxies\clsUpdateUserResponse.cs" />
+    <Compile Include="AccelaProxies\clsUser.cs" />
+    <Compile Include="AccelaProxies\Constants.cs" />
+    <Compile Include="AccelaProxies\clsGISGenealogicEvent.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\AccelaGovXMLWebService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="AccelaProxies\clsTransactionResults.cs" />
+    <Compile Include="AccelaProxies\clsProcess.cs" />
+    <Compile Include="AccelaProxies\undReturnElements.cs" />
+    <Compile Include="AccelaProxies\clsTaskItem.cs" />
+    <Compile Include="AccelaProxies\clsTaskItems.cs" />
+    <Compile Include="AccelaProxies\clsTimeAccountingGroups.cs" />
+    <Compile Include="AccelaProxies\clsTimeAccountingTypes.cs" />
+    <Compile Include="AccelaProxies\clsUsages.cs" />
+    <Compile Include="AccelaProxies\clsValueRanges.cs" />
+    <Compile Include="AccelaProxies\undTypes.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Documentation\GovXML.docx" />
+    <None Include="Documentation\GovXMLIssues4.docx" />
+    <None Include="Documentation\MessagesValidated.xlsx" />
+    <None Include="packages.config" />
+    <None Include="Service References\AccelaGovXMLWebService\GovXMLService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\AccelaGovXMLWebService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AccelaGovXMLWebService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AccelaGovXMLWebService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AccelaGovXMLWebService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Documentation\readme.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{3D9AD99F-2412-4246-B90B-4EAA41C64699}">
+        <WcfProjectProperties>
+          <AutoStart>False</AutoStart>
+        </WcfProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

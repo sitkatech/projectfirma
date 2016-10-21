@@ -1,0 +1,67 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@inherits ProjectFirma.Web.Views.LocalAndRegionalPlan.Summary
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+<div class="summarySection">
+    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditLocalAndRegionalPlanUrl, string.Format("Edit Local and Regional Plan - {0}", ViewDataTyped.LocalAndRegionalPlan.DisplayName), ViewDataTyped.UserHasLocalAndRegionalPlanManagePermissions) Basics</h2>
+    <div class="contentWrapper">
+        <table class="summaryLayout">
+            <tr>
+                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.LocalAndRegionalPlanName):</th>
+                <td>
+                    @ViewDataTyped.LocalAndRegionalPlan.LocalAndRegionalPlanName
+                </td>
+            </tr>
+            <tr>
+                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.LocalAndRegionalPlanDocumentUrl):</th>
+                <td>
+                    @if (!string.IsNullOrWhiteSpace(ViewDataTyped.LocalAndRegionalPlan.PlanDocumentUrl))
+                    {
+                        <a href="@ViewDataTyped.LocalAndRegionalPlan.PlanDocumentUrl" target="_blank">@(ViewDataTyped.LocalAndRegionalPlan.PlanDocumentLinkText ?? ViewDataTyped.LocalAndRegionalPlan.PlanDocumentUrl)</a>
+                        <a href="@ViewDataTyped.LocalAndRegionalPlan.PlanDocumentUrl" target="_blank">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")</a>
+                    }
+                    else
+                    {
+                        @ViewDataTyped.LocalAndRegionalPlan.PlanDocumentLinkText
+                    }
+                </td>
+            </tr>
+            <tr>
+                <th style="white-space: nowrap">Transportation Plan?</th>
+                <td>This project is @(ViewDataTyped.IsTransportationPlan ? string.Empty : "not") a designated Transportation Plan</td>
+            </tr>
+            
+        </table>
+    </div>
+</div>
+
+<div class="summarySection">
+    <h2>Projects</h2>
+        @if (ViewDataTyped.LocalAndRegionalPlan.IsTransportationPlan)
+        {
+            <div class="contentWrapper">
+                @Html.DhtmlxGrid(ViewDataTyped.TransportationListProjectGridSpec, ViewDataTyped.TransportationListProjectGridName, ViewDataTyped.TransportationListProjectGridDataUrl, "height:320px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+            </div>
+        }
+        else
+        {
+            <div class="contentWrapper">
+                @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:320px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+            </div>
+        }
+    <p style="margin-left: 10px">Since some projects contribute to multiple Local and Regional Plans, expected cost and accomplishments can not be summed by Plan and then aggregated without over-reporting.</p>
+    </div>
+
+<div style="margin-top: 20px">
+    <a class="btn btn-blue" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
+</div>

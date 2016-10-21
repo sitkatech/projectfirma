@@ -1,0 +1,57 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@inherits ProjectFirma.Web.Areas.Sustainability.Views.Shared.DetailPageLayout
+
+@{
+    SetLayout("~/Areas/Sustainability/Views/Shared/SiteLayout.cshtml", ViewDataTyped);
+}
+
+@section DashboardHeadContent
+{
+    @RenderSection("DashboardHeadContent", false)
+}
+
+<header class="@ViewDataTyped.HeaderClass">
+    <div style="width: 100%">
+        <div class="large-6 columns">
+            @{ Html.RenderRazorSitkaPartial<LakeTahoeInfoSiteExplorer, LakeTahoeInfoSiteExplorerViewData>(ViewDataTyped.LakeTahoeInfoSiteExplorerViewData); }
+        </div>
+        <div class="large-6 columns text-right">
+            <div class="laketahoeinfo-menu btn-group">
+                <h3 class="show-small">Main Menu</h3>
+                <a class="btn btn-outline" href="@ViewDataTyped.SustainabilityCommonPageData.AllSustainabilityIndicatorsUrl">All Indicators</a>
+                <a class="btn btn-outline" href="@ViewDataTyped.SustainabilityCommonPageData.AboutUrl">About</a>
+                @if (Request.IsAuthenticated)
+                {
+                    <a class="btn btn-outline" href="@ViewDataTyped.SustainabilityCommonPageData.LogOutUrl">Log Out</a>
+                }
+                else
+                {
+                    <a class="btn btn-outline" href="@ViewDataTyped.SustainabilityCommonPageData.LogInUrl">Log In</a>
+                }
+                @if (ViewDataTyped.IsEditButtonVisible)
+                {
+                    <a class="btn btn-outline" href="@ViewDataTyped.EditUrl">Edit</a>
+                }
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="navbar-text text-right welcomeUser" style="float: right; margin-right: 15px;">
+        @if (Request.IsAuthenticated)
+        {
+            <text>
+                Welcome <a href="@ViewDataTyped.CurrentPerson.GetSummaryUrl()"> @ViewDataTyped.CurrentPerson.FullNameFirstLast</a>
+                <span style="margin-left: 7px; margin-right: 7px;">|</span>
+            </text>
+        }
+        @ModalDialogFormHelper.ModalDialogFormLink("Request Support", ViewDataTyped.RequestSupportUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
+    </div>
+    @RenderSection("ExtraHeaderContent", false)
+</header>
+
+<div class="row content-wrap">
+    @RenderBody()
+</div>

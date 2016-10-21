@@ -1,0 +1,37 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Areas.Threshold.Views.ThresholdEvaluation.EditStatus
+@if (ViewDataTyped.ThresholdIndicator.IsManagementOrPolicyStatement)
+{
+    <p>Status is not applicable for @ViewDataTyped.ThresholdIndicator.FullDisplayName, since it is a @ViewDataTyped.ThresholdIndicator.ThresholdStandardType.ThresholdStandardTypeDisplayName standard.</p>
+}
+else
+{
+    using (Html.BeginForm())
+    {
+        <div class="container-fluid container-fluid-dialog-form" style="max-height: 600px; overflow-y: auto">
+            <div class="row">
+                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(x => x.ThresholdEvaluationStatusTypeID, "Status"):</div>
+                <div class="col-md-8">
+
+                    @Html.DropDownListFor(m => m.ThresholdEvaluationStatusTypeID, ViewDataTyped.ThresholdEvaluationStatusTypes, new { style = "width: 450px;" })
+                    @Html.ValidationMessageFor(m => m.ThresholdEvaluationStatusTypeID)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(x => x.ThresholdEvaluationTrendTypeID, "Trend"):</div>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.ThresholdEvaluationTrendTypeID, ViewDataTyped.ThresholdEvaluationTrendTypes, new { style = "width: 450px;" })
+                    @Html.ValidationMessageFor(m => m.ThresholdEvaluationTrendTypeID)                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(x => x.ThresholdEvaluationConfidenceTypeID, "Confidence"):</div>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.ThresholdEvaluationConfidenceTypeID, ViewDataTyped.ThresholdEvaluationConfidenceTypes, new { style = "width: 450px;" })
+                    @Html.ValidationMessageFor(m => m.ThresholdEvaluationConfidenceTypeID)                    
+                </div>
+            </div>
+
+        </div>
+    }
+}

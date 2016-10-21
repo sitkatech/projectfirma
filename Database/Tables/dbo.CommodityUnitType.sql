@@ -1,0 +1,22 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CommodityUnitType](
+	[CommodityUnitTypeID] [int] NOT NULL,
+	[CommodityUnitTypeName] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[CommodityUnitTypeDisplayName] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[CommodityUnitTypeNameSingular] [varchar](12) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+ CONSTRAINT [PK_CommodityUnitType_CommodityUnitTypeID] PRIMARY KEY CLUSTERED 
+(
+	[CommodityUnitTypeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_CommodityUnitType_CommodityUnitTypeDisplayName] UNIQUE NONCLUSTERED 
+(
+	[CommodityUnitTypeDisplayName] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_CommodityUnitType_CommodityUnitTypeName] UNIQUE NONCLUSTERED 
+(
+	[CommodityUnitTypeName] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]

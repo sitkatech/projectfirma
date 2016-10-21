@@ -1,0 +1,90 @@
+﻿@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.User.EditRoles
+
+<style type="text/css">
+    td, th { 
+        padding-left: 8px;
+        padding-right: 8px;
+        padding-bottom: 3px;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <th style="padding-bottom: 10px;"></th>
+            <th style="padding-bottom: 10px;">Role</th>
+            <th style="padding-bottom: 10px;">Receive Support Emails</th>
+        </tr>
+        <tr>
+            <th>
+                @LTInfoArea.LTInfo.LTInfoAreaDisplayName
+            </th>
+            <td>
+                @Html.DropDownListFor(m => m.LTInfoRoleID, ViewDataTyped.LtInfoRoles, new { style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.LTInfoRoleID)
+            </td>
+            <td style="text-align: center">
+                @Html.CheckBoxFor(m => m.ShouldReceiveLakeTahoeInfoSupportEmails)
+                @Html.ValidationMessageFor(m => m.ShouldReceiveLakeTahoeInfoSupportEmails)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @LTInfoArea.EIP.LTInfoAreaDisplayName
+            </th>
+            <td>
+                @Html.DropDownListFor(m => m.EIPRoleID, ViewDataTyped.EIPRoles, new { style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.EIPRoleID)
+            </td>
+            <td style="text-align: center">
+                @Html.CheckBoxFor(m => m.ShouldReceiveEIPProjectTrackerSupportEmails)
+                @Html.ValidationMessageFor(m => m.ShouldReceiveEIPProjectTrackerSupportEmails)
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @LTInfoArea.Sustainability.LTInfoAreaDisplayName
+            </th>
+            <td>
+                @Html.DropDownListFor(m => m.SustainabilityRoleID, ViewDataTyped.SustainabilityRoles, new { style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.SustainabilityRoleID)
+            </td>
+            <td style="text-align: center">
+                @Html.CheckBoxFor(m => m.ShouldReceiveSustainabilityDashboardSupportEmails)
+                @Html.ValidationMessageFor(m => m.ShouldReceiveSustainabilityDashboardSupportEmails)
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @LTInfoArea.ParcelTracker.LTInfoAreaDisplayName
+            </th>
+            <td>
+                @Html.DropDownListFor(m => m.ParcelTrackerRoleID, ViewDataTyped.ParcelTrackerRoles, new { style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.ParcelTrackerRoleID)
+            </td>
+            <td style="text-align: center">
+                @Html.CheckBoxFor(m => m.ShouldReceiveParcelTrackerSupportEmails)
+                @Html.ValidationMessageFor(m => m.ShouldReceiveParcelTrackerSupportEmails)
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @LTInfoArea.Threshold.LTInfoAreaDisplayName
+            </th>
+            <td>
+                @Html.DropDownListFor(m => m.ThresholdRoleID, ViewDataTyped.ThresholdRoles, new { style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.ThresholdRoleID)
+            </td>
+            <td style="text-align: center">
+                @Html.CheckBoxFor(m => m.ShouldReceiveThresholdDashboardSupportEmails)
+                @Html.ValidationMessageFor(m => m.ShouldReceiveThresholdDashboardSupportEmails)
+            </td>
+        </tr>
+    </table>
+
+
+    @Html.HiddenFor(m => m.PersonID)
+}
