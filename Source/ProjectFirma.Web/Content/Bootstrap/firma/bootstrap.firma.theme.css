@@ -24,4 +24,7 @@ footer p {
   margin: 20px 0;
   font-size: 12px;
 }
+.modal-dialog {
+  background: transparent;
+}
 /*# sourceMappingURL=bootstrap.firma.theme.css.map */
