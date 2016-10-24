@@ -117,11 +117,6 @@ namespace ProjectFirma.Web.Models
             get { return OrganizationGuid.HasValue; }
         }
 
-        public bool IsLeadAgency
-        {
-            get { return LeadAgency != null; }
-        }       
-
         public IEnumerable<CalendarYearReportedValue> GetAllCalendarYearExpenditures()
         {
             return ProjectFundingSourceExpenditure.ToCalendarYearReportedValues(FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures));

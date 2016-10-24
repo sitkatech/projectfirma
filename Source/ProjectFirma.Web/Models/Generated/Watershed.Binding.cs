@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -23,7 +23,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Watershed()
         {
-            this.Parcels = new HashSet<Parcel>();
             this.ProjectLocationAreas = new HashSet<ProjectLocationArea>();
             this.ProjectLocationAreaWatersheds = new HashSet<ProjectLocationAreaWatershed>();
             this.ProjectWatersheds = new HashSet<ProjectWatershed>();
@@ -65,13 +64,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return Parcels.Any() || ProjectLocationAreas.Any() || ProjectLocationAreaWatersheds.Any() || ProjectWatersheds.Any();
+            return ProjectLocationAreas.Any() || ProjectLocationAreaWatersheds.Any() || ProjectWatersheds.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Watershed).Name, typeof(Parcel).Name, typeof(ProjectLocationArea).Name, typeof(ProjectLocationAreaWatershed).Name, typeof(ProjectWatershed).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Watershed).Name, typeof(ProjectLocationArea).Name, typeof(ProjectLocationAreaWatershed).Name, typeof(ProjectWatershed).Name};
 
         [Key]
         public int WatershedID { get; set; }
@@ -79,7 +78,6 @@ namespace ProjectFirma.Web.Models
         public DbGeometry WatershedFeature { get; set; }
         public int PrimaryKey { get { return WatershedID; } set { WatershedID = value; } }
 
-        public virtual ICollection<Parcel> Parcels { get; set; }
         public virtual ICollection<ProjectLocationArea> ProjectLocationAreas { get; set; }
         public virtual ICollection<ProjectLocationAreaWatershed> ProjectLocationAreaWatersheds { get; set; }
         public virtual ICollection<ProjectWatershed> ProjectWatersheds { get; set; }

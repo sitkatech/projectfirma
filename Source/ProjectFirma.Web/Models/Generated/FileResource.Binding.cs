@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -24,14 +24,12 @@ namespace ProjectFirma.Web.Models
         protected FileResource()
         {
             this.ActionPriorityImages = new HashSet<ActionPriorityImage>();
-            this.ProjectFirmaPageImages = new HashSet<ProjectFirmaPageImage>();
             this.FieldDefinitionImages = new HashSet<FieldDefinitionImage>();
             this.FocusAreaImages = new HashSet<FocusAreaImage>();
             this.MonitoringProgramDocuments = new HashSet<MonitoringProgramDocument>();
             this.OrganizationsWhereYouAreTheLogoFileResource = new HashSet<Organization>();
-            this.ParcelImages = new HashSet<ParcelImage>();
-            this.ParcelLandCapabilitiesWhereYouAreTheSitePlanFileResource = new HashSet<ParcelLandCapability>();
             this.ProgramImages = new HashSet<ProgramImage>();
+            this.ProjectFirmaPageImages = new HashSet<ProjectFirmaPageImage>();
             this.ProjectImages = new HashSet<ProjectImage>();
             this.ProjectImageUpdates = new HashSet<ProjectImageUpdate>();
             this.ProposedProjectImages = new HashSet<ProposedProjectImage>();
@@ -108,13 +106,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ActionPriorityImages.Any() || ProjectFirmaPageImages.Any() || FieldDefinitionImages.Any() || FocusAreaImages.Any() || MonitoringProgramDocuments.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || ParcelImages.Any() || ParcelLandCapabilitiesWhereYouAreTheSitePlanFileResource.Any() || ProgramImages.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ProposedProjectImages.Any() || ThresholdCategoryImages.Any() || ThresholdEvaluationsWhereYouAreTheHistoricEvaluationPdfFileResource.Any() || ThresholdEvaluationsWhereYouAreTheMapFileResource.Any() || ThresholdIndicatorsWhereYouAreTheOptionalChartImageFileResource.Any() || ThresholdIndicatorImages.Any() || TransportationObjectiveImages.Any() || TransportationStrategyImages.Any();
+            return ActionPriorityImages.Any() || FieldDefinitionImages.Any() || FocusAreaImages.Any() || MonitoringProgramDocuments.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || ProgramImages.Any() || ProjectFirmaPageImages.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ProposedProjectImages.Any() || ThresholdCategoryImages.Any() || ThresholdEvaluationsWhereYouAreTheHistoricEvaluationPdfFileResource.Any() || ThresholdEvaluationsWhereYouAreTheMapFileResource.Any() || ThresholdIndicatorsWhereYouAreTheOptionalChartImageFileResource.Any() || ThresholdIndicatorImages.Any() || TransportationObjectiveImages.Any() || TransportationStrategyImages.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(ActionPriorityImage).Name, typeof(ProjectFirmaPageImage).Name, typeof(FieldDefinitionImage).Name, typeof(FocusAreaImage).Name, typeof(MonitoringProgramDocument).Name, typeof(Organization).Name, typeof(ParcelImage).Name, typeof(ParcelLandCapability).Name, typeof(ProgramImage).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ProposedProjectImage).Name, typeof(ThresholdCategoryImage).Name, typeof(ThresholdEvaluation).Name, typeof(ThresholdIndicator).Name, typeof(ThresholdIndicatorImage).Name, typeof(TransportationObjectiveImage).Name, typeof(TransportationStrategyImage).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(ActionPriorityImage).Name, typeof(FieldDefinitionImage).Name, typeof(FocusAreaImage).Name, typeof(MonitoringProgramDocument).Name, typeof(Organization).Name, typeof(ProgramImage).Name, typeof(ProjectFirmaPageImage).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ProposedProjectImage).Name, typeof(ThresholdCategoryImage).Name, typeof(ThresholdEvaluation).Name, typeof(ThresholdIndicator).Name, typeof(ThresholdIndicatorImage).Name, typeof(TransportationObjectiveImage).Name, typeof(TransportationStrategyImage).Name};
 
         [Key]
         public int FileResourceID { get; set; }
@@ -128,14 +126,12 @@ namespace ProjectFirma.Web.Models
         public int PrimaryKey { get { return FileResourceID; } set { FileResourceID = value; } }
 
         public virtual ICollection<ActionPriorityImage> ActionPriorityImages { get; set; }
-        public virtual ICollection<ProjectFirmaPageImage> ProjectFirmaPageImages { get; set; }
         public virtual ICollection<FieldDefinitionImage> FieldDefinitionImages { get; set; }
         public virtual ICollection<FocusAreaImage> FocusAreaImages { get; set; }
         public virtual ICollection<MonitoringProgramDocument> MonitoringProgramDocuments { get; set; }
         public virtual ICollection<Organization> OrganizationsWhereYouAreTheLogoFileResource { get; set; }
-        public virtual ICollection<ParcelImage> ParcelImages { get; set; }
-        public virtual ICollection<ParcelLandCapability> ParcelLandCapabilitiesWhereYouAreTheSitePlanFileResource { get; set; }
         public virtual ICollection<ProgramImage> ProgramImages { get; set; }
+        public virtual ICollection<ProjectFirmaPageImage> ProjectFirmaPageImages { get; set; }
         public virtual ICollection<ProjectImage> ProjectImages { get; set; }
         public virtual ICollection<ProjectImageUpdate> ProjectImageUpdates { get; set; }
         public virtual ICollection<ProposedProjectImage> ProposedProjectImages { get; set; }

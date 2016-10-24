@@ -11,9 +11,9 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -28,18 +28,9 @@ namespace ProjectFirma.Web.Models
         {
             throw new UnintentionalCodeFirstException();
         }
-        public virtual DbSet<AccelaCAPRecord> AccelaCAPRecords { get; set; }
-        public virtual DbSet<AccelaJurisdictionToJurisdictionMapping> AccelaJurisdictionToJurisdictionMappings { get; set; }
         public virtual DbSet<ActionPriority> ActionPriorities { get; set; }
         public virtual DbSet<ActionPriorityImage> ActionPriorityImages { get; set; }
         public virtual DbSet<AuditLog> AuditLogs { get; set; }
-        public virtual DbSet<BankedCommodity> BankedCommodities { get; set; }
-        public virtual DbSet<CommodityBaileyRating> CommodityBaileyRatings { get; set; }
-        public virtual DbSet<CommodityConvertedToCommodity> CommodityConvertedToCommodities { get; set; }
-        public virtual DbSet<CommodityPoolDisbursement> CommodityPoolDisbursements { get; set; }
-        public virtual DbSet<CommodityPool> CommodityPools { get; set; }
-        public virtual DbSet<ProjectFirmaPageImage> ProjectFirmaPageImages { get; set; }
-        public virtual DbSet<ProjectFirmaPage> ProjectFirmaPages { get; set; }
         public virtual DbSet<County> Counties { get; set; }
         public virtual DbSet<DatabaseMigration> DatabaseMigrations { get; set; }
         public virtual DbSet<EIPPerformanceMeasureActual> EIPPerformanceMeasureActuals { get; set; }
@@ -64,11 +55,6 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<IndicatorSubcategory> IndicatorSubcategories { get; set; }
         public virtual DbSet<IndicatorSubcategoryOption> IndicatorSubcategoryOptions { get; set; }
         public virtual DbSet<Jurisdiction> Jurisdictions { get; set; }
-        public virtual DbSet<LandBank> LandBanks { get; set; }
-        public virtual DbSet<LeadAgency> LeadAgencies { get; set; }
-        public virtual DbSet<LeadAgencyRightOfWayCoverage> LeadAgencyRightOfWayCoverages { get; set; }
-        public virtual DbSet<LeadAgencyTransactionTypeCommodity> LeadAgencyTransactionTypeCommodities { get; set; }
-        public virtual DbSet<LeadAgencyTransactionTypeCommodityLog> LeadAgencyTransactionTypeCommodityLogs { get; set; }
         public virtual DbSet<LocalAndRegionalPlan> LocalAndRegionalPlans { get; set; }
         public virtual DbSet<MappedRegion> MappedRegions { get; set; }
         public virtual DbSet<MonitoringProgramDocument> MonitoringProgramDocuments { get; set; }
@@ -78,15 +64,6 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<NotificationProposedProject> NotificationProposedProjects { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
         public virtual DbSet<Organization> Organizations { get; set; }
-        public virtual DbSet<ParcelAccelaCAPRecord> ParcelAccelaCAPRecords { get; set; }
-        public virtual DbSet<ParcelCommodityBaileyRatingConfirmation> ParcelCommodityBaileyRatingConfirmations { get; set; }
-        public virtual DbSet<ParcelDistanceFromTownCenter> ParcelDistanceFromTownCenters { get; set; }
-        public virtual DbSet<ParcelExistingPhysicalInventory> ParcelExistingPhysicalInventories { get; set; }
-        public virtual DbSet<ParcelGeometry> ParcelGeometries { get; set; }
-        public virtual DbSet<ParcelImage> ParcelImages { get; set; }
-        public virtual DbSet<ParcelLandCapability> ParcelLandCapabilities { get; set; }
-        public virtual DbSet<ParcelLandCapabilityRating> ParcelLandCapabilityRatings { get; set; }
-        public virtual DbSet<Parcel> Parcels { get; set; }
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<PersonArea> PersonAreas { get; set; }
         public virtual DbSet<ProgramEIPPerformanceMeasure> ProgramEIPPerformanceMeasures { get; set; }
@@ -96,6 +73,8 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<ProjectExemptReportingYearUpdate> ProjectExemptReportingYearUpdates { get; set; }
         public virtual DbSet<ProjectExternalLink> ProjectExternalLinks { get; set; }
         public virtual DbSet<ProjectExternalLinkUpdate> ProjectExternalLinkUpdates { get; set; }
+        public virtual DbSet<ProjectFirmaPageImage> ProjectFirmaPageImages { get; set; }
+        public virtual DbSet<ProjectFirmaPage> ProjectFirmaPages { get; set; }
         public virtual DbSet<ProjectFundingOrganization> ProjectFundingOrganizations { get; set; }
         public virtual DbSet<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; set; }
         public virtual DbSet<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get; set; }
@@ -129,7 +108,6 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<ProposedProject> ProposedProjects { get; set; }
         public virtual DbSet<ProposedProjectThresholdCategory> ProposedProjectThresholdCategories { get; set; }
         public virtual DbSet<ProposedProjectTransportationQuestion> ProposedProjectTransportationQuestions { get; set; }
-        public virtual DbSet<ResidentialAllocation> ResidentialAllocations { get; set; }
         public virtual DbSet<SnapshotEIPPerformanceMeasure> SnapshotEIPPerformanceMeasures { get; set; }
         public virtual DbSet<SnapshotEIPPerformanceMeasureSubcategoryOption> SnapshotEIPPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual DbSet<SnapshotProject> SnapshotProjects { get; set; }
@@ -144,16 +122,6 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<SustainabilityIndicator> SustainabilityIndicators { get; set; }
         public virtual DbSet<SustainabilityPillar> SustainabilityPillars { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
-        public virtual DbSet<TdrTransactionAllocationAssignment> TdrTransactionAllocationAssignments { get; set; }
-        public virtual DbSet<TdrTransactionAllocation> TdrTransactionAllocations { get; set; }
-        public virtual DbSet<TdrTransactionConversion> TdrTransactionConversions { get; set; }
-        public virtual DbSet<TdrTransactionConversionWithTransfer> TdrTransactionConversionWithTransfers { get; set; }
-        public virtual DbSet<TdrTransactionECMRetirement> TdrTransactionECMRetirements { get; set; }
-        public virtual DbSet<TdrTransactionLandBankAcquisition> TdrTransactionLandBankAcquisitions { get; set; }
-        public virtual DbSet<TdrTransaction> TdrTransactions { get; set; }
-        public virtual DbSet<TdrTransactionStateHistory> TdrTransactionStateHistories { get; set; }
-        public virtual DbSet<TdrTransactionTransfer> TdrTransactionTransfers { get; set; }
-        public virtual DbSet<TdrTransactionTransferWithBonusUnit> TdrTransactionTransferWithBonusUnits { get; set; }
         public virtual DbSet<ThresholdCategory> ThresholdCategories { get; set; }
         public virtual DbSet<ThresholdCategoryImage> ThresholdCategoryImages { get; set; }
         public virtual DbSet<ThresholdCategoryIndicator> ThresholdCategoryIndicators { get; set; }
@@ -165,8 +133,6 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<ThresholdIndicatorReportingPeriod> ThresholdIndicatorReportingPeriods { get; set; }
         public virtual DbSet<ThresholdIndicator> ThresholdIndicators { get; set; }
         public virtual DbSet<ThresholdReportingCategory> ThresholdReportingCategories { get; set; }
-        public virtual DbSet<TownCenter> TownCenters { get; set; }
-        public virtual DbSet<TransactionTypeCommodity> TransactionTypeCommodities { get; set; }
         public virtual DbSet<TransportationCostParameterSet> TransportationCostParameterSets { get; set; }
         public virtual DbSet<TransportationGoal> TransportationGoals { get; set; }
         public virtual DbSet<TransportationObjectiveImage> TransportationObjectiveImages { get; set; }
@@ -177,37 +143,13 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<TransportationStrategy> TransportationStrategies { get; set; }
         public virtual DbSet<TransportationStrategyImage> TransportationStrategyImages { get; set; }
         public virtual DbSet<TransportationSubGoal> TransportationSubGoals { get; set; }
-        public virtual DbSet<vAccelaCapRecord> vAccelaCapRecords { get; set; }
-        public virtual DbSet<vAccelaParcelAttributes> vAccelaParcelAttributes { get; set; }
-        public virtual DbSet<vAccelaParcel> vAccelaParcels { get; set; }
-        public virtual DbSet<vParcelCurrentInventoryByCommodity> vParcelCurrentInventoryByCommodities { get; set; }
-        public virtual DbSet<vParcelCurrentInventoryByCommodityBaileyRating> vParcelCurrentInventoryByCommodityBaileyRatings { get; set; }
-        public virtual DbSet<vParcelCurrentInventoryByCommodityDetailed> vParcelCurrentInventoryByCommodityDetaileds { get; set; }
-        public virtual DbSet<vParcelDetailed> vParcelDetaileds { get; set; }
-        public virtual DbSet<vParcelLandCapability> vParcelLandCapabilities { get; set; }
-        public virtual DbSet<vParcelLandCapabilityCombinedDescription> vParcelLandCapabilityCombinedDescriptions { get; set; }
-        public virtual DbSet<vParcel> vParcels { get; set; }
-        public virtual DbSet<vParcelTransactionFillColor> vParcelTransactionFillColors { get; set; }
         public virtual DbSet<vProject> vProjects { get; set; }
-        public virtual DbSet<vTdrTransactionCanBeCountedInInventory> vTdrTransactionCanBeCountedInInventories { get; set; }
-        public virtual DbSet<vTransactedAndBankedCommodities> vTransactedAndBankedCommodities { get; set; }
         public virtual DbSet<Watershed> Watersheds { get; set; }
 
         public object LoadType(Type type, int primaryKey)
         {
             switch (type.Name)
             {
-                case "AccelaCAPRecord":
-                    return AccelaCAPRecords.GetAccelaCAPRecord(primaryKey);
-
-                case "AccelaCAPRecordStatus":
-                    var accelaCAPRecordStatus = AccelaCAPRecordStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(accelaCAPRecordStatus, "AccelaCAPRecordStatus", primaryKey);
-                    return accelaCAPRecordStatus;
-
-                case "AccelaJurisdictionToJurisdictionMapping":
-                    return AccelaJurisdictionToJurisdictionMappings.GetAccelaJurisdictionToJurisdictionMapping(primaryKey);
-
                 case "ActionPriority":
                     return ActionPriorities.GetActionPriority(primaryKey);
 
@@ -222,62 +164,11 @@ namespace ProjectFirma.Web.Models
                 case "AuditLog":
                     return AuditLogs.GetAuditLog(primaryKey);
 
-                case "BaileyRating":
-                    var baileyRating = BaileyRating.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(baileyRating, "BaileyRating", primaryKey);
-                    return baileyRating;
-
-                case "BankedCommodity":
-                    return BankedCommodities.GetBankedCommodity(primaryKey);
-
-                case "Commodity":
-                    var commodity = Commodity.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(commodity, "Commodity", primaryKey);
-                    return commodity;
-
-                case "CommodityBaileyRating":
-                    return CommodityBaileyRatings.GetCommodityBaileyRating(primaryKey);
-
-                case "CommodityConvertedToCommodity":
-                    return CommodityConvertedToCommodities.GetCommodityConvertedToCommodity(primaryKey);
-
-                case "CommodityPoolDisbursement":
-                    return CommodityPoolDisbursements.GetCommodityPoolDisbursement(primaryKey);
-
-                case "CommodityPool":
-                    return CommodityPools.GetCommodityPool(primaryKey);
-
-                case "CommodityUnitType":
-                    var commodityUnitType = CommodityUnitType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(commodityUnitType, "CommodityUnitType", primaryKey);
-                    return commodityUnitType;
-
-                case "ProjectFirmaPageImage":
-                    return ProjectFirmaPageImages.GetProjectFirmaPageImage(primaryKey);
-
-                case "ProjectFirmaPageRenderType":
-                    var projectFirmaPageRenderType = ProjectFirmaPageRenderType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(projectFirmaPageRenderType, "ProjectFirmaPageRenderType", primaryKey);
-                    return projectFirmaPageRenderType;
-
-                case "ProjectFirmaPage":
-                    return ProjectFirmaPages.GetProjectFirmaPage(primaryKey);
-
-                case "ProjectFirmaPageType":
-                    var projectFirmaPageType = ProjectFirmaPageType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(projectFirmaPageType, "ProjectFirmaPageType", primaryKey);
-                    return projectFirmaPageType;
-
                 case "County":
                     return Counties.GetCounty(primaryKey);
 
                 case "DatabaseMigration":
                     return DatabaseMigrations.GetDatabaseMigration(primaryKey);
-
-                case "DistanceFromTownCenterSummaryType":
-                    var distanceFromTownCenterSummaryType = DistanceFromTownCenterSummaryType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(distanceFromTownCenterSummaryType, "DistanceFromTownCenterSummaryType", primaryKey);
-                    return distanceFromTownCenterSummaryType;
 
                 case "EIPPerformanceMeasureActual":
                     return EIPPerformanceMeasureActuals.GetEIPPerformanceMeasureActual(primaryKey);
@@ -385,31 +276,6 @@ namespace ProjectFirma.Web.Models
                 case "Jurisdiction":
                     return Jurisdictions.GetJurisdiction(primaryKey);
 
-                case "LandBank":
-                    return LandBanks.GetLandBank(primaryKey);
-
-                case "LandCapabilityType":
-                    var landCapabilityType = LandCapabilityType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(landCapabilityType, "LandCapabilityType", primaryKey);
-                    return landCapabilityType;
-
-                case "LeadAgency":
-                    return LeadAgencies.GetLeadAgency(primaryKey);
-
-                case "LeadAgencyRightOfWayCoverage":
-                    return LeadAgencyRightOfWayCoverages.GetLeadAgencyRightOfWayCoverage(primaryKey);
-
-                case "LeadAgencyTransactionTypeCommodity":
-                    return LeadAgencyTransactionTypeCommodities.GetLeadAgencyTransactionTypeCommodity(primaryKey);
-
-                case "LeadAgencyTransactionTypeCommodityLogChangeType":
-                    var leadAgencyTransactionTypeCommodityLogChangeType = LeadAgencyTransactionTypeCommodityLogChangeType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(leadAgencyTransactionTypeCommodityLogChangeType, "LeadAgencyTransactionTypeCommodityLogChangeType", primaryKey);
-                    return leadAgencyTransactionTypeCommodityLogChangeType;
-
-                case "LeadAgencyTransactionTypeCommodityLog":
-                    return LeadAgencyTransactionTypeCommodityLogs.GetLeadAgencyTransactionTypeCommodityLog(primaryKey);
-
                 case "LocalAndRegionalPlan":
                     return LocalAndRegionalPlans.GetLocalAndRegionalPlan(primaryKey);
 
@@ -457,58 +323,6 @@ namespace ProjectFirma.Web.Models
                 case "Organization":
                     return Organizations.GetOrganization(primaryKey);
 
-                case "Ownership":
-                    var ownership = Ownership.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(ownership, "Ownership", primaryKey);
-                    return ownership;
-
-                case "ParcelAccelaCAPRecord":
-                    return ParcelAccelaCAPRecords.GetParcelAccelaCAPRecord(primaryKey);
-
-                case "ParcelCommodityBaileyRatingConfirmation":
-                    return ParcelCommodityBaileyRatingConfirmations.GetParcelCommodityBaileyRatingConfirmation(primaryKey);
-
-                case "ParcelCommodityBaileyRatingConfirmationStatus":
-                    var parcelCommodityBaileyRatingConfirmationStatus = ParcelCommodityBaileyRatingConfirmationStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(parcelCommodityBaileyRatingConfirmationStatus, "ParcelCommodityBaileyRatingConfirmationStatus", primaryKey);
-                    return parcelCommodityBaileyRatingConfirmationStatus;
-
-                case "ParcelDistanceFromTownCenter":
-                    return ParcelDistanceFromTownCenters.GetParcelDistanceFromTownCenter(primaryKey);
-
-                case "ParcelExistingPhysicalInventory":
-                    return ParcelExistingPhysicalInventories.GetParcelExistingPhysicalInventory(primaryKey);
-
-                case "ParcelGeometry":
-                    return ParcelGeometries.GetParcelGeometry(primaryKey);
-
-                case "ParcelImage":
-                    return ParcelImages.GetParcelImage(primaryKey);
-
-                case "ParcelLandCapability":
-                    return ParcelLandCapabilities.GetParcelLandCapability(primaryKey);
-
-                case "ParcelLandCapabilityDeterminationType":
-                    var parcelLandCapabilityDeterminationType = ParcelLandCapabilityDeterminationType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(parcelLandCapabilityDeterminationType, "ParcelLandCapabilityDeterminationType", primaryKey);
-                    return parcelLandCapabilityDeterminationType;
-
-                case "ParcelLandCapabilityRating":
-                    return ParcelLandCapabilityRatings.GetParcelLandCapabilityRating(primaryKey);
-
-                case "Parcel":
-                    return Parcels.GetParcel(primaryKey);
-
-                case "ParcelStatus":
-                    var parcelStatus = ParcelStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(parcelStatus, "ParcelStatus", primaryKey);
-                    return parcelStatus;
-
-                case "ParcelTrackerRole":
-                    var parcelTrackerRole = ParcelTrackerRole.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(parcelTrackerRole, "ParcelTrackerRole", primaryKey);
-                    return parcelTrackerRole;
-
                 case "Person":
                     return People.GetPerson(primaryKey);
 
@@ -540,6 +354,22 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectExternalLinkUpdate":
                     return ProjectExternalLinkUpdates.GetProjectExternalLinkUpdate(primaryKey);
+
+                case "ProjectFirmaPageImage":
+                    return ProjectFirmaPageImages.GetProjectFirmaPageImage(primaryKey);
+
+                case "ProjectFirmaPageRenderType":
+                    var projectFirmaPageRenderType = ProjectFirmaPageRenderType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectFirmaPageRenderType, "ProjectFirmaPageRenderType", primaryKey);
+                    return projectFirmaPageRenderType;
+
+                case "ProjectFirmaPage":
+                    return ProjectFirmaPages.GetProjectFirmaPage(primaryKey);
+
+                case "ProjectFirmaPageType":
+                    var projectFirmaPageType = ProjectFirmaPageType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectFirmaPageType, "ProjectFirmaPageType", primaryKey);
+                    return projectFirmaPageType;
 
                 case "ProjectFundingOrganization":
                     return ProjectFundingOrganizations.GetProjectFundingOrganization(primaryKey);
@@ -680,14 +510,6 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(reminderMessageType, "ReminderMessageType", primaryKey);
                     return reminderMessageType;
 
-                case "ResidentialAllocation":
-                    return ResidentialAllocations.GetResidentialAllocation(primaryKey);
-
-                case "ResidentialAllocationType":
-                    var residentialAllocationType = ResidentialAllocationType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(residentialAllocationType, "ResidentialAllocationType", primaryKey);
-                    return residentialAllocationType;
-
                 case "Sector":
                     var sector = Sector.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(sector, "Sector", primaryKey);
@@ -749,36 +571,6 @@ namespace ProjectFirma.Web.Models
 
                 case "Tag":
                     return Tags.GetTag(primaryKey);
-
-                case "TdrTransactionAllocationAssignment":
-                    return TdrTransactionAllocationAssignments.GetTdrTransactionAllocationAssignment(primaryKey);
-
-                case "TdrTransactionAllocation":
-                    return TdrTransactionAllocations.GetTdrTransactionAllocation(primaryKey);
-
-                case "TdrTransactionConversion":
-                    return TdrTransactionConversions.GetTdrTransactionConversion(primaryKey);
-
-                case "TdrTransactionConversionWithTransfer":
-                    return TdrTransactionConversionWithTransfers.GetTdrTransactionConversionWithTransfer(primaryKey);
-
-                case "TdrTransactionECMRetirement":
-                    return TdrTransactionECMRetirements.GetTdrTransactionECMRetirement(primaryKey);
-
-                case "TdrTransactionLandBankAcquisition":
-                    return TdrTransactionLandBankAcquisitions.GetTdrTransactionLandBankAcquisition(primaryKey);
-
-                case "TdrTransaction":
-                    return TdrTransactions.GetTdrTransaction(primaryKey);
-
-                case "TdrTransactionStateHistory":
-                    return TdrTransactionStateHistories.GetTdrTransactionStateHistory(primaryKey);
-
-                case "TdrTransactionTransfer":
-                    return TdrTransactionTransfers.GetTdrTransactionTransfer(primaryKey);
-
-                case "TdrTransactionTransferWithBonusUnit":
-                    return TdrTransactionTransferWithBonusUnits.GetTdrTransactionTransferWithBonusUnit(primaryKey);
 
                 case "ThresholdCategory":
                     return ThresholdCategories.GetThresholdCategory(primaryKey);
@@ -847,27 +639,6 @@ namespace ProjectFirma.Web.Models
                     var thresholdStandardType = ThresholdStandardType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(thresholdStandardType, "ThresholdStandardType", primaryKey);
                     return thresholdStandardType;
-
-                case "TownCenter":
-                    return TownCenters.GetTownCenter(primaryKey);
-
-                case "TownCenterType":
-                    var townCenterType = TownCenterType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(townCenterType, "TownCenterType", primaryKey);
-                    return townCenterType;
-
-                case "TransactionState":
-                    var transactionState = TransactionState.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(transactionState, "TransactionState", primaryKey);
-                    return transactionState;
-
-                case "TransactionTypeCommodity":
-                    return TransactionTypeCommodities.GetTransactionTypeCommodity(primaryKey);
-
-                case "TransactionType":
-                    var transactionType = TransactionType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(transactionType, "TransactionType", primaryKey);
-                    return transactionType;
 
                 case "TransportationCostParameterSet":
                     return TransportationCostParameterSets.GetTransportationCostParameterSet(primaryKey);

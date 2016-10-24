@@ -1,16 +1,12 @@
-﻿@using ProjectFirma.Web.Areas.ParcelTracker.Controllers
-@using ProjectFirma.Web.Areas.ParcelTracker.Views.Shared
-@using ProjectFirma.Web.Models
+﻿@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Security
 @using ProjectFirma.Web.Areas.EIP.Views.Results
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
-@using LtInfo.Common.Views
 @using MoreLinq
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
@@ -28,14 +24,6 @@
     <ul class="nav nav-tabs" id="organizationDetailsTabs">
         <li class="active"><a href="#organizationOverview" aria-controls="organizationOverview" role="tab" data-toggle="tab">Overview</a></li>
         <li><a href="#eipFundingAndProjects" aria-controls="eipFundingAndProjects" role="tab" data-toggle="tab">EIP Funding &amp; Projects</a></li>
-        @if (ViewDataTyped.Organization.IsLeadAgency)
-        {
-            <li><a href="#parcelsAndCommodityTransactions" aria-controls="parcelsAndCommodityTransactions" role="tab" data-toggle="tab">Development Right Transactions</a></li>
-            if (ViewDataTyped.Organization.LeadAgency.CanManageRightOfWayCoverage)
-            {
-                <li><a href="#rightOfWay" aria-controls="rightOfWay" role="tab" data-toggle="tab">Right Of Way Coverage</a></li>
-            }
-        }
     </ul>
 </div>
 <div class="panel panel-default">
@@ -101,7 +89,7 @@
                             <h2>Map</h2>
                             <div class="contentWrapper">
                                 <div class="contentWrapper">
-                                    @if (@ViewDataTyped.HasSpatialData)
+                                    @if (ViewDataTyped.HasSpatialData)
                                     {
                                         <span>This map displays any EIP Projects, Development Right Transfers, and jurisdictional boundaries associated with this organiztion.</span>
 
@@ -112,9 +100,6 @@
                                                     <div><span class="glyphicon glyphicon-map-marker" style="color:#3366ff"></span>Lead Implementer</div>
                                                     <div><span class="glyphicon glyphicon-map-marker" style="color:#99b3ff"></span>Funder and/or Implementer</div>
                                                 </div>
-                                            </div>
-                                            <div>
-                                                @{ Html.RenderRazorSitkaPartial<ParcelAndTransactionsLegend, ParcelAndTransactionsLegendViewData>(ViewDataTyped.ParcelAndTransactionsLegendViewData); }
                                             </div>
                                         </div>
 
@@ -239,140 +224,6 @@
                 </div>
             </div>
 
-            @if (ViewDataTyped.Organization.IsLeadAgency)
-            {
-                <div role="tabpanel" class="tab-pane" id="parcelsAndCommodityTransactions">
-                    @if (ViewDataTyped.Organization.LeadAgency.LeadAgencyTransactionTypeCommodities.Any())
-                    {
-                        <div class="row">
-                            <div class="summarySection">
-                                <h2>Transactions</h2>
-                                <div class="contentWrapper">
-                                    @Html.DhtmlxGrid(ViewDataTyped.LeadAgencyDetailsViewData.TdrTransactionsGridSpec, ViewDataTyped.LeadAgencyDetailsViewData.TdrTransactionsGridName, ViewDataTyped.LeadAgencyDetailsViewData.TdrTransactionsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                                </div>
-                            </div>
-                        </div>
-                    }
-                    <div class="summarySection">
-                        <h2>Pools</h2>
-                        <div class="contentWrapper">
-                            @if (ViewDataTyped.Organization.LeadAgency.IsJurisdiction && ViewDataTyped.Organization.LeadAgency.Organization.Jurisdiction.CommodityPools.Any())
-                            {
-                                @Html.DhtmlxGrid(ViewDataTyped.LeadAgencyDetailsViewData.CommodityPoolGridSpec, ViewDataTyped.LeadAgencyDetailsViewData.CommodityPoolGridName, ViewDataTyped.LeadAgencyDetailsViewData.CommodityPoolGridDataUrl, "height: 250px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                            }
-                            else
-                            {
-                                <span class="systemText">
-                                    Lead Agency does not manage pools.
-                                </span>
-                            }
-                        </div>
-                    </div>
-                </div>
-                if (ViewDataTyped.Organization.LeadAgency.CanManageRightOfWayCoverage)
-                {
-                    <div role="tabpanel" class="tab-pane" id="rightOfWay">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="summarySection" style="min-height: 390px">
-                                    <h2>Current Banked Right of Way Coverage</h2>
-                                    <div class="contentWrapper">
-                                        @if (ViewDataTyped.Organization.LeadAgency.LeadAgencyRightOfWayCoverages.Any())
-                                        {
-                                            <table class="table table-striped table-condensed" style="width: 400px">
-                                                <tr>
-                                                    <th>Commodity</th>
-                                                    <th colspan="2">Coverage Amount</th>
-                                                </tr>
-                                                @foreach (var leadAgencyRightOfWayCoverages in ViewDataTyped.Organization.LeadAgency.LeadAgencyRightOfWayCoverages.GroupBy(x => x.DisplayName).OrderBy(x => x.Key))
-                                                {
-                                                    <tr>
-                                                        <td>
-                                                            @leadAgencyRightOfWayCoverages.Key
-                                                        </td>
-                                                        <td style="text-align: right">
-                                                            @leadAgencyRightOfWayCoverages.Sum(x => x.RightOfWayCoverageAmount).ToGroupedNumeric()
-                                                        </td>
-                                                        <td>
-                                                            @if (leadAgencyRightOfWayCoverages.First().Commodity.CommodityUnitType == CommodityUnitType.SquareFootage)
-                                                            {
-                                                                <span>ft<sup>2</sup></span>
-                                                            }
-                                                            else
-                                                            {
-                                                                @leadAgencyRightOfWayCoverages.First().Commodity.CommodityUnitType.CommodityUnitTypeDisplayName
-                                                            }
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </table>
-                                        }
-                                        else
-                                        {
-                                            <span class="systemText">@ViewUtilities.NotAvailableString</span>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="summarySection">
-                                    <h2>Right of Way Details</h2>
-                                    <div class="contentWrapper">
-                                        @Html.DhtmlxGrid(ViewDataTyped.LeadAgencyDetailsViewData.LeadAgencyRightOfWayCoverageGridSpec, ViewDataTyped.LeadAgencyDetailsViewData.LeadAgencyRightOfWayCoverageGridName, ViewDataTyped.LeadAgencyDetailsViewData.LeadAgencyRightOfWayCoverageGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                                    </div>
-                                </div>
-
-                                <script type="text/javascript">
-                                    jQuery(document).ready(function()
-                                    {
-                                        var hasOnlyOneCommodity = @(ViewDataTyped.Organization.LeadAgency.LeadAgencyRightOfWayCoverages.Select(x => x.DisplayName).Distinct().Count() == 1 ? "true" : "false");
-
-                                        var rightOfWayCoverageGridContainer = Sitka.@ViewDataTyped.LeadAgencyDetailsViewData.LeadAgencyRightOfWayCoverageGridName;
-                                        var rightOfWayCoverageGrid = rightOfWayCoverageGridContainer.grid;
-
-                                        var attachTotalFooter = function(showTotal)
-                                        {
-                                            if (showTotal)
-                                            {
-                                                rightOfWayCoverageGrid.attachFooter("Total,#cspan,#cspan,{#stat_total},,,,", ["", "", "", "text-align:right", "", "", "", ""]);
-                                            }
-                                            else
-                                            {
-                                                rightOfWayCoverageGrid.attachFooter(",,,,,,,");
-                                            }
-                                            rightOfWayCoverageGrid.setSizes();
-                                            rightOfWayCoverageGrid.callEvent("onGridReconstructed", []);
-                                        };
-
-                                        rightOfWayCoverageGrid.attachEvent("onXLE", function() { attachTotalFooter(hasOnlyOneCommodity); });
-                                        if (!hasOnlyOneCommodity)
-                                        {
-                                            rightOfWayCoverageGrid.attachEvent("onFilterEnd", function()
-                                            {
-                                                var footerLabel = rightOfWayCoverageGrid.getFooterLabel(0);
-                                                var commodityFilter = this.getFilterElement(2).value;
-                                                if (!Sitka.Methods.isUndefinedNullOrEmpty(commodityFilter))
-                                                {
-                                                    if (footerLabel !== "Total")
-                                                    {
-                                                        rightOfWayCoverageGrid.detachFooter(0);
-                                                        attachTotalFooter(true);
-                                                    }
-                                                }
-                                                else if (footerLabel === "Total")
-                                                {
-                                                    rightOfWayCoverageGrid.detachFooter(0);
-                                                    attachTotalFooter(hasOnlyOneCommodity);
-                                                }
-                                            });
-                                        }
-                                    });
-                                </script>
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
         </div>
     </div>
 </div>

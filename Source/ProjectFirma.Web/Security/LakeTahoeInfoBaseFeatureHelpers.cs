@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ProjectFirma.Web.Areas.ParcelTracker.Security;
 using ProjectFirma.Web.Areas.EIP.Security;
 using ProjectFirma.Web.Areas.Sustainability.Security;
 using ProjectFirma.Web.Models;
@@ -13,7 +11,6 @@ namespace ProjectFirma.Web.Security
     public static class LakeTahoeInfoBaseFeatureHelpers
     {
         public static readonly List<EIPRole> AllEIPRolesExceptUnassigned = EIPRole.All.Except(new[] { EIPRole.Unassigned }).ToList();
-        public static readonly List<ParcelTrackerRole> AllParcelTrackerRolesExceptUnassigned = ParcelTrackerRole.All.Except(new[] { ParcelTrackerRole.Unassigned }).ToList();
         public static readonly List<SustainabilityRole> AllSustainabilityRolesExceptUnassigned = SustainabilityRole.All.Except(new[] { SustainabilityRole.Unassigned }).ToList();
         public static readonly List<LTInfoRole> AllLTInfoRolesExceptUnassigned = LTInfoRole.All.Except(new[] { LTInfoRole.Unassigned }).ToList();
 
@@ -48,7 +45,6 @@ namespace ProjectFirma.Web.Security
         {
             return (featureAttribute is EIPFeatureWithContext
                  || featureAttribute is SustainabilityFeatureWithContext
-                 || featureAttribute is ParcelTrackerFeatureWithContext
                  || featureAttribute is LakeTahoeInfoFeatureWithContext);
         }
 
@@ -61,10 +57,6 @@ namespace ProjectFirma.Web.Security
             else if (featureAttribute is SustainabilityFeature || featureAttribute is SustainabilityFeatureWithContext)
             {
                 return LTInfoArea.Sustainability;
-            }
-            else if (featureAttribute is ParcelTrackerFeature || featureAttribute is ParcelTrackerFeatureWithContext)
-            {
-                return LTInfoArea.ParcelTracker;
             }
             else if (featureAttribute is LakeTahoeInfoFeature || featureAttribute is LakeTahoeInfoFeatureWithContext)
             {

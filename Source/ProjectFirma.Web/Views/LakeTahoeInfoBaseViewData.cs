@@ -18,7 +18,6 @@ namespace ProjectFirma.Web.Views
         public readonly Person CurrentPerson;
         public readonly string EipHomeUrl;
         public readonly string SustainabilityDashboardUrl;
-        public readonly string CommoditiesHomeUrl;
         public readonly string LakeTahoeInfoHomeUrl;
         public readonly string ThresholdsHomeUrl;
         public readonly string DataCenterUrl;
@@ -41,7 +40,6 @@ namespace ProjectFirma.Web.Views
             CurrentPerson = currentPerson;
             EipHomeUrl = SitkaRoute<Areas.EIP.Controllers.HomeController>.BuildUrlFromExpression(c => c.Index());
             SustainabilityDashboardUrl = SitkaRoute<Areas.Sustainability.Controllers.HomeController>.BuildUrlFromExpression(c => c.Index());
-            CommoditiesHomeUrl = SitkaRoute<Areas.ParcelTracker.Controllers.HomeController>.BuildUrlFromExpression(c => c.Index());
             ThresholdsHomeUrl = SitkaRoute<Areas.Threshold.Controllers.HomeController>.BuildUrlFromExpression(c => c.Index());
             LakeTahoeInfoHomeUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(c => c.Index());
             DataCenterUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.DataCenter());

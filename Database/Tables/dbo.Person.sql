@@ -18,7 +18,6 @@ CREATE TABLE [dbo].[Person](
 	[OrganizationID] [int] NOT NULL,
 	[SustainabilityRoleID] [int] NOT NULL,
 	[LTInfoRoleID] [int] NOT NULL,
-	[ParcelTrackerRoleID] [int] NOT NULL,
 	[WebServiceAccessToken] [uniqueidentifier] NULL,
 	[ThresholdRoleID] [int] NOT NULL,
  CONSTRAINT [PK_Person_PersonID] PRIMARY KEY CLUSTERED 
@@ -46,11 +45,6 @@ ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_Organization_O
 REFERENCES [dbo].[Organization] ([OrganizationID])
 GO
 ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_Organization_OrganizationID]
-GO
-ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_ParcelTrackerRole_ParcelTrackerRoleID] FOREIGN KEY([ParcelTrackerRoleID])
-REFERENCES [dbo].[ParcelTrackerRole] ([ParcelTrackerRoleID])
-GO
-ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_ParcelTrackerRole_ParcelTrackerRoleID]
 GO
 ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_SustainabilityRole_SustainabilityRoleID] FOREIGN KEY([SustainabilityRoleID])
 REFERENCES [dbo].[SustainabilityRole] ([SustainabilityRoleID])

@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         {
             this.FundingSources = new HashSet<FundingSource>();
             this.Jurisdictions = new HashSet<Jurisdiction>();
-            this.LeadAgencies = new HashSet<LeadAgency>();
             this.MonitoringProgramPartners = new HashSet<MonitoringProgramPartner>();
             this.People = new HashSet<Person>();
             this.ProjectFundingOrganizations = new HashSet<ProjectFundingOrganization>();
@@ -88,13 +87,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return FundingSources.Any() || (Jurisdiction != null) || (LeadAgency != null) || MonitoringProgramPartners.Any() || People.Any() || ProjectFundingOrganizations.Any() || ProjectImplementingOrganizations.Any() || ProposedProjectsWhereYouAreTheLeadImplementerOrganization.Any();
+            return FundingSources.Any() || (Jurisdiction != null) || MonitoringProgramPartners.Any() || People.Any() || ProjectFundingOrganizations.Any() || ProjectImplementingOrganizations.Any() || ProposedProjectsWhereYouAreTheLeadImplementerOrganization.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(Jurisdiction).Name, typeof(LeadAgency).Name, typeof(MonitoringProgramPartner).Name, typeof(Person).Name, typeof(ProjectFundingOrganization).Name, typeof(ProjectImplementingOrganization).Name, typeof(ProposedProject).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(Jurisdiction).Name, typeof(MonitoringProgramPartner).Name, typeof(Person).Name, typeof(ProjectFundingOrganization).Name, typeof(ProjectImplementingOrganization).Name, typeof(ProposedProject).Name};
 
         [Key]
         public int OrganizationID { get; set; }
@@ -111,8 +110,6 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<FundingSource> FundingSources { get; set; }
         protected virtual ICollection<Jurisdiction> Jurisdictions { get; set; }
         public Jurisdiction Jurisdiction { get { return Jurisdictions.SingleOrDefault(); } set { Jurisdictions = new List<Jurisdiction>{value};} }
-        protected virtual ICollection<LeadAgency> LeadAgencies { get; set; }
-        public LeadAgency LeadAgency { get { return LeadAgencies.SingleOrDefault(); } set { LeadAgencies = new List<LeadAgency>{value};} }
         public virtual ICollection<MonitoringProgramPartner> MonitoringProgramPartners { get; set; }
         public virtual ICollection<Person> People { get; set; }
         public virtual ICollection<ProjectFundingOrganization> ProjectFundingOrganizations { get; set; }

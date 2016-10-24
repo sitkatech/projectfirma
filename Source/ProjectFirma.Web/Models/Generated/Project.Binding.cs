@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -131,7 +131,7 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return EIPPerformanceMeasureActuals.Any() || EIPPerformanceMeasureExpecteds.Any() || NotificationProjects.Any() || ProjectExemptReportingYears.Any() || ProjectExternalLinks.Any() || ProjectFundingOrganizations.Any() || ProjectFundingSourceExpenditures.Any() || ProjectImages.Any() || ProjectImplementingOrganizations.Any() || ProjectLocalAndRegionalPlans.Any() || ProjectLocations.Any() || ProjectLocationStagings.Any() || ProjectNotes.Any() || ProjectTags.Any() || ProjectThresholdCategories.Any() || ProjectTransportationQuestions.Any() || ProjectUpdateBatches.Any() || ProjectWatersheds.Any() || (ProposedProject != null) || SnapshotProjects.Any() || TransportationProjectBudgets.Any();
+            return EIPPerformanceMeasureActuals.Any() || EIPPerformanceMeasureExpecteds.Any() || NotificationProjects.Any() || ProjectExemptReportingYears.Any() || ProjectExternalLinks.Any() || ProjectFundingOrganizations.Any() || ProjectFundingSourceExpenditures.Any() || ProjectImages.Any() || ProjectImplementingOrganizations.Any() || ProjectLocalAndRegionalPlans.Any() || ProjectLocations.Any() || ProjectLocationStagings.Any() || ProjectNotes.Any() || ProjectTags.Any() || ProjectThresholdCategories.Any() || ProjectTransportationQuestions.Any() || ProjectUpdateBatches.Any() || ProjectWatersheds.Any() || ProposedProjects.Any() || SnapshotProjects.Any() || TransportationProjectBudgets.Any();
         }
 
         /// <summary>
@@ -183,8 +183,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectTransportationQuestion> ProjectTransportationQuestions { get; set; }
         public virtual ICollection<ProjectUpdateBatch> ProjectUpdateBatches { get; set; }
         public virtual ICollection<ProjectWatershed> ProjectWatersheds { get; set; }
-        protected virtual ICollection<ProposedProject> ProposedProjects { get; set; }
-        public ProposedProject ProposedProject { get { return ProposedProjects.SingleOrDefault(); } set { ProposedProjects = new List<ProposedProject>{value};} }
+        public virtual ICollection<ProposedProject> ProposedProjects { get; set; }
         public virtual ICollection<SnapshotProject> SnapshotProjects { get; set; }
         public virtual ICollection<TransportationProjectBudget> TransportationProjectBudgets { get; set; }
         public virtual ActionPriority ActionPriority { get; set; }

@@ -192,56 +192,6 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class LTInfoAreaParcelTracker
-    {
-        public override string GetCanonicalHostName()
-        {
-            return ProjectFirmaWebConfiguration.CanonicalHostNameParcelTracker;
-        }
-
-        public override IRole GetRole(int roleID)
-        {
-            return ParcelTrackerRole.AllLookupDictionary[roleID];
-        }
-
-        public override List<IRole> GetRoles()
-        {
-            return ParcelTrackerRole.All.Select(x => (IRole)x).ToList();
-        }
-
-
-        public override string GetHomeUrl()
-        {
-            return SitkaRoute<Areas.ParcelTracker.Controllers.HomeController>.BuildUrlFromExpression(x => x.Index());
-        }
-
-        public override string GetLogoUrl()
-        {
-            return "/Content/img/header_logo_toads.png";
-        }
-
-        public override string GetFavIconUrl()
-        {
-            return "/Areas/ParcelTracker/Content/img/favicon-32x32.png";
-        }
-
-        public override string PreferredSiteAreaLinkWidth { get { return "120px"; } }
-
-        protected override Func<Person, IRole> GetPersonRoleToUseFunc()
-        {
-            return x => x.ParcelTrackerRole;
-        }
-
-        public override PermissionCheckResult CanManageFieldDefinitionAndIntroTextForArea(Person person)
-        {
-            if(HasPermissionByPerson(person, new List<IRole> {ParcelTrackerRole.Admin}))
-            {
-                return new PermissionCheckResult();
-            }
-            return new PermissionCheckResult("Does not have Parcel Tracker administration privileges");
-        }
-    }
-
     public partial class LTInfoAreaThreshold
     {
         public override string GetCanonicalHostName()

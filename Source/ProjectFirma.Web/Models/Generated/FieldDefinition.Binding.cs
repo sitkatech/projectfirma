@@ -8,9 +8,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -112,79 +112,6 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionIndicatorType IndicatorType = FieldDefinitionIndicatorType.Instance;
         public static readonly FieldDefinitionChartTitle ChartTitle = FieldDefinitionChartTitle.Instance;
         public static readonly FieldDefinitionProposedProjectState ProposedProjectState = FieldDefinitionProposedProjectState.Instance;
-        public static readonly FieldDefinitionFileOrCaseNumber FileOrCaseNumber = FieldDefinitionFileOrCaseNumber.Instance;
-        public static readonly FieldDefinitionAllocatedQuantity AllocatedQuantity = FieldDefinitionAllocatedQuantity.Instance;
-        public static readonly FieldDefinitionAllocationBonusPool AllocationBonusPool = FieldDefinitionAllocationBonusPool.Instance;
-        public static readonly FieldDefinitionAllocationPool AllocationPool = FieldDefinitionAllocationPool.Instance;
-        public static readonly FieldDefinitionAPNWithDashes APNWithDashes = FieldDefinitionAPNWithDashes.Instance;
-        public static readonly FieldDefinitionLocalPlan LocalPlan = FieldDefinitionLocalPlan.Instance;
-        public static readonly FieldDefinitionBaileyRating BaileyRating = FieldDefinitionBaileyRating.Instance;
-        public static readonly FieldDefinitionBankedCommodityNotes BankedCommodityNotes = FieldDefinitionBankedCommodityNotes.Instance;
-        public static readonly FieldDefinitionBankedDate BankedDate = FieldDefinitionBankedDate.Instance;
-        public static readonly FieldDefinitionBankedQuantity BankedQuantity = FieldDefinitionBankedQuantity.Instance;
-        public static readonly FieldDefinitionBMPStatus BMPStatus = FieldDefinitionBMPStatus.Instance;
-        public static readonly FieldDefinitionBonusUnits BonusUnits = FieldDefinitionBonusUnits.Instance;
-        public static readonly FieldDefinitionComments Comments = FieldDefinitionComments.Instance;
-        public static readonly FieldDefinitionCommodity Commodity = FieldDefinitionCommodity.Instance;
-        public static readonly FieldDefinitionCommodityConfirmationNotes CommodityConfirmationNotes = FieldDefinitionCommodityConfirmationNotes.Instance;
-        public static readonly FieldDefinitionCommodityConvertedTo CommodityConvertedTo = FieldDefinitionCommodityConvertedTo.Instance;
-        public static readonly FieldDefinitionCommodityPoolDisbursementAmount CommodityPoolDisbursementAmount = FieldDefinitionCommodityPoolDisbursementAmount.Instance;
-        public static readonly FieldDefinitionCommodityPoolDisbursementDate CommodityPoolDisbursementDate = FieldDefinitionCommodityPoolDisbursementDate.Instance;
-        public static readonly FieldDefinitionCommodityPoolDisbursementDescription CommodityPoolDisbursementDescription = FieldDefinitionCommodityPoolDisbursementDescription.Instance;
-        public static readonly FieldDefinitionCommodityPoolDisbursementTitle CommodityPoolDisbursementTitle = FieldDefinitionCommodityPoolDisbursementTitle.Instance;
-        public static readonly FieldDefinitionCommodityPoolName CommodityPoolName = FieldDefinitionCommodityPoolName.Instance;
-        public static readonly FieldDefinitionCommunityPlan CommunityPlan = FieldDefinitionCommunityPlan.Instance;
-        public static readonly FieldDefinitionCurrentInventory CurrentInventory = FieldDefinitionCurrentInventory.Instance;
-        public static readonly FieldDefinitionDeallocatedDate DeallocatedDate = FieldDefinitionDeallocatedDate.Instance;
-        public static readonly FieldDefinitionDeallocatedQuantity DeallocatedQuantity = FieldDefinitionDeallocatedQuantity.Instance;
-        public static readonly FieldDefinitionDeallocatedRationale DeallocatedRationale = FieldDefinitionDeallocatedRationale.Instance;
-        public static readonly FieldDefinitionDeterminationDate DeterminationDate = FieldDefinitionDeterminationDate.Instance;
-        public static readonly FieldDefinitionDeterminationType DeterminationType = FieldDefinitionDeterminationType.Instance;
-        public static readonly FieldDefinitionFireDistrict FireDistrict = FieldDefinitionFireDistrict.Instance;
-        public static readonly FieldDefinitionHRA HRA = FieldDefinitionHRA.Instance;
-        public static readonly FieldDefinitionIPESScore IPESScore = FieldDefinitionIPESScore.Instance;
-        public static readonly FieldDefinitionJurisdiction Jurisdiction = FieldDefinitionJurisdiction.Instance;
-        public static readonly FieldDefinitionJurisdictionProjectNumber JurisdictionProjectNumber = FieldDefinitionJurisdictionProjectNumber.Instance;
-        public static readonly FieldDefinitionLandBank LandBank = FieldDefinitionLandBank.Instance;
-        public static readonly FieldDefinitionLandBankCurrentlyOwnsTheParcel LandBankCurrentlyOwnsTheParcel = FieldDefinitionLandBankCurrentlyOwnsTheParcel.Instance;
-        public static readonly FieldDefinitionLandCapability LandCapability = FieldDefinitionLandCapability.Instance;
-        public static readonly FieldDefinitionLandCapabilityNotes LandCapabilityNotes = FieldDefinitionLandCapabilityNotes.Instance;
-        public static readonly FieldDefinitionLandCapabilityType LandCapabilityType = FieldDefinitionLandCapabilityType.Instance;
-        public static readonly FieldDefinitionLeadAgency LeadAgency = FieldDefinitionLeadAgency.Instance;
-        public static readonly FieldDefinitionLeadAgencyAbbreviation LeadAgencyAbbreviation = FieldDefinitionLeadAgencyAbbreviation.Instance;
-        public static readonly FieldDefinitionOwnerName OwnerName = FieldDefinitionOwnerName.Instance;
-        public static readonly FieldDefinitionParcelAddress ParcelAddress = FieldDefinitionParcelAddress.Instance;
-        public static readonly FieldDefinitionParcelCommodityBaileyRatingConfirmationStatus ParcelCommodityBaileyRatingConfirmationStatus = FieldDefinitionParcelCommodityBaileyRatingConfirmationStatus.Instance;
-        public static readonly FieldDefinitionParcelNickname ParcelNickname = FieldDefinitionParcelNickname.Instance;
-        public static readonly FieldDefinitionParcelNotes ParcelNotes = FieldDefinitionParcelNotes.Instance;
-        public static readonly FieldDefinitionParcelSize ParcelSize = FieldDefinitionParcelSize.Instance;
-        public static readonly FieldDefinitionParcelWatershed ParcelWatershed = FieldDefinitionParcelWatershed.Instance;
-        public static readonly FieldDefinitionPrivateOrPublic PrivateOrPublic = FieldDefinitionPrivateOrPublic.Instance;
-        public static readonly FieldDefinitionProjectApprovalDate ProjectApprovalDate = FieldDefinitionProjectApprovalDate.Instance;
-        public static readonly FieldDefinitionReceivingBaileyRating ReceivingBaileyRating = FieldDefinitionReceivingBaileyRating.Instance;
-        public static readonly FieldDefinitionReceivingIPESScore ReceivingIPESScore = FieldDefinitionReceivingIPESScore.Instance;
-        public static readonly FieldDefinitionReceivingJurisdiction ReceivingJurisdiction = FieldDefinitionReceivingJurisdiction.Instance;
-        public static readonly FieldDefinitionReceivingParcelAPN ReceivingParcelAPN = FieldDefinitionReceivingParcelAPN.Instance;
-        public static readonly FieldDefinitionReceivingQuantity ReceivingQuantity = FieldDefinitionReceivingQuantity.Instance;
-        public static readonly FieldDefinitionResidentialAllocationFeeReceived ResidentialAllocationFeeReceived = FieldDefinitionResidentialAllocationFeeReceived.Instance;
-        public static readonly FieldDefinitionResidentialAllocationNumber ResidentialAllocationNumber = FieldDefinitionResidentialAllocationNumber.Instance;
-        public static readonly FieldDefinitionRetiredSensitiveParcel RetiredSensitiveParcel = FieldDefinitionRetiredSensitiveParcel.Instance;
-        public static readonly FieldDefinitionECMRetirementApprovalDate ECMRetirementApprovalDate = FieldDefinitionECMRetirementApprovalDate.Instance;
-        public static readonly FieldDefinitionECMRetirementQuantity ECMRetirementQuantity = FieldDefinitionECMRetirementQuantity.Instance;
-        public static readonly FieldDefinitionRightOfWayCoverageAmount RightOfWayCoverageAmount = FieldDefinitionRightOfWayCoverageAmount.Instance;
-        public static readonly FieldDefinitionRightOfWayCoverageEffectiveDate RightOfWayCoverageEffectiveDate = FieldDefinitionRightOfWayCoverageEffectiveDate.Instance;
-        public static readonly FieldDefinitionRightOfWayCoverageNotes RightOfWayCoverageNotes = FieldDefinitionRightOfWayCoverageNotes.Instance;
-        public static readonly FieldDefinitionSendingBaileyRating SendingBaileyRating = FieldDefinitionSendingBaileyRating.Instance;
-        public static readonly FieldDefinitionSendingIPESScore SendingIPESScore = FieldDefinitionSendingIPESScore.Instance;
-        public static readonly FieldDefinitionSendingJurisdiction SendingJurisdiction = FieldDefinitionSendingJurisdiction.Instance;
-        public static readonly FieldDefinitionSendingParcelAPN SendingParcelAPN = FieldDefinitionSendingParcelAPN.Instance;
-        public static readonly FieldDefinitionSendingQuantity SendingQuantity = FieldDefinitionSendingQuantity.Instance;
-        public static readonly FieldDefinitionTransactionNumber TransactionNumber = FieldDefinitionTransactionNumber.Instance;
-        public static readonly FieldDefinitionTransactionStatus TransactionStatus = FieldDefinitionTransactionStatus.Instance;
-        public static readonly FieldDefinitionTransactionType TransactionType = FieldDefinitionTransactionType.Instance;
-        public static readonly FieldDefinitionTransferApprovalDate TransferApprovalDate = FieldDefinitionTransferApprovalDate.Instance;
-        public static readonly FieldDefinitionTransferPrice TransferPrice = FieldDefinitionTransferPrice.Instance;
-        public static readonly FieldDefinitionVerifiedParcelSize VerifiedParcelSize = FieldDefinitionVerifiedParcelSize.Instance;
         public static readonly FieldDefinitionUserLastName UserLastName = FieldDefinitionUserLastName.Instance;
         public static readonly FieldDefinitionUserFirstName UserFirstName = FieldDefinitionUserFirstName.Instance;
         public static readonly FieldDefinitionUserEmail UserEmail = FieldDefinitionUserEmail.Instance;
@@ -195,27 +122,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionLTInfoRoleID LTInfoRoleID = FieldDefinitionLTInfoRoleID.Instance;
         public static readonly FieldDefinitionSiteArea SiteArea = FieldDefinitionSiteArea.Instance;
         public static readonly FieldDefinitionRoleName RoleName = FieldDefinitionRoleName.Instance;
-        public static readonly FieldDefinitionAccelaCAPRecordKeys AccelaCAPRecordKeys = FieldDefinitionAccelaCAPRecordKeys.Instance;
         public static readonly FieldDefinitionRegion Region = FieldDefinitionRegion.Instance;
         public static readonly FieldDefinitionLatitude Latitude = FieldDefinitionLatitude.Instance;
         public static readonly FieldDefinitionLongitude Longitude = FieldDefinitionLongitude.Instance;
-        public static readonly FieldDefinitionRetiredQuantity RetiredQuantity = FieldDefinitionRetiredQuantity.Instance;
         public static readonly FieldDefinitionOrganizationUrl OrganizationUrl = FieldDefinitionOrganizationUrl.Instance;
-        public static readonly FieldDefinitionResidentialAllocationType ResidentialAllocationType = FieldDefinitionResidentialAllocationType.Instance;
-        public static readonly FieldDefinitionResidentialAllocationSequence ResidentialAllocationSequence = FieldDefinitionResidentialAllocationSequence.Instance;
-        public static readonly FieldDefinitionResidentialAllocationStatus ResidentialAllocationStatus = FieldDefinitionResidentialAllocationStatus.Instance;
-        public static readonly FieldDefinitionResidentialAllocationPreviousTransaction ResidentialAllocationPreviousTransaction = FieldDefinitionResidentialAllocationPreviousTransaction.Instance;
-        public static readonly FieldDefinitionResidentialAllocationAssignedToJurisdiction ResidentialAllocationAssignedToJurisdiction = FieldDefinitionResidentialAllocationAssignedToJurisdiction.Instance;
-        public static readonly FieldDefinitionResidentialAllocationAllocatedButNoRecord ResidentialAllocationAllocatedButNoRecord = FieldDefinitionResidentialAllocationAllocatedButNoRecord.Instance;
-        public static readonly FieldDefinitionParcelInitialBankedInventoryCount ParcelInitialBankedInventoryCount = FieldDefinitionParcelInitialBankedInventoryCount.Instance;
-        public static readonly FieldDefinitionParcelPreviousTransactionCount ParcelPreviousTransactionCount = FieldDefinitionParcelPreviousTransactionCount.Instance;
-        public static readonly FieldDefinitionParcelPendingTransactionCount ParcelPendingTransactionCount = FieldDefinitionParcelPendingTransactionCount.Instance;
-        public static readonly FieldDefinitionParcelAvailableToTransferInventoryCount ParcelAvailableToTransferInventoryCount = FieldDefinitionParcelAvailableToTransferInventoryCount.Instance;
-        public static readonly FieldDefinitionParcelExistingPhysicalInventoryCount ParcelExistingPhysicalInventoryCount = FieldDefinitionParcelExistingPhysicalInventoryCount.Instance;
-        public static readonly FieldDefinitionParcelExistingPhysicalInventoryVerificationDate ParcelExistingPhysicalInventoryVerificationDate = FieldDefinitionParcelExistingPhysicalInventoryVerificationDate.Instance;
-        public static readonly FieldDefinitionParcelStatus ParcelStatus = FieldDefinitionParcelStatus.Instance;
-        public static readonly FieldDefinitionParcelFind ParcelFind = FieldDefinitionParcelFind.Instance;
-        public static readonly FieldDefinitionCasesApplicationsAndPermits CasesApplicationsAndPermits = FieldDefinitionCasesApplicationsAndPermits.Instance;
         public static readonly FieldDefinitionThresholdReportingCategory ThresholdReportingCategory = FieldDefinitionThresholdReportingCategory.Instance;
         public static readonly FieldDefinitionApplicableStandard ApplicableStandard = FieldDefinitionApplicableStandard.Instance;
         public static readonly FieldDefinitionStandardNarrative StandardNarrative = FieldDefinitionStandardNarrative.Instance;
@@ -241,10 +151,6 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionThresholdEvaluationMonitoringAndAnalysis ThresholdEvaluationMonitoringAndAnalysis = FieldDefinitionThresholdEvaluationMonitoringAndAnalysis.Instance;
         public static readonly FieldDefinitionThresholdReportingCategoryNarrative ThresholdReportingCategoryNarrative = FieldDefinitionThresholdReportingCategoryNarrative.Instance;
         public static readonly FieldDefinitionChartCaption ChartCaption = FieldDefinitionChartCaption.Instance;
-        public static readonly FieldDefinitionParcelAddressSearch ParcelAddressSearch = FieldDefinitionParcelAddressSearch.Instance;
-        public static readonly FieldDefinitionParcelEncumberedForPendingPermitInventoryCount ParcelEncumberedForPendingPermitInventoryCount = FieldDefinitionParcelEncumberedForPendingPermitInventoryCount.Instance;
-        public static readonly FieldDefinitionParcelBaseAllowableInventoryCount ParcelBaseAllowableInventoryCount = FieldDefinitionParcelBaseAllowableInventoryCount.Instance;
-        public static readonly FieldDefinitionParcelExistingInventory ParcelExistingInventory = FieldDefinitionParcelExistingInventory.Instance;
         public static readonly FieldDefinitionRelevance Relevance = FieldDefinitionRelevance.Instance;
         public static readonly FieldDefinitionHumanAndEnvironmentalDrivers HumanAndEnvironmentalDrivers = FieldDefinitionHumanAndEnvironmentalDrivers.Instance;
         public static readonly FieldDefinitionThresholdStandardType ThresholdStandardType = FieldDefinitionThresholdStandardType.Instance;
@@ -264,7 +170,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { ActionPriority, ActionPriorityName, LocalAndRegionalPlanName, ExpectedValue, FocusArea, FocusAreaName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, OldEIPNumber, Organization, OrganizationAbbreviation, OrganizationName, Password, EIPPerformanceMeasure, IndicatorDefinition, IndicatorDisplayName, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, Program, ProgramName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, Stage, Subcategories, ProjectIsAProgram, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ProjectNumber, ThresholdCategory, LocalAndRegionalPlan, Watershed, Subcategory, SubcategoryOption, SubcategoryOptions, IsPrimaryProgram, IndicatorCriticalDefinitions, IndicatorAccountingPeriodAndScale, IndicatorProjectReporting, FundedAmount, ProjectLocation, IndicatorBackground, NumberOfReportedPMRecords, NumberOfReportedExpenditureRecords, ProjectLocationState, ProjectLocationJurisdiction, ProjectLocationWatershed, ExcludeFromFactSheet, TransportationStrategy, TransportationObjective, TransportationStrategyName, TransportationObjectiveName, ProjectIsATransportationProject, IsTransportationFundingSource, FundingType, ProjectCostInYearOfExpenditure, TransportationGlobalInflationRate, ReportingYear, TagName, TagDescription, Tags, ReportedExpenditure, ProposedProject, ProjectOnFTIPList, LocalAndRegionalPlanDocumentUrl, LocalAndRegionalPlanDocumentLinkText, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedPrograms, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentRTPYearForPVCalculations, LifecycleOperatingCost, IndicatorSystemName, IndicatorSimpleDescription, IndicatorPrimarySource, IndicatorType, ChartTitle, ProposedProjectState, FileOrCaseNumber, AllocatedQuantity, AllocationBonusPool, AllocationPool, APNWithDashes, LocalPlan, BaileyRating, BankedCommodityNotes, BankedDate, BankedQuantity, BMPStatus, BonusUnits, Comments, Commodity, CommodityConfirmationNotes, CommodityConvertedTo, CommodityPoolDisbursementAmount, CommodityPoolDisbursementDate, CommodityPoolDisbursementDescription, CommodityPoolDisbursementTitle, CommodityPoolName, CommunityPlan, CurrentInventory, DeallocatedDate, DeallocatedQuantity, DeallocatedRationale, DeterminationDate, DeterminationType, FireDistrict, HRA, IPESScore, Jurisdiction, JurisdictionProjectNumber, LandBank, LandBankCurrentlyOwnsTheParcel, LandCapability, LandCapabilityNotes, LandCapabilityType, LeadAgency, LeadAgencyAbbreviation, OwnerName, ParcelAddress, ParcelCommodityBaileyRatingConfirmationStatus, ParcelNickname, ParcelNotes, ParcelSize, ParcelWatershed, PrivateOrPublic, ProjectApprovalDate, ReceivingBaileyRating, ReceivingIPESScore, ReceivingJurisdiction, ReceivingParcelAPN, ReceivingQuantity, ResidentialAllocationFeeReceived, ResidentialAllocationNumber, RetiredSensitiveParcel, ECMRetirementApprovalDate, ECMRetirementQuantity, RightOfWayCoverageAmount, RightOfWayCoverageEffectiveDate, RightOfWayCoverageNotes, SendingBaileyRating, SendingIPESScore, SendingJurisdiction, SendingParcelAPN, SendingQuantity, TransactionNumber, TransactionStatus, TransactionType, TransferApprovalDate, TransferPrice, VerifiedParcelSize, UserLastName, UserFirstName, UserEmail, UserPhone, EIPRoleID, ParcelTrackerRoleID, SustainabilityRoleID, LTInfoRoleID, SiteArea, RoleName, AccelaCAPRecordKeys, Region, Latitude, Longitude, RetiredQuantity, OrganizationUrl, ResidentialAllocationType, ResidentialAllocationSequence, ResidentialAllocationStatus, ResidentialAllocationPreviousTransaction, ResidentialAllocationAssignedToJurisdiction, ResidentialAllocationAllocatedButNoRecord, ParcelInitialBankedInventoryCount, ParcelPreviousTransactionCount, ParcelPendingTransactionCount, ParcelAvailableToTransferInventoryCount, ParcelExistingPhysicalInventoryCount, ParcelExistingPhysicalInventoryVerificationDate, ParcelStatus, ParcelFind, CasesApplicationsAndPermits, ThresholdReportingCategory, ApplicableStandard, StandardNarrative, TRPAIndicator, ThresholdEvaluationStatus, ThresholdEvaluationTrend, ThresholdEvaluationConfidence, ThresholdEvaluationStatusRationale, ThresholdEvaluationTrendRationale, ThresholdEvaluationConfidenceStatus, ThresholdEvaluationManagementStatus, ThresholdEvaluationProgramsAndActionsImplementedToImproveConditions, ThresholdRoleID, ThresholdEvaluationConfidenceTrend, ThresholdEvaluationConfidenceOverall, ThresholdEvaluationEffectivenessOfProgramsAndActions, ThresholdEvaluationInterimTarget, ThresholdEvaluationTargetAttainmentDate, ThresholdEvaluationAnalyticApproach, ThresholdEvaluationMonitoringApproach, ThresholdEvaluationModificationOfTheThresholdStandardOrIndicator, ThresholdEvaluationAttainOrMaintainThreshold, ThresholdEvaluationMonitoringAndAnalysis, ThresholdReportingCategoryNarrative, ChartCaption, ParcelAddressSearch, ParcelEncumberedForPendingPermitInventoryCount, ParcelBaseAllowableInventoryCount, ParcelExistingInventory, Relevance, HumanAndEnvironmentalDrivers, ThresholdStandardType, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
+            All = new List<FieldDefinition> { ActionPriority, ActionPriorityName, LocalAndRegionalPlanName, ExpectedValue, FocusArea, FocusAreaName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, OldEIPNumber, Organization, OrganizationAbbreviation, OrganizationName, Password, EIPPerformanceMeasure, IndicatorDefinition, IndicatorDisplayName, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, Program, ProgramName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, Stage, Subcategories, ProjectIsAProgram, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ProjectNumber, ThresholdCategory, LocalAndRegionalPlan, Watershed, Subcategory, SubcategoryOption, SubcategoryOptions, IsPrimaryProgram, IndicatorCriticalDefinitions, IndicatorAccountingPeriodAndScale, IndicatorProjectReporting, FundedAmount, ProjectLocation, IndicatorBackground, NumberOfReportedPMRecords, NumberOfReportedExpenditureRecords, ProjectLocationState, ProjectLocationJurisdiction, ProjectLocationWatershed, ExcludeFromFactSheet, TransportationStrategy, TransportationObjective, TransportationStrategyName, TransportationObjectiveName, ProjectIsATransportationProject, IsTransportationFundingSource, FundingType, ProjectCostInYearOfExpenditure, TransportationGlobalInflationRate, ReportingYear, TagName, TagDescription, Tags, ReportedExpenditure, ProposedProject, ProjectOnFTIPList, LocalAndRegionalPlanDocumentUrl, LocalAndRegionalPlanDocumentLinkText, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedPrograms, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentRTPYearForPVCalculations, LifecycleOperatingCost, IndicatorSystemName, IndicatorSimpleDescription, IndicatorPrimarySource, IndicatorType, ChartTitle, ProposedProjectState, UserLastName, UserFirstName, UserEmail, UserPhone, EIPRoleID, ParcelTrackerRoleID, SustainabilityRoleID, LTInfoRoleID, SiteArea, RoleName, Region, Latitude, Longitude, OrganizationUrl, ThresholdReportingCategory, ApplicableStandard, StandardNarrative, TRPAIndicator, ThresholdEvaluationStatus, ThresholdEvaluationTrend, ThresholdEvaluationConfidence, ThresholdEvaluationStatusRationale, ThresholdEvaluationTrendRationale, ThresholdEvaluationConfidenceStatus, ThresholdEvaluationManagementStatus, ThresholdEvaluationProgramsAndActionsImplementedToImproveConditions, ThresholdRoleID, ThresholdEvaluationConfidenceTrend, ThresholdEvaluationConfidenceOverall, ThresholdEvaluationEffectivenessOfProgramsAndActions, ThresholdEvaluationInterimTarget, ThresholdEvaluationTargetAttainmentDate, ThresholdEvaluationAnalyticApproach, ThresholdEvaluationMonitoringApproach, ThresholdEvaluationModificationOfTheThresholdStandardOrIndicator, ThresholdEvaluationAttainOrMaintainThreshold, ThresholdEvaluationMonitoringAndAnalysis, ThresholdReportingCategoryNarrative, ChartCaption, Relevance, HumanAndEnvironmentalDrivers, ThresholdStandardType, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -335,84 +241,24 @@ namespace ProjectFirma.Web.Models
         {
             switch (enumValue)
             {
-                case FieldDefinitionEnum.AccelaCAPRecordKeys:
-                    return AccelaCAPRecordKeys;
                 case FieldDefinitionEnum.ActionPriority:
                     return ActionPriority;
                 case FieldDefinitionEnum.ActionPriorityName:
                     return ActionPriorityName;
-                case FieldDefinitionEnum.AllocatedQuantity:
-                    return AllocatedQuantity;
-                case FieldDefinitionEnum.AllocationBonusPool:
-                    return AllocationBonusPool;
-                case FieldDefinitionEnum.AllocationPool:
-                    return AllocationPool;
-                case FieldDefinitionEnum.APNWithDashes:
-                    return APNWithDashes;
                 case FieldDefinitionEnum.ApplicableStandard:
                     return ApplicableStandard;
                 case FieldDefinitionEnum.AssociatedPrograms:
                     return AssociatedPrograms;
-                case FieldDefinitionEnum.BaileyRating:
-                    return BaileyRating;
-                case FieldDefinitionEnum.BankedCommodityNotes:
-                    return BankedCommodityNotes;
-                case FieldDefinitionEnum.BankedDate:
-                    return BankedDate;
-                case FieldDefinitionEnum.BankedQuantity:
-                    return BankedQuantity;
-                case FieldDefinitionEnum.BMPStatus:
-                    return BMPStatus;
-                case FieldDefinitionEnum.BonusUnits:
-                    return BonusUnits;
                 case FieldDefinitionEnum.CalculatedTotalRemainingOperatingCost:
                     return CalculatedTotalRemainingOperatingCost;
-                case FieldDefinitionEnum.CasesApplicationsAndPermits:
-                    return CasesApplicationsAndPermits;
                 case FieldDefinitionEnum.ChartCaption:
                     return ChartCaption;
                 case FieldDefinitionEnum.ChartTitle:
                     return ChartTitle;
-                case FieldDefinitionEnum.Comments:
-                    return Comments;
-                case FieldDefinitionEnum.Commodity:
-                    return Commodity;
-                case FieldDefinitionEnum.CommodityConfirmationNotes:
-                    return CommodityConfirmationNotes;
-                case FieldDefinitionEnum.CommodityConvertedTo:
-                    return CommodityConvertedTo;
-                case FieldDefinitionEnum.CommodityPoolDisbursementAmount:
-                    return CommodityPoolDisbursementAmount;
-                case FieldDefinitionEnum.CommodityPoolDisbursementDate:
-                    return CommodityPoolDisbursementDate;
-                case FieldDefinitionEnum.CommodityPoolDisbursementDescription:
-                    return CommodityPoolDisbursementDescription;
-                case FieldDefinitionEnum.CommodityPoolDisbursementTitle:
-                    return CommodityPoolDisbursementTitle;
-                case FieldDefinitionEnum.CommodityPoolName:
-                    return CommodityPoolName;
-                case FieldDefinitionEnum.CommunityPlan:
-                    return CommunityPlan;
                 case FieldDefinitionEnum.CompletionYear:
                     return CompletionYear;
-                case FieldDefinitionEnum.CurrentInventory:
-                    return CurrentInventory;
                 case FieldDefinitionEnum.CurrentRTPYearForPVCalculations:
                     return CurrentRTPYearForPVCalculations;
-                case FieldDefinitionEnum.DeallocatedDate:
-                    return DeallocatedDate;
-                case FieldDefinitionEnum.DeallocatedQuantity:
-                    return DeallocatedQuantity;
-                case FieldDefinitionEnum.DeallocatedRationale:
-                    return DeallocatedRationale;
-                case FieldDefinitionEnum.DeterminationDate:
-                    return DeterminationDate;
-                case FieldDefinitionEnum.DeterminationType:
-                    return DeterminationType;
-                case FieldDefinitionEnum.ECMRetirementApprovalDate:
-                    return ECMRetirementApprovalDate;
-                case FieldDefinitionEnum.ECMRetirementQuantity:
-                    return ECMRetirementQuantity;
                 case FieldDefinitionEnum.EIPPerformanceMeasure:
                     return EIPPerformanceMeasure;
                 case FieldDefinitionEnum.EIPRoleID:
@@ -427,10 +273,6 @@ namespace ProjectFirma.Web.Models
                     return ExpectedValue;
                 case FieldDefinitionEnum.ExternalLinks:
                     return ExternalLinks;
-                case FieldDefinitionEnum.FileOrCaseNumber:
-                    return FileOrCaseNumber;
-                case FieldDefinitionEnum.FireDistrict:
-                    return FireDistrict;
                 case FieldDefinitionEnum.FocusArea:
                     return FocusArea;
                 case FieldDefinitionEnum.FocusAreaName:
@@ -447,8 +289,6 @@ namespace ProjectFirma.Web.Models
                     return FundingSourceName;
                 case FieldDefinitionEnum.FundingType:
                     return FundingType;
-                case FieldDefinitionEnum.HRA:
-                    return HRA;
                 case FieldDefinitionEnum.HumanAndEnvironmentalDrivers:
                     return HumanAndEnvironmentalDrivers;
                 case FieldDefinitionEnum.ImplementationStartYear:
@@ -475,32 +315,12 @@ namespace ProjectFirma.Web.Models
                     return IndicatorSystemName;
                 case FieldDefinitionEnum.IndicatorType:
                     return IndicatorType;
-                case FieldDefinitionEnum.IPESScore:
-                    return IPESScore;
                 case FieldDefinitionEnum.IsPrimaryProgram:
                     return IsPrimaryProgram;
                 case FieldDefinitionEnum.IsTransportationFundingSource:
                     return IsTransportationFundingSource;
-                case FieldDefinitionEnum.Jurisdiction:
-                    return Jurisdiction;
-                case FieldDefinitionEnum.JurisdictionProjectNumber:
-                    return JurisdictionProjectNumber;
-                case FieldDefinitionEnum.LandBank:
-                    return LandBank;
-                case FieldDefinitionEnum.LandBankCurrentlyOwnsTheParcel:
-                    return LandBankCurrentlyOwnsTheParcel;
-                case FieldDefinitionEnum.LandCapability:
-                    return LandCapability;
-                case FieldDefinitionEnum.LandCapabilityNotes:
-                    return LandCapabilityNotes;
-                case FieldDefinitionEnum.LandCapabilityType:
-                    return LandCapabilityType;
                 case FieldDefinitionEnum.Latitude:
                     return Latitude;
-                case FieldDefinitionEnum.LeadAgency:
-                    return LeadAgency;
-                case FieldDefinitionEnum.LeadAgencyAbbreviation:
-                    return LeadAgencyAbbreviation;
                 case FieldDefinitionEnum.LeadImplementer:
                     return LeadImplementer;
                 case FieldDefinitionEnum.LifecycleOperatingCost:
@@ -513,8 +333,6 @@ namespace ProjectFirma.Web.Models
                     return LocalAndRegionalPlanDocumentUrl;
                 case FieldDefinitionEnum.LocalAndRegionalPlanName:
                     return LocalAndRegionalPlanName;
-                case FieldDefinitionEnum.LocalPlan:
-                    return LocalPlan;
                 case FieldDefinitionEnum.Longitude:
                     return Longitude;
                 case FieldDefinitionEnum.LTInfoRoleID:
@@ -543,46 +361,8 @@ namespace ProjectFirma.Web.Models
                     return OrganizationName;
                 case FieldDefinitionEnum.OrganizationUrl:
                     return OrganizationUrl;
-                case FieldDefinitionEnum.OwnerName:
-                    return OwnerName;
-                case FieldDefinitionEnum.ParcelAddress:
-                    return ParcelAddress;
-                case FieldDefinitionEnum.ParcelAddressSearch:
-                    return ParcelAddressSearch;
-                case FieldDefinitionEnum.ParcelAvailableToTransferInventoryCount:
-                    return ParcelAvailableToTransferInventoryCount;
-                case FieldDefinitionEnum.ParcelBaseAllowableInventoryCount:
-                    return ParcelBaseAllowableInventoryCount;
-                case FieldDefinitionEnum.ParcelCommodityBaileyRatingConfirmationStatus:
-                    return ParcelCommodityBaileyRatingConfirmationStatus;
-                case FieldDefinitionEnum.ParcelEncumberedForPendingPermitInventoryCount:
-                    return ParcelEncumberedForPendingPermitInventoryCount;
-                case FieldDefinitionEnum.ParcelExistingInventory:
-                    return ParcelExistingInventory;
-                case FieldDefinitionEnum.ParcelExistingPhysicalInventoryCount:
-                    return ParcelExistingPhysicalInventoryCount;
-                case FieldDefinitionEnum.ParcelExistingPhysicalInventoryVerificationDate:
-                    return ParcelExistingPhysicalInventoryVerificationDate;
-                case FieldDefinitionEnum.ParcelFind:
-                    return ParcelFind;
-                case FieldDefinitionEnum.ParcelInitialBankedInventoryCount:
-                    return ParcelInitialBankedInventoryCount;
-                case FieldDefinitionEnum.ParcelNickname:
-                    return ParcelNickname;
-                case FieldDefinitionEnum.ParcelNotes:
-                    return ParcelNotes;
-                case FieldDefinitionEnum.ParcelPendingTransactionCount:
-                    return ParcelPendingTransactionCount;
-                case FieldDefinitionEnum.ParcelPreviousTransactionCount:
-                    return ParcelPreviousTransactionCount;
-                case FieldDefinitionEnum.ParcelSize:
-                    return ParcelSize;
-                case FieldDefinitionEnum.ParcelStatus:
-                    return ParcelStatus;
                 case FieldDefinitionEnum.ParcelTrackerRoleID:
                     return ParcelTrackerRoleID;
-                case FieldDefinitionEnum.ParcelWatershed:
-                    return ParcelWatershed;
                 case FieldDefinitionEnum.Password:
                     return Password;
                 case FieldDefinitionEnum.PhotoCaption:
@@ -595,16 +375,12 @@ namespace ProjectFirma.Web.Models
                     return PlanningDesignStartYear;
                 case FieldDefinitionEnum.PrimaryContact:
                     return PrimaryContact;
-                case FieldDefinitionEnum.PrivateOrPublic:
-                    return PrivateOrPublic;
                 case FieldDefinitionEnum.Program:
                     return Program;
                 case FieldDefinitionEnum.ProgramName:
                     return ProgramName;
                 case FieldDefinitionEnum.Project:
                     return Project;
-                case FieldDefinitionEnum.ProjectApprovalDate:
-                    return ProjectApprovalDate;
                 case FieldDefinitionEnum.ProjectCostInYearOfExpenditure:
                     return ProjectCostInYearOfExpenditure;
                 case FieldDefinitionEnum.ProjectDescription:
@@ -633,16 +409,6 @@ namespace ProjectFirma.Web.Models
                     return ProposedProject;
                 case FieldDefinitionEnum.ProposedProjectState:
                     return ProposedProjectState;
-                case FieldDefinitionEnum.ReceivingBaileyRating:
-                    return ReceivingBaileyRating;
-                case FieldDefinitionEnum.ReceivingIPESScore:
-                    return ReceivingIPESScore;
-                case FieldDefinitionEnum.ReceivingJurisdiction:
-                    return ReceivingJurisdiction;
-                case FieldDefinitionEnum.ReceivingParcelAPN:
-                    return ReceivingParcelAPN;
-                case FieldDefinitionEnum.ReceivingQuantity:
-                    return ReceivingQuantity;
                 case FieldDefinitionEnum.Region:
                     return Region;
                 case FieldDefinitionEnum.Relevance:
@@ -653,48 +419,12 @@ namespace ProjectFirma.Web.Models
                     return ReportedValue;
                 case FieldDefinitionEnum.ReportingYear:
                     return ReportingYear;
-                case FieldDefinitionEnum.ResidentialAllocationAllocatedButNoRecord:
-                    return ResidentialAllocationAllocatedButNoRecord;
-                case FieldDefinitionEnum.ResidentialAllocationAssignedToJurisdiction:
-                    return ResidentialAllocationAssignedToJurisdiction;
-                case FieldDefinitionEnum.ResidentialAllocationFeeReceived:
-                    return ResidentialAllocationFeeReceived;
-                case FieldDefinitionEnum.ResidentialAllocationNumber:
-                    return ResidentialAllocationNumber;
-                case FieldDefinitionEnum.ResidentialAllocationPreviousTransaction:
-                    return ResidentialAllocationPreviousTransaction;
-                case FieldDefinitionEnum.ResidentialAllocationSequence:
-                    return ResidentialAllocationSequence;
-                case FieldDefinitionEnum.ResidentialAllocationStatus:
-                    return ResidentialAllocationStatus;
-                case FieldDefinitionEnum.ResidentialAllocationType:
-                    return ResidentialAllocationType;
-                case FieldDefinitionEnum.RetiredQuantity:
-                    return RetiredQuantity;
-                case FieldDefinitionEnum.RetiredSensitiveParcel:
-                    return RetiredSensitiveParcel;
-                case FieldDefinitionEnum.RightOfWayCoverageAmount:
-                    return RightOfWayCoverageAmount;
-                case FieldDefinitionEnum.RightOfWayCoverageEffectiveDate:
-                    return RightOfWayCoverageEffectiveDate;
-                case FieldDefinitionEnum.RightOfWayCoverageNotes:
-                    return RightOfWayCoverageNotes;
                 case FieldDefinitionEnum.RoleName:
                     return RoleName;
                 case FieldDefinitionEnum.Sector:
                     return Sector;
                 case FieldDefinitionEnum.SecuredFunding:
                     return SecuredFunding;
-                case FieldDefinitionEnum.SendingBaileyRating:
-                    return SendingBaileyRating;
-                case FieldDefinitionEnum.SendingIPESScore:
-                    return SendingIPESScore;
-                case FieldDefinitionEnum.SendingJurisdiction:
-                    return SendingJurisdiction;
-                case FieldDefinitionEnum.SendingParcelAPN:
-                    return SendingParcelAPN;
-                case FieldDefinitionEnum.SendingQuantity:
-                    return SendingQuantity;
                 case FieldDefinitionEnum.SiteArea:
                     return SiteArea;
                 case FieldDefinitionEnum.SpendingAssociatedWithPM:
@@ -773,16 +503,6 @@ namespace ProjectFirma.Web.Models
                     return ThresholdRoleID;
                 case FieldDefinitionEnum.ThresholdStandardType:
                     return ThresholdStandardType;
-                case FieldDefinitionEnum.TransactionNumber:
-                    return TransactionNumber;
-                case FieldDefinitionEnum.TransactionStatus:
-                    return TransactionStatus;
-                case FieldDefinitionEnum.TransactionType:
-                    return TransactionType;
-                case FieldDefinitionEnum.TransferApprovalDate:
-                    return TransferApprovalDate;
-                case FieldDefinitionEnum.TransferPrice:
-                    return TransferPrice;
                 case FieldDefinitionEnum.TransportationGlobalInflationRate:
                     return TransportationGlobalInflationRate;
                 case FieldDefinitionEnum.TransportationObjective:
@@ -807,8 +527,6 @@ namespace ProjectFirma.Web.Models
                     return Username;
                 case FieldDefinitionEnum.UserPhone:
                     return UserPhone;
-                case FieldDefinitionEnum.VerifiedParcelSize:
-                    return VerifiedParcelSize;
                 case FieldDefinitionEnum.Watershed:
                     return Watershed;
                 case FieldDefinitionEnum.WatershedName:
@@ -917,79 +635,6 @@ namespace ProjectFirma.Web.Models
         IndicatorType = 96,
         ChartTitle = 97,
         ProposedProjectState = 98,
-        FileOrCaseNumber = 99,
-        AllocatedQuantity = 100,
-        AllocationBonusPool = 101,
-        AllocationPool = 102,
-        APNWithDashes = 103,
-        LocalPlan = 104,
-        BaileyRating = 105,
-        BankedCommodityNotes = 106,
-        BankedDate = 107,
-        BankedQuantity = 108,
-        BMPStatus = 109,
-        BonusUnits = 110,
-        Comments = 111,
-        Commodity = 112,
-        CommodityConfirmationNotes = 113,
-        CommodityConvertedTo = 114,
-        CommodityPoolDisbursementAmount = 115,
-        CommodityPoolDisbursementDate = 116,
-        CommodityPoolDisbursementDescription = 117,
-        CommodityPoolDisbursementTitle = 118,
-        CommodityPoolName = 120,
-        CommunityPlan = 121,
-        CurrentInventory = 122,
-        DeallocatedDate = 123,
-        DeallocatedQuantity = 124,
-        DeallocatedRationale = 125,
-        DeterminationDate = 126,
-        DeterminationType = 127,
-        FireDistrict = 128,
-        HRA = 129,
-        IPESScore = 130,
-        Jurisdiction = 131,
-        JurisdictionProjectNumber = 132,
-        LandBank = 133,
-        LandBankCurrentlyOwnsTheParcel = 134,
-        LandCapability = 135,
-        LandCapabilityNotes = 136,
-        LandCapabilityType = 137,
-        LeadAgency = 138,
-        LeadAgencyAbbreviation = 139,
-        OwnerName = 140,
-        ParcelAddress = 141,
-        ParcelCommodityBaileyRatingConfirmationStatus = 142,
-        ParcelNickname = 143,
-        ParcelNotes = 144,
-        ParcelSize = 145,
-        ParcelWatershed = 146,
-        PrivateOrPublic = 147,
-        ProjectApprovalDate = 148,
-        ReceivingBaileyRating = 149,
-        ReceivingIPESScore = 150,
-        ReceivingJurisdiction = 151,
-        ReceivingParcelAPN = 152,
-        ReceivingQuantity = 153,
-        ResidentialAllocationFeeReceived = 154,
-        ResidentialAllocationNumber = 155,
-        RetiredSensitiveParcel = 156,
-        ECMRetirementApprovalDate = 157,
-        ECMRetirementQuantity = 158,
-        RightOfWayCoverageAmount = 159,
-        RightOfWayCoverageEffectiveDate = 160,
-        RightOfWayCoverageNotes = 161,
-        SendingBaileyRating = 162,
-        SendingIPESScore = 163,
-        SendingJurisdiction = 164,
-        SendingParcelAPN = 165,
-        SendingQuantity = 166,
-        TransactionNumber = 167,
-        TransactionStatus = 168,
-        TransactionType = 169,
-        TransferApprovalDate = 170,
-        TransferPrice = 171,
-        VerifiedParcelSize = 172,
         UserLastName = 173,
         UserFirstName = 174,
         UserEmail = 175,
@@ -1000,27 +645,10 @@ namespace ProjectFirma.Web.Models
         LTInfoRoleID = 180,
         SiteArea = 181,
         RoleName = 182,
-        AccelaCAPRecordKeys = 183,
         Region = 184,
         Latitude = 185,
         Longitude = 186,
-        RetiredQuantity = 187,
         OrganizationUrl = 188,
-        ResidentialAllocationType = 189,
-        ResidentialAllocationSequence = 190,
-        ResidentialAllocationStatus = 191,
-        ResidentialAllocationPreviousTransaction = 192,
-        ResidentialAllocationAssignedToJurisdiction = 193,
-        ResidentialAllocationAllocatedButNoRecord = 194,
-        ParcelInitialBankedInventoryCount = 195,
-        ParcelPreviousTransactionCount = 196,
-        ParcelPendingTransactionCount = 197,
-        ParcelAvailableToTransferInventoryCount = 198,
-        ParcelExistingPhysicalInventoryCount = 199,
-        ParcelExistingPhysicalInventoryVerificationDate = 200,
-        ParcelStatus = 201,
-        ParcelFind = 202,
-        CasesApplicationsAndPermits = 203,
         ThresholdReportingCategory = 204,
         ApplicableStandard = 205,
         StandardNarrative = 206,
@@ -1046,10 +674,6 @@ namespace ProjectFirma.Web.Models
         ThresholdEvaluationMonitoringAndAnalysis = 226,
         ThresholdReportingCategoryNarrative = 227,
         ChartCaption = 228,
-        ParcelAddressSearch = 229,
-        ParcelEncumberedForPendingPermitInventoryCount = 230,
-        ParcelBaseAllowableInventoryCount = 231,
-        ParcelExistingInventory = 232,
         Relevance = 233,
         HumanAndEnvironmentalDrivers = 234,
         ThresholdStandardType = 235,
@@ -1638,444 +1262,6 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionProposedProjectState Instance = new FieldDefinitionProposedProjectState(98, @"ProposedProjectState", @"Proposed Project State", 1);
     }
 
-    public partial class FieldDefinitionFileOrCaseNumber : FieldDefinition
-    {
-        private FieldDefinitionFileOrCaseNumber(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionFileOrCaseNumber Instance = new FieldDefinitionFileOrCaseNumber(99, @"FileOrCaseNumber", @"File or Case #", 4);
-    }
-
-    public partial class FieldDefinitionAllocatedQuantity : FieldDefinition
-    {
-        private FieldDefinitionAllocatedQuantity(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionAllocatedQuantity Instance = new FieldDefinitionAllocatedQuantity(100, @"AllocatedQuantity", @"Allocated Quantity", 4);
-    }
-
-    public partial class FieldDefinitionAllocationBonusPool : FieldDefinition
-    {
-        private FieldDefinitionAllocationBonusPool(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionAllocationBonusPool Instance = new FieldDefinitionAllocationBonusPool(101, @"AllocationBonusPool", @"Allocation/Bonus Pool", 4);
-    }
-
-    public partial class FieldDefinitionAllocationPool : FieldDefinition
-    {
-        private FieldDefinitionAllocationPool(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionAllocationPool Instance = new FieldDefinitionAllocationPool(102, @"AllocationPool", @"Allocation Pool", 4);
-    }
-
-    public partial class FieldDefinitionAPNWithDashes : FieldDefinition
-    {
-        private FieldDefinitionAPNWithDashes(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionAPNWithDashes Instance = new FieldDefinitionAPNWithDashes(103, @"APNWithDashes", @"APN (with dashes)", 4);
-    }
-
-    public partial class FieldDefinitionLocalPlan : FieldDefinition
-    {
-        private FieldDefinitionLocalPlan(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLocalPlan Instance = new FieldDefinitionLocalPlan(104, @"LocalPlan", @"Local Plan", 4);
-    }
-
-    public partial class FieldDefinitionBaileyRating : FieldDefinition
-    {
-        private FieldDefinitionBaileyRating(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionBaileyRating Instance = new FieldDefinitionBaileyRating(105, @"BaileyRating", @"Bailey Rating", 4);
-    }
-
-    public partial class FieldDefinitionBankedCommodityNotes : FieldDefinition
-    {
-        private FieldDefinitionBankedCommodityNotes(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionBankedCommodityNotes Instance = new FieldDefinitionBankedCommodityNotes(106, @"BankedCommodityNotes", @"Banked Commodity Notes", 4);
-    }
-
-    public partial class FieldDefinitionBankedDate : FieldDefinition
-    {
-        private FieldDefinitionBankedDate(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionBankedDate Instance = new FieldDefinitionBankedDate(107, @"BankedDate", @"Banked Date", 4);
-    }
-
-    public partial class FieldDefinitionBankedQuantity : FieldDefinition
-    {
-        private FieldDefinitionBankedQuantity(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionBankedQuantity Instance = new FieldDefinitionBankedQuantity(108, @"BankedQuantity", @"Banked Quantity", 4);
-    }
-
-    public partial class FieldDefinitionBMPStatus : FieldDefinition
-    {
-        private FieldDefinitionBMPStatus(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionBMPStatus Instance = new FieldDefinitionBMPStatus(109, @"BMPStatus", @"BMP Status", 4);
-    }
-
-    public partial class FieldDefinitionBonusUnits : FieldDefinition
-    {
-        private FieldDefinitionBonusUnits(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionBonusUnits Instance = new FieldDefinitionBonusUnits(110, @"BonusUnits", @"Bonus Units", 4);
-    }
-
-    public partial class FieldDefinitionComments : FieldDefinition
-    {
-        private FieldDefinitionComments(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionComments Instance = new FieldDefinitionComments(111, @"Comments", @"Comments", 4);
-    }
-
-    public partial class FieldDefinitionCommodity : FieldDefinition
-    {
-        private FieldDefinitionCommodity(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionCommodity Instance = new FieldDefinitionCommodity(112, @"Commodity", @"Commodity", 4);
-    }
-
-    public partial class FieldDefinitionCommodityConfirmationNotes : FieldDefinition
-    {
-        private FieldDefinitionCommodityConfirmationNotes(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionCommodityConfirmationNotes Instance = new FieldDefinitionCommodityConfirmationNotes(113, @"CommodityConfirmationNotes", @"Commodity Confirmation Notes", 4);
-    }
-
-    public partial class FieldDefinitionCommodityConvertedTo : FieldDefinition
-    {
-        private FieldDefinitionCommodityConvertedTo(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionCommodityConvertedTo Instance = new FieldDefinitionCommodityConvertedTo(114, @"CommodityConvertedTo", @"Commodity (converted to)", 4);
-    }
-
-    public partial class FieldDefinitionCommodityPoolDisbursementAmount : FieldDefinition
-    {
-        private FieldDefinitionCommodityPoolDisbursementAmount(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionCommodityPoolDisbursementAmount Instance = new FieldDefinitionCommodityPoolDisbursementAmount(115, @"CommodityPoolDisbursementAmount", @"Commodity Pool Disbursement Amount", 4);
-    }
-
-    public partial class FieldDefinitionCommodityPoolDisbursementDate : FieldDefinition
-    {
-        private FieldDefinitionCommodityPoolDisbursementDate(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionCommodityPoolDisbursementDate Instance = new FieldDefinitionCommodityPoolDisbursementDate(116, @"CommodityPoolDisbursementDate", @"Commodity Pool Disbursement Date", 4);
-    }
-
-    public partial class FieldDefinitionCommodityPoolDisbursementDescription : FieldDefinition
-    {
-        private FieldDefinitionCommodityPoolDisbursementDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionCommodityPoolDisbursementDescription Instance = new FieldDefinitionCommodityPoolDisbursementDescription(117, @"CommodityPoolDisbursementDescription", @"Commodity Pool Disbursement Description", 4);
-    }
-
-    public partial class FieldDefinitionCommodityPoolDisbursementTitle : FieldDefinition
-    {
-        private FieldDefinitionCommodityPoolDisbursementTitle(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionCommodityPoolDisbursementTitle Instance = new FieldDefinitionCommodityPoolDisbursementTitle(118, @"CommodityPoolDisbursementTitle", @"Commodity Pool Disbursement Title", 4);
-    }
-
-    public partial class FieldDefinitionCommodityPoolName : FieldDefinition
-    {
-        private FieldDefinitionCommodityPoolName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionCommodityPoolName Instance = new FieldDefinitionCommodityPoolName(120, @"CommodityPoolName", @"Commodity Pool Name", 4);
-    }
-
-    public partial class FieldDefinitionCommunityPlan : FieldDefinition
-    {
-        private FieldDefinitionCommunityPlan(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionCommunityPlan Instance = new FieldDefinitionCommunityPlan(121, @"CommunityPlan", @"Community Plan", 4);
-    }
-
-    public partial class FieldDefinitionCurrentInventory : FieldDefinition
-    {
-        private FieldDefinitionCurrentInventory(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionCurrentInventory Instance = new FieldDefinitionCurrentInventory(122, @"CurrentInventory", @"Current Inventory", 4);
-    }
-
-    public partial class FieldDefinitionDeallocatedDate : FieldDefinition
-    {
-        private FieldDefinitionDeallocatedDate(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionDeallocatedDate Instance = new FieldDefinitionDeallocatedDate(123, @"DeallocatedDate", @"Deallocated Date", 4);
-    }
-
-    public partial class FieldDefinitionDeallocatedQuantity : FieldDefinition
-    {
-        private FieldDefinitionDeallocatedQuantity(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionDeallocatedQuantity Instance = new FieldDefinitionDeallocatedQuantity(124, @"DeallocatedQuantity", @"Deallocated Quantity", 4);
-    }
-
-    public partial class FieldDefinitionDeallocatedRationale : FieldDefinition
-    {
-        private FieldDefinitionDeallocatedRationale(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionDeallocatedRationale Instance = new FieldDefinitionDeallocatedRationale(125, @"DeallocatedRationale", @"Deallocated Rationale", 4);
-    }
-
-    public partial class FieldDefinitionDeterminationDate : FieldDefinition
-    {
-        private FieldDefinitionDeterminationDate(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionDeterminationDate Instance = new FieldDefinitionDeterminationDate(126, @"DeterminationDate", @"Determination Date", 4);
-    }
-
-    public partial class FieldDefinitionDeterminationType : FieldDefinition
-    {
-        private FieldDefinitionDeterminationType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionDeterminationType Instance = new FieldDefinitionDeterminationType(127, @"DeterminationType", @"Determination Type", 4);
-    }
-
-    public partial class FieldDefinitionFireDistrict : FieldDefinition
-    {
-        private FieldDefinitionFireDistrict(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionFireDistrict Instance = new FieldDefinitionFireDistrict(128, @"FireDistrict", @"Fire District", 4);
-    }
-
-    public partial class FieldDefinitionHRA : FieldDefinition
-    {
-        private FieldDefinitionHRA(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionHRA Instance = new FieldDefinitionHRA(129, @"HRA", @"HRA", 4);
-    }
-
-    public partial class FieldDefinitionIPESScore : FieldDefinition
-    {
-        private FieldDefinitionIPESScore(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIPESScore Instance = new FieldDefinitionIPESScore(130, @"IPESScore", @"IPES Score", 4);
-    }
-
-    public partial class FieldDefinitionJurisdiction : FieldDefinition
-    {
-        private FieldDefinitionJurisdiction(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionJurisdiction Instance = new FieldDefinitionJurisdiction(131, @"Jurisdiction", @"Jurisdiction", 4);
-    }
-
-    public partial class FieldDefinitionJurisdictionProjectNumber : FieldDefinition
-    {
-        private FieldDefinitionJurisdictionProjectNumber(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionJurisdictionProjectNumber Instance = new FieldDefinitionJurisdictionProjectNumber(132, @"JurisdictionProjectNumber", @"Jurisdiction Project Number", 4);
-    }
-
-    public partial class FieldDefinitionLandBank : FieldDefinition
-    {
-        private FieldDefinitionLandBank(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLandBank Instance = new FieldDefinitionLandBank(133, @"LandBank", @"Land Bank", 4);
-    }
-
-    public partial class FieldDefinitionLandBankCurrentlyOwnsTheParcel : FieldDefinition
-    {
-        private FieldDefinitionLandBankCurrentlyOwnsTheParcel(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLandBankCurrentlyOwnsTheParcel Instance = new FieldDefinitionLandBankCurrentlyOwnsTheParcel(134, @"LandBankCurrentlyOwnsTheParcel", @"Land Bank currently owns the parcel", 4);
-    }
-
-    public partial class FieldDefinitionLandCapability : FieldDefinition
-    {
-        private FieldDefinitionLandCapability(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLandCapability Instance = new FieldDefinitionLandCapability(135, @"LandCapability", @"Land Capability", 4);
-    }
-
-    public partial class FieldDefinitionLandCapabilityNotes : FieldDefinition
-    {
-        private FieldDefinitionLandCapabilityNotes(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLandCapabilityNotes Instance = new FieldDefinitionLandCapabilityNotes(136, @"LandCapabilityNotes", @"Land Capability Notes", 4);
-    }
-
-    public partial class FieldDefinitionLandCapabilityType : FieldDefinition
-    {
-        private FieldDefinitionLandCapabilityType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLandCapabilityType Instance = new FieldDefinitionLandCapabilityType(137, @"LandCapabilityType", @"Land Capability Type", 4);
-    }
-
-    public partial class FieldDefinitionLeadAgency : FieldDefinition
-    {
-        private FieldDefinitionLeadAgency(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLeadAgency Instance = new FieldDefinitionLeadAgency(138, @"LeadAgency", @"Lead Agency", 4);
-    }
-
-    public partial class FieldDefinitionLeadAgencyAbbreviation : FieldDefinition
-    {
-        private FieldDefinitionLeadAgencyAbbreviation(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLeadAgencyAbbreviation Instance = new FieldDefinitionLeadAgencyAbbreviation(139, @"LeadAgencyAbbreviation", @"Lead Agency Abbreviation", 4);
-    }
-
-    public partial class FieldDefinitionOwnerName : FieldDefinition
-    {
-        private FieldDefinitionOwnerName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionOwnerName Instance = new FieldDefinitionOwnerName(140, @"OwnerName", @"Owner Name", 4);
-    }
-
-    public partial class FieldDefinitionParcelAddress : FieldDefinition
-    {
-        private FieldDefinitionParcelAddress(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelAddress Instance = new FieldDefinitionParcelAddress(141, @"ParcelAddress", @"Parcel Address", 4);
-    }
-
-    public partial class FieldDefinitionParcelCommodityBaileyRatingConfirmationStatus : FieldDefinition
-    {
-        private FieldDefinitionParcelCommodityBaileyRatingConfirmationStatus(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelCommodityBaileyRatingConfirmationStatus Instance = new FieldDefinitionParcelCommodityBaileyRatingConfirmationStatus(142, @"ParcelCommodityBaileyRatingConfirmationStatus", @"Inventory Status", 4);
-    }
-
-    public partial class FieldDefinitionParcelNickname : FieldDefinition
-    {
-        private FieldDefinitionParcelNickname(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelNickname Instance = new FieldDefinitionParcelNickname(143, @"ParcelNickname", @"Parcel Nickname", 4);
-    }
-
-    public partial class FieldDefinitionParcelNotes : FieldDefinition
-    {
-        private FieldDefinitionParcelNotes(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelNotes Instance = new FieldDefinitionParcelNotes(144, @"ParcelNotes", @"Parcel Notes", 4);
-    }
-
-    public partial class FieldDefinitionParcelSize : FieldDefinition
-    {
-        private FieldDefinitionParcelSize(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelSize Instance = new FieldDefinitionParcelSize(145, @"ParcelSize", @"Parcel Size", 4);
-    }
-
-    public partial class FieldDefinitionParcelWatershed : FieldDefinition
-    {
-        private FieldDefinitionParcelWatershed(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelWatershed Instance = new FieldDefinitionParcelWatershed(146, @"ParcelWatershed", @"Parcel Watershed", 4);
-    }
-
-    public partial class FieldDefinitionPrivateOrPublic : FieldDefinition
-    {
-        private FieldDefinitionPrivateOrPublic(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionPrivateOrPublic Instance = new FieldDefinitionPrivateOrPublic(147, @"PrivateOrPublic", @"Private or Public", 4);
-    }
-
-    public partial class FieldDefinitionProjectApprovalDate : FieldDefinition
-    {
-        private FieldDefinitionProjectApprovalDate(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProjectApprovalDate Instance = new FieldDefinitionProjectApprovalDate(148, @"ProjectApprovalDate", @"Project Approval Date", 4);
-    }
-
-    public partial class FieldDefinitionReceivingBaileyRating : FieldDefinition
-    {
-        private FieldDefinitionReceivingBaileyRating(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionReceivingBaileyRating Instance = new FieldDefinitionReceivingBaileyRating(149, @"ReceivingBaileyRating", @"Receiving Bailey Rating", 4);
-    }
-
-    public partial class FieldDefinitionReceivingIPESScore : FieldDefinition
-    {
-        private FieldDefinitionReceivingIPESScore(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionReceivingIPESScore Instance = new FieldDefinitionReceivingIPESScore(150, @"ReceivingIPESScore", @"Receiving IPES Score", 4);
-    }
-
-    public partial class FieldDefinitionReceivingJurisdiction : FieldDefinition
-    {
-        private FieldDefinitionReceivingJurisdiction(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionReceivingJurisdiction Instance = new FieldDefinitionReceivingJurisdiction(151, @"ReceivingJurisdiction", @"Receiving Jurisdiction", 4);
-    }
-
-    public partial class FieldDefinitionReceivingParcelAPN : FieldDefinition
-    {
-        private FieldDefinitionReceivingParcelAPN(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionReceivingParcelAPN Instance = new FieldDefinitionReceivingParcelAPN(152, @"ReceivingParcelAPN", @"Receiving Parcel APN", 4);
-    }
-
-    public partial class FieldDefinitionReceivingQuantity : FieldDefinition
-    {
-        private FieldDefinitionReceivingQuantity(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionReceivingQuantity Instance = new FieldDefinitionReceivingQuantity(153, @"ReceivingQuantity", @"Receiving Quantity", 4);
-    }
-
-    public partial class FieldDefinitionResidentialAllocationFeeReceived : FieldDefinition
-    {
-        private FieldDefinitionResidentialAllocationFeeReceived(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionResidentialAllocationFeeReceived Instance = new FieldDefinitionResidentialAllocationFeeReceived(154, @"ResidentialAllocationFeeReceived", @"Residential Allocation Fee Received", 4);
-    }
-
-    public partial class FieldDefinitionResidentialAllocationNumber : FieldDefinition
-    {
-        private FieldDefinitionResidentialAllocationNumber(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionResidentialAllocationNumber Instance = new FieldDefinitionResidentialAllocationNumber(155, @"ResidentialAllocationNumber", @"Residential Allocation Number", 4);
-    }
-
-    public partial class FieldDefinitionRetiredSensitiveParcel : FieldDefinition
-    {
-        private FieldDefinitionRetiredSensitiveParcel(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionRetiredSensitiveParcel Instance = new FieldDefinitionRetiredSensitiveParcel(156, @"RetiredSensitiveParcel", @"Sensitive Parcel to be Retired", 4);
-    }
-
-    public partial class FieldDefinitionECMRetirementApprovalDate : FieldDefinition
-    {
-        private FieldDefinitionECMRetirementApprovalDate(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionECMRetirementApprovalDate Instance = new FieldDefinitionECMRetirementApprovalDate(157, @"ECMRetirementApprovalDate", @"ECM Retirement Approval Date", 4);
-    }
-
-    public partial class FieldDefinitionECMRetirementQuantity : FieldDefinition
-    {
-        private FieldDefinitionECMRetirementQuantity(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionECMRetirementQuantity Instance = new FieldDefinitionECMRetirementQuantity(158, @"ECMRetirementQuantity", @"ECM Retirement Quantity", 4);
-    }
-
-    public partial class FieldDefinitionRightOfWayCoverageAmount : FieldDefinition
-    {
-        private FieldDefinitionRightOfWayCoverageAmount(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionRightOfWayCoverageAmount Instance = new FieldDefinitionRightOfWayCoverageAmount(159, @"RightOfWayCoverageAmount", @"Right of Way Coverage Amount", 4);
-    }
-
-    public partial class FieldDefinitionRightOfWayCoverageEffectiveDate : FieldDefinition
-    {
-        private FieldDefinitionRightOfWayCoverageEffectiveDate(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionRightOfWayCoverageEffectiveDate Instance = new FieldDefinitionRightOfWayCoverageEffectiveDate(160, @"RightOfWayCoverageEffectiveDate", @"Right of Way Coverage Effective Date", 4);
-    }
-
-    public partial class FieldDefinitionRightOfWayCoverageNotes : FieldDefinition
-    {
-        private FieldDefinitionRightOfWayCoverageNotes(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionRightOfWayCoverageNotes Instance = new FieldDefinitionRightOfWayCoverageNotes(161, @"RightOfWayCoverageNotes", @"Right of Way Coverage Notes", 4);
-    }
-
-    public partial class FieldDefinitionSendingBaileyRating : FieldDefinition
-    {
-        private FieldDefinitionSendingBaileyRating(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionSendingBaileyRating Instance = new FieldDefinitionSendingBaileyRating(162, @"SendingBaileyRating", @"Sending Bailey Rating", 4);
-    }
-
-    public partial class FieldDefinitionSendingIPESScore : FieldDefinition
-    {
-        private FieldDefinitionSendingIPESScore(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionSendingIPESScore Instance = new FieldDefinitionSendingIPESScore(163, @"SendingIPESScore", @"Sending IPES Score", 4);
-    }
-
-    public partial class FieldDefinitionSendingJurisdiction : FieldDefinition
-    {
-        private FieldDefinitionSendingJurisdiction(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionSendingJurisdiction Instance = new FieldDefinitionSendingJurisdiction(164, @"SendingJurisdiction", @"Sending Jurisdiction", 4);
-    }
-
-    public partial class FieldDefinitionSendingParcelAPN : FieldDefinition
-    {
-        private FieldDefinitionSendingParcelAPN(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionSendingParcelAPN Instance = new FieldDefinitionSendingParcelAPN(165, @"SendingParcelAPN", @"Sending Parcel APN", 4);
-    }
-
-    public partial class FieldDefinitionSendingQuantity : FieldDefinition
-    {
-        private FieldDefinitionSendingQuantity(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionSendingQuantity Instance = new FieldDefinitionSendingQuantity(166, @"SendingQuantity", @"Sending Quantity", 4);
-    }
-
-    public partial class FieldDefinitionTransactionNumber : FieldDefinition
-    {
-        private FieldDefinitionTransactionNumber(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionTransactionNumber Instance = new FieldDefinitionTransactionNumber(167, @"TransactionNumber", @"Transaction Number", 4);
-    }
-
-    public partial class FieldDefinitionTransactionStatus : FieldDefinition
-    {
-        private FieldDefinitionTransactionStatus(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionTransactionStatus Instance = new FieldDefinitionTransactionStatus(168, @"TransactionStatus", @"Transaction Status", 4);
-    }
-
-    public partial class FieldDefinitionTransactionType : FieldDefinition
-    {
-        private FieldDefinitionTransactionType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionTransactionType Instance = new FieldDefinitionTransactionType(169, @"TransactionType", @"Transaction Type", 4);
-    }
-
-    public partial class FieldDefinitionTransferApprovalDate : FieldDefinition
-    {
-        private FieldDefinitionTransferApprovalDate(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionTransferApprovalDate Instance = new FieldDefinitionTransferApprovalDate(170, @"TransferApprovalDate", @"Transfer Approval Date", 4);
-    }
-
-    public partial class FieldDefinitionTransferPrice : FieldDefinition
-    {
-        private FieldDefinitionTransferPrice(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionTransferPrice Instance = new FieldDefinitionTransferPrice(171, @"TransferPrice", @"Transfer Price", 4);
-    }
-
-    public partial class FieldDefinitionVerifiedParcelSize : FieldDefinition
-    {
-        private FieldDefinitionVerifiedParcelSize(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionVerifiedParcelSize Instance = new FieldDefinitionVerifiedParcelSize(172, @"VerifiedParcelSize", @"Verified Parcel Size", 4);
-    }
-
     public partial class FieldDefinitionUserLastName : FieldDefinition
     {
         private FieldDefinitionUserLastName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
@@ -2136,12 +1322,6 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionRoleName Instance = new FieldDefinitionRoleName(182, @"RoleName", @"Role Name", 3);
     }
 
-    public partial class FieldDefinitionAccelaCAPRecordKeys : FieldDefinition
-    {
-        private FieldDefinitionAccelaCAPRecordKeys(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionAccelaCAPRecordKeys Instance = new FieldDefinitionAccelaCAPRecordKeys(183, @"AccelaCAPRecordKeys", @"CAP Record Keys", 4);
-    }
-
     public partial class FieldDefinitionRegion : FieldDefinition
     {
         private FieldDefinitionRegion(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
@@ -2160,106 +1340,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionLongitude Instance = new FieldDefinitionLongitude(186, @"Longitude", @"Longitude", 1);
     }
 
-    public partial class FieldDefinitionRetiredQuantity : FieldDefinition
-    {
-        private FieldDefinitionRetiredQuantity(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionRetiredQuantity Instance = new FieldDefinitionRetiredQuantity(187, @"RetiredQuantity", @"Retired Quantity", 4);
-    }
-
     public partial class FieldDefinitionOrganizationUrl : FieldDefinition
     {
         private FieldDefinitionOrganizationUrl(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionOrganizationUrl Instance = new FieldDefinitionOrganizationUrl(188, @"OrganizationUrl", @"Organization Home Page", 4);
-    }
-
-    public partial class FieldDefinitionResidentialAllocationType : FieldDefinition
-    {
-        private FieldDefinitionResidentialAllocationType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionResidentialAllocationType Instance = new FieldDefinitionResidentialAllocationType(189, @"ResidentialAllocationType", @"Residential Allocation Type", 4);
-    }
-
-    public partial class FieldDefinitionResidentialAllocationSequence : FieldDefinition
-    {
-        private FieldDefinitionResidentialAllocationSequence(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionResidentialAllocationSequence Instance = new FieldDefinitionResidentialAllocationSequence(190, @"ResidentialAllocationSequence", @"Residential Allocation Sequence", 4);
-    }
-
-    public partial class FieldDefinitionResidentialAllocationStatus : FieldDefinition
-    {
-        private FieldDefinitionResidentialAllocationStatus(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionResidentialAllocationStatus Instance = new FieldDefinitionResidentialAllocationStatus(191, @"ResidentialAllocationStatus", @"Allocation Status", 4);
-    }
-
-    public partial class FieldDefinitionResidentialAllocationPreviousTransaction : FieldDefinition
-    {
-        private FieldDefinitionResidentialAllocationPreviousTransaction(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionResidentialAllocationPreviousTransaction Instance = new FieldDefinitionResidentialAllocationPreviousTransaction(192, @"ResidentialAllocationPreviousTransaction", @"Previous Transaction", 4);
-    }
-
-    public partial class FieldDefinitionResidentialAllocationAssignedToJurisdiction : FieldDefinition
-    {
-        private FieldDefinitionResidentialAllocationAssignedToJurisdiction(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionResidentialAllocationAssignedToJurisdiction Instance = new FieldDefinitionResidentialAllocationAssignedToJurisdiction(193, @"ResidentialAllocationAssignedToJurisdiction", @"Assigned to Jurisdiction", 4);
-    }
-
-    public partial class FieldDefinitionResidentialAllocationAllocatedButNoRecord : FieldDefinition
-    {
-        private FieldDefinitionResidentialAllocationAllocatedButNoRecord(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionResidentialAllocationAllocatedButNoRecord Instance = new FieldDefinitionResidentialAllocationAllocatedButNoRecord(194, @"ResidentialAllocationAllocatedButNoRecord", @"Allocated but has no Transaction Record", 4);
-    }
-
-    public partial class FieldDefinitionParcelInitialBankedInventoryCount : FieldDefinition
-    {
-        private FieldDefinitionParcelInitialBankedInventoryCount(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelInitialBankedInventoryCount Instance = new FieldDefinitionParcelInitialBankedInventoryCount(195, @"ParcelInitialBankedInventoryCount", @"Initial Banked Inventory", 4);
-    }
-
-    public partial class FieldDefinitionParcelPreviousTransactionCount : FieldDefinition
-    {
-        private FieldDefinitionParcelPreviousTransactionCount(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelPreviousTransactionCount Instance = new FieldDefinitionParcelPreviousTransactionCount(196, @"ParcelPreviousTransactionCount", @"Previous Transactions", 4);
-    }
-
-    public partial class FieldDefinitionParcelPendingTransactionCount : FieldDefinition
-    {
-        private FieldDefinitionParcelPendingTransactionCount(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelPendingTransactionCount Instance = new FieldDefinitionParcelPendingTransactionCount(197, @"ParcelPendingTransactionCount", @"Pending Transactions", 4);
-    }
-
-    public partial class FieldDefinitionParcelAvailableToTransferInventoryCount : FieldDefinition
-    {
-        private FieldDefinitionParcelAvailableToTransferInventoryCount(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelAvailableToTransferInventoryCount Instance = new FieldDefinitionParcelAvailableToTransferInventoryCount(198, @"ParcelAvailableToTransferInventoryCount", @"Available to Transfer", 4);
-    }
-
-    public partial class FieldDefinitionParcelExistingPhysicalInventoryCount : FieldDefinition
-    {
-        private FieldDefinitionParcelExistingPhysicalInventoryCount(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelExistingPhysicalInventoryCount Instance = new FieldDefinitionParcelExistingPhysicalInventoryCount(199, @"ParcelExistingPhysicalInventoryCount", @"Existing Physical Inventory", 4);
-    }
-
-    public partial class FieldDefinitionParcelExistingPhysicalInventoryVerificationDate : FieldDefinition
-    {
-        private FieldDefinitionParcelExistingPhysicalInventoryVerificationDate(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelExistingPhysicalInventoryVerificationDate Instance = new FieldDefinitionParcelExistingPhysicalInventoryVerificationDate(200, @"ParcelExistingPhysicalInventoryVerificationDate", @"Verified as of", 4);
-    }
-
-    public partial class FieldDefinitionParcelStatus : FieldDefinition
-    {
-        private FieldDefinitionParcelStatus(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelStatus Instance = new FieldDefinitionParcelStatus(201, @"ParcelStatus", @"Parcel Status", 4);
-    }
-
-    public partial class FieldDefinitionParcelFind : FieldDefinition
-    {
-        private FieldDefinitionParcelFind(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelFind Instance = new FieldDefinitionParcelFind(202, @"ParcelFind", @"Parcel Find", 4);
-    }
-
-    public partial class FieldDefinitionCasesApplicationsAndPermits : FieldDefinition
-    {
-        private FieldDefinitionCasesApplicationsAndPermits(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionCasesApplicationsAndPermits Instance = new FieldDefinitionCasesApplicationsAndPermits(203, @"CasesApplicationsAndPermits", @"TRPA Cases, Applications, and Permits", 4);
+        public static readonly FieldDefinitionOrganizationUrl Instance = new FieldDefinitionOrganizationUrl(188, @"OrganizationUrl", @"Organization Home Page", 1);
     }
 
     public partial class FieldDefinitionThresholdReportingCategory : FieldDefinition
@@ -2410,30 +1494,6 @@ namespace ProjectFirma.Web.Models
     {
         private FieldDefinitionChartCaption(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
         public static readonly FieldDefinitionChartCaption Instance = new FieldDefinitionChartCaption(228, @"ChartCaption", @"Chart Caption", 3);
-    }
-
-    public partial class FieldDefinitionParcelAddressSearch : FieldDefinition
-    {
-        private FieldDefinitionParcelAddressSearch(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelAddressSearch Instance = new FieldDefinitionParcelAddressSearch(229, @"ParcelAddressSearch", @"Parcel Address Search", 4);
-    }
-
-    public partial class FieldDefinitionParcelEncumberedForPendingPermitInventoryCount : FieldDefinition
-    {
-        private FieldDefinitionParcelEncumberedForPendingPermitInventoryCount(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelEncumberedForPendingPermitInventoryCount Instance = new FieldDefinitionParcelEncumberedForPendingPermitInventoryCount(230, @"ParcelEncumberedForPendingPermitInventoryCount", @"Encumbered for Pending Permit", 4);
-    }
-
-    public partial class FieldDefinitionParcelBaseAllowableInventoryCount : FieldDefinition
-    {
-        private FieldDefinitionParcelBaseAllowableInventoryCount(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelBaseAllowableInventoryCount Instance = new FieldDefinitionParcelBaseAllowableInventoryCount(231, @"ParcelBaseAllowableInventoryCount", @"Remaining Base Allowable / Potential", 4);
-    }
-
-    public partial class FieldDefinitionParcelExistingInventory : FieldDefinition
-    {
-        private FieldDefinitionParcelExistingInventory(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelExistingInventory Instance = new FieldDefinitionParcelExistingInventory(232, @"ParcelExistingInventory", @"Existing Inventory", 4);
     }
 
     public partial class FieldDefinitionRelevance : FieldDefinition

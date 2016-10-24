@@ -21,10 +21,6 @@ namespace ProjectFirma.Web.Views.User
         public int? SustainabilityRoleID { get; set; }
 
         [Required]        
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ParcelTrackerRoleID)]
-        public int? ParcelTrackerRoleID { get; set; }
-
-        [Required]        
         [FieldDefinitionDisplay(FieldDefinitionEnum.LTInfoRoleID)]
         public int? LTInfoRoleID { get; set; }
 
@@ -39,10 +35,6 @@ namespace ProjectFirma.Web.Views.User
         [Required]
         [DisplayName("Should Receive Sustainability Dashboard Support Emails?")]
         public bool ShouldReceiveSustainabilityDashboardSupportEmails { get; set; }
-
-        [Required]
-        [DisplayName("Should Receive Parcel Tracker Support Emails?")]
-        public bool ShouldReceiveParcelTrackerSupportEmails { get; set; }
 
         [Required]
         [DisplayName("Should Receive LTInfo Support Emails?")]
@@ -64,13 +56,11 @@ namespace ProjectFirma.Web.Views.User
             PersonID = person.PersonID;
             EIPRoleID = person.EIPRoleID;
             SustainabilityRoleID = person.SustainabilityRoleID;
-            ParcelTrackerRoleID = person.ParcelTrackerRoleID;
             LTInfoRoleID = person.LTInfoRoleID;
             ThresholdRoleID = person.ThresholdRoleID;
 
             ShouldReceiveEIPProjectTrackerSupportEmails = person.ShouldReceiveSupportEmails(LTInfoArea.EIP.LTInfoAreaID);
             ShouldReceiveSustainabilityDashboardSupportEmails = person.ShouldReceiveSupportEmails(LTInfoArea.Sustainability.LTInfoAreaID);
-            ShouldReceiveParcelTrackerSupportEmails = person.ShouldReceiveSupportEmails(LTInfoArea.ParcelTracker.LTInfoAreaID);
             ShouldReceiveLakeTahoeInfoSupportEmails = person.ShouldReceiveSupportEmails(LTInfoArea.LTInfo.LTInfoAreaID);
             ShouldReceiveThresholdDashboardSupportEmails = person.ShouldReceiveSupportEmails(LTInfoArea.Threshold.LTInfoAreaID);
         }
@@ -79,13 +69,11 @@ namespace ProjectFirma.Web.Views.User
         {
             person.EIPRoleID = EIPRoleID.Value;
             person.SustainabilityRoleID = SustainabilityRoleID.Value;
-            person.ParcelTrackerRoleID = ParcelTrackerRoleID.Value;
             person.LTInfoRoleID = LTInfoRoleID.Value;
             person.ThresholdRoleID = ThresholdRoleID.Value;
            
             person.SetReceiveSupportEmails(LTInfoArea.EIP, ShouldReceiveEIPProjectTrackerSupportEmails);
             person.SetReceiveSupportEmails(LTInfoArea.Sustainability, ShouldReceiveSustainabilityDashboardSupportEmails);
-            person.SetReceiveSupportEmails(LTInfoArea.ParcelTracker, ShouldReceiveParcelTrackerSupportEmails);
             person.SetReceiveSupportEmails(LTInfoArea.LTInfo, ShouldReceiveLakeTahoeInfoSupportEmails);
             person.SetReceiveSupportEmails(LTInfoArea.Threshold, ShouldReceiveThresholdDashboardSupportEmails);
 

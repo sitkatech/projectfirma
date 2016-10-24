@@ -55,7 +55,6 @@ namespace ProjectFirma.Web.Controllers
                     Organization.OrganizationIDUnknown,
                     SustainabilityRole.Unassigned.SustainabilityRoleID,
                     LTInfoRole.Unassigned.LTInfoRoleID,
-                    ParcelTrackerRole.Unassigned.ParcelTrackerRoleID,
                     ThresholdRole.Unassigned.ThresholdRoleID);
                 HttpRequestStorage.DatabaseEntities.People.Add(person);
                 sendNewUserNotification = true;

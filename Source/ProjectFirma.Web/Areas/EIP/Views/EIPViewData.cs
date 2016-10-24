@@ -87,8 +87,6 @@ namespace ProjectFirma.Web.Areas.EIP.Views
 
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.FeaturedList()), currentPerson, "Featured Projects", "Group6"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TagController>(c => c.Index()), currentPerson, "Project Tags", "Group6"));
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AboutController>(c => c.DemoScript()), currentPerson, "Demo Script", "Group6"));
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AboutController>(c => c.AnnualApprovalProcess()), currentPerson, "Annual Approval Process", "Group6"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.Manage()), currentPerson, "Manage Project Updates", "Group6"));
 
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectFirmaPageController>(c => c.Index()), currentPerson, "Page Content", "Group7"));
@@ -168,11 +166,8 @@ namespace ProjectFirma.Web.Areas.EIP.Views
         private static LtInfoMenuItem BuildAboutMenu(Person currentPerson)
         {
             var aboutMenu = new LtInfoMenuItem("About");
-            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AboutController>(c => c.EIPOverview()), currentPerson, "EIP Overview"));
-            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AboutController>(c => c.HistoryOfTheEIP()), currentPerson, "History of the EIP"));
-            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AboutController>(c => c.EIPPartners()), currentPerson, "EIP Partners"));
-            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AboutController>(c => c.ThisTool()), currentPerson, "This Tool"));
-            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AboutController>(c => c.Faq()), currentPerson, "FAQ"));
+            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AboutController>(c => c.AboutClackamasPartnership()), currentPerson, "EIP Overview"));
+            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AboutController>(c => c.Meetings()), currentPerson, "History of the EIP"));
             return aboutMenu;
         }
 
@@ -180,7 +175,5 @@ namespace ProjectFirma.Web.Areas.EIP.Views
         {
             return currentUrlPathAndQuery == urlToCompare ? " class=\"active\"" : string.Empty;
         }
-
-        //TODO: Refactor/remove for Story 180
     }
 }

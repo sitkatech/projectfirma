@@ -8,19 +8,17 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
     public abstract partial class ProjectFirmaPageType : IHavePrimaryKey
     {
-        public static readonly ProjectFirmaPageTypeEIPTrackerNarrative EIPTrackerNarrative = ProjectFirmaPageTypeEIPTrackerNarrative.Instance;
-        public static readonly ProjectFirmaPageTypeEIPOverview EIPOverview = ProjectFirmaPageTypeEIPOverview.Instance;
-        public static readonly ProjectFirmaPageTypeHistoryOfTheEIP HistoryOfTheEIP = ProjectFirmaPageTypeHistoryOfTheEIP.Instance;
-        public static readonly ProjectFirmaPageTypeEIPPartners EIPPartners = ProjectFirmaPageTypeEIPPartners.Instance;
-        public static readonly ProjectFirmaPageTypeEIPFaq EIPFaq = ProjectFirmaPageTypeEIPFaq.Instance;
+        public static readonly ProjectFirmaPageTypeHomePage HomePage = ProjectFirmaPageTypeHomePage.Instance;
+        public static readonly ProjectFirmaPageTypeAboutClackamasPartnership AboutClackamasPartnership = ProjectFirmaPageTypeAboutClackamasPartnership.Instance;
+        public static readonly ProjectFirmaPageTypeMeetings Meetings = ProjectFirmaPageTypeMeetings.Instance;
         public static readonly ProjectFirmaPageTypeFullProjectList FullProjectList = ProjectFirmaPageTypeFullProjectList.Instance;
         public static readonly ProjectFirmaPageTypeFiveYearProjectList FiveYearProjectList = ProjectFirmaPageTypeFiveYearProjectList.Instance;
         public static readonly ProjectFirmaPageTypeCompletedProjectList CompletedProjectList = ProjectFirmaPageTypeCompletedProjectList.Instance;
@@ -39,10 +37,8 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectFirmaPageTypeSpendingBySectorByFocusAreaByProgram SpendingBySectorByFocusAreaByProgram = ProjectFirmaPageTypeSpendingBySectorByFocusAreaByProgram.Instance;
         public static readonly ProjectFirmaPageTypeEIPProjectMap EIPProjectMap = ProjectFirmaPageTypeEIPProjectMap.Instance;
         public static readonly ProjectFirmaPageTypeEIPResultsByProgram EIPResultsByProgram = ProjectFirmaPageTypeEIPResultsByProgram.Instance;
-        public static readonly ProjectFirmaPageTypeThisTool ThisTool = ProjectFirmaPageTypeThisTool.Instance;
         public static readonly ProjectFirmaPageTypeEIPHomeAdditionalInfo EIPHomeAdditionalInfo = ProjectFirmaPageTypeEIPHomeAdditionalInfo.Instance;
         public static readonly ProjectFirmaPageTypeFeaturedProjectList FeaturedProjectList = ProjectFirmaPageTypeFeaturedProjectList.Instance;
-        public static readonly ProjectFirmaPageTypeDemoScript DemoScript = ProjectFirmaPageTypeDemoScript.Instance;
         public static readonly ProjectFirmaPageTypeTransportationStrategiesList TransportationStrategiesList = ProjectFirmaPageTypeTransportationStrategiesList.Instance;
         public static readonly ProjectFirmaPageTypeTransportationObjectivesList TransportationObjectivesList = ProjectFirmaPageTypeTransportationObjectivesList.Instance;
         public static readonly ProjectFirmaPageTypeTransportationProjectList TransportationProjectList = ProjectFirmaPageTypeTransportationProjectList.Instance;
@@ -55,7 +51,6 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectFirmaPageTypeSpendingByEIPPerformanceMeasureByProject SpendingByEIPPerformanceMeasureByProject = ProjectFirmaPageTypeSpendingByEIPPerformanceMeasureByProject.Instance;
         public static readonly ProjectFirmaPageTypeProposedProjects ProposedProjects = ProjectFirmaPageTypeProposedProjects.Instance;
         public static readonly ProjectFirmaPageTypeMyOrganizationsProjects MyOrganizationsProjects = ProjectFirmaPageTypeMyOrganizationsProjects.Instance;
-        public static readonly ProjectFirmaPageTypeAnnualApprovalProcess AnnualApprovalProcess = ProjectFirmaPageTypeAnnualApprovalProcess.Instance;
         public static readonly ProjectFirmaPageTypeManageUpdateNotifications ManageUpdateNotifications = ProjectFirmaPageTypeManageUpdateNotifications.Instance;
         public static readonly ProjectFirmaPageTypeProjectUpdateStatus ProjectUpdateStatus = ProjectFirmaPageTypeProjectUpdateStatus.Instance;
         public static readonly ProjectFirmaPageTypeSIDAboutIntro SIDAboutIntro = ProjectFirmaPageTypeSIDAboutIntro.Instance;
@@ -64,22 +59,6 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectFirmaPageTypeSIDHome SIDHome = ProjectFirmaPageTypeSIDHome.Instance;
         public static readonly ProjectFirmaPageTypeLTInfoDataCenter LTInfoDataCenter = ProjectFirmaPageTypeLTInfoDataCenter.Instance;
         public static readonly ProjectFirmaPageTypeLTInfoAbout LTInfoAbout = ProjectFirmaPageTypeLTInfoAbout.Instance;
-        public static readonly ProjectFirmaPageTypeParcelTrackerNarrative ParcelTrackerNarrative = ProjectFirmaPageTypeParcelTrackerNarrative.Instance;
-        public static readonly ProjectFirmaPageTypeCommodityTransactionsList CommodityTransactionsList = ProjectFirmaPageTypeCommodityTransactionsList.Instance;
-        public static readonly ProjectFirmaPageTypePoolsList PoolsList = ProjectFirmaPageTypePoolsList.Instance;
-        public static readonly ProjectFirmaPageTypeLeadAgencyResponsibilityMatrixByTransactionType LeadAgencyResponsibilityMatrixByTransactionType = ProjectFirmaPageTypeLeadAgencyResponsibilityMatrixByTransactionType.Instance;
-        public static readonly ProjectFirmaPageTypeLeadAgencyResponsibilityMatrixByCommodity LeadAgencyResponsibilityMatrixByCommodity = ProjectFirmaPageTypeLeadAgencyResponsibilityMatrixByCommodity.Instance;
-        public static readonly ProjectFirmaPageTypeParcelTownDistanceReport ParcelTownDistanceReport = ProjectFirmaPageTypeParcelTownDistanceReport.Instance;
-        public static readonly ProjectFirmaPageTypeParcelsList ParcelsList = ProjectFirmaPageTypeParcelsList.Instance;
-        public static readonly ProjectFirmaPageTypeParcelsByLandCapability ParcelsByLandCapability = ProjectFirmaPageTypeParcelsByLandCapability.Instance;
-        public static readonly ProjectFirmaPageTypeLeadAgenciesList LeadAgenciesList = ProjectFirmaPageTypeLeadAgenciesList.Instance;
-        public static readonly ProjectFirmaPageTypeAccelaCAPRecordsList AccelaCAPRecordsList = ProjectFirmaPageTypeAccelaCAPRecordsList.Instance;
-        public static readonly ProjectFirmaPageTypeResidentialAllocationsList ResidentialAllocationsList = ProjectFirmaPageTypeResidentialAllocationsList.Instance;
-        public static readonly ProjectFirmaPageTypeBankedCommoditiesList BankedCommoditiesList = ProjectFirmaPageTypeBankedCommoditiesList.Instance;
-        public static readonly ProjectFirmaPageTypeParcelTrackerAbout ParcelTrackerAbout = ProjectFirmaPageTypeParcelTrackerAbout.Instance;
-        public static readonly ProjectFirmaPageTypeParcelManagementGuidance ParcelManagementGuidance = ProjectFirmaPageTypeParcelManagementGuidance.Instance;
-        public static readonly ProjectFirmaPageTypeParcelsByCommodity ParcelsByCommodity = ProjectFirmaPageTypeParcelsByCommodity.Instance;
-        public static readonly ProjectFirmaPageTypeAllParcelsList AllParcelsList = ProjectFirmaPageTypeAllParcelsList.Instance;
         public static readonly ProjectFirmaPageTypeThresholdsTaxonomy ThresholdsTaxonomy = ProjectFirmaPageTypeThresholdsTaxonomy.Instance;
         public static readonly ProjectFirmaPageTypeMonitoringProgramsList MonitoringProgramsList = ProjectFirmaPageTypeMonitoringProgramsList.Instance;
 
@@ -91,7 +70,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectFirmaPageType()
         {
-            All = new List<ProjectFirmaPageType> { EIPTrackerNarrative, EIPOverview, HistoryOfTheEIP, EIPPartners, EIPFaq, FullProjectList, FiveYearProjectList, CompletedProjectList, EIPPerformanceMeasuresList, ThresholdsHome, ActionPrioritiesList, LocalAndRegionalPlansList, FocusAreasList, FundingSourcesList, OrganizationsList, ProgramsList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByFocusAreaByProgram, EIPProjectMap, EIPResultsByProgram, ThisTool, EIPHomeAdditionalInfo, FeaturedProjectList, DemoScript, TransportationStrategiesList, TransportationObjectivesList, TransportationProjectList, TransportationCostParameterSet, TerminatedProjectList, FullProjectListSimple, EIPTaxonomy, TransportationTaxonomy, TagList, SpendingByEIPPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, AnnualApprovalProcess, ManageUpdateNotifications, ProjectUpdateStatus, SIDAboutIntro, SIDAboutContent, SIDAboutFAQ, SIDHome, LTInfoDataCenter, LTInfoAbout, ParcelTrackerNarrative, CommodityTransactionsList, PoolsList, LeadAgencyResponsibilityMatrixByTransactionType, LeadAgencyResponsibilityMatrixByCommodity, ParcelTownDistanceReport, ParcelsList, ParcelsByLandCapability, LeadAgenciesList, AccelaCAPRecordsList, ResidentialAllocationsList, BankedCommoditiesList, ParcelTrackerAbout, ParcelManagementGuidance, ParcelsByCommodity, AllParcelsList, ThresholdsTaxonomy, MonitoringProgramsList };
+            All = new List<ProjectFirmaPageType> { HomePage, AboutClackamasPartnership, Meetings, FullProjectList, FiveYearProjectList, CompletedProjectList, EIPPerformanceMeasuresList, ThresholdsHome, ActionPrioritiesList, LocalAndRegionalPlansList, FocusAreasList, FundingSourcesList, OrganizationsList, ProgramsList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByFocusAreaByProgram, EIPProjectMap, EIPResultsByProgram, EIPHomeAdditionalInfo, FeaturedProjectList, TransportationStrategiesList, TransportationObjectivesList, TransportationProjectList, TransportationCostParameterSet, TerminatedProjectList, FullProjectListSimple, EIPTaxonomy, TransportationTaxonomy, TagList, SpendingByEIPPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, SIDAboutIntro, SIDAboutContent, SIDAboutFAQ, SIDHome, LTInfoDataCenter, LTInfoAbout, ThresholdsTaxonomy, MonitoringProgramsList };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectFirmaPageType>(All.ToDictionary(x => x.ProjectFirmaPageTypeID));
         }
 
@@ -165,30 +144,14 @@ namespace ProjectFirma.Web.Models
         {
             switch (enumValue)
             {
-                case ProjectFirmaPageTypeEnum.AccelaCAPRecordsList:
-                    return AccelaCAPRecordsList;
+                case ProjectFirmaPageTypeEnum.AboutClackamasPartnership:
+                    return AboutClackamasPartnership;
                 case ProjectFirmaPageTypeEnum.ActionPrioritiesList:
                     return ActionPrioritiesList;
-                case ProjectFirmaPageTypeEnum.AllParcelsList:
-                    return AllParcelsList;
-                case ProjectFirmaPageTypeEnum.AnnualApprovalProcess:
-                    return AnnualApprovalProcess;
-                case ProjectFirmaPageTypeEnum.BankedCommoditiesList:
-                    return BankedCommoditiesList;
-                case ProjectFirmaPageTypeEnum.CommodityTransactionsList:
-                    return CommodityTransactionsList;
                 case ProjectFirmaPageTypeEnum.CompletedProjectList:
                     return CompletedProjectList;
-                case ProjectFirmaPageTypeEnum.DemoScript:
-                    return DemoScript;
-                case ProjectFirmaPageTypeEnum.EIPFaq:
-                    return EIPFaq;
                 case ProjectFirmaPageTypeEnum.EIPHomeAdditionalInfo:
                     return EIPHomeAdditionalInfo;
-                case ProjectFirmaPageTypeEnum.EIPOverview:
-                    return EIPOverview;
-                case ProjectFirmaPageTypeEnum.EIPPartners:
-                    return EIPPartners;
                 case ProjectFirmaPageTypeEnum.EIPPerformanceMeasuresList:
                     return EIPPerformanceMeasuresList;
                 case ProjectFirmaPageTypeEnum.EIPProjectMap:
@@ -197,8 +160,6 @@ namespace ProjectFirma.Web.Models
                     return EIPResultsByProgram;
                 case ProjectFirmaPageTypeEnum.EIPTaxonomy:
                     return EIPTaxonomy;
-                case ProjectFirmaPageTypeEnum.EIPTrackerNarrative:
-                    return EIPTrackerNarrative;
                 case ProjectFirmaPageTypeEnum.FeaturedProjectList:
                     return FeaturedProjectList;
                 case ProjectFirmaPageTypeEnum.FiveYearProjectList:
@@ -211,16 +172,10 @@ namespace ProjectFirma.Web.Models
                     return FullProjectListSimple;
                 case ProjectFirmaPageTypeEnum.FundingSourcesList:
                     return FundingSourcesList;
-                case ProjectFirmaPageTypeEnum.HistoryOfTheEIP:
-                    return HistoryOfTheEIP;
+                case ProjectFirmaPageTypeEnum.HomePage:
+                    return HomePage;
                 case ProjectFirmaPageTypeEnum.InvestmentByFundingSector:
                     return InvestmentByFundingSector;
-                case ProjectFirmaPageTypeEnum.LeadAgenciesList:
-                    return LeadAgenciesList;
-                case ProjectFirmaPageTypeEnum.LeadAgencyResponsibilityMatrixByCommodity:
-                    return LeadAgencyResponsibilityMatrixByCommodity;
-                case ProjectFirmaPageTypeEnum.LeadAgencyResponsibilityMatrixByTransactionType:
-                    return LeadAgencyResponsibilityMatrixByTransactionType;
                 case ProjectFirmaPageTypeEnum.LocalAndRegionalPlansList:
                     return LocalAndRegionalPlansList;
                 case ProjectFirmaPageTypeEnum.LTInfoAbout:
@@ -229,6 +184,8 @@ namespace ProjectFirma.Web.Models
                     return LTInfoDataCenter;
                 case ProjectFirmaPageTypeEnum.ManageUpdateNotifications:
                     return ManageUpdateNotifications;
+                case ProjectFirmaPageTypeEnum.Meetings:
+                    return Meetings;
                 case ProjectFirmaPageTypeEnum.MonitoringProgramsList:
                     return MonitoringProgramsList;
                 case ProjectFirmaPageTypeEnum.MyOrganizationsProjects:
@@ -239,30 +196,12 @@ namespace ProjectFirma.Web.Models
                     return OrganizationsList;
                 case ProjectFirmaPageTypeEnum.PagesWithIntroTextList:
                     return PagesWithIntroTextList;
-                case ProjectFirmaPageTypeEnum.ParcelManagementGuidance:
-                    return ParcelManagementGuidance;
-                case ProjectFirmaPageTypeEnum.ParcelsByCommodity:
-                    return ParcelsByCommodity;
-                case ProjectFirmaPageTypeEnum.ParcelsByLandCapability:
-                    return ParcelsByLandCapability;
-                case ProjectFirmaPageTypeEnum.ParcelsList:
-                    return ParcelsList;
-                case ProjectFirmaPageTypeEnum.ParcelTownDistanceReport:
-                    return ParcelTownDistanceReport;
-                case ProjectFirmaPageTypeEnum.ParcelTrackerAbout:
-                    return ParcelTrackerAbout;
-                case ProjectFirmaPageTypeEnum.ParcelTrackerNarrative:
-                    return ParcelTrackerNarrative;
-                case ProjectFirmaPageTypeEnum.PoolsList:
-                    return PoolsList;
                 case ProjectFirmaPageTypeEnum.ProgramsList:
                     return ProgramsList;
                 case ProjectFirmaPageTypeEnum.ProjectUpdateStatus:
                     return ProjectUpdateStatus;
                 case ProjectFirmaPageTypeEnum.ProposedProjects:
                     return ProposedProjects;
-                case ProjectFirmaPageTypeEnum.ResidentialAllocationsList:
-                    return ResidentialAllocationsList;
                 case ProjectFirmaPageTypeEnum.SIDAboutContent:
                     return SIDAboutContent;
                 case ProjectFirmaPageTypeEnum.SIDAboutFAQ:
@@ -279,8 +218,6 @@ namespace ProjectFirma.Web.Models
                     return TagList;
                 case ProjectFirmaPageTypeEnum.TerminatedProjectList:
                     return TerminatedProjectList;
-                case ProjectFirmaPageTypeEnum.ThisTool:
-                    return ThisTool;
                 case ProjectFirmaPageTypeEnum.ThresholdsHome:
                     return ThresholdsHome;
                 case ProjectFirmaPageTypeEnum.ThresholdsTaxonomy:
@@ -305,11 +242,9 @@ namespace ProjectFirma.Web.Models
 
     public enum ProjectFirmaPageTypeEnum
     {
-        EIPTrackerNarrative = 1,
-        EIPOverview = 2,
-        HistoryOfTheEIP = 3,
-        EIPPartners = 4,
-        EIPFaq = 5,
+        HomePage = 1,
+        AboutClackamasPartnership = 2,
+        Meetings = 3,
         FullProjectList = 6,
         FiveYearProjectList = 7,
         CompletedProjectList = 8,
@@ -328,10 +263,8 @@ namespace ProjectFirma.Web.Models
         SpendingBySectorByFocusAreaByProgram = 21,
         EIPProjectMap = 22,
         EIPResultsByProgram = 23,
-        ThisTool = 24,
         EIPHomeAdditionalInfo = 25,
         FeaturedProjectList = 26,
-        DemoScript = 27,
         TransportationStrategiesList = 28,
         TransportationObjectivesList = 29,
         TransportationProjectList = 30,
@@ -344,7 +277,6 @@ namespace ProjectFirma.Web.Models
         SpendingByEIPPerformanceMeasureByProject = 37,
         ProposedProjects = 38,
         MyOrganizationsProjects = 39,
-        AnnualApprovalProcess = 40,
         ManageUpdateNotifications = 41,
         ProjectUpdateStatus = 42,
         SIDAboutIntro = 43,
@@ -353,54 +285,26 @@ namespace ProjectFirma.Web.Models
         SIDHome = 46,
         LTInfoDataCenter = 47,
         LTInfoAbout = 48,
-        ParcelTrackerNarrative = 49,
-        CommodityTransactionsList = 50,
-        PoolsList = 51,
-        LeadAgencyResponsibilityMatrixByTransactionType = 52,
-        LeadAgencyResponsibilityMatrixByCommodity = 53,
-        ParcelTownDistanceReport = 54,
-        ParcelsList = 56,
-        ParcelsByLandCapability = 57,
-        LeadAgenciesList = 58,
-        AccelaCAPRecordsList = 59,
-        ResidentialAllocationsList = 60,
-        BankedCommoditiesList = 61,
-        ParcelTrackerAbout = 62,
-        ParcelManagementGuidance = 63,
-        ParcelsByCommodity = 64,
-        AllParcelsList = 65,
         ThresholdsTaxonomy = 66,
         MonitoringProgramsList = 67
     }
 
-    public partial class ProjectFirmaPageTypeEIPTrackerNarrative : ProjectFirmaPageType
+    public partial class ProjectFirmaPageTypeHomePage : ProjectFirmaPageType
     {
-        private ProjectFirmaPageTypeEIPTrackerNarrative(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeEIPTrackerNarrative Instance = new ProjectFirmaPageTypeEIPTrackerNarrative(1, @"EIPTrackerNarrative", @"EIP Tracker Home Page Narrative", 1, 2);
+        private ProjectFirmaPageTypeHomePage(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
+        public static readonly ProjectFirmaPageTypeHomePage Instance = new ProjectFirmaPageTypeHomePage(1, @"HomePage", @"Home Page", 1, 2);
     }
 
-    public partial class ProjectFirmaPageTypeEIPOverview : ProjectFirmaPageType
+    public partial class ProjectFirmaPageTypeAboutClackamasPartnership : ProjectFirmaPageType
     {
-        private ProjectFirmaPageTypeEIPOverview(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeEIPOverview Instance = new ProjectFirmaPageTypeEIPOverview(2, @"EIPOverview", @"EIP Overview", 1, 2);
+        private ProjectFirmaPageTypeAboutClackamasPartnership(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
+        public static readonly ProjectFirmaPageTypeAboutClackamasPartnership Instance = new ProjectFirmaPageTypeAboutClackamasPartnership(2, @"AboutClackamasPartnership", @"About Clackamas Partnership", 1, 2);
     }
 
-    public partial class ProjectFirmaPageTypeHistoryOfTheEIP : ProjectFirmaPageType
+    public partial class ProjectFirmaPageTypeMeetings : ProjectFirmaPageType
     {
-        private ProjectFirmaPageTypeHistoryOfTheEIP(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeHistoryOfTheEIP Instance = new ProjectFirmaPageTypeHistoryOfTheEIP(3, @"HistoryOfTheEIP", @"History of the EIP", 1, 2);
-    }
-
-    public partial class ProjectFirmaPageTypeEIPPartners : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeEIPPartners(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeEIPPartners Instance = new ProjectFirmaPageTypeEIPPartners(4, @"EIPPartners", @"EIP Partners", 1, 2);
-    }
-
-    public partial class ProjectFirmaPageTypeEIPFaq : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeEIPFaq(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeEIPFaq Instance = new ProjectFirmaPageTypeEIPFaq(5, @"EIPFaq", @"EIP FAQ", 1, 2);
+        private ProjectFirmaPageTypeMeetings(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
+        public static readonly ProjectFirmaPageTypeMeetings Instance = new ProjectFirmaPageTypeMeetings(3, @"Meetings", @"Meetings", 1, 2);
     }
 
     public partial class ProjectFirmaPageTypeFullProjectList : ProjectFirmaPageType
@@ -511,12 +415,6 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectFirmaPageTypeEIPResultsByProgram Instance = new ProjectFirmaPageTypeEIPResultsByProgram(23, @"EIPResultsByProgram", @"EIP Results by Program", 1, 1);
     }
 
-    public partial class ProjectFirmaPageTypeThisTool : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeThisTool(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeThisTool Instance = new ProjectFirmaPageTypeThisTool(24, @"ThisTool", @"This Tool", 1, 2);
-    }
-
     public partial class ProjectFirmaPageTypeEIPHomeAdditionalInfo : ProjectFirmaPageType
     {
         private ProjectFirmaPageTypeEIPHomeAdditionalInfo(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
@@ -527,12 +425,6 @@ namespace ProjectFirma.Web.Models
     {
         private ProjectFirmaPageTypeFeaturedProjectList(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
         public static readonly ProjectFirmaPageTypeFeaturedProjectList Instance = new ProjectFirmaPageTypeFeaturedProjectList(26, @"FeaturedProjectList", @"Featured Project List", 1, 1);
-    }
-
-    public partial class ProjectFirmaPageTypeDemoScript : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeDemoScript(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeDemoScript Instance = new ProjectFirmaPageTypeDemoScript(27, @"DemoScript", @"Demo Script", 1, 2);
     }
 
     public partial class ProjectFirmaPageTypeTransportationStrategiesList : ProjectFirmaPageType
@@ -607,12 +499,6 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectFirmaPageTypeMyOrganizationsProjects Instance = new ProjectFirmaPageTypeMyOrganizationsProjects(39, @"MyOrganizationsProjects", @"My Organization's Projects", 1, 1);
     }
 
-    public partial class ProjectFirmaPageTypeAnnualApprovalProcess : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeAnnualApprovalProcess(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeAnnualApprovalProcess Instance = new ProjectFirmaPageTypeAnnualApprovalProcess(40, @"AnnualApprovalProcess", @"Annual Update Approval Process", 1, 2);
-    }
-
     public partial class ProjectFirmaPageTypeManageUpdateNotifications : ProjectFirmaPageType
     {
         private ProjectFirmaPageTypeManageUpdateNotifications(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
@@ -659,102 +545,6 @@ namespace ProjectFirma.Web.Models
     {
         private ProjectFirmaPageTypeLTInfoAbout(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
         public static readonly ProjectFirmaPageTypeLTInfoAbout Instance = new ProjectFirmaPageTypeLTInfoAbout(48, @"LTInfoAbout", @"About Lake Tahoe Info", 3, 2);
-    }
-
-    public partial class ProjectFirmaPageTypeParcelTrackerNarrative : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeParcelTrackerNarrative(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeParcelTrackerNarrative Instance = new ProjectFirmaPageTypeParcelTrackerNarrative(49, @"ParcelTrackerNarrative", @"Parcel Tracker Home Page Narrative", 4, 1);
-    }
-
-    public partial class ProjectFirmaPageTypeCommodityTransactionsList : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeCommodityTransactionsList(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeCommodityTransactionsList Instance = new ProjectFirmaPageTypeCommodityTransactionsList(50, @"CommodityTransactionsList", @"Commodity Transactions List", 4, 1);
-    }
-
-    public partial class ProjectFirmaPageTypePoolsList : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypePoolsList(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypePoolsList Instance = new ProjectFirmaPageTypePoolsList(51, @"PoolsList", @"Pools List", 4, 1);
-    }
-
-    public partial class ProjectFirmaPageTypeLeadAgencyResponsibilityMatrixByTransactionType : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeLeadAgencyResponsibilityMatrixByTransactionType(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeLeadAgencyResponsibilityMatrixByTransactionType Instance = new ProjectFirmaPageTypeLeadAgencyResponsibilityMatrixByTransactionType(52, @"LeadAgencyResponsibilityMatrixByTransactionType", @"Lead Agency Responsibility Matrix for Reporting Transactions - By Transaction Type", 4, 1);
-    }
-
-    public partial class ProjectFirmaPageTypeLeadAgencyResponsibilityMatrixByCommodity : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeLeadAgencyResponsibilityMatrixByCommodity(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeLeadAgencyResponsibilityMatrixByCommodity Instance = new ProjectFirmaPageTypeLeadAgencyResponsibilityMatrixByCommodity(53, @"LeadAgencyResponsibilityMatrixByCommodity", @"Lead Agency Responsibility Matrix for Reporting Transactions - By Commodity", 4, 1);
-    }
-
-    public partial class ProjectFirmaPageTypeParcelTownDistanceReport : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeParcelTownDistanceReport(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeParcelTownDistanceReport Instance = new ProjectFirmaPageTypeParcelTownDistanceReport(54, @"ParcelTownDistanceReport", @"Parcel Town Distance Report", 4, 1);
-    }
-
-    public partial class ProjectFirmaPageTypeParcelsList : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeParcelsList(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeParcelsList Instance = new ProjectFirmaPageTypeParcelsList(56, @"ParcelsList", @"Parcels List", 4, 1);
-    }
-
-    public partial class ProjectFirmaPageTypeParcelsByLandCapability : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeParcelsByLandCapability(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeParcelsByLandCapability Instance = new ProjectFirmaPageTypeParcelsByLandCapability(57, @"ParcelsByLandCapability", @"Parcels by Land Capability", 4, 1);
-    }
-
-    public partial class ProjectFirmaPageTypeLeadAgenciesList : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeLeadAgenciesList(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeLeadAgenciesList Instance = new ProjectFirmaPageTypeLeadAgenciesList(58, @"LeadAgenciesList", @"Lead Agencies List", 4, 1);
-    }
-
-    public partial class ProjectFirmaPageTypeAccelaCAPRecordsList : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeAccelaCAPRecordsList(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeAccelaCAPRecordsList Instance = new ProjectFirmaPageTypeAccelaCAPRecordsList(59, @"AccelaCAPRecordsList", @"Accela CAP Records List", 4, 1);
-    }
-
-    public partial class ProjectFirmaPageTypeResidentialAllocationsList : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeResidentialAllocationsList(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeResidentialAllocationsList Instance = new ProjectFirmaPageTypeResidentialAllocationsList(60, @"ResidentialAllocationsList", @"Residential Allocations List", 4, 1);
-    }
-
-    public partial class ProjectFirmaPageTypeBankedCommoditiesList : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeBankedCommoditiesList(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeBankedCommoditiesList Instance = new ProjectFirmaPageTypeBankedCommoditiesList(61, @"BankedCommoditiesList", @"Banked Commodities List", 4, 1);
-    }
-
-    public partial class ProjectFirmaPageTypeParcelTrackerAbout : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeParcelTrackerAbout(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeParcelTrackerAbout Instance = new ProjectFirmaPageTypeParcelTrackerAbout(62, @"ParcelTrackerAbout", @"About Parcel Tracker", 4, 2);
-    }
-
-    public partial class ProjectFirmaPageTypeParcelManagementGuidance : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeParcelManagementGuidance(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeParcelManagementGuidance Instance = new ProjectFirmaPageTypeParcelManagementGuidance(63, @"ParcelManagementGuidance", @"Guidance for Managing/Updating Parcels", 4, 2);
-    }
-
-    public partial class ProjectFirmaPageTypeParcelsByCommodity : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeParcelsByCommodity(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeParcelsByCommodity Instance = new ProjectFirmaPageTypeParcelsByCommodity(64, @"ParcelsByCommodity", @"Parcels by Current Commodity Inventory", 4, 1);
-    }
-
-    public partial class ProjectFirmaPageTypeAllParcelsList : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeAllParcelsList(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeAllParcelsList Instance = new ProjectFirmaPageTypeAllParcelsList(65, @"AllParcelsList", @"All Parcels", 4, 1);
     }
 
     public partial class ProjectFirmaPageTypeThresholdsTaxonomy : ProjectFirmaPageType

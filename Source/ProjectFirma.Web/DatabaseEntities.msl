@@ -1,31 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="ProjectFirmaWebModelsStoreContainer" CdmEntityContainer="DatabaseEntities">
-    <EntitySetMapping Name="AccelaCAPRecord">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.AccelaCAPRecord">
-        <MappingFragment StoreEntitySet="AccelaCAPRecord">
-          <ScalarProperty Name="AccelaCAPRecordID" ColumnName="AccelaCAPRecordID" />
-          <ScalarProperty Name="AccelaID" ColumnName="AccelaID" />
-          <ScalarProperty Name="KeyOne" ColumnName="KeyOne" />
-          <ScalarProperty Name="KeyTwo" ColumnName="KeyTwo" />
-          <ScalarProperty Name="KeyThree" ColumnName="KeyThree" />
-          <ScalarProperty Name="ShortNotes" ColumnName="ShortNotes" />
-          <ScalarProperty Name="DetailedDescription" ColumnName="DetailedDescription" />
-          <ScalarProperty Name="AccelaCAPRecordStatusID" ColumnName="AccelaCAPRecordStatusID" />
-          <ScalarProperty Name="AccelaCAPTypeName" ColumnName="AccelaCAPTypeName" />
-          <ScalarProperty Name="FileDate" ColumnName="FileDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AccelaJurisdictionToJurisdictionMapping">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.AccelaJurisdictionToJurisdictionMapping">
-        <MappingFragment StoreEntitySet="AccelaJurisdictionToJurisdictionMapping">
-          <ScalarProperty Name="AccelaJurisdictionToJurisdictionMappingID" ColumnName="AccelaJurisdictionToJurisdictionMappingID" />
-          <ScalarProperty Name="AccelaJurisdictionName" ColumnName="AccelaJurisdictionName" />
-          <ScalarProperty Name="JurisdictionID" ColumnName="JurisdictionID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ActionPriority">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ActionPriority">
         <MappingFragment StoreEntitySet="ActionPriority">
@@ -61,87 +36,6 @@
           <ScalarProperty Name="AuditDescription" ColumnName="AuditDescription" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="BankedCommodity">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.BankedCommodity">
-        <MappingFragment StoreEntitySet="BankedCommodity">
-          <ScalarProperty Name="BankedCommodityID" ColumnName="BankedCommodityID" />
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="CommodityBaileyRatingID" ColumnName="CommodityBaileyRatingID" />
-          <ScalarProperty Name="BankedQuantity" ColumnName="BankedQuantity" />
-          <ScalarProperty Name="BankedDate" ColumnName="BankedDate" />
-          <ScalarProperty Name="BankedCommodityNotes" ColumnName="BankedCommodityNotes" />
-          <ScalarProperty Name="AccelaCAPRecordID" ColumnName="AccelaCAPRecordID" />
-          <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
-          <ScalarProperty Name="LastUpdatePersonID" ColumnName="LastUpdatePersonID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="CommodityBaileyRating">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.CommodityBaileyRating">
-        <MappingFragment StoreEntitySet="CommodityBaileyRating">
-          <ScalarProperty Name="CommodityBaileyRatingID" ColumnName="CommodityBaileyRatingID" />
-          <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
-          <ScalarProperty Name="BaileyRatingID" ColumnName="BaileyRatingID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="CommodityConvertedToCommodity">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.CommodityConvertedToCommodity">
-        <MappingFragment StoreEntitySet="CommodityConvertedToCommodity">
-          <ScalarProperty Name="CommodityConvertedToCommodityID" ColumnName="CommodityConvertedToCommodityID" />
-          <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
-          <ScalarProperty Name="ConvertedToCommodityID" ColumnName="ConvertedToCommodityID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="CommodityPool">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.CommodityPool">
-        <MappingFragment StoreEntitySet="CommodityPool">
-          <ScalarProperty Name="CommodityPoolID" ColumnName="CommodityPoolID" />
-          <ScalarProperty Name="CommodityPoolName" ColumnName="CommodityPoolName" />
-          <ScalarProperty Name="JurisdictionID" ColumnName="JurisdictionID" />
-          <ScalarProperty Name="Comments" ColumnName="Comments" />
-          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="InactivatedDate" ColumnName="InactivatedDate" />
-          <ScalarProperty Name="InactivatedByPersonID" ColumnName="InactivatedByPersonID" />
-          <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="CommodityPoolDisbursement">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.CommodityPoolDisbursement">
-        <MappingFragment StoreEntitySet="CommodityPoolDisbursement">
-          <ScalarProperty Name="CommodityPoolDisbursementID" ColumnName="CommodityPoolDisbursementID" />
-          <ScalarProperty Name="CommodityPoolID" ColumnName="CommodityPoolID" />
-          <ScalarProperty Name="CommodityPoolDisbursementTitle" ColumnName="CommodityPoolDisbursementTitle" />
-          <ScalarProperty Name="CommodityPoolDisbursementDate" ColumnName="CommodityPoolDisbursementDate" />
-          <ScalarProperty Name="CommodityPoolDisbursementAmount" ColumnName="CommodityPoolDisbursementAmount" />
-          <ScalarProperty Name="CommodityPoolDisbursementDescription" ColumnName="CommodityPoolDisbursementDescription" />
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-          <ScalarProperty Name="CreatePersonID" ColumnName="CreatePersonID" />
-          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-          <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProjectFirmaPage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectFirmaPage">
-        <MappingFragment StoreEntitySet="ProjectFirmaPage">
-          <ScalarProperty Name="ProjectFirmaPageID" ColumnName="ProjectFirmaPageID" />
-          <ScalarProperty Name="ProjectFirmaPageTypeID" ColumnName="ProjectFirmaPageTypeID" />
-          <ScalarProperty Name="ProjectFirmaPageContent" ColumnName="ProjectFirmaPageContent" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProjectFirmaPageImage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectFirmaPageImage">
-        <MappingFragment StoreEntitySet="ProjectFirmaPageImage">
-          <ScalarProperty Name="ProjectFirmaPageImageID" ColumnName="ProjectFirmaPageImageID" />
-          <ScalarProperty Name="ProjectFirmaPageID" ColumnName="ProjectFirmaPageID" />
-          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -411,62 +305,6 @@
           <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
           <ScalarProperty Name="JurisdictionFeature" ColumnName="JurisdictionFeature" />
           <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
-          <ScalarProperty Name="ResidentialAllocationAbbreviation" ColumnName="ResidentialAllocationAbbreviation" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LandBank">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.LandBank">
-        <MappingFragment StoreEntitySet="LandBank">
-          <ScalarProperty Name="LandBankID" ColumnName="LandBankID" />
-          <ScalarProperty Name="LeadAgencyID" ColumnName="LeadAgencyID" />
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LeadAgency">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.LeadAgency">
-        <MappingFragment StoreEntitySet="LeadAgency">
-          <ScalarProperty Name="LeadAgencyID" ColumnName="LeadAgencyID" />
-          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
-          <ScalarProperty Name="LeadAgencyAbbreviation" ColumnName="LeadAgencyAbbreviation" />
-          <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-          <ScalarProperty Name="CanManageRightOfWayCoverage" ColumnName="CanManageRightOfWayCoverage" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LeadAgencyRightOfWayCoverage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.LeadAgencyRightOfWayCoverage">
-        <MappingFragment StoreEntitySet="LeadAgencyRightOfWayCoverage">
-          <ScalarProperty Name="LeadAgencyRightOfWayCoverageID" ColumnName="LeadAgencyRightOfWayCoverageID" />
-          <ScalarProperty Name="LeadAgencyID" ColumnName="LeadAgencyID" />
-          <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
-          <ScalarProperty Name="RightOfWayCoverageAmount" ColumnName="RightOfWayCoverageAmount" />
-          <ScalarProperty Name="BaileyRatingID" ColumnName="BaileyRatingID" />
-          <ScalarProperty Name="RightOfWayCoverageEffectiveDate" ColumnName="RightOfWayCoverageEffectiveDate" />
-          <ScalarProperty Name="RightOfWayCoverageNotes" ColumnName="RightOfWayCoverageNotes" />
-          <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
-          <ScalarProperty Name="LastUpdatePersonID" ColumnName="LastUpdatePersonID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LeadAgencyTransactionTypeCommodity">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.LeadAgencyTransactionTypeCommodity">
-        <MappingFragment StoreEntitySet="LeadAgencyTransactionTypeCommodity">
-          <ScalarProperty Name="LeadAgencyTransactionTypeCommodityID" ColumnName="LeadAgencyTransactionTypeCommodityID" />
-          <ScalarProperty Name="LeadAgencyID" ColumnName="LeadAgencyID" />
-          <ScalarProperty Name="TransactionTypeCommodityID" ColumnName="TransactionTypeCommodityID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LeadAgencyTransactionTypeCommodityLog">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.LeadAgencyTransactionTypeCommodityLog">
-        <MappingFragment StoreEntitySet="LeadAgencyTransactionTypeCommodityLog">
-          <ScalarProperty Name="LeadAgencyTransactionTypeCommodityLogID" ColumnName="LeadAgencyTransactionTypeCommodityLogID" />
-          <ScalarProperty Name="LeadAgencyID" ColumnName="LeadAgencyID" />
-          <ScalarProperty Name="TransactionTypeCommodityID" ColumnName="TransactionTypeCommodityID" />
-          <ScalarProperty Name="LeadAgencyTransactionTypeCommodityLogChangeTypeID" ColumnName="LeadAgencyTransactionTypeCommodityLogChangeTypeID" />
-          <ScalarProperty Name="ChangeDate" ColumnName="ChangeDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -564,131 +402,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Parcel">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Parcel">
-        <MappingFragment StoreEntitySet="Parcel">
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="ParcelNumber" ColumnName="ParcelNumber" />
-          <ScalarProperty Name="GeometryXml" ColumnName="GeometryXml" />
-          <ScalarProperty Name="ParcelStreetAddress" ColumnName="ParcelStreetAddress" />
-          <ScalarProperty Name="ParcelCity" ColumnName="ParcelCity" />
-          <ScalarProperty Name="ParcelState" ColumnName="ParcelState" />
-          <ScalarProperty Name="ParcelZipCode" ColumnName="ParcelZipCode" />
-          <ScalarProperty Name="ParcelNickname" ColumnName="ParcelNickname" />
-          <ScalarProperty Name="ParcelNotes" ColumnName="ParcelNotes" />
-          <ScalarProperty Name="OwnerName" ColumnName="OwnerName" />
-          <ScalarProperty Name="JurisdictionID" ColumnName="JurisdictionID" />
-          <ScalarProperty Name="ParcelSize" ColumnName="ParcelSize" />
-          <ScalarProperty Name="VerifiedParcelSize" ColumnName="VerifiedParcelSize" />
-          <ScalarProperty Name="LocalPlan" ColumnName="LocalPlan" />
-          <ScalarProperty Name="HRA" ColumnName="HRA" />
-          <ScalarProperty Name="FireDistrict" ColumnName="FireDistrict" />
-          <ScalarProperty Name="BMPStatus" ColumnName="BMPStatus" />
-          <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
-          <ScalarProperty Name="ParcelStatusID" ColumnName="ParcelStatusID" />
-          <ScalarProperty Name="AutoImported" ColumnName="AutoImported" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ParcelAccelaCAPRecord">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ParcelAccelaCAPRecord">
-        <MappingFragment StoreEntitySet="ParcelAccelaCAPRecord">
-          <ScalarProperty Name="ParcelAccelaCAPRecordID" ColumnName="ParcelAccelaCAPRecordID" />
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="AccelaCAPRecordID" ColumnName="AccelaCAPRecordID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ParcelCommodityBaileyRatingConfirmation">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ParcelCommodityBaileyRatingConfirmation">
-        <MappingFragment StoreEntitySet="ParcelCommodityBaileyRatingConfirmation">
-          <ScalarProperty Name="ParcelCommodityBaileyRatingConfirmationID" ColumnName="ParcelCommodityBaileyRatingConfirmationID" />
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
-          <ScalarProperty Name="BaileyRatingID" ColumnName="BaileyRatingID" />
-          <ScalarProperty Name="ParcelCommodityBaileyRatingConfirmationStatusID" ColumnName="ParcelCommodityBaileyRatingConfirmationStatusID" />
-          <ScalarProperty Name="ConfirmedByPersonID" ColumnName="ConfirmedByPersonID" />
-          <ScalarProperty Name="ConfirmationDate" ColumnName="ConfirmationDate" />
-          <ScalarProperty Name="ConfirmationNotes" ColumnName="ConfirmationNotes" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ParcelDistanceFromTownCenter">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ParcelDistanceFromTownCenter">
-        <MappingFragment StoreEntitySet="ParcelDistanceFromTownCenter">
-          <ScalarProperty Name="ParcelDistanceFromTownCenterID" ColumnName="ParcelDistanceFromTownCenterID" />
-          <ScalarProperty Name="TownCenterID" ColumnName="TownCenterID" />
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="DistanceInMiles" ColumnName="DistanceInMiles" />
-          <ScalarProperty Name="DistanceFromTownCenterSummaryTypeID" ColumnName="DistanceFromTownCenterSummaryTypeID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ParcelExistingPhysicalInventory">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ParcelExistingPhysicalInventory">
-        <MappingFragment StoreEntitySet="ParcelExistingPhysicalInventory">
-          <ScalarProperty Name="ParcelExistingPhysicalInventoryID" ColumnName="ParcelExistingPhysicalInventoryID" />
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="CommodityBaileyRatingID" ColumnName="CommodityBaileyRatingID" />
-          <ScalarProperty Name="ExistingPhysicalInventoryQuantity" ColumnName="ExistingPhysicalInventoryQuantity" />
-          <ScalarProperty Name="VerifiedAsOfDate" ColumnName="VerifiedAsOfDate" />
-          <ScalarProperty Name="ExistingPhysicalInventoryNotes" ColumnName="ExistingPhysicalInventoryNotes" />
-          <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
-          <ScalarProperty Name="LastUpdatePersonID" ColumnName="LastUpdatePersonID" />
-          <ScalarProperty Name="EncumberedForPendingPermitQuantity" ColumnName="EncumberedForPendingPermitQuantity" />
-          <ScalarProperty Name="BaseAllowableQuantity" ColumnName="BaseAllowableQuantity" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ParcelGeometry">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ParcelGeometry">
-        <MappingFragment StoreEntitySet="ParcelGeometry">
-          <ScalarProperty Name="Ogr_Geometry" ColumnName="Ogr_Geometry" />
-          <ScalarProperty Name="ParcelNumber" ColumnName="ParcelNumber" />
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="ParcelGeometryID" ColumnName="ParcelGeometryID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ParcelImage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ParcelImage">
-        <MappingFragment StoreEntitySet="ParcelImage">
-          <ScalarProperty Name="ParcelImageID" ColumnName="ParcelImageID" />
-          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="Caption" ColumnName="Caption" />
-          <ScalarProperty Name="Credit" ColumnName="Credit" />
-          <ScalarProperty Name="IsKeyPhoto" ColumnName="IsKeyPhoto" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ParcelLandCapability">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ParcelLandCapability">
-        <MappingFragment StoreEntitySet="ParcelLandCapability">
-          <ScalarProperty Name="ParcelLandCapabilityID" ColumnName="ParcelLandCapabilityID" />
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="ParcelLandCapabilityDeterminationTypeID" ColumnName="ParcelLandCapabilityDeterminationTypeID" />
-          <ScalarProperty Name="DeterminationDate" ColumnName="DeterminationDate" />
-          <ScalarProperty Name="SitePlanFileResourceID" ColumnName="SitePlanFileResourceID" />
-          <ScalarProperty Name="AccelaCAPRecordID" ColumnName="AccelaCAPRecordID" />
-          <ScalarProperty Name="LandCapabilityNotes" ColumnName="LandCapabilityNotes" />
-          <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
-          <ScalarProperty Name="LastUpdatePersonID" ColumnName="LastUpdatePersonID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ParcelLandCapabilityRating">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ParcelLandCapabilityRating">
-        <MappingFragment StoreEntitySet="ParcelLandCapabilityRating">
-          <ScalarProperty Name="ParcelLandCapabilityRatingID" ColumnName="ParcelLandCapabilityRatingID" />
-          <ScalarProperty Name="ParcelLandCapabilityID" ColumnName="ParcelLandCapabilityID" />
-          <ScalarProperty Name="LandCapabilityTypeID" ColumnName="LandCapabilityTypeID" />
-          <ScalarProperty Name="BaileyRatingID" ColumnName="BaileyRatingID" />
-          <ScalarProperty Name="IPESScore" ColumnName="IPESScore" />
-          <ScalarProperty Name="SquareFootage" ColumnName="SquareFootage" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Person">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Person">
         <MappingFragment StoreEntitySet="Person">
@@ -707,7 +420,6 @@
           <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
           <ScalarProperty Name="SustainabilityRoleID" ColumnName="SustainabilityRoleID" />
           <ScalarProperty Name="LTInfoRoleID" ColumnName="LTInfoRoleID" />
-          <ScalarProperty Name="ParcelTrackerRoleID" ColumnName="ParcelTrackerRoleID" />
           <ScalarProperty Name="WebServiceAccessToken" ColumnName="WebServiceAccessToken" />
           <ScalarProperty Name="ThresholdRoleID" ColumnName="ThresholdRoleID" />
         </MappingFragment>
@@ -818,6 +530,24 @@
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="ExternalLinkLabel" ColumnName="ExternalLinkLabel" />
           <ScalarProperty Name="ExternalLinkUrl" ColumnName="ExternalLinkUrl" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectFirmaPage">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectFirmaPage">
+        <MappingFragment StoreEntitySet="ProjectFirmaPage">
+          <ScalarProperty Name="ProjectFirmaPageID" ColumnName="ProjectFirmaPageID" />
+          <ScalarProperty Name="ProjectFirmaPageTypeID" ColumnName="ProjectFirmaPageTypeID" />
+          <ScalarProperty Name="ProjectFirmaPageContent" ColumnName="ProjectFirmaPageContent" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectFirmaPageImage">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectFirmaPageImage">
+        <MappingFragment StoreEntitySet="ProjectFirmaPageImage">
+          <ScalarProperty Name="ProjectFirmaPageImageID" ColumnName="ProjectFirmaPageImageID" />
+          <ScalarProperty Name="ProjectFirmaPageID" ColumnName="ProjectFirmaPageID" />
+          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1219,23 +949,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ResidentialAllocation">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ResidentialAllocation">
-        <MappingFragment StoreEntitySet="ResidentialAllocation">
-          <ScalarProperty Name="ResidentialAllocationID" ColumnName="ResidentialAllocationID" />
-          <ScalarProperty Name="JurisdictionID" ColumnName="JurisdictionID" />
-          <ScalarProperty Name="IssuanceYear" ColumnName="IssuanceYear" />
-          <ScalarProperty Name="ResidentialAllocationTypeID" ColumnName="ResidentialAllocationTypeID" />
-          <ScalarProperty Name="AllocationSequence" ColumnName="AllocationSequence" />
-          <ScalarProperty Name="CommodityPoolDisbursementID" ColumnName="CommodityPoolDisbursementID" />
-          <ScalarProperty Name="TdrTransactionID" ColumnName="TdrTransactionID" />
-          <ScalarProperty Name="WithdrawnTdrTransactionID" ColumnName="WithdrawnTdrTransactionID" />
-          <ScalarProperty Name="IsAllocatedButNoTransactionRecord" ColumnName="IsAllocatedButNoTransactionRecord" />
-          <ScalarProperty Name="CommodityPoolID" ColumnName="CommodityPoolID" />
-          <ScalarProperty Name="AssignedToJurisdictionID" ColumnName="AssignedToJurisdictionID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Snapshot">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Snapshot">
         <MappingFragment StoreEntitySet="Snapshot">
@@ -1396,178 +1109,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TdrTransaction">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TdrTransaction">
-        <MappingFragment StoreEntitySet="TdrTransaction">
-          <ScalarProperty Name="TdrTransactionID" ColumnName="TdrTransactionID" />
-          <ScalarProperty Name="LeadAgencyID" ColumnName="LeadAgencyID" />
-          <ScalarProperty Name="LeadAgencyAbbreviation" ColumnName="LeadAgencyAbbreviation" />
-          <ScalarProperty Name="TransactionTypeCommodityID" ColumnName="TransactionTypeCommodityID" />
-          <ScalarProperty Name="TransactionTypeID" ColumnName="TransactionTypeID" />
-          <ScalarProperty Name="TransactionTypeAbbreviation" ColumnName="TransactionTypeAbbreviation" />
-          <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
-          <ScalarProperty Name="DeallocatedRationale" ColumnName="DeallocatedRationale" />
-          <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
-          <ScalarProperty Name="LastUpdatePersonID" ColumnName="LastUpdatePersonID" />
-          <ScalarProperty Name="ProjectNumber" ColumnName="ProjectNumber" />
-          <ScalarProperty Name="Comments" ColumnName="Comments" />
-          <ScalarProperty Name="TransactionStateID" ColumnName="TransactionStateID" />
-          <ScalarProperty Name="AccelaCAPRecordID" ColumnName="AccelaCAPRecordID" />
-          <ScalarProperty Name="ApprovalDate" ColumnName="ApprovalDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TdrTransactionAllocation">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TdrTransactionAllocation">
-        <MappingFragment StoreEntitySet="TdrTransactionAllocation">
-          <ScalarProperty Name="TdrTransactionAllocationID" ColumnName="TdrTransactionAllocationID" />
-          <ScalarProperty Name="TdrTransactionID" ColumnName="TdrTransactionID" />
-          <ScalarProperty Name="SendingAllocationPoolID" ColumnName="SendingAllocationPoolID" />
-          <ScalarProperty Name="ReceivingOwnershipID" ColumnName="ReceivingOwnershipID" />
-          <ScalarProperty Name="ReceivingParcelID" ColumnName="ReceivingParcelID" />
-          <ScalarProperty Name="AllocatedQuantity" ColumnName="AllocatedQuantity" />
-          <ScalarProperty Name="ReceivingIPESScore" ColumnName="ReceivingIPESScore" />
-          <ScalarProperty Name="ReceivingBaileyRatingID" ColumnName="ReceivingBaileyRatingID" />
-          <ScalarProperty Name="ResidentialAllocationFeeReceived" ColumnName="ResidentialAllocationFeeReceived" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TdrTransactionAllocationAssignment">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TdrTransactionAllocationAssignment">
-        <MappingFragment StoreEntitySet="TdrTransactionAllocationAssignment">
-          <ScalarProperty Name="TdrTransactionAllocationAssignmentID" ColumnName="TdrTransactionAllocationAssignmentID" />
-          <ScalarProperty Name="TdrTransactionID" ColumnName="TdrTransactionID" />
-          <ScalarProperty Name="SendingAllocationPoolID" ColumnName="SendingAllocationPoolID" />
-          <ScalarProperty Name="RetiredSensitiveOwnershipID" ColumnName="RetiredSensitiveOwnershipID" />
-          <ScalarProperty Name="RetiredSensitiveParcelID" ColumnName="RetiredSensitiveParcelID" />
-          <ScalarProperty Name="ReceivingOwnershipID" ColumnName="ReceivingOwnershipID" />
-          <ScalarProperty Name="ReceivingParcelID" ColumnName="ReceivingParcelID" />
-          <ScalarProperty Name="AllocatedQuantity" ColumnName="AllocatedQuantity" />
-          <ScalarProperty Name="ReceivingIPESScore" ColumnName="ReceivingIPESScore" />
-          <ScalarProperty Name="ReceivingBaileyRatingID" ColumnName="ReceivingBaileyRatingID" />
-          <ScalarProperty Name="ResidentialAllocationFeeReceived" ColumnName="ResidentialAllocationFeeReceived" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TdrTransactionConversion">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TdrTransactionConversion">
-        <MappingFragment StoreEntitySet="TdrTransactionConversion">
-          <ScalarProperty Name="TdrTransactionConversionID" ColumnName="TdrTransactionConversionID" />
-          <ScalarProperty Name="TdrTransactionID" ColumnName="TdrTransactionID" />
-          <ScalarProperty Name="LandBankID" ColumnName="LandBankID" />
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="OwnershipID" ColumnName="OwnershipID" />
-          <ScalarProperty Name="CommodityConvertedToID" ColumnName="CommodityConvertedToID" />
-          <ScalarProperty Name="IPESScore" ColumnName="IPESScore" />
-          <ScalarProperty Name="BaileyRatingID" ColumnName="BaileyRatingID" />
-          <ScalarProperty Name="SendingQuantity" ColumnName="SendingQuantity" />
-          <ScalarProperty Name="ReceivingQuantity" ColumnName="ReceivingQuantity" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TdrTransactionConversionWithTransfer">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TdrTransactionConversionWithTransfer">
-        <MappingFragment StoreEntitySet="TdrTransactionConversionWithTransfer">
-          <ScalarProperty Name="TdrTransactionConversionWithTransferID" ColumnName="TdrTransactionConversionWithTransferID" />
-          <ScalarProperty Name="TdrTransactionID" ColumnName="TdrTransactionID" />
-          <ScalarProperty Name="SendingOwnershipID" ColumnName="SendingOwnershipID" />
-          <ScalarProperty Name="SendingParcelID" ColumnName="SendingParcelID" />
-          <ScalarProperty Name="SendingLandBankID" ColumnName="SendingLandBankID" />
-          <ScalarProperty Name="ReceivingOwnershipID" ColumnName="ReceivingOwnershipID" />
-          <ScalarProperty Name="ReceivingParcelID" ColumnName="ReceivingParcelID" />
-          <ScalarProperty Name="SendingIPESScore" ColumnName="SendingIPESScore" />
-          <ScalarProperty Name="SendingBaileyRatingID" ColumnName="SendingBaileyRatingID" />
-          <ScalarProperty Name="ReceivingIPESScore" ColumnName="ReceivingIPESScore" />
-          <ScalarProperty Name="ReceivingBaileyRatingID" ColumnName="ReceivingBaileyRatingID" />
-          <ScalarProperty Name="SendingQuantity" ColumnName="SendingQuantity" />
-          <ScalarProperty Name="ReceivingQuantity" ColumnName="ReceivingQuantity" />
-          <ScalarProperty Name="CommodityConvertedToID" ColumnName="CommodityConvertedToID" />
-          <ScalarProperty Name="TransferPrice" ColumnName="TransferPrice" />
-          <ScalarProperty Name="TransferApprovalDate" ColumnName="TransferApprovalDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TdrTransactionECMRetirement">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TdrTransactionECMRetirement">
-        <MappingFragment StoreEntitySet="TdrTransactionECMRetirement">
-          <ScalarProperty Name="TdrTransactionECMRetirementID" ColumnName="TdrTransactionECMRetirementID" />
-          <ScalarProperty Name="TdrTransactionID" ColumnName="TdrTransactionID" />
-          <ScalarProperty Name="LandBankID" ColumnName="LandBankID" />
-          <ScalarProperty Name="SendingParcelID" ColumnName="SendingParcelID" />
-          <ScalarProperty Name="RetirementQuantity" ColumnName="RetirementQuantity" />
-          <ScalarProperty Name="SendingIPESScore" ColumnName="SendingIPESScore" />
-          <ScalarProperty Name="SendingBaileyRatingID" ColumnName="SendingBaileyRatingID" />
-          <ScalarProperty Name="TransferPrice" ColumnName="TransferPrice" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TdrTransactionLandBankAcquisition">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TdrTransactionLandBankAcquisition">
-        <MappingFragment StoreEntitySet="TdrTransactionLandBankAcquisition">
-          <ScalarProperty Name="TdrTransactionLandBankAcquisitionID" ColumnName="TdrTransactionLandBankAcquisitionID" />
-          <ScalarProperty Name="TdrTransactionID" ColumnName="TdrTransactionID" />
-          <ScalarProperty Name="SendingParcelID" ColumnName="SendingParcelID" />
-          <ScalarProperty Name="SendingQuantity" ColumnName="SendingQuantity" />
-          <ScalarProperty Name="SendingIPESScore" ColumnName="SendingIPESScore" />
-          <ScalarProperty Name="SendingBaileyRatingID" ColumnName="SendingBaileyRatingID" />
-          <ScalarProperty Name="LandBankID" ColumnName="LandBankID" />
-          <ScalarProperty Name="ReceivingCommodityConvertedToID" ColumnName="ReceivingCommodityConvertedToID" />
-          <ScalarProperty Name="TransferPrice" ColumnName="TransferPrice" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TdrTransactionStateHistory">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TdrTransactionStateHistory">
-        <MappingFragment StoreEntitySet="TdrTransactionStateHistory">
-          <ScalarProperty Name="TdrTransactionStateHistoryID" ColumnName="TdrTransactionStateHistoryID" />
-          <ScalarProperty Name="TdrTransactionID" ColumnName="TdrTransactionID" />
-          <ScalarProperty Name="TransactionStateID" ColumnName="TransactionStateID" />
-          <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
-          <ScalarProperty Name="TransitionDate" ColumnName="TransitionDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TdrTransactionTransfer">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TdrTransactionTransfer">
-        <MappingFragment StoreEntitySet="TdrTransactionTransfer">
-          <ScalarProperty Name="TdrTransactionTransferID" ColumnName="TdrTransactionTransferID" />
-          <ScalarProperty Name="TdrTransactionID" ColumnName="TdrTransactionID" />
-          <ScalarProperty Name="SendingLandBankID" ColumnName="SendingLandBankID" />
-          <ScalarProperty Name="SendingParcelID" ColumnName="SendingParcelID" />
-          <ScalarProperty Name="SendingQuantity" ColumnName="SendingQuantity" />
-          <ScalarProperty Name="SendingIPESScore" ColumnName="SendingIPESScore" />
-          <ScalarProperty Name="SendingBaileyRatingID" ColumnName="SendingBaileyRatingID" />
-          <ScalarProperty Name="ReceivingOwnershipID" ColumnName="ReceivingOwnershipID" />
-          <ScalarProperty Name="ReceivingParcelID" ColumnName="ReceivingParcelID" />
-          <ScalarProperty Name="ReceivingQuantity" ColumnName="ReceivingQuantity" />
-          <ScalarProperty Name="ReceivingIPESScore" ColumnName="ReceivingIPESScore" />
-          <ScalarProperty Name="ReceivingBaileyRatingID" ColumnName="ReceivingBaileyRatingID" />
-          <ScalarProperty Name="TransferPrice" ColumnName="TransferPrice" />
-          <ScalarProperty Name="RetiredQuantity" ColumnName="RetiredQuantity" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TdrTransactionTransferWithBonusUnit">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TdrTransactionTransferWithBonusUnit">
-        <MappingFragment StoreEntitySet="TdrTransactionTransferWithBonusUnit">
-          <ScalarProperty Name="TdrTransactionTransferWithBonusUnitID" ColumnName="TdrTransactionTransferWithBonusUnitID" />
-          <ScalarProperty Name="TdrTransactionID" ColumnName="TdrTransactionID" />
-          <ScalarProperty Name="SendingLandBankID" ColumnName="SendingLandBankID" />
-          <ScalarProperty Name="SendingParcelID" ColumnName="SendingParcelID" />
-          <ScalarProperty Name="SendingBonusPoolID" ColumnName="SendingBonusPoolID" />
-          <ScalarProperty Name="SendingQuantity" ColumnName="SendingQuantity" />
-          <ScalarProperty Name="SendingIPESScore" ColumnName="SendingIPESScore" />
-          <ScalarProperty Name="SendingBaileyRatingID" ColumnName="SendingBaileyRatingID" />
-          <ScalarProperty Name="ReceivingOwnershipID" ColumnName="ReceivingOwnershipID" />
-          <ScalarProperty Name="ReceivingParcelID" ColumnName="ReceivingParcelID" />
-          <ScalarProperty Name="ReceivingQuantity" ColumnName="ReceivingQuantity" />
-          <ScalarProperty Name="ReceivingIPESScore" ColumnName="ReceivingIPESScore" />
-          <ScalarProperty Name="ReceivingBaileyRatingID" ColumnName="ReceivingBaileyRatingID" />
-          <ScalarProperty Name="BonusUnits" ColumnName="BonusUnits" />
-          <ScalarProperty Name="TransferPrice" ColumnName="TransferPrice" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ThresholdCategory">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ThresholdCategory">
         <MappingFragment StoreEntitySet="ThresholdCategory">
@@ -1712,25 +1253,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TownCenter">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TownCenter">
-        <MappingFragment StoreEntitySet="TownCenter">
-          <ScalarProperty Name="TownCenterID" ColumnName="TownCenterID" />
-          <ScalarProperty Name="TownCenterName" ColumnName="TownCenterName" />
-          <ScalarProperty Name="TownCenterTypeID" ColumnName="TownCenterTypeID" />
-          <ScalarProperty Name="GeometryXml" ColumnName="GeometryXml" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TransactionTypeCommodity">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TransactionTypeCommodity">
-        <MappingFragment StoreEntitySet="TransactionTypeCommodity">
-          <ScalarProperty Name="TransactionTypeCommodityID" ColumnName="TransactionTypeCommodityID" />
-          <ScalarProperty Name="TransactionTypeID" ColumnName="TransactionTypeID" />
-          <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="TransportationCostParameterSet">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TransportationCostParameterSet">
         <MappingFragment StoreEntitySet="TransportationCostParameterSet">
@@ -1847,221 +1369,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="vAccelaCapRecord">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.vAccelaCapRecord">
-        <MappingFragment StoreEntitySet="vAccelaCapRecord">
-          <ScalarProperty Name="APN" ColumnName="APN" />
-          <ScalarProperty Name="AccelaID" ColumnName="AccelaID" />
-          <ScalarProperty Name="KeyOne" ColumnName="KeyOne" />
-          <ScalarProperty Name="KeyTwo" ColumnName="KeyTwo" />
-          <ScalarProperty Name="KeyThree" ColumnName="KeyThree" />
-          <ScalarProperty Name="ShortNotes" ColumnName="ShortNotes" />
-          <ScalarProperty Name="DetailedDescription" ColumnName="DetailedDescription" />
-          <ScalarProperty Name="AccelaCAPRecordStatusID" ColumnName="AccelaCAPRecordStatusID" />
-          <ScalarProperty Name="AccelaCAPRecordStatusDisplayName" ColumnName="AccelaCAPRecordStatusDisplayName" />
-          <ScalarProperty Name="AccelaCAPTypeName" ColumnName="AccelaCAPTypeName" />
-          <ScalarProperty Name="FileDate" ColumnName="FileDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="vAccelaParcel">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.vAccelaParcel">
-        <MappingFragment StoreEntitySet="vAccelaParcel">
-          <ScalarProperty Name="APN" ColumnName="APN" />
-          <ScalarProperty Name="ParcelStatusID" ColumnName="ParcelStatusID" />
-          <ScalarProperty Name="OwnerNumber" ColumnName="OwnerNumber" />
-          <ScalarProperty Name="OwnerFullName" ColumnName="OwnerFullName" />
-          <ScalarProperty Name="OwnerTitle" ColumnName="OwnerTitle" />
-          <ScalarProperty Name="OwnerFirstName" ColumnName="OwnerFirstName" />
-          <ScalarProperty Name="OwnerMiddleName" ColumnName="OwnerMiddleName" />
-          <ScalarProperty Name="OwnerLastName" ColumnName="OwnerLastName" />
-          <ScalarProperty Name="OwnerAddress" ColumnName="OwnerAddress" />
-          <ScalarProperty Name="OwnerCity" ColumnName="OwnerCity" />
-          <ScalarProperty Name="OwnerState" ColumnName="OwnerState" />
-          <ScalarProperty Name="OwnerZip" ColumnName="OwnerZip" />
-          <ScalarProperty Name="REC_DATE" ColumnName="REC_DATE" />
-          <ScalarProperty Name="REC_FUL_NAM" ColumnName="REC_FUL_NAM" />
-          <ScalarProperty Name="ParcelAddress" ColumnName="ParcelAddress" />
-          <ScalarProperty Name="ParcelCity" ColumnName="ParcelCity" />
-          <ScalarProperty Name="ParcelState" ColumnName="ParcelState" />
-          <ScalarProperty Name="ParcelZip" ColumnName="ParcelZip" />
-          <ScalarProperty Name="ParcelSize" ColumnName="ParcelSize" />
-          <ScalarProperty Name="Jurisdiction" ColumnName="Jurisdiction" />
-          <ScalarProperty Name="JurisdictionID" ColumnName="JurisdictionID" />
-          <ScalarProperty Name="LocalPlan" ColumnName="LocalPlan" />
-          <ScalarProperty Name="BMPStatus" ColumnName="BMPStatus" />
-          <ScalarProperty Name="FireDistrict" ColumnName="FireDistrict" />
-          <ScalarProperty Name="HRA" ColumnName="HRA" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="vAccelaParcelAttributes">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.vAccelaParcelAttributes">
-        <MappingFragment StoreEntitySet="vAccelaParcelAttributes">
-          <ScalarProperty Name="APN" ColumnName="APN" />
-          <ScalarProperty Name="ParcelSize" ColumnName="ParcelSize" />
-          <ScalarProperty Name="Jurisdiction" ColumnName="Jurisdiction" />
-          <ScalarProperty Name="AreaPlan" ColumnName="AreaPlan" />
-          <ScalarProperty Name="CommunityPlan" ColumnName="CommunityPlan" />
-          <ScalarProperty Name="PlanAreaStatement" ColumnName="PlanAreaStatement" />
-          <ScalarProperty Name="PlanAreaStatementID" ColumnName="PlanAreaStatementID" />
-          <ScalarProperty Name="BMPStatus" ColumnName="BMPStatus" />
-          <ScalarProperty Name="FireDistrict" ColumnName="FireDistrict" />
-          <ScalarProperty Name="HRA" ColumnName="HRA" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="vParcel">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.vParcel">
-        <MappingFragment StoreEntitySet="vParcel">
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="ParcelNumber" ColumnName="ParcelNumber" />
-          <ScalarProperty Name="ParcelNickname" ColumnName="ParcelNickname" />
-          <ScalarProperty Name="ParcelSize" ColumnName="ParcelSize" />
-          <ScalarProperty Name="ParcelNotes" ColumnName="ParcelNotes" />
-          <ScalarProperty Name="ParcelStatusName" ColumnName="ParcelStatusName" />
-          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
-          <ScalarProperty Name="OrganizationName" ColumnName="OrganizationName" />
-          <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
-          <ScalarProperty Name="WatershedName" ColumnName="WatershedName" />
-          <ScalarProperty Name="OwnerName" ColumnName="OwnerName" />
-          <ScalarProperty Name="ParcelStreetNumber" ColumnName="ParcelStreetNumber" />
-          <ScalarProperty Name="ParcelAddress" ColumnName="ParcelAddress" />
-          <ScalarProperty Name="ParcelStreetAddress" ColumnName="ParcelStreetAddress" />
-          <ScalarProperty Name="ParcelCity" ColumnName="ParcelCity" />
-          <ScalarProperty Name="ParcelState" ColumnName="ParcelState" />
-          <ScalarProperty Name="ParcelZipCode" ColumnName="ParcelZipCode" />
-          <ScalarProperty Name="LocalPlan" ColumnName="LocalPlan" />
-          <ScalarProperty Name="BMPStatus" ColumnName="BMPStatus" />
-          <ScalarProperty Name="FireDistrict" ColumnName="FireDistrict" />
-          <ScalarProperty Name="HRA" ColumnName="HRA" />
-          <ScalarProperty Name="AutoImported" ColumnName="AutoImported" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="vParcelCurrentInventoryByCommodity">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.vParcelCurrentInventoryByCommodity">
-        <MappingFragment StoreEntitySet="vParcelCurrentInventoryByCommodity">
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="Coverage" ColumnName="Coverage" />
-          <ScalarProperty Name="CommercialFloorArea" ColumnName="CommercialFloorArea" />
-          <ScalarProperty Name="ExistingResidentialUnit" ColumnName="ExistingResidentialUnit" />
-          <ScalarProperty Name="ResidentialAllocation" ColumnName="ResidentialAllocation" />
-          <ScalarProperty Name="ResidentialBonusUnit" ColumnName="ResidentialBonusUnit" />
-          <ScalarProperty Name="ResidentialDevelopmentRight" ColumnName="ResidentialDevelopmentRight" />
-          <ScalarProperty Name="TouristAccommodationUnit" ColumnName="TouristAccommodationUnit" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="vParcelCurrentInventoryByCommodityBaileyRating">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.vParcelCurrentInventoryByCommodityBaileyRating">
-        <MappingFragment StoreEntitySet="vParcelCurrentInventoryByCommodityBaileyRating">
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="BaileyRatingID" ColumnName="BaileyRatingID" />
-          <ScalarProperty Name="CommercialFloorArea" ColumnName="CommercialFloorArea" />
-          <ScalarProperty Name="CoverageHard" ColumnName="CoverageHard" />
-          <ScalarProperty Name="CoverageSoft" ColumnName="CoverageSoft" />
-          <ScalarProperty Name="CoveragePotential" ColumnName="CoveragePotential" />
-          <ScalarProperty Name="ExistingResidentialUnit" ColumnName="ExistingResidentialUnit" />
-          <ScalarProperty Name="PersonsAtOneTime" ColumnName="PersonsAtOneTime" />
-          <ScalarProperty Name="ResidentialDevelopmentRight" ColumnName="ResidentialDevelopmentRight" />
-          <ScalarProperty Name="ResidentialAllocation" ColumnName="ResidentialAllocation" />
-          <ScalarProperty Name="ResidentialBonusUnit" ColumnName="ResidentialBonusUnit" />
-          <ScalarProperty Name="RestorationCredit" ColumnName="RestorationCredit" />
-          <ScalarProperty Name="TouristAccommodationUnit" ColumnName="TouristAccommodationUnit" />
-          <ScalarProperty Name="ResidentialFloorArea" ColumnName="ResidentialFloorArea" />
-          <ScalarProperty Name="TouristFloorArea" ColumnName="TouristFloorArea" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="vParcelCurrentInventoryByCommodityDetailed">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.vParcelCurrentInventoryByCommodityDetailed">
-        <MappingFragment StoreEntitySet="vParcelCurrentInventoryByCommodityDetailed">
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="ParcelNumber" ColumnName="ParcelNumber" />
-          <ScalarProperty Name="ParcelNickname" ColumnName="ParcelNickname" />
-          <ScalarProperty Name="ParcelStatusName" ColumnName="ParcelStatusName" />
-          <ScalarProperty Name="ParcelSize" ColumnName="ParcelSize" />
-          <ScalarProperty Name="BaileyRatingID" ColumnName="BaileyRatingID" />
-          <ScalarProperty Name="IPESScore" ColumnName="IPESScore" />
-          <ScalarProperty Name="SquareFootage" ColumnName="SquareFootage" />
-          <ScalarProperty Name="CoverageHard" ColumnName="CoverageHard" />
-          <ScalarProperty Name="CoveragePotential" ColumnName="CoveragePotential" />
-          <ScalarProperty Name="CoverageSoft" ColumnName="CoverageSoft" />
-          <ScalarProperty Name="CommercialFloorArea" ColumnName="CommercialFloorArea" />
-          <ScalarProperty Name="ExistingResidentialUnit" ColumnName="ExistingResidentialUnit" />
-          <ScalarProperty Name="ResidentialAllocation" ColumnName="ResidentialAllocation" />
-          <ScalarProperty Name="ResidentialBonusUnit" ColumnName="ResidentialBonusUnit" />
-          <ScalarProperty Name="ResidentialFloorArea" ColumnName="ResidentialFloorArea" />
-          <ScalarProperty Name="ResidentialDevelopmentRight" ColumnName="ResidentialDevelopmentRight" />
-          <ScalarProperty Name="TouristAccommodationUnit" ColumnName="TouristAccommodationUnit" />
-          <ScalarProperty Name="TouristFloorArea" ColumnName="TouristFloorArea" />
-          <ScalarProperty Name="AutoImported" ColumnName="AutoImported" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="vParcelDetailed">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.vParcelDetailed">
-        <MappingFragment StoreEntitySet="vParcelDetailed">
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="ParcelNumber" ColumnName="ParcelNumber" />
-          <ScalarProperty Name="Coverage" ColumnName="Coverage" />
-          <ScalarProperty Name="CommercialFloorArea" ColumnName="CommercialFloorArea" />
-          <ScalarProperty Name="ExistingResidentialUnit" ColumnName="ExistingResidentialUnit" />
-          <ScalarProperty Name="ResidentialAllocation" ColumnName="ResidentialAllocation" />
-          <ScalarProperty Name="ResidentialBonusUnit" ColumnName="ResidentialBonusUnit" />
-          <ScalarProperty Name="ResidentialDevelopmentRight" ColumnName="ResidentialDevelopmentRight" />
-          <ScalarProperty Name="TouristAccommodationUnit" ColumnName="TouristAccommodationUnit" />
-          <ScalarProperty Name="ParcelNickname" ColumnName="ParcelNickname" />
-          <ScalarProperty Name="ParcelSize" ColumnName="ParcelSize" />
-          <ScalarProperty Name="ParcelNotes" ColumnName="ParcelNotes" />
-          <ScalarProperty Name="ParcelStatusName" ColumnName="ParcelStatusName" />
-          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
-          <ScalarProperty Name="OrganizationName" ColumnName="OrganizationName" />
-          <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
-          <ScalarProperty Name="WatershedName" ColumnName="WatershedName" />
-          <ScalarProperty Name="OwnerName" ColumnName="OwnerName" />
-          <ScalarProperty Name="ParcelStreetAddress" ColumnName="ParcelStreetAddress" />
-          <ScalarProperty Name="ParcelCity" ColumnName="ParcelCity" />
-          <ScalarProperty Name="ParcelState" ColumnName="ParcelState" />
-          <ScalarProperty Name="ParcelZipCode" ColumnName="ParcelZipCode" />
-          <ScalarProperty Name="LocalPlan" ColumnName="LocalPlan" />
-          <ScalarProperty Name="BMPStatus" ColumnName="BMPStatus" />
-          <ScalarProperty Name="FireDistrict" ColumnName="FireDistrict" />
-          <ScalarProperty Name="HRA" ColumnName="HRA" />
-          <ScalarProperty Name="AutoImported" ColumnName="AutoImported" />
-          <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
-          <ScalarProperty Name="LandCapability" ColumnName="LandCapability" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="vParcelLandCapability">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.vParcelLandCapability">
-        <MappingFragment StoreEntitySet="vParcelLandCapability">
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="SquareFootage" ColumnName="SquareFootage" />
-          <ScalarProperty Name="BaileyRatingID" ColumnName="BaileyRatingID" />
-          <ScalarProperty Name="IPESScore" ColumnName="IPESScore" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="vParcelLandCapabilityCombinedDescription">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.vParcelLandCapabilityCombinedDescription">
-        <MappingFragment StoreEntitySet="vParcelLandCapabilityCombinedDescription">
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="LandCapability" ColumnName="LandCapability" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="vParcelTransactionFillColor">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.vParcelTransactionFillColor">
-        <MappingFragment StoreEntitySet="vParcelTransactionFillColor">
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
-          <ScalarProperty Name="ParcelFillColor" ColumnName="ParcelFillColor" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="vProject">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.vProject">
         <MappingFragment StoreEntitySet="vProject">
@@ -2077,33 +1384,6 @@
           <ScalarProperty Name="CompletionYear" ColumnName="CompletionYear" />
           <ScalarProperty Name="OldEipNumber" ColumnName="OldEipNumber" />
           <ScalarProperty Name="ImplementsMultipleProjects" ColumnName="ImplementsMultipleProjects" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="vTdrTransactionCanBeCountedInInventory">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.vTdrTransactionCanBeCountedInInventory">
-        <MappingFragment StoreEntitySet="vTdrTransactionCanBeCountedInInventory">
-          <ScalarProperty Name="TdrTransactionID" ColumnName="TdrTransactionID" />
-          <ScalarProperty Name="LeadAgencyID" ColumnName="LeadAgencyID" />
-          <ScalarProperty Name="LeadAgencyAbbreviation" ColumnName="LeadAgencyAbbreviation" />
-          <ScalarProperty Name="TransactionTypeID" ColumnName="TransactionTypeID" />
-          <ScalarProperty Name="TransactionTypeAbbreviation" ColumnName="TransactionTypeAbbreviation" />
-          <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
-          <ScalarProperty Name="TransactionStateID" ColumnName="TransactionStateID" />
-          <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="vTransactedAndBankedCommodities">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.vTransactedAndBankedCommodities">
-        <MappingFragment StoreEntitySet="vTransactedAndBankedCommodities">
-          <ScalarProperty Name="ParcelID" ColumnName="ParcelID" />
-          <ScalarProperty Name="TransactionTypeID" ColumnName="TransactionTypeID" />
-          <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
-          <ScalarProperty Name="BaileyRatingID" ColumnName="BaileyRatingID" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-          <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
-          <ScalarProperty Name="ParcelAction" ColumnName="ParcelAction" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

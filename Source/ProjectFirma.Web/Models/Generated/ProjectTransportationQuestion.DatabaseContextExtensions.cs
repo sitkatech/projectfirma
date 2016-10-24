@@ -5,9 +5,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using EntityFramework.Extensions;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {

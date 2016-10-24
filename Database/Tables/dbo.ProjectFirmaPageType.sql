@@ -23,12 +23,12 @@ CREATE TABLE [dbo].[ProjectFirmaPageType](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[ProjectFirmaPageType]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFirmaPageType_ProjectFirmaPageRenderType_ProjectFirmaPageRenderTypeID] FOREIGN KEY([ProjectFirmaPageRenderTypeID])
-REFERENCES [dbo].[ProjectFirmaPageRenderType] ([ProjectFirmaPageRenderTypeID])
-GO
-ALTER TABLE [dbo].[ProjectFirmaPageType] CHECK CONSTRAINT [FK_ProjectFirmaPageType_ProjectFirmaPageRenderType_ProjectFirmaPageRenderTypeID]
-GO
 ALTER TABLE [dbo].[ProjectFirmaPageType]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFirmaPageType_LTInfoArea_PrimaryLTInfoAreaID_LTInfoAreaID] FOREIGN KEY([PrimaryLTInfoAreaID])
 REFERENCES [dbo].[LTInfoArea] ([LTInfoAreaID])
 GO
 ALTER TABLE [dbo].[ProjectFirmaPageType] CHECK CONSTRAINT [FK_ProjectFirmaPageType_LTInfoArea_PrimaryLTInfoAreaID_LTInfoAreaID]
+GO
+ALTER TABLE [dbo].[ProjectFirmaPageType]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFirmaPageType_ProjectFirmaPageRenderType_ProjectFirmaPageRenderTypeID] FOREIGN KEY([ProjectFirmaPageRenderTypeID])
+REFERENCES [dbo].[ProjectFirmaPageRenderType] ([ProjectFirmaPageRenderTypeID])
+GO
+ALTER TABLE [dbo].[ProjectFirmaPageType] CHECK CONSTRAINT [FK_ProjectFirmaPageType_ProjectFirmaPageRenderType_ProjectFirmaPageRenderTypeID]

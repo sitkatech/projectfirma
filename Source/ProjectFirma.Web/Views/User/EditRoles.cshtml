@@ -59,19 +59,6 @@
         </tr>
         <tr>
             <th>
-                @LTInfoArea.ParcelTracker.LTInfoAreaDisplayName
-            </th>
-            <td>
-                @Html.DropDownListFor(m => m.ParcelTrackerRoleID, ViewDataTyped.ParcelTrackerRoles, new { style = "width:100%" })
-                @Html.ValidationMessageFor(m => m.ParcelTrackerRoleID)
-            </td>
-            <td style="text-align: center">
-                @Html.CheckBoxFor(m => m.ShouldReceiveParcelTrackerSupportEmails)
-                @Html.ValidationMessageFor(m => m.ShouldReceiveParcelTrackerSupportEmails)
-            </td>
-        </tr>
-        <tr>
-            <th>
                 @LTInfoArea.Threshold.LTInfoAreaDisplayName
             </th>
             <td>

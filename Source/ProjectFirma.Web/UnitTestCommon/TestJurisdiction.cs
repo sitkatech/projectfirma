@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.UnitTestCommon
         public static Jurisdiction Create()
         {
             var randomInMemoryOnlyUniqueID = TestFramework.RandomInMemoryOnlyUniqueID();
-            var jurisdiction = new Jurisdiction(randomInMemoryOnlyUniqueID, 1110, null, null, "TRPA");
+            var jurisdiction = new Jurisdiction(randomInMemoryOnlyUniqueID, 1110, null, null);
             return jurisdiction;
         }
     }

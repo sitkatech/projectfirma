@@ -1,6 +1,6 @@
 using ProjectFirma.Web.Areas.EIP.Controllers;
-using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
+using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models
 {
@@ -9,11 +9,27 @@ namespace ProjectFirma.Web.Models
         public abstract string GetViewUrl();
     }
 
-    public partial class ProjectFirmaPageTypeEIPTrackerNarrative
+    public partial class ProjectFirmaPageTypeHomePage
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<Areas.EIP.Controllers.HomeController>.BuildUrlFromExpression(x => x.ViewPageContent(ToEnum));
+            return SitkaRoute<Areas.EIP.Controllers.HomeController>.BuildUrlFromExpression(x => x.Index());
+        }
+    }
+
+    public partial class ProjectFirmaPageTypeAboutClackamasPartnership
+    {
+        public override string GetViewUrl()
+        {
+            return SitkaRoute<AboutController>.BuildUrlFromExpression(x => x.AboutClackamasPartnership());
+        }
+    }
+
+    public partial class ProjectFirmaPageTypeMeetings
+    {
+        public override string GetViewUrl()
+        {
+            return SitkaRoute<AboutController>.BuildUrlFromExpression(x => x.AboutClackamasPartnership());
         }
     }
 
@@ -22,62 +38,6 @@ namespace ProjectFirma.Web.Models
         public override string GetViewUrl()
         {
             return SitkaRoute<Areas.EIP.Controllers.HomeController>.BuildUrlFromExpression(x => x.ViewPageContent(ToEnum));
-        }
-    }
-
-    public partial class ProjectFirmaPageTypeEIPOverview
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<Areas.EIP.Controllers.AboutController>.BuildUrlFromExpression(x => x.EIPOverview());
-        }
-    }
-
-    public partial class ProjectFirmaPageTypeHistoryOfTheEIP
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<Areas.EIP.Controllers.AboutController>.BuildUrlFromExpression(x => x.HistoryOfTheEIP());
-        }
-    }
-
-    public partial class ProjectFirmaPageTypeEIPPartners
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<Areas.EIP.Controllers.AboutController>.BuildUrlFromExpression(x => x.EIPPartners());
-        }
-    }
-
-    public partial class ProjectFirmaPageTypeEIPFaq
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<Areas.EIP.Controllers.AboutController>.BuildUrlFromExpression(x => x.Faq());
-        }
-    }
-
-    public partial class ProjectFirmaPageTypeThisTool
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<Areas.EIP.Controllers.AboutController>.BuildUrlFromExpression(x => x.ThisTool());
-        }
-    }
-
-    public partial class ProjectFirmaPageTypeDemoScript
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<Areas.EIP.Controllers.AboutController>.BuildUrlFromExpression(x => x.DemoScript());
-        }
-    }
-
-    public partial class ProjectFirmaPageTypeAnnualApprovalProcess
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<Areas.EIP.Controllers.AboutController>.BuildUrlFromExpression(x => x.AnnualApprovalProcess());
         }
     }
 
@@ -266,7 +226,7 @@ namespace ProjectFirma.Web.Models
     }
 
 
-    
+
     public partial class ProjectFirmaPageTypeFeaturedProjectList
     {
         public override string GetViewUrl()

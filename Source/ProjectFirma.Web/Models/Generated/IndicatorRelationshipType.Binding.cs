@@ -8,17 +8,15 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
     public abstract partial class IndicatorRelationshipType : IHavePrimaryKey
     {
-        public static readonly IndicatorRelationshipTypeTertiary Tertiary = IndicatorRelationshipTypeTertiary.Instance;
-        public static readonly IndicatorRelationshipTypeSecondary Secondary = IndicatorRelationshipTypeSecondary.Instance;
-        public static readonly IndicatorRelationshipTypePrimary Primary = IndicatorRelationshipTypePrimary.Instance;
+
 
         public static readonly List<IndicatorRelationshipType> All;
         public static readonly ReadOnlyDictionary<int, IndicatorRelationshipType> AllLookupDictionary;
@@ -28,7 +26,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static IndicatorRelationshipType()
         {
-            All = new List<IndicatorRelationshipType> { Tertiary, Secondary, Primary };
+            All = new List<IndicatorRelationshipType> {  };
             AllLookupDictionary = new ReadOnlyDictionary<int, IndicatorRelationshipType>(All.ToDictionary(x => x.IndicatorRelationshipTypeID));
         }
 
@@ -97,12 +95,7 @@ namespace ProjectFirma.Web.Models
         {
             switch (enumValue)
             {
-                case IndicatorRelationshipTypeEnum.Primary:
-                    return Primary;
-                case IndicatorRelationshipTypeEnum.Secondary:
-                    return Secondary;
-                case IndicatorRelationshipTypeEnum.Tertiary:
-                    return Tertiary;
+
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -111,26 +104,7 @@ namespace ProjectFirma.Web.Models
 
     public enum IndicatorRelationshipTypeEnum
     {
-        Tertiary = 1,
-        Secondary = 2,
-        Primary = 3
+
     }
 
-    public partial class IndicatorRelationshipTypeTertiary : IndicatorRelationshipType
-    {
-        private IndicatorRelationshipTypeTertiary(int indicatorRelationshipTypeID, string indicatorRelationshipTypeName, string indicatorRelationshipTypeDisplayName) : base(indicatorRelationshipTypeID, indicatorRelationshipTypeName, indicatorRelationshipTypeDisplayName) {}
-        public static readonly IndicatorRelationshipTypeTertiary Instance = new IndicatorRelationshipTypeTertiary(1, @"Tertiary", @"Tertiary");
-    }
-
-    public partial class IndicatorRelationshipTypeSecondary : IndicatorRelationshipType
-    {
-        private IndicatorRelationshipTypeSecondary(int indicatorRelationshipTypeID, string indicatorRelationshipTypeName, string indicatorRelationshipTypeDisplayName) : base(indicatorRelationshipTypeID, indicatorRelationshipTypeName, indicatorRelationshipTypeDisplayName) {}
-        public static readonly IndicatorRelationshipTypeSecondary Instance = new IndicatorRelationshipTypeSecondary(2, @"Secondary", @"Secondary");
-    }
-
-    public partial class IndicatorRelationshipTypePrimary : IndicatorRelationshipType
-    {
-        private IndicatorRelationshipTypePrimary(int indicatorRelationshipTypeID, string indicatorRelationshipTypeName, string indicatorRelationshipTypeDisplayName) : base(indicatorRelationshipTypeID, indicatorRelationshipTypeName, indicatorRelationshipTypeDisplayName) {}
-        public static readonly IndicatorRelationshipTypePrimary Instance = new IndicatorRelationshipTypePrimary(3, @"Primary", @"Primary");
-    }
 }

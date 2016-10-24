@@ -1,18 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="ProjectFirma.Web.Models.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="ProjectFirmaWebModelsStoreContainer">
-    <EntitySet Name="AccelaCAPRecord" EntityType="ProjectFirma.Web.Models.Store.AccelaCAPRecord" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="AccelaJurisdictionToJurisdictionMapping" EntityType="ProjectFirma.Web.Models.Store.AccelaJurisdictionToJurisdictionMapping" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ActionPriority" EntityType="ProjectFirma.Web.Models.Store.ActionPriority" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ActionPriorityImage" EntityType="ProjectFirma.Web.Models.Store.ActionPriorityImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AuditLog" EntityType="ProjectFirma.Web.Models.Store.AuditLog" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="BankedCommodity" EntityType="ProjectFirma.Web.Models.Store.BankedCommodity" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="CommodityBaileyRating" EntityType="ProjectFirma.Web.Models.Store.CommodityBaileyRating" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="CommodityConvertedToCommodity" EntityType="ProjectFirma.Web.Models.Store.CommodityConvertedToCommodity" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="CommodityPool" EntityType="ProjectFirma.Web.Models.Store.CommodityPool" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="CommodityPoolDisbursement" EntityType="ProjectFirma.Web.Models.Store.CommodityPoolDisbursement" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProjectFirmaPage" EntityType="ProjectFirma.Web.Models.Store.ProjectFirmaPage" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProjectFirmaPageImage" EntityType="ProjectFirma.Web.Models.Store.ProjectFirmaPageImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="County" EntityType="ProjectFirma.Web.Models.Store.County" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DatabaseMigration" EntityType="ProjectFirma.Web.Models.Store.DatabaseMigration" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="EIPPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.EIPPerformanceMeasure" store:Type="Tables" Schema="dbo" />
@@ -37,11 +28,6 @@
     <EntitySet Name="IndicatorSubcategory" EntityType="ProjectFirma.Web.Models.Store.IndicatorSubcategory" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="IndicatorSubcategoryOption" EntityType="ProjectFirma.Web.Models.Store.IndicatorSubcategoryOption" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Jurisdiction" EntityType="ProjectFirma.Web.Models.Store.Jurisdiction" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="LandBank" EntityType="ProjectFirma.Web.Models.Store.LandBank" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="LeadAgency" EntityType="ProjectFirma.Web.Models.Store.LeadAgency" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="LeadAgencyRightOfWayCoverage" EntityType="ProjectFirma.Web.Models.Store.LeadAgencyRightOfWayCoverage" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="LeadAgencyTransactionTypeCommodity" EntityType="ProjectFirma.Web.Models.Store.LeadAgencyTransactionTypeCommodity" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="LeadAgencyTransactionTypeCommodityLog" EntityType="ProjectFirma.Web.Models.Store.LeadAgencyTransactionTypeCommodityLog" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LocalAndRegionalPlan" EntityType="ProjectFirma.Web.Models.Store.LocalAndRegionalPlan" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MappedRegion" EntityType="ProjectFirma.Web.Models.Store.MappedRegion" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MonitoringProgram" EntityType="ProjectFirma.Web.Models.Store.MonitoringProgram" store:Type="Tables" Schema="dbo" />
@@ -51,15 +37,6 @@
     <EntitySet Name="NotificationProject" EntityType="ProjectFirma.Web.Models.Store.NotificationProject" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="NotificationProposedProject" EntityType="ProjectFirma.Web.Models.Store.NotificationProposedProject" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Organization" EntityType="ProjectFirma.Web.Models.Store.Organization" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Parcel" EntityType="ProjectFirma.Web.Models.Store.Parcel" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ParcelAccelaCAPRecord" EntityType="ProjectFirma.Web.Models.Store.ParcelAccelaCAPRecord" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ParcelCommodityBaileyRatingConfirmation" EntityType="ProjectFirma.Web.Models.Store.ParcelCommodityBaileyRatingConfirmation" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ParcelDistanceFromTownCenter" EntityType="ProjectFirma.Web.Models.Store.ParcelDistanceFromTownCenter" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ParcelExistingPhysicalInventory" EntityType="ProjectFirma.Web.Models.Store.ParcelExistingPhysicalInventory" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ParcelGeometry" EntityType="ProjectFirma.Web.Models.Store.ParcelGeometry" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ParcelImage" EntityType="ProjectFirma.Web.Models.Store.ParcelImage" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ParcelLandCapability" EntityType="ProjectFirma.Web.Models.Store.ParcelLandCapability" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ParcelLandCapabilityRating" EntityType="ProjectFirma.Web.Models.Store.ParcelLandCapabilityRating" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Person" EntityType="ProjectFirma.Web.Models.Store.Person" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PersonArea" EntityType="ProjectFirma.Web.Models.Store.PersonArea" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Program" EntityType="ProjectFirma.Web.Models.Store.Program" store:Type="Tables" Schema="dbo" />
@@ -70,6 +47,8 @@
     <EntitySet Name="ProjectExemptReportingYearUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectExemptReportingYearUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectExternalLink" EntityType="ProjectFirma.Web.Models.Store.ProjectExternalLink" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectExternalLinkUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectExternalLinkUpdate" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProjectFirmaPage" EntityType="ProjectFirma.Web.Models.Store.ProjectFirmaPage" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProjectFirmaPageImage" EntityType="ProjectFirma.Web.Models.Store.ProjectFirmaPageImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectFundingOrganization" EntityType="ProjectFirma.Web.Models.Store.ProjectFundingOrganization" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectFundingSourceExpenditure" EntityType="ProjectFirma.Web.Models.Store.ProjectFundingSourceExpenditure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectFundingSourceExpenditureUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectFundingSourceExpenditureUpdate" store:Type="Tables" Schema="dbo" />
@@ -102,7 +81,6 @@
     <EntitySet Name="ProposedProjectNote" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectNote" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProposedProjectThresholdCategory" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectThresholdCategory" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProposedProjectTransportationQuestion" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectTransportationQuestion" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ResidentialAllocation" EntityType="ProjectFirma.Web.Models.Store.ResidentialAllocation" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Snapshot" EntityType="ProjectFirma.Web.Models.Store.Snapshot" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SnapshotEIPPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.SnapshotEIPPerformanceMeasure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SnapshotEIPPerformanceMeasureSubcategoryOption" EntityType="ProjectFirma.Web.Models.Store.SnapshotEIPPerformanceMeasureSubcategoryOption" store:Type="Tables" Schema="dbo" />
@@ -117,16 +95,6 @@
     <EntitySet Name="SustainabilityIndicatorReportingPeriod" EntityType="ProjectFirma.Web.Models.Store.SustainabilityIndicatorReportingPeriod" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SustainabilityPillar" EntityType="ProjectFirma.Web.Models.Store.SustainabilityPillar" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Tag" EntityType="ProjectFirma.Web.Models.Store.Tag" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TdrTransaction" EntityType="ProjectFirma.Web.Models.Store.TdrTransaction" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TdrTransactionAllocation" EntityType="ProjectFirma.Web.Models.Store.TdrTransactionAllocation" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TdrTransactionAllocationAssignment" EntityType="ProjectFirma.Web.Models.Store.TdrTransactionAllocationAssignment" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TdrTransactionConversion" EntityType="ProjectFirma.Web.Models.Store.TdrTransactionConversion" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TdrTransactionConversionWithTransfer" EntityType="ProjectFirma.Web.Models.Store.TdrTransactionConversionWithTransfer" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TdrTransactionECMRetirement" EntityType="ProjectFirma.Web.Models.Store.TdrTransactionECMRetirement" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TdrTransactionLandBankAcquisition" EntityType="ProjectFirma.Web.Models.Store.TdrTransactionLandBankAcquisition" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TdrTransactionStateHistory" EntityType="ProjectFirma.Web.Models.Store.TdrTransactionStateHistory" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TdrTransactionTransfer" EntityType="ProjectFirma.Web.Models.Store.TdrTransactionTransfer" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TdrTransactionTransferWithBonusUnit" EntityType="ProjectFirma.Web.Models.Store.TdrTransactionTransferWithBonusUnit" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ThresholdCategory" EntityType="ProjectFirma.Web.Models.Store.ThresholdCategory" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ThresholdCategoryImage" EntityType="ProjectFirma.Web.Models.Store.ThresholdCategoryImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ThresholdCategoryIndicator" EntityType="ProjectFirma.Web.Models.Store.ThresholdCategoryIndicator" store:Type="Tables" Schema="dbo" />
@@ -138,8 +106,6 @@
     <EntitySet Name="ThresholdIndicatorReportedSubcategoryOption" EntityType="ProjectFirma.Web.Models.Store.ThresholdIndicatorReportedSubcategoryOption" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ThresholdIndicatorReportingPeriod" EntityType="ProjectFirma.Web.Models.Store.ThresholdIndicatorReportingPeriod" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ThresholdReportingCategory" EntityType="ProjectFirma.Web.Models.Store.ThresholdReportingCategory" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TownCenter" EntityType="ProjectFirma.Web.Models.Store.TownCenter" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TransactionTypeCommodity" EntityType="ProjectFirma.Web.Models.Store.TransactionTypeCommodity" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TransportationCostParameterSet" EntityType="ProjectFirma.Web.Models.Store.TransportationCostParameterSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TransportationGoal" EntityType="ProjectFirma.Web.Models.Store.TransportationGoal" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TransportationObjective" EntityType="ProjectFirma.Web.Models.Store.TransportationObjective" store:Type="Tables" Schema="dbo" />
@@ -151,201 +117,6 @@
     <EntitySet Name="TransportationStrategyImage" EntityType="ProjectFirma.Web.Models.Store.TransportationStrategyImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TransportationSubGoal" EntityType="ProjectFirma.Web.Models.Store.TransportationSubGoal" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Store.Watershed" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="vAccelaCapRecord" EntityType="ProjectFirma.Web.Models.Store.vAccelaCapRecord" store:Type="Views" store:Schema="dbo" store:Name="vAccelaCapRecord">
-      <DefiningQuery>SELECT 
-[vAccelaCapRecord].[APN] AS [APN], 
-[vAccelaCapRecord].[AccelaID] AS [AccelaID], 
-[vAccelaCapRecord].[KeyOne] AS [KeyOne], 
-[vAccelaCapRecord].[KeyTwo] AS [KeyTwo], 
-[vAccelaCapRecord].[KeyThree] AS [KeyThree], 
-[vAccelaCapRecord].[ShortNotes] AS [ShortNotes], 
-[vAccelaCapRecord].[DetailedDescription] AS [DetailedDescription], 
-[vAccelaCapRecord].[AccelaCAPRecordStatusID] AS [AccelaCAPRecordStatusID], 
-[vAccelaCapRecord].[AccelaCAPRecordStatusDisplayName] AS [AccelaCAPRecordStatusDisplayName], 
-[vAccelaCapRecord].[AccelaCAPTypeName] AS [AccelaCAPTypeName], 
-[vAccelaCapRecord].[FileDate] AS [FileDate]
-FROM [dbo].[vAccelaCapRecord] AS [vAccelaCapRecord]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="vAccelaParcel" EntityType="ProjectFirma.Web.Models.Store.vAccelaParcel" store:Type="Views" store:Schema="dbo" store:Name="vAccelaParcel">
-      <DefiningQuery>SELECT 
-[vAccelaParcel].[APN] AS [APN], 
-[vAccelaParcel].[ParcelStatus] AS [ParcelStatus], 
-[vAccelaParcel].[ParcelStatusID] AS [ParcelStatusID], 
-[vAccelaParcel].[OwnerNumber] AS [OwnerNumber], 
-[vAccelaParcel].[OwnerFullName] AS [OwnerFullName], 
-[vAccelaParcel].[OwnerTitle] AS [OwnerTitle], 
-[vAccelaParcel].[OwnerFirstName] AS [OwnerFirstName], 
-[vAccelaParcel].[OwnerMiddleName] AS [OwnerMiddleName], 
-[vAccelaParcel].[OwnerLastName] AS [OwnerLastName], 
-[vAccelaParcel].[OwnerAddress] AS [OwnerAddress], 
-[vAccelaParcel].[OwnerCity] AS [OwnerCity], 
-[vAccelaParcel].[OwnerState] AS [OwnerState], 
-[vAccelaParcel].[OwnerZip] AS [OwnerZip], 
-[vAccelaParcel].[REC_DATE] AS [REC_DATE], 
-[vAccelaParcel].[REC_FUL_NAM] AS [REC_FUL_NAM], 
-[vAccelaParcel].[ParcelAddress] AS [ParcelAddress], 
-[vAccelaParcel].[ParcelCity] AS [ParcelCity], 
-[vAccelaParcel].[ParcelState] AS [ParcelState], 
-[vAccelaParcel].[ParcelZip] AS [ParcelZip], 
-[vAccelaParcel].[ParcelSize] AS [ParcelSize], 
-[vAccelaParcel].[Jurisdiction] AS [Jurisdiction], 
-[vAccelaParcel].[JurisdictionID] AS [JurisdictionID], 
-[vAccelaParcel].[LocalPlan] AS [LocalPlan], 
-[vAccelaParcel].[BMPStatus] AS [BMPStatus], 
-[vAccelaParcel].[FireDistrict] AS [FireDistrict], 
-[vAccelaParcel].[HRA] AS [HRA]
-FROM [dbo].[vAccelaParcel] AS [vAccelaParcel]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="vAccelaParcelAttributes" EntityType="ProjectFirma.Web.Models.Store.vAccelaParcelAttributes" store:Type="Views" store:Schema="dbo" store:Name="vAccelaParcelAttributes">
-      <DefiningQuery>SELECT 
-[vAccelaParcelAttributes].[APN] AS [APN], 
-[vAccelaParcelAttributes].[ParcelSize] AS [ParcelSize], 
-[vAccelaParcelAttributes].[Jurisdiction] AS [Jurisdiction], 
-[vAccelaParcelAttributes].[AreaPlan] AS [AreaPlan], 
-[vAccelaParcelAttributes].[CommunityPlan] AS [CommunityPlan], 
-[vAccelaParcelAttributes].[PlanAreaStatement] AS [PlanAreaStatement], 
-[vAccelaParcelAttributes].[PlanAreaStatementID] AS [PlanAreaStatementID], 
-[vAccelaParcelAttributes].[BMPStatus] AS [BMPStatus], 
-[vAccelaParcelAttributes].[FireDistrict] AS [FireDistrict], 
-[vAccelaParcelAttributes].[HRA] AS [HRA]
-FROM [dbo].[vAccelaParcelAttributes] AS [vAccelaParcelAttributes]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="vParcel" EntityType="ProjectFirma.Web.Models.Store.vParcel" store:Type="Views" store:Schema="dbo" store:Name="vParcel">
-      <DefiningQuery>SELECT 
-[vParcel].[ParcelID] AS [ParcelID], 
-[vParcel].[ParcelNumber] AS [ParcelNumber], 
-[vParcel].[ParcelNickname] AS [ParcelNickname], 
-[vParcel].[ParcelSize] AS [ParcelSize], 
-[vParcel].[ParcelNotes] AS [ParcelNotes], 
-[vParcel].[ParcelStatusName] AS [ParcelStatusName], 
-[vParcel].[OrganizationID] AS [OrganizationID], 
-[vParcel].[OrganizationName] AS [OrganizationName], 
-[vParcel].[WatershedID] AS [WatershedID], 
-[vParcel].[WatershedName] AS [WatershedName], 
-[vParcel].[OwnerName] AS [OwnerName], 
-[vParcel].[ParcelStreetNumber] AS [ParcelStreetNumber], 
-[vParcel].[ParcelAddress] AS [ParcelAddress], 
-[vParcel].[ParcelStreetAddress] AS [ParcelStreetAddress], 
-[vParcel].[ParcelCity] AS [ParcelCity], 
-[vParcel].[ParcelState] AS [ParcelState], 
-[vParcel].[ParcelZipCode] AS [ParcelZipCode], 
-[vParcel].[LocalPlan] AS [LocalPlan], 
-[vParcel].[BMPStatus] AS [BMPStatus], 
-[vParcel].[FireDistrict] AS [FireDistrict], 
-[vParcel].[HRA] AS [HRA], 
-[vParcel].[AutoImported] AS [AutoImported]
-FROM [dbo].[vParcel] AS [vParcel]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="vParcelCurrentInventoryByCommodity" EntityType="ProjectFirma.Web.Models.Store.vParcelCurrentInventoryByCommodity" store:Type="Views" store:Schema="dbo" store:Name="vParcelCurrentInventoryByCommodity">
-      <DefiningQuery>SELECT 
-[vParcelCurrentInventoryByCommodity].[ParcelID] AS [ParcelID], 
-[vParcelCurrentInventoryByCommodity].[Coverage] AS [Coverage], 
-[vParcelCurrentInventoryByCommodity].[CommercialFloorArea] AS [CommercialFloorArea], 
-[vParcelCurrentInventoryByCommodity].[ExistingResidentialUnit] AS [ExistingResidentialUnit], 
-[vParcelCurrentInventoryByCommodity].[ResidentialAllocation] AS [ResidentialAllocation], 
-[vParcelCurrentInventoryByCommodity].[ResidentialBonusUnit] AS [ResidentialBonusUnit], 
-[vParcelCurrentInventoryByCommodity].[ResidentialDevelopmentRight] AS [ResidentialDevelopmentRight], 
-[vParcelCurrentInventoryByCommodity].[TouristAccommodationUnit] AS [TouristAccommodationUnit]
-FROM [dbo].[vParcelCurrentInventoryByCommodity] AS [vParcelCurrentInventoryByCommodity]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="vParcelCurrentInventoryByCommodityBaileyRating" EntityType="ProjectFirma.Web.Models.Store.vParcelCurrentInventoryByCommodityBaileyRating" store:Type="Views" store:Schema="dbo" store:Name="vParcelCurrentInventoryByCommodityBaileyRating">
-      <DefiningQuery>SELECT 
-[vParcelCurrentInventoryByCommodityBaileyRating].[ParcelID] AS [ParcelID], 
-[vParcelCurrentInventoryByCommodityBaileyRating].[BaileyRatingID] AS [BaileyRatingID], 
-[vParcelCurrentInventoryByCommodityBaileyRating].[CommercialFloorArea] AS [CommercialFloorArea], 
-[vParcelCurrentInventoryByCommodityBaileyRating].[CoverageHard] AS [CoverageHard], 
-[vParcelCurrentInventoryByCommodityBaileyRating].[CoverageSoft] AS [CoverageSoft], 
-[vParcelCurrentInventoryByCommodityBaileyRating].[CoveragePotential] AS [CoveragePotential], 
-[vParcelCurrentInventoryByCommodityBaileyRating].[ExistingResidentialUnit] AS [ExistingResidentialUnit], 
-[vParcelCurrentInventoryByCommodityBaileyRating].[PersonsAtOneTime] AS [PersonsAtOneTime], 
-[vParcelCurrentInventoryByCommodityBaileyRating].[ResidentialDevelopmentRight] AS [ResidentialDevelopmentRight], 
-[vParcelCurrentInventoryByCommodityBaileyRating].[ResidentialAllocation] AS [ResidentialAllocation], 
-[vParcelCurrentInventoryByCommodityBaileyRating].[ResidentialBonusUnit] AS [ResidentialBonusUnit], 
-[vParcelCurrentInventoryByCommodityBaileyRating].[RestorationCredit] AS [RestorationCredit], 
-[vParcelCurrentInventoryByCommodityBaileyRating].[TouristAccommodationUnit] AS [TouristAccommodationUnit], 
-[vParcelCurrentInventoryByCommodityBaileyRating].[ResidentialFloorArea] AS [ResidentialFloorArea], 
-[vParcelCurrentInventoryByCommodityBaileyRating].[TouristFloorArea] AS [TouristFloorArea]
-FROM [dbo].[vParcelCurrentInventoryByCommodityBaileyRating] AS [vParcelCurrentInventoryByCommodityBaileyRating]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="vParcelCurrentInventoryByCommodityDetailed" EntityType="ProjectFirma.Web.Models.Store.vParcelCurrentInventoryByCommodityDetailed" store:Type="Views" store:Schema="dbo" store:Name="vParcelCurrentInventoryByCommodityDetailed">
-      <DefiningQuery>SELECT 
-[vParcelCurrentInventoryByCommodityDetailed].[ParcelID] AS [ParcelID], 
-[vParcelCurrentInventoryByCommodityDetailed].[ParcelNumber] AS [ParcelNumber], 
-[vParcelCurrentInventoryByCommodityDetailed].[ParcelNickname] AS [ParcelNickname], 
-[vParcelCurrentInventoryByCommodityDetailed].[ParcelStatusName] AS [ParcelStatusName], 
-[vParcelCurrentInventoryByCommodityDetailed].[ParcelSize] AS [ParcelSize], 
-[vParcelCurrentInventoryByCommodityDetailed].[BaileyRatingID] AS [BaileyRatingID], 
-[vParcelCurrentInventoryByCommodityDetailed].[IPESScore] AS [IPESScore], 
-[vParcelCurrentInventoryByCommodityDetailed].[SquareFootage] AS [SquareFootage], 
-[vParcelCurrentInventoryByCommodityDetailed].[CoverageHard] AS [CoverageHard], 
-[vParcelCurrentInventoryByCommodityDetailed].[CoveragePotential] AS [CoveragePotential], 
-[vParcelCurrentInventoryByCommodityDetailed].[CoverageSoft] AS [CoverageSoft], 
-[vParcelCurrentInventoryByCommodityDetailed].[CommercialFloorArea] AS [CommercialFloorArea], 
-[vParcelCurrentInventoryByCommodityDetailed].[ExistingResidentialUnit] AS [ExistingResidentialUnit], 
-[vParcelCurrentInventoryByCommodityDetailed].[ResidentialAllocation] AS [ResidentialAllocation], 
-[vParcelCurrentInventoryByCommodityDetailed].[ResidentialBonusUnit] AS [ResidentialBonusUnit], 
-[vParcelCurrentInventoryByCommodityDetailed].[ResidentialFloorArea] AS [ResidentialFloorArea], 
-[vParcelCurrentInventoryByCommodityDetailed].[ResidentialDevelopmentRight] AS [ResidentialDevelopmentRight], 
-[vParcelCurrentInventoryByCommodityDetailed].[TouristAccommodationUnit] AS [TouristAccommodationUnit], 
-[vParcelCurrentInventoryByCommodityDetailed].[TouristFloorArea] AS [TouristFloorArea], 
-[vParcelCurrentInventoryByCommodityDetailed].[AutoImported] AS [AutoImported]
-FROM [dbo].[vParcelCurrentInventoryByCommodityDetailed] AS [vParcelCurrentInventoryByCommodityDetailed]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="vParcelDetailed" EntityType="ProjectFirma.Web.Models.Store.vParcelDetailed" store:Type="Views" store:Schema="dbo" store:Name="vParcelDetailed">
-      <DefiningQuery>SELECT 
-[vParcelDetailed].[ParcelID] AS [ParcelID], 
-[vParcelDetailed].[ParcelNumber] AS [ParcelNumber], 
-[vParcelDetailed].[Coverage] AS [Coverage], 
-[vParcelDetailed].[CommercialFloorArea] AS [CommercialFloorArea], 
-[vParcelDetailed].[ExistingResidentialUnit] AS [ExistingResidentialUnit], 
-[vParcelDetailed].[ResidentialAllocation] AS [ResidentialAllocation], 
-[vParcelDetailed].[ResidentialBonusUnit] AS [ResidentialBonusUnit], 
-[vParcelDetailed].[ResidentialDevelopmentRight] AS [ResidentialDevelopmentRight], 
-[vParcelDetailed].[TouristAccommodationUnit] AS [TouristAccommodationUnit], 
-[vParcelDetailed].[ParcelNickname] AS [ParcelNickname], 
-[vParcelDetailed].[ParcelSize] AS [ParcelSize], 
-[vParcelDetailed].[ParcelNotes] AS [ParcelNotes], 
-[vParcelDetailed].[ParcelStatusName] AS [ParcelStatusName], 
-[vParcelDetailed].[OrganizationID] AS [OrganizationID], 
-[vParcelDetailed].[OrganizationName] AS [OrganizationName], 
-[vParcelDetailed].[WatershedID] AS [WatershedID], 
-[vParcelDetailed].[WatershedName] AS [WatershedName], 
-[vParcelDetailed].[OwnerName] AS [OwnerName], 
-[vParcelDetailed].[ParcelStreetAddress] AS [ParcelStreetAddress], 
-[vParcelDetailed].[ParcelCity] AS [ParcelCity], 
-[vParcelDetailed].[ParcelState] AS [ParcelState], 
-[vParcelDetailed].[ParcelZipCode] AS [ParcelZipCode], 
-[vParcelDetailed].[LocalPlan] AS [LocalPlan], 
-[vParcelDetailed].[BMPStatus] AS [BMPStatus], 
-[vParcelDetailed].[FireDistrict] AS [FireDistrict], 
-[vParcelDetailed].[HRA] AS [HRA], 
-[vParcelDetailed].[AutoImported] AS [AutoImported], 
-[vParcelDetailed].[LastUpdateDate] AS [LastUpdateDate], 
-[vParcelDetailed].[LandCapability] AS [LandCapability]
-FROM [dbo].[vParcelDetailed] AS [vParcelDetailed]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="vParcelLandCapability" EntityType="ProjectFirma.Web.Models.Store.vParcelLandCapability" store:Type="Views" store:Schema="dbo" store:Name="vParcelLandCapability">
-      <DefiningQuery>SELECT 
-[vParcelLandCapability].[ParcelID] AS [ParcelID], 
-[vParcelLandCapability].[SquareFootage] AS [SquareFootage], 
-[vParcelLandCapability].[BaileyRatingID] AS [BaileyRatingID], 
-[vParcelLandCapability].[IPESScore] AS [IPESScore], 
-[vParcelLandCapability].[BaileyRating] AS [BaileyRating]
-FROM [dbo].[vParcelLandCapability] AS [vParcelLandCapability]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="vParcelLandCapabilityCombinedDescription" EntityType="ProjectFirma.Web.Models.Store.vParcelLandCapabilityCombinedDescription" store:Type="Views" store:Schema="dbo" store:Name="vParcelLandCapabilityCombinedDescription">
-      <DefiningQuery>SELECT 
-[vParcelLandCapabilityCombinedDescription].[ParcelID] AS [ParcelID], 
-[vParcelLandCapabilityCombinedDescription].[LandCapability] AS [LandCapability]
-FROM [dbo].[vParcelLandCapabilityCombinedDescription] AS [vParcelLandCapabilityCombinedDescription]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="vParcelTransactionFillColor" EntityType="ProjectFirma.Web.Models.Store.vParcelTransactionFillColor" store:Type="Views" store:Schema="dbo" store:Name="vParcelTransactionFillColor">
-      <DefiningQuery>SELECT 
-[vParcelTransactionFillColor].[ParcelID] AS [ParcelID], 
-[vParcelTransactionFillColor].[LastUpdateDate] AS [LastUpdateDate], 
-[vParcelTransactionFillColor].[ParcelFillColor] AS [ParcelFillColor]
-FROM [dbo].[vParcelTransactionFillColor] AS [vParcelTransactionFillColor]</DefiningQuery>
-    </EntitySet>
     <EntitySet Name="vProject" EntityType="ProjectFirma.Web.Models.Store.vProject" store:Type="Views" store:Schema="dbo" store:Name="vProject">
       <DefiningQuery>SELECT 
 [vProject].[ProjectNumberFull] AS [ProjectNumberFull], 
@@ -362,33 +133,6 @@ FROM [dbo].[vParcelTransactionFillColor] AS [vParcelTransactionFillColor]</Defin
 [vProject].[ImplementsMultipleProjects] AS [ImplementsMultipleProjects]
 FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
     </EntitySet>
-    <EntitySet Name="vTdrTransactionCanBeCountedInInventory" EntityType="ProjectFirma.Web.Models.Store.vTdrTransactionCanBeCountedInInventory" store:Type="Views" store:Schema="dbo" store:Name="vTdrTransactionCanBeCountedInInventory">
-      <DefiningQuery>SELECT 
-[vTdrTransactionCanBeCountedInInventory].[TdrTransactionID] AS [TdrTransactionID], 
-[vTdrTransactionCanBeCountedInInventory].[LeadAgencyID] AS [LeadAgencyID], 
-[vTdrTransactionCanBeCountedInInventory].[LeadAgencyAbbreviation] AS [LeadAgencyAbbreviation], 
-[vTdrTransactionCanBeCountedInInventory].[TransactionTypeID] AS [TransactionTypeID], 
-[vTdrTransactionCanBeCountedInInventory].[TransactionTypeAbbreviation] AS [TransactionTypeAbbreviation], 
-[vTdrTransactionCanBeCountedInInventory].[CommodityID] AS [CommodityID], 
-[vTdrTransactionCanBeCountedInInventory].[TransactionStateID] AS [TransactionStateID], 
-[vTdrTransactionCanBeCountedInInventory].[LastUpdateDate] AS [LastUpdateDate]
-FROM [dbo].[vTdrTransactionCanBeCountedInInventory] AS [vTdrTransactionCanBeCountedInInventory]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="vTransactedAndBankedCommodities" EntityType="ProjectFirma.Web.Models.Store.vTransactedAndBankedCommodities" store:Type="Views" store:Schema="dbo" store:Name="vTransactedAndBankedCommodities">
-      <DefiningQuery>SELECT 
-[vTransactedAndBankedCommodities].[ParcelID] AS [ParcelID], 
-[vTransactedAndBankedCommodities].[TransactionTypeID] AS [TransactionTypeID], 
-[vTransactedAndBankedCommodities].[CommodityID] AS [CommodityID], 
-[vTransactedAndBankedCommodities].[BaileyRatingID] AS [BaileyRatingID], 
-[vTransactedAndBankedCommodities].[Quantity] AS [Quantity], 
-[vTransactedAndBankedCommodities].[LastUpdateDate] AS [LastUpdateDate], 
-[vTransactedAndBankedCommodities].[ParcelAction] AS [ParcelAction]
-FROM [dbo].[vTransactedAndBankedCommodities] AS [vTransactedAndBankedCommodities]</DefiningQuery>
-    </EntitySet>
-    <AssociationSet Name="FK_AccelaJurisdictionToJurisdictionMapping_Jurisdiction_JurisdictionID" Association="ProjectFirma.Web.Models.Store.FK_AccelaJurisdictionToJurisdictionMapping_Jurisdiction_JurisdictionID">
-      <End Role="Jurisdiction" EntitySet="Jurisdiction" />
-      <End Role="AccelaJurisdictionToJurisdictionMappings" EntitySet="AccelaJurisdictionToJurisdictionMapping" />
-    </AssociationSet>
     <AssociationSet Name="FK_ActionPriority_Program_ProgramID" Association="ProjectFirma.Web.Models.Store.FK_ActionPriority_Program_ProgramID">
       <End Role="Program" EntitySet="Program" />
       <End Role="ActionPriorities" EntitySet="ActionPriority" />
@@ -404,46 +148,6 @@ FROM [dbo].[vTransactedAndBankedCommodities] AS [vTransactedAndBankedCommodities
     <AssociationSet Name="FK_AuditLog_Person_PersonID" Association="ProjectFirma.Web.Models.Store.FK_AuditLog_Person_PersonID">
       <End Role="Person" EntitySet="Person" />
       <End Role="AuditLogs" EntitySet="AuditLog" />
-    </AssociationSet>
-    <AssociationSet Name="FK_BankedCommodity_CommodityBaileyRating_CommodityBaileyRatingID" Association="ProjectFirma.Web.Models.Store.FK_BankedCommodity_CommodityBaileyRating_CommodityBaileyRatingID">
-      <End Role="CommodityBaileyRating" EntitySet="CommodityBaileyRating" />
-      <End Role="BankedCommodities" EntitySet="BankedCommodity" />
-    </AssociationSet>
-    <AssociationSet Name="FK_BankedCommodity_Parcel_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_BankedCommodity_Parcel_ParcelID">
-      <End Role="Parcel" EntitySet="Parcel" />
-      <End Role="BankedCommodities" EntitySet="BankedCommodity" />
-    </AssociationSet>
-    <AssociationSet Name="FK_BankedCommodity_Person_LastUpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_BankedCommodity_Person_LastUpdatePersonID_PersonID">
-      <End Role="LastUpdatePerson" EntitySet="Person" />
-      <End Role="BankedCommoditiesWhereYouAreTheLastUpdatePerson" EntitySet="BankedCommodity" />
-    </AssociationSet>
-    <AssociationSet Name="FK_CommodityPool_Jurisdiction_JurisdictionID" Association="ProjectFirma.Web.Models.Store.FK_CommodityPool_Jurisdiction_JurisdictionID">
-      <End Role="Jurisdiction" EntitySet="Jurisdiction" />
-      <End Role="CommodityPools" EntitySet="CommodityPool" />
-    </AssociationSet>
-    <AssociationSet Name="FK_CommodityPool_Person_InactivatedByPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_CommodityPool_Person_InactivatedByPersonID_PersonID">
-      <End Role="InactivatedByPerson" EntitySet="Person" />
-      <End Role="CommodityPoolsWhereYouAreTheInactivatedByPerson" EntitySet="CommodityPool" />
-    </AssociationSet>
-    <AssociationSet Name="FK_CommodityPoolDisbursement_CommodityPool_CommodityPoolID" Association="ProjectFirma.Web.Models.Store.FK_CommodityPoolDisbursement_CommodityPool_CommodityPoolID">
-      <End Role="CommodityPool" EntitySet="CommodityPool" />
-      <End Role="CommodityPoolDisbursements" EntitySet="CommodityPoolDisbursement" />
-    </AssociationSet>
-    <AssociationSet Name="FK_CommodityPoolDisbursement_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_CommodityPoolDisbursement_Person_CreatePersonID_PersonID">
-      <End Role="CreatePerson" EntitySet="Person" />
-      <End Role="CommodityPoolDisbursementsWhereYouAreTheCreatePerson" EntitySet="CommodityPoolDisbursement" />
-    </AssociationSet>
-    <AssociationSet Name="FK_CommodityPoolDisbursement_Person_UpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_CommodityPoolDisbursement_Person_UpdatePersonID_PersonID">
-      <End Role="UpdatePerson" EntitySet="Person" />
-      <End Role="CommodityPoolDisbursementsWhereYouAreTheUpdatePerson" EntitySet="CommodityPoolDisbursement" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID">
-      <End Role="ProjectFirmaPage" EntitySet="ProjectFirmaPage" />
-      <End Role="ProjectFirmaPageImages" EntitySet="ProjectFirmaPageImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectFirmaPageImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFirmaPageImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="ProjectFirmaPageImages" EntitySet="ProjectFirmaPageImage" />
     </AssociationSet>
     <AssociationSet Name="FK_County_StateProvince_StateProvinceID" Association="ProjectFirma.Web.Models.Store.FK_County_StateProvince_StateProvinceID">
       <End Role="StateProvince" EntitySet="StateProvince" />
@@ -625,42 +329,6 @@ FROM [dbo].[vTransactedAndBankedCommodities] AS [vTransactedAndBankedCommodities
       <End Role="StateProvince" EntitySet="StateProvince" />
       <End Role="Jurisdictions" EntitySet="Jurisdiction" />
     </AssociationSet>
-    <AssociationSet Name="FK_LandBank_LeadAgency_LeadAgencyID" Association="ProjectFirma.Web.Models.Store.FK_LandBank_LeadAgency_LeadAgencyID">
-      <End Role="LeadAgency" EntitySet="LeadAgency" />
-      <End Role="LandBanks" EntitySet="LandBank" />
-    </AssociationSet>
-    <AssociationSet Name="FK_LandBank_Parcel_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_LandBank_Parcel_ParcelID">
-      <End Role="Parcel" EntitySet="Parcel" />
-      <End Role="LandBanks" EntitySet="LandBank" />
-    </AssociationSet>
-    <AssociationSet Name="FK_LeadAgency_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_LeadAgency_Organization_OrganizationID">
-      <End Role="Organization" EntitySet="Organization" />
-      <End Role="LeadAgencies" EntitySet="LeadAgency" />
-    </AssociationSet>
-    <AssociationSet Name="FK_LeadAgencyRightOfWayCoverage_LeadAgency_LeadAgencyID" Association="ProjectFirma.Web.Models.Store.FK_LeadAgencyRightOfWayCoverage_LeadAgency_LeadAgencyID">
-      <End Role="LeadAgency" EntitySet="LeadAgency" />
-      <End Role="LeadAgencyRightOfWayCoverages" EntitySet="LeadAgencyRightOfWayCoverage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_LeadAgencyRightOfWayCoverage_Person_LastUpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_LeadAgencyRightOfWayCoverage_Person_LastUpdatePersonID_PersonID">
-      <End Role="LastUpdatePerson" EntitySet="Person" />
-      <End Role="LeadAgencyRightOfWayCoveragesWhereYouAreTheLastUpdatePerson" EntitySet="LeadAgencyRightOfWayCoverage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_LeadAgencyTransactionTypeCommodity_LeadAgency_LeadAgencyID" Association="ProjectFirma.Web.Models.Store.FK_LeadAgencyTransactionTypeCommodity_LeadAgency_LeadAgencyID">
-      <End Role="LeadAgency" EntitySet="LeadAgency" />
-      <End Role="LeadAgencyTransactionTypeCommodities" EntitySet="LeadAgencyTransactionTypeCommodity" />
-    </AssociationSet>
-    <AssociationSet Name="FK_LeadAgencyTransactionTypeCommodity_TransactionTypeCommodity_TransactionTypeCommodityID" Association="ProjectFirma.Web.Models.Store.FK_LeadAgencyTransactionTypeCommodity_TransactionTypeCommodity_TransactionTypeCommodityID">
-      <End Role="TransactionTypeCommodity" EntitySet="TransactionTypeCommodity" />
-      <End Role="LeadAgencyTransactionTypeCommodities" EntitySet="LeadAgencyTransactionTypeCommodity" />
-    </AssociationSet>
-    <AssociationSet Name="FK_LeadAgencyTransactionTypeCommodityLog_LeadAgency_LeadAgencyID" Association="ProjectFirma.Web.Models.Store.FK_LeadAgencyTransactionTypeCommodityLog_LeadAgency_LeadAgencyID">
-      <End Role="LeadAgency" EntitySet="LeadAgency" />
-      <End Role="LeadAgencyTransactionTypeCommodityLogs" EntitySet="LeadAgencyTransactionTypeCommodityLog" />
-    </AssociationSet>
-    <AssociationSet Name="FK_LeadAgencyTransactionTypeCommodityLog_TransactionTypeCommodity_TransactionTypeCommodityID" Association="ProjectFirma.Web.Models.Store.FK_LeadAgencyTransactionTypeCommodityLog_TransactionTypeCommodity_TransactionTypeCommodityID">
-      <End Role="TransactionTypeCommodity" EntitySet="TransactionTypeCommodity" />
-      <End Role="LeadAgencyTransactionTypeCommodityLogs" EntitySet="LeadAgencyTransactionTypeCommodityLog" />
-    </AssociationSet>
     <AssociationSet Name="FK_MonitoringProgramDocument_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_MonitoringProgramDocument_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="MonitoringProgramDocuments" EntitySet="MonitoringProgramDocument" />
@@ -704,82 +372,6 @@ FROM [dbo].[vTransactedAndBankedCommodities] AS [vTransactedAndBankedCommodities
     <AssociationSet Name="FK_Organization_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_Organization_Person_PrimaryContactPersonID_PersonID">
       <End Role="PrimaryContactPerson" EntitySet="Person" />
       <End Role="OrganizationsWhereYouAreThePrimaryContactPerson" EntitySet="Organization" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Parcel_Jurisdiction_JurisdictionID" Association="ProjectFirma.Web.Models.Store.FK_Parcel_Jurisdiction_JurisdictionID">
-      <End Role="Jurisdiction" EntitySet="Jurisdiction" />
-      <End Role="Parcels" EntitySet="Parcel" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Parcel_Watershed_WatershedID" Association="ProjectFirma.Web.Models.Store.FK_Parcel_Watershed_WatershedID">
-      <End Role="Watershed" EntitySet="Watershed" />
-      <End Role="Parcels" EntitySet="Parcel" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelAccelaCAPRecord_AccelaCAPRecord_AccelaCAPRecordID" Association="ProjectFirma.Web.Models.Store.FK_ParcelAccelaCAPRecord_AccelaCAPRecord_AccelaCAPRecordID">
-      <End Role="AccelaCAPRecord" EntitySet="AccelaCAPRecord" />
-      <End Role="ParcelAccelaCAPRecords" EntitySet="ParcelAccelaCAPRecord" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelAccelaCAPRecord_Parcel_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_ParcelAccelaCAPRecord_Parcel_ParcelID">
-      <End Role="Parcel" EntitySet="Parcel" />
-      <End Role="ParcelAccelaCAPRecords" EntitySet="ParcelAccelaCAPRecord" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelCommodityBaileyRatingConfirmation_Parcel_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_ParcelCommodityBaileyRatingConfirmation_Parcel_ParcelID">
-      <End Role="Parcel" EntitySet="Parcel" />
-      <End Role="ParcelCommodityBaileyRatingConfirmations" EntitySet="ParcelCommodityBaileyRatingConfirmation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelCommodityBaileyRatingConfirmation_Person_ConfirmedByPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ParcelCommodityBaileyRatingConfirmation_Person_ConfirmedByPersonID_PersonID">
-      <End Role="ConfirmedByPerson" EntitySet="Person" />
-      <End Role="ParcelCommodityBaileyRatingConfirmationsWhereYouAreTheConfirmedByPerson" EntitySet="ParcelCommodityBaileyRatingConfirmation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelDistanceFromTownCenter_Parcel_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_ParcelDistanceFromTownCenter_Parcel_ParcelID">
-      <End Role="Parcel" EntitySet="Parcel" />
-      <End Role="ParcelDistanceFromTownCenters" EntitySet="ParcelDistanceFromTownCenter" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelDistanceFromTownCenter_TownCenter_TownCenterID" Association="ProjectFirma.Web.Models.Store.FK_ParcelDistanceFromTownCenter_TownCenter_TownCenterID">
-      <End Role="TownCenter" EntitySet="TownCenter" />
-      <End Role="ParcelDistanceFromTownCenters" EntitySet="ParcelDistanceFromTownCenter" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelExistingPhysicalInventory_CommodityBaileyRating_CommodityBaileyRatingID" Association="ProjectFirma.Web.Models.Store.FK_ParcelExistingPhysicalInventory_CommodityBaileyRating_CommodityBaileyRatingID">
-      <End Role="CommodityBaileyRating" EntitySet="CommodityBaileyRating" />
-      <End Role="ParcelExistingPhysicalInventories" EntitySet="ParcelExistingPhysicalInventory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelExistingPhysicalInventory_Parcel_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_ParcelExistingPhysicalInventory_Parcel_ParcelID">
-      <End Role="Parcel" EntitySet="Parcel" />
-      <End Role="ParcelExistingPhysicalInventories" EntitySet="ParcelExistingPhysicalInventory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelExistingPhysicalInventory_Person_LastUpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ParcelExistingPhysicalInventory_Person_LastUpdatePersonID_PersonID">
-      <End Role="LastUpdatePerson" EntitySet="Person" />
-      <End Role="ParcelExistingPhysicalInventoriesWhereYouAreTheLastUpdatePerson" EntitySet="ParcelExistingPhysicalInventory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelGeometry_Parcel_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_ParcelGeometry_Parcel_ParcelID">
-      <End Role="Parcel" EntitySet="Parcel" />
-      <End Role="ParcelGeometries" EntitySet="ParcelGeometry" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ParcelImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="ParcelImages" EntitySet="ParcelImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelImage_Parcel_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_ParcelImage_Parcel_ParcelID">
-      <End Role="Parcel" EntitySet="Parcel" />
-      <End Role="ParcelImages" EntitySet="ParcelImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelLandCapability_AccelaCAPRecord_AccelaCAPRecordID" Association="ProjectFirma.Web.Models.Store.FK_ParcelLandCapability_AccelaCAPRecord_AccelaCAPRecordID">
-      <End Role="AccelaCAPRecord" EntitySet="AccelaCAPRecord" />
-      <End Role="ParcelLandCapabilities" EntitySet="ParcelLandCapability" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelLandCapability_FileResource_SitePlanFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ParcelLandCapability_FileResource_SitePlanFileResourceID_FileResourceID">
-      <End Role="SitePlanFileResource" EntitySet="FileResource" />
-      <End Role="ParcelLandCapabilitiesWhereYouAreTheSitePlanFileResource" EntitySet="ParcelLandCapability" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelLandCapability_Parcel_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_ParcelLandCapability_Parcel_ParcelID">
-      <End Role="Parcel" EntitySet="Parcel" />
-      <End Role="ParcelLandCapabilities" EntitySet="ParcelLandCapability" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelLandCapability_Person_LastUpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ParcelLandCapability_Person_LastUpdatePersonID_PersonID">
-      <End Role="LastUpdatePerson" EntitySet="Person" />
-      <End Role="ParcelLandCapabilitiesWhereYouAreTheLastUpdatePerson" EntitySet="ParcelLandCapability" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ParcelLandCapabilityRating_ParcelLandCapability_ParcelLandCapabilityID" Association="ProjectFirma.Web.Models.Store.FK_ParcelLandCapabilityRating_ParcelLandCapability_ParcelLandCapabilityID">
-      <End Role="ParcelLandCapability" EntitySet="ParcelLandCapability" />
-      <End Role="ParcelLandCapabilityRatings" EntitySet="ParcelLandCapabilityRating" />
     </AssociationSet>
     <AssociationSet Name="FK_Person_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_Person_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
@@ -836,6 +428,14 @@ FROM [dbo].[vTransactedAndBankedCommodities] AS [vTransactedAndBankedCommodities
     <AssociationSet Name="FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectExternalLinkUpdates" EntitySet="ProjectExternalLinkUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectFirmaPageImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFirmaPageImage_FileResource_FileResourceID">
+      <End Role="FileResource" EntitySet="FileResource" />
+      <End Role="ProjectFirmaPageImages" EntitySet="ProjectFirmaPageImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID">
+      <End Role="ProjectFirmaPage" EntitySet="ProjectFirmaPage" />
+      <End Role="ProjectFirmaPageImages" EntitySet="ProjectFirmaPageImage" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectFundingOrganization_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFundingOrganization_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
@@ -1109,30 +709,6 @@ FROM [dbo].[vTransactedAndBankedCommodities] AS [vTransactedAndBankedCommodities
       <End Role="TransportationQuestion" EntitySet="TransportationQuestion" />
       <End Role="ProposedProjectTransportationQuestions" EntitySet="ProposedProjectTransportationQuestion" />
     </AssociationSet>
-    <AssociationSet Name="FK_ResidentialAllocation_CommodityPool_CommodityPoolID" Association="ProjectFirma.Web.Models.Store.FK_ResidentialAllocation_CommodityPool_CommodityPoolID">
-      <End Role="CommodityPool" EntitySet="CommodityPool" />
-      <End Role="ResidentialAllocations" EntitySet="ResidentialAllocation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ResidentialAllocation_CommodityPoolDisbursement_CommodityPoolDisbursementID" Association="ProjectFirma.Web.Models.Store.FK_ResidentialAllocation_CommodityPoolDisbursement_CommodityPoolDisbursementID">
-      <End Role="CommodityPoolDisbursement" EntitySet="CommodityPoolDisbursement" />
-      <End Role="ResidentialAllocations" EntitySet="ResidentialAllocation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ResidentialAllocation_Jurisdiction_AssignedToJurisdictionID_JurisdictionID" Association="ProjectFirma.Web.Models.Store.FK_ResidentialAllocation_Jurisdiction_AssignedToJurisdictionID_JurisdictionID">
-      <End Role="AssignedToJurisdiction" EntitySet="Jurisdiction" />
-      <End Role="ResidentialAllocationsWhereYouAreTheAssignedToJurisdiction" EntitySet="ResidentialAllocation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ResidentialAllocation_Jurisdiction_JurisdictionID" Association="ProjectFirma.Web.Models.Store.FK_ResidentialAllocation_Jurisdiction_JurisdictionID">
-      <End Role="Jurisdiction" EntitySet="Jurisdiction" />
-      <End Role="ResidentialAllocations" EntitySet="ResidentialAllocation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ResidentialAllocation_TdrTransaction_TdrTransactionID" Association="ProjectFirma.Web.Models.Store.FK_ResidentialAllocation_TdrTransaction_TdrTransactionID">
-      <End Role="TdrTransaction" EntitySet="TdrTransaction" />
-      <End Role="ResidentialAllocations" EntitySet="ResidentialAllocation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ResidentialAllocation_TdrTransaction_WithdrawnTdrTransactionID_TdrTransactionID" Association="ProjectFirma.Web.Models.Store.FK_ResidentialAllocation_TdrTransaction_WithdrawnTdrTransactionID_TdrTransactionID">
-      <End Role="WithdrawnTdrTransaction" EntitySet="TdrTransaction" />
-      <End Role="ResidentialAllocationsWhereYouAreTheWithdrawnTdrTransaction" EntitySet="ResidentialAllocation" />
-    </AssociationSet>
     <AssociationSet Name="FK_SnapshotEIPPerformanceMeasure_EIPPerformanceMeasure_EIPPerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotEIPPerformanceMeasure_EIPPerformanceMeasure_EIPPerformanceMeasureID">
       <End Role="EIPPerformanceMeasure" EntitySet="EIPPerformanceMeasure" />
       <End Role="SnapshotEIPPerformanceMeasures" EntitySet="SnapshotEIPPerformanceMeasure" />
@@ -1212,146 +788,6 @@ FROM [dbo].[vTransactedAndBankedCommodities] AS [vTransactedAndBankedCommodities
     <AssociationSet Name="FK_SustainabilityIndicatorReportingPeriod_SustainabilityIndicator_SustainabilityIndicatorID" Association="ProjectFirma.Web.Models.Store.FK_SustainabilityIndicatorReportingPeriod_SustainabilityIndicator_SustainabilityIndicatorID">
       <End Role="SustainabilityIndicator" EntitySet="SustainabilityIndicator" />
       <End Role="SustainabilityIndicatorReportingPeriods" EntitySet="SustainabilityIndicatorReportingPeriod" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransaction_AccelaCAPRecord_AccelaCAPRecordID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransaction_AccelaCAPRecord_AccelaCAPRecordID">
-      <End Role="AccelaCAPRecord" EntitySet="AccelaCAPRecord" />
-      <End Role="TdrTransactions" EntitySet="TdrTransaction" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransaction_LeadAgency_LeadAgencyID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransaction_LeadAgency_LeadAgencyID">
-      <End Role="LeadAgency" EntitySet="LeadAgency" />
-      <End Role="TdrTransactions" EntitySet="TdrTransaction" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransaction_Person_LastUpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransaction_Person_LastUpdatePersonID_PersonID">
-      <End Role="LastUpdatePerson" EntitySet="Person" />
-      <End Role="TdrTransactionsWhereYouAreTheLastUpdatePerson" EntitySet="TdrTransaction" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransaction_TransactionTypeCommodity_TransactionTypeCommodityID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransaction_TransactionTypeCommodity_TransactionTypeCommodityID">
-      <End Role="TransactionTypeCommodity" EntitySet="TransactionTypeCommodity" />
-      <End Role="TdrTransactions" EntitySet="TdrTransaction" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionAllocation_CommodityPool_SendingAllocationPoolID_CommodityPoolID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionAllocation_CommodityPool_SendingAllocationPoolID_CommodityPoolID">
-      <End Role="SendingAllocationPool" EntitySet="CommodityPool" />
-      <End Role="TdrTransactionAllocationsWhereYouAreTheSendingAllocationPool" EntitySet="TdrTransactionAllocation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionAllocation_Parcel_ReceivingParcelID_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionAllocation_Parcel_ReceivingParcelID_ParcelID">
-      <End Role="ReceivingParcel" EntitySet="Parcel" />
-      <End Role="TdrTransactionAllocationsWhereYouAreTheReceivingParcel" EntitySet="TdrTransactionAllocation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionAllocation_TdrTransaction_TdrTransactionID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionAllocation_TdrTransaction_TdrTransactionID">
-      <End Role="TdrTransaction" EntitySet="TdrTransaction" />
-      <End Role="TdrTransactionAllocations" EntitySet="TdrTransactionAllocation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionAllocationAssignment_CommodityPool_SendingAllocationPoolID_CommodityPoolID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionAllocationAssignment_CommodityPool_SendingAllocationPoolID_CommodityPoolID">
-      <End Role="SendingAllocationPool" EntitySet="CommodityPool" />
-      <End Role="TdrTransactionAllocationAssignmentsWhereYouAreTheSendingAllocationPool" EntitySet="TdrTransactionAllocationAssignment" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionAllocationAssignment_Parcel_ReceivingParcelID_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionAllocationAssignment_Parcel_ReceivingParcelID_ParcelID">
-      <End Role="ReceivingParcel" EntitySet="Parcel" />
-      <End Role="TdrTransactionAllocationAssignmentsWhereYouAreTheReceivingParcel" EntitySet="TdrTransactionAllocationAssignment" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionAllocationAssignment_Parcel_RetiredSensitiveParcelID_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionAllocationAssignment_Parcel_RetiredSensitiveParcelID_ParcelID">
-      <End Role="RetiredSensitiveParcel" EntitySet="Parcel" />
-      <End Role="TdrTransactionAllocationAssignmentsWhereYouAreTheRetiredSensitiveParcel" EntitySet="TdrTransactionAllocationAssignment" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionAllocationAssignment_TdrTransaction_TdrTransactionID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionAllocationAssignment_TdrTransaction_TdrTransactionID">
-      <End Role="TdrTransaction" EntitySet="TdrTransaction" />
-      <End Role="TdrTransactionAllocationAssignments" EntitySet="TdrTransactionAllocationAssignment" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionConversion_LandBank_LandBankID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionConversion_LandBank_LandBankID">
-      <End Role="LandBank" EntitySet="LandBank" />
-      <End Role="TdrTransactionConversions" EntitySet="TdrTransactionConversion" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionConversion_Parcel_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionConversion_Parcel_ParcelID">
-      <End Role="Parcel" EntitySet="Parcel" />
-      <End Role="TdrTransactionConversions" EntitySet="TdrTransactionConversion" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionConversion_TdrTransaction_TdrTransactionID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionConversion_TdrTransaction_TdrTransactionID">
-      <End Role="TdrTransaction" EntitySet="TdrTransaction" />
-      <End Role="TdrTransactionConversions" EntitySet="TdrTransactionConversion" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionConversionWithTransfer_LandBank_SendingLandBankID_LandBankID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionConversionWithTransfer_LandBank_SendingLandBankID_LandBankID">
-      <End Role="SendingLandBank" EntitySet="LandBank" />
-      <End Role="TdrTransactionConversionWithTransfersWhereYouAreTheSendingLandBank" EntitySet="TdrTransactionConversionWithTransfer" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionConversionWithTransfer_Parcel_ReceivingParcelID_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionConversionWithTransfer_Parcel_ReceivingParcelID_ParcelID">
-      <End Role="ReceivingParcel" EntitySet="Parcel" />
-      <End Role="TdrTransactionConversionWithTransfersWhereYouAreTheReceivingParcel" EntitySet="TdrTransactionConversionWithTransfer" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionConversionWithTransfer_Parcel_SendingParcelID_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionConversionWithTransfer_Parcel_SendingParcelID_ParcelID">
-      <End Role="SendingParcel" EntitySet="Parcel" />
-      <End Role="TdrTransactionConversionWithTransfersWhereYouAreTheSendingParcel" EntitySet="TdrTransactionConversionWithTransfer" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionConversionWithTransfer_TdrTransaction_TdrTransactionID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionConversionWithTransfer_TdrTransaction_TdrTransactionID">
-      <End Role="TdrTransaction" EntitySet="TdrTransaction" />
-      <End Role="TdrTransactionConversionWithTransfers" EntitySet="TdrTransactionConversionWithTransfer" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionECMRetirement_LandBank_LandBankID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionECMRetirement_LandBank_LandBankID">
-      <End Role="LandBank" EntitySet="LandBank" />
-      <End Role="TdrTransactionECMRetirements" EntitySet="TdrTransactionECMRetirement" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionECMRetirement_Parcel_SendingParcelID_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionECMRetirement_Parcel_SendingParcelID_ParcelID">
-      <End Role="SendingParcel" EntitySet="Parcel" />
-      <End Role="TdrTransactionECMRetirementsWhereYouAreTheSendingParcel" EntitySet="TdrTransactionECMRetirement" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionECMRetirement_TdrTransaction_TdrTransactionID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionECMRetirement_TdrTransaction_TdrTransactionID">
-      <End Role="TdrTransaction" EntitySet="TdrTransaction" />
-      <End Role="TdrTransactionECMRetirements" EntitySet="TdrTransactionECMRetirement" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionLandBankAcquisition_LandBank_LandBankID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionLandBankAcquisition_LandBank_LandBankID">
-      <End Role="LandBank" EntitySet="LandBank" />
-      <End Role="TdrTransactionLandBankAcquisitions" EntitySet="TdrTransactionLandBankAcquisition" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionLandBankAcquisition_Parcel_SendingParcelID_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionLandBankAcquisition_Parcel_SendingParcelID_ParcelID">
-      <End Role="SendingParcel" EntitySet="Parcel" />
-      <End Role="TdrTransactionLandBankAcquisitionsWhereYouAreTheSendingParcel" EntitySet="TdrTransactionLandBankAcquisition" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionLandBankAcquisition_TdrTransaction_TdrTransactionID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionLandBankAcquisition_TdrTransaction_TdrTransactionID">
-      <End Role="TdrTransaction" EntitySet="TdrTransaction" />
-      <End Role="TdrTransactionLandBankAcquisitions" EntitySet="TdrTransactionLandBankAcquisition" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionStateHistory_Person_UpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionStateHistory_Person_UpdatePersonID_PersonID">
-      <End Role="UpdatePerson" EntitySet="Person" />
-      <End Role="TdrTransactionStateHistoriesWhereYouAreTheUpdatePerson" EntitySet="TdrTransactionStateHistory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionStateHistory_TdrTransaction_TdrTransactionID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionStateHistory_TdrTransaction_TdrTransactionID">
-      <End Role="TdrTransaction" EntitySet="TdrTransaction" />
-      <End Role="TdrTransactionStateHistories" EntitySet="TdrTransactionStateHistory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionTransfer_LandBank_SendingLandBankID_LandBankID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionTransfer_LandBank_SendingLandBankID_LandBankID">
-      <End Role="SendingLandBank" EntitySet="LandBank" />
-      <End Role="TdrTransactionTransfersWhereYouAreTheSendingLandBank" EntitySet="TdrTransactionTransfer" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionTransfer_Parcel_ReceivingParcelID_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionTransfer_Parcel_ReceivingParcelID_ParcelID">
-      <End Role="ReceivingParcel" EntitySet="Parcel" />
-      <End Role="TdrTransactionTransfersWhereYouAreTheReceivingParcel" EntitySet="TdrTransactionTransfer" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionTransfer_Parcel_SendingParcelID_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionTransfer_Parcel_SendingParcelID_ParcelID">
-      <End Role="SendingParcel" EntitySet="Parcel" />
-      <End Role="TdrTransactionTransfersWhereYouAreTheSendingParcel" EntitySet="TdrTransactionTransfer" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionTransfer_TdrTransaction_TdrTransactionID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionTransfer_TdrTransaction_TdrTransactionID">
-      <End Role="TdrTransaction" EntitySet="TdrTransaction" />
-      <End Role="TdrTransactionTransfers" EntitySet="TdrTransactionTransfer" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionTransferWithBonusUnit_CommodityPool_SendingBonusPoolID_CommodityPoolID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionTransferWithBonusUnit_CommodityPool_SendingBonusPoolID_CommodityPoolID">
-      <End Role="SendingBonusPool" EntitySet="CommodityPool" />
-      <End Role="TdrTransactionTransferWithBonusUnitsWhereYouAreTheSendingBonusPool" EntitySet="TdrTransactionTransferWithBonusUnit" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionTransferWithBonusUnit_LandBank_SendingLandBankID_LandBankID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionTransferWithBonusUnit_LandBank_SendingLandBankID_LandBankID">
-      <End Role="SendingLandBank" EntitySet="LandBank" />
-      <End Role="TdrTransactionTransferWithBonusUnitsWhereYouAreTheSendingLandBank" EntitySet="TdrTransactionTransferWithBonusUnit" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionTransferWithBonusUnit_Parcel_ReceivingParcelID_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionTransferWithBonusUnit_Parcel_ReceivingParcelID_ParcelID">
-      <End Role="ReceivingParcel" EntitySet="Parcel" />
-      <End Role="TdrTransactionTransferWithBonusUnitsWhereYouAreTheReceivingParcel" EntitySet="TdrTransactionTransferWithBonusUnit" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionTransferWithBonusUnit_Parcel_SendingParcelID_ParcelID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionTransferWithBonusUnit_Parcel_SendingParcelID_ParcelID">
-      <End Role="SendingParcel" EntitySet="Parcel" />
-      <End Role="TdrTransactionTransferWithBonusUnitsWhereYouAreTheSendingParcel" EntitySet="TdrTransactionTransferWithBonusUnit" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TdrTransactionTransferWithBonusUnit_TdrTransaction_TdrTransactionID" Association="ProjectFirma.Web.Models.Store.FK_TdrTransactionTransferWithBonusUnit_TdrTransaction_TdrTransactionID">
-      <End Role="TdrTransaction" EntitySet="TdrTransaction" />
-      <End Role="TdrTransactionTransferWithBonusUnits" EntitySet="TdrTransactionTransferWithBonusUnit" />
     </AssociationSet>
     <AssociationSet Name="FK_ThresholdCategoryImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdCategoryImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
@@ -1482,29 +918,6 @@ FROM [dbo].[vTransactedAndBankedCommodities] AS [vTransactedAndBankedCommodities
       <End Role="TransportationSubGoals" EntitySet="TransportationSubGoal" />
     </AssociationSet>
   </EntityContainer>
-  <EntityType Name="AccelaCAPRecord">
-    <Key>
-      <PropertyRef Name="AccelaCAPRecordID" />
-    </Key>
-    <Property Name="AccelaCAPRecordID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="AccelaID" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="KeyOne" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="KeyTwo" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="KeyThree" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="ShortNotes" Type="varchar" MaxLength="255" />
-    <Property Name="DetailedDescription" Type="varchar" MaxLength="4000" />
-    <Property Name="AccelaCAPRecordStatusID" Type="int" />
-    <Property Name="AccelaCAPTypeName" Type="varchar" MaxLength="100" />
-    <Property Name="FileDate" Type="datetime" />
-  </EntityType>
-  <EntityType Name="AccelaJurisdictionToJurisdictionMapping">
-    <Key>
-      <PropertyRef Name="AccelaJurisdictionToJurisdictionMappingID" />
-    </Key>
-    <Property Name="AccelaJurisdictionToJurisdictionMappingID" Type="int" Nullable="false" />
-    <Property Name="AccelaJurisdictionName" Type="varchar" MaxLength="50" />
-    <Property Name="JurisdictionID" Type="int" />
-  </EntityType>
   <EntityType Name="ActionPriority">
     <Key>
       <PropertyRef Name="ActionPriorityID" />
@@ -1539,86 +952,6 @@ FROM [dbo].[vTransactedAndBankedCommodities] AS [vTransactedAndBankedCommodities
     <Property Name="AuditDescription" Type="varchar(max)" />
     <Property Name="ProjectID" Type="int" />
     <Property Name="ProposedProjectID" Type="int" />
-  </EntityType>
-  <EntityType Name="BankedCommodity">
-    <Key>
-      <PropertyRef Name="BankedCommodityID" />
-    </Key>
-    <Property Name="BankedCommodityID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="CommodityBaileyRatingID" Type="int" Nullable="false" />
-    <Property Name="BankedQuantity" Type="int" Nullable="false" />
-    <Property Name="BankedDate" Type="datetime" Nullable="false" />
-    <Property Name="BankedCommodityNotes" Type="varchar" MaxLength="500" />
-    <Property Name="AccelaCAPRecordID" Type="varchar" MaxLength="100" />
-    <Property Name="LastUpdateDate" Type="datetime" Nullable="false" />
-    <Property Name="LastUpdatePersonID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="CommodityBaileyRating">
-    <Key>
-      <PropertyRef Name="CommodityBaileyRatingID" />
-    </Key>
-    <Property Name="CommodityBaileyRatingID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="CommodityID" Type="int" Nullable="false" />
-    <Property Name="BaileyRatingID" Type="int" />
-  </EntityType>
-  <EntityType Name="CommodityConvertedToCommodity">
-    <Key>
-      <PropertyRef Name="CommodityConvertedToCommodityID" />
-    </Key>
-    <Property Name="CommodityConvertedToCommodityID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="CommodityID" Type="int" Nullable="false" />
-    <Property Name="ConvertedToCommodityID" Type="int" Nullable="false" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_ResidentialAllocation_CommodityPool_CommodityPoolID_JurisdictionID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
-  <EntityType Name="CommodityPool">
-    <Key>
-      <PropertyRef Name="CommodityPoolID" />
-    </Key>
-    <Property Name="CommodityPoolID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="CommodityPoolName" Type="varchar" Nullable="false" MaxLength="300" />
-    <Property Name="JurisdictionID" Type="int" Nullable="false" />
-    <Property Name="Comments" Type="varchar" MaxLength="4000" />
-    <Property Name="IsActive" Type="bit" Nullable="false" />
-    <Property Name="InactivatedDate" Type="datetime" />
-    <Property Name="InactivatedByPersonID" Type="int" />
-    <Property Name="CommodityID" Type="int" Nullable="false" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_ResidentialAllocation_CommodityPoolDisbursement_CommodityPoolID_CommodityPoolDisbursementID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
-  <EntityType Name="CommodityPoolDisbursement">
-    <Key>
-      <PropertyRef Name="CommodityPoolDisbursementID" />
-    </Key>
-    <Property Name="CommodityPoolDisbursementID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="CommodityPoolID" Type="int" Nullable="false" />
-    <Property Name="CommodityPoolDisbursementTitle" Type="varchar" Nullable="false" MaxLength="500" />
-    <Property Name="CommodityPoolDisbursementDate" Type="smalldatetime" Nullable="false" />
-    <Property Name="CommodityPoolDisbursementAmount" Type="int" Nullable="false" />
-    <Property Name="CommodityPoolDisbursementDescription" Type="varchar" MaxLength="1000" />
-    <Property Name="CreateDate" Type="datetime" Nullable="false" />
-    <Property Name="CreatePersonID" Type="int" Nullable="false" />
-    <Property Name="UpdateDate" Type="datetime" />
-    <Property Name="UpdatePersonID" Type="int" />
-  </EntityType>
-  <EntityType Name="ProjectFirmaPage">
-    <Key>
-      <PropertyRef Name="ProjectFirmaPageID" />
-    </Key>
-    <Property Name="ProjectFirmaPageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ProjectFirmaPageTypeID" Type="int" Nullable="false" />
-    <Property Name="ProjectFirmaPageContent" Type="varchar(max)" />
-  </EntityType>
-  <EntityType Name="ProjectFirmaPageImage">
-    <Key>
-      <PropertyRef Name="ProjectFirmaPageImageID" />
-    </Key>
-    <Property Name="ProjectFirmaPageImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ProjectFirmaPageID" Type="int" Nullable="false" />
-    <Property Name="FileResourceID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="County">
     <Key>
@@ -1891,60 +1224,6 @@ warning 6035: The relationship 'FK_ThresholdIndicatorReportedSubcategoryOption_I
     <Property Name="OrganizationID" Type="int" Nullable="false" />
     <Property Name="JurisdictionFeature" Type="geometry" />
     <Property Name="StateProvinceID" Type="int" />
-    <Property Name="ResidentialAllocationAbbreviation" Type="varchar" MaxLength="10" />
-  </EntityType>
-  <EntityType Name="LandBank">
-    <Key>
-      <PropertyRef Name="LandBankID" />
-    </Key>
-    <Property Name="LandBankID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="LeadAgencyID" Type="int" Nullable="false" />
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_TdrTransaction_LeadAgency_LeadAgencyID_LeadAgencyAbbreviation' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
-  <EntityType Name="LeadAgency">
-    <Key>
-      <PropertyRef Name="LeadAgencyID" />
-    </Key>
-    <Property Name="LeadAgencyID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="OrganizationID" Type="int" Nullable="false" />
-    <Property Name="LeadAgencyAbbreviation" Type="varchar" Nullable="false" MaxLength="10" />
-    <Property Name="SortOrder" Type="int" Nullable="false" />
-    <Property Name="CanManageRightOfWayCoverage" Type="bit" Nullable="false" />
-  </EntityType>
-  <EntityType Name="LeadAgencyRightOfWayCoverage">
-    <Key>
-      <PropertyRef Name="LeadAgencyRightOfWayCoverageID" />
-    </Key>
-    <Property Name="LeadAgencyRightOfWayCoverageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="LeadAgencyID" Type="int" Nullable="false" />
-    <Property Name="CommodityID" Type="int" Nullable="false" />
-    <Property Name="RightOfWayCoverageAmount" Type="int" Nullable="false" />
-    <Property Name="BaileyRatingID" Type="int" />
-    <Property Name="RightOfWayCoverageEffectiveDate" Type="datetime" Nullable="false" />
-    <Property Name="RightOfWayCoverageNotes" Type="varchar" MaxLength="500" />
-    <Property Name="LastUpdateDate" Type="datetime" Nullable="false" />
-    <Property Name="LastUpdatePersonID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="LeadAgencyTransactionTypeCommodity">
-    <Key>
-      <PropertyRef Name="LeadAgencyTransactionTypeCommodityID" />
-    </Key>
-    <Property Name="LeadAgencyTransactionTypeCommodityID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="LeadAgencyID" Type="int" Nullable="false" />
-    <Property Name="TransactionTypeCommodityID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="LeadAgencyTransactionTypeCommodityLog">
-    <Key>
-      <PropertyRef Name="LeadAgencyTransactionTypeCommodityLogID" />
-    </Key>
-    <Property Name="LeadAgencyTransactionTypeCommodityLogID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="LeadAgencyID" Type="int" Nullable="false" />
-    <Property Name="TransactionTypeCommodityID" Type="int" Nullable="false" />
-    <Property Name="LeadAgencyTransactionTypeCommodityLogChangeTypeID" Type="int" Nullable="false" />
-    <Property Name="ChangeDate" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="LocalAndRegionalPlan">
     <Key>
@@ -2031,122 +1310,6 @@ warning 6035: The relationship 'FK_TdrTransaction_LeadAgency_LeadAgencyID_LeadAg
     <Property Name="OrganizationUrl" Type="varchar" MaxLength="200" />
     <Property Name="LogoFileResourceID" Type="int" />
   </EntityType>
-  <EntityType Name="Parcel">
-    <Key>
-      <PropertyRef Name="ParcelID" />
-    </Key>
-    <Property Name="ParcelID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ParcelNumber" Type="varchar" Nullable="false" MaxLength="30" />
-    <Property Name="GeometryXml" Type="varchar(max)" />
-    <Property Name="ParcelStreetAddress" Type="varchar" MaxLength="100" />
-    <Property Name="ParcelCity" Type="varchar" MaxLength="50" />
-    <Property Name="ParcelState" Type="varchar" MaxLength="2" />
-    <Property Name="ParcelZipCode" Type="varchar" MaxLength="15" />
-    <Property Name="ParcelNickname" Type="varchar" MaxLength="100" />
-    <Property Name="ParcelNotes" Type="varchar" MaxLength="1000" />
-    <Property Name="OwnerName" Type="varchar" MaxLength="300" />
-    <Property Name="JurisdictionID" Type="int" Nullable="false" />
-    <Property Name="ParcelSize" Type="int" />
-    <Property Name="VerifiedParcelSize" Type="int" />
-    <Property Name="LocalPlan" Type="varchar" MaxLength="100" />
-    <Property Name="HRA" Type="varchar" MaxLength="100" />
-    <Property Name="FireDistrict" Type="varchar" MaxLength="100" />
-    <Property Name="BMPStatus" Type="varchar" MaxLength="100" />
-    <Property Name="WatershedID" Type="int" />
-    <Property Name="ParcelStatusID" Type="int" Nullable="false" />
-    <Property Name="AutoImported" Type="bit" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ParcelAccelaCAPRecord">
-    <Key>
-      <PropertyRef Name="ParcelAccelaCAPRecordID" />
-    </Key>
-    <Property Name="ParcelAccelaCAPRecordID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="AccelaCAPRecordID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ParcelCommodityBaileyRatingConfirmation">
-    <Key>
-      <PropertyRef Name="ParcelCommodityBaileyRatingConfirmationID" />
-    </Key>
-    <Property Name="ParcelCommodityBaileyRatingConfirmationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="CommodityID" Type="int" Nullable="false" />
-    <Property Name="BaileyRatingID" Type="int" />
-    <Property Name="ParcelCommodityBaileyRatingConfirmationStatusID" Type="int" Nullable="false" />
-    <Property Name="ConfirmedByPersonID" Type="int" Nullable="false" />
-    <Property Name="ConfirmationDate" Type="datetime" Nullable="false" />
-    <Property Name="ConfirmationNotes" Type="varchar" MaxLength="200" />
-  </EntityType>
-  <EntityType Name="ParcelDistanceFromTownCenter">
-    <Key>
-      <PropertyRef Name="ParcelDistanceFromTownCenterID" />
-    </Key>
-    <Property Name="ParcelDistanceFromTownCenterID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TownCenterID" Type="int" Nullable="false" />
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="DistanceInMiles" Type="decimal" Scale="5" />
-    <Property Name="DistanceFromTownCenterSummaryTypeID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ParcelExistingPhysicalInventory">
-    <Key>
-      <PropertyRef Name="ParcelExistingPhysicalInventoryID" />
-    </Key>
-    <Property Name="ParcelExistingPhysicalInventoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="CommodityBaileyRatingID" Type="int" Nullable="false" />
-    <Property Name="ExistingPhysicalInventoryQuantity" Type="int" Nullable="false" />
-    <Property Name="VerifiedAsOfDate" Type="datetime" />
-    <Property Name="ExistingPhysicalInventoryNotes" Type="varchar" MaxLength="500" />
-    <Property Name="LastUpdateDate" Type="datetime" Nullable="false" />
-    <Property Name="LastUpdatePersonID" Type="int" Nullable="false" />
-    <Property Name="EncumberedForPendingPermitQuantity" Type="int" Nullable="false" />
-    <Property Name="BaseAllowableQuantity" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ParcelGeometry">
-    <Key>
-      <PropertyRef Name="ParcelGeometryID" />
-    </Key>
-    <Property Name="Ogr_Geometry" Type="geometry" Nullable="false" />
-    <Property Name="ParcelNumber" Type="varchar" Nullable="false" MaxLength="30" />
-    <Property Name="ParcelID" Type="int" />
-    <Property Name="ParcelGeometryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-  </EntityType>
-  <EntityType Name="ParcelImage">
-    <Key>
-      <PropertyRef Name="ParcelImageID" />
-    </Key>
-    <Property Name="ParcelImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="FileResourceID" Type="int" Nullable="false" />
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="Caption" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="Credit" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="IsKeyPhoto" Type="bit" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ParcelLandCapability">
-    <Key>
-      <PropertyRef Name="ParcelLandCapabilityID" />
-    </Key>
-    <Property Name="ParcelLandCapabilityID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="ParcelLandCapabilityDeterminationTypeID" Type="int" Nullable="false" />
-    <Property Name="DeterminationDate" Type="datetime" Nullable="false" />
-    <Property Name="SitePlanFileResourceID" Type="int" />
-    <Property Name="AccelaCAPRecordID" Type="int" />
-    <Property Name="LandCapabilityNotes" Type="varchar" MaxLength="500" />
-    <Property Name="LastUpdateDate" Type="datetime" Nullable="false" />
-    <Property Name="LastUpdatePersonID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ParcelLandCapabilityRating">
-    <Key>
-      <PropertyRef Name="ParcelLandCapabilityRatingID" />
-    </Key>
-    <Property Name="ParcelLandCapabilityRatingID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ParcelLandCapabilityID" Type="int" Nullable="false" />
-    <Property Name="LandCapabilityTypeID" Type="int" Nullable="false" />
-    <Property Name="BaileyRatingID" Type="int" />
-    <Property Name="IPESScore" Type="smallint" />
-    <Property Name="SquareFootage" Type="int" />
-  </EntityType>
   <EntityType Name="Person">
     <Key>
       <PropertyRef Name="PersonID" />
@@ -2166,7 +1329,6 @@ warning 6035: The relationship 'FK_TdrTransaction_LeadAgency_LeadAgencyID_LeadAg
     <Property Name="OrganizationID" Type="int" Nullable="false" />
     <Property Name="SustainabilityRoleID" Type="int" Nullable="false" />
     <Property Name="LTInfoRoleID" Type="int" Nullable="false" />
-    <Property Name="ParcelTrackerRoleID" Type="int" Nullable="false" />
     <Property Name="WebServiceAccessToken" Type="uniqueidentifier" />
     <Property Name="ThresholdRoleID" Type="int" Nullable="false" />
   </EntityType>
@@ -2268,6 +1430,22 @@ warning 6035: The relationship 'FK_TdrTransaction_LeadAgency_LeadAgencyID_LeadAg
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="ExternalLinkLabel" Type="varchar" Nullable="false" MaxLength="300" />
     <Property Name="ExternalLinkUrl" Type="varchar" Nullable="false" MaxLength="300" />
+  </EntityType>
+  <EntityType Name="ProjectFirmaPage">
+    <Key>
+      <PropertyRef Name="ProjectFirmaPageID" />
+    </Key>
+    <Property Name="ProjectFirmaPageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectFirmaPageTypeID" Type="int" Nullable="false" />
+    <Property Name="ProjectFirmaPageContent" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="ProjectFirmaPageImage">
+    <Key>
+      <PropertyRef Name="ProjectFirmaPageImageID" />
+    </Key>
+    <Property Name="ProjectFirmaPageImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectFirmaPageID" Type="int" Nullable="false" />
+    <Property Name="FileResourceID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectFundingOrganization">
     <Key>
@@ -2635,22 +1813,6 @@ warning 6035: The relationship 'FK_TdrTransaction_LeadAgency_LeadAgencyID_LeadAg
     <Property Name="TransportationQuestionID" Type="int" Nullable="false" />
     <Property Name="Answer" Type="bit" />
   </EntityType>
-  <EntityType Name="ResidentialAllocation">
-    <Key>
-      <PropertyRef Name="ResidentialAllocationID" />
-    </Key>
-    <Property Name="ResidentialAllocationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="JurisdictionID" Type="int" Nullable="false" />
-    <Property Name="IssuanceYear" Type="int" Nullable="false" />
-    <Property Name="ResidentialAllocationTypeID" Type="int" Nullable="false" />
-    <Property Name="AllocationSequence" Type="int" Nullable="false" />
-    <Property Name="CommodityPoolDisbursementID" Type="int" Nullable="false" />
-    <Property Name="TdrTransactionID" Type="int" />
-    <Property Name="WithdrawnTdrTransactionID" Type="int" />
-    <Property Name="IsAllocatedButNoTransactionRecord" Type="bit" Nullable="false" />
-    <Property Name="CommodityPoolID" Type="int" Nullable="false" />
-    <Property Name="AssignedToJurisdictionID" Type="int" />
-  </EntityType>
   <EntityType Name="Snapshot">
     <Key>
       <PropertyRef Name="SnapshotID" />
@@ -2803,168 +1965,6 @@ warning 6035: The relationship 'FK_SustainabilityIndicatorReportedSubcategoryOpt
     <Property Name="TagName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="TagDescription" Type="varchar" MaxLength="1000" />
   </EntityType>
-  <EntityType Name="TdrTransaction">
-    <Key>
-      <PropertyRef Name="TdrTransactionID" />
-    </Key>
-    <Property Name="TdrTransactionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="LeadAgencyID" Type="int" Nullable="false" />
-    <Property Name="LeadAgencyAbbreviation" Type="varchar" Nullable="false" MaxLength="10" />
-    <Property Name="TransactionTypeCommodityID" Type="int" Nullable="false" />
-    <Property Name="TransactionTypeID" Type="int" Nullable="false" />
-    <Property Name="TransactionTypeAbbreviation" Type="varchar" Nullable="false" MaxLength="10" />
-    <Property Name="CommodityID" Type="int" Nullable="false" />
-    <Property Name="DeallocatedRationale" Type="varchar" MaxLength="500" />
-    <Property Name="LastUpdateDate" Type="datetime" Nullable="false" />
-    <Property Name="LastUpdatePersonID" Type="int" Nullable="false" />
-    <Property Name="ProjectNumber" Type="varchar" MaxLength="30" />
-    <Property Name="Comments" Type="varchar(max)" />
-    <Property Name="TransactionStateID" Type="int" Nullable="false" />
-    <Property Name="AccelaCAPRecordID" Type="int" />
-    <Property Name="ApprovalDate" Type="datetime" />
-  </EntityType>
-  <EntityType Name="TdrTransactionAllocation">
-    <Key>
-      <PropertyRef Name="TdrTransactionAllocationID" />
-    </Key>
-    <Property Name="TdrTransactionAllocationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TdrTransactionID" Type="int" Nullable="false" />
-    <Property Name="SendingAllocationPoolID" Type="int" Nullable="false" />
-    <Property Name="ReceivingOwnershipID" Type="int" Nullable="false" />
-    <Property Name="ReceivingParcelID" Type="int" Nullable="false" />
-    <Property Name="AllocatedQuantity" Type="int" Nullable="false" />
-    <Property Name="ReceivingIPESScore" Type="smallint" />
-    <Property Name="ReceivingBaileyRatingID" Type="int" />
-    <Property Name="ResidentialAllocationFeeReceived" Type="bit" />
-  </EntityType>
-  <EntityType Name="TdrTransactionAllocationAssignment">
-    <Key>
-      <PropertyRef Name="TdrTransactionAllocationAssignmentID" />
-    </Key>
-    <Property Name="TdrTransactionAllocationAssignmentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TdrTransactionID" Type="int" Nullable="false" />
-    <Property Name="SendingAllocationPoolID" Type="int" Nullable="false" />
-    <Property Name="RetiredSensitiveOwnershipID" Type="int" Nullable="false" />
-    <Property Name="RetiredSensitiveParcelID" Type="int" Nullable="false" />
-    <Property Name="ReceivingOwnershipID" Type="int" Nullable="false" />
-    <Property Name="ReceivingParcelID" Type="int" Nullable="false" />
-    <Property Name="AllocatedQuantity" Type="int" Nullable="false" />
-    <Property Name="ReceivingIPESScore" Type="smallint" />
-    <Property Name="ReceivingBaileyRatingID" Type="int" />
-    <Property Name="ResidentialAllocationFeeReceived" Type="bit" />
-  </EntityType>
-  <EntityType Name="TdrTransactionConversion">
-    <Key>
-      <PropertyRef Name="TdrTransactionConversionID" />
-    </Key>
-    <Property Name="TdrTransactionConversionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TdrTransactionID" Type="int" Nullable="false" />
-    <Property Name="LandBankID" Type="int" />
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="OwnershipID" Type="int" Nullable="false" />
-    <Property Name="CommodityConvertedToID" Type="int" Nullable="false" />
-    <Property Name="IPESScore" Type="smallint" />
-    <Property Name="BaileyRatingID" Type="int" />
-    <Property Name="SendingQuantity" Type="int" Nullable="false" />
-    <Property Name="ReceivingQuantity" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="TdrTransactionConversionWithTransfer">
-    <Key>
-      <PropertyRef Name="TdrTransactionConversionWithTransferID" />
-    </Key>
-    <Property Name="TdrTransactionConversionWithTransferID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TdrTransactionID" Type="int" Nullable="false" />
-    <Property Name="SendingOwnershipID" Type="int" Nullable="false" />
-    <Property Name="SendingParcelID" Type="int" Nullable="false" />
-    <Property Name="SendingLandBankID" Type="int" />
-    <Property Name="ReceivingOwnershipID" Type="int" Nullable="false" />
-    <Property Name="ReceivingParcelID" Type="int" Nullable="false" />
-    <Property Name="SendingIPESScore" Type="smallint" />
-    <Property Name="SendingBaileyRatingID" Type="int" />
-    <Property Name="ReceivingIPESScore" Type="smallint" />
-    <Property Name="ReceivingBaileyRatingID" Type="int" />
-    <Property Name="SendingQuantity" Type="int" Nullable="false" />
-    <Property Name="ReceivingQuantity" Type="int" Nullable="false" />
-    <Property Name="CommodityConvertedToID" Type="int" Nullable="false" />
-    <Property Name="TransferPrice" Type="money" />
-    <Property Name="TransferApprovalDate" Type="smalldatetime" />
-  </EntityType>
-  <EntityType Name="TdrTransactionECMRetirement">
-    <Key>
-      <PropertyRef Name="TdrTransactionECMRetirementID" />
-    </Key>
-    <Property Name="TdrTransactionECMRetirementID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TdrTransactionID" Type="int" Nullable="false" />
-    <Property Name="LandBankID" Type="int" Nullable="false" />
-    <Property Name="SendingParcelID" Type="int" Nullable="false" />
-    <Property Name="RetirementQuantity" Type="int" Nullable="false" />
-    <Property Name="SendingIPESScore" Type="smallint" />
-    <Property Name="SendingBaileyRatingID" Type="int" />
-    <Property Name="TransferPrice" Type="money" Nullable="false" />
-  </EntityType>
-  <EntityType Name="TdrTransactionLandBankAcquisition">
-    <Key>
-      <PropertyRef Name="TdrTransactionLandBankAcquisitionID" />
-    </Key>
-    <Property Name="TdrTransactionLandBankAcquisitionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TdrTransactionID" Type="int" Nullable="false" />
-    <Property Name="SendingParcelID" Type="int" Nullable="false" />
-    <Property Name="SendingQuantity" Type="int" Nullable="false" />
-    <Property Name="SendingIPESScore" Type="smallint" />
-    <Property Name="SendingBaileyRatingID" Type="int" />
-    <Property Name="LandBankID" Type="int" Nullable="false" />
-    <Property Name="ReceivingCommodityConvertedToID" Type="int" />
-    <Property Name="TransferPrice" Type="money" Nullable="false" />
-  </EntityType>
-  <EntityType Name="TdrTransactionStateHistory">
-    <Key>
-      <PropertyRef Name="TdrTransactionStateHistoryID" />
-    </Key>
-    <Property Name="TdrTransactionStateHistoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TdrTransactionID" Type="int" Nullable="false" />
-    <Property Name="TransactionStateID" Type="int" Nullable="false" />
-    <Property Name="UpdatePersonID" Type="int" Nullable="false" />
-    <Property Name="TransitionDate" Type="datetime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="TdrTransactionTransfer">
-    <Key>
-      <PropertyRef Name="TdrTransactionTransferID" />
-    </Key>
-    <Property Name="TdrTransactionTransferID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TdrTransactionID" Type="int" Nullable="false" />
-    <Property Name="SendingLandBankID" Type="int" />
-    <Property Name="SendingParcelID" Type="int" Nullable="false" />
-    <Property Name="SendingQuantity" Type="int" Nullable="false" />
-    <Property Name="SendingIPESScore" Type="smallint" />
-    <Property Name="SendingBaileyRatingID" Type="int" />
-    <Property Name="ReceivingOwnershipID" Type="int" Nullable="false" />
-    <Property Name="ReceivingParcelID" Type="int" Nullable="false" />
-    <Property Name="ReceivingQuantity" Type="int" Nullable="false" />
-    <Property Name="ReceivingIPESScore" Type="smallint" />
-    <Property Name="ReceivingBaileyRatingID" Type="int" />
-    <Property Name="TransferPrice" Type="money" />
-    <Property Name="RetiredQuantity" Type="int" />
-  </EntityType>
-  <EntityType Name="TdrTransactionTransferWithBonusUnit">
-    <Key>
-      <PropertyRef Name="TdrTransactionTransferWithBonusUnitID" />
-    </Key>
-    <Property Name="TdrTransactionTransferWithBonusUnitID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TdrTransactionID" Type="int" Nullable="false" />
-    <Property Name="SendingLandBankID" Type="int" />
-    <Property Name="SendingParcelID" Type="int" Nullable="false" />
-    <Property Name="SendingBonusPoolID" Type="int" Nullable="false" />
-    <Property Name="SendingQuantity" Type="int" Nullable="false" />
-    <Property Name="SendingIPESScore" Type="smallint" />
-    <Property Name="SendingBaileyRatingID" Type="int" />
-    <Property Name="ReceivingOwnershipID" Type="int" Nullable="false" />
-    <Property Name="ReceivingParcelID" Type="int" Nullable="false" />
-    <Property Name="ReceivingQuantity" Type="int" Nullable="false" />
-    <Property Name="ReceivingIPESScore" Type="smallint" />
-    <Property Name="ReceivingBaileyRatingID" Type="int" />
-    <Property Name="BonusUnits" Type="tinyint" Nullable="false" />
-    <Property Name="TransferPrice" Type="money" />
-  </EntityType>
   <EntityType Name="ThresholdCategory">
     <Key>
       <PropertyRef Name="ThresholdCategoryID" />
@@ -3101,29 +2101,6 @@ warning 6035: The relationship 'FK_ThresholdIndicatorReportedSubcategoryOption_T
     <Property Name="DisplayOrder" Type="int" Nullable="false" />
     <Property Name="Narrative" Type="varchar(max)" />
   </EntityType>
-  <EntityType Name="TownCenter">
-    <Key>
-      <PropertyRef Name="TownCenterID" />
-    </Key>
-    <Property Name="TownCenterID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TownCenterName" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="TownCenterTypeID" Type="int" Nullable="false" />
-    <Property Name="GeometryXml" Type="varchar(max)" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_TdrTransaction_TransactionType_TransactionTypeID_TransactionTypeAbbreviation' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_TdrTransaction_TransactionTypeCommodity_TransactionTypeCommodityID_TransactionTypeID_CommodityID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
-  <EntityType Name="TransactionTypeCommodity">
-    <Key>
-      <PropertyRef Name="TransactionTypeCommodityID" />
-    </Key>
-    <Property Name="TransactionTypeCommodityID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TransactionTypeID" Type="int" Nullable="false" />
-    <Property Name="CommodityID" Type="int" Nullable="false" />
-  </EntityType>
   <EntityType Name="TransportationCostParameterSet">
     <Key>
       <PropertyRef Name="TransportationCostParameterSetID" />
@@ -3230,305 +2207,8 @@ warning 6035: The relationship 'FK_TdrTransaction_TransactionTypeCommodity_Trans
     <Property Name="WatershedFeature" Type="geometry" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjectFirma.dbo.vAccelaCapRecord' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
--->
-  <EntityType Name="vAccelaCapRecord">
-    <Key>
-      <PropertyRef Name="APN" />
-      <PropertyRef Name="KeyOne" />
-      <PropertyRef Name="KeyTwo" />
-      <PropertyRef Name="KeyThree" />
-      <PropertyRef Name="AccelaCAPTypeName" />
-    </Key>
-    <Property Name="APN" Type="varchar" Nullable="false" MaxLength="24" />
-    <Property Name="AccelaID" Type="varchar" MaxLength="30" />
-    <Property Name="KeyOne" Type="varchar" Nullable="false" MaxLength="5" />
-    <Property Name="KeyTwo" Type="varchar" Nullable="false" MaxLength="5" />
-    <Property Name="KeyThree" Type="varchar" Nullable="false" MaxLength="5" />
-    <Property Name="ShortNotes" Type="varchar" MaxLength="255" />
-    <Property Name="DetailedDescription" Type="varchar" MaxLength="4000" />
-    <Property Name="AccelaCAPRecordStatusID" Type="int" />
-    <Property Name="AccelaCAPRecordStatusDisplayName" Type="varchar" MaxLength="100" />
-    <Property Name="AccelaCAPTypeName" Type="varchar" Nullable="false" MaxLength="123" />
-    <Property Name="FileDate" Type="datetime" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjectFirma.dbo.vAccelaParcel' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
--->
-  <EntityType Name="vAccelaParcel">
-    <Key>
-      <PropertyRef Name="APN" />
-      <PropertyRef Name="ParcelStatusID" />
-      <PropertyRef Name="JurisdictionID" />
-    </Key>
-    <Property Name="APN" Type="varchar" Nullable="false" MaxLength="24" />
-    <Property Name="ParcelStatusID" Type="int" Nullable="false" />
-    <Property Name="OwnerNumber" Type="int" />
-    <Property Name="OwnerFullName" Type="varchar" MaxLength="220" />
-    <Property Name="OwnerTitle" Type="varchar" MaxLength="255" />
-    <Property Name="OwnerFirstName" Type="varchar" MaxLength="70" />
-    <Property Name="OwnerMiddleName" Type="varchar" MaxLength="70" />
-    <Property Name="OwnerLastName" Type="varchar" MaxLength="70" />
-    <Property Name="OwnerAddress" Type="varchar" MaxLength="40" />
-    <Property Name="OwnerCity" Type="varchar" MaxLength="30" />
-    <Property Name="OwnerState" Type="varchar" MaxLength="30" />
-    <Property Name="OwnerZip" Type="varchar" MaxLength="10" />
-    <Property Name="REC_DATE" Type="datetime" />
-    <Property Name="REC_FUL_NAM" Type="varchar" MaxLength="70" />
-    <Property Name="ParcelAddress" Type="varchar" />
-    <Property Name="ParcelCity" Type="varchar" MaxLength="32" />
-    <Property Name="ParcelState" Type="varchar" MaxLength="30" />
-    <Property Name="ParcelZip" Type="varchar" MaxLength="10" />
-    <Property Name="ParcelSize" Type="varchar" MaxLength="200" />
-    <Property Name="Jurisdiction" Type="varchar" MaxLength="200" />
-    <Property Name="JurisdictionID" Type="int" Nullable="false" />
-    <Property Name="LocalPlan" Type="varchar" MaxLength="403" />
-    <Property Name="BMPStatus" Type="varchar" MaxLength="200" />
-    <Property Name="FireDistrict" Type="varchar" MaxLength="200" />
-    <Property Name="HRA" Type="varchar" MaxLength="200" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjectFirma.dbo.vAccelaParcelAttributes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
--->
-  <EntityType Name="vAccelaParcelAttributes">
-    <Key>
-      <PropertyRef Name="APN" />
-    </Key>
-    <Property Name="APN" Type="varchar" Nullable="false" MaxLength="24" />
-    <Property Name="ParcelSize" Type="varchar" MaxLength="200" />
-    <Property Name="Jurisdiction" Type="varchar" MaxLength="200" />
-    <Property Name="AreaPlan" Type="varchar" MaxLength="200" />
-    <Property Name="CommunityPlan" Type="varchar" MaxLength="200" />
-    <Property Name="PlanAreaStatement" Type="varchar" MaxLength="200" />
-    <Property Name="PlanAreaStatementID" Type="varchar" MaxLength="200" />
-    <Property Name="BMPStatus" Type="varchar" MaxLength="200" />
-    <Property Name="FireDistrict" Type="varchar" MaxLength="200" />
-    <Property Name="HRA" Type="varchar" MaxLength="200" />
-  </EntityType>
-  <!--Errors Found During Generation:
 warning 6002: The table/view 'ProjectFirma.dbo.vActionPriority' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
 -->
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerAllParcels' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
--->
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerParcelDevelopmentRightTransfers' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
--->
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerTrackedParcels' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
--->
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjectFirma.dbo.vParcel' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
--->
-  <EntityType Name="vParcel">
-    <Key>
-      <PropertyRef Name="ParcelID" />
-      <PropertyRef Name="ParcelNumber" />
-      <PropertyRef Name="ParcelStatusName" />
-      <PropertyRef Name="OrganizationID" />
-      <PropertyRef Name="OrganizationName" />
-      <PropertyRef Name="AutoImported" />
-    </Key>
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="ParcelNumber" Type="varchar" Nullable="false" MaxLength="30" />
-    <Property Name="ParcelNickname" Type="varchar" MaxLength="100" />
-    <Property Name="ParcelSize" Type="int" />
-    <Property Name="ParcelNotes" Type="varchar" MaxLength="1000" />
-    <Property Name="ParcelStatusName" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="OrganizationID" Type="int" Nullable="false" />
-    <Property Name="OrganizationName" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="WatershedID" Type="int" />
-    <Property Name="WatershedName" Type="varchar" MaxLength="100" />
-    <Property Name="OwnerName" Type="varchar" MaxLength="300" />
-    <Property Name="ParcelStreetNumber" Type="int" />
-    <Property Name="ParcelAddress" Type="varchar" MaxLength="172" />
-    <Property Name="ParcelStreetAddress" Type="varchar" MaxLength="100" />
-    <Property Name="ParcelCity" Type="varchar" MaxLength="50" />
-    <Property Name="ParcelState" Type="varchar" MaxLength="2" />
-    <Property Name="ParcelZipCode" Type="varchar" MaxLength="15" />
-    <Property Name="LocalPlan" Type="varchar" MaxLength="100" />
-    <Property Name="BMPStatus" Type="varchar" MaxLength="100" />
-    <Property Name="FireDistrict" Type="varchar" MaxLength="100" />
-    <Property Name="HRA" Type="varchar" MaxLength="100" />
-    <Property Name="AutoImported" Type="bit" Nullable="false" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjectFirma.dbo.vParcelCurrentInventoryByCommodity' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
--->
-  <EntityType Name="vParcelCurrentInventoryByCommodity">
-    <Key>
-      <PropertyRef Name="ParcelID" />
-    </Key>
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="Coverage" Type="int" />
-    <Property Name="CommercialFloorArea" Type="int" />
-    <Property Name="ExistingResidentialUnit" Type="int" />
-    <Property Name="ResidentialAllocation" Type="int" />
-    <Property Name="ResidentialBonusUnit" Type="int" />
-    <Property Name="ResidentialDevelopmentRight" Type="int" />
-    <Property Name="TouristAccommodationUnit" Type="int" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjectFirma.dbo.vParcelCurrentInventoryByCommodityBaileyRating' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
--->
-  <EntityType Name="vParcelCurrentInventoryByCommodityBaileyRating">
-    <Key>
-      <PropertyRef Name="ParcelID" />
-      <PropertyRef Name="CommercialFloorArea" />
-      <PropertyRef Name="CoverageHard" />
-      <PropertyRef Name="CoverageSoft" />
-      <PropertyRef Name="CoveragePotential" />
-      <PropertyRef Name="ExistingResidentialUnit" />
-      <PropertyRef Name="PersonsAtOneTime" />
-      <PropertyRef Name="ResidentialDevelopmentRight" />
-      <PropertyRef Name="ResidentialAllocation" />
-      <PropertyRef Name="ResidentialBonusUnit" />
-      <PropertyRef Name="RestorationCredit" />
-      <PropertyRef Name="TouristAccommodationUnit" />
-      <PropertyRef Name="ResidentialFloorArea" />
-      <PropertyRef Name="TouristFloorArea" />
-    </Key>
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="BaileyRatingID" Type="int" />
-    <Property Name="CommercialFloorArea" Type="int" Nullable="false" />
-    <Property Name="CoverageHard" Type="int" Nullable="false" />
-    <Property Name="CoverageSoft" Type="int" Nullable="false" />
-    <Property Name="CoveragePotential" Type="int" Nullable="false" />
-    <Property Name="ExistingResidentialUnit" Type="int" Nullable="false" />
-    <Property Name="PersonsAtOneTime" Type="int" Nullable="false" />
-    <Property Name="ResidentialDevelopmentRight" Type="int" Nullable="false" />
-    <Property Name="ResidentialAllocation" Type="int" Nullable="false" />
-    <Property Name="ResidentialBonusUnit" Type="int" Nullable="false" />
-    <Property Name="RestorationCredit" Type="int" Nullable="false" />
-    <Property Name="TouristAccommodationUnit" Type="int" Nullable="false" />
-    <Property Name="ResidentialFloorArea" Type="int" Nullable="false" />
-    <Property Name="TouristFloorArea" Type="int" Nullable="false" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjectFirma.dbo.vParcelCurrentInventoryByCommodityDetailed' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
--->
-  <EntityType Name="vParcelCurrentInventoryByCommodityDetailed">
-    <Key>
-      <PropertyRef Name="ParcelID" />
-      <PropertyRef Name="ParcelNumber" />
-      <PropertyRef Name="ParcelStatusName" />
-      <PropertyRef Name="CoverageHard" />
-      <PropertyRef Name="CoveragePotential" />
-      <PropertyRef Name="CoverageSoft" />
-      <PropertyRef Name="CommercialFloorArea" />
-      <PropertyRef Name="ExistingResidentialUnit" />
-      <PropertyRef Name="ResidentialAllocation" />
-      <PropertyRef Name="ResidentialBonusUnit" />
-      <PropertyRef Name="ResidentialFloorArea" />
-      <PropertyRef Name="ResidentialDevelopmentRight" />
-      <PropertyRef Name="TouristAccommodationUnit" />
-      <PropertyRef Name="TouristFloorArea" />
-      <PropertyRef Name="AutoImported" />
-    </Key>
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="ParcelNumber" Type="varchar" Nullable="false" MaxLength="30" />
-    <Property Name="ParcelNickname" Type="varchar" MaxLength="100" />
-    <Property Name="ParcelStatusName" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="ParcelSize" Type="int" />
-    <Property Name="BaileyRatingID" Type="int" />
-    <Property Name="IPESScore" Type="smallint" />
-    <Property Name="SquareFootage" Type="int" />
-    <Property Name="CoverageHard" Type="int" Nullable="false" />
-    <Property Name="CoveragePotential" Type="int" Nullable="false" />
-    <Property Name="CoverageSoft" Type="int" Nullable="false" />
-    <Property Name="CommercialFloorArea" Type="int" Nullable="false" />
-    <Property Name="ExistingResidentialUnit" Type="int" Nullable="false" />
-    <Property Name="ResidentialAllocation" Type="int" Nullable="false" />
-    <Property Name="ResidentialBonusUnit" Type="int" Nullable="false" />
-    <Property Name="ResidentialFloorArea" Type="int" Nullable="false" />
-    <Property Name="ResidentialDevelopmentRight" Type="int" Nullable="false" />
-    <Property Name="TouristAccommodationUnit" Type="int" Nullable="false" />
-    <Property Name="TouristFloorArea" Type="int" Nullable="false" />
-    <Property Name="AutoImported" Type="bit" Nullable="false" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjectFirma.dbo.vParcelDetailed' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
--->
-  <EntityType Name="vParcelDetailed">
-    <Key>
-      <PropertyRef Name="ParcelID" />
-      <PropertyRef Name="ParcelNumber" />
-      <PropertyRef Name="Coverage" />
-      <PropertyRef Name="CommercialFloorArea" />
-      <PropertyRef Name="ExistingResidentialUnit" />
-      <PropertyRef Name="ResidentialAllocation" />
-      <PropertyRef Name="ResidentialBonusUnit" />
-      <PropertyRef Name="ResidentialDevelopmentRight" />
-      <PropertyRef Name="TouristAccommodationUnit" />
-      <PropertyRef Name="ParcelStatusName" />
-      <PropertyRef Name="OrganizationID" />
-      <PropertyRef Name="OrganizationName" />
-      <PropertyRef Name="AutoImported" />
-      <PropertyRef Name="LandCapability" />
-    </Key>
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="ParcelNumber" Type="varchar" Nullable="false" MaxLength="30" />
-    <Property Name="Coverage" Type="int" Nullable="false" />
-    <Property Name="CommercialFloorArea" Type="int" Nullable="false" />
-    <Property Name="ExistingResidentialUnit" Type="int" Nullable="false" />
-    <Property Name="ResidentialAllocation" Type="int" Nullable="false" />
-    <Property Name="ResidentialBonusUnit" Type="int" Nullable="false" />
-    <Property Name="ResidentialDevelopmentRight" Type="int" Nullable="false" />
-    <Property Name="TouristAccommodationUnit" Type="int" Nullable="false" />
-    <Property Name="ParcelNickname" Type="varchar" MaxLength="100" />
-    <Property Name="ParcelSize" Type="int" />
-    <Property Name="ParcelNotes" Type="varchar" MaxLength="1000" />
-    <Property Name="ParcelStatusName" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="OrganizationID" Type="int" Nullable="false" />
-    <Property Name="OrganizationName" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="WatershedID" Type="int" />
-    <Property Name="WatershedName" Type="varchar" MaxLength="100" />
-    <Property Name="OwnerName" Type="varchar" MaxLength="300" />
-    <Property Name="ParcelStreetAddress" Type="varchar" MaxLength="100" />
-    <Property Name="ParcelCity" Type="varchar" MaxLength="50" />
-    <Property Name="ParcelState" Type="varchar" MaxLength="2" />
-    <Property Name="ParcelZipCode" Type="varchar" MaxLength="15" />
-    <Property Name="LocalPlan" Type="varchar" MaxLength="100" />
-    <Property Name="BMPStatus" Type="varchar" MaxLength="100" />
-    <Property Name="FireDistrict" Type="varchar" MaxLength="100" />
-    <Property Name="HRA" Type="varchar" MaxLength="100" />
-    <Property Name="AutoImported" Type="bit" Nullable="false" />
-    <Property Name="LastUpdateDate" Type="datetime" />
-    <Property Name="LandCapability" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjectFirma.dbo.vParcelLandCapability' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
--->
-  <EntityType Name="vParcelLandCapability">
-    <Key>
-      <PropertyRef Name="ParcelID" />
-    </Key>
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="SquareFootage" Type="int" />
-    <Property Name="BaileyRatingID" Type="int" />
-    <Property Name="IPESScore" Type="smallint" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjectFirma.dbo.vParcelLandCapabilityCombinedDescription' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
--->
-  <EntityType Name="vParcelLandCapabilityCombinedDescription">
-    <Key>
-      <PropertyRef Name="ParcelID" />
-    </Key>
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="LandCapability" Type="nvarchar(max)" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjectFirma.dbo.vParcelTransactionFillColor' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
--->
-  <EntityType Name="vParcelTransactionFillColor">
-    <Key>
-      <PropertyRef Name="ParcelID" />
-    </Key>
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="LastUpdateDate" Type="datetime" />
-    <Property Name="ParcelFillColor" Type="varchar" MaxLength="7" />
-  </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
 -->
@@ -3557,59 +2237,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
     <Property Name="OldEipNumber" Type="varchar" MaxLength="100" />
     <Property Name="ImplementsMultipleProjects" Type="bit" Nullable="false" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjectFirma.dbo.vTdrTransactionCanBeCountedInInventory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
--->
-  <EntityType Name="vTdrTransactionCanBeCountedInInventory">
-    <Key>
-      <PropertyRef Name="TdrTransactionID" />
-      <PropertyRef Name="LeadAgencyID" />
-      <PropertyRef Name="LeadAgencyAbbreviation" />
-      <PropertyRef Name="TransactionTypeID" />
-      <PropertyRef Name="TransactionTypeAbbreviation" />
-      <PropertyRef Name="CommodityID" />
-      <PropertyRef Name="TransactionStateID" />
-      <PropertyRef Name="LastUpdateDate" />
-    </Key>
-    <Property Name="TdrTransactionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="LeadAgencyID" Type="int" Nullable="false" />
-    <Property Name="LeadAgencyAbbreviation" Type="varchar" Nullable="false" MaxLength="10" />
-    <Property Name="TransactionTypeID" Type="int" Nullable="false" />
-    <Property Name="TransactionTypeAbbreviation" Type="varchar" Nullable="false" MaxLength="10" />
-    <Property Name="CommodityID" Type="int" Nullable="false" />
-    <Property Name="TransactionStateID" Type="int" Nullable="false" />
-    <Property Name="LastUpdateDate" Type="datetime" Nullable="false" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjectFirma.dbo.vTransactedAndBankedCommodities' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
--->
-  <EntityType Name="vTransactedAndBankedCommodities">
-    <Key>
-      <PropertyRef Name="ParcelID" />
-      <PropertyRef Name="CommodityID" />
-      <PropertyRef Name="LastUpdateDate" />
-      <PropertyRef Name="ParcelAction" />
-    </Key>
-    <Property Name="ParcelID" Type="int" Nullable="false" />
-    <Property Name="TransactionTypeID" Type="int" />
-    <Property Name="CommodityID" Type="int" Nullable="false" />
-    <Property Name="BaileyRatingID" Type="int" />
-    <Property Name="Quantity" Type="int" />
-    <Property Name="LastUpdateDate" Type="datetime" Nullable="false" />
-    <Property Name="ParcelAction" Type="varchar" Nullable="false" MaxLength="11" />
-  </EntityType>
-  <Association Name="FK_AccelaJurisdictionToJurisdictionMapping_Jurisdiction_JurisdictionID">
-    <End Role="Jurisdiction" Type="ProjectFirma.Web.Models.Store.Jurisdiction" Multiplicity="0..1" />
-    <End Role="AccelaJurisdictionToJurisdictionMappings" Type="ProjectFirma.Web.Models.Store.AccelaJurisdictionToJurisdictionMapping" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Jurisdiction">
-        <PropertyRef Name="JurisdictionID" />
-      </Principal>
-      <Dependent Role="AccelaJurisdictionToJurisdictionMappings">
-        <PropertyRef Name="JurisdictionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ActionPriority_Program_ProgramID">
     <End Role="Program" Type="ProjectFirma.Web.Models.Store.Program" Multiplicity="1" />
     <End Role="ActionPriorities" Type="ProjectFirma.Web.Models.Store.ActionPriority" Multiplicity="*" />
@@ -3655,126 +2282,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vTransactedAndBankedCommodities' 
       </Principal>
       <Dependent Role="AuditLogs">
         <PropertyRef Name="PersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_BankedCommodity_CommodityBaileyRating_CommodityBaileyRatingID">
-    <End Role="CommodityBaileyRating" Type="ProjectFirma.Web.Models.Store.CommodityBaileyRating" Multiplicity="1" />
-    <End Role="BankedCommodities" Type="ProjectFirma.Web.Models.Store.BankedCommodity" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CommodityBaileyRating">
-        <PropertyRef Name="CommodityBaileyRatingID" />
-      </Principal>
-      <Dependent Role="BankedCommodities">
-        <PropertyRef Name="CommodityBaileyRatingID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_BankedCommodity_Parcel_ParcelID">
-    <End Role="Parcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="BankedCommodities" Type="ProjectFirma.Web.Models.Store.BankedCommodity" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Parcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="BankedCommodities">
-        <PropertyRef Name="ParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_BankedCommodity_Person_LastUpdatePersonID_PersonID">
-    <End Role="LastUpdatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
-    <End Role="BankedCommoditiesWhereYouAreTheLastUpdatePerson" Type="ProjectFirma.Web.Models.Store.BankedCommodity" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LastUpdatePerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="BankedCommoditiesWhereYouAreTheLastUpdatePerson">
-        <PropertyRef Name="LastUpdatePersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_CommodityPool_Jurisdiction_JurisdictionID">
-    <End Role="Jurisdiction" Type="ProjectFirma.Web.Models.Store.Jurisdiction" Multiplicity="1" />
-    <End Role="CommodityPools" Type="ProjectFirma.Web.Models.Store.CommodityPool" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Jurisdiction">
-        <PropertyRef Name="JurisdictionID" />
-      </Principal>
-      <Dependent Role="CommodityPools">
-        <PropertyRef Name="JurisdictionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_CommodityPool_Person_InactivatedByPersonID_PersonID">
-    <End Role="InactivatedByPerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
-    <End Role="CommodityPoolsWhereYouAreTheInactivatedByPerson" Type="ProjectFirma.Web.Models.Store.CommodityPool" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="InactivatedByPerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="CommodityPoolsWhereYouAreTheInactivatedByPerson">
-        <PropertyRef Name="InactivatedByPersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_CommodityPoolDisbursement_CommodityPool_CommodityPoolID">
-    <End Role="CommodityPool" Type="ProjectFirma.Web.Models.Store.CommodityPool" Multiplicity="1" />
-    <End Role="CommodityPoolDisbursements" Type="ProjectFirma.Web.Models.Store.CommodityPoolDisbursement" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CommodityPool">
-        <PropertyRef Name="CommodityPoolID" />
-      </Principal>
-      <Dependent Role="CommodityPoolDisbursements">
-        <PropertyRef Name="CommodityPoolID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_CommodityPoolDisbursement_Person_CreatePersonID_PersonID">
-    <End Role="CreatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
-    <End Role="CommodityPoolDisbursementsWhereYouAreTheCreatePerson" Type="ProjectFirma.Web.Models.Store.CommodityPoolDisbursement" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CreatePerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="CommodityPoolDisbursementsWhereYouAreTheCreatePerson">
-        <PropertyRef Name="CreatePersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_CommodityPoolDisbursement_Person_UpdatePersonID_PersonID">
-    <End Role="UpdatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
-    <End Role="CommodityPoolDisbursementsWhereYouAreTheUpdatePerson" Type="ProjectFirma.Web.Models.Store.CommodityPoolDisbursement" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UpdatePerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="CommodityPoolDisbursementsWhereYouAreTheUpdatePerson">
-        <PropertyRef Name="UpdatePersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID">
-    <End Role="ProjectFirmaPage" Type="ProjectFirma.Web.Models.Store.ProjectFirmaPage" Multiplicity="1" />
-    <End Role="ProjectFirmaPageImages" Type="ProjectFirma.Web.Models.Store.ProjectFirmaPageImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProjectFirmaPage">
-        <PropertyRef Name="ProjectFirmaPageID" />
-      </Principal>
-      <Dependent Role="ProjectFirmaPageImages">
-        <PropertyRef Name="ProjectFirmaPageID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectFirmaPageImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
-    <End Role="ProjectFirmaPageImages" Type="ProjectFirma.Web.Models.Store.ProjectFirmaPageImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="ProjectFirmaPageImages">
-        <PropertyRef Name="FileResourceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -4318,114 +2825,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vTransactedAndBankedCommodities' 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_LandBank_LeadAgency_LeadAgencyID">
-    <End Role="LeadAgency" Type="ProjectFirma.Web.Models.Store.LeadAgency" Multiplicity="1" />
-    <End Role="LandBanks" Type="ProjectFirma.Web.Models.Store.LandBank" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LeadAgency">
-        <PropertyRef Name="LeadAgencyID" />
-      </Principal>
-      <Dependent Role="LandBanks">
-        <PropertyRef Name="LeadAgencyID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_LandBank_Parcel_ParcelID">
-    <End Role="Parcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="LandBanks" Type="ProjectFirma.Web.Models.Store.LandBank" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Parcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="LandBanks">
-        <PropertyRef Name="ParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_LeadAgency_Organization_OrganizationID">
-    <End Role="Organization" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="1" />
-    <End Role="LeadAgencies" Type="ProjectFirma.Web.Models.Store.LeadAgency" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Organization">
-        <PropertyRef Name="OrganizationID" />
-      </Principal>
-      <Dependent Role="LeadAgencies">
-        <PropertyRef Name="OrganizationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_LeadAgencyRightOfWayCoverage_LeadAgency_LeadAgencyID">
-    <End Role="LeadAgency" Type="ProjectFirma.Web.Models.Store.LeadAgency" Multiplicity="1" />
-    <End Role="LeadAgencyRightOfWayCoverages" Type="ProjectFirma.Web.Models.Store.LeadAgencyRightOfWayCoverage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LeadAgency">
-        <PropertyRef Name="LeadAgencyID" />
-      </Principal>
-      <Dependent Role="LeadAgencyRightOfWayCoverages">
-        <PropertyRef Name="LeadAgencyID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_LeadAgencyRightOfWayCoverage_Person_LastUpdatePersonID_PersonID">
-    <End Role="LastUpdatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
-    <End Role="LeadAgencyRightOfWayCoveragesWhereYouAreTheLastUpdatePerson" Type="ProjectFirma.Web.Models.Store.LeadAgencyRightOfWayCoverage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LastUpdatePerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="LeadAgencyRightOfWayCoveragesWhereYouAreTheLastUpdatePerson">
-        <PropertyRef Name="LastUpdatePersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_LeadAgencyTransactionTypeCommodity_LeadAgency_LeadAgencyID">
-    <End Role="LeadAgency" Type="ProjectFirma.Web.Models.Store.LeadAgency" Multiplicity="1" />
-    <End Role="LeadAgencyTransactionTypeCommodities" Type="ProjectFirma.Web.Models.Store.LeadAgencyTransactionTypeCommodity" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LeadAgency">
-        <PropertyRef Name="LeadAgencyID" />
-      </Principal>
-      <Dependent Role="LeadAgencyTransactionTypeCommodities">
-        <PropertyRef Name="LeadAgencyID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_LeadAgencyTransactionTypeCommodity_TransactionTypeCommodity_TransactionTypeCommodityID">
-    <End Role="TransactionTypeCommodity" Type="ProjectFirma.Web.Models.Store.TransactionTypeCommodity" Multiplicity="1" />
-    <End Role="LeadAgencyTransactionTypeCommodities" Type="ProjectFirma.Web.Models.Store.LeadAgencyTransactionTypeCommodity" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TransactionTypeCommodity">
-        <PropertyRef Name="TransactionTypeCommodityID" />
-      </Principal>
-      <Dependent Role="LeadAgencyTransactionTypeCommodities">
-        <PropertyRef Name="TransactionTypeCommodityID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_LeadAgencyTransactionTypeCommodityLog_LeadAgency_LeadAgencyID">
-    <End Role="LeadAgency" Type="ProjectFirma.Web.Models.Store.LeadAgency" Multiplicity="1" />
-    <End Role="LeadAgencyTransactionTypeCommodityLogs" Type="ProjectFirma.Web.Models.Store.LeadAgencyTransactionTypeCommodityLog" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LeadAgency">
-        <PropertyRef Name="LeadAgencyID" />
-      </Principal>
-      <Dependent Role="LeadAgencyTransactionTypeCommodityLogs">
-        <PropertyRef Name="LeadAgencyID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_LeadAgencyTransactionTypeCommodityLog_TransactionTypeCommodity_TransactionTypeCommodityID">
-    <End Role="TransactionTypeCommodity" Type="ProjectFirma.Web.Models.Store.TransactionTypeCommodity" Multiplicity="1" />
-    <End Role="LeadAgencyTransactionTypeCommodityLogs" Type="ProjectFirma.Web.Models.Store.LeadAgencyTransactionTypeCommodityLog" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TransactionTypeCommodity">
-        <PropertyRef Name="TransactionTypeCommodityID" />
-      </Principal>
-      <Dependent Role="LeadAgencyTransactionTypeCommodityLogs">
-        <PropertyRef Name="TransactionTypeCommodityID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_MonitoringProgramDocument_FileResource_FileResourceID">
     <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
     <End Role="MonitoringProgramDocuments" Type="ProjectFirma.Web.Models.Store.MonitoringProgramDocument" Multiplicity="*" />
@@ -4555,234 +2954,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vTransactedAndBankedCommodities' 
       </Principal>
       <Dependent Role="OrganizationsWhereYouAreThePrimaryContactPerson">
         <PropertyRef Name="PrimaryContactPersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Parcel_Jurisdiction_JurisdictionID">
-    <End Role="Jurisdiction" Type="ProjectFirma.Web.Models.Store.Jurisdiction" Multiplicity="1" />
-    <End Role="Parcels" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Jurisdiction">
-        <PropertyRef Name="JurisdictionID" />
-      </Principal>
-      <Dependent Role="Parcels">
-        <PropertyRef Name="JurisdictionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Parcel_Watershed_WatershedID">
-    <End Role="Watershed" Type="ProjectFirma.Web.Models.Store.Watershed" Multiplicity="0..1" />
-    <End Role="Parcels" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Watershed">
-        <PropertyRef Name="WatershedID" />
-      </Principal>
-      <Dependent Role="Parcels">
-        <PropertyRef Name="WatershedID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelAccelaCAPRecord_AccelaCAPRecord_AccelaCAPRecordID">
-    <End Role="AccelaCAPRecord" Type="ProjectFirma.Web.Models.Store.AccelaCAPRecord" Multiplicity="1" />
-    <End Role="ParcelAccelaCAPRecords" Type="ProjectFirma.Web.Models.Store.ParcelAccelaCAPRecord" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AccelaCAPRecord">
-        <PropertyRef Name="AccelaCAPRecordID" />
-      </Principal>
-      <Dependent Role="ParcelAccelaCAPRecords">
-        <PropertyRef Name="AccelaCAPRecordID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelAccelaCAPRecord_Parcel_ParcelID">
-    <End Role="Parcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="ParcelAccelaCAPRecords" Type="ProjectFirma.Web.Models.Store.ParcelAccelaCAPRecord" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Parcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="ParcelAccelaCAPRecords">
-        <PropertyRef Name="ParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelCommodityBaileyRatingConfirmation_Parcel_ParcelID">
-    <End Role="Parcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="ParcelCommodityBaileyRatingConfirmations" Type="ProjectFirma.Web.Models.Store.ParcelCommodityBaileyRatingConfirmation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Parcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="ParcelCommodityBaileyRatingConfirmations">
-        <PropertyRef Name="ParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelCommodityBaileyRatingConfirmation_Person_ConfirmedByPersonID_PersonID">
-    <End Role="ConfirmedByPerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
-    <End Role="ParcelCommodityBaileyRatingConfirmationsWhereYouAreTheConfirmedByPerson" Type="ProjectFirma.Web.Models.Store.ParcelCommodityBaileyRatingConfirmation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ConfirmedByPerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="ParcelCommodityBaileyRatingConfirmationsWhereYouAreTheConfirmedByPerson">
-        <PropertyRef Name="ConfirmedByPersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelDistanceFromTownCenter_Parcel_ParcelID">
-    <End Role="Parcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="ParcelDistanceFromTownCenters" Type="ProjectFirma.Web.Models.Store.ParcelDistanceFromTownCenter" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Parcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="ParcelDistanceFromTownCenters">
-        <PropertyRef Name="ParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelDistanceFromTownCenter_TownCenter_TownCenterID">
-    <End Role="TownCenter" Type="ProjectFirma.Web.Models.Store.TownCenter" Multiplicity="1" />
-    <End Role="ParcelDistanceFromTownCenters" Type="ProjectFirma.Web.Models.Store.ParcelDistanceFromTownCenter" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TownCenter">
-        <PropertyRef Name="TownCenterID" />
-      </Principal>
-      <Dependent Role="ParcelDistanceFromTownCenters">
-        <PropertyRef Name="TownCenterID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelExistingPhysicalInventory_CommodityBaileyRating_CommodityBaileyRatingID">
-    <End Role="CommodityBaileyRating" Type="ProjectFirma.Web.Models.Store.CommodityBaileyRating" Multiplicity="1" />
-    <End Role="ParcelExistingPhysicalInventories" Type="ProjectFirma.Web.Models.Store.ParcelExistingPhysicalInventory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CommodityBaileyRating">
-        <PropertyRef Name="CommodityBaileyRatingID" />
-      </Principal>
-      <Dependent Role="ParcelExistingPhysicalInventories">
-        <PropertyRef Name="CommodityBaileyRatingID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelExistingPhysicalInventory_Parcel_ParcelID">
-    <End Role="Parcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="ParcelExistingPhysicalInventories" Type="ProjectFirma.Web.Models.Store.ParcelExistingPhysicalInventory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Parcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="ParcelExistingPhysicalInventories">
-        <PropertyRef Name="ParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelExistingPhysicalInventory_Person_LastUpdatePersonID_PersonID">
-    <End Role="LastUpdatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
-    <End Role="ParcelExistingPhysicalInventoriesWhereYouAreTheLastUpdatePerson" Type="ProjectFirma.Web.Models.Store.ParcelExistingPhysicalInventory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LastUpdatePerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="ParcelExistingPhysicalInventoriesWhereYouAreTheLastUpdatePerson">
-        <PropertyRef Name="LastUpdatePersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelGeometry_Parcel_ParcelID">
-    <End Role="Parcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="0..1" />
-    <End Role="ParcelGeometries" Type="ProjectFirma.Web.Models.Store.ParcelGeometry" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Parcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="ParcelGeometries">
-        <PropertyRef Name="ParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
-    <End Role="ParcelImages" Type="ProjectFirma.Web.Models.Store.ParcelImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="ParcelImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelImage_Parcel_ParcelID">
-    <End Role="Parcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="ParcelImages" Type="ProjectFirma.Web.Models.Store.ParcelImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Parcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="ParcelImages">
-        <PropertyRef Name="ParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelLandCapability_AccelaCAPRecord_AccelaCAPRecordID">
-    <End Role="AccelaCAPRecord" Type="ProjectFirma.Web.Models.Store.AccelaCAPRecord" Multiplicity="0..1" />
-    <End Role="ParcelLandCapabilities" Type="ProjectFirma.Web.Models.Store.ParcelLandCapability" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AccelaCAPRecord">
-        <PropertyRef Name="AccelaCAPRecordID" />
-      </Principal>
-      <Dependent Role="ParcelLandCapabilities">
-        <PropertyRef Name="AccelaCAPRecordID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelLandCapability_FileResource_SitePlanFileResourceID_FileResourceID">
-    <End Role="SitePlanFileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="0..1" />
-    <End Role="ParcelLandCapabilitiesWhereYouAreTheSitePlanFileResource" Type="ProjectFirma.Web.Models.Store.ParcelLandCapability" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SitePlanFileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="ParcelLandCapabilitiesWhereYouAreTheSitePlanFileResource">
-        <PropertyRef Name="SitePlanFileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelLandCapability_Parcel_ParcelID">
-    <End Role="Parcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="ParcelLandCapabilities" Type="ProjectFirma.Web.Models.Store.ParcelLandCapability" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Parcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="ParcelLandCapabilities">
-        <PropertyRef Name="ParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelLandCapability_Person_LastUpdatePersonID_PersonID">
-    <End Role="LastUpdatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
-    <End Role="ParcelLandCapabilitiesWhereYouAreTheLastUpdatePerson" Type="ProjectFirma.Web.Models.Store.ParcelLandCapability" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LastUpdatePerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="ParcelLandCapabilitiesWhereYouAreTheLastUpdatePerson">
-        <PropertyRef Name="LastUpdatePersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ParcelLandCapabilityRating_ParcelLandCapability_ParcelLandCapabilityID">
-    <End Role="ParcelLandCapability" Type="ProjectFirma.Web.Models.Store.ParcelLandCapability" Multiplicity="1" />
-    <End Role="ParcelLandCapabilityRatings" Type="ProjectFirma.Web.Models.Store.ParcelLandCapabilityRating" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ParcelLandCapability">
-        <PropertyRef Name="ParcelLandCapabilityID" />
-      </Principal>
-      <Dependent Role="ParcelLandCapabilityRatings">
-        <PropertyRef Name="ParcelLandCapabilityID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -4951,6 +3122,30 @@ warning 6002: The table/view 'ProjectFirma.dbo.vTransactedAndBankedCommodities' 
       </Principal>
       <Dependent Role="ProjectExternalLinkUpdates">
         <PropertyRef Name="ProjectUpdateBatchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectFirmaPageImage_FileResource_FileResourceID">
+    <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
+    <End Role="ProjectFirmaPageImages" Type="ProjectFirma.Web.Models.Store.ProjectFirmaPageImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="ProjectFirmaPageImages">
+        <PropertyRef Name="FileResourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID">
+    <End Role="ProjectFirmaPage" Type="ProjectFirma.Web.Models.Store.ProjectFirmaPage" Multiplicity="1" />
+    <End Role="ProjectFirmaPageImages" Type="ProjectFirma.Web.Models.Store.ProjectFirmaPageImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectFirmaPage">
+        <PropertyRef Name="ProjectFirmaPageID" />
+      </Principal>
+      <Dependent Role="ProjectFirmaPageImages">
+        <PropertyRef Name="ProjectFirmaPageID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -5770,78 +3965,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vTransactedAndBankedCommodities' 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ResidentialAllocation_CommodityPool_CommodityPoolID">
-    <End Role="CommodityPool" Type="ProjectFirma.Web.Models.Store.CommodityPool" Multiplicity="1" />
-    <End Role="ResidentialAllocations" Type="ProjectFirma.Web.Models.Store.ResidentialAllocation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CommodityPool">
-        <PropertyRef Name="CommodityPoolID" />
-      </Principal>
-      <Dependent Role="ResidentialAllocations">
-        <PropertyRef Name="CommodityPoolID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ResidentialAllocation_CommodityPoolDisbursement_CommodityPoolDisbursementID">
-    <End Role="CommodityPoolDisbursement" Type="ProjectFirma.Web.Models.Store.CommodityPoolDisbursement" Multiplicity="1" />
-    <End Role="ResidentialAllocations" Type="ProjectFirma.Web.Models.Store.ResidentialAllocation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CommodityPoolDisbursement">
-        <PropertyRef Name="CommodityPoolDisbursementID" />
-      </Principal>
-      <Dependent Role="ResidentialAllocations">
-        <PropertyRef Name="CommodityPoolDisbursementID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ResidentialAllocation_Jurisdiction_AssignedToJurisdictionID_JurisdictionID">
-    <End Role="AssignedToJurisdiction" Type="ProjectFirma.Web.Models.Store.Jurisdiction" Multiplicity="0..1" />
-    <End Role="ResidentialAllocationsWhereYouAreTheAssignedToJurisdiction" Type="ProjectFirma.Web.Models.Store.ResidentialAllocation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AssignedToJurisdiction">
-        <PropertyRef Name="JurisdictionID" />
-      </Principal>
-      <Dependent Role="ResidentialAllocationsWhereYouAreTheAssignedToJurisdiction">
-        <PropertyRef Name="AssignedToJurisdictionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ResidentialAllocation_Jurisdiction_JurisdictionID">
-    <End Role="Jurisdiction" Type="ProjectFirma.Web.Models.Store.Jurisdiction" Multiplicity="1" />
-    <End Role="ResidentialAllocations" Type="ProjectFirma.Web.Models.Store.ResidentialAllocation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Jurisdiction">
-        <PropertyRef Name="JurisdictionID" />
-      </Principal>
-      <Dependent Role="ResidentialAllocations">
-        <PropertyRef Name="JurisdictionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ResidentialAllocation_TdrTransaction_TdrTransactionID">
-    <End Role="TdrTransaction" Type="ProjectFirma.Web.Models.Store.TdrTransaction" Multiplicity="0..1" />
-    <End Role="ResidentialAllocations" Type="ProjectFirma.Web.Models.Store.ResidentialAllocation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TdrTransaction">
-        <PropertyRef Name="TdrTransactionID" />
-      </Principal>
-      <Dependent Role="ResidentialAllocations">
-        <PropertyRef Name="TdrTransactionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ResidentialAllocation_TdrTransaction_WithdrawnTdrTransactionID_TdrTransactionID">
-    <End Role="WithdrawnTdrTransaction" Type="ProjectFirma.Web.Models.Store.TdrTransaction" Multiplicity="0..1" />
-    <End Role="ResidentialAllocationsWhereYouAreTheWithdrawnTdrTransaction" Type="ProjectFirma.Web.Models.Store.ResidentialAllocation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="WithdrawnTdrTransaction">
-        <PropertyRef Name="TdrTransactionID" />
-      </Principal>
-      <Dependent Role="ResidentialAllocationsWhereYouAreTheWithdrawnTdrTransaction">
-        <PropertyRef Name="WithdrawnTdrTransactionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_SnapshotEIPPerformanceMeasure_EIPPerformanceMeasure_EIPPerformanceMeasureID">
     <End Role="EIPPerformanceMeasure" Type="ProjectFirma.Web.Models.Store.EIPPerformanceMeasure" Multiplicity="1" />
     <End Role="SnapshotEIPPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.SnapshotEIPPerformanceMeasure" Multiplicity="*" />
@@ -6079,426 +4202,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vTransactedAndBankedCommodities' 
       </Principal>
       <Dependent Role="SustainabilityIndicatorReportingPeriods">
         <PropertyRef Name="SustainabilityIndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransaction_AccelaCAPRecord_AccelaCAPRecordID">
-    <End Role="AccelaCAPRecord" Type="ProjectFirma.Web.Models.Store.AccelaCAPRecord" Multiplicity="0..1" />
-    <End Role="TdrTransactions" Type="ProjectFirma.Web.Models.Store.TdrTransaction" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AccelaCAPRecord">
-        <PropertyRef Name="AccelaCAPRecordID" />
-      </Principal>
-      <Dependent Role="TdrTransactions">
-        <PropertyRef Name="AccelaCAPRecordID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransaction_LeadAgency_LeadAgencyID">
-    <End Role="LeadAgency" Type="ProjectFirma.Web.Models.Store.LeadAgency" Multiplicity="1" />
-    <End Role="TdrTransactions" Type="ProjectFirma.Web.Models.Store.TdrTransaction" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LeadAgency">
-        <PropertyRef Name="LeadAgencyID" />
-      </Principal>
-      <Dependent Role="TdrTransactions">
-        <PropertyRef Name="LeadAgencyID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransaction_Person_LastUpdatePersonID_PersonID">
-    <End Role="LastUpdatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
-    <End Role="TdrTransactionsWhereYouAreTheLastUpdatePerson" Type="ProjectFirma.Web.Models.Store.TdrTransaction" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LastUpdatePerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="TdrTransactionsWhereYouAreTheLastUpdatePerson">
-        <PropertyRef Name="LastUpdatePersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransaction_TransactionTypeCommodity_TransactionTypeCommodityID">
-    <End Role="TransactionTypeCommodity" Type="ProjectFirma.Web.Models.Store.TransactionTypeCommodity" Multiplicity="1" />
-    <End Role="TdrTransactions" Type="ProjectFirma.Web.Models.Store.TdrTransaction" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TransactionTypeCommodity">
-        <PropertyRef Name="TransactionTypeCommodityID" />
-      </Principal>
-      <Dependent Role="TdrTransactions">
-        <PropertyRef Name="TransactionTypeCommodityID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionAllocation_CommodityPool_SendingAllocationPoolID_CommodityPoolID">
-    <End Role="SendingAllocationPool" Type="ProjectFirma.Web.Models.Store.CommodityPool" Multiplicity="1" />
-    <End Role="TdrTransactionAllocationsWhereYouAreTheSendingAllocationPool" Type="ProjectFirma.Web.Models.Store.TdrTransactionAllocation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SendingAllocationPool">
-        <PropertyRef Name="CommodityPoolID" />
-      </Principal>
-      <Dependent Role="TdrTransactionAllocationsWhereYouAreTheSendingAllocationPool">
-        <PropertyRef Name="SendingAllocationPoolID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionAllocation_Parcel_ReceivingParcelID_ParcelID">
-    <End Role="ReceivingParcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="TdrTransactionAllocationsWhereYouAreTheReceivingParcel" Type="ProjectFirma.Web.Models.Store.TdrTransactionAllocation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ReceivingParcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="TdrTransactionAllocationsWhereYouAreTheReceivingParcel">
-        <PropertyRef Name="ReceivingParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionAllocation_TdrTransaction_TdrTransactionID">
-    <End Role="TdrTransaction" Type="ProjectFirma.Web.Models.Store.TdrTransaction" Multiplicity="1" />
-    <End Role="TdrTransactionAllocations" Type="ProjectFirma.Web.Models.Store.TdrTransactionAllocation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TdrTransaction">
-        <PropertyRef Name="TdrTransactionID" />
-      </Principal>
-      <Dependent Role="TdrTransactionAllocations">
-        <PropertyRef Name="TdrTransactionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionAllocationAssignment_CommodityPool_SendingAllocationPoolID_CommodityPoolID">
-    <End Role="SendingAllocationPool" Type="ProjectFirma.Web.Models.Store.CommodityPool" Multiplicity="1" />
-    <End Role="TdrTransactionAllocationAssignmentsWhereYouAreTheSendingAllocationPool" Type="ProjectFirma.Web.Models.Store.TdrTransactionAllocationAssignment" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SendingAllocationPool">
-        <PropertyRef Name="CommodityPoolID" />
-      </Principal>
-      <Dependent Role="TdrTransactionAllocationAssignmentsWhereYouAreTheSendingAllocationPool">
-        <PropertyRef Name="SendingAllocationPoolID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionAllocationAssignment_Parcel_ReceivingParcelID_ParcelID">
-    <End Role="ReceivingParcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="TdrTransactionAllocationAssignmentsWhereYouAreTheReceivingParcel" Type="ProjectFirma.Web.Models.Store.TdrTransactionAllocationAssignment" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ReceivingParcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="TdrTransactionAllocationAssignmentsWhereYouAreTheReceivingParcel">
-        <PropertyRef Name="ReceivingParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionAllocationAssignment_Parcel_RetiredSensitiveParcelID_ParcelID">
-    <End Role="RetiredSensitiveParcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="TdrTransactionAllocationAssignmentsWhereYouAreTheRetiredSensitiveParcel" Type="ProjectFirma.Web.Models.Store.TdrTransactionAllocationAssignment" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="RetiredSensitiveParcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="TdrTransactionAllocationAssignmentsWhereYouAreTheRetiredSensitiveParcel">
-        <PropertyRef Name="RetiredSensitiveParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionAllocationAssignment_TdrTransaction_TdrTransactionID">
-    <End Role="TdrTransaction" Type="ProjectFirma.Web.Models.Store.TdrTransaction" Multiplicity="1" />
-    <End Role="TdrTransactionAllocationAssignments" Type="ProjectFirma.Web.Models.Store.TdrTransactionAllocationAssignment" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TdrTransaction">
-        <PropertyRef Name="TdrTransactionID" />
-      </Principal>
-      <Dependent Role="TdrTransactionAllocationAssignments">
-        <PropertyRef Name="TdrTransactionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionConversion_LandBank_LandBankID">
-    <End Role="LandBank" Type="ProjectFirma.Web.Models.Store.LandBank" Multiplicity="0..1" />
-    <End Role="TdrTransactionConversions" Type="ProjectFirma.Web.Models.Store.TdrTransactionConversion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LandBank">
-        <PropertyRef Name="LandBankID" />
-      </Principal>
-      <Dependent Role="TdrTransactionConversions">
-        <PropertyRef Name="LandBankID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionConversion_Parcel_ParcelID">
-    <End Role="Parcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="TdrTransactionConversions" Type="ProjectFirma.Web.Models.Store.TdrTransactionConversion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Parcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="TdrTransactionConversions">
-        <PropertyRef Name="ParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionConversion_TdrTransaction_TdrTransactionID">
-    <End Role="TdrTransaction" Type="ProjectFirma.Web.Models.Store.TdrTransaction" Multiplicity="1" />
-    <End Role="TdrTransactionConversions" Type="ProjectFirma.Web.Models.Store.TdrTransactionConversion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TdrTransaction">
-        <PropertyRef Name="TdrTransactionID" />
-      </Principal>
-      <Dependent Role="TdrTransactionConversions">
-        <PropertyRef Name="TdrTransactionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionConversionWithTransfer_LandBank_SendingLandBankID_LandBankID">
-    <End Role="SendingLandBank" Type="ProjectFirma.Web.Models.Store.LandBank" Multiplicity="0..1" />
-    <End Role="TdrTransactionConversionWithTransfersWhereYouAreTheSendingLandBank" Type="ProjectFirma.Web.Models.Store.TdrTransactionConversionWithTransfer" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SendingLandBank">
-        <PropertyRef Name="LandBankID" />
-      </Principal>
-      <Dependent Role="TdrTransactionConversionWithTransfersWhereYouAreTheSendingLandBank">
-        <PropertyRef Name="SendingLandBankID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionConversionWithTransfer_Parcel_ReceivingParcelID_ParcelID">
-    <End Role="ReceivingParcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="TdrTransactionConversionWithTransfersWhereYouAreTheReceivingParcel" Type="ProjectFirma.Web.Models.Store.TdrTransactionConversionWithTransfer" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ReceivingParcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="TdrTransactionConversionWithTransfersWhereYouAreTheReceivingParcel">
-        <PropertyRef Name="ReceivingParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionConversionWithTransfer_Parcel_SendingParcelID_ParcelID">
-    <End Role="SendingParcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="TdrTransactionConversionWithTransfersWhereYouAreTheSendingParcel" Type="ProjectFirma.Web.Models.Store.TdrTransactionConversionWithTransfer" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SendingParcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="TdrTransactionConversionWithTransfersWhereYouAreTheSendingParcel">
-        <PropertyRef Name="SendingParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionConversionWithTransfer_TdrTransaction_TdrTransactionID">
-    <End Role="TdrTransaction" Type="ProjectFirma.Web.Models.Store.TdrTransaction" Multiplicity="1" />
-    <End Role="TdrTransactionConversionWithTransfers" Type="ProjectFirma.Web.Models.Store.TdrTransactionConversionWithTransfer" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TdrTransaction">
-        <PropertyRef Name="TdrTransactionID" />
-      </Principal>
-      <Dependent Role="TdrTransactionConversionWithTransfers">
-        <PropertyRef Name="TdrTransactionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionECMRetirement_LandBank_LandBankID">
-    <End Role="LandBank" Type="ProjectFirma.Web.Models.Store.LandBank" Multiplicity="1" />
-    <End Role="TdrTransactionECMRetirements" Type="ProjectFirma.Web.Models.Store.TdrTransactionECMRetirement" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LandBank">
-        <PropertyRef Name="LandBankID" />
-      </Principal>
-      <Dependent Role="TdrTransactionECMRetirements">
-        <PropertyRef Name="LandBankID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionECMRetirement_Parcel_SendingParcelID_ParcelID">
-    <End Role="SendingParcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="TdrTransactionECMRetirementsWhereYouAreTheSendingParcel" Type="ProjectFirma.Web.Models.Store.TdrTransactionECMRetirement" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SendingParcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="TdrTransactionECMRetirementsWhereYouAreTheSendingParcel">
-        <PropertyRef Name="SendingParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionECMRetirement_TdrTransaction_TdrTransactionID">
-    <End Role="TdrTransaction" Type="ProjectFirma.Web.Models.Store.TdrTransaction" Multiplicity="1" />
-    <End Role="TdrTransactionECMRetirements" Type="ProjectFirma.Web.Models.Store.TdrTransactionECMRetirement" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TdrTransaction">
-        <PropertyRef Name="TdrTransactionID" />
-      </Principal>
-      <Dependent Role="TdrTransactionECMRetirements">
-        <PropertyRef Name="TdrTransactionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionLandBankAcquisition_LandBank_LandBankID">
-    <End Role="LandBank" Type="ProjectFirma.Web.Models.Store.LandBank" Multiplicity="1" />
-    <End Role="TdrTransactionLandBankAcquisitions" Type="ProjectFirma.Web.Models.Store.TdrTransactionLandBankAcquisition" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LandBank">
-        <PropertyRef Name="LandBankID" />
-      </Principal>
-      <Dependent Role="TdrTransactionLandBankAcquisitions">
-        <PropertyRef Name="LandBankID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionLandBankAcquisition_Parcel_SendingParcelID_ParcelID">
-    <End Role="SendingParcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="TdrTransactionLandBankAcquisitionsWhereYouAreTheSendingParcel" Type="ProjectFirma.Web.Models.Store.TdrTransactionLandBankAcquisition" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SendingParcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="TdrTransactionLandBankAcquisitionsWhereYouAreTheSendingParcel">
-        <PropertyRef Name="SendingParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionLandBankAcquisition_TdrTransaction_TdrTransactionID">
-    <End Role="TdrTransaction" Type="ProjectFirma.Web.Models.Store.TdrTransaction" Multiplicity="1" />
-    <End Role="TdrTransactionLandBankAcquisitions" Type="ProjectFirma.Web.Models.Store.TdrTransactionLandBankAcquisition" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TdrTransaction">
-        <PropertyRef Name="TdrTransactionID" />
-      </Principal>
-      <Dependent Role="TdrTransactionLandBankAcquisitions">
-        <PropertyRef Name="TdrTransactionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionStateHistory_Person_UpdatePersonID_PersonID">
-    <End Role="UpdatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
-    <End Role="TdrTransactionStateHistoriesWhereYouAreTheUpdatePerson" Type="ProjectFirma.Web.Models.Store.TdrTransactionStateHistory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UpdatePerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="TdrTransactionStateHistoriesWhereYouAreTheUpdatePerson">
-        <PropertyRef Name="UpdatePersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionStateHistory_TdrTransaction_TdrTransactionID">
-    <End Role="TdrTransaction" Type="ProjectFirma.Web.Models.Store.TdrTransaction" Multiplicity="1" />
-    <End Role="TdrTransactionStateHistories" Type="ProjectFirma.Web.Models.Store.TdrTransactionStateHistory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TdrTransaction">
-        <PropertyRef Name="TdrTransactionID" />
-      </Principal>
-      <Dependent Role="TdrTransactionStateHistories">
-        <PropertyRef Name="TdrTransactionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionTransfer_LandBank_SendingLandBankID_LandBankID">
-    <End Role="SendingLandBank" Type="ProjectFirma.Web.Models.Store.LandBank" Multiplicity="0..1" />
-    <End Role="TdrTransactionTransfersWhereYouAreTheSendingLandBank" Type="ProjectFirma.Web.Models.Store.TdrTransactionTransfer" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SendingLandBank">
-        <PropertyRef Name="LandBankID" />
-      </Principal>
-      <Dependent Role="TdrTransactionTransfersWhereYouAreTheSendingLandBank">
-        <PropertyRef Name="SendingLandBankID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionTransfer_Parcel_ReceivingParcelID_ParcelID">
-    <End Role="ReceivingParcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="TdrTransactionTransfersWhereYouAreTheReceivingParcel" Type="ProjectFirma.Web.Models.Store.TdrTransactionTransfer" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ReceivingParcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="TdrTransactionTransfersWhereYouAreTheReceivingParcel">
-        <PropertyRef Name="ReceivingParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionTransfer_Parcel_SendingParcelID_ParcelID">
-    <End Role="SendingParcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="TdrTransactionTransfersWhereYouAreTheSendingParcel" Type="ProjectFirma.Web.Models.Store.TdrTransactionTransfer" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SendingParcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="TdrTransactionTransfersWhereYouAreTheSendingParcel">
-        <PropertyRef Name="SendingParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionTransfer_TdrTransaction_TdrTransactionID">
-    <End Role="TdrTransaction" Type="ProjectFirma.Web.Models.Store.TdrTransaction" Multiplicity="1" />
-    <End Role="TdrTransactionTransfers" Type="ProjectFirma.Web.Models.Store.TdrTransactionTransfer" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TdrTransaction">
-        <PropertyRef Name="TdrTransactionID" />
-      </Principal>
-      <Dependent Role="TdrTransactionTransfers">
-        <PropertyRef Name="TdrTransactionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionTransferWithBonusUnit_CommodityPool_SendingBonusPoolID_CommodityPoolID">
-    <End Role="SendingBonusPool" Type="ProjectFirma.Web.Models.Store.CommodityPool" Multiplicity="1" />
-    <End Role="TdrTransactionTransferWithBonusUnitsWhereYouAreTheSendingBonusPool" Type="ProjectFirma.Web.Models.Store.TdrTransactionTransferWithBonusUnit" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SendingBonusPool">
-        <PropertyRef Name="CommodityPoolID" />
-      </Principal>
-      <Dependent Role="TdrTransactionTransferWithBonusUnitsWhereYouAreTheSendingBonusPool">
-        <PropertyRef Name="SendingBonusPoolID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionTransferWithBonusUnit_LandBank_SendingLandBankID_LandBankID">
-    <End Role="SendingLandBank" Type="ProjectFirma.Web.Models.Store.LandBank" Multiplicity="0..1" />
-    <End Role="TdrTransactionTransferWithBonusUnitsWhereYouAreTheSendingLandBank" Type="ProjectFirma.Web.Models.Store.TdrTransactionTransferWithBonusUnit" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SendingLandBank">
-        <PropertyRef Name="LandBankID" />
-      </Principal>
-      <Dependent Role="TdrTransactionTransferWithBonusUnitsWhereYouAreTheSendingLandBank">
-        <PropertyRef Name="SendingLandBankID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionTransferWithBonusUnit_Parcel_ReceivingParcelID_ParcelID">
-    <End Role="ReceivingParcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="TdrTransactionTransferWithBonusUnitsWhereYouAreTheReceivingParcel" Type="ProjectFirma.Web.Models.Store.TdrTransactionTransferWithBonusUnit" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ReceivingParcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="TdrTransactionTransferWithBonusUnitsWhereYouAreTheReceivingParcel">
-        <PropertyRef Name="ReceivingParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionTransferWithBonusUnit_Parcel_SendingParcelID_ParcelID">
-    <End Role="SendingParcel" Type="ProjectFirma.Web.Models.Store.Parcel" Multiplicity="1" />
-    <End Role="TdrTransactionTransferWithBonusUnitsWhereYouAreTheSendingParcel" Type="ProjectFirma.Web.Models.Store.TdrTransactionTransferWithBonusUnit" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SendingParcel">
-        <PropertyRef Name="ParcelID" />
-      </Principal>
-      <Dependent Role="TdrTransactionTransferWithBonusUnitsWhereYouAreTheSendingParcel">
-        <PropertyRef Name="SendingParcelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TdrTransactionTransferWithBonusUnit_TdrTransaction_TdrTransactionID">
-    <End Role="TdrTransaction" Type="ProjectFirma.Web.Models.Store.TdrTransaction" Multiplicity="1" />
-    <End Role="TdrTransactionTransferWithBonusUnits" Type="ProjectFirma.Web.Models.Store.TdrTransactionTransferWithBonusUnit" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TdrTransaction">
-        <PropertyRef Name="TdrTransactionID" />
-      </Principal>
-      <Dependent Role="TdrTransactionTransferWithBonusUnits">
-        <PropertyRef Name="TdrTransactionID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -6886,43 +4589,12 @@ warning 6002: The table/view 'ProjectFirma.dbo.vTransactedAndBankedCommodities' 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Function Name="fn_diagramobjects" ReturnType="int" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="LTrimX" ReturnType="varchar(max)" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="str" Type="varchar(max)" Mode="In" />
   </Function>
   <Function Name="RTrimX" ReturnType="varchar(max)" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="str" Type="varchar(max)" Mode="In" />
   </Function>
-  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="version" Type="int" Mode="In" />
-    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-  </Function>
-  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="version" Type="int" Mode="In" />
-    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-  </Function>
-  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-  </Function>
-  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="TrimX" ReturnType="varchar(max)" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="str" Type="varchar(max)" Mode="In" />
   </Function>

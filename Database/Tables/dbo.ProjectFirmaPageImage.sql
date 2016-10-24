@@ -18,12 +18,12 @@ CREATE TABLE [dbo].[ProjectFirmaPageImage](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[ProjectFirmaPageImage]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID] FOREIGN KEY([ProjectFirmaPageID])
-REFERENCES [dbo].[ProjectFirmaPage] ([ProjectFirmaPageID])
-GO
-ALTER TABLE [dbo].[ProjectFirmaPageImage] CHECK CONSTRAINT [FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID]
-GO
 ALTER TABLE [dbo].[ProjectFirmaPageImage]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFirmaPageImage_FileResource_FileResourceID] FOREIGN KEY([FileResourceID])
 REFERENCES [dbo].[FileResource] ([FileResourceID])
 GO
 ALTER TABLE [dbo].[ProjectFirmaPageImage] CHECK CONSTRAINT [FK_ProjectFirmaPageImage_FileResource_FileResourceID]
+GO
+ALTER TABLE [dbo].[ProjectFirmaPageImage]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID] FOREIGN KEY([ProjectFirmaPageID])
+REFERENCES [dbo].[ProjectFirmaPage] ([ProjectFirmaPageID])
+GO
+ALTER TABLE [dbo].[ProjectFirmaPageImage] CHECK CONSTRAINT [FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID]

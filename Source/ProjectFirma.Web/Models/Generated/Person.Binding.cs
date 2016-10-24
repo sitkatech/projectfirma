@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -24,19 +24,11 @@ namespace ProjectFirma.Web.Models
         protected Person()
         {
             this.AuditLogs = new HashSet<AuditLog>();
-            this.BankedCommoditiesWhereYouAreTheLastUpdatePerson = new HashSet<BankedCommodity>();
-            this.CommodityPoolsWhereYouAreTheInactivatedByPerson = new HashSet<CommodityPool>();
-            this.CommodityPoolDisbursementsWhereYouAreTheCreatePerson = new HashSet<CommodityPoolDisbursement>();
-            this.CommodityPoolDisbursementsWhereYouAreTheUpdatePerson = new HashSet<CommodityPoolDisbursement>();
             this.FileResourcesWhereYouAreTheCreatePerson = new HashSet<FileResource>();
             this.IndicatorNotesWhereYouAreTheCreatePerson = new HashSet<IndicatorNote>();
             this.IndicatorNotesWhereYouAreTheUpdatePerson = new HashSet<IndicatorNote>();
-            this.LeadAgencyRightOfWayCoveragesWhereYouAreTheLastUpdatePerson = new HashSet<LeadAgencyRightOfWayCoverage>();
             this.Notifications = new HashSet<Notification>();
             this.OrganizationsWhereYouAreThePrimaryContactPerson = new HashSet<Organization>();
-            this.ParcelCommodityBaileyRatingConfirmationsWhereYouAreTheConfirmedByPerson = new HashSet<ParcelCommodityBaileyRatingConfirmation>();
-            this.ParcelExistingPhysicalInventoriesWhereYouAreTheLastUpdatePerson = new HashSet<ParcelExistingPhysicalInventory>();
-            this.ParcelLandCapabilitiesWhereYouAreTheLastUpdatePerson = new HashSet<ParcelLandCapability>();
             this.PersonAreas = new HashSet<PersonArea>();
             this.ProjectNotesWhereYouAreTheCreatePerson = new HashSet<ProjectNote>();
             this.ProjectNotesWhereYouAreTheUpdatePerson = new HashSet<ProjectNote>();
@@ -49,14 +41,12 @@ namespace ProjectFirma.Web.Models
             this.ProposedProjectNotesWhereYouAreTheCreatePerson = new HashSet<ProposedProjectNote>();
             this.ProposedProjectNotesWhereYouAreTheUpdatePerson = new HashSet<ProposedProjectNote>();
             this.SupportRequestLogsWhereYouAreTheRequestPerson = new HashSet<SupportRequestLog>();
-            this.TdrTransactionsWhereYouAreTheLastUpdatePerson = new HashSet<TdrTransaction>();
-            this.TdrTransactionStateHistoriesWhereYouAreTheUpdatePerson = new HashSet<TdrTransactionStateHistory>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Person(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int eIPRoleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, int sustainabilityRoleID, int lTInfoRoleID, int parcelTrackerRoleID, Guid? webServiceAccessToken, int thresholdRoleID) : this()
+        public Person(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int eIPRoleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, int sustainabilityRoleID, int lTInfoRoleID, Guid? webServiceAccessToken, int thresholdRoleID) : this()
         {
             this.PersonID = personID;
             this.PersonGuid = personGuid;
@@ -73,7 +63,6 @@ namespace ProjectFirma.Web.Models
             this.OrganizationID = organizationID;
             this.SustainabilityRoleID = sustainabilityRoleID;
             this.LTInfoRoleID = lTInfoRoleID;
-            this.ParcelTrackerRoleID = parcelTrackerRoleID;
             this.WebServiceAccessToken = webServiceAccessToken;
             this.ThresholdRoleID = thresholdRoleID;
         }
@@ -81,7 +70,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Person(Guid personGuid, string firstName, string lastName, string email, int eIPRoleID, DateTime createDate, bool isActive, int organizationID, int sustainabilityRoleID, int lTInfoRoleID, int parcelTrackerRoleID, int thresholdRoleID) : this()
+        public Person(Guid personGuid, string firstName, string lastName, string email, int eIPRoleID, DateTime createDate, bool isActive, int organizationID, int sustainabilityRoleID, int lTInfoRoleID, int thresholdRoleID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -96,14 +85,13 @@ namespace ProjectFirma.Web.Models
             this.OrganizationID = organizationID;
             this.SustainabilityRoleID = sustainabilityRoleID;
             this.LTInfoRoleID = lTInfoRoleID;
-            this.ParcelTrackerRoleID = parcelTrackerRoleID;
             this.ThresholdRoleID = thresholdRoleID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Person(Guid personGuid, string firstName, string lastName, string email, EIPRole eIPRole, DateTime createDate, bool isActive, Organization organization, SustainabilityRole sustainabilityRole, LTInfoRole lTInfoRole, ParcelTrackerRole parcelTrackerRole, ThresholdRole thresholdRole) : this()
+        public Person(Guid personGuid, string firstName, string lastName, string email, EIPRole eIPRole, DateTime createDate, bool isActive, Organization organization, SustainabilityRole sustainabilityRole, LTInfoRole lTInfoRole, ThresholdRole thresholdRole) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -119,16 +107,15 @@ namespace ProjectFirma.Web.Models
             organization.People.Add(this);
             this.SustainabilityRoleID = sustainabilityRole.SustainabilityRoleID;
             this.LTInfoRoleID = lTInfoRole.LTInfoRoleID;
-            this.ParcelTrackerRoleID = parcelTrackerRole.ParcelTrackerRoleID;
             this.ThresholdRoleID = thresholdRole.ThresholdRoleID;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static Person CreateNewBlank(EIPRole eIPRole, Organization organization, SustainabilityRole sustainabilityRole, LTInfoRole lTInfoRole, ParcelTrackerRole parcelTrackerRole, ThresholdRole thresholdRole)
+        public static Person CreateNewBlank(EIPRole eIPRole, Organization organization, SustainabilityRole sustainabilityRole, LTInfoRole lTInfoRole, ThresholdRole thresholdRole)
         {
-            return new Person(default(Guid), default(string), default(string), default(string), eIPRole, default(DateTime), default(bool), organization, sustainabilityRole, lTInfoRole, parcelTrackerRole, thresholdRole);
+            return new Person(default(Guid), default(string), default(string), default(string), eIPRole, default(DateTime), default(bool), organization, sustainabilityRole, lTInfoRole, thresholdRole);
         }
 
         /// <summary>
@@ -137,13 +124,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AuditLogs.Any() || BankedCommoditiesWhereYouAreTheLastUpdatePerson.Any() || CommodityPoolsWhereYouAreTheInactivatedByPerson.Any() || CommodityPoolDisbursementsWhereYouAreTheCreatePerson.Any() || CommodityPoolDisbursementsWhereYouAreTheUpdatePerson.Any() || FileResourcesWhereYouAreTheCreatePerson.Any() || IndicatorNotesWhereYouAreTheCreatePerson.Any() || IndicatorNotesWhereYouAreTheUpdatePerson.Any() || LeadAgencyRightOfWayCoveragesWhereYouAreTheLastUpdatePerson.Any() || Notifications.Any() || OrganizationsWhereYouAreThePrimaryContactPerson.Any() || ParcelCommodityBaileyRatingConfirmationsWhereYouAreTheConfirmedByPerson.Any() || ParcelExistingPhysicalInventoriesWhereYouAreTheLastUpdatePerson.Any() || ParcelLandCapabilitiesWhereYouAreTheLastUpdatePerson.Any() || PersonAreas.Any() || ProjectNotesWhereYouAreTheCreatePerson.Any() || ProjectNotesWhereYouAreTheUpdatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheCreatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheUpdatePerson.Any() || ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Any() || ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.Any() || ProposedProjectsWhereYouAreTheProposingPerson.Any() || ProposedProjectsWhereYouAreTheReviewedByPerson.Any() || ProposedProjectNotesWhereYouAreTheCreatePerson.Any() || ProposedProjectNotesWhereYouAreTheUpdatePerson.Any() || SupportRequestLogsWhereYouAreTheRequestPerson.Any() || TdrTransactionsWhereYouAreTheLastUpdatePerson.Any() || TdrTransactionStateHistoriesWhereYouAreTheUpdatePerson.Any();
+            return AuditLogs.Any() || FileResourcesWhereYouAreTheCreatePerson.Any() || IndicatorNotesWhereYouAreTheCreatePerson.Any() || IndicatorNotesWhereYouAreTheUpdatePerson.Any() || Notifications.Any() || OrganizationsWhereYouAreThePrimaryContactPerson.Any() || PersonAreas.Any() || ProjectNotesWhereYouAreTheCreatePerson.Any() || ProjectNotesWhereYouAreTheUpdatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheCreatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheUpdatePerson.Any() || ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Any() || ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.Any() || ProposedProjectsWhereYouAreTheProposingPerson.Any() || ProposedProjectsWhereYouAreTheReviewedByPerson.Any() || ProposedProjectNotesWhereYouAreTheCreatePerson.Any() || ProposedProjectNotesWhereYouAreTheUpdatePerson.Any() || SupportRequestLogsWhereYouAreTheRequestPerson.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Person).Name, typeof(AuditLog).Name, typeof(BankedCommodity).Name, typeof(CommodityPool).Name, typeof(CommodityPoolDisbursement).Name, typeof(FileResource).Name, typeof(IndicatorNote).Name, typeof(LeadAgencyRightOfWayCoverage).Name, typeof(Notification).Name, typeof(Organization).Name, typeof(ParcelCommodityBaileyRatingConfirmation).Name, typeof(ParcelExistingPhysicalInventory).Name, typeof(ParcelLandCapability).Name, typeof(PersonArea).Name, typeof(ProjectNote).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectUpdateHistory).Name, typeof(ProposedProject).Name, typeof(ProposedProjectNote).Name, typeof(SupportRequestLog).Name, typeof(TdrTransaction).Name, typeof(TdrTransactionStateHistory).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Person).Name, typeof(AuditLog).Name, typeof(FileResource).Name, typeof(IndicatorNote).Name, typeof(Notification).Name, typeof(Organization).Name, typeof(PersonArea).Name, typeof(ProjectNote).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectUpdateHistory).Name, typeof(ProposedProject).Name, typeof(ProposedProjectNote).Name, typeof(SupportRequestLog).Name};
 
         [Key]
         public int PersonID { get; set; }
@@ -161,25 +148,16 @@ namespace ProjectFirma.Web.Models
         public int OrganizationID { get; set; }
         public int SustainabilityRoleID { get; set; }
         public int LTInfoRoleID { get; set; }
-        public int ParcelTrackerRoleID { get; set; }
         public Guid? WebServiceAccessToken { get; set; }
         public int ThresholdRoleID { get; set; }
         public int PrimaryKey { get { return PersonID; } set { PersonID = value; } }
 
         public virtual ICollection<AuditLog> AuditLogs { get; set; }
-        public virtual ICollection<BankedCommodity> BankedCommoditiesWhereYouAreTheLastUpdatePerson { get; set; }
-        public virtual ICollection<CommodityPool> CommodityPoolsWhereYouAreTheInactivatedByPerson { get; set; }
-        public virtual ICollection<CommodityPoolDisbursement> CommodityPoolDisbursementsWhereYouAreTheCreatePerson { get; set; }
-        public virtual ICollection<CommodityPoolDisbursement> CommodityPoolDisbursementsWhereYouAreTheUpdatePerson { get; set; }
         public virtual ICollection<FileResource> FileResourcesWhereYouAreTheCreatePerson { get; set; }
         public virtual ICollection<IndicatorNote> IndicatorNotesWhereYouAreTheCreatePerson { get; set; }
         public virtual ICollection<IndicatorNote> IndicatorNotesWhereYouAreTheUpdatePerson { get; set; }
-        public virtual ICollection<LeadAgencyRightOfWayCoverage> LeadAgencyRightOfWayCoveragesWhereYouAreTheLastUpdatePerson { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }
         public virtual ICollection<Organization> OrganizationsWhereYouAreThePrimaryContactPerson { get; set; }
-        public virtual ICollection<ParcelCommodityBaileyRatingConfirmation> ParcelCommodityBaileyRatingConfirmationsWhereYouAreTheConfirmedByPerson { get; set; }
-        public virtual ICollection<ParcelExistingPhysicalInventory> ParcelExistingPhysicalInventoriesWhereYouAreTheLastUpdatePerson { get; set; }
-        public virtual ICollection<ParcelLandCapability> ParcelLandCapabilitiesWhereYouAreTheLastUpdatePerson { get; set; }
         public virtual ICollection<PersonArea> PersonAreas { get; set; }
         public virtual ICollection<ProjectNote> ProjectNotesWhereYouAreTheCreatePerson { get; set; }
         public virtual ICollection<ProjectNote> ProjectNotesWhereYouAreTheUpdatePerson { get; set; }
@@ -192,13 +170,10 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProposedProjectNote> ProposedProjectNotesWhereYouAreTheCreatePerson { get; set; }
         public virtual ICollection<ProposedProjectNote> ProposedProjectNotesWhereYouAreTheUpdatePerson { get; set; }
         public virtual ICollection<SupportRequestLog> SupportRequestLogsWhereYouAreTheRequestPerson { get; set; }
-        public virtual ICollection<TdrTransaction> TdrTransactionsWhereYouAreTheLastUpdatePerson { get; set; }
-        public virtual ICollection<TdrTransactionStateHistory> TdrTransactionStateHistoriesWhereYouAreTheUpdatePerson { get; set; }
         public EIPRole EIPRole { get { return EIPRole.AllLookupDictionary[EIPRoleID]; } }
         public virtual Organization Organization { get; set; }
         public SustainabilityRole SustainabilityRole { get { return SustainabilityRole.AllLookupDictionary[SustainabilityRoleID]; } }
         public LTInfoRole LTInfoRole { get { return LTInfoRole.AllLookupDictionary[LTInfoRoleID]; } }
-        public ParcelTrackerRole ParcelTrackerRole { get { return ParcelTrackerRole.AllLookupDictionary[ParcelTrackerRoleID]; } }
         public ThresholdRole ThresholdRole { get { return ThresholdRole.AllLookupDictionary[ThresholdRoleID]; } }
 
         public static class FieldLengths

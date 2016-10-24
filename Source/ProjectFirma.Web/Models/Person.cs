@@ -4,7 +4,6 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using Keystone.Common;
 using LtInfo.Common;
-using LtInfo.Common.Models;
 using MoreLinq;
 
 namespace ProjectFirma.Web.Models
@@ -24,7 +23,6 @@ namespace ProjectFirma.Web.Models
             var anonymousSitkaUser = new Person { PersonID = AnonymousPersonID };
             // as we add new areas, we need to make sure we assign the anonymous user with the unassigned roles for each area
             anonymousSitkaUser.EIPRoleID = EIPRole.Unassigned.EIPRoleID;
-            anonymousSitkaUser.ParcelTrackerRoleID = ParcelTrackerRole.Unassigned.ParcelTrackerRoleID;
             anonymousSitkaUser.SustainabilityRoleID = SustainabilityRole.Unassigned.SustainabilityRoleID;
             anonymousSitkaUser.LTInfoRoleID = LTInfoRole.Unassigned.LTInfoRoleID;
             anonymousSitkaUser.ThresholdRoleID = ThresholdRole.Unassigned.ThresholdRoleID;
@@ -109,17 +107,6 @@ namespace ProjectFirma.Web.Models
             return notifications.MaxBy(y => y.NotificationDate);
         }
 
-
-        public bool IsAdministrator
-        {
-            get { return ParcelTrackerRole == ParcelTrackerRole.Admin; }
-        }
-
-        public bool IsPowerUser
-        {
-            get { return ParcelTrackerRole == ParcelTrackerRole.Power; }
-        }
-
         /// <summary>
         /// All role names of BOTH types used by Keystone not for user display 
         /// </summary>
@@ -132,24 +119,9 @@ namespace ProjectFirma.Web.Models
                     // the presence of roles switches you from being IsAuthenticated or not
                     return new List<string>();
                 }
-                var roleNames = new List<string> {EIPRole.EIPRoleName, ParcelTrackerRole.ParcelTrackerRoleName, LTInfoRole.LTInfoRoleName, SustainabilityRole.RoleName};
+                var roleNames = new List<string> {EIPRole.EIPRoleName, LTInfoRole.LTInfoRoleName, SustainabilityRole.RoleName};
                 return roleNames;
             }
-        }
-
-        public bool HasLeadAgency
-        {
-            get { return Organization != null && Organization.LeadAgency != null; }
-        }
-
-        public int LeadAgencyID
-        {
-            get { return HasLeadAgency ? Organization.LeadAgency.LeadAgencyID : ModelObjectHelpers.NotYetAssignedID; }
-        }
-
-        public bool IsLeadAgencyTRPAOrIsAdministrator()
-        {
-            return LeadAgencyID == LeadAgency.TRPALeadAgencyID || IsAdministrator;
         }
 
         public void SetKeystoneUserClaims(IKeystoneUserClaims keystoneUserClaims)

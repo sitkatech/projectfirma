@@ -21,7 +21,6 @@ namespace ProjectFirma.Web
             {string.Empty, ProjectFirmaWebConfiguration.CanonicalHostNameRoot},
             {LTInfoArea.EIP.LTInfoAreaName, ProjectFirmaWebConfiguration.CanonicalHostNameEIP},
             {LTInfoArea.Sustainability.LTInfoAreaName, ProjectFirmaWebConfiguration.CanonicalHostNameSustainability},
-            {LTInfoArea.ParcelTracker.LTInfoAreaName, ProjectFirmaWebConfiguration.CanonicalHostNameParcelTracker},
             {LTInfoArea.Threshold.LTInfoAreaName, ProjectFirmaWebConfiguration.CanonicalHostNameThresholds}
         };
 
@@ -58,9 +57,6 @@ namespace ProjectFirma.Web
                     "~/Areas/EIP/Views/Shared/ProjectLocationControls/{0}.cshtml",
                     "~/Areas/EIP/Views/Shared/ProjectUpdateDiffControls/{0}.cshtml"
                 }, defaultRoutes, AreasDictionary);
-
-            // we need to explicitly add the hangfire route
-            RouteTableBuilder.AddToRouteTable(new SitkaRouteTableEntry("Hangfire", "hangfire", "ProjectFirma.Web.Controllers", "Home", "hangfire", null, ProjectFirmaWebConfiguration.CanonicalHostNameRoot, null, false));
 
             Logger.InfoFormat("Latest Database Migration: {0}", ProjectFirmaWebConfiguration.LatestDatabaseMigration.Value);
             RegisterGlobalFilters(GlobalFilters.Filters);

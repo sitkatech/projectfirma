@@ -8,9 +8,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -19,7 +19,6 @@ namespace ProjectFirma.Web.Models
         public static readonly LTInfoAreaEIP EIP = LTInfoAreaEIP.Instance;
         public static readonly LTInfoAreaSustainability Sustainability = LTInfoAreaSustainability.Instance;
         public static readonly LTInfoAreaLTInfo LTInfo = LTInfoAreaLTInfo.Instance;
-        public static readonly LTInfoAreaParcelTracker ParcelTracker = LTInfoAreaParcelTracker.Instance;
         public static readonly LTInfoAreaThreshold Threshold = LTInfoAreaThreshold.Instance;
 
         public static readonly List<LTInfoArea> All;
@@ -30,7 +29,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static LTInfoArea()
         {
-            All = new List<LTInfoArea> { EIP, Sustainability, LTInfo, ParcelTracker, Threshold };
+            All = new List<LTInfoArea> { EIP, Sustainability, LTInfo, Threshold };
             AllLookupDictionary = new ReadOnlyDictionary<int, LTInfoArea>(All.ToDictionary(x => x.LTInfoAreaID));
         }
 
@@ -44,11 +43,10 @@ namespace ProjectFirma.Web.Models
             LTInfoAreaDisplayName = lTInfoAreaDisplayName;
             SortOrder = sortOrder;
         }
-        public List<ProjectFirmaPageType> ProjectFirmaPageTypesWhereYouAreThePrimaryLTInfoArea { get { return ProjectFirmaPageType.All.Where(x => x.PrimaryLTInfoAreaID == LTInfoAreaID).ToList(); } }
         public List<EIPRole> EIPRoles { get { return EIPRole.All.Where(x => x.LTInfoAreaID == LTInfoAreaID).ToList(); } }
         public List<FieldDefinition> FieldDefinitionsWhereYouAreThePrimaryLTInfoArea { get { return FieldDefinition.All.Where(x => x.PrimaryLTInfoAreaID == LTInfoAreaID).ToList(); } }
         public List<LTInfoRole> LTInfoRoles { get { return LTInfoRole.All.Where(x => x.LTInfoAreaID == LTInfoAreaID).ToList(); } }
-        public List<ParcelTrackerRole> ParcelTrackerRoles { get { return ParcelTrackerRole.All.Where(x => x.LTInfoAreaID == LTInfoAreaID).ToList(); } }
+        public List<ProjectFirmaPageType> ProjectFirmaPageTypesWhereYouAreThePrimaryLTInfoArea { get { return ProjectFirmaPageType.All.Where(x => x.PrimaryLTInfoAreaID == LTInfoAreaID).ToList(); } }
         public List<SupportRequestType> SupportRequestTypes { get { return SupportRequestType.All.Where(x => x.LTInfoAreaID == LTInfoAreaID).ToList(); } }
         public List<SustainabilityRole> SustainabilityRoles { get { return SustainabilityRole.All.Where(x => x.LTInfoAreaID == LTInfoAreaID).ToList(); } }
         public List<ThresholdRole> ThresholdRoles { get { return ThresholdRole.All.Where(x => x.LTInfoAreaID == LTInfoAreaID).ToList(); } }
@@ -112,8 +110,6 @@ namespace ProjectFirma.Web.Models
                     return EIP;
                 case LTInfoAreaEnum.LTInfo:
                     return LTInfo;
-                case LTInfoAreaEnum.ParcelTracker:
-                    return ParcelTracker;
                 case LTInfoAreaEnum.Sustainability:
                     return Sustainability;
                 case LTInfoAreaEnum.Threshold:
@@ -129,7 +125,6 @@ namespace ProjectFirma.Web.Models
         EIP = 1,
         Sustainability = 2,
         LTInfo = 3,
-        ParcelTracker = 4,
         Threshold = 5
     }
 
@@ -149,12 +144,6 @@ namespace ProjectFirma.Web.Models
     {
         private LTInfoAreaLTInfo(int lTInfoAreaID, string lTInfoAreaName, string lTInfoAreaDisplayName, int sortOrder) : base(lTInfoAreaID, lTInfoAreaName, lTInfoAreaDisplayName, sortOrder) {}
         public static readonly LTInfoAreaLTInfo Instance = new LTInfoAreaLTInfo(3, @"LTInfo", @"Lake Tahoe Info", 10);
-    }
-
-    public partial class LTInfoAreaParcelTracker : LTInfoArea
-    {
-        private LTInfoAreaParcelTracker(int lTInfoAreaID, string lTInfoAreaName, string lTInfoAreaDisplayName, int sortOrder) : base(lTInfoAreaID, lTInfoAreaName, lTInfoAreaDisplayName, sortOrder) {}
-        public static readonly LTInfoAreaParcelTracker Instance = new LTInfoAreaParcelTracker(4, @"ParcelTracker", @"Parcel Tracker", 40);
     }
 
     public partial class LTInfoAreaThreshold : LTInfoArea

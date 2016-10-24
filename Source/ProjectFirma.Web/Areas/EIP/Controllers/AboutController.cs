@@ -10,58 +10,18 @@ namespace ProjectFirma.Web.Areas.EIP.Controllers
     {
         [HttpGet]
         [AnonymousUnclassifiedFeature]
-        public ActionResult EIPOverview()
+        public ActionResult AboutClackamasPartnership()
         {
             var con = new HomeController() { ControllerContext = ControllerContext };
-            return con.ViewPageContent(ProjectFirmaPageTypeEnum.EIPOverview);
+            return con.ViewPageContent(ProjectFirmaPageTypeEnum.AboutClackamasPartnership);
         }
 
         [HttpGet]
         [AnonymousUnclassifiedFeature]
-        public ActionResult HistoryOfTheEIP()
+        public ActionResult Meetings()
         {
             var con = new HomeController { ControllerContext = ControllerContext };
-            return con.ViewPageContent(ProjectFirmaPageTypeEnum.HistoryOfTheEIP);
-        }
-
-        [HttpGet]
-        [AnonymousUnclassifiedFeature]
-        public ActionResult EIPPartners()
-        {
-            var con = new HomeController { ControllerContext = ControllerContext };
-            return con.ViewPageContent(ProjectFirmaPageTypeEnum.EIPPartners);
-        }
-
-        [HttpGet]
-        [AnonymousUnclassifiedFeature]
-        public ActionResult Faq()
-        {
-            var con = new HomeController { ControllerContext = ControllerContext };
-            return con.ViewPageContent(ProjectFirmaPageTypeEnum.EIPFaq);
-        }
-
-        [HttpGet]
-        [AnonymousUnclassifiedFeature]
-        public ActionResult ThisTool()
-        {
-            var con = new HomeController { ControllerContext = ControllerContext };
-            return con.ViewPageContent(ProjectFirmaPageTypeEnum.ThisTool);
-        }
-
-        [HttpGet]
-        [DemoScriptManageFeature]
-        public ActionResult DemoScript()
-        {
-            var con = new HomeController { ControllerContext = ControllerContext };
-            return con.ViewPageContent(ProjectFirmaPageTypeEnum.DemoScript);
-        }
-
-        [HttpGet]
-        [ProjectUpdateAdminFeature]
-        public ActionResult AnnualApprovalProcess()
-        {
-            var con = new HomeController { ControllerContext = ControllerContext };
-            return con.ViewPageContent(ProjectFirmaPageTypeEnum.AnnualApprovalProcess);
+            return con.ViewPageContent(ProjectFirmaPageTypeEnum.Meetings);
         }
     }
 }

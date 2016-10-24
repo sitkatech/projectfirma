@@ -131,24 +131,6 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         [CrossAreaRoute]
         [HttpGet]
-        public PartialViewResult UpdateParcelInformation(ParcelPrimaryKey parcelPrimaryKey)
-        {
-            var parcel = parcelPrimaryKey.EntityObject;
-            return ViewSupport(SupportRequestTypeEnum.UpdateParcelInformation, string.Format("Please update Parcel '{0}' with this information:{1}", parcel.ParcelNumber, Environment.NewLine));
-        }
-
-        [AnonymousUnclassifiedFeature]
-        [CrossAreaRoute]
-        [HttpPost]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult UpdateParcelInformation(ParcelPrimaryKey parcelPrimaryKey, SupportFormViewModel viewModel)
-        {
-            return Support(viewModel);
-        }
-
-        [AnonymousUnclassifiedFeature]
-        [CrossAreaRoute]
-        [HttpGet]
         public PartialViewResult RequestToBeAddedToFtipList(ProjectPrimaryKey projectPrimaryKey)
         {
             return ViewSupport(SupportRequestTypeEnum.RequestToBeAddedToFtipList, string.Empty);

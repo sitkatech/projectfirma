@@ -8,9 +8,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -23,7 +23,6 @@ namespace ProjectFirma.Web.Models
         public static readonly SupportRequestTypeNewOrganizationOrFundingSource NewOrganizationOrFundingSource = SupportRequestTypeNewOrganizationOrFundingSource.Instance;
         public static readonly SupportRequestTypeOther Other = SupportRequestTypeOther.Instance;
         public static readonly SupportRequestTypeRequestToBeAddedToFtipList RequestToBeAddedToFtipList = SupportRequestTypeRequestToBeAddedToFtipList.Instance;
-        public static readonly SupportRequestTypeUpdateParcelInformation UpdateParcelInformation = SupportRequestTypeUpdateParcelInformation.Instance;
         public static readonly SupportRequestTypeProvideFeedback ProvideFeedback = SupportRequestTypeProvideFeedback.Instance;
         public static readonly SupportRequestTypeRequestOrganizationNameChange RequestOrganizationNameChange = SupportRequestTypeRequestOrganizationNameChange.Instance;
 
@@ -35,7 +34,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static SupportRequestType()
         {
-            All = new List<SupportRequestType> { QuestionAboutPolicies, ReportBug, HelpWithProjectUpdate, ForgotLoginInfo, NewOrganizationOrFundingSource, Other, RequestToBeAddedToFtipList, UpdateParcelInformation, ProvideFeedback, RequestOrganizationNameChange };
+            All = new List<SupportRequestType> { QuestionAboutPolicies, ReportBug, HelpWithProjectUpdate, ForgotLoginInfo, NewOrganizationOrFundingSource, Other, RequestToBeAddedToFtipList, ProvideFeedback, RequestOrganizationNameChange };
             AllLookupDictionary = new ReadOnlyDictionary<int, SupportRequestType>(All.ToDictionary(x => x.SupportRequestTypeID));
         }
 
@@ -126,8 +125,6 @@ namespace ProjectFirma.Web.Models
                     return RequestOrganizationNameChange;
                 case SupportRequestTypeEnum.RequestToBeAddedToFtipList:
                     return RequestToBeAddedToFtipList;
-                case SupportRequestTypeEnum.UpdateParcelInformation:
-                    return UpdateParcelInformation;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -143,7 +140,6 @@ namespace ProjectFirma.Web.Models
         NewOrganizationOrFundingSource = 5,
         Other = 6,
         RequestToBeAddedToFtipList = 7,
-        UpdateParcelInformation = 8,
         ProvideFeedback = 9,
         RequestOrganizationNameChange = 10
     }
@@ -188,12 +184,6 @@ namespace ProjectFirma.Web.Models
     {
         private SupportRequestTypeRequestToBeAddedToFtipList(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder, int? lTInfoAreaID) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder, lTInfoAreaID) {}
         public static readonly SupportRequestTypeRequestToBeAddedToFtipList Instance = new SupportRequestTypeRequestToBeAddedToFtipList(7, @"RequestToBeAddedToFtipList", @"Request to be Added to FTIP list", 8, 1);
-    }
-
-    public partial class SupportRequestTypeUpdateParcelInformation : SupportRequestType
-    {
-        private SupportRequestTypeUpdateParcelInformation(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder, int? lTInfoAreaID) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder, lTInfoAreaID) {}
-        public static readonly SupportRequestTypeUpdateParcelInformation Instance = new SupportRequestTypeUpdateParcelInformation(8, @"UpdateParcelInformation", @"Request to update Parcel data", 5, 4);
     }
 
     public partial class SupportRequestTypeProvideFeedback : SupportRequestType
