@@ -1191,7 +1191,6 @@ warning 6035: The relationship 'FK_SnapshotEIPPerformanceMeasureSubcategoryOptio
     <Property Name="LastActivityDate" Type="datetime" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="OrganizationID" Type="int" Nullable="false" />
-    <Property Name="LTInfoRoleID" Type="int" Nullable="false" />
     <Property Name="WebServiceAccessToken" Type="uniqueidentifier" />
   </EntityType>
   <EntityType Name="PersonArea">

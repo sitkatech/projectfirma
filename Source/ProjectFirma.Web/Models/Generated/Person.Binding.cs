@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Person(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int eIPRoleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, int lTInfoRoleID, Guid? webServiceAccessToken) : this()
+        public Person(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int eIPRoleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, Guid? webServiceAccessToken) : this()
         {
             this.PersonID = personID;
             this.PersonGuid = personGuid;
@@ -61,14 +61,13 @@ namespace ProjectFirma.Web.Models
             this.LastActivityDate = lastActivityDate;
             this.IsActive = isActive;
             this.OrganizationID = organizationID;
-            this.LTInfoRoleID = lTInfoRoleID;
             this.WebServiceAccessToken = webServiceAccessToken;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Person(Guid personGuid, string firstName, string lastName, string email, int eIPRoleID, DateTime createDate, bool isActive, int organizationID, int lTInfoRoleID) : this()
+        public Person(Guid personGuid, string firstName, string lastName, string email, int eIPRoleID, DateTime createDate, bool isActive, int organizationID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -81,13 +80,12 @@ namespace ProjectFirma.Web.Models
             this.CreateDate = createDate;
             this.IsActive = isActive;
             this.OrganizationID = organizationID;
-            this.LTInfoRoleID = lTInfoRoleID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Person(Guid personGuid, string firstName, string lastName, string email, EIPRole eIPRole, DateTime createDate, bool isActive, Organization organization, LTInfoRole lTInfoRole) : this()
+        public Person(Guid personGuid, string firstName, string lastName, string email, EIPRole eIPRole, DateTime createDate, bool isActive, Organization organization) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -101,15 +99,14 @@ namespace ProjectFirma.Web.Models
             this.OrganizationID = organization.OrganizationID;
             this.Organization = organization;
             organization.People.Add(this);
-            this.LTInfoRoleID = lTInfoRole.LTInfoRoleID;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static Person CreateNewBlank(EIPRole eIPRole, Organization organization, LTInfoRole lTInfoRole)
+        public static Person CreateNewBlank(EIPRole eIPRole, Organization organization)
         {
-            return new Person(default(Guid), default(string), default(string), default(string), eIPRole, default(DateTime), default(bool), organization, lTInfoRole);
+            return new Person(default(Guid), default(string), default(string), default(string), eIPRole, default(DateTime), default(bool), organization);
         }
 
         /// <summary>
@@ -140,7 +137,6 @@ namespace ProjectFirma.Web.Models
         public DateTime? LastActivityDate { get; set; }
         public bool IsActive { get; set; }
         public int OrganizationID { get; set; }
-        public int LTInfoRoleID { get; set; }
         public Guid? WebServiceAccessToken { get; set; }
         public int PrimaryKey { get { return PersonID; } set { PersonID = value; } }
 
@@ -164,7 +160,6 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<SupportRequestLog> SupportRequestLogsWhereYouAreTheRequestPerson { get; set; }
         public EIPRole EIPRole { get { return EIPRole.AllLookupDictionary[EIPRoleID]; } }
         public virtual Organization Organization { get; set; }
-        public LTInfoRole LTInfoRole { get { return LTInfoRole.AllLookupDictionary[LTInfoRoleID]; } }
 
         public static class FieldLengths
         {

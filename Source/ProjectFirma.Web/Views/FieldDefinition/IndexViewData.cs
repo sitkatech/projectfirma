@@ -1,12 +1,11 @@
 ﻿using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.FieldDefinition
 {
-    public class IndexViewData : SiteLayoutViewData
+    public class IndexViewData : EIPViewData
     {
         public readonly FieldDefinitionGridSpec GridSpec;
         public readonly string GridName;

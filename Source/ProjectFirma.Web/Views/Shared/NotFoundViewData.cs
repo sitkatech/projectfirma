@@ -2,7 +2,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared
 {
-    public class NotFoundViewData : SiteLayoutViewData
+    public class NotFoundViewData : EIPViewData
     {
         public NotFoundViewData(Person currentPerson)
             : base(currentPerson)

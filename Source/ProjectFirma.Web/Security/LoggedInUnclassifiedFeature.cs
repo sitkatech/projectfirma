@@ -6,10 +6,10 @@ namespace ProjectFirma.Web.Security
     /// Must be at least logged in
     /// </summary>
     [SecurityFeatureDescription("Has a Lake Tahoe Info role")]
-    public class LoggedInUnclassifiedFeature : LakeTahoeInfoFeature
+    public class LoggedInUnclassifiedFeature : EIPFeature
     {
         public LoggedInUnclassifiedFeature()
-            : base(LTInfoRole.All)
+            : base(EIPRole.All)
         {
         }
     }

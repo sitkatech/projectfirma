@@ -5,18 +5,17 @@ using System.Reflection;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirma.Web.Views.WebServices
 {
-    public class ListViewData : SiteLayoutViewData
+    public class ListViewData : EIPViewData
     {
         public readonly WebServiceToken WebServiceAccessToken;
         public readonly List<WebServiceDocumentation> ServiceDocumentationList;
 
         public ListViewData(Person currentPerson, WebServiceToken webServiceAccessToken, List<WebServiceDocumentation> serviceDocumentationList)
-            : base(currentPerson, false)
+            : base(currentPerson)
         {
             ServiceDocumentationList = serviceDocumentationList;
             WebServiceAccessToken = webServiceAccessToken;

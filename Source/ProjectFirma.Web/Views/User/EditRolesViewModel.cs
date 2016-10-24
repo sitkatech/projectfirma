@@ -17,14 +17,6 @@ namespace ProjectFirma.Web.Views.User
         public int? EIPRoleID { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.SustainabilityRoleID)]
-        public int? SustainabilityRoleID { get; set; }
-
-        [Required]        
-        [FieldDefinitionDisplay(FieldDefinitionEnum.LTInfoRoleID)]
-        public int? LTInfoRoleID { get; set; }
-
-        [Required]
         [DisplayName("Should Receive EIP Project Tracker Support Emails?")]
         public bool ShouldReceiveEIPProjectTrackerSupportEmails { get; set; }
 
@@ -43,19 +35,15 @@ namespace ProjectFirma.Web.Views.User
         {
             PersonID = person.PersonID;
             EIPRoleID = person.EIPRoleID;
-            LTInfoRoleID = person.LTInfoRoleID;
 
             ShouldReceiveEIPProjectTrackerSupportEmails = person.ShouldReceiveSupportEmails(LTInfoArea.EIP.LTInfoAreaID);
-            ShouldReceiveLakeTahoeInfoSupportEmails = person.ShouldReceiveSupportEmails(LTInfoArea.LTInfo.LTInfoAreaID);
         }
 
         public void UpdateModel(Person person, Person currentPerson)
         {
             person.EIPRoleID = EIPRoleID.Value;
-            person.LTInfoRoleID = LTInfoRoleID.Value;
            
             person.SetReceiveSupportEmails(LTInfoArea.EIP, ShouldReceiveEIPProjectTrackerSupportEmails);
-            person.SetReceiveSupportEmails(LTInfoArea.LTInfo, ShouldReceiveLakeTahoeInfoSupportEmails);
 
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(person.PersonID))
             {

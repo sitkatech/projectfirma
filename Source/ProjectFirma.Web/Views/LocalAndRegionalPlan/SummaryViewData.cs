@@ -2,12 +2,11 @@
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.LocalAndRegionalPlan
 {
-    public class SummaryViewData : SiteLayoutViewData
+    public class SummaryViewData : EIPViewData
     {
         public readonly Models.LocalAndRegionalPlan LocalAndRegionalPlan;
         public readonly string EditLocalAndRegionalPlanUrl;

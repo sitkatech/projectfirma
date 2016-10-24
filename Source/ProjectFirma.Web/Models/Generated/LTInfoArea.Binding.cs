@@ -17,7 +17,6 @@ namespace ProjectFirma.Web.Models
     public abstract partial class LTInfoArea : IHavePrimaryKey
     {
         public static readonly LTInfoAreaEIP EIP = LTInfoAreaEIP.Instance;
-        public static readonly LTInfoAreaLTInfo LTInfo = LTInfoAreaLTInfo.Instance;
 
         public static readonly List<LTInfoArea> All;
         public static readonly ReadOnlyDictionary<int, LTInfoArea> AllLookupDictionary;
@@ -27,7 +26,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static LTInfoArea()
         {
-            All = new List<LTInfoArea> { EIP, LTInfo };
+            All = new List<LTInfoArea> { EIP };
             AllLookupDictionary = new ReadOnlyDictionary<int, LTInfoArea>(All.ToDictionary(x => x.LTInfoAreaID));
         }
 
@@ -43,7 +42,6 @@ namespace ProjectFirma.Web.Models
         }
         public List<EIPRole> EIPRoles { get { return EIPRole.All.Where(x => x.LTInfoAreaID == LTInfoAreaID).ToList(); } }
         public List<FieldDefinition> FieldDefinitionsWhereYouAreThePrimaryLTInfoArea { get { return FieldDefinition.All.Where(x => x.PrimaryLTInfoAreaID == LTInfoAreaID).ToList(); } }
-        public List<LTInfoRole> LTInfoRoles { get { return LTInfoRole.All.Where(x => x.LTInfoAreaID == LTInfoAreaID).ToList(); } }
         public List<ProjectFirmaPageType> ProjectFirmaPageTypesWhereYouAreThePrimaryLTInfoArea { get { return ProjectFirmaPageType.All.Where(x => x.PrimaryLTInfoAreaID == LTInfoAreaID).ToList(); } }
         public List<SupportRequestType> SupportRequestTypes { get { return SupportRequestType.All.Where(x => x.LTInfoAreaID == LTInfoAreaID).ToList(); } }
         [Key]
@@ -104,8 +102,6 @@ namespace ProjectFirma.Web.Models
             {
                 case LTInfoAreaEnum.EIP:
                     return EIP;
-                case LTInfoAreaEnum.LTInfo:
-                    return LTInfo;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -114,19 +110,12 @@ namespace ProjectFirma.Web.Models
 
     public enum LTInfoAreaEnum
     {
-        EIP = 1,
-        LTInfo = 3
+        EIP = 1
     }
 
     public partial class LTInfoAreaEIP : LTInfoArea
     {
         private LTInfoAreaEIP(int lTInfoAreaID, string lTInfoAreaName, string lTInfoAreaDisplayName, int sortOrder) : base(lTInfoAreaID, lTInfoAreaName, lTInfoAreaDisplayName, sortOrder) {}
         public static readonly LTInfoAreaEIP Instance = new LTInfoAreaEIP(1, @"EIP", @"EIP Project Tracker", 20);
-    }
-
-    public partial class LTInfoAreaLTInfo : LTInfoArea
-    {
-        private LTInfoAreaLTInfo(int lTInfoAreaID, string lTInfoAreaName, string lTInfoAreaDisplayName, int sortOrder) : base(lTInfoAreaID, lTInfoAreaName, lTInfoAreaDisplayName, sortOrder) {}
-        public static readonly LTInfoAreaLTInfo Instance = new LTInfoAreaLTInfo(3, @"LTInfo", @"Lake Tahoe Info", 10);
     }
 }

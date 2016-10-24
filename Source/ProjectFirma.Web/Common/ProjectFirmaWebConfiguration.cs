@@ -26,30 +26,13 @@ namespace ProjectFirma.Web.Common
         public static readonly int AnnualReportingContactPersonID = Int32.Parse(SitkaConfiguration.GetRequiredAppSetting("AnnualReportingContactPersonID"));
         public static readonly int MinimumYearForReportingExpenditures = Int32.Parse(SitkaConfiguration.GetRequiredAppSetting("MinimumYearForReportingExpenditures"));
 
-        public static readonly TimeSpan HttpRuntimeExecutionTimeout = ((HttpRuntimeSection)WebConfigurationManager.GetSection("system.web/httpRuntime")).ExecutionTimeout;
-        public static readonly string CanonicalHostNameRoot = SitkaConfiguration.GetRequiredAppSetting("CanonicalHostNameRoot");
-        public static readonly string CanonicalHostNameEIP = SitkaConfiguration.GetRequiredAppSetting("CanonicalHostNameEIP");
-        public static readonly string CanonicalHostNameSustainability = SitkaConfiguration.GetRequiredAppSetting("CanonicalHostNameSustainability");
-        public static readonly string CanonicalHostNameParcelTracker = SitkaConfiguration.GetRequiredAppSetting("CanonicalHostNameParcelTracker");
-        public static readonly string CanonicalHostNameThresholds = SitkaConfiguration.GetRequiredAppSetting("CanonicalHostNameThresholds");
-       
-        public static readonly string AccelaAgency = SitkaConfiguration.GetRequiredAppSetting("AccelaAgency");
-        public static readonly string AccelaUsername = SitkaConfiguration.GetRequiredAppSetting("AccelaUsername");
-        public static readonly string AccelaPassword = SitkaConfiguration.GetRequiredAppSetting("AccelaPassword");
-        public static readonly string AccelaEnvironment = SitkaConfiguration.GetRequiredAppSetting("AccelaEnvironment");
-        public static readonly string AccelaConstructAPIAppID = SitkaConfiguration.GetRequiredAppSetting("AccelaConstructAPIAppID");
-        public static readonly string AccelaConstructAPIAppSecret = SitkaConfiguration.GetRequiredAppSetting("AccelaConstructAPIAppSecret");
-        public static readonly Uri AccelaGovXmlWebServiceUrl = new Uri(SitkaConfiguration.GetRequiredAppSetting("AccelaGovXmlWebServiceUrl"));
-        public static readonly string AccelaParcelSearchByApnUrl = SitkaConfiguration.GetRequiredAppSetting("AccelaParcelSearchByApnUrl");
-        public static readonly string AccelaCapRecordDetailUrl = SitkaConfiguration.GetRequiredAppSetting("AccelaCapRecordDetailUrl");
-
+        public static readonly TimeSpan HttpRuntimeExecutionTimeout = ((HttpRuntimeSection)WebConfigurationManager.GetSection("system.web/httpRuntime")).ExecutionTimeout;       
         public static readonly string KeystoneUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneUrl");
         public static readonly string KeystoneRegisterUserUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneRegisterUserUrl");
         public static readonly string KeystoneUserProfileUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneUserProfileUrl");
         public static readonly string KeystoneOrganizationEditUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneOrganizationEditUrl");
 
         public static readonly string TrpaArcGisServer = SitkaConfiguration.GetRequiredAppSetting("TrpaArcGisServer");
-        public static readonly string LakeTahoeInfoMapServiceUrl = SitkaConfiguration.GetRequiredAppSetting("LakeTahoeInfoMapServiceUrl");
         
         public static readonly DirectoryInfo LogFileFolder = ParseLogFileFolder();
 

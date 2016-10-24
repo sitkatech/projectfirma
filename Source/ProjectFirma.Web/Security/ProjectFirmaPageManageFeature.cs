@@ -3,12 +3,12 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Page Content")]
-    public class ProjectFirmaPageManageFeature : LakeTahoeInfoFeatureWithContext, ILakeTahoeInfoBaseFeatureWithContext<ProjectFirmaPage>
+    public class ProjectFirmaPageManageFeature : EIPFeatureWithContext, ILakeTahoeInfoBaseFeatureWithContext<ProjectFirmaPage>
     {
         private readonly LakeTahoeInfoFeatureWithContextImpl<ProjectFirmaPage> _lakeTahoeInfoFeatureWithContextImpl;
 
         public ProjectFirmaPageManageFeature()
-            : base(LakeTahoeInfoBaseFeatureHelpers.AllLTInfoRolesExceptUnassigned)
+            : base(LakeTahoeInfoBaseFeatureHelpers.AllEIPRolesExceptUnassigned)
         {
             _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<ProjectFirmaPage>(this);
             ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;

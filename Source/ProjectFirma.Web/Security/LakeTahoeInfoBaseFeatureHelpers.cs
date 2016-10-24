@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
 
@@ -10,7 +9,6 @@ namespace ProjectFirma.Web.Security
     public static class LakeTahoeInfoBaseFeatureHelpers
     {
         public static readonly List<EIPRole> AllEIPRolesExceptUnassigned = EIPRole.All.Except(new[] { EIPRole.Unassigned }).ToList();
-        public static readonly List<LTInfoRole> AllLTInfoRolesExceptUnassigned = LTInfoRole.All.Except(new[] { LTInfoRole.Unassigned }).ToList();
 
         public static bool DoesRoleHavePermissionsForFeature(IRole role, Type type)
         {
@@ -41,8 +39,7 @@ namespace ProjectFirma.Web.Security
 
         public static bool IsContextFeatureByInheritance(Attribute featureAttribute)
         {
-            return (featureAttribute is EIPFeatureWithContext
-                 || featureAttribute is LakeTahoeInfoFeatureWithContext);
+            return featureAttribute is EIPFeatureWithContext;
         }
 
         public static LTInfoArea GetFeatureAreaByInheritance(Attribute featureAttribute)
@@ -50,10 +47,6 @@ namespace ProjectFirma.Web.Security
             if (featureAttribute is EIPFeature || featureAttribute is EIPFeatureWithContext)
             {
                 return LTInfoArea.EIP;
-            }
-            else if (featureAttribute is LakeTahoeInfoFeature || featureAttribute is LakeTahoeInfoFeatureWithContext)
-            {
-                return LTInfoArea.LTInfo;
             }
             else if (featureAttribute is AnonymousUnclassifiedFeature)
             {

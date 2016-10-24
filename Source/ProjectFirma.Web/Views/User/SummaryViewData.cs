@@ -2,13 +2,12 @@
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
 
 namespace ProjectFirma.Web.Views.User
 {
-    public class SummaryViewData : SiteLayoutViewData
+    public class SummaryViewData : EIPViewData
     {
         public readonly Person Person;
         public readonly string EditPersonOrganizationPrimaryContactUrl;
@@ -35,7 +34,7 @@ namespace ProjectFirma.Web.Views.User
             string userNotificationGridName,
             string userNotificationGridDataUrl,
             string activateInactivateUrl)
-            : base(currentPerson, false)
+            : base(currentPerson)
         {
             Person = personToView;
             PageTitle = personToView.FullNameFirstLast + (!personToView.IsActive ? " (inactive)" : string.Empty);

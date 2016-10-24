@@ -2,12 +2,11 @@
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Organization
 {
-    public class SummaryViewData : SiteLayoutViewData
+    public class SummaryViewData : EIPViewData
     {
         public readonly Models.Organization Organization;
         public readonly bool UserHasOrganizationManagePermissions;

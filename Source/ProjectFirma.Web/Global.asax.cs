@@ -18,8 +18,7 @@ namespace ProjectFirma.Web
     {
         public static Dictionary<string, string> AreasDictionary = new Dictionary<string, string>
         {
-            {string.Empty, ProjectFirmaWebConfiguration.CanonicalHostNameRoot},
-            {LTInfoArea.EIP.LTInfoAreaName, ProjectFirmaWebConfiguration.CanonicalHostNameEIP}
+            {string.Empty, ProjectFirmaWebConfiguration.CanonicalHostName}
         };
 
         protected void Application_Start()
@@ -49,11 +48,11 @@ namespace ProjectFirma.Web
                 new List<string>
                 {
                     "~/Views/Shared/TextControls/{0}.cshtml",
-                    "~/Areas/EIP/Views/Shared/ExpenditureAndBudgetControls/{0}.cshtml",
-                    "~/Areas/EIP/Views/Shared/EIPPerformanceMeasureControls/{0}.cshtml",
-                    "~/Areas/EIP/Views/Shared/ProjectControls/{0}.cshtml",
-                    "~/Areas/EIP/Views/Shared/ProjectLocationControls/{0}.cshtml",
-                    "~/Areas/EIP/Views/Shared/ProjectUpdateDiffControls/{0}.cshtml"
+                    "~/Views/Shared/ExpenditureAndBudgetControls/{0}.cshtml",
+                    "~/Views/Shared/EIPPerformanceMeasureControls/{0}.cshtml",
+                    "~/Views/Shared/ProjectControls/{0}.cshtml",
+                    "~/Views/Shared/ProjectLocationControls/{0}.cshtml",
+                    "~/Views/Shared/ProjectUpdateDiffControls/{0}.cshtml"
                 }, defaultRoutes, AreasDictionary);
 
             Logger.InfoFormat("Latest Database Migration: {0}", ProjectFirmaWebConfiguration.LatestDatabaseMigration.Value);
@@ -120,12 +119,12 @@ namespace ProjectFirma.Web
 
         public override string ErrorUrl
         {
-            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Error(), ProjectFirmaWebConfiguration.CanonicalHostNameRoot); }
+            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Error(), ProjectFirmaWebConfiguration.CanonicalHostName); }
         }
 
         public override string NotFoundUrl
         {
-            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.NotFound(), ProjectFirmaWebConfiguration.CanonicalHostNameRoot); }
+            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.NotFound(), ProjectFirmaWebConfiguration.CanonicalHostName); }
         }
 
         public override string ErrorHtml

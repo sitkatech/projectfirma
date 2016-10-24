@@ -16,7 +16,6 @@ CREATE TABLE [dbo].[Person](
 	[LastActivityDate] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
 	[OrganizationID] [int] NOT NULL,
-	[LTInfoRoleID] [int] NOT NULL,
 	[WebServiceAccessToken] [uniqueidentifier] NULL,
  CONSTRAINT [PK_Person_PersonID] PRIMARY KEY CLUSTERED 
 (
@@ -33,11 +32,6 @@ ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_EIPRole_EIPRol
 REFERENCES [dbo].[EIPRole] ([EIPRoleID])
 GO
 ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_EIPRole_EIPRoleID]
-GO
-ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_LTInfoRole_LTInfoRoleID] FOREIGN KEY([LTInfoRoleID])
-REFERENCES [dbo].[LTInfoRole] ([LTInfoRoleID])
-GO
-ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_LTInfoRole_LTInfoRoleID]
 GO
 ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_Organization_OrganizationID] FOREIGN KEY([OrganizationID])
 REFERENCES [dbo].[Organization] ([OrganizationID])

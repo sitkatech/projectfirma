@@ -3,12 +3,12 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Field Definitions")]
-    public class FieldDefinitionManageFeature : LakeTahoeInfoFeatureWithContext, ILakeTahoeInfoBaseFeatureWithContext<FieldDefinition>
+    public class FieldDefinitionManageFeature : EIPFeatureWithContext, ILakeTahoeInfoBaseFeatureWithContext<FieldDefinition>
     {
         private readonly LakeTahoeInfoFeatureWithContextImpl<FieldDefinition> _lakeTahoeInfoFeatureWithContextImpl;
 
         public FieldDefinitionManageFeature()
-            : base(LakeTahoeInfoBaseFeatureHelpers.AllLTInfoRolesExceptUnassigned)
+            : base(LakeTahoeInfoBaseFeatureHelpers.AllEIPRolesExceptUnassigned)
         {
             _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<FieldDefinition>(this);
             ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;

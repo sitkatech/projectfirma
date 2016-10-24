@@ -416,7 +416,6 @@
           <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
-          <ScalarProperty Name="LTInfoRoleID" ColumnName="LTInfoRoleID" />
           <ScalarProperty Name="WebServiceAccessToken" ColumnName="WebServiceAccessToken" />
         </MappingFragment>
       </EntityTypeMapping>

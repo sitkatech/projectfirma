@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Web.Mvc;
 using ApprovalTests;
 using ApprovalTests.Reporters;
-using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
@@ -17,7 +16,6 @@ namespace ProjectFirma.Web.Security
     [TestFixture]
     public class ProjectFirmaFeatureTest
     {
-        private readonly Type _typeOfLakeTahoeInfoFeatureWithContext = typeof(LakeTahoeInfoFeatureWithContext);
         private readonly Type _typeOfEIPFeatureWithContext = typeof(EIPFeatureWithContext);
 
         private readonly Type _typeOfLakeTahoeInfoBaseFeature = typeof(LakeTahoeInfoBaseFeature);
@@ -88,7 +86,7 @@ namespace ProjectFirma.Web.Security
         private static LTInfoArea GetAreaByNamespace(string fullClassName)
         {
             var actionArea = LTInfoArea.All.SingleOrDefault(area => fullClassName.Contains(string.Format(".{0}.", area.LTInfoAreaName)));
-            return actionArea ?? LTInfoArea.LTInfo;
+            return actionArea ?? LTInfoArea.EIP;
         }
 
         private static LTInfoArea GetAreaByInheritance(Attribute featureAttribute)
@@ -96,10 +94,6 @@ namespace ProjectFirma.Web.Security
             if (featureAttribute is EIPFeature || featureAttribute is EIPFeatureWithContext)
             {
                 return LTInfoArea.EIP;
-            }
-            else if (featureAttribute is LakeTahoeInfoFeature || featureAttribute is LakeTahoeInfoFeatureWithContext)
-            {
-                return LTInfoArea.LTInfo;
             }
             else if (featureAttribute is AnonymousUnclassifiedFeature)
             {
@@ -117,10 +111,6 @@ namespace ProjectFirma.Web.Security
             if (typeof(EIPFeature).IsAssignableFrom((featureType)) || typeof(EIPFeatureWithContext).IsAssignableFrom((featureType)))
             {
                 return LTInfoArea.EIP;
-            }
-            else if (typeof(LakeTahoeInfoFeature).IsAssignableFrom((featureType)) || typeof(LakeTahoeInfoFeatureWithContext).IsAssignableFrom((featureType)))
-            {
-                return LTInfoArea.LTInfo;
             }
             else if (typeof(AnonymousUnclassifiedFeature).IsAssignableFrom((featureType)))
             {
@@ -228,19 +218,12 @@ namespace ProjectFirma.Web.Security
                             listOfErrors.Add(errorMessage);
                         }
                         break;
-                    case LTInfoAreaEnum.LTInfo:
-                        if (!obj.GrantedRoles.Contains(LTInfoRole.Admin) && obj.GrantedRoles.Count != 0)
-                        {
-                            string errorMessage = String.Format("LTInfo Feature {0} is not available to Administrators", type.FullName);
-                            listOfErrors.Add(errorMessage);
-                        }
-                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
 
                 //Validate Unassigned does NOT have access                
-                if (obj.GrantedRoles.Contains(EIPRole.Unassigned) || obj.GrantedRoles.Contains(LTInfoRole.Unassigned))
+                if (obj.GrantedRoles.Contains(EIPRole.Unassigned))
                 {
                     string errorMessage = String.Format("Feature {0} is available to the Unassigned role", type.FullName);
                     listOfErrors.Add(errorMessage);
@@ -259,14 +242,14 @@ namespace ProjectFirma.Web.Security
         public void AllContextFeaturesImplementInterface()
         {
             //Get a list of all features inheriting from one of our four FeatureWithContext
-            var projectFirmaFeatureWithContextTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => p.IsSubclassOf(_typeOfLakeTahoeInfoFeatureWithContext)).Select(t => t.FullName).ToList();
+            var projectFirmaFeatureWithContextTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => p.IsSubclassOf(_typeOfEIPFeatureWithContext)).Select(t => t.FullName).ToList();
             projectFirmaFeatureWithContextTypes.AddRange(AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => p.IsSubclassOf(_typeOfEIPFeatureWithContext)).Select(t => t.FullName).ToList());
 
             //Get a list of all features inheriting from the ILakeTahoeInfoBaesFeatureWithContext interface
             var iProjectFirmaFeatureTypeWithContextTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => p.GetInterfaces().Any(i => HasInterface(i, _typeofILakeTahoeInfoBaseFeatureWithContext))).Select(t => t.FullName).ToList();
 
             //The two lists should be the same
-            Assert.That(projectFirmaFeatureWithContextTypes, Is.EquivalentTo(iProjectFirmaFeatureTypeWithContextTypes), string.Format("All features of type {0} must implement {1}", _typeOfLakeTahoeInfoFeatureWithContext.Name, _typeofILakeTahoeInfoBaseFeatureWithContext.Name));
+            Assert.That(projectFirmaFeatureWithContextTypes, Is.EquivalentTo(iProjectFirmaFeatureTypeWithContextTypes), string.Format("All features of type {0} must implement {1}", _typeOfEIPFeatureWithContext.Name, _typeofILakeTahoeInfoBaseFeatureWithContext.Name));
         }
 
         private static bool HasInterface(Type i, Type iProjectFirmaFeatureTypeWithContext)
@@ -287,12 +270,12 @@ namespace ProjectFirma.Web.Security
         {
             // Is this a context feature on the controller action?
             var list = method.GetCustomAttributes().ToList();
-            var attributes = list.Where(a => a.GetType().IsSubclassOf(_typeOfLakeTahoeInfoFeatureWithContext)).ToList();
+            var attributes = list.Where(a => a.GetType().IsSubclassOf(_typeOfEIPFeatureWithContext)).ToList();
             if (!attributes.Any())
             {
                 return true;
             }
-            Assert.That(attributes.Count == 1, string.Format("Method had more than one {0}", _typeOfLakeTahoeInfoFeatureWithContext.Name));
+            Assert.That(attributes.Count == 1, string.Format("Method had more than one {0}", _typeOfEIPFeatureWithContext.Name));
             var attribute = attributes.Single();
 
             // Does it have a matching parameter?

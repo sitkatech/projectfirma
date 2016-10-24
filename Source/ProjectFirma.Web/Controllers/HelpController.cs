@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 //If we can't find the area, log and continue with default (LTInfo) area
                 SitkaLogger.Instance.LogDetailedErrorMessage("Unknown domain: " + currentRootUrlHost);
-                currentLtInfoArea = LTInfoArea.LTInfo;
+                currentLtInfoArea = LTInfoArea.EIP;
             }
 
             var viewModel = new SupportFormViewModel(currentPageUrl, supportRequestTypeEnum, currentLtInfoArea.ToEnum);

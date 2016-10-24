@@ -3,11 +3,11 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("View User")]
-    public class UserViewFeature : LakeTahoeInfoFeatureWithContext, ILakeTahoeInfoBaseFeatureWithContext<Person>
+    public class UserViewFeature : EIPFeatureWithContext, ILakeTahoeInfoBaseFeatureWithContext<Person>
     {
         private readonly LakeTahoeInfoFeatureWithContextImpl<Person> _lakeTahoeInfoFeatureWithContextImpl;
 
-        public UserViewFeature() : base(LTInfoRole.All)
+        public UserViewFeature() : base(EIPRole.All)
         {
             _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<Person>(this);
             ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;

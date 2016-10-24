@@ -19,20 +19,6 @@
         </tr>
         <tr>
             <th>
-                @LTInfoArea.LTInfo.LTInfoAreaDisplayName
-            </th>
-            <td>
-                @Html.DropDownListFor(m => m.LTInfoRoleID, ViewDataTyped.LtInfoRoles, new { style = "width:100%" })
-                @Html.ValidationMessageFor(m => m.LTInfoRoleID)
-            </td>
-            <td style="text-align: center">
-                @Html.CheckBoxFor(m => m.ShouldReceiveLakeTahoeInfoSupportEmails)
-                @Html.ValidationMessageFor(m => m.ShouldReceiveLakeTahoeInfoSupportEmails)
-            </td>
-        </tr>
-
-        <tr>
-            <th>
                 @LTInfoArea.EIP.LTInfoAreaDisplayName
             </th>
             <td>

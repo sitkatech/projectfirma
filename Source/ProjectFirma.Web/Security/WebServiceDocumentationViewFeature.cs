@@ -3,8 +3,8 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Can View Web Services")]
-    public class WebServiceDocumentationViewFeature : LakeTahoeInfoFeature
+    public class WebServiceDocumentationViewFeature : EIPFeature
     {
-        public WebServiceDocumentationViewFeature() : base(LTInfoRole.All) { }
+        public WebServiceDocumentationViewFeature() : base(EIPRole.All) { }
     }
 }

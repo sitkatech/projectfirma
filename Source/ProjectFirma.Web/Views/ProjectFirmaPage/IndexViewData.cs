@@ -1,19 +1,18 @@
 ﻿using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.ProjectFirmaPage
 {
-    public class IndexViewData : SiteLayoutViewData
+    public class IndexViewData : EIPViewData
     {
         public readonly ProjectFirmaPageGridSpec GridSpec;
         public readonly string GridName;
         public readonly string GridDataUrl;
         public readonly string ProjectFirmaPageUrl;
 
-        public IndexViewData(Person currentPerson, Models.ProjectFirmaPage projectFirmaPage) : base(currentPerson, false, projectFirmaPage, true)
+        public IndexViewData(Person currentPerson, Models.ProjectFirmaPage projectFirmaPage) : base(currentPerson, projectFirmaPage)
         {
             PageTitle = "Manage Page Content";
 

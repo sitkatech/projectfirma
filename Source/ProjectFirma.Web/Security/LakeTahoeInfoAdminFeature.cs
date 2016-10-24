@@ -4,8 +4,8 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("_Admin for Lake Tahoe Info")]
-    public class LakeTahoeInfoAdminFeature : LakeTahoeInfoFeature
+    public class LakeTahoeInfoAdminFeature : EIPFeature
     {
-        public LakeTahoeInfoAdminFeature() : base(new List<LTInfoRole> { LTInfoRole.Admin }) { }
+        public LakeTahoeInfoAdminFeature() : base(new List<EIPRole> { EIPRole.Admin }) { }
     }
 }

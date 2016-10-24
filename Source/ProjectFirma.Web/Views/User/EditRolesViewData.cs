@@ -6,12 +6,10 @@ namespace ProjectFirma.Web.Views.User
     public class EditRolesViewData : LakeTahoeInfoUserControlViewData
     {
         public readonly IEnumerable<SelectListItem> EIPRoles;
-        public readonly IEnumerable<SelectListItem> LtInfoRoles;
 
-        public EditRolesViewData(IEnumerable<SelectListItem> eipRoles, IEnumerable<SelectListItem> ltInfoRoles)
+        public EditRolesViewData(IEnumerable<SelectListItem> eipRoles)
         {
             EIPRoles = eipRoles;
-            LtInfoRoles = ltInfoRoles;
         }
     }
 }

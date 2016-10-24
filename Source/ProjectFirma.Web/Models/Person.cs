@@ -23,7 +23,6 @@ namespace ProjectFirma.Web.Models
             var anonymousSitkaUser = new Person { PersonID = AnonymousPersonID };
             // as we add new areas, we need to make sure we assign the anonymous user with the unassigned roles for each area
             anonymousSitkaUser.EIPRoleID = EIPRole.Unassigned.EIPRoleID;
-            anonymousSitkaUser.LTInfoRoleID = LTInfoRole.Unassigned.LTInfoRoleID;
             return anonymousSitkaUser;
         }
 
@@ -117,7 +116,7 @@ namespace ProjectFirma.Web.Models
                     // the presence of roles switches you from being IsAuthenticated or not
                     return new List<string>();
                 }
-                var roleNames = new List<string> {EIPRole.EIPRoleName, LTInfoRole.LTInfoRoleName};
+                var roleNames = new List<string> {EIPRole.EIPRoleName};
                 return roleNames;
             }
         }

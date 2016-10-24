@@ -1283,7 +1283,6 @@
     <Property Name="LastActivityDate" Type="DateTime" />
     <Property Name="IsActive" Type="Boolean" Nullable="false" />
     <Property Name="OrganizationID" Type="Int32" Nullable="false" />
-    <Property Name="LTInfoRoleID" Type="Int32" Nullable="false" />
     <Property Name="WebServiceAccessToken" Type="Guid" />
     <NavigationProperty Name="AuditLogs" Relationship="ProjectFirma.Web.Models.FK_AuditLog_Person_PersonID" FromRole="Person" ToRole="AuditLogs" />
     <NavigationProperty Name="FileResourcesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_FileResource_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="FileResourcesWhereYouAreTheCreatePerson" />

@@ -52,8 +52,7 @@ namespace ProjectFirma.Web.Controllers
                     EIPRole.Unassigned.EIPRoleID,
                     DateTime.Now,
                     true,
-                    Organization.OrganizationIDUnknown,
-                    LTInfoRole.Unassigned.LTInfoRoleID);
+                    Organization.OrganizationIDUnknown);
                 HttpRequestStorage.DatabaseEntities.People.Add(person);
                 sendNewUserNotification = true;
             }
@@ -124,9 +123,8 @@ namespace ProjectFirma.Web.Controllers
 
         private static void SendNewUserCreatedMessage(Person person, string ipAddress, string userAgent, string loginName)
         {
-            var lakeTahoeInfoArea = LTInfoArea.LTInfo;
+            var lakeTahoeInfoArea = LTInfoArea.EIP;
             var subject = string.Format("LT Info - User added: {0}", person.FullNameFirstLastAndOrg);
-            var projectSummaryUrl = string.Empty;
             var message = string.Format(@"
 <div style='font-size: 12px; font-family: Arial'>
     <strong>LT Info User added:</strong> {0}<br />
@@ -170,7 +168,7 @@ namespace ProjectFirma.Web.Controllers
         private static void SendNewOrganizationCreatedMessage(Person person, string ipAddress, string userAgent, string loginName)
         {
             var organization = person.Organization;
-            var lakeTahoeInfoArea = LTInfoArea.LTInfo;
+            var lakeTahoeInfoArea = LTInfoArea.EIP;
             var subject = string.Format("LT Info - Organization added: {0}", person.Organization.DisplayName);
 
             var message = string.Format(@"

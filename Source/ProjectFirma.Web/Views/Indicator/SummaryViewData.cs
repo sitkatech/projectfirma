@@ -4,13 +4,12 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.EIPPerformanceMeasure;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Indicator
 {
-    public class SummaryViewData : SiteLayoutViewData
+    public class SummaryViewData : EIPViewData
     {
         public enum IndicatorSummaryTab
         {

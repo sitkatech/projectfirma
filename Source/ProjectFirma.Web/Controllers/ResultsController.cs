@@ -267,7 +267,7 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.ProjectColorByTypeDisplayName);
 
             var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(focusAreas, projects, projectStages);
-            var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EipProjectMap(), ProjectFirmaWebConfiguration.CanonicalHostNameEIP);
+            var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EipProjectMap(), ProjectFirmaWebConfiguration.CanonicalHostName);
             var filteredProjectsWithLocationAreasUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));
 
             var viewData = new EipProjectMapViewData(CurrentPerson,

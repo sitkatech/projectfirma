@@ -4,8 +4,8 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Indicator")]
-    public class IndicatorManageFeature : LakeTahoeInfoFeature
+    public class IndicatorManageFeature : EIPFeature
     {
-        public IndicatorManageFeature() : base(new List<LTInfoRole> { LTInfoRole.IndicatorEditor, LTInfoRole.Admin }) { }
+        public IndicatorManageFeature() : base(new List<EIPRole> { EIPRole.Admin }) { }
     }
 }

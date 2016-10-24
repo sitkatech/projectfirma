@@ -10,4 +10,4 @@ insert dbo.SupportRequestType (SupportRequestTypeID, SupportRequestTypeName, Sup
 (6, 'Other', 'Other', 100, NULL),
 (7, 'RequestToBeAddedToFtipList', 'Request to be Added to FTIP list', 8, 1),
 (9, 'ProvideFeedback', 'Provide Feedback on the site', 6, NULL),
-(10, 'RequestOrganizationNameChange', 'Request a change to an Organization''s name', 9, 3)
+(10, 'RequestOrganizationNameChange', 'Request a change to an Organization''s name', 9, 1)

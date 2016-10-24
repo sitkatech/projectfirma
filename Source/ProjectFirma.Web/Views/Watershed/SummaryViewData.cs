@@ -3,12 +3,11 @@ using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Watershed
 {
-    public class SummaryViewData : SiteLayoutViewData
+    public class SummaryViewData : EIPViewData
     {
         public readonly Models.Watershed Watershed;
         public readonly bool UserHasWatershedManagePermissions;

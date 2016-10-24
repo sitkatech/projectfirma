@@ -270,11 +270,6 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(lTInfoArea, "LTInfoArea", primaryKey);
                     return lTInfoArea;
 
-                case "LTInfoRole":
-                    var lTInfoRole = LTInfoRole.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(lTInfoRole, "LTInfoRole", primaryKey);
-                    return lTInfoRole;
-
                 case "MappedRegion":
                     return MappedRegions.GetMappedRegion(primaryKey);
 

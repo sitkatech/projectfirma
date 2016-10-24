@@ -1,16 +1,15 @@
 ﻿using System;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.WebServices
 {
-    public class IndexViewData : SiteLayoutViewData
+    public class IndexViewData : EIPViewData
     {
         public readonly Guid? WebServiceAccessToken;
         public readonly string WebServicesListUrl;
         public readonly string GetWebServiceAccessTokenUrl;
 
-        public IndexViewData(Person currentPerson, Guid? webServiceAccessToken, string webServicesListUrl, string getWebServiceAccessTokenUrl) : base(currentPerson, false)
+        public IndexViewData(Person currentPerson, Guid? webServiceAccessToken, string webServicesListUrl, string getWebServiceAccessTokenUrl) : base(currentPerson)
         {
             WebServiceAccessToken = webServiceAccessToken;
             PageTitle = "Web Services";

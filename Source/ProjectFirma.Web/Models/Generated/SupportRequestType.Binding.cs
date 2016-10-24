@@ -195,6 +195,6 @@ namespace ProjectFirma.Web.Models
     public partial class SupportRequestTypeRequestOrganizationNameChange : SupportRequestType
     {
         private SupportRequestTypeRequestOrganizationNameChange(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder, int? lTInfoAreaID) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder, lTInfoAreaID) {}
-        public static readonly SupportRequestTypeRequestOrganizationNameChange Instance = new SupportRequestTypeRequestOrganizationNameChange(10, @"RequestOrganizationNameChange", @"Request a change to an Organization's name", 9, 3);
+        public static readonly SupportRequestTypeRequestOrganizationNameChange Instance = new SupportRequestTypeRequestOrganizationNameChange(10, @"RequestOrganizationNameChange", @"Request a change to an Organization's name", 9, 1);
     }
 }

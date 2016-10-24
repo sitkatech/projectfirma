@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetCanonicalHostName()
         {
-            return ProjectFirmaWebConfiguration.CanonicalHostNameEIP;
+            return ProjectFirmaWebConfiguration.CanonicalHostName;
         }
 
         public override IRole GetRole(int roleID)
@@ -89,56 +89,6 @@ namespace ProjectFirma.Web.Models
                 return new PermissionCheckResult();
             }
             return new PermissionCheckResult("Does not have EIP administration privileges");
-        }
-    }
-
-    public partial class LTInfoAreaLTInfo
-    {
-        public override string GetCanonicalHostName()
-        {
-            return ProjectFirmaWebConfiguration.CanonicalHostNameRoot;
-        }
-
-        public override IRole GetRole(int roleID)
-        {
-            return LTInfoRole.AllLookupDictionary[roleID];
-        }
-
-        public override List<IRole> GetRoles()
-        {
-            return LTInfoRole.All.Select(x => (IRole)x).ToList();
-        }
-
-
-        public override string GetHomeUrl()
-        {
-            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Index());
-        }
-
-        public override string GetLogoUrl()
-        {
-            return null;
-        }
-
-        public override string GetFavIconUrl()
-        {
-            return "/Content/img/favicon-32x32.png";
-        }
-
-        public override string PreferredSiteAreaLinkWidth { get { return "140px"; } }
-
-        protected override Func<Person, IRole> GetPersonRoleToUseFunc()
-        {
-            return x => x.LTInfoRole;
-        }
-
-        public override PermissionCheckResult CanManageFieldDefinitionAndIntroTextForArea(Person person)
-        {
-            if(HasPermissionByPerson(person, new List<IRole> { LTInfoRole.Admin }))
-            {
-                return new PermissionCheckResult();
-            }
-            return new PermissionCheckResult("Does not have Lake Tahoe Info administration privileges");
         }
     }
 }

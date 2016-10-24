@@ -117,9 +117,6 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionUserEmail UserEmail = FieldDefinitionUserEmail.Instance;
         public static readonly FieldDefinitionUserPhone UserPhone = FieldDefinitionUserPhone.Instance;
         public static readonly FieldDefinitionEIPRoleID EIPRoleID = FieldDefinitionEIPRoleID.Instance;
-        public static readonly FieldDefinitionParcelTrackerRoleID ParcelTrackerRoleID = FieldDefinitionParcelTrackerRoleID.Instance;
-        public static readonly FieldDefinitionSustainabilityRoleID SustainabilityRoleID = FieldDefinitionSustainabilityRoleID.Instance;
-        public static readonly FieldDefinitionLTInfoRoleID LTInfoRoleID = FieldDefinitionLTInfoRoleID.Instance;
         public static readonly FieldDefinitionSiteArea SiteArea = FieldDefinitionSiteArea.Instance;
         public static readonly FieldDefinitionRoleName RoleName = FieldDefinitionRoleName.Instance;
         public static readonly FieldDefinitionRegion Region = FieldDefinitionRegion.Instance;
@@ -143,7 +140,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { ActionPriority, ActionPriorityName, LocalAndRegionalPlanName, ExpectedValue, FocusArea, FocusAreaName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, OldEIPNumber, Organization, OrganizationAbbreviation, OrganizationName, Password, EIPPerformanceMeasure, IndicatorDefinition, IndicatorDisplayName, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, Program, ProgramName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, Stage, Subcategories, ProjectIsAProgram, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ProjectNumber, ThresholdCategory, LocalAndRegionalPlan, Watershed, Subcategory, SubcategoryOption, SubcategoryOptions, IsPrimaryProgram, IndicatorCriticalDefinitions, IndicatorAccountingPeriodAndScale, IndicatorProjectReporting, FundedAmount, ProjectLocation, IndicatorBackground, NumberOfReportedPMRecords, NumberOfReportedExpenditureRecords, ProjectLocationState, ProjectLocationJurisdiction, ProjectLocationWatershed, ExcludeFromFactSheet, TransportationStrategy, TransportationObjective, TransportationStrategyName, TransportationObjectiveName, ProjectIsATransportationProject, IsTransportationFundingSource, FundingType, ProjectCostInYearOfExpenditure, TransportationGlobalInflationRate, ReportingYear, TagName, TagDescription, Tags, ReportedExpenditure, ProposedProject, ProjectOnFTIPList, LocalAndRegionalPlanDocumentUrl, LocalAndRegionalPlanDocumentLinkText, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedPrograms, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentRTPYearForPVCalculations, LifecycleOperatingCost, IndicatorSystemName, IndicatorSimpleDescription, IndicatorPrimarySource, IndicatorType, ChartTitle, ProposedProjectState, UserLastName, UserFirstName, UserEmail, UserPhone, EIPRoleID, ParcelTrackerRoleID, SustainabilityRoleID, LTInfoRoleID, SiteArea, RoleName, Region, Latitude, Longitude, OrganizationUrl, ChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
+            All = new List<FieldDefinition> { ActionPriority, ActionPriorityName, LocalAndRegionalPlanName, ExpectedValue, FocusArea, FocusAreaName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, OldEIPNumber, Organization, OrganizationAbbreviation, OrganizationName, Password, EIPPerformanceMeasure, IndicatorDefinition, IndicatorDisplayName, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, Program, ProgramName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, Stage, Subcategories, ProjectIsAProgram, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ProjectNumber, ThresholdCategory, LocalAndRegionalPlan, Watershed, Subcategory, SubcategoryOption, SubcategoryOptions, IsPrimaryProgram, IndicatorCriticalDefinitions, IndicatorAccountingPeriodAndScale, IndicatorProjectReporting, FundedAmount, ProjectLocation, IndicatorBackground, NumberOfReportedPMRecords, NumberOfReportedExpenditureRecords, ProjectLocationState, ProjectLocationJurisdiction, ProjectLocationWatershed, ExcludeFromFactSheet, TransportationStrategy, TransportationObjective, TransportationStrategyName, TransportationObjectiveName, ProjectIsATransportationProject, IsTransportationFundingSource, FundingType, ProjectCostInYearOfExpenditure, TransportationGlobalInflationRate, ReportingYear, TagName, TagDescription, Tags, ReportedExpenditure, ProposedProject, ProjectOnFTIPList, LocalAndRegionalPlanDocumentUrl, LocalAndRegionalPlanDocumentLinkText, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedPrograms, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentRTPYearForPVCalculations, LifecycleOperatingCost, IndicatorSystemName, IndicatorSimpleDescription, IndicatorPrimarySource, IndicatorType, ChartTitle, ProposedProjectState, UserLastName, UserFirstName, UserEmail, UserPhone, EIPRoleID, SiteArea, RoleName, Region, Latitude, Longitude, OrganizationUrl, ChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -304,8 +301,6 @@ namespace ProjectFirma.Web.Models
                     return LocalAndRegionalPlanName;
                 case FieldDefinitionEnum.Longitude:
                     return Longitude;
-                case FieldDefinitionEnum.LTInfoRoleID:
-                    return LTInfoRoleID;
                 case FieldDefinitionEnum.MeasurementUnit:
                     return MeasurementUnit;
                 case FieldDefinitionEnum.MonitoringApproach:
@@ -330,8 +325,6 @@ namespace ProjectFirma.Web.Models
                     return OrganizationName;
                 case FieldDefinitionEnum.OrganizationUrl:
                     return OrganizationUrl;
-                case FieldDefinitionEnum.ParcelTrackerRoleID:
-                    return ParcelTrackerRoleID;
                 case FieldDefinitionEnum.Password:
                     return Password;
                 case FieldDefinitionEnum.PhotoCaption:
@@ -406,8 +399,6 @@ namespace ProjectFirma.Web.Models
                     return SubcategoryOption;
                 case FieldDefinitionEnum.SubcategoryOptions:
                     return SubcategoryOptions;
-                case FieldDefinitionEnum.SustainabilityRoleID:
-                    return SustainabilityRoleID;
                 case FieldDefinitionEnum.TagDescription:
                     return TagDescription;
                 case FieldDefinitionEnum.TagName:
@@ -559,9 +550,6 @@ namespace ProjectFirma.Web.Models
         UserEmail = 175,
         UserPhone = 176,
         EIPRoleID = 177,
-        ParcelTrackerRoleID = 178,
-        SustainabilityRoleID = 179,
-        LTInfoRoleID = 180,
         SiteArea = 181,
         RoleName = 182,
         Region = 184,
@@ -677,7 +665,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionPassword : FieldDefinition
     {
         private FieldDefinitionPassword(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionPassword Instance = new FieldDefinitionPassword(17, @"Password", @"Password", 3);
+        public static readonly FieldDefinitionPassword Instance = new FieldDefinitionPassword(17, @"Password", @"Password", 1);
     }
 
     public partial class FieldDefinitionEIPPerformanceMeasure : FieldDefinition
@@ -689,19 +677,19 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionIndicatorDefinition : FieldDefinition
     {
         private FieldDefinitionIndicatorDefinition(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorDefinition Instance = new FieldDefinitionIndicatorDefinition(19, @"IndicatorDefinition", @"Indicator Definition", 3);
+        public static readonly FieldDefinitionIndicatorDefinition Instance = new FieldDefinitionIndicatorDefinition(19, @"IndicatorDefinition", @"Indicator Definition", 1);
     }
 
     public partial class FieldDefinitionIndicatorDisplayName : FieldDefinition
     {
         private FieldDefinitionIndicatorDisplayName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorDisplayName Instance = new FieldDefinitionIndicatorDisplayName(20, @"IndicatorDisplayName", @"Indicator Name", 3);
+        public static readonly FieldDefinitionIndicatorDisplayName Instance = new FieldDefinitionIndicatorDisplayName(20, @"IndicatorDisplayName", @"Indicator Name", 1);
     }
 
     public partial class FieldDefinitionMeasurementUnit : FieldDefinition
     {
         private FieldDefinitionMeasurementUnit(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionMeasurementUnit Instance = new FieldDefinitionMeasurementUnit(21, @"MeasurementUnit", @"Measurement Unit", 3);
+        public static readonly FieldDefinitionMeasurementUnit Instance = new FieldDefinitionMeasurementUnit(21, @"MeasurementUnit", @"Measurement Unit", 1);
     }
 
     public partial class FieldDefinitionPhotoCaption : FieldDefinition
@@ -827,7 +815,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionUsername : FieldDefinition
     {
         private FieldDefinitionUsername(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionUsername Instance = new FieldDefinitionUsername(42, @"Username", @"User name", 3);
+        public static readonly FieldDefinitionUsername Instance = new FieldDefinitionUsername(42, @"Username", @"User name", 1);
     }
 
     public partial class FieldDefinitionWatershedName : FieldDefinition
@@ -893,19 +881,19 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionIndicatorCriticalDefinitions : FieldDefinition
     {
         private FieldDefinitionIndicatorCriticalDefinitions(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorCriticalDefinitions Instance = new FieldDefinitionIndicatorCriticalDefinitions(53, @"IndicatorCriticalDefinitions", @"Critical Definitions", 3);
+        public static readonly FieldDefinitionIndicatorCriticalDefinitions Instance = new FieldDefinitionIndicatorCriticalDefinitions(53, @"IndicatorCriticalDefinitions", @"Critical Definitions", 1);
     }
 
     public partial class FieldDefinitionIndicatorAccountingPeriodAndScale : FieldDefinition
     {
         private FieldDefinitionIndicatorAccountingPeriodAndScale(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorAccountingPeriodAndScale Instance = new FieldDefinitionIndicatorAccountingPeriodAndScale(54, @"IndicatorAccountingPeriodAndScale", @"Accounting Period and Scale", 3);
+        public static readonly FieldDefinitionIndicatorAccountingPeriodAndScale Instance = new FieldDefinitionIndicatorAccountingPeriodAndScale(54, @"IndicatorAccountingPeriodAndScale", @"Accounting Period and Scale", 1);
     }
 
     public partial class FieldDefinitionIndicatorProjectReporting : FieldDefinition
     {
         private FieldDefinitionIndicatorProjectReporting(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorProjectReporting Instance = new FieldDefinitionIndicatorProjectReporting(55, @"IndicatorProjectReporting", @"Project Reporting", 3);
+        public static readonly FieldDefinitionIndicatorProjectReporting Instance = new FieldDefinitionIndicatorProjectReporting(55, @"IndicatorProjectReporting", @"Project Reporting", 1);
     }
 
     public partial class FieldDefinitionFundedAmount : FieldDefinition
@@ -923,7 +911,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionIndicatorBackground : FieldDefinition
     {
         private FieldDefinitionIndicatorBackground(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorBackground Instance = new FieldDefinitionIndicatorBackground(58, @"IndicatorBackground", @"Background", 3);
+        public static readonly FieldDefinitionIndicatorBackground Instance = new FieldDefinitionIndicatorBackground(58, @"IndicatorBackground", @"Background", 1);
     }
 
     public partial class FieldDefinitionNumberOfReportedPMRecords : FieldDefinition
@@ -1085,7 +1073,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionAssociatedPrograms : FieldDefinition
     {
         private FieldDefinitionAssociatedPrograms(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionAssociatedPrograms Instance = new FieldDefinitionAssociatedPrograms(87, @"AssociatedPrograms", @"Associated Programs", 3);
+        public static readonly FieldDefinitionAssociatedPrograms Instance = new FieldDefinitionAssociatedPrograms(87, @"AssociatedPrograms", @"Associated Programs", 1);
     }
 
     public partial class FieldDefinitionExternalLinks : FieldDefinition
@@ -1121,31 +1109,31 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionIndicatorSystemName : FieldDefinition
     {
         private FieldDefinitionIndicatorSystemName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorSystemName Instance = new FieldDefinitionIndicatorSystemName(93, @"IndicatorSystemName", @"Indicator System Name", 3);
+        public static readonly FieldDefinitionIndicatorSystemName Instance = new FieldDefinitionIndicatorSystemName(93, @"IndicatorSystemName", @"Indicator System Name", 1);
     }
 
     public partial class FieldDefinitionIndicatorSimpleDescription : FieldDefinition
     {
         private FieldDefinitionIndicatorSimpleDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorSimpleDescription Instance = new FieldDefinitionIndicatorSimpleDescription(94, @"IndicatorSimpleDescription", @"Indicator Simple Description", 3);
+        public static readonly FieldDefinitionIndicatorSimpleDescription Instance = new FieldDefinitionIndicatorSimpleDescription(94, @"IndicatorSimpleDescription", @"Indicator Simple Description", 1);
     }
 
     public partial class FieldDefinitionIndicatorPrimarySource : FieldDefinition
     {
         private FieldDefinitionIndicatorPrimarySource(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorPrimarySource Instance = new FieldDefinitionIndicatorPrimarySource(95, @"IndicatorPrimarySource", @"Indicator Primary Source", 3);
+        public static readonly FieldDefinitionIndicatorPrimarySource Instance = new FieldDefinitionIndicatorPrimarySource(95, @"IndicatorPrimarySource", @"Indicator Primary Source", 1);
     }
 
     public partial class FieldDefinitionIndicatorType : FieldDefinition
     {
         private FieldDefinitionIndicatorType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorType Instance = new FieldDefinitionIndicatorType(96, @"IndicatorType", @"Indicator Type", 3);
+        public static readonly FieldDefinitionIndicatorType Instance = new FieldDefinitionIndicatorType(96, @"IndicatorType", @"Indicator Type", 1);
     }
 
     public partial class FieldDefinitionChartTitle : FieldDefinition
     {
         private FieldDefinitionChartTitle(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionChartTitle Instance = new FieldDefinitionChartTitle(97, @"ChartTitle", @"Chart Title", 3);
+        public static readonly FieldDefinitionChartTitle Instance = new FieldDefinitionChartTitle(97, @"ChartTitle", @"Chart Title", 1);
     }
 
     public partial class FieldDefinitionProposedProjectState : FieldDefinition
@@ -1157,61 +1145,43 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionUserLastName : FieldDefinition
     {
         private FieldDefinitionUserLastName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionUserLastName Instance = new FieldDefinitionUserLastName(173, @"UserLastName", @"User Last Name", 3);
+        public static readonly FieldDefinitionUserLastName Instance = new FieldDefinitionUserLastName(173, @"UserLastName", @"User Last Name", 1);
     }
 
     public partial class FieldDefinitionUserFirstName : FieldDefinition
     {
         private FieldDefinitionUserFirstName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionUserFirstName Instance = new FieldDefinitionUserFirstName(174, @"UserFirstName", @"User First Name", 3);
+        public static readonly FieldDefinitionUserFirstName Instance = new FieldDefinitionUserFirstName(174, @"UserFirstName", @"User First Name", 1);
     }
 
     public partial class FieldDefinitionUserEmail : FieldDefinition
     {
         private FieldDefinitionUserEmail(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionUserEmail Instance = new FieldDefinitionUserEmail(175, @"UserEmail", @"User Email", 3);
+        public static readonly FieldDefinitionUserEmail Instance = new FieldDefinitionUserEmail(175, @"UserEmail", @"User Email", 1);
     }
 
     public partial class FieldDefinitionUserPhone : FieldDefinition
     {
         private FieldDefinitionUserPhone(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionUserPhone Instance = new FieldDefinitionUserPhone(176, @"UserPhone", @"Phone Number", 3);
+        public static readonly FieldDefinitionUserPhone Instance = new FieldDefinitionUserPhone(176, @"UserPhone", @"Phone Number", 1);
     }
 
     public partial class FieldDefinitionEIPRoleID : FieldDefinition
     {
         private FieldDefinitionEIPRoleID(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionEIPRoleID Instance = new FieldDefinitionEIPRoleID(177, @"EIPRoleID", @"EIP Role", 3);
-    }
-
-    public partial class FieldDefinitionParcelTrackerRoleID : FieldDefinition
-    {
-        private FieldDefinitionParcelTrackerRoleID(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionParcelTrackerRoleID Instance = new FieldDefinitionParcelTrackerRoleID(178, @"ParcelTrackerRoleID", @"Parcel Tracker Role", 3);
-    }
-
-    public partial class FieldDefinitionSustainabilityRoleID : FieldDefinition
-    {
-        private FieldDefinitionSustainabilityRoleID(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionSustainabilityRoleID Instance = new FieldDefinitionSustainabilityRoleID(179, @"SustainabilityRoleID", @"Sustainability Role", 3);
-    }
-
-    public partial class FieldDefinitionLTInfoRoleID : FieldDefinition
-    {
-        private FieldDefinitionLTInfoRoleID(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLTInfoRoleID Instance = new FieldDefinitionLTInfoRoleID(180, @"LTInfoRoleID", @"Lake Tahoe Info Role", 3);
+        public static readonly FieldDefinitionEIPRoleID Instance = new FieldDefinitionEIPRoleID(177, @"EIPRoleID", @"EIP Role", 1);
     }
 
     public partial class FieldDefinitionSiteArea : FieldDefinition
     {
         private FieldDefinitionSiteArea(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionSiteArea Instance = new FieldDefinitionSiteArea(181, @"SiteArea", @"Site Area", 3);
+        public static readonly FieldDefinitionSiteArea Instance = new FieldDefinitionSiteArea(181, @"SiteArea", @"Site Area", 1);
     }
 
     public partial class FieldDefinitionRoleName : FieldDefinition
     {
         private FieldDefinitionRoleName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionRoleName Instance = new FieldDefinitionRoleName(182, @"RoleName", @"Role Name", 3);
+        public static readonly FieldDefinitionRoleName Instance = new FieldDefinitionRoleName(182, @"RoleName", @"Role Name", 1);
     }
 
     public partial class FieldDefinitionRegion : FieldDefinition
@@ -1241,7 +1211,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionChartCaption : FieldDefinition
     {
         private FieldDefinitionChartCaption(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionChartCaption Instance = new FieldDefinitionChartCaption(228, @"ChartCaption", @"Chart Caption", 3);
+        public static readonly FieldDefinitionChartCaption Instance = new FieldDefinitionChartCaption(228, @"ChartCaption", @"Chart Caption", 1);
     }
 
     public partial class FieldDefinitionMonitoringProgram : FieldDefinition

@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Role
 {
-    public class SummaryViewData : SiteLayoutViewData
+    public class SummaryViewData : EIPViewData
     {
         public readonly PersonWithRoleGridSpec GridSpec;
         public readonly string GridName;
@@ -23,7 +22,7 @@ namespace ProjectFirma.Web.Views.Role
         public readonly string LTInfoAreaName;
 
         public SummaryViewData(Person currentPerson, IRole role)
-            : base(currentPerson, false)
+            : base(currentPerson)
         {
             var featurePermissions = role.GetFeaturePermissions();
             ApprovedFeatures = featurePermissions.Where(x => x.HasPermission).ToList();
