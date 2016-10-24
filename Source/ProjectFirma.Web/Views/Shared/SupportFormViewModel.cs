@@ -40,10 +40,6 @@ namespace ProjectFirma.Web.Views.Shared
         public string RequestPersonPhone { get; set; }
 
         [Required]
-        [DisplayName("Site Area")]
-        public LTInfoAreaEnum LakeTahoeInfoAreaEnum { get; set; }
-
-        [Required]
         [DisplayName("Subject")]
         public SupportRequestTypeEnum? SupportRequestTypeEnum { get; set; }
 
@@ -54,11 +50,10 @@ namespace ProjectFirma.Web.Views.Shared
         {
         }
 
-        public SupportFormViewModel(string currentPageUrl, SupportRequestTypeEnum? supportRequestTypeEnum, LTInfoAreaEnum ltInfoAreaEnum)
+        public SupportFormViewModel(string currentPageUrl, SupportRequestTypeEnum? supportRequestTypeEnum)
         {
             CurrentPageUrl = currentPageUrl;
             SupportRequestTypeEnum = supportRequestTypeEnum;
-            LakeTahoeInfoAreaEnum = ltInfoAreaEnum;
         }
 
         public void UpdateModel(SupportRequestLog supportRequestLog, Person updatePerson)

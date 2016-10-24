@@ -1,5 +1,4 @@
-﻿@using ProjectFirma.Web.Models
-@inherits ProjectFirma.Web.Views.User.EditRoles
+﻿@inherits ProjectFirma.Web.Views.User.EditRoles
 
 <style type="text/css">
     td, th { 
@@ -13,21 +12,17 @@
 {
     <table>
         <tr>
-            <th style="padding-bottom: 10px;"></th>
             <th style="padding-bottom: 10px;">Role</th>
             <th style="padding-bottom: 10px;">Receive Support Emails</th>
         </tr>
         <tr>
-            <th>
-                @LTInfoArea.EIP.LTInfoAreaDisplayName
-            </th>
             <td>
                 @Html.DropDownListFor(m => m.EIPRoleID, ViewDataTyped.EIPRoles, new { style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.EIPRoleID)
             </td>
             <td style="text-align: center">
-                @Html.CheckBoxFor(m => m.ShouldReceiveEIPProjectTrackerSupportEmails)
-                @Html.ValidationMessageFor(m => m.ShouldReceiveEIPProjectTrackerSupportEmails)
+                @Html.CheckBoxFor(m => m.ShouldReceiveSupportEmails)
+                @Html.ValidationMessageFor(m => m.ShouldReceiveSupportEmails)
             </td>
         </tr>
     </table>

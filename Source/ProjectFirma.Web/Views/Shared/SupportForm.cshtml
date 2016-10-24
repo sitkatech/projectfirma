@@ -57,15 +57,6 @@
         </tr>
         <tr>
             <th>
-                @Html.LabelFor(x => x.LakeTahoeInfoAreaEnum):
-            </th>
-            <td>
-                @Html.DropDownListFor(x => x.LakeTahoeInfoAreaEnum, ViewDataTyped.SiteAreas, new { onchange = "populateSupportRequestTypeEnum()", style = "width:100%" })
-                @Html.ValidationMessageFor(x => x.LakeTahoeInfoAreaEnum)
-            </td>
-        </tr>
-        <tr>
-            <th>
                 @Html.LabelFor(x => x.SupportRequestTypeEnum):
             </th>
             <td>
@@ -94,15 +85,4 @@
         </div>
         SitkaRecaptcha.RenderPartialView(Html);
     }
-
-    <script>
-    function populateSupportRequestTypeEnum()
-    {
-        var supportRequestTypes = @Html.Raw(JArray.FromObject(ViewDataTyped.SupportRequestTypeSimples));
-        var selectedLakeTahoeInfoArea = jQuery("#@Html.IdFor(x => x.LakeTahoeInfoAreaEnum)").val();
-        var filteredSupportRequestTypes = _.filter(supportRequestTypes, function(f) { return  f.LTInfoAreaID == null || f.LTInfoAreaID == parseInt(selectedLakeTahoeInfoArea); });
-        Sitka.Methods.populateDropDownAndAddUnknowItem(jQuery("#@Html.IdFor(x => x.SupportRequestTypeEnum)"), filteredSupportRequestTypes, "SupportRequestTypeID", "SupportRequestTypeDisplayName");
-    }
-
-    </script>
 }

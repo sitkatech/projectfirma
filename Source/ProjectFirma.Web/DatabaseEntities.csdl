@@ -38,7 +38,6 @@
     <EntitySet Name="NotificationProposedProject" EntityType="ProjectFirma.Web.Models.NotificationProposedProject" />
     <EntitySet Name="Organization" EntityType="ProjectFirma.Web.Models.Organization" />
     <EntitySet Name="Person" EntityType="ProjectFirma.Web.Models.Person" />
-    <EntitySet Name="PersonArea" EntityType="ProjectFirma.Web.Models.PersonArea" />
     <EntitySet Name="Program" EntityType="ProjectFirma.Web.Models.Program" />
     <EntitySet Name="ProgramEIPPerformanceMeasure" EntityType="ProjectFirma.Web.Models.ProgramEIPPerformanceMeasure" />
     <EntitySet Name="ProgramImage" EntityType="ProjectFirma.Web.Models.ProgramImage" />
@@ -451,10 +450,6 @@
     <AssociationSet Name="FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID" Association="ProjectFirma.Web.Models.FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID">
       <End Role="LeadImplementerOrganization" EntitySet="Organization" />
       <End Role="ProposedProjectsWhereYouAreTheLeadImplementerOrganization" EntitySet="ProposedProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PersonArea_Person_PersonID" Association="ProjectFirma.Web.Models.FK_PersonArea_Person_PersonID">
-      <End Role="Person" EntitySet="Person" />
-      <End Role="PersonAreas" EntitySet="PersonArea" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectNote_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ProjectNote_Person_CreatePersonID_PersonID">
       <End Role="CreatePerson" EntitySet="Person" />
@@ -1283,6 +1278,7 @@
     <Property Name="LastActivityDate" Type="DateTime" />
     <Property Name="IsActive" Type="Boolean" Nullable="false" />
     <Property Name="OrganizationID" Type="Int32" Nullable="false" />
+    <Property Name="ReceiveSupportEmails" Type="Boolean" Nullable="false" />
     <Property Name="WebServiceAccessToken" Type="Guid" />
     <NavigationProperty Name="AuditLogs" Relationship="ProjectFirma.Web.Models.FK_AuditLog_Person_PersonID" FromRole="Person" ToRole="AuditLogs" />
     <NavigationProperty Name="FileResourcesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_FileResource_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="FileResourcesWhereYouAreTheCreatePerson" />
@@ -1291,7 +1287,6 @@
     <NavigationProperty Name="Notifications" Relationship="ProjectFirma.Web.Models.FK_Notification_Person_PersonID" FromRole="Person" ToRole="Notifications" />
     <NavigationProperty Name="OrganizationsWhereYouAreThePrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_Organization_Person_PrimaryContactPersonID_PersonID" FromRole="PrimaryContactPerson" ToRole="OrganizationsWhereYouAreThePrimaryContactPerson" />
     <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_Person_Organization_OrganizationID" FromRole="People" ToRole="Organization" />
-    <NavigationProperty Name="PersonAreas" Relationship="ProjectFirma.Web.Models.FK_PersonArea_Person_PersonID" FromRole="Person" ToRole="PersonAreas" />
     <NavigationProperty Name="ProjectNotesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNote_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="ProjectNotesWhereYouAreTheCreatePerson" />
     <NavigationProperty Name="ProjectNotesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNote_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProjectNotesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="ProjectNoteUpdatesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNoteUpdate_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="ProjectNoteUpdatesWhereYouAreTheCreatePerson" />
@@ -1303,16 +1298,6 @@
     <NavigationProperty Name="ProposedProjectNotesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="ProposedProjectNotesWhereYouAreTheCreatePerson" />
     <NavigationProperty Name="ProposedProjectNotesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProposedProjectNotesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="SupportRequestLogsWhereYouAreTheRequestPerson" Relationship="ProjectFirma.Web.Models.FK_SupportRequestLog_Person_RequestPersonID_PersonID" FromRole="RequestPerson" ToRole="SupportRequestLogsWhereYouAreTheRequestPerson" />
-  </EntityType>
-  <EntityType Name="PersonArea">
-    <Key>
-      <PropertyRef Name="PersonAreaID" />
-    </Key>
-    <Property Name="PersonAreaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="PersonID" Type="Int32" Nullable="false" />
-    <Property Name="LTInfoAreaID" Type="Int32" Nullable="false" />
-    <Property Name="ReceiveSupportEmails" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="Person" Relationship="ProjectFirma.Web.Models.FK_PersonArea_Person_PersonID" FromRole="PersonAreas" ToRole="Person" />
   </EntityType>
   <EntityType Name="Program">
     <Key>
@@ -3250,18 +3235,6 @@
       </Principal>
       <Dependent Role="ProposedProjectsWhereYouAreTheLeadImplementerOrganization">
         <PropertyRef Name="LeadImplementerOrganizationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PersonArea_Person_PersonID">
-    <End Role="Person" Type="ProjectFirma.Web.Models.Person" Multiplicity="1" />
-    <End Role="PersonAreas" Type="ProjectFirma.Web.Models.PersonArea" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Person">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="PersonAreas">
-        <PropertyRef Name="PersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

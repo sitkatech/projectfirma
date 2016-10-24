@@ -16,6 +16,7 @@ CREATE TABLE [dbo].[Person](
 	[LastActivityDate] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
 	[OrganizationID] [int] NOT NULL,
+	[ReceiveSupportEmails] [bit] NOT NULL,
 	[WebServiceAccessToken] [uniqueidentifier] NULL,
  CONSTRAINT [PK_Person_PersonID] PRIMARY KEY CLUSTERED 
 (

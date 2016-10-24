@@ -6,7 +6,7 @@ namespace ProjectFirma.Web.Security.Shared
     [SecurityFeatureDescription("Anonymous Access")]
     public class AnonymousUnclassifiedFeature : LakeTahoeInfoBaseFeature
     {
-        public AnonymousUnclassifiedFeature() : base(new List<IRole>(), null)
+        public AnonymousUnclassifiedFeature() : base(new List<IRole>())
         {
         }
     }

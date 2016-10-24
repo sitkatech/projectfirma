@@ -8,13 +8,10 @@ namespace ProjectFirma.Web.Models
     public class SupportRequestLogTest
     {       
         [Test]
-        public void AllAreasHaveAtLeastOneSupportEmail()
+        public void ShouldHaveAtLeastOneSupportEmail()
         {
-            foreach (var ltInfoArea in LTInfoArea.SortedAll)
-            {
-                var supportPersonIDs = HttpRequestStorage.DatabaseEntities.PersonAreas.Where(x => x.LTInfoAreaID == ltInfoArea.LTInfoAreaID && x.ReceiveSupportEmails).Select(x => x.PersonID).ToList();
-                Assert.That(supportPersonIDs.Count, Is.GreaterThanOrEqualTo(1), string.Format("{0} does not have any support persons set!", ltInfoArea.LTInfoAreaDisplayName));
-            }
+            var supportPersonIDs = HttpRequestStorage.DatabaseEntities.People.Where(x => x.ReceiveSupportEmails).Select(x => x.PersonID).ToList();
+            Assert.That(supportPersonIDs.Count, Is.GreaterThanOrEqualTo(1), "No support persons set!");
         }
     }
 }

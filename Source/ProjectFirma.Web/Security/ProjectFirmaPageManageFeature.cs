@@ -21,7 +21,11 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, ProjectFirmaPage contextModelObject)
         {
-            return contextModelObject.ProjectFirmaPageType.PrimaryLTInfoArea.CanManageFieldDefinitionAndIntroTextForArea(person);
+            if (HasPermissionByPerson(person))
+            {
+                return new PermissionCheckResult();
+            }
+            return new PermissionCheckResult("Does not have administration privileges");
         }
     }
 }

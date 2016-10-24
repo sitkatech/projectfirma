@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -147,8 +147,6 @@
     <Compile Include="Models\Generated\LocalAndRegionalPlan.Binding.cs" />
     <Compile Include="Models\Generated\LocalAndRegionalPlan.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\LocalAndRegionalPlanPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\LTInfoArea.Binding.cs" />
-    <Compile Include="Models\Generated\LTInfoAreaPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\MappedRegion.Binding.cs" />
     <Compile Include="Models\Generated\MappedRegion.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\MappedRegionPrimaryKey.Binding.cs" />
@@ -179,9 +177,6 @@
     <Compile Include="Models\Generated\OrganizationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Person.Binding.cs" />
     <Compile Include="Models\Generated\Person.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\PersonArea.Binding.cs" />
-    <Compile Include="Models\Generated\PersonArea.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\PersonAreaPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PersonPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Program.Binding.cs" />
     <Compile Include="Models\Generated\Program.DatabaseContextExtensions.cs" />
@@ -704,7 +699,6 @@
     <Compile Include="Controllers\FieldDefinitionController.cs" />
     <Compile Include="Controllers\GoogleChartConfigurationViewModel.cs" />
     <Compile Include="Models\IRole.cs" />
-    <Compile Include="Models\LakeTahoeInfoArea.cs" />
     <Compile Include="Models\ProjectWizardComponents.cs" />
     <Compile Include="Security\LakeTahoeInfoAdminFeature.cs" />
     <Compile Include="Security\ProjectFirmaPageManageFeature.cs" />

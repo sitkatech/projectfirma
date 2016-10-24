@@ -14,10 +14,6 @@
     <h2>Basics</h2>
     <table class="summaryLayout">
         <tr>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.SiteArea)</th>
-            <td>@(ViewDataTyped.LTInfoAreaName)</td>
-        </tr>
-        <tr>
             <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.RoleName)</th>
             <td>@(ViewDataTyped.RoleName)</td>
         </tr>
@@ -75,12 +71,9 @@
     </table>
 </div>
 
-@if (ViewDataTyped.LTInfoAreaEnum != null)
-{
-    <div class="summarySection">
-        <h2>People wtih this role:</h2>
-        <div class="contentWrapper">
-            @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-        </div>
+<div class="summarySection">
+    <h2>People wtih this role:</h2>
+    <div class="contentWrapper">
+        @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>
-}
+</div>

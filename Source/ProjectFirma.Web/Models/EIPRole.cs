@@ -4,7 +4,6 @@ using System.Web;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Views.Role;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Models
@@ -28,19 +27,9 @@ namespace ProjectFirma.Web.Models
             return HttpRequestStorage.DatabaseEntities.People.Where(x => x.IsActive && x.EIPRoleID == RoleID).ToList();
         }
 
-        public LTInfoAreaEnum? LTInfoAreaEnum
-        {
-            get { return LTInfoArea.ToEnum; }
-        }
-
-        public string LTInfoAreaDisplayName
-        {
-            get { return LTInfoArea.LTInfoAreaDisplayName; }
-        }
-
         public HtmlString GetDisplayNameAsUrl()
         {
-            return UrlTemplate.MakeHrefString(SitkaRoute<RoleController>.BuildUrlFromExpression(t => t.Summary(LTInfoArea.ToEnum, RoleID)), RoleDisplayName);
+            return UrlTemplate.MakeHrefString(SitkaRoute<RoleController>.BuildUrlFromExpression(t => t.Summary(RoleID)), RoleDisplayName);
         }
 
         public static string GetAnonymousRoleUrl()

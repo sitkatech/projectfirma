@@ -8,7 +8,6 @@ namespace ProjectFirma.Web.Views.Role
     {
         public IndexGridSpec()
         {
-            Add("Site Area", a => a.LTInfoAreaDisplayName, 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Role", a => a.GetDisplayNameAsUrl(), 200, DhtmlxGridColumnFilterType.Html);
             Add("Count", a => a.GetPeopleWithRole().Count, 50);
         }

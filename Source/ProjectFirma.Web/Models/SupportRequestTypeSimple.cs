@@ -12,14 +12,13 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public SupportRequestTypeSimple(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder, int? lTInfoAreaID)
+        public SupportRequestTypeSimple(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder)
             : this()
         {
             SupportRequestTypeID = supportRequestTypeID;
             SupportRequestTypeName = supportRequestTypeName;
             SupportRequestTypeDisplayName = supportRequestTypeDisplayName;
             SupportRequestTypeSortOrder = supportRequestTypeSortOrder;
-            LTInfoAreaID = lTInfoAreaID;
         }
 
         /// <summary>
@@ -32,13 +31,11 @@ namespace ProjectFirma.Web.Models
             SupportRequestTypeName = supportRequestType.SupportRequestTypeName;
             SupportRequestTypeDisplayName = supportRequestType.SupportRequestTypeDisplayName;
             SupportRequestTypeSortOrder = supportRequestType.SupportRequestTypeSortOrder;
-            LTInfoAreaID = supportRequestType.LTInfoAreaID;
         }
 
         public int SupportRequestTypeID { get; set; }
         public string SupportRequestTypeName { get; set; }
         public string SupportRequestTypeDisplayName { get; set; }
         public int SupportRequestTypeSortOrder { get; set; }
-        public int? LTInfoAreaID { get; set; }
     }
 }

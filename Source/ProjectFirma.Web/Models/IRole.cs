@@ -11,8 +11,6 @@ namespace ProjectFirma.Web.Models
         string RoleDescription { get; }
         List<FeaturePermission> GetFeaturePermissions();
         List<Person> GetPeopleWithRole();
-        LTInfoAreaEnum? LTInfoAreaEnum { get; }
-        string LTInfoAreaDisplayName { get; }
         HtmlString GetDisplayNameAsUrl();
     }
 }

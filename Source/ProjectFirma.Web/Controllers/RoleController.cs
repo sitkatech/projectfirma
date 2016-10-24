@@ -27,9 +27,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [UserEditFeature]
-        public GridJsonNetJObjectResult<Person> PersonWithRoleGridJsonData(LTInfoAreaEnum ltInfoAreaEnum, int roleID)
+        public GridJsonNetJObjectResult<Person> PersonWithRoleGridJsonData(int roleID)
         {
-            var role = LTInfoArea.ToType(ltInfoAreaEnum).GetRole(roleID);
+            var role = EIPRole.AllLookupDictionary[roleID];
             var gridSpec = new PersonWithRoleGridSpec();
             var peopleWithRole = role.GetPeopleWithRole();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(peopleWithRole, gridSpec);
@@ -39,12 +39,8 @@ namespace ProjectFirma.Web.Controllers
         public static List<IRole> GetRoleSummaryData()
         {
             var roles = new List<IRole> {new AnonymousRole()};
-            foreach (var ltInfoArea in LTInfoArea.All)
-            {
-                roles.AddRange(ltInfoArea.GetRoles());
-            }
-            
-            return roles.OrderBy(x => x.LTInfoAreaDisplayName).ThenBy(x => x.RoleDisplayName).ToList();
+            roles.AddRange(EIPRole.All);
+            return roles.OrderBy(x => x.RoleDisplayName).ToList();
         }
 
         [LakeTahoeInfoAdminFeature]
@@ -54,9 +50,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [LakeTahoeInfoAdminFeature]
-        public ViewResult Summary(LTInfoAreaEnum lakeTahoInfoAreaEnum, int roleID)
+        public ViewResult Summary(int roleID)
         {
-            var role = LTInfoArea.ToType(lakeTahoInfoAreaEnum).GetRole(roleID);
+            var role = EIPRole.AllLookupDictionary[roleID];
             return ViewSummary(role);
         }
 

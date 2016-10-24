@@ -64,10 +64,6 @@ namespace ProjectFirma.Web.Controllers
             var indicator = HttpRequestStorage.DatabaseEntities.Indicators.GetIndicatorByIndicatorName(indicatorName);
             var activeTab = indicatorSummaryTab ?? SummaryViewData.IndicatorSummaryTab.Overview;
             var userHasIndicatorManagePermissions = new IndicatorManageFeature().HasPermissionByPerson(CurrentPerson);
-            var lakeTahoeInfoAreasThatReportOnIndicators = new List<SummaryViewData.LakeTahoeInfoAreaSection>
-            {
-                new SummaryViewData.LakeTahoeInfoAreaSection(LTInfoArea.EIP, SummaryViewData.IndicatorSummaryTab.EIP, indicator.ReportedInEIP)
-            };
             var indicatorChartViewData = new IndicatorChartViewData(indicator, false, userHasIndicatorManagePermissions ? ChartViewMode.ManagementMode : ChartViewMode.Small, null);
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(indicator.IndicatorNotes)),
                 SitkaRoute<IndicatorNoteController>.BuildUrlFromExpression(c => c.New(indicator.PrimaryKey)),
@@ -77,7 +73,6 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new SummaryViewData(CurrentPerson,
                 indicator,
                 activeTab,
-                lakeTahoeInfoAreasThatReportOnIndicators,
                 indicatorChartViewData,
                 entityNotesViewData,
                 userHasIndicatorManagePermissions);

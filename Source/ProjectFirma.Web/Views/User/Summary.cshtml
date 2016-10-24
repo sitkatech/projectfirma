@@ -97,29 +97,24 @@
                 <div class="contentWrapper">
                     <table>
                         <tr>
-                            <th style="padding-bottom: 10px;" class="paddedTableCell"></th>
                             <th style="padding-bottom: 10px;" class="paddedTableCell">Role</th>
                             <th style="padding-bottom: 10px;" class="paddedTableCell">Receive Support Emails</th>
                         </tr>
-                        @foreach (var ltInfoArea in LTInfoArea.SortedAll)
-                        {
-                            <tr>
-                                <th class="paddedTableCell">@ltInfoArea.LTInfoAreaDisplayName</th>
-                                <td class="paddedTableCell">
-                                    @if (ViewDataTyped.UserHasPersonManagePermissions)
-                                    {
-                                        @ltInfoArea.GetPersonRoleToUse(ViewDataTyped.Person).GetDisplayNameAsUrl()
-                                    }
-                                    else
-                                    {
-                                        @ltInfoArea.GetPersonRoleToUse(ViewDataTyped.Person).RoleDisplayName
-                                    }
-                                </td>
-                                <td class="paddedTableCell" style="text-align: center">
-                                    @ViewDataTyped.Person.ShouldReceiveSupportEmails(ltInfoArea.LTInfoAreaID).ToYesNo()
-                                </td>
-                            </tr>
-                        }
+                        <tr>
+                            <td class="paddedTableCell">
+                                @if (ViewDataTyped.UserHasPersonManagePermissions)
+                                {
+                                    @ViewDataTyped.Person.EIPRole.GetDisplayNameAsUrl()
+                                }
+                                else
+                                {
+                                    @ViewDataTyped.Person.EIPRole.RoleDisplayName
+                                }
+                            </td>
+                            <td class="paddedTableCell" style="text-align: center">
+                                @ViewDataTyped.Person.ReceiveSupportEmails.ToYesNo()
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>

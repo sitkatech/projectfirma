@@ -36,17 +36,7 @@ namespace ProjectFirma.Web.Controllers
                 currentPageUrl = Request.Url.ToString();
             }
 
-            //Determine which area of the site they came from
-            var currentRootUrlHost = Request.Url.Host;
-            var currentLtInfoArea = LTInfoArea.All.SingleOrDefault(x => x.GetCanonicalHostName().Equals(currentRootUrlHost, StringComparison.InvariantCultureIgnoreCase));
-            if (currentLtInfoArea == null)
-            {
-                //If we can't find the area, log and continue with default (LTInfo) area
-                SitkaLogger.Instance.LogDetailedErrorMessage("Unknown domain: " + currentRootUrlHost);
-                currentLtInfoArea = LTInfoArea.EIP;
-            }
-
-            var viewModel = new SupportFormViewModel(currentPageUrl, supportRequestTypeEnum, currentLtInfoArea.ToEnum);
+            var viewModel = new SupportFormViewModel(currentPageUrl, supportRequestTypeEnum);
             if (!IsCurrentUserAnonymous())
             {
                 viewModel.RequestPersonName = CurrentPerson.FullNameFirstLast;
@@ -64,15 +54,12 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewSupportImpl(SupportFormViewModel viewModel, string successMessage)
         {
             var allSupportRequestTypes = SupportRequestType.All.OrderBy(x => x.SupportRequestTypeSortOrder);
-            
+
             var supportRequestTypes =
-                allSupportRequestTypes.Where(x => x.LTInfoAreaID == null || x.LTInfoAreaID == (int) viewModel.LakeTahoeInfoAreaEnum)
-                    .OrderBy(x => x.SupportRequestTypeSortOrder)
+                allSupportRequestTypes.OrderBy(x => x.SupportRequestTypeSortOrder)
                     .ToSelectListWithEmptyFirstRow(x => x.SupportRequestTypeID.ToString(CultureInfo.InvariantCulture), x => x.SupportRequestTypeDisplayName);
             
-            var siteAreas = LTInfoArea.All.OrderBy(x => x.LTInfoAreaID).ToSelectList(x => x.LTInfoAreaID.ToString(CultureInfo.InvariantCulture), x => x.LTInfoAreaDisplayName);
-            
-            var viewData = new SupportFormViewData(successMessage, IsCurrentUserAnonymous(), supportRequestTypes, siteAreas, allSupportRequestTypes.Select(x => new SupportRequestTypeSimple(x)).ToList());
+            var viewData = new SupportFormViewData(successMessage, IsCurrentUserAnonymous(), supportRequestTypes, allSupportRequestTypes.Select(x => new SupportRequestTypeSimple(x)).ToList());
             return RazorPartialView<SupportForm, SupportFormViewData, SupportFormViewModel>(viewData, viewModel);
         }
 
@@ -89,7 +76,7 @@ namespace ProjectFirma.Web.Controllers
             var supportRequestLog = SupportRequestLog.Create(CurrentPerson);
             viewModel.UpdateModel(supportRequestLog, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.SupportRequestLogs.Add(supportRequestLog);
-            supportRequestLog.SendMessage(Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, viewModel.LakeTahoeInfoAreaEnum);               
+            supportRequestLog.SendMessage(Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType);               
             SetMessageForDisplay("Support request sent.");
             return new ModalDialogFormJsonResult();
         }
@@ -149,7 +136,7 @@ namespace ProjectFirma.Web.Controllers
             var supportRequestLog = SupportRequestLog.Create(CurrentPerson);
             viewModel.UpdateModel(supportRequestLog, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.SupportRequestLogs.Add(supportRequestLog);
-            supportRequestLog.SendMessage(Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, projectPrimaryKey.EntityObject, LTInfoAreaEnum.EIP);
+            supportRequestLog.SendMessage(Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, projectPrimaryKey.EntityObject);
             SetMessageForDisplay("Support request sent.");
             return new ModalDialogFormJsonResult();
         }

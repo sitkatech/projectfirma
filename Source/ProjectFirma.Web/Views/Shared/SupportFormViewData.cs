@@ -10,15 +10,13 @@ namespace ProjectFirma.Web.Views.Shared
         public readonly string SuccessMessage;
         public readonly bool IsUserAnonymous;
         public readonly IEnumerable<SelectListItem> SupportRequestTypes;
-        public readonly IEnumerable<SelectListItem> SiteAreas; 
 
-        public SupportFormViewData(string successMessage, bool isUserAnonymous, IEnumerable<SelectListItem> supportRequestTypes, IEnumerable<SelectListItem> siteAreas, List<SupportRequestTypeSimple> supportRequestTypeSimples)
+        public SupportFormViewData(string successMessage, bool isUserAnonymous, IEnumerable<SelectListItem> supportRequestTypes, List<SupportRequestTypeSimple> supportRequestTypeSimples)
         {
             SupportRequestTypeSimples = supportRequestTypeSimples;
             SuccessMessage = successMessage;
             IsUserAnonymous = isUserAnonymous;
             SupportRequestTypes = supportRequestTypes;
-            SiteAreas = siteAreas;
         }
     }
 }

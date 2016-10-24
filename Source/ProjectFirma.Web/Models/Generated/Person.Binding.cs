@@ -29,7 +29,6 @@ namespace ProjectFirma.Web.Models
             this.IndicatorNotesWhereYouAreTheUpdatePerson = new HashSet<IndicatorNote>();
             this.Notifications = new HashSet<Notification>();
             this.OrganizationsWhereYouAreThePrimaryContactPerson = new HashSet<Organization>();
-            this.PersonAreas = new HashSet<PersonArea>();
             this.ProjectNotesWhereYouAreTheCreatePerson = new HashSet<ProjectNote>();
             this.ProjectNotesWhereYouAreTheUpdatePerson = new HashSet<ProjectNote>();
             this.ProjectNoteUpdatesWhereYouAreTheCreatePerson = new HashSet<ProjectNoteUpdate>();
@@ -46,7 +45,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Person(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int eIPRoleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, Guid? webServiceAccessToken) : this()
+        public Person(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int eIPRoleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, bool receiveSupportEmails, Guid? webServiceAccessToken) : this()
         {
             this.PersonID = personID;
             this.PersonGuid = personGuid;
@@ -61,13 +60,14 @@ namespace ProjectFirma.Web.Models
             this.LastActivityDate = lastActivityDate;
             this.IsActive = isActive;
             this.OrganizationID = organizationID;
+            this.ReceiveSupportEmails = receiveSupportEmails;
             this.WebServiceAccessToken = webServiceAccessToken;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Person(Guid personGuid, string firstName, string lastName, string email, int eIPRoleID, DateTime createDate, bool isActive, int organizationID) : this()
+        public Person(Guid personGuid, string firstName, string lastName, string email, int eIPRoleID, DateTime createDate, bool isActive, int organizationID, bool receiveSupportEmails) : this()
         {
             // Mark this as a new object by setting primary key with special value
             PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -80,12 +80,13 @@ namespace ProjectFirma.Web.Models
             this.CreateDate = createDate;
             this.IsActive = isActive;
             this.OrganizationID = organizationID;
+            this.ReceiveSupportEmails = receiveSupportEmails;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Person(Guid personGuid, string firstName, string lastName, string email, EIPRole eIPRole, DateTime createDate, bool isActive, Organization organization) : this()
+        public Person(Guid personGuid, string firstName, string lastName, string email, EIPRole eIPRole, DateTime createDate, bool isActive, Organization organization, bool receiveSupportEmails) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -99,6 +100,7 @@ namespace ProjectFirma.Web.Models
             this.OrganizationID = organization.OrganizationID;
             this.Organization = organization;
             organization.People.Add(this);
+            this.ReceiveSupportEmails = receiveSupportEmails;
         }
 
         /// <summary>
@@ -106,7 +108,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static Person CreateNewBlank(EIPRole eIPRole, Organization organization)
         {
-            return new Person(default(Guid), default(string), default(string), default(string), eIPRole, default(DateTime), default(bool), organization);
+            return new Person(default(Guid), default(string), default(string), default(string), eIPRole, default(DateTime), default(bool), organization, default(bool));
         }
 
         /// <summary>
@@ -115,13 +117,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AuditLogs.Any() || FileResourcesWhereYouAreTheCreatePerson.Any() || IndicatorNotesWhereYouAreTheCreatePerson.Any() || IndicatorNotesWhereYouAreTheUpdatePerson.Any() || Notifications.Any() || OrganizationsWhereYouAreThePrimaryContactPerson.Any() || PersonAreas.Any() || ProjectNotesWhereYouAreTheCreatePerson.Any() || ProjectNotesWhereYouAreTheUpdatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheCreatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheUpdatePerson.Any() || ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Any() || ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.Any() || ProposedProjectsWhereYouAreTheProposingPerson.Any() || ProposedProjectsWhereYouAreTheReviewedByPerson.Any() || ProposedProjectNotesWhereYouAreTheCreatePerson.Any() || ProposedProjectNotesWhereYouAreTheUpdatePerson.Any() || SupportRequestLogsWhereYouAreTheRequestPerson.Any();
+            return AuditLogs.Any() || FileResourcesWhereYouAreTheCreatePerson.Any() || IndicatorNotesWhereYouAreTheCreatePerson.Any() || IndicatorNotesWhereYouAreTheUpdatePerson.Any() || Notifications.Any() || OrganizationsWhereYouAreThePrimaryContactPerson.Any() || ProjectNotesWhereYouAreTheCreatePerson.Any() || ProjectNotesWhereYouAreTheUpdatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheCreatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheUpdatePerson.Any() || ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Any() || ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.Any() || ProposedProjectsWhereYouAreTheProposingPerson.Any() || ProposedProjectsWhereYouAreTheReviewedByPerson.Any() || ProposedProjectNotesWhereYouAreTheCreatePerson.Any() || ProposedProjectNotesWhereYouAreTheUpdatePerson.Any() || SupportRequestLogsWhereYouAreTheRequestPerson.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Person).Name, typeof(AuditLog).Name, typeof(FileResource).Name, typeof(IndicatorNote).Name, typeof(Notification).Name, typeof(Organization).Name, typeof(PersonArea).Name, typeof(ProjectNote).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectUpdateHistory).Name, typeof(ProposedProject).Name, typeof(ProposedProjectNote).Name, typeof(SupportRequestLog).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Person).Name, typeof(AuditLog).Name, typeof(FileResource).Name, typeof(IndicatorNote).Name, typeof(Notification).Name, typeof(Organization).Name, typeof(ProjectNote).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectUpdateHistory).Name, typeof(ProposedProject).Name, typeof(ProposedProjectNote).Name, typeof(SupportRequestLog).Name};
 
         [Key]
         public int PersonID { get; set; }
@@ -137,6 +139,7 @@ namespace ProjectFirma.Web.Models
         public DateTime? LastActivityDate { get; set; }
         public bool IsActive { get; set; }
         public int OrganizationID { get; set; }
+        public bool ReceiveSupportEmails { get; set; }
         public Guid? WebServiceAccessToken { get; set; }
         public int PrimaryKey { get { return PersonID; } set { PersonID = value; } }
 
@@ -146,7 +149,6 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<IndicatorNote> IndicatorNotesWhereYouAreTheUpdatePerson { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }
         public virtual ICollection<Organization> OrganizationsWhereYouAreThePrimaryContactPerson { get; set; }
-        public virtual ICollection<PersonArea> PersonAreas { get; set; }
         public virtual ICollection<ProjectNote> ProjectNotesWhereYouAreTheCreatePerson { get; set; }
         public virtual ICollection<ProjectNote> ProjectNotesWhereYouAreTheUpdatePerson { get; set; }
         public virtual ICollection<ProjectNoteUpdate> ProjectNoteUpdatesWhereYouAreTheCreatePerson { get; set; }

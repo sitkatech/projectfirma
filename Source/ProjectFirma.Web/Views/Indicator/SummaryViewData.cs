@@ -14,28 +14,11 @@ namespace ProjectFirma.Web.Views.Indicator
         public enum IndicatorSummaryTab
         {
             Overview,
-            EIP,
-            SustainabilityDashboard,
-            ThresholdDashboard
-        }
-
-        public class LakeTahoeInfoAreaSection
-        {
-            public readonly LTInfoArea LakeTahoeInfoArea;
-            public readonly IndicatorSummaryTab IndicatorSummaryTab;
-            public readonly bool IsReportedInArea;
-
-            public LakeTahoeInfoAreaSection(LTInfoArea lakeTahoeInfoArea, IndicatorSummaryTab indicatorSummaryTab, bool isReportedInArea)
-            {
-                LakeTahoeInfoArea = lakeTahoeInfoArea;
-                IndicatorSummaryTab = indicatorSummaryTab;
-                IsReportedInArea = isReportedInArea;
-            }
+            EIP
         }
 
         public readonly Models.Indicator Indicator;
         public readonly IndicatorSummaryTab ActiveTab;
-        public readonly List<LakeTahoeInfoAreaSection> LakeTahoeInfoAreaSectons;
         public readonly IndicatorChartViewData IndicatorChartViewData;
         public readonly EntityNotesViewData EntityNotesViewData;
 
@@ -66,7 +49,6 @@ namespace ProjectFirma.Web.Views.Indicator
         public SummaryViewData(Person currentPerson,
             Models.Indicator indicator,
             IndicatorSummaryTab activeTab,
-            List<LakeTahoeInfoAreaSection> lakeTahoeInfoAreaSectons,
             IndicatorChartViewData indicatorChartViewData,
             EntityNotesViewData entityNotesViewData,
             bool userHasIndicatorManagePermissions) : base(currentPerson)
@@ -76,7 +58,6 @@ namespace ProjectFirma.Web.Views.Indicator
 
             Indicator = indicator;
             ActiveTab = activeTab;
-            LakeTahoeInfoAreaSectons = lakeTahoeInfoAreaSectons;
             IndicatorChartViewData = indicatorChartViewData;
             EntityNotesViewData = entityNotesViewData;
             UserHasIndicatorOverviewManagePermissions = userHasIndicatorManagePermissions;
@@ -141,29 +122,6 @@ namespace ProjectFirma.Web.Views.Indicator
         public bool IsActiveTabEIP
         {
             get { return ActiveTab == IndicatorSummaryTab.EIP; }
-        }
-
-        public bool IsActiveTabSustainabilityDashboard
-        {
-            get { return ActiveTab == IndicatorSummaryTab.SustainabilityDashboard; }
-        }
-
-        public bool IsActiveTabThresholdDashboard
-        {
-            get { return ActiveTab == IndicatorSummaryTab.ThresholdDashboard; }
-        }
-
-        public string IndicatorReportedInText
-        {
-            get
-            {
-                var reportedInLakeTahoeInfoAreas = LakeTahoeInfoAreaSectons.Where(x => x.IsReportedInArea).Select(x => x.LakeTahoeInfoArea.LTInfoAreaDisplayName).ToList();
-                if (reportedInLakeTahoeInfoAreas.Count > 2)
-                {
-                    return string.Format("{0} and {1}", string.Join(", ", reportedInLakeTahoeInfoAreas.Take(2)), reportedInLakeTahoeInfoAreas.Skip(2));
-                }
-                return string.Join(" and ", reportedInLakeTahoeInfoAreas);
-            }
         }
     }
 }

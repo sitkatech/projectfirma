@@ -16,9 +16,7 @@ namespace ProjectFirma.Web.Views
         public readonly Models.ProjectFirmaPage ProjectFirmaPage;
 
         public readonly Person CurrentPerson;
-        public readonly string EipHomeUrl;
         public readonly string LakeTahoeInfoHomeUrl;
-        public readonly string DataCenterUrl;
 
         public readonly string LogInUrl;
         public readonly string LogOutUrl;
@@ -27,11 +25,7 @@ namespace ProjectFirma.Web.Views
 
         public readonly LakeTahoeInfoSiteExplorerViewData LakeTahoeInfoSiteExplorerViewData;
 
-        protected LakeTahoeInfoBaseViewData(Person currentPerson, LTInfoArea ltInfoArea) : this(currentPerson, null, ltInfoArea)
-        {
-        }
-
-        protected LakeTahoeInfoBaseViewData(Person currentPerson, Models.ProjectFirmaPage projectFirmaPage, LTInfoArea ltInfoArea)
+        protected LakeTahoeInfoBaseViewData(Person currentPerson, Models.ProjectFirmaPage projectFirmaPage)
         {
             ProjectFirmaPage = projectFirmaPage;
 
@@ -43,7 +37,7 @@ namespace ProjectFirma.Web.Views
 
             RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(c => c.Support());
 
-            LakeTahoeInfoSiteExplorerViewData = new LakeTahoeInfoSiteExplorerViewData(ltInfoArea);
+            LakeTahoeInfoSiteExplorerViewData = new LakeTahoeInfoSiteExplorerViewData();
         }
 
         public string GetBreadCrumbTitle()

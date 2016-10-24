@@ -7,7 +7,6 @@ using ApprovalTests;
 using ApprovalTests.Reporters;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security.Shared;
 using LtInfo.Common.EntityModelBinding;
 using NUnit.Framework;
 
@@ -37,91 +36,6 @@ namespace ProjectFirma.Web.Security
             Assert.That(info.Where(x => x.FeatureCount > 1).ToList(), Is.Empty, string.Format("Should have no more than one{0}", _typeOfLakeTahoeInfoBaseFeature.Name));
         }
 
-        [Test]
-        [Description("Each controller action's feature should inherit from that area's BaseFeature: ")]
-        [UseReporter(typeof(DiffReporter))]
-        public void EachControllerActionShouldUseAreaBaseFeature()
-        {
-            var listOfErrors = new List<string>();
-
-            var allControllerActionMethods = LakeTahoeInfoBaseController.AllControllerActionMethods;
-            foreach (var controllerActionMethod in allControllerActionMethods)
-            {
-                var fullClassName = controllerActionMethod.DeclaringType.FullName;
-                var methodName = controllerActionMethod.Name;
-                var actionArea = GetAreaByNamespace(fullClassName);
-
-                var list = controllerActionMethod.GetCustomAttributes().ToList();
-                var attributes = list.Where(a => a.GetType().IsSubclassOf(_typeOfLakeTahoeInfoBaseFeature)).ToList();
-                foreach (var att in attributes)
-                {
-                    try
-                    {
-                        /* MB: Return here is slightly odd, since I didn't want to add to the enum just for this one test
-                            Exception means it's not following our rules of inheritance
-                            Null means it's one of our Shared features, of which there is currently only one (Anonymous) */
-                        var featureArea = GetAreaByInheritance(att);
-                        if (actionArea != featureArea)
-                        {
-                            if (featureArea != null)
-                            {
-                                listOfErrors.Add(string.Format("'{0}/{1}' is in area [{2}], but uses feature '{3}' from [{4}]"
-                                    , fullClassName, methodName, actionArea.LTInfoAreaName, att, featureArea.LTInfoAreaName));
-                            }
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        listOfErrors.Add(string.Format("'{0}/{1}' is in area [{2}], but uses feature '{3}' from [UNKNOWN AREA]"
-                                    , fullClassName, methodName, actionArea.LTInfoAreaName, att));
-                    }
-
-                }
-            }
-
-            var message = Environment.NewLine + string.Join(Environment.NewLine, listOfErrors.OrderBy(x => x));
-            Approvals.Verify(message);
-        }
-
-        private static LTInfoArea GetAreaByNamespace(string fullClassName)
-        {
-            var actionArea = LTInfoArea.All.SingleOrDefault(area => fullClassName.Contains(string.Format(".{0}.", area.LTInfoAreaName)));
-            return actionArea ?? LTInfoArea.EIP;
-        }
-
-        private static LTInfoArea GetAreaByInheritance(Attribute featureAttribute)
-        {
-            if (featureAttribute is EIPFeature || featureAttribute is EIPFeatureWithContext)
-            {
-                return LTInfoArea.EIP;
-            }
-            else if (featureAttribute is AnonymousUnclassifiedFeature)
-            {
-                return null; //Indicates a shared feature
-            }
-            else
-            {
-                throw new Exception("All features must inherit from LakeTahoeInfoBaseFeature or one of it's children.");
-            }
-        }
-
-        private static LTInfoArea GetAreaByInheritance(Type featureType)
-        {
-
-            if (typeof(EIPFeature).IsAssignableFrom((featureType)) || typeof(EIPFeatureWithContext).IsAssignableFrom((featureType)))
-            {
-                return LTInfoArea.EIP;
-            }
-            else if (typeof(AnonymousUnclassifiedFeature).IsAssignableFrom((featureType)))
-            {
-                return null; //Indicates a shared feature
-            }
-            else
-            {
-                throw new Exception("All features must inherit from LakeTahoeInfoBaseFeature or one of it's children.");
-            }
-        }
-
         private static string MethodName(MethodInfo method)
         {
             // ReSharper disable PossibleNullReferenceException
@@ -134,36 +48,6 @@ namespace ProjectFirma.Web.Security
             var list = method.GetCustomAttributes().ToList();
             var attributes = list.Where(a => a.GetType().IsSubclassOf(_typeOfLakeTahoeInfoBaseFeature)).ToList();
             return attributes.Count;
-        }
-
-        [Test]
-        [Description("Each security feature should be in the same namespace as the base feature it inherits from")]
-        public void SecurityFeaturesShouldBeInCorrectArea()
-        {
-            var baseFeatureClass = typeof(LakeTahoeInfoBaseFeature);
-            var types = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s => s.GetTypes())
-                .Where(p => baseFeatureClass.IsAssignableFrom(p) && p.Name != baseFeatureClass.Name);
-
-            var listOfErrors = new List<string>();
-            foreach (var type in types)
-            {
-                LTInfoArea namespaceArea = GetAreaByNamespace(type.FullName);
-                LTInfoArea inheritanceArea = GetAreaByInheritance(type);
-                if (namespaceArea != inheritanceArea)
-                {
-                    //Null inheritance area means we're in the "Shared" section and don't need to log an error
-                    if (inheritanceArea != null)
-                    {
-                        listOfErrors.Add(String.Format("{0}'s namespace is {1} but it inherits from a feature in {2}", type.FullName, namespaceArea.LTInfoAreaName, inheritanceArea.LTInfoAreaName));
-                    }
-                }
-            }
-
-            if (listOfErrors.Count > 0)
-            {
-                Assert.Fail(Environment.NewLine + Environment.NewLine + String.Join(Environment.NewLine, listOfErrors));
-            }
         }
 
         [Test]
@@ -204,22 +88,11 @@ namespace ProjectFirma.Web.Security
             var listOfErrors = new List<string>();
             foreach (var type in types)
             {
-                var area = GetAreaByInheritance(type);
-                if (area == null) continue; //Skips anonymous features
                 var obj = LakeTahoeInfoBaseFeature.InstantiateFeature(type);
-
-                //Validate Admin has access
-                switch (area.ToEnum)
+                if (!obj.GrantedRoles.Contains(EIPRole.Admin) && obj.GrantedRoles.Count != 0)
                 {
-                    case LTInfoAreaEnum.EIP:
-                        if (!obj.GrantedRoles.Contains(EIPRole.Admin) && obj.GrantedRoles.Count != 0)
-                        {
-                            string errorMessage = String.Format("EIP Feature {0} is not available to Administrators", type.FullName);
-                            listOfErrors.Add(errorMessage);
-                        }
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                    var errorMessage = String.Format("Feature {0} is not available to Administrators", type.FullName);
+                    listOfErrors.Add(errorMessage);
                 }
 
                 //Validate Unassigned does NOT have access                

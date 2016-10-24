@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Models
     /// </summary>
     public static class PersonModelExtensions
     {
-        public readonly static UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<UserController>.BuildUrlFromExpression(t => t.Summary(UrlTemplate.Parameter1Int)));
+        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<UserController>.BuildUrlFromExpression(t => t.Summary(UrlTemplate.Parameter1Int)));
 
         public static HtmlString GetFullNameFirstLastAsUrl(this Person person)
         {
@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Models
 
         public static bool ShouldReceiveEIPNotifications(this Person person)
         {
-            return person.ShouldReceiveSupportEmails(LTInfoArea.EIP.LTInfoAreaID);
+            return person.ReceiveSupportEmails;
         }
 
         public static bool IsReadOnlyAdmin(this Person person)
@@ -71,12 +71,6 @@ namespace ProjectFirma.Web.Models
         public static string GetKeystoneEditLink(this Person person)
         {
             return string.Format("{0}{1}", ProjectFirmaWebConfiguration.KeystoneUserProfileUrl, person.PersonGuid);
-        }
-
-        public static bool ShouldReceiveSupportEmails(this Person person, int ltInfoAreaID)
-        {
-            var personArea = person.PersonAreas.SingleOrDefault(x => x.LTInfoAreaID == ltInfoAreaID);
-            return personArea != null && personArea.ReceiveSupportEmails;
         }
     }
 }

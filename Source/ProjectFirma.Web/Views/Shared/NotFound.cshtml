@@ -1,5 +1,4 @@
-﻿@using ProjectFirma.Web.Models
-@using LtInfo.Common
+﻿@using LtInfo.Common
 @inherits ProjectFirma.Web.Views.Shared.NotFound
 
 <div style="margin-top: 20px; min-height: 200px">
@@ -12,11 +11,7 @@
     else
     {
         <ul>
-            @foreach (var a in LTInfoArea.All.OrderBy(x => x.SortOrder))
-            {
-                <li><a href="@a.GetHomeUrl()">@a.LTInfoAreaDisplayName home</a></li>
-            }
+            <li><a href="@ViewDataTyped.LakeTahoeInfoHomeUrl">Project Firma home</a></li>
         </ul>
-
     }
 </div>

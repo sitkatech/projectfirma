@@ -22,7 +22,6 @@ namespace ProjectFirma.Web.Views.FieldDefinition
             }
             Add("Field Name", a => a.FieldDefinitionDisplayName, 280);
             Add("Defined?", a => a.HasDefinition.ToYesNo(), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Primary LT Info Area", a => a.PrimaryLTInfoArea != null ? a.PrimaryLTInfoArea.LTInfoAreaDisplayName : string.Empty, 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("FieldDefinitionID", a => a.FieldDefinitionID, 0);
         }
     }

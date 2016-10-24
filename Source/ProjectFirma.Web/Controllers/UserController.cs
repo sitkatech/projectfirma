@@ -161,10 +161,7 @@ namespace ProjectFirma.Web.Controllers
             if (person.IsActive)
             {
                 // if the person is currently active, we need to remove them from the support email list no matter what since we are about to inactivate the person
-                foreach (var personAreaEntry in person.PersonAreas)
-                {
-                    personAreaEntry.ReceiveSupportEmails = false;
-                }
+                person.ReceiveSupportEmails = false;
             }
             person.IsActive = !person.IsActive;
             return new ModalDialogFormJsonResult();

@@ -416,17 +416,8 @@
           <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
-          <ScalarProperty Name="WebServiceAccessToken" ColumnName="WebServiceAccessToken" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="PersonArea">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PersonArea">
-        <MappingFragment StoreEntitySet="PersonArea">
-          <ScalarProperty Name="PersonAreaID" ColumnName="PersonAreaID" />
-          <ScalarProperty Name="PersonID" ColumnName="PersonID" />
-          <ScalarProperty Name="LTInfoAreaID" ColumnName="LTInfoAreaID" />
           <ScalarProperty Name="ReceiveSupportEmails" ColumnName="ReceiveSupportEmails" />
+          <ScalarProperty Name="WebServiceAccessToken" ColumnName="WebServiceAccessToken" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

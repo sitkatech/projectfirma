@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security.Shared;
 
 namespace ProjectFirma.Web.Security
 {
@@ -40,22 +39,6 @@ namespace ProjectFirma.Web.Security
         public static bool IsContextFeatureByInheritance(Attribute featureAttribute)
         {
             return featureAttribute is EIPFeatureWithContext;
-        }
-
-        public static LTInfoArea GetFeatureAreaByInheritance(Attribute featureAttribute)
-        {
-            if (featureAttribute is EIPFeature || featureAttribute is EIPFeatureWithContext)
-            {
-                return LTInfoArea.EIP;
-            }
-            else if (featureAttribute is AnonymousUnclassifiedFeature)
-            {
-                return null; //Indicates a shared feature
-            }
-            else
-            {
-                throw new Exception("All features must inherit from LakeTahoeInfoBaseFeature or one of it's children.");
-            }
         }
     }
 }

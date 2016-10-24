@@ -19,7 +19,6 @@ namespace ProjectFirma.Web.Views.ProjectFirmaPage
             Add("Page Name", a => UrlTemplate.MakeHrefString(a.ProjectFirmaPageType.GetViewUrl(), a.ProjectFirmaPageType.ProjectFirmaPageTypeDisplayName), 180, DhtmlxGridColumnFilterType.Text);
             Add("Has Content", a => a.HasProjectFirmaPageContent.ToYesNo(), 85, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Type", a => a.ProjectFirmaPageType.ProjectFirmaPageRenderType.ProjectFirmaPageRenderTypeDisplayName, 110, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Primary LT Info Area", a => a.ProjectFirmaPageType.PrimaryLTInfoArea.LTInfoAreaDisplayName, 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("ProjectFirmaPageID", a => a.ProjectFirmaPageID, 0);
         }
     }

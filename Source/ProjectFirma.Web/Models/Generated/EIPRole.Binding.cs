@@ -23,6 +23,7 @@ namespace ProjectFirma.Web.Models
         public static readonly EIPRoleApprover Approver = EIPRoleApprover.Instance;
         public static readonly EIPRoleTMPOManager TMPOManager = EIPRoleTMPOManager.Instance;
         public static readonly EIPRoleUnassigned Unassigned = EIPRoleUnassigned.Instance;
+        public static readonly EIPRoleSitkaAdmin SitkaAdmin = EIPRoleSitkaAdmin.Instance;
 
         public static readonly List<EIPRole> All;
         public static readonly ReadOnlyDictionary<int, EIPRole> AllLookupDictionary;
@@ -32,28 +33,26 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static EIPRole()
         {
-            All = new List<EIPRole> { Admin, Normal, ReadOnlyAdmin, ReadOnlyNormal, Approver, TMPOManager, Unassigned };
+            All = new List<EIPRole> { Admin, Normal, ReadOnlyAdmin, ReadOnlyNormal, Approver, TMPOManager, Unassigned, SitkaAdmin };
             AllLookupDictionary = new ReadOnlyDictionary<int, EIPRole>(All.ToDictionary(x => x.EIPRoleID));
         }
 
         /// <summary>
         /// Protected constructor only for use in instantiating the set of static lookup values that match database
         /// </summary>
-        protected EIPRole(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription, int lTInfoAreaID)
+        protected EIPRole(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription)
         {
             EIPRoleID = eIPRoleID;
             EIPRoleName = eIPRoleName;
             EIPRoleDisplayName = eIPRoleDisplayName;
             EIPRoleDescription = eIPRoleDescription;
-            LTInfoAreaID = lTInfoAreaID;
         }
-        public LTInfoArea LTInfoArea { get { return LTInfoArea.AllLookupDictionary[LTInfoAreaID]; } }
+
         [Key]
         public int EIPRoleID { get; private set; }
         public string EIPRoleName { get; private set; }
         public string EIPRoleDisplayName { get; private set; }
         public string EIPRoleDescription { get; private set; }
-        public int LTInfoAreaID { get; private set; }
         public int PrimaryKey { get { return EIPRoleID; } }
 
         /// <summary>
@@ -115,6 +114,8 @@ namespace ProjectFirma.Web.Models
                     return ReadOnlyAdmin;
                 case EIPRoleEnum.ReadOnlyNormal:
                     return ReadOnlyNormal;
+                case EIPRoleEnum.SitkaAdmin:
+                    return SitkaAdmin;
                 case EIPRoleEnum.TMPOManager:
                     return TMPOManager;
                 case EIPRoleEnum.Unassigned:
@@ -133,48 +134,55 @@ namespace ProjectFirma.Web.Models
         ReadOnlyNormal = 4,
         Approver = 5,
         TMPOManager = 6,
-        Unassigned = 7
+        Unassigned = 7,
+        SitkaAdmin = 8
     }
 
     public partial class EIPRoleAdmin : EIPRole
     {
-        private EIPRoleAdmin(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription, int lTInfoAreaID) : base(eIPRoleID, eIPRoleName, eIPRoleDisplayName, eIPRoleDescription, lTInfoAreaID) {}
-        public static readonly EIPRoleAdmin Instance = new EIPRoleAdmin(1, @"Admin", @"Administrator", @"", 1);
+        private EIPRoleAdmin(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription) : base(eIPRoleID, eIPRoleName, eIPRoleDisplayName, eIPRoleDescription) {}
+        public static readonly EIPRoleAdmin Instance = new EIPRoleAdmin(1, @"Admin", @"Administrator", @"");
     }
 
     public partial class EIPRoleNormal : EIPRole
     {
-        private EIPRoleNormal(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription, int lTInfoAreaID) : base(eIPRoleID, eIPRoleName, eIPRoleDisplayName, eIPRoleDescription, lTInfoAreaID) {}
-        public static readonly EIPRoleNormal Instance = new EIPRoleNormal(2, @"Normal", @"Normal User", @"Users with this role can propose new EIP projects, update existing EIP projects where their organization is the Lead Implementer, and view almost every page within the EIP Tracker.", 1);
+        private EIPRoleNormal(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription) : base(eIPRoleID, eIPRoleName, eIPRoleDisplayName, eIPRoleDescription) {}
+        public static readonly EIPRoleNormal Instance = new EIPRoleNormal(2, @"Normal", @"Normal User", @"Users with this role can propose new EIP projects, update existing EIP projects where their organization is the Lead Implementer, and view almost every page within the EIP Tracker.");
     }
 
     public partial class EIPRoleReadOnlyAdmin : EIPRole
     {
-        private EIPRoleReadOnlyAdmin(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription, int lTInfoAreaID) : base(eIPRoleID, eIPRoleName, eIPRoleDisplayName, eIPRoleDescription, lTInfoAreaID) {}
-        public static readonly EIPRoleReadOnlyAdmin Instance = new EIPRoleReadOnlyAdmin(3, @"ReadOnlyAdmin", @"Read-only Administrator User", @"", 1);
+        private EIPRoleReadOnlyAdmin(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription) : base(eIPRoleID, eIPRoleName, eIPRoleDisplayName, eIPRoleDescription) {}
+        public static readonly EIPRoleReadOnlyAdmin Instance = new EIPRoleReadOnlyAdmin(3, @"ReadOnlyAdmin", @"Read-only Administrator User", @"");
     }
 
     public partial class EIPRoleReadOnlyNormal : EIPRole
     {
-        private EIPRoleReadOnlyNormal(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription, int lTInfoAreaID) : base(eIPRoleID, eIPRoleName, eIPRoleDisplayName, eIPRoleDescription, lTInfoAreaID) {}
-        public static readonly EIPRoleReadOnlyNormal Instance = new EIPRoleReadOnlyNormal(4, @"ReadOnlyNormal", @"Read-only Normal User", @"", 1);
+        private EIPRoleReadOnlyNormal(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription) : base(eIPRoleID, eIPRoleName, eIPRoleDisplayName, eIPRoleDescription) {}
+        public static readonly EIPRoleReadOnlyNormal Instance = new EIPRoleReadOnlyNormal(4, @"ReadOnlyNormal", @"Read-only Normal User", @"");
     }
 
     public partial class EIPRoleApprover : EIPRole
     {
-        private EIPRoleApprover(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription, int lTInfoAreaID) : base(eIPRoleID, eIPRoleName, eIPRoleDisplayName, eIPRoleDescription, lTInfoAreaID) {}
-        public static readonly EIPRoleApprover Instance = new EIPRoleApprover(5, @"Approver", @"Approver", @"", 1);
+        private EIPRoleApprover(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription) : base(eIPRoleID, eIPRoleName, eIPRoleDisplayName, eIPRoleDescription) {}
+        public static readonly EIPRoleApprover Instance = new EIPRoleApprover(5, @"Approver", @"Approver", @"");
     }
 
     public partial class EIPRoleTMPOManager : EIPRole
     {
-        private EIPRoleTMPOManager(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription, int lTInfoAreaID) : base(eIPRoleID, eIPRoleName, eIPRoleDisplayName, eIPRoleDescription, lTInfoAreaID) {}
-        public static readonly EIPRoleTMPOManager Instance = new EIPRoleTMPOManager(6, @"TMPOManager", @"TMPO Manager", @"", 1);
+        private EIPRoleTMPOManager(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription) : base(eIPRoleID, eIPRoleName, eIPRoleDisplayName, eIPRoleDescription) {}
+        public static readonly EIPRoleTMPOManager Instance = new EIPRoleTMPOManager(6, @"TMPOManager", @"TMPO Manager", @"");
     }
 
     public partial class EIPRoleUnassigned : EIPRole
     {
-        private EIPRoleUnassigned(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription, int lTInfoAreaID) : base(eIPRoleID, eIPRoleName, eIPRoleDisplayName, eIPRoleDescription, lTInfoAreaID) {}
-        public static readonly EIPRoleUnassigned Instance = new EIPRoleUnassigned(7, @"Unassigned", @"Unassigned", @"", 1);
+        private EIPRoleUnassigned(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription) : base(eIPRoleID, eIPRoleName, eIPRoleDisplayName, eIPRoleDescription) {}
+        public static readonly EIPRoleUnassigned Instance = new EIPRoleUnassigned(7, @"Unassigned", @"Unassigned", @"");
+    }
+
+    public partial class EIPRoleSitkaAdmin : EIPRole
+    {
+        private EIPRoleSitkaAdmin(int eIPRoleID, string eIPRoleName, string eIPRoleDisplayName, string eIPRoleDescription) : base(eIPRoleID, eIPRoleName, eIPRoleDisplayName, eIPRoleDescription) {}
+        public static readonly EIPRoleSitkaAdmin Instance = new EIPRoleSitkaAdmin(8, @"SitkaAdmin", @"Sitka Administrator", @"");
     }
 }

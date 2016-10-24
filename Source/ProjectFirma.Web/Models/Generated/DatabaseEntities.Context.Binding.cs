@@ -65,7 +65,6 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<Notification> Notifications { get; set; }
         public virtual DbSet<Organization> Organizations { get; set; }
         public virtual DbSet<Person> People { get; set; }
-        public virtual DbSet<PersonArea> PersonAreas { get; set; }
         public virtual DbSet<ProgramEIPPerformanceMeasure> ProgramEIPPerformanceMeasures { get; set; }
         public virtual DbSet<ProgramImage> ProgramImages { get; set; }
         public virtual DbSet<Program> Programs { get; set; }
@@ -265,11 +264,6 @@ namespace ProjectFirma.Web.Models
                 case "LocalAndRegionalPlan":
                     return LocalAndRegionalPlans.GetLocalAndRegionalPlan(primaryKey);
 
-                case "LTInfoArea":
-                    var lTInfoArea = LTInfoArea.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(lTInfoArea, "LTInfoArea", primaryKey);
-                    return lTInfoArea;
-
                 case "MappedRegion":
                     return MappedRegions.GetMappedRegion(primaryKey);
 
@@ -306,9 +300,6 @@ namespace ProjectFirma.Web.Models
 
                 case "Person":
                     return People.GetPerson(primaryKey);
-
-                case "PersonArea":
-                    return PersonAreas.GetPersonArea(primaryKey);
 
                 case "ProgramEIPPerformanceMeasure":
                     return ProgramEIPPerformanceMeasures.GetProgramEIPPerformanceMeasure(primaryKey);

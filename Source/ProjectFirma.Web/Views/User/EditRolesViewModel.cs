@@ -17,12 +17,8 @@ namespace ProjectFirma.Web.Views.User
         public int? EIPRoleID { get; set; }
 
         [Required]
-        [DisplayName("Should Receive EIP Project Tracker Support Emails?")]
-        public bool ShouldReceiveEIPProjectTrackerSupportEmails { get; set; }
-
-        [Required]
-        [DisplayName("Should Receive LTInfo Support Emails?")]
-        public bool ShouldReceiveLakeTahoeInfoSupportEmails { get; set; }
+        [DisplayName("Should Receive Support Emails?")]
+        public bool ShouldReceiveSupportEmails { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -36,14 +32,13 @@ namespace ProjectFirma.Web.Views.User
             PersonID = person.PersonID;
             EIPRoleID = person.EIPRoleID;
 
-            ShouldReceiveEIPProjectTrackerSupportEmails = person.ShouldReceiveSupportEmails(LTInfoArea.EIP.LTInfoAreaID);
+            ShouldReceiveSupportEmails = person.ReceiveSupportEmails;
         }
 
         public void UpdateModel(Person person, Person currentPerson)
         {
             person.EIPRoleID = EIPRoleID.Value;
-           
-            person.SetReceiveSupportEmails(LTInfoArea.EIP, ShouldReceiveEIPProjectTrackerSupportEmails);
+            person.ReceiveSupportEmails = ShouldReceiveSupportEmails;
 
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(person.PersonID))
             {

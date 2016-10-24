@@ -7,6 +7,6 @@ namespace ProjectFirma.Web.Security
 {
     public abstract class EIPFeature : LakeTahoeInfoBaseFeature
     {
-        protected EIPFeature(IEnumerable<EIPRole> roles) : base(roles.Select(x => (IRole)x).ToList(), LTInfoArea.EIP) { }
+        protected EIPFeature(IEnumerable<EIPRole> roles) : base(roles.Select(x => (IRole)x).ToList()) { }
     }
 }

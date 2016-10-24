@@ -147,19 +147,17 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Protected constructor only for use in instantiating the set of static lookup values that match database
         /// </summary>
-        protected FieldDefinition(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID)
+        protected FieldDefinition(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName)
         {
             FieldDefinitionID = fieldDefinitionID;
             FieldDefinitionName = fieldDefinitionName;
             FieldDefinitionDisplayName = fieldDefinitionDisplayName;
-            PrimaryLTInfoAreaID = primaryLTInfoAreaID;
         }
-        public LTInfoArea PrimaryLTInfoArea { get { return LTInfoArea.AllLookupDictionary[PrimaryLTInfoAreaID]; } }
+
         [Key]
         public int FieldDefinitionID { get; private set; }
         public string FieldDefinitionName { get; private set; }
         public string FieldDefinitionDisplayName { get; private set; }
-        public int PrimaryLTInfoAreaID { get; private set; }
         public int PrimaryKey { get { return FieldDefinitionID; } }
 
         /// <summary>
@@ -568,691 +566,691 @@ namespace ProjectFirma.Web.Models
 
     public partial class FieldDefinitionActionPriority : FieldDefinition
     {
-        private FieldDefinitionActionPriority(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionActionPriority Instance = new FieldDefinitionActionPriority(1, @"ActionPriority", @"Action Priority", 1);
+        private FieldDefinitionActionPriority(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionActionPriority Instance = new FieldDefinitionActionPriority(1, @"ActionPriority", @"Action Priority");
     }
 
     public partial class FieldDefinitionActionPriorityName : FieldDefinition
     {
-        private FieldDefinitionActionPriorityName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionActionPriorityName Instance = new FieldDefinitionActionPriorityName(2, @"ActionPriorityName", @"Action Priority Name", 1);
+        private FieldDefinitionActionPriorityName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionActionPriorityName Instance = new FieldDefinitionActionPriorityName(2, @"ActionPriorityName", @"Action Priority Name");
     }
 
     public partial class FieldDefinitionLocalAndRegionalPlanName : FieldDefinition
     {
-        private FieldDefinitionLocalAndRegionalPlanName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLocalAndRegionalPlanName Instance = new FieldDefinitionLocalAndRegionalPlanName(3, @"LocalAndRegionalPlanName", @"Local and Regional Plan Name", 1);
+        private FieldDefinitionLocalAndRegionalPlanName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionLocalAndRegionalPlanName Instance = new FieldDefinitionLocalAndRegionalPlanName(3, @"LocalAndRegionalPlanName", @"Local and Regional Plan Name");
     }
 
     public partial class FieldDefinitionExpectedValue : FieldDefinition
     {
-        private FieldDefinitionExpectedValue(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionExpectedValue Instance = new FieldDefinitionExpectedValue(4, @"ExpectedValue", @"Expected Value", 1);
+        private FieldDefinitionExpectedValue(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionExpectedValue Instance = new FieldDefinitionExpectedValue(4, @"ExpectedValue", @"Expected Value");
     }
 
     public partial class FieldDefinitionFocusArea : FieldDefinition
     {
-        private FieldDefinitionFocusArea(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionFocusArea Instance = new FieldDefinitionFocusArea(5, @"FocusArea", @"Focus Area", 1);
+        private FieldDefinitionFocusArea(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionFocusArea Instance = new FieldDefinitionFocusArea(5, @"FocusArea", @"Focus Area");
     }
 
     public partial class FieldDefinitionFocusAreaName : FieldDefinition
     {
-        private FieldDefinitionFocusAreaName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionFocusAreaName Instance = new FieldDefinitionFocusAreaName(6, @"FocusAreaName", @"Focus Area Name", 1);
+        private FieldDefinitionFocusAreaName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionFocusAreaName Instance = new FieldDefinitionFocusAreaName(6, @"FocusAreaName", @"Focus Area Name");
     }
 
     public partial class FieldDefinitionFunder : FieldDefinition
     {
-        private FieldDefinitionFunder(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionFunder Instance = new FieldDefinitionFunder(7, @"Funder", @"Funder", 1);
+        private FieldDefinitionFunder(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionFunder Instance = new FieldDefinitionFunder(7, @"Funder", @"Funder");
     }
 
     public partial class FieldDefinitionFundingSource : FieldDefinition
     {
-        private FieldDefinitionFundingSource(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionFundingSource Instance = new FieldDefinitionFundingSource(8, @"FundingSource", @"Funding Source", 1);
+        private FieldDefinitionFundingSource(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionFundingSource Instance = new FieldDefinitionFundingSource(8, @"FundingSource", @"Funding Source");
     }
 
     public partial class FieldDefinitionFundingSourceDescription : FieldDefinition
     {
-        private FieldDefinitionFundingSourceDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionFundingSourceDescription Instance = new FieldDefinitionFundingSourceDescription(9, @"FundingSourceDescription", @"Funding Source Description", 1);
+        private FieldDefinitionFundingSourceDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionFundingSourceDescription Instance = new FieldDefinitionFundingSourceDescription(9, @"FundingSourceDescription", @"Funding Source Description");
     }
 
     public partial class FieldDefinitionFundingSourceName : FieldDefinition
     {
-        private FieldDefinitionFundingSourceName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionFundingSourceName Instance = new FieldDefinitionFundingSourceName(10, @"FundingSourceName", @"Funding Source Name", 1);
+        private FieldDefinitionFundingSourceName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionFundingSourceName Instance = new FieldDefinitionFundingSourceName(10, @"FundingSourceName", @"Funding Source Name");
     }
 
     public partial class FieldDefinitionImplementer : FieldDefinition
     {
-        private FieldDefinitionImplementer(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionImplementer Instance = new FieldDefinitionImplementer(11, @"Implementer", @"Implementer", 1);
+        private FieldDefinitionImplementer(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionImplementer Instance = new FieldDefinitionImplementer(11, @"Implementer", @"Implementer");
     }
 
     public partial class FieldDefinitionLeadImplementer : FieldDefinition
     {
-        private FieldDefinitionLeadImplementer(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLeadImplementer Instance = new FieldDefinitionLeadImplementer(12, @"LeadImplementer", @"Lead Implementer", 1);
+        private FieldDefinitionLeadImplementer(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionLeadImplementer Instance = new FieldDefinitionLeadImplementer(12, @"LeadImplementer", @"Lead Implementer");
     }
 
     public partial class FieldDefinitionOldEIPNumber : FieldDefinition
     {
-        private FieldDefinitionOldEIPNumber(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionOldEIPNumber Instance = new FieldDefinitionOldEIPNumber(13, @"OldEIPNumber", @"Old EIP #", 1);
+        private FieldDefinitionOldEIPNumber(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionOldEIPNumber Instance = new FieldDefinitionOldEIPNumber(13, @"OldEIPNumber", @"Old EIP #");
     }
 
     public partial class FieldDefinitionOrganization : FieldDefinition
     {
-        private FieldDefinitionOrganization(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionOrganization Instance = new FieldDefinitionOrganization(14, @"Organization", @"Organization", 1);
+        private FieldDefinitionOrganization(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionOrganization Instance = new FieldDefinitionOrganization(14, @"Organization", @"Organization");
     }
 
     public partial class FieldDefinitionOrganizationAbbreviation : FieldDefinition
     {
-        private FieldDefinitionOrganizationAbbreviation(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionOrganizationAbbreviation Instance = new FieldDefinitionOrganizationAbbreviation(15, @"OrganizationAbbreviation", @"Abbreviation", 1);
+        private FieldDefinitionOrganizationAbbreviation(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionOrganizationAbbreviation Instance = new FieldDefinitionOrganizationAbbreviation(15, @"OrganizationAbbreviation", @"Abbreviation");
     }
 
     public partial class FieldDefinitionOrganizationName : FieldDefinition
     {
-        private FieldDefinitionOrganizationName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionOrganizationName Instance = new FieldDefinitionOrganizationName(16, @"OrganizationName", @"Organization Name", 1);
+        private FieldDefinitionOrganizationName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionOrganizationName Instance = new FieldDefinitionOrganizationName(16, @"OrganizationName", @"Organization Name");
     }
 
     public partial class FieldDefinitionPassword : FieldDefinition
     {
-        private FieldDefinitionPassword(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionPassword Instance = new FieldDefinitionPassword(17, @"Password", @"Password", 1);
+        private FieldDefinitionPassword(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionPassword Instance = new FieldDefinitionPassword(17, @"Password", @"Password");
     }
 
     public partial class FieldDefinitionEIPPerformanceMeasure : FieldDefinition
     {
-        private FieldDefinitionEIPPerformanceMeasure(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionEIPPerformanceMeasure Instance = new FieldDefinitionEIPPerformanceMeasure(18, @"EIPPerformanceMeasure", @"EIP Performance Measure", 1);
+        private FieldDefinitionEIPPerformanceMeasure(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionEIPPerformanceMeasure Instance = new FieldDefinitionEIPPerformanceMeasure(18, @"EIPPerformanceMeasure", @"EIP Performance Measure");
     }
 
     public partial class FieldDefinitionIndicatorDefinition : FieldDefinition
     {
-        private FieldDefinitionIndicatorDefinition(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorDefinition Instance = new FieldDefinitionIndicatorDefinition(19, @"IndicatorDefinition", @"Indicator Definition", 1);
+        private FieldDefinitionIndicatorDefinition(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionIndicatorDefinition Instance = new FieldDefinitionIndicatorDefinition(19, @"IndicatorDefinition", @"Indicator Definition");
     }
 
     public partial class FieldDefinitionIndicatorDisplayName : FieldDefinition
     {
-        private FieldDefinitionIndicatorDisplayName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorDisplayName Instance = new FieldDefinitionIndicatorDisplayName(20, @"IndicatorDisplayName", @"Indicator Name", 1);
+        private FieldDefinitionIndicatorDisplayName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionIndicatorDisplayName Instance = new FieldDefinitionIndicatorDisplayName(20, @"IndicatorDisplayName", @"Indicator Name");
     }
 
     public partial class FieldDefinitionMeasurementUnit : FieldDefinition
     {
-        private FieldDefinitionMeasurementUnit(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionMeasurementUnit Instance = new FieldDefinitionMeasurementUnit(21, @"MeasurementUnit", @"Measurement Unit", 1);
+        private FieldDefinitionMeasurementUnit(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionMeasurementUnit Instance = new FieldDefinitionMeasurementUnit(21, @"MeasurementUnit", @"Measurement Unit");
     }
 
     public partial class FieldDefinitionPhotoCaption : FieldDefinition
     {
-        private FieldDefinitionPhotoCaption(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionPhotoCaption Instance = new FieldDefinitionPhotoCaption(22, @"PhotoCaption", @"Photo Caption", 1);
+        private FieldDefinitionPhotoCaption(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionPhotoCaption Instance = new FieldDefinitionPhotoCaption(22, @"PhotoCaption", @"Photo Caption");
     }
 
     public partial class FieldDefinitionPhotoCredit : FieldDefinition
     {
-        private FieldDefinitionPhotoCredit(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionPhotoCredit Instance = new FieldDefinitionPhotoCredit(23, @"PhotoCredit", @"Photo Credit", 1);
+        private FieldDefinitionPhotoCredit(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionPhotoCredit Instance = new FieldDefinitionPhotoCredit(23, @"PhotoCredit", @"Photo Credit");
     }
 
     public partial class FieldDefinitionPhotoTiming : FieldDefinition
     {
-        private FieldDefinitionPhotoTiming(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionPhotoTiming Instance = new FieldDefinitionPhotoTiming(24, @"PhotoTiming", @"Photo Timing", 1);
+        private FieldDefinitionPhotoTiming(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionPhotoTiming Instance = new FieldDefinitionPhotoTiming(24, @"PhotoTiming", @"Photo Timing");
     }
 
     public partial class FieldDefinitionPrimaryContact : FieldDefinition
     {
-        private FieldDefinitionPrimaryContact(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionPrimaryContact Instance = new FieldDefinitionPrimaryContact(25, @"PrimaryContact", @"Primary Contact", 1);
+        private FieldDefinitionPrimaryContact(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionPrimaryContact Instance = new FieldDefinitionPrimaryContact(25, @"PrimaryContact", @"Primary Contact");
     }
 
     public partial class FieldDefinitionProgram : FieldDefinition
     {
-        private FieldDefinitionProgram(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProgram Instance = new FieldDefinitionProgram(26, @"Program", @"Program", 1);
+        private FieldDefinitionProgram(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProgram Instance = new FieldDefinitionProgram(26, @"Program", @"Program");
     }
 
     public partial class FieldDefinitionProgramName : FieldDefinition
     {
-        private FieldDefinitionProgramName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProgramName Instance = new FieldDefinitionProgramName(27, @"ProgramName", @"Program Name", 1);
+        private FieldDefinitionProgramName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProgramName Instance = new FieldDefinitionProgramName(27, @"ProgramName", @"Program Name");
     }
 
     public partial class FieldDefinitionCompletionYear : FieldDefinition
     {
-        private FieldDefinitionCompletionYear(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionCompletionYear Instance = new FieldDefinitionCompletionYear(28, @"CompletionYear", @"Completion Year", 1);
+        private FieldDefinitionCompletionYear(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionCompletionYear Instance = new FieldDefinitionCompletionYear(28, @"CompletionYear", @"Completion Year");
     }
 
     public partial class FieldDefinitionProjectDescription : FieldDefinition
     {
-        private FieldDefinitionProjectDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProjectDescription Instance = new FieldDefinitionProjectDescription(29, @"ProjectDescription", @"Project Description", 1);
+        private FieldDefinitionProjectDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProjectDescription Instance = new FieldDefinitionProjectDescription(29, @"ProjectDescription", @"Project Description");
     }
 
     public partial class FieldDefinitionProjectName : FieldDefinition
     {
-        private FieldDefinitionProjectName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProjectName Instance = new FieldDefinitionProjectName(30, @"ProjectName", @"Project Name", 1);
+        private FieldDefinitionProjectName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProjectName Instance = new FieldDefinitionProjectName(30, @"ProjectName", @"Project Name");
     }
 
     public partial class FieldDefinitionProjectNote : FieldDefinition
     {
-        private FieldDefinitionProjectNote(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProjectNote Instance = new FieldDefinitionProjectNote(31, @"ProjectNote", @"Project Note", 1);
+        private FieldDefinitionProjectNote(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProjectNote Instance = new FieldDefinitionProjectNote(31, @"ProjectNote", @"Project Note");
     }
 
     public partial class FieldDefinitionImplementationStartYear : FieldDefinition
     {
-        private FieldDefinitionImplementationStartYear(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionImplementationStartYear Instance = new FieldDefinitionImplementationStartYear(32, @"ImplementationStartYear", @"Implementation Start Year", 1);
+        private FieldDefinitionImplementationStartYear(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionImplementationStartYear Instance = new FieldDefinitionImplementationStartYear(32, @"ImplementationStartYear", @"Implementation Start Year");
     }
 
     public partial class FieldDefinitionReportedValue : FieldDefinition
     {
-        private FieldDefinitionReportedValue(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionReportedValue Instance = new FieldDefinitionReportedValue(33, @"ReportedValue", @"Reported Value", 1);
+        private FieldDefinitionReportedValue(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionReportedValue Instance = new FieldDefinitionReportedValue(33, @"ReportedValue", @"Reported Value");
     }
 
     public partial class FieldDefinitionSector : FieldDefinition
     {
-        private FieldDefinitionSector(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionSector Instance = new FieldDefinitionSector(34, @"Sector", @"Sector", 1);
+        private FieldDefinitionSector(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionSector Instance = new FieldDefinitionSector(34, @"Sector", @"Sector");
     }
 
     public partial class FieldDefinitionSecuredFunding : FieldDefinition
     {
-        private FieldDefinitionSecuredFunding(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionSecuredFunding Instance = new FieldDefinitionSecuredFunding(35, @"SecuredFunding", @"Secured Funding", 1);
+        private FieldDefinitionSecuredFunding(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionSecuredFunding Instance = new FieldDefinitionSecuredFunding(35, @"SecuredFunding", @"Secured Funding");
     }
 
     public partial class FieldDefinitionStage : FieldDefinition
     {
-        private FieldDefinitionStage(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionStage Instance = new FieldDefinitionStage(36, @"Stage", @"Stage", 1);
+        private FieldDefinitionStage(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionStage Instance = new FieldDefinitionStage(36, @"Stage", @"Stage");
     }
 
     public partial class FieldDefinitionSubcategories : FieldDefinition
     {
-        private FieldDefinitionSubcategories(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionSubcategories Instance = new FieldDefinitionSubcategories(37, @"Subcategories", @"Subcategories", 1);
+        private FieldDefinitionSubcategories(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionSubcategories Instance = new FieldDefinitionSubcategories(37, @"Subcategories", @"Subcategories");
     }
 
     public partial class FieldDefinitionProjectIsAProgram : FieldDefinition
     {
-        private FieldDefinitionProjectIsAProgram(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProjectIsAProgram Instance = new FieldDefinitionProjectIsAProgram(38, @"ProjectIsAProgram", @"This project is a program that implements multiple projects", 1);
+        private FieldDefinitionProjectIsAProgram(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProjectIsAProgram Instance = new FieldDefinitionProjectIsAProgram(38, @"ProjectIsAProgram", @"This project is a program that implements multiple projects");
     }
 
     public partial class FieldDefinitionThresholdCategoryName : FieldDefinition
     {
-        private FieldDefinitionThresholdCategoryName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdCategoryName Instance = new FieldDefinitionThresholdCategoryName(39, @"ThresholdCategoryName", @"Threshold Category Name", 1);
+        private FieldDefinitionThresholdCategoryName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionThresholdCategoryName Instance = new FieldDefinitionThresholdCategoryName(39, @"ThresholdCategoryName", @"Threshold Category Name");
     }
 
     public partial class FieldDefinitionEstimatedTotalCost : FieldDefinition
     {
-        private FieldDefinitionEstimatedTotalCost(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionEstimatedTotalCost Instance = new FieldDefinitionEstimatedTotalCost(40, @"EstimatedTotalCost", @"Estimated Total Cost", 1);
+        private FieldDefinitionEstimatedTotalCost(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionEstimatedTotalCost Instance = new FieldDefinitionEstimatedTotalCost(40, @"EstimatedTotalCost", @"Estimated Total Cost");
     }
 
     public partial class FieldDefinitionUnfundedNeed : FieldDefinition
     {
-        private FieldDefinitionUnfundedNeed(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionUnfundedNeed Instance = new FieldDefinitionUnfundedNeed(41, @"UnfundedNeed", @"Unfunded Need", 1);
+        private FieldDefinitionUnfundedNeed(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionUnfundedNeed Instance = new FieldDefinitionUnfundedNeed(41, @"UnfundedNeed", @"Unfunded Need");
     }
 
     public partial class FieldDefinitionUsername : FieldDefinition
     {
-        private FieldDefinitionUsername(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionUsername Instance = new FieldDefinitionUsername(42, @"Username", @"User name", 1);
+        private FieldDefinitionUsername(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionUsername Instance = new FieldDefinitionUsername(42, @"Username", @"User name");
     }
 
     public partial class FieldDefinitionWatershedName : FieldDefinition
     {
-        private FieldDefinitionWatershedName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionWatershedName Instance = new FieldDefinitionWatershedName(43, @"WatershedName", @"Watershed Name", 1);
+        private FieldDefinitionWatershedName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionWatershedName Instance = new FieldDefinitionWatershedName(43, @"WatershedName", @"Watershed Name");
     }
 
     public partial class FieldDefinitionProject : FieldDefinition
     {
-        private FieldDefinitionProject(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProject Instance = new FieldDefinitionProject(44, @"Project", @"Project", 1);
+        private FieldDefinitionProject(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProject Instance = new FieldDefinitionProject(44, @"Project", @"Project");
     }
 
     public partial class FieldDefinitionProjectNumber : FieldDefinition
     {
-        private FieldDefinitionProjectNumber(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProjectNumber Instance = new FieldDefinitionProjectNumber(45, @"ProjectNumber", @"Project #", 1);
+        private FieldDefinitionProjectNumber(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProjectNumber Instance = new FieldDefinitionProjectNumber(45, @"ProjectNumber", @"Project #");
     }
 
     public partial class FieldDefinitionThresholdCategory : FieldDefinition
     {
-        private FieldDefinitionThresholdCategory(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdCategory Instance = new FieldDefinitionThresholdCategory(46, @"ThresholdCategory", @"Threshold Category", 1);
+        private FieldDefinitionThresholdCategory(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionThresholdCategory Instance = new FieldDefinitionThresholdCategory(46, @"ThresholdCategory", @"Threshold Category");
     }
 
     public partial class FieldDefinitionLocalAndRegionalPlan : FieldDefinition
     {
-        private FieldDefinitionLocalAndRegionalPlan(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLocalAndRegionalPlan Instance = new FieldDefinitionLocalAndRegionalPlan(47, @"LocalAndRegionalPlan", @"Local and Regional Plan", 1);
+        private FieldDefinitionLocalAndRegionalPlan(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionLocalAndRegionalPlan Instance = new FieldDefinitionLocalAndRegionalPlan(47, @"LocalAndRegionalPlan", @"Local and Regional Plan");
     }
 
     public partial class FieldDefinitionWatershed : FieldDefinition
     {
-        private FieldDefinitionWatershed(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionWatershed Instance = new FieldDefinitionWatershed(48, @"Watershed", @"Watershed", 1);
+        private FieldDefinitionWatershed(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionWatershed Instance = new FieldDefinitionWatershed(48, @"Watershed", @"Watershed");
     }
 
     public partial class FieldDefinitionSubcategory : FieldDefinition
     {
-        private FieldDefinitionSubcategory(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionSubcategory Instance = new FieldDefinitionSubcategory(49, @"Subcategory", @"Subcategory", 1);
+        private FieldDefinitionSubcategory(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionSubcategory Instance = new FieldDefinitionSubcategory(49, @"Subcategory", @"Subcategory");
     }
 
     public partial class FieldDefinitionSubcategoryOption : FieldDefinition
     {
-        private FieldDefinitionSubcategoryOption(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionSubcategoryOption Instance = new FieldDefinitionSubcategoryOption(50, @"SubcategoryOption", @"Subcategory Option", 1);
+        private FieldDefinitionSubcategoryOption(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionSubcategoryOption Instance = new FieldDefinitionSubcategoryOption(50, @"SubcategoryOption", @"Subcategory Option");
     }
 
     public partial class FieldDefinitionSubcategoryOptions : FieldDefinition
     {
-        private FieldDefinitionSubcategoryOptions(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionSubcategoryOptions Instance = new FieldDefinitionSubcategoryOptions(51, @"SubcategoryOptions", @"Subcategory Options", 1);
+        private FieldDefinitionSubcategoryOptions(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionSubcategoryOptions Instance = new FieldDefinitionSubcategoryOptions(51, @"SubcategoryOptions", @"Subcategory Options");
     }
 
     public partial class FieldDefinitionIsPrimaryProgram : FieldDefinition
     {
-        private FieldDefinitionIsPrimaryProgram(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIsPrimaryProgram Instance = new FieldDefinitionIsPrimaryProgram(52, @"IsPrimaryProgram", @"Is Primary Program", 1);
+        private FieldDefinitionIsPrimaryProgram(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionIsPrimaryProgram Instance = new FieldDefinitionIsPrimaryProgram(52, @"IsPrimaryProgram", @"Is Primary Program");
     }
 
     public partial class FieldDefinitionIndicatorCriticalDefinitions : FieldDefinition
     {
-        private FieldDefinitionIndicatorCriticalDefinitions(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorCriticalDefinitions Instance = new FieldDefinitionIndicatorCriticalDefinitions(53, @"IndicatorCriticalDefinitions", @"Critical Definitions", 1);
+        private FieldDefinitionIndicatorCriticalDefinitions(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionIndicatorCriticalDefinitions Instance = new FieldDefinitionIndicatorCriticalDefinitions(53, @"IndicatorCriticalDefinitions", @"Critical Definitions");
     }
 
     public partial class FieldDefinitionIndicatorAccountingPeriodAndScale : FieldDefinition
     {
-        private FieldDefinitionIndicatorAccountingPeriodAndScale(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorAccountingPeriodAndScale Instance = new FieldDefinitionIndicatorAccountingPeriodAndScale(54, @"IndicatorAccountingPeriodAndScale", @"Accounting Period and Scale", 1);
+        private FieldDefinitionIndicatorAccountingPeriodAndScale(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionIndicatorAccountingPeriodAndScale Instance = new FieldDefinitionIndicatorAccountingPeriodAndScale(54, @"IndicatorAccountingPeriodAndScale", @"Accounting Period and Scale");
     }
 
     public partial class FieldDefinitionIndicatorProjectReporting : FieldDefinition
     {
-        private FieldDefinitionIndicatorProjectReporting(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorProjectReporting Instance = new FieldDefinitionIndicatorProjectReporting(55, @"IndicatorProjectReporting", @"Project Reporting", 1);
+        private FieldDefinitionIndicatorProjectReporting(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionIndicatorProjectReporting Instance = new FieldDefinitionIndicatorProjectReporting(55, @"IndicatorProjectReporting", @"Project Reporting");
     }
 
     public partial class FieldDefinitionFundedAmount : FieldDefinition
     {
-        private FieldDefinitionFundedAmount(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionFundedAmount Instance = new FieldDefinitionFundedAmount(56, @"FundedAmount", @"Funded Amount", 1);
+        private FieldDefinitionFundedAmount(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionFundedAmount Instance = new FieldDefinitionFundedAmount(56, @"FundedAmount", @"Funded Amount");
     }
 
     public partial class FieldDefinitionProjectLocation : FieldDefinition
     {
-        private FieldDefinitionProjectLocation(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProjectLocation Instance = new FieldDefinitionProjectLocation(57, @"ProjectLocation", @"Project Location", 1);
+        private FieldDefinitionProjectLocation(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProjectLocation Instance = new FieldDefinitionProjectLocation(57, @"ProjectLocation", @"Project Location");
     }
 
     public partial class FieldDefinitionIndicatorBackground : FieldDefinition
     {
-        private FieldDefinitionIndicatorBackground(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorBackground Instance = new FieldDefinitionIndicatorBackground(58, @"IndicatorBackground", @"Background", 1);
+        private FieldDefinitionIndicatorBackground(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionIndicatorBackground Instance = new FieldDefinitionIndicatorBackground(58, @"IndicatorBackground", @"Background");
     }
 
     public partial class FieldDefinitionNumberOfReportedPMRecords : FieldDefinition
     {
-        private FieldDefinitionNumberOfReportedPMRecords(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionNumberOfReportedPMRecords Instance = new FieldDefinitionNumberOfReportedPMRecords(59, @"NumberOfReportedPMRecords", @"# of Reported PM Records", 1);
+        private FieldDefinitionNumberOfReportedPMRecords(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionNumberOfReportedPMRecords Instance = new FieldDefinitionNumberOfReportedPMRecords(59, @"NumberOfReportedPMRecords", @"# of Reported PM Records");
     }
 
     public partial class FieldDefinitionNumberOfReportedExpenditureRecords : FieldDefinition
     {
-        private FieldDefinitionNumberOfReportedExpenditureRecords(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionNumberOfReportedExpenditureRecords Instance = new FieldDefinitionNumberOfReportedExpenditureRecords(60, @"NumberOfReportedExpenditureRecords", @"# of Reported Expenditure Records", 1);
+        private FieldDefinitionNumberOfReportedExpenditureRecords(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionNumberOfReportedExpenditureRecords Instance = new FieldDefinitionNumberOfReportedExpenditureRecords(60, @"NumberOfReportedExpenditureRecords", @"# of Reported Expenditure Records");
     }
 
     public partial class FieldDefinitionProjectLocationState : FieldDefinition
     {
-        private FieldDefinitionProjectLocationState(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProjectLocationState Instance = new FieldDefinitionProjectLocationState(61, @"ProjectLocationState", @"State (Geospatial)", 1);
+        private FieldDefinitionProjectLocationState(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProjectLocationState Instance = new FieldDefinitionProjectLocationState(61, @"ProjectLocationState", @"State (Geospatial),");
     }
 
     public partial class FieldDefinitionProjectLocationJurisdiction : FieldDefinition
     {
-        private FieldDefinitionProjectLocationJurisdiction(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProjectLocationJurisdiction Instance = new FieldDefinitionProjectLocationJurisdiction(62, @"ProjectLocationJurisdiction", @"Jurisdiction (Geospatial)", 1);
+        private FieldDefinitionProjectLocationJurisdiction(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProjectLocationJurisdiction Instance = new FieldDefinitionProjectLocationJurisdiction(62, @"ProjectLocationJurisdiction", @"Jurisdiction (Geospatial),");
     }
 
     public partial class FieldDefinitionProjectLocationWatershed : FieldDefinition
     {
-        private FieldDefinitionProjectLocationWatershed(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProjectLocationWatershed Instance = new FieldDefinitionProjectLocationWatershed(63, @"ProjectLocationWatershed", @"Watershed (Geospatial)", 1);
+        private FieldDefinitionProjectLocationWatershed(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProjectLocationWatershed Instance = new FieldDefinitionProjectLocationWatershed(63, @"ProjectLocationWatershed", @"Watershed (Geospatial),");
     }
 
     public partial class FieldDefinitionExcludeFromFactSheet : FieldDefinition
     {
-        private FieldDefinitionExcludeFromFactSheet(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionExcludeFromFactSheet Instance = new FieldDefinitionExcludeFromFactSheet(64, @"ExcludeFromFactSheet", @"Exclude from Fact Sheet", 1);
+        private FieldDefinitionExcludeFromFactSheet(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionExcludeFromFactSheet Instance = new FieldDefinitionExcludeFromFactSheet(64, @"ExcludeFromFactSheet", @"Exclude from Fact Sheet");
     }
 
     public partial class FieldDefinitionTransportationStrategy : FieldDefinition
     {
-        private FieldDefinitionTransportationStrategy(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionTransportationStrategy Instance = new FieldDefinitionTransportationStrategy(65, @"TransportationStrategy", @"Transportation Strategy", 1);
+        private FieldDefinitionTransportationStrategy(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionTransportationStrategy Instance = new FieldDefinitionTransportationStrategy(65, @"TransportationStrategy", @"Transportation Strategy");
     }
 
     public partial class FieldDefinitionTransportationObjective : FieldDefinition
     {
-        private FieldDefinitionTransportationObjective(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionTransportationObjective Instance = new FieldDefinitionTransportationObjective(66, @"TransportationObjective", @"Transportation Objective", 1);
+        private FieldDefinitionTransportationObjective(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionTransportationObjective Instance = new FieldDefinitionTransportationObjective(66, @"TransportationObjective", @"Transportation Objective");
     }
 
     public partial class FieldDefinitionTransportationStrategyName : FieldDefinition
     {
-        private FieldDefinitionTransportationStrategyName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionTransportationStrategyName Instance = new FieldDefinitionTransportationStrategyName(67, @"TransportationStrategyName", @"Transportation Strategy Name", 1);
+        private FieldDefinitionTransportationStrategyName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionTransportationStrategyName Instance = new FieldDefinitionTransportationStrategyName(67, @"TransportationStrategyName", @"Transportation Strategy Name");
     }
 
     public partial class FieldDefinitionTransportationObjectiveName : FieldDefinition
     {
-        private FieldDefinitionTransportationObjectiveName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionTransportationObjectiveName Instance = new FieldDefinitionTransportationObjectiveName(68, @"TransportationObjectiveName", @"Transportation Objective Name", 1);
+        private FieldDefinitionTransportationObjectiveName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionTransportationObjectiveName Instance = new FieldDefinitionTransportationObjectiveName(68, @"TransportationObjectiveName", @"Transportation Objective Name");
     }
 
     public partial class FieldDefinitionProjectIsATransportationProject : FieldDefinition
     {
-        private FieldDefinitionProjectIsATransportationProject(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProjectIsATransportationProject Instance = new FieldDefinitionProjectIsATransportationProject(69, @"ProjectIsATransportationProject", @"This Project is a Transportation Project", 1);
+        private FieldDefinitionProjectIsATransportationProject(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProjectIsATransportationProject Instance = new FieldDefinitionProjectIsATransportationProject(69, @"ProjectIsATransportationProject", @"This Project is a Transportation Project");
     }
 
     public partial class FieldDefinitionIsTransportationFundingSource : FieldDefinition
     {
-        private FieldDefinitionIsTransportationFundingSource(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIsTransportationFundingSource Instance = new FieldDefinitionIsTransportationFundingSource(72, @"IsTransportationFundingSource", @"Transportation Funding Source", 1);
+        private FieldDefinitionIsTransportationFundingSource(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionIsTransportationFundingSource Instance = new FieldDefinitionIsTransportationFundingSource(72, @"IsTransportationFundingSource", @"Transportation Funding Source");
     }
 
     public partial class FieldDefinitionFundingType : FieldDefinition
     {
-        private FieldDefinitionFundingType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionFundingType Instance = new FieldDefinitionFundingType(73, @"FundingType", @"Funding Type", 1);
+        private FieldDefinitionFundingType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionFundingType Instance = new FieldDefinitionFundingType(73, @"FundingType", @"Funding Type");
     }
 
     public partial class FieldDefinitionProjectCostInYearOfExpenditure : FieldDefinition
     {
-        private FieldDefinitionProjectCostInYearOfExpenditure(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProjectCostInYearOfExpenditure Instance = new FieldDefinitionProjectCostInYearOfExpenditure(74, @"ProjectCostInYearOfExpenditure", @"Cost in Year of Expenditure", 1);
+        private FieldDefinitionProjectCostInYearOfExpenditure(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProjectCostInYearOfExpenditure Instance = new FieldDefinitionProjectCostInYearOfExpenditure(74, @"ProjectCostInYearOfExpenditure", @"Cost in Year of Expenditure");
     }
 
     public partial class FieldDefinitionTransportationGlobalInflationRate : FieldDefinition
     {
-        private FieldDefinitionTransportationGlobalInflationRate(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionTransportationGlobalInflationRate Instance = new FieldDefinitionTransportationGlobalInflationRate(75, @"TransportationGlobalInflationRate", @"Global Inflation Rate", 1);
+        private FieldDefinitionTransportationGlobalInflationRate(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionTransportationGlobalInflationRate Instance = new FieldDefinitionTransportationGlobalInflationRate(75, @"TransportationGlobalInflationRate", @"Global Inflation Rate");
     }
 
     public partial class FieldDefinitionReportingYear : FieldDefinition
     {
-        private FieldDefinitionReportingYear(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionReportingYear Instance = new FieldDefinitionReportingYear(76, @"ReportingYear", @"Reporting Year", 1);
+        private FieldDefinitionReportingYear(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionReportingYear Instance = new FieldDefinitionReportingYear(76, @"ReportingYear", @"Reporting Year");
     }
 
     public partial class FieldDefinitionTagName : FieldDefinition
     {
-        private FieldDefinitionTagName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionTagName Instance = new FieldDefinitionTagName(77, @"TagName", @"Tag Name", 1);
+        private FieldDefinitionTagName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionTagName Instance = new FieldDefinitionTagName(77, @"TagName", @"Tag Name");
     }
 
     public partial class FieldDefinitionTagDescription : FieldDefinition
     {
-        private FieldDefinitionTagDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionTagDescription Instance = new FieldDefinitionTagDescription(78, @"TagDescription", @"Tag Description", 1);
+        private FieldDefinitionTagDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionTagDescription Instance = new FieldDefinitionTagDescription(78, @"TagDescription", @"Tag Description");
     }
 
     public partial class FieldDefinitionTags : FieldDefinition
     {
-        private FieldDefinitionTags(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionTags Instance = new FieldDefinitionTags(79, @"Tags", @"Tags", 1);
+        private FieldDefinitionTags(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionTags Instance = new FieldDefinitionTags(79, @"Tags", @"Tags");
     }
 
     public partial class FieldDefinitionReportedExpenditure : FieldDefinition
     {
-        private FieldDefinitionReportedExpenditure(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionReportedExpenditure Instance = new FieldDefinitionReportedExpenditure(80, @"ReportedExpenditure", @"Reported Expenditure", 1);
+        private FieldDefinitionReportedExpenditure(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionReportedExpenditure Instance = new FieldDefinitionReportedExpenditure(80, @"ReportedExpenditure", @"Reported Expenditure");
     }
 
     public partial class FieldDefinitionProposedProject : FieldDefinition
     {
-        private FieldDefinitionProposedProject(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProposedProject Instance = new FieldDefinitionProposedProject(81, @"ProposedProject", @"Proposed Project", 1);
+        private FieldDefinitionProposedProject(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProposedProject Instance = new FieldDefinitionProposedProject(81, @"ProposedProject", @"Proposed Project");
     }
 
     public partial class FieldDefinitionProjectOnFTIPList : FieldDefinition
     {
-        private FieldDefinitionProjectOnFTIPList(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProjectOnFTIPList Instance = new FieldDefinitionProjectOnFTIPList(82, @"ProjectOnFTIPList", @"This project is on the Federal Transportation Improvement Program (FTIP) list", 1);
+        private FieldDefinitionProjectOnFTIPList(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProjectOnFTIPList Instance = new FieldDefinitionProjectOnFTIPList(82, @"ProjectOnFTIPList", @"This project is on the Federal Transportation Improvement Program (FTIP), list");
     }
 
     public partial class FieldDefinitionLocalAndRegionalPlanDocumentUrl : FieldDefinition
     {
-        private FieldDefinitionLocalAndRegionalPlanDocumentUrl(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLocalAndRegionalPlanDocumentUrl Instance = new FieldDefinitionLocalAndRegionalPlanDocumentUrl(83, @"LocalAndRegionalPlanDocumentUrl", @"Local and Regional Plan Document URL", 1);
+        private FieldDefinitionLocalAndRegionalPlanDocumentUrl(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionLocalAndRegionalPlanDocumentUrl Instance = new FieldDefinitionLocalAndRegionalPlanDocumentUrl(83, @"LocalAndRegionalPlanDocumentUrl", @"Local and Regional Plan Document URL");
     }
 
     public partial class FieldDefinitionLocalAndRegionalPlanDocumentLinkText : FieldDefinition
     {
-        private FieldDefinitionLocalAndRegionalPlanDocumentLinkText(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLocalAndRegionalPlanDocumentLinkText Instance = new FieldDefinitionLocalAndRegionalPlanDocumentLinkText(84, @"LocalAndRegionalPlanDocumentLinkText", @"Local and Regional Plan Document Link Text", 1);
+        private FieldDefinitionLocalAndRegionalPlanDocumentLinkText(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionLocalAndRegionalPlanDocumentLinkText Instance = new FieldDefinitionLocalAndRegionalPlanDocumentLinkText(84, @"LocalAndRegionalPlanDocumentLinkText", @"Local and Regional Plan Document Link Text");
     }
 
     public partial class FieldDefinitionSpendingAssociatedWithPM : FieldDefinition
     {
-        private FieldDefinitionSpendingAssociatedWithPM(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionSpendingAssociatedWithPM Instance = new FieldDefinitionSpendingAssociatedWithPM(85, @"SpendingAssociatedWithPM", @"Spending Associated with PM", 1);
+        private FieldDefinitionSpendingAssociatedWithPM(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionSpendingAssociatedWithPM Instance = new FieldDefinitionSpendingAssociatedWithPM(85, @"SpendingAssociatedWithPM", @"Spending Associated with PM");
     }
 
     public partial class FieldDefinitionPlanningDesignStartYear : FieldDefinition
     {
-        private FieldDefinitionPlanningDesignStartYear(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionPlanningDesignStartYear Instance = new FieldDefinitionPlanningDesignStartYear(86, @"PlanningDesignStartYear", @"Planning / Design Start Year", 1);
+        private FieldDefinitionPlanningDesignStartYear(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionPlanningDesignStartYear Instance = new FieldDefinitionPlanningDesignStartYear(86, @"PlanningDesignStartYear", @"Planning / Design Start Year");
     }
 
     public partial class FieldDefinitionAssociatedPrograms : FieldDefinition
     {
-        private FieldDefinitionAssociatedPrograms(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionAssociatedPrograms Instance = new FieldDefinitionAssociatedPrograms(87, @"AssociatedPrograms", @"Associated Programs", 1);
+        private FieldDefinitionAssociatedPrograms(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionAssociatedPrograms Instance = new FieldDefinitionAssociatedPrograms(87, @"AssociatedPrograms", @"Associated Programs");
     }
 
     public partial class FieldDefinitionExternalLinks : FieldDefinition
     {
-        private FieldDefinitionExternalLinks(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionExternalLinks Instance = new FieldDefinitionExternalLinks(88, @"ExternalLinks", @"External Links", 1);
+        private FieldDefinitionExternalLinks(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionExternalLinks Instance = new FieldDefinitionExternalLinks(88, @"ExternalLinks", @"External Links");
     }
 
     public partial class FieldDefinitionEstimatedAnnualOperatingCost : FieldDefinition
     {
-        private FieldDefinitionEstimatedAnnualOperatingCost(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionEstimatedAnnualOperatingCost Instance = new FieldDefinitionEstimatedAnnualOperatingCost(89, @"EstimatedAnnualOperatingCost", @"Est. Annual Operating Cost", 1);
+        private FieldDefinitionEstimatedAnnualOperatingCost(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionEstimatedAnnualOperatingCost Instance = new FieldDefinitionEstimatedAnnualOperatingCost(89, @"EstimatedAnnualOperatingCost", @"Est. Annual Operating Cost");
     }
 
     public partial class FieldDefinitionCalculatedTotalRemainingOperatingCost : FieldDefinition
     {
-        private FieldDefinitionCalculatedTotalRemainingOperatingCost(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionCalculatedTotalRemainingOperatingCost Instance = new FieldDefinitionCalculatedTotalRemainingOperatingCost(90, @"CalculatedTotalRemainingOperatingCost", @"Remaining Operating Cost", 1);
+        private FieldDefinitionCalculatedTotalRemainingOperatingCost(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionCalculatedTotalRemainingOperatingCost Instance = new FieldDefinitionCalculatedTotalRemainingOperatingCost(90, @"CalculatedTotalRemainingOperatingCost", @"Remaining Operating Cost");
     }
 
     public partial class FieldDefinitionCurrentRTPYearForPVCalculations : FieldDefinition
     {
-        private FieldDefinitionCurrentRTPYearForPVCalculations(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionCurrentRTPYearForPVCalculations Instance = new FieldDefinitionCurrentRTPYearForPVCalculations(91, @"CurrentRTPYearForPVCalculations", @"Current RTP Year for PV Calculations", 1);
+        private FieldDefinitionCurrentRTPYearForPVCalculations(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionCurrentRTPYearForPVCalculations Instance = new FieldDefinitionCurrentRTPYearForPVCalculations(91, @"CurrentRTPYearForPVCalculations", @"Current RTP Year for PV Calculations");
     }
 
     public partial class FieldDefinitionLifecycleOperatingCost : FieldDefinition
     {
-        private FieldDefinitionLifecycleOperatingCost(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLifecycleOperatingCost Instance = new FieldDefinitionLifecycleOperatingCost(92, @"LifecycleOperatingCost", @"Lifecycle Operating Cost", 1);
+        private FieldDefinitionLifecycleOperatingCost(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionLifecycleOperatingCost Instance = new FieldDefinitionLifecycleOperatingCost(92, @"LifecycleOperatingCost", @"Lifecycle Operating Cost");
     }
 
     public partial class FieldDefinitionIndicatorSystemName : FieldDefinition
     {
-        private FieldDefinitionIndicatorSystemName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorSystemName Instance = new FieldDefinitionIndicatorSystemName(93, @"IndicatorSystemName", @"Indicator System Name", 1);
+        private FieldDefinitionIndicatorSystemName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionIndicatorSystemName Instance = new FieldDefinitionIndicatorSystemName(93, @"IndicatorSystemName", @"Indicator System Name");
     }
 
     public partial class FieldDefinitionIndicatorSimpleDescription : FieldDefinition
     {
-        private FieldDefinitionIndicatorSimpleDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorSimpleDescription Instance = new FieldDefinitionIndicatorSimpleDescription(94, @"IndicatorSimpleDescription", @"Indicator Simple Description", 1);
+        private FieldDefinitionIndicatorSimpleDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionIndicatorSimpleDescription Instance = new FieldDefinitionIndicatorSimpleDescription(94, @"IndicatorSimpleDescription", @"Indicator Simple Description");
     }
 
     public partial class FieldDefinitionIndicatorPrimarySource : FieldDefinition
     {
-        private FieldDefinitionIndicatorPrimarySource(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorPrimarySource Instance = new FieldDefinitionIndicatorPrimarySource(95, @"IndicatorPrimarySource", @"Indicator Primary Source", 1);
+        private FieldDefinitionIndicatorPrimarySource(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionIndicatorPrimarySource Instance = new FieldDefinitionIndicatorPrimarySource(95, @"IndicatorPrimarySource", @"Indicator Primary Source");
     }
 
     public partial class FieldDefinitionIndicatorType : FieldDefinition
     {
-        private FieldDefinitionIndicatorType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionIndicatorType Instance = new FieldDefinitionIndicatorType(96, @"IndicatorType", @"Indicator Type", 1);
+        private FieldDefinitionIndicatorType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionIndicatorType Instance = new FieldDefinitionIndicatorType(96, @"IndicatorType", @"Indicator Type");
     }
 
     public partial class FieldDefinitionChartTitle : FieldDefinition
     {
-        private FieldDefinitionChartTitle(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionChartTitle Instance = new FieldDefinitionChartTitle(97, @"ChartTitle", @"Chart Title", 1);
+        private FieldDefinitionChartTitle(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionChartTitle Instance = new FieldDefinitionChartTitle(97, @"ChartTitle", @"Chart Title");
     }
 
     public partial class FieldDefinitionProposedProjectState : FieldDefinition
     {
-        private FieldDefinitionProposedProjectState(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionProposedProjectState Instance = new FieldDefinitionProposedProjectState(98, @"ProposedProjectState", @"Proposed Project State", 1);
+        private FieldDefinitionProposedProjectState(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProposedProjectState Instance = new FieldDefinitionProposedProjectState(98, @"ProposedProjectState", @"Proposed Project State");
     }
 
     public partial class FieldDefinitionUserLastName : FieldDefinition
     {
-        private FieldDefinitionUserLastName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionUserLastName Instance = new FieldDefinitionUserLastName(173, @"UserLastName", @"User Last Name", 1);
+        private FieldDefinitionUserLastName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionUserLastName Instance = new FieldDefinitionUserLastName(173, @"UserLastName", @"User Last Name");
     }
 
     public partial class FieldDefinitionUserFirstName : FieldDefinition
     {
-        private FieldDefinitionUserFirstName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionUserFirstName Instance = new FieldDefinitionUserFirstName(174, @"UserFirstName", @"User First Name", 1);
+        private FieldDefinitionUserFirstName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionUserFirstName Instance = new FieldDefinitionUserFirstName(174, @"UserFirstName", @"User First Name");
     }
 
     public partial class FieldDefinitionUserEmail : FieldDefinition
     {
-        private FieldDefinitionUserEmail(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionUserEmail Instance = new FieldDefinitionUserEmail(175, @"UserEmail", @"User Email", 1);
+        private FieldDefinitionUserEmail(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionUserEmail Instance = new FieldDefinitionUserEmail(175, @"UserEmail", @"User Email");
     }
 
     public partial class FieldDefinitionUserPhone : FieldDefinition
     {
-        private FieldDefinitionUserPhone(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionUserPhone Instance = new FieldDefinitionUserPhone(176, @"UserPhone", @"Phone Number", 1);
+        private FieldDefinitionUserPhone(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionUserPhone Instance = new FieldDefinitionUserPhone(176, @"UserPhone", @"Phone Number");
     }
 
     public partial class FieldDefinitionEIPRoleID : FieldDefinition
     {
-        private FieldDefinitionEIPRoleID(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionEIPRoleID Instance = new FieldDefinitionEIPRoleID(177, @"EIPRoleID", @"EIP Role", 1);
+        private FieldDefinitionEIPRoleID(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionEIPRoleID Instance = new FieldDefinitionEIPRoleID(177, @"EIPRoleID", @"EIP Role");
     }
 
     public partial class FieldDefinitionSiteArea : FieldDefinition
     {
-        private FieldDefinitionSiteArea(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionSiteArea Instance = new FieldDefinitionSiteArea(181, @"SiteArea", @"Site Area", 1);
+        private FieldDefinitionSiteArea(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionSiteArea Instance = new FieldDefinitionSiteArea(181, @"SiteArea", @"Site Area");
     }
 
     public partial class FieldDefinitionRoleName : FieldDefinition
     {
-        private FieldDefinitionRoleName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionRoleName Instance = new FieldDefinitionRoleName(182, @"RoleName", @"Role Name", 1);
+        private FieldDefinitionRoleName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionRoleName Instance = new FieldDefinitionRoleName(182, @"RoleName", @"Role Name");
     }
 
     public partial class FieldDefinitionRegion : FieldDefinition
     {
-        private FieldDefinitionRegion(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionRegion Instance = new FieldDefinitionRegion(184, @"Region", @"Region (Geospatial)", 1);
+        private FieldDefinitionRegion(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionRegion Instance = new FieldDefinitionRegion(184, @"Region", @"Region (Geospatial),");
     }
 
     public partial class FieldDefinitionLatitude : FieldDefinition
     {
-        private FieldDefinitionLatitude(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLatitude Instance = new FieldDefinitionLatitude(185, @"Latitude", @"Latitude", 1);
+        private FieldDefinitionLatitude(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionLatitude Instance = new FieldDefinitionLatitude(185, @"Latitude", @"Latitude");
     }
 
     public partial class FieldDefinitionLongitude : FieldDefinition
     {
-        private FieldDefinitionLongitude(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionLongitude Instance = new FieldDefinitionLongitude(186, @"Longitude", @"Longitude", 1);
+        private FieldDefinitionLongitude(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionLongitude Instance = new FieldDefinitionLongitude(186, @"Longitude", @"Longitude");
     }
 
     public partial class FieldDefinitionOrganizationUrl : FieldDefinition
     {
-        private FieldDefinitionOrganizationUrl(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionOrganizationUrl Instance = new FieldDefinitionOrganizationUrl(188, @"OrganizationUrl", @"Organization Home Page", 1);
+        private FieldDefinitionOrganizationUrl(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionOrganizationUrl Instance = new FieldDefinitionOrganizationUrl(188, @"OrganizationUrl", @"Organization Home Page");
     }
 
     public partial class FieldDefinitionChartCaption : FieldDefinition
     {
-        private FieldDefinitionChartCaption(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionChartCaption Instance = new FieldDefinitionChartCaption(228, @"ChartCaption", @"Chart Caption", 1);
+        private FieldDefinitionChartCaption(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionChartCaption Instance = new FieldDefinitionChartCaption(228, @"ChartCaption", @"Chart Caption");
     }
 
     public partial class FieldDefinitionMonitoringProgram : FieldDefinition
     {
-        private FieldDefinitionMonitoringProgram(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionMonitoringProgram Instance = new FieldDefinitionMonitoringProgram(236, @"MonitoringProgram", @"Monitoring Program", 1);
+        private FieldDefinitionMonitoringProgram(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionMonitoringProgram Instance = new FieldDefinitionMonitoringProgram(236, @"MonitoringProgram", @"Monitoring Program");
     }
 
     public partial class FieldDefinitionMonitoringApproach : FieldDefinition
     {
-        private FieldDefinitionMonitoringApproach(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionMonitoringApproach Instance = new FieldDefinitionMonitoringApproach(237, @"MonitoringApproach", @"Monitoring Approach", 1);
+        private FieldDefinitionMonitoringApproach(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionMonitoringApproach Instance = new FieldDefinitionMonitoringApproach(237, @"MonitoringApproach", @"Monitoring Approach");
     }
 
     public partial class FieldDefinitionMonitoringProgramPartner : FieldDefinition
     {
-        private FieldDefinitionMonitoringProgramPartner(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionMonitoringProgramPartner Instance = new FieldDefinitionMonitoringProgramPartner(238, @"MonitoringProgramPartner", @"Monitoring Program Partner", 1);
+        private FieldDefinitionMonitoringProgramPartner(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionMonitoringProgramPartner Instance = new FieldDefinitionMonitoringProgramPartner(238, @"MonitoringProgramPartner", @"Monitoring Program Partner");
     }
 
     public partial class FieldDefinitionMonitoringProgramUrl : FieldDefinition
     {
-        private FieldDefinitionMonitoringProgramUrl(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionMonitoringProgramUrl Instance = new FieldDefinitionMonitoringProgramUrl(239, @"MonitoringProgramUrl", @"Monitoring Program Home Page", 1);
+        private FieldDefinitionMonitoringProgramUrl(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionMonitoringProgramUrl Instance = new FieldDefinitionMonitoringProgramUrl(239, @"MonitoringProgramUrl", @"Monitoring Program Home Page");
     }
 
     public partial class FieldDefinitionThresholdCategoryDescription : FieldDefinition
     {
-        private FieldDefinitionThresholdCategoryDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdCategoryDescription Instance = new FieldDefinitionThresholdCategoryDescription(240, @"ThresholdCategoryDescription", @"Threshold Category Description", 1);
+        private FieldDefinitionThresholdCategoryDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionThresholdCategoryDescription Instance = new FieldDefinitionThresholdCategoryDescription(240, @"ThresholdCategoryDescription", @"Threshold Category Description");
     }
 
     public partial class FieldDefinitionThresholdCategoryGoalStatement : FieldDefinition
     {
-        private FieldDefinitionThresholdCategoryGoalStatement(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdCategoryGoalStatement Instance = new FieldDefinitionThresholdCategoryGoalStatement(241, @"ThresholdCategoryGoalStatement", @"Threshold Category Goal Statement", 1);
+        private FieldDefinitionThresholdCategoryGoalStatement(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionThresholdCategoryGoalStatement Instance = new FieldDefinitionThresholdCategoryGoalStatement(241, @"ThresholdCategoryGoalStatement", @"Threshold Category Goal Statement");
     }
 
     public partial class FieldDefinitionThresholdCategoryNarrative : FieldDefinition
     {
-        private FieldDefinitionThresholdCategoryNarrative(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdCategoryNarrative Instance = new FieldDefinitionThresholdCategoryNarrative(242, @"ThresholdCategoryNarrative", @"Threshold Category Narrative", 1);
+        private FieldDefinitionThresholdCategoryNarrative(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionThresholdCategoryNarrative Instance = new FieldDefinitionThresholdCategoryNarrative(242, @"ThresholdCategoryNarrative", @"Threshold Category Narrative");
     }
 }

@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views
         /// Call for page with associated ProjectFirmaPage
         /// </summary>
         protected EIPViewData(Person currentPerson, Models.ProjectFirmaPage projectFirmaPage)
-            : base(currentPerson, projectFirmaPage, LTInfoArea.EIP)
+            : base(currentPerson, projectFirmaPage)
         {
             MakeEipTrackerlMenu(currentPerson);
             

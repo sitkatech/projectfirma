@@ -52,5 +52,10 @@ namespace ProjectFirma.Web.Models
         {
             return people.ToList().Where(x => x.ShouldReceiveEIPNotifications()).OrderBy(ht => ht.FullNameLastFirst).ToList();
         }
+
+        public static List<Person> GetPeopleWhoReceiveSupportEmails(this IQueryable<Person> people)
+        {
+            return people.ToList().Where(x => x.ReceiveSupportEmails && x.IsActive).OrderBy(ht => ht.FullNameLastFirst).ToList();
+        }
     }
 }

@@ -6,16 +6,15 @@ namespace ProjectFirma.Web.Models
 {
     public partial class SupportRequestType
     {
-        public virtual void SetEmailRecipientsOfSupportRequest(LTInfoArea ltInfoArea, MailMessage mailMessage)
+        public virtual void SetEmailRecipientsOfSupportRequest(MailMessage mailMessage)
         {
-            var supportPersons = ltInfoArea.GetSupportRequestRecipients().ToList();
+            var supportPersons = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveSupportEmails();
 
             if (!supportPersons.Any())
             {
                 var defaultSupportPerson = HttpRequestStorage.DatabaseEntities.People.GetPerson(ProjectFirmaWebConfiguration.DefaultSupportPersonID);
                 supportPersons.Add(defaultSupportPerson);
-                mailMessage.Body = string.Format("<p style=\"font-weight:bold\">Note: No users are currently configured to receive support emails for Area {0}. Defaulting to User: {1}</p>{2}",
-                    ltInfoArea.LTInfoAreaDisplayName,
+                mailMessage.Body = string.Format("<p style=\"font-weight:bold\">Note: No users are currently configured to receive support emails. Defaulting to User: {0}</p>{1}",
                     defaultSupportPerson.FullNameFirstLast,
                     mailMessage.Body);
             }
@@ -54,17 +53,13 @@ namespace ProjectFirma.Web.Models
     {
     }
 
-    public partial class SupportRequestTypeNewResidentialAllocationNumber
-    {
-    }
-
     public partial class SupportRequestTypeProvideFeedback
     {
     }
 
     public partial class SupportRequestTypeRequestOrganizationNameChange
     {
-        public override void SetEmailRecipientsOfSupportRequest(LTInfoArea ltInfoArea, MailMessage mailMessage)
+        public override void SetEmailRecipientsOfSupportRequest(MailMessage mailMessage)
         {
             mailMessage.To.Add(ProjectFirmaWebConfiguration.SitkaSupportEmail);
         }

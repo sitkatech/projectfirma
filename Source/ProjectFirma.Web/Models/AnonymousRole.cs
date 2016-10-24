@@ -24,16 +24,6 @@ namespace ProjectFirma.Web.Models
             return new List<Person>();
         }
 
-        public LTInfoAreaEnum? LTInfoAreaEnum
-        {
-            get { return null; }
-        }
-
-        public string LTInfoAreaDisplayName
-        {
-            get { return "Anonymous"; }
-        }
-
         public HtmlString GetDisplayNameAsUrl()
         {
             return UrlTemplate.MakeHrefString(SitkaRoute<RoleController>.BuildUrlFromExpression(t => t.Anonymous()), RoleDisplayName);

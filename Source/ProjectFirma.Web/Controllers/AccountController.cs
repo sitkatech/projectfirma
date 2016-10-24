@@ -52,7 +52,8 @@ namespace ProjectFirma.Web.Controllers
                     EIPRole.Unassigned.EIPRoleID,
                     DateTime.Now,
                     true,
-                    Organization.OrganizationIDUnknown);
+                    Organization.OrganizationIDUnknown,
+                    false);
                 HttpRequestStorage.DatabaseEntities.People.Add(person);
                 sendNewUserNotification = true;
             }
@@ -123,7 +124,6 @@ namespace ProjectFirma.Web.Controllers
 
         private static void SendNewUserCreatedMessage(Person person, string ipAddress, string userAgent, string loginName)
         {
-            var lakeTahoeInfoArea = LTInfoArea.EIP;
             var subject = string.Format("LT Info - User added: {0}", person.FullNameFirstLastAndOrg);
             var message = string.Format(@"
 <div style='font-size: 12px; font-family: Arial'>
@@ -156,7 +156,7 @@ namespace ProjectFirma.Web.Controllers
             mailMessage.ReplyToList.Add(person.Email);
 
             // TO field
-            var supportPersons = lakeTahoeInfoArea.GetSupportRequestRecipients();
+            var supportPersons = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveSupportEmails();
             foreach (var supportPerson in supportPersons)
             {
                 mailMessage.To.Add(supportPerson.Email);
@@ -168,7 +168,6 @@ namespace ProjectFirma.Web.Controllers
         private static void SendNewOrganizationCreatedMessage(Person person, string ipAddress, string userAgent, string loginName)
         {
             var organization = person.Organization;
-            var lakeTahoeInfoArea = LTInfoArea.EIP;
             var subject = string.Format("LT Info - Organization added: {0}", person.Organization.DisplayName);
 
             var message = string.Format(@"
@@ -201,7 +200,7 @@ namespace ProjectFirma.Web.Controllers
             mailMessage.ReplyToList.Add(person.Email);
 
             // TO field
-            var supportPersons = lakeTahoeInfoArea.GetSupportRequestRecipients();
+            var supportPersons = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveSupportEmails();
             foreach (var supportPerson in supportPersons)
             {
                 mailMessage.To.Add(supportPerson.Email);

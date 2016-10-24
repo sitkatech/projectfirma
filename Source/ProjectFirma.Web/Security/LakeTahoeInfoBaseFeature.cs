@@ -15,8 +15,6 @@ namespace ProjectFirma.Web.Security
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public abstract class LakeTahoeInfoBaseFeature : RelyingPartyAuthorizeAttribute
     {
-        private readonly LTInfoArea _lakeTahoeInfoArea; 
-
         private readonly IList<IRole> _grantedRoles;
 
         public IList<IRole> GrantedRoles
@@ -24,7 +22,7 @@ namespace ProjectFirma.Web.Security
             get { return _grantedRoles; }
         }
 
-        protected LakeTahoeInfoBaseFeature(IList<IRole> grantedRoles, LTInfoArea lakeTahoeInfoArea) // params
+        protected LakeTahoeInfoBaseFeature(IList<IRole> grantedRoles) // params
         {
             // Force user to pass us empty lists to make life simpler
             Check.RequireNotNull(grantedRoles, "Can\'t pass null for this Granted ProjectFirma Roles.");
@@ -33,7 +31,6 @@ namespace ProjectFirma.Web.Security
             //Check.Ensure(grantedRoles.Any(), "Must set at least one Role");
 
             _grantedRoles = grantedRoles;
-            _lakeTahoeInfoArea = lakeTahoeInfoArea;
         }
 
         public override void OnAuthorization(AuthorizationContext filterContext)
@@ -63,8 +60,7 @@ namespace ProjectFirma.Web.Security
             {
                 return true; 
             }
-            Check.RequireNotNull(_lakeTahoeInfoArea, string.Format("Feature {0} does not have a LakeTahoeInfoArea set!", FeatureName));
-            return _lakeTahoeInfoArea.HasPermissionByPerson(person, _grantedRoles);
+            return person != null && _grantedRoles.Any(x => x.RoleID == person.EIPRole.RoleID);
         }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)

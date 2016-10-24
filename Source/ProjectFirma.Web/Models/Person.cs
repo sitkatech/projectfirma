@@ -31,17 +31,6 @@ namespace ProjectFirma.Web.Models
             get { return PersonID == AnonymousPersonID; }
         }
 
-        public void SetReceiveSupportEmails(LTInfoArea ltInfoArea, bool shouldReceiveSupportEmails)
-        {
-            var personArea = PersonAreas.SingleOrDefault(x => x.LTInfoAreaID == ltInfoArea.LTInfoAreaID);
-            if (personArea == null)
-            {
-                personArea = new PersonArea(this, ltInfoArea, shouldReceiveSupportEmails);
-                HttpRequestStorage.DatabaseEntities.PersonAreas.Add(personArea);
-            }
-            personArea.ReceiveSupportEmails = shouldReceiveSupportEmails;
-        }
-
         public string FullNameFirstLast
         {
             get { return String.Format("{0} {1}", FirstName, LastName); }

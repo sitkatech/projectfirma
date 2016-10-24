@@ -38,7 +38,6 @@
     <EntitySet Name="NotificationProposedProject" EntityType="ProjectFirma.Web.Models.Store.NotificationProposedProject" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Organization" EntityType="ProjectFirma.Web.Models.Store.Organization" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Person" EntityType="ProjectFirma.Web.Models.Store.Person" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="PersonArea" EntityType="ProjectFirma.Web.Models.Store.PersonArea" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Program" EntityType="ProjectFirma.Web.Models.Store.Program" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProgramEIPPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.ProgramEIPPerformanceMeasure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProgramImage" EntityType="ProjectFirma.Web.Models.Store.ProgramImage" store:Type="Tables" Schema="dbo" />
@@ -354,10 +353,6 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
     <AssociationSet Name="FK_Person_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_Person_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
       <End Role="People" EntitySet="Person" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PersonArea_Person_PersonID" Association="ProjectFirma.Web.Models.Store.FK_PersonArea_Person_PersonID">
-      <End Role="Person" EntitySet="Person" />
-      <End Role="PersonAreas" EntitySet="PersonArea" />
     </AssociationSet>
     <AssociationSet Name="FK_Program_FocusArea_FocusAreaID" Association="ProjectFirma.Web.Models.Store.FK_Program_FocusArea_FocusAreaID">
       <End Role="FocusArea" EntitySet="FocusArea" />
@@ -1191,16 +1186,8 @@ warning 6035: The relationship 'FK_SnapshotEIPPerformanceMeasureSubcategoryOptio
     <Property Name="LastActivityDate" Type="datetime" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="OrganizationID" Type="int" Nullable="false" />
-    <Property Name="WebServiceAccessToken" Type="uniqueidentifier" />
-  </EntityType>
-  <EntityType Name="PersonArea">
-    <Key>
-      <PropertyRef Name="PersonAreaID" />
-    </Key>
-    <Property Name="PersonAreaID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="PersonID" Type="int" Nullable="false" />
-    <Property Name="LTInfoAreaID" Type="int" Nullable="false" />
     <Property Name="ReceiveSupportEmails" Type="bit" Nullable="false" />
+    <Property Name="WebServiceAccessToken" Type="uniqueidentifier" />
   </EntityType>
   <EntityType Name="Program">
     <Key>
@@ -2627,18 +2614,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
       </Principal>
       <Dependent Role="People">
         <PropertyRef Name="OrganizationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PersonArea_Person_PersonID">
-    <End Role="Person" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
-    <End Role="PersonAreas" Type="ProjectFirma.Web.Models.Store.PersonArea" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Person">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="PersonAreas">
-        <PropertyRef Name="PersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

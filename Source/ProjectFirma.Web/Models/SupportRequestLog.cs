@@ -28,15 +28,14 @@ namespace ProjectFirma.Web.Models
             return supportRequest;
         }
 
-        public void SendMessage(string ipAddress, string userAgent, string currentUrl, SupportRequestType supportRequestType, LTInfoAreaEnum lakeTahoeInfoAreaEnum)
+        public void SendMessage(string ipAddress, string userAgent, string currentUrl, SupportRequestType supportRequestType)
         {
-            SendMessage(ipAddress, userAgent, currentUrl, supportRequestType, null, lakeTahoeInfoAreaEnum);
+            SendMessage(ipAddress, userAgent, currentUrl, supportRequestType, null);
         }
 
-        public void SendMessage(string ipAddress, string userAgent, string currentUrl, SupportRequestType supportRequestType, Project project, LTInfoAreaEnum lakeTahoeInfoAreaEnum)
+        public void SendMessage(string ipAddress, string userAgent, string currentUrl, SupportRequestType supportRequestType, Project project)
         {
-            var lakeTahoeInfoArea = LTInfoArea.ToType(lakeTahoeInfoAreaEnum);
-            var subject = string.Format("Support Request for TRPA {0} - {1}", lakeTahoeInfoArea.LTInfoAreaDisplayName, DateTime.Now.ToStringDateTime());
+            var subject = string.Format("Support Request for TRPA - {0}", DateTime.Now.ToStringDateTime());
             var projectSummaryUrl = project == null
                 ? string.Empty
                 : string.Format("    <strong>Project:</strong> <a href=\"{0}\">{1}</a><br />",
@@ -83,7 +82,7 @@ namespace ProjectFirma.Web.Models
             mailMessage.ReplyToList.Add(RequestPersonEmail);
 
             // TO field
-            SupportRequestType.SetEmailRecipientsOfSupportRequest(lakeTahoeInfoArea, mailMessage);
+            SupportRequestType.SetEmailRecipientsOfSupportRequest(mailMessage);
 
             SitkaSmtpClient.Send(mailMessage);
         }

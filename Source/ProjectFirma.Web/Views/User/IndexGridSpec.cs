@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Views.User
             Add("Last Activity", a => a.LastActivityDate, 120);
             Add("EIP Role", a => a.EIPRole.GetDisplayNameAsUrl(), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add("Active?", a => a.IsActive.ToYesNo(), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Receives EIP Emails?", a => a.ShouldReceiveSupportEmails(LTInfoArea.EIP.LTInfoAreaID).ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Receives EIP Emails?", a => a.ReceiveSupportEmails.ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("# of Orgs as Primary Contact", a => a.PrimaryContactOrganizations.Count, 120);
         }
     }

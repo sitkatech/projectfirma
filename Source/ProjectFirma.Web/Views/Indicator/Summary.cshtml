@@ -153,18 +153,10 @@
 </div>
 
 <hr style="border-color: #ccc" />
-    This indicator is used for @ViewDataTyped.IndicatorReportedInText reporting.
-
     <div class="container-fluid">
         <ul class="nav nav-tabs">
             <li @Html.Raw(ViewDataTyped.IsActiveTabOverview ? "class=\"active\"" : string.Empty)><a role="tab" href="#overviewTab" data-toggle="tab" aria-controls="overviewTab">Overview</a></li>
-            @foreach (var lakeTahoeInfoAreaSection in ViewDataTyped.LakeTahoeInfoAreaSectons)
-            {
-                if (lakeTahoeInfoAreaSection.IsReportedInArea)
-                {
-                    <li @Html.Raw(ViewDataTyped.ActiveTab == lakeTahoeInfoAreaSection.IndicatorSummaryTab ? "class=\"active\"" : string.Empty)><a role="tab" href="#@(lakeTahoeInfoAreaSection.LakeTahoeInfoArea.LTInfoAreaName)Tab" data-toggle="tab" aria-controls="@(lakeTahoeInfoAreaSection.LakeTahoeInfoArea.LTInfoAreaName)Tab">@lakeTahoeInfoAreaSection.LakeTahoeInfoArea.LTInfoAreaDisplayName</a></li>
-                }
-            }
+            <li @Html.Raw(ViewDataTyped.ActiveTab == SummaryViewData.IndicatorSummaryTab.EIP ? "class=\"active\"" : string.Empty)><a role="tab" href="#eipTab" data-toggle="tab" aria-controls="eipTab">EIP</a></li>
         </ul>
     </div>
 
