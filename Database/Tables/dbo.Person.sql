@@ -16,10 +16,8 @@ CREATE TABLE [dbo].[Person](
 	[LastActivityDate] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
 	[OrganizationID] [int] NOT NULL,
-	[SustainabilityRoleID] [int] NOT NULL,
 	[LTInfoRoleID] [int] NOT NULL,
 	[WebServiceAccessToken] [uniqueidentifier] NULL,
-	[ThresholdRoleID] [int] NOT NULL,
  CONSTRAINT [PK_Person_PersonID] PRIMARY KEY CLUSTERED 
 (
 	[PersonID] ASC
@@ -45,13 +43,3 @@ ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_Organization_O
 REFERENCES [dbo].[Organization] ([OrganizationID])
 GO
 ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_Organization_OrganizationID]
-GO
-ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_SustainabilityRole_SustainabilityRoleID] FOREIGN KEY([SustainabilityRoleID])
-REFERENCES [dbo].[SustainabilityRole] ([SustainabilityRoleID])
-GO
-ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_SustainabilityRole_SustainabilityRoleID]
-GO
-ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_ThresholdRole_ThresholdRoleID] FOREIGN KEY([ThresholdRoleID])
-REFERENCES [dbo].[ThresholdRole] ([ThresholdRoleID])
-GO
-ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_ThresholdRole_ThresholdRoleID]

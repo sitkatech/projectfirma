@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ProjectFirma.Web.Areas.EIP.Security;
-using ProjectFirma.Web.Areas.Threshold.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
@@ -259,7 +258,7 @@ namespace ProjectFirma.Web.Controllers
         /// <returns></returns>
         [CrossAreaRoute]
         [HttpGet]
-        [ThresholdIndicatorManageFeature]
+        [IndicatorManageFeature]
         public ContentResult CkEditorUploadFileResourceForThresholdCategory(ThresholdCategoryPrimaryKey thresholdCategoryPrimary)
         {
             return Content(String.Empty);
@@ -268,7 +267,7 @@ namespace ProjectFirma.Web.Controllers
         [CrossAreaRoute]
         [HttpPost]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        [ThresholdIndicatorManageFeature]
+        [IndicatorManageFeature]
         public ContentResult CkEditorUploadFileResourceForThresholdCategory(ThresholdCategoryPrimaryKey thresholdCategoryPrimary, CkEditorImageUploadViewModel viewModel)
         {
             var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);

@@ -21,7 +21,6 @@ namespace ProjectFirma.Web.Models
             ShowOnChart = indicatorSubcategory.ShowOnChart;
             IndicatorID = indicatorSubcategory.IndicatorID;
             EIPPerformanceMeasureID = indicatorSubcategory.EIPPerformanceMeasureID;
-            SustainabilityIndicatorID = indicatorSubcategory.SustainabilityIndicatorID;
         }
 
         public int IndicatorSubcategoryID { get; set; }
@@ -30,6 +29,5 @@ namespace ProjectFirma.Web.Models
         public bool ShowOnChart { get; set; }
         public int IndicatorID { get; set; }
         public int? EIPPerformanceMeasureID { get; set; }
-        public int? SustainabilityIndicatorID { get; set; }
     }
 }

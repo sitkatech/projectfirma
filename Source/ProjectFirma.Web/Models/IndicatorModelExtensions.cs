@@ -23,30 +23,12 @@ namespace ProjectFirma.Web.Models
             {
                 infoSheetUrl = indicator.GetEIPInfoSheetUrl();
             }
-            else if (indicator.ThresholdIndicator != null)
-            {
-                infoSheetUrl = indicator.GetThresholdInfoSheetUrl();
-            }
-            else if (indicator.SustainabilityIndicator != null)
-            {
-                infoSheetUrl = indicator.GetSustainabilitySummaryUrl();
-            }
             return UrlTemplate.MakeHrefString(infoSheetUrl, indicator.IndicatorDisplayName);    
         }
 
         public static string GetEIPInfoSheetUrl(this Indicator indicator)
         {
             return indicator.EIPPerformanceMeasure != null ? indicator.EIPPerformanceMeasure.GetInfoSheetUrl() : string.Empty;
-        }
-
-        public static string GetSustainabilitySummaryUrl(this Indicator indicator)
-        {
-            return indicator.SustainabilityIndicator != null ? indicator.SustainabilityIndicator.GetSummaryUrl() : string.Empty;
-        }
-
-        public static string GetThresholdInfoSheetUrl(this Indicator indicator)
-        {
-            return indicator.ThresholdIndicator != null ? indicator.ThresholdIndicator.GetInfoSheetUrl() : string.Empty;
         }
 
         private static readonly UrlTemplate<int> DefinitionAndGuidanceUrlTemplate = new UrlTemplate<int>(SitkaRoute<IndicatorController>.BuildUrlFromExpression(t => t.DefinitionAndGuidance(UrlTemplate.Parameter1Int)));
@@ -57,19 +39,11 @@ namespace ProjectFirma.Web.Models
 
         public static string GetEditReportedValuesUrl(this Indicator indicator)
         {
-            if (indicator.SustainabilityIndicator != null)
-            {
-                return indicator.SustainabilityIndicator.GetEditReportedValuesUrl();
-            }
-            if (indicator.ThresholdIndicator != null)
-            {
-                return indicator.ThresholdIndicator.GetEditReportedValuesUrl();
-            }
             if (indicator.EIPPerformanceMeasure != null)
             {
                 return null;
             }
-            throw new NotImplementedException("Indicator {0} is not reported in the EIP Project Tracker, Sustainability Dashboard, or the Threshold Dashboard!  No way to edit reported values!");
+            throw new NotImplementedException("Indicator {0} is not reported in the EIP Project Tracker!  No way to edit reported values!");
         }
 
         public static bool IsIndicatorNameUnique(IEnumerable<Indicator> indicators, string indicatorName, int currentIndicatorID)

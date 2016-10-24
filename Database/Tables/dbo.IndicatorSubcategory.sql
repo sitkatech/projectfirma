@@ -12,8 +12,6 @@ CREATE TABLE [dbo].[IndicatorSubcategory](
 	[ChartType] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[SwapChartAxes] [bit] NULL,
 	[EIPPerformanceMeasureID] [int] NULL,
-	[SustainabilityIndicatorID] [int] NULL,
-	[ThresholdIndicatorID] [int] NULL,
  CONSTRAINT [PK_IndicatorSubcategory_IndicatorSubcategoryID] PRIMARY KEY CLUSTERED 
 (
 	[IndicatorSubcategoryID] ASC
@@ -22,16 +20,6 @@ CREATE TABLE [dbo].[IndicatorSubcategory](
 (
 	[IndicatorSubcategoryID] ASC,
 	[EIPPerformanceMeasureID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_IndicatorSubcategory_IndicatorSubcategoryID_SustainabilityIndicatorID] UNIQUE NONCLUSTERED 
-(
-	[IndicatorSubcategoryID] ASC,
-	[SustainabilityIndicatorID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_IndicatorSubcategory_IndicatorSubcategoryID_ThresholdIndicatorID] UNIQUE NONCLUSTERED 
-(
-	[IndicatorSubcategoryID] ASC,
-	[ThresholdIndicatorID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
  CONSTRAINT [AK_IndicatorSubcategory_IndicatorSubcategoryName] UNIQUE NONCLUSTERED 
 (
@@ -49,17 +37,3 @@ ALTER TABLE [dbo].[IndicatorSubcategory]  WITH CHECK ADD  CONSTRAINT [FK_Indicat
 REFERENCES [dbo].[Indicator] ([IndicatorID])
 GO
 ALTER TABLE [dbo].[IndicatorSubcategory] CHECK CONSTRAINT [FK_IndicatorSubcategory_Indicator_IndicatorID]
-GO
-ALTER TABLE [dbo].[IndicatorSubcategory]  WITH CHECK ADD  CONSTRAINT [FK_IndicatorSubcategory_SustainabilityIndicator_SustainabilityIndicatorID] FOREIGN KEY([SustainabilityIndicatorID])
-REFERENCES [dbo].[SustainabilityIndicator] ([SustainabilityIndicatorID])
-GO
-ALTER TABLE [dbo].[IndicatorSubcategory] CHECK CONSTRAINT [FK_IndicatorSubcategory_SustainabilityIndicator_SustainabilityIndicatorID]
-GO
-ALTER TABLE [dbo].[IndicatorSubcategory]  WITH CHECK ADD  CONSTRAINT [FK_IndicatorSubcategory_ThresholdIndicator_ThresholdIndicatorID] FOREIGN KEY([ThresholdIndicatorID])
-REFERENCES [dbo].[ThresholdIndicator] ([ThresholdIndicatorID])
-GO
-ALTER TABLE [dbo].[IndicatorSubcategory] CHECK CONSTRAINT [FK_IndicatorSubcategory_ThresholdIndicator_ThresholdIndicatorID]
-GO
-ALTER TABLE [dbo].[IndicatorSubcategory]  WITH CHECK ADD  CONSTRAINT [CK_IndicatorSubcategory_OnlyOneLTInfoAreaAsSource] CHECK  (([EIPPerformanceMeasureID] IS NOT NULL AND [SustainabilityIndicatorID] IS NULL AND [ThresholdIndicatorID] IS NULL OR [EIPPerformanceMeasureID] IS NULL AND [SustainabilityIndicatorID] IS NOT NULL AND [ThresholdIndicatorID] IS NULL OR [EIPPerformanceMeasureID] IS NULL AND [SustainabilityIndicatorID] IS NULL AND [ThresholdIndicatorID] IS NOT NULL))
-GO
-ALTER TABLE [dbo].[IndicatorSubcategory] CHECK CONSTRAINT [CK_IndicatorSubcategory_OnlyOneLTInfoAreaAsSource]

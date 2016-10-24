@@ -23,22 +23,6 @@ namespace ProjectFirma.Web.Views.Indicator
                 100,
                 DhtmlxGridColumnFilterType.SelectFilterHtmlStrict,
                 DhtmlxGridColumnAlignType.Center);
-            Add("Reported in Sustainability Dashboard?",
-                a =>
-                    a.SustainabilityIndicator != null
-                        ? UrlTemplate.MakeHrefString(a.GetSustainabilitySummaryUrl(), BootstrapHtmlHelpers.MakeGlyphIconWithHiddenText("glyphicon-ok-circle", "Yes").ToString())
-                        : new HtmlString("<span style='display:none'>No</span>"),
-                100,
-                DhtmlxGridColumnFilterType.SelectFilterHtmlStrict,
-                DhtmlxGridColumnAlignType.Center);
-            Add("Reported in Threshold Dashboard?",
-                a =>
-                    a.ThresholdIndicator != null
-                        ? UrlTemplate.MakeHrefString(a.GetThresholdInfoSheetUrl(), BootstrapHtmlHelpers.MakeGlyphIconWithHiddenText("glyphicon-ok-circle", "Yes").ToString())
-                        : new HtmlString("<span style='display:none'>No</span>"),
-                100,
-                DhtmlxGridColumnFilterType.SelectFilterHtmlStrict,
-                DhtmlxGridColumnAlignType.Center);
             Add(Models.FieldDefinition.IndicatorType.ToGridHeaderString("Type"),
                 a => a.IndicatorType.IndicatorTypeDisplayName,
                 60,

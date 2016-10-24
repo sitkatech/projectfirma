@@ -6,8 +6,6 @@ using System.Web.Mvc;
 using ApprovalTests;
 using ApprovalTests.Reporters;
 using ProjectFirma.Web.Areas.EIP.Security;
-using ProjectFirma.Web.Areas.Sustainability.Security;
-using ProjectFirma.Web.Areas.Threshold.Security;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
@@ -21,7 +19,6 @@ namespace ProjectFirma.Web.Security
     {
         private readonly Type _typeOfLakeTahoeInfoFeatureWithContext = typeof(LakeTahoeInfoFeatureWithContext);
         private readonly Type _typeOfEIPFeatureWithContext = typeof(EIPFeatureWithContext);
-        private readonly Type _typeOfSustainabilityFeatureWithContext = typeof(SustainabilityFeatureWithContext);
 
         private readonly Type _typeOfLakeTahoeInfoBaseFeature = typeof(LakeTahoeInfoBaseFeature);
         private readonly Type _typeofILakeTahoeInfoBaseFeatureWithContext = typeof(ILakeTahoeInfoBaseFeatureWithContext<>);
@@ -100,17 +97,9 @@ namespace ProjectFirma.Web.Security
             {
                 return LTInfoArea.EIP;
             }
-            else if (featureAttribute is SustainabilityFeature || featureAttribute is SustainabilityFeatureWithContext)
-            {
-                return LTInfoArea.Sustainability;
-            }
             else if (featureAttribute is LakeTahoeInfoFeature || featureAttribute is LakeTahoeInfoFeatureWithContext)
             {
                 return LTInfoArea.LTInfo;
-            }
-            else if (featureAttribute is ThresholdFeature || featureAttribute is ThresholdFeatureWithContext)
-            {
-                return LTInfoArea.Threshold;
             }
             else if (featureAttribute is AnonymousUnclassifiedFeature)
             {
@@ -129,17 +118,9 @@ namespace ProjectFirma.Web.Security
             {
                 return LTInfoArea.EIP;
             }
-            else if (typeof(SustainabilityFeature).IsAssignableFrom((featureType)) || typeof(SustainabilityFeatureWithContext).IsAssignableFrom((featureType)))
-            {
-                return LTInfoArea.Sustainability;
-            }
             else if (typeof(LakeTahoeInfoFeature).IsAssignableFrom((featureType)) || typeof(LakeTahoeInfoFeatureWithContext).IsAssignableFrom((featureType)))
             {
                 return LTInfoArea.LTInfo;
-            }
-            else if (typeof(ThresholdFeature).IsAssignableFrom((featureType)) || typeof(ThresholdFeatureWithContext).IsAssignableFrom((featureType)))
-            {
-                return LTInfoArea.Threshold;
             }
             else if (typeof(AnonymousUnclassifiedFeature).IsAssignableFrom((featureType)))
             {
@@ -247,24 +228,10 @@ namespace ProjectFirma.Web.Security
                             listOfErrors.Add(errorMessage);
                         }
                         break;
-                    case LTInfoAreaEnum.Sustainability:
-                        if (!obj.GrantedRoles.Contains(SustainabilityRole.Admin) && obj.GrantedRoles.Count != 0)
-                        {
-                            string errorMessage = String.Format("Sustainability Feature {0} is not available to Administrators", type.FullName);
-                            listOfErrors.Add(errorMessage);
-                        }
-                        break;
                     case LTInfoAreaEnum.LTInfo:
                         if (!obj.GrantedRoles.Contains(LTInfoRole.Admin) && obj.GrantedRoles.Count != 0)
                         {
                             string errorMessage = String.Format("LTInfo Feature {0} is not available to Administrators", type.FullName);
-                            listOfErrors.Add(errorMessage);
-                        }
-                        break;
-                    case LTInfoAreaEnum.Threshold:
-                        if (!obj.GrantedRoles.Contains(ThresholdRole.Admin) && obj.GrantedRoles.Count != 0)
-                        {
-                            string errorMessage = String.Format("Thresholds Feature {0} is not available to Administrators", type.FullName);
                             listOfErrors.Add(errorMessage);
                         }
                         break;
@@ -273,7 +240,7 @@ namespace ProjectFirma.Web.Security
                 }
 
                 //Validate Unassigned does NOT have access                
-                if (obj.GrantedRoles.Contains(EIPRole.Unassigned) || obj.GrantedRoles.Contains(LTInfoRole.Unassigned) || obj.GrantedRoles.Contains(SustainabilityRole.Unassigned))
+                if (obj.GrantedRoles.Contains(EIPRole.Unassigned) || obj.GrantedRoles.Contains(LTInfoRole.Unassigned))
                 {
                     string errorMessage = String.Format("Feature {0} is available to the Unassigned role", type.FullName);
                     listOfErrors.Add(errorMessage);
@@ -294,7 +261,6 @@ namespace ProjectFirma.Web.Security
             //Get a list of all features inheriting from one of our four FeatureWithContext
             var projectFirmaFeatureWithContextTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => p.IsSubclassOf(_typeOfLakeTahoeInfoFeatureWithContext)).Select(t => t.FullName).ToList();
             projectFirmaFeatureWithContextTypes.AddRange(AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => p.IsSubclassOf(_typeOfEIPFeatureWithContext)).Select(t => t.FullName).ToList());
-            projectFirmaFeatureWithContextTypes.AddRange(AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => p.IsSubclassOf(_typeOfSustainabilityFeatureWithContext)).Select(t => t.FullName).ToList());
 
             //Get a list of all features inheriting from the ILakeTahoeInfoBaesFeatureWithContext interface
             var iProjectFirmaFeatureTypeWithContextTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => p.GetInterfaces().Any(i => HasInterface(i, _typeofILakeTahoeInfoBaseFeatureWithContext))).Select(t => t.FullName).ToList();

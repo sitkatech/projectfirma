@@ -2,7 +2,6 @@
 @using ProjectFirma.Web.Views.Indicator
 @using LtInfo.Common
 @using LtInfo.Common.Mvc
-@using LtInfo.Common.Views
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @inherits IndicatorChart
@@ -26,7 +25,7 @@
     }
 </style>
 
-@if (ViewDataTyped.HasChartData && !ViewDataTyped.HasOptionalChartImage)
+@if (ViewDataTyped.HasChartData)
 {
     <div class="chartWrapper" style="display: inline-block">
 
@@ -152,14 +151,6 @@
 
 
 
-    </div>
-}
-else if (ViewDataTyped.HasOptionalChartImage)
-{
-    <div class="chartWrapper">
-        <a class="gallery" href="@ViewDataTyped.Indicator.ThresholdIndicator.OptionalChartImageFileResource.FileResourceUrl" title="" data-caption="@Html.Raw(ViewDataTyped.Indicator.ThresholdIndicator.OptionalChartImageFileResource.OriginalCompleteFileName.HtmlEncode())">
-            <img src="@ViewDataTyped.Indicator.ThresholdIndicator.OptionalChartImageFileResource.FileResourceUrlScaledForPrint" alt="@ViewDataTyped.Indicator.ThresholdIndicator.OptionalChartImageFileResource.OriginalCompleteFileName" />
-        </a>
     </div>
 }
 else

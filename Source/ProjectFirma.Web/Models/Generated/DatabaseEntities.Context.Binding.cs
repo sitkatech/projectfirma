@@ -115,24 +115,10 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<SnapshotSectorExpenditure> SnapshotSectorExpenditures { get; set; }
         public virtual DbSet<StateProvince> StateProvinces { get; set; }
         public virtual DbSet<SupportRequestLog> SupportRequestLogs { get; set; }
-        public virtual DbSet<SustainabilityAspect> SustainabilityAspects { get; set; }
-        public virtual DbSet<SustainabilityIndicatorReported> SustainabilityIndicatorReporteds { get; set; }
-        public virtual DbSet<SustainabilityIndicatorReportedSubcategoryOption> SustainabilityIndicatorReportedSubcategoryOptions { get; set; }
-        public virtual DbSet<SustainabilityIndicatorReportingPeriod> SustainabilityIndicatorReportingPeriods { get; set; }
-        public virtual DbSet<SustainabilityIndicator> SustainabilityIndicators { get; set; }
-        public virtual DbSet<SustainabilityPillar> SustainabilityPillars { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
         public virtual DbSet<ThresholdCategory> ThresholdCategories { get; set; }
         public virtual DbSet<ThresholdCategoryImage> ThresholdCategoryImages { get; set; }
         public virtual DbSet<ThresholdCategoryIndicator> ThresholdCategoryIndicators { get; set; }
-        public virtual DbSet<ThresholdEvaluationPeriod> ThresholdEvaluationPeriods { get; set; }
-        public virtual DbSet<ThresholdEvaluation> ThresholdEvaluations { get; set; }
-        public virtual DbSet<ThresholdIndicatorImage> ThresholdIndicatorImages { get; set; }
-        public virtual DbSet<ThresholdIndicatorReported> ThresholdIndicatorReporteds { get; set; }
-        public virtual DbSet<ThresholdIndicatorReportedSubcategoryOption> ThresholdIndicatorReportedSubcategoryOptions { get; set; }
-        public virtual DbSet<ThresholdIndicatorReportingPeriod> ThresholdIndicatorReportingPeriods { get; set; }
-        public virtual DbSet<ThresholdIndicator> ThresholdIndicators { get; set; }
-        public virtual DbSet<ThresholdReportingCategory> ThresholdReportingCategories { get; set; }
         public virtual DbSet<TransportationCostParameterSet> TransportationCostParameterSets { get; set; }
         public virtual DbSet<TransportationGoal> TransportationGoals { get; set; }
         public virtual DbSet<TransportationObjectiveImage> TransportationObjectiveImages { get; set; }
@@ -546,29 +532,6 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(supportRequestType, "SupportRequestType", primaryKey);
                     return supportRequestType;
 
-                case "SustainabilityAspect":
-                    return SustainabilityAspects.GetSustainabilityAspect(primaryKey);
-
-                case "SustainabilityIndicatorReported":
-                    return SustainabilityIndicatorReporteds.GetSustainabilityIndicatorReported(primaryKey);
-
-                case "SustainabilityIndicatorReportedSubcategoryOption":
-                    return SustainabilityIndicatorReportedSubcategoryOptions.GetSustainabilityIndicatorReportedSubcategoryOption(primaryKey);
-
-                case "SustainabilityIndicatorReportingPeriod":
-                    return SustainabilityIndicatorReportingPeriods.GetSustainabilityIndicatorReportingPeriod(primaryKey);
-
-                case "SustainabilityIndicator":
-                    return SustainabilityIndicators.GetSustainabilityIndicator(primaryKey);
-
-                case "SustainabilityPillar":
-                    return SustainabilityPillars.GetSustainabilityPillar(primaryKey);
-
-                case "SustainabilityRole":
-                    var sustainabilityRole = SustainabilityRole.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(sustainabilityRole, "SustainabilityRole", primaryKey);
-                    return sustainabilityRole;
-
                 case "Tag":
                     return Tags.GetTag(primaryKey);
 
@@ -580,65 +543,6 @@ namespace ProjectFirma.Web.Models
 
                 case "ThresholdCategoryIndicator":
                     return ThresholdCategoryIndicators.GetThresholdCategoryIndicator(primaryKey);
-
-                case "ThresholdEvaluationConfidenceType":
-                    var thresholdEvaluationConfidenceType = ThresholdEvaluationConfidenceType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(thresholdEvaluationConfidenceType, "ThresholdEvaluationConfidenceType", primaryKey);
-                    return thresholdEvaluationConfidenceType;
-
-                case "ThresholdEvaluationManagementStatusType":
-                    var thresholdEvaluationManagementStatusType = ThresholdEvaluationManagementStatusType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(thresholdEvaluationManagementStatusType, "ThresholdEvaluationManagementStatusType", primaryKey);
-                    return thresholdEvaluationManagementStatusType;
-
-                case "ThresholdEvaluationPeriod":
-                    return ThresholdEvaluationPeriods.GetThresholdEvaluationPeriod(primaryKey);
-
-                case "ThresholdEvaluation":
-                    return ThresholdEvaluations.GetThresholdEvaluation(primaryKey);
-
-                case "ThresholdEvaluationStatusType":
-                    var thresholdEvaluationStatusType = ThresholdEvaluationStatusType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(thresholdEvaluationStatusType, "ThresholdEvaluationStatusType", primaryKey);
-                    return thresholdEvaluationStatusType;
-
-                case "ThresholdEvaluationTrendType":
-                    var thresholdEvaluationTrendType = ThresholdEvaluationTrendType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(thresholdEvaluationTrendType, "ThresholdEvaluationTrendType", primaryKey);
-                    return thresholdEvaluationTrendType;
-
-                case "ThresholdIndicatorImage":
-                    return ThresholdIndicatorImages.GetThresholdIndicatorImage(primaryKey);
-
-                case "ThresholdIndicatorReported":
-                    return ThresholdIndicatorReporteds.GetThresholdIndicatorReported(primaryKey);
-
-                case "ThresholdIndicatorReportedSubcategoryOption":
-                    return ThresholdIndicatorReportedSubcategoryOptions.GetThresholdIndicatorReportedSubcategoryOption(primaryKey);
-
-                case "ThresholdIndicatorReportingPeriod":
-                    return ThresholdIndicatorReportingPeriods.GetThresholdIndicatorReportingPeriod(primaryKey);
-
-                case "ThresholdIndicator":
-                    return ThresholdIndicators.GetThresholdIndicator(primaryKey);
-
-                case "ThresholdReportingCategory":
-                    return ThresholdReportingCategories.GetThresholdReportingCategory(primaryKey);
-
-                case "ThresholdRole":
-                    var thresholdRole = ThresholdRole.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(thresholdRole, "ThresholdRole", primaryKey);
-                    return thresholdRole;
-
-                case "ThresholdSectorType":
-                    var thresholdSectorType = ThresholdSectorType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(thresholdSectorType, "ThresholdSectorType", primaryKey);
-                    return thresholdSectorType;
-
-                case "ThresholdStandardType":
-                    var thresholdStandardType = ThresholdStandardType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(thresholdStandardType, "ThresholdStandardType", primaryKey);
-                    return thresholdStandardType;
 
                 case "TransportationCostParameterSet":
                     return TransportationCostParameterSets.GetTransportationCostParameterSet(primaryKey);

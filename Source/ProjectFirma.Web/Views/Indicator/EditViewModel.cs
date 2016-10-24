@@ -30,9 +30,6 @@ namespace ProjectFirma.Web.Views.Indicator
         [FieldDefinitionDisplay(FieldDefinitionEnum.IndicatorType)]
         public int? IndicatorTypeID { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.TRPAIndicator)]
-        public string TRPAIndicator { get; set; }
-
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -47,10 +44,6 @@ namespace ProjectFirma.Web.Views.Indicator
             IndicatorTypeID = indicator.IndicatorTypeID;
             MeasurementUnitTypeID = indicator.MeasurementUnitTypeID;
             IndicationDefinition = indicator.IndicatorDefinition;
-            if (indicator.ReportedInThresholdDashboard)
-            {
-                TRPAIndicator = indicator.ThresholdIndicator.TRPAIndicator;
-            }
         }
 
         public void UpdateModel(Models.Indicator indicator, Person currentPerson)
@@ -59,10 +52,6 @@ namespace ProjectFirma.Web.Views.Indicator
             indicator.IndicatorTypeID = IndicatorTypeID.Value;
             indicator.MeasurementUnitTypeID = MeasurementUnitTypeID;
             indicator.IndicatorDefinition = IndicationDefinition;
-            if (indicator.ReportedInThresholdDashboard)
-            {
-                indicator.ThresholdIndicator.TRPAIndicator = TRPAIndicator;
-            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -29,14 +29,12 @@ namespace ProjectFirma.Web.Models
             this.EIPPerformanceMeasureExpectedSubcategoryOptionProposeds = new HashSet<EIPPerformanceMeasureExpectedSubcategoryOptionProposed>();
             this.IndicatorSubcategoryOptions = new HashSet<IndicatorSubcategoryOption>();
             this.SnapshotEIPPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotEIPPerformanceMeasureSubcategoryOption>();
-            this.SustainabilityIndicatorReportedSubcategoryOptions = new HashSet<SustainabilityIndicatorReportedSubcategoryOption>();
-            this.ThresholdIndicatorReportedSubcategoryOptions = new HashSet<ThresholdIndicatorReportedSubcategoryOption>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public IndicatorSubcategory(int indicatorSubcategoryID, int indicatorID, string indicatorSubcategoryName, string indicatorSubcategoryDisplayName, int? sortOrder, string chartConfigurationJson, string chartType, bool? swapChartAxes, int? eIPPerformanceMeasureID, int? sustainabilityIndicatorID, int? thresholdIndicatorID) : this()
+        public IndicatorSubcategory(int indicatorSubcategoryID, int indicatorID, string indicatorSubcategoryName, string indicatorSubcategoryDisplayName, int? sortOrder, string chartConfigurationJson, string chartType, bool? swapChartAxes, int? eIPPerformanceMeasureID) : this()
         {
             this.IndicatorSubcategoryID = indicatorSubcategoryID;
             this.IndicatorID = indicatorID;
@@ -47,8 +45,6 @@ namespace ProjectFirma.Web.Models
             this.ChartType = chartType;
             this.SwapChartAxes = swapChartAxes;
             this.EIPPerformanceMeasureID = eIPPerformanceMeasureID;
-            this.SustainabilityIndicatorID = sustainabilityIndicatorID;
-            this.ThresholdIndicatorID = thresholdIndicatorID;
         }
 
         /// <summary>
@@ -92,13 +88,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return EIPPerformanceMeasureActualSubcategoryOptions.Any() || EIPPerformanceMeasureActualSubcategoryOptionUpdates.Any() || EIPPerformanceMeasureExpectedSubcategoryOptions.Any() || EIPPerformanceMeasureExpectedSubcategoryOptionProposeds.Any() || IndicatorSubcategoryOptions.Any() || SnapshotEIPPerformanceMeasureSubcategoryOptions.Any() || SustainabilityIndicatorReportedSubcategoryOptions.Any() || ThresholdIndicatorReportedSubcategoryOptions.Any();
+            return EIPPerformanceMeasureActualSubcategoryOptions.Any() || EIPPerformanceMeasureActualSubcategoryOptionUpdates.Any() || EIPPerformanceMeasureExpectedSubcategoryOptions.Any() || EIPPerformanceMeasureExpectedSubcategoryOptionProposeds.Any() || IndicatorSubcategoryOptions.Any() || SnapshotEIPPerformanceMeasureSubcategoryOptions.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(IndicatorSubcategory).Name, typeof(EIPPerformanceMeasureActualSubcategoryOption).Name, typeof(EIPPerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(EIPPerformanceMeasureExpectedSubcategoryOption).Name, typeof(EIPPerformanceMeasureExpectedSubcategoryOptionProposed).Name, typeof(IndicatorSubcategoryOption).Name, typeof(SnapshotEIPPerformanceMeasureSubcategoryOption).Name, typeof(SustainabilityIndicatorReportedSubcategoryOption).Name, typeof(ThresholdIndicatorReportedSubcategoryOption).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(IndicatorSubcategory).Name, typeof(EIPPerformanceMeasureActualSubcategoryOption).Name, typeof(EIPPerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(EIPPerformanceMeasureExpectedSubcategoryOption).Name, typeof(EIPPerformanceMeasureExpectedSubcategoryOptionProposed).Name, typeof(IndicatorSubcategoryOption).Name, typeof(SnapshotEIPPerformanceMeasureSubcategoryOption).Name};
 
         [Key]
         public int IndicatorSubcategoryID { get; set; }
@@ -110,8 +106,6 @@ namespace ProjectFirma.Web.Models
         public string ChartType { get; set; }
         public bool? SwapChartAxes { get; set; }
         public int? EIPPerformanceMeasureID { get; set; }
-        public int? SustainabilityIndicatorID { get; set; }
-        public int? ThresholdIndicatorID { get; set; }
         public int PrimaryKey { get { return IndicatorSubcategoryID; } set { IndicatorSubcategoryID = value; } }
 
         public virtual ICollection<EIPPerformanceMeasureActualSubcategoryOption> EIPPerformanceMeasureActualSubcategoryOptions { get; set; }
@@ -120,12 +114,8 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<EIPPerformanceMeasureExpectedSubcategoryOptionProposed> EIPPerformanceMeasureExpectedSubcategoryOptionProposeds { get; set; }
         public virtual ICollection<IndicatorSubcategoryOption> IndicatorSubcategoryOptions { get; set; }
         public virtual ICollection<SnapshotEIPPerformanceMeasureSubcategoryOption> SnapshotEIPPerformanceMeasureSubcategoryOptions { get; set; }
-        public virtual ICollection<SustainabilityIndicatorReportedSubcategoryOption> SustainabilityIndicatorReportedSubcategoryOptions { get; set; }
-        public virtual ICollection<ThresholdIndicatorReportedSubcategoryOption> ThresholdIndicatorReportedSubcategoryOptions { get; set; }
         public virtual Indicator Indicator { get; set; }
         public virtual EIPPerformanceMeasure EIPPerformanceMeasure { get; set; }
-        public virtual SustainabilityIndicator SustainabilityIndicator { get; set; }
-        public virtual ThresholdIndicator ThresholdIndicator { get; set; }
 
         public static class FieldLengths
         {

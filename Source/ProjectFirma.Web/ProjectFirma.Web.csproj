@@ -360,26 +360,6 @@
     <Compile Include="Models\Generated\SupportRequestLogPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\SupportRequestType.Binding.cs" />
     <Compile Include="Models\Generated\SupportRequestTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\SustainabilityAspect.Binding.cs" />
-    <Compile Include="Models\Generated\SustainabilityAspect.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\SustainabilityAspectPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\SustainabilityIndicator.Binding.cs" />
-    <Compile Include="Models\Generated\SustainabilityIndicator.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\SustainabilityIndicatorPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\SustainabilityIndicatorReported.Binding.cs" />
-    <Compile Include="Models\Generated\SustainabilityIndicatorReported.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\SustainabilityIndicatorReportedPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\SustainabilityIndicatorReportedSubcategoryOption.Binding.cs" />
-    <Compile Include="Models\Generated\SustainabilityIndicatorReportedSubcategoryOption.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\SustainabilityIndicatorReportedSubcategoryOptionPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\SustainabilityIndicatorReportingPeriod.Binding.cs" />
-    <Compile Include="Models\Generated\SustainabilityIndicatorReportingPeriod.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\SustainabilityIndicatorReportingPeriodPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\SustainabilityPillar.Binding.cs" />
-    <Compile Include="Models\Generated\SustainabilityPillar.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\SustainabilityPillarPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\SustainabilityRole.Binding.cs" />
-    <Compile Include="Models\Generated\SustainabilityRolePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Tag.Binding.cs" />
     <Compile Include="Models\Generated\Tag.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\TagPrimaryKey.Binding.cs" />
@@ -392,44 +372,6 @@
     <Compile Include="Models\Generated\ThresholdCategoryIndicator.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ThresholdCategoryIndicatorPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ThresholdCategoryPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdEvaluation.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdEvaluation.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ThresholdEvaluationConfidenceType.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdEvaluationConfidenceTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdEvaluationManagementStatusType.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdEvaluationManagementStatusTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdEvaluationPeriod.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdEvaluationPeriod.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ThresholdEvaluationPeriodPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdEvaluationPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdEvaluationStatusType.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdEvaluationStatusTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdEvaluationTrendType.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdEvaluationTrendTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdIndicator.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdIndicator.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ThresholdIndicatorImage.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdIndicatorImage.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ThresholdIndicatorImagePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdIndicatorPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdIndicatorReported.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdIndicatorReported.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ThresholdIndicatorReportedPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdIndicatorReportedSubcategoryOption.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdIndicatorReportedSubcategoryOption.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ThresholdIndicatorReportedSubcategoryOptionPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdIndicatorReportingPeriod.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdIndicatorReportingPeriod.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ThresholdIndicatorReportingPeriodPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdReportingCategory.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdReportingCategory.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ThresholdReportingCategoryPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdRole.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdRolePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdSectorType.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdSectorTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdStandardType.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdStandardTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\TransportationCostParameterSet.Binding.cs" />
     <Compile Include="Models\Generated\TransportationCostParameterSet.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\TransportationCostParameterSetPrimaryKey.Binding.cs" />
@@ -466,6 +408,7 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Controllers\ThresholdCategoryController.cs" />
     <Compile Include="Areas\EIP\Views\Snapshot\Edit.cs" />
     <Compile Include="Areas\EIP\Views\Snapshot\EditViewData.cs" />
     <Compile Include="Areas\EIP\Views\Snapshot\EditViewModel.cs" />
@@ -505,20 +448,6 @@
     <Compile Include="Areas\EIP\Views\ProposedProject\LocationDetailed.cs" />
     <Compile Include="Areas\EIP\Views\ProposedProject\LocationDetailedViewData.cs" />
     <Compile Include="Areas\EIP\Views\ProposedProject\LocationDetailedViewModel.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicator\NewOptionalChartImageFileResource.cs" />
-    <Compile Include="Controllers\IndicatorRelationshipController.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\NewHistoricEvaluationPdfFileResource.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\NewHistoricEvaluationPdfFileResourceViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\NewHistoricEvaluationPdfFileResourceViewModel.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicatorImage\Edit.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicatorImage\EditViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicatorImage\EditViewModel.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicatorImage\New.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicatorImage\NewViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicatorImage\NewViewModel.cs" />
-    <Compile Include="Areas\Threshold\Controllers\ThresholdIndicatorImageController.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdCategory\IndicatorRelationships.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdCategory\IndicatorRelationshipsViewData.cs" />
     <Compile Include="Models\IndicatorMonitoringProgram.cs" />
     <Compile Include="Models\IndicatorRelationshipTypeSimple.cs" />
     <Compile Include="Models\IndicatorSimple.cs" />
@@ -533,9 +462,6 @@
     <Compile Include="Models\ProposedProjectTransportationQuestionSimple.cs" />
     <Compile Include="Models\SnapshotEIPPerformanceMeasureSubcategoryOption.cs" />
     <Compile Include="Models\SnapshotModelExtensions.cs" />
-    <Compile Include="Models\ThresholdEvaluation.cs" />
-    <Compile Include="Models\ThresholdIndicatorImage.cs" />
-    <Compile Include="Models\ThresholdReportingCategorySimple.cs" />
     <Compile Include="Models\TransportationGoal.cs" />
     <Compile Include="Models\TransportationGoalModelExtensions.cs" />
     <Compile Include="Models\TransportationQuestionModelExtensions.cs" />
@@ -543,62 +469,12 @@
     <Compile Include="Models\TransportationQuestion.cs" />
     <Compile Include="Models\TransportationSubGoal.cs" />
     <Compile Include="Models\TransportationSubGoalModelExtensions.cs" />
-    <Compile Include="Views\IndicatorRelationship\Edit.cs" />
-    <Compile Include="Views\IndicatorRelationship\EditViewData.cs" />
-    <Compile Include="Views\IndicatorRelationship\EditViewModel.cs" />
     <Compile Include="Views\IndicatorMonitoringProgram\EditIndicatorMonitoringPrograms.cs" />
     <Compile Include="Views\IndicatorMonitoringProgram\EditIndicatorMonitoringProgramsViewData.cs" />
     <Compile Include="Views\IndicatorMonitoringProgram\EditIndicatorMonitoringProgramsViewModel.cs" />
     <Compile Include="Controllers\IndicatorMonitoringProgramController.cs" />
     <Compile Include="Controllers\MonitoringProgramPartnerController.cs" />
     <Compile Include="Controllers\MonitoringProgramController.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicator\EditBackground.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicator\EditBackgroundViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicator\EditBackgroundViewModel.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditImplementationAndEffectiveness.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditImplementationAndEffectivenessViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditImplementationAndEffectivenessViewModel.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditMapAndCaption.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditMapAndCaptionViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditMapAndCaptionViewModel.cs" />
-    <Compile Include="Areas\Threshold\Views\Shared\NavAndHeaderLayout.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\ViewThresholdEvaluationLegendViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\ViewThresholdEvaluationLegend.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdCategory\ThresholdTaxonomy.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdCategory\ThresholdTaxonomyViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicator\EditStandardsMetadata.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicator\EditStandardsMetadataViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicator\EditStandardsMetadataViewModel.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditRecommendations.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditRecommendationsViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditRecommendationsViewModel.cs" />
-    <Compile Include="Areas\Threshold\Controllers\ThresholdEvaluationController.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicator\InfoSheet.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicator\InfoSheetViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditStatusDetails.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditStatusDetailsViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditStatusDetailsViewModel.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditManagementStatus.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditManagementStatusViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditManagementStatusViewModel.cs" />
-    <Compile Include="Areas\Threshold\Controllers\ThresholdIndicatorController.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditStatus.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditStatusViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdEvaluation\EditStatusViewModel.cs" />
-    <Compile Include="Areas\Threshold\Security\ThresholdIndicatorViewFeature.cs" />
-    <Compile Include="Areas\Threshold\Controllers\ThresholdReportingCategoryController.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdReportingCategory\Summary.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdReportingCategory\SummaryViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdCategory\Index.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdCategory\IndexViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\Shared\ThresholdNavBar.cs" />
-    <Compile Include="Areas\Threshold\Views\Shared\ThresholdNavBarViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\Shared\SiteLayout.cs" />
-    <Compile Include="Areas\Threshold\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Threshold\Security\ThresholdAdminFeature.cs" />
-    <Compile Include="Areas\Threshold\Security\ThresholdFeature.cs" />
-    <Compile Include="Areas\Threshold\Security\ThresholdFeatureWithContext.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdViewData.cs" />
     <Compile Include="Areas\EIP\Views\Shared\EIPPerformanceMeasureControls\EIPPerformanceMeasureReportedValuesGrouped.cs" />
     <Compile Include="Controllers\IndicatorController.cs" />
     <Compile Include="Models\IIndicatorReportedSubcategoryOption.cs" />
@@ -622,16 +498,7 @@
     <Compile Include="Models\IndicatorSubcategoryOptionSimple.cs" />
     <Compile Include="Models\IndicatorSubcategorySimple.cs" />
     <Compile Include="Models\SupportRequestTypeSimple.cs" />
-    <Compile Include="Models\ThresholdIndicator.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\ThresholdEvaluationModelExtensions.cs" />
-    <Compile Include="Models\ThresholdIndicator.cs" />
     <Compile Include="Models\IndicatorMonitoringProgramSimple.cs" />
-    <Compile Include="Models\ThresholdIndicatorReported.cs" />
-    <Compile Include="Models\ThresholdIndicatorReportedSubcategoryOption.cs" />
-    <Compile Include="Models\ThresholdIndicatorReportingPeriod.cs" />
-    <Compile Include="Models\ThresholdReportingCategory.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\ThresholdIndicatorModelExtensions.cs" />
-    <Compile Include="Models\ThresholdReportingCategoryModelExtensions.cs" />
     <Compile Include="Models\ThresholdCategoryModelExtensions.cs" />
     <Compile Include="Models\ThresholdCategory.DatabaseContextExtensions.cs" />
     <Compile Include="Areas\EIP\Views\EIPViewData.cs" />
@@ -644,9 +511,6 @@
     <Compile Include="Controllers\RelyingPartyAuthorizeAttribute.cs" />
     <Compile Include="Models\Organization.DatabaseContextExtensions.cs" />
     <Compile Include="Models\SupportRequestType.cs" />
-    <Compile Include="Models\SustainabilityAspectModelExtensions.cs" />
-    <Compile Include="Models\ThresholdReportingCategory.cs" />
-    <Compile Include="Models\ThresholdsRole.cs" />
     <Compile Include="Models\TransportationProjectCostTypeSimple.cs" />
     <Compile Include="Models\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Jurisdiction.DatabaseContextExtensions.cs" />
@@ -697,7 +561,6 @@
     <Compile Include="Areas\EIP\Controllers\TransportationStrategyController.cs" />
     <Compile Include="Controllers\LocalAndRegionalPlanController.cs" />
     <Compile Include="Controllers\WatershedController.cs" />
-    <Compile Include="Areas\Threshold\Controllers\ThresholdCategoryController.cs" />
     <Compile Include="Models\IRoleExtensions.cs" />
     <Compile Include="Models\LTInfoRole.cs" />
     <Compile Include="Models\Person.DatabaseContextExtensions.cs" />
@@ -715,14 +578,11 @@
     <Compile Include="Security\LocalAndRegionalPlanViewFeature.cs" />
     <Compile Include="Security\LoggedInUnclassifiedFeature.cs" />
     <Compile Include="Security\SecurityFeatureDescription.cs" />
-    <Compile Include="Areas\Sustainability\Security\SustainabilityAdminFeature.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Areas\EIP\Security\ProjectsViewTerminatedListFeature.cs" />
     <Compile Include="Areas\EIP\Security\PageContentManageFeature.cs" />
     <Compile Include="Areas\EIP\Security\EIPFeature.cs" />
     <Compile Include="Areas\EIP\Security\EIPFeatureWithContext.cs" />
-    <Compile Include="Areas\Sustainability\Security\SustainabilityFeatureWithContext.cs" />
-    <Compile Include="Areas\Sustainability\Security\SustainabilityFeature.cs" />
     <Compile Include="Areas\EIP\Views\ProposedProjectImage\Edit.cs" />
     <Compile Include="Areas\EIP\Views\ProposedProjectImage\EditViewData.cs" />
     <Compile Include="Areas\EIP\Views\ProposedProjectImage\EditViewModel.cs" />
@@ -742,12 +602,6 @@
     <Compile Include="Service\ServiceModels\WebServiceProject.cs" />
     <Compile Include="Service\WebServices.cs" />
     <Compile Include="UnitTestCommon\TestEIPPerformanceMeasureActualUpdate.cs" />
-    <Compile Include="UnitTestCommon\TestSustainabilityAspect.cs" />
-    <Compile Include="UnitTestCommon\TestSustainabilityIndicatorReportedSubcategoryOption.cs" />
-    <Compile Include="UnitTestCommon\TestSustainabilityIndicatorReportingPeriod.cs" />
-    <Compile Include="UnitTestCommon\TestSustainabilityIndicatorReported.cs" />
-    <Compile Include="UnitTestCommon\TestSustainabilityPillar.cs" />
-    <Compile Include="UnitTestCommon\TestSustainabilityIndicator.cs" />
     <Compile Include="UnitTestCommon\TestJurisdiction.cs" />
     <Compile Include="Views\Indicator\DefinitionAndGuidance.cs" />
     <Compile Include="Views\Indicator\DefinitionAndGuidanceViewData.cs" />
@@ -763,8 +617,6 @@
     <Compile Include="Views\Indicator\IndicatorChartPopup.cs" />
     <Compile Include="Views\Indicator\IndicatorChartViewData.cs" />
     <Compile Include="Views\Indicator\IndicatorGridSpec.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicator\NewOptionalChartImageFileResourceViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdIndicator\NewOptionalChartImageFileResourceViewModel.cs" />
     <Compile Include="Views\Indicator\Summary.cs" />
     <Compile Include="Views\Indicator\SummaryViewData.cs" />
     <Compile Include="Views\MonitoringProgram\NewMonitoringProgramDocument.cs" />
@@ -796,15 +648,11 @@
     <Compile Include="Areas\EIP\Views\ProjectUpdate\ProjectUpdateBatchDiffLog.cs" />
     <Compile Include="Areas\EIP\Views\ProjectUpdate\ProjectUpdateBatchDiffLogViewData.cs" />
     <Compile Include="Areas\EIP\Views\Shared\CalendarYearString.cs" />
-    <Compile Include="Areas\Sustainability\Views\Home\EditAbout.cs" />
-    <Compile Include="Areas\Sustainability\Views\Home\EditAboutViewData.cs" />
-    <Compile Include="Areas\Sustainability\Views\Home\EditAboutViewModel.cs" />
     <Compile Include="Controllers\FieldDefinitionController.cs" />
     <Compile Include="Controllers\GoogleChartConfigurationViewModel.cs" />
     <Compile Include="Models\IRole.cs" />
     <Compile Include="Models\LakeTahoeInfoArea.cs" />
     <Compile Include="Models\ProjectWizardComponents.cs" />
-    <Compile Include="Models\SustainabilityRole.cs" />
     <Compile Include="Security\LakeTahoeInfoAdminFeature.cs" />
     <Compile Include="Security\ProjectFirmaPageManageFeature.cs" />
     <Compile Include="Security\FieldDefinitionManageFeature.cs" />
@@ -817,7 +665,6 @@
     <Compile Include="Security\IndicatorManageFeature.cs" />
     <Compile Include="Security\IndicatorNoteManageFeature.cs" />
     <Compile Include="Security\Shared\AnonymousUnclassifiedFeature.cs" />
-    <Compile Include="Areas\Threshold\Security\ThresholdIndicatorManageFeature.cs" />
     <Compile Include="Security\UserEditFeature.cs" />
     <Compile Include="Security\WatershedManageFeature.cs" />
     <Compile Include="Security\WatershedViewFeature.cs" />
@@ -835,47 +682,18 @@
     <Compile Include="Controllers\LakeTahoeInfoBaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Models\ActionPriorityModelExtensions.cs" />
-    <Compile Include="Areas\Sustainability\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Sustainability\Controllers\AspectController.cs" />
-    <Compile Include="Areas\Sustainability\Views\Home\Index.cs" />
-    <Compile Include="Areas\Sustainability\Views\Home\IndexViewData.cs" />
-    <Compile Include="Areas\Sustainability\Views\Home\About.cs" />
-    <Compile Include="Areas\Sustainability\Views\Home\AboutViewData.cs" />
-    <Compile Include="Areas\Sustainability\Views\Aspect\AllIndicators.cs" />
-    <Compile Include="Areas\Sustainability\Views\Aspect\AllSustainabilityIndicatorsViewData.cs" />
-    <Compile Include="Areas\Sustainability\Views\Aspect\Summary.cs" />
-    <Compile Include="Areas\Sustainability\Views\Aspect\Edit.cs" />
-    <Compile Include="Areas\Sustainability\Views\Aspect\EditViewData.cs" />
-    <Compile Include="Areas\Sustainability\Views\Aspect\EditViewModel.cs" />
-    <Compile Include="Areas\Sustainability\Views\Aspect\SummaryViewData.cs" />
     <Compile Include="Views\MonitoringProgramPartner\EditMonitoringProgramPartners.cs" />
     <Compile Include="Views\MonitoringProgramPartner\EditMonitoringProgramPartnersViewData.cs" />
     <Compile Include="Views\MonitoringProgramPartner\EditMonitoringProgramPartnersViewModel.cs" />
-    <Compile Include="Views\Shared\EditIndicatorReporteds.cs" />
-    <Compile Include="Views\Shared\EditIndicatorReportedsViewData.cs" />
-    <Compile Include="Views\Shared\EditIndicatorReportedsViewModel.cs" />
-    <Compile Include="Views\Shared\IndicatorReportedBulk.cs" />
     <Compile Include="Models\ReportedValueForDisplay.cs" />
     <Compile Include="Models\ReportingCategoryForDisplay.cs" />
-    <Compile Include="Areas\Sustainability\Views\Shared\DetailPageLayout.cs" />
-    <Compile Include="Areas\Sustainability\Views\Shared\SiteLayout.cs" />
-    <Compile Include="Areas\Sustainability\Views\SustainabilityCommonPageData.cs" />
-    <Compile Include="Areas\Sustainability\Views\SustainabilityDashboardViewData.cs" />
     <Compile Include="Common\FieldDefinitionDisplayAttribute.cs" />
     <Compile Include="Models\AuditLog.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\SustainabilityAspect.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\SustainabilityIndicator.DatabaseContextExtensions.cs" />
     <Compile Include="Models\EntityNote.cs" />
     <Compile Include="Models\ExternalLink.cs" />
     <Compile Include="Models\FundingSourceSimple.cs" />
     <Compile Include="Models\BoundingBoxTest.cs" />
     <Compile Include="Models\IEntityExternalLink.cs" />
-    <Compile Include="Models\SustainabilityIndicator.cs" />
-    <Compile Include="Models\SustainabilityIndicatorModelExtensions.cs" />
-    <Compile Include="Models\SustainabilityIndicatorReported.cs" />
-    <Compile Include="Models\SustainabilityIndicatorReportedSubcategoryOption.cs" />
-    <Compile Include="Models\SustainabilityIndicatorReportingPeriod.cs" />
-    <Compile Include="Models\SustainabilityIndicatorTest.cs" />
     <Compile Include="Models\IProjectLocation.cs" />
     <Compile Include="Models\IProjectLocationStaging.cs" />
     <Compile Include="Models\NotificationTest.cs" />
@@ -885,16 +703,12 @@
     <Compile Include="Models\ProjectBasicsUpdateDiff.cs" />
     <Compile Include="Models\ProjectUpdateTest.cs" />
     <Compile Include="Models\ReminderMessageType.cs" />
-    <Compile Include="Models\SustainabilityPillarModelExtensions.cs" />
     <Compile Include="Models\ReminderMessageSimple.cs" />
-    <Compile Include="Models\SustainabilityAspect.cs" />
-    <Compile Include="Models\SustainabilityPillar.cs" />
     <Compile Include="Models\TransportationProjectBudgetAmount.cs" />
     <Compile Include="Models\TransportationProjectBudgetAmount2.cs" />
     <Compile Include="Models\TransportationProjectBudgetUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\TransportationProjectBudgetUpdateTest.cs" />
     <Compile Include="Areas\EIP\Security\IndicatorViewFeature.cs" />
-    <Compile Include="Areas\Sustainability\Security\SustainabilityDashboardManageFeature.cs" />
     <Compile Include="Areas\EIP\Views\ProjectUpdate\BasicsValidationResult.cs" />
     <Compile Include="Models\ProjectExternalLink.cs" />
     <Compile Include="Models\ProjectLocationArea.DatabaseContextExtensions.cs" />
@@ -915,6 +729,13 @@
     <Compile Include="Models\ProjectLocationStagingUpdate.cs" />
     <Compile Include="Models\ProjectLocationUpdate.cs" />
     <Compile Include="UnitTestCommon\TestIndicator.cs" />
+    <Compile Include="Views\ThresholdCategory\Edit.cs" />
+    <Compile Include="Views\ThresholdCategory\EditViewData.cs" />
+    <Compile Include="Views\ThresholdCategory\EditViewModel.cs" />
+    <Compile Include="Views\ThresholdCategory\Index.cs" />
+    <Compile Include="Views\ThresholdCategory\IndexViewData.cs" />
+    <Compile Include="Views\ThresholdCategory\Summary.cs" />
+    <Compile Include="Views\ThresholdCategory\SummaryViewData.cs" />
     <Compile Include="Views\WebServices\ViewAccessToken.cs" />
     <Compile Include="Views\WebServices\Index.cs" />
     <Compile Include="Views\WebServices\ViewAccessTokenViewData.cs" />
@@ -1520,88 +1341,6 @@
     <Compile Include="Areas\EIP\Views\Shared\ProjectLocationControls\ProjectLocationsMapViewData.cs" />
     <Compile Include="Areas\EIP\Views\Shared\ExpenditureAndBudgetControls\TransportationProjectBudgetSummary.cs" />
     <Compile Include="Areas\EIP\Views\Shared\ExpenditureAndBudgetControls\TransportationProjectBudgetSummaryViewData.cs" />
-    <Content Include="Areas\Sustainability\Content\favicon\android-icon-144x144.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\android-icon-192x192.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\android-icon-36x36.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\android-icon-48x48.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\android-icon-72x72.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\android-icon-96x96.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\apple-icon-114x114.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\apple-icon-120x120.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\apple-icon-144x144.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\apple-icon-152x152.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\apple-icon-180x180.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\apple-icon-57x57.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\apple-icon-60x60.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\apple-icon-72x72.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\apple-icon-76x76.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\apple-icon-precomposed.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\apple-icon.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\favicon-16x16.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\favicon-32x32.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\favicon-96x96.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\favicon.ico" />
-    <Content Include="Areas\Sustainability\Content\favicon\ms-icon-144x144.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\ms-icon-150x150.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\ms-icon-310x310.png" />
-    <Content Include="Areas\Sustainability\Content\favicon\ms-icon-70x70.png" />
-    <Content Include="Areas\Sustainability\Content\trpa-bootstrap-overrides.min.css">
-      <DependentUpon>trpa-bootstrap-overrides.css</DependentUpon>
-    </Content>
-    <Content Include="Areas\Sustainability\Content\trpa-screen.min.css">
-      <DependentUpon>trpa-screen.css</DependentUpon>
-    </Content>
-    <Content Include="Areas\Sustainability\Content\trpa-typography.min.css">
-      <DependentUpon>trpa-typography.css</DependentUpon>
-    </Content>
-    <Content Include="Areas\Threshold\Content\img\favicon\android-icon-144x144.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\android-icon-192x192.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\android-icon-36x36.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\android-icon-48x48.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\android-icon-72x72.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\android-icon-96x96.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\apple-icon-114x114.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\apple-icon-120x120.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\apple-icon-144x144.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\apple-icon-152x152.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\apple-icon-180x180.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\apple-icon-57x57.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\apple-icon-60x60.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\apple-icon-72x72.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\apple-icon-76x76.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\apple-icon-precomposed.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\apple-icon.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\favicon-16x16.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\favicon-32x32.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\favicon-96x96.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\favicon.ico" />
-    <Content Include="Areas\Threshold\Content\img\favicon\ms-icon-144x144.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\ms-icon-150x150.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\ms-icon-310x310.png" />
-    <Content Include="Areas\Threshold\Content\img\favicon\ms-icon-70x70.png" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_AirQuality_lg.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_AirQuality_sm.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_Fisheries_lg.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_Fisheries_sm.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_Noise_lg.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_Noise_sm.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_Recreation_lg.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_Recreation_sm.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_ScenicResources_lg.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_ScenicResources_sm.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_SoilConservation_lg.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_SoilConservation_sm.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_VegetationPreservation_lg.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_VegetationPreservation_sm.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_WaterQuality_lg.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_WaterQuality_sm.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_Wildlife_lg.jpg" />
-    <Content Include="Areas\Threshold\Content\img\ThresholdCategory_Wildlife_sm.jpg" />
-    <Content Include="Areas\Threshold\Content\threshold-bg.jpg" />
-    <Content Include="Areas\Threshold\Content\threshold.css" />
-    <Content Include="Areas\Threshold\Content\threshold.min.css">
-      <DependentUpon>threshold.css</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap-toc\bootstrap-toc.min.js">
       <DependentUpon>bootstrap-toc.js</DependentUpon>
     </Content>
@@ -1610,7 +1349,6 @@
       <DependentUpon>ltinfo-root.theme.css</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap-toc\bootstrap-toc.js" />
-    <Content Include="Views\IndicatorRelationship\IndicatorRelationshipController.js" />
     <Content Include="Views\IndicatorMonitoringProgram\IndicatorMonitoringProgramController.js" />
     <Content Include="Content\img\built_by_ei.png" />
     <Content Include="Content\img\built_by_sitka.png" />
@@ -1668,56 +1406,11 @@
     <Content Include="Areas\EIP\Content\img\mstile-310x150.png" />
     <Content Include="Areas\EIP\Content\img\mstile-70x70.png" />
     <Content Include="Areas\EIP\Views\browserconfig.xml" />
-    <Content Include="Areas\Sustainability\Content\admin-bar.css" />
-    <Content Include="Areas\Sustainability\Content\admin-bar.min.css" />
-    <Content Include="Areas\Sustainability\Content\aspect_aquatic_invasive_species.jpg" />
-    <Content Include="Areas\Sustainability\Content\aspect_business_environment.jpg" />
-    <Content Include="Areas\Sustainability\Content\aspect_education.jpg" />
-    <Content Include="Areas\Sustainability\Content\aspect_employement.jpg" />
-    <Content Include="Areas\Sustainability\Content\aspect_forest_health_and_fire_hazard.jpg" />
-    <Content Include="Areas\Sustainability\Content\aspect_greenhouse_gas_emissions.jpg" />
-    <Content Include="Areas\Sustainability\Content\aspect_healthy_lifestyle.jpg" />
-    <Content Include="Areas\Sustainability\Content\aspect_housing.jpg" />
-    <Content Include="Areas\Sustainability\Content\aspect_income.jpg" />
-    <Content Include="Areas\Sustainability\Content\aspect_transportation.jpg" />
-    <Content Include="Areas\Sustainability\Content\aspect_water_quality.jpg" />
-    <Content Include="Areas\Sustainability\Content\brought_to_you_by_trpa.jpg" />
-    <Content Include="Areas\Sustainability\Content\bubble-community-bg.jpg" />
-    <Content Include="Areas\Sustainability\Content\bubble-economy-bg.jpg" />
-    <Content Include="Areas\Sustainability\Content\bubble-environment-bg.jpg" />
-    <Content Include="Areas\Sustainability\Content\content-right-border.gif" />
-    <Content Include="Areas\Sustainability\Content\dashicons.css" />
-    <Content Include="Areas\Sustainability\Content\dashicons.min.css" />
-    <Content Include="Areas\Sustainability\Content\detail-header-bg.jpg" />
-    <Content Include="Areas\Sustainability\Content\footer-bg.jpg" />
-    <Content Include="Areas\Sustainability\Content\homepage-header-bg.jpg" />
-    <Content Include="Areas\Sustainability\Content\js\enquire.js" />
-    <Content Include="Areas\Sustainability\Content\js\enquire.min.js" />
-    <Content Include="Areas\Sustainability\Content\js\global.js" />
-    <Content Include="Areas\Sustainability\Content\js\global.min.js" />
-    <Content Include="Areas\Sustainability\Content\js\jquery-migrate.js" />
-    <Content Include="Areas\Sustainability\Content\js\jquery-migrate.min.js" />
-    <Content Include="Areas\Sustainability\Content\js\jquery.dotdotdot.js" />
-    <Content Include="Areas\Sustainability\Content\js\jquery.dotdotdot.min.js" />
-    <Content Include="Areas\Sustainability\Content\js\jquery.localScroll.js" />
-    <Content Include="Areas\Sustainability\Content\js\jquery.localScroll.min.js" />
-    <Content Include="Areas\Sustainability\Content\js\jquery.scrollto.js" />
-    <Content Include="Areas\Sustainability\Content\js\jquery.scrollto.min.js" />
-    <Content Include="Areas\Sustainability\Content\js\jquery.unveil.custom.js" />
-    <Content Include="Areas\Sustainability\Content\js\jquery.unveil.custom.min.js" />
-    <Content Include="Areas\Sustainability\Content\js\plugins.js" />
-    <Content Include="Areas\Sustainability\Content\js\plugins.min.js" />
-    <Content Include="Areas\Sustainability\Content\secondary-header-bg.jpg" />
-    <Content Include="Areas\Sustainability\Content\sustainability_dashboard_logo.png" />
     <Content Include="Content\css\google-chart-config-overrides.css" />
-    <Content Include="Areas\Sustainability\Content\trpa-bootstrap-overrides.css" />
-    <Content Include="Areas\Sustainability\Content\trpa-screen.css" />
-    <Content Include="Areas\Sustainability\Content\trpa-typography.css" />
     <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.ParcelSearch.min.js">
       <DependentUpon>ProjectFirmaMaps.ParcelSearch.js</DependentUpon>
     </Content>
     <Content Include="Views\MonitoringProgramPartner\MonitoringProgramPartnerController.js" />
-    <Content Include="Views\Shared\EditIndicatorReportedsController.js" />
     <Content Include="Content\Bootstrap\ltinfo\bootstrap.ltinfo.variables.css">
       <DependentUpon>bootstrap.ltinfo.variables.less</DependentUpon>
     </Content>
@@ -2040,13 +1733,6 @@
     <Compile Include="Areas\EIP\Views\Project\ProjectCalendarYearExpenditure.cs" />
     <Compile Include="Areas\EIP\Views\Project\ProjectCalendarYearExpenditureTest.cs" />
     <Compile Include="Areas\EIP\Views\Shared\NavAndHeaderLayout.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdCategory\Edit.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdCategory\EditViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdCategory\EditViewModel.cs" />
-    <Compile Include="Areas\Threshold\Views\Home\Index.cs" />
-    <Compile Include="Areas\Threshold\Views\Home\IndexViewData.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdCategory\Summary.cs" />
-    <Compile Include="Areas\Threshold\Views\ThresholdCategory\SummaryViewData.cs" />
     <Compile Include="Views\User\EditRoles.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -2278,8 +1964,6 @@
     <Content Include="Models\CheckPrimaryNaturalAndForeignKeysTest.AssureThatPrimaryAndAlternateKeyNamesMatchNamingStandard.approved.txt" />
     <Content Include="Models\CheckPrimaryNaturalAndForeignKeysTest.AssureThatPrimaryKeyColumnMatchNamingStandard.approved.txt" />
     <Content Include="Models\CheckPrimaryNaturalAndForeignKeysTest.AssureThatThereAreNoIndexesAlreadyDefinedByPrimaryOrAlternateKey.approved.txt" />
-    <Content Include="Models\SustainabilityIndicatorTest.TestGetReportedValuesAsVisualizerArrayWithNoSubcategories.approved.txt" />
-    <Content Include="Models\SustainabilityIndicatorTest.TestGetReportedValuesAsVisualizerArrayWithOneSubcategory.approved.txt" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -2775,26 +2459,15 @@
     <Content Include="Scripts\CustomScripts\qtippopuphelper.min.js.map">
       <DependentUpon>qtippopuphelper.min.js</DependentUpon>
     </Content>
-    <Content Include="Areas\Sustainability\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Sustainability\Views\Home\About.cshtml" />
     <Content Include="Views\LtInfoMenuItemTest.CanRenderMenuWithGroupsTest.approved.txt" />
     <Content Include="Views\LtInfoMenuItemTest.CanRenderMultipleNestedMenuTest.approved.txt" />
     <Content Include="Views\LtInfoMenuItemTest.CanRenderNestedMenuTest.approved.txt" />
     <Content Include="Views\LtInfoMenuItemTest.CanRenderSimpleMenuTest.approved.txt" />
-    <Content Include="Areas\Sustainability\Views\Aspect\AllIndicators.cshtml" />
-    <Content Include="Areas\Sustainability\Views\Aspect\Summary.cshtml" />
-    <Content Include="Areas\Sustainability\Views\Aspect\Edit.cshtml" />
-    <Content Include="Views\Shared\EditIndicatorReporteds.cshtml" />
-    <Content Include="Areas\Sustainability\Views\Shared\DetailPageLayout.cshtml" />
-    <Content Include="Areas\Sustainability\Views\Shared\SiteLayout.cshtml" />
-    <Content Include="Areas\Sustainability\Views\web.config" />
-    <Content Include="Areas\Sustainability\Views\_ViewStart.cshtml" />
     <Content Include="Areas\EIP\Views\web.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Areas\EIP\Views\manifest.json" />
     <Content Include="Views\ProjectFirmaPage\Edit.cshtml" />
-    <Content Include="Areas\Sustainability\Views\Home\EditAbout.cshtml" />
     <Content Include="Content\Bootstrap\ltinfo\bootstrap.ltinfo.variables.css.map">
       <DependentUpon>bootstrap.ltinfo.variables.css</DependentUpon>
     </Content>
@@ -2805,14 +2478,6 @@
     <Content Include="Areas\EIP\Views\ProposedProject\LocationSimple.cshtml" />
     <Content Include="Areas\EIP\Views\ProposedProject\ExpectedEIPPerformanceMeasureValues.cshtml" />
     <Content Include="Areas\EIP\Views\ProposedProject\Notes.cshtml" />
-    <Content Include="Areas\Sustainability\Content\js\enquire.min.js.map" />
-    <Content Include="Areas\Sustainability\Content\js\global.min.js.map" />
-    <Content Include="Areas\Sustainability\Content\js\jquery-migrate.min.js.map" />
-    <Content Include="Areas\Sustainability\Content\js\jquery.dotdotdot.min.js.map" />
-    <Content Include="Areas\Sustainability\Content\js\jquery.localScroll.min.js.map" />
-    <Content Include="Areas\Sustainability\Content\js\jquery.scrollto.min.js.map" />
-    <Content Include="Areas\Sustainability\Content\js\jquery.unveil.custom.min.js.map" />
-    <Content Include="Areas\Sustainability\Content\js\plugins.min.js.map" />
     <Content Include="Scripts\CustomScripts\ModalDialogForm.min.js.map">
       <DependentUpon>ModalDialogForm.min.js</DependentUpon>
     </Content>
@@ -2860,28 +2525,7 @@
     <Content Include="Content\leaflet\leaflet.timeline\leaflet.timeline.min.js.map">
       <DependentUpon>leaflet.timeline.min.js</DependentUpon>
     </Content>
-    <Content Include="Areas\Threshold\Views\web.config" />
-    <Content Include="Areas\Threshold\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Threshold\Views\Shared\SiteLayout.cshtml" />
-    <Content Include="Areas\Sustainability\Content\Lake-Tahoe-Sustainability-Indicators-Reporting-Plan_1.13.141.pdf" />
-    <Content Include="Areas\Threshold\Views\Shared\ThresholdNavBar.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdCategory\Index.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdReportingCategory\Summary.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdEvaluation\EditStatus.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdEvaluation\EditStatusDetails.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdEvaluation\EditManagementStatus.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdIndicator\InfoSheet.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdEvaluation\EditRecommendations.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdIndicator\EditStandardsMetadata.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdCategory\ThresholdTaxonomy.cshtml" />
-    <Content Include="Areas\Threshold\Views\Shared\NavAndHeaderLayout.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdEvaluation\EditMapAndCaption.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdEvaluation\EditImplementationAndEffectiveness.cshtml" />
     <Content Include="Views\IndicatorMonitoringProgram\EditIndicatorMonitoringPrograms.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdCategory\IndicatorRelationships.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdIndicatorImage\Edit.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdIndicatorImage\New.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdEvaluation\NewHistoricEvaluationPdfFileResource.cshtml" />
     <Content Include="Areas\EIP\Views\ProposedProject\EditTransportationAssessment.cshtml" />
     <Content Include="Areas\EIP\Views\TransportationAssessment\Manage.cshtml" />
     <Content Include="Areas\EIP\Views\ProposedProject\LocationDetailed.cshtml" />
@@ -2894,7 +2538,6 @@
     <Content Include="Areas\EIP\Views\Snapshot\Index.cshtml" />
     <Content Include="Areas\EIP\Views\Snapshot\Summary.cshtml" />
     <Content Include="Areas\EIP\Views\Snapshot\Edit.cshtml" />
-    <None Include="Areas\Threshold\Views\ThresholdEvaluation\ViewThresholdEvaluationLegend.cshtml" />
     <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.ParcelSearch.min.js.map">
       <DependentUpon>ProjectFirmaMaps.ParcelSearch.min.js</DependentUpon>
     </Content>
@@ -2902,7 +2545,6 @@
     <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.GeoServerMap.min.js.map">
       <DependentUpon>ProjectFirmaMaps.GeoServerMap.min.js</DependentUpon>
     </Content>
-    <Content Include="Areas\Threshold\Views\ThresholdIndicator\EditBackground.cshtml" />
     <Content Include="Content\bootstrap-toc\bootstrap-toc.min.js.map">
       <DependentUpon>bootstrap-toc.min.js</DependentUpon>
     </Content>
@@ -3463,9 +3105,6 @@
     <Content Include="Views\Shared\LakeTahoeInfoLateLoadingIncludes.cshtml" />
     <Content Include="Views\Role\Summary.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdCategory\Edit.cshtml" />
-    <Content Include="Areas\Threshold\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdCategory\Summary.cshtml" />
     <Content Include="Views\LocalAndRegionalPlan\Edit.cshtml" />
     <Content Include="Views\LocalAndRegionalPlan\Index.cshtml" />
     <Content Include="Views\LocalAndRegionalPlan\Summary.cshtml" />
@@ -3490,14 +3129,13 @@
     <Content Include="Views\MonitoringProgram\Summary.cshtml" />
     <Content Include="Views\MonitoringProgramPartner\EditMonitoringProgramPartners.cshtml" />
     <Content Include="Views\MonitoringProgram\NewMonitoringProgramDocument.cshtml" />
-    <Content Include="Views\IndicatorRelationship\Edit.cshtml" />
-    <Content Include="Areas\Threshold\Views\ThresholdIndicator\NewOptionalChartImageFileResource.cshtml" />
+    <Content Include="Views\ThresholdCategory\Edit.cshtml" />
+    <Content Include="Views\ThresholdCategory\Index.cshtml" />
+    <Content Include="Views\ThresholdCategory\Summary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\EIP\Models\" />
     <Folder Include="Areas\EIP\Views\Help\" />
-    <Folder Include="Areas\Sustainability\Models\" />
-    <Folder Include="Areas\Threshold\Models\" />
     <Folder Include="Content\img\MimeTypeIcons\" />
     <Folder Include="Content\themes\base\minified\images\" />
   </ItemGroup>

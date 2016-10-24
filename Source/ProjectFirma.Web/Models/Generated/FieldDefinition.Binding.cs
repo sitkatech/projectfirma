@@ -126,34 +126,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionLatitude Latitude = FieldDefinitionLatitude.Instance;
         public static readonly FieldDefinitionLongitude Longitude = FieldDefinitionLongitude.Instance;
         public static readonly FieldDefinitionOrganizationUrl OrganizationUrl = FieldDefinitionOrganizationUrl.Instance;
-        public static readonly FieldDefinitionThresholdReportingCategory ThresholdReportingCategory = FieldDefinitionThresholdReportingCategory.Instance;
-        public static readonly FieldDefinitionApplicableStandard ApplicableStandard = FieldDefinitionApplicableStandard.Instance;
-        public static readonly FieldDefinitionStandardNarrative StandardNarrative = FieldDefinitionStandardNarrative.Instance;
-        public static readonly FieldDefinitionTRPAIndicator TRPAIndicator = FieldDefinitionTRPAIndicator.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationStatus ThresholdEvaluationStatus = FieldDefinitionThresholdEvaluationStatus.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationTrend ThresholdEvaluationTrend = FieldDefinitionThresholdEvaluationTrend.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationConfidence ThresholdEvaluationConfidence = FieldDefinitionThresholdEvaluationConfidence.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationStatusRationale ThresholdEvaluationStatusRationale = FieldDefinitionThresholdEvaluationStatusRationale.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationTrendRationale ThresholdEvaluationTrendRationale = FieldDefinitionThresholdEvaluationTrendRationale.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationConfidenceStatus ThresholdEvaluationConfidenceStatus = FieldDefinitionThresholdEvaluationConfidenceStatus.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationManagementStatus ThresholdEvaluationManagementStatus = FieldDefinitionThresholdEvaluationManagementStatus.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationProgramsAndActionsImplementedToImproveConditions ThresholdEvaluationProgramsAndActionsImplementedToImproveConditions = FieldDefinitionThresholdEvaluationProgramsAndActionsImplementedToImproveConditions.Instance;
-        public static readonly FieldDefinitionThresholdRoleID ThresholdRoleID = FieldDefinitionThresholdRoleID.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationConfidenceTrend ThresholdEvaluationConfidenceTrend = FieldDefinitionThresholdEvaluationConfidenceTrend.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationConfidenceOverall ThresholdEvaluationConfidenceOverall = FieldDefinitionThresholdEvaluationConfidenceOverall.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationEffectivenessOfProgramsAndActions ThresholdEvaluationEffectivenessOfProgramsAndActions = FieldDefinitionThresholdEvaluationEffectivenessOfProgramsAndActions.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationInterimTarget ThresholdEvaluationInterimTarget = FieldDefinitionThresholdEvaluationInterimTarget.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationTargetAttainmentDate ThresholdEvaluationTargetAttainmentDate = FieldDefinitionThresholdEvaluationTargetAttainmentDate.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationAnalyticApproach ThresholdEvaluationAnalyticApproach = FieldDefinitionThresholdEvaluationAnalyticApproach.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationMonitoringApproach ThresholdEvaluationMonitoringApproach = FieldDefinitionThresholdEvaluationMonitoringApproach.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationModificationOfTheThresholdStandardOrIndicator ThresholdEvaluationModificationOfTheThresholdStandardOrIndicator = FieldDefinitionThresholdEvaluationModificationOfTheThresholdStandardOrIndicator.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationAttainOrMaintainThreshold ThresholdEvaluationAttainOrMaintainThreshold = FieldDefinitionThresholdEvaluationAttainOrMaintainThreshold.Instance;
-        public static readonly FieldDefinitionThresholdEvaluationMonitoringAndAnalysis ThresholdEvaluationMonitoringAndAnalysis = FieldDefinitionThresholdEvaluationMonitoringAndAnalysis.Instance;
-        public static readonly FieldDefinitionThresholdReportingCategoryNarrative ThresholdReportingCategoryNarrative = FieldDefinitionThresholdReportingCategoryNarrative.Instance;
         public static readonly FieldDefinitionChartCaption ChartCaption = FieldDefinitionChartCaption.Instance;
-        public static readonly FieldDefinitionRelevance Relevance = FieldDefinitionRelevance.Instance;
-        public static readonly FieldDefinitionHumanAndEnvironmentalDrivers HumanAndEnvironmentalDrivers = FieldDefinitionHumanAndEnvironmentalDrivers.Instance;
-        public static readonly FieldDefinitionThresholdStandardType ThresholdStandardType = FieldDefinitionThresholdStandardType.Instance;
         public static readonly FieldDefinitionMonitoringProgram MonitoringProgram = FieldDefinitionMonitoringProgram.Instance;
         public static readonly FieldDefinitionMonitoringApproach MonitoringApproach = FieldDefinitionMonitoringApproach.Instance;
         public static readonly FieldDefinitionMonitoringProgramPartner MonitoringProgramPartner = FieldDefinitionMonitoringProgramPartner.Instance;
@@ -170,7 +143,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { ActionPriority, ActionPriorityName, LocalAndRegionalPlanName, ExpectedValue, FocusArea, FocusAreaName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, OldEIPNumber, Organization, OrganizationAbbreviation, OrganizationName, Password, EIPPerformanceMeasure, IndicatorDefinition, IndicatorDisplayName, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, Program, ProgramName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, Stage, Subcategories, ProjectIsAProgram, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ProjectNumber, ThresholdCategory, LocalAndRegionalPlan, Watershed, Subcategory, SubcategoryOption, SubcategoryOptions, IsPrimaryProgram, IndicatorCriticalDefinitions, IndicatorAccountingPeriodAndScale, IndicatorProjectReporting, FundedAmount, ProjectLocation, IndicatorBackground, NumberOfReportedPMRecords, NumberOfReportedExpenditureRecords, ProjectLocationState, ProjectLocationJurisdiction, ProjectLocationWatershed, ExcludeFromFactSheet, TransportationStrategy, TransportationObjective, TransportationStrategyName, TransportationObjectiveName, ProjectIsATransportationProject, IsTransportationFundingSource, FundingType, ProjectCostInYearOfExpenditure, TransportationGlobalInflationRate, ReportingYear, TagName, TagDescription, Tags, ReportedExpenditure, ProposedProject, ProjectOnFTIPList, LocalAndRegionalPlanDocumentUrl, LocalAndRegionalPlanDocumentLinkText, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedPrograms, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentRTPYearForPVCalculations, LifecycleOperatingCost, IndicatorSystemName, IndicatorSimpleDescription, IndicatorPrimarySource, IndicatorType, ChartTitle, ProposedProjectState, UserLastName, UserFirstName, UserEmail, UserPhone, EIPRoleID, ParcelTrackerRoleID, SustainabilityRoleID, LTInfoRoleID, SiteArea, RoleName, Region, Latitude, Longitude, OrganizationUrl, ThresholdReportingCategory, ApplicableStandard, StandardNarrative, TRPAIndicator, ThresholdEvaluationStatus, ThresholdEvaluationTrend, ThresholdEvaluationConfidence, ThresholdEvaluationStatusRationale, ThresholdEvaluationTrendRationale, ThresholdEvaluationConfidenceStatus, ThresholdEvaluationManagementStatus, ThresholdEvaluationProgramsAndActionsImplementedToImproveConditions, ThresholdRoleID, ThresholdEvaluationConfidenceTrend, ThresholdEvaluationConfidenceOverall, ThresholdEvaluationEffectivenessOfProgramsAndActions, ThresholdEvaluationInterimTarget, ThresholdEvaluationTargetAttainmentDate, ThresholdEvaluationAnalyticApproach, ThresholdEvaluationMonitoringApproach, ThresholdEvaluationModificationOfTheThresholdStandardOrIndicator, ThresholdEvaluationAttainOrMaintainThreshold, ThresholdEvaluationMonitoringAndAnalysis, ThresholdReportingCategoryNarrative, ChartCaption, Relevance, HumanAndEnvironmentalDrivers, ThresholdStandardType, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
+            All = new List<FieldDefinition> { ActionPriority, ActionPriorityName, LocalAndRegionalPlanName, ExpectedValue, FocusArea, FocusAreaName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, OldEIPNumber, Organization, OrganizationAbbreviation, OrganizationName, Password, EIPPerformanceMeasure, IndicatorDefinition, IndicatorDisplayName, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, Program, ProgramName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, Stage, Subcategories, ProjectIsAProgram, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ProjectNumber, ThresholdCategory, LocalAndRegionalPlan, Watershed, Subcategory, SubcategoryOption, SubcategoryOptions, IsPrimaryProgram, IndicatorCriticalDefinitions, IndicatorAccountingPeriodAndScale, IndicatorProjectReporting, FundedAmount, ProjectLocation, IndicatorBackground, NumberOfReportedPMRecords, NumberOfReportedExpenditureRecords, ProjectLocationState, ProjectLocationJurisdiction, ProjectLocationWatershed, ExcludeFromFactSheet, TransportationStrategy, TransportationObjective, TransportationStrategyName, TransportationObjectiveName, ProjectIsATransportationProject, IsTransportationFundingSource, FundingType, ProjectCostInYearOfExpenditure, TransportationGlobalInflationRate, ReportingYear, TagName, TagDescription, Tags, ReportedExpenditure, ProposedProject, ProjectOnFTIPList, LocalAndRegionalPlanDocumentUrl, LocalAndRegionalPlanDocumentLinkText, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedPrograms, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentRTPYearForPVCalculations, LifecycleOperatingCost, IndicatorSystemName, IndicatorSimpleDescription, IndicatorPrimarySource, IndicatorType, ChartTitle, ProposedProjectState, UserLastName, UserFirstName, UserEmail, UserPhone, EIPRoleID, ParcelTrackerRoleID, SustainabilityRoleID, LTInfoRoleID, SiteArea, RoleName, Region, Latitude, Longitude, OrganizationUrl, ChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -245,8 +218,6 @@ namespace ProjectFirma.Web.Models
                     return ActionPriority;
                 case FieldDefinitionEnum.ActionPriorityName:
                     return ActionPriorityName;
-                case FieldDefinitionEnum.ApplicableStandard:
-                    return ApplicableStandard;
                 case FieldDefinitionEnum.AssociatedPrograms:
                     return AssociatedPrograms;
                 case FieldDefinitionEnum.CalculatedTotalRemainingOperatingCost:
@@ -289,8 +260,6 @@ namespace ProjectFirma.Web.Models
                     return FundingSourceName;
                 case FieldDefinitionEnum.FundingType:
                     return FundingType;
-                case FieldDefinitionEnum.HumanAndEnvironmentalDrivers:
-                    return HumanAndEnvironmentalDrivers;
                 case FieldDefinitionEnum.ImplementationStartYear:
                     return ImplementationStartYear;
                 case FieldDefinitionEnum.Implementer:
@@ -411,8 +380,6 @@ namespace ProjectFirma.Web.Models
                     return ProposedProjectState;
                 case FieldDefinitionEnum.Region:
                     return Region;
-                case FieldDefinitionEnum.Relevance:
-                    return Relevance;
                 case FieldDefinitionEnum.ReportedExpenditure:
                     return ReportedExpenditure;
                 case FieldDefinitionEnum.ReportedValue:
@@ -431,8 +398,6 @@ namespace ProjectFirma.Web.Models
                     return SpendingAssociatedWithPM;
                 case FieldDefinitionEnum.Stage:
                     return Stage;
-                case FieldDefinitionEnum.StandardNarrative:
-                    return StandardNarrative;
                 case FieldDefinitionEnum.Subcategories:
                     return Subcategories;
                 case FieldDefinitionEnum.Subcategory:
@@ -459,50 +424,6 @@ namespace ProjectFirma.Web.Models
                     return ThresholdCategoryName;
                 case FieldDefinitionEnum.ThresholdCategoryNarrative:
                     return ThresholdCategoryNarrative;
-                case FieldDefinitionEnum.ThresholdEvaluationAnalyticApproach:
-                    return ThresholdEvaluationAnalyticApproach;
-                case FieldDefinitionEnum.ThresholdEvaluationAttainOrMaintainThreshold:
-                    return ThresholdEvaluationAttainOrMaintainThreshold;
-                case FieldDefinitionEnum.ThresholdEvaluationConfidence:
-                    return ThresholdEvaluationConfidence;
-                case FieldDefinitionEnum.ThresholdEvaluationConfidenceOverall:
-                    return ThresholdEvaluationConfidenceOverall;
-                case FieldDefinitionEnum.ThresholdEvaluationConfidenceStatus:
-                    return ThresholdEvaluationConfidenceStatus;
-                case FieldDefinitionEnum.ThresholdEvaluationConfidenceTrend:
-                    return ThresholdEvaluationConfidenceTrend;
-                case FieldDefinitionEnum.ThresholdEvaluationEffectivenessOfProgramsAndActions:
-                    return ThresholdEvaluationEffectivenessOfProgramsAndActions;
-                case FieldDefinitionEnum.ThresholdEvaluationInterimTarget:
-                    return ThresholdEvaluationInterimTarget;
-                case FieldDefinitionEnum.ThresholdEvaluationManagementStatus:
-                    return ThresholdEvaluationManagementStatus;
-                case FieldDefinitionEnum.ThresholdEvaluationModificationOfTheThresholdStandardOrIndicator:
-                    return ThresholdEvaluationModificationOfTheThresholdStandardOrIndicator;
-                case FieldDefinitionEnum.ThresholdEvaluationMonitoringAndAnalysis:
-                    return ThresholdEvaluationMonitoringAndAnalysis;
-                case FieldDefinitionEnum.ThresholdEvaluationMonitoringApproach:
-                    return ThresholdEvaluationMonitoringApproach;
-                case FieldDefinitionEnum.ThresholdEvaluationProgramsAndActionsImplementedToImproveConditions:
-                    return ThresholdEvaluationProgramsAndActionsImplementedToImproveConditions;
-                case FieldDefinitionEnum.ThresholdEvaluationStatus:
-                    return ThresholdEvaluationStatus;
-                case FieldDefinitionEnum.ThresholdEvaluationStatusRationale:
-                    return ThresholdEvaluationStatusRationale;
-                case FieldDefinitionEnum.ThresholdEvaluationTargetAttainmentDate:
-                    return ThresholdEvaluationTargetAttainmentDate;
-                case FieldDefinitionEnum.ThresholdEvaluationTrend:
-                    return ThresholdEvaluationTrend;
-                case FieldDefinitionEnum.ThresholdEvaluationTrendRationale:
-                    return ThresholdEvaluationTrendRationale;
-                case FieldDefinitionEnum.ThresholdReportingCategory:
-                    return ThresholdReportingCategory;
-                case FieldDefinitionEnum.ThresholdReportingCategoryNarrative:
-                    return ThresholdReportingCategoryNarrative;
-                case FieldDefinitionEnum.ThresholdRoleID:
-                    return ThresholdRoleID;
-                case FieldDefinitionEnum.ThresholdStandardType:
-                    return ThresholdStandardType;
                 case FieldDefinitionEnum.TransportationGlobalInflationRate:
                     return TransportationGlobalInflationRate;
                 case FieldDefinitionEnum.TransportationObjective:
@@ -513,8 +434,6 @@ namespace ProjectFirma.Web.Models
                     return TransportationStrategy;
                 case FieldDefinitionEnum.TransportationStrategyName:
                     return TransportationStrategyName;
-                case FieldDefinitionEnum.TRPAIndicator:
-                    return TRPAIndicator;
                 case FieldDefinitionEnum.UnfundedNeed:
                     return UnfundedNeed;
                 case FieldDefinitionEnum.UserEmail:
@@ -649,34 +568,7 @@ namespace ProjectFirma.Web.Models
         Latitude = 185,
         Longitude = 186,
         OrganizationUrl = 188,
-        ThresholdReportingCategory = 204,
-        ApplicableStandard = 205,
-        StandardNarrative = 206,
-        TRPAIndicator = 207,
-        ThresholdEvaluationStatus = 208,
-        ThresholdEvaluationTrend = 209,
-        ThresholdEvaluationConfidence = 210,
-        ThresholdEvaluationStatusRationale = 211,
-        ThresholdEvaluationTrendRationale = 212,
-        ThresholdEvaluationConfidenceStatus = 213,
-        ThresholdEvaluationManagementStatus = 214,
-        ThresholdEvaluationProgramsAndActionsImplementedToImproveConditions = 215,
-        ThresholdRoleID = 216,
-        ThresholdEvaluationConfidenceTrend = 217,
-        ThresholdEvaluationConfidenceOverall = 218,
-        ThresholdEvaluationEffectivenessOfProgramsAndActions = 219,
-        ThresholdEvaluationInterimTarget = 220,
-        ThresholdEvaluationTargetAttainmentDate = 221,
-        ThresholdEvaluationAnalyticApproach = 222,
-        ThresholdEvaluationMonitoringApproach = 223,
-        ThresholdEvaluationModificationOfTheThresholdStandardOrIndicator = 224,
-        ThresholdEvaluationAttainOrMaintainThreshold = 225,
-        ThresholdEvaluationMonitoringAndAnalysis = 226,
-        ThresholdReportingCategoryNarrative = 227,
         ChartCaption = 228,
-        Relevance = 233,
-        HumanAndEnvironmentalDrivers = 234,
-        ThresholdStandardType = 235,
         MonitoringProgram = 236,
         MonitoringApproach = 237,
         MonitoringProgramPartner = 238,
@@ -1346,213 +1238,51 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionOrganizationUrl Instance = new FieldDefinitionOrganizationUrl(188, @"OrganizationUrl", @"Organization Home Page", 1);
     }
 
-    public partial class FieldDefinitionThresholdReportingCategory : FieldDefinition
-    {
-        private FieldDefinitionThresholdReportingCategory(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdReportingCategory Instance = new FieldDefinitionThresholdReportingCategory(204, @"ThresholdReportingCategory", @"Threshold Reporting Category", 5);
-    }
-
-    public partial class FieldDefinitionApplicableStandard : FieldDefinition
-    {
-        private FieldDefinitionApplicableStandard(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionApplicableStandard Instance = new FieldDefinitionApplicableStandard(205, @"ApplicableStandard", @"Applicable Standard", 5);
-    }
-
-    public partial class FieldDefinitionStandardNarrative : FieldDefinition
-    {
-        private FieldDefinitionStandardNarrative(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionStandardNarrative Instance = new FieldDefinitionStandardNarrative(206, @"StandardNarrative", @"Standard Narrative", 5);
-    }
-
-    public partial class FieldDefinitionTRPAIndicator : FieldDefinition
-    {
-        private FieldDefinitionTRPAIndicator(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionTRPAIndicator Instance = new FieldDefinitionTRPAIndicator(207, @"TRPAIndicator", @"TRPA Indicator", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationStatus : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationStatus(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationStatus Instance = new FieldDefinitionThresholdEvaluationStatus(208, @"ThresholdEvaluationStatus", @"Threshold Evaluation Status", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationTrend : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationTrend(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationTrend Instance = new FieldDefinitionThresholdEvaluationTrend(209, @"ThresholdEvaluationTrend", @"Threshold Evaluation Trend", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationConfidence : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationConfidence(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationConfidence Instance = new FieldDefinitionThresholdEvaluationConfidence(210, @"ThresholdEvaluationConfidence", @"Threshold Evaluation Confidence", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationStatusRationale : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationStatusRationale(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationStatusRationale Instance = new FieldDefinitionThresholdEvaluationStatusRationale(211, @"ThresholdEvaluationStatusRationale", @"Threshold Evaluation Status Rationale", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationTrendRationale : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationTrendRationale(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationTrendRationale Instance = new FieldDefinitionThresholdEvaluationTrendRationale(212, @"ThresholdEvaluationTrendRationale", @"Threshold Evaluation Trend Rationale", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationConfidenceStatus : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationConfidenceStatus(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationConfidenceStatus Instance = new FieldDefinitionThresholdEvaluationConfidenceStatus(213, @"ThresholdEvaluationConfidenceStatus", @"Threshold Evaluation Confidence Status", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationManagementStatus : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationManagementStatus(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationManagementStatus Instance = new FieldDefinitionThresholdEvaluationManagementStatus(214, @"ThresholdEvaluationManagementStatus", @"Threshold Evaluation Management Status", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationProgramsAndActionsImplementedToImproveConditions : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationProgramsAndActionsImplementedToImproveConditions(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationProgramsAndActionsImplementedToImproveConditions Instance = new FieldDefinitionThresholdEvaluationProgramsAndActionsImplementedToImproveConditions(215, @"ThresholdEvaluationProgramsAndActionsImplementedToImproveConditions", @"Threshold Evaluation Programs and Actions Implemented to Improve Conditions", 5);
-    }
-
-    public partial class FieldDefinitionThresholdRoleID : FieldDefinition
-    {
-        private FieldDefinitionThresholdRoleID(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdRoleID Instance = new FieldDefinitionThresholdRoleID(216, @"ThresholdRoleID", @"Threshold Dashboard Role", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationConfidenceTrend : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationConfidenceTrend(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationConfidenceTrend Instance = new FieldDefinitionThresholdEvaluationConfidenceTrend(217, @"ThresholdEvaluationConfidenceTrend", @"Threshold Evaluation Confidence Trend", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationConfidenceOverall : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationConfidenceOverall(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationConfidenceOverall Instance = new FieldDefinitionThresholdEvaluationConfidenceOverall(218, @"ThresholdEvaluationConfidenceOverall", @"Threshold Evaluation Confidence Overall", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationEffectivenessOfProgramsAndActions : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationEffectivenessOfProgramsAndActions(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationEffectivenessOfProgramsAndActions Instance = new FieldDefinitionThresholdEvaluationEffectivenessOfProgramsAndActions(219, @"ThresholdEvaluationEffectivenessOfProgramsAndActions", @"Threshold Evaluation Effectiveness of Programs and Actions", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationInterimTarget : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationInterimTarget(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationInterimTarget Instance = new FieldDefinitionThresholdEvaluationInterimTarget(220, @"ThresholdEvaluationInterimTarget", @"Threshold Evaluation Interim Target", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationTargetAttainmentDate : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationTargetAttainmentDate(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationTargetAttainmentDate Instance = new FieldDefinitionThresholdEvaluationTargetAttainmentDate(221, @"ThresholdEvaluationTargetAttainmentDate", @"Threshold Evaluation Target Attainment Date", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationAnalyticApproach : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationAnalyticApproach(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationAnalyticApproach Instance = new FieldDefinitionThresholdEvaluationAnalyticApproach(222, @"ThresholdEvaluationAnalyticApproach", @"Threshold Evaluation Analytic Approach", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationMonitoringApproach : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationMonitoringApproach(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationMonitoringApproach Instance = new FieldDefinitionThresholdEvaluationMonitoringApproach(223, @"ThresholdEvaluationMonitoringApproach", @"Threshold Evaluation Monitoring Approach", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationModificationOfTheThresholdStandardOrIndicator : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationModificationOfTheThresholdStandardOrIndicator(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationModificationOfTheThresholdStandardOrIndicator Instance = new FieldDefinitionThresholdEvaluationModificationOfTheThresholdStandardOrIndicator(224, @"ThresholdEvaluationModificationOfTheThresholdStandardOrIndicator", @"Threshold Evaluation Modification of the Threshold Standard or Indicator", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationAttainOrMaintainThreshold : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationAttainOrMaintainThreshold(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationAttainOrMaintainThreshold Instance = new FieldDefinitionThresholdEvaluationAttainOrMaintainThreshold(225, @"ThresholdEvaluationAttainOrMaintainThreshold", @"Threshold Evaluation Attain or Maintain Threshold", 5);
-    }
-
-    public partial class FieldDefinitionThresholdEvaluationMonitoringAndAnalysis : FieldDefinition
-    {
-        private FieldDefinitionThresholdEvaluationMonitoringAndAnalysis(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdEvaluationMonitoringAndAnalysis Instance = new FieldDefinitionThresholdEvaluationMonitoringAndAnalysis(226, @"ThresholdEvaluationMonitoringAndAnalysis", @"Threshold Evaluation Monitoring and Analysis", 5);
-    }
-
-    public partial class FieldDefinitionThresholdReportingCategoryNarrative : FieldDefinition
-    {
-        private FieldDefinitionThresholdReportingCategoryNarrative(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdReportingCategoryNarrative Instance = new FieldDefinitionThresholdReportingCategoryNarrative(227, @"ThresholdReportingCategoryNarrative", @"Threshold Reporting Category Narrative", 5);
-    }
-
     public partial class FieldDefinitionChartCaption : FieldDefinition
     {
         private FieldDefinitionChartCaption(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
         public static readonly FieldDefinitionChartCaption Instance = new FieldDefinitionChartCaption(228, @"ChartCaption", @"Chart Caption", 3);
     }
 
-    public partial class FieldDefinitionRelevance : FieldDefinition
-    {
-        private FieldDefinitionRelevance(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionRelevance Instance = new FieldDefinitionRelevance(233, @"Relevance", @"Relevance", 5);
-    }
-
-    public partial class FieldDefinitionHumanAndEnvironmentalDrivers : FieldDefinition
-    {
-        private FieldDefinitionHumanAndEnvironmentalDrivers(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionHumanAndEnvironmentalDrivers Instance = new FieldDefinitionHumanAndEnvironmentalDrivers(234, @"HumanAndEnvironmentalDrivers", @"Human and Environmental Drivers", 5);
-    }
-
-    public partial class FieldDefinitionThresholdStandardType : FieldDefinition
-    {
-        private FieldDefinitionThresholdStandardType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdStandardType Instance = new FieldDefinitionThresholdStandardType(235, @"ThresholdStandardType", @"Threshold Standard Type", 5);
-    }
-
     public partial class FieldDefinitionMonitoringProgram : FieldDefinition
     {
         private FieldDefinitionMonitoringProgram(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionMonitoringProgram Instance = new FieldDefinitionMonitoringProgram(236, @"MonitoringProgram", @"Monitoring Program", 5);
+        public static readonly FieldDefinitionMonitoringProgram Instance = new FieldDefinitionMonitoringProgram(236, @"MonitoringProgram", @"Monitoring Program", 1);
     }
 
     public partial class FieldDefinitionMonitoringApproach : FieldDefinition
     {
         private FieldDefinitionMonitoringApproach(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionMonitoringApproach Instance = new FieldDefinitionMonitoringApproach(237, @"MonitoringApproach", @"Monitoring Approach", 5);
+        public static readonly FieldDefinitionMonitoringApproach Instance = new FieldDefinitionMonitoringApproach(237, @"MonitoringApproach", @"Monitoring Approach", 1);
     }
 
     public partial class FieldDefinitionMonitoringProgramPartner : FieldDefinition
     {
         private FieldDefinitionMonitoringProgramPartner(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionMonitoringProgramPartner Instance = new FieldDefinitionMonitoringProgramPartner(238, @"MonitoringProgramPartner", @"Monitoring Program Partner", 5);
+        public static readonly FieldDefinitionMonitoringProgramPartner Instance = new FieldDefinitionMonitoringProgramPartner(238, @"MonitoringProgramPartner", @"Monitoring Program Partner", 1);
     }
 
     public partial class FieldDefinitionMonitoringProgramUrl : FieldDefinition
     {
         private FieldDefinitionMonitoringProgramUrl(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionMonitoringProgramUrl Instance = new FieldDefinitionMonitoringProgramUrl(239, @"MonitoringProgramUrl", @"Monitoring Program Home Page", 5);
+        public static readonly FieldDefinitionMonitoringProgramUrl Instance = new FieldDefinitionMonitoringProgramUrl(239, @"MonitoringProgramUrl", @"Monitoring Program Home Page", 1);
     }
 
     public partial class FieldDefinitionThresholdCategoryDescription : FieldDefinition
     {
         private FieldDefinitionThresholdCategoryDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdCategoryDescription Instance = new FieldDefinitionThresholdCategoryDescription(240, @"ThresholdCategoryDescription", @"Threshold Category Description", 5);
+        public static readonly FieldDefinitionThresholdCategoryDescription Instance = new FieldDefinitionThresholdCategoryDescription(240, @"ThresholdCategoryDescription", @"Threshold Category Description", 1);
     }
 
     public partial class FieldDefinitionThresholdCategoryGoalStatement : FieldDefinition
     {
         private FieldDefinitionThresholdCategoryGoalStatement(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdCategoryGoalStatement Instance = new FieldDefinitionThresholdCategoryGoalStatement(241, @"ThresholdCategoryGoalStatement", @"Threshold Category Goal Statement", 5);
+        public static readonly FieldDefinitionThresholdCategoryGoalStatement Instance = new FieldDefinitionThresholdCategoryGoalStatement(241, @"ThresholdCategoryGoalStatement", @"Threshold Category Goal Statement", 1);
     }
 
     public partial class FieldDefinitionThresholdCategoryNarrative : FieldDefinition
     {
         private FieldDefinitionThresholdCategoryNarrative(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, int primaryLTInfoAreaID) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, primaryLTInfoAreaID) {}
-        public static readonly FieldDefinitionThresholdCategoryNarrative Instance = new FieldDefinitionThresholdCategoryNarrative(242, @"ThresholdCategoryNarrative", @"Threshold Category Narrative", 5);
+        public static readonly FieldDefinitionThresholdCategoryNarrative Instance = new FieldDefinitionThresholdCategoryNarrative(242, @"ThresholdCategoryNarrative", @"Threshold Category Narrative", 1);
     }
 }

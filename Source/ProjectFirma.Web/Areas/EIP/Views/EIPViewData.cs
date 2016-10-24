@@ -136,7 +136,7 @@ namespace ProjectFirma.Web.Areas.EIP.Views
 
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramInfoController>(c => c.TransportationTaxonomy()), currentPerson, "Transportation Strategies and Objectives", "Group2"));
 
-            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<Threshold.Controllers.HomeController>(c => c.Index()), currentPerson, "Threshold Categories", "Group3"));
+            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ThresholdCategoryController>(c => c.Index()), currentPerson, "Threshold Categories", "Group3"));
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<LocalAndRegionalPlanController>(c => c.Index()), currentPerson, "Local and Regional Plans", "Group3"));
 
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<WatershedController>(c => c.Index()), currentPerson, "Watersheds", "Group4"));

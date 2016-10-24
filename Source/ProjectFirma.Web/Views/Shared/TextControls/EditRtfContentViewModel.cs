@@ -89,14 +89,5 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
         {
             transportationObjective.TransportationObjectiveDescriptionHtmlString = RtfContent;
         }
-
-        /// <summary>
-        /// Used by Threshold Reporting Category
-        /// </summary>
-        public void UpdateModel(Models.ThresholdReportingCategory thresholdReportingCategory)
-        {
-            thresholdReportingCategory.NarrativeHtmlString = RtfContent;
-        }
-
     }
 }

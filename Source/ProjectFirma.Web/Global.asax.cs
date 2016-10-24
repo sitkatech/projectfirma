@@ -19,9 +19,7 @@ namespace ProjectFirma.Web
         public static Dictionary<string, string> AreasDictionary = new Dictionary<string, string>
         {
             {string.Empty, ProjectFirmaWebConfiguration.CanonicalHostNameRoot},
-            {LTInfoArea.EIP.LTInfoAreaName, ProjectFirmaWebConfiguration.CanonicalHostNameEIP},
-            {LTInfoArea.Sustainability.LTInfoAreaName, ProjectFirmaWebConfiguration.CanonicalHostNameSustainability},
-            {LTInfoArea.Threshold.LTInfoAreaName, ProjectFirmaWebConfiguration.CanonicalHostNameThresholds}
+            {LTInfoArea.EIP.LTInfoAreaName, ProjectFirmaWebConfiguration.CanonicalHostNameEIP}
         };
 
         protected void Application_Start()

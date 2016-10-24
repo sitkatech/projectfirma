@@ -10,7 +10,6 @@ values
 (7, 'FiveYearProjectList', '5 Year Project List', 1, 1),
 (8, 'CompletedProjectList', 'Completed Project List', 1, 1),
 (9, 'EIPPerformanceMeasuresList', 'EIP Performance Measures List', 1, 1),
-(10, 'ThresholdsHome', 'Thresholds Home Page Introduction', 5, 1),
 (11, 'ActionPrioritiesList', 'Action Priorities List', 1, 1),
 (12, 'LocalAndRegionalPlansList', 'Local and Regional Plans List', 1, 1),
 (13, 'FocusAreasList', 'Focus Areas List', 1, 1),
@@ -40,11 +39,7 @@ values
 (39, 'MyOrganizationsProjects', 'My Organization''s Projects', 1, 1),
 (41, 'ManageUpdateNotifications', 'Manage Project Update Notifications', 1, 1),
 (42, 'ProjectUpdateStatus', 'Annual Project Update Status Report', 1, 1),
-(43, 'SIDAboutIntro', 'About Sustainability Dashboard - Page Introduction', 2, 2),
-(44, 'SIDAboutContent', 'About Sustainability Dashboard - Page Content', 2, 2),
-(45, 'SIDAboutFAQ', 'About Sustainability Dashboard - FAQ', 2, 2),
-(46, 'SIDHome', 'Sustainability Dashboard Home Page Introduction', 2, 2),
 (47, 'LTInfoDataCenter', 'Lake Tahoe Info Data Center', 3, 1),
 (48, 'LTInfoAbout', 'About Lake Tahoe Info', 3, 2),
-(66, 'ThresholdsTaxonomy', 'Threshold Categories', 5, 1),
-(67, 'MonitoringProgramsList', 'Monitoring Programs', 5, 1)
+(66, 'ThresholdCategoriesList', 'Threshold Categories List', 1, 1),
+(67, 'MonitoringProgramsList', 'Monitoring Programs', 1, 1)

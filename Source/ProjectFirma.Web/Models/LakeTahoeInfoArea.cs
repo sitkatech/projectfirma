@@ -92,56 +92,6 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class LTInfoAreaSustainability
-    {
-        public override string GetCanonicalHostName()
-        {
-            return ProjectFirmaWebConfiguration.CanonicalHostNameSustainability;
-        }
-
-        public override IRole GetRole(int roleID)
-        {
-            return SustainabilityRole.AllLookupDictionary[roleID];
-        }
-
-        public override List<IRole> GetRoles()
-        {
-            return SustainabilityRole.All.Select(x => (IRole)x).ToList();
-        }
-
-
-        public override string GetHomeUrl()
-        {
-            return SitkaRoute<Areas.Sustainability.Controllers.HomeController>.BuildUrlFromExpression(x => x.Index());
-        }
-
-        public override string GetLogoUrl()
-        {
-            return "/Content/img/header_logo_sidewinder.png";
-        }
-
-        public override string GetFavIconUrl()
-        {
-            return "/Areas/Sustainability/Content/favicon/favicon-32x32.png";
-        }
-
-        public override string PreferredSiteAreaLinkWidth { get { return "160px"; } }
-
-        protected override Func<Person, IRole> GetPersonRoleToUseFunc()
-        {
-            return x => x.SustainabilityRole;
-        }
-
-        public override PermissionCheckResult CanManageFieldDefinitionAndIntroTextForArea(Person person)
-        {
-            if(HasPermissionByPerson(person, new List<IRole> { SustainabilityRole.Admin }))
-            {
-                return new PermissionCheckResult();
-            }
-            return new PermissionCheckResult("Does not have Sustainability Dashboard administration privileges");
-        }
-    }
-
     public partial class LTInfoAreaLTInfo
     {
         public override string GetCanonicalHostName()
@@ -189,56 +139,6 @@ namespace ProjectFirma.Web.Models
                 return new PermissionCheckResult();
             }
             return new PermissionCheckResult("Does not have Lake Tahoe Info administration privileges");
-        }
-    }
-
-    public partial class LTInfoAreaThreshold
-    {
-        public override string GetCanonicalHostName()
-        {
-            return ProjectFirmaWebConfiguration.CanonicalHostNameThresholds;
-        }
-
-        public override IRole GetRole(int roleID)
-        {
-            return ThresholdRole.AllLookupDictionary[roleID];
-        }
-
-        public override List<IRole> GetRoles()
-        {
-            return ThresholdRole.All.Select(x => (IRole)x).ToList();
-        }
-
-
-        public override string GetHomeUrl()
-        {
-            return SitkaRoute<Areas.Threshold.Controllers.HomeController>.BuildUrlFromExpression(x => x.Index());
-        }
-
-        public override string GetLogoUrl()
-        {
-            return "/Content/img/header_logo_sidewinder.png";
-        }
-
-        public override string GetFavIconUrl()
-        {
-            return "/Areas/Threshold/Content/img/favicon/favicon-32x32.png";
-        }
-
-        public override string PreferredSiteAreaLinkWidth { get { return "160px"; } }
-
-        protected override Func<Person, IRole> GetPersonRoleToUseFunc()
-        {
-            return x => x.ThresholdRole;
-        }
-
-        public override PermissionCheckResult CanManageFieldDefinitionAndIntroTextForArea(Person person)
-        {
-            if(HasPermissionByPerson(person, new List<IRole> { ThresholdRole.Admin }))
-            {
-                return new PermissionCheckResult();
-            }
-            return new PermissionCheckResult("Does not have Threshold administration privileges");
         }
     }
 }

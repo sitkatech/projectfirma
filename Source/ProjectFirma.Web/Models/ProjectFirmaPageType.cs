@@ -81,14 +81,6 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class ProjectFirmaPageTypeThresholdsHome
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<Areas.Threshold.Controllers.HomeController>.BuildUrlFromExpression(x => x.Index());
-        }
-    }
-
     public partial class ProjectFirmaPageTypeActionPrioritiesList
     {
         public override string GetViewUrl()
@@ -307,38 +299,6 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class ProjectFirmaPageTypeSIDHome
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<Areas.Sustainability.Controllers.HomeController>.BuildUrlFromExpression(x => x.Index());
-        }
-    }
-
-    public partial class ProjectFirmaPageTypeSIDAboutContent
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<Areas.Sustainability.Controllers.HomeController>.BuildUrlFromExpression(x => x.About());
-        }
-    }
-
-    public partial class ProjectFirmaPageTypeSIDAboutIntro
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<Areas.Sustainability.Controllers.HomeController>.BuildUrlFromExpression(x => x.About());
-        }
-    }
-
-    public partial class ProjectFirmaPageTypeSIDAboutFAQ
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<Areas.Sustainability.Controllers.HomeController>.BuildUrlFromExpression(x => x.About());
-        }
-    }
-
     public partial class ProjectFirmaPageTypeLTInfoDataCenter
     {
         public override string GetViewUrl()
@@ -355,11 +315,11 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class ProjectFirmaPageTypeThresholdsTaxonomy
+    public partial class ProjectFirmaPageTypeThresholdCategoriesList
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<Areas.Threshold.Controllers.ThresholdCategoryController>.BuildUrlFromExpression(x => x.Index());
+            return SitkaRoute<ThresholdCategoryController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 

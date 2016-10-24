@@ -282,8 +282,6 @@
           <ScalarProperty Name="ChartType" ColumnName="ChartType" />
           <ScalarProperty Name="SwapChartAxes" ColumnName="SwapChartAxes" />
           <ScalarProperty Name="EIPPerformanceMeasureID" ColumnName="EIPPerformanceMeasureID" />
-          <ScalarProperty Name="SustainabilityIndicatorID" ColumnName="SustainabilityIndicatorID" />
-          <ScalarProperty Name="ThresholdIndicatorID" ColumnName="ThresholdIndicatorID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -418,10 +416,8 @@
           <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
-          <ScalarProperty Name="SustainabilityRoleID" ColumnName="SustainabilityRoleID" />
           <ScalarProperty Name="LTInfoRoleID" ColumnName="LTInfoRoleID" />
           <ScalarProperty Name="WebServiceAccessToken" ColumnName="WebServiceAccessToken" />
-          <ScalarProperty Name="ThresholdRoleID" ColumnName="ThresholdRoleID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1028,78 +1024,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="SustainabilityAspect">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.SustainabilityAspect">
-        <MappingFragment StoreEntitySet="SustainabilityAspect">
-          <ScalarProperty Name="SustainabilityAspectID" ColumnName="SustainabilityAspectID" />
-          <ScalarProperty Name="SustainabilityPillarID" ColumnName="SustainabilityPillarID" />
-          <ScalarProperty Name="SustainabilityAspectName" ColumnName="SustainabilityAspectName" />
-          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
-          <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
-          <ScalarProperty Name="KeyImageFileName" ColumnName="KeyImageFileName" />
-          <ScalarProperty Name="Blurb" ColumnName="Blurb" />
-          <ScalarProperty Name="OutroText" ColumnName="OutroText" />
-          <ScalarProperty Name="ActionIntroText" ColumnName="ActionIntroText" />
-          <ScalarProperty Name="OutcomeIntroText" ColumnName="OutcomeIntroText" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SustainabilityIndicator">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.SustainabilityIndicator">
-        <MappingFragment StoreEntitySet="SustainabilityIndicator">
-          <ScalarProperty Name="SustainabilityIndicatorID" ColumnName="SustainabilityIndicatorID" />
-          <ScalarProperty Name="IndicatorID" ColumnName="IndicatorID" />
-          <ScalarProperty Name="SustainabilityAspectID" ColumnName="SustainabilityAspectID" />
-          <ScalarProperty Name="UseCustomDateRange" ColumnName="UseCustomDateRange" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SustainabilityIndicatorReported">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.SustainabilityIndicatorReported">
-        <MappingFragment StoreEntitySet="SustainabilityIndicatorReported">
-          <ScalarProperty Name="SustainabilityIndicatorReportedID" ColumnName="SustainabilityIndicatorReportedID" />
-          <ScalarProperty Name="SustainabilityIndicatorID" ColumnName="SustainabilityIndicatorID" />
-          <ScalarProperty Name="SustainabilityIndicatorReportingPeriodID" ColumnName="SustainabilityIndicatorReportingPeriodID" />
-          <ScalarProperty Name="ReportedValue" ColumnName="ReportedValue" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SustainabilityIndicatorReportedSubcategoryOption">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.SustainabilityIndicatorReportedSubcategoryOption">
-        <MappingFragment StoreEntitySet="SustainabilityIndicatorReportedSubcategoryOption">
-          <ScalarProperty Name="SustainabilityIndicatorReportedSubcategoryOptionID" ColumnName="SustainabilityIndicatorReportedSubcategoryOptionID" />
-          <ScalarProperty Name="SustainabilityIndicatorReportedID" ColumnName="SustainabilityIndicatorReportedID" />
-          <ScalarProperty Name="IndicatorSubcategoryOptionID" ColumnName="IndicatorSubcategoryOptionID" />
-          <ScalarProperty Name="SustainabilityIndicatorID" ColumnName="SustainabilityIndicatorID" />
-          <ScalarProperty Name="IndicatorSubcategoryID" ColumnName="IndicatorSubcategoryID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SustainabilityIndicatorReportingPeriod">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.SustainabilityIndicatorReportingPeriod">
-        <MappingFragment StoreEntitySet="SustainabilityIndicatorReportingPeriod">
-          <ScalarProperty Name="SustainabilityIndicatorReportingPeriodID" ColumnName="SustainabilityIndicatorReportingPeriodID" />
-          <ScalarProperty Name="SustainabilityIndicatorID" ColumnName="SustainabilityIndicatorID" />
-          <ScalarProperty Name="SustainabilityIndicatorReportingPeriodBeginDate" ColumnName="SustainabilityIndicatorReportingPeriodBeginDate" />
-          <ScalarProperty Name="SustainabilityIndicatorReportingPeriodEndDate" ColumnName="SustainabilityIndicatorReportingPeriodEndDate" />
-          <ScalarProperty Name="SustainabilityIndicatorReportingPeriodLabel" ColumnName="SustainabilityIndicatorReportingPeriodLabel" />
-          <ScalarProperty Name="TargetValue" ColumnName="TargetValue" />
-          <ScalarProperty Name="TargetValueDescription" ColumnName="TargetValueDescription" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SustainabilityPillar">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.SustainabilityPillar">
-        <MappingFragment StoreEntitySet="SustainabilityPillar">
-          <ScalarProperty Name="SustainabilityPillarID" ColumnName="SustainabilityPillarID" />
-          <ScalarProperty Name="SustainabilityPillarName" ColumnName="SustainabilityPillarName" />
-          <ScalarProperty Name="PillarAdjective" ColumnName="PillarAdjective" />
-          <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
-          <ScalarProperty Name="KeyImageFileName" ColumnName="KeyImageFileName" />
-          <ScalarProperty Name="KeyColor" ColumnName="KeyColor" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Tag">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Tag">
         <MappingFragment StoreEntitySet="Tag">
@@ -1138,118 +1062,6 @@
           <ScalarProperty Name="ThresholdCategoryID" ColumnName="ThresholdCategoryID" />
           <ScalarProperty Name="IndicatorID" ColumnName="IndicatorID" />
           <ScalarProperty Name="IsPrimaryChart" ColumnName="IsPrimaryChart" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ThresholdEvaluation">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ThresholdEvaluation">
-        <MappingFragment StoreEntitySet="ThresholdEvaluation">
-          <ScalarProperty Name="ThresholdEvaluationID" ColumnName="ThresholdEvaluationID" />
-          <ScalarProperty Name="ThresholdEvaluationPeriodID" ColumnName="ThresholdEvaluationPeriodID" />
-          <ScalarProperty Name="ThresholdIndicatorID" ColumnName="ThresholdIndicatorID" />
-          <ScalarProperty Name="ThresholdEvaluationStatusTypeID" ColumnName="ThresholdEvaluationStatusTypeID" />
-          <ScalarProperty Name="ThresholdEvaluationTrendTypeID" ColumnName="ThresholdEvaluationTrendTypeID" />
-          <ScalarProperty Name="ThresholdEvaluationConfidenceTypeID" ColumnName="ThresholdEvaluationConfidenceTypeID" />
-          <ScalarProperty Name="ThresholdEvaluationManagementStatusTypeID" ColumnName="ThresholdEvaluationManagementStatusTypeID" />
-          <ScalarProperty Name="StatusRationale" ColumnName="StatusRationale" />
-          <ScalarProperty Name="TrendRationale" ColumnName="TrendRationale" />
-          <ScalarProperty Name="ConfidenceStatus" ColumnName="ConfidenceStatus" />
-          <ScalarProperty Name="ConfidenceTrend" ColumnName="ConfidenceTrend" />
-          <ScalarProperty Name="ConfidenceOverall" ColumnName="ConfidenceOverall" />
-          <ScalarProperty Name="ProgramsAndActionsImplementedToImproveConditions" ColumnName="ProgramsAndActionsImplementedToImproveConditions" />
-          <ScalarProperty Name="EffectivenessOfProgramsAndActions" ColumnName="EffectivenessOfProgramsAndActions" />
-          <ScalarProperty Name="InterimTarget" ColumnName="InterimTarget" />
-          <ScalarProperty Name="TargetAttainmentDate" ColumnName="TargetAttainmentDate" />
-          <ScalarProperty Name="AnalyticApproachRecommendation" ColumnName="AnalyticApproachRecommendation" />
-          <ScalarProperty Name="MonitoringApproachRecommendation" ColumnName="MonitoringApproachRecommendation" />
-          <ScalarProperty Name="ModificationOfTheThresholdStandardOrIndicator" ColumnName="ModificationOfTheThresholdStandardOrIndicator" />
-          <ScalarProperty Name="AttainOrMaintainThreshold" ColumnName="AttainOrMaintainThreshold" />
-          <ScalarProperty Name="MapFileResourceID" ColumnName="MapFileResourceID" />
-          <ScalarProperty Name="MapCaption" ColumnName="MapCaption" />
-          <ScalarProperty Name="HistoricEvaluationPdfFileResourceID" ColumnName="HistoricEvaluationPdfFileResourceID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ThresholdEvaluationPeriod">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ThresholdEvaluationPeriod">
-        <MappingFragment StoreEntitySet="ThresholdEvaluationPeriod">
-          <ScalarProperty Name="ThresholdEvaluationPeriodID" ColumnName="ThresholdEvaluationPeriodID" />
-          <ScalarProperty Name="ThresholdEvaluationYear" ColumnName="ThresholdEvaluationYear" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ThresholdIndicator">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ThresholdIndicator">
-        <MappingFragment StoreEntitySet="ThresholdIndicator">
-          <ScalarProperty Name="ThresholdIndicatorID" ColumnName="ThresholdIndicatorID" />
-          <ScalarProperty Name="IndicatorID" ColumnName="IndicatorID" />
-          <ScalarProperty Name="ThresholdReportingCategoryID" ColumnName="ThresholdReportingCategoryID" />
-          <ScalarProperty Name="UseCustomDateRange" ColumnName="UseCustomDateRange" />
-          <ScalarProperty Name="ThresholdStandardTypeID" ColumnName="ThresholdStandardTypeID" />
-          <ScalarProperty Name="ApplicableStandard" ColumnName="ApplicableStandard" />
-          <ScalarProperty Name="StandardNarrative" ColumnName="StandardNarrative" />
-          <ScalarProperty Name="TRPAIndicator" ColumnName="TRPAIndicator" />
-          <ScalarProperty Name="Relevance" ColumnName="Relevance" />
-          <ScalarProperty Name="HumanAndEnvironmentalDrivers" ColumnName="HumanAndEnvironmentalDrivers" />
-          <ScalarProperty Name="OptionalChartImageFileResourceID" ColumnName="OptionalChartImageFileResourceID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ThresholdIndicatorImage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ThresholdIndicatorImage">
-        <MappingFragment StoreEntitySet="ThresholdIndicatorImage">
-          <ScalarProperty Name="ThresholdIndicatorImageID" ColumnName="ThresholdIndicatorImageID" />
-          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
-          <ScalarProperty Name="ThresholdIndicatorID" ColumnName="ThresholdIndicatorID" />
-          <ScalarProperty Name="Caption" ColumnName="Caption" />
-          <ScalarProperty Name="Credit" ColumnName="Credit" />
-          <ScalarProperty Name="IsKeyPhoto" ColumnName="IsKeyPhoto" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ThresholdIndicatorReported">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ThresholdIndicatorReported">
-        <MappingFragment StoreEntitySet="ThresholdIndicatorReported">
-          <ScalarProperty Name="ThresholdIndicatorReportedID" ColumnName="ThresholdIndicatorReportedID" />
-          <ScalarProperty Name="ThresholdIndicatorID" ColumnName="ThresholdIndicatorID" />
-          <ScalarProperty Name="ThresholdIndicatorReportingPeriodID" ColumnName="ThresholdIndicatorReportingPeriodID" />
-          <ScalarProperty Name="ReportedValue" ColumnName="ReportedValue" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ThresholdIndicatorReportedSubcategoryOption">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ThresholdIndicatorReportedSubcategoryOption">
-        <MappingFragment StoreEntitySet="ThresholdIndicatorReportedSubcategoryOption">
-          <ScalarProperty Name="ThresholdIndicatorReportedSubcategoryOptionID" ColumnName="ThresholdIndicatorReportedSubcategoryOptionID" />
-          <ScalarProperty Name="ThresholdIndicatorReportedID" ColumnName="ThresholdIndicatorReportedID" />
-          <ScalarProperty Name="IndicatorSubcategoryOptionID" ColumnName="IndicatorSubcategoryOptionID" />
-          <ScalarProperty Name="ThresholdIndicatorID" ColumnName="ThresholdIndicatorID" />
-          <ScalarProperty Name="IndicatorSubcategoryID" ColumnName="IndicatorSubcategoryID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ThresholdIndicatorReportingPeriod">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ThresholdIndicatorReportingPeriod">
-        <MappingFragment StoreEntitySet="ThresholdIndicatorReportingPeriod">
-          <ScalarProperty Name="ThresholdIndicatorReportingPeriodID" ColumnName="ThresholdIndicatorReportingPeriodID" />
-          <ScalarProperty Name="ThresholdIndicatorID" ColumnName="ThresholdIndicatorID" />
-          <ScalarProperty Name="ThresholdIndicatorReportingPeriodBeginDate" ColumnName="ThresholdIndicatorReportingPeriodBeginDate" />
-          <ScalarProperty Name="ThresholdIndicatorReportingPeriodEndDate" ColumnName="ThresholdIndicatorReportingPeriodEndDate" />
-          <ScalarProperty Name="ThresholdIndicatorReportingPeriodLabel" ColumnName="ThresholdIndicatorReportingPeriodLabel" />
-          <ScalarProperty Name="TargetValue" ColumnName="TargetValue" />
-          <ScalarProperty Name="TargetValueDescription" ColumnName="TargetValueDescription" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ThresholdReportingCategory">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ThresholdReportingCategory">
-        <MappingFragment StoreEntitySet="ThresholdReportingCategory">
-          <ScalarProperty Name="ThresholdReportingCategoryID" ColumnName="ThresholdReportingCategoryID" />
-          <ScalarProperty Name="ThresholdCategoryID" ColumnName="ThresholdCategoryID" />
-          <ScalarProperty Name="ThresholdReportingCategoryName" ColumnName="ThresholdReportingCategoryName" />
-          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
-          <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
-          <ScalarProperty Name="Narrative" ColumnName="Narrative" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

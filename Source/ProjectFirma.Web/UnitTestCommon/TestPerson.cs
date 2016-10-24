@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             public static Person Create()
             {
                 var organization = TestOrganization.Create();
-                var person = Person.CreateNewBlank(EIPRole.Normal, organization, SustainabilityRole.Normal, LTInfoRole.Normal, ThresholdRole.Normal);
+                var person = Person.CreateNewBlank(EIPRole.Normal, organization, LTInfoRole.Normal);
                 person.Organization = organization;
                 person.Email = MakeTestEmail("email");
                 person.FirstName = MakeTestName("firstName", Person.FieldLengths.FirstName);

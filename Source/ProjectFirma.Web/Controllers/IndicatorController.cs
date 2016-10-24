@@ -5,18 +5,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ProjectFirma.Web.Areas.EIP.Security;
-using ProjectFirma.Web.Areas.Sustainability.Security;
-using ProjectFirma.Web.Areas.Threshold.Controllers;
-using ProjectFirma.Web.Areas.Threshold.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Indicator;
-using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
-using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using Edit = ProjectFirma.Web.Views.Indicator.Edit;
@@ -69,13 +64,10 @@ namespace ProjectFirma.Web.Controllers
         {
             var indicator = HttpRequestStorage.DatabaseEntities.Indicators.GetIndicatorByIndicatorName(indicatorName);
             var activeTab = indicatorSummaryTab ?? SummaryViewData.IndicatorSummaryTab.Overview;
-            var thresholdSectorTypes = ThresholdSectorType.All.OrderBy(x => x.ThresholdSectorTypeID).ToList();
             var userHasIndicatorManagePermissions = new IndicatorManageFeature().HasPermissionByPerson(CurrentPerson);
             var lakeTahoeInfoAreasThatReportOnIndicators = new List<SummaryViewData.LakeTahoeInfoAreaSection>
             {
-                new SummaryViewData.LakeTahoeInfoAreaSection(LTInfoArea.EIP, SummaryViewData.IndicatorSummaryTab.EIP, indicator.ReportedInEIP),
-                new SummaryViewData.LakeTahoeInfoAreaSection(LTInfoArea.Sustainability, SummaryViewData.IndicatorSummaryTab.SustainabilityDashboard, indicator.ReportedInSustainabilityDashboard),
-                new SummaryViewData.LakeTahoeInfoAreaSection(LTInfoArea.Threshold, SummaryViewData.IndicatorSummaryTab.ThresholdDashboard, indicator.ReportedInThresholdDashboard && new ThresholdIndicatorViewFeature().HasPermissionByPerson(CurrentPerson)) // temporarily restricting it to normal users
+                new SummaryViewData.LakeTahoeInfoAreaSection(LTInfoArea.EIP, SummaryViewData.IndicatorSummaryTab.EIP, indicator.ReportedInEIP)
             };
             var indicatorChartViewData = new IndicatorChartViewData(indicator, false, userHasIndicatorManagePermissions ? ChartViewMode.ManagementMode : ChartViewMode.Small, null);
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(indicator.IndicatorNotes)),
@@ -83,36 +75,13 @@ namespace ProjectFirma.Web.Controllers
                 indicator.IndicatorDisplayName,
                 userHasIndicatorManagePermissions);
 
-            var hasThresholdIndicatorManagePermissions = new ThresholdIndicatorManageFeature().HasPermissionByPerson(CurrentPerson);
-            ImageGalleryViewData imageGalleryViewData = null;
-            if (indicator.ThresholdIndicator != null)
-            {
-                var addNewPhotoUrl = SitkaRoute<ThresholdIndicatorImageController>.BuildUrlFromExpression(x => x.New(indicator.ThresholdIndicator));
-                imageGalleryViewData = new ImageGalleryViewData(CurrentPerson,
-                    "Threshold Indicator Figures",
-                    indicator.ThresholdIndicator.ThresholdIndicatorImages,
-                    hasThresholdIndicatorManagePermissions,
-                    addNewPhotoUrl,
-                    null,
-                    true,
-                    x => x.CaptionOnFullView,
-                    "Figure");
-            }
-
-            var userHasThresholdIndicatorManagePermissions = hasThresholdIndicatorManagePermissions;
-            var userHasSustainabilityIndicatorManagePermissions = new SustainabilityDashboardManageFeature().HasPermissionByPerson(CurrentPerson);
-
             var viewData = new SummaryViewData(CurrentPerson,
                 indicator,
                 activeTab,
-                thresholdSectorTypes,
                 lakeTahoeInfoAreasThatReportOnIndicators,
                 indicatorChartViewData,
                 entityNotesViewData,
-                imageGalleryViewData,
-                userHasIndicatorManagePermissions,
-                userHasThresholdIndicatorManagePermissions,
-                userHasSustainabilityIndicatorManagePermissions);
+                userHasIndicatorManagePermissions);
             return RazorView<Summary, SummaryViewData>(viewData);
         }
 
@@ -145,7 +114,7 @@ namespace ProjectFirma.Web.Controllers
                 x => x.MeasurementUnitTypeDisplayName);
             var indicatorTypesAsSelectListItems = IndicatorType.All.OrderBy(x => x.IndicatorTypeDisplayName).ToSelectList(x => x.IndicatorTypeID.ToString(CultureInfo.InvariantCulture),
                 x => x.IndicatorTypeDisplayName);
-            var viewData = new EditViewData(measurementUnitTypesAsSelectListItems, indicatorTypesAsSelectListItems, indicator.ReportedInThresholdDashboard);
+            var viewData = new EditViewData(measurementUnitTypesAsSelectListItems, indicatorTypesAsSelectListItems);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 

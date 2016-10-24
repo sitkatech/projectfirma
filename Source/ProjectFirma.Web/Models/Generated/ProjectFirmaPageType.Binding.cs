@@ -23,7 +23,6 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectFirmaPageTypeFiveYearProjectList FiveYearProjectList = ProjectFirmaPageTypeFiveYearProjectList.Instance;
         public static readonly ProjectFirmaPageTypeCompletedProjectList CompletedProjectList = ProjectFirmaPageTypeCompletedProjectList.Instance;
         public static readonly ProjectFirmaPageTypeEIPPerformanceMeasuresList EIPPerformanceMeasuresList = ProjectFirmaPageTypeEIPPerformanceMeasuresList.Instance;
-        public static readonly ProjectFirmaPageTypeThresholdsHome ThresholdsHome = ProjectFirmaPageTypeThresholdsHome.Instance;
         public static readonly ProjectFirmaPageTypeActionPrioritiesList ActionPrioritiesList = ProjectFirmaPageTypeActionPrioritiesList.Instance;
         public static readonly ProjectFirmaPageTypeLocalAndRegionalPlansList LocalAndRegionalPlansList = ProjectFirmaPageTypeLocalAndRegionalPlansList.Instance;
         public static readonly ProjectFirmaPageTypeFocusAreasList FocusAreasList = ProjectFirmaPageTypeFocusAreasList.Instance;
@@ -53,13 +52,9 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectFirmaPageTypeMyOrganizationsProjects MyOrganizationsProjects = ProjectFirmaPageTypeMyOrganizationsProjects.Instance;
         public static readonly ProjectFirmaPageTypeManageUpdateNotifications ManageUpdateNotifications = ProjectFirmaPageTypeManageUpdateNotifications.Instance;
         public static readonly ProjectFirmaPageTypeProjectUpdateStatus ProjectUpdateStatus = ProjectFirmaPageTypeProjectUpdateStatus.Instance;
-        public static readonly ProjectFirmaPageTypeSIDAboutIntro SIDAboutIntro = ProjectFirmaPageTypeSIDAboutIntro.Instance;
-        public static readonly ProjectFirmaPageTypeSIDAboutContent SIDAboutContent = ProjectFirmaPageTypeSIDAboutContent.Instance;
-        public static readonly ProjectFirmaPageTypeSIDAboutFAQ SIDAboutFAQ = ProjectFirmaPageTypeSIDAboutFAQ.Instance;
-        public static readonly ProjectFirmaPageTypeSIDHome SIDHome = ProjectFirmaPageTypeSIDHome.Instance;
         public static readonly ProjectFirmaPageTypeLTInfoDataCenter LTInfoDataCenter = ProjectFirmaPageTypeLTInfoDataCenter.Instance;
         public static readonly ProjectFirmaPageTypeLTInfoAbout LTInfoAbout = ProjectFirmaPageTypeLTInfoAbout.Instance;
-        public static readonly ProjectFirmaPageTypeThresholdsTaxonomy ThresholdsTaxonomy = ProjectFirmaPageTypeThresholdsTaxonomy.Instance;
+        public static readonly ProjectFirmaPageTypeThresholdCategoriesList ThresholdCategoriesList = ProjectFirmaPageTypeThresholdCategoriesList.Instance;
         public static readonly ProjectFirmaPageTypeMonitoringProgramsList MonitoringProgramsList = ProjectFirmaPageTypeMonitoringProgramsList.Instance;
 
         public static readonly List<ProjectFirmaPageType> All;
@@ -70,7 +65,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectFirmaPageType()
         {
-            All = new List<ProjectFirmaPageType> { HomePage, AboutClackamasPartnership, Meetings, FullProjectList, FiveYearProjectList, CompletedProjectList, EIPPerformanceMeasuresList, ThresholdsHome, ActionPrioritiesList, LocalAndRegionalPlansList, FocusAreasList, FundingSourcesList, OrganizationsList, ProgramsList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByFocusAreaByProgram, EIPProjectMap, EIPResultsByProgram, EIPHomeAdditionalInfo, FeaturedProjectList, TransportationStrategiesList, TransportationObjectivesList, TransportationProjectList, TransportationCostParameterSet, TerminatedProjectList, FullProjectListSimple, EIPTaxonomy, TransportationTaxonomy, TagList, SpendingByEIPPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, SIDAboutIntro, SIDAboutContent, SIDAboutFAQ, SIDHome, LTInfoDataCenter, LTInfoAbout, ThresholdsTaxonomy, MonitoringProgramsList };
+            All = new List<ProjectFirmaPageType> { HomePage, AboutClackamasPartnership, Meetings, FullProjectList, FiveYearProjectList, CompletedProjectList, EIPPerformanceMeasuresList, ActionPrioritiesList, LocalAndRegionalPlansList, FocusAreasList, FundingSourcesList, OrganizationsList, ProgramsList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByFocusAreaByProgram, EIPProjectMap, EIPResultsByProgram, EIPHomeAdditionalInfo, FeaturedProjectList, TransportationStrategiesList, TransportationObjectivesList, TransportationProjectList, TransportationCostParameterSet, TerminatedProjectList, FullProjectListSimple, EIPTaxonomy, TransportationTaxonomy, TagList, SpendingByEIPPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, LTInfoDataCenter, LTInfoAbout, ThresholdCategoriesList, MonitoringProgramsList };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectFirmaPageType>(All.ToDictionary(x => x.ProjectFirmaPageTypeID));
         }
 
@@ -202,14 +197,6 @@ namespace ProjectFirma.Web.Models
                     return ProjectUpdateStatus;
                 case ProjectFirmaPageTypeEnum.ProposedProjects:
                     return ProposedProjects;
-                case ProjectFirmaPageTypeEnum.SIDAboutContent:
-                    return SIDAboutContent;
-                case ProjectFirmaPageTypeEnum.SIDAboutFAQ:
-                    return SIDAboutFAQ;
-                case ProjectFirmaPageTypeEnum.SIDAboutIntro:
-                    return SIDAboutIntro;
-                case ProjectFirmaPageTypeEnum.SIDHome:
-                    return SIDHome;
                 case ProjectFirmaPageTypeEnum.SpendingByEIPPerformanceMeasureByProject:
                     return SpendingByEIPPerformanceMeasureByProject;
                 case ProjectFirmaPageTypeEnum.SpendingBySectorByFocusAreaByProgram:
@@ -218,10 +205,8 @@ namespace ProjectFirma.Web.Models
                     return TagList;
                 case ProjectFirmaPageTypeEnum.TerminatedProjectList:
                     return TerminatedProjectList;
-                case ProjectFirmaPageTypeEnum.ThresholdsHome:
-                    return ThresholdsHome;
-                case ProjectFirmaPageTypeEnum.ThresholdsTaxonomy:
-                    return ThresholdsTaxonomy;
+                case ProjectFirmaPageTypeEnum.ThresholdCategoriesList:
+                    return ThresholdCategoriesList;
                 case ProjectFirmaPageTypeEnum.TransportationCostParameterSet:
                     return TransportationCostParameterSet;
                 case ProjectFirmaPageTypeEnum.TransportationObjectivesList:
@@ -249,7 +234,6 @@ namespace ProjectFirma.Web.Models
         FiveYearProjectList = 7,
         CompletedProjectList = 8,
         EIPPerformanceMeasuresList = 9,
-        ThresholdsHome = 10,
         ActionPrioritiesList = 11,
         LocalAndRegionalPlansList = 12,
         FocusAreasList = 13,
@@ -279,13 +263,9 @@ namespace ProjectFirma.Web.Models
         MyOrganizationsProjects = 39,
         ManageUpdateNotifications = 41,
         ProjectUpdateStatus = 42,
-        SIDAboutIntro = 43,
-        SIDAboutContent = 44,
-        SIDAboutFAQ = 45,
-        SIDHome = 46,
         LTInfoDataCenter = 47,
         LTInfoAbout = 48,
-        ThresholdsTaxonomy = 66,
+        ThresholdCategoriesList = 66,
         MonitoringProgramsList = 67
     }
 
@@ -329,12 +309,6 @@ namespace ProjectFirma.Web.Models
     {
         private ProjectFirmaPageTypeEIPPerformanceMeasuresList(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
         public static readonly ProjectFirmaPageTypeEIPPerformanceMeasuresList Instance = new ProjectFirmaPageTypeEIPPerformanceMeasuresList(9, @"EIPPerformanceMeasuresList", @"EIP Performance Measures List", 1, 1);
-    }
-
-    public partial class ProjectFirmaPageTypeThresholdsHome : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeThresholdsHome(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeThresholdsHome Instance = new ProjectFirmaPageTypeThresholdsHome(10, @"ThresholdsHome", @"Thresholds Home Page Introduction", 5, 1);
     }
 
     public partial class ProjectFirmaPageTypeActionPrioritiesList : ProjectFirmaPageType
@@ -511,30 +485,6 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectFirmaPageTypeProjectUpdateStatus Instance = new ProjectFirmaPageTypeProjectUpdateStatus(42, @"ProjectUpdateStatus", @"Annual Project Update Status Report", 1, 1);
     }
 
-    public partial class ProjectFirmaPageTypeSIDAboutIntro : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeSIDAboutIntro(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeSIDAboutIntro Instance = new ProjectFirmaPageTypeSIDAboutIntro(43, @"SIDAboutIntro", @"About Sustainability Dashboard - Page Introduction", 2, 2);
-    }
-
-    public partial class ProjectFirmaPageTypeSIDAboutContent : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeSIDAboutContent(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeSIDAboutContent Instance = new ProjectFirmaPageTypeSIDAboutContent(44, @"SIDAboutContent", @"About Sustainability Dashboard - Page Content", 2, 2);
-    }
-
-    public partial class ProjectFirmaPageTypeSIDAboutFAQ : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeSIDAboutFAQ(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeSIDAboutFAQ Instance = new ProjectFirmaPageTypeSIDAboutFAQ(45, @"SIDAboutFAQ", @"About Sustainability Dashboard - FAQ", 2, 2);
-    }
-
-    public partial class ProjectFirmaPageTypeSIDHome : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeSIDHome(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeSIDHome Instance = new ProjectFirmaPageTypeSIDHome(46, @"SIDHome", @"Sustainability Dashboard Home Page Introduction", 2, 2);
-    }
-
     public partial class ProjectFirmaPageTypeLTInfoDataCenter : ProjectFirmaPageType
     {
         private ProjectFirmaPageTypeLTInfoDataCenter(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
@@ -547,15 +497,15 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectFirmaPageTypeLTInfoAbout Instance = new ProjectFirmaPageTypeLTInfoAbout(48, @"LTInfoAbout", @"About Lake Tahoe Info", 3, 2);
     }
 
-    public partial class ProjectFirmaPageTypeThresholdsTaxonomy : ProjectFirmaPageType
+    public partial class ProjectFirmaPageTypeThresholdCategoriesList : ProjectFirmaPageType
     {
-        private ProjectFirmaPageTypeThresholdsTaxonomy(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeThresholdsTaxonomy Instance = new ProjectFirmaPageTypeThresholdsTaxonomy(66, @"ThresholdsTaxonomy", @"Threshold Categories", 5, 1);
+        private ProjectFirmaPageTypeThresholdCategoriesList(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
+        public static readonly ProjectFirmaPageTypeThresholdCategoriesList Instance = new ProjectFirmaPageTypeThresholdCategoriesList(66, @"ThresholdCategoriesList", @"Threshold Categories List", 1, 1);
     }
 
     public partial class ProjectFirmaPageTypeMonitoringProgramsList : ProjectFirmaPageType
     {
         private ProjectFirmaPageTypeMonitoringProgramsList(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeMonitoringProgramsList Instance = new ProjectFirmaPageTypeMonitoringProgramsList(67, @"MonitoringProgramsList", @"Monitoring Programs", 5, 1);
+        public static readonly ProjectFirmaPageTypeMonitoringProgramsList Instance = new ProjectFirmaPageTypeMonitoringProgramsList(67, @"MonitoringProgramsList", @"Monitoring Programs", 1, 1);
     }
 }

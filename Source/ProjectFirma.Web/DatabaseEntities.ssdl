@@ -88,24 +88,10 @@
     <EntitySet Name="SnapshotSectorExpenditure" EntityType="ProjectFirma.Web.Models.Store.SnapshotSectorExpenditure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="StateProvince" EntityType="ProjectFirma.Web.Models.Store.StateProvince" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupportRequestLog" EntityType="ProjectFirma.Web.Models.Store.SupportRequestLog" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="SustainabilityAspect" EntityType="ProjectFirma.Web.Models.Store.SustainabilityAspect" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="SustainabilityIndicator" EntityType="ProjectFirma.Web.Models.Store.SustainabilityIndicator" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="SustainabilityIndicatorReported" EntityType="ProjectFirma.Web.Models.Store.SustainabilityIndicatorReported" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="SustainabilityIndicatorReportedSubcategoryOption" EntityType="ProjectFirma.Web.Models.Store.SustainabilityIndicatorReportedSubcategoryOption" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="SustainabilityIndicatorReportingPeriod" EntityType="ProjectFirma.Web.Models.Store.SustainabilityIndicatorReportingPeriod" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="SustainabilityPillar" EntityType="ProjectFirma.Web.Models.Store.SustainabilityPillar" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Tag" EntityType="ProjectFirma.Web.Models.Store.Tag" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ThresholdCategory" EntityType="ProjectFirma.Web.Models.Store.ThresholdCategory" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ThresholdCategoryImage" EntityType="ProjectFirma.Web.Models.Store.ThresholdCategoryImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ThresholdCategoryIndicator" EntityType="ProjectFirma.Web.Models.Store.ThresholdCategoryIndicator" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ThresholdEvaluation" EntityType="ProjectFirma.Web.Models.Store.ThresholdEvaluation" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ThresholdEvaluationPeriod" EntityType="ProjectFirma.Web.Models.Store.ThresholdEvaluationPeriod" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ThresholdIndicator" EntityType="ProjectFirma.Web.Models.Store.ThresholdIndicator" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ThresholdIndicatorImage" EntityType="ProjectFirma.Web.Models.Store.ThresholdIndicatorImage" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ThresholdIndicatorReported" EntityType="ProjectFirma.Web.Models.Store.ThresholdIndicatorReported" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ThresholdIndicatorReportedSubcategoryOption" EntityType="ProjectFirma.Web.Models.Store.ThresholdIndicatorReportedSubcategoryOption" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ThresholdIndicatorReportingPeriod" EntityType="ProjectFirma.Web.Models.Store.ThresholdIndicatorReportingPeriod" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ThresholdReportingCategory" EntityType="ProjectFirma.Web.Models.Store.ThresholdReportingCategory" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TransportationCostParameterSet" EntityType="ProjectFirma.Web.Models.Store.TransportationCostParameterSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TransportationGoal" EntityType="ProjectFirma.Web.Models.Store.TransportationGoal" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TransportationObjective" EntityType="ProjectFirma.Web.Models.Store.TransportationObjective" store:Type="Tables" Schema="dbo" />
@@ -307,14 +293,6 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
     </AssociationSet>
     <AssociationSet Name="FK_IndicatorSubcategory_Indicator_IndicatorID" Association="ProjectFirma.Web.Models.Store.FK_IndicatorSubcategory_Indicator_IndicatorID">
       <End Role="Indicator" EntitySet="Indicator" />
-      <End Role="IndicatorSubcategories" EntitySet="IndicatorSubcategory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorSubcategory_SustainabilityIndicator_SustainabilityIndicatorID" Association="ProjectFirma.Web.Models.Store.FK_IndicatorSubcategory_SustainabilityIndicator_SustainabilityIndicatorID">
-      <End Role="SustainabilityIndicator" EntitySet="SustainabilityIndicator" />
-      <End Role="IndicatorSubcategories" EntitySet="IndicatorSubcategory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorSubcategory_ThresholdIndicator_ThresholdIndicatorID" Association="ProjectFirma.Web.Models.Store.FK_IndicatorSubcategory_ThresholdIndicator_ThresholdIndicatorID">
-      <End Role="ThresholdIndicator" EntitySet="ThresholdIndicator" />
       <End Role="IndicatorSubcategories" EntitySet="IndicatorSubcategory" />
     </AssociationSet>
     <AssociationSet Name="FK_IndicatorSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_IndicatorSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
@@ -749,46 +727,6 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
       <End Role="RequestPerson" EntitySet="Person" />
       <End Role="SupportRequestLogsWhereYouAreTheRequestPerson" EntitySet="SupportRequestLog" />
     </AssociationSet>
-    <AssociationSet Name="FK_SustainabilityAspect_SustainabilityPillar_SustainabilityPillarID" Association="ProjectFirma.Web.Models.Store.FK_SustainabilityAspect_SustainabilityPillar_SustainabilityPillarID">
-      <End Role="SustainabilityPillar" EntitySet="SustainabilityPillar" />
-      <End Role="SustainabilityAspects" EntitySet="SustainabilityAspect" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SustainabilityIndicator_Indicator_IndicatorID" Association="ProjectFirma.Web.Models.Store.FK_SustainabilityIndicator_Indicator_IndicatorID">
-      <End Role="Indicator" EntitySet="Indicator" />
-      <End Role="SustainabilityIndicators" EntitySet="SustainabilityIndicator" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SustainabilityIndicator_SustainabilityAspect_SustainabilityAspectID" Association="ProjectFirma.Web.Models.Store.FK_SustainabilityIndicator_SustainabilityAspect_SustainabilityAspectID">
-      <End Role="SustainabilityAspect" EntitySet="SustainabilityAspect" />
-      <End Role="SustainabilityIndicators" EntitySet="SustainabilityIndicator" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SustainabilityIndicatorReported_SustainabilityIndicator_SustainabilityIndicatorID" Association="ProjectFirma.Web.Models.Store.FK_SustainabilityIndicatorReported_SustainabilityIndicator_SustainabilityIndicatorID">
-      <End Role="SustainabilityIndicator" EntitySet="SustainabilityIndicator" />
-      <End Role="SustainabilityIndicatorReporteds" EntitySet="SustainabilityIndicatorReported" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SustainabilityIndicatorReported_SustainabilityIndicatorReportingPeriod_SustainabilityIndicatorReportingPeriodID" Association="ProjectFirma.Web.Models.Store.FK_SustainabilityIndicatorReported_SustainabilityIndicatorReportingPeriod_SustainabilityIndicatorReportingPeriodID">
-      <End Role="SustainabilityIndicatorReportingPeriod" EntitySet="SustainabilityIndicatorReportingPeriod" />
-      <End Role="SustainabilityIndicatorReporteds" EntitySet="SustainabilityIndicatorReported" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SustainabilityIndicatorReportedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_SustainabilityIndicatorReportedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-      <End Role="IndicatorSubcategory" EntitySet="IndicatorSubcategory" />
-      <End Role="SustainabilityIndicatorReportedSubcategoryOptions" EntitySet="SustainabilityIndicatorReportedSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SustainabilityIndicatorReportedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" Association="ProjectFirma.Web.Models.Store.FK_SustainabilityIndicatorReportedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-      <End Role="IndicatorSubcategoryOption" EntitySet="IndicatorSubcategoryOption" />
-      <End Role="SustainabilityIndicatorReportedSubcategoryOptions" EntitySet="SustainabilityIndicatorReportedSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SustainabilityIndicatorReportedSubcategoryOption_SustainabilityIndicator_SustainabilityIndicatorID" Association="ProjectFirma.Web.Models.Store.FK_SustainabilityIndicatorReportedSubcategoryOption_SustainabilityIndicator_SustainabilityIndicatorID">
-      <End Role="SustainabilityIndicator" EntitySet="SustainabilityIndicator" />
-      <End Role="SustainabilityIndicatorReportedSubcategoryOptions" EntitySet="SustainabilityIndicatorReportedSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SustainabilityIndicatorReportedSubcategoryOption_SustainabilityIndicatorReported_SustainabilityIndicatorReportedID" Association="ProjectFirma.Web.Models.Store.FK_SustainabilityIndicatorReportedSubcategoryOption_SustainabilityIndicatorReported_SustainabilityIndicatorReportedID">
-      <End Role="SustainabilityIndicatorReported" EntitySet="SustainabilityIndicatorReported" />
-      <End Role="SustainabilityIndicatorReportedSubcategoryOptions" EntitySet="SustainabilityIndicatorReportedSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SustainabilityIndicatorReportingPeriod_SustainabilityIndicator_SustainabilityIndicatorID" Association="ProjectFirma.Web.Models.Store.FK_SustainabilityIndicatorReportingPeriod_SustainabilityIndicator_SustainabilityIndicatorID">
-      <End Role="SustainabilityIndicator" EntitySet="SustainabilityIndicator" />
-      <End Role="SustainabilityIndicatorReportingPeriods" EntitySet="SustainabilityIndicatorReportingPeriod" />
-    </AssociationSet>
     <AssociationSet Name="FK_ThresholdCategoryImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdCategoryImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="ThresholdCategoryImages" EntitySet="ThresholdCategoryImage" />
@@ -804,74 +742,6 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
     <AssociationSet Name="FK_ThresholdCategoryIndicator_ThresholdCategory_ThresholdCategoryID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdCategoryIndicator_ThresholdCategory_ThresholdCategoryID">
       <End Role="ThresholdCategory" EntitySet="ThresholdCategory" />
       <End Role="ThresholdCategoryIndicators" EntitySet="ThresholdCategoryIndicator" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdEvaluation_FileResource_HistoricEvaluationPdfFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdEvaluation_FileResource_HistoricEvaluationPdfFileResourceID_FileResourceID">
-      <End Role="HistoricEvaluationPdfFileResource" EntitySet="FileResource" />
-      <End Role="ThresholdEvaluationsWhereYouAreTheHistoricEvaluationPdfFileResource" EntitySet="ThresholdEvaluation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdEvaluation_FileResource_MapFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdEvaluation_FileResource_MapFileResourceID_FileResourceID">
-      <End Role="MapFileResource" EntitySet="FileResource" />
-      <End Role="ThresholdEvaluationsWhereYouAreTheMapFileResource" EntitySet="ThresholdEvaluation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdEvaluation_ThresholdEvaluationPeriod_ThresholdEvaluationPeriodID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdEvaluation_ThresholdEvaluationPeriod_ThresholdEvaluationPeriodID">
-      <End Role="ThresholdEvaluationPeriod" EntitySet="ThresholdEvaluationPeriod" />
-      <End Role="ThresholdEvaluations" EntitySet="ThresholdEvaluation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdEvaluation_ThresholdIndicator_ThresholdIndicatorID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdEvaluation_ThresholdIndicator_ThresholdIndicatorID">
-      <End Role="ThresholdIndicator" EntitySet="ThresholdIndicator" />
-      <End Role="ThresholdEvaluations" EntitySet="ThresholdEvaluation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdIndicator_FileResource_OptionalChartImageFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdIndicator_FileResource_OptionalChartImageFileResourceID_FileResourceID">
-      <End Role="OptionalChartImageFileResource" EntitySet="FileResource" />
-      <End Role="ThresholdIndicatorsWhereYouAreTheOptionalChartImageFileResource" EntitySet="ThresholdIndicator" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdIndicator_Indicator_IndicatorID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdIndicator_Indicator_IndicatorID">
-      <End Role="Indicator" EntitySet="Indicator" />
-      <End Role="ThresholdIndicators" EntitySet="ThresholdIndicator" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdIndicator_ThresholdReportingCategory_ThresholdReportingCategoryID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdIndicator_ThresholdReportingCategory_ThresholdReportingCategoryID">
-      <End Role="ThresholdReportingCategory" EntitySet="ThresholdReportingCategory" />
-      <End Role="ThresholdIndicators" EntitySet="ThresholdIndicator" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdIndicatorImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdIndicatorImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="ThresholdIndicatorImages" EntitySet="ThresholdIndicatorImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdIndicatorImage_ThresholdIndicator_ThresholdIndicatorID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdIndicatorImage_ThresholdIndicator_ThresholdIndicatorID">
-      <End Role="ThresholdIndicator" EntitySet="ThresholdIndicator" />
-      <End Role="ThresholdIndicatorImages" EntitySet="ThresholdIndicatorImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdIndicatorReported_ThresholdIndicator_ThresholdIndicatorID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdIndicatorReported_ThresholdIndicator_ThresholdIndicatorID">
-      <End Role="ThresholdIndicator" EntitySet="ThresholdIndicator" />
-      <End Role="ThresholdIndicatorReporteds" EntitySet="ThresholdIndicatorReported" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdIndicatorReported_ThresholdIndicatorReportingPeriod_ThresholdIndicatorReportingPeriodID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdIndicatorReported_ThresholdIndicatorReportingPeriod_ThresholdIndicatorReportingPeriodID">
-      <End Role="ThresholdIndicatorReportingPeriod" EntitySet="ThresholdIndicatorReportingPeriod" />
-      <End Role="ThresholdIndicatorReporteds" EntitySet="ThresholdIndicatorReported" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdIndicatorReportedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdIndicatorReportedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-      <End Role="IndicatorSubcategory" EntitySet="IndicatorSubcategory" />
-      <End Role="ThresholdIndicatorReportedSubcategoryOptions" EntitySet="ThresholdIndicatorReportedSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdIndicatorReportedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdIndicatorReportedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-      <End Role="IndicatorSubcategoryOption" EntitySet="IndicatorSubcategoryOption" />
-      <End Role="ThresholdIndicatorReportedSubcategoryOptions" EntitySet="ThresholdIndicatorReportedSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdIndicatorReportedSubcategoryOption_ThresholdIndicator_ThresholdIndicatorID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdIndicatorReportedSubcategoryOption_ThresholdIndicator_ThresholdIndicatorID">
-      <End Role="ThresholdIndicator" EntitySet="ThresholdIndicator" />
-      <End Role="ThresholdIndicatorReportedSubcategoryOptions" EntitySet="ThresholdIndicatorReportedSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdIndicatorReportedSubcategoryOption_ThresholdIndicatorReported_ThresholdIndicatorReportedID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdIndicatorReportedSubcategoryOption_ThresholdIndicatorReported_ThresholdIndicatorReportedID">
-      <End Role="ThresholdIndicatorReported" EntitySet="ThresholdIndicatorReported" />
-      <End Role="ThresholdIndicatorReportedSubcategoryOptions" EntitySet="ThresholdIndicatorReportedSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdIndicatorReportingPeriod_ThresholdIndicator_ThresholdIndicatorID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdIndicatorReportingPeriod_ThresholdIndicator_ThresholdIndicatorID">
-      <End Role="ThresholdIndicator" EntitySet="ThresholdIndicator" />
-      <End Role="ThresholdIndicatorReportingPeriods" EntitySet="ThresholdIndicatorReportingPeriod" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdReportingCategory_ThresholdCategory_ThresholdCategoryID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdReportingCategory_ThresholdCategory_ThresholdCategoryID">
-      <End Role="ThresholdCategory" EntitySet="ThresholdCategory" />
-      <End Role="ThresholdReportingCategories" EntitySet="ThresholdReportingCategory" />
     </AssociationSet>
     <AssociationSet Name="FK_TransportationObjective_TransportationStrategy_TransportationStrategyID" Association="ProjectFirma.Web.Models.Store.FK_TransportationObjective_TransportationStrategy_TransportationStrategyID">
       <End Role="TransportationStrategy" EntitySet="TransportationStrategy" />
@@ -1178,8 +1048,6 @@ warning 6035: The relationship 'FK_EIPPerformanceMeasureActualSubcategoryOptionU
 warning 6035: The relationship 'FK_EIPPerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID_EIPPerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_EIPPerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategory_IndicatorSubcategoryID_EIPPerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotEIPPerformanceMeasureSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID_EIPPerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_SustainabilityIndicatorReportedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID_SustainabilityIndicatorID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ThresholdIndicatorReportedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID_ThresholdIndicatorID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="IndicatorSubcategory">
     <Key>
@@ -1194,8 +1062,6 @@ warning 6035: The relationship 'FK_ThresholdIndicatorReportedSubcategoryOption_I
     <Property Name="ChartType" Type="varchar" MaxLength="100" />
     <Property Name="SwapChartAxes" Type="bit" />
     <Property Name="EIPPerformanceMeasureID" Type="int" />
-    <Property Name="SustainabilityIndicatorID" Type="int" />
-    <Property Name="ThresholdIndicatorID" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_EIPPerformanceMeasureActualSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubcategoryID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1203,8 +1069,6 @@ warning 6035: The relationship 'FK_EIPPerformanceMeasureActualSubcategoryOptionU
 warning 6035: The relationship 'FK_EIPPerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubcategoryID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_EIPPerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubca' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotEIPPerformanceMeasureSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubcategoryID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_SustainabilityIndicatorReportedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubcategory' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ThresholdIndicatorReportedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubcategoryID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="IndicatorSubcategoryOption">
     <Key>
@@ -1327,10 +1191,8 @@ warning 6035: The relationship 'FK_ThresholdIndicatorReportedSubcategoryOption_I
     <Property Name="LastActivityDate" Type="datetime" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="OrganizationID" Type="int" Nullable="false" />
-    <Property Name="SustainabilityRoleID" Type="int" Nullable="false" />
     <Property Name="LTInfoRoleID" Type="int" Nullable="false" />
     <Property Name="WebServiceAccessToken" Type="uniqueidentifier" />
-    <Property Name="ThresholdRoleID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PersonArea">
     <Key>
@@ -1888,75 +1750,6 @@ warning 6035: The relationship 'FK_SnapshotEIPPerformanceMeasureSubcategoryOptio
     <Property Name="RequestPersonOrganization" Type="varchar" MaxLength="500" />
     <Property Name="RequestPersonPhone" Type="varchar" MaxLength="50" />
   </EntityType>
-  <EntityType Name="SustainabilityAspect">
-    <Key>
-      <PropertyRef Name="SustainabilityAspectID" />
-    </Key>
-    <Property Name="SustainabilityAspectID" Type="int" Nullable="false" />
-    <Property Name="SustainabilityPillarID" Type="int" Nullable="false" />
-    <Property Name="SustainabilityAspectName" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="DisplayName" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="DisplayOrder" Type="int" Nullable="false" />
-    <Property Name="KeyImageFileName" Type="varchar" Nullable="false" MaxLength="255" />
-    <Property Name="Blurb" Type="varchar" Nullable="false" MaxLength="1000" />
-    <Property Name="OutroText" Type="varchar(max)" />
-    <Property Name="ActionIntroText" Type="varchar(max)" />
-    <Property Name="OutcomeIntroText" Type="varchar(max)" />
-  </EntityType>
-  <EntityType Name="SustainabilityIndicator">
-    <Key>
-      <PropertyRef Name="SustainabilityIndicatorID" />
-    </Key>
-    <Property Name="SustainabilityIndicatorID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="IndicatorID" Type="int" Nullable="false" />
-    <Property Name="SustainabilityAspectID" Type="int" Nullable="false" />
-    <Property Name="UseCustomDateRange" Type="bit" Nullable="false" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_SustainabilityIndicatorReportedSubcategoryOption_SustainabilityIndicatorReported_SustainabilityIndicatorReportedID_Sustainabi' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
-  <EntityType Name="SustainabilityIndicatorReported">
-    <Key>
-      <PropertyRef Name="SustainabilityIndicatorReportedID" />
-    </Key>
-    <Property Name="SustainabilityIndicatorReportedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="SustainabilityIndicatorID" Type="int" Nullable="false" />
-    <Property Name="SustainabilityIndicatorReportingPeriodID" Type="int" Nullable="false" />
-    <Property Name="ReportedValue" Type="float" Nullable="false" />
-  </EntityType>
-  <EntityType Name="SustainabilityIndicatorReportedSubcategoryOption">
-    <Key>
-      <PropertyRef Name="SustainabilityIndicatorReportedSubcategoryOptionID" />
-    </Key>
-    <Property Name="SustainabilityIndicatorReportedSubcategoryOptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="SustainabilityIndicatorReportedID" Type="int" Nullable="false" />
-    <Property Name="IndicatorSubcategoryOptionID" Type="int" Nullable="false" />
-    <Property Name="SustainabilityIndicatorID" Type="int" Nullable="false" />
-    <Property Name="IndicatorSubcategoryID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="SustainabilityIndicatorReportingPeriod">
-    <Key>
-      <PropertyRef Name="SustainabilityIndicatorReportingPeriodID" />
-    </Key>
-    <Property Name="SustainabilityIndicatorReportingPeriodID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="SustainabilityIndicatorID" Type="int" Nullable="false" />
-    <Property Name="SustainabilityIndicatorReportingPeriodBeginDate" Type="datetime" Nullable="false" />
-    <Property Name="SustainabilityIndicatorReportingPeriodEndDate" Type="datetime" />
-    <Property Name="SustainabilityIndicatorReportingPeriodLabel" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TargetValue" Type="float" />
-    <Property Name="TargetValueDescription" Type="varchar" MaxLength="100" />
-  </EntityType>
-  <EntityType Name="SustainabilityPillar">
-    <Key>
-      <PropertyRef Name="SustainabilityPillarID" />
-    </Key>
-    <Property Name="SustainabilityPillarID" Type="int" Nullable="false" />
-    <Property Name="SustainabilityPillarName" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="PillarAdjective" Type="varchar" Nullable="false" MaxLength="50" />
-    <Property Name="DisplayOrder" Type="int" Nullable="false" />
-    <Property Name="KeyImageFileName" Type="varchar" Nullable="false" MaxLength="255" />
-    <Property Name="KeyColor" Type="varchar" Nullable="false" MaxLength="20" />
-  </EntityType>
   <EntityType Name="Tag">
     <Key>
       <PropertyRef Name="TagID" />
@@ -1993,113 +1786,6 @@ warning 6035: The relationship 'FK_SustainabilityIndicatorReportedSubcategoryOpt
     <Property Name="ThresholdCategoryID" Type="int" Nullable="false" />
     <Property Name="IndicatorID" Type="int" Nullable="false" />
     <Property Name="IsPrimaryChart" Type="bit" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ThresholdEvaluation">
-    <Key>
-      <PropertyRef Name="ThresholdEvaluationID" />
-    </Key>
-    <Property Name="ThresholdEvaluationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ThresholdEvaluationPeriodID" Type="int" Nullable="false" />
-    <Property Name="ThresholdIndicatorID" Type="int" Nullable="false" />
-    <Property Name="ThresholdEvaluationStatusTypeID" Type="int" />
-    <Property Name="ThresholdEvaluationTrendTypeID" Type="int" />
-    <Property Name="ThresholdEvaluationConfidenceTypeID" Type="int" />
-    <Property Name="ThresholdEvaluationManagementStatusTypeID" Type="int" />
-    <Property Name="StatusRationale" Type="varchar" MaxLength="4000" />
-    <Property Name="TrendRationale" Type="varchar" MaxLength="4000" />
-    <Property Name="ConfidenceStatus" Type="varchar" MaxLength="4000" />
-    <Property Name="ConfidenceTrend" Type="varchar" MaxLength="4000" />
-    <Property Name="ConfidenceOverall" Type="varchar" MaxLength="4000" />
-    <Property Name="ProgramsAndActionsImplementedToImproveConditions" Type="varchar" />
-    <Property Name="EffectivenessOfProgramsAndActions" Type="varchar" />
-    <Property Name="InterimTarget" Type="varchar" MaxLength="4000" />
-    <Property Name="TargetAttainmentDate" Type="varchar" MaxLength="4000" />
-    <Property Name="AnalyticApproachRecommendation" Type="varchar" MaxLength="4000" />
-    <Property Name="MonitoringApproachRecommendation" Type="varchar" MaxLength="4000" />
-    <Property Name="ModificationOfTheThresholdStandardOrIndicator" Type="varchar" MaxLength="4000" />
-    <Property Name="AttainOrMaintainThreshold" Type="varchar" MaxLength="4000" />
-    <Property Name="MapFileResourceID" Type="int" />
-    <Property Name="MapCaption" Type="varchar" MaxLength="2000" />
-    <Property Name="HistoricEvaluationPdfFileResourceID" Type="int" />
-  </EntityType>
-  <EntityType Name="ThresholdEvaluationPeriod">
-    <Key>
-      <PropertyRef Name="ThresholdEvaluationPeriodID" />
-    </Key>
-    <Property Name="ThresholdEvaluationPeriodID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ThresholdEvaluationYear" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ThresholdIndicator">
-    <Key>
-      <PropertyRef Name="ThresholdIndicatorID" />
-    </Key>
-    <Property Name="ThresholdIndicatorID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="IndicatorID" Type="int" Nullable="false" />
-    <Property Name="ThresholdReportingCategoryID" Type="int" Nullable="false" />
-    <Property Name="UseCustomDateRange" Type="bit" Nullable="false" />
-    <Property Name="ThresholdStandardTypeID" Type="int" Nullable="false" />
-    <Property Name="ApplicableStandard" Type="varchar(max)" />
-    <Property Name="StandardNarrative" Type="varchar(max)" />
-    <Property Name="TRPAIndicator" Type="varchar(max)" />
-    <Property Name="Relevance" Type="varchar(max)" />
-    <Property Name="HumanAndEnvironmentalDrivers" Type="varchar(max)" />
-    <Property Name="OptionalChartImageFileResourceID" Type="int" />
-  </EntityType>
-  <EntityType Name="ThresholdIndicatorImage">
-    <Key>
-      <PropertyRef Name="ThresholdIndicatorImageID" />
-    </Key>
-    <Property Name="ThresholdIndicatorImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="FileResourceID" Type="int" Nullable="false" />
-    <Property Name="ThresholdIndicatorID" Type="int" Nullable="false" />
-    <Property Name="Caption" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="Credit" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="IsKeyPhoto" Type="bit" Nullable="false" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_ThresholdIndicatorReportedSubcategoryOption_ThresholdIndicatorReported_ThresholdIndicatorReportedID_ThresholdIndicatorID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
-  <EntityType Name="ThresholdIndicatorReported">
-    <Key>
-      <PropertyRef Name="ThresholdIndicatorReportedID" />
-    </Key>
-    <Property Name="ThresholdIndicatorReportedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ThresholdIndicatorID" Type="int" Nullable="false" />
-    <Property Name="ThresholdIndicatorReportingPeriodID" Type="int" Nullable="false" />
-    <Property Name="ReportedValue" Type="float" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ThresholdIndicatorReportedSubcategoryOption">
-    <Key>
-      <PropertyRef Name="ThresholdIndicatorReportedSubcategoryOptionID" />
-    </Key>
-    <Property Name="ThresholdIndicatorReportedSubcategoryOptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ThresholdIndicatorReportedID" Type="int" Nullable="false" />
-    <Property Name="IndicatorSubcategoryOptionID" Type="int" Nullable="false" />
-    <Property Name="ThresholdIndicatorID" Type="int" Nullable="false" />
-    <Property Name="IndicatorSubcategoryID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ThresholdIndicatorReportingPeriod">
-    <Key>
-      <PropertyRef Name="ThresholdIndicatorReportingPeriodID" />
-    </Key>
-    <Property Name="ThresholdIndicatorReportingPeriodID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ThresholdIndicatorID" Type="int" Nullable="false" />
-    <Property Name="ThresholdIndicatorReportingPeriodBeginDate" Type="datetime" Nullable="false" />
-    <Property Name="ThresholdIndicatorReportingPeriodEndDate" Type="datetime" />
-    <Property Name="ThresholdIndicatorReportingPeriodLabel" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TargetValue" Type="float" />
-    <Property Name="TargetValueDescription" Type="varchar" MaxLength="100" />
-  </EntityType>
-  <EntityType Name="ThresholdReportingCategory">
-    <Key>
-      <PropertyRef Name="ThresholdReportingCategoryID" />
-    </Key>
-    <Property Name="ThresholdReportingCategoryID" Type="int" Nullable="false" />
-    <Property Name="ThresholdCategoryID" Type="int" Nullable="false" />
-    <Property Name="ThresholdReportingCategoryName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="DisplayName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="DisplayOrder" Type="int" Nullable="false" />
-    <Property Name="Narrative" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="TransportationCostParameterSet">
     <Key>
@@ -2762,30 +2448,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
       </Principal>
       <Dependent Role="IndicatorSubcategories">
         <PropertyRef Name="IndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorSubcategory_SustainabilityIndicator_SustainabilityIndicatorID">
-    <End Role="SustainabilityIndicator" Type="ProjectFirma.Web.Models.Store.SustainabilityIndicator" Multiplicity="0..1" />
-    <End Role="IndicatorSubcategories" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SustainabilityIndicator">
-        <PropertyRef Name="SustainabilityIndicatorID" />
-      </Principal>
-      <Dependent Role="IndicatorSubcategories">
-        <PropertyRef Name="SustainabilityIndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorSubcategory_ThresholdIndicator_ThresholdIndicatorID">
-    <End Role="ThresholdIndicator" Type="ProjectFirma.Web.Models.Store.ThresholdIndicator" Multiplicity="0..1" />
-    <End Role="IndicatorSubcategories" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThresholdIndicator">
-        <PropertyRef Name="ThresholdIndicatorID" />
-      </Principal>
-      <Dependent Role="IndicatorSubcategories">
-        <PropertyRef Name="ThresholdIndicatorID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -4085,126 +3747,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_SustainabilityAspect_SustainabilityPillar_SustainabilityPillarID">
-    <End Role="SustainabilityPillar" Type="ProjectFirma.Web.Models.Store.SustainabilityPillar" Multiplicity="1" />
-    <End Role="SustainabilityAspects" Type="ProjectFirma.Web.Models.Store.SustainabilityAspect" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SustainabilityPillar">
-        <PropertyRef Name="SustainabilityPillarID" />
-      </Principal>
-      <Dependent Role="SustainabilityAspects">
-        <PropertyRef Name="SustainabilityPillarID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SustainabilityIndicator_Indicator_IndicatorID">
-    <End Role="Indicator" Type="ProjectFirma.Web.Models.Store.Indicator" Multiplicity="1" />
-    <End Role="SustainabilityIndicators" Type="ProjectFirma.Web.Models.Store.SustainabilityIndicator" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Indicator">
-        <PropertyRef Name="IndicatorID" />
-      </Principal>
-      <Dependent Role="SustainabilityIndicators">
-        <PropertyRef Name="IndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SustainabilityIndicator_SustainabilityAspect_SustainabilityAspectID">
-    <End Role="SustainabilityAspect" Type="ProjectFirma.Web.Models.Store.SustainabilityAspect" Multiplicity="1" />
-    <End Role="SustainabilityIndicators" Type="ProjectFirma.Web.Models.Store.SustainabilityIndicator" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SustainabilityAspect">
-        <PropertyRef Name="SustainabilityAspectID" />
-      </Principal>
-      <Dependent Role="SustainabilityIndicators">
-        <PropertyRef Name="SustainabilityAspectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SustainabilityIndicatorReported_SustainabilityIndicator_SustainabilityIndicatorID">
-    <End Role="SustainabilityIndicator" Type="ProjectFirma.Web.Models.Store.SustainabilityIndicator" Multiplicity="1" />
-    <End Role="SustainabilityIndicatorReporteds" Type="ProjectFirma.Web.Models.Store.SustainabilityIndicatorReported" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SustainabilityIndicator">
-        <PropertyRef Name="SustainabilityIndicatorID" />
-      </Principal>
-      <Dependent Role="SustainabilityIndicatorReporteds">
-        <PropertyRef Name="SustainabilityIndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SustainabilityIndicatorReported_SustainabilityIndicatorReportingPeriod_SustainabilityIndicatorReportingPeriodID">
-    <End Role="SustainabilityIndicatorReportingPeriod" Type="ProjectFirma.Web.Models.Store.SustainabilityIndicatorReportingPeriod" Multiplicity="1" />
-    <End Role="SustainabilityIndicatorReporteds" Type="ProjectFirma.Web.Models.Store.SustainabilityIndicatorReported" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SustainabilityIndicatorReportingPeriod">
-        <PropertyRef Name="SustainabilityIndicatorReportingPeriodID" />
-      </Principal>
-      <Dependent Role="SustainabilityIndicatorReporteds">
-        <PropertyRef Name="SustainabilityIndicatorReportingPeriodID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SustainabilityIndicatorReportedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-    <End Role="IndicatorSubcategory" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategory" Multiplicity="1" />
-    <End Role="SustainabilityIndicatorReportedSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.SustainabilityIndicatorReportedSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategory">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Principal>
-      <Dependent Role="SustainabilityIndicatorReportedSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SustainabilityIndicatorReportedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-    <End Role="IndicatorSubcategoryOption" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategoryOption" Multiplicity="1" />
-    <End Role="SustainabilityIndicatorReportedSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.SustainabilityIndicatorReportedSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategoryOption">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Principal>
-      <Dependent Role="SustainabilityIndicatorReportedSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SustainabilityIndicatorReportedSubcategoryOption_SustainabilityIndicator_SustainabilityIndicatorID">
-    <End Role="SustainabilityIndicator" Type="ProjectFirma.Web.Models.Store.SustainabilityIndicator" Multiplicity="1" />
-    <End Role="SustainabilityIndicatorReportedSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.SustainabilityIndicatorReportedSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SustainabilityIndicator">
-        <PropertyRef Name="SustainabilityIndicatorID" />
-      </Principal>
-      <Dependent Role="SustainabilityIndicatorReportedSubcategoryOptions">
-        <PropertyRef Name="SustainabilityIndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SustainabilityIndicatorReportedSubcategoryOption_SustainabilityIndicatorReported_SustainabilityIndicatorReportedID">
-    <End Role="SustainabilityIndicatorReported" Type="ProjectFirma.Web.Models.Store.SustainabilityIndicatorReported" Multiplicity="1" />
-    <End Role="SustainabilityIndicatorReportedSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.SustainabilityIndicatorReportedSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SustainabilityIndicatorReported">
-        <PropertyRef Name="SustainabilityIndicatorReportedID" />
-      </Principal>
-      <Dependent Role="SustainabilityIndicatorReportedSubcategoryOptions">
-        <PropertyRef Name="SustainabilityIndicatorReportedID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SustainabilityIndicatorReportingPeriod_SustainabilityIndicator_SustainabilityIndicatorID">
-    <End Role="SustainabilityIndicator" Type="ProjectFirma.Web.Models.Store.SustainabilityIndicator" Multiplicity="1" />
-    <End Role="SustainabilityIndicatorReportingPeriods" Type="ProjectFirma.Web.Models.Store.SustainabilityIndicatorReportingPeriod" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SustainabilityIndicator">
-        <PropertyRef Name="SustainabilityIndicatorID" />
-      </Principal>
-      <Dependent Role="SustainabilityIndicatorReportingPeriods">
-        <PropertyRef Name="SustainabilityIndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ThresholdCategoryImage_FileResource_FileResourceID">
     <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
     <End Role="ThresholdCategoryImages" Type="ProjectFirma.Web.Models.Store.ThresholdCategoryImage" Multiplicity="*" />
@@ -4249,210 +3791,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
         <PropertyRef Name="ThresholdCategoryID" />
       </Principal>
       <Dependent Role="ThresholdCategoryIndicators">
-        <PropertyRef Name="ThresholdCategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdEvaluation_FileResource_HistoricEvaluationPdfFileResourceID_FileResourceID">
-    <End Role="HistoricEvaluationPdfFileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="0..1" />
-    <End Role="ThresholdEvaluationsWhereYouAreTheHistoricEvaluationPdfFileResource" Type="ProjectFirma.Web.Models.Store.ThresholdEvaluation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="HistoricEvaluationPdfFileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="ThresholdEvaluationsWhereYouAreTheHistoricEvaluationPdfFileResource">
-        <PropertyRef Name="HistoricEvaluationPdfFileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdEvaluation_FileResource_MapFileResourceID_FileResourceID">
-    <End Role="MapFileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="0..1" />
-    <End Role="ThresholdEvaluationsWhereYouAreTheMapFileResource" Type="ProjectFirma.Web.Models.Store.ThresholdEvaluation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="MapFileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="ThresholdEvaluationsWhereYouAreTheMapFileResource">
-        <PropertyRef Name="MapFileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdEvaluation_ThresholdEvaluationPeriod_ThresholdEvaluationPeriodID">
-    <End Role="ThresholdEvaluationPeriod" Type="ProjectFirma.Web.Models.Store.ThresholdEvaluationPeriod" Multiplicity="1" />
-    <End Role="ThresholdEvaluations" Type="ProjectFirma.Web.Models.Store.ThresholdEvaluation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThresholdEvaluationPeriod">
-        <PropertyRef Name="ThresholdEvaluationPeriodID" />
-      </Principal>
-      <Dependent Role="ThresholdEvaluations">
-        <PropertyRef Name="ThresholdEvaluationPeriodID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdEvaluation_ThresholdIndicator_ThresholdIndicatorID">
-    <End Role="ThresholdIndicator" Type="ProjectFirma.Web.Models.Store.ThresholdIndicator" Multiplicity="1" />
-    <End Role="ThresholdEvaluations" Type="ProjectFirma.Web.Models.Store.ThresholdEvaluation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThresholdIndicator">
-        <PropertyRef Name="ThresholdIndicatorID" />
-      </Principal>
-      <Dependent Role="ThresholdEvaluations">
-        <PropertyRef Name="ThresholdIndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdIndicator_FileResource_OptionalChartImageFileResourceID_FileResourceID">
-    <End Role="OptionalChartImageFileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="0..1" />
-    <End Role="ThresholdIndicatorsWhereYouAreTheOptionalChartImageFileResource" Type="ProjectFirma.Web.Models.Store.ThresholdIndicator" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="OptionalChartImageFileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="ThresholdIndicatorsWhereYouAreTheOptionalChartImageFileResource">
-        <PropertyRef Name="OptionalChartImageFileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdIndicator_Indicator_IndicatorID">
-    <End Role="Indicator" Type="ProjectFirma.Web.Models.Store.Indicator" Multiplicity="1" />
-    <End Role="ThresholdIndicators" Type="ProjectFirma.Web.Models.Store.ThresholdIndicator" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Indicator">
-        <PropertyRef Name="IndicatorID" />
-      </Principal>
-      <Dependent Role="ThresholdIndicators">
-        <PropertyRef Name="IndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdIndicator_ThresholdReportingCategory_ThresholdReportingCategoryID">
-    <End Role="ThresholdReportingCategory" Type="ProjectFirma.Web.Models.Store.ThresholdReportingCategory" Multiplicity="1" />
-    <End Role="ThresholdIndicators" Type="ProjectFirma.Web.Models.Store.ThresholdIndicator" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThresholdReportingCategory">
-        <PropertyRef Name="ThresholdReportingCategoryID" />
-      </Principal>
-      <Dependent Role="ThresholdIndicators">
-        <PropertyRef Name="ThresholdReportingCategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdIndicatorImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
-    <End Role="ThresholdIndicatorImages" Type="ProjectFirma.Web.Models.Store.ThresholdIndicatorImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="ThresholdIndicatorImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdIndicatorImage_ThresholdIndicator_ThresholdIndicatorID">
-    <End Role="ThresholdIndicator" Type="ProjectFirma.Web.Models.Store.ThresholdIndicator" Multiplicity="1" />
-    <End Role="ThresholdIndicatorImages" Type="ProjectFirma.Web.Models.Store.ThresholdIndicatorImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThresholdIndicator">
-        <PropertyRef Name="ThresholdIndicatorID" />
-      </Principal>
-      <Dependent Role="ThresholdIndicatorImages">
-        <PropertyRef Name="ThresholdIndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdIndicatorReported_ThresholdIndicator_ThresholdIndicatorID">
-    <End Role="ThresholdIndicator" Type="ProjectFirma.Web.Models.Store.ThresholdIndicator" Multiplicity="1" />
-    <End Role="ThresholdIndicatorReporteds" Type="ProjectFirma.Web.Models.Store.ThresholdIndicatorReported" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThresholdIndicator">
-        <PropertyRef Name="ThresholdIndicatorID" />
-      </Principal>
-      <Dependent Role="ThresholdIndicatorReporteds">
-        <PropertyRef Name="ThresholdIndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdIndicatorReported_ThresholdIndicatorReportingPeriod_ThresholdIndicatorReportingPeriodID">
-    <End Role="ThresholdIndicatorReportingPeriod" Type="ProjectFirma.Web.Models.Store.ThresholdIndicatorReportingPeriod" Multiplicity="1" />
-    <End Role="ThresholdIndicatorReporteds" Type="ProjectFirma.Web.Models.Store.ThresholdIndicatorReported" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThresholdIndicatorReportingPeriod">
-        <PropertyRef Name="ThresholdIndicatorReportingPeriodID" />
-      </Principal>
-      <Dependent Role="ThresholdIndicatorReporteds">
-        <PropertyRef Name="ThresholdIndicatorReportingPeriodID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdIndicatorReportedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-    <End Role="IndicatorSubcategory" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategory" Multiplicity="1" />
-    <End Role="ThresholdIndicatorReportedSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.ThresholdIndicatorReportedSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategory">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Principal>
-      <Dependent Role="ThresholdIndicatorReportedSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdIndicatorReportedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-    <End Role="IndicatorSubcategoryOption" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategoryOption" Multiplicity="1" />
-    <End Role="ThresholdIndicatorReportedSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.ThresholdIndicatorReportedSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategoryOption">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Principal>
-      <Dependent Role="ThresholdIndicatorReportedSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdIndicatorReportedSubcategoryOption_ThresholdIndicator_ThresholdIndicatorID">
-    <End Role="ThresholdIndicator" Type="ProjectFirma.Web.Models.Store.ThresholdIndicator" Multiplicity="1" />
-    <End Role="ThresholdIndicatorReportedSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.ThresholdIndicatorReportedSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThresholdIndicator">
-        <PropertyRef Name="ThresholdIndicatorID" />
-      </Principal>
-      <Dependent Role="ThresholdIndicatorReportedSubcategoryOptions">
-        <PropertyRef Name="ThresholdIndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdIndicatorReportedSubcategoryOption_ThresholdIndicatorReported_ThresholdIndicatorReportedID">
-    <End Role="ThresholdIndicatorReported" Type="ProjectFirma.Web.Models.Store.ThresholdIndicatorReported" Multiplicity="1" />
-    <End Role="ThresholdIndicatorReportedSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.ThresholdIndicatorReportedSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThresholdIndicatorReported">
-        <PropertyRef Name="ThresholdIndicatorReportedID" />
-      </Principal>
-      <Dependent Role="ThresholdIndicatorReportedSubcategoryOptions">
-        <PropertyRef Name="ThresholdIndicatorReportedID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdIndicatorReportingPeriod_ThresholdIndicator_ThresholdIndicatorID">
-    <End Role="ThresholdIndicator" Type="ProjectFirma.Web.Models.Store.ThresholdIndicator" Multiplicity="1" />
-    <End Role="ThresholdIndicatorReportingPeriods" Type="ProjectFirma.Web.Models.Store.ThresholdIndicatorReportingPeriod" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThresholdIndicator">
-        <PropertyRef Name="ThresholdIndicatorID" />
-      </Principal>
-      <Dependent Role="ThresholdIndicatorReportingPeriods">
-        <PropertyRef Name="ThresholdIndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdReportingCategory_ThresholdCategory_ThresholdCategoryID">
-    <End Role="ThresholdCategory" Type="ProjectFirma.Web.Models.Store.ThresholdCategory" Multiplicity="1" />
-    <End Role="ThresholdReportingCategories" Type="ProjectFirma.Web.Models.Store.ThresholdReportingCategory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThresholdCategory">
-        <PropertyRef Name="ThresholdCategoryID" />
-      </Principal>
-      <Dependent Role="ThresholdReportingCategories">
         <PropertyRef Name="ThresholdCategoryID" />
       </Dependent>
     </ReferentialConstraint>

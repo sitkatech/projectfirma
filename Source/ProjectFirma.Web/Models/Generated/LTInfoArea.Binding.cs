@@ -17,9 +17,7 @@ namespace ProjectFirma.Web.Models
     public abstract partial class LTInfoArea : IHavePrimaryKey
     {
         public static readonly LTInfoAreaEIP EIP = LTInfoAreaEIP.Instance;
-        public static readonly LTInfoAreaSustainability Sustainability = LTInfoAreaSustainability.Instance;
         public static readonly LTInfoAreaLTInfo LTInfo = LTInfoAreaLTInfo.Instance;
-        public static readonly LTInfoAreaThreshold Threshold = LTInfoAreaThreshold.Instance;
 
         public static readonly List<LTInfoArea> All;
         public static readonly ReadOnlyDictionary<int, LTInfoArea> AllLookupDictionary;
@@ -29,7 +27,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static LTInfoArea()
         {
-            All = new List<LTInfoArea> { EIP, Sustainability, LTInfo, Threshold };
+            All = new List<LTInfoArea> { EIP, LTInfo };
             AllLookupDictionary = new ReadOnlyDictionary<int, LTInfoArea>(All.ToDictionary(x => x.LTInfoAreaID));
         }
 
@@ -48,8 +46,6 @@ namespace ProjectFirma.Web.Models
         public List<LTInfoRole> LTInfoRoles { get { return LTInfoRole.All.Where(x => x.LTInfoAreaID == LTInfoAreaID).ToList(); } }
         public List<ProjectFirmaPageType> ProjectFirmaPageTypesWhereYouAreThePrimaryLTInfoArea { get { return ProjectFirmaPageType.All.Where(x => x.PrimaryLTInfoAreaID == LTInfoAreaID).ToList(); } }
         public List<SupportRequestType> SupportRequestTypes { get { return SupportRequestType.All.Where(x => x.LTInfoAreaID == LTInfoAreaID).ToList(); } }
-        public List<SustainabilityRole> SustainabilityRoles { get { return SustainabilityRole.All.Where(x => x.LTInfoAreaID == LTInfoAreaID).ToList(); } }
-        public List<ThresholdRole> ThresholdRoles { get { return ThresholdRole.All.Where(x => x.LTInfoAreaID == LTInfoAreaID).ToList(); } }
         [Key]
         public int LTInfoAreaID { get; private set; }
         public string LTInfoAreaName { get; private set; }
@@ -110,10 +106,6 @@ namespace ProjectFirma.Web.Models
                     return EIP;
                 case LTInfoAreaEnum.LTInfo:
                     return LTInfo;
-                case LTInfoAreaEnum.Sustainability:
-                    return Sustainability;
-                case LTInfoAreaEnum.Threshold:
-                    return Threshold;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -123,9 +115,7 @@ namespace ProjectFirma.Web.Models
     public enum LTInfoAreaEnum
     {
         EIP = 1,
-        Sustainability = 2,
-        LTInfo = 3,
-        Threshold = 5
+        LTInfo = 3
     }
 
     public partial class LTInfoAreaEIP : LTInfoArea
@@ -134,21 +124,9 @@ namespace ProjectFirma.Web.Models
         public static readonly LTInfoAreaEIP Instance = new LTInfoAreaEIP(1, @"EIP", @"EIP Project Tracker", 20);
     }
 
-    public partial class LTInfoAreaSustainability : LTInfoArea
-    {
-        private LTInfoAreaSustainability(int lTInfoAreaID, string lTInfoAreaName, string lTInfoAreaDisplayName, int sortOrder) : base(lTInfoAreaID, lTInfoAreaName, lTInfoAreaDisplayName, sortOrder) {}
-        public static readonly LTInfoAreaSustainability Instance = new LTInfoAreaSustainability(2, @"Sustainability", @"Sustainability Dashboard", 30);
-    }
-
     public partial class LTInfoAreaLTInfo : LTInfoArea
     {
         private LTInfoAreaLTInfo(int lTInfoAreaID, string lTInfoAreaName, string lTInfoAreaDisplayName, int sortOrder) : base(lTInfoAreaID, lTInfoAreaName, lTInfoAreaDisplayName, sortOrder) {}
         public static readonly LTInfoAreaLTInfo Instance = new LTInfoAreaLTInfo(3, @"LTInfo", @"Lake Tahoe Info", 10);
-    }
-
-    public partial class LTInfoAreaThreshold : LTInfoArea
-    {
-        private LTInfoAreaThreshold(int lTInfoAreaID, string lTInfoAreaName, string lTInfoAreaDisplayName, int sortOrder) : base(lTInfoAreaID, lTInfoAreaName, lTInfoAreaDisplayName, sortOrder) {}
-        public static readonly LTInfoAreaThreshold Instance = new LTInfoAreaThreshold(5, @"Threshold", @"Threshold Dashboard", 50);
     }
 }

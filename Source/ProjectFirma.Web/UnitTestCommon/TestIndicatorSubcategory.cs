@@ -1,5 +1,4 @@
 ﻿using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.UnitTestCommon
 {
@@ -12,15 +11,6 @@ namespace ProjectFirma.Web.UnitTestCommon
                 var indicatorSubcategory = new IndicatorSubcategory(eipPerformanceMeasure.Indicator, indicatorSubcategoryName, indicatorSubcategoryName) { EIPPerformanceMeasure = eipPerformanceMeasure};
                 eipPerformanceMeasure.Indicator.IndicatorSubcategories.Add(indicatorSubcategory);
                 eipPerformanceMeasure.IndicatorSubcategories.Add(indicatorSubcategory);
-                return indicatorSubcategory;
-            }
-
-            public static IndicatorSubcategory Create(SustainabilityIndicator sustainabilityIndicator, string indicatorSubcategoryName)
-            {
-                var indicatorSubcategory = new IndicatorSubcategory(sustainabilityIndicator.Indicator, indicatorSubcategoryName, indicatorSubcategoryName) { SustainabilityIndicator = sustainabilityIndicator};
-                sustainabilityIndicator.Indicator.IndicatorSubcategories.Add(indicatorSubcategory);
-                sustainabilityIndicator.IndicatorSubcategories.Add(indicatorSubcategory);
-                indicatorSubcategory.ChartType = GoogleChartType.BarChart.ToString();
                 return indicatorSubcategory;
             }
 

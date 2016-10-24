@@ -26,7 +26,6 @@ namespace ProjectFirma.Web.Views.Indicator
         public readonly Dictionary<string, GoogleChartJson> GoogleChartJsonDictionary;
 
         public readonly bool HasChartData;
-        public readonly bool HasOptionalChartImage;
 
         public IndicatorChartViewData(Models.Indicator indicator, int width, int height, bool hyperlinkIndicatorName, ChartViewMode chartViewMode, List<int> projectIDs)
         {
@@ -49,14 +48,11 @@ namespace ProjectFirma.Web.Views.Indicator
             }
 
             HasChartData = GoogleChartJsonDictionary.Values.Any(x => x.GoogleChartDataTable.GoogleChartRowCs.Any());
-            HasOptionalChartImage = Indicator.ReportedInThresholdDashboard && Indicator.ThresholdIndicator.OptionalChartImageFileResourceID.HasValue;
         }
 
         public IndicatorChartViewData(Models.Indicator indicator, bool hyperlinkIndicatorName, ChartViewMode chartViewMode, List<int> projectIDs)
             : this(indicator, DefaultWidth, DefaultHeight, hyperlinkIndicatorName, chartViewMode, projectIDs)
         {
         }
-
-        
     }
 }

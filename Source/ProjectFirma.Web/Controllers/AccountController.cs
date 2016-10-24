@@ -53,9 +53,7 @@ namespace ProjectFirma.Web.Controllers
                     DateTime.Now,
                     true,
                     Organization.OrganizationIDUnknown,
-                    SustainabilityRole.Unassigned.SustainabilityRoleID,
-                    LTInfoRole.Unassigned.LTInfoRoleID,
-                    ThresholdRole.Unassigned.ThresholdRoleID);
+                    LTInfoRole.Unassigned.LTInfoRoleID);
                 HttpRequestStorage.DatabaseEntities.People.Add(person);
                 sendNewUserNotification = true;
             }

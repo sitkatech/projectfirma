@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Views.Shared;
@@ -53,40 +52,9 @@ namespace ProjectFirma.Web.Models
             get { return EIPPerformanceMeasure != null; }
         }
 
-        public bool ReportedInSustainabilityDashboard
-        {
-            get { return SustainabilityIndicator != null; }
-        }
-        
-        public bool ReportedInThresholdDashboard
-        {
-            get { return ThresholdIndicator != null; }
-        }
-
         public Dictionary<string, GoogleChartJson> GetGoogleChartJsonDictionary(List<int> projectIDs)
         {
-            List<GoogleChartJson> googleChartJsons;
-            if (EIPPerformanceMeasure != null)
-            {
-                googleChartJsons = EIPPerformanceMeasure.GetSubcategoriesAsGoogleChartJsons(EIPPerformanceMeasure, projectIDs);
-            }
-            else
-            {
-                GoogleChartDataTable googleChartDataTable;
-                if (SustainabilityIndicator != null)
-                {
-                    googleChartDataTable = IndicatorSubcategory.MakeGoogleChartDataTableForIndicatorWithOnlyOneSubcategoryAndNotReportedInEIP(SustainabilityIndicator);
-                }
-                else if (ThresholdIndicator != null)
-                {
-                    googleChartDataTable = IndicatorSubcategory.MakeGoogleChartDataTableForIndicatorWithOnlyOneSubcategoryAndNotReportedInEIP(ThresholdIndicator);
-                }
-                else
-                {
-                    throw new NotImplementedException(string.Format("Indicator {0} does not have any reportable data!", IndicatorDisplayName));
-                }
-                googleChartJsons = new List<GoogleChartJson> { IndicatorSubcategory.MakeGoogleChartJsonForIndicatorSubcategory(IndicatorSubcategories.Single(), googleChartDataTable) };
-            }
+            var googleChartJsons = EIPPerformanceMeasure.GetSubcategoriesAsGoogleChartJsons(EIPPerformanceMeasure, projectIDs);
             return googleChartJsons.ToDictionary(x => x.ChartName);
         }
 

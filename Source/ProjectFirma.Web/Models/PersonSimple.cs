@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PersonSimple(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int eIPRoleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, int sustainabilityRoleID, int lTInfoRoleID, Guid? webServiceAccessToken)
+        public PersonSimple(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int eIPRoleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, int lTInfoRoleID, Guid? webServiceAccessToken)
             : this()
         {
             PersonID = personID;
@@ -30,7 +30,6 @@ namespace ProjectFirma.Web.Models
             LastActivityDate = lastActivityDate;
             IsActive = isActive;
             OrganizationID = organizationID;
-            SustainabilityRoleID = sustainabilityRoleID;
             LTInfoRoleID = lTInfoRoleID;
             WebServiceAccessToken = webServiceAccessToken;
         }
@@ -54,7 +53,6 @@ namespace ProjectFirma.Web.Models
             LastActivityDate = person.LastActivityDate;
             IsActive = person.IsActive;
             OrganizationID = person.OrganizationID;
-            SustainabilityRoleID = person.SustainabilityRoleID;
             LTInfoRoleID = person.LTInfoRoleID;
             WebServiceAccessToken = person.WebServiceAccessToken;
         }
@@ -72,7 +70,6 @@ namespace ProjectFirma.Web.Models
         public DateTime? LastActivityDate { get; set; }
         public bool IsActive { get; set; }
         public int OrganizationID { get; set; }
-        public int SustainabilityRoleID { get; set; }
         public int LTInfoRoleID { get; set; }
         public Guid? WebServiceAccessToken { get; set; }
         public string DisplayName

@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Person(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int eIPRoleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, int sustainabilityRoleID, int lTInfoRoleID, Guid? webServiceAccessToken, int thresholdRoleID) : this()
+        public Person(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int eIPRoleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, int lTInfoRoleID, Guid? webServiceAccessToken) : this()
         {
             this.PersonID = personID;
             this.PersonGuid = personGuid;
@@ -61,16 +61,14 @@ namespace ProjectFirma.Web.Models
             this.LastActivityDate = lastActivityDate;
             this.IsActive = isActive;
             this.OrganizationID = organizationID;
-            this.SustainabilityRoleID = sustainabilityRoleID;
             this.LTInfoRoleID = lTInfoRoleID;
             this.WebServiceAccessToken = webServiceAccessToken;
-            this.ThresholdRoleID = thresholdRoleID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Person(Guid personGuid, string firstName, string lastName, string email, int eIPRoleID, DateTime createDate, bool isActive, int organizationID, int sustainabilityRoleID, int lTInfoRoleID, int thresholdRoleID) : this()
+        public Person(Guid personGuid, string firstName, string lastName, string email, int eIPRoleID, DateTime createDate, bool isActive, int organizationID, int lTInfoRoleID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -83,15 +81,13 @@ namespace ProjectFirma.Web.Models
             this.CreateDate = createDate;
             this.IsActive = isActive;
             this.OrganizationID = organizationID;
-            this.SustainabilityRoleID = sustainabilityRoleID;
             this.LTInfoRoleID = lTInfoRoleID;
-            this.ThresholdRoleID = thresholdRoleID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Person(Guid personGuid, string firstName, string lastName, string email, EIPRole eIPRole, DateTime createDate, bool isActive, Organization organization, SustainabilityRole sustainabilityRole, LTInfoRole lTInfoRole, ThresholdRole thresholdRole) : this()
+        public Person(Guid personGuid, string firstName, string lastName, string email, EIPRole eIPRole, DateTime createDate, bool isActive, Organization organization, LTInfoRole lTInfoRole) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -105,17 +101,15 @@ namespace ProjectFirma.Web.Models
             this.OrganizationID = organization.OrganizationID;
             this.Organization = organization;
             organization.People.Add(this);
-            this.SustainabilityRoleID = sustainabilityRole.SustainabilityRoleID;
             this.LTInfoRoleID = lTInfoRole.LTInfoRoleID;
-            this.ThresholdRoleID = thresholdRole.ThresholdRoleID;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static Person CreateNewBlank(EIPRole eIPRole, Organization organization, SustainabilityRole sustainabilityRole, LTInfoRole lTInfoRole, ThresholdRole thresholdRole)
+        public static Person CreateNewBlank(EIPRole eIPRole, Organization organization, LTInfoRole lTInfoRole)
         {
-            return new Person(default(Guid), default(string), default(string), default(string), eIPRole, default(DateTime), default(bool), organization, sustainabilityRole, lTInfoRole, thresholdRole);
+            return new Person(default(Guid), default(string), default(string), default(string), eIPRole, default(DateTime), default(bool), organization, lTInfoRole);
         }
 
         /// <summary>
@@ -146,10 +140,8 @@ namespace ProjectFirma.Web.Models
         public DateTime? LastActivityDate { get; set; }
         public bool IsActive { get; set; }
         public int OrganizationID { get; set; }
-        public int SustainabilityRoleID { get; set; }
         public int LTInfoRoleID { get; set; }
         public Guid? WebServiceAccessToken { get; set; }
-        public int ThresholdRoleID { get; set; }
         public int PrimaryKey { get { return PersonID; } set { PersonID = value; } }
 
         public virtual ICollection<AuditLog> AuditLogs { get; set; }
@@ -172,9 +164,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<SupportRequestLog> SupportRequestLogsWhereYouAreTheRequestPerson { get; set; }
         public EIPRole EIPRole { get { return EIPRole.AllLookupDictionary[EIPRoleID]; } }
         public virtual Organization Organization { get; set; }
-        public SustainabilityRole SustainabilityRole { get { return SustainabilityRole.AllLookupDictionary[SustainabilityRoleID]; } }
         public LTInfoRole LTInfoRole { get { return LTInfoRole.AllLookupDictionary[LTInfoRoleID]; } }
-        public ThresholdRole ThresholdRole { get { return ThresholdRole.AllLookupDictionary[ThresholdRoleID]; } }
 
         public static class FieldLengths
         {

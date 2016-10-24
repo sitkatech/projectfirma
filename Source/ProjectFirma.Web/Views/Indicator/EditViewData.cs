@@ -7,13 +7,11 @@ namespace ProjectFirma.Web.Views.Indicator
     {
         public readonly IEnumerable<SelectListItem> MeasurementUnitTypes;
         public readonly IEnumerable<SelectListItem> IndicatorTypes;
-        public readonly bool ReportedInThresholdDashboard;
 
-        public EditViewData(IEnumerable<SelectListItem> measurementUnitTypes, IEnumerable<SelectListItem> indicatorTypes, bool reportedInThresholdDashboard)
+        public EditViewData(IEnumerable<SelectListItem> measurementUnitTypes, IEnumerable<SelectListItem> indicatorTypes)
         {
             MeasurementUnitTypes = measurementUnitTypes;
             IndicatorTypes = indicatorTypes;
-            ReportedInThresholdDashboard = reportedInThresholdDashboard;
         }
     }
 }

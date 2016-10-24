@@ -64,10 +64,8 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditRolesViewModel viewModel)
         { 
             var eipRolesAsSelectListItems = EIPRole.All.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture), x => x.RoleDisplayName);
-            var sustainabilityRolesAsSelectListItems = SustainabilityRole.All.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture), x => x.RoleDisplayName);
             var ltInfoRolesAsSelectListItems = LTInfoRole.All.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture), x => x.RoleDisplayName);
-            var thresholdRolesAsSelectListItems = ThresholdRole.All.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture), x => x.RoleDisplayName);
-            var viewData = new EditRolesViewData(eipRolesAsSelectListItems, sustainabilityRolesAsSelectListItems, ltInfoRolesAsSelectListItems, thresholdRolesAsSelectListItems);
+            var viewData = new EditRolesViewData(eipRolesAsSelectListItems, ltInfoRolesAsSelectListItems);
             return RazorPartialView<EditRoles, EditRolesViewData, EditRolesViewModel>(viewData, viewModel);
         }
 

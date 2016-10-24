@@ -29,9 +29,7 @@ namespace ProjectFirma.Web.Models
             this.IndicatorRelationships = new HashSet<IndicatorRelationship>();
             this.IndicatorRelationshipsWhereYouAreTheRelatedIndicator = new HashSet<IndicatorRelationship>();
             this.IndicatorSubcategories = new HashSet<IndicatorSubcategory>();
-            this.SustainabilityIndicators = new HashSet<SustainabilityIndicator>();
             this.ThresholdCategoryIndicators = new HashSet<ThresholdCategoryIndicator>();
-            this.ThresholdIndicators = new HashSet<ThresholdIndicator>();
         }
 
         /// <summary>
@@ -99,13 +97,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return (EIPPerformanceMeasure != null) || IndicatorMonitoringPrograms.Any() || IndicatorNotes.Any() || IndicatorRelationships.Any() || IndicatorRelationshipsWhereYouAreTheRelatedIndicator.Any() || IndicatorSubcategories.Any() || (SustainabilityIndicator != null) || ThresholdCategoryIndicators.Any() || (ThresholdIndicator != null);
+            return (EIPPerformanceMeasure != null) || IndicatorMonitoringPrograms.Any() || IndicatorNotes.Any() || IndicatorRelationships.Any() || IndicatorRelationshipsWhereYouAreTheRelatedIndicator.Any() || IndicatorSubcategories.Any() || ThresholdCategoryIndicators.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Indicator).Name, typeof(EIPPerformanceMeasure).Name, typeof(IndicatorMonitoringProgram).Name, typeof(IndicatorNote).Name, typeof(IndicatorRelationship).Name, typeof(IndicatorSubcategory).Name, typeof(SustainabilityIndicator).Name, typeof(ThresholdCategoryIndicator).Name, typeof(ThresholdIndicator).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Indicator).Name, typeof(EIPPerformanceMeasure).Name, typeof(IndicatorMonitoringProgram).Name, typeof(IndicatorNote).Name, typeof(IndicatorRelationship).Name, typeof(IndicatorSubcategory).Name, typeof(ThresholdCategoryIndicator).Name};
 
         [Key]
         public int IndicatorID { get; set; }
@@ -142,11 +140,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<IndicatorRelationship> IndicatorRelationships { get; set; }
         public virtual ICollection<IndicatorRelationship> IndicatorRelationshipsWhereYouAreTheRelatedIndicator { get; set; }
         public virtual ICollection<IndicatorSubcategory> IndicatorSubcategories { get; set; }
-        protected virtual ICollection<SustainabilityIndicator> SustainabilityIndicators { get; set; }
-        public SustainabilityIndicator SustainabilityIndicator { get { return SustainabilityIndicators.SingleOrDefault(); } set { SustainabilityIndicators = new List<SustainabilityIndicator>{value};} }
         public virtual ICollection<ThresholdCategoryIndicator> ThresholdCategoryIndicators { get; set; }
-        protected virtual ICollection<ThresholdIndicator> ThresholdIndicators { get; set; }
-        public ThresholdIndicator ThresholdIndicator { get { return ThresholdIndicators.SingleOrDefault(); } set { ThresholdIndicators = new List<ThresholdIndicator>{value};} }
         public MeasurementUnitType MeasurementUnitType { get { return MeasurementUnitType.AllLookupDictionary[MeasurementUnitTypeID]; } }
         public IndicatorType IndicatorType { get { return IndicatorType.AllLookupDictionary[IndicatorTypeID]; } }
 

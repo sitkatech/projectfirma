@@ -1,8 +1,5 @@
-using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Areas.EIP.Security;
-using ProjectFirma.Web.Areas.Threshold.Security;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Home;
 using ProjectFirma.Web.Security.Shared;
 using Error = ProjectFirma.Web.Views.Shared.Error;
@@ -26,9 +23,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult Index()
         {
-            var sustainabilityPillars = HttpRequestStorage.DatabaseEntities.SustainabilityPillars.ToList();
-            var userCanViewThresholds = new ThresholdIndicatorViewFeature().HasPermissionByPerson(CurrentPerson);
-            var viewData = new IndexViewData(CurrentPerson, sustainabilityPillars, userCanViewThresholds);
+            var viewData = new IndexViewData(CurrentPerson);
             return RazorView<Index, IndexViewData>(viewData);
         }
 

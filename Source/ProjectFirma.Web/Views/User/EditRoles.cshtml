@@ -44,32 +44,6 @@
                 @Html.ValidationMessageFor(m => m.ShouldReceiveEIPProjectTrackerSupportEmails)
             </td>
         </tr>
-        <tr>
-            <th>
-                @LTInfoArea.Sustainability.LTInfoAreaDisplayName
-            </th>
-            <td>
-                @Html.DropDownListFor(m => m.SustainabilityRoleID, ViewDataTyped.SustainabilityRoles, new { style = "width:100%" })
-                @Html.ValidationMessageFor(m => m.SustainabilityRoleID)
-            </td>
-            <td style="text-align: center">
-                @Html.CheckBoxFor(m => m.ShouldReceiveSustainabilityDashboardSupportEmails)
-                @Html.ValidationMessageFor(m => m.ShouldReceiveSustainabilityDashboardSupportEmails)
-            </td>
-        </tr>
-        <tr>
-            <th>
-                @LTInfoArea.Threshold.LTInfoAreaDisplayName
-            </th>
-            <td>
-                @Html.DropDownListFor(m => m.ThresholdRoleID, ViewDataTyped.ThresholdRoles, new { style = "width:100%" })
-                @Html.ValidationMessageFor(m => m.ThresholdRoleID)
-            </td>
-            <td style="text-align: center">
-                @Html.CheckBoxFor(m => m.ShouldReceiveThresholdDashboardSupportEmails)
-                @Html.ValidationMessageFor(m => m.ShouldReceiveThresholdDashboardSupportEmails)
-            </td>
-        </tr>
     </table>
 
 

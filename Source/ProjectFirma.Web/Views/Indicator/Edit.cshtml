@@ -33,18 +33,6 @@
                 </div>
             </div>
         </div>
-        @if (ViewDataTyped.ReportedInThresholdDashboard)
-        {
-            <div class="row" style="padding-top: 5px">
-                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(x => x.TRPAIndicator):</div>
-                <div class="col-md-8">
-                    <div style="max-height: 200px; overflow-y: auto">
-                        @Html.TextAreaWithMaxLengthFor(m => m.TRPAIndicator, new TextAreaForExtensions.TextAreaDimensions(null, 2), null)
-                        @Html.ValidationMessageFor(m => m.TRPAIndicator)
-                    </div>
-                </div>
-            </div>
-        }
     </div>
     @Html.HiddenFor(m => m.IndicatorID)
 }
