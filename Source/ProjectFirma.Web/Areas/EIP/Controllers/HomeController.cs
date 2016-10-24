@@ -1,14 +1,8 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using ProjectFirma.Web.Areas.EIP.Security;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
 using LtInfo.Common;
-using ProjectFirma.Web.Areas.EIP.Views.Home;
-using ProjectFirma.Web.Areas.EIP.Views.Map;
 using ProjectFirma.Web.Areas.EIP.Views.Shared;
-using ProjectFirma.Web.Areas.EIP.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Security.Shared;
 
 namespace ProjectFirma.Web.Areas.EIP.Controllers
