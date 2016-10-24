@@ -10,25 +10,25 @@
     @RenderSection("JavascriptAndStylesContent", false)
 }
 
-<div style="padding: 0 20px; clear: both; margin: 5px 0 20px 0">
+<div class="container">
     @if (!string.IsNullOrWhiteSpace(ViewDataTyped.EntityName))
     {
-        <div class="entityName">@ViewDataTyped.EntityName</div>
+        <div>@ViewDataTyped.EntityName</div>
     }
-    <div style="float: right;">
+    <div>
         @RenderSection("RightOfPageTitle", false)
     </div>
-    <h1 class="pageTitle">@ViewDataTyped.PageTitle</h1>
+    <h1>@ViewDataTyped.PageTitle</h1>
 
     @if (TempData.ContainsKey(SitkaController.StatusErrorIndex))
     {
-        <div class="validationWarning">
+        <div>
             @Html.Raw(TempData[SitkaController.StatusErrorIndex])
         </div>
     }
     @if (TempData.ContainsKey(SitkaController.StatusMessageIndex))
     {
-        <div class="greenLight">
+        <div>
             @Html.Raw(TempData[SitkaController.StatusMessageIndex])
         </div>
     }

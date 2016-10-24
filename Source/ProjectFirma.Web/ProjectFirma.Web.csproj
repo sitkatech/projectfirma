@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -1560,11 +1560,62 @@
     <Content Include="Content\bootstrap-toc\bootstrap-toc.min.js">
       <DependentUpon>bootstrap-toc.js</DependentUpon>
     </Content>
-    <Content Include="Content\css\ltinfo-root.theme.css" />
-    <Content Include="Content\css\ltinfo-root.theme.min.css">
-      <DependentUpon>ltinfo-root.theme.css</DependentUpon>
+    <Content Include="Content\Bootstrap\firma\bootstrap.firma.base.css">
+      <DependentUpon>bootstrap.firma.base.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\bootstrap.firma.base.min.css">
+      <DependentUpon>bootstrap.firma.base.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.css">
+      <DependentUpon>bootstrap.firma.theme.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.min.css">
+      <DependentUpon>bootstrap.firma.theme.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\bootstrap.ltinfo.base.css">
+      <DependentUpon>bootstrap.firma.base.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\bootstrap.ltinfo.base.min.css">
+      <DependentUpon>bootstrap.ltinfo.base.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\bootstrap.ltinfo.theme.css">
+      <DependentUpon>bootstrap.firma.theme.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\bootstrap.ltinfo.theme.min.css">
+      <DependentUpon>bootstrap.ltinfo.theme.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\bootstrap.ltinfo.variables.css">
+      <DependentUpon>bootstrap.firma.variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\bootstrap.ltinfo.variables.min.css">
+      <DependentUpon>bootstrap.ltinfo.variables.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\glyphicons-filetypes.css">
+      <DependentUpon>glyphicons-filetypes.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\glyphicons-filetypes.min.css">
+      <DependentUpon>glyphicons-filetypes.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\glyphicons-regular.css">
+      <DependentUpon>glyphicons-regular.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\glyphicons-regular.min.css">
+      <DependentUpon>glyphicons-regular.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\glyphicons-social.css">
+      <DependentUpon>glyphicons-social.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\glyphicons-social.min.css">
+      <DependentUpon>glyphicons-social.css</DependentUpon>
+    </Content>
+    <Content Include="Content\css\jquery.ui.firma.min.css">
+      <DependentUpon>jquery.ui.firma.css</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap-toc\bootstrap-toc.js" />
+    <Content Include="Content\img\ProjectFirma_Logo_2016_FNL.width-600.png" />
+    <Content Include="Content\qtip\jquery.qtip.firma.min.css">
+      <DependentUpon>jquery.qtip.firma.css</DependentUpon>
+    </Content>
     <Content Include="Security\ProjectFirmaFeatureTest.AdministratorsCanAccessAllFeaturesAndUnassignedCantAccessAnyFeatures.approved.txt" />
     <Content Include="Security\ProjectFirmaFeatureTest.EachControllerActionShouldUseAreaBaseFeature.approved.txt" />
     <Content Include="Views\EIPPerformanceMeasureActual\EIPPerformanceMeasureActualController.js" />
@@ -1610,20 +1661,11 @@
       <DependentUpon>ProjectFirmaMaps.ParcelSearch.js</DependentUpon>
     </Content>
     <Content Include="Views\MonitoringProgramPartner\MonitoringProgramPartnerController.js" />
-    <Content Include="Content\Bootstrap\ltinfo\bootstrap.ltinfo.variables.css">
-      <DependentUpon>bootstrap.ltinfo.variables.less</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\ltinfo\bootstrap.ltinfo.variables.min.css">
-      <DependentUpon>bootstrap.ltinfo.variables.css</DependentUpon>
-    </Content>
     <Content Include="Content\css\dhtmlxgrid_ltinfo_skin.min.css">
       <DependentUpon>dhtmlxgrid_ltinfo_skin.css</DependentUpon>
     </Content>
     <Content Include="Content\css\EIPProjectWizard.css" />
-    <Content Include="Content\css\jquery.ui.ltinfo.css" />
-    <Content Include="Content\css\jquery.ui.ltinfo.min.css">
-      <DependentUpon>jquery.ui.ltinfo.css</DependentUpon>
-    </Content>
+    <Content Include="Content\css\jquery.ui.firma.css" />
     <Content Include="Content\img\apple-touch-icon-114x114.png" />
     <Content Include="Content\img\apple-touch-icon-120x120.png" />
     <Content Include="Content\img\apple-touch-icon-144x144.png" />
@@ -1645,10 +1687,7 @@
     <Content Include="Content\img\mstile-310x150.png" />
     <Content Include="Content\img\mstile-310x310.png" />
     <Content Include="Content\img\mstile-70x70.png" />
-    <Content Include="Content\qtip\jquery.qtip.ltinfo.css" />
-    <Content Include="Content\qtip\jquery.qtip.ltinfo.min.css">
-      <DependentUpon>jquery.qtip.ltinfo.css</DependentUpon>
-    </Content>
+    <Content Include="Content\qtip\jquery.qtip.firma.css" />
     <Content Include="Content\qtip\jquery.qtip.validation.min.js">
       <DependentUpon>jquery.qtip.validation.js</DependentUpon>
     </Content>
@@ -1864,36 +1903,6 @@
     <Content Include="Content\Bootstrap\fonts\glyphicons\glyphicons-filetypes-regular.svg" />
     <Content Include="Content\Bootstrap\fonts\glyphicons\glyphicons-regular.svg" />
     <Content Include="Content\Bootstrap\fonts\glyphicons\glyphicons-social-regular.svg" />
-    <Content Include="Content\Bootstrap\ltinfo\bootstrap.ltinfo.base.css">
-      <DependentUpon>bootstrap.ltinfo.base.less</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\ltinfo\bootstrap.ltinfo.base.min.css">
-      <DependentUpon>bootstrap.ltinfo.base.css</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\ltinfo\bootstrap.ltinfo.theme.css">
-      <DependentUpon>bootstrap.ltinfo.theme.less</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\ltinfo\bootstrap.ltinfo.theme.min.css">
-      <DependentUpon>bootstrap.ltinfo.theme.css</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\ltinfo\glyphicons-filetypes.css">
-      <DependentUpon>glyphicons-filetypes.less</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\ltinfo\glyphicons-filetypes.min.css">
-      <DependentUpon>glyphicons-filetypes.css</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\ltinfo\glyphicons-regular.css">
-      <DependentUpon>glyphicons-regular.less</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\ltinfo\glyphicons-regular.min.css">
-      <DependentUpon>glyphicons-regular.css</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\ltinfo\glyphicons-social.css">
-      <DependentUpon>glyphicons-social.less</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\ltinfo\glyphicons-social.min.css">
-      <DependentUpon>glyphicons-social.css</DependentUpon>
-    </Content>
     <Content Include="Content\img\eip-logo-appheader-horizontal.png" />
     <Content Include="Content\JQuery\jquery.blockUI.min.js">
       <DependentUpon>jquery.blockUI.js</DependentUpon>
@@ -2275,27 +2284,6 @@
     <Content Include="Content\Bootstrap\fonts\glyphicons\glyphicons-social-regular.eot" />
     <Content Include="Content\Bootstrap\fonts\glyphicons\glyphicons-social-regular.ttf" />
     <Content Include="Content\Bootstrap\fonts\glyphicons\glyphicons-social-regular.woff" />
-    <Content Include="Content\Bootstrap\ltinfo\bootstrap.ltinfo.base.less" />
-    <Content Include="Content\Bootstrap\ltinfo\bootstrap.ltinfo.theme.less" />
-    <Content Include="Content\Bootstrap\ltinfo\bootstrap.ltinfo.variables.less" />
-    <Content Include="Content\Bootstrap\ltinfo\glyphicons-filetypes.less" />
-    <Content Include="Content\Bootstrap\ltinfo\glyphicons-regular.less" />
-    <Content Include="Content\Bootstrap\ltinfo\glyphicons-social.less" />
-    <Content Include="Content\Bootstrap\ltinfo\bootstrap.ltinfo.base.css.map">
-      <DependentUpon>bootstrap.ltinfo.base.css</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\ltinfo\bootstrap.ltinfo.theme.css.map">
-      <DependentUpon>bootstrap.ltinfo.theme.css</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\ltinfo\glyphicons-filetypes.css.map">
-      <DependentUpon>glyphicons-filetypes.css</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\ltinfo\glyphicons-regular.css.map">
-      <DependentUpon>glyphicons-regular.css</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\ltinfo\glyphicons-social.css.map">
-      <DependentUpon>glyphicons-social.css</DependentUpon>
-    </Content>
     <Content Include="Content\Bootstrap\bootstrap-3.3.5\dist\css\bootstrap-theme.css.map" />
     <Content Include="Content\Bootstrap\bootstrap-3.3.5\dist\css\bootstrap.css.map" />
     <Content Include="Content\Bootstrap\bootstrap-3.3.5\dist\fonts\glyphicons-halflings-regular.eot" />
@@ -2439,9 +2427,6 @@
     <Content Include="Views\LtInfoMenuItemTest.CanRenderNestedMenuTest.approved.txt" />
     <Content Include="Views\LtInfoMenuItemTest.CanRenderSimpleMenuTest.approved.txt" />
     <Content Include="Views\ProjectFirmaPage\Edit.cshtml" />
-    <Content Include="Content\Bootstrap\ltinfo\bootstrap.ltinfo.variables.css.map">
-      <DependentUpon>bootstrap.ltinfo.variables.css</DependentUpon>
-    </Content>
     <Content Include="Scripts\CustomScripts\ModalDialogForm.min.js.map">
       <DependentUpon>ModalDialogForm.min.js</DependentUpon>
     </Content>
@@ -2489,12 +2474,42 @@
     <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.ParcelSearch.min.js.map">
       <DependentUpon>ProjectFirmaMaps.ParcelSearch.min.js</DependentUpon>
     </Content>
-    <Content Include="Content\Bootstrap\ltinfo\typeahead.less" />
     <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.GeoServerMap.min.js.map">
       <DependentUpon>ProjectFirmaMaps.GeoServerMap.min.js</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap-toc\bootstrap-toc.min.js.map">
       <DependentUpon>bootstrap-toc.min.js</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\bootstrap.firma.base.less" />
+    <Content Include="Content\Bootstrap\firma\bootstrap.ltinfo.base.css.map">
+      <DependentUpon>bootstrap.ltinfo.base.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.less" />
+    <Content Include="Content\Bootstrap\firma\bootstrap.ltinfo.theme.css.map">
+      <DependentUpon>bootstrap.ltinfo.theme.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\bootstrap.firma.variables.less" />
+    <Content Include="Content\Bootstrap\firma\bootstrap.ltinfo.variables.css.map">
+      <DependentUpon>bootstrap.ltinfo.variables.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\glyphicons-filetypes.less" />
+    <Content Include="Content\Bootstrap\firma\glyphicons-filetypes.css.map">
+      <DependentUpon>glyphicons-filetypes.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\glyphicons-regular.less" />
+    <Content Include="Content\Bootstrap\firma\glyphicons-regular.css.map">
+      <DependentUpon>glyphicons-regular.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\glyphicons-social.less" />
+    <Content Include="Content\Bootstrap\firma\glyphicons-social.css.map">
+      <DependentUpon>glyphicons-social.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\typeahead.less" />
+    <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.css.map">
+      <DependentUpon>bootstrap.firma.theme.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\bootstrap.firma.base.css.map">
+      <DependentUpon>bootstrap.firma.base.css</DependentUpon>
     </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
