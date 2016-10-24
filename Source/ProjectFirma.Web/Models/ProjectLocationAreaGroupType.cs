@@ -1,5 +1,5 @@
 using System.Data.Entity.Spatial;
-using ProjectFirma.Web.Areas.EIP.Views.Map;
+using ProjectFirma.Web.Views.Map;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
 

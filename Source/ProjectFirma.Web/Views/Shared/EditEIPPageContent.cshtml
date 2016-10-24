@@ -1,0 +1,27 @@
+﻿@using ProjectFirma.Web.Controllers
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Views.Shared
+@using Microsoft.Web.Mvc
+@inherits EditEIPPageContent
+
+@section JavascriptAndStylesContent
+{
+    <style>
+        #CkEditorForProjectFirmaPageContent
+        {
+            min-height: 400px;
+        }
+    </style>
+}
+
+@section RightOfPageTitle
+{
+    <button class="btn btn-xs btn-trpa" type="submit" onclick=" javascript:jQuery('form').submit(); ">Save</button>
+    <a class="btn btn-xs btn-trpa" href="@ViewDataTyped.DisplayUrl">Cancel</a>
+}
+@using (Html.BeginForm<HomeController>(x => x.EditPageContent(ViewDataTyped.ProjectFirmaPage.ProjectFirmaPageType.ToEnum, null)))
+{
+    <div>
+        @Html.CkEditorFor(x => x.ProjectFirmaPageContent, CkEditorExtension.CkEditorToolbar.AllOnOneRow, true, ViewDataTyped.ProjectFirmaPage.ProjectFirmaPageID, 600)
+    </div>
+}

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Areas.EIP.Controllers;
-using ProjectFirma.Web.Areas.EIP.Security;
-using ProjectFirma.Web.Areas.EIP.Views.EIPPerformanceMeasure;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.EIPPerformanceMeasure;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
@@ -55,7 +54,7 @@ namespace ProjectFirma.Web.Views.Indicator
 
         public readonly string EditMonitoringProgramsUrl;
 
-        public List<KeyValuePair<Program, bool>> EIPPerformanceMeasurePrograms { get; private set; }
+        public List<KeyValuePair<Models.Program, bool>> EIPPerformanceMeasurePrograms { get; private set; }
         public string EditProgramsUrl { get; private set; }
         public bool UserHasProgramEIPPerformanceMeasureManagePermissions { get; private set; }
         public EIPPerformanceMeasureReportedValuesGridSpec EIPPerformanceMeasureReportedValuesGridSpec { get; private set; }
@@ -104,7 +103,7 @@ namespace ProjectFirma.Web.Views.Indicator
         {
             UserHasProgramEIPPerformanceMeasureManagePermissions = indicator.ReportedInEIP && new ProgramEIPPerformanceMeasureManageFeature().HasPermission(currentPerson, indicator.EIPPerformanceMeasure).HasPermission;
             EditProgramsUrl = indicator.ReportedInEIP ? SitkaRoute<ProgramEIPPerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPrograms(indicator.EIPPerformanceMeasure)) : string.Empty;
-            EIPPerformanceMeasurePrograms = indicator.ReportedInEIP ? indicator.EIPPerformanceMeasure.GetPrograms().OrderBy(x => x.Key.DisplayName).ToList() : new List<KeyValuePair<Program, bool>>();
+            EIPPerformanceMeasurePrograms = indicator.ReportedInEIP ? indicator.EIPPerformanceMeasure.GetPrograms().OrderBy(x => x.Key.DisplayName).ToList() : new List<KeyValuePair<Models.Program, bool>>();
 
             EIPPerformanceMeasureReportedValuesGridSpec = indicator.ReportedInEIP
                 ? new EIPPerformanceMeasureReportedValuesGridSpec(indicator.EIPPerformanceMeasure)

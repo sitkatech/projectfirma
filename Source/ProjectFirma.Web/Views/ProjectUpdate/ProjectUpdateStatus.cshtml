@@ -1,0 +1,25 @@
+﻿@using ProjectFirma.Web.Views.ProjectUpdate
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.DhtmlWrappers
+@inherits ProjectUpdateStatus
+
+@{
+    SetLayout("~/Areas/EIP/Views/Shared/SiteLayout.cshtml", ViewDataTyped);
+}
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+<div>
+    @ViewDataTyped.ProjectFirmaPage.ProjectFirmaPageContentHtmlString
+</div>
+
+<div class="summarySection">
+    <h2>Status of Project Update Submittals</h2>
+    <div class="contentWrapper">
+        @Html.DhtmlxGrid(ViewDataTyped.PeopleReceivingReminderGridSpec, ViewDataTyped.PeopleReceivingReminderGridName, ViewDataTyped.PeopleReceivingReminderGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    </div>
+</div>

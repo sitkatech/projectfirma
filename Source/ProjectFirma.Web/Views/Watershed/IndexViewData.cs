@@ -1,4 +1,4 @@
-﻿using ProjectFirma.Web.Areas.EIP.Views;
+﻿using ProjectFirma.Web.Views;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;

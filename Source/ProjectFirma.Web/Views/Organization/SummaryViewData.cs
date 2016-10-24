@@ -1,7 +1,6 @@
-﻿using ProjectFirma.Web.Areas.EIP.Controllers;
+﻿using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Areas.EIP.Views.Results;
-using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;

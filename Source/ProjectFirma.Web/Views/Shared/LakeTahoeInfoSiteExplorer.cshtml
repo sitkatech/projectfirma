@@ -1,5 +1,4 @@
-﻿@using ProjectFirma.Web.Models
-@using ProjectFirma.Web.Views.Shared
+﻿@using ProjectFirma.Web.Views.Shared
 @inherits LakeTahoeInfoSiteExplorer
 
 <style>
@@ -142,24 +141,5 @@
         <a class="btn" id="siteExplorerAreaLink" href="@ViewDataTyped.LTInfoArea.GetHomeUrl()">
             @ViewDataTyped.LTInfoArea.LTInfoAreaDisplayName
         </a>
-        <button type="button" class="btn btn-default dropdown-toggle" id="siteExplorerDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            <span class="glyphicon glyphicon-menu-down"></span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="width: 250px;">
-            <li class="">
-                <a class="btn btn-outline btn-dropdown" href="@LTInfoArea.LTInfo.GetHomeUrl()" title="">LT Info Home</a>
-            </li>
-            <li class="divider"></li>
-            <li class="">
-                <a class="btn btn-outline btn-dropdown" href="@LTInfoArea.EIP.GetHomeUrl()" title="">
-                    <img style="margin-right: 5px" src="@LTInfoArea.EIP.GetFavIconUrl()">
-                    @LTInfoArea.EIP.LTInfoAreaDisplayName
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li class="">
-                <a class="btn btn-outline btn-dropdown" href="@ViewDataTyped.DataCenterUrl" title="">Data Center</a>
-            </li>
-        </ul>
     </div>
 </div>

@@ -1,0 +1,65 @@
+﻿@using LtInfo.Common
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@inherits ProjectFirma.Web.Views.TransportationAssessment.Manage
+@section JavascriptAndStylesContent
+{
+    <style>
+        .inactiveQuestion {
+            background-color: #f5f5f5;
+        }
+
+        .activeQuestion {
+            background-color: #f4fafe;
+        }
+    </style>
+}
+
+<div>
+    <div class="pull-right">
+        @Html.Raw(DhtmlxGridHtmlHelpers.CreateCustomExcelDownloadIconHtml("spendingBySectorAndOrganization", ViewDataTyped.DownloadAllAssessmentsUrl, "Download all Assessment Results", "Download Excel file of all Assessment Results"))
+        @ModalDialogFormHelper.ModalDialogFormLink(@"<span class='glyphicon glyphicon-plus-sign' style='margin-right: 3px'></span>Add New Question", ViewDataTyped.AddTransportationQuestionUrl, "Add Question", ViewDataTyped.HasEditPermissions)
+    </div>
+    <p>
+        Manage Transportation Assessment goals, indicators, and questions.
+    </p>
+</div>
+
+@foreach (var transportationGoal in ViewDataTyped.TransportationGoals.OrderBy(x => x.TransportationGoalNumber))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading" style="padding: 5px 15px">
+            <h2 class="panel-title" style="border: none; margin-bottom: 5px">@ModalDialogFormHelper.MakeEditIconLink(transportationGoal.EditUrl, "Edit Goal", ViewDataTyped.HasEditPermissions) @transportationGoal.DisplayName</h2>
+            <p style="margin-bottom: 5px;">
+                Description: <i>@transportationGoal.TransportationGoalDescription</i>
+            </p>
+        </div>
+        <div class="panel-body">
+            @foreach (var transportationSubGoal in transportationGoal.TransportationSubGoals)
+            {
+
+                <h2 style="margin-bottom: 5px">@ModalDialogFormHelper.MakeEditIconLink(transportationSubGoal.EditUrl, "Edit Indicator", ViewDataTyped.HasEditPermissions) @transportationSubGoal.DisplayName </h2>
+                <p>
+                    Description: <i>@transportationSubGoal.TransportationSubGoalDescription</i>
+                </p>
+                <p>Related Questions:</p>
+                <ul>
+                    @foreach (var transportationQuestion in transportationSubGoal.TransportationQuestions.Where(x => x.ArchiveDate == null))
+                    {
+                        <li class="list-group-item activeQuestion">
+                            @ModalDialogFormHelper.MakeEditIconLink(transportationQuestion.EditUrl, "Edit Question", ViewDataTyped.HasEditPermissions) @transportationQuestion.TransportationQuestionText
+                        </li>
+                    }
+                    @foreach (var transportationQuestion in transportationSubGoal.TransportationQuestions.Where(x => x.ArchiveDate.HasValue))
+                    {
+                        <li class="list-group-item inactiveQuestion">
+                            <span>@ModalDialogFormHelper.MakeEditIconLink(transportationQuestion.EditUrl, "Edit Question", ViewDataTyped.HasEditPermissions) @transportationQuestion.TransportationQuestionText <i>Archived on: @transportationQuestion.ArchiveDate.ToStringDate()</i></span>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+
+
+}

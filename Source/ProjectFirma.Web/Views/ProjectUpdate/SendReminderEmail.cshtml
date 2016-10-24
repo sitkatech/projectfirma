@@ -1,0 +1,13 @@
+﻿@inherits ProjectFirma.Web.Views.ProjectUpdate.SendReminderEmail
+<div>
+    @Html.Raw(ViewDataTyped.ConfirmMessage)
+</div>
+@using (Html.BeginForm())
+{
+    <div>
+        @foreach (var reminderMessageType in ViewDataTyped.ReminderMessageTypes)
+        {
+            @Html.RadioButtonFor(x => x.ReminderMessageTypeEnum, reminderMessageType.ToEnum) @reminderMessageType.ReminderMessageTypeDisplayName<br/>
+        }
+    </div>
+}

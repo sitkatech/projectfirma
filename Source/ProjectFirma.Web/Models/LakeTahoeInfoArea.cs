@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Models
 
         public override string GetHomeUrl()
         {
-            return SitkaRoute<Areas.EIP.Controllers.HomeController>.BuildUrlFromExpression(x => x.Index());
+            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Index());
         }
 
         public override string GetLogoUrl()
@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Models
 
         public override string GetFavIconUrl()
         {
-            return "/Areas/EIP/Content/img/favicon-32x32.png";
+            return "/Content/img/favicon-32x32.png";
         }
 
         public override string PreferredSiteAreaLinkWidth { get { return "150px"; }}

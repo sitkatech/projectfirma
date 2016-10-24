@@ -1,0 +1,102 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Models
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Views.ProgramEIPPerformanceMeasure.EditPrograms
+<script type="text/javascript">
+    // <![CDATA[    
+    angular.module("EditProgramsAngularApp", []).controller("ProgramEIPPerformanceMeasureController", function($scope)
+    {
+        $scope.AngularModel = @Html.Raw(JObject.FromObject(Model));
+        $scope.AngularViewData = @Html.Raw(JObject.FromObject(ViewDataTyped));
+        $scope.ProgramToAdd = null;
+
+        $scope.filteredPrograms = function()
+        {
+            var usedProgramIDs = _.map($scope.AngularModel.ProgramEIPPerformanceMeasures, function(p) { return p.ProgramID; });
+            var filter = _.filter($scope.AngularViewData.AllPrograms, function(f) { return !_.contains(usedProgramIDs, f.ProgramID); });
+            return filter;
+        };
+
+        $scope.setPrimaryProgram = function(program)
+        {
+            // if there are no Performance Measures to begin with, we need to make the new record be the Primary Program            
+            $scope.AngularModel.PrimaryProgramID = program.ProgramID;
+        };
+
+        $scope.getProgramName = function(programEIPPerformanceMeasure)
+        {
+            var programToFind = $scope.getProgram(programEIPPerformanceMeasure.ProgramID);
+            return programToFind.DisplayName;
+        };
+
+        $scope.getProgram = function(programId) { return _.find($scope.AngularViewData.AllPrograms, function(f) { return programId == f.ProgramID; }); };
+
+        $scope.addProgram = function()
+        {
+            if ($scope.ProgramToAdd != null)
+            {
+                // if there are no Performance Measures to begin with, we need to make the new record be the Primary Program
+                if ($scope.AngularModel.ProgramEIPPerformanceMeasures.length == 0)
+                {
+                    $scope.setPrimaryProgram($scope.ProgramToAdd);
+                }
+                var newProgramEIPPerformanceMeasureJson = {
+                    ProgramID: $scope.ProgramToAdd.ProgramID,
+                    EIPPerformanceMeasureID: $scope.AngularViewData.EIPPerformanceMeasure.EIPPerformanceMeasureID,
+                    IsPrimaryProgram: false
+                };
+                $scope.AngularModel.ProgramEIPPerformanceMeasures.push(newProgramEIPPerformanceMeasureJson);
+                $scope.ProgramToAdd = null;
+            }
+        };
+
+        $scope.deleteProgram = function(program)
+        {
+            var isProgramTheCurrentPrimary = program.ProgramID == $scope.AngularModel.PrimaryProgramID;
+            Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProgramEIPPerformanceMeasures, program);
+
+            // if the one deleted was the primary, we need to set a new lead if there are still Programs left
+            if (isProgramTheCurrentPrimary && $scope.AngularModel.ProgramEIPPerformanceMeasures.length > 0)
+            {
+                // set the primary program to the first remaining program
+                $scope.setPrimaryProgram($scope.AngularModel.ProgramEIPPerformanceMeasures[0]);
+            }
+        };
+    });
+    angular.bootstrap(jQuery("#EditProgramsAngularApp"), ["EditProgramsAngularApp"]);
+    // ]]>
+</script>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+<div style="font-weight: bold; margin-bottom: 20px">Programs Associated with Performance Measure</div>
+<div id="EditProgramsAngularApp" ng-controller="ProgramEIPPerformanceMeasureController">
+    Program to Add: <select ng-model="ProgramToAdd" ng-options="program.DisplayName for program in filteredPrograms()">
+        <option value="">Choose One</option>
+    </select>
+    <button class="btn btn-xs btn-trpa" type="button" ng-click="addProgram()">Add</button>
+    <table class="dialogFormLayout">
+        <tr>
+            <th></th>
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Program)</th>
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryProgram)</th>
+        </tr>
+        <tr ng-repeat="programEIPPerformanceMeasure in AngularModel.ProgramEIPPerformanceMeasures | orderBy:getProgramName">
+            <td>
+                <span class="glyphicon glyphicon-trash blue" title="Remove '{{programEIPPerformanceMeasure.DisplayName}}'" alt="Remove '{{programEIPPerformanceMeasure.DisplayName}}'" ng-click="deleteProgram(programEIPPerformanceMeasure)" style="cursor: pointer"></span></td>
+            <td>{{getProgramName(programEIPPerformanceMeasure)}}</td>
+            <td>
+                <input type="radio" ng-model="AngularModel.PrimaryProgramID" ng-value="programEIPPerformanceMeasure.ProgramID"/>
+            </td>
+
+        </tr>
+    </table>
+    @using (Html.BeginForm())
+    {
+        <input ng-repeat="programEIPPerformanceMeasure in AngularModel.ProgramEIPPerformanceMeasures" type="hidden" name="@Html.NameFor(x => x.ProgramEIPPerformanceMeasures[0].ProgramID).ToString().Replace("0", "{{$index}}")" value="{{programEIPPerformanceMeasure.ProgramID}}">
+        <input ng-repeat="programEIPPerformanceMeasure in AngularModel.ProgramEIPPerformanceMeasures" type="hidden" name="@Html.NameFor(x => x.ProgramEIPPerformanceMeasures[0].EIPPerformanceMeasureID).ToString().Replace("0", "{{$index}}")" value="{{programEIPPerformanceMeasure.EIPPerformanceMeasureID}}">
+        <input type="hidden" name="@Html.NameFor(x => x.PrimaryProgramID)" value="{{AngularModel.PrimaryProgramID}}">
+    }
+</div>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Areas.EIP.Controllers;
+using ProjectFirma.Web.Controllers;
 using DocumentFormat.OpenXml.Wordprocessing;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;

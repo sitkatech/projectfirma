@@ -1,0 +1,38 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Controllers
+@using Microsoft.Web.Mvc
+@inherits ProjectFirma.Web.Views.ProjectImageUpdate.Edit
+@using (Html.BeginForm<ProjectImageUpdateController>(x => x.Edit(ViewDataTyped.ProjectImageUpdate, null), FormMethod.Post, new {enctype = "multipart/form-data"}))
+{
+    <table class="dialogFormLayout">
+        <tr>
+            <td>@Html.LabelWithFieldDefinitionFor(x => x.Caption): </td>
+            <td>
+                @Html.TextBoxFor(x => x.Caption, new {style = "width:450px"})
+                <div class="smallExplanationText">Be concise yet still descriptive. Thumbnails above will display alphabetically by caption.</div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelWithFieldDefinitionFor(x => x.Credit): </td>
+            <td>
+                @Html.TextBoxFor(x => x.Credit, new {style = "width:450px"})
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.LabelWithFieldDefinitionFor(x => x.ProjectImageTimingID): </td>
+            <td>
+                @Html.DropDownListFor(x => x.ProjectImageTimingID, ViewDataTyped.ProjectImageTimings)
+                @Html.ValidationMessageFor(x => x.ProjectImageTimingID)
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.LabelWithFieldDefinitionFor(x => x.ExcludeFromFactSheet): </td>
+            <td>
+                @Html.CheckBoxFor(x => x.ExcludeFromFactSheet)
+            </td>
+        </tr>
+    </table>
+}

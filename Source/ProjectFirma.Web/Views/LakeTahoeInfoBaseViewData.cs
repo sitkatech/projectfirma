@@ -36,9 +36,7 @@ namespace ProjectFirma.Web.Views
             ProjectFirmaPage = projectFirmaPage;
 
             CurrentPerson = currentPerson;
-            EipHomeUrl = SitkaRoute<Areas.EIP.Controllers.HomeController>.BuildUrlFromExpression(c => c.Index());
             LakeTahoeInfoHomeUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(c => c.Index());
-            DataCenterUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.DataCenter());
 
             LogInUrl = ProjectFirmaHelpers.GenerateLogInUrlWithReturnUrl();
             LogOutUrl = ProjectFirmaHelpers.GenerateLogOutUrlWithReturnUrl();

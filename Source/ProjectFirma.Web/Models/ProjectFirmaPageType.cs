@@ -1,6 +1,5 @@
-using ProjectFirma.Web.Areas.EIP.Controllers;
-using LtInfo.Common;
 using ProjectFirma.Web.Controllers;
+using LtInfo.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -13,7 +12,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<Areas.EIP.Controllers.HomeController>.BuildUrlFromExpression(x => x.Index());
+            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 
@@ -37,7 +36,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<Areas.EIP.Controllers.HomeController>.BuildUrlFromExpression(x => x.ViewPageContent(ToEnum));
+            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.ViewPageContent(ToEnum));
         }
     }
 
@@ -165,7 +164,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<Areas.EIP.Controllers.ResultsController>.BuildUrlFromExpression(x => x.InvestmentByFundingSector(null));
+            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.InvestmentByFundingSector(null));
         }
     }
 
@@ -173,7 +172,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<Areas.EIP.Controllers.ResultsController>.BuildUrlFromExpression(x => x.SpendingBySectorByFocusAreaByProgram(null));
+            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingBySectorByFocusAreaByProgram(null));
         }
     }
 
@@ -181,7 +180,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<Areas.EIP.Controllers.ResultsController>.BuildUrlFromExpression(x => x.SpendingByEIPPerformanceMeasureByProject(null));
+            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingByEIPPerformanceMeasureByProject(null));
         }
     }
 
@@ -189,7 +188,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<Areas.EIP.Controllers.ResultsController>.BuildUrlFromExpression(x => x.EipProjectMap());
+            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.EipProjectMap());
         }
     }
 
@@ -197,7 +196,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<Areas.EIP.Controllers.ResultsController>.BuildUrlFromExpression(x => x.EipResultsByProgram(null));
+            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.EipResultsByProgram(null));
         }
     }
 
@@ -296,22 +295,6 @@ namespace ProjectFirma.Web.Models
         public override string GetViewUrl()
         {
             return SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Index());
-        }
-    }
-
-    public partial class ProjectFirmaPageTypeLTInfoDataCenter
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<Controllers.HomeController>.BuildUrlFromExpression(x => x.DataCenter());
-        }
-    }
-
-    public partial class ProjectFirmaPageTypeLTInfoAbout
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<Controllers.HomeController>.BuildUrlFromExpression(x => x.About());
         }
     }
 

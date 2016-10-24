@@ -1,4 +1,3 @@
-using ProjectFirma.Web.Areas.EIP.Security;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.UnitTestCommon;
 using NUnit.Framework;

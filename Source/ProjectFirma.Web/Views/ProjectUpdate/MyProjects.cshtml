@@ -1,0 +1,73 @@
+﻿@using ProjectFirma.Web.Views.ProjectUpdate
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@inherits MyProjects
+
+@{
+    SetLayout("~/Areas/EIP/Views/Shared/SiteLayout.cshtml", ViewDataTyped);
+}
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+@section RightOfPageTitle
+{
+    <a class='btn btn-sm btn-trpa' href="@ViewDataTyped.ProposeNewProjectUrl" title="Submit a project proposal to TRPA">Propose New Project</a>
+}
+
+<div>
+    @ViewDataTyped.ProjectFirmaPage.ProjectFirmaPageContentHtmlString
+</div>
+
+<div style="margin-top: 10px">
+    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:450px", DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+</div>
+
+<div style="margin-top: 10px">
+    <div style="float: right">@ModalDialogFormHelper.ModalDialogFormLink("Submit All", ViewDataTyped.SubmitAllUrl, "Submit all projects to TRPA", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-trpa" }, null, null)</div>
+    <p>
+        <b>Why these projects?</b> Projects appear here if you are the primary contact for the Lead Implementer, or if you are a member of the Lead Implementer's organization.
+    </p>
+</div>
+
+<span id="@ViewDataTyped.ArbitraryHtmlProjectFilterButtonsID" style="display: none">
+    Show:
+    <label>
+        @Html.RadioButton("FilterProjectsBy", ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MyProjectsRequiringAnUpdate, ViewDataTyped.ProjectUpdateStatusFilterType == ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MyProjectsRequiringAnUpdate, new { onclick = string.Format("window.location.href = '{0}'", ViewDataTyped.MyProjectsRequiringAnUpdateUrl) })
+        My Projects Requiring an Update
+    </label>
+    <label>
+        @Html.RadioButton("FilterProjectsBy", ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects, ViewDataTyped.ProjectUpdateStatusFilterType == ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects, new { onclick = string.Format("window.location.href = '{0}'", ViewDataTyped.MySubmittedProjectsUrl) })
+        My Recently Submitted Projects
+    </label>
+    <label>
+        @Html.RadioButton("FilterProjectsBy", ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllMyProjects, ViewDataTyped.ProjectUpdateStatusFilterType == ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllMyProjects, new { onclick = string.Format("window.location.href = '{0}'", ViewDataTyped.AllMyProjectsUrl) })
+        All My Projects
+    </label>
+    @if (ViewDataTyped.HasProjectUpdateAdminPermissions)
+    {
+        <label>
+            @Html.RadioButton("FilterProjectsBy", ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.SubmittedProjects, ViewDataTyped.ProjectUpdateStatusFilterType == ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.SubmittedProjects, new { onclick = string.Format("window.location.href = '{0}'", ViewDataTyped.SubmittedProjectsUrl) })
+            Submitted Projects
+        </label>
+        <label>
+            @Html.RadioButton("FilterProjectsBy", ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects, ViewDataTyped.ProjectUpdateStatusFilterType == ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects, new { onclick = string.Format("window.location.href = '{0}'", ViewDataTyped.AllProjectsUrl) })
+            All Projects
+        </label>
+    }
+</span>
+
+<script>
+    jQuery(document).ready(function()
+    {
+        var projectFilterRadioButtons = jQuery("#@ViewDataTyped.ArbitraryHtmlProjectFilterButtonsID");
+        jQuery("#@ViewDataTyped.ArbitraryHtmlPlaceholderID").replaceWith(projectFilterRadioButtons);
+        projectFilterRadioButtons.show();
+        var grid = Sitka.@ViewDataTyped.GridName;
+        grid.filterOnOtherColumn("Status", "ActionStatus");
+    });
+</script>

@@ -1,0 +1,44 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@using LtInfo.Common.Views
+@inherits ProjectFirma.Web.Views.Tag.Summary
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+<div class="summarySection">
+    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTagUrl, string.Format("Edit Threshold Category - {0}", ViewDataTyped.Tag.DisplayName), ViewDataTyped.UserHasTagManagePermissions) Basics</h2>
+    <div class="contentWrapper">
+        <table class="summaryLayout">
+            <tr>
+                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TagName):</th>
+                <td>
+                    @ViewDataTyped.Tag.TagName
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TagDescription):</th>
+                <td>
+                    @Html.Raw(ViewDataTyped.Tag.TagDescription.HtmlEncodeWithBreaks())
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="summarySection">
+    <div class="contentWrapper">
+        @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.FiveYearListProjectGridName, ViewDataTyped.FiveYearListProjectGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+    </div>
+</div>
+
+<div style="margin-top: 20px">
+    <a class="btn btn-sm btn-trpa" href="@ViewDataTyped.ManageTagsUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
+</div>

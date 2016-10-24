@@ -52,8 +52,6 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectFirmaPageTypeMyOrganizationsProjects MyOrganizationsProjects = ProjectFirmaPageTypeMyOrganizationsProjects.Instance;
         public static readonly ProjectFirmaPageTypeManageUpdateNotifications ManageUpdateNotifications = ProjectFirmaPageTypeManageUpdateNotifications.Instance;
         public static readonly ProjectFirmaPageTypeProjectUpdateStatus ProjectUpdateStatus = ProjectFirmaPageTypeProjectUpdateStatus.Instance;
-        public static readonly ProjectFirmaPageTypeLTInfoDataCenter LTInfoDataCenter = ProjectFirmaPageTypeLTInfoDataCenter.Instance;
-        public static readonly ProjectFirmaPageTypeLTInfoAbout LTInfoAbout = ProjectFirmaPageTypeLTInfoAbout.Instance;
         public static readonly ProjectFirmaPageTypeThresholdCategoriesList ThresholdCategoriesList = ProjectFirmaPageTypeThresholdCategoriesList.Instance;
         public static readonly ProjectFirmaPageTypeMonitoringProgramsList MonitoringProgramsList = ProjectFirmaPageTypeMonitoringProgramsList.Instance;
 
@@ -65,7 +63,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectFirmaPageType()
         {
-            All = new List<ProjectFirmaPageType> { HomePage, AboutClackamasPartnership, Meetings, FullProjectList, FiveYearProjectList, CompletedProjectList, EIPPerformanceMeasuresList, ActionPrioritiesList, LocalAndRegionalPlansList, FocusAreasList, FundingSourcesList, OrganizationsList, ProgramsList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByFocusAreaByProgram, EIPProjectMap, EIPResultsByProgram, EIPHomeAdditionalInfo, FeaturedProjectList, TransportationStrategiesList, TransportationObjectivesList, TransportationProjectList, TransportationCostParameterSet, TerminatedProjectList, FullProjectListSimple, EIPTaxonomy, TransportationTaxonomy, TagList, SpendingByEIPPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, LTInfoDataCenter, LTInfoAbout, ThresholdCategoriesList, MonitoringProgramsList };
+            All = new List<ProjectFirmaPageType> { HomePage, AboutClackamasPartnership, Meetings, FullProjectList, FiveYearProjectList, CompletedProjectList, EIPPerformanceMeasuresList, ActionPrioritiesList, LocalAndRegionalPlansList, FocusAreasList, FundingSourcesList, OrganizationsList, ProgramsList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByFocusAreaByProgram, EIPProjectMap, EIPResultsByProgram, EIPHomeAdditionalInfo, FeaturedProjectList, TransportationStrategiesList, TransportationObjectivesList, TransportationProjectList, TransportationCostParameterSet, TerminatedProjectList, FullProjectListSimple, EIPTaxonomy, TransportationTaxonomy, TagList, SpendingByEIPPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, ThresholdCategoriesList, MonitoringProgramsList };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectFirmaPageType>(All.ToDictionary(x => x.ProjectFirmaPageTypeID));
         }
 
@@ -173,10 +171,6 @@ namespace ProjectFirma.Web.Models
                     return InvestmentByFundingSector;
                 case ProjectFirmaPageTypeEnum.LocalAndRegionalPlansList:
                     return LocalAndRegionalPlansList;
-                case ProjectFirmaPageTypeEnum.LTInfoAbout:
-                    return LTInfoAbout;
-                case ProjectFirmaPageTypeEnum.LTInfoDataCenter:
-                    return LTInfoDataCenter;
                 case ProjectFirmaPageTypeEnum.ManageUpdateNotifications:
                     return ManageUpdateNotifications;
                 case ProjectFirmaPageTypeEnum.Meetings:
@@ -263,8 +257,6 @@ namespace ProjectFirma.Web.Models
         MyOrganizationsProjects = 39,
         ManageUpdateNotifications = 41,
         ProjectUpdateStatus = 42,
-        LTInfoDataCenter = 47,
-        LTInfoAbout = 48,
         ThresholdCategoriesList = 66,
         MonitoringProgramsList = 67
     }
@@ -483,18 +475,6 @@ namespace ProjectFirma.Web.Models
     {
         private ProjectFirmaPageTypeProjectUpdateStatus(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
         public static readonly ProjectFirmaPageTypeProjectUpdateStatus Instance = new ProjectFirmaPageTypeProjectUpdateStatus(42, @"ProjectUpdateStatus", @"Annual Project Update Status Report", 1, 1);
-    }
-
-    public partial class ProjectFirmaPageTypeLTInfoDataCenter : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeLTInfoDataCenter(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeLTInfoDataCenter Instance = new ProjectFirmaPageTypeLTInfoDataCenter(47, @"LTInfoDataCenter", @"Lake Tahoe Info Data Center", 3, 1);
-    }
-
-    public partial class ProjectFirmaPageTypeLTInfoAbout : ProjectFirmaPageType
-    {
-        private ProjectFirmaPageTypeLTInfoAbout(int projectFirmaPageTypeID, string projectFirmaPageTypeName, string projectFirmaPageTypeDisplayName, int primaryLTInfoAreaID, int projectFirmaPageRenderTypeID) : base(projectFirmaPageTypeID, projectFirmaPageTypeName, projectFirmaPageTypeDisplayName, primaryLTInfoAreaID, projectFirmaPageRenderTypeID) {}
-        public static readonly ProjectFirmaPageTypeLTInfoAbout Instance = new ProjectFirmaPageTypeLTInfoAbout(48, @"LTInfoAbout", @"About Lake Tahoe Info", 3, 2);
     }
 
     public partial class ProjectFirmaPageTypeThresholdCategoriesList : ProjectFirmaPageType

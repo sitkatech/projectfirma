@@ -1,0 +1,78 @@
+﻿@using ProjectFirma.Web.Views.ProjectUpdate
+@using ProjectFirma.Web.Views.Shared.ProjectLocationControls
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.ModalDialog
+@inherits LocationDetailed
+
+@section JavascriptAndStylesContent
+{
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+}
+
+@if (!ViewDataTyped.IsEditable)
+{
+
+}
+else
+{
+    /*TODO: Each view seems to have it's own Html object - The partial view below therefore never receives the validation summary messages.
+     * There may be a better way to push the Html object and/or Validation Summary messages to the partial view
+     */
+    @Html.ValidationSummary();
+
+    ProjectLocationDetail.RenderPartialView(Html, ViewDataTyped.ProjectLocationDetailViewData, Model);
+
+    <hr/>
+    if (ViewDataTyped.ShowApproveAndReturnButton)
+    {
+        <table class="formLayout">
+            <tr>
+                <th>Comments:</th>
+                <td>
+                    @Html.TextAreaFor(x => x.Comments, new {@class = "sectionComments"})
+                    @Html.Hidden("Section", ViewDataTyped.SelectedProjectUpdateSection)
+                </td>
+            </tr>
+        </table>
+        <hr/>
+    }
+    SectionComments.RenderPartialView(Html, ViewDataTyped.SectionCommentsViewData);
+    <table style="width: 100%">
+        <tr>
+            <td>
+                @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-trpa" }, null, null)
+            </td>
+            <td style="text-align: right">
+                <button class="btn btn-xs btn-trpa" type="button" onclick="saveForm()">Save</button>
+            </td>
+        </tr>
+    </table>
+
+    @*This is intentionally down here because the document ready needs to be after the EditProjectLocation document ready*@
+    <script type="text/javascript">
+        // <![CDATA[
+        jQuery(document).ready(function () { HookupCheckIfFormIsDirty("#@ViewDataTyped.ProjectLocationDetailViewData.MapFormID", ".submitProject"); });
+
+        function saveForm()
+        {
+            var form = jQuery("#@ViewDataTyped.ProjectLocationDetailViewData.MapFormID");
+            // Do not submit if the form
+            // does not pass client side validation
+
+            if (!form.valid())
+            {
+                return false;
+            }
+            // we need to inject the comments field if we are in "Submitted" state
+            @if (ViewDataTyped.ShowApproveAndReturnButton)
+            {
+                <text>
+            var comments = jQuery("#@Html.IdFor(x => x.Comments)").val();
+            form.append('<input type="hidden" name="@Html.NameFor(x => x.Comments)" value="' + comments + '" />');
+                </text>
+            }
+            form.submit();
+        }
+        // ]]>
+    </script>
+}

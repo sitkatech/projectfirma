@@ -1,0 +1,210 @@
+﻿@using LtInfo.Common.ModalDialog
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectLocationDetail
+
+<style>
+    .mapEditor textarea {
+        resize: none;
+        height: 60px;
+    }
+</style>
+
+<p>
+    Create a drawing of your project’s implementation (but not the full area affected by your project).
+    The detailed project location information will appear on the Project Fact Sheet and Project summary page.
+    <ul>
+        <li>To zoom to your project area hold down the Shift key and drag a rectangle.</li>
+        <li>Use the edit tools on the left of the map to add point, line, and polygon features representing details of your project, such as the project boundary, a specific stream segment, or an area of interest.</li>
+        <li>After adding a feature, click it to provide a brief description of the feature.</li>
+    </ul>
+</p>
+<hr/>
+<p>
+    <span style="margin-right:10px">Instead of drawing your project details by hand, you may alternately upload a GIS file.</span>
+    @ModalDialogFormHelper.ModalDialogFormLink("Upload a GIS File", ViewDataTyped.UploadGisFileUrl, "Upload ArcGIS File Geodatabase", 1000, "Approve Upload", "Cancel", new List<string>(){"btn", "btn-sm", "btn-trpa"}, null, null, ViewDataTyped.MapFormID)
+</p>
+
+
+<div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 500px">
+</div>
+
+<script type="text/javascript">
+    getDrawOptions = function(editableFeatureGroup)
+    {
+        var myIcon = L.MakiMarkers.icon({
+            icon: "marker",
+            color: "#f357a1",
+            size: "m"
+        });
+
+        var options = {
+            position: 'topleft',
+            draw: {
+                polyline: {
+                    shapeOptions: {
+                        color: '#f357a1',
+                        weight: 10
+                    }
+                },
+                polygon: {
+                    allowIntersection: false, // Restricts shapes to simple polygons
+                    drawError: {
+                        color: '#e1e100', // Color the shape will turn when intersects
+                        message: 'Self-intersecting polygons are not allowed.' // Message that will show when intersect
+                    },
+                    shapeOptions: {
+                        color: '#f357a1'
+                    }
+                },
+                circle: false, // Turns off this drawing tool
+                rectangle: {
+                    shapeOptions: {
+                        color: "#f357a1"
+                    }
+                },
+                marker: {
+                    icon: myIcon
+                }
+            },
+            edit: {
+                featureGroup: editableFeatureGroup, //REQUIRED!!
+                edit: {
+                    maintainColor: true,
+                    opacity: 0.3
+                },
+                remove: true
+            }
+        };
+        return options;
+    };
+
+    var projectFirmaMap;
+    jQuery(document).ready(function()
+    {
+        var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
+        var editableFeatureJsonObject = @Html.Raw(JObject.FromObject(ViewDataTyped.EditableLayerGeoJson).ToString(Formatting.None));
+        projectFirmaMap = new ProjectFirmaMaps.Map(mapInitJson);
+
+        projectFirmaMap.editableFeatureGroup = new L.FeatureGroup();
+
+        var bindAnnotationPopup = function(layer, feature)
+        {
+            var leafletId = layer._leaflet_id;
+            var popupOptions = {
+                minWidth: 200
+            };
+            layer.bindPopup("", popupOptions);
+            layer.on('click', function(f)
+            {
+                if(layer.editing.enabled())
+                {
+                    f.target.closePopup();
+                    return;
+                }
+                var popup = f.target._popup;
+                var annotation = Sitka.Methods.isUndefinedNullOrEmpty(feature) ? "" : Sitka.Methods.isUndefinedNullOrEmpty(feature.properties.Info) ? "" : feature.properties.Info;
+                var annotationMaxLength = @ViewDataTyped.AnnotationMaxLength;
+                var charsRemaining = annotationMaxLength - annotation.length;
+                var textareaId = projectFirmaMap.getTextAreaId(leafletId);
+                var charRemainingForTextareaId = "CharactersRemaining_" + textareaId;
+                var popupContent = "<b>Notes:</b> <br />" +
+                    "<textarea id=\"" + textareaId + "\" " +
+                    "onkeyup=\"Sitka.Methods.keepTextAreaWithinMaxLength(this, " + annotationMaxLength + ", 20, '" + charRemainingForTextareaId + "', 'Characters Remaining: ');\" " +
+                    "onkeydown=\"Sitka.Methods.keepTextAreaWithinMaxLength(this, " + annotationMaxLength + ", 20, '" + charRemainingForTextareaId +  "', 'Characters Remaining: ');\">" +
+                    annotation + "</textarea>" +
+                    "<div id=\"" + charRemainingForTextareaId + "\" style=\"text-align:right;color:#666666;\">Characters Remaining: " + charsRemaining + "</div><br />" +
+                    "<button id=\"buttonFor" + leafletId + "\" class=\"button btn-xs btn-info\" onclick=\"savePopupAnnotationEditor(" + leafletId + ")\">Save</button>";
+                popup.setContent(popupContent);
+                popup.update();
+
+                jQuery("#textboxFor" + leafletId).focus();
+            });
+        };
+
+        var layerGroup = L.geoJson(editableFeatureJsonObject.GeoJsonFeatureCollection, {
+            onEachFeature: function(feature, layer)
+            {
+                if (layer.getLayers)
+                {
+                    layer.getLayers().forEach(function(l) { projectFirmaMap.editableFeatureGroup.addLayer(l); });
+                }
+                else
+                {
+                    projectFirmaMap.editableFeatureGroup.addLayer(layer);
+                }
+                bindAnnotationPopup(layer, feature);
+            }
+        });
+
+        var drawOptions = getDrawOptions(projectFirmaMap.editableFeatureGroup);
+        var drawControl = new L.Control.Draw(drawOptions);
+        projectFirmaMap.map.addControl(drawControl);
+        projectFirmaMap.map.addLayer(projectFirmaMap.editableFeatureGroup);
+
+        projectFirmaMap.map.on('draw:created', function(e)
+        {
+            var layer = e.layer;
+            projectFirmaMap.editableFeatureGroup.addLayer(layer);
+            var leafletId = layer._leaflet_id;
+            projectFirmaMap.editableFeatureGroup._layers[leafletId].feature = new Object();
+            projectFirmaMap.editableFeatureGroup._layers[leafletId].feature.properties = new Object();
+            projectFirmaMap.editableFeatureGroup._layers[leafletId].feature.type = "Feature";
+            var feature = projectFirmaMap.editableFeatureGroup._layers[leafletId].feature;
+            bindAnnotationPopup(layer, feature);
+            updateFeatureCollectionJson();
+        });
+        projectFirmaMap.map.on('draw:edited', function(e)
+        {
+            updateFeatureCollectionJson();
+        });
+
+        projectFirmaMap.map.on('draw:deleted', function(e)
+        {
+            updateFeatureCollectionJson();
+        });
+
+        updateFeatureCollectionJson();
+
+        var saveButton = jQuery("#" + "@ModalDialogFormHelper.SaveButtonId");
+        if(!Sitka.Methods.isUndefinedNullOrEmpty(saveButton))
+        {
+            saveButton.text("Save");
+        }
+
+        var modalTitle = jQuery(".ui-dialog-title");
+        if(!Sitka.Methods.isUndefinedNullOrEmpty(modalTitle))
+        {
+            modalTitle.html("Edit Project Location - Detail");
+        }
+    });
+
+    ProjectFirmaMaps.Map.prototype.getTextAreaId = function(featureId) { return "textareaFor" + featureId; };
+
+
+    function savePopupAnnotationEditor(featureId)
+    {
+        var textBoxForPopup = jQuery("#" + projectFirmaMap.getTextAreaId(featureId));
+        projectFirmaMap.editableFeatureGroup._layers[featureId].feature.properties.Info = textBoxForPopup.val();
+        projectFirmaMap.map.closePopup();
+        updateFeatureCollectionJson();
+    }
+
+    function updateFeatureCollectionJson()
+    {
+        var geoJson = projectFirmaMap.editableFeatureGroup.toGeoJSON();
+        var mapForm = jQuery("#" + "@ViewDataTyped.MapFormID");
+        mapForm.html("");
+        var hiddens = [];
+        for(var i = 0; i < geoJson.features.length; ++i)
+        {
+            var currentWktName = "name=\"@Html.NameFor(x => x.WktAndAnnotations[0].Wkt)\"".replace("0", i);
+            var currentWktAnnotation = "name=\"@Html.NameFor(x => x.WktAndAnnotations[0].Annotation)\"".replace("0", i);
+            hiddens.push("<input type=\"hidden\" " + currentWktName + " value=\"" + Terraformer.WKT.convert(geoJson.features[i].geometry) + "\" />");
+            hiddens.push("<input type=\"hidden\" " + currentWktAnnotation + " value=\"" + Sitka.Methods.htmlEncode(geoJson.features[i].properties.Info) + "\" />");
+        }
+        mapForm.html(hiddens.join("\r\n"));
+    }
+</script>
+
+<form method="POST" id="@ViewDataTyped.MapFormID" action="@ViewDataTyped.SaveFeatureCollectionUrl"></form>

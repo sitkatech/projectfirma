@@ -1,0 +1,58 @@
+﻿@using ProjectFirma.Web.Models
+@using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.TransportationProjectBudgetSummary
+
+@if (!ViewDataTyped.TransportationProjectBudgetAmounts.Any())
+{
+    <p class="systemText">No budgets have been entered for this project.</p>
+}
+else
+{
+    <table class="gridLayout" style="width: 100%">
+        <tr>
+            <th style="text-align: left">@Html.LabelWithFieldDefinitionFor(FieldDefinition.FundingSource)</th>
+            @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+            {
+                <th>
+                    @calendarYear
+                </th>
+            }
+            <th>Total</th>
+        </tr>
+        @foreach (var groupedByFundingSource in ViewDataTyped.TransportationProjectBudgetAmounts.GroupBy(x => x.FundingSourceName).OrderBy(x => x.Key))
+        {
+            <tr style="border: solid black; border-width: 1px 0 1px 1px; background-color: #cecece">
+                <td style="text-align: left" colspan="@(ViewDataTyped.CalendarYears.Count + 1)">@Html.Raw(groupedByFundingSource.First().FundingSourceDisplayName)</td>
+                <td>@groupedByFundingSource.Sum(x => x.MonetaryAmount).ToStringCurrency()</td>
+            </tr>
+            foreach (var groupedByCostType in groupedByFundingSource.GroupBy(x => x.TransportationProjectCostType).OrderBy(x => x.Key.SortOrder))
+            {
+                <tr>
+                    <td style="text-align: left; padding-left: 20px;">@Html.Raw(groupedByCostType.Key.TransportationProjectCostTypeDisplayName)</td>
+                    @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                    {
+                        <td>
+                            <span class="normalDollars">@groupedByCostType.Where(x => x.CalendarYear == calendarYear).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>                  
+                        </td>
+                    }
+                    <td>
+                        <span class="normalDollars">@groupedByCostType.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                    </td>
+                </tr>
+            }
+        }
+        <tr>
+            <th style="text-align: left">Grand Total</th>
+            @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+            {
+                <th>
+                    <span class="normalDollars">@ViewDataTyped.TransportationProjectBudgetAmounts.Where(x => x.CalendarYear == calendarYear).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                </th>
+            }
+            <th>
+                <span class="normalDollars">@ViewDataTyped.TransportationProjectBudgetAmounts.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+            </th>
+        </tr>
+    </table>
+}

@@ -1,0 +1,60 @@
+﻿@using ProjectFirma.Web.Models
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@inherits ProjectFirma.Web.Views.ProjectUpdate.Instructions
+
+@section JavascriptAndStylesContent
+{
+    <style type="text/css">
+        .iconDefinition {
+            width: 40px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        li.iconRow {
+            margin-left: 20px;
+            padding: 4px 4px 4px 0;
+        }
+
+        .instructionList li
+        {
+            padding: 2px 2px 2px 0;
+        }
+    </style>
+}
+
+<p >This "Project Update" area of the Lake Tahoe EIP Project Tracker Tool walks you through providing annual updates to your EIP project.
+    All projects in the Planning/Design, Implementation, or Post-Implementation stage are required to submit annual updates. @Html.LinkWithFieldDefinitionFor(FieldDefinition.Stage, "View Project Stage Definitions", LabelForExtensions.DefaultPopupWidthWider, new List<string> {"fieldDefinitionLink"})</p>
+
+<p>The various aspects of your project that are available for update can be seen on the left. Several of these sections are optional, but others are required:</p>
+<ul class="instructionList">
+    <li><strong>Basics:</strong> <i>You must enter the project's start and completion dates</i></li>
+    <li><strong>Location - Simple:</strong> <i>You must input your project's location via an interactive map or provide a short location description </i></li>
+    <li><strong>Performance Measures (PMs):</strong> <i>You must enter an accomplishment value for at least one PM per year (or indicate you have no accomplishments)</i></li>
+    <li><strong>Expenditures:</strong> <i>You must enter at least one Expenditure per year (if you spent nothing, enter a $0 expenditure)</i></li>
+    @if (ViewDataTyped.Project.OnFederalTransportationImprovementProgramList)
+    {
+        <li><strong>Budgets:</strong> <i>Because your project is part of the Federal Tranportation Improvement Program (FTIP), you must enter funding sources and project budgets</i></li>
+    }        
+</ul>
+Use the navigation to the left to view and enter your project updates. Be sure to click Save on each page. While you may Save information in an incomplete state, in order to Submit your update, all required information must be provided. You will see some icons next to some pages – here is what they mean:
+<ul style="list-style-type: none; padding: 0">
+    <li class="iconRow">
+        <div class="iconDefinition">@Html.Raw(ProjectWizardComponents.RequiredInfoNotProvidedIcon)</div> Required information has not been completely provided (you can't submit this update)
+    </li>
+    <li class="iconRow">
+        <div class="iconDefinition">@Html.Raw(ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon)</div> Required information has been provided (you may submit this update)
+    </li>
+    <li class="iconRow">
+        <div class="iconDefinition">@Html.Raw(ProjectWizardComponents.SectionHasUpdatesIcon)</div> This section has been updated - Use the "Show Changes" button to see what updates are in progress
+    </li>
+</ul>
+
+<p>Submitting this update will notify TRPA. TRPA will review your updates and either approve them or return them to you for corrections/clarifications. The "official" information about this project will not be updated, or included in program reports, until TRPA approves this update.</p>
+<p>
+    Click the <span class="helpicon glyphicon glyphicon-question-sign blue" title="Help"></span> icon to view field-specific help, and to see the reporting guidance for a specific PM. You can also see this same guidance on the PM Summary pages available from the list of  <a href="@ViewDataTyped.ManageEIPPerformanceMeasuresUrl" target="_blank">Performance Measures</a>.
+</p>
+<p>
+    If you have questions or run into problems, please @(ModalDialogFormHelper.ModalDialogFormLink("Request Support", ViewDataTyped.RequestSupportUrl, "request support", 800, "Submit Request", "Cancel", new List<string>(), null, null)).
+</p>

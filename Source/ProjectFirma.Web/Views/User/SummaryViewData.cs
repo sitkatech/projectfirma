@@ -1,8 +1,7 @@
 ﻿using System.Web;
-using ProjectFirma.Web.Areas.EIP.Security;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
@@ -19,7 +18,7 @@ namespace ProjectFirma.Web.Views.User
         public readonly bool UserHasPersonManagePermissions;
         public readonly bool UserHasViewEverythingPermissions;
         public readonly bool IsViewingSelf;
-        public readonly Areas.EIP.Views.Project.BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
+        public readonly Project.BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
         public readonly string BasicProjectInfoGridName;
         public readonly string BasicProjectInfoGridDataUrl;
         public readonly UserNotificationGridSpec UserNotificationGridSpec;
@@ -29,7 +28,7 @@ namespace ProjectFirma.Web.Views.User
 
         public SummaryViewData(Person currentPerson,
             Person personToView,
-            Areas.EIP.Views.Project.BasicProjectInfoGridSpec basicProjectInfoGridSpec,
+            Project.BasicProjectInfoGridSpec basicProjectInfoGridSpec,
             string basicProjectInfoGridName,
             string basicProjectInfoGridDataUrl,
             UserNotificationGridSpec userNotificationGridSpec,

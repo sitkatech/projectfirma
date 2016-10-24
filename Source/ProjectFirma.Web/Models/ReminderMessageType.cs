@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web.Hosting;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Areas.EIP.Controllers;
+using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Models

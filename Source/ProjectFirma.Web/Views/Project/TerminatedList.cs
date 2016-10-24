@@ -1,0 +1,6 @@
+namespace ProjectFirma.Web.Views.Project
+{
+    public abstract class TerminatedList : LtInfo.Common.Mvc.TypedWebViewPage<TerminatedListViewData>
+    {
+    }
+}

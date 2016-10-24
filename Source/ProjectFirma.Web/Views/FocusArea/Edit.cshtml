@@ -1,0 +1,15 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Views.FocusArea.Edit
+@using (Html.BeginForm())
+{
+    <table class="dialogFormLayout">
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.FocusAreaName):</th>
+            <td>
+                @Html.TextBoxFor(m => m.FocusAreaName, new {style = "width:522px"})
+                @Html.ValidationMessageFor(m => m.FocusAreaName)
+            </td>
+        </tr>
+    </table>
+    @Html.HiddenFor(m => m.FocusAreaID)
+}

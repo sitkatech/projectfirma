@@ -1,0 +1,81 @@
+﻿@using LtInfo.Common.GeoJson
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ApproveGisUpload
+
+@Html.ValidationSummary()
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="padding-top: 0">Import?</th>
+            <th style="padding-top: 0">Feature Class Name</th>
+            <th style="padding-top: 0">Properties (Select one to use to annotate feature)</th>
+        </tr>
+    </thead>
+    @foreach (var projectLocationStaging in ViewDataTyped.ProjectLocationStagings)
+    {
+        <tbody>
+            <tr>
+                <td style="text-align: center">
+                    <input type="hidden" id="FeatureClassName_@projectLocationStaging.PrimaryKey" value="@projectLocationStaging.FeatureClassName" />
+                    <input type="checkbox" id="ShouldImport_@projectLocationStaging.PrimaryKey" value="true" checked="checked" />
+                </td>
+                <td>@projectLocationStaging.FeatureClassName</td>
+                <td class="col-md-8">
+                    <select id="SelectedProperty_@projectLocationStaging.PrimaryKey">
+                        @foreach (var featurePropertyName in projectLocationStaging.ToGeoJsonFeatureCollection().GetFeaturePropertyNames())
+                        {
+                            <option value="@featurePropertyName">@featurePropertyName</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    }
+</table>
+<div>
+    To zoom into a specific area, hold down the Shift key and drag a rectangle.
+    <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 500px;">
+    </div>
+</div>
+<div id="gisDataToPost"></div>
+<script type="text/javascript" language="javascript">
+    jQuery(document).ready(function()
+    {
+        var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
+        var map = new ProjectFirmaMaps.Map(mapInitJson);
+        var projectLocationStagingIDs = @Html.Raw(JArray.FromObject(ViewDataTyped.ProjectLocationStagings.Select(x => x.PrimaryKey)).ToString(Formatting.None));
+        var updateFeatureCollectionJson = function()
+        {
+            var gisDataToPost = jQuery("#gisDataToPost");
+            gisDataToPost.html("");
+            var hiddens = [];
+            for (var j = 0; j < projectLocationStagingIDs.length; ++j)
+            {
+                var projectLocationStagingId = projectLocationStagingIDs[j];
+                if (jQuery("#ShouldImport_" + projectLocationStagingId).is(":checked"))
+                {
+                    var currentFeatureClassName = jQuery("#FeatureClassName_" + projectLocationStagingId).val();
+                    var currentLayer = _.find(mapInitJson.Layers, function(f) { return f.LayerName == currentFeatureClassName; });
+                    var geoJson = currentLayer.GeoJsonFeatureCollection;
+                    for (var i = 0; i < geoJson.features.length; ++i)
+                    {
+                        var currentWktName = "name=\"@Html.NameFor(x => x.WktAndAnnotations[0].Wkt)\"".replace("0", i);
+                        hiddens.push("<input type=\"hidden\" " + currentWktName + " value=\"" + Terraformer.WKT.convert(geoJson.features[i].geometry) + "\" />");
+                        var currentWktAnnotation = "name=\"@Html.NameFor(x => x.WktAndAnnotations[0].Annotation)\"".replace("0", i);
+                        hiddens.push("<input type=\"hidden\" " + currentWktAnnotation + " value=\"" + geoJson.features[i].properties[jQuery("#SelectedProperty_" + projectLocationStagingId).val()] + "\" />");
+                    }
+                }
+            }
+            gisDataToPost.html(hiddens.join("\r\n"));
+        };
+        updateFeatureCollectionJson();
+        for (var j = 0; j < projectLocationStagingIDs.length; ++j)
+        {
+            var projectLocationStagingId = projectLocationStagingIDs[j];
+            jQuery("#SelectedProperty_" + projectLocationStagingId).change(updateFeatureCollectionJson);
+            jQuery("#ShouldImport_" + projectLocationStagingId).click(updateFeatureCollectionJson);
+        }
+    });
+</script>

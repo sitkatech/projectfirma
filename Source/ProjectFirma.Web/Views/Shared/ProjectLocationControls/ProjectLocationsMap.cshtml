@@ -1,0 +1,131 @@
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectLocationsMap
+
+<div id="@ViewDataTyped.MapDivID"></div>
+<div style="padding: 5px; border-top: 1px solid">
+    <span id="mapLegendTitle" style="font-weight: bold">@ViewDataTyped.LegendTitle:</span>
+    <div id="mapLegend" style="margin-top: 10px">
+    </div>
+</div>
+
+<script type="text/javascript">
+    // we are extending ProjectFirma Maps here with functionality specific to this partial view
+    ProjectFirmaMaps.Map.prototype.initializeProjectLocations = function(projectLocationsMapInitJson)
+    {
+        if (Sitka.Methods.isUndefinedNullOrEmpty(projectLocationsMapInitJson.ProjectMapCustomization))
+        {
+            throw new Error("No map customization object defined!");
+        }
+        this.legendColorsToUse = @Html.Raw(JObject.FromObject(ViewDataTyped.LegendFormats).ToString(Formatting.None));
+
+        // default to no clustering
+        this.areLocationsClustered = false;
+        // set the project locations
+        this.projectLocations = projectLocationsMapInitJson.ProjectLocationsLayerGeoJson;
+        this.namedAreasAsPoints = projectLocationsMapInitJson.NamedAreasAsPointsLayerGeoJson;
+
+        // initialize to no filters
+        this.mapCustomizationObject = projectLocationsMapInitJson.ProjectMapCustomization;
+        // draw the project locations
+        this.addLocationLayers();
+    };
+
+    ProjectFirmaMaps.Map.prototype.changeFilter = function(filterPropertyNameSelected, actualFilter)
+    {        
+        this.mapCustomizationObject.FilterPropertyName = filterPropertyNameSelected;
+        this.mapCustomizationObject.FilterPropertyValues = actualFilter;
+        this.addLocationLayers();        
+    };
+
+    ProjectFirmaMaps.Map.prototype.changePropertyToColorProjectLocationsBy = function(colorByPropertyName)
+    {
+        this.mapCustomizationObject.ColorByPropertyName = colorByPropertyName;
+        this.addLocationLayers();        
+    };
+
+    ProjectFirmaMaps.Map.prototype.changeClustering = function(areLocationsClustered)
+    {
+        this.areLocationsClustered = areLocationsClustered;
+        this.addLocationLayers();        
+    };
+
+    ProjectFirmaMaps.Map.prototype.addLocationLayers = function()
+    {
+        this.projectLocationsLayer = this.addProjectLocationsToMap(this.projectLocations, this.projectLocationsLayer, "Mapped Projects", true);
+        this.namedAreasAsPointsLayer = this.addProjectLocationsToMap(this.namedAreasAsPoints, this.namedAreasAsPointsLayer, "Regional Projects (Approximate Location)", false);
+    }
+
+    ProjectFirmaMaps.Map.prototype.addProjectLocationsToMap = function(points, layer, layerName, showByDefault)
+    {
+        var self = this;
+        if (layer != null)
+        {
+            this.map.removeLayer(layer);
+            this.layerControl.removeLayer(layer);
+        }
+
+        var markerColorTable = this.legendColorsToUse[this.mapCustomizationObject.ColorByPropertyName];
+        var markerClusterGroup = L.markerClusterGroup({ maxClusterRadius: 40 });
+        var newLayer = L.geoJson(points.GeoJsonFeatureCollection, {
+            pointToLayer: function(feature, latlng)
+            {
+                var legendColor = _.result(_.find(markerColorTable, function(legendItem) { return legendItem.LegendID == feature.properties[self.mapCustomizationObject.ColorByPropertyName]; }), 'LegendColor');
+                var marker = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: legendColor, size: "s" }) });
+                self.bindPopupToFeature(marker, feature);
+                return marker;
+            },
+            filter: function(feature)
+            {
+                if (Sitka.Methods.isUndefinedNullOrEmpty(self.mapCustomizationObject.FilterPropertyName))
+                {
+                    return true;
+                }
+                else
+                {
+                    return _.intersection(_.map(feature.properties[self.mapCustomizationObject.FilterPropertyName].split(","), Number), _.map(self.mapCustomizationObject.FilterPropertyValues, Number)).length > 0;
+                }
+            }
+        });
+        if (this.areLocationsClustered)
+        {
+            newLayer.addTo(markerClusterGroup);
+            layer = markerClusterGroup;
+        }
+        else
+        {
+            layer = newLayer;
+        }
+        
+        if (showByDefault)
+        {
+            layer.addTo(this.map);    
+        }
+        
+        this.layerControl.addOverlay(layer, layerName);
+
+        jQuery("#mapLegend").html(this.getLegend());
+
+        return layer;
+    };
+
+    ProjectFirmaMaps.Map.prototype.getLegend = function()
+    {
+        var markerColorTable = this.legendColorsToUse[this.mapCustomizationObject.ColorByPropertyName];
+        var allLegendsHtml = "";
+        for (var i = 0; i < markerColorTable.length; ++i)
+        {
+            var currentLegendIcon = L.MakiMarkers.icon({ icon: "marker", color: markerColorTable[i].LegendColor, size: "m" });
+            var currentLegendAsHtml = jQuery(currentLegendIcon.createIcon());
+            currentLegendAsHtml.css("position", "relative");
+            currentLegendAsHtml.css("height", "");
+            currentLegendAsHtml.css("width", "30px");
+            currentLegendAsHtml.css("padding-right", "5px");
+            currentLegendAsHtml.css("display", "inline-block");
+            currentLegendAsHtml.css("margin", "0");
+            currentLegendAsHtml.css("float", "left");
+            allLegendsHtml += "<div class=\"mapLegendElement\">" + currentLegendAsHtml.wrap("<div>").parent().html() + markerColorTable[i].LegendText + "</div>";
+        }
+        return allLegendsHtml;
+    };
+</script>

@@ -1,7 +1,6 @@
-﻿using ProjectFirma.Web.Areas.EIP.Security;
+﻿using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 using LtInfo.Common.ModalDialog;

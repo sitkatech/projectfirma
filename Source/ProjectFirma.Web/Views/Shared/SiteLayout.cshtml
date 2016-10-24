@@ -1,99 +1,36 @@
-﻿@using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common
-@using LtInfo.Common.HtmlHelperExtensions
-@inherits SiteLayout
+﻿@using LtInfo.Common
+@inherits ProjectFirma.Web.Views.Shared.SiteLayout
 
-<!DOCTYPE html>
+@{
+    SetLayout("~/Views/Shared/NavAndHeaderLayout.cshtml", ViewDataTyped);
+}
 
-<html>
-<head>
-    <title>LT Info | @ViewDataTyped.PageTitle</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <link rel="apple-touch-icon" sizes="57x57" href="/Content/img/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/Content/img/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/Content/img/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/Content/img/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/Content/img/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/Content/img/apple-touch-icon-120x120.png">
-    <link rel="icon" type="image/png" href="/Content/img/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/Content/img/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="/Content/img/favicon-16x16.png" sizes="16x16">
-
-    <script type='text/javascript' src='//use.typekit.net/dpg0wpw.js?ver=1.0'></script>
-    
-    @{ Html.RenderRazorSitkaPartial<LakeTahoeInfoIncludes>(); }
-
-    <link href='@Url.Content("~/Content/CSS/ltinfo-root.theme.min.css")' type='text/css' media='all' rel='stylesheet' id='trpa-screen' /> 
-
-    <style>
-        .btn {
-            font-size: 16px;
-        }
-
-        #siteExplorerDropdownMenu
-        {
-            margin-top: 25px;
-        }
-    </style>
-
+@section JavascriptAndStylesContent
+{
     @RenderSection("JavascriptAndStylesContent", false)
-</head>
+}
 
-<body>
-    <header class="ltinfoHeader">
-        <div class="row">
-            <div class="col-sm-6">
-                @{ Html.RenderRazorSitkaPartial<LakeTahoeInfoSiteExplorer, LakeTahoeInfoSiteExplorerViewData>(ViewDataTyped.LakeTahoeInfoSiteExplorerViewData); }
-            </div>
-            <div class="col-sm-6 text-right">
-                @{ Html.RenderRazorSitkaPartial<LakeTahoeInfoNavBar, LakeTahoeInfoNavBarViewData>(ViewDataTyped.LakeTahoeInfoNavBarViewData);}
-            </div>
+<div style="padding: 0 20px; clear: both; margin: 5px 0 20px 0">
+    @if (!string.IsNullOrWhiteSpace(ViewDataTyped.EntityName))
+    {
+        <div class="entityName">@ViewDataTyped.EntityName</div>
+    }
+    <div style="float: right;">
+        @RenderSection("RightOfPageTitle", false)
+    </div>
+    <h1 class="pageTitle">@ViewDataTyped.PageTitle</h1>
+
+    @if (TempData.ContainsKey(SitkaController.StatusErrorIndex))
+    {
+        <div class="validationWarning">
+            @Html.Raw(TempData[SitkaController.StatusErrorIndex])
         </div>
-    </header>
-
-    <div class="siteLayout body" style="margin: 0 50px 20px 50px">
-        
-                @if (!string.IsNullOrWhiteSpace(ViewDataTyped.EntityName))
-                {
-                <h3 class="entityName">@ViewDataTyped.EntityName</h3>
-                }
-
-                <div class="rightOfPageTitle">
-                    @RenderSection("RightOfPageTitle", false)
-                </div>
-                @if (@ViewDataTyped.ShowPageTitle)
-                {
-                    <h1 class="pageTitle">@ViewDataTyped.PageTitle</h1>
-                }
-                
-                @if (TempData.ContainsKey(SitkaController.StatusErrorIndex))
-                {
-                    <div class="validationWarning">
-                        @Html.Raw(TempData[SitkaController.StatusErrorIndex])
-                    </div>
-                }
-                @if (TempData.ContainsKey(SitkaController.StatusMessageIndex))
-                {
-                    <div class="greenLight">
-                        @Html.Raw(TempData[SitkaController.StatusMessageIndex])
-                    </div>
-                }
-                @RenderBody()
-            </div>
-        
-    <footer class="footer">
-        <div class="row">
-            <div class="col-xs-12 text-center">
-                @{ Html.RenderRazorSitkaPartial<FooterContent>(); }
-            </div>
+    }
+    @if (TempData.ContainsKey(SitkaController.StatusMessageIndex))
+    {
+        <div class="greenLight">
+            @Html.Raw(TempData[SitkaController.StatusMessageIndex])
         </div>
-    </footer>
-
-    @{ Html.RenderRazorSitkaPartial<LakeTahoeInfoLateLoadingIncludes>(); }
-
-</body>
-</html>
+    }
+    @RenderBody()
+</div>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.UnitTestCommon;
-using ProjectFirma.Web.Areas.EIP.Views.ProjectUpdate;
+using ProjectFirma.Web.Views.ProjectUpdate;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using NUnit.Framework;

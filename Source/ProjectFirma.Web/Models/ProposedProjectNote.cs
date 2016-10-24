@@ -1,6 +1,6 @@
 using System;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Areas.EIP.Controllers;
+using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.Views;
 

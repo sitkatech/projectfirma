@@ -4,13 +4,11 @@ namespace ProjectFirma.Web.Views.Shared
 {
     public abstract class SiteLayoutViewData : LakeTahoeInfoBaseViewData
     {
-        public readonly LakeTahoeInfoNavBarViewData LakeTahoeInfoNavBarViewData;
         public readonly bool ShowPageTitle;
 
         protected SiteLayoutViewData(Person currentPerson, bool isLogInPage, Models.ProjectFirmaPage projectFirmaPage, bool showPageTitle)
             : base(currentPerson, projectFirmaPage, LTInfoArea.LTInfo)
         {
-            LakeTahoeInfoNavBarViewData = new LakeTahoeInfoNavBarViewData(currentPerson, isLogInPage, false, LogInUrl, LogOutUrl, RequestSupportUrl);
             ShowPageTitle = showPageTitle;
         }
 

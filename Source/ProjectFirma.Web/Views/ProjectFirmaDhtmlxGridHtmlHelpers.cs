@@ -1,6 +1,6 @@
 ﻿using System.Web;
 using System.Web.Mvc;
-using ProjectFirma.Web.Areas.EIP.Controllers;
+using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.BootstrapWrappers;
 using LtInfo.Common.DhtmlWrappers;

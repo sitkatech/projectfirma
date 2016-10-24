@@ -1,4 +1,4 @@
-using ProjectFirma.Web.Areas.EIP.Views;
+using ProjectFirma.Web.Views;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ThresholdCategory

@@ -1,0 +1,33 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@inherits ProjectFirma.Web.Views.TransportationCostParameterSet.Summary
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+<div>
+    @ViewDataTyped.ProjectFirmaPage.ProjectFirmaPageContentHtmlString
+</div>
+
+<div class="summarySection">
+    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTransportationCostParameterSet, "Edit", ViewDataTyped.HasEditPermissions) Cost Parameters</h2>
+    <div class="contentWrapper">
+
+        <p>
+            <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.TransportationGlobalInflationRate):</span>
+            <span>@ViewDataTyped.TransportationCostParameterSet.InflationRate.ToStringPercent()</span>
+        </p>
+        <p>
+            <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.CurrentRTPYearForPVCalculations):</span>
+            <span>@ViewDataTyped.TransportationCostParameterSet.CurrentRTPYearForPVCalculations</span>
+        </p>
+        <p>
+            <span class="stylizeLikeTH">Comment:</span>
+            <span>@ViewDataTyped.TransportationCostParameterSet.Comment</span>
+        </p>
+    </div>
+</div>

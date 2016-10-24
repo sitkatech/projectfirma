@@ -1,0 +1,171 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.ProjectUpdate
+@using LtInfo.Common
+@using LtInfo.Common.ModalDialog
+@using LtInfo.Common.Models
+@inherits SiteLayout
+
+@{
+    SetLayout("~/Areas/EIP/Views/Shared/SiteLayout.cshtml", ViewDataTyped);
+}
+
+@section JavascriptAndStylesContent
+{
+    <link href="@Url.Content("~/Content/css/EIPProjectWizard.css")" rel="stylesheet" type="text/css" />
+
+    <style>
+        #main-container
+        {
+            @if (ViewDataTyped.SelectedProjectUpdateSection != ProjectUpdateSectionEnum.Instructions)
+            {
+                <text>border-top-left-radius: 6px;</text>
+            }
+
+        }
+    </style>
+
+    @RenderSection("JavascriptAndStylesContent", false)
+}
+
+@section RightOfPageTitle
+{
+    <a href="@ViewDataTyped.ProjectUpdateMyProjectsUrl" style="text-decoration: none">Back to Update My Projects list</a>
+}
+
+<div id="projectWizardContent">
+    <div id="tab-container">
+        <ol>
+            <li style="list-style-type: none" class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Instructions, ViewDataTyped.SelectedProjectUpdateSection)">
+                <a href="@ViewDataTyped.ProjectUpdateInstructionsUrl">Instructions</a>
+            </li>
+            <li style="list-style-type: none">
+                <hr class="navMenu" />
+            </li>
+            <li value="1" class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Basics, ViewDataTyped.SelectedProjectUpdateSection)">
+                <a href="@ViewDataTyped.ProjectUpdateBasicsUrl">
+                    Basics
+                    @Html.Raw(ViewDataTyped.UpdateStatus.IsBasicsUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+                </a>
+                <span class="pull-right" style="padding: 5px">
+                    @Html.Raw(ViewDataTyped.ProjectUpdateBatch.AreProjectBasicsValid ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                </span>
+
+            </li>
+            <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.LocationSimple, ViewDataTyped.SelectedProjectUpdateSection)">
+                <a href="@ViewDataTyped.ProjectUpdateLocationSimpleUrl">
+                    Location - Simple
+                    @Html.Raw(ViewDataTyped.UpdateStatus.IsLocationSimpleUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+                </a>
+                <span class="pull-right" style="padding: 5px">
+                    @Html.Raw(ViewDataTyped.ProjectUpdateBatch.IsProjectLocationSimpleValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                </span>
+            </li>
+            <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.LocationDetailed, ViewDataTyped.SelectedProjectUpdateSection)">
+                <a href="@ViewDataTyped.ProjectUpdateLocationDetailedUrl">
+                    Location - Detailed
+                    @Html.Raw(ViewDataTyped.UpdateStatus.IsLocationDetailUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+                </a>
+            </li>
+            <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.EIPPerformanceMeasures, ViewDataTyped.SelectedProjectUpdateSection)">
+                <a href="@ViewDataTyped.ProjectUpdateEIPPerformanceMeasuresUrl">
+                    Performance Measures
+                    @Html.Raw(ViewDataTyped.UpdateStatus.IsEIPPerformanceMeasuresUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+                </a>
+                <span class="pull-right" style="padding: 5px">
+                    @Html.Raw(ViewDataTyped.ProjectUpdateBatch.AreEIPPerformanceMeasuresValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                </span>
+            </li>
+            <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Expenditures, ViewDataTyped.SelectedProjectUpdateSection)">
+                <a href="@ViewDataTyped.ProjectUpdateExpendituresUrl">
+                    Expenditures
+                    @Html.Raw(ViewDataTyped.UpdateStatus.IsExpendituresUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+                </a>
+                <span class="pull-right" style="padding: 5px">
+                    @Html.Raw(ViewDataTyped.ProjectUpdateBatch.AreExpendituresValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                </span>
+            </li>
+            @if (ViewDataTyped.Project.OnFederalTransportationImprovementProgramList)
+            {
+                <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.TransportationBudgets, ViewDataTyped.SelectedProjectUpdateSection)">
+                    <a href="@ViewDataTyped.ProjectUpdateTransportationBudgetsUrl">
+                        Budgets
+                        @Html.Raw(ViewDataTyped.UpdateStatus.IsTransportationBudgetsUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+                    </a>
+                    <span class="pull-right" style="padding: 5px">
+                        @Html.Raw(ViewDataTyped.ProjectUpdateBatch.AreTransportationBudgetsValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                    </span>
+                </li>
+            }
+            <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Photos, ViewDataTyped.SelectedProjectUpdateSection)">
+                <a href="@ViewDataTyped.ProjectUpdatePhotosUrl">
+                    Photos
+                    @Html.Raw(ViewDataTyped.UpdateStatus.IsPhotosUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+                </a>
+            </li>            
+            <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.ExternalLinks, ViewDataTyped.SelectedProjectUpdateSection)">
+                <a href="@ViewDataTyped.ProjectUpdateExternalLinksUrl">
+                    External Links
+                    @Html.Raw(ViewDataTyped.UpdateStatus.IsExternalLinksUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+                </a>
+            </li>
+            <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Notes, ViewDataTyped.SelectedProjectUpdateSection)">
+                <a href="@ViewDataTyped.ProjectUpdateNotesUrl">
+                    Notes
+                    @Html.Raw(ViewDataTyped.UpdateStatus.IsNotesUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+                </a>
+            </li>
+            <li style="list-style-type: none">
+                <hr class="navMenu" />
+            </li>
+            <li style="list-style-type: none" class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.History, ViewDataTyped.SelectedProjectUpdateSection)">
+                <a href="@ViewDataTyped.ProjectUpdateHistoryUrl">History</a>
+            </li>
+        </ol>
+
+    </div>
+    <div id="main-container">
+        @RenderBody()
+    </div>
+</div>
+
+<div class="pull-right">
+    @if (ViewDataTyped.ProjectUpdateBatch.IsReadyToSubmit)
+    {
+        @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, string.Format("Submit Project {0} to TRPA", ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> {"submitProject btn btn-xs btn-trpa"}, null, null)
+    }
+    else if (ViewDataTyped.ShowApproveAndReturnButton)
+    {
+        @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, string.Format("Return Project Updates for Project {0}", ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-trpa" }, null, null)
+        <span style="padding: 2px"></span>
+        if (ViewDataTyped.IsReadyToApprove)
+        {
+
+            @ModalDialogFormHelper.ModalDialogFormLink("Approve", ViewDataTyped.ApproveUrl, string.Format("Approve Project Updates for Project {0}", ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-trpa" }, null, null)
+        }
+        else
+        {
+            <button class="btn btn-xs btn-trpa" disabled="disabled">Approve</button>
+        }        
+    }
+    else if (ViewDataTyped.IsEditable)
+    {
+        <button class="btn btn-xs btn-trpa" disabled="disabled">Submit</button>
+    }
+</div>
+<div style="margin-left: 190px">
+    @if (ViewDataTyped.ProjectUpdateBatch.IsSubmitted)
+    {
+        <span>Submitted by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.UpdatePerson.FullNameFirstLastAndOrg on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.TransitionDate.ToStringDateTime()</span>
+    }
+    else if (ViewDataTyped.ProjectUpdateBatch.IsReturned)
+    {
+        <span>Returned by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.UpdatePerson.FullNameFirstLastAndOrg on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.TransitionDate.ToStringDateTime()</span>
+    }
+</div>
+
+<div style="padding: 5px; vertical-align: bottom; font-size: 11px">
+@if (ViewDataTyped.ProjectUpdateBatch.IsCreated && ModelObjectHelpers.IsRealPrimaryKeyValue(ViewDataTyped.ProjectUpdateBatch.ProjectUpdateBatchID))
+{
+    @ModalDialogFormHelper.MakeDeleteLink("Delete this Update", ViewDataTyped.DeleteProjectUpdateUrl, true)
+}
+</div>

@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using ProjectFirma.Web.Areas.EIP.Controllers;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Common;
 using LtInfo.Common;
 

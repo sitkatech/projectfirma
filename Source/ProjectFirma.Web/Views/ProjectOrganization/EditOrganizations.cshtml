@@ -1,0 +1,135 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Models
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Views.ProjectOrganization.EditOrganizations
+<script type="text/javascript">
+    // <![CDATA[    
+    angular.module("EditOrganizationsAngularApp", []).controller("ProjectOrganizationController", function($scope)
+    {
+        // AngularModel
+        //    ProjectOrganizationsViewModelJson
+        //       LeadOrganizationID
+        //       ProjectOrganizations (ProjectOrganizationJson[])
+        //          OrganizationID
+        //          OrganizationDisplayName
+        //          IsFundingOrganization
+        //          IsImplementingOrganization
+        $scope.AngularModel = @Html.Raw(JObject.FromObject(Model));
+        $scope.AngularViewData = @Html.Raw(JObject.FromObject(ViewDataTyped));
+        $scope.OrganizationToAdd = null;
+
+        jQuery("form").submit(function() { jQuery("#@Html.IdFor(x => x.ProjectOrganizationsViewModelJson)").val(JSON.stringify($scope.AngularModel.ProjectOrganizationsViewModelJson)); });
+
+        $scope.lookupLeadPersonForOrganization = function(organizationId)
+        {
+            var leadOrg = _.find($scope.AngularViewData.AllOrganizations, function(o) { return o.OrganizationID == organizationId; });
+            var primaryContactForLeadImplementerOrg = _.find($scope.AngularViewData.AllPeople, function(x) { return x.PersonID == leadOrg.PrimaryContactPersonID; });
+            if (primaryContactForLeadImplementerOrg != null)
+            {
+                return primaryContactForLeadImplementerOrg.DisplayName;
+            }
+            return "None";
+        };
+
+        $scope.filteredOrganizations = function()
+        {
+            var usedOrganizationsIDs = _.map($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations, function(o) { return o.OrganizationID; });
+            return _.filter($scope.AngularViewData.AllOrganizations, function(f) { return !_.contains(usedOrganizationsIDs, f.OrganizationID); });
+        };
+
+        $scope.setLeadOrganization = function(organization)
+        {
+            // if there are no organizations to begin with, we need to make the new record be the lead implementer
+            $scope.AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID = organization.OrganizationID;
+        };
+
+        $scope.addOrganization = function()
+        {
+            if ($scope.OrganizationToAdd != null)
+            {
+                // if there are no organizations to begin with, we need to make the new record be the lead implementer
+                if ($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length == 0)
+                {
+                    $scope.setLeadOrganization($scope.OrganizationToAdd);
+                }
+                var newProjectOrganizationJson = {
+                    OrganizationID: $scope.OrganizationToAdd.OrganizationID,
+                    OrganizationDisplayName: $scope.OrganizationToAdd.DisplayName,
+                    IsFundingOrganization: false,
+                    IsImplementingOrganization: false
+                };
+                $scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.push(newProjectOrganizationJson);
+                $scope.OrganizationToAdd = null;
+            }
+        };
+
+        $scope.deleteOrganization = function(organization)
+        {
+            var isOrganizationTheCurrentLead = organization.OrganizationID == $scope.AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID;
+
+            Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations, organization);
+
+            // if the one deleted was the lead, we need to set a new lead if there are still organizations left
+            if (isOrganizationTheCurrentLead && $scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length > 0)
+            {
+                // set the leaf to the first remaining org
+                $scope.setLeadOrganization($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations[0]);
+            }
+        };
+
+        $scope.isLeadOrganization = function(projectOrganization)
+        {
+            var isOrganizationTheCurrentLead = projectOrganization.OrganizationID == $scope.AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID;
+            if (isOrganizationTheCurrentLead)
+            {
+                projectOrganization.IsImplementingOrganization = true;
+            }
+            return projectOrganization.IsImplementingOrganization;
+        };
+    });
+
+    angular.bootstrap(jQuery("#EditOrganizationsAngularApp"), ["EditOrganizationsAngularApp"]);
+    // ]]>
+</script>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+<div style="font-weight: bold; margin-bottom: 20px">Organizations Associated with Project</div>
+<div id="EditOrganizationsAngularApp" ng-controller="ProjectOrganizationController">
+    Organization to Add: <select ng-model="OrganizationToAdd" ng-options="organization.DisplayName for organization in filteredOrganizations()">
+        <option value="">Choose One</option>
+    </select>
+    <button class="btn btn-xs btn-trpa" type="button" ng-click="addOrganization()">Add</button>
+    <table class="dialogFormLayout">
+        <tr>
+            <th></th>
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Organization)</th>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.LeadImplementer)</th>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Implementer)</th>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Funder)</th>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PrimaryContact)</th>
+        </tr>
+        <tr ng-repeat="projectOrganization in AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations">
+            <td>
+                <span class="glyphicon glyphicon-trash blue" title="Remove '{{projectOrganization.OrganizationDisplayName}}'" alt="Remove '{{projectOrganization.OrganizationDisplayName}}'" ng-click="deleteOrganization(projectOrganization)" style="cursor: pointer"></span></td>
+            <td>{{projectOrganization.OrganizationDisplayName}}</td>
+            <td>
+                <input type="radio" ng-model="AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID" ng-value="projectOrganization.OrganizationID"/>
+            </td>
+            <td>
+                <input type="checkbox" ng-model="projectOrganization.IsImplementingOrganization" ng-checked="isLeadOrganization(projectOrganization)"/>
+            </td>
+            <td>
+                <input type="checkbox" ng-model="projectOrganization.IsFundingOrganization"/>
+            </td>
+            <td>{{lookupLeadPersonForOrganization(projectOrganization.OrganizationID)}}</td>
+        </tr>
+    </table>
+
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(x => x.ProjectOrganizationsViewModelJson)
+    }
+</div>

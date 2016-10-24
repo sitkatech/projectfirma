@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using ProjectFirma.Web.Areas.EIP.Views.Project;
-using ProjectFirma.Web.Areas.EIP.Views.Results;
+using ProjectFirma.Web.Views.Project;
+using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;

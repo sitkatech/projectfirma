@@ -1,0 +1,88 @@
+﻿@using ProjectFirma.Web.Views.Shared
+@inherits HtmlDiffSummary
+
+<style>
+    ins {
+        background-color: #cfc;
+        text-decoration: none;
+    }
+
+    del {
+        color: #999;
+        background-color: #FEC8C8;
+    }
+
+    .added-element, .added-photo {
+        background-color: #cfc;
+    }
+
+    .deleted-element, .deleted-photo {
+        background-color: #FEC8C8;
+    }
+
+    .deleted-photo:after {
+        position: absolute;
+        top: 20%;
+        bottom: 50%;
+        left: 0;
+        right: 0;
+        content: "\d7"; /* use the hex value here... */
+        font-size: 100px; 
+        color: red;
+        line-height: 100px;
+        text-align: center;
+        vertical-align: middle;
+}
+
+    a
+    {
+        text-decoration: none !important;
+    }
+</style>
+
+<div>
+    <span class="pull-right"><input id="show-deletions" type="checkbox" checked="" /> Show deletion details</span>
+    <span>@ViewDataTyped.DiffTitle</span>
+</div>
+
+<hr />
+
+<div id="htmlDiffResults" style="overflow-y: auto">
+    @Html.Raw(ViewDataTyped.HtmlDiffResult)
+</div>
+
+<script>
+    jQuery(document).ready(function()
+    {
+        var htmlDiffResultsContainer = jQuery("#htmlDiffResults");
+        jQuery("a", htmlDiffResultsContainer).removeAttr("href");
+        jQuery("#show-deletions").change(function ()
+        {
+            if (this.checked)
+            {
+                jQuery("del, .deleted-element, .deleted-photo", htmlDiffResultsContainer).css("display", "");
+                jQuery("col.deleted-element", htmlDiffResultsContainer).css("width", "");
+            }
+            else
+            {
+                jQuery("del, .deleted-element, .deleted-photo", htmlDiffResultsContainer).css("display", "none");
+                jQuery("col.deleted-element", htmlDiffResultsContainer).css("width", "0");
+            }
+        });
+
+        // format span tags with class normalDollars into currency format
+        jQuery(".normalDollars", htmlDiffResultsContainer).each(function () {
+            var spanWithNormalDollarsClass = jQuery(this);
+            if (spanWithNormalDollarsClass.find(".diffmod, .diffins").length === 0) {
+                spanWithNormalDollarsClass.html(Sitka.Methods.formatAsCurrencyFromString(spanWithNormalDollarsClass.html(), 0));
+            }
+            else {
+                spanWithNormalDollarsClass.find(".diffmod, .diffins").each(function () {
+                    var modTag = jQuery(this);
+                    modTag.html(Sitka.Methods.formatAsCurrencyFromString(modTag.html(), 0));
+                });
+            }
+        });
+    });
+
+</script>

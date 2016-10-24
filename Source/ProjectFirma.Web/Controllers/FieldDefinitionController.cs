@@ -2,10 +2,9 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ProjectFirma.Web.Areas.EIP.Security;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.FieldDefinition;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;

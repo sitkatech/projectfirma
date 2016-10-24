@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Areas.EIP.Views.Project;
+using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Views;

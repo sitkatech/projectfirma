@@ -1,0 +1,16 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Views.Snapshot.Edit
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-2">
+            <strong>@Html.LabelFor(m => m.SnapshotNote):</strong>
+        </div>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.SnapshotNote, new {style = "width: 100%;"})
+            @Html.ValidationMessageFor(m => m.SnapshotNote)
+        </div>
+    </div>
+    
+    @Html.HiddenFor(m => m.SnapshotID)
+}

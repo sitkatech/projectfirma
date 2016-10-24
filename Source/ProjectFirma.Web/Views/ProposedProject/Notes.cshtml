@@ -1,0 +1,8 @@
+﻿@using ProjectFirma.Web.Views.Shared.TextControls
+@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Views.ProposedProject.Notes
+
+<p>Enter notes about this Proposed Project.</p>
+<hr/>
+
+@{ Html.RenderRazorSitkaPartial<EntityNotes, EntityNotesViewData>(ViewDataTyped.EntityNotesViewData); }

@@ -1,0 +1,105 @@
+﻿@using LtInfo.Common.ModalDialog
+@using LtInfo.Common.Mvc
+@inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ImportGdbFile
+
+<style>
+    /*Mimics style .validationWarning*/
+    .gisUploadError {
+        margin-top: 10px;
+        padding: 10px;
+        border: 2px solid;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        background-color: #eb9d9e;
+        border-color: #800000;
+    }
+</style>
+
+
+<table style="width: 100%" class="summaryLayout">
+    <tr>
+        <td style="width: 350px">
+            <p>
+                You may provide an existing map of your project's detailed location. Requirements:
+                <ul>
+                    <li>A single ArcGIS file geodatabase containing only features associated with the current project</li>
+                    <li>The file geodatabase (.gdb) must be contained within a compressed zip file (.zip)</li>
+                    <li>The zip file must contain one and only file geodatabase and no other data</li>
+                    <li>Version 10.1+ file geodatabases are supported </li>
+                    <li>
+                        Layers with elevation (z values) or route (m values) data are not supported.
+                        If your data has z or m values, please
+                        <a href="http://support.esri.com/es/knowledgebase/techarticles/detail/35818" target="_blank">remove them prior to importing</a>.
+                    </li>
+                </ul>
+            </p>
+            <p>
+                After you upload your file you will be able to preview and verify the uploaded data. Note that once you accept
+                the uploaded data, any existing detailed project location data will be overwritten.
+            </p>
+
+            <form method="POST" id="uploadGisForm" action="@ViewDataTyped.NewGisUploadUrl" enctype="multipart/form-data">
+                <div>
+                    @Html.EditorFor(x => x.FileResourceData)@Html.ValidationMessageFor(x => x.FileResourceData)
+                    <span class="smallExplanationText">
+                        Allowed Extensions: @Model.GetFileExtensions(x => x.FileResourceData)
+                    </span>
+                </div>
+            </form>
+        </td>
+        <td>
+            <form method="POST" id="@ViewDataTyped.MapFormID" action="@ViewDataTyped.ApproveGisUploadUrl">
+                <div id="gisUploadResults" style="min-height:600px"></div>
+            </form>
+        </td>
+    </tr>
+</table>
+
+<script>
+    function uploadGisFile() {
+        var form = jQuery("#uploadGisForm");
+        if (form.valid()) {
+            var saveButton = jQuery("#" + "@ModalDialogFormHelper.SaveButtonId");
+            var gisUploadResults = jQuery("#gisUploadResults");
+            form.ajaxForm({
+                url: this.action,
+                type: this.method,
+                beforeSubmit: function ()
+                {
+                    gisUploadResults.html("<div style='padding-top: 50%'><div class='progress'><div class='progress-bar progress-bar-info progress-bar-striped active' role='progressbar' style='width:100%'>Uploading</div></div></div>");
+                },
+                success: function (result, textStatus, jqXhr) {
+                    jQuery(".progress").hide();
+                    // Piggy back off the centralized login required detection in Ajax handling in SitkaAjax
+                    SitkaAjax.handleLoginRedirect(result, textStatus, jqXhr, function () {
+                        gisUploadResults.html(result);
+                        saveButton.prop("disabled", false);
+                    }
+                      );
+                },
+                error: function (xhr, statusText) {
+                    // Piggy back off the centralized error Ajax handling in SitkaAjax
+                    //SitkaAjax.errorHandler(xhr, statusText);
+                    jQuery(".progress").hide();
+                    saveButton.prop("disabled", true);
+                    gisUploadResults.html("<div class='gisUploadError' style='position: fixed; top: 50%; width:500px'>There was a problem uploading your file geodatabase. Verify it meets the requirements and is not corrupt.</div>");
+                }
+            });
+            form.submit();
+        }
+    }
+
+    jQuery(document).ready(function () {
+
+        var modalDialog = jQuery(".modal");
+        if (!Sitka.Methods.isUndefinedNullOrEmpty(modalDialog)) {
+            modalDialog.on("shown.bs.modal", function () {
+                jQuery("#" + "@ModalDialogFormHelper.SaveButtonId").prop("disabled", true);
+            });
+        }
+        jQuery("#" + "@ModalDialogFormHelper.SaveButtonId").prop("disabled", true);
+        jQuery("#" + "@Html.IdFor(x => x.FileResourceData)").change(uploadGisFile);
+    });
+</script>

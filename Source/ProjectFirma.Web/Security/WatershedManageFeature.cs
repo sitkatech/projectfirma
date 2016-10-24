@@ -1,4 +1,4 @@
-﻿using ProjectFirma.Web.Areas.EIP.Security;
+﻿using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Security
 {

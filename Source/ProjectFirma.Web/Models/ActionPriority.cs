@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Areas.EIP.Views.Shared.ProjectLocationControls;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Models

@@ -1,0 +1,37 @@
+﻿@using ProjectFirma.Web.Models
+@using LtInfo.Common.HtmlHelperExtensions
+
+@inherits ProjectFirma.Web.Views.TransportationCostParameterSet.New
+
+@using (Html.BeginForm())
+{
+    <table class="dialogFormLayout">
+        <tr>
+             <th>
+                @Html.LabelWithFieldDefinitionFor(FieldDefinition.TransportationGlobalInflationRate):
+            </th>
+            <td>
+                @Html.EditorFor(p => p.InflationRate)
+                @Html.ValidationMessageFor(p => p.InflationRate)
+            </td>
+        </tr>
+        <tr>
+             <th>
+                @Html.LabelWithFieldDefinitionFor(FieldDefinition.CurrentRTPYearForPVCalculations):
+            </th>
+            <td>
+                @Html.EditorFor(p => p.CurrentRTPYearForPVCalculations)
+                @Html.ValidationMessageFor(p => p.CurrentRTPYearForPVCalculations)
+            </td>
+        </tr>
+        <tr>
+             <th>
+                Comment:
+            </th>
+            <td>
+                @Html.TextAreaWithMaxLengthFor(p => p.Comment, new TextAreaForExtensions.TextAreaDimensions(null, 6), null)
+                @Html.ValidationMessageFor(p => p.Comment)
+            </td>
+        </tr>
+    </table>
+}

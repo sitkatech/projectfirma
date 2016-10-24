@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Controllers
             var person = personPrimaryKey.EntityObject;
             var userNotificationGridSpec = new UserNotificationGridSpec();
             var userNotificationGridDataUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.UserNotificationsGridJsonData(personPrimaryKey));
-            var basicProjectInfoGridSpec = new Areas.EIP.Views.Project.BasicProjectInfoGridSpec(CurrentPerson, false)
+            var basicProjectInfoGridSpec = new Views.Project.BasicProjectInfoGridSpec(CurrentPerson, false)
             {
                 ObjectNameSingular = string.Format("Project where {0} is the Primary Contact", person.FullNameFirstLast),
                 ObjectNamePlural = string.Format("Projects where {0} is the Primary Contact", person.FullNameFirstLast),
@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(PersonPrimaryKey personPrimaryKey)
         {
             var person = personPrimaryKey.EntityObject;
-            var gridSpec = new Areas.EIP.Views.Project.BasicProjectInfoGridSpec(CurrentPerson, false);
+            var gridSpec = new Views.Project.BasicProjectInfoGridSpec(CurrentPerson, false);
             var projectPersons = person.GetPrimaryContactProjects().OrderBy(x => x.DisplayName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectPersons, gridSpec);
             return gridJsonNetJObjectResult;

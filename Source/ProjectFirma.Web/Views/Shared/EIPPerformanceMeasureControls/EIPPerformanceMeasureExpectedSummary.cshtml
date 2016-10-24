@@ -1,0 +1,28 @@
+﻿@using ProjectFirma.Web.Models
+@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Views.Shared.EIPPerformanceMeasureControls.EIPPerformanceMeasureExpectedSummary
+
+@if (ViewDataTyped.EIPPerformanceMeasureExpecteds.Any())
+{
+    <table class="summaryLayout">
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.EIPPerformanceMeasure)</th>
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Subcategories)</th>
+            <th style="text-align: right">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ExpectedValue)</th>
+            <th></th>
+        </tr>
+        @foreach (var eipPerformanceMeasureExpected in ViewDataTyped.EIPPerformanceMeasureExpecteds.OrderBy(pm => pm.EIPPerformanceMeasureID))
+        {
+            <tr>
+                <td>@eipPerformanceMeasureExpected.EIPPerformanceMeasure.GetDisplayNameAsUrl()</td>
+                <td>@eipPerformanceMeasureExpected.IndicatorSubcategoriesAsString</td>
+                <td style="text-align: right">@eipPerformanceMeasureExpected.ReportedValue</td>
+                <td>@eipPerformanceMeasureExpected.EIPPerformanceMeasure.Indicator.MeasurementUnitType.MeasurementUnitTypeDisplayName</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p class="systemText">No expected performance measures set for this project.</p>
+}

@@ -1,0 +1,39 @@
+﻿
+@using ProjectFirma.Web.Views.ProposedProject
+@using ProjectFirma.Web.Views.Shared.ProjectLocationControls
+@using ProjectFirma.Web.Views.Shared
+@inherits LocationDetailed
+@section JavascriptAndStylesContent
+{
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+    <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css" />
+}
+
+@{ ProjectLocationDetail.RenderPartialView(Html, ViewDataTyped.ProjectLocationDetailViewData, Model);}
+
+<div style="margin: 5px 0;">
+    <div class="pull-right">
+        <button class="btn btn-xs btn-trpa" type="button" onclick="saveForm()">Save</button>
+    </div>
+    <div>&nbsp;</div>
+</div>
+
+@*This is intentionally down here because the document ready needs to be after the EditProjectLocation document ready*@
+<script type="text/javascript">
+    // <![CDATA[
+    jQuery(document).ready(function () { HookupCheckIfFormIsDirty("#@ViewDataTyped.ProjectLocationDetailViewData.MapFormID", ".submitProposal"); });
+
+    function saveForm() {
+        var form = jQuery("#@ViewDataTyped.ProjectLocationDetailViewData.MapFormID");
+        // Do not submit if the form
+        // does not pass client side validation
+
+        if (!form.valid()) {
+            return false;
+        }
+
+        form.submit();
+    }
+    // ]]>
+</script>

@@ -1,5 +1,5 @@
-﻿using ProjectFirma.Web.Areas.EIP.Views.Project;
-using ProjectFirma.Web.Areas.EIP.Views.Results;
+﻿using ProjectFirma.Web.Views.Project;
+using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;

@@ -1,6 +1,6 @@
 using System.Data.Entity.Spatial;
 using System.Linq;
-using ProjectFirma.Web.Areas.EIP.Views.Map;
+using ProjectFirma.Web.Views.Map;
 
 namespace ProjectFirma.Web.Models
 {

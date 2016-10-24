@@ -1,0 +1,144 @@
+﻿@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Controllers
+@using LtInfo.Common
+@using LtInfo.Common.ModalDialog
+@using Microsoft.Web.Mvc
+@inherits ProjectFirma.Web.Views.ProjectUpdate.CustomNotification
+
+<script type="text/javascript" src="/Scripts/CustomScripts/CkEditorReady.js"></script>
+<style>
+    #CkEditorForNotificationContent {
+        height: 400px;
+        overflow-y: auto;
+    }
+
+    .customMessageHeader .row {
+        margin-bottom: 5px;
+    }
+</style>
+
+@if (Model.PersonIDList == null || !Model.PersonIDList.Any())
+{
+    <p>
+        No people selected to be notified.
+    </p>
+
+    <script type="text/javascript">
+        // <![CDATA[
+        var saveButtonId = "@ModalDialogFormHelper.SaveButtonId";
+        jQuery("#" + saveButtonId).hide();
+        // ]]>
+    </script>
+}
+else
+{
+    using (Html.BeginForm<ProjectUpdateController>(x => x.SendCustomNotification(null)))
+    {
+        <div>
+            <span class="pull-right"><button id="send-preview-email" class="btn btn-xs btn-trpa" type="button" onclick="sendPreviewEmail()">Send Test Email</button></span>
+            Notification Template: @Html.DropDownList("reminderTemplateDropdown", ViewDataTyped.ReminderTemplates)
+        </div>
+        <hr/>
+        <div class="container-fluid customMessageHeader">
+            <div class="row">
+                <div class="col-md-2 stylizeLikeTH">
+                    To:
+                </div>
+                <div class="col-md-10">
+                    @string.Join("; ", ViewDataTyped.PeopleToNotify.Select(x => x.Email))
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 stylizeLikeTH">
+                    From:
+                </div>
+                <div class="col-md-10">@ViewDataTyped.SupportEmail</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 stylizeLikeTH">
+                    Subject:
+                </div>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.Subject, new {style = "width:100%"})
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.CkEditorFor(x => x.NotificationContent, CkEditorExtension.CkEditorToolbar.All, true, true, null)
+                </div>
+            </div>
+        </div>
+
+        <div style="max-height: 200px; overflow-y: auto; overflow-x: hidden">
+            <div style="margin: 5px 0">Notifiying @Model.PersonIDList.Count @ViewDataTyped.PersonLabel:</div>
+            <ul>
+                @foreach (var person in ViewDataTyped.PeopleToNotify)
+                {
+                    <li>@person.FullNameFirstLastAndOrg</li>
+                }
+            </ul>
+        </div>
+
+        foreach (var personID in Model.PersonIDList)
+        {
+            <input type="hidden" name="@Html.NameFor(x => x.PersonIDList)" value="@personID"/>
+        }
+
+        <script>
+            function sendPreviewEmail()
+            {
+                var editorId = "@("CkEditorFor" + Html.IdFor(x => x.NotificationContent))";
+                var ckEditor = CKEDITOR.instances[editorId];
+                var subject = jQuery("#@Html.IdFor(x => x.Subject)");
+                var postData = {
+                    NotificationContent: ckEditor.getData(),
+                    Subject: subject.val()
+                };
+                SitkaAjax.post(@Html.Raw(ViewDataTyped.SendPreviewEmailUrl.ToJS()), postData,
+                    function(result) { alert("A preview of this notification was emailed to you (@ViewDataTyped.CurrentPerson.Email)."); },
+                    function() { alert("There was an error sending the preview email."); });
+            }
+
+            jQuery(document).ready(function()
+            {
+                var templateDropdown = jQuery("#reminderTemplateDropdown");
+
+                if (@(ViewDataTyped.PeopleToNotify.Count) > 1)
+                {
+                    templateDropdown.prop("disabled", true);
+                }
+
+                templateDropdown.change(function()
+                {
+                    var editorId = "@("CkEditorFor" + Html.IdFor(x => x.NotificationContent))";
+                    var ckEditor = CKEDITOR.instances[editorId];
+                    var subject = jQuery("#@Html.IdFor(x => x.Subject)");
+
+                    if (Sitka.Methods.isUndefinedNullOrEmpty(templateDropdown.val()))
+                    {
+                        ckEditor.setData("");
+                        subject.val("");
+                        return;
+                    }
+                    var postData = {
+                        ReminderMessageTypeEnum: templateDropdown.val(),
+                        PersonID: @ViewDataTyped.PeopleToNotify.First().PersonID
+                    };
+                    SitkaAjax.post(@Html.Raw(ViewDataTyped.LoadReminderTemplateUrl.ToJS()), postData,
+                        function(reminderMessage)
+                        {
+                            ckEditor.setData(reminderMessage.Body);
+                            subject.val(reminderMessage.Subject);
+                        },
+                        function()
+                        {
+                            alert("There was an error selecting the reminder template.");
+                            ckEditor.setData("");
+                            subject.val("");
+                        });
+                });
+            });
+        </script>
+    }
+}

@@ -1,7 +1,7 @@
 using System;
 using System.Net.Mail;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Areas.EIP.Controllers;
+using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.Email;
 using LtInfo.Common.Views;

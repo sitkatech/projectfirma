@@ -1,0 +1,53 @@
+﻿@using ProjectFirma.Web.Models
+@using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Views.ProjectTransportationQuestion.EditTransportationAssessment
+
+@using (Html.BeginForm())
+{
+    <p>
+        Answer the Y/N questions below for your @Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectIsATransportationProject, "Transportation Project").
+    </p>
+    <hr />
+
+    var i = 0;
+    foreach (var transportationGoal in ViewDataTyped.TransportationGoals.OrderBy(x => x.TransportationGoalNumber))
+    {
+        <div class="row" style="height: 80px">
+            <h1>Goal @transportationGoal.TransportationGoalNumber: @transportationGoal.TransportationGoalTitle</h1>
+            <p><i>@transportationGoal.TransportationGoalDescription</i></p>
+        </div>
+
+        foreach (var transportationSubGoal in transportationGoal.TransportationSubGoals)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">Metric @transportationSubGoal.TransportationSubGoalNumber: @transportationSubGoal.TransportationSubGoalTitle </h2>
+                    <p><i>@transportationSubGoal.TransportationSubGoalDescription</i></p>
+                </div>
+                <div class="panel-body">
+
+                    @foreach (var transportationQuestion in transportationSubGoal.TransportationQuestions)
+                    {
+                        <div class="row" style="margin: 5px 0">
+                            <div class="col-md-9" style="padding-right: 20px">
+                                @transportationQuestion.TransportationQuestionText
+                            </div>
+                            <div class="col-md-3">
+                                <select style="width: 175px" name="@Html.NameFor(x => x.ProjectTransportationQuestionSimples[i].Answer)">
+                                    @foreach (var answer in BooleanFormats.GetYesNoSelectList())
+                                    {
+                                        <option value="@answer.Value" @Model.ProjectTransportationQuestionSimples[i].Answer.ToString().Equals(answer.Value, StringComparison.InvariantCultureIgnoreCase).ToSelectedOrEmpty()>@answer.Text</option>
+                                    }
+                                </select>
+                                @Html.HiddenFor(viewModel => viewModel.ProjectTransportationQuestionSimples[i].TransportationQuestionID)
+                                @Html.HiddenFor(viewModel => viewModel.ProjectTransportationQuestionSimples[i].ProjectID)
+                                @{ i++;}
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+}
