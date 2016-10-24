@@ -8,13 +8,8 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    public partial class EIPRole : IRole
+    public partial class Role : IRole
     {
-        public int RoleID { get { return EIPRoleID; } }
-        public string RoleName { get { return EIPRoleName; } }
-        public string RoleDisplayName { get { return EIPRoleDisplayName; } }
-        public string RoleDescription { get { return EIPRoleDescription; } }
-
         public List<FeaturePermission> GetFeaturePermissions()
         {
             var featurePermissions = this.GetFeaturePermissions(typeof(EIPFeature));
@@ -24,7 +19,7 @@ namespace ProjectFirma.Web.Models
 
         public List<Person> GetPeopleWithRole()
         {
-            return HttpRequestStorage.DatabaseEntities.People.Where(x => x.IsActive && x.EIPRoleID == RoleID).ToList();
+            return HttpRequestStorage.DatabaseEntities.People.Where(x => x.IsActive && x.RoleID == RoleID).ToList();
         }
 
         public HtmlString GetDisplayNameAsUrl()

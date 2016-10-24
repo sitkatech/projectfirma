@@ -45,12 +45,12 @@ namespace ProjectFirma.Web.Models
 
         public static bool IsAdministrator(this Person person)
         {
-            return person != null && person.EIPRole == EIPRole.Admin;
+            return person != null && person.Role == Role.Admin;
         }
 
         public static bool IsApprover(this Person person)
         {
-            return person != null && (person.EIPRole == EIPRole.Admin || person.EIPRole == EIPRole.Approver || person.EIPRole == EIPRole.TMPOManager);
+            return person != null && (person.Role == Role.Admin || person.Role == Role.Approver || person.Role == Role.TMPOManager);
         }
 
         public static bool ShouldReceiveEIPNotifications(this Person person)
@@ -60,12 +60,12 @@ namespace ProjectFirma.Web.Models
 
         public static bool IsReadOnlyAdmin(this Person person)
         {
-            return person != null && person.EIPRole == EIPRole.ReadOnlyAdmin;
+            return person != null && person.Role == Role.ReadOnlyAdmin;
         }
 
         public static bool IsReadOnly(this Person person)
         {
-            return (person != null && person.EIPRole == EIPRole.ReadOnlyNormal) || (person != null && person.EIPRole == EIPRole.ReadOnlyAdmin);
+            return (person != null && person.Role == Role.ReadOnlyNormal) || (person != null && person.Role == Role.ReadOnlyAdmin);
         }
 
         public static string GetKeystoneEditLink(this Person person)

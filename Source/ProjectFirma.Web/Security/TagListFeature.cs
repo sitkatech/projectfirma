@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("List Tags")]
     public class TagListFeature : EIPFeature
     {
-        public TagListFeature() : base(new List<EIPRole> { EIPRole.Admin, EIPRole.ReadOnlyAdmin, EIPRole.TMPOManager })
+        public TagListFeature() : base(new List<Role> { Role.Admin, Role.ReadOnlyAdmin, Role.TMPOManager })
         {
         }
     }

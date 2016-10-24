@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Controllers
         [UserEditFeature]
         public GridJsonNetJObjectResult<Person> PersonWithRoleGridJsonData(int roleID)
         {
-            var role = EIPRole.AllLookupDictionary[roleID];
+            var role = Role.AllLookupDictionary[roleID];
             var gridSpec = new PersonWithRoleGridSpec();
             var peopleWithRole = role.GetPeopleWithRole();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(peopleWithRole, gridSpec);
@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Controllers
         public static List<IRole> GetRoleSummaryData()
         {
             var roles = new List<IRole> {new AnonymousRole()};
-            roles.AddRange(EIPRole.All);
+            roles.AddRange(Role.All);
             return roles.OrderBy(x => x.RoleDisplayName).ToList();
         }
 
@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Controllers
         [LakeTahoeInfoAdminFeature]
         public ViewResult Summary(int roleID)
         {
-            var role = EIPRole.AllLookupDictionary[roleID];
+            var role = Role.AllLookupDictionary[roleID];
             return ViewSummary(role);
         }
 

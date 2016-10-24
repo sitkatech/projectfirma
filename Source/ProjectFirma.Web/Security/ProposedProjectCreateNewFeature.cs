@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.Security
     public class ProposedProjectCreateNewFeature : EIPFeature
     {
         public ProposedProjectCreateNewFeature()
-            : base(new List<EIPRole> { EIPRole.Normal, EIPRole.Approver, EIPRole.Admin, EIPRole.TMPOManager })
+            : base(new List<Role> { Role.Normal, Role.Approver, Role.Admin, Role.TMPOManager })
         {
         }
     }

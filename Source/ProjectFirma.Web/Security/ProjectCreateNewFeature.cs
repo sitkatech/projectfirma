@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("Create New Project")]
     public class ProjectCreateNewFeature : EIPFeature
     {
-        public ProjectCreateNewFeature() : base(new List<EIPRole> { EIPRole.Admin, EIPRole.TMPOManager })
+        public ProjectCreateNewFeature() : base(new List<Role> { Role.Admin, Role.TMPOManager })
         {
         }
     }

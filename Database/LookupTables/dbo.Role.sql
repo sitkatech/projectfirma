@@ -1,7 +1,7 @@
-delete from dbo.EIPRole
+delete from dbo.Role
 go
 
-insert into dbo.EIPRole(EIPRoleID, EIPRoleName, EIPRoleDisplayName, EIPRoleDescription) 
+insert into dbo.Role(RoleID, RoleName, RoleDisplayName, RoleDescription) 
 values 
 (1, 'Admin', 'Administrator', ''),
 (2, 'Normal', 'Normal User', 'Users with this role can propose new EIP projects, update existing EIP projects where their organization is the Lead Implementer, and view almost every page within the EIP Tracker.'),

@@ -6,6 +6,6 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("_Admin for Lake Tahoe Info")]
     public class LakeTahoeInfoAdminFeature : EIPFeature
     {
-        public LakeTahoeInfoAdminFeature() : base(new List<EIPRole> { EIPRole.Admin }) { }
+        public LakeTahoeInfoAdminFeature() : base(new List<Role> { Role.Admin }) { }
     }
 }

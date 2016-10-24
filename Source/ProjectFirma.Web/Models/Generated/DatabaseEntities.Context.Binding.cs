@@ -187,11 +187,6 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(eIPPerformanceMeasureType, "EIPPerformanceMeasureType", primaryKey);
                     return eIPPerformanceMeasureType;
 
-                case "EIPRole":
-                    var eIPRole = EIPRole.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(eIPRole, "EIPRole", primaryKey);
-                    return eIPRole;
-
                 case "FieldDefinitionData":
                     return FieldDefinitionDatas.GetFieldDefinitionData(primaryKey);
 
@@ -481,6 +476,11 @@ namespace ProjectFirma.Web.Models
                     var reminderMessageType = ReminderMessageType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(reminderMessageType, "ReminderMessageType", primaryKey);
                     return reminderMessageType;
+
+                case "Role":
+                    var role = Role.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(role, "Role", primaryKey);
+                    return role;
 
                 case "Sector":
                     var sector = Sector.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

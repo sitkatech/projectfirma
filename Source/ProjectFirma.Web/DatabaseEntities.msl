@@ -410,7 +410,7 @@
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Phone" ColumnName="Phone" />
           <ScalarProperty Name="PasswordPdfK2SaltHash" ColumnName="PasswordPdfK2SaltHash" />
-          <ScalarProperty Name="EIPRoleID" ColumnName="EIPRoleID" />
+          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
           <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />

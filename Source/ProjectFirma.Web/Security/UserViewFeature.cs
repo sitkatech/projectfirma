@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Security
     {
         private readonly LakeTahoeInfoFeatureWithContextImpl<Person> _lakeTahoeInfoFeatureWithContextImpl;
 
-        public UserViewFeature() : base(EIPRole.All)
+        public UserViewFeature() : base(Role.All)
         {
             _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<Person>(this);
             ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;

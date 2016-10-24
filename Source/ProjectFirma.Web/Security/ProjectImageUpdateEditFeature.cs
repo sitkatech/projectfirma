@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.Security
     {
         private readonly LakeTahoeInfoFeatureWithContextImpl<ProjectImageUpdate> _lakeTahoeInfoFeatureWithContextImpl;
 
-        public ProjectImageUpdateEditFeature() : base(new List<EIPRole> {EIPRole.Normal, EIPRole.Approver, EIPRole.Admin, EIPRole.TMPOManager})
+        public ProjectImageUpdateEditFeature() : base(new List<Role> {Role.Normal, Role.Approver, Role.Admin, Role.TMPOManager})
         {
             _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<ProjectImageUpdate>(this);
             ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;

@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Person(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int eIPRoleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, bool receiveSupportEmails, Guid? webServiceAccessToken) : this()
+        public Person(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int roleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, bool receiveSupportEmails, Guid? webServiceAccessToken) : this()
         {
             this.PersonID = personID;
             this.PersonGuid = personGuid;
@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Models
             this.Email = email;
             this.Phone = phone;
             this.PasswordPdfK2SaltHash = passwordPdfK2SaltHash;
-            this.EIPRoleID = eIPRoleID;
+            this.RoleID = roleID;
             this.CreateDate = createDate;
             this.UpdateDate = updateDate;
             this.LastActivityDate = lastActivityDate;
@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Person(Guid personGuid, string firstName, string lastName, string email, int eIPRoleID, DateTime createDate, bool isActive, int organizationID, bool receiveSupportEmails) : this()
+        public Person(Guid personGuid, string firstName, string lastName, string email, int roleID, DateTime createDate, bool isActive, int organizationID, bool receiveSupportEmails) : this()
         {
             // Mark this as a new object by setting primary key with special value
             PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Models
             this.FirstName = firstName;
             this.LastName = lastName;
             this.Email = email;
-            this.EIPRoleID = eIPRoleID;
+            this.RoleID = roleID;
             this.CreateDate = createDate;
             this.IsActive = isActive;
             this.OrganizationID = organizationID;
@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Person(Guid personGuid, string firstName, string lastName, string email, EIPRole eIPRole, DateTime createDate, bool isActive, Organization organization, bool receiveSupportEmails) : this()
+        public Person(Guid personGuid, string firstName, string lastName, string email, Role role, DateTime createDate, bool isActive, Organization organization, bool receiveSupportEmails) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Models
             this.FirstName = firstName;
             this.LastName = lastName;
             this.Email = email;
-            this.EIPRoleID = eIPRole.EIPRoleID;
+            this.RoleID = role.RoleID;
             this.CreateDate = createDate;
             this.IsActive = isActive;
             this.OrganizationID = organization.OrganizationID;
@@ -106,9 +106,9 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static Person CreateNewBlank(EIPRole eIPRole, Organization organization)
+        public static Person CreateNewBlank(Role role, Organization organization)
         {
-            return new Person(default(Guid), default(string), default(string), default(string), eIPRole, default(DateTime), default(bool), organization, default(bool));
+            return new Person(default(Guid), default(string), default(string), default(string), role, default(DateTime), default(bool), organization, default(bool));
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace ProjectFirma.Web.Models
         public string Email { get; set; }
         public string Phone { get; set; }
         public string PasswordPdfK2SaltHash { get; set; }
-        public int EIPRoleID { get; set; }
+        public int RoleID { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
         public DateTime? LastActivityDate { get; set; }
@@ -160,7 +160,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProposedProjectNote> ProposedProjectNotesWhereYouAreTheCreatePerson { get; set; }
         public virtual ICollection<ProposedProjectNote> ProposedProjectNotesWhereYouAreTheUpdatePerson { get; set; }
         public virtual ICollection<SupportRequestLog> SupportRequestLogsWhereYouAreTheRequestPerson { get; set; }
-        public EIPRole EIPRole { get { return EIPRole.AllLookupDictionary[EIPRoleID]; } }
+        public Role Role { get { return Role.AllLookupDictionary[RoleID]; } }
         public virtual Organization Organization { get; set; }
 
         public static class FieldLengths

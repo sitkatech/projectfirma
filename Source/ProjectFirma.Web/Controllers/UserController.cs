@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditRolesViewModel viewModel)
         { 
-            var eipRolesAsSelectListItems = EIPRole.All.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture), x => x.RoleDisplayName);
+            var eipRolesAsSelectListItems = Role.All.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture), x => x.RoleDisplayName);
             var viewData = new EditRolesViewData(eipRolesAsSelectListItems);
             return RazorPartialView<EditRoles, EditRolesViewData, EditRolesViewModel>(viewData, viewModel);
         }

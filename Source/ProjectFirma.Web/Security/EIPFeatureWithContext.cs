@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.Security
     {
         public IActionFilter ActionFilter;
 
-        protected EIPFeatureWithContext(List<EIPRole> grantedRoles) : base(grantedRoles.Select(x => (IRole)x).ToList())
+        protected EIPFeatureWithContext(List<Role> grantedRoles) : base(grantedRoles.Select(x => (IRole)x).ToList())
         {
         }
 

@@ -1272,7 +1272,7 @@
     <Property Name="Email" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="Phone" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
     <Property Name="PasswordPdfK2SaltHash" Type="String" MaxLength="1000" Unicode="true" FixedLength="false" />
-    <Property Name="EIPRoleID" Type="Int32" Nullable="false" />
+    <Property Name="RoleID" Type="Int32" Nullable="false" />
     <Property Name="CreateDate" Type="DateTime" Nullable="false" />
     <Property Name="UpdateDate" Type="DateTime" />
     <Property Name="LastActivityDate" Type="DateTime" />

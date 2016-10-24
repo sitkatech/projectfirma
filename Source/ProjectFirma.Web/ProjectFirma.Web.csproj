@@ -91,8 +91,6 @@
     <Compile Include="Models\Generated\EIPPerformanceMeasurePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\EIPPerformanceMeasureType.Binding.cs" />
     <Compile Include="Models\Generated\EIPPerformanceMeasureTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\EIPRole.Binding.cs" />
-    <Compile Include="Models\Generated\EIPRolePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinition.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinitionData.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinitionData.DatabaseContextExtensions.cs" />
@@ -326,6 +324,8 @@
     <Compile Include="Models\Generated\ProposedProjectTransportationQuestionPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ReminderMessageType.Binding.cs" />
     <Compile Include="Models\Generated\ReminderMessageTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\Role.Binding.cs" />
+    <Compile Include="Models\Generated\RolePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Sector.Binding.cs" />
     <Compile Include="Models\Generated\SectorPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Snapshot.Binding.cs" />
@@ -654,7 +654,7 @@
     <Compile Include="Security\SecurityFeatureDescription.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Models\EIPRole.cs" />
+    <Compile Include="Models\Role.cs" />
     <Compile Include="Security\WebServiceDocumentationViewFeature.cs" />
     <Compile Include="Service\IWebServices.cs" />
     <Compile Include="Service\ServiceModels\WebServiceEIPPerformanceMeasure.cs" />

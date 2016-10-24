@@ -1,0 +1,188 @@
+//  IMPORTANT:
+//  This file is generated. Your changes will be lost.
+//  Use the corresponding partial class for customizations.
+//  Source Table: [dbo].[Role]
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Linq;
+using LtInfo.Common.DesignByContract;
+using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
+
+namespace ProjectFirma.Web.Models
+{
+    public abstract partial class Role : IHavePrimaryKey
+    {
+        public static readonly RoleAdmin Admin = RoleAdmin.Instance;
+        public static readonly RoleNormal Normal = RoleNormal.Instance;
+        public static readonly RoleReadOnlyAdmin ReadOnlyAdmin = RoleReadOnlyAdmin.Instance;
+        public static readonly RoleReadOnlyNormal ReadOnlyNormal = RoleReadOnlyNormal.Instance;
+        public static readonly RoleApprover Approver = RoleApprover.Instance;
+        public static readonly RoleTMPOManager TMPOManager = RoleTMPOManager.Instance;
+        public static readonly RoleUnassigned Unassigned = RoleUnassigned.Instance;
+        public static readonly RoleSitkaAdmin SitkaAdmin = RoleSitkaAdmin.Instance;
+
+        public static readonly List<Role> All;
+        public static readonly ReadOnlyDictionary<int, Role> AllLookupDictionary;
+
+        /// <summary>
+        /// Static type constructor to coordinate static initialization order
+        /// </summary>
+        static Role()
+        {
+            All = new List<Role> { Admin, Normal, ReadOnlyAdmin, ReadOnlyNormal, Approver, TMPOManager, Unassigned, SitkaAdmin };
+            AllLookupDictionary = new ReadOnlyDictionary<int, Role>(All.ToDictionary(x => x.RoleID));
+        }
+
+        /// <summary>
+        /// Protected constructor only for use in instantiating the set of static lookup values that match database
+        /// </summary>
+        protected Role(int roleID, string roleName, string roleDisplayName, string roleDescription)
+        {
+            RoleID = roleID;
+            RoleName = roleName;
+            RoleDisplayName = roleDisplayName;
+            RoleDescription = roleDescription;
+        }
+
+        [Key]
+        public int RoleID { get; private set; }
+        public string RoleName { get; private set; }
+        public string RoleDisplayName { get; private set; }
+        public string RoleDescription { get; private set; }
+        public int PrimaryKey { get { return RoleID; } }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public bool Equals(Role other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            return other.RoleID == RoleID;
+        }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Role);
+        }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return RoleID;
+        }
+
+        public static bool operator ==(Role left, Role right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Role left, Role right)
+        {
+            return !Equals(left, right);
+        }
+
+        public RoleEnum ToEnum { get { return (RoleEnum)GetHashCode(); } }
+
+        public static Role ToType(int enumValue)
+        {
+            return ToType((RoleEnum)enumValue);
+        }
+
+        public static Role ToType(RoleEnum enumValue)
+        {
+            switch (enumValue)
+            {
+                case RoleEnum.Admin:
+                    return Admin;
+                case RoleEnum.Approver:
+                    return Approver;
+                case RoleEnum.Normal:
+                    return Normal;
+                case RoleEnum.ReadOnlyAdmin:
+                    return ReadOnlyAdmin;
+                case RoleEnum.ReadOnlyNormal:
+                    return ReadOnlyNormal;
+                case RoleEnum.SitkaAdmin:
+                    return SitkaAdmin;
+                case RoleEnum.TMPOManager:
+                    return TMPOManager;
+                case RoleEnum.Unassigned:
+                    return Unassigned;
+                default:
+                    throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
+            }
+        }
+    }
+
+    public enum RoleEnum
+    {
+        Admin = 1,
+        Normal = 2,
+        ReadOnlyAdmin = 3,
+        ReadOnlyNormal = 4,
+        Approver = 5,
+        TMPOManager = 6,
+        Unassigned = 7,
+        SitkaAdmin = 8
+    }
+
+    public partial class RoleAdmin : Role
+    {
+        private RoleAdmin(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
+        public static readonly RoleAdmin Instance = new RoleAdmin(1, @"Admin", @"Administrator", @"");
+    }
+
+    public partial class RoleNormal : Role
+    {
+        private RoleNormal(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
+        public static readonly RoleNormal Instance = new RoleNormal(2, @"Normal", @"Normal User", @"Users with this role can propose new EIP projects, update existing EIP projects where their organization is the Lead Implementer, and view almost every page within the EIP Tracker.");
+    }
+
+    public partial class RoleReadOnlyAdmin : Role
+    {
+        private RoleReadOnlyAdmin(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
+        public static readonly RoleReadOnlyAdmin Instance = new RoleReadOnlyAdmin(3, @"ReadOnlyAdmin", @"Read-only Administrator User", @"");
+    }
+
+    public partial class RoleReadOnlyNormal : Role
+    {
+        private RoleReadOnlyNormal(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
+        public static readonly RoleReadOnlyNormal Instance = new RoleReadOnlyNormal(4, @"ReadOnlyNormal", @"Read-only Normal User", @"");
+    }
+
+    public partial class RoleApprover : Role
+    {
+        private RoleApprover(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
+        public static readonly RoleApprover Instance = new RoleApprover(5, @"Approver", @"Approver", @"");
+    }
+
+    public partial class RoleTMPOManager : Role
+    {
+        private RoleTMPOManager(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
+        public static readonly RoleTMPOManager Instance = new RoleTMPOManager(6, @"TMPOManager", @"TMPO Manager", @"");
+    }
+
+    public partial class RoleUnassigned : Role
+    {
+        private RoleUnassigned(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
+        public static readonly RoleUnassigned Instance = new RoleUnassigned(7, @"Unassigned", @"Unassigned", @"");
+    }
+
+    public partial class RoleSitkaAdmin : Role
+    {
+        private RoleSitkaAdmin(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
+        public static readonly RoleSitkaAdmin Instance = new RoleSitkaAdmin(8, @"SitkaAdmin", @"Sitka Administrator", @"");
+    }
+}

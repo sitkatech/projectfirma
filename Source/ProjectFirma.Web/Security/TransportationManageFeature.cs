@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("Manage Transportation Features")]
     public class TransportationManageFeature : EIPFeature
     {
-        public TransportationManageFeature() : base(new List<EIPRole> { EIPRole.Admin, EIPRole.TMPOManager })
+        public TransportationManageFeature() : base(new List<Role> { Role.Admin, Role.TMPOManager })
         {
         }
     }

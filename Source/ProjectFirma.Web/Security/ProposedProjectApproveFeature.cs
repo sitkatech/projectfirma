@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("Approve Proposed Project")]
     public class ProposedProjectApproveFeature : EIPFeature
     {             
-        public ProposedProjectApproveFeature(): base(new List<EIPRole> {EIPRole.Admin, EIPRole.Approver, EIPRole.TMPOManager})
+        public ProposedProjectApproveFeature(): base(new List<Role> {Role.Admin, Role.Approver, Role.TMPOManager})
         {            
         }        
     }

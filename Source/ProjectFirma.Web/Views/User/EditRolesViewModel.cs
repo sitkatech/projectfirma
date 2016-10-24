@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Views.User
 
         [Required]        
         [FieldDefinitionDisplay(FieldDefinitionEnum.EIPRoleID)]
-        public int? EIPRoleID { get; set; }
+        public int? RoleID { get; set; }
 
         [Required]
         [DisplayName("Should Receive Support Emails?")]
@@ -30,14 +30,14 @@ namespace ProjectFirma.Web.Views.User
         public EditRolesViewModel(Person person)
         {
             PersonID = person.PersonID;
-            EIPRoleID = person.EIPRoleID;
+            RoleID = person.RoleID;
 
             ShouldReceiveSupportEmails = person.ReceiveSupportEmails;
         }
 
         public void UpdateModel(Person person, Person currentPerson)
         {
-            person.EIPRoleID = EIPRoleID.Value;
+            person.RoleID = RoleID.Value;
             person.ReceiveSupportEmails = ShouldReceiveSupportEmails;
 
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(person.PersonID))

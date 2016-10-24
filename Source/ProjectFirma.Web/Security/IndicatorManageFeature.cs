@@ -6,6 +6,6 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("Manage Indicator")]
     public class IndicatorManageFeature : EIPFeature
     {
-        public IndicatorManageFeature() : base(new List<EIPRole> { EIPRole.Admin }) { }
+        public IndicatorManageFeature() : base(new List<Role> { Role.Admin }) { }
     }
 }

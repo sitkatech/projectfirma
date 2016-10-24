@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Security
 {
     public static class LakeTahoeInfoBaseFeatureHelpers
     {
-        public static readonly List<EIPRole> AllEIPRolesExceptUnassigned = EIPRole.All.Except(new[] { EIPRole.Unassigned }).ToList();
+        public static readonly List<Role> AllEIPRolesExceptUnassigned = Role.All.Except(new[] { Role.Unassigned }).ToList();
 
         public static bool DoesRoleHavePermissionsForFeature(IRole role, Type type)
         {

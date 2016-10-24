@@ -11,7 +11,7 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("_Admin / TMPO Manager for EIP")]
     public class AdminAndTMPOAdminFeature : EIPFeature
     {
-        public AdminAndTMPOAdminFeature() : base(new List<EIPRole> {EIPRole.Admin, EIPRole.TMPOManager})
+        public AdminAndTMPOAdminFeature() : base(new List<Role> {Role.Admin, Role.TMPOManager})
         {
         }
     }

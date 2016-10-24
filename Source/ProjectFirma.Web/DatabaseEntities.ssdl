@@ -1180,7 +1180,7 @@ warning 6035: The relationship 'FK_SnapshotEIPPerformanceMeasureSubcategoryOptio
     <Property Name="Email" Type="varchar" Nullable="false" MaxLength="255" />
     <Property Name="Phone" Type="varchar" MaxLength="30" />
     <Property Name="PasswordPdfK2SaltHash" Type="nvarchar" MaxLength="1000" />
-    <Property Name="EIPRoleID" Type="int" Nullable="false" />
+    <Property Name="RoleID" Type="int" Nullable="false" />
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
     <Property Name="UpdateDate" Type="datetime" />
     <Property Name="LastActivityDate" Type="datetime" />

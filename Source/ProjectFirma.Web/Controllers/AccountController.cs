@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
                     keystoneUserClaims.FirstName,
                     keystoneUserClaims.LastName,
                     keystoneUserClaims.Email,
-                    EIPRole.Unassigned.EIPRoleID,
+                    Role.Unassigned.RoleID,
                     DateTime.Now,
                     true,
                     Organization.OrganizationIDUnknown,

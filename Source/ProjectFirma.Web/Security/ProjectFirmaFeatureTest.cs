@@ -89,14 +89,14 @@ namespace ProjectFirma.Web.Security
             foreach (var type in types)
             {
                 var obj = LakeTahoeInfoBaseFeature.InstantiateFeature(type);
-                if (!obj.GrantedRoles.Contains(EIPRole.Admin) && obj.GrantedRoles.Count != 0)
+                if (!obj.GrantedRoles.Contains(Role.Admin) && obj.GrantedRoles.Count != 0)
                 {
                     var errorMessage = String.Format("Feature {0} is not available to Administrators", type.FullName);
                     listOfErrors.Add(errorMessage);
                 }
 
                 //Validate Unassigned does NOT have access                
-                if (obj.GrantedRoles.Contains(EIPRole.Unassigned))
+                if (obj.GrantedRoles.Contains(Role.Unassigned))
                 {
                     string errorMessage = String.Format("Feature {0} is available to the Unassigned role", type.FullName);
                     listOfErrors.Add(errorMessage);

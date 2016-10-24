@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.Security
     {
         private readonly LakeTahoeInfoFeatureWithContextImpl<ProposedProject> _lakeTahoeInfoFeatureWithContextImpl;
 
-        public ProposedProjectViewFeature() : base(new List<EIPRole>())
+        public ProposedProjectViewFeature() : base(new List<Role>())
         {
             _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<ProposedProject>(this);
             ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;

@@ -11,7 +11,7 @@ namespace ProjectFirma.Web.Security
         private readonly LakeTahoeInfoFeatureWithContextImpl<Project> _lakeTahoeInfoFeatureWithContextImpl;
 
         public EIPPerformanceMeasureExpectedFromProjectManageFeature()
-            : base(new List<EIPRole> { EIPRole.Admin, EIPRole.TMPOManager, EIPRole.Normal, EIPRole.Approver })
+            : base(new List<Role> { Role.Admin, Role.TMPOManager, Role.Normal, Role.Approver })
         {
             _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<Project>(this);
             ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;

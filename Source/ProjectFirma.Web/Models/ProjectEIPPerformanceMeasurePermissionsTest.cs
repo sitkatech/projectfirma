@@ -21,13 +21,13 @@ namespace ProjectFirma.Web.Models
             Person userAnonymous = null;
 
             var userNormal = TestFramework.TestPerson.Create();
-            userNormal.EIPRoleID = EIPRole.Normal.RoleID;
+            userNormal.RoleID = Role.Normal.RoleID;
 
             var userApprover = TestFramework.TestPerson.Create();
-            userApprover.EIPRoleID = EIPRole.Approver.RoleID;
+            userApprover.RoleID = Role.Approver.RoleID;
 
             var userAdmin = TestFramework.TestPerson.Create();
-            userAdmin.EIPRoleID = EIPRole.Admin.RoleID;
+            userAdmin.RoleID = Role.Admin.RoleID;
 
             // Deferred Project
             // ----------------
@@ -258,13 +258,13 @@ namespace ProjectFirma.Web.Models
             Person userAnonymous = null;
 
             var userNormal = TestFramework.TestPerson.Create();
-            userNormal.EIPRoleID = EIPRole.Normal.RoleID;
+            userNormal.RoleID = Role.Normal.RoleID;
 
             var userApprover = TestFramework.TestPerson.Create();
-            userNormal.EIPRoleID = EIPRole.Approver.RoleID;
+            userNormal.RoleID = Role.Approver.RoleID;
 
             var userAdmin = TestFramework.TestPerson.Create();
-            userAdmin.EIPRoleID = EIPRole.Admin.RoleID;
+            userAdmin.RoleID = Role.Admin.RoleID;
 
             // Planning/Design Project
             // ----------------
@@ -300,13 +300,13 @@ namespace ProjectFirma.Web.Models
             Person userAnonymous = null;
 
             var userNormal = TestFramework.TestPerson.Create();
-            userNormal.EIPRoleID = EIPRole.Normal.RoleID;
+            userNormal.RoleID = Role.Normal.RoleID;
 
             var userApprover = TestFramework.TestPerson.Create();
-            userNormal.EIPRoleID = EIPRole.Approver.RoleID;
+            userNormal.RoleID = Role.Approver.RoleID;
 
             var userAdmin = TestFramework.TestPerson.Create();
-            userAdmin.EIPRoleID = EIPRole.Admin.RoleID;
+            userAdmin.RoleID = Role.Admin.RoleID;
 
             // Planning/Design Project
             // ----------------

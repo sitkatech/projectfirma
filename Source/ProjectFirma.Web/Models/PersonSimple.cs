@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Models
             Email = email;
             Phone = phone;
             PasswordPdfK2SaltHash = passwordPdfK2SaltHash;
-            EIPRoleID = eIPRoleID;
+            RoleID = eIPRoleID;
             CreateDate = createDate;
             UpdateDate = updateDate;
             LastActivityDate = lastActivityDate;
@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Models
             Email = person.Email;
             Phone = person.Phone;
             PasswordPdfK2SaltHash = person.PasswordPdfK2SaltHash;
-            EIPRoleID = person.EIPRoleID;
+            RoleID = person.RoleID;
             CreateDate = person.CreateDate;
             UpdateDate = person.UpdateDate;
             LastActivityDate = person.LastActivityDate;
@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Models
         public string Email { get; set; }
         public string Phone { get; set; }
         public string PasswordPdfK2SaltHash { get; set; }
-        public int EIPRoleID { get; set; }
+        public int RoleID { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
         public DateTime? LastActivityDate { get; set; }

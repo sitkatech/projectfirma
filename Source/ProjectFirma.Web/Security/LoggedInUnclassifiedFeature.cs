@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.Security
     public class LoggedInUnclassifiedFeature : EIPFeature
     {
         public LoggedInUnclassifiedFeature()
-            : base(EIPRole.All)
+            : base(Role.All)
         {
         }
     }
