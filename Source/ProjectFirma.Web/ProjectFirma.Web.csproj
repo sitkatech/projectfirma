@@ -680,7 +680,6 @@
     <Compile Include="Models\Indicator.cs" />
     <Compile Include="Models\IndicatorNote.cs" />
     <Compile Include="Controllers\LakeTahoeInfoBaseController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Models\ActionPriorityModelExtensions.cs" />
     <Compile Include="Views\MonitoringProgramPartner\EditMonitoringProgramPartners.cs" />
     <Compile Include="Views\MonitoringProgramPartner\EditMonitoringProgramPartnersViewData.cs" />
@@ -749,8 +748,6 @@
     <Compile Include="Views\ProjectFirmaDhtmlxGridHtmlHelpers.cs" />
     <Compile Include="Views\ProjectFirmaDhtmlxGridHtmlHelpersTest.cs" />
     <Compile Include="Views\LakeTahoeInfoUserControlViewData.cs" />
-    <Compile Include="Views\Home\About.cs" />
-    <Compile Include="Views\Home\AboutViewData.cs" />
     <Compile Include="Views\LocalAndRegionalPlan\Edit.cs" />
     <Compile Include="Views\LocalAndRegionalPlan\EditViewData.cs" />
     <Compile Include="Views\LocalAndRegionalPlan\EditViewModel.cs" />
@@ -762,8 +759,6 @@
     <Compile Include="Views\LocalAndRegionalPlan\SummaryViewData.cs" />
     <Compile Include="Views\LtInfoMenuItem.cs" />
     <Compile Include="Views\LtInfoMenuItemTest.cs" />
-    <Compile Include="Views\Home\DataCenter.cs" />
-    <Compile Include="Views\Home\DataCenterViewData.cs" />
     <Compile Include="Views\Role\Index.cs" />
     <Compile Include="Views\Role\PersonWithRoleGridSpec.cs" />
     <Compile Include="Views\Role\IndexGridSpec.cs" />
@@ -787,8 +782,6 @@
     <Compile Include="Views\Shared\NotFound.cs" />
     <Compile Include="Views\Shared\GoogleChartPopupViewData.cs" />
     <Compile Include="Views\Shared\NotFoundViewData.cs" />
-    <Compile Include="Views\Home\Index.cs" />
-    <Compile Include="Views\Home\IndexViewData.cs" />
     <Compile Include="Views\Shared\SiteLayout.cs" />
     <Compile Include="Views\Shared\SiteLayoutViewData.cs" />
     <Compile Include="Views\Shared\Error.cs" />
@@ -3092,14 +3085,11 @@
       <DependentUpon>modernizr-2.8.3.min.js</DependentUpon>
     </Content>
     <Content Include="Areas\EIP\Views\ProjectUpdate\ProjectUpdateStatus.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\SiteLayout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
     <Content Include="Views\Shared\FooterContent.cshtml" />
-    <Content Include="Views\Home\DataCenter.cshtml" />
     <Content Include="Views\Shared\GoogleChartPopup.cshtml" />
     <Content Include="Views\Shared\LakeTahoeInfoIncludes.cshtml" />
     <Content Include="Views\Shared\LakeTahoeInfoLateLoadingIncludes.cshtml" />
