@@ -43,14 +43,19 @@ namespace ProjectFirma.Web.Models
             return SummaryUrlTemplate.ParameterReplace(person.PersonID);
         }
 
+        public static bool IsSitkaAdministrator(this Person person)
+        {
+            return person != null && person.Role == Role.SitkaAdmin;
+        }
+
         public static bool IsAdministrator(this Person person)
         {
-            return person != null && person.Role == Role.Admin;
+            return person != null && person.Role == Role.Admin && IsSitkaAdministrator(person);
         }
 
         public static bool IsApprover(this Person person)
         {
-            return person != null && (person.Role == Role.Admin || person.Role == Role.Approver || person.Role == Role.TMPOManager);
+            return person != null && (IsAdministrator(person) || person.Role == Role.Approver || person.Role == Role.TMPOManager);
         }
 
         public static bool ShouldReceiveEIPNotifications(this Person person)

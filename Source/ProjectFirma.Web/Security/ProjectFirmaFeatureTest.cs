@@ -111,6 +111,39 @@ namespace ProjectFirma.Web.Security
         }
 
         [Test]
+        [Description("Sitka Administrators should have access to all features in that area")]
+        [UseReporter(typeof(DiffReporter))]
+        public void SitkaAdministratorsCanAccessAllFeaturesAndUnassignedCantAccessAnyFeatures()
+        {
+            //If we start getting exceptions, then this should become an acceptance test
+            var baseFeatureClass = typeof(LakeTahoeInfoBaseFeature);
+            var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => baseFeatureClass.IsAssignableFrom(p) && p.Name != baseFeatureClass.Name && !p.IsAbstract);
+            var listOfErrors = new List<string>();
+            foreach (var type in types)
+            {
+                var obj = LakeTahoeInfoBaseFeature.InstantiateFeature(type);
+                if (!obj.GrantedRoles.Contains(Role.SitkaAdmin) && obj.GrantedRoles.Count != 0)
+                {
+                    var errorMessage = String.Format("Feature {0} is not available to Administrators", type.FullName);
+                    listOfErrors.Add(errorMessage);
+                }
+
+                //Validate Unassigned does NOT have access                
+                if (obj.GrantedRoles.Contains(Role.Unassigned))
+                {
+                    string errorMessage = String.Format("Feature {0} is available to the Unassigned role", type.FullName);
+                    listOfErrors.Add(errorMessage);
+                }
+            }
+
+            if (listOfErrors.Count > 0)
+            {
+                string message = string.Format("{0}{0}{1}", Environment.NewLine, string.Join(Environment.NewLine, listOfErrors));
+                Approvals.Verify(message);
+            }
+        }
+
+        [Test]
         [Description("All context features have to follow a pattern that includes implementing an interface")]
         public void AllContextFeaturesImplementInterface()
         {

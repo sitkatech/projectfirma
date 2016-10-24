@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Security
 {
@@ -9,7 +8,8 @@ namespace ProjectFirma.Web.Security
     {
         private readonly LakeTahoeInfoFeatureWithContextImpl<ProjectNoteUpdate> _lakeTahoeInfoFeatureWithContextImpl;
 
-        public ProjectNoteUpdateEditFeature() : base(new List<Role> {Role.Normal, Role.Approver, Role.Admin, Role.TMPOManager})
+        public ProjectNoteUpdateEditFeature()
+            : base(new List<Role> { Role.Normal, Role.Approver, Role.SitkaAdmin, Role.Admin, Role.TMPOManager })
         {
             _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<ProjectNoteUpdate>(this);
             ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;

@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.Security
     /// </summary>
     public abstract class EIPAdminFeature : EIPFeature
     {
-        protected EIPAdminFeature() : base(new List<Role> { Role.Admin })
+        protected EIPAdminFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
         {
         }      
     }

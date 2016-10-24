@@ -7,7 +7,8 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("Manage Demo Script")]
     public class DemoScriptManageFeature : EIPFeature
     {
-        public DemoScriptManageFeature() : base(new List<Role> {Role.Admin, Role.ReadOnlyAdmin})
+        public DemoScriptManageFeature()
+            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ReadOnlyAdmin })
         {
         }
     }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Security
 {
@@ -11,7 +10,7 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("_Admin / TMPO Manager for EIP")]
     public class AdminAndTMPOAdminFeature : EIPFeature
     {
-        public AdminAndTMPOAdminFeature() : base(new List<Role> {Role.Admin, Role.TMPOManager})
+        public AdminAndTMPOAdminFeature() : base(new List<Role> {Role.SitkaAdmin, Role.Admin, Role.TMPOManager})
         {
         }
     }

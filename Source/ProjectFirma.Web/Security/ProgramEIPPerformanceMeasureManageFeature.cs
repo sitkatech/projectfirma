@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Security
 {
@@ -10,7 +9,8 @@ namespace ProjectFirma.Web.Security
     {
         private readonly LakeTahoeInfoFeatureWithContextImpl<EIPPerformanceMeasure> _lakeTahoeInfoFeatureWithContextImpl;
 
-        public ProgramEIPPerformanceMeasureManageFeature() : base(new List<Role> {Role.Admin})
+        public ProgramEIPPerformanceMeasureManageFeature()
+            : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
         {
             _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<EIPPerformanceMeasure>(this);
             ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;

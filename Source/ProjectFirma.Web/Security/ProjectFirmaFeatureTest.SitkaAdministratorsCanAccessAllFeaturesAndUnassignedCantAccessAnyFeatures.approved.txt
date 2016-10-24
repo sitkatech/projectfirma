@@ -1,0 +1,5 @@
+﻿
+
+Feature ProjectFirma.Web.Security.LoggedInUnclassifiedFeature is available to the Unassigned role
+Feature ProjectFirma.Web.Security.WebServiceDocumentationViewFeature is available to the Unassigned role
+Feature ProjectFirma.Web.Security.UserViewFeature is available to the Unassigned role

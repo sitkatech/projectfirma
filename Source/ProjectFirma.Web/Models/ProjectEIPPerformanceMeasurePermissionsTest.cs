@@ -29,6 +29,9 @@ namespace ProjectFirma.Web.Models
             var userAdmin = TestFramework.TestPerson.Create();
             userAdmin.RoleID = Role.Admin.RoleID;
 
+            var userSitkaAdmin = TestFramework.TestPerson.Create();
+            userSitkaAdmin.RoleID = Role.SitkaAdmin.RoleID;
+
             // Deferred Project
             // ----------------
             {
@@ -41,12 +44,14 @@ namespace ProjectFirma.Web.Models
                 TestExpectedUserPermission(userNormal, deferredProject, viewEIPPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userApprover, deferredProject, viewEIPPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userAdmin, deferredProject, viewEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, deferredProject, viewEIPPerformanceMeasureFeature, true);
 
                 // - Edit PMs -
                 TestExpectedUserPermission(userAnonymous, deferredProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userNormal, deferredProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userApprover, deferredProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userAdmin, deferredProject, editEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, deferredProject, editEIPPerformanceMeasureFeature, true);
 
                 TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, deferredProject, editEIPPerformanceMeasureFeature, testOrganizationForProject, true);
                 TestExpectedUserPermissionWithUserAsPrimaryContactForImplementingOrg(userNormal,
@@ -63,6 +68,7 @@ namespace ProjectFirma.Web.Models
                     testOrganizationForProject,
                     true);
                 TestExpectedUserPermission(userAdmin, deferredProject, editEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, deferredProject, editEIPPerformanceMeasureFeature, true);
             }
 
             // Planning/Design Project
@@ -77,12 +83,14 @@ namespace ProjectFirma.Web.Models
                 TestExpectedUserPermission(userNormal, planningDesignProject, viewEIPPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userApprover, planningDesignProject, viewEIPPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userAdmin, planningDesignProject, viewEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, planningDesignProject, viewEIPPerformanceMeasureFeature, true);
 
                 // - Edit PMs -
                 TestExpectedUserPermission(userAnonymous, planningDesignProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userNormal, planningDesignProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userApprover, planningDesignProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userAdmin, planningDesignProject, editEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, planningDesignProject, editEIPPerformanceMeasureFeature, true);
 
                 TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, planningDesignProject, editEIPPerformanceMeasureFeature, testOrganizationForProject, true);
                 TestExpectedUserPermissionWithUserAsPrimaryContactForImplementingOrg(userNormal,
@@ -99,6 +107,7 @@ namespace ProjectFirma.Web.Models
                     testOrganizationForProject,
                     true);
                 TestExpectedUserPermission(userAdmin, planningDesignProject, editEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, planningDesignProject, editEIPPerformanceMeasureFeature, true);
             }
 
             // Implementation Project
@@ -113,12 +122,14 @@ namespace ProjectFirma.Web.Models
                 TestExpectedUserPermission(userNormal, implementationProject, viewEIPPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userApprover, implementationProject, viewEIPPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userAdmin, implementationProject, viewEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, implementationProject, viewEIPPerformanceMeasureFeature, true);
 
                 // - Edit PMs -
                 TestExpectedUserPermission(userAnonymous, implementationProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userNormal, implementationProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userApprover, implementationProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userAdmin, implementationProject, editEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, implementationProject, editEIPPerformanceMeasureFeature, true);
 
                 TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, implementationProject, editEIPPerformanceMeasureFeature, testOrganizationForProject, false);
                 TestExpectedUserPermissionWithUserAsPrimaryContactForImplementingOrg(userNormal,
@@ -135,6 +146,7 @@ namespace ProjectFirma.Web.Models
                     testOrganizationForProject,
                     false);
                 TestExpectedUserPermission(userAdmin, implementationProject, editEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, implementationProject, editEIPPerformanceMeasureFeature, true);
             }
 
             // Post-Implementation Project
@@ -149,12 +161,14 @@ namespace ProjectFirma.Web.Models
                 TestExpectedUserPermission(userNormal, postImplementationProject, viewEIPPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userApprover, postImplementationProject, viewEIPPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userAdmin, postImplementationProject, viewEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, postImplementationProject, viewEIPPerformanceMeasureFeature, true);
 
                 // - Edit PMs -
                 TestExpectedUserPermission(userAnonymous, postImplementationProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userNormal, postImplementationProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userApprover, postImplementationProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userAdmin, postImplementationProject, editEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, postImplementationProject, editEIPPerformanceMeasureFeature, true);
 
                 TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, postImplementationProject, editEIPPerformanceMeasureFeature, testOrganizationForProject, false);
                 TestExpectedUserPermissionWithUserAsPrimaryContactForImplementingOrg(userNormal,
@@ -171,6 +185,7 @@ namespace ProjectFirma.Web.Models
                     testOrganizationForProject,
                     false);
                 TestExpectedUserPermission(userAdmin, postImplementationProject, editEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, postImplementationProject, editEIPPerformanceMeasureFeature, true);
             }
 
             // Completed Project
@@ -185,12 +200,14 @@ namespace ProjectFirma.Web.Models
                 TestExpectedUserPermission(userNormal, completedProject, viewEIPPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userApprover, completedProject, viewEIPPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userAdmin, completedProject, viewEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, completedProject, viewEIPPerformanceMeasureFeature, true);
 
                 // - Edit PMs -
                 TestExpectedUserPermission(userAnonymous, completedProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userNormal, completedProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userApprover, completedProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userAdmin, completedProject, editEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, completedProject, editEIPPerformanceMeasureFeature, true);
 
                 TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, completedProject, editEIPPerformanceMeasureFeature, testOrganizationForProject, false);
                 TestExpectedUserPermissionWithUserAsPrimaryContactForImplementingOrg(userNormal,
@@ -207,6 +224,7 @@ namespace ProjectFirma.Web.Models
                     testOrganizationForProject,
                     false);
                 TestExpectedUserPermission(userAdmin, completedProject, editEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, completedProject, editEIPPerformanceMeasureFeature, true);
             }
 
             // Terminated Project
@@ -221,12 +239,14 @@ namespace ProjectFirma.Web.Models
                 TestExpectedUserPermission(userNormal, terminatedProject, viewEIPPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userApprover, terminatedProject, viewEIPPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userAdmin, terminatedProject, viewEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, terminatedProject, viewEIPPerformanceMeasureFeature, true);
 
                 // - Edit PMs -
                 TestExpectedUserPermission(userAnonymous, terminatedProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userNormal, terminatedProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userApprover, terminatedProject, editEIPPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userAdmin, terminatedProject, editEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, terminatedProject, editEIPPerformanceMeasureFeature, true);
 
                 TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, terminatedProject, editEIPPerformanceMeasureFeature, testOrganizationForProject, false);
                 TestExpectedUserPermissionWithUserAsPrimaryContactForImplementingOrg(userNormal,
@@ -243,6 +263,7 @@ namespace ProjectFirma.Web.Models
                     testOrganizationForProject,
                     false);
                 TestExpectedUserPermission(userAdmin, terminatedProject, editEIPPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, terminatedProject, editEIPPerformanceMeasureFeature, true);
             }
         }
 
@@ -266,6 +287,9 @@ namespace ProjectFirma.Web.Models
             var userAdmin = TestFramework.TestPerson.Create();
             userAdmin.RoleID = Role.Admin.RoleID;
 
+            var userSitkaAdmin = TestFramework.TestPerson.Create();
+            userSitkaAdmin.RoleID = Role.SitkaAdmin.RoleID;
+
             // Planning/Design Project
             // ----------------
             {
@@ -285,6 +309,7 @@ namespace ProjectFirma.Web.Models
                     false);
                 // Only Admin should be allowed to edit actual, reported PMs
                 TestExpectedUserPermission(userAdmin, planningDesignProject, editEIPPerformanceMeasureActualFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, planningDesignProject, editEIPPerformanceMeasureActualFeature, true);
             }
         }
 
@@ -308,6 +333,9 @@ namespace ProjectFirma.Web.Models
             var userAdmin = TestFramework.TestPerson.Create();
             userAdmin.RoleID = Role.Admin.RoleID;
 
+            var userSitkaAdmin = TestFramework.TestPerson.Create();
+            userSitkaAdmin.RoleID = Role.SitkaAdmin.RoleID;
+
             // Planning/Design Project
             // ----------------
             {
@@ -327,6 +355,7 @@ namespace ProjectFirma.Web.Models
                     false);
                 // Only Admin should be allowed to edit actual, reported PMs
                 TestExpectedUserPermission(userAdmin, planningDesignProject, manageReportedExpendituresFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, planningDesignProject, manageReportedExpendituresFeature, true);
             }
         }
 

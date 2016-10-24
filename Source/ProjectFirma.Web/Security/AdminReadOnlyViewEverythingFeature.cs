@@ -10,7 +10,8 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("_Admin / TMPO Manager / ReadOnlyAdmin for EIP")]
     public class AdminReadOnlyViewEverythingFeature : EIPFeature
     {
-        public AdminReadOnlyViewEverythingFeature() : base(new List<Role> {Role.ReadOnlyAdmin, Role.Admin, Role.TMPOManager})
+        public AdminReadOnlyViewEverythingFeature()
+            : base(new List<Role> { Role.ReadOnlyAdmin, Role.SitkaAdmin, Role.Admin, Role.TMPOManager })
         {
         }
     }
