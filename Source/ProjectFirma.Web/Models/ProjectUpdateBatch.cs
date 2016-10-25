@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.ProjectUpdate;
@@ -150,9 +152,15 @@ namespace ProjectFirma.Web.Models
             LastUpdatePerson = currentPerson;
         }
 
+        private static void RefreshFromDatabase(IEnumerable projectExternalLinkUpdates)
+        {
+            ((IObjectContextAdapter)HttpRequestStorage.DatabaseEntities).ObjectContext.Refresh(RefreshMode.StoreWins, projectExternalLinkUpdates);
+        }
+
         public void DeleteProjectImageUpdates()
         {
             DeleteProjectImageUpdates(ProjectImageUpdates);
+            RefreshFromDatabase(ProjectImageUpdates);
         }
 
         public static void DeleteProjectImageUpdates(ICollection<ProjectImageUpdate> projectImageUpdates)
@@ -166,47 +174,56 @@ namespace ProjectFirma.Web.Models
         public void DeleteProjectExternalLinkUpdates()
         {
             HttpRequestStorage.DatabaseEntities.ProjectExternalLinkUpdates.DeleteProjectExternalLinkUpdate(ProjectExternalLinkUpdates);
+            RefreshFromDatabase(ProjectExternalLinkUpdates);
         }
 
         public void DeleteProjectNoteUpdates()
         {
             HttpRequestStorage.DatabaseEntities.ProjectNoteUpdates.DeleteProjectNoteUpdate(ProjectNoteUpdates);
+            RefreshFromDatabase(ProjectNoteUpdates);
         }
 
         public void DeleteProjectUpdateHistories()
         {
             HttpRequestStorage.DatabaseEntities.ProjectUpdateHistories.DeleteProjectUpdateHistory(ProjectUpdateHistories);
+            RefreshFromDatabase(ProjectUpdateHistories);
         }
 
         public void DeleteProjectExemptReportingYearUpdates()
         {
             HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYearUpdates.DeleteProjectExemptReportingYearUpdate(ProjectExemptReportingYearUpdates);
+            RefreshFromDatabase(ProjectExemptReportingYearUpdates);
         }
 
         public void DeleteProjectFundingSourceExpenditureUpdates()
         {
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditureUpdates.DeleteProjectFundingSourceExpenditureUpdate(ProjectFundingSourceExpenditureUpdates);
+            RefreshFromDatabase(ProjectFundingSourceExpenditureUpdates);
         }
 
         public void DeleteTransportationProjectBudgetUpdates()
         {
             HttpRequestStorage.DatabaseEntities.TransportationProjectBudgetUpdates.DeleteTransportationProjectBudgetUpdate(TransportationProjectBudgetUpdates);
+            RefreshFromDatabase(TransportationProjectBudgetUpdates);
         }
 
         public void DeleteEIPPerformanceMeasureActualUpdates()
         {
             HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureActualSubcategoryOptionUpdates.DeleteEIPPerformanceMeasureActualSubcategoryOptionUpdate(EIPPerformanceMeasureActualUpdates.SelectMany(x => x.EIPPerformanceMeasureActualSubcategoryOptionUpdates.Select(y => y.EIPPerformanceMeasureActualSubcategoryOptionUpdateID)).ToList());
             HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureActualUpdates.DeleteEIPPerformanceMeasureActualUpdate(EIPPerformanceMeasureActualUpdates);
+            RefreshFromDatabase(EIPPerformanceMeasureActualUpdates);
         }
 
         public void DeleteProjectLocationUpdates()
         {
             HttpRequestStorage.DatabaseEntities.ProjectLocationUpdates.DeleteProjectLocationUpdate(ProjectLocationUpdates);
+            RefreshFromDatabase(ProjectLocationUpdates);
         }
 
         public void DeleteProjectLocationStagingUpdates()
         {
             HttpRequestStorage.DatabaseEntities.ProjectLocationStagingUpdates.DeleteProjectLocationStagingUpdate(ProjectLocationStagingUpdates);
+            RefreshFromDatabase(ProjectLocationStagingUpdates);
         }
 
         public void DeleteAll()
