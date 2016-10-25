@@ -9,7 +9,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProjectNoteController : LakeTahoeInfoBaseController
+    public class ProjectNoteController : FirmaBaseController
     {
         [HttpGet]
         [ProjectNoteCreateFeature]

@@ -3,20 +3,20 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Field Definitions")]
-    public class FieldDefinitionManageFeature : EIPFeatureWithContext, ILakeTahoeInfoBaseFeatureWithContext<FieldDefinition>
+    public class FieldDefinitionManageFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<FieldDefinition>
     {
-        private readonly LakeTahoeInfoFeatureWithContextImpl<FieldDefinition> _lakeTahoeInfoFeatureWithContextImpl;
+        private readonly FirmaFeatureWithContextImpl<FieldDefinition> _firmaFeatureWithContextImpl;
 
         public FieldDefinitionManageFeature()
-            : base(LakeTahoeInfoBaseFeatureHelpers.AllEIPRolesExceptUnassigned)
+            : base(FirmaBaseFeatureHelpers.AllEIPRolesExceptUnassigned)
         {
-            _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<FieldDefinition>(this);
-            ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;
+            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<FieldDefinition>(this);
+            ActionFilter = _firmaFeatureWithContextImpl;
         }
 
         public void DemandPermission(Person person, FieldDefinition contextModelObject)
         {
-            _lakeTahoeInfoFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
         }
 
         public PermissionCheckResult HasPermission(Person person, FieldDefinition contextModelObject)

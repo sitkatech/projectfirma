@@ -7,7 +7,7 @@ using ProjectFirma.Web.Security.Shared;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class HomeController : Web.Controllers.LakeTahoeInfoBaseController
+    public class HomeController : Web.Controllers.FirmaBaseController
     {
         [AnonymousUnclassifiedFeature]
         public FileResult ExportGridToExcel(string gridName, bool printFooter)

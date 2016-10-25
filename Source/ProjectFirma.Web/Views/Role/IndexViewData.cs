@@ -4,7 +4,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Role
 {
-    public class IndexViewData : EIPViewData
+    public class IndexViewData : FirmaViewData
     {
         public readonly IndexGridSpec GridSpec;
         public readonly string GridName;

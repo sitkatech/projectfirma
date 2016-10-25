@@ -365,14 +365,14 @@ namespace ProjectFirma.Web.Models
             theProject.ProjectImplementingOrganizations.Add(new ProjectImplementingOrganization(theProject, leadOrganization, true));
         }
 
-        private static void TestExpectedUserPermission(Person user, Project project, ILakeTahoeInfoBaseFeatureWithContext<Project> projectCheckingFeature, bool expectedPermission)
+        private static void TestExpectedUserPermission(Person user, Project project, IFirmaBaseFeatureWithContext<Project> projectCheckingFeature, bool expectedPermission)
         {
             Assert.That(projectCheckingFeature.HasPermission(user, project).HasPermission == expectedPermission);
         }
 
         private static void TestExpectedUserPermissionWithUserInLeadImplementingOrg(Person user,
             Project project,
-            ILakeTahoeInfoBaseFeatureWithContext<Project> projectCheckingFeature,
+            IFirmaBaseFeatureWithContext<Project> projectCheckingFeature,
             Organization optionalOrganizationToMakeUserTemporaryMemberOf,
             bool expectedPermission)
         {
@@ -397,7 +397,7 @@ namespace ProjectFirma.Web.Models
 
         private static void TestExpectedUserPermissionWithUserAsPrimaryContactForImplementingOrg(Person user,
             Project project,
-            ILakeTahoeInfoBaseFeatureWithContext<Project> projectCheckingFeature,
+            IFirmaBaseFeatureWithContext<Project> projectCheckingFeature,
             Organization orgUserShouldBeMemberOf,
             Organization organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg,
             bool expectedPermission)

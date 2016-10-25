@@ -6,7 +6,7 @@ using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirma.Web.Views.ProposedProject
 {
-    public abstract class ProposedProjectViewData : EIPViewData
+    public abstract class ProposedProjectViewData : FirmaViewData
     {
         public readonly ProposedProjectSectionEnum SelectedProposedProjectSection;
         public readonly Models.ProposedProject ProposedProject;

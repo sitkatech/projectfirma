@@ -17,7 +17,7 @@ using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class WebServicesController : LakeTahoeInfoBaseController
+    public class WebServicesController : FirmaBaseController
     {
         public enum WebServiceReturnTypeEnum
         {

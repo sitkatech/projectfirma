@@ -6,7 +6,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public abstract class RelyingPartyAccountController : LakeTahoeInfoBaseController
+    public abstract class RelyingPartyAccountController : FirmaBaseController
     {
         protected abstract string HomeUrl { get; }
 

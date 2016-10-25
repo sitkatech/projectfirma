@@ -6,25 +6,25 @@
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
-@inherits ProjectFirma.Web.Views.Shared.NavAndHeaderLayout
+@inherits NavAndHeaderLayout
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>EIP Tracker @(!string.IsNullOrWhiteSpace(ViewDataTyped.HtmlPageTitle) ? string.Format(" | {0}", ViewDataTyped.HtmlPageTitle) : string.Empty)@ViewDataTyped.GetBreadCrumbTitle()</title>
+    <title>Clackamas Partnership @(!string.IsNullOrWhiteSpace(ViewDataTyped.HtmlPageTitle) ? string.Format(" | {0}", ViewDataTyped.HtmlPageTitle) : string.Empty)@ViewDataTyped.GetBreadCrumbTitle()</title>
 
-    <link rel="apple-touch-icon" sizes="57x57" href="/Areas/EIP/Content/img/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/Areas/EIP/Content/img/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/Areas/EIP/Content/img/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/Areas/EIP/Content/img/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/Areas/EIP/Content/img/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/Areas/EIP/Content/img/apple-touch-icon-120x120.png">
-    <link rel="icon" type="image/png" href="/Areas/EIP/Content/img/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/Areas/EIP/Content/img/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="/Areas/EIP/Content/img/favicon-16x16.png" sizes="16x16">
+    <link rel="apple-touch-icon" sizes="57x57" href="/Content/img/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/Content/img/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/Content/img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/Content/img/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/Content/img/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/Content/img/apple-touch-icon-120x120.png">
+    <link rel="icon" type="image/png" href="/Content/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/Content/img/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/Content/img/favicon-16x16.png" sizes="16x16">
 
-    @{ Html.RenderRazorSitkaPartial<LakeTahoeInfoIncludes>(); }
+    @{ Html.RenderRazorSitkaPartial<FirmaIncludes>(); }
 
     <script src="@Url.Content("~/Content/bootstrap-typeahead/bootstrap3-typeahead.js")" type="text/javascript"></script>
 
@@ -35,7 +35,13 @@
 <body class="ltinfo">
     <div class="row">
         <div class="col-sm-6">
-            @{ Html.RenderRazorSitkaPartial<LakeTahoeInfoSiteExplorer, LakeTahoeInfoSiteExplorerViewData>(ViewDataTyped.LakeTahoeInfoSiteExplorerViewData); }
+            <div class="header">
+                <img class="headerLogo" src="~/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png" />
+                <div class="headerText">
+                    |
+                    <a href="@ViewDataTyped.FirmaHomeUrl">Clackamas Partnership</a>
+                </div>
+            </div>
         </div>
         @*<div class="col-sm-6">
             <div id="searchBox" class="pull-right">
@@ -120,12 +126,12 @@
             <a href="http://www.sitkatech.com/products/ProjectFirma/">ProjectFirma</a> is a site created by <a href="http://sitkatech.com">Sitka Technology Group</a> and implemented for the Clackamas Partnership
         </p>
         <p class="pull-right">
-            Version @LtInfoWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion | DB @ProjectFirmaWebConfiguration.LatestDatabaseMigration.Value | Compiled @LtInfoWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss") | PID @Process.GetCurrentProcess().Id
+            Version @LtInfoWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion | DB @FirmaWebConfiguration.LatestDatabaseMigration.Value | Compiled @LtInfoWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss") | PID @Process.GetCurrentProcess().Id
         </p>
     </div>
 </footer>
 
-    @{ Html.RenderRazorSitkaPartial<LakeTahoeInfoLateLoadingIncludes>(); }
+    @{ Html.RenderRazorSitkaPartial<FirmaLateLoadingIncludes>(); }
 
 </body>
 </html>

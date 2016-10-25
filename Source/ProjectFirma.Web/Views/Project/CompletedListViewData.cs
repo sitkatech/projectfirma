@@ -5,7 +5,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Project
 {
-    public class CompletedListViewData : EIPViewData
+    public class CompletedListViewData : FirmaViewData
     {
         public readonly BasicProjectInfoGridSpec GridSpec;
         public readonly string GridName;

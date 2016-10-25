@@ -3,7 +3,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.PersonOrganization
 {
-    public class EditPersonOrganizationsViewData : LakeTahoeInfoUserControlViewData
+    public class EditPersonOrganizationsViewData : FirmaUserControlViewData
     {
         public readonly List<OrganizationSimple> AllOrganizations;
 

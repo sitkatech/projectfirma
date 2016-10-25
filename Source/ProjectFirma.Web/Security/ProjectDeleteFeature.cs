@@ -5,20 +5,20 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Delete Project")]
-    public class ProjectDeleteFeature : EIPFeatureWithContext, ILakeTahoeInfoBaseFeatureWithContext<Project>
+    public class ProjectDeleteFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
-        private readonly LakeTahoeInfoFeatureWithContextImpl<Project> _lakeTahoeInfoFeatureWithContextImpl;
+        private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 
         public ProjectDeleteFeature()
             : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.TMPOManager })
         {
-            _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<Project>(this);
-            ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;
+            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Project>(this);
+            ActionFilter = _firmaFeatureWithContextImpl;
         }
 
         public void DemandPermission(Person person, Project contextModelObject)
         {
-            _lakeTahoeInfoFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
         }
 
         public PermissionCheckResult HasPermission(Person person, Project contextModelObject)

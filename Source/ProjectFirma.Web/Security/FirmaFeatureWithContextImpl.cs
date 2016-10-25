@@ -9,18 +9,18 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    public class LakeTahoeInfoFeatureWithContextImpl<T> : IActionFilter where T : IHavePrimaryKey
+    public class FirmaFeatureWithContextImpl<T> : IActionFilter where T : IHavePrimaryKey
     {
-        private readonly ILakeTahoeInfoBaseFeatureWithContext<T> _lakeTahoeInfoFeatureWithContext;
+        private readonly IFirmaBaseFeatureWithContext<T> _firmaFeatureWithContext;
 
-        public LakeTahoeInfoFeatureWithContextImpl(ILakeTahoeInfoBaseFeatureWithContext<T> lakeTahoeInfoFeatureWithContext)
+        public FirmaFeatureWithContextImpl(IFirmaBaseFeatureWithContext<T> firmaFeatureWithContext)
         {
-            _lakeTahoeInfoFeatureWithContext = lakeTahoeInfoFeatureWithContext;
+            _firmaFeatureWithContext = firmaFeatureWithContext;
         }
 
         public PermissionCheckResult HasPermission(Person person, T contextModelObject)
         {
-            return _lakeTahoeInfoFeatureWithContext.HasPermission(person, contextModelObject);
+            return _firmaFeatureWithContext.HasPermission(person, contextModelObject);
         }
 
         public void DemandPermission(Person person, T contextModelObject)
@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Security
                 filterContext.Controller.GetType().Name,
                 filterContext.ActionDescriptor.ActionName,
                 typeof(LtInfoEntityPrimaryKey<T>),
-                _lakeTahoeInfoFeatureWithContext.FeatureName);
+                _firmaFeatureWithContext.FeatureName);
 
             Check.Require(ltInfoEntityPrimaryKeys.Any(), genericMessage + " Change code to add that parameter.");
             Check.Require(ltInfoEntityPrimaryKeys.Count() == 1, genericMessage + " Change code so that there's only one of those parameters.");

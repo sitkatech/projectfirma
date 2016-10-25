@@ -22,7 +22,7 @@ using SummaryViewData = ProjectFirma.Web.Views.TransportationStrategy.SummaryVie
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class TransportationStrategyController : LakeTahoeInfoBaseController
+    public class TransportationStrategyController : FirmaBaseController
     {
         [TransportationStrategyViewFeature]
         public ViewResult Index()

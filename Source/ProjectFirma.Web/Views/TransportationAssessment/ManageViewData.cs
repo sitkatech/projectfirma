@@ -7,7 +7,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.TransportationAssessment
 {
-    public class ManageViewData : EIPViewData
+    public class ManageViewData : FirmaViewData
     {
         public readonly bool HasEditPermissions;
         public readonly List<TransportationGoal> TransportationGoals;

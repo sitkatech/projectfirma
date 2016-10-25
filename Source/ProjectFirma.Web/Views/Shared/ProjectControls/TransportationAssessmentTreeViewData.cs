@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
-    public class TransportationAssessmentTreeViewData : LakeTahoeInfoUserControlViewData
+    public class TransportationAssessmentTreeViewData : FirmaUserControlViewData
     {
         public readonly List<FancyTreeNode> TransportationGoalsAsFancyTreeNodes;
 

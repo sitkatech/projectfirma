@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.ProjectLocalAndRegionalPlan
 {
-    public class EditProjectLocalAndRegionalPlansViewData : LakeTahoeInfoUserControlViewData
+    public class EditProjectLocalAndRegionalPlansViewData : FirmaUserControlViewData
     {
         public readonly List<LocalAndRegionalPlanSimple> AllLocalAndRegionalPlans;
         public readonly int ProjectID;

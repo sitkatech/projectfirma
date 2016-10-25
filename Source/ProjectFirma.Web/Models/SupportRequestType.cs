@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Models
 
             if (!supportPersons.Any())
             {
-                var defaultSupportPerson = HttpRequestStorage.DatabaseEntities.People.GetPerson(ProjectFirmaWebConfiguration.DefaultSupportPersonID);
+                var defaultSupportPerson = HttpRequestStorage.DatabaseEntities.People.GetPerson(FirmaWebConfiguration.DefaultSupportPersonID);
                 supportPersons.Add(defaultSupportPerson);
                 mailMessage.Body = string.Format("<p style=\"font-weight:bold\">Note: No users are currently configured to receive support emails. Defaulting to User: {0}</p>{1}",
                     defaultSupportPerson.FullNameFirstLast,
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Models
     {
         public override void SetEmailRecipientsOfSupportRequest(MailMessage mailMessage)
         {
-            mailMessage.To.Add(ProjectFirmaWebConfiguration.SitkaSupportEmail);
+            mailMessage.To.Add(FirmaWebConfiguration.SitkaSupportEmail);
         }
     }
 }

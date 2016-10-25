@@ -5,7 +5,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Project
 {
-    public class TransportationListViewData : EIPViewData
+    public class TransportationListViewData : FirmaViewData
     {
         public readonly TransportationListProjectGridSpec GridSpec;
         public readonly string GridName;

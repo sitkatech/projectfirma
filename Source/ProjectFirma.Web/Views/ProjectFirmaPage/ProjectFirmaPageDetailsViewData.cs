@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Views.ProjectFirmaPage
 {
-    public class ProjectFirmaPageDetailsViewData : LakeTahoeInfoUserControlViewData
+    public class ProjectFirmaPageDetailsViewData : FirmaUserControlViewData
     {
         public readonly HtmlString ProjectFirmaPageContent;
 

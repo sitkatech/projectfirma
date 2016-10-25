@@ -11,7 +11,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProgramEIPPerformanceMeasureController : LakeTahoeInfoBaseController
+    public class ProgramEIPPerformanceMeasureController : FirmaBaseController
     {
         [HttpGet]
         [ProgramEIPPerformanceMeasureManageFeature]

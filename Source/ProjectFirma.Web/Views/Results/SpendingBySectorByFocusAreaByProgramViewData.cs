@@ -3,11 +3,10 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class SpendingBySectorByFocusAreaByProgramViewData : EIPViewData
+    public class SpendingBySectorByFocusAreaByProgramViewData : FirmaViewData
     {
         public readonly List<ProgramSectorExpenditure> ProgramSectorExpenditures;
         public readonly List<Sector> Sectors;

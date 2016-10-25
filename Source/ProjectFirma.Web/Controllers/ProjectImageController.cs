@@ -14,7 +14,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProjectImageController : LakeTahoeInfoBaseController
+    public class ProjectImageController : FirmaBaseController
     {
         [HttpGet]
         [ProjectImageNewFeature]

@@ -5,7 +5,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.ProposedProject
 {
-    public class IndexViewData : EIPViewData
+    public class IndexViewData : FirmaViewData
     {
         public readonly ProposedProjectGridSpec GridSpec;
         public readonly string GridName;

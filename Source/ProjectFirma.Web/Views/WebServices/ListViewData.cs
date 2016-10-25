@@ -9,7 +9,7 @@ using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirma.Web.Views.WebServices
 {
-    public class ListViewData : EIPViewData
+    public class ListViewData : FirmaViewData
     {
         public readonly WebServiceToken WebServiceAccessToken;
         public readonly List<WebServiceDocumentation> ServiceDocumentationList;

@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Models
 {
     public partial class FileResource : IAuditableEntity
     {
-        public static int MaxUploadFileSizeInBytes = ProjectFirmaWebConfiguration.MaximumAllowedUploadFileSize;
+        public static int MaxUploadFileSizeInBytes = FirmaWebConfiguration.MaximumAllowedUploadFileSize;
 
         public static readonly UrlTemplate<int> FileResourceByIDUrlTemplate =
             new UrlTemplate<int>(SitkaRoute<FileResourceController>.BuildUrlFromExpression(t => t.DisplayResourceByID(UrlTemplate.Parameter1Int)));

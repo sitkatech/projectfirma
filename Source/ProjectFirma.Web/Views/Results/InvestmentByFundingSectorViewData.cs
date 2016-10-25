@@ -8,7 +8,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class InvestmentByFundingSectorViewData : EIPViewData
+    public class InvestmentByFundingSectorViewData : FirmaViewData
     {
         public readonly List<FundingSectorExpenditure> FundingSectorExpenditures;
         public readonly int? SelectedCalendarYear;

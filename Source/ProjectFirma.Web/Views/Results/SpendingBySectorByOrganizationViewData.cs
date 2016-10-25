@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class SpendingBySectorByOrganizationViewData : LakeTahoeInfoUserControlViewData
+    public class SpendingBySectorByOrganizationViewData : FirmaUserControlViewData
     {
         public readonly List<FundingSourceCalendarYearExpenditure> FundingSourceCalendarYearExpenditures;
         public readonly Dictionary<int, string> CalendarYears;

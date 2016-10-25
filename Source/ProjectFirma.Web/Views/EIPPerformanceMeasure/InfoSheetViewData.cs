@@ -8,7 +8,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.EIPPerformanceMeasure
 {
-    public class InfoSheetViewData : EIPViewData
+    public class InfoSheetViewData : FirmaViewData
     {
         public readonly Models.EIPPerformanceMeasure EIPPerformanceMeasure;
         public readonly bool HasReportedValues;

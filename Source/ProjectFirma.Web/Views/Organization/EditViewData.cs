@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Views.Organization
 {
-    public class EditViewData : LakeTahoeInfoUserControlViewData
+    public class EditViewData : FirmaUserControlViewData
     {
         public readonly IEnumerable<SelectListItem> Sectors;
         public readonly IEnumerable<SelectListItem> People;

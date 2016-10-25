@@ -7,7 +7,7 @@ using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirma.Web.Common
 {
-    public class ProjectFirmaWebConfiguration : LtInfoWebConfiguration
+    public class FirmaWebConfiguration : LtInfoWebConfiguration
     {
         public static readonly int MaximumAllowedUploadFileSize = Int32.Parse(SitkaConfiguration.GetRequiredAppSetting("MaximumAllowedUploadFileSize"));
         public static readonly string DatabaseConnectionString = SitkaConfiguration.GetRequiredAppSetting("DatabaseConnectionString");
@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Common
         
         public static readonly DirectoryInfo LogFileFolder = ParseLogFileFolder();
 
-        public static readonly LakeTahoeInfoEnvironment LakeTahoeInfoEnvironment = LakeTahoeInfoEnvironment.MakeLakeTahoeInfoEnvironment(SitkaConfiguration.GetRequiredAppSetting("LakeTahoeInfoEnvironment"));
+        public static readonly FirmaEnvironment FirmaEnvironment = FirmaEnvironment.MakeFirmaEnvironment(SitkaConfiguration.GetRequiredAppSetting("FirmaEnvironment"));
 
         private static DirectoryInfo ParseLogFileFolder()
         {

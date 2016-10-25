@@ -3,7 +3,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.TextControls
 {
-    public class EntityNotesViewData : LakeTahoeInfoUserControlViewData
+    public class EntityNotesViewData : FirmaUserControlViewData
     {
         public readonly List<EntityNote> Notes;
         public readonly string AddNoteUrl;

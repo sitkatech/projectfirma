@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Project
 {
-    public class FullProjectListSimpleViewData : EIPViewData
+    public class FullProjectListSimpleViewData : FirmaViewData
     {
         public readonly List<Models.Project> Projects; 
 

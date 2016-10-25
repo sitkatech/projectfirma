@@ -9,7 +9,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class IndicatorNoteController : LakeTahoeInfoBaseController
+    public class IndicatorNoteController : FirmaBaseController
     {
         [HttpGet]
         [IndicatorNoteManageFeature]

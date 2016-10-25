@@ -6,20 +6,20 @@ using ProjectFirma.Web.Security;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Edit EIP Performance Measure Expected Value From Project")]
-    public class EIPPerformanceMeasureExpectedFromProjectManageFeature : EIPFeatureWithContext, ILakeTahoeInfoBaseFeatureWithContext<Project>
+    public class EIPPerformanceMeasureExpectedFromProjectManageFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
-        private readonly LakeTahoeInfoFeatureWithContextImpl<Project> _lakeTahoeInfoFeatureWithContextImpl;
+        private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 
         public EIPPerformanceMeasureExpectedFromProjectManageFeature()
             : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.TMPOManager, Role.Normal, Role.Approver })
         {
-            _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<Project>(this);
-            ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;
+            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Project>(this);
+            ActionFilter = _firmaFeatureWithContextImpl;
         }
 
         public void DemandPermission(Person person, Project contextModelObject)
         {
-            _lakeTahoeInfoFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
         }
 
         public PermissionCheckResult HasPermission(Person person, Project contextModelObject)

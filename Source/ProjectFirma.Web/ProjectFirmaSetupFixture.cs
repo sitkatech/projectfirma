@@ -17,6 +17,6 @@ public class ProjectFirmaSetupFixture
     {
         // This is necesary for tests to pass, since many will try to initialize a URL route, and we normally create the route table when the web app starts.
         // So we deliberately build the route table ahead of time.
-        RouteTableBuilder.Build(LakeTahoeInfoBaseController.AllControllerActionMethods, null, Global.AreasDictionary);
+        RouteTableBuilder.Build(FirmaBaseController.AllControllerActionMethods, null, Global.AreasDictionary);
     }
 }

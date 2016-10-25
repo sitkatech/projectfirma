@@ -6,7 +6,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.LocalAndRegionalPlan
 {
-    public class SummaryViewData : EIPViewData
+    public class SummaryViewData : FirmaViewData
     {
         public readonly Models.LocalAndRegionalPlan LocalAndRegionalPlan;
         public readonly string EditLocalAndRegionalPlanUrl;

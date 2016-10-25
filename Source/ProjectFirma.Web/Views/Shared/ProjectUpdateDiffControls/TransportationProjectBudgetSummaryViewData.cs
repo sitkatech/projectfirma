@@ -5,7 +5,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
 {
-    public class TransportationProjectBudgetSummaryViewData : LakeTahoeInfoUserControlViewData
+    public class TransportationProjectBudgetSummaryViewData : FirmaUserControlViewData
     {
         public readonly List<CalendarYearString> CalendarYears;
         public readonly List<TransportationProjectBudgetAmount2> TransportationProjectBudgetAmounts;

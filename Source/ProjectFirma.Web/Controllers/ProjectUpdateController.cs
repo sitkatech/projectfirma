@@ -29,7 +29,7 @@ using TransportationProjectBudgetSummaryViewData = ProjectFirma.Web.Views.Shared
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProjectUpdateController : LakeTahoeInfoBaseController
+    public class ProjectUpdateController : FirmaBaseController
     {
         public const string ProjectUpdateBatchDiffLogPartialViewPath = "~/Areas/EIP/Views/ProjectUpdate/ProjectUpdateBatchDiffLog.cshtml";
         public const string ProjectBasicsPartialViewPath = "~/Areas/EIP/Views/Shared/ProjectControls/ProjectBasics.cshtml";
@@ -821,7 +821,7 @@ namespace ProjectFirma.Web.Controllers
                     (projectLocationStaging, i) =>
                         new LayerGeoJson(projectLocationStaging.FeatureClassName,
                             projectLocationStaging.ToGeoJsonFeatureCollection(),
-                            ProjectFirmaHelpers.DefaultColorRange[i],
+                            FirmaHelpers.DefaultColorRange[i],
                             1,
                             LayerInitialVisibility.Show)).ToList();
 

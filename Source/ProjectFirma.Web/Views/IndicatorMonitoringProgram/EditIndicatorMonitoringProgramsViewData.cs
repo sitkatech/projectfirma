@@ -3,7 +3,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.IndicatorMonitoringProgram
 {
-    public class EditIndicatorMonitoringProgramsViewData : LakeTahoeInfoUserControlViewData
+    public class EditIndicatorMonitoringProgramsViewData : FirmaUserControlViewData
     {
         public readonly List<MonitoringProgramSimple> AllMonitoringPrograms;
         public readonly int IndicatorID;

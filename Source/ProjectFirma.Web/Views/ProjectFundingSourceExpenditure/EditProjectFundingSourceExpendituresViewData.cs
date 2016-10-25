@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
 {
-    public class EditProjectFundingSourceExpendituresViewData : LakeTahoeInfoUserControlViewData
+    public class EditProjectFundingSourceExpendituresViewData : FirmaUserControlViewData
     {
         public readonly List<int> CalendarYearRange;
         public readonly List<FundingSourceSimple> AllFundingSources;

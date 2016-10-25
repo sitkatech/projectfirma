@@ -6,7 +6,7 @@ using LtInfo.Common.Mvc;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class CustomNotificationViewData : LakeTahoeInfoUserControlViewData
+    public class CustomNotificationViewData : FirmaUserControlViewData
     {
         public readonly string PersonLabel;
         public readonly List<Person> PeopleToNotify;

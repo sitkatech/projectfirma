@@ -5,7 +5,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Project
 {
-    public class SearchResultsViewData : EIPViewData
+    public class SearchResultsViewData : FirmaViewData
     {
         public readonly List<Models.Project> EntitySearchResults;
         public readonly string SearchCriteria;

@@ -5,7 +5,7 @@ using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Security
 {
-    public abstract class EIPFeature : LakeTahoeInfoBaseFeature
+    public abstract class EIPFeature : FirmaBaseFeature
     {
         protected EIPFeature(IEnumerable<Role> roles) : base(roles.Select(x => (IRole)x).ToList()) { }
     }

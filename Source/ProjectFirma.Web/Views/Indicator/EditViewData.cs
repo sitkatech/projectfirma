@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Views.Indicator
 {
-    public class EditViewData : LakeTahoeInfoUserControlViewData
+    public class EditViewData : FirmaUserControlViewData
     {
         public readonly IEnumerable<SelectListItem> MeasurementUnitTypes;
         public readonly IEnumerable<SelectListItem> IndicatorTypes;

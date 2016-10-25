@@ -1,8 +1,6 @@
-﻿using ProjectFirma.Web.Views;
-
-namespace ProjectFirma.Web.Views.Program
+﻿namespace ProjectFirma.Web.Views.Program
 {
-    public class DefinitionAndGuidanceViewData : LakeTahoeInfoUserControlViewData
+    public class DefinitionAndGuidanceViewData : FirmaUserControlViewData
     {
         public readonly Models.Program Program;
 

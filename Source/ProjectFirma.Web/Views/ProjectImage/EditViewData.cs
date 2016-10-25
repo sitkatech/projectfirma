@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.ProjectImage
 {
-    public class EditViewData : LakeTahoeInfoUserControlViewData
+    public class EditViewData : FirmaUserControlViewData
     {
         public readonly Models.ProjectImage ProjectImage;
         public readonly IEnumerable<SelectListItem> ProjectImageTimings;

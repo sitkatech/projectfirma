@@ -3,7 +3,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.ProgramEIPPerformanceMeasure
 {
-    public class EditProgramsViewData : LakeTahoeInfoUserControlViewData
+    public class EditProgramsViewData : FirmaUserControlViewData
     {
         public readonly List<Models.ProgramSimple> AllPrograms;
         public readonly Models.EIPPerformanceMeasureSimple EIPPerformanceMeasure;

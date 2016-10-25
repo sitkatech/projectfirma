@@ -13,7 +13,7 @@ using Keystone.Common;
 namespace ProjectFirma.Web.Security
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public abstract class LakeTahoeInfoBaseFeature : RelyingPartyAuthorizeAttribute
+    public abstract class FirmaBaseFeature : RelyingPartyAuthorizeAttribute
     {
         private readonly IList<IRole> _grantedRoles;
 
@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Security
             get { return _grantedRoles; }
         }
 
-        protected LakeTahoeInfoBaseFeature(IList<IRole> grantedRoles) // params
+        protected FirmaBaseFeature(IList<IRole> grantedRoles) // params
         {
             // Force user to pass us empty lists to make life simpler
             Check.RequireNotNull(grantedRoles, "Can\'t pass null for this Granted ProjectFirma Roles.");
@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Security
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            var redirectToLogin = new RedirectResult(ProjectFirmaHelpers.GenerateLogInUrlWithReturnUrl());
+            var redirectToLogin = new RedirectResult(FirmaHelpers.GenerateLogInUrlWithReturnUrl());
             if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 filterContext.Result = redirectToLogin;
@@ -81,16 +81,16 @@ namespace ProjectFirma.Web.Security
 
         public static bool IsAllowed<T>(SitkaRoute<T> sitkaRoute, Person currentPerson) where T : Controller
         {
-            var projectFirmaFeatureLookupAttribute = sitkaRoute.Body.Method.GetCustomAttributes(typeof(LakeTahoeInfoBaseFeature), true).Cast<LakeTahoeInfoBaseFeature>().SingleOrDefault();
+            var projectFirmaFeatureLookupAttribute = sitkaRoute.Body.Method.GetCustomAttributes(typeof(FirmaBaseFeature), true).Cast<FirmaBaseFeature>().SingleOrDefault();
             Check.RequireNotNull(projectFirmaFeatureLookupAttribute, String.Format("Could not find feature for {0}", sitkaRoute.BuildUrlFromExpression()));
             // ReSharper disable PossibleNullReferenceException
             return projectFirmaFeatureLookupAttribute.HasPermissionByPerson(currentPerson);
             // ReSharper restore PossibleNullReferenceException
         }
 
-        public static LakeTahoeInfoBaseFeature InstantiateFeature(Type featureType)
+        public static FirmaBaseFeature InstantiateFeature(Type featureType)
         {
-            return (LakeTahoeInfoBaseFeature)Activator.CreateInstance(featureType);
+            return (FirmaBaseFeature)Activator.CreateInstance(featureType);
         }
     }
 }

@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 {
-    public class TransportationProjectBudgetSummaryViewData : LakeTahoeInfoUserControlViewData
+    public class TransportationProjectBudgetSummaryViewData : FirmaUserControlViewData
     {
         public readonly List<int> CalendarYears;
         public readonly List<TransportationProjectBudgetAmount> TransportationProjectBudgetAmounts;

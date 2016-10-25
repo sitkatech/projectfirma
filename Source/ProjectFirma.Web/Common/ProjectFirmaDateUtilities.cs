@@ -49,23 +49,23 @@ namespace ProjectFirma.Web.Common
 
         public static DateTime LastReportingPeriodStartDate()
         {
-            return new DateTime(CalculateCurrentYearToUseForReporting(), ProjectFirmaWebConfiguration.ReportingPeriodStartMonth, ProjectFirmaWebConfiguration.ReportingPeriodStartDay);
+            return new DateTime(CalculateCurrentYearToUseForReporting(), FirmaWebConfiguration.ReportingPeriodStartMonth, FirmaWebConfiguration.ReportingPeriodStartDay);
         }
 
         public static int GetMinimumYearForReportingExpenditures()
         {
-            return ProjectFirmaWebConfiguration.MinimumYearForReportingExpenditures;
+            return FirmaWebConfiguration.MinimumYearForReportingExpenditures;
         }
 
         public static int GetYearUsedToRepresentPreReportingYears()
         {
-            return ProjectFirmaWebConfiguration.MinimumYearForReportingExpenditures - 1;
+            return FirmaWebConfiguration.MinimumYearForReportingExpenditures - 1;
         }
 
         public static int CalculateCurrentYearToUseForReporting()
         {
-            var reportingPeriodStartMonth = ProjectFirmaWebConfiguration.ReportingPeriodStartMonth;
-            var reportingPeriodStartDay = ProjectFirmaWebConfiguration.ReportingPeriodStartDay;
+            var reportingPeriodStartMonth = FirmaWebConfiguration.ReportingPeriodStartMonth;
+            var reportingPeriodStartDay = FirmaWebConfiguration.ReportingPeriodStartDay;
             return CalculateCurrentYearToUseForReportingImpl(DateTime.Today, reportingPeriodStartMonth, reportingPeriodStartDay);
         }
 
@@ -162,7 +162,7 @@ namespace ProjectFirma.Web.Common
         public static int CalculateDeadlineYear()
         {
             var currentDateTime = DateTime.Today;
-            var dateToCheckAgainst = new DateTime(DateTime.Today.Year, ProjectFirmaWebConfiguration.ReportingPeriodStartMonth, ProjectFirmaWebConfiguration.ReportingPeriodStartDay);
+            var dateToCheckAgainst = new DateTime(DateTime.Today.Year, FirmaWebConfiguration.ReportingPeriodStartMonth, FirmaWebConfiguration.ReportingPeriodStartDay);
             var reportingYear = currentDateTime.IsDateBefore(dateToCheckAgainst) ? currentDateTime.Year : currentDateTime.Year + 1;
             return reportingYear;
         }

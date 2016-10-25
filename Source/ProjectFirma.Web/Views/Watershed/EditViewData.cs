@@ -1,6 +1,6 @@
 ﻿namespace ProjectFirma.Web.Views.Watershed
 {
-    public class EditViewData : LakeTahoeInfoUserControlViewData
+    public class EditViewData : FirmaUserControlViewData
     {
     }
 }

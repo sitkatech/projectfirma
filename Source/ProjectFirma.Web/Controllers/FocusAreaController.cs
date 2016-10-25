@@ -21,7 +21,7 @@ using SummaryViewData = ProjectFirma.Web.Views.FocusArea.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class FocusAreaController : LakeTahoeInfoBaseController
+    public class FocusAreaController : FirmaBaseController
     {
         [FocusAreaViewFeature]
         public ViewResult Index()

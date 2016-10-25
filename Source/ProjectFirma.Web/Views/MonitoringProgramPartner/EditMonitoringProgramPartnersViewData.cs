@@ -3,7 +3,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.MonitoringProgramPartner
 {
-    public class EditMonitoringProgramPartnersViewData : LakeTahoeInfoUserControlViewData
+    public class EditMonitoringProgramPartnersViewData : FirmaUserControlViewData
     {
         public readonly List<OrganizationSimple> AllOrganizations;
         public readonly int MonitoringProgramID;

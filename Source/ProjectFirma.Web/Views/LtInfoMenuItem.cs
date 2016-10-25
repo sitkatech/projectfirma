@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views
         public static LtInfoMenuItem MakeItem<T>(SitkaRoute<T> route, Person currentPerson, string menuItemName, string menuGroupName) where T : Controller
         {
             var urlString = route.BuildUrlFromExpression();
-            var shouldShow = LakeTahoeInfoBaseFeature.IsAllowed(route, currentPerson);
+            var shouldShow = FirmaBaseFeature.IsAllowed(route, currentPerson);
             return new LtInfoMenuItem(urlString, menuItemName, shouldShow, false, menuGroupName);
         }
 

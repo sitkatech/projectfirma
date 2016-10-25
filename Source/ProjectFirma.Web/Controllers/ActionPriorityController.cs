@@ -26,7 +26,7 @@ using SummaryViewData = ProjectFirma.Web.Views.ActionPriority.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ActionPriorityController : LakeTahoeInfoBaseController
+    public class ActionPriorityController : FirmaBaseController
     {
         [AnonymousUnclassifiedFeature]
         public ViewResult Index()

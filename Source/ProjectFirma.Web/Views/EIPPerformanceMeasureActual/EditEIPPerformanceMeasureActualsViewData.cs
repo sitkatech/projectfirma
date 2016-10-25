@@ -7,7 +7,7 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.EIPPerformanceMeasureActual
 {
-    public class EditEIPPerformanceMeasureActualsViewData : LakeTahoeInfoUserControlViewData
+    public class EditEIPPerformanceMeasureActualsViewData : FirmaUserControlViewData
     {
         public readonly List<EIPPerformanceMeasureSimple> AllEIPPerformanceMeasures;
         public readonly List<IndicatorSubcategorySimple> AllIndicatorSubcategories;

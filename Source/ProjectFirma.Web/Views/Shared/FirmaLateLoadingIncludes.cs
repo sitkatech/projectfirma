@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Views.Shared
 {
-    public abstract class LakeTahoeInfoLateLoadingIncludes  : WebViewPage
+    public abstract class FirmaLateLoadingIncludes  : WebViewPage
     {
     }
 }

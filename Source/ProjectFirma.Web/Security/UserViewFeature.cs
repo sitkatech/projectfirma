@@ -3,19 +3,19 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("View User")]
-    public class UserViewFeature : EIPFeatureWithContext, ILakeTahoeInfoBaseFeatureWithContext<Person>
+    public class UserViewFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<Person>
     {
-        private readonly LakeTahoeInfoFeatureWithContextImpl<Person> _lakeTahoeInfoFeatureWithContextImpl;
+        private readonly FirmaFeatureWithContextImpl<Person> _firmaFeatureWithContextImpl;
 
         public UserViewFeature() : base(Role.All)
         {
-            _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<Person>(this);
-            ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;
+            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Person>(this);
+            ActionFilter = _firmaFeatureWithContextImpl;
         }
 
         public void DemandPermission(Person person, Person contextModelObject)
         {
-            _lakeTahoeInfoFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
         }
 
 

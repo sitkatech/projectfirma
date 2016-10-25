@@ -12,7 +12,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class TransportationProjectBudgetController : LakeTahoeInfoBaseController
+    public class TransportationProjectBudgetController : FirmaBaseController
     {
         [HttpGet]
         [TransportationProjectBudgetManageFeature]

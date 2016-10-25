@@ -6,7 +6,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Tag
 {
-    public class SummaryViewData : EIPViewData
+    public class SummaryViewData : FirmaViewData
     {
         public readonly Models.Tag Tag;
         public readonly string EditTagUrl;

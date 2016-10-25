@@ -31,7 +31,7 @@ using SummaryViewData = ProjectFirma.Web.Views.Project.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProjectController : LakeTahoeInfoBaseController
+    public class ProjectController : FirmaBaseController
     {
         [HttpGet]
         [ProjectCreateNewFeature]
@@ -336,7 +336,7 @@ namespace ProjectFirma.Web.Controllers
 
             var mapDivID = string.Format("project_{0}_Map", project.ProjectID);
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID);
-            var viewData = new FactSheetViewData(CurrentPerson, project, projectLocationSummaryMapInitJson, ProjectFirmaHelpers.DefaultColorRange);
+            var viewData = new FactSheetViewData(CurrentPerson, project, projectLocationSummaryMapInitJson, FirmaHelpers.DefaultColorRange);
             return RazorView<FactSheet, FactSheetViewData>(viewData);
         }
 
@@ -791,7 +791,7 @@ Continue with a new project update?
         public static Dictionary<int, GooglePieChartSlice> GetSlicesForGoogleChart(Dictionary<string, decimal> fundingSourceExpenditures)
         {
             var indexMapping = GetConsistentFundingSourceExpendituresIndexDictionary(fundingSourceExpenditures);
-            return fundingSourceExpenditures.Select(fund => indexMapping[fund.Key]).ToDictionary(index => index, index => new GooglePieChartSlice {Color = ProjectFirmaHelpers.DefaultColorRange[index]});
+            return fundingSourceExpenditures.Select(fund => indexMapping[fund.Key]).ToDictionary(index => index, index => new GooglePieChartSlice {Color = FirmaHelpers.DefaultColorRange[index]});
         }
 
         public static Dictionary<string, int> GetConsistentFundingSourceExpendituresIndexDictionary(Dictionary<string,decimal> fundingSourceExpenditures)

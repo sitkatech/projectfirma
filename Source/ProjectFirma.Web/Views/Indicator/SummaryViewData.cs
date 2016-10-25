@@ -9,7 +9,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Indicator
 {
-    public class SummaryViewData : EIPViewData
+    public class SummaryViewData : FirmaViewData
     {
         public enum IndicatorSummaryTab
         {

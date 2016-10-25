@@ -4,20 +4,20 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Edit/Delete Proposed Project Image")]
-    public class ProposedProjectImageEditOrDeleteFeature : EIPFeatureWithContext, ILakeTahoeInfoBaseFeatureWithContext<ProposedProjectImage>
+    public class ProposedProjectImageEditOrDeleteFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<ProposedProjectImage>
     {
-        private readonly LakeTahoeInfoFeatureWithContextImpl<ProposedProjectImage> _lakeTahoeInfoFeatureWithContextImpl;
+        private readonly FirmaFeatureWithContextImpl<ProposedProjectImage> _firmaFeatureWithContextImpl;
 
         public ProposedProjectImageEditOrDeleteFeature()
             : base(new List<Role> { Role.Normal, Role.Approver, Role.SitkaAdmin, Role.Admin, Role.TMPOManager })
         {
-            _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<ProposedProjectImage>(this);
-            ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;
+            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ProposedProjectImage>(this);
+            ActionFilter = _firmaFeatureWithContextImpl;
         }
 
         public void DemandPermission(Person person, ProposedProjectImage contextModelObject)
         {
-            _lakeTahoeInfoFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
         }
 
         public PermissionCheckResult HasPermission(Person person, ProposedProjectImage contextModelObject)

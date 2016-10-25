@@ -2,5 +2,5 @@
 
 namespace ProjectFirma.Web.Views.Shared
 {
-    public abstract class LakeTahoeInfoIncludes : WebViewPage { }
+    public abstract class FirmaIncludes : WebViewPage { }
 }

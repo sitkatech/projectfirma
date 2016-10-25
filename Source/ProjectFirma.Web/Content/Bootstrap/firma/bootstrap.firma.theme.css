@@ -7,11 +7,14 @@ body {
 .header img {
   margin: 5px;
   height: 50px;
+    vertical-align: middle;
 }
 .header .headerText {
-  display: inline-block;
-  font-size: 30px;
-  font-weight: 600;
+    display: inline-block;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 50px;
+    vertical-align: middle;
 }
 footer {
   position: absolute;

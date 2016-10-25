@@ -18,11 +18,11 @@ namespace ProjectFirma.Web.Models
 
         public static List<ProposedProjectLocationStaging> CreateProposedProjectLocationStagingListFromGdb(FileInfo gdbFile, ProposedProject proposedProject, Person currentPerson)
         {
-            var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(ProjectFirmaWebConfiguration.Ogr2OgrExecutable,
+            var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(FirmaWebConfiguration.Ogr2OgrExecutable,
                 Ogr2OgrCommandLineRunner.DefaultCoordinateSystemId,
-                ProjectFirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds);
+                FirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds);
 
-            var featureClassNames = OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileGdb(new FileInfo(ProjectFirmaWebConfiguration.OgrInfoExecutable), gdbFile, Ogr2OgrCommandLineRunner.DefaultTimeOut);
+            var featureClassNames = OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileGdb(new FileInfo(FirmaWebConfiguration.OgrInfoExecutable), gdbFile, Ogr2OgrCommandLineRunner.DefaultTimeOut);
 
             var projectLocationStagings =
                 featureClassNames.Select(x => new ProposedProjectLocationStaging(proposedProject, currentPerson.PersonID, x, ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gdbFile, x), true)).ToList();

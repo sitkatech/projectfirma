@@ -3,20 +3,20 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Page Content")]
-    public class ProjectFirmaPageManageFeature : EIPFeatureWithContext, ILakeTahoeInfoBaseFeatureWithContext<ProjectFirmaPage>
+    public class ProjectFirmaPageManageFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<ProjectFirmaPage>
     {
-        private readonly LakeTahoeInfoFeatureWithContextImpl<ProjectFirmaPage> _lakeTahoeInfoFeatureWithContextImpl;
+        private readonly FirmaFeatureWithContextImpl<ProjectFirmaPage> _firmaFeatureWithContextImpl;
 
         public ProjectFirmaPageManageFeature()
-            : base(LakeTahoeInfoBaseFeatureHelpers.AllEIPRolesExceptUnassigned)
+            : base(FirmaBaseFeatureHelpers.AllEIPRolesExceptUnassigned)
         {
-            _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<ProjectFirmaPage>(this);
-            ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;
+            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ProjectFirmaPage>(this);
+            ActionFilter = _firmaFeatureWithContextImpl;
         }
 
         public void DemandPermission(Person person, ProjectFirmaPage contextModelObject)
         {
-            _lakeTahoeInfoFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
         }
 
         public PermissionCheckResult HasPermission(Person person, ProjectFirmaPage contextModelObject)

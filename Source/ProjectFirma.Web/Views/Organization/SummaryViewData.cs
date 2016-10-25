@@ -6,7 +6,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Organization
 {
-    public class SummaryViewData : EIPViewData
+    public class SummaryViewData : FirmaViewData
     {
         public readonly Models.Organization Organization;
         public readonly bool UserHasOrganizationManagePermissions;

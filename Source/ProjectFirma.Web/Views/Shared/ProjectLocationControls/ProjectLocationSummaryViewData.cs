@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
-    public class ProjectLocationSummaryViewData : LakeTahoeInfoUserControlViewData
+    public class ProjectLocationSummaryViewData : FirmaUserControlViewData
     {
         public readonly string ProjectLocationNotes;
         public readonly ProjectLocationSummaryMapInitJson ProjectLocationSummaryMapInitJson;

@@ -6,7 +6,7 @@ using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Security
 {
-    public abstract class EIPFeatureWithContext : LakeTahoeInfoBaseFeature, IActionFilter
+    public abstract class EIPFeatureWithContext : FirmaBaseFeature, IActionFilter
     {
         public IActionFilter ActionFilter;
 

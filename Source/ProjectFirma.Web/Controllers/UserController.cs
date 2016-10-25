@@ -14,7 +14,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class UserController : LakeTahoeInfoBaseController
+    public class UserController : FirmaBaseController
     {
         [UserEditFeature]
         public ViewResult Index()

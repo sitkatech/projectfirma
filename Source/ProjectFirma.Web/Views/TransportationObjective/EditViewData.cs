@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.TransportationObjective
 {
-    public class EditViewData : LakeTahoeInfoUserControlViewData
+    public class EditViewData : FirmaUserControlViewData
     {
         public readonly IEnumerable<SelectListItem> TransportationStrategies;
         public readonly string TransportationStrategyDisplayName;

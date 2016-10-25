@@ -1,6 +1,6 @@
 ﻿namespace ProjectFirma.Web.Views.Indicator
 {
-    public class DefinitionAndGuidanceViewData : LakeTahoeInfoUserControlViewData
+    public class DefinitionAndGuidanceViewData : FirmaUserControlViewData
     {
         public readonly Models.Indicator Indicator;
 

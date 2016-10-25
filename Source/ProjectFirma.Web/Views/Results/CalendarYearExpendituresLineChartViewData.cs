@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class CalendarYearExpendituresLineChartViewData : LakeTahoeInfoUserControlViewData
+    public class CalendarYearExpendituresLineChartViewData : FirmaUserControlViewData
     {
         public readonly GoogleChartJson GoogleChartJson;
         public readonly List<string> ChartColorRange;

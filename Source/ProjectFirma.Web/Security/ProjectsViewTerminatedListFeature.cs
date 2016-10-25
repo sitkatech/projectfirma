@@ -6,7 +6,7 @@ namespace ProjectFirma.Web.Security
     public class ProjectsViewTerminatedListFeature : EIPFeature
     {
         public ProjectsViewTerminatedListFeature()
-            : base(LakeTahoeInfoBaseFeatureHelpers.AllEIPRolesExceptUnassigned)
+            : base(FirmaBaseFeatureHelpers.AllEIPRolesExceptUnassigned)
         {
         }
     }

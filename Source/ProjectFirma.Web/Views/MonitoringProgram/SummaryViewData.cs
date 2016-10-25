@@ -5,7 +5,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.MonitoringProgram
 {
-    public class SummaryViewData : EIPViewData
+    public class SummaryViewData : FirmaViewData
     {
         public readonly Models.MonitoringProgram MonitoringProgram;
         public readonly string EditMonitoringProgramUrl;

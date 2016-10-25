@@ -22,7 +22,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ResultsController : LakeTahoeInfoBaseController
+    public class ResultsController : FirmaBaseController
     {
         [InvestmentByFundingSourceViewFeature]
         public ViewResult InvestmentByFundingSector(int? calendarYear)
@@ -122,11 +122,11 @@ namespace ProjectFirma.Web.Controllers
             {
                 if (calendarYear.Value == ProjectFirmaDateUtilities.MinimumYear)
                 {
-                    projectCount += ProjectFirmaWebConfiguration.Pre2007ProjectCount;
+                    projectCount += FirmaWebConfiguration.Pre2007ProjectCount;
                 }
                 else if (calendarYear.Value == ProjectFirmaDateUtilities.GetYearUsedToRepresentPreReportingYears())
                 {
-                    projectCount = ProjectFirmaWebConfiguration.Pre2007ProjectCount;
+                    projectCount = FirmaWebConfiguration.Pre2007ProjectCount;
                 }
             }
             return projectCount;
@@ -267,7 +267,7 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.ProjectColorByTypeDisplayName);
 
             var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(focusAreas, projects, projectStages);
-            var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EipProjectMap(), ProjectFirmaWebConfiguration.CanonicalHostName);
+            var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EipProjectMap(), LtInfoWebConfiguration.CanonicalHostName);
             var filteredProjectsWithLocationAreasUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));
 
             var viewData = new EipProjectMapViewData(CurrentPerson,

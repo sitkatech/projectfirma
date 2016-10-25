@@ -5,7 +5,7 @@ using LtInfo.Common.ModalDialog;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class ManageViewData : EIPViewData
+    public class ManageViewData : FirmaViewData
     {
         public readonly int ReportingYear;
         public readonly string SendReminderEmailsUrl;

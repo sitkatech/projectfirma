@@ -6,7 +6,7 @@ using ProjectFirma.Web.Security.Shared;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class AboutController : LakeTahoeInfoBaseController
+    public class AboutController : FirmaBaseController
     {
         [HttpGet]
         [AnonymousUnclassifiedFeature]

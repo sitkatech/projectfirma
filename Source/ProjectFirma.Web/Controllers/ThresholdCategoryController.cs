@@ -15,7 +15,7 @@ using SummaryViewData = ProjectFirma.Web.Views.ThresholdCategory.SummaryViewData
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ThresholdCategoryController : LakeTahoeInfoBaseController
+    public class ThresholdCategoryController : FirmaBaseController
     {
         [IndicatorViewFeature]
         public ViewResult Index()

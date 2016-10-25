@@ -5,7 +5,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.User
 {
-    public class IndexViewData : EIPViewData
+    public class IndexViewData : FirmaViewData
     {
         public readonly IndexGridSpec GridSpec;
         public readonly string GridName;
@@ -19,8 +19,8 @@ namespace ProjectFirma.Web.Views.User
             GridSpec = new IndexGridSpec() {ObjectNameSingular = "User", ObjectNamePlural = "Users", SaveFiltersInCookie = true};
             GridName = "UserGrid";
             GridDataUrl = SitkaRoute<UserController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
-            KeystoneUrl = ProjectFirmaWebConfiguration.KeystoneUrl;
-            KeystoneRegisterUserUrl = ProjectFirmaWebConfiguration.KeystoneRegisterUserUrl;
+            KeystoneUrl = FirmaWebConfiguration.KeystoneUrl;
+            KeystoneRegisterUserUrl = FirmaWebConfiguration.KeystoneRegisterUserUrl;
         }
     }
 }

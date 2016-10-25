@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Security
 {
-    public interface ILakeTahoeInfoBaseFeatureWithContext<in T>
+    public interface IFirmaBaseFeatureWithContext<in T>
     {
         PermissionCheckResult HasPermission(Person person, T contextModelObject);
         void DemandPermission(Person person, T contextModelObject);

@@ -21,7 +21,7 @@ using SummaryViewData = ProjectFirma.Web.Views.Indicator.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class IndicatorController : LakeTahoeInfoBaseController
+    public class IndicatorController : FirmaBaseController
     {
         [IndicatorManageFeature]
         public ViewResult Manage()

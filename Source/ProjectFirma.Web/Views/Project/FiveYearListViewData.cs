@@ -5,7 +5,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Project
 {
-    public class FiveYearListViewData : EIPViewData
+    public class FiveYearListViewData : FirmaViewData
     {
         public readonly bool HasProposedProjectPermissions;
         public readonly BasicProjectInfoGridSpec GridSpec;

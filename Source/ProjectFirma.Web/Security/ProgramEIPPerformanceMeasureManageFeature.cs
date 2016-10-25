@@ -5,20 +5,20 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Program EIP PerformanceMeasure")]
-    public class ProgramEIPPerformanceMeasureManageFeature : EIPFeatureWithContext, ILakeTahoeInfoBaseFeatureWithContext<EIPPerformanceMeasure>
+    public class ProgramEIPPerformanceMeasureManageFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<EIPPerformanceMeasure>
     {
-        private readonly LakeTahoeInfoFeatureWithContextImpl<EIPPerformanceMeasure> _lakeTahoeInfoFeatureWithContextImpl;
+        private readonly FirmaFeatureWithContextImpl<EIPPerformanceMeasure> _firmaFeatureWithContextImpl;
 
         public ProgramEIPPerformanceMeasureManageFeature()
             : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
         {
-            _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<EIPPerformanceMeasure>(this);
-            ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;
+            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<EIPPerformanceMeasure>(this);
+            ActionFilter = _firmaFeatureWithContextImpl;
         }
 
         public void DemandPermission(Person person, EIPPerformanceMeasure contextModelObject)
         {
-            _lakeTahoeInfoFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
         }
 
         public PermissionCheckResult HasPermission(Person person, EIPPerformanceMeasure contextModelObject)

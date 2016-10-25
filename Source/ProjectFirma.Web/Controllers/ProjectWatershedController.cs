@@ -11,7 +11,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProjectWatershedController : LakeTahoeInfoBaseController
+    public class ProjectWatershedController : FirmaBaseController
     {
         [HttpGet]
         [ProjectWatershedManageFromProjectFeature]

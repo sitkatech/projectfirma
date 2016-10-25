@@ -3,7 +3,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Project
 {
-    public abstract class ProjectViewData : EIPViewData
+    public abstract class ProjectViewData : FirmaViewData
     {
         public readonly Models.Project Project;
         public readonly ProjectUpdateState LatestUpdateState;

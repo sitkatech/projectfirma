@@ -88,8 +88,8 @@ namespace ProjectFirma.Web.Views.Shared
                 if (
                     !RecaptchaValidator.IsValidResponse(gRecaptchaResponse,
                         ipAddress,
-                        ProjectFirmaWebConfiguration.RecaptchaPrivateKey,
-                        ProjectFirmaWebConfiguration.RecaptchaValidatorUrl,
+                        FirmaWebConfiguration.RecaptchaPrivateKey,
+                        FirmaWebConfiguration.RecaptchaValidatorUrl,
                         SitkaLogger.Instance.LogDetailedErrorMessage))
                 {
                     errors.Add(new ValidationResult("Your Captcha response is incorrect."));

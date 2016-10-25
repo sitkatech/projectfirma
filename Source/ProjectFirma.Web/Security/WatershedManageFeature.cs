@@ -3,7 +3,7 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Watershed")]
-    public class WatershedManageFeature : LakeTahoeInfoAdminFeature
+    public class WatershedManageFeature : FirmaAdminFeature
     {
     }
 }

@@ -15,7 +15,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProjectLocationController : LakeTahoeInfoBaseController
+    public class ProjectLocationController : FirmaBaseController
     {
         [HttpGet]
         [ProjectMapManageFeature]
@@ -156,7 +156,7 @@ namespace ProjectFirma.Web.Controllers
                     (projectLocationStaging, i) =>
                         new LayerGeoJson(projectLocationStaging.FeatureClassName,
                             projectLocationStaging.ToGeoJsonFeatureCollection(),
-                            ProjectFirmaHelpers.DefaultColorRange[i],
+                            FirmaHelpers.DefaultColorRange[i],
                             1,
                             LayerInitialVisibility.Show)).ToList();
 

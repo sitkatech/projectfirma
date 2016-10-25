@@ -12,7 +12,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class FieldDefinitionController : LakeTahoeInfoBaseController
+    public class FieldDefinitionController : FirmaBaseController
     {
         [FieldDefinitionViewListFeature]
         [CrossAreaRoute]

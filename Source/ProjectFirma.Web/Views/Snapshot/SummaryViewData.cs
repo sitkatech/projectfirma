@@ -9,7 +9,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Snapshot
 {
-    public class SummaryViewData : EIPViewData
+    public class SummaryViewData : FirmaViewData
     {
         public readonly Models.Snapshot Snapshot;
         public readonly List<Models.Project> ProjectsAdded;

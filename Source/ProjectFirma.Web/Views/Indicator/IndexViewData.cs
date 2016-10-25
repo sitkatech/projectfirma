@@ -4,7 +4,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Indicator
 {
-    public class IndexViewData : EIPViewData
+    public class IndexViewData : FirmaViewData
     {
         public readonly IndicatorGridSpec IndicatorGridSpec;
         public readonly string IndicatorGridName;

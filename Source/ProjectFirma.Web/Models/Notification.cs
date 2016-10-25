@@ -5,7 +5,6 @@ using System.Net.Mail;
 using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using DocumentFormat.OpenXml.Wordprocessing;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Email;
@@ -14,7 +13,7 @@ namespace ProjectFirma.Web.Models
 {
     public partial class Notification
     {
-        public const string LakeTahoeEipProjectTrackerSignature = @"Lake Tahoe EIP Project Tracker team<br/><br/><img src=""http://eip.laketahoeinfo.org/Content/img/eip-logo-factsheet.png"" width=""160"" />";
+        public const string FirmaSignature = @"Clackamas Partnership team<br/><br/><img src=""http://clackamaspartnership.org/Content/img/eip-logo-factsheet.png"" width=""160"" />";
 
         public HtmlString GetFullDescriptionFromUserPerspective()
         {
@@ -86,7 +85,7 @@ namespace ProjectFirma.Web.Models
 
         public static MailAddress DoNotReplyMailAddress()
         {
-            return new MailAddress(ProjectFirmaWebConfiguration.DoNotReplyEmail, "TRPA as Administrator of the EIP");
+            return new MailAddress(FirmaWebConfiguration.DoNotReplyEmail, "TRPA as Administrator of the EIP");
         }
 
         private static MailMessage GenerateProjectUpdateReturnedMessage(ProjectUpdateBatch projectUpdateBatch,
@@ -94,7 +93,7 @@ namespace ProjectFirma.Web.Models
             ProjectUpdateHistory latestProjectUpdateHistorySubmitted,
             Person returnerPerson)
         {
-            var instructionsUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(projectUpdateBatch.Project), ProjectFirmaWebConfiguration.CanonicalHostName);
+            var instructionsUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(projectUpdateBatch.Project), LtInfoWebConfiguration.CanonicalHostName);
             var message = string.Format(@"
 Dear {0},
 <p>
@@ -111,7 +110,7 @@ Thank you,<br />
 ", personNames, projectUpdateBatch.Project.DisplayName, latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate(), returnerPerson.FullNameFirstLastAndOrg, instructionsUrl,
                 returnerPerson.FirstName,
                 returnerPerson.Email,
-                LakeTahoeEipProjectTrackerSignature);
+                FirmaSignature);
 
             var subject = string.Format("The update for EIP project {0} has been returned - please review and re-submit", projectUpdateBatch.Project.ProjectNumberString);
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true};
@@ -147,7 +146,7 @@ Thank you,<br />
         private static MailMessage GenerateProjectUpdateSubmittedMessage(ProjectUpdateBatch projectUpdateBatch, ProjectUpdateHistory latestProjectUpdateHistorySubmitted, Person submitterPerson)
         {
             var subject = String.Format("The update for EIP project {0} was submitted", projectUpdateBatch.Project.ProjectNumberString);
-            var instructionsUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(projectUpdateBatch.Project), ProjectFirmaWebConfiguration.CanonicalHostName);
+            var instructionsUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(projectUpdateBatch.Project), LtInfoWebConfiguration.CanonicalHostName);
             var message = String.Format(@"
 <p>The update for EIP project {0} on {1} was just submitted by {2}.</p>
 <p>Please review and Approve or Return it at your earliest convenience.<br />
@@ -234,7 +233,7 @@ Thank you,<br />
             ProjectUpdateHistory latestProjectUpdateHistorySubmitted,
             Person approverPerson)
         {
-            var summaryUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Summary(projectUpdateBatch.Project.ProjectNumberString), ProjectFirmaWebConfiguration.CanonicalHostName);
+            var summaryUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Summary(projectUpdateBatch.Project.ProjectNumberString), LtInfoWebConfiguration.CanonicalHostName);
             var message = String.Format(@"
 Dear {0},
 <p>
@@ -249,7 +248,7 @@ Dear {0},
 Thank you for keeping your project information and accomplishments up to date!<br />
 {5}
 ", personNames, projectUpdateBatch.Project.DisplayName, latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate(), approverPerson.FullNameFirstLastAndOrg, summaryUrl,
-                LakeTahoeEipProjectTrackerSignature);
+                FirmaSignature);
 
             var subject = String.Format("The update for EIP project {0} was approved", projectUpdateBatch.Project.ProjectNumberString);
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true};
@@ -271,7 +270,7 @@ Thank you for keeping your project information and accomplishments up to date!<b
         private static MailMessage GenerateProposedProjectSubmittedMessage(ProposedProject proposedProject, Person submitterPerson)
         {
             var subject = String.Format("An EIP Project Proposal was submitted by {0}", submitterPerson.FullNameFirstLastAndOrg);
-            var instructionsUrl = SitkaRoute<ProposedProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(proposedProject.ProposedProjectID), ProjectFirmaWebConfiguration.CanonicalHostName);
+            var instructionsUrl = SitkaRoute<ProposedProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(proposedProject.ProposedProjectID), LtInfoWebConfiguration.CanonicalHostName);
             var message = String.Format(@"
 <p>A proposal was submitted for a new EIP Project, “{0}”.</p>
 <p>The proposal was submitted on {1} by {2}.<br />

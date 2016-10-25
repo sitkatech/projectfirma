@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Shared.EIPPerformanceMeasureControls
 {
-    public class EIPPerformanceMeasureExpectedSummaryViewData : LakeTahoeInfoUserControlViewData
+    public class EIPPerformanceMeasureExpectedSummaryViewData : FirmaUserControlViewData
     {
         public readonly List<IEIPPerformanceMeasureValue> EIPPerformanceMeasureExpecteds;
 

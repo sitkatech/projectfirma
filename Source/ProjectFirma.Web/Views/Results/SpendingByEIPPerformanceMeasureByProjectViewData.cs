@@ -6,7 +6,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class SpendingByEIPPerformanceMeasureByProjectViewData : EIPViewData
+    public class SpendingByEIPPerformanceMeasureByProjectViewData : FirmaViewData
     {        
         public readonly Models.EIPPerformanceMeasure SelectedEIPPerformanceMeasure;
         public readonly List<Models.EIPPerformanceMeasure> EIPPerformanceMeasures;

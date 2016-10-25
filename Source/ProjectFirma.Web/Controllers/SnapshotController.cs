@@ -18,7 +18,7 @@ using SummaryViewData = ProjectFirma.Web.Views.Snapshot.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class SnapshotController : LakeTahoeInfoBaseController
+    public class SnapshotController : FirmaBaseController
     {
         [AdminReadOnlyViewEverythingFeature]
         public ActionResult Index()

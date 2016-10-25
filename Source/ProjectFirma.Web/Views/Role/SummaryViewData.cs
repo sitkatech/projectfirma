@@ -7,7 +7,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Role
 {
-    public class SummaryViewData : EIPViewData
+    public class SummaryViewData : FirmaViewData
     {
         public readonly PersonWithRoleGridSpec GridSpec;
         public readonly string GridName;

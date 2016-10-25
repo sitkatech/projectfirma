@@ -9,7 +9,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.ActionPriority
 {
-    public class SummaryViewData : EIPViewData
+    public class SummaryViewData : FirmaViewData
     {
         public readonly Models.ActionPriority ActionPriority;
         public readonly bool UserHasActionPriorityManagePermissions;

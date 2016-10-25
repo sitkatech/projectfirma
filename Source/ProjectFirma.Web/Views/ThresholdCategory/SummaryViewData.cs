@@ -6,7 +6,7 @@ using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.ThresholdCategory
 {
-    public class SummaryViewData : EIPViewData
+    public class SummaryViewData : FirmaViewData
     {
         public readonly Models.ThresholdCategory ThresholdCategory;
         public readonly string EditThresholdCategoryUrl;

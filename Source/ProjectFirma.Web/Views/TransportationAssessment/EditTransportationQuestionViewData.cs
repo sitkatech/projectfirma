@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Views.TransportationAssessment
 {
-    public class EditTransportationQuestionViewData : LakeTahoeInfoUserControlViewData
+    public class EditTransportationQuestionViewData : FirmaUserControlViewData
     {
          public EditTransportationQuestionViewData()
         {

@@ -20,9 +20,9 @@ namespace ProjectFirma.Web.Controllers
 
             if (!skipAuthorization)
             {
-                var lakeTahoeInfoBaseFeatureType = typeof(LakeTahoeInfoBaseFeature);
-                var lakeTahoeInfoBaseFeatureAttribute = filterContext.ActionDescriptor.GetCustomAttributes(lakeTahoeInfoBaseFeatureType, true).SingleOrDefault();
-                if (lakeTahoeInfoBaseFeatureAttribute != null && ((LakeTahoeInfoBaseFeature) lakeTahoeInfoBaseFeatureAttribute).GrantedRoles.Any())
+                var firmaBaseFeatureType = typeof(FirmaBaseFeature);
+                var firmaBaseFeatureAttribute = filterContext.ActionDescriptor.GetCustomAttributes(firmaBaseFeatureType, true).SingleOrDefault();
+                if (firmaBaseFeatureAttribute != null && ((FirmaBaseFeature) firmaBaseFeatureAttribute).GrantedRoles.Any())
                 {
 
                     if (!filterContext.HttpContext.User.Identity.IsAuthenticated)

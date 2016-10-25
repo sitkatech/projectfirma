@@ -9,7 +9,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProjectNoteUpdateController : LakeTahoeInfoBaseController
+    public class ProjectNoteUpdateController : FirmaBaseController
     {
         [HttpGet]
         [ProjectNoteUpdateNewFeature]

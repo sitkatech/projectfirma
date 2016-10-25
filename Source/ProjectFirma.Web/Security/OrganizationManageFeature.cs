@@ -1,7 +1,7 @@
 ﻿namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Organization")]
-    public class OrganizationManageFeature : LakeTahoeInfoAdminFeature
+    public class OrganizationManageFeature : FirmaAdminFeature
     {
     }
 }

@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Views.Shared
 {
-    public class FieldDefinitionDetailsViewData : LakeTahoeInfoUserControlViewData
+    public class FieldDefinitionDetailsViewData : FirmaUserControlViewData
     {
         public readonly HtmlString FieldDefinition;
 

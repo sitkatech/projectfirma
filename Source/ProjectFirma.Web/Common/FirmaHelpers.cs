@@ -6,7 +6,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Common
 {
-    public static class ProjectFirmaHelpers
+    public static class FirmaHelpers
     {
         public static readonly List<string> DefaultColorRange = new List<string> {
             "#1f77b4",
@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Common
 
         public static string GenerateLogOutUrlWithReturnUrl()
         {
-            var logOutUrl = SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOff(), ProjectFirmaWebConfiguration.CanonicalHostName);
+            var logOutUrl = SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOff(), LtInfoWebConfiguration.CanonicalHostName);
             
             var returnUrl = HttpContext.Current.Request.Url.AbsoluteUri;
 

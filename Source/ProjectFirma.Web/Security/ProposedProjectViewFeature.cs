@@ -5,19 +5,19 @@ using ProjectFirma.Web.Security;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("View Proposed Project")]
-    public class ProposedProjectViewFeature : EIPFeatureWithContext, ILakeTahoeInfoBaseFeatureWithContext<ProposedProject>
+    public class ProposedProjectViewFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<ProposedProject>
     {
-        private readonly LakeTahoeInfoFeatureWithContextImpl<ProposedProject> _lakeTahoeInfoFeatureWithContextImpl;
+        private readonly FirmaFeatureWithContextImpl<ProposedProject> _firmaFeatureWithContextImpl;
 
         public ProposedProjectViewFeature() : base(new List<Role>())
         {
-            _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<ProposedProject>(this);
-            ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;
+            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ProposedProject>(this);
+            ActionFilter = _firmaFeatureWithContextImpl;
         }
 
         public void DemandPermission(Person person, ProposedProject contextModelObject)
         {
-            _lakeTahoeInfoFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
         }
 
         public PermissionCheckResult HasPermission(Person person, ProposedProject contextModelObject)

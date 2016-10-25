@@ -12,7 +12,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProjectLocalAndRegionalPlanController : LakeTahoeInfoBaseController
+    public class ProjectLocalAndRegionalPlanController : FirmaBaseController
     {
         [HttpGet]
         [ProjectLocalAndRegionalPlanManageFromProjectFeature]

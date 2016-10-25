@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.ProgramInfo
 {
-    public class TransportationTaxonomyViewData : EIPViewData
+    public class TransportationTaxonomyViewData : FirmaViewData
     {
         public readonly List<FancyTreeNode> TransportationStrategiesAsFancyTreeNodes;
 

@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Views.ProjectExternalLink
 {
-    public class EditProjectExternalLinksViewData : LakeTahoeInfoUserControlViewData
+    public class EditProjectExternalLinksViewData : FirmaUserControlViewData
     {
         public readonly int ProjectID;
 

@@ -5,20 +5,20 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    public static class LakeTahoeInfoBaseFeatureHelpers
+    public static class FirmaBaseFeatureHelpers
     {
         public static readonly List<Role> AllEIPRolesExceptUnassigned = Role.All.Except(new[] { Role.Unassigned }).ToList();
 
         public static bool DoesRoleHavePermissionsForFeature(IRole role, Type type)
         {
-            var lakeTahoeInfoBaseFeature = LakeTahoeInfoBaseFeature.InstantiateFeature(type);            
-            if (IsContextFeatureByInheritance(lakeTahoeInfoBaseFeature))
+            var firmaBaseFeature = FirmaBaseFeature.InstantiateFeature(type);            
+            if (IsContextFeatureByInheritance(firmaBaseFeature))
             {
                 return true;
             }
             else
             {
-                return lakeTahoeInfoBaseFeature.GrantedRoles.Contains(role) || (role == null);
+                return firmaBaseFeature.GrantedRoles.Contains(role) || (role == null);
             }
         }
 

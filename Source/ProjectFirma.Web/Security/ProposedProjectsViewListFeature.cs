@@ -6,7 +6,7 @@ namespace ProjectFirma.Web.Security
     public class ProposedProjectsViewListFeature : EIPFeature
     {
         public ProposedProjectsViewListFeature()
-            : base(LakeTahoeInfoBaseFeatureHelpers.AllEIPRolesExceptUnassigned)
+            : base(FirmaBaseFeatureHelpers.AllEIPRolesExceptUnassigned)
         {
         }
     }

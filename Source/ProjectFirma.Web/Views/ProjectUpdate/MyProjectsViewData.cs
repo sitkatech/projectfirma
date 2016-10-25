@@ -8,7 +8,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class MyProjectsViewData : EIPViewData
+    public class MyProjectsViewData : FirmaViewData
     {
         public readonly ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum ProjectUpdateStatusFilterType;
         public readonly string SubmitAllUrl;

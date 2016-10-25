@@ -4,7 +4,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Shared
 {
-    public class DisplayEIPPageContentViewData : EIPViewData
+    public class DisplayEIPPageContentViewData : FirmaViewData
     {
         public readonly bool ShowEditButton;
         public readonly string EditUrl;

@@ -15,7 +15,7 @@ using IndexViewData = ProjectFirma.Web.Views.EIPPerformanceMeasure.IndexViewData
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class EIPPerformanceMeasureController : LakeTahoeInfoBaseController
+    public class EIPPerformanceMeasureController : FirmaBaseController
     {
         [EIPPerformanceMeasureViewFeature]
         public ViewResult Index()

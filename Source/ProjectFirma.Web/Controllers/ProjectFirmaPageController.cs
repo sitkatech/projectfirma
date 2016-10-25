@@ -11,7 +11,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProjectFirmaPageController : LakeTahoeInfoBaseController
+    public class ProjectFirmaPageController : FirmaBaseController
     {
         [ProjectFirmaPageViewListFeature]
         public ViewResult Index()

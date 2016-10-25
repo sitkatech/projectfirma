@@ -1,6 +1,6 @@
 namespace ProjectFirma.Web.Views
 {
-    public class LakeTahoeInfoUserControlViewData
+    public class FirmaUserControlViewData
     {
     }
 }

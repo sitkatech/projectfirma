@@ -8,9 +8,9 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class RoleController : LakeTahoeInfoBaseController
+    public class RoleController : FirmaBaseController
     {
-        [LakeTahoeInfoAdminFeature]
+        [FirmaAdminFeature]
         public ViewResult Index()
         {
             var viewData = new IndexViewData(CurrentPerson);
@@ -43,13 +43,13 @@ namespace ProjectFirma.Web.Controllers
             return roles.OrderBy(x => x.RoleDisplayName).ToList();
         }
 
-        [LakeTahoeInfoAdminFeature]
+        [FirmaAdminFeature]
         public ViewResult Anonymous()
         {
             return ViewSummary(new AnonymousRole());
         }
 
-        [LakeTahoeInfoAdminFeature]
+        [FirmaAdminFeature]
         public ViewResult Summary(int roleID)
         {
             var role = Role.AllLookupDictionary[roleID];

@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Views.TransportationCostParameterSet
 {
-    public class NewViewData : LakeTahoeInfoUserControlViewData
+    public class NewViewData : FirmaUserControlViewData
     {        
     }
 }

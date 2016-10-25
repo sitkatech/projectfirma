@@ -5,7 +5,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class ProjectFundingSourceExpendituresBySectorViewData : LakeTahoeInfoUserControlViewData
+    public class ProjectFundingSourceExpendituresBySectorViewData : FirmaUserControlViewData
     {
         public readonly ProjectFundingSourceExpendituresBySectorGridSpec GridSpec;
         public readonly string GridName;

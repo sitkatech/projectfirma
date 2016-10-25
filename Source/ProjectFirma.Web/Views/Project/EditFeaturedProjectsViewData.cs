@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Project
 {
-    public class EditFeaturedProjectsViewData : LakeTahoeInfoUserControlViewData
+    public class EditFeaturedProjectsViewData : FirmaUserControlViewData
     {
         public readonly List<ProjectSimple> AllProjects;
 

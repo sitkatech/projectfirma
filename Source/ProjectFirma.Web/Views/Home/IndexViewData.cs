@@ -8,7 +8,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Home
 {
-    public class IndexViewData : EIPViewData
+    public class IndexViewData : FirmaViewData
     {
         public readonly bool HasEditPermissions;
         public readonly HtmlString IntroNarrativeContent;
@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Views.Home
             ProjectLocationsMapViewData projectLocationsMapViewData,
             ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentPerson, projectFirmaPage)
         {
-            PageTitle = "Lake Tahoe EIP Project Tracker";
+            PageTitle = "Clackamas Partnership Project Tracker";
 
             HasEditPermissions = hasEditPermissions;
             IntroNarrativeContent = introNarrativeContent;

@@ -11,7 +11,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProjectTransportationQuestionController : LakeTahoeInfoBaseController
+    public class ProjectTransportationQuestionController : FirmaBaseController
     {
         [HttpGet]
         [ProjectEditFeature]

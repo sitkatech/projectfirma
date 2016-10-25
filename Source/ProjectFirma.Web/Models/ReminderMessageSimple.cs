@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.Models
         public ReminderMessageSimple(ReminderMessageType reminderMessageType, Person person)
         {
             var reminderMessage = reminderMessageType;
-            Body = reminderMessage.GetBodyContent(person).Replace("cid:eip-logo", "https://localhost-eip.laketahoeinfo.org/Content/img/eip-logo-factsheet.png");
+            Body = reminderMessage.GetBodyContent(person).Replace("cid:eip-logo", "https://clackamaspartnership.org/Content/img/eip-logo-factsheet.png");
             Subject = reminderMessage.ReminderMessageTypeSubject;
         }
     }

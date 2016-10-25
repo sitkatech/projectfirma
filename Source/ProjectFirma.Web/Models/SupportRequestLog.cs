@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Models
             var projectSummaryUrl = project == null
                 ? string.Empty
                 : string.Format("    <strong>Project:</strong> <a href=\"{0}\">{1}</a><br />",
-                    SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Summary(project.ProjectNumberString), ProjectFirmaWebConfiguration.CanonicalHostName),
+                    SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Summary(project.ProjectNumberString), LtInfoWebConfiguration.CanonicalHostName),
                     project.DisplayName);
             var message = string.Format(@"
 <div style='font-size: 12px; font-family: Arial'>
@@ -74,9 +74,9 @@ namespace ProjectFirma.Web.Models
                 ipAddress,
                 userAgent,
                 currentUrl,
-                ProjectFirmaWebConfiguration.SitkaSupportEmail);
+                FirmaWebConfiguration.SitkaSupportEmail);
             // Create Notification
-            var mailMessage = new MailMessage {From = new MailAddress(ProjectFirmaWebConfiguration.DoNotReplyEmail), Subject = subject, Body = message, IsBodyHtml = true};
+            var mailMessage = new MailMessage {From = new MailAddress(FirmaWebConfiguration.DoNotReplyEmail), Subject = subject, Body = message, IsBodyHtml = true};
 
             // Reply-To Header
             mailMessage.ReplyToList.Add(RequestPersonEmail);

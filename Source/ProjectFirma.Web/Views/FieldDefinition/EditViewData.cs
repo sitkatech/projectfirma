@@ -3,7 +3,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.FieldDefinition
 {
-    public class EditViewData : LakeTahoeInfoUserControlViewData
+    public class EditViewData : FirmaUserControlViewData
     {
         public readonly string FileBrowserImageUploadUrl;
 

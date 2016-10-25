@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Views.FocusArea
 {
-    public class EditViewData : LakeTahoeInfoUserControlViewData
+    public class EditViewData : FirmaUserControlViewData
     {
     }
 }

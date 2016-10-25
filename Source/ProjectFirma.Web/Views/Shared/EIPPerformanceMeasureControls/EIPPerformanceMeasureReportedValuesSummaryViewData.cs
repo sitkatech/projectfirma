@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Shared.EIPPerformanceMeasureControls
 {
-    public class EIPPerformanceMeasureReportedValuesSummaryViewData : LakeTahoeInfoUserControlViewData
+    public class EIPPerformanceMeasureReportedValuesSummaryViewData : FirmaUserControlViewData
     {
         public readonly List<CalendarYearString> CalendarYearsForEIPPerformanceMeasures;
         public readonly List<int> ExemptReportingYears;

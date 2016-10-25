@@ -12,7 +12,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProjectFundingSourceExpenditureController : LakeTahoeInfoBaseController
+    public class ProjectFundingSourceExpenditureController : FirmaBaseController
     {
         [HttpGet]
         [ProjectFundingSourceExpenditureFromProjectManageFeature]

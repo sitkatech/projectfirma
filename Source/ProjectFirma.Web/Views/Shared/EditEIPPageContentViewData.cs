@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Views.Shared
 {
-    public class EditEIPPageContentViewData : EIPViewData
+    public class EditEIPPageContentViewData : FirmaViewData
     {
         public readonly string DisplayUrl;
 

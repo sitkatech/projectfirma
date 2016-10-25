@@ -4,7 +4,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Watershed
 {
-    public class IndexViewData : EIPViewData
+    public class IndexViewData : FirmaViewData
     {
         public readonly IndexGridSpec GridSpec;
         public readonly string GridName;

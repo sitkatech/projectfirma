@@ -3,7 +3,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ThresholdCategory
 {
-    public class IndexViewData : EIPViewData
+    public class IndexViewData : FirmaViewData
     {
         public IndexViewData(Person currentPerson, Models.ProjectFirmaPage projectFirmaPage) : base(currentPerson, projectFirmaPage)
         {

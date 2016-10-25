@@ -10,7 +10,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class TransportationCostParameterSetController : LakeTahoeInfoBaseController
+    public class TransportationCostParameterSetController : FirmaBaseController
     {
         [AnonymousUnclassifiedFeature]
         public ViewResult Summary()

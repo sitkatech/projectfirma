@@ -7,7 +7,7 @@ using LtInfo.Common.ModalDialog;
 
 namespace ProjectFirma.Web.Views.User
 {
-    public class SummaryViewData : EIPViewData
+    public class SummaryViewData : FirmaViewData
     {
         public readonly Person Person;
         public readonly string EditPersonOrganizationPrimaryContactUrl;

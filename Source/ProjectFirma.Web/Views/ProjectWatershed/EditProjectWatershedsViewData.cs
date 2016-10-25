@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.ProjectWatershed
 {
-    public class EditProjectWatershedsViewData : LakeTahoeInfoUserControlViewData
+    public class EditProjectWatershedsViewData : FirmaUserControlViewData
     {
         public readonly List<WatershedSimple> AllWatersheds;
         public readonly int ProjectID;

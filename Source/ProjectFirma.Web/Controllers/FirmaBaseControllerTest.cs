@@ -7,13 +7,13 @@ using NUnit.Framework;
 namespace ProjectFirma.Web.Controllers
 {
     [TestFixture]
-    public class LakeTahoeInfoBaseControllerTest
+    public class FirmaBaseControllerTest
     {
         [Test]
         [Description("Controller Actions should prefer using the primary key types as possible")]
         public void GivenControllerActionWhenHasIntegerIDParameterThenPreferPrimaryKeyObject()
         {
-            var methods = LakeTahoeInfoBaseController.AllControllerActionMethods;
+            var methods = FirmaBaseController.AllControllerActionMethods;
             var missing =
                 methods.Where(
                     x =>

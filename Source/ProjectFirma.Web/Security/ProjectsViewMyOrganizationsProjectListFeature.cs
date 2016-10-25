@@ -6,7 +6,7 @@ namespace ProjectFirma.Web.Security
     public class ProjectsViewMyOrganizationsProjectListFeature : EIPFeature
     {
         public ProjectsViewMyOrganizationsProjectListFeature()
-            : base(LakeTahoeInfoBaseFeatureHelpers.AllEIPRolesExceptUnassigned)
+            : base(FirmaBaseFeatureHelpers.AllEIPRolesExceptUnassigned)
         {
         }
     }

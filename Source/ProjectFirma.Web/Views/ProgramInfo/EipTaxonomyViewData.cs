@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.ProgramInfo
 {
-    public class EipTaxonomyViewData : EIPViewData
+    public class EipTaxonomyViewData : FirmaViewData
     {
         public readonly List<FancyTreeNode> FocusAreasAsFancyTreeNodes;
 

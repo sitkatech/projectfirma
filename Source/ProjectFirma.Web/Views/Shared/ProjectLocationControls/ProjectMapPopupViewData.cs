@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
-    public class ProjectMapPopupViewData : LakeTahoeInfoUserControlViewData
+    public class ProjectMapPopupViewData : FirmaUserControlViewData
     {
         public readonly Models.Project Project;
 

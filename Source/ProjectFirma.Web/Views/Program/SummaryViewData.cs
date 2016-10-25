@@ -13,7 +13,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Program
 {
-    public class SummaryViewData : EIPViewData
+    public class SummaryViewData : FirmaViewData
     {
         public readonly Models.Program Program;
         public readonly List<Models.EIPPerformanceMeasure> EIPPerformanceMeasures;

@@ -7,7 +7,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Watershed
 {
-    public class SummaryViewData : EIPViewData
+    public class SummaryViewData : FirmaViewData
     {
         public readonly Models.Watershed Watershed;
         public readonly bool UserHasWatershedManagePermissions;

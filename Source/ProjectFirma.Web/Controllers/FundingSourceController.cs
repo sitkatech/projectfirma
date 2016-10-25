@@ -25,7 +25,7 @@ using SummaryViewData = ProjectFirma.Web.Views.FundingSource.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class FundingSourceController : LakeTahoeInfoBaseController
+    public class FundingSourceController : FirmaBaseController
     {
         [FundingSourceViewFeature]
         public ViewResult Index()

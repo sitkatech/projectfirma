@@ -3,7 +3,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.TextControls
 {
-    public class EntityExternalLinksViewData : LakeTahoeInfoUserControlViewData
+    public class EntityExternalLinksViewData : FirmaUserControlViewData
     {
         public readonly List<ExternalLink> ExternalLinks;
 

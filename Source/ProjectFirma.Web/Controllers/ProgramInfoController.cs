@@ -8,7 +8,7 @@ using ProjectFirma.Web.Security.Shared;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProgramInfoController : LakeTahoeInfoBaseController
+    public class ProgramInfoController : FirmaBaseController
     {
         [AnonymousUnclassifiedFeature]
         public ViewResult EipTaxonomy()

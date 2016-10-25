@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Views.ProjectFirmaPage
 {
-    public class EditViewData : LakeTahoeInfoUserControlViewData
+    public class EditViewData : FirmaUserControlViewData
     {
         public readonly CkEditorExtension.CkEditorToolbar CkEditorToolbar;
         public readonly string FileBrowserImageUploadUrl;

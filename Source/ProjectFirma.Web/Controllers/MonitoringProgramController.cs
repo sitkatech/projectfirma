@@ -17,7 +17,7 @@ using SummaryViewData = ProjectFirma.Web.Views.MonitoringProgram.SummaryViewData
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class MonitoringProgramController : LakeTahoeInfoBaseController
+    public class MonitoringProgramController : FirmaBaseController
     {
         [MonitoringProgramViewFeature]
         public ViewResult Index()
@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Controllers
             return IndexImpl();
         }
 
-        [LakeTahoeInfoAdminFeature]
+        [FirmaAdminFeature]
         public ViewResult Manage()
         {
             return IndexImpl();

@@ -22,7 +22,7 @@ using SummaryViewData = ProjectFirma.Web.Views.Tag.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class TagController : LakeTahoeInfoBaseController
+    public class TagController : FirmaBaseController
     {
         [TagViewFeature]
         public ViewResult Index()

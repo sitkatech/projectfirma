@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
-    public class ProjectTaxonomyViewData : LakeTahoeInfoUserControlViewData
+    public class ProjectTaxonomyViewData : FirmaUserControlViewData
     {
         public readonly Models.FocusArea FocusArea;
         public readonly Models.Program Program;

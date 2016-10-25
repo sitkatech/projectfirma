@@ -9,7 +9,7 @@ using LtInfo.Common.Mvc;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
-    public class EditProjectViewData : LakeTahoeInfoUserControlViewData
+    public class EditProjectViewData : FirmaUserControlViewData
     {
         public readonly IEnumerable<SelectListItem> ActionPriorities;
         public readonly IEnumerable<SelectListItem> StartYearRange;

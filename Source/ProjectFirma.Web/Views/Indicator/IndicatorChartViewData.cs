@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Views.Indicator
 
     }
 
-    public class IndicatorChartViewData : LakeTahoeInfoUserControlViewData
+    public class IndicatorChartViewData : FirmaUserControlViewData
     {
         private const int DefaultWidth = 500;
         private const int DefaultHeight = 350;

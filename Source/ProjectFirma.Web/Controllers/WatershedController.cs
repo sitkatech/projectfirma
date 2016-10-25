@@ -19,7 +19,7 @@ using SummaryViewData = ProjectFirma.Web.Views.Watershed.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class WatershedController : LakeTahoeInfoBaseController
+    public class WatershedController : FirmaBaseController
     {
         [WatershedManageFeature]
         public ViewResult Manage()
@@ -126,7 +126,7 @@ namespace ProjectFirma.Web.Controllers
                 watershed.DisplayName, chartPopupUrl);
 
             var calendarYearExpendituresLineChartViewData = new CalendarYearExpendituresLineChartViewData(googleChartJson,
-                ProjectFirmaHelpers.DefaultColorRange);
+                FirmaHelpers.DefaultColorRange);
 
             var viewData = new SummaryViewData(CurrentPerson, watershed, mapInitJson, calendarYearExpendituresLineChartViewData);
             return RazorView<Summary, SummaryViewData>(viewData);

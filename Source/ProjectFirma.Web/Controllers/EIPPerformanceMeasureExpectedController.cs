@@ -12,7 +12,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class EIPPerformanceMeasureExpectedController : LakeTahoeInfoBaseController
+    public class EIPPerformanceMeasureExpectedController : FirmaBaseController
     {
         [HttpGet]
         [EIPPerformanceMeasureExpectedFromProjectManageFeature]

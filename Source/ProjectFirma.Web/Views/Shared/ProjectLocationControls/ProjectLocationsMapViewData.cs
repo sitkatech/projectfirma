@@ -3,7 +3,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
-    public class ProjectLocationsMapViewData : LakeTahoeInfoUserControlViewData
+    public class ProjectLocationsMapViewData : FirmaUserControlViewData
     {        
         public readonly string MapDivID;
         public readonly string LegendTitle;

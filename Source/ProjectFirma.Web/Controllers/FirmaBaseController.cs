@@ -11,13 +11,13 @@ using LtInfo.Common;
 namespace ProjectFirma.Web.Controllers
 {
     [ValidateInput(false)]
-    public abstract class LakeTahoeInfoBaseController : SitkaController
+    public abstract class FirmaBaseController : SitkaController
     {
         private static readonly List<int> PersonIDsToIgnore = new List<int> { 1170, 1171 };
 
         public static ControllerContext ControllerContextStatic = null;
 
-        protected ILog Logger = LogManager.GetLogger(typeof(LakeTahoeInfoBaseController));
+        protected ILog Logger = LogManager.GetLogger(typeof(FirmaBaseController));
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Controllers
             base.OnAuthorization(filterContext);
         }
 
-        protected LakeTahoeInfoBaseController()
+        protected FirmaBaseController()
         {
             if (ControllerContextStatic == null)
                 ControllerContextStatic = ControllerContext;
@@ -44,9 +44,9 @@ namespace ProjectFirma.Web.Controllers
             get { return AllControllerActionMethodsProtected; }
         }
 
-        static LakeTahoeInfoBaseController()
+        static FirmaBaseController()
         {
-            AllControllerActionMethodsProtected = new ReadOnlyCollection<MethodInfo>(GetAllControllerActionMethods(typeof(LakeTahoeInfoBaseController)));
+            AllControllerActionMethodsProtected = new ReadOnlyCollection<MethodInfo>(GetAllControllerActionMethods(typeof(FirmaBaseController)));
         }
 
         protected override bool IsCurrentUserAnonymous()
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Controllers
 
         protected override string LoginUrl
         {
-            get { return ProjectFirmaHelpers.GenerateLogInUrlWithReturnUrl(); }
+            get { return FirmaHelpers.GenerateLogInUrlWithReturnUrl(); }
         }
 
         protected override ISitkaDbContext SitkaDbContext

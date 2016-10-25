@@ -13,7 +13,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class TransportationAssessmentController : LakeTahoeInfoBaseController
+    public class TransportationAssessmentController : FirmaBaseController
     {
         [TransportationManageFeature]
         public ViewResult Manage()

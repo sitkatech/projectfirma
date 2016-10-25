@@ -9,7 +9,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.TransportationObjective
 {
-    public class SummaryViewData : EIPViewData
+    public class SummaryViewData : FirmaViewData
     {
         public readonly Models.TransportationObjective TransportationObjective;
         public readonly bool UserHasTransportationObjectiveManagePermissions;

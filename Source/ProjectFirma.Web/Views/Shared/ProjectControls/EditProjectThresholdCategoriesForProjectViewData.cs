@@ -3,7 +3,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
-    public class EditProjectThresholdCategoriesForProjectViewData : LakeTahoeInfoUserControlViewData
+    public class EditProjectThresholdCategoriesForProjectViewData : FirmaUserControlViewData
     {
         public readonly List<Models.ThresholdCategory> ThresholdCategories;
         public readonly string ProjectName;

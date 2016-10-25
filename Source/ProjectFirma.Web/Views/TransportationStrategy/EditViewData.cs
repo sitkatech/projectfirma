@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Views.TransportationStrategy
 {
-    public class EditViewData : LakeTahoeInfoUserControlViewData
+    public class EditViewData : FirmaUserControlViewData
     {
         public EditViewData()
         {

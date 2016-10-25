@@ -2,12 +2,11 @@
 using System.Web.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Map;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
-    public class EditProjectLocationSimpleViewData : EIPViewData
+    public class EditProjectLocationSimpleViewData : FirmaViewData
     {
         public readonly IEnumerable<SelectListItem> ProjectLocationSelectListItems;
         public readonly MapInitJson MapInitJson;

@@ -12,7 +12,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProjectThresholdCategoryController : LakeTahoeInfoBaseController
+    public class ProjectThresholdCategoryController : FirmaBaseController
     {
         [HttpGet]
         [ProjectEditFeature]

@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Views.WebServices
 {
-    public class ViewAccessTokenViewData : LakeTahoeInfoUserControlViewData
+    public class ViewAccessTokenViewData : FirmaUserControlViewData
     {
         public readonly Guid WebServiceAccessToken;
         public readonly string WebServicesListUrl;

@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.UnitTestCommon
 
         public ProjectFirmaSqlDatabase()
         {
-            _sqlDatabaseConnectionString = ProjectFirmaWebConfiguration.DatabaseConnectionString;
+            _sqlDatabaseConnectionString = FirmaWebConfiguration.DatabaseConnectionString;
         }
 
         public SqlConnection CreateConnection()

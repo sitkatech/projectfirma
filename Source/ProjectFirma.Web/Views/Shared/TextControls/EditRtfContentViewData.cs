@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Views.Shared.TextControls
 {
-    public class EditRtfContentViewData : LakeTahoeInfoUserControlViewData
+    public class EditRtfContentViewData : FirmaUserControlViewData
     {
         public readonly CkEditorExtension.CkEditorToolbar CkEditorToolbar;
         public readonly string FileBrowserImageUploadUrl;

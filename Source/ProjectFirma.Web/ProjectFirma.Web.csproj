@@ -614,7 +614,7 @@
     <Compile Include="Models\IndicatorMonitoringProgramSimple.cs" />
     <Compile Include="Models\ThresholdCategoryModelExtensions.cs" />
     <Compile Include="Models\ThresholdCategory.DatabaseContextExtensions.cs" />
-    <Compile Include="Common\LakeTahoeInfoEnvironment.cs" />
+    <Compile Include="Common\FirmaEnvironment.cs" />
     <Compile Include="Common\WebServiceDocumentationAttribute.cs" />
     <Compile Include="Controllers\WebServicesController.cs" />
     <Compile Include="Controllers\WebServiceToken.cs" />
@@ -629,7 +629,7 @@
     <Compile Include="Models\SupportRequestLogTest.cs" />
     <Compile Include="Models\IndicatorTest.cs" />
     <Compile Include="Controllers\PersonOrganizationController.cs" />
-    <Compile Include="Common\LakeTahoeInfoLogger.cs" />
+    <Compile Include="Common\FirmaLogger.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Models\AnonymousRole.cs" />
     <Compile Include="Models\FeaturePermission.cs" />
@@ -647,7 +647,7 @@
     <Compile Include="Security\MonitoringProgramViewFeature.cs" />
     <Compile Include="Service\ServiceModels\WebServiceOrganization.cs" />
     <Compile Include="Service\WebServicesTest.cs" />
-    <Compile Include="Security\LakeTahoeInfoBaseFeatureHelpers.cs" />
+    <Compile Include="Security\FirmaBaseFeatureHelpers.cs" />
     <Compile Include="Security\LocalAndRegionalPlanManageFeature.cs" />
     <Compile Include="Security\LocalAndRegionalPlanViewFeature.cs" />
     <Compile Include="Security\LoggedInUnclassifiedFeature.cs" />
@@ -700,10 +700,10 @@
     <Compile Include="Controllers\GoogleChartConfigurationViewModel.cs" />
     <Compile Include="Models\IRole.cs" />
     <Compile Include="Models\ProjectWizardComponents.cs" />
-    <Compile Include="Security\LakeTahoeInfoAdminFeature.cs" />
+    <Compile Include="Security\FirmaAdminFeature.cs" />
     <Compile Include="Security\ProjectFirmaPageManageFeature.cs" />
     <Compile Include="Security\FieldDefinitionManageFeature.cs" />
-    <Compile Include="Security\LakeTahoeInfoBaseFeature.cs" />
+    <Compile Include="Security\FirmaBaseFeature.cs" />
     <Compile Include="Security\IndicatorManageFeature.cs" />
     <Compile Include="Security\IndicatorNoteManageFeature.cs" />
     <Compile Include="Security\Shared\AnonymousUnclassifiedFeature.cs" />
@@ -735,14 +735,14 @@
     <Compile Include="Views\ProjectFirmaPage\Edit.cs" />
     <Compile Include="Views\ProjectFirmaPage\EditViewData.cs" />
     <Compile Include="Views\ProjectFirmaPage\EditViewModel.cs" />
-    <Compile Include="Controllers\LakeTahoeInfoBaseControllerTest.cs" />
+    <Compile Include="Controllers\FirmaBaseControllerTest.cs" />
     <Compile Include="Controllers\ProjectFirmaPageController.cs" />
     <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\IndicatorNoteController.cs" />
     <Compile Include="Models\IndicatorModelExtensions.cs" />
     <Compile Include="Models\Indicator.cs" />
     <Compile Include="Models\IndicatorNote.cs" />
-    <Compile Include="Controllers\LakeTahoeInfoBaseController.cs" />
+    <Compile Include="Controllers\FirmaBaseController.cs" />
     <Compile Include="Models\ActionPriorityModelExtensions.cs" />
     <Compile Include="Views\MonitoringProgramPartner\EditMonitoringProgramPartners.cs" />
     <Compile Include="Views\MonitoringProgramPartner\EditMonitoringProgramPartnersViewData.cs" />
@@ -989,7 +989,7 @@
     <Compile Include="Views\Shared\EIPPerformanceMeasureControls\EIPPerformanceMeasureReportedValuesGroupedViewData.cs" />
     <Compile Include="Views\Shared\EIPPerformanceMeasureControls\EIPPerformanceMeasureReportedValuesSummary.cs" />
     <Compile Include="Views\Shared\EIPPerformanceMeasureControls\EIPPerformanceMeasureReportedValuesSummaryViewData.cs" />
-    <Compile Include="Views\Shared\EIPViewData.cs" />
+    <Compile Include="Views\FirmaViewData.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectExpendituresSummary.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectExpendituresSummaryViewData.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\TransportationExpendituresBarChart.cs" />
@@ -1124,10 +1124,9 @@
     <Compile Include="Views\Shared\SupportForm.cs" />
     <Compile Include="Views\Shared\SupportFormViewData.cs" />
     <Compile Include="Views\Shared\SupportFormViewModel.cs" />
-    <Compile Include="Views\LakeTahoeInfoBaseViewData.cs" />
     <Compile Include="Views\ProjectFirmaDhtmlxGridHtmlHelpers.cs" />
     <Compile Include="Views\ProjectFirmaDhtmlxGridHtmlHelpersTest.cs" />
-    <Compile Include="Views\LakeTahoeInfoUserControlViewData.cs" />
+    <Compile Include="Views\FirmaUserControlViewData.cs" />
     <Compile Include="Views\LocalAndRegionalPlan\Edit.cs" />
     <Compile Include="Views\LocalAndRegionalPlan\EditViewData.cs" />
     <Compile Include="Views\LocalAndRegionalPlan\EditViewModel.cs" />
@@ -1148,15 +1147,13 @@
     <Compile Include="Views\Shared\AuditLogsGridSpec.cs" />
     <Compile Include="Views\Shared\FieldDefinitionDetails.cs" />
     <Compile Include="Views\Shared\FieldDefinitionDetailsViewData.cs" />
-    <Compile Include="Views\Shared\LakeTahoeInfoLateLoadingIncludes.cs" />
-    <Compile Include="Views\Shared\LakeTahoeInfoIncludes.cs" />
+    <Compile Include="Views\Shared\FirmaLateLoadingIncludes.cs" />
+    <Compile Include="Views\Shared\FirmaIncludes.cs" />
     <Compile Include="Views\Shared\FooterContent.cs" />
     <Compile Include="Views\Shared\GoogleChartJson.cs" />
     <Compile Include="Views\Shared\GoogleChartConfiguration.cs" />
     <Compile Include="Views\Shared\GoogleChartDataTable.cs" />
     <Compile Include="Views\Shared\GoogleChartPopup.cs" />
-    <Compile Include="Views\Shared\LakeTahoeInfoSiteExplorer.cs" />
-    <Compile Include="Views\Shared\LakeTahoeInfoSiteExplorerViewData.cs" />
     <Compile Include="Views\Shared\NotFound.cs" />
     <Compile Include="Views\Shared\GoogleChartPopupViewData.cs" />
     <Compile Include="Views\Shared\NotFoundViewData.cs" />
@@ -1347,7 +1344,7 @@
     <Compile Include="Common\AuditLog\IDescribableEntity.cs" />
     <Compile Include="Common\ProjectFirmaDateUtilities.cs" />
     <Compile Include="Common\ProjectFirmaMathUtilities.cs" />
-    <Compile Include="Common\ProjectFirmaHelpers.cs" />
+    <Compile Include="Common\FirmaHelpers.cs" />
     <Compile Include="Common\SecuredActionUrlHelper.cs" />
     <Compile Include="ProjectFirmaSetupFixture.cs" />
     <Compile Include="Common\CkEditorExtension.cs" />
@@ -1493,7 +1490,7 @@
     <Compile Include="Models\Watershed.cs" />
     <Compile Include="Models\WatershedSimple.cs" />
     <Compile Include="Security\ProjectFirmaFeatureTest.cs" />
-    <Compile Include="Security\ILakeTahoeInfoBaseFeatureWithContext.cs" />
+    <Compile Include="Security\IFirmaBaseFeatureWithContext.cs" />
     <Compile Include="Security\OrganizationManageFeature.cs" />
     <Compile Include="Security\OrganizationViewFeature.cs" />
     <Compile Include="Security\PermissionCheckResult.cs" />
@@ -1541,7 +1538,7 @@
     <Compile Include="UnitTestCommon\DatabaseDirectAccessTestFixtureBase.cs" />
     <Compile Include="Models\FileResource.cs" />
     <Compile Include="Common\HttpRequestStorage.cs" />
-    <Compile Include="Common\ProjectFirmaWebConfiguration.cs" />
+    <Compile Include="Common\FirmaWebConfiguration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1549,7 +1546,7 @@
     <Compile Include="Models\IFileResourcePhoto.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\Project.cs" />
-    <Compile Include="Security\LakeTahoeInfoFeatureWithContextImpl.cs" />
+    <Compile Include="Security\FirmaFeatureWithContextImpl.cs" />
     <Compile Include="UnitTestCommon\AssertCustom.cs" />
     <Compile Include="UnitTestCommon\TestFileResource.cs" />
     <Compile Include="UnitTestCommon\TestFramework.cs" />
@@ -1577,12 +1574,6 @@
     </Content>
     <Content Include="Content\Bootstrap\firma\bootstrap.ltinfo.base.min.css">
       <DependentUpon>bootstrap.ltinfo.base.css</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\firma\bootstrap.ltinfo.theme.css">
-      <DependentUpon>bootstrap.firma.theme.less</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\firma\bootstrap.ltinfo.theme.min.css">
-      <DependentUpon>bootstrap.ltinfo.theme.css</DependentUpon>
     </Content>
     <Content Include="Content\Bootstrap\firma\bootstrap.ltinfo.variables.css">
       <DependentUpon>bootstrap.firma.variables.less</DependentUpon>
@@ -1651,15 +1642,7 @@
     <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.GeoServerMap.min.js">
       <DependentUpon>ProjectFirmaMaps.GeoServerMap.js</DependentUpon>
     </Content>
-    <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.ParcelSearch.js" />
-    <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.ParcelLocationSummary.js" />
-    <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.ParcelLocationSummary.min.js">
-      <DependentUpon>ProjectFirmaMaps.ParcelLocationSummary.js</DependentUpon>
-    </Content>
     <Content Include="Content\css\google-chart-config-overrides.css" />
-    <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.ParcelSearch.min.js">
-      <DependentUpon>ProjectFirmaMaps.ParcelSearch.js</DependentUpon>
-    </Content>
     <Content Include="Views\MonitoringProgramPartner\MonitoringProgramPartnerController.js" />
     <Content Include="Content\css\dhtmlxgrid_ltinfo_skin.min.css">
       <DependentUpon>dhtmlxgrid_ltinfo_skin.css</DependentUpon>
@@ -2457,9 +2440,6 @@
     <Content Include="Content\bootstrap-select\bootstrap-select.min.js.map">
       <DependentUpon>bootstrap-select.min.js</DependentUpon>
     </Content>
-    <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.ParcelLocationSummary.min.js.map">
-      <DependentUpon>ProjectFirmaMaps.ParcelLocationSummary.min.js</DependentUpon>
-    </Content>
     <Content Include="Content\leaflet\leaflet.legend\leaflet-legend.min.js.map">
       <DependentUpon>leaflet-legend.min.js</DependentUpon>
     </Content>
@@ -2471,9 +2451,6 @@
       <DependentUpon>leaflet.timeline.min.js</DependentUpon>
     </Content>
     <Content Include="Views\IndicatorMonitoringProgram\EditIndicatorMonitoringPrograms.cshtml" />
-    <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.ParcelSearch.min.js.map">
-      <DependentUpon>ProjectFirmaMaps.ParcelSearch.min.js</DependentUpon>
-    </Content>
     <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.GeoServerMap.min.js.map">
       <DependentUpon>ProjectFirmaMaps.GeoServerMap.min.js</DependentUpon>
     </Content>
@@ -2485,9 +2462,6 @@
       <DependentUpon>bootstrap.ltinfo.base.css</DependentUpon>
     </Content>
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.less" />
-    <Content Include="Content\Bootstrap\firma\bootstrap.ltinfo.theme.css.map">
-      <DependentUpon>bootstrap.ltinfo.theme.css</DependentUpon>
-    </Content>
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.variables.less" />
     <Content Include="Content\Bootstrap\firma\bootstrap.ltinfo.variables.css.map">
       <DependentUpon>bootstrap.ltinfo.variables.css</DependentUpon>
@@ -2930,8 +2904,8 @@
     <Content Include="Views\Shared\NotFound.cshtml" />
     <Content Include="Views\Shared\FooterContent.cshtml" />
     <Content Include="Views\Shared\GoogleChartPopup.cshtml" />
-    <Content Include="Views\Shared\LakeTahoeInfoIncludes.cshtml" />
-    <Content Include="Views\Shared\LakeTahoeInfoLateLoadingIncludes.cshtml" />
+    <Content Include="Views\Shared\FirmaIncludes.cshtml" />
+    <Content Include="Views\Shared\FirmaLateLoadingIncludes.cshtml" />
     <Content Include="Views\Role\Summary.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\LocalAndRegionalPlan\Edit.cshtml" />
@@ -2941,7 +2915,6 @@
     <Content Include="Views\Watershed\Index.cshtml" />
     <Content Include="Views\Watershed\Summary.cshtml" />
     <Content Include="Views\Shared\SupportForm.cshtml" />
-    <Content Include="Views\Shared\LakeTahoeInfoSiteExplorer.cshtml" />
     <Content Include="Views\WebServices\List.cshtml" />
     <Content Include="Views\WebServices\Index.cshtml" />
     <Content Include="Views\WebServices\ViewAccessToken.cshtml" />

@@ -5,14 +5,14 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 {
-    public class TransportationExpendituresBarChartViewData : LakeTahoeInfoUserControlViewData
+    public class TransportationExpendituresBarChartViewData : FirmaUserControlViewData
     {
         public readonly GoogleChartJson GoogleChartJson;
         public readonly List<string> ChartColorRange;
 
         public TransportationExpendituresBarChartViewData(GoogleChartJson googleChartJson)
         {
-            ChartColorRange = ProjectFirmaHelpers.DefaultColorRange;
+            ChartColorRange = FirmaHelpers.DefaultColorRange;
             GoogleChartJson = googleChartJson;
 
             if (GoogleChartJson != null)

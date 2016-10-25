@@ -19,7 +19,7 @@ using SummaryViewData = ProjectFirma.Web.Views.LocalAndRegionalPlan.SummaryViewD
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class LocalAndRegionalPlanController : LakeTahoeInfoBaseController
+    public class LocalAndRegionalPlanController : FirmaBaseController
     {
         [LocalAndRegionalPlanViewFeature]
         public ViewResult Index()
@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Controllers
             return IndexImpl();
         }
 
-        [LakeTahoeInfoAdminFeature]
+        [FirmaAdminFeature]
         public ViewResult Manage()
         {
             return IndexImpl();

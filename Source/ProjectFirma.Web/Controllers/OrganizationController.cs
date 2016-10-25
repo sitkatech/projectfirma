@@ -23,7 +23,7 @@ using SummaryViewData = ProjectFirma.Web.Views.Organization.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class OrganizationController : LakeTahoeInfoBaseController
+    public class OrganizationController : FirmaBaseController
     {
         [OrganizationViewFeature]
         public ViewResult Index()
@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Controllers
             return IndexImpl();
         }
 
-        [LakeTahoeInfoAdminFeature]
+        [FirmaAdminFeature]
         public ViewResult Manage()
         {
             return IndexImpl();
@@ -211,7 +211,7 @@ namespace ProjectFirma.Web.Controllers
                 organization.DisplayName,
                 chartPopupUrl);
 
-            return new CalendarYearExpendituresLineChartViewData(googleChart, ProjectFirmaHelpers.DefaultColorRange);
+            return new CalendarYearExpendituresLineChartViewData(googleChart, FirmaHelpers.DefaultColorRange);
         }
 
         [HttpGet]

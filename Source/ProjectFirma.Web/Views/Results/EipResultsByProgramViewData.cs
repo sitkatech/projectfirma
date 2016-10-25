@@ -7,7 +7,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class EipResultsByProgramViewData : EIPViewData
+    public class EipResultsByProgramViewData : FirmaViewData
     {
         public readonly List<Models.FocusArea> FocusAreas;
         public readonly Models.Program SelectedProgram;

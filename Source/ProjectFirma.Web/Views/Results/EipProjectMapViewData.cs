@@ -6,7 +6,7 @@ using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class EipProjectMapViewData : EIPViewData
+    public class EipProjectMapViewData : FirmaViewData
     {
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
 

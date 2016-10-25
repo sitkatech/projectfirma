@@ -12,7 +12,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class FileResourceController : LakeTahoeInfoBaseController
+    public class FileResourceController : FirmaBaseController
     {
         [AnonymousUnclassifiedFeature]
         [CrossAreaRoute]

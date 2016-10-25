@@ -11,7 +11,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProjectExternalLinkController : LakeTahoeInfoBaseController
+    public class ProjectExternalLinkController : FirmaBaseController
     {
         [HttpGet]
         [ProjectExternalLinkManageFeature]

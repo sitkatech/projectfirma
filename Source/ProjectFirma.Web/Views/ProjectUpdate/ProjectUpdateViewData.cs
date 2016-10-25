@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         ExternalLinks
     }
 
-    public class ProjectUpdateViewData : EIPViewData
+    public class ProjectUpdateViewData : FirmaViewData
     {
         public readonly ProjectUpdateSectionEnum SelectedProjectUpdateSection;
         public readonly ProjectUpdateBatch ProjectUpdateBatch;

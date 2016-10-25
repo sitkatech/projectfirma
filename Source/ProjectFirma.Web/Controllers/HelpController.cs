@@ -12,7 +12,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class HelpController : LakeTahoeInfoBaseController
+    public class HelpController : FirmaBaseController
     {
         public const string MessageForContactSubmittedSuccessfully = "Thank you for contacting us. We will get back to you soon!";
 

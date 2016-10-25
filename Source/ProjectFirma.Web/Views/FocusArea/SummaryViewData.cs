@@ -9,7 +9,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.FocusArea
 {
-    public class SummaryViewData : EIPViewData
+    public class SummaryViewData : FirmaViewData
     {
         public readonly Models.FocusArea FocusArea;
         public readonly bool UserHasFocusAreaManagePermissions;

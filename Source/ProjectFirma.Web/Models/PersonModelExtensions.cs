@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Models
 
         public static string GetKeystoneEditLink(this Person person)
         {
-            return string.Format("{0}{1}", ProjectFirmaWebConfiguration.KeystoneUserProfileUrl, person.PersonGuid);
+            return string.Format("{0}{1}", FirmaWebConfiguration.KeystoneUserProfileUrl, person.PersonGuid);
         }
     }
 }

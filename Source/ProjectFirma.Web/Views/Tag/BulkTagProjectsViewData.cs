@@ -6,7 +6,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Tag
 {
-    public class BulkTagProjectsViewData : LakeTahoeInfoUserControlViewData
+    public class BulkTagProjectsViewData : FirmaUserControlViewData
     {
         public readonly string FindTagUrl;
         public readonly List<string> ProjectDisplayNames;

@@ -4,7 +4,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Common
 {
-    public class LakeTahoeInfoLogger : SitkaLogger
+    public class FirmaLogger : SitkaLogger
     {
         public override string GetUserAndSessionInformationForError(HttpContext context)
         {

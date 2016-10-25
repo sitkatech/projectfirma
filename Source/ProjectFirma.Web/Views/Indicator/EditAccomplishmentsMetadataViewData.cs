@@ -1,6 +1,6 @@
 ﻿namespace ProjectFirma.Web.Views.Indicator
 {
-    public class EditAccomplishmentsMetadataViewData : LakeTahoeInfoUserControlViewData
+    public class EditAccomplishmentsMetadataViewData : FirmaUserControlViewData
     {
         public readonly bool ReportedInEIP;
 

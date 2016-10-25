@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Views.Tag
 {
-    public class EditViewData : LakeTahoeInfoUserControlViewData
+    public class EditViewData : FirmaUserControlViewData
     {
     }
 }

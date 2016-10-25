@@ -1,6 +1,6 @@
 ﻿namespace ProjectFirma.Web.Views.MonitoringProgram
 {
-    public class NewMonitoringProgramDocumentViewData : LakeTahoeInfoUserControlViewData
+    public class NewMonitoringProgramDocumentViewData : FirmaUserControlViewData
     {
     }
 }

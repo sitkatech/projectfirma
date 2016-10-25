@@ -6,7 +6,7 @@ using LtInfo.Common.ModalDialog;
 
 namespace ProjectFirma.Web.Views.Program
 {
-    public class IndexViewData : EIPViewData
+    public class IndexViewData : FirmaViewData
     {
         public readonly IndexGridSpec GridSpec;
         public readonly string GridName;

@@ -4,7 +4,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class ProjectUpdateStatusViewData : EIPViewData
+    public class ProjectUpdateStatusViewData : FirmaViewData
     {
         public readonly int ReportingYear;
 

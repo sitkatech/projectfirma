@@ -10,7 +10,7 @@ using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProjectOrganizationController : LakeTahoeInfoBaseController
+    public class ProjectOrganizationController : FirmaBaseController
     {
         [HttpGet]
         [ProjectOrganizationManageFeature]

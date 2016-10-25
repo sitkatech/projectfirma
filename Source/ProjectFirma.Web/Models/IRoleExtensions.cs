@@ -32,8 +32,8 @@ namespace ProjectFirma.Web.Models
             var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => baseFeatureType.IsAssignableFrom(p) && p.Name != baseFeatureType.Name && !p.IsAbstract);
             foreach (var type in types)
             {                                           
-                string featureDisplayName = LakeTahoeInfoBaseFeatureHelpers.GetDisplayName(type);
-                var hasPermission = LakeTahoeInfoBaseFeatureHelpers.DoesRoleHavePermissionsForFeature(role, type);
+                string featureDisplayName = FirmaBaseFeatureHelpers.GetDisplayName(type);
+                var hasPermission = FirmaBaseFeatureHelpers.DoesRoleHavePermissionsForFeature(role, type);
 
                 //Don't add duplicates to the list
                 if (featurePermissions.All(x => x.FeatureName != featureDisplayName))

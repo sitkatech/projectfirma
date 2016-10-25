@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Controllers
         /// </summary>
         private static bool IsValidAsUnitTestToken(Guid tokenGuidToCheck, bool isBeingCalledByStaticConstructor)
         {
-            return (tokenGuidToCheck == WebServiceTokenGuidForUnitTests && (isBeingCalledByStaticConstructor || ProjectFirmaWebConfiguration.LakeTahoeInfoEnvironment.IsUnitTestWebServiceTokenOkInThisEnvironment));
+            return (tokenGuidToCheck == WebServiceTokenGuidForUnitTests && (isBeingCalledByStaticConstructor || FirmaWebConfiguration.FirmaEnvironment.IsUnitTestWebServiceTokenOkInThisEnvironment));
         }
 
         /// <summary>
@@ -109,12 +109,12 @@ namespace ProjectFirma.Web.Controllers
         }
 
         /// <summary>
-        /// Throws an exception if the <see cref="Person"/> associated with this <see cref="WebServiceToken"/> does not have access to <see cref="LakeTahoeInfoBaseFeature" />
+        /// Throws an exception if the <see cref="Person"/> associated with this <see cref="WebServiceToken"/> does not have access to <see cref="FirmaBaseFeature" />
         /// In a unit test using <see cref="WebServiceTokenGuidForUnitTests"/> this will always pass, and <see cref="Person"/> will return Ray Lee's person ID for now
         /// Might want to introduce a system person at some point.
         /// </summary>
         /// <param name="feature"></param>
-        public void DemandHasPermission(LakeTahoeInfoBaseFeature feature)
+        public void DemandHasPermission(FirmaBaseFeature feature)
         {
             if (IsValidAsUnitTestToken(_tokenGuid, false))
             {

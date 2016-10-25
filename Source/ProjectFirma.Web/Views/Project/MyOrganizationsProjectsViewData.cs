@@ -5,7 +5,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Project
 {
-    public class MyOrganizationsProjectsViewData : EIPViewData
+    public class MyOrganizationsProjectsViewData : FirmaViewData
     {
         public readonly BasicProjectInfoGridSpec ProjectsGridSpec;
         public readonly string ProjectsGridName;

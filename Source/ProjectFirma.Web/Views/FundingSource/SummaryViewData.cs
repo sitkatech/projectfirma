@@ -9,7 +9,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.FundingSource
 {
-    public class SummaryViewData : EIPViewData
+    public class SummaryViewData : FirmaViewData
     {
         public readonly Models.FundingSource FundingSource;
         public readonly bool UserHasFundingSourceManagePermissions;

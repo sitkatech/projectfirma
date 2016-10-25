@@ -6,7 +6,7 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Program
 {
-    public class EditViewData : LakeTahoeInfoUserControlViewData
+    public class EditViewData : FirmaUserControlViewData
     {
         public readonly IEnumerable<SelectListItem> FocusAreas;
         public readonly string FocusAreaDisplayName;

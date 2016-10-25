@@ -4,20 +4,20 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Add Notes for Project Updates")]
-    public class ProjectNoteUpdateNewFeature : EIPFeatureWithContext, ILakeTahoeInfoBaseFeatureWithContext<ProjectUpdateBatch>
+    public class ProjectNoteUpdateNewFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<ProjectUpdateBatch>
     {
-        private readonly LakeTahoeInfoFeatureWithContextImpl<ProjectUpdateBatch> _lakeTahoeInfoFeatureWithContextImpl;
+        private readonly FirmaFeatureWithContextImpl<ProjectUpdateBatch> _firmaFeatureWithContextImpl;
 
         public ProjectNoteUpdateNewFeature()
             : base(new List<Role> { Role.Normal, Role.Approver, Role.SitkaAdmin, Role.Admin, Role.TMPOManager })
         {
-            _lakeTahoeInfoFeatureWithContextImpl = new LakeTahoeInfoFeatureWithContextImpl<ProjectUpdateBatch>(this);
-            ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;
+            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ProjectUpdateBatch>(this);
+            ActionFilter = _firmaFeatureWithContextImpl;
         }
 
         public void DemandPermission(Person person, ProjectUpdateBatch contextModelObject)
         {
-            _lakeTahoeInfoFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
         }
 
         public PermissionCheckResult HasPermission(Person person, ProjectUpdateBatch contextModelObject)

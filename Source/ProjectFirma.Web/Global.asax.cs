@@ -18,12 +18,12 @@ namespace ProjectFirma.Web
     {
         public static Dictionary<string, string> AreasDictionary = new Dictionary<string, string>
         {
-            {string.Empty, ProjectFirmaWebConfiguration.CanonicalHostName}
+            {string.Empty, LtInfoWebConfiguration.CanonicalHostName}
         };
 
         protected void Application_Start()
         {
-            SitkaLogger.RegisterLogger(new LakeTahoeInfoLogger());
+            SitkaLogger.RegisterLogger(new FirmaLogger());
 
             // this needs to match the Area Name declared in the Areas folder
 
@@ -44,7 +44,7 @@ namespace ProjectFirma.Web
             ApplicationStart("ProjectFirma",
                 LtInfoWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion,
                 LtInfoWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled,
-                LakeTahoeInfoBaseController.AllControllerActionMethods,
+                FirmaBaseController.AllControllerActionMethods,
                 new List<string>
                 {
                     "~/Views/Shared/TextControls/{0}.cshtml",
@@ -55,7 +55,7 @@ namespace ProjectFirma.Web
                     "~/Views/Shared/ProjectUpdateDiffControls/{0}.cshtml"
                 }, defaultRoutes, AreasDictionary);
 
-            Logger.InfoFormat("Latest Database Migration: {0}", ProjectFirmaWebConfiguration.LatestDatabaseMigration.Value);
+            Logger.InfoFormat("Latest Database Migration: {0}", FirmaWebConfiguration.LatestDatabaseMigration.Value);
             RegisterGlobalFilters(GlobalFilters.Filters);
             FluentValidationModelValidatorProvider.Configure();
 
@@ -119,12 +119,12 @@ namespace ProjectFirma.Web
 
         public override string ErrorUrl
         {
-            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Error(), ProjectFirmaWebConfiguration.CanonicalHostName); }
+            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Error(), LtInfoWebConfiguration.CanonicalHostName); }
         }
 
         public override string NotFoundUrl
         {
-            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.NotFound(), ProjectFirmaWebConfiguration.CanonicalHostName); }
+            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.NotFound(), LtInfoWebConfiguration.CanonicalHostName); }
         }
 
         public override string ErrorHtml

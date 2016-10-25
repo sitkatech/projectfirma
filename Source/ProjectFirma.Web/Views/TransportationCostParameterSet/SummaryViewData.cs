@@ -5,7 +5,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.TransportationCostParameterSet
 {
-    public class SummaryViewData : EIPViewData
+    public class SummaryViewData : FirmaViewData
     {
         public readonly string EditTransportationCostParameterSet;
         public readonly Models.TransportationCostParameterSet TransportationCostParameterSet;
