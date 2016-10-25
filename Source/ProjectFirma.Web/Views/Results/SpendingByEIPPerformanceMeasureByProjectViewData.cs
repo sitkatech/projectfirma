@@ -19,10 +19,10 @@ namespace ProjectFirma.Web.Views.Results
         public readonly string GridDataUrl;
 
         public SpendingByEIPPerformanceMeasureByProjectViewData(Person currentPerson,
-            Models.ProjectFirmaPage projectFirmaPage,
+            Models.FirmaPage firmaPage,
             List<Models.EIPPerformanceMeasure> eipPerformanceMeasures,
             Models.EIPPerformanceMeasure selectedEIPPerformanceMeasure,
-            IndicatorChartViewData indicatorChartViewData) : base(currentPerson, projectFirmaPage)
+            IndicatorChartViewData indicatorChartViewData) : base(currentPerson, firmaPage)
         {
             PageTitle = "Spending by Project for Selected Performance Measure";
 

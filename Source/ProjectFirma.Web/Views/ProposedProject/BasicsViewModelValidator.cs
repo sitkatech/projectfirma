@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
                     var isProjectNameUnique = Models.ProposedProject.IsProjectNameUnique(ProposedProjects(), proposedProjectName, viewModel.ProposedProjectID);
                     return isProjectNameUnique;
                 })
-                .WithMessage(ProjectFirmaValidationMessages.ProjectNameUnique);
+                .WithMessage(FirmaValidationMessages.ProjectNameUnique);
             RuleFor(x => x.ProjectDescription).NotEmpty().Length(1, Models.Project.ProjectDescriptionMaximumLength).WithName(Models.FieldDefinition.ProjectDescription.FieldDefinitionDisplayName);
 
             RuleFor(x => x.FundingTypeID).NotNull();
@@ -46,8 +46,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
                      
             RuleFor(x => x.PlanningDesignStartYear).NotNull();
             RuleFor(x => x.ImplementationStartYear).NotNull();
-            RuleFor(x => x.ImplementationStartYear).GreaterThanOrEqualTo(x => x.PlanningDesignStartYear ?? 0).WithMessage(ProjectFirmaValidationMessages.ImplementationStartYearGreaterThanPlanningDesignStartYear);
-            RuleFor(x => x.CompletionYear).GreaterThanOrEqualTo(x => x.ImplementationStartYear ?? 0).WithMessage(ProjectFirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear);
+            RuleFor(x => x.ImplementationStartYear).GreaterThanOrEqualTo(x => x.PlanningDesignStartYear ?? 0).WithMessage(FirmaValidationMessages.ImplementationStartYearGreaterThanPlanningDesignStartYear);
+            RuleFor(x => x.CompletionYear).GreaterThanOrEqualTo(x => x.ImplementationStartYear ?? 0).WithMessage(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear);
             RuleFor(x => x.LeadImplementerOrganizationID)
                 .NotEmpty()
                 .WithMessage(NeedsLeadImplementingOrganizationMessage);

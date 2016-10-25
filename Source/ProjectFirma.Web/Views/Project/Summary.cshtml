@@ -92,7 +92,7 @@
             @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Update Project", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.ConfirmNonMandatoryUpdateUrl, "Update this project?", 400, "Continue", "Cancel", null, null, null)
         }
     }
-    <a href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@ProjectFirmaDhtmlxGridHtmlHelpers.FactSheetIcon</a> <a href="@ViewDataTyped.Project.GetFactSheetUrl()">View Fact Sheet</a>
+    <a href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon</a> <a href="@ViewDataTyped.Project.GetFactSheetUrl()">View Fact Sheet</a>
 }
 
 @if (ViewDataTyped.LatestUpdateState == ProjectUpdateState.Submitted || ViewDataTyped.LatestUpdateState == ProjectUpdateState.Returned)

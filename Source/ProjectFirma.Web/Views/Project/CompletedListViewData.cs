@@ -11,7 +11,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public CompletedListViewData(Person currentPerson, Models.ProjectFirmaPage projectFirmaPage) : base(currentPerson, projectFirmaPage)
+        public CompletedListViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             PageTitle = "Completed Project List";
 

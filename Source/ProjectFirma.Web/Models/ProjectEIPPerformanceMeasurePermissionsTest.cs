@@ -4,7 +4,6 @@ using NUnit.Framework;
 
 namespace ProjectFirma.Web.Models
 {
-    // Test some permissions issues raised by ProjectFirma story #150 - http://projects.sitkatech.com/projects/projectFirma/cards/150
     [TestFixture]
     public class ProjectEIPPerformanceMeasurePermissionsTest
     {

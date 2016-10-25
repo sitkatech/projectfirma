@@ -18,6 +18,8 @@
     <EntitySet Name="FieldDefinitionData" EntityType="ProjectFirma.Web.Models.FieldDefinitionData" />
     <EntitySet Name="FieldDefinitionImage" EntityType="ProjectFirma.Web.Models.FieldDefinitionImage" />
     <EntitySet Name="FileResource" EntityType="ProjectFirma.Web.Models.FileResource" />
+    <EntitySet Name="FirmaPage" EntityType="ProjectFirma.Web.Models.FirmaPage" />
+    <EntitySet Name="FirmaPageImage" EntityType="ProjectFirma.Web.Models.FirmaPageImage" />
     <EntitySet Name="FocusArea" EntityType="ProjectFirma.Web.Models.FocusArea" />
     <EntitySet Name="FocusAreaImage" EntityType="ProjectFirma.Web.Models.FocusAreaImage" />
     <EntitySet Name="FundingSource" EntityType="ProjectFirma.Web.Models.FundingSource" />
@@ -46,8 +48,6 @@
     <EntitySet Name="ProjectExemptReportingYearUpdate" EntityType="ProjectFirma.Web.Models.ProjectExemptReportingYearUpdate" />
     <EntitySet Name="ProjectExternalLink" EntityType="ProjectFirma.Web.Models.ProjectExternalLink" />
     <EntitySet Name="ProjectExternalLinkUpdate" EntityType="ProjectFirma.Web.Models.ProjectExternalLinkUpdate" />
-    <EntitySet Name="ProjectFirmaPage" EntityType="ProjectFirma.Web.Models.ProjectFirmaPage" />
-    <EntitySet Name="ProjectFirmaPageImage" EntityType="ProjectFirma.Web.Models.ProjectFirmaPageImage" />
     <EntitySet Name="ProjectFundingOrganization" EntityType="ProjectFirma.Web.Models.ProjectFundingOrganization" />
     <EntitySet Name="ProjectFundingSourceExpenditure" EntityType="ProjectFirma.Web.Models.ProjectFundingSourceExpenditure" />
     <EntitySet Name="ProjectFundingSourceExpenditureUpdate" EntityType="ProjectFirma.Web.Models.ProjectFundingSourceExpenditureUpdate" />
@@ -255,6 +255,10 @@
       <End Role="CreatePerson" EntitySet="Person" />
       <End Role="FileResourcesWhereYouAreTheCreatePerson" EntitySet="FileResource" />
     </AssociationSet>
+    <AssociationSet Name="FK_FirmaPageImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_FirmaPageImage_FileResource_FileResourceID">
+      <End Role="FileResource" EntitySet="FileResource" />
+      <End Role="FirmaPageImages" EntitySet="FirmaPageImage" />
+    </AssociationSet>
     <AssociationSet Name="FK_FocusAreaImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_FocusAreaImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="FocusAreaImages" EntitySet="FocusAreaImage" />
@@ -270,10 +274,6 @@
     <AssociationSet Name="FK_ProgramImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ProgramImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="ProgramImages" EntitySet="ProgramImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectFirmaPageImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ProjectFirmaPageImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="ProjectFirmaPageImages" EntitySet="ProjectFirmaPageImage" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ProjectImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
@@ -298,6 +298,10 @@
     <AssociationSet Name="FK_TransportationStrategyImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_TransportationStrategyImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="TransportationStrategyImages" EntitySet="TransportationStrategyImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FirmaPageImage_FirmaPage_FirmaPageID" Association="ProjectFirma.Web.Models.FK_FirmaPageImage_FirmaPage_FirmaPageID">
+      <End Role="FirmaPage" EntitySet="FirmaPage" />
+      <End Role="FirmaPageImages" EntitySet="FirmaPageImage" />
     </AssociationSet>
     <AssociationSet Name="FK_FocusAreaImage_FocusArea_FocusAreaID" Association="ProjectFirma.Web.Models.FK_FocusAreaImage_FocusArea_FocusAreaID">
       <End Role="FocusArea" EntitySet="FocusArea" />
@@ -590,10 +594,6 @@
     <AssociationSet Name="FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectExternalLinkUpdates" EntitySet="ProjectExternalLinkUpdate" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID" Association="ProjectFirma.Web.Models.FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID">
-      <End Role="ProjectFirmaPage" EntitySet="ProjectFirmaPage" />
-      <End Role="ProjectFirmaPageImages" EntitySet="ProjectFirmaPageImage" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectFundingSourceExpenditureUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditureUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
@@ -989,17 +989,36 @@
     <NavigationProperty Name="ActionPriorityImages" Relationship="ProjectFirma.Web.Models.FK_ActionPriorityImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ActionPriorityImages" />
     <NavigationProperty Name="FieldDefinitionImages" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FieldDefinitionImages" />
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_FileResource_Person_CreatePersonID_PersonID" FromRole="FileResourcesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
+    <NavigationProperty Name="FirmaPageImages" Relationship="ProjectFirma.Web.Models.FK_FirmaPageImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FirmaPageImages" />
     <NavigationProperty Name="FocusAreaImages" Relationship="ProjectFirma.Web.Models.FK_FocusAreaImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FocusAreaImages" />
     <NavigationProperty Name="MonitoringProgramDocuments" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_FileResource_FileResourceID" FromRole="FileResource" ToRole="MonitoringProgramDocuments" />
     <NavigationProperty Name="OrganizationsWhereYouAreTheLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_Organization_FileResource_LogoFileResourceID_FileResourceID" FromRole="LogoFileResource" ToRole="OrganizationsWhereYouAreTheLogoFileResource" />
     <NavigationProperty Name="ProgramImages" Relationship="ProjectFirma.Web.Models.FK_ProgramImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProgramImages" />
-    <NavigationProperty Name="ProjectFirmaPageImages" Relationship="ProjectFirma.Web.Models.FK_ProjectFirmaPageImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectFirmaPageImages" />
     <NavigationProperty Name="ProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProjectImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectImages" />
     <NavigationProperty Name="ProjectImageUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectImageUpdates" />
     <NavigationProperty Name="ProposedProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProposedProjectImages" />
     <NavigationProperty Name="ThresholdCategoryImages" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ThresholdCategoryImages" />
     <NavigationProperty Name="TransportationObjectiveImages" Relationship="ProjectFirma.Web.Models.FK_TransportationObjectiveImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="TransportationObjectiveImages" />
     <NavigationProperty Name="TransportationStrategyImages" Relationship="ProjectFirma.Web.Models.FK_TransportationStrategyImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="TransportationStrategyImages" />
+  </EntityType>
+  <EntityType Name="FirmaPage">
+    <Key>
+      <PropertyRef Name="FirmaPageID" />
+    </Key>
+    <Property Name="FirmaPageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirmaPageTypeID" Type="Int32" Nullable="false" />
+    <Property Name="FirmaPageContent" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="FirmaPageImages" Relationship="ProjectFirma.Web.Models.FK_FirmaPageImage_FirmaPage_FirmaPageID" FromRole="FirmaPage" ToRole="FirmaPageImages" />
+  </EntityType>
+  <EntityType Name="FirmaPageImage">
+    <Key>
+      <PropertyRef Name="FirmaPageImageID" />
+    </Key>
+    <Property Name="FirmaPageImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirmaPageID" Type="Int32" Nullable="false" />
+    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_FirmaPageImage_FileResource_FileResourceID" FromRole="FirmaPageImages" ToRole="FileResource" />
+    <NavigationProperty Name="FirmaPage" Relationship="ProjectFirma.Web.Models.FK_FirmaPageImage_FirmaPage_FirmaPageID" FromRole="FirmaPageImages" ToRole="FirmaPage" />
   </EntityType>
   <EntityType Name="FocusArea">
     <Key>
@@ -1424,25 +1443,6 @@
     <Property Name="ExternalLinkLabel" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
     <Property Name="ExternalLinkUrl" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectExternalLinkUpdates" ToRole="ProjectUpdateBatch" />
-  </EntityType>
-  <EntityType Name="ProjectFirmaPage">
-    <Key>
-      <PropertyRef Name="ProjectFirmaPageID" />
-    </Key>
-    <Property Name="ProjectFirmaPageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProjectFirmaPageTypeID" Type="Int32" Nullable="false" />
-    <Property Name="ProjectFirmaPageContent" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="ProjectFirmaPageImages" Relationship="ProjectFirma.Web.Models.FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID" FromRole="ProjectFirmaPage" ToRole="ProjectFirmaPageImages" />
-  </EntityType>
-  <EntityType Name="ProjectFirmaPageImage">
-    <Key>
-      <PropertyRef Name="ProjectFirmaPageImageID" />
-    </Key>
-    <Property Name="ProjectFirmaPageImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProjectFirmaPageID" Type="Int32" Nullable="false" />
-    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ProjectFirmaPageImage_FileResource_FileResourceID" FromRole="ProjectFirmaPageImages" ToRole="FileResource" />
-    <NavigationProperty Name="ProjectFirmaPage" Relationship="ProjectFirma.Web.Models.FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID" FromRole="ProjectFirmaPageImages" ToRole="ProjectFirmaPage" />
   </EntityType>
   <EntityType Name="ProjectFundingOrganization">
     <Key>
@@ -2650,6 +2650,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_FirmaPageImage_FileResource_FileResourceID">
+    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
+    <End Role="FirmaPageImages" Type="ProjectFirma.Web.Models.FirmaPageImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="FirmaPageImages">
+        <PropertyRef Name="FileResourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_FocusAreaImage_FileResource_FileResourceID">
     <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
     <End Role="FocusAreaImages" Type="ProjectFirma.Web.Models.FocusAreaImage" Multiplicity="*" />
@@ -2694,18 +2706,6 @@
         <PropertyRef Name="FileResourceID" />
       </Principal>
       <Dependent Role="ProgramImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectFirmaPageImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
-    <End Role="ProjectFirmaPageImages" Type="ProjectFirma.Web.Models.ProjectFirmaPageImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="ProjectFirmaPageImages">
         <PropertyRef Name="FileResourceID" />
       </Dependent>
     </ReferentialConstraint>
@@ -2779,6 +2779,18 @@
       </Principal>
       <Dependent Role="TransportationStrategyImages">
         <PropertyRef Name="FileResourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FirmaPageImage_FirmaPage_FirmaPageID">
+    <End Role="FirmaPage" Type="ProjectFirma.Web.Models.FirmaPage" Multiplicity="1" />
+    <End Role="FirmaPageImages" Type="ProjectFirma.Web.Models.FirmaPageImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FirmaPage">
+        <PropertyRef Name="FirmaPageID" />
+      </Principal>
+      <Dependent Role="FirmaPageImages">
+        <PropertyRef Name="FirmaPageID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3655,18 +3667,6 @@
       </Principal>
       <Dependent Role="ProjectExternalLinkUpdates">
         <PropertyRef Name="ProjectUpdateBatchID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID">
-    <End Role="ProjectFirmaPage" Type="ProjectFirma.Web.Models.ProjectFirmaPage" Multiplicity="1" />
-    <End Role="ProjectFirmaPageImages" Type="ProjectFirma.Web.Models.ProjectFirmaPageImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProjectFirmaPage">
-        <PropertyRef Name="ProjectFirmaPageID" />
-      </Principal>
-      <Dependent Role="ProjectFirmaPageImages">
-        <PropertyRef Name="ProjectFirmaPageID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

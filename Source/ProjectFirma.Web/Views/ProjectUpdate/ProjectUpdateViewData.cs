@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdateBatch = projectUpdateBatch;
             Project = ProjectUpdateBatch.Project;
             HtmlPageTitle += " - Project Updates";
-            EntityName = string.Format("Project Update for Reporting Year: {0}", ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+            EntityName = string.Format("Project Update for Reporting Year: {0}", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
             PageTitle = Project.DisplayName;
             ProjectUpdateMyProjectsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate());
             ProjectUpdateInstructionsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Instructions(Project));

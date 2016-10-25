@@ -15,11 +15,11 @@ namespace ProjectFirma.Web.Views.Results
         public readonly string SpendingBySectorByFocusAreaByProgramUrl;
 
         public SpendingBySectorByFocusAreaByProgramViewData(Person currentPerson,
-            Models.ProjectFirmaPage projectFirmaPage,
+            Models.FirmaPage firmaPage,
             List<ProgramSectorExpenditure> programSectorExpenditures,
             List<Sector> sectors,
             int? selectedCalendarYear,
-            IEnumerable<SelectListItem> calendarYears) : base(currentPerson, projectFirmaPage)
+            IEnumerable<SelectListItem> calendarYears) : base(currentPerson, firmaPage)
         {
             ProgramSectorExpenditures = programSectorExpenditures;
             PageTitle = "Spending by Sector by Focus Area by Program";

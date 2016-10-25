@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                         var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
                         var latestApprovedUpdateBatch = y.GetLatestApprovedUpdateBatch();
                         return latestNotApprovedUpdateBatch == null &&
-                               (latestApprovedUpdateBatch == null || latestApprovedUpdateBatch.LastUpdateDate < ProjectFirmaDateUtilities.LastReportingPeriodStartDate());
+                               (latestApprovedUpdateBatch == null || latestApprovedUpdateBatch.LastUpdateDate < FirmaDateUtilities.LastReportingPeriodStartDate());
                     });
                 },
                 70, DhtmlxGridColumnAggregationType.Total);
@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     return x.GetPrimaryContactUpdatableProjects().Count(y =>
                     {
                         var latestApprovedUpdateBatch = y.GetLatestApprovedUpdateBatch();
-                        return latestApprovedUpdateBatch != null && latestApprovedUpdateBatch.LastUpdateDate >= ProjectFirmaDateUtilities.LastReportingPeriodStartDate();
+                        return latestApprovedUpdateBatch != null && latestApprovedUpdateBatch.LastUpdateDate >= FirmaDateUtilities.LastReportingPeriodStartDate();
                     });
                 },
                 70, DhtmlxGridColumnAggregationType.Total);
@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     x.Notifications.Count(
                         y =>
                             y.NotificationType == NotificationType.ProjectUpdateReminder &&
-                            y.NotificationDate >= ProjectFirmaDateUtilities.LastReportingPeriodStartDate()),
+                            y.NotificationDate >= FirmaDateUtilities.LastReportingPeriodStartDate()),
                 80);
             Add("Date of Last Reminder Message", x =>
             {

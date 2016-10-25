@@ -40,8 +40,8 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult IndexImpl()
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.TransportationObjectivesList);
-            var viewData = new IndexViewData(CurrentPerson, projectFirmaPage);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.TransportationObjectivesList);
+            var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 

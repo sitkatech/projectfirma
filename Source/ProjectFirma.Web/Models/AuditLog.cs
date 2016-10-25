@@ -24,12 +24,8 @@ namespace ProjectFirma.Web.Models
 
         public static readonly List<string> IgnoredTables = new List<string>
         {
-            "BankedCommodity",
-            "Commodity",
-            "CommodityBaileyRating",
-            "ParcelCommodityBaileyRatingConfirmation",
-            "ProjectFirmaPage",
-            "ProjectFirmaPageImage",
+            "FirmaPage",
+            "FirmaPageImage",
             "FileResource",
             "Notification",
             "NotificationProject",

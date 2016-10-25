@@ -4,7 +4,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Add Notes for Project Updates")]
-    public class ProjectNoteUpdateNewFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<ProjectUpdateBatch>
+    public class ProjectNoteUpdateNewFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<ProjectUpdateBatch>
     {
         private readonly FirmaFeatureWithContextImpl<ProjectUpdateBatch> _firmaFeatureWithContextImpl;
 

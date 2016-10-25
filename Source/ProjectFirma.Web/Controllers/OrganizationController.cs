@@ -12,7 +12,6 @@ using ProjectFirma.Web.Views.Organization;
 using ProjectFirma.Web.Views.Shared;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
-using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using Index = ProjectFirma.Web.Views.Organization.Index;
@@ -39,8 +38,8 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult IndexImpl()
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.OrganizationsList);
-            var viewData = new IndexViewData(CurrentPerson, projectFirmaPage);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.OrganizationsList);
+            var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -199,7 +198,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static CalendarYearExpendituresLineChartViewData GetCalendarYearExpendituresLineChartViewData(Organization organization)
         {
-            var yearRange = ProjectFirmaDateUtilities.GetRangeOfYearsForReporting();
+            var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
             var projectFundingSourceExpenditures = organization.FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures);
 
             var chartPopupUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.GoogleChartPopup(organization.OrganizationID));
@@ -269,7 +268,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult GoogleChartPopup(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
-            var yearRange = ProjectFirmaDateUtilities.GetRangeOfYearsForReporting();
+            var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
             var projectFundingSourceExpenditures = organization.FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures);
 
             var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.FundingSourceName,

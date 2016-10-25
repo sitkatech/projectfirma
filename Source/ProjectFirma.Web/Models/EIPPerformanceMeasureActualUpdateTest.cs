@@ -173,7 +173,7 @@ namespace ProjectFirma.Web.Models
 
             // If no start year, it should only create for current year
             EIPPerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
-            var currentYear = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             IEnumerable<int> yearsExpected = new[] {currentYear};
             AssertFutureYearsCreatedCorrectly(projectUpdateBatch.EIPPerformanceMeasureActualUpdates, project.EIPPerformanceMeasureExpecteds, yearsExpected);
 
@@ -279,7 +279,7 @@ namespace ProjectFirma.Web.Models
             EIPPerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
 
             // Assert
-            var currentYear = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             var maxEnteredYear = project.EIPPerformanceMeasureActuals.Max(x => x.CalendarYear);
             AssertNewEIPPerformanceMeasureActualUpdateCreatedCorrectly(projectUpdateBatch, project.EIPPerformanceMeasureActuals, currentYear, maxEnteredYear);
         }
@@ -387,7 +387,7 @@ namespace ProjectFirma.Web.Models
         public void CreateFromProjectWhenHaveCompletionYearLaterThanCurrentYearAndHaveActualValuesExpectValuesFromLastEnteredYearToCurrentYearTest()
         {
             var project = TestFramework.TestProject.Create(-777, "Project-777");
-            var currentYear = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             project.CompletionYear = currentYear + 1;
             var eipPerformanceMeasure1 = TestFramework.TestEIPPerformanceMeasure.CreateWithSubcategories(-1000, "EIPPerformanceMeasure1");
             var eipPerformanceMeasure2 = TestFramework.TestEIPPerformanceMeasure.CreateWithSubcategories(-1001, "EIPPerformanceMeasure2");
@@ -521,7 +521,7 @@ namespace ProjectFirma.Web.Models
             EIPPerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
 
             // Assert
-            var currentYear = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             var maxEnteredYear = project.EIPPerformanceMeasureActuals.Max(x => x.CalendarYear);
             AssertNewEIPPerformanceMeasureActualUpdateCreatedCorrectly(projectUpdateBatch, project.EIPPerformanceMeasureActuals, currentYear, maxEnteredYear);
         }

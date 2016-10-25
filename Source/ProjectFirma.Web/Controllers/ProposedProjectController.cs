@@ -13,7 +13,6 @@ using ProjectFirma.Web.Views.ProposedProject;
 using ProjectFirma.Web.Views.Shared.EIPPerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
@@ -62,8 +61,8 @@ namespace ProjectFirma.Web.Controllers
         [ProposedProjectsViewListFeature]
         public ViewResult Index()
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.ProposedProjects);
-            var viewData = new IndexViewData(CurrentPerson, projectFirmaPage);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProposedProjects);
+            var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 

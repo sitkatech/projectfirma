@@ -35,8 +35,8 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult IndexImpl()
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.WatershedsList);
-            var viewData = new IndexViewData(CurrentPerson, projectFirmaPage);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.WatershedsList);
+            var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -51,7 +51,6 @@ namespace ProjectFirma.Web.Controllers
 
         private static List<Watershed> GetWatershedsAndGridSpec(out IndexGridSpec gridSpec, Person currentPerson)
         {
-            var hasWatershedDeletePermission = new WatershedManageFeature().HasPermissionByPerson(currentPerson);
             gridSpec = new IndexGridSpec();
             return HttpRequestStorage.DatabaseEntities.Watersheds.OrderBy(x => x.WatershedName).ToList();
         }

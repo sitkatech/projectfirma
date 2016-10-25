@@ -31,9 +31,9 @@ namespace ProjectFirma.Web.Common
         public static string SecuredAction<T>(Person person, Expression<Action<T>> routeExpression, string grantedFormat, string deniedFormat) where T : Controller
         {
             var body = SitkaRoute<T>.GetRouteExpressionBody(routeExpression);
-            var projectFirmaFeatureLookupAttribute = body.Method.GetCustomAttributes(typeof(FirmaBaseFeature), true).Cast<FirmaBaseFeature>().SingleOrDefault();
-            Check.RequireNotNull(projectFirmaFeatureLookupAttribute, string.Format("Could not find feature for {0}", SitkaRoute<T>.BuildUrlFromExpression(routeExpression)));
-            return projectFirmaFeatureLookupAttribute.HasPermissionByPerson(person) ? String.Format("<a href=\"{0}\">{1}</a>", SitkaRoute<T>.BuildUrlFromExpression(routeExpression), grantedFormat) : deniedFormat;
+            var firmaFeatureLookupAttribute = body.Method.GetCustomAttributes(typeof(FirmaBaseFeature), true).Cast<FirmaBaseFeature>().SingleOrDefault();
+            Check.RequireNotNull(firmaFeatureLookupAttribute, string.Format("Could not find feature for {0}", SitkaRoute<T>.BuildUrlFromExpression(routeExpression)));
+            return firmaFeatureLookupAttribute.HasPermissionByPerson(person) ? String.Format("<a href=\"{0}\">{1}</a>", SitkaRoute<T>.BuildUrlFromExpression(routeExpression), grantedFormat) : deniedFormat;
         }
 
         public static string SecuredActionLink<T>(Person person, Expression<Action<T>> routeExpression, string linkText, string cssClass) where T : Controller

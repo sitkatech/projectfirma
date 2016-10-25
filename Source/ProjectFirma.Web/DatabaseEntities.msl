@@ -187,6 +187,24 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="FirmaPage">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FirmaPage">
+        <MappingFragment StoreEntitySet="FirmaPage">
+          <ScalarProperty Name="FirmaPageID" ColumnName="FirmaPageID" />
+          <ScalarProperty Name="FirmaPageTypeID" ColumnName="FirmaPageTypeID" />
+          <ScalarProperty Name="FirmaPageContent" ColumnName="FirmaPageContent" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FirmaPageImage">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FirmaPageImage">
+        <MappingFragment StoreEntitySet="FirmaPageImage">
+          <ScalarProperty Name="FirmaPageImageID" ColumnName="FirmaPageImageID" />
+          <ScalarProperty Name="FirmaPageID" ColumnName="FirmaPageID" />
+          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="FocusArea">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FocusArea">
         <MappingFragment StoreEntitySet="FocusArea">
@@ -516,24 +534,6 @@
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="ExternalLinkLabel" ColumnName="ExternalLinkLabel" />
           <ScalarProperty Name="ExternalLinkUrl" ColumnName="ExternalLinkUrl" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProjectFirmaPage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectFirmaPage">
-        <MappingFragment StoreEntitySet="ProjectFirmaPage">
-          <ScalarProperty Name="ProjectFirmaPageID" ColumnName="ProjectFirmaPageID" />
-          <ScalarProperty Name="ProjectFirmaPageTypeID" ColumnName="ProjectFirmaPageTypeID" />
-          <ScalarProperty Name="ProjectFirmaPageContent" ColumnName="ProjectFirmaPageContent" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProjectFirmaPageImage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectFirmaPageImage">
-        <MappingFragment StoreEntitySet="ProjectFirmaPageImage">
-          <ScalarProperty Name="ProjectFirmaPageImageID" ColumnName="ProjectFirmaPageImageID" />
-          <ScalarProperty Name="ProjectFirmaPageID" ColumnName="ProjectFirmaPageID" />
-          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -25,11 +25,11 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
         {
             RuleFor(x => x.ProjectOrganizationsViewModelJson)
                 .Must(HasOneLeadImplementer)
-                .WithMessage(ProjectFirmaValidationMessages.ProjectOrganizationLeadShouldBeSetIfThereAreAnyOrganizations)
+                .WithMessage(FirmaValidationMessages.ProjectOrganizationLeadShouldBeSetIfThereAreAnyOrganizations)
                 .Must(EachRowMustHaveEitherLeadOrImplementerOrFunderChecked)
-                .WithMessage(ProjectFirmaValidationMessages.AllProjectOrganizationShouldEitherBeTheLeadOrImplementerOrFunder)
+                .WithMessage(FirmaValidationMessages.AllProjectOrganizationShouldEitherBeTheLeadOrImplementerOrFunder)
                 .Must(LeadImplementingOrganizationIfSetMustHavePrimaryContactSet)
-                .WithMessage(ProjectFirmaValidationMessages.LeadImplementingOrganizationMustHavePrimaryContactSet);
+                .WithMessage(FirmaValidationMessages.LeadImplementingOrganizationMustHavePrimaryContactSet);
         }
 
         /// <summary>

@@ -25,11 +25,11 @@ namespace ProjectFirma.Web.Models
         {
             this.ActionPriorityImages = new HashSet<ActionPriorityImage>();
             this.FieldDefinitionImages = new HashSet<FieldDefinitionImage>();
+            this.FirmaPageImages = new HashSet<FirmaPageImage>();
             this.FocusAreaImages = new HashSet<FocusAreaImage>();
             this.MonitoringProgramDocuments = new HashSet<MonitoringProgramDocument>();
             this.OrganizationsWhereYouAreTheLogoFileResource = new HashSet<Organization>();
             this.ProgramImages = new HashSet<ProgramImage>();
-            this.ProjectFirmaPageImages = new HashSet<ProjectFirmaPageImage>();
             this.ProjectImages = new HashSet<ProjectImage>();
             this.ProjectImageUpdates = new HashSet<ProjectImageUpdate>();
             this.ProposedProjectImages = new HashSet<ProposedProjectImage>();
@@ -102,13 +102,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ActionPriorityImages.Any() || FieldDefinitionImages.Any() || FocusAreaImages.Any() || MonitoringProgramDocuments.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || ProgramImages.Any() || ProjectFirmaPageImages.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ProposedProjectImages.Any() || ThresholdCategoryImages.Any() || TransportationObjectiveImages.Any() || TransportationStrategyImages.Any();
+            return ActionPriorityImages.Any() || FieldDefinitionImages.Any() || FirmaPageImages.Any() || FocusAreaImages.Any() || MonitoringProgramDocuments.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || ProgramImages.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ProposedProjectImages.Any() || ThresholdCategoryImages.Any() || TransportationObjectiveImages.Any() || TransportationStrategyImages.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(ActionPriorityImage).Name, typeof(FieldDefinitionImage).Name, typeof(FocusAreaImage).Name, typeof(MonitoringProgramDocument).Name, typeof(Organization).Name, typeof(ProgramImage).Name, typeof(ProjectFirmaPageImage).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ProposedProjectImage).Name, typeof(ThresholdCategoryImage).Name, typeof(TransportationObjectiveImage).Name, typeof(TransportationStrategyImage).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(ActionPriorityImage).Name, typeof(FieldDefinitionImage).Name, typeof(FirmaPageImage).Name, typeof(FocusAreaImage).Name, typeof(MonitoringProgramDocument).Name, typeof(Organization).Name, typeof(ProgramImage).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ProposedProjectImage).Name, typeof(ThresholdCategoryImage).Name, typeof(TransportationObjectiveImage).Name, typeof(TransportationStrategyImage).Name};
 
         [Key]
         public int FileResourceID { get; set; }
@@ -123,11 +123,11 @@ namespace ProjectFirma.Web.Models
 
         public virtual ICollection<ActionPriorityImage> ActionPriorityImages { get; set; }
         public virtual ICollection<FieldDefinitionImage> FieldDefinitionImages { get; set; }
+        public virtual ICollection<FirmaPageImage> FirmaPageImages { get; set; }
         public virtual ICollection<FocusAreaImage> FocusAreaImages { get; set; }
         public virtual ICollection<MonitoringProgramDocument> MonitoringProgramDocuments { get; set; }
         public virtual ICollection<Organization> OrganizationsWhereYouAreTheLogoFileResource { get; set; }
         public virtual ICollection<ProgramImage> ProgramImages { get; set; }
-        public virtual ICollection<ProjectFirmaPageImage> ProjectFirmaPageImages { get; set; }
         public virtual ICollection<ProjectImage> ProjectImages { get; set; }
         public virtual ICollection<ProjectImageUpdate> ProjectImageUpdates { get; set; }
         public virtual ICollection<ProposedProjectImage> ProposedProjectImages { get; set; }

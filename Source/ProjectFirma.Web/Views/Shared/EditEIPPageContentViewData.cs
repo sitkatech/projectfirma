@@ -6,11 +6,11 @@ namespace ProjectFirma.Web.Views.Shared
     {
         public readonly string DisplayUrl;
 
-        public EditEIPPageContentViewData(Person currentPerson, ProjectFirmaPageType projectFirmaPageType)
-            : base(currentPerson, Models.ProjectFirmaPage.GetProjectFirmaPageByPageType(projectFirmaPageType))
+        public EditEIPPageContentViewData(Person currentPerson, FirmaPageType firmaPageType)
+            : base(currentPerson, Models.FirmaPage.GetFirmaPageByPageType(firmaPageType))
         {
-            PageTitle = projectFirmaPageType.ProjectFirmaPageTypeDisplayName;
-            DisplayUrl = projectFirmaPageType.GetViewUrl();
+            PageTitle = firmaPageType.FirmaPageTypeDisplayName;
+            DisplayUrl = firmaPageType.GetViewUrl();
         }        
     }
 }

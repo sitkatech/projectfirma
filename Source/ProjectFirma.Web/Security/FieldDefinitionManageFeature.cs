@@ -3,7 +3,7 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Field Definitions")]
-    public class FieldDefinitionManageFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<FieldDefinition>
+    public class FieldDefinitionManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<FieldDefinition>
     {
         private readonly FirmaFeatureWithContextImpl<FieldDefinition> _firmaFeatureWithContextImpl;
 

@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace ProjectFirma.Web.Models
 {
     [TestFixture]
-    public class TransportationCostTest : ProjectFirmaTestWithContext
+    public class TransportationCostTest : FirmaTestWithContext
     {
         [Test]
         public void TestFutureValueFunction()
@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Models
 
             var inflationRate = 0.02m;
 
-            var expectedExpenditureYearCostCalculated = ProjectFirmaMathUtilities.FutureValueOfPresentSum(currentYearCost, inflationRate, currentYear, expenditureYear);
+            var expectedExpenditureYearCostCalculated = FirmaMathUtilities.FutureValueOfPresentSum(currentYearCost, inflationRate, currentYear, expenditureYear);
 
             var expectedExpenditureYearCostFromTRPA = 2297371.34m;
 

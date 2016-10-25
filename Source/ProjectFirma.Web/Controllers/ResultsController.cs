@@ -10,7 +10,6 @@ using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Indicator;
 using ProjectFirma.Web.Views.Shared;
@@ -32,26 +31,26 @@ namespace ProjectFirma.Web.Controllers
             var fundingSectorExpenditures = GetFundingSectorExpendituresForInvestmentByFundingSectorReport(calendarYear, projectFundingSourceExpenditures);
             var calendarYears = GetCalendarYearsDropdownForInvestmentByFundingSectorAndSpendingBySectorAndFocusAreaReports(projectFundingSourceExpenditures);
             var reportingYearRangeTitle = YearDisplayName(calendarYear);
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.InvestmentByFundingSector);
-            var viewData = new InvestmentByFundingSectorViewData(CurrentPerson, projectFirmaPage, fundingSectorExpenditures, calendarYear, calendarYears, projectCount, reportingYearRangeTitle);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.InvestmentByFundingSector);
+            var viewData = new InvestmentByFundingSectorViewData(CurrentPerson, firmaPage, fundingSectorExpenditures, calendarYear, calendarYears, projectCount, reportingYearRangeTitle);
             var viewModel = new InvestmentByFundingSectorViewModel(calendarYear);
             return RazorView<InvestmentByFundingSector, InvestmentByFundingSectorViewData, InvestmentByFundingSectorViewModel>(viewData, viewModel);
         }
 
         private static string YearDisplayName(int? year)
         {
-            var currentYearToUseForReporting = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYearToUseForReporting = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             if (!year.HasValue)
             {
-                return String.Format("Recent Years ({0} - {1})", ProjectFirmaDateUtilities.GetMinimumYearForReportingExpenditures(), currentYearToUseForReporting);
+                return String.Format("Recent Years ({0} - {1})", FirmaDateUtilities.GetMinimumYearForReportingExpenditures(), currentYearToUseForReporting);
             }
-            if (year.Value == ProjectFirmaDateUtilities.GetYearUsedToRepresentPreReportingYears())
+            if (year.Value == FirmaDateUtilities.GetYearUsedToRepresentPreReportingYears())
             {
-                return String.Format("Early Years ({0} - {1})", ProjectFirmaDateUtilities.MinimumYear, ProjectFirmaDateUtilities.GetYearUsedToRepresentPreReportingYears());
+                return String.Format("Early Years ({0} - {1})", FirmaDateUtilities.MinimumYear, FirmaDateUtilities.GetYearUsedToRepresentPreReportingYears());
             }
-            if (year.Value == ProjectFirmaDateUtilities.MinimumYear)
+            if (year.Value == FirmaDateUtilities.MinimumYear)
             {
-                return String.Format("All Years ({0} - {1})", ProjectFirmaDateUtilities.MinimumYear, currentYearToUseForReporting);
+                return String.Format("All Years ({0} - {1})", FirmaDateUtilities.MinimumYear, currentYearToUseForReporting);
             }
             return year.Value.ToString(CultureInfo.InvariantCulture);
         }
@@ -60,7 +59,7 @@ namespace ProjectFirma.Web.Controllers
             IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
         {
             var allYearsWithValues = projectFundingSourceExpenditures.Select(x => x.CalendarYear).Distinct().ToList();
-            allYearsWithValues.AddRange(new[] { ProjectFirmaDateUtilities.GetYearUsedToRepresentPreReportingYears(), ProjectFirmaDateUtilities.MinimumYear });
+            allYearsWithValues.AddRange(new[] { FirmaDateUtilities.GetYearUsedToRepresentPreReportingYears(), FirmaDateUtilities.MinimumYear });
             var calendarYears =
                 allYearsWithValues.OrderByDescending(x => x).ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture), x => YearDisplayName(x), YearDisplayName(null)).ToList();
             return calendarYears;
@@ -78,7 +77,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                if (calendarYear.Value == ProjectFirmaDateUtilities.MinimumYear)
+                if (calendarYear.Value == FirmaDateUtilities.MinimumYear)
                 {
                     fundingSectorExpenditures = Sector.All.Select(sector =>
                     {
@@ -90,10 +89,10 @@ namespace ProjectFirma.Web.Controllers
                             null);
                     }).ToList();
                 }
-                else if (calendarYear.Value == ProjectFirmaDateUtilities.GetYearUsedToRepresentPreReportingYears())
+                else if (calendarYear.Value == FirmaDateUtilities.GetYearUsedToRepresentPreReportingYears())
                 {
                     fundingSectorExpenditures =
-                        Sector.All.Select(x => new FundingSectorExpenditure(x, x.GetPreReportingYearExpenditures(), 0, 0, ProjectFirmaDateUtilities.GetYearUsedToRepresentPreReportingYears())).ToList();
+                        Sector.All.Select(x => new FundingSectorExpenditure(x, x.GetPreReportingYearExpenditures(), 0, 0, FirmaDateUtilities.GetYearUsedToRepresentPreReportingYears())).ToList();
                 }
                 else
                 {
@@ -120,11 +119,11 @@ namespace ProjectFirma.Web.Controllers
 
             if (calendarYear.HasValue)
             {
-                if (calendarYear.Value == ProjectFirmaDateUtilities.MinimumYear)
+                if (calendarYear.Value == FirmaDateUtilities.MinimumYear)
                 {
                     projectCount += FirmaWebConfiguration.Pre2007ProjectCount;
                 }
-                else if (calendarYear.Value == ProjectFirmaDateUtilities.GetYearUsedToRepresentPreReportingYears())
+                else if (calendarYear.Value == FirmaDateUtilities.GetYearUsedToRepresentPreReportingYears())
                 {
                     projectCount = FirmaWebConfiguration.Pre2007ProjectCount;
                 }
@@ -160,7 +159,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static List<ProjectFundingSourceExpenditure> GetProjectExpendituresByFundingSector(int? sectorID, int? calendarYear)
         {
-            var currentYearToUseForReporting = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYearToUseForReporting = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             return HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.GetExpendituresFromMininumYearForReportingOnward()
                     .Where(x => (!calendarYear.HasValue && x.CalendarYear <= currentYearToUseForReporting) || x.CalendarYear == calendarYear)
                     .ToList()
@@ -174,9 +173,9 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectFundingSourceExpenditures = GetProjectExpendituresByFundingSector(null, null);
             var programSectorExpenditures = GetProgramSectorExpenditures(calendarYear, projectFundingSourceExpenditures);
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.SpendingBySectorByFocusAreaByProgram);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.SpendingBySectorByFocusAreaByProgram);
             var calendarYears = GetCalendarYearsDropdownForInvestmentByFundingSectorAndSpendingBySectorAndFocusAreaReports(projectFundingSourceExpenditures);
-            var viewData = new SpendingBySectorByFocusAreaByProgramViewData(CurrentPerson, projectFirmaPage, programSectorExpenditures, Sector.All, calendarYear, calendarYears);
+            var viewData = new SpendingBySectorByFocusAreaByProgramViewData(CurrentPerson, firmaPage, programSectorExpenditures, Sector.All, calendarYear, calendarYears);
             var viewModel = new SpendingBySectorByFocusAreaByProgramViewModel(calendarYear);
             return RazorView<SpendingBySectorByFocusAreaByProgram, SpendingBySectorByFocusAreaByProgramViewData, SpendingBySectorByFocusAreaByProgramViewModel>(viewData, viewModel);
         }
@@ -193,7 +192,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                if (calendarYear.Value == ProjectFirmaDateUtilities.MinimumYear)
+                if (calendarYear.Value == FirmaDateUtilities.MinimumYear)
                 {
                     programSectorExpenditures =
                         projectFundingSourceExpenditures.GroupBy(y => new {y.Project.ActionPriority.Program, y.FundingSource.Organization.Sector})
@@ -201,7 +200,7 @@ namespace ProjectFirma.Web.Controllers
                             .ToList();
                     programSectorExpenditures.AddRange(Sector.All.Select(x => new ProgramSectorExpenditure(x, "Unknown", "Unknown", x.GetPreReportingYearExpenditures())).ToList());
                 }
-                else if (calendarYear.Value == ProjectFirmaDateUtilities.GetYearUsedToRepresentPreReportingYears())
+                else if (calendarYear.Value == FirmaDateUtilities.GetYearUsedToRepresentPreReportingYears())
                 {
                     programSectorExpenditures = Sector.All.Select(x => new ProgramSectorExpenditure(x, "Unknown", "Unknown", x.GetPreReportingYearExpenditures())).ToList();
                 }
@@ -252,7 +251,7 @@ namespace ProjectFirma.Web.Controllers
                 colorByValue = ProjectColorByType.FocusArea;
             }
 
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.EIPProjectMap);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.EIPProjectMap);
 
             var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
             var projects = allProjects.Where(p => p.IsVisibleToThisPerson(CurrentPerson)).ToList();
@@ -271,7 +270,7 @@ namespace ProjectFirma.Web.Controllers
             var filteredProjectsWithLocationAreasUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));
 
             var viewData = new EipProjectMapViewData(CurrentPerson,
-                projectFirmaPage,
+                firmaPage,
                 projectLocationsMapInitJson,
                 projectLocationsMapViewData,
                 projectLocationFilterTypesAndValues,
@@ -377,27 +376,27 @@ namespace ProjectFirma.Web.Controllers
             List<FundingSourceCalendarYearExpenditure> fundingSourceCalendarYearExpenditures;
             if (!calendarYear.HasValue)
             {
-                calendarYearRange = ProjectFirmaDateUtilities.GetRangeOfYearsForReportingExpenditures();
+                calendarYearRange = FirmaDateUtilities.GetRangeOfYearsForReportingExpenditures();
                 fundingSourceCalendarYearExpenditures =
                     FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures), calendarYearRange);
             }
             else
             {
-                if (calendarYear.Value == ProjectFirmaDateUtilities.MinimumYear)
+                if (calendarYear.Value == FirmaDateUtilities.MinimumYear)
                 {
-                    calendarYearRange = ProjectFirmaDateUtilities.GetRangeOfYears(ProjectFirmaDateUtilities.GetYearUsedToRepresentPreReportingYears(), ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+                    calendarYearRange = FirmaDateUtilities.GetRangeOfYears(FirmaDateUtilities.GetYearUsedToRepresentPreReportingYears(), FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
                     fundingSourceCalendarYearExpenditures =
                         FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures), calendarYearRange);
                     var calendarYearExpenditureForPreReportingYears = calendarYearRange.ToDictionary(x => x, x => (decimal?) null);
-                    calendarYearExpenditureForPreReportingYears[ProjectFirmaDateUtilities.GetYearUsedToRepresentPreReportingYears()] = sector.GetPreReportingYearExpenditures();
+                    calendarYearExpenditureForPreReportingYears[FirmaDateUtilities.GetYearUsedToRepresentPreReportingYears()] = sector.GetPreReportingYearExpenditures();
                     fundingSourceCalendarYearExpenditures.Add(new FundingSourceCalendarYearExpenditure(calendarYearExpenditureForPreReportingYears));
                 }
-                else if (calendarYear.Value == ProjectFirmaDateUtilities.GetYearUsedToRepresentPreReportingYears())
+                else if (calendarYear.Value == FirmaDateUtilities.GetYearUsedToRepresentPreReportingYears())
                 {
-                    calendarYearRange = new List<int> {ProjectFirmaDateUtilities.GetYearUsedToRepresentPreReportingYears()};
+                    calendarYearRange = new List<int> {FirmaDateUtilities.GetYearUsedToRepresentPreReportingYears()};
                     fundingSourceCalendarYearExpenditures = new List<FundingSourceCalendarYearExpenditure>
                     {
-                        new FundingSourceCalendarYearExpenditure(new Dictionary<int, decimal?> {{ProjectFirmaDateUtilities.GetYearUsedToRepresentPreReportingYears(), sector.GetPreReportingYearExpenditures()}})
+                        new FundingSourceCalendarYearExpenditure(new Dictionary<int, decimal?> {{FirmaDateUtilities.GetYearUsedToRepresentPreReportingYears(), sector.GetPreReportingYearExpenditures()}})
                     };
                 }
                 else
@@ -412,9 +411,9 @@ namespace ProjectFirma.Web.Controllers
             var calendarYears = calendarYearRange.ToDictionary(x => x,
                 year =>
                 {
-                    if (year < ProjectFirmaDateUtilities.GetMinimumYearForReportingExpenditures())
+                    if (year < FirmaDateUtilities.GetMinimumYearForReportingExpenditures())
                     {
-                        return String.Format("{0} - {1}", ProjectFirmaDateUtilities.MinimumYear, ProjectFirmaDateUtilities.GetYearUsedToRepresentPreReportingYears());
+                        return String.Format("{0} - {1}", FirmaDateUtilities.MinimumYear, FirmaDateUtilities.GetYearUsedToRepresentPreReportingYears());
                     }
                     return year.ToString(CultureInfo.InvariantCulture);
                 });
@@ -445,20 +444,20 @@ namespace ProjectFirma.Web.Controllers
         {
             var focusAreas = HttpRequestStorage.DatabaseEntities.FocusAreas.OrderBy(x => x.FocusAreaNumber).ToList();
             var selectedProgram = programID.HasValue ? HttpRequestStorage.DatabaseEntities.Programs.GetProgram(programID.Value) : focusAreas.First().Programs.First();
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.EIPResultsByProgram);
-            var viewData = new EipResultsByProgramViewData(CurrentPerson, projectFirmaPage, focusAreas, selectedProgram);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.EIPResultsByProgram);
+            var viewData = new EipResultsByProgramViewData(CurrentPerson, firmaPage, focusAreas, selectedProgram);
             return RazorView<EipResultsByProgram, EipResultsByProgramViewData>(viewData);
         }
 
         [SpendingByEIPPerformanceMeasureByProjectViewFeature]
         public ViewResult SpendingByEIPPerformanceMeasureByProject(int? eipPerformanceMeasureID)
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.SpendingByEIPPerformanceMeasureByProject);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.SpendingByEIPPerformanceMeasureByProject);
             var eipPerformanceMeasures = HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasures.ToList();
             var selectedEIPPerformanceMeasure = eipPerformanceMeasureID.HasValue ? eipPerformanceMeasures.Single(x => x.EIPPerformanceMeasureID == eipPerformanceMeasureID) : eipPerformanceMeasures.First();
             var eippmAccomplishmentsChartViewData = new IndicatorChartViewData(selectedEIPPerformanceMeasure.Indicator, false, ChartViewMode.Small, null);
 
-            var viewData = new SpendingByEIPPerformanceMeasureByProjectViewData(CurrentPerson, projectFirmaPage, eipPerformanceMeasures, selectedEIPPerformanceMeasure, eippmAccomplishmentsChartViewData);
+            var viewData = new SpendingByEIPPerformanceMeasureByProjectViewData(CurrentPerson, firmaPage, eipPerformanceMeasures, selectedEIPPerformanceMeasure, eippmAccomplishmentsChartViewData);
             var viewModel = new SpendingByEIPPerformanceMeasureByProjectViewModel();
             return RazorView<SpendingByEIPPerformanceMeasureByProject, SpendingByEIPPerformanceMeasureByProjectViewData, SpendingByEIPPerformanceMeasureByProjectViewModel>(viewData, viewModel);
         }

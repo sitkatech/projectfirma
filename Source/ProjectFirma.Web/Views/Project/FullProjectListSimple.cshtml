@@ -4,7 +4,7 @@
 @inherits ProjectFirma.Web.Views.Project.FullProjectListSimple
 
 <div>
-    @ViewDataTyped.ProjectFirmaPage.ProjectFirmaPageContentHtmlString
+    @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
 </div>
 
 <table class="table table-striped table-hover table-condensed">
@@ -20,7 +20,7 @@
     {
         <tr>
             <td><a href="@project.GetSummaryUrl()">@project.ProjectNumberString</a></td>
-            <td><a href="@project.GetFactSheetUrl()">@ProjectFirmaDhtmlxGridHtmlHelpers.FactSheetIcon</a>
+            <td><a href="@project.GetFactSheetUrl()">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon</a>
             <td><a href="@project.GetSummaryUrl()">@project.ProjectName</a></td>            
             <td style="width:250px">@if (project.LeadImplementerOrganizationID.HasValue) { @project.LeadImplementer.GetDisplayNameAsUrl() }</td>
             <td style="white-space: nowrap">@project.ProjectStage.ProjectStageDisplayName</td>

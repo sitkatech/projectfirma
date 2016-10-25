@@ -8,8 +8,8 @@ namespace ProjectFirma.Web.Views.ProgramInfo
     {
         public readonly List<FancyTreeNode> TransportationStrategiesAsFancyTreeNodes;
 
-        public TransportationTaxonomyViewData(Person currentPerson, Models.ProjectFirmaPage projectFirmaPage,
-            List<FancyTreeNode> transportationStrategiesAsFancyTreeNodes) : base(currentPerson, projectFirmaPage)
+        public TransportationTaxonomyViewData(Person currentPerson, Models.FirmaPage firmaPage,
+            List<FancyTreeNode> transportationStrategiesAsFancyTreeNodes) : base(currentPerson, firmaPage)
         {
             TransportationStrategiesAsFancyTreeNodes = transportationStrategiesAsFancyTreeNodes;
             PageTitle = "Transportation Strategies and Objectives";

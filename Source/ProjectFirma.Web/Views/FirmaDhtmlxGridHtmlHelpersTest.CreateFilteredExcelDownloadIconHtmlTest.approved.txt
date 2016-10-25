@@ -1,0 +1,1 @@
+﻿<a class="excelbutton" id="testGridNameDownloadLink" href="javascript:void(0)" onclick="Sitka.testGridName.grid.toExcel('https:\/\/localhost.clackamaspartnership.org\/Home\/ExportGridToExcel\/testGridName\/True')" title="Download this table as an Excel file">Download Table</a>

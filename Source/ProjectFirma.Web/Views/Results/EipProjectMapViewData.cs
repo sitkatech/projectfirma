@@ -16,12 +16,12 @@ namespace ProjectFirma.Web.Views.Results
         public readonly string FilteredProjectsWithLocationAreasUrl;
 
         public EipProjectMapViewData(Person currentPerson,
-            Models.ProjectFirmaPage projectFirmaPage,
+            Models.FirmaPage firmaPage,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
             ProjectLocationsMapViewData projectLocationsMapViewData,
             Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> projectLocationFilterTypesAndValues,
             string projectLocationsUrl,
-            string filteredProjectsWithLocationAreasUrl) : base(currentPerson, projectFirmaPage)
+            string filteredProjectsWithLocationAreasUrl) : base(currentPerson, firmaPage)
         {
             PageTitle = "EIP Project Map";
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;

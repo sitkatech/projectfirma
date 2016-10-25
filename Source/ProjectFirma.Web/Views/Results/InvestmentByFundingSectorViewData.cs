@@ -22,12 +22,12 @@ namespace ProjectFirma.Web.Views.Results
         public readonly GoogleChartJson GoogleChartJson;
 
         public InvestmentByFundingSectorViewData(Person currentPerson,
-            Models.ProjectFirmaPage projectFirmaPage,
+            Models.FirmaPage firmaPage,
             List<FundingSectorExpenditure> fundingSectorExpenditures,
             int? selectedCalendarYear,
             IEnumerable<SelectListItem> calendarYears,
             int projectCount,
-            string reportingYearRangeTitle) : base(currentPerson, projectFirmaPage)
+            string reportingYearRangeTitle) : base(currentPerson, firmaPage)
         {
             FundingSectorExpenditures = fundingSectorExpenditures;
             PageTitle = "EIP Investment by Funding Sector";
@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Results
                 SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ProjectFundingSourceExpendituresBySector(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int));
             SpendingBySectorAndOrganizationUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingBySectorByOrganization(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int));
             InvestmentByFundingSectorUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.InvestmentByFundingSector(UrlTemplate.Parameter1Int));
-            IsPreReportingYear = SelectedCalendarYear.HasValue && SelectedCalendarYear.Value < ProjectFirmaDateUtilities.GetMinimumYearForReportingExpenditures();
+            IsPreReportingYear = SelectedCalendarYear.HasValue && SelectedCalendarYear.Value < FirmaDateUtilities.GetMinimumYearForReportingExpenditures();
 
             GoogleChartJson = ResultsController.GetInvestmentByFundingSectorGoogleChart(FundingSectorExpenditures, selectedCalendarYear);
             GoogleChartJson.GoogleChartConfiguration.SetSize(300, 350);

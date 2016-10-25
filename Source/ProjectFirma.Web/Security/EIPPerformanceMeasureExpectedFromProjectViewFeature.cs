@@ -6,7 +6,7 @@ using ProjectFirma.Web.Security;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("View PerformanceMeasure Expected Value From Project")]
-    public class EIPPerformanceMeasureExpectedFromProjectViewFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
+    public class EIPPerformanceMeasureExpectedFromProjectViewFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 

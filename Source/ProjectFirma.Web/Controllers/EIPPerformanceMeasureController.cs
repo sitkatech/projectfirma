@@ -5,7 +5,6 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.EIPPerformanceMeasure;
-using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Indicator;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
@@ -31,8 +30,8 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult IndexImpl()
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.EIPPerformanceMeasuresList);
-            var viewData = new IndexViewData(CurrentPerson, projectFirmaPage);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.EIPPerformanceMeasuresList);
+            var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 

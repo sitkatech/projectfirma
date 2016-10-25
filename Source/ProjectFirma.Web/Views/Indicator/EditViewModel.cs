@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.Indicator
             var indicators = HttpRequestStorage.DatabaseEntities.Indicators.ToList();
             if (!IndicatorModelExtensions.IsIndicatorNameUnique(indicators, IndicatorDisplayName, IndicatorID))
             {
-                errors.Add(new SitkaValidationResult<EditViewModel, string>(ProjectFirmaValidationMessages.IndicatorNameUnique, x => x.IndicatorDisplayName));
+                errors.Add(new SitkaValidationResult<EditViewModel, string>(FirmaValidationMessages.IndicatorNameUnique, x => x.IndicatorDisplayName));
             }
             return errors;
         }

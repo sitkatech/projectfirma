@@ -10,35 +10,35 @@ namespace ProjectFirma.Web.Models
     {
         public static IQueryable<ProjectFundingSourceExpenditure> GetExpendituresFromMininumYearForReportingOnward(this IQueryable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
         {
-            var minimumYearForReportingExpenditures = ProjectFirmaDateUtilities.GetMinimumYearForReportingExpenditures();
+            var minimumYearForReportingExpenditures = FirmaDateUtilities.GetMinimumYearForReportingExpenditures();
             return projectFundingSourceExpenditures.Where(x => x.CalendarYear >= minimumYearForReportingExpenditures);
         }
 
         public static List<int> CalculateCalendarYearRangeForExpenditures(this IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, Project project)
         {
             var existingYears = projectFundingSourceExpenditures.Select(x => x.CalendarYear).ToList();
-            return ProjectFirmaDateUtilities.CalculateCalendarYearRangeForExpendituresAccountingForExistingYears(existingYears, project, DateTime.Today.Year);
+            return FirmaDateUtilities.CalculateCalendarYearRangeForExpendituresAccountingForExistingYears(existingYears, project, DateTime.Today.Year);
         }
 
         public static List<int> CalculateCalendarYearRangeForExpenditures(this IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, FundingSource fundingSource)
         {
             var existingYears = projectFundingSourceExpenditures.Select(x => x.CalendarYear).ToList();
-            return ProjectFirmaDateUtilities.CalculateCalendarYearRangeAccountingForExistingYears(existingYears,
+            return FirmaDateUtilities.CalculateCalendarYearRangeAccountingForExistingYears(existingYears,
                 fundingSource.ProjectsWhereYouAreTheFundingSourceMinCalendarYear,
                 fundingSource.ProjectsWhereYouAreTheFundingSourceMaxCalendarYear,
                 DateTime.Today.Year,
-                ProjectFirmaDateUtilities.MinimumYearForReporting,
+                FirmaDateUtilities.MinimumYearForReporting,
                 null);
         }
 
         public static List<int> CalculateCalendarYearRangeForExpenditures(this IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, Organization organization)
         {
             var existingYears = projectFundingSourceExpenditures.Select(x => x.CalendarYear).ToList();
-            return ProjectFirmaDateUtilities.CalculateCalendarYearRangeAccountingForExistingYears(existingYears,
+            return FirmaDateUtilities.CalculateCalendarYearRangeAccountingForExistingYears(existingYears,
                 organization.FundingSources.Min(x => x.ProjectsWhereYouAreTheFundingSourceMinCalendarYear),
                 organization.FundingSources.Max(x => x.ProjectsWhereYouAreTheFundingSourceMaxCalendarYear),
                 DateTime.Today.Year,
-                ProjectFirmaDateUtilities.MinimumYearForReporting,
+                FirmaDateUtilities.MinimumYearForReporting,
                 null);
         }
 
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Models
             }
             var beginCalendarYear = projectFundingSourceExpenditureList.Min(x => x.CalendarYear);
             var endCalendarYear = projectFundingSourceExpenditureList.Max(x => x.CalendarYear);
-            var rangeOfYears = ProjectFirmaDateUtilities.GetRangeOfYears(beginCalendarYear, endCalendarYear);
+            var rangeOfYears = FirmaDateUtilities.GetRangeOfYears(beginCalendarYear, endCalendarYear);
 
             return projectFundingSourceExpenditureList.ToGoogleChart(filterFunction, filterValues, sortFunction, rangeOfYears, chartName, chartTitle, chartPopupUrl);
         }

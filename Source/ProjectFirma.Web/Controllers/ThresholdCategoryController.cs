@@ -20,9 +20,9 @@ namespace ProjectFirma.Web.Controllers
         [IndicatorViewFeature]
         public ViewResult Index()
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.ThresholdCategoriesList);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ThresholdCategoriesList);
             var thresholdCategories = HttpRequestStorage.DatabaseEntities.ThresholdCategories.ToList();
-            var viewData = new IndexViewData(CurrentPerson, projectFirmaPage);
+            var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 

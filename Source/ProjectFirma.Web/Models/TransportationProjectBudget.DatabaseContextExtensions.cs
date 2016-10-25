@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.Models
         public static List<int> CalculateCalendarYearRangeForBudgets(this IList<TransportationProjectBudget> transportationProjectBudgets, Project project)
         {
             var existingYears = transportationProjectBudgets.Select(x => x.CalendarYear).ToList();
-            return ProjectFirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(existingYears, project, DateTime.Today.Year);
+            return FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(existingYears, project, DateTime.Today.Year);
         }
     }
 }

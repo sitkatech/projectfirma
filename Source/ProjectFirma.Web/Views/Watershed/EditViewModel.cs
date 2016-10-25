@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.Watershed
             var existingWatersheds = HttpRequestStorage.DatabaseEntities.Watersheds.ToList();
             if (!Models.Watershed.IsWatershedNameUnique(existingWatersheds, WatershedName, WatershedID))
             {
-                errors.Add(new SitkaValidationResult<EditViewModel, string>(ProjectFirmaValidationMessages.WatershedNameUnique, x => x.WatershedName));
+                errors.Add(new SitkaValidationResult<EditViewModel, string>(FirmaValidationMessages.WatershedNameUnique, x => x.WatershedName));
             }
 
             return errors;

@@ -82,8 +82,8 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewIndex(string gridDataUrl, ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterTypeEnum)
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.MyProjects);
-            var viewData = new MyProjectsViewData(CurrentPerson, projectFirmaPage, projectUpdateStatusFilterTypeEnum, gridDataUrl);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.MyProjects);
+            var viewData = new MyProjectsViewData(CurrentPerson, firmaPage, projectUpdateStatusFilterTypeEnum, gridDataUrl);
             return RazorView<MyProjects, MyProjectsViewData>(viewData);
         }
 
@@ -276,8 +276,8 @@ namespace ProjectFirma.Web.Controllers
                                   ModelState.Values.SelectMany(x => x.Errors)
                                       .Any(
                                           x =>
-                                              x.ErrorMessage == ProjectFirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears ||
-                                              x.ErrorMessage == ProjectFirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
+                                              x.ErrorMessage == FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears ||
+                                              x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
 
             var allEIPPerformanceMeasures = selectableEIPPerformanceMeasures.ToList();
             var eipPerformanceMeasureSubcategories = allEIPPerformanceMeasures.SelectMany(x => x.IndicatorSubcategories).ToList();
@@ -286,7 +286,7 @@ namespace ProjectFirma.Web.Controllers
             var eipPerformanceMeasureSubcategorySimples = eipPerformanceMeasureSubcategories.Select(y => new EIPPerformanceMeasureSubcategorySimple(y)).ToList();
             var subcategorySimples = subcategories.Select(x => new IndicatorSubcategorySimple(x)).ToList();
             var subcategoryOptionSimples = subcategories.SelectMany(y => y.IndicatorSubcategoryOptions.Select(z => new IndicatorSubcategoryOptionSimple(z))).ToList();
-            var calendarYears = ProjectFirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x).ToList();
+            var calendarYears = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x).ToList();
             var eipPerformanceMeasuresValidationResult = projectUpdateBatch.ValidateEIPPerformanceMeasures();
 
             var viewDataForAngularEditor = new EIPPerformanceMeasuresViewData.ViewDataForAngularEditor(projectUpdateBatch.ProjectUpdateBatchID,
@@ -1267,12 +1267,12 @@ namespace ProjectFirma.Web.Controllers
                 SaveFiltersInCookie = true
             };
             var contactsReceivingReminderGridSpec = new PeopleReceivingReminderGridSpec(true) {ObjectNameSingular = "Person", ObjectNamePlural = "People", SaveFiltersInCookie = true};
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.ManageUpdateNotifications);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ManageUpdateNotifications);
 
             var projectsWithNoContactCount = GetProjectsWithNoContact().Count;
 
             var viewData = new ManageViewData(CurrentPerson,
-                projectFirmaPage,
+                firmaPage,
                 sendReminderEmailsUrl,
                 customNotificationUrl,
                 projectsRequiringUpdateGridSpec,
@@ -1440,10 +1440,10 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult ProjectUpdateStatus()
         {
             var contactsReceivingReminderGridSpec = new PeopleReceivingReminderGridSpec(false) { ObjectNameSingular = "Person", ObjectNamePlural = "People", SaveFiltersInCookie = true };
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.ProjectUpdateStatus);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectUpdateStatus);
 
             var viewData = new ProjectUpdateStatusViewData(CurrentPerson,
-                projectFirmaPage,
+                firmaPage,
                 contactsReceivingReminderGridSpec,
                 SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.PeopleReceivingReminderGridJsonData(false)));
             return RazorView<ProjectUpdateStatus, ProjectUpdateStatusViewData>(viewData);

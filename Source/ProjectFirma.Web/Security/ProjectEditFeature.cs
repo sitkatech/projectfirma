@@ -4,7 +4,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Edit Project")]
-    public class ProjectEditFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
+    public class ProjectEditFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 

@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Models
             var project = projectUpdateBatch.Project;
             var eipPerformanceMeasureActualUpdates = new List<EIPPerformanceMeasureActualUpdate>();
             var currentEIPPerformanceMeasureActuals = project.EIPPerformanceMeasureActuals.ToList();
-            var currentYear = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             var completionYear = projectUpdateBatch.ProjectUpdate != null ? projectUpdateBatch.ProjectUpdate.CompletionYear : project.CompletionYear;
             var currentStage = projectUpdateBatch.ProjectUpdate != null ? projectUpdateBatch.ProjectUpdate.ProjectStage : project.ProjectStage;
             var endYearToFill = Math.Min(completionYear ?? currentYear, currentYear);
@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Models
             int endYearToFill)
         {
             var exemptYears = projectUpdateBatch.Project.ProjectExemptReportingYears.Select(x => x.CalendarYear).ToList();
-            var yearsToFill = ProjectFirmaDateUtilities.GetRangeOfYears(initialYearToFill, endYearToFill).Where(x => !exemptYears.Contains(x)).ToList();
+            var yearsToFill = FirmaDateUtilities.GetRangeOfYears(initialYearToFill, endYearToFill).Where(x => !exemptYears.Contains(x)).ToList();
 
             var eipPerformanceMeasureActualUpdates = new List<EIPPerformanceMeasureActualUpdate>();
             foreach (var year in yearsToFill)

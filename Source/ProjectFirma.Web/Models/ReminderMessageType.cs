@@ -25,7 +25,7 @@ P.S. - You received this email because you are listed as the Primary Contact for
         {
             var projectListAsHtmlStrings = GenerateProjectListAsHtmlStrings(primaryContactPerson.GetPrimaryContactProjects().GetUpdatableProjectsThatHaveNotBeenSubmitted());
 
-            var reportingYear = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             var projectsRequiringAnUpdateUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.MyProjectsRequiringAnUpdate(), LtInfoWebConfiguration.CanonicalHostName);
             var body = String.Format(GetReminderMessageTemplate(),
                 primaryContactPerson.FullNameFirstLast,

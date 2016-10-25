@@ -8,7 +8,6 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.FundingSource;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Results;
-using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
@@ -41,8 +40,8 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult IndexImpl()
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.FundingSourcesList);
-            var viewData = new IndexViewData(CurrentPerson, projectFirmaPage);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.FundingSourcesList);
+            var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -125,7 +124,7 @@ namespace ProjectFirma.Web.Controllers
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
             var focusAreas = HttpRequestStorage.DatabaseEntities.FocusAreas.OrderBy(x => x.FocusAreaNumber).ToList();
 
-            var yearRange = ProjectFirmaDateUtilities.GetRangeOfYearsForReporting();
+            var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
             var chartPopupUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(x => x.GoogleChartPopup(fundingSourcePrimaryKey));
             var googleChart = fundingSource.ProjectFundingSourceExpenditures
                 .ToGoogleChart(x => x.Project.ActionPriority.Program.FocusArea.DisplayName,
@@ -201,7 +200,7 @@ namespace ProjectFirma.Web.Controllers
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
             var focusAreas = HttpRequestStorage.DatabaseEntities.FocusAreas.OrderBy(x => x.FocusAreaNumber).ToList();
 
-            var yearRange = ProjectFirmaDateUtilities.GetRangeOfYearsForReporting();
+            var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
             var googleChart = fundingSource.ProjectFundingSourceExpenditures
                 .ToGoogleChart(x => x.Project.ActionPriority.Program.FocusArea.DisplayName,
                     focusAreas.Select(x => x.DisplayName).ToList(),

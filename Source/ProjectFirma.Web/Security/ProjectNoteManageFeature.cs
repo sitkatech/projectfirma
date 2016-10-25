@@ -4,7 +4,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Project Note")]
-    public class ProjectNoteManageFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<ProjectNote>
+    public class ProjectNoteManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<ProjectNote>
     {
         private readonly FirmaFeatureWithContextImpl<ProjectNote> _firmaFeatureWithContextImpl;
 

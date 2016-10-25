@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 ProjectID = project.ProjectID;
                 ProjectFundingOrganizationFundingSourceIDs = projectFundingOrganizationFundingSourceIDs;
                 ValidationWarnings = expendituresValidationResult.GetWarningMessages();
-                MaxYear = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+                MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             }
         }
     }

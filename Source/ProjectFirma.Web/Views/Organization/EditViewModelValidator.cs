@@ -27,10 +27,10 @@ namespace ProjectFirma.Web.Views.Organization
                 .WithMessage("Organization name is required")
                 .Length(1, Models.Organization.FieldLengths.OrganizationName)
                 .Must((viewModel, organizationName) => Models.Organization.IsOrganizationNameUnique(Organizations(), organizationName, viewModel.OrganizationID))
-                .WithMessage(ProjectFirmaValidationMessages.OrganizationNameUnique);
+                .WithMessage(FirmaValidationMessages.OrganizationNameUnique);
             RuleFor(x => x.OrganizationAbbreviation)
                 .Must((viewModel, organizationAbbreviation) => Models.Organization.IsOrganizationAbbreviationUniqueIfProvided(Organizations(), organizationAbbreviation, viewModel.OrganizationID))
-                .WithMessage(ProjectFirmaValidationMessages.OrganizationAbbreviationUnique);
+                .WithMessage(FirmaValidationMessages.OrganizationAbbreviationUnique);
             RuleFor(x => x.IsActive).NotEmpty().WithMessage("Is Active is required");
         }
     }

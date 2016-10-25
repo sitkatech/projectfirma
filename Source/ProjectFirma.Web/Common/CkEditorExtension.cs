@@ -33,16 +33,16 @@ namespace ProjectFirma.Web.Common
         }
 
         /// <summary>
-        /// This is used by ckeditors for a ProjectFirmaPage
+        /// This is used by ckeditors for a FirmaPage
         /// </summary>
         public static HtmlString CkEditorFor<TModel, TValue>(this HtmlHelper<TModel> helper,
             Expression<Func<TModel, TValue>> expression,
             CkEditorToolbar ckEditorToolbarMode,
             bool editable,
-            int projectFirmaPageID,
+            int firmaPageID,
             int? height) where TModel : FormViewModel
         {
-            var filebrowserImageUploadUrl = SitkaRoute<FileResourceController>.BuildUrlFromExpression(c => c.CkEditorUploadFileResource(projectFirmaPageID, null));
+            var filebrowserImageUploadUrl = SitkaRoute<FileResourceController>.BuildUrlFromExpression(c => c.CkEditorUploadFileResource(firmaPageID, null));
             return CkEditorFor(helper, expression, ckEditorToolbarMode, editable, false, filebrowserImageUploadUrl, height);
         }
         

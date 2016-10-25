@@ -43,9 +43,9 @@ namespace ProjectFirma.Web.Views.ProposedProject
             
             FundingTypes = fundingTypes.ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             StartYearRange =
-                ProjectFirmaDateUtilities.GetRangeOfYears(ProjectFirmaDateUtilities.MinimumYearForReporting, DateTime.Now.Year + ProjectFirmaDateUtilities.YearsBeyondPresentForMaximumYearForUserInput)
+                FirmaDateUtilities.GetRangeOfYears(FirmaDateUtilities.MinimumYearForReporting, DateTime.Now.Year + FirmaDateUtilities.YearsBeyondPresentForMaximumYearForUserInput)
                     .ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
-            CompletionYearRange = ProjectFirmaDateUtilities.FutureYearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
+            CompletionYearRange = FirmaDateUtilities.FutureYearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
         }
     }
 }

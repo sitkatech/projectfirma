@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Controllers
 
             var beginCalendarYear = projectFundingSourceExpenditures.Min(x => x.CalendarYear);
             var endCalendarYear = projectFundingSourceExpenditures.Max(x => x.CalendarYear);
-            var rangeOfYears = ProjectFirmaDateUtilities.GetRangeOfYears(beginCalendarYear, endCalendarYear);
+            var rangeOfYears = FirmaDateUtilities.GetRangeOfYears(beginCalendarYear, endCalendarYear);
             return rangeOfYears;
         }
 
@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Controllers
 
             var beginCalendarYear = projectFundingSourceExpenditures.Min(x => x.CalendarYear);
             var endCalendarYear = projectFundingSourceExpenditures.Max(x => x.CalendarYear);
-            var rangeOfYears = ProjectFirmaDateUtilities.GetRangeOfYears(beginCalendarYear, endCalendarYear);
+            var rangeOfYears = FirmaDateUtilities.GetRangeOfYears(beginCalendarYear, endCalendarYear);
 
             var fullSectorAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
                 new List<string> {"org 1", "org 2"}, x=> x.FundingSource.Organization.DisplayName, rangeOfYears);
@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Controllers
 
             var beginCalendarYear = projectFundingSourceExpenditures.Min(x => x.CalendarYear);
             var endCalendarYear = projectFundingSourceExpenditures.Max(x => x.CalendarYear);
-            var rangeOfYears = ProjectFirmaDateUtilities.GetRangeOfYears(beginCalendarYear, endCalendarYear);
+            var rangeOfYears = FirmaDateUtilities.GetRangeOfYears(beginCalendarYear, endCalendarYear);
 
             var fullSectorAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
                 new List<string> { "org 1", "org 2" }, x => x.FundingSource.Organization.DisplayName, rangeOfYears);
@@ -117,7 +117,7 @@ namespace ProjectFirma.Web.Controllers
 
             var beginCalendarYear = projectFundingSourceExpenditures.Min(x => x.CalendarYear);
             var endCalendarYear = projectFundingSourceExpenditures.Max(x => x.CalendarYear);
-            var rangeOfYears = ProjectFirmaDateUtilities.GetRangeOfYears(beginCalendarYear, endCalendarYear);
+            var rangeOfYears = FirmaDateUtilities.GetRangeOfYears(beginCalendarYear, endCalendarYear);
 
             var fullSectorAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
                 new List<string> { "org 1", "org 2" }, x => x.FundingSource.Organization.DisplayName, rangeOfYears);

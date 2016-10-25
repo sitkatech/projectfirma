@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Models
             if (projectUpdate.CompletionYear < projectUpdate.PlanningDesignStartYear) return new List<int>();
 
             var existingYears = transportationProjectBudgetUpdates.Select(x => x.CalendarYear).ToList();
-            return ProjectFirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(existingYears, projectUpdate, ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+            return FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(existingYears, projectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
         }
     }
 }

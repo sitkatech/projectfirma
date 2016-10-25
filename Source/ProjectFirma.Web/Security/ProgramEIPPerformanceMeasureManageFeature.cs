@@ -5,7 +5,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Program EIP PerformanceMeasure")]
-    public class ProgramEIPPerformanceMeasureManageFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<EIPPerformanceMeasure>
+    public class ProgramEIPPerformanceMeasureManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<EIPPerformanceMeasure>
     {
         private readonly FirmaFeatureWithContextImpl<EIPPerformanceMeasure> _firmaFeatureWithContextImpl;
 

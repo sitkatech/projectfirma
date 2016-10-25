@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.Views.Indicator
         public readonly string IndicatorGridName;
         public readonly string IndicatorGridDataUrl;
 
-        public IndexViewData(Person currentPerson, Models.ProjectFirmaPage projectFirmaPage) : base(currentPerson, projectFirmaPage)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {  
             PageTitle = "Indicators";
 

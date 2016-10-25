@@ -45,6 +45,8 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<FieldDefinitionData> FieldDefinitionDatas { get; set; }
         public virtual DbSet<FieldDefinitionImage> FieldDefinitionImages { get; set; }
         public virtual DbSet<FileResource> FileResources { get; set; }
+        public virtual DbSet<FirmaPageImage> FirmaPageImages { get; set; }
+        public virtual DbSet<FirmaPage> FirmaPages { get; set; }
         public virtual DbSet<FocusAreaImage> FocusAreaImages { get; set; }
         public virtual DbSet<FocusArea> FocusAreas { get; set; }
         public virtual DbSet<FundingSource> FundingSources { get; set; }
@@ -72,8 +74,6 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<ProjectExemptReportingYearUpdate> ProjectExemptReportingYearUpdates { get; set; }
         public virtual DbSet<ProjectExternalLink> ProjectExternalLinks { get; set; }
         public virtual DbSet<ProjectExternalLinkUpdate> ProjectExternalLinkUpdates { get; set; }
-        public virtual DbSet<ProjectFirmaPageImage> ProjectFirmaPageImages { get; set; }
-        public virtual DbSet<ProjectFirmaPage> ProjectFirmaPages { get; set; }
         public virtual DbSet<ProjectFundingOrganization> ProjectFundingOrganizations { get; set; }
         public virtual DbSet<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; set; }
         public virtual DbSet<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get; set; }
@@ -206,6 +206,22 @@ namespace ProjectFirma.Web.Models
                 case "FileResource":
                     return FileResources.GetFileResource(primaryKey);
 
+                case "FirmaPageImage":
+                    return FirmaPageImages.GetFirmaPageImage(primaryKey);
+
+                case "FirmaPageRenderType":
+                    var firmaPageRenderType = FirmaPageRenderType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(firmaPageRenderType, "FirmaPageRenderType", primaryKey);
+                    return firmaPageRenderType;
+
+                case "FirmaPage":
+                    return FirmaPages.GetFirmaPage(primaryKey);
+
+                case "FirmaPageType":
+                    var firmaPageType = FirmaPageType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(firmaPageType, "FirmaPageType", primaryKey);
+                    return firmaPageType;
+
                 case "FocusAreaImage":
                     return FocusAreaImages.GetFocusAreaImage(primaryKey);
 
@@ -321,22 +337,6 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectExternalLinkUpdate":
                     return ProjectExternalLinkUpdates.GetProjectExternalLinkUpdate(primaryKey);
-
-                case "ProjectFirmaPageImage":
-                    return ProjectFirmaPageImages.GetProjectFirmaPageImage(primaryKey);
-
-                case "ProjectFirmaPageRenderType":
-                    var projectFirmaPageRenderType = ProjectFirmaPageRenderType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(projectFirmaPageRenderType, "ProjectFirmaPageRenderType", primaryKey);
-                    return projectFirmaPageRenderType;
-
-                case "ProjectFirmaPage":
-                    return ProjectFirmaPages.GetProjectFirmaPage(primaryKey);
-
-                case "ProjectFirmaPageType":
-                    var projectFirmaPageType = ProjectFirmaPageType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(projectFirmaPageType, "ProjectFirmaPageType", primaryKey);
-                    return projectFirmaPageType;
 
                 case "ProjectFundingOrganization":
                     return ProjectFundingOrganizations.GetProjectFundingOrganization(primaryKey);

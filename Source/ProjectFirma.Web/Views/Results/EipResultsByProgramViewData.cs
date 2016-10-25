@@ -15,9 +15,9 @@ namespace ProjectFirma.Web.Views.Results
         public readonly List<IndicatorChartViewData> IndicatorChartViewDatas;
 
         public EipResultsByProgramViewData(Person currentPerson,
-            Models.ProjectFirmaPage projectFirmaPage,
+            Models.FirmaPage firmaPage,
             List<Models.FocusArea> focusAreas,
-            Models.Program selectedProgram) : base(currentPerson, projectFirmaPage)
+            Models.Program selectedProgram) : base(currentPerson, firmaPage)
         {
             FocusAreas = focusAreas;
             PageTitle = "EIP Results by Program";

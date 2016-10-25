@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Security
         protected FirmaBaseFeature(IList<IRole> grantedRoles) // params
         {
             // Force user to pass us empty lists to make life simpler
-            Check.RequireNotNull(grantedRoles, "Can\'t pass null for this Granted ProjectFirma Roles.");
+            Check.RequireNotNull(grantedRoles, "Can\'t pass null for Granted Roles.");
 
             // At least one of these must be set
             //Check.Ensure(grantedRoles.Any(), "Must set at least one Role");
@@ -81,10 +81,10 @@ namespace ProjectFirma.Web.Security
 
         public static bool IsAllowed<T>(SitkaRoute<T> sitkaRoute, Person currentPerson) where T : Controller
         {
-            var projectFirmaFeatureLookupAttribute = sitkaRoute.Body.Method.GetCustomAttributes(typeof(FirmaBaseFeature), true).Cast<FirmaBaseFeature>().SingleOrDefault();
-            Check.RequireNotNull(projectFirmaFeatureLookupAttribute, String.Format("Could not find feature for {0}", sitkaRoute.BuildUrlFromExpression()));
+            var firmaFeatureLookupAttribute = sitkaRoute.Body.Method.GetCustomAttributes(typeof(FirmaBaseFeature), true).Cast<FirmaBaseFeature>().SingleOrDefault();
+            Check.RequireNotNull(firmaFeatureLookupAttribute, String.Format("Could not find feature for {0}", sitkaRoute.BuildUrlFromExpression()));
             // ReSharper disable PossibleNullReferenceException
-            return projectFirmaFeatureLookupAttribute.HasPermissionByPerson(currentPerson);
+            return firmaFeatureLookupAttribute.HasPermissionByPerson(currentPerson);
             // ReSharper restore PossibleNullReferenceException
         }
 

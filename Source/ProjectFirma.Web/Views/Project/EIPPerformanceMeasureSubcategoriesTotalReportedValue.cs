@@ -80,14 +80,14 @@ namespace ProjectFirma.Web.Views.Project
         public decimal? CalculateWeightedTotalExpenditure()
         {
             var reportedValuesForAllSubcategories = EIPPerformanceMeasure.GetReportedEIPPerformanceMeasureValues(Project.ProjectID)
-                .Where(x => ProjectFirmaDateUtilities.DateIsInReportingRange(x.CalendarYear))
+                .Where(x => FirmaDateUtilities.DateIsInReportingRange(x.CalendarYear))
                 .Sum(x => x.ReportedValue ?? 0);
             if (Math.Abs(reportedValuesForAllSubcategories) < double.Epsilon)
             {
                 return null;
             }
 
-            var projectFundingSourceExpenditures = Project.ProjectFundingSourceExpenditures.Where(x => ProjectFirmaDateUtilities.DateIsInReportingRange(x.CalendarYear)).ToList();
+            var projectFundingSourceExpenditures = Project.ProjectFundingSourceExpenditures.Where(x => FirmaDateUtilities.DateIsInReportingRange(x.CalendarYear)).ToList();
             var weight = TotalReportedValue / reportedValuesForAllSubcategories;
             return projectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount) * Convert.ToDecimal(weight);
         }

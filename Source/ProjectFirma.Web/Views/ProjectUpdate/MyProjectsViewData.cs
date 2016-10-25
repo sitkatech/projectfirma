@@ -29,19 +29,19 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string ArbitraryHtmlPlaceholderID;
         public readonly string ArbitraryHtmlProjectFilterButtonsID;
 
-        public MyProjectsViewData(Person currentPerson, Models.ProjectFirmaPage projectFirmaPage, ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterType, string gridDataUrl) : base(currentPerson, projectFirmaPage)
+        public MyProjectsViewData(Person currentPerson, Models.FirmaPage firmaPage, ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterType, string gridDataUrl) : base(currentPerson, firmaPage)
         {
             ProjectUpdateStatusFilterType = projectUpdateStatusFilterType;
             switch (projectUpdateStatusFilterType)
             {
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MyProjectsRequiringAnUpdate:
-                    PageTitle = string.Format("Projects Requiring an Update for Reporting Year: {0}", ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+                    PageTitle = string.Format("Projects Requiring an Update for Reporting Year: {0}", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects:
-                    PageTitle = string.Format("Recently Submitted Projects for Reporting Year: {0}", ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+                    PageTitle = string.Format("Recently Submitted Projects for Reporting Year: {0}", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllMyProjects:
-                    PageTitle = string.Format("All My Projects for Reporting Year: {0}", ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+                    PageTitle = string.Format("All My Projects for Reporting Year: {0}", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects:
                     PageTitle = "All Projects";

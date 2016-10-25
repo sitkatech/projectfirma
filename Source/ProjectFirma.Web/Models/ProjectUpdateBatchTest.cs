@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Models
             var project = TestFramework.TestProject.Create();
             var projectUpdateBatch = ProjectUpdateBatch.CreateProjectUpdateBatchAndLogTransition(project, person);
             var projectUpdate = TestFramework.TestProjectUpdate.Create(projectUpdateBatch);
-            var currentYear = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             projectUpdate.PlanningDesignStartYear = currentYear;
             projectUpdate.ImplementationStartYear = currentYear;
             projectUpdate.CompletionYear = currentYear;
@@ -163,7 +163,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, "Precondition: no project update record yet");
 
             // Should just have one year, current year
-            var currentYear = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             AssertYearRangeForEIPPerformanceMeasuresCorrect(projectUpdateBatch, currentYear, currentYear);
 
             // create a project update record
@@ -175,7 +175,7 @@ namespace ProjectFirma.Web.Models
             // now set a start year
             // start year before minimum year for reporting (2007), no completion year
             projectUpdate.ImplementationStartYear = 2004;
-            AssertYearRangeForEIPPerformanceMeasuresCorrect(projectUpdateBatch, ProjectFirmaDateUtilities.MinimumYearForReporting, currentYear);
+            AssertYearRangeForEIPPerformanceMeasuresCorrect(projectUpdateBatch, FirmaDateUtilities.MinimumYearForReporting, currentYear);
 
             // start year in the past but greater than minimum year for reporting (2007), no completion year
             projectUpdate.ImplementationStartYear = currentYear - 3;
@@ -200,7 +200,7 @@ namespace ProjectFirma.Web.Models
             projectUpdate.ImplementationStartYear = null;
 
             projectUpdate.CompletionYear = 2006;
-            AssertYearRangeForEIPPerformanceMeasuresCorrect(projectUpdateBatch, ProjectFirmaDateUtilities.MinimumYearForReporting, ProjectFirmaDateUtilities.MinimumYearForReporting);
+            AssertYearRangeForEIPPerformanceMeasuresCorrect(projectUpdateBatch, FirmaDateUtilities.MinimumYearForReporting, FirmaDateUtilities.MinimumYearForReporting);
 
             // now set a completion year to be <= curent year but greater than minimum year for reporting (2007); expect it to be completion year to completion year
             projectUpdate.CompletionYear = currentYear;
@@ -242,7 +242,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, "Precondition: no project update record yet");
 
             // Should just have one year, current year
-            var currentYear = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             AssertYearRangeForExpendituresCorrect(projectUpdateBatch, currentYear, currentYear);
 
             // create a project update record
@@ -254,7 +254,7 @@ namespace ProjectFirma.Web.Models
             // now set a start year
             // start year before minimum year for reporting (2007), no completion year
             projectUpdate.PlanningDesignStartYear = 2004;
-            AssertYearRangeForExpendituresCorrect(projectUpdateBatch, ProjectFirmaDateUtilities.MinimumYearForReporting, currentYear);
+            AssertYearRangeForExpendituresCorrect(projectUpdateBatch, FirmaDateUtilities.MinimumYearForReporting, currentYear);
 
             // start year in the past but greater than minimum year for reporting (2007), no completion year
             projectUpdate.PlanningDesignStartYear = currentYear - 3;
@@ -279,7 +279,7 @@ namespace ProjectFirma.Web.Models
             projectUpdate.PlanningDesignStartYear = null;
 
             projectUpdate.CompletionYear = 2006;
-            AssertYearRangeForExpendituresCorrect(projectUpdateBatch, ProjectFirmaDateUtilities.MinimumYearForReporting, ProjectFirmaDateUtilities.MinimumYearForReporting);
+            AssertYearRangeForExpendituresCorrect(projectUpdateBatch, FirmaDateUtilities.MinimumYearForReporting, FirmaDateUtilities.MinimumYearForReporting);
 
             // now set a completion year to be <= curent year but greater than minimum year for reporting (2007); expect it to be completion year to completion year
             projectUpdate.CompletionYear = currentYear;
@@ -321,7 +321,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, "Precondition: no project update record yet");
 
             // Should just have one year, current year
-            var currentYear = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             AssertYearRangeForBudgetsCorrect(projectUpdateBatch, currentYear, currentYear);
 
             // create a project update record
@@ -374,7 +374,7 @@ namespace ProjectFirma.Web.Models
             // invalid year combo; should throw an exception
             projectUpdate.PlanningDesignStartYear = 2012;
             projectUpdate.CompletionYear = 2011;
-            Assert.Throws<PreconditionException>(() => ProjectFirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), projectUpdateBatch.ProjectUpdate, ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting()));
+            Assert.Throws<PreconditionException>(() => FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), projectUpdateBatch.ProjectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForReporting()));
 
             // both start and completion years before the minimum year; expect it to return start to completion year
             projectUpdate.PlanningDesignStartYear = 2003;
@@ -396,13 +396,13 @@ namespace ProjectFirma.Web.Models
 
             var result = projectUpdateBatch.ValidateExpendituresAndForceValidation();
             Assert.That(result.IsValid, Is.False, "Should not be valid since we do not have a Planning/Design Start Year set");
-            Assert.That(result.GetWarningMessages(), Is.EquivalentTo(new List<string> {ProjectFirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection}));
+            Assert.That(result.GetWarningMessages(), Is.EquivalentTo(new List<string> {FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection}));
 
-            var currentYear = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             projectUpdate.PlanningDesignStartYear = 2005;
             projectUpdate.ImplementationStartYear = currentYear;
             AssertExpenditureYears(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList(),
-                ProjectFirmaDateUtilities.MinimumYearForReporting,
+                FirmaDateUtilities.MinimumYearForReporting,
                 currentYear,
                 projectUpdateBatch,
                 false,
@@ -465,7 +465,7 @@ namespace ProjectFirma.Web.Models
                 "Has start year and completion year after current year, expenditure records inside validatable range, expect range of start year to current year to be missing except for the start year and completion year");
 
             // fill in the other years missing
-            ProjectFirmaDateUtilities.GetRangeOfYears(projectUpdate.PlanningDesignStartYear.Value, projectUpdate.CompletionYear.Value)
+            FirmaDateUtilities.GetRangeOfYears(projectUpdate.PlanningDesignStartYear.Value, projectUpdate.CompletionYear.Value)
                 .GetMissingYears(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList().Select(x => x.CalendarYear))
                 .ForEach(x => TestFramework.TestProjectFundingSourceExpenditureUpdate.Create(projectUpdateBatch, fundingSource1, x, 5000));
             AssertExpenditureYears(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList(),
@@ -516,9 +516,9 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdate.PlanningDesignStartYear, Is.Null, "Should not have a Planning/Design Start Year set");
             var result = projectUpdateBatch.ValidateTransportationBudgetsAndForceValidation();
             Assert.That(result.IsValid, Is.False, "Should not be valid since we do not have a Planning/Design Start Year set");
-            Assert.That(result.GetWarningMessages(), Is.EquivalentTo(new List<string> { ProjectFirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
+            Assert.That(result.GetWarningMessages(), Is.EquivalentTo(new List<string> { FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
 
-            var currentYear = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             projectUpdate.PlanningDesignStartYear = 2005;
             projectUpdate.ImplementationStartYear = currentYear;
             AssertBudgetYears(projectUpdateBatch.TransportationProjectBudgetUpdates.ToList(),
@@ -590,7 +590,7 @@ namespace ProjectFirma.Web.Models
                 "Has start year and completion year after current year, budget records inside validatable range, expect range of start year to completion year to be missing except for the start year and completion year");
 
             // fill in the other years missing
-            ProjectFirmaDateUtilities.GetRangeOfYears(projectUpdate.PlanningDesignStartYear.Value, projectUpdate.CompletionYear.Value)
+            FirmaDateUtilities.GetRangeOfYears(projectUpdate.PlanningDesignStartYear.Value, projectUpdate.CompletionYear.Value)
                 .GetMissingYears(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList().Select(x => x.CalendarYear))
                 .ForEach(x => TestFramework.TestTransportationProjectBudgetUpdate.Create(projectUpdateBatch, fundingSource1, TransportationProjectCostType.Construction, x, 5000));
             AssertBudgetYears(projectUpdateBatch.TransportationProjectBudgetUpdates.ToList(),
@@ -614,13 +614,13 @@ namespace ProjectFirma.Web.Models
 
             var result = projectUpdateBatch.ValidateEIPPerformanceMeasuresAndForceValidation();
             Assert.That(result.IsValid, Is.False, "Should not be valid since we do not have an Implementation Start Year set");
-            Assert.That(result.GetWarningMessages(), Is.EquivalentTo(new List<string> { ProjectFirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
+            Assert.That(result.GetWarningMessages(), Is.EquivalentTo(new List<string> { FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
 
-            var currentYear = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             projectUpdate.PlanningDesignStartYear = 2004;
             projectUpdate.ImplementationStartYear = 2005;
             AssertEIPPerformanceMeasures(projectUpdateBatch.EIPPerformanceMeasureActualUpdates.ToList(),
-                ProjectFirmaDateUtilities.MinimumYearForReporting,
+                FirmaDateUtilities.MinimumYearForReporting,
                 currentYear,
                 projectUpdateBatch,
                 false,
@@ -680,7 +680,7 @@ namespace ProjectFirma.Web.Models
                 "Has start year and completion year after current year, expenditure records inside validatable range, expect range of start year to current year to be missing except for the start year and completion year");
 
             // fill in the other years missing
-            ProjectFirmaDateUtilities.GetRangeOfYears(projectUpdate.ImplementationStartYear.Value, projectUpdate.CompletionYear.Value)
+            FirmaDateUtilities.GetRangeOfYears(projectUpdate.ImplementationStartYear.Value, projectUpdate.CompletionYear.Value)
                 .GetMissingYears(projectUpdateBatch.EIPPerformanceMeasureActualUpdates.ToList().Select(x => x.CalendarYear))
                 .ForEach(x => TestFramework.TestEIPPerformanceMeasureActualUpdate.Create(projectUpdateBatch, x));
             AssertEIPPerformanceMeasures(projectUpdateBatch.EIPPerformanceMeasureActualUpdates.ToList(),
@@ -710,7 +710,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdate.ImplementationStartYear, Is.Null, "Should not have an Implementation Start Year set");
             var result = projectUpdateBatch.ValidateEIPPerformanceMeasuresAndForceValidation();
             Assert.That(result.IsValid, Is.False, "Should not be valid since we do not have a Implementation Start Year set");
-            Assert.That(result.GetWarningMessages(), Is.EquivalentTo(new List<string> { ProjectFirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
+            Assert.That(result.GetWarningMessages(), Is.EquivalentTo(new List<string> { FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
 
             var currentYear = DateTime.Today.Year;
             projectUpdate.ImplementationStartYear = currentYear;
@@ -763,7 +763,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(result.IsValid, Is.EqualTo(isValid), string.Format("Should be {0}", isValid ? " valid" : "not valid"));
 
             var currentYearsEntered = projectFundingSourceExpenditureUpdates.Select(y => y.CalendarYear).Distinct().ToList();
-            var expectedMissingYears = ProjectFirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).ToList();
+            var expectedMissingYears = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).ToList();
             var fundingSources = projectFundingSourceExpenditureUpdates.Select(x => x.FundingSource).Distinct().ToList();
             if (!fundingSources.Any())
             {
@@ -808,7 +808,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(result.IsValid, Is.EqualTo(isValid), string.Format("Should be {0}", isValid ? " valid" : "not valid"));
 
             var currentYearsEntered = transportationProjectBudgetUpdates.Select(y => y.CalendarYear).Distinct().ToList();
-            var expectedMissingYears = ProjectFirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).ToList();
+            var expectedMissingYears = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).ToList();
             var fundingSources = transportationProjectBudgetUpdates.Select(x => x.FundingSource).Distinct().ToList();
             if (!fundingSources.Any())
             {
@@ -854,7 +854,7 @@ namespace ProjectFirma.Web.Models
 
             var currentYearsEntered = eipPerformanceMeasureActualUpdates.Select(y => y.CalendarYear).Distinct().ToList();
             var missingReportedValues = eipPerformanceMeasureActualUpdates.Where(x => !x.ActualValue.HasValue).ToList();
-            var expectedMissingYears = ProjectFirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).ToList();
+            var expectedMissingYears = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).ToList();
             var missingYearsMessage = string.Format("Missing Performance Measures for {0}", string.Join(", ", expectedMissingYears));
             if (expectedMissingYears.Any() && missingReportedValues.Any())
             {
@@ -879,21 +879,21 @@ namespace ProjectFirma.Web.Models
         private static void AssertYearRangeForEIPPerformanceMeasuresCorrect(ProjectUpdateBatch projectUpdateBatch, int startYear, int currentYear)
         {
             var result = ProjectUpdateBatch.GetProjectUpdateImplementationStartToCompletionYearRange(projectUpdateBatch.ProjectUpdate);
-            var expectedRange = ProjectFirmaDateUtilities.GetRangeOfYears(startYear, currentYear);
+            var expectedRange = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear);
             Assert.That(result, Is.EquivalentTo(expectedRange));
         }
 
         private static void AssertYearRangeForExpendituresCorrect(ProjectUpdateBatch projectUpdateBatch, int startYear, int currentYear)
         {
             var result = ProjectUpdateBatch.GetProjectUpdatePlanningDesignStartToCompletionYearRange(projectUpdateBatch.ProjectUpdate);
-            var expectedRange = ProjectFirmaDateUtilities.GetRangeOfYears(startYear, currentYear);
+            var expectedRange = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear);
             Assert.That(result, Is.EquivalentTo(expectedRange));
         }
 
         private static void AssertYearRangeForBudgetsCorrect(ProjectUpdateBatch projectUpdateBatch, int startYear, int currentYear)
         {
-            var result = ProjectFirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), projectUpdateBatch.ProjectUpdate, ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting());
-            var expectedRange = ProjectFirmaDateUtilities.GetRangeOfYears(startYear, currentYear);
+            var result = FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), projectUpdateBatch.ProjectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+            var expectedRange = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear);
             Assert.That(result, Is.EquivalentTo(expectedRange));
         }
     }

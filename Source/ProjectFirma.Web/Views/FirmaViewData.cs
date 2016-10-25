@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Views
         public string HtmlPageTitle;
         public string BreadCrumbTitle;
         public string EntityName;
-        public readonly Models.ProjectFirmaPage ProjectFirmaPage;
+        public readonly Models.FirmaPage FirmaPage;
         public readonly Person CurrentPerson;
         public readonly string FirmaHomeUrl;
         public readonly string LogInUrl;
@@ -33,18 +33,18 @@ namespace ProjectFirma.Web.Views
         public readonly string RequestSupportUrl;
 
         /// <summary>
-        /// Call for page without associated ProjectFirmaPage
+        /// Call for page without associated FirmaPage
         /// </summary>
         protected FirmaViewData(Person currentPerson) : this(currentPerson, null)
         {
         }
      
         /// <summary>
-        /// Call for page with associated ProjectFirmaPage
+        /// Call for page with associated FirmaPage
         /// </summary>
-        protected FirmaViewData(Person currentPerson, Models.ProjectFirmaPage projectFirmaPage)
+        protected FirmaViewData(Person currentPerson, Models.FirmaPage firmaPage)
         {
-            ProjectFirmaPage = projectFirmaPage;
+            FirmaPage = firmaPage;
 
             CurrentPerson = currentPerson;
             FirmaHomeUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(c => c.Index());
@@ -105,7 +105,7 @@ namespace ProjectFirma.Web.Views
             //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TagController>(c => c.Index()), currentPerson, "Project Tags", "Group6"));
             //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.Manage()), currentPerson, "Manage Project Updates", "Group6"));
 
-            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectFirmaPageController>(c => c.Index()), currentPerson, "Page Content", "Group7"));
+            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FirmaPageController>(c => c.Index()), currentPerson, "Page Content", "Group7"));
             //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FieldDefinitionController>(c => c.Index()), currentPerson, "Field Definitions", "Group7"));
             //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<UserController>(c => c.Index()), currentPerson, "Users", "Group7"));
 
@@ -173,7 +173,7 @@ namespace ProjectFirma.Web.Views
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.TransportationList()), currentPerson, "Transportation Project List", "Group2"));
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.MyOrganizationsProjects()), currentPerson, "My Organization's Projects", "Group2"));
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.MyProjectsRequiringAnUpdate()), currentPerson, "Update My Project(s)", "Group3"));
-            var projectUpdateStatusMenuItemName = string.Format("{0} Status of Project Updates", ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+            var projectUpdateStatusMenuItemName = string.Format("{0} Status of Project Updates", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.ProjectUpdateStatus()), currentPerson, projectUpdateStatusMenuItemName, "Group3"));
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProposedProjectController>(c => c.Index()), currentPerson, "Proposed Projects", "Group3"));
             return projectsMenu;

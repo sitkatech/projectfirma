@@ -164,7 +164,7 @@ select c.TABLE_CATALOG, c.TABLE_SCHEMA, c.TABLE_NAME, c.COLUMN_NAME
 from INFORMATION_SCHEMA.COLUMNS c
      join INFORMATION_SCHEMA.TABLES t on c.TABLE_CATALOG = t.TABLE_CATALOG and c.TABLE_SCHEMA = t.TABLE_SCHEMA and c.TABLE_NAME = t.TABLE_NAME
 where c.DATA_TYPE in ('char','nvarchar','text','ntext','varchar')
-      and t.TABLE_TYPE = 'BASE TABLE'  and t.TABLE_NAME not in ('AuditLog', 'ProjectFirmaPage', 'ThresholdReportingCategory', 'ProjectUpdateBatch')
+      and t.TABLE_TYPE = 'BASE TABLE'  and t.TABLE_NAME not in ('AuditLog', 'FirmaPage', 'ProjectUpdateBatch')
 ";
             List<string> sqlQueriesToGatherDataWithUrls;
             using (var command = new SqlCommand(findAnyColumnsThatCouldContainUrls))

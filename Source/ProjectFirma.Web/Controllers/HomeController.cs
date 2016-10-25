@@ -7,7 +7,7 @@ using ProjectFirma.Web.Security.Shared;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class HomeController : Web.Controllers.FirmaBaseController
+    public class HomeController : FirmaBaseController
     {
         [AnonymousUnclassifiedFeature]
         public FileResult ExportGridToExcel(string gridName, bool printFooter)
@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult Index()
         {
-            return ViewPageContent(ProjectFirmaPageTypeEnum.HomePage);
+            return ViewPageContent(FirmaPageTypeEnum.HomePage);
         }
 
         [AnonymousUnclassifiedFeature]
@@ -38,37 +38,37 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [AnonymousUnclassifiedFeature]
-        public ViewResult ViewPageContent(ProjectFirmaPageTypeEnum projectFirmaPageTypeEnum)
+        public ViewResult ViewPageContent(FirmaPageTypeEnum firmaPageTypeEnum)
         {
-            var projectFirmaPageType = ProjectFirmaPageType.ToType(projectFirmaPageTypeEnum);
-            var viewData = new DisplayEIPPageContentViewData(CurrentPerson, projectFirmaPageType);
+            var firmaPageType = FirmaPageType.ToType(firmaPageTypeEnum);
+            var viewData = new DisplayEIPPageContentViewData(CurrentPerson, firmaPageType);
             return RazorView<DisplayEIPPageContent, DisplayEIPPageContentViewData>(viewData);
         }
 
         [HttpGet]
         [PageContentManageFeature]
-        public ActionResult EditPageContent(ProjectFirmaPageTypeEnum projectFirmaPageTypeEnum)
+        public ActionResult EditPageContent(FirmaPageTypeEnum firmaPageTypeEnum)
         {
-            var projectFirmaPageType = ProjectFirmaPageType.ToType(projectFirmaPageTypeEnum);
-            var viewModel = new EditEIPPageContentViewModel(projectFirmaPageType);
-            var viewData = new EditEIPPageContentViewData(CurrentPerson, projectFirmaPageType);
+            var firmaPageType = FirmaPageType.ToType(firmaPageTypeEnum);
+            var viewModel = new EditEIPPageContentViewModel(firmaPageType);
+            var viewData = new EditEIPPageContentViewData(CurrentPerson, firmaPageType);
             return RazorView<EditEIPPageContent, EditEIPPageContentViewData, EditEIPPageContentViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
         [PageContentManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditPageContent(ProjectFirmaPageTypeEnum projectFirmaPageTypeEnum, EditEIPPageContentViewModel viewModel)
+        public ActionResult EditPageContent(FirmaPageTypeEnum firmaPageTypeEnum, EditEIPPageContentViewModel viewModel)
         {
-            var projectFirmaPageType = ProjectFirmaPageType.ToType(projectFirmaPageTypeEnum);
+            var firmaPageType = FirmaPageType.ToType(firmaPageTypeEnum);
             if (!ModelState.IsValid)
             {
-                var viewData = new EditEIPPageContentViewData(CurrentPerson, projectFirmaPageType);
+                var viewData = new EditEIPPageContentViewData(CurrentPerson, firmaPageType);
                 return RazorView<EditEIPPageContent, EditEIPPageContentViewData, EditEIPPageContentViewModel>(viewData, viewModel);
             }
-            viewModel.UpdateModel(projectFirmaPageType, CurrentPerson);
+            viewModel.UpdateModel(firmaPageType, CurrentPerson);
 
-            return RedirectToAction((new SitkaRoute<HomeController>(c => c.ViewPageContent(projectFirmaPageTypeEnum))));
+            return RedirectToAction((new SitkaRoute<HomeController>(c => c.ViewPageContent(firmaPageTypeEnum))));
         }
     }
 }

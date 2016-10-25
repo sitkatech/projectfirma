@@ -5,7 +5,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Delete Project")]
-    public class ProjectDeleteFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
+    public class ProjectDeleteFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 

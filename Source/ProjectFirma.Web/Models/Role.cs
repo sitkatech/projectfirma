@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Models
         public List<FeaturePermission> GetFeaturePermissions()
         {
             var featurePermissions = this.GetFeaturePermissions(typeof(EIPFeature));
-            featurePermissions.AddRange(this.GetFeaturePermissions(typeof(EIPFeatureWithContext)));
+            featurePermissions.AddRange(this.GetFeaturePermissions(typeof(FirmaFeatureWithContext)));
             return featurePermissions;
         }
 

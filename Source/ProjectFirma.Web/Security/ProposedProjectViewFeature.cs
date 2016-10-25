@@ -5,7 +5,7 @@ using ProjectFirma.Web.Security;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("View Proposed Project")]
-    public class ProposedProjectViewFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<ProposedProject>
+    public class ProposedProjectViewFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<ProposedProject>
     {
         private readonly FirmaFeatureWithContextImpl<ProposedProject> _firmaFeatureWithContextImpl;
 

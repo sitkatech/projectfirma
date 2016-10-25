@@ -102,12 +102,12 @@ namespace ProjectFirma.Web.Views.EIPPerformanceMeasureActual
 
             if (ProjectExemptReportingYears != null && ProjectExemptReportingYears.Any(x => x.IsExempt) && string.IsNullOrWhiteSpace(Explanation))
             {
-                errors.Add(new ValidationResult(ProjectFirmaValidationMessages.ExplanationNecessaryForProjectExemptYears));
+                errors.Add(new ValidationResult(FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears));
             }
 
             if ((ProjectExemptReportingYears == null || !ProjectExemptReportingYears.Any(x => x.IsExempt)) && !string.IsNullOrWhiteSpace(Explanation))
             {
-                errors.Add(new ValidationResult(ProjectFirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears));
+                errors.Add(new ValidationResult(FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears));
             }
 
             

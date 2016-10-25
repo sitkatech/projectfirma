@@ -3,7 +3,7 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("View User")]
-    public class UserViewFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<Person>
+    public class UserViewFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Person>
     {
         private readonly FirmaFeatureWithContextImpl<Person> _firmaFeatureWithContextImpl;
 

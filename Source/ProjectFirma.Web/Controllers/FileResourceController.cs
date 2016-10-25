@@ -126,13 +126,13 @@ namespace ProjectFirma.Web.Controllers
         }
 
         /// <summary>
-        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResource(ProjectFirmaPagePrimaryKey, CkEditorImageUploadViewModel)"/>
+        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResource(FirmaPagePrimaryKey, CkEditorImageUploadViewModel)"/>
         /// </summary>
         /// <returns></returns>
         [CrossAreaRoute]
         [HttpGet]
-        [ProjectFirmaPageManageFeature]
-        public ContentResult CkEditorUploadFileResource(ProjectFirmaPagePrimaryKey projectFirmaPagePrimaryKey)
+        [FirmaPageManageFeature]
+        public ContentResult CkEditorUploadFileResource(FirmaPagePrimaryKey firmaPagePrimaryKey)
         {
             return Content(String.Empty);
         }
@@ -140,24 +140,24 @@ namespace ProjectFirma.Web.Controllers
         [CrossAreaRoute]
         [HttpPost]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        [ProjectFirmaPageManageFeature]
-        public ContentResult CkEditorUploadFileResource(ProjectFirmaPagePrimaryKey projectFirmaPagePrimaryKey, CkEditorImageUploadViewModel viewModel)
+        [FirmaPageManageFeature]
+        public ContentResult CkEditorUploadFileResource(FirmaPagePrimaryKey firmaPagePrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
             var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
-            var projectFirmaPage = projectFirmaPagePrimaryKey.EntityObject;
-            var ppImage = new ProjectFirmaPageImage(projectFirmaPage, fileResource);
-            HttpRequestStorage.DatabaseEntities.ProjectFirmaPageImages.Add(ppImage);
+            var firmaPage = firmaPagePrimaryKey.EntityObject;
+            var ppImage = new FirmaPageImage(firmaPage, fileResource);
+            HttpRequestStorage.DatabaseEntities.FirmaPageImages.Add(ppImage);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
 
         /// <summary>
-        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResource(ProjectFirmaPagePrimaryKey, CkEditorImageUploadViewModel)"/>
+        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResource(FirmaPagePrimaryKey, CkEditorImageUploadViewModel)"/>
         /// </summary>
         /// <returns></returns>
         [CrossAreaRoute]
         [HttpGet]
-        [ProjectFirmaPageManageFeature]
-        public ContentResult CkEditorUploadFileResourceForProjectFirmaPage(ProjectFirmaPagePrimaryKey projectFirmaPagePrimaryKey)
+        [FirmaPageManageFeature]
+        public ContentResult CkEditorUploadFileResourceForFirmaPage(FirmaPagePrimaryKey firmaPagePrimaryKey)
         {
             return Content(String.Empty);
         }
@@ -166,13 +166,13 @@ namespace ProjectFirma.Web.Controllers
         [CrossAreaRoute]
         [HttpPost]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        [ProjectFirmaPageManageFeature]
-        public ContentResult CkEditorUploadFileResourceForProjectFirmaPage(ProjectFirmaPagePrimaryKey projectFirmaPagePrimaryKey, CkEditorImageUploadViewModel viewModel)
+        [FirmaPageManageFeature]
+        public ContentResult CkEditorUploadFileResourceForFirmaPage(FirmaPagePrimaryKey firmaPagePrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
             var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
-            var projectFirmaPage = projectFirmaPagePrimaryKey.EntityObject;
-            var ppImage = new ProjectFirmaPageImage(projectFirmaPage, fileResource);
-            HttpRequestStorage.DatabaseEntities.ProjectFirmaPageImages.Add(ppImage);
+            var firmaPage = firmaPagePrimaryKey.EntityObject;
+            var ppImage = new FirmaPageImage(firmaPage, fileResource);
+            HttpRequestStorage.DatabaseEntities.FirmaPageImages.Add(ppImage);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
 

@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Models
     /// -- SLG
     /// </summary>
     [TestFixture]
-    public class AuditLogTest : ProjectFirmaTestWithContext
+    public class AuditLogTest : FirmaTestWithContext
     {
         [Test]
         public void GetAuditDescriptionStringIfAnyTest()
@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Models
         public void TestFundingSourceAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
-            var projectFirmaUser = HttpRequestStorage.DatabaseEntities.People.First();
+            var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
 
             // Create audit logging
             // --------------------
@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Models
             var dbContext = HttpRequestStorage.DatabaseEntities;
             var testFundingSource = TestFramework.TestFundingSource.Create(dbContext);
             var testOrganization = TestFramework.TestOrganization.Create(dbContext);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this FundingSource
             System.Diagnostics.Trace.WriteLine(string.Format("Looking for Funding Source named \"{0}\" in Audit Log database entries.", testFundingSource.FundingSourceName));
@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Models
             var newFundingSourceName = TestFramework.MakeTestName("New Funding Source Name");
             testFundingSource.FundingSourceName = newFundingSourceName;
             testFundingSource.Organization = testOrganization;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW FundingSource name
             Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newFundingSourceName)));
@@ -133,7 +133,7 @@ namespace ProjectFirma.Web.Models
             // --------------------
 
             HttpRequestStorage.DatabaseEntities.FundingSources.Remove(testFundingSource);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this FundingSource name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
@@ -145,7 +145,7 @@ namespace ProjectFirma.Web.Models
         public void TestActionPriorityAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
-            var projectFirmaUser = HttpRequestStorage.DatabaseEntities.People.First();
+            var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
 
             // Create audit logging
             // --------------------
@@ -154,7 +154,7 @@ namespace ProjectFirma.Web.Models
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
             var testActionPriority = TestFramework.TestActionPriority.Create(dbContext);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this FundingSource
             System.Diagnostics.Trace.WriteLine(string.Format("Looking for Action Priority named \"{0}\" in Audit Log database entries.", testActionPriority.ActionPriorityName));
@@ -166,7 +166,7 @@ namespace ProjectFirma.Web.Models
             // Make changes to the Action Priority Source
             var newActionPriorityName = TestFramework.MakeTestName("New Action Priority Name", ActionPriority.FieldLengths.ActionPriorityName);
             testActionPriority.ActionPriorityName = newActionPriorityName;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW name
             Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newActionPriorityName)));
@@ -175,7 +175,7 @@ namespace ProjectFirma.Web.Models
             // --------------------
 
             HttpRequestStorage.DatabaseEntities.ActionPriorities.Remove(testActionPriority);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this FundingSource name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
@@ -187,7 +187,7 @@ namespace ProjectFirma.Web.Models
         public void TestProjectAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
-            var projectFirmaUser = HttpRequestStorage.DatabaseEntities.People.First();
+            var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
 
             // Create audit logging
             // --------------------
@@ -196,7 +196,7 @@ namespace ProjectFirma.Web.Models
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
             var testProject = TestFramework.TestProject.Create(dbContext);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
             System.Diagnostics.Trace.WriteLine(string.Format("Looking for Project named \"{0}\" in Audit Log database entries.", testProject.ProjectName));
@@ -208,7 +208,7 @@ namespace ProjectFirma.Web.Models
             // Make changes to the original object
             var newProjectName = TestFramework.MakeTestName("New Project Name", Project.FieldLengths.ProjectName);
             testProject.ProjectName = newProjectName;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW name
             Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newProjectName)));
@@ -217,7 +217,7 @@ namespace ProjectFirma.Web.Models
             // --------------------
 
             HttpRequestStorage.DatabaseEntities.Projects.Remove(testProject);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this Project name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
@@ -229,7 +229,7 @@ namespace ProjectFirma.Web.Models
         public void TestLocalAndRegionalPlanAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
-            var projectFirmaUser = HttpRequestStorage.DatabaseEntities.People.First();
+            var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
 
             // Create audit logging
             // --------------------
@@ -238,7 +238,7 @@ namespace ProjectFirma.Web.Models
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
             var testLocalAndRegionalPlan = TestFramework.TestLocalAndRegionalPlan.Create(dbContext);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
             System.Diagnostics.Trace.WriteLine(string.Format("Looking for LocalAndRegionalPlan named \"{0}\" in Audit Log database entries.", testLocalAndRegionalPlan.LocalAndRegionalPlanName));
@@ -250,7 +250,7 @@ namespace ProjectFirma.Web.Models
             // Make changes to the original object
             var newLocalAndRegionalPlanName = TestFramework.MakeTestName("New LocalAndRegionalPlan Name", LocalAndRegionalPlan.FieldLengths.LocalAndRegionalPlanName);
             testLocalAndRegionalPlan.LocalAndRegionalPlanName = newLocalAndRegionalPlanName;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW name
             Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newLocalAndRegionalPlanName)));
@@ -259,7 +259,7 @@ namespace ProjectFirma.Web.Models
             // --------------------
 
             HttpRequestStorage.DatabaseEntities.LocalAndRegionalPlans.Remove(testLocalAndRegionalPlan);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this LocalAndRegionalPlan name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
@@ -273,7 +273,7 @@ namespace ProjectFirma.Web.Models
         public void TestFocusAreaAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
-            var projectFirmaUser = HttpRequestStorage.DatabaseEntities.People.First();
+            var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
 
             // Create audit logging
             // --------------------
@@ -282,7 +282,7 @@ namespace ProjectFirma.Web.Models
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
             var testFocusArea = TestFramework.TestFocusArea.Create(dbContext);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
             System.Diagnostics.Trace.WriteLine(string.Format("Looking for FocusArea named \"{0}\" in Audit Log database entries.", testFocusArea.FocusAreaName));
@@ -294,7 +294,7 @@ namespace ProjectFirma.Web.Models
             // Make changes to the original object
             var newFocusAreaName = TestFramework.MakeTestName("New FocusArea Name", FocusArea.FieldLengths.FocusAreaName);
             testFocusArea.FocusAreaName = newFocusAreaName;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW name
             Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newFocusAreaName)));
@@ -303,7 +303,7 @@ namespace ProjectFirma.Web.Models
             // --------------------
 
             HttpRequestStorage.DatabaseEntities.FocusAreas.Remove(testFocusArea);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this FocusArea name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
@@ -315,7 +315,7 @@ namespace ProjectFirma.Web.Models
         public void TestOrganizationAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
-            var projectFirmaUser = HttpRequestStorage.DatabaseEntities.People.First();
+            var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
 
             // Create audit logging
             // --------------------
@@ -324,7 +324,7 @@ namespace ProjectFirma.Web.Models
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
             var testOrganization = TestFramework.TestOrganization.Create(dbContext);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
             System.Diagnostics.Trace.WriteLine(string.Format("Looking for Organization named \"{0}\" in Audit Log database entries.", testOrganization.OrganizationName));
@@ -336,7 +336,7 @@ namespace ProjectFirma.Web.Models
             // Make changes to the original object
             var newOrganizationName = TestFramework.MakeTestName("New Organization Name", Organization.FieldLengths.OrganizationName);
             testOrganization.OrganizationName = newOrganizationName;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW name
             Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newOrganizationName)));
@@ -345,7 +345,7 @@ namespace ProjectFirma.Web.Models
             // --------------------
 
             HttpRequestStorage.DatabaseEntities.Organizations.Remove(testOrganization);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this Organization name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
@@ -357,7 +357,7 @@ namespace ProjectFirma.Web.Models
         public void TestProgramAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
-            var projectFirmaUser = HttpRequestStorage.DatabaseEntities.People.First();
+            var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
 
             // Create audit logging
             // --------------------
@@ -366,7 +366,7 @@ namespace ProjectFirma.Web.Models
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
             var testProgram = TestFramework.TestProgram.Create(dbContext);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
             System.Diagnostics.Trace.WriteLine(string.Format("Looking for Program named \"{0}\" in Audit Log database entries.", testProgram.ProgramName));
@@ -378,7 +378,7 @@ namespace ProjectFirma.Web.Models
             // Make changes to the original object
             var newProgramName = TestFramework.MakeTestName("New Program Name", Program.FieldLengths.ProgramName);
             testProgram.ProgramName = newProgramName;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW name
             Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newProgramName)));
@@ -387,7 +387,7 @@ namespace ProjectFirma.Web.Models
             // --------------------
 
             HttpRequestStorage.DatabaseEntities.Programs.Remove(testProgram);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this Program name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
@@ -399,7 +399,7 @@ namespace ProjectFirma.Web.Models
         public void TestProjectNoteAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
-            var projectFirmaUser = HttpRequestStorage.DatabaseEntities.People.First();
+            var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
 
             // Create audit logging
             // --------------------
@@ -408,7 +408,7 @@ namespace ProjectFirma.Web.Models
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
             var testProjectNote = TestFramework.TestProjectNote.Create(dbContext);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
             System.Diagnostics.Trace.WriteLine(string.Format("Looking for ProjectNote \"{0}\" in Audit Log database entries.", testProjectNote.Note));
@@ -420,7 +420,7 @@ namespace ProjectFirma.Web.Models
             // Make changes to the original object
             var newProjectNoteName = TestFramework.MakeTestName("New ProjectNote", ProjectNote.FieldLengths.Note);
             testProjectNote.Note = newProjectNoteName;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW name
             Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newProjectNoteName)));
@@ -429,7 +429,7 @@ namespace ProjectFirma.Web.Models
             // --------------------
 
             HttpRequestStorage.DatabaseEntities.ProjectNotes.Remove(testProjectNote);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this ProjectNote name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
@@ -444,7 +444,7 @@ namespace ProjectFirma.Web.Models
             // -----------------------------------------------------------------
 
             // Get an arbitrary real-word person to do these actions
-            var projectFirmaUser = HttpRequestStorage.DatabaseEntities.People.First();
+            var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
 
             // Create audit logging
             // --------------------
@@ -453,7 +453,7 @@ namespace ProjectFirma.Web.Models
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
             var testProjectWatershed = TestFramework.TestProjectWatershed.Create(dbContext);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
             System.Diagnostics.Trace.WriteLine(string.Format("Looking for Watershed \"{0}\" in Audit Log database entries.", testProjectWatershed.WatershedID));
@@ -467,7 +467,7 @@ namespace ProjectFirma.Web.Models
             // Make changes to the original object
             var newWatershed = HttpRequestStorage.DatabaseEntities.Watersheds.First(ws => ws.WatershedID != testProjectWatershed.WatershedID);
             testProjectWatershed.WatershedID = newWatershed.WatershedID;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW ID in reference to our ProjectWatershed name
             Check.Assert(
@@ -478,7 +478,7 @@ namespace ProjectFirma.Web.Models
             // --------------------
 
             HttpRequestStorage.DatabaseEntities.ProjectWatersheds.Remove(testProjectWatershed);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this ProjectWatershed name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
@@ -491,7 +491,7 @@ namespace ProjectFirma.Web.Models
         public void TestWatershedAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
-            var projectFirmaUser = HttpRequestStorage.DatabaseEntities.People.First();
+            var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
 
             // Create audit logging
             // --------------------
@@ -500,7 +500,7 @@ namespace ProjectFirma.Web.Models
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
             var testWatershed = TestFramework.TestWatershed.Create(dbContext);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
             System.Diagnostics.Trace.WriteLine(string.Format("Looking for Watershed \"{0}\" in Audit Log database entries.", testWatershed.WatershedName));
@@ -512,7 +512,7 @@ namespace ProjectFirma.Web.Models
             // Make changes to the original object
             var newWatershedName = TestFramework.MakeTestName("New Watershed", Watershed.FieldLengths.WatershedName);
             testWatershed.WatershedName = newWatershedName;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW name
             Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newWatershedName)));
@@ -521,7 +521,7 @@ namespace ProjectFirma.Web.Models
             // --------------------
 
             HttpRequestStorage.DatabaseEntities.Watersheds.Remove(testWatershed);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this Watershed name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
@@ -533,7 +533,7 @@ namespace ProjectFirma.Web.Models
         public void TestThresholdCategoryAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
-            var projectFirmaUser = HttpRequestStorage.DatabaseEntities.People.First();
+            var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
 
             // Create audit logging
             // --------------------
@@ -542,7 +542,7 @@ namespace ProjectFirma.Web.Models
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
             var testThresholdCategory = TestFramework.TestThresholdCategory.Create(dbContext);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
             System.Diagnostics.Trace.WriteLine(string.Format("Looking for ThresholdCategory \"{0}\" in Audit Log database entries.", testThresholdCategory.ThresholdCategoryName));
@@ -556,7 +556,7 @@ namespace ProjectFirma.Web.Models
             var newThresholdCategoryDescription = TestFramework.MakeTestName("New ThresholdCategoryDescription");
             testThresholdCategory.ThresholdCategoryName = newThresholdCategoryName;
             testThresholdCategory.ThresholdCategoryDescription = newThresholdCategoryDescription;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW name
             Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newThresholdCategoryName)));
@@ -565,7 +565,7 @@ namespace ProjectFirma.Web.Models
             // --------------------
 
             HttpRequestStorage.DatabaseEntities.ThresholdCategories.Remove(testThresholdCategory);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this ThresholdCategory name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
@@ -578,7 +578,7 @@ namespace ProjectFirma.Web.Models
         public void TestProjectLocalAndRegionalPlanAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
-            var projectFirmaUser = HttpRequestStorage.DatabaseEntities.People.First();
+            var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
 
             // Create audit logging
             // --------------------
@@ -587,7 +587,7 @@ namespace ProjectFirma.Web.Models
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
             var testProjectLocalAndRegionalPlan = TestFramework.TestProjectLocalAndRegionalPlan.Create(dbContext);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
             System.Diagnostics.Trace.WriteLine(string.Format("Looking for ProjectLocalAndRegionalPlan \"{0}\" in Audit Log database entries.", testProjectLocalAndRegionalPlan.ProjectID));
@@ -605,7 +605,7 @@ namespace ProjectFirma.Web.Models
             var anotherProject = dbContext.Projects.First(p => p.ProjectID != testProjectLocalAndRegionalPlan.ProjectID);
             testProjectLocalAndRegionalPlan.Project = anotherProject;
             testProjectLocalAndRegionalPlan.ProjectID = anotherProject.ProjectID;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW entity
             Check.Assert(
@@ -616,7 +616,7 @@ namespace ProjectFirma.Web.Models
             // --------------------
 
             HttpRequestStorage.DatabaseEntities.ProjectLocalAndRegionalPlans.Remove(testProjectLocalAndRegionalPlan);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(projectFirmaUser);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this ProjectLocalAndRegionalPlan name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.ToList()

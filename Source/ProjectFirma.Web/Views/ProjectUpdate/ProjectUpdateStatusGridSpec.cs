@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 {
                     var projectUpdateState = x.GetLatestUpdateState();
                     if (projectUpdateState == null ||
-                        (projectUpdateState == ProjectUpdateState.Approved && x.GetLatestApprovedUpdateBatch().LastUpdateDate < ProjectFirmaDateUtilities.LastReportingPeriodStartDate()))
+                        (projectUpdateState == ProjectUpdateState.Approved && x.GetLatestApprovedUpdateBatch().LastUpdateDate < FirmaDateUtilities.LastReportingPeriodStartDate()))
                         return "Not Started";
 
                     return projectUpdateState.ToEnum.ToString();

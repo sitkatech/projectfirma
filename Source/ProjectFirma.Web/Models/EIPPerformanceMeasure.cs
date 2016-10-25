@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Models
         public List<EIPPerformanceMeasureSubcategoriesTotalReportedValue> SubcategoriesTotalReportedValues()
         {
             var groupByProjectAndSubcategory = GetReportedEIPPerformanceMeasureValues()
-                .Where(x => ProjectFirmaDateUtilities.DateIsInReportingRange(x.CalendarYear))
+                .Where(x => FirmaDateUtilities.DateIsInReportingRange(x.CalendarYear))
                 .GroupBy(x => new { x.Project, x.IndicatorSubcategoriesAsString }).ToList();
 
             return groupByProjectAndSubcategory.Select(reportedValuesGroup => new EIPPerformanceMeasureSubcategoriesTotalReportedValue(reportedValuesGroup.Key.Project, reportedValuesGroup.First().IndicatorSubcategoryOptions, this, reportedValuesGroup.Sum(x => x.ReportedValue))).ToList();
@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Models
                 projectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.GetExpendituresFromMininumYearForReportingOnward().ToList();
             }
 
-            var yearRange = ProjectFirmaDateUtilities.GetRangeOfYearsForReporting();
+            var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
 
             List<EIPPerformanceMeasureReportedValue> reportedValues;
             if (projectIDs != null && projectIDs.Any())
@@ -140,14 +140,14 @@ namespace ProjectFirma.Web.Models
             {
                 return new List<GoogleChartJson> {IndicatorSubcategory.MakeGoogleChartJsonForPM33(eipPerformanceMeasure,
                     projectFundingSourceExpenditures,
-                    yearRange.Where(x => x >= ProjectFirmaDateUtilities.GetMinimumYearForReportingExpenditures()).ToList())};
+                    yearRange.Where(x => x >= FirmaDateUtilities.GetMinimumYearForReportingExpenditures()).ToList())};
             }
 
             if (eipPerformanceMeasure.EIPPerformanceMeasureType == EIPPerformanceMeasureType.EIPPerformanceMeasure34)
             {
                 return new List<GoogleChartJson> {IndicatorSubcategory.MakeGoogleChartJsonForPM34(eipPerformanceMeasure,
                     reportedValues,
-                    yearRange.Where(x => x >= ProjectFirmaDateUtilities.GetMinimumYearForReportingExpenditures()).ToList())};
+                    yearRange.Where(x => x >= FirmaDateUtilities.GetMinimumYearForReportingExpenditures()).ToList())};
             }
             return IndicatorSubcategory.MakeGoogleChartJsonsForEIPSubcategories(eipPerformanceMeasure, reportedValues, yearRange);
         }

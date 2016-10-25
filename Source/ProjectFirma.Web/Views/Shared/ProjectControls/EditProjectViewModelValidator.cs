@@ -56,10 +56,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                 .WithName(Models.FieldDefinition.ProjectName.FieldDefinitionDisplayName)
                 .Length(1, Models.Project.FieldLengths.ProjectName)
                 .Must((viewModel, projectName) => Models.Project.IsProjectNameUnique(Projects(), projectName, viewModel.ProjectID))
-                .WithMessage(ProjectFirmaValidationMessages.ProjectNameUnique);
+                .WithMessage(FirmaValidationMessages.ProjectNameUnique);
             RuleFor(x => x.ProjectDescription).NotEmpty().WithName(Models.FieldDefinition.ProjectDescription.FieldDefinitionDisplayName);
-            RuleFor(x => x.ImplementationStartYear).GreaterThanOrEqualTo(x => x.PlanningDesignStartYear ?? 0).WithMessage(ProjectFirmaValidationMessages.ImplementationStartYearGreaterThanPlanningDesignStartYear);
-            RuleFor(x => x.CompletionYear).GreaterThanOrEqualTo(x => x.ImplementationStartYear ?? 0).WithMessage(ProjectFirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear);
+            RuleFor(x => x.ImplementationStartYear).GreaterThanOrEqualTo(x => x.PlanningDesignStartYear ?? 0).WithMessage(FirmaValidationMessages.ImplementationStartYearGreaterThanPlanningDesignStartYear);
+            RuleFor(x => x.CompletionYear).GreaterThanOrEqualTo(x => x.ImplementationStartYear ?? 0).WithMessage(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear);
             RuleFor(x => x.ActionPriorityID).NotEmpty().WithName(Models.FieldDefinition.ActionPriority.FieldDefinitionDisplayName);
             RuleFor(x => x.ProjectStageID).NotEmpty().WithName(Models.FieldDefinition.Stage.FieldDefinitionDisplayName);
             RuleFor(x => x.LeadImplementerOrganizationID)

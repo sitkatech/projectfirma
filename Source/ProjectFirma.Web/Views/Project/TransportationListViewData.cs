@@ -11,7 +11,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public TransportationListViewData(Person currentPerson, Models.ProjectFirmaPage projectFirmaPage) : base(currentPerson, projectFirmaPage)
+        public TransportationListViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             PageTitle = "Transportation Project List";
 

@@ -18,6 +18,8 @@
     <EntitySet Name="FieldDefinitionData" EntityType="ProjectFirma.Web.Models.Store.FieldDefinitionData" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FieldDefinitionImage" EntityType="ProjectFirma.Web.Models.Store.FieldDefinitionImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FileResource" EntityType="ProjectFirma.Web.Models.Store.FileResource" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FirmaPage" EntityType="ProjectFirma.Web.Models.Store.FirmaPage" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FirmaPageImage" EntityType="ProjectFirma.Web.Models.Store.FirmaPageImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FocusArea" EntityType="ProjectFirma.Web.Models.Store.FocusArea" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FocusAreaImage" EntityType="ProjectFirma.Web.Models.Store.FocusAreaImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FundingSource" EntityType="ProjectFirma.Web.Models.Store.FundingSource" store:Type="Tables" Schema="dbo" />
@@ -46,8 +48,6 @@
     <EntitySet Name="ProjectExemptReportingYearUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectExemptReportingYearUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectExternalLink" EntityType="ProjectFirma.Web.Models.Store.ProjectExternalLink" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectExternalLinkUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectExternalLinkUpdate" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProjectFirmaPage" EntityType="ProjectFirma.Web.Models.Store.ProjectFirmaPage" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProjectFirmaPageImage" EntityType="ProjectFirma.Web.Models.Store.ProjectFirmaPageImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectFundingOrganization" EntityType="ProjectFirma.Web.Models.Store.ProjectFundingOrganization" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectFundingSourceExpenditure" EntityType="ProjectFirma.Web.Models.Store.ProjectFundingSourceExpenditure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectFundingSourceExpenditureUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectFundingSourceExpenditureUpdate" store:Type="Tables" Schema="dbo" />
@@ -246,6 +246,14 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
       <End Role="CreatePerson" EntitySet="Person" />
       <End Role="FileResourcesWhereYouAreTheCreatePerson" EntitySet="FileResource" />
     </AssociationSet>
+    <AssociationSet Name="FK_FirmaPageImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_FirmaPageImage_FileResource_FileResourceID">
+      <End Role="FileResource" EntitySet="FileResource" />
+      <End Role="FirmaPageImages" EntitySet="FirmaPageImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FirmaPageImage_FirmaPage_FirmaPageID" Association="ProjectFirma.Web.Models.Store.FK_FirmaPageImage_FirmaPage_FirmaPageID">
+      <End Role="FirmaPage" EntitySet="FirmaPage" />
+      <End Role="FirmaPageImages" EntitySet="FirmaPageImage" />
+    </AssociationSet>
     <AssociationSet Name="FK_FocusAreaImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_FocusAreaImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="FocusAreaImages" EntitySet="FocusAreaImage" />
@@ -401,14 +409,6 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
     <AssociationSet Name="FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectExternalLinkUpdates" EntitySet="ProjectExternalLinkUpdate" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectFirmaPageImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFirmaPageImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="ProjectFirmaPageImages" EntitySet="ProjectFirmaPageImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID">
-      <End Role="ProjectFirmaPage" EntitySet="ProjectFirmaPage" />
-      <End Role="ProjectFirmaPageImages" EntitySet="ProjectFirmaPageImage" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectFundingOrganization_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFundingOrganization_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
@@ -961,6 +961,22 @@ warning 6035: The relationship 'FK_EIPPerformanceMeasureExpectedSubcategoryOptio
     <Property Name="CreatePersonID" Type="int" Nullable="false" />
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
   </EntityType>
+  <EntityType Name="FirmaPage">
+    <Key>
+      <PropertyRef Name="FirmaPageID" />
+    </Key>
+    <Property Name="FirmaPageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="FirmaPageTypeID" Type="int" Nullable="false" />
+    <Property Name="FirmaPageContent" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="FirmaPageImage">
+    <Key>
+      <PropertyRef Name="FirmaPageImageID" />
+    </Key>
+    <Property Name="FirmaPageImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="FirmaPageID" Type="int" Nullable="false" />
+    <Property Name="FileResourceID" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="FocusArea">
     <Key>
       <PropertyRef Name="FocusAreaID" />
@@ -1278,22 +1294,6 @@ warning 6035: The relationship 'FK_SnapshotEIPPerformanceMeasureSubcategoryOptio
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="ExternalLinkLabel" Type="varchar" Nullable="false" MaxLength="300" />
     <Property Name="ExternalLinkUrl" Type="varchar" Nullable="false" MaxLength="300" />
-  </EntityType>
-  <EntityType Name="ProjectFirmaPage">
-    <Key>
-      <PropertyRef Name="ProjectFirmaPageID" />
-    </Key>
-    <Property Name="ProjectFirmaPageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ProjectFirmaPageTypeID" Type="int" Nullable="false" />
-    <Property Name="ProjectFirmaPageContent" Type="varchar(max)" />
-  </EntityType>
-  <EntityType Name="ProjectFirmaPageImage">
-    <Key>
-      <PropertyRef Name="ProjectFirmaPageImageID" />
-    </Key>
-    <Property Name="ProjectFirmaPageImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ProjectFirmaPageID" Type="int" Nullable="false" />
-    <Property Name="FileResourceID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectFundingOrganization">
     <Key>
@@ -2293,6 +2293,30 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_FirmaPageImage_FileResource_FileResourceID">
+    <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
+    <End Role="FirmaPageImages" Type="ProjectFirma.Web.Models.Store.FirmaPageImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="FirmaPageImages">
+        <PropertyRef Name="FileResourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FirmaPageImage_FirmaPage_FirmaPageID">
+    <End Role="FirmaPage" Type="ProjectFirma.Web.Models.Store.FirmaPage" Multiplicity="1" />
+    <End Role="FirmaPageImages" Type="ProjectFirma.Web.Models.Store.FirmaPageImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FirmaPage">
+        <PropertyRef Name="FirmaPageID" />
+      </Principal>
+      <Dependent Role="FirmaPageImages">
+        <PropertyRef Name="FirmaPageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_FocusAreaImage_FileResource_FileResourceID">
     <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
     <End Role="FocusAreaImages" Type="ProjectFirma.Web.Models.Store.FocusAreaImage" Multiplicity="*" />
@@ -2758,30 +2782,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
       </Principal>
       <Dependent Role="ProjectExternalLinkUpdates">
         <PropertyRef Name="ProjectUpdateBatchID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectFirmaPageImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
-    <End Role="ProjectFirmaPageImages" Type="ProjectFirma.Web.Models.Store.ProjectFirmaPageImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="ProjectFirmaPageImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectFirmaPageImage_ProjectFirmaPage_ProjectFirmaPageID">
-    <End Role="ProjectFirmaPage" Type="ProjectFirma.Web.Models.Store.ProjectFirmaPage" Multiplicity="1" />
-    <End Role="ProjectFirmaPageImages" Type="ProjectFirma.Web.Models.Store.ProjectFirmaPageImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProjectFirmaPage">
-        <PropertyRef Name="ProjectFirmaPageID" />
-      </Principal>
-      <Dependent Role="ProjectFirmaPageImages">
-        <PropertyRef Name="ProjectFirmaPageID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

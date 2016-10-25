@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Security
 
         public static bool IsContextFeatureByInheritance(Attribute featureAttribute)
         {
-            return featureAttribute is EIPFeatureWithContext;
+            return featureAttribute is FirmaFeatureWithContext;
         }
     }
 }

@@ -15,7 +15,6 @@ using ProjectFirma.Web.Views.Shared.EIPPerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Tag;
-using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
@@ -343,8 +342,8 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsViewFullListFeature]
         public ViewResult Index()
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.FullProjectList);
-            var viewData = new IndexViewData(CurrentPerson, projectFirmaPage);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.FullProjectList);
+            var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -484,8 +483,8 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsViewFiveYearListFeature] 
         public ViewResult FiveYearList()
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.FiveYearProjectList);
-            var viewData = new FiveYearListViewData(CurrentPerson, projectFirmaPage);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.FiveYearProjectList);
+            var viewData = new FiveYearListViewData(CurrentPerson, firmaPage);
             return RazorView<FiveYearList, FiveYearListViewData>(viewData);
         }
 
@@ -507,9 +506,9 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsViewFullListFeature]
         public ViewResult CompletedList()
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.CompletedProjectList);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.CompletedProjectList);
 
-            var viewData = new CompletedListViewData(CurrentPerson, projectFirmaPage);
+            var viewData = new CompletedListViewData(CurrentPerson, firmaPage);
             return RazorView<CompletedList, CompletedListViewData>(viewData);
         }
 
@@ -531,9 +530,9 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsViewTerminatedListFeature]
         public ViewResult TerminatedList()
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.TerminatedProjectList);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.TerminatedProjectList);
 
-            var viewData = new TerminatedListViewData(CurrentPerson, projectFirmaPage);
+            var viewData = new TerminatedListViewData(CurrentPerson, firmaPage);
             return RazorView<TerminatedList, TerminatedListViewData>(viewData);
         }
 
@@ -556,8 +555,8 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult TransportationList()
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.TransportationProjectList);
-            var viewData = new TransportationListViewData(CurrentPerson, projectFirmaPage);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.TransportationProjectList);
+            var viewData = new TransportationListViewData(CurrentPerson, firmaPage);
             return RazorView<TransportationList, TransportationListViewData>(viewData);
         }
 
@@ -652,8 +651,8 @@ namespace ProjectFirma.Web.Controllers
         [ProjectManageFeaturedFeature]
         public ViewResult FeaturedList()
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.FeaturedProjectList);
-            var viewData = new FeaturedListViewData(CurrentPerson, projectFirmaPage);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.FeaturedProjectList);
+            var viewData = new FeaturedListViewData(CurrentPerson, firmaPage);
             return RazorView<FeaturedList, FeaturedListViewData>(viewData);
         }
 
@@ -707,9 +706,9 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsViewFullListFeature]
         public ViewResult FullProjectListSimple()
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.FullProjectListSimple);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.FullProjectListSimple);
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().OrderBy(x => x.ProjectNumberString).ToList();
-            var viewData = new FullProjectListSimpleViewData(CurrentPerson, projectFirmaPage, projects);
+            var viewData = new FullProjectListSimpleViewData(CurrentPerson, firmaPage, projects);
             return RazorView<FullProjectListSimple, FullProjectListSimpleViewData>(viewData);
         }
 
@@ -844,9 +843,9 @@ Continue with a new project update?
         [ProjectsViewMyOrganizationsProjectListFeature]
         public ViewResult MyOrganizationsProjects()
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.MyOrganizationsProjects);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.MyOrganizationsProjects);
 
-            var viewData = new MyOrganizationsProjectsViewData(CurrentPerson, projectFirmaPage);
+            var viewData = new MyOrganizationsProjectsViewData(CurrentPerson, firmaPage);
             return RazorView<MyOrganizationsProjects, MyOrganizationsProjectsViewData>(viewData);
         }
 

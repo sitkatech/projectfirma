@@ -6,7 +6,7 @@ namespace ProjectFirma.Web.Models
     {
         public decimal GetPreReportingYearExpenditures()
         {
-            if (ProjectFirmaDateUtilities.GetMinimumYearForReportingExpenditures() == 2007)
+            if (FirmaDateUtilities.GetMinimumYearForReportingExpenditures() == 2007)
             {
                 return Pre2007Expenditures;
             }

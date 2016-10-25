@@ -21,15 +21,15 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly int ProjectsWithNoContactCount;
 
         public ManageViewData(Person currentPerson,
-            Models.ProjectFirmaPage projectFirmaPage,
+            Models.FirmaPage firmaPage,
             string sendReminderEmailsUrl,
             string customNotificationUrl,
             ProjectUpdateStatusGridSpec projectsRequiringUpdateGridSpec,
             string projectsRequiringUpdateGridDataUrl,
             PeopleReceivingReminderGridSpec peopleReceivingReminderGridSpec,
-            string peopleReceivingReminderGridDataUrl, int projectsWithNoContactCount) : base(currentPerson, projectFirmaPage)
+            string peopleReceivingReminderGridDataUrl, int projectsWithNoContactCount) : base(currentPerson, firmaPage)
         {
-            var reportingYear = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             PageTitle = string.Format("Project Update Notifications for Reporting Year: {0}", reportingYear);
             ReportingYear = reportingYear;
             SendReminderEmailsUrl = sendReminderEmailsUrl;

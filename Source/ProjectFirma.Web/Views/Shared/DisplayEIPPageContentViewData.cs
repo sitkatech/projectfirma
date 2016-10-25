@@ -9,11 +9,11 @@ namespace ProjectFirma.Web.Views.Shared
         public readonly bool ShowEditButton;
         public readonly string EditUrl;
 
-        public DisplayEIPPageContentViewData(Person currentPerson, ProjectFirmaPageType projectFirmaPageType) : base(currentPerson, Models.ProjectFirmaPage.GetProjectFirmaPageByPageType(projectFirmaPageType))
+        public DisplayEIPPageContentViewData(Person currentPerson, FirmaPageType firmaPageType) : base(currentPerson, Models.FirmaPage.GetFirmaPageByPageType(firmaPageType))
         {
-            PageTitle = projectFirmaPageType.ProjectFirmaPageTypeDisplayName;
-            ShowEditButton = new ProjectFirmaPageManageFeature().HasPermission(currentPerson, Models.ProjectFirmaPage.GetProjectFirmaPageByPageType(projectFirmaPageType)).HasPermission;
-            EditUrl = SitkaRoute<Controllers.HomeController>.BuildUrlFromExpression(x => x.EditPageContent(projectFirmaPageType.ToEnum));
+            PageTitle = firmaPageType.FirmaPageTypeDisplayName;
+            ShowEditButton = new FirmaPageManageFeature().HasPermission(currentPerson, Models.FirmaPage.GetFirmaPageByPageType(firmaPageType)).HasPermission;
+            EditUrl = SitkaRoute<Controllers.HomeController>.BuildUrlFromExpression(x => x.EditPageContent(firmaPageType.ToEnum));
         }
     }
 }

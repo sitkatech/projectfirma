@@ -190,7 +190,7 @@ namespace ProjectFirma.Web.Models
                 if (latestApprovedUpdateBatch == null)
                     return true;
 
-                if (latestApprovedUpdateBatch.LastUpdateDate < ProjectFirmaDateUtilities.LastReportingPeriodStartDate())
+                if (latestApprovedUpdateBatch.LastUpdateDate < FirmaDateUtilities.LastReportingPeriodStartDate())
                 {
                     return true;
                 }
@@ -222,7 +222,7 @@ namespace ProjectFirma.Web.Models
                 return null;
 
             if (ProjectUpdateBatches.Count(x => x.ProjectUpdateState != ProjectUpdateState.Approved) > 1)
-                throw new Exception(ProjectFirmaValidationMessages.MoreThanOneProjectUpdateInProgress);
+                throw new Exception(FirmaValidationMessages.MoreThanOneProjectUpdateInProgress);
 
             return ProjectUpdateBatches.MaxBy(x => x.LastUpdateDate).ProjectUpdateState;
         }

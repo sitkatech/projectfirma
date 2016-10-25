@@ -19,13 +19,13 @@ namespace ProjectFirma.Web.Views.Home
         public readonly string FullMapUrl;
 
         public IndexViewData(Person currentPerson,
-            Models.ProjectFirmaPage projectFirmaPage,
+            Models.FirmaPage firmaPage,
             bool hasEditPermissions,
             HtmlString introNarrativeContent,
             HtmlString additionalInfoContent,
             List<Models.Project> featuredProjects,
             ProjectLocationsMapViewData projectLocationsMapViewData,
-            ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentPerson, projectFirmaPage)
+            ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentPerson, firmaPage)
         {
             PageTitle = "Clackamas Partnership Project Tracker";
 

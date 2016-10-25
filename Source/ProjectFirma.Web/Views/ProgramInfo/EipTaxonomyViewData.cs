@@ -8,8 +8,8 @@ namespace ProjectFirma.Web.Views.ProgramInfo
     {
         public readonly List<FancyTreeNode> FocusAreasAsFancyTreeNodes;
 
-        public EipTaxonomyViewData(Person currentPerson, Models.ProjectFirmaPage projectFirmaPage,
-            List<FancyTreeNode> focusAreasAsFancyTreeNodes) : base(currentPerson, projectFirmaPage)
+        public EipTaxonomyViewData(Person currentPerson, Models.FirmaPage firmaPage,
+            List<FancyTreeNode> focusAreasAsFancyTreeNodes) : base(currentPerson, firmaPage)
         {
             FocusAreasAsFancyTreeNodes = focusAreasAsFancyTreeNodes;
             PageTitle = "EIP Focus Areas, Programs, and Action Priorities";

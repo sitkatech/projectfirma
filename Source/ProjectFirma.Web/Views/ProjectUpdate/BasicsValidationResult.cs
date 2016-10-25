@@ -58,15 +58,15 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             if (projectUpdate.ImplementationStartYear < projectUpdate.PlanningDesignStartYear)
             {
-                _warningMessages.Add(ProjectFirmaValidationMessages.ImplementationStartYearGreaterThanPlanningDesignStartYear);
+                _warningMessages.Add(FirmaValidationMessages.ImplementationStartYearGreaterThanPlanningDesignStartYear);
             }
             if (projectUpdate.CompletionYear < projectUpdate.ImplementationStartYear)
             {
-                _warningMessages.Add(ProjectFirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear);
+                _warningMessages.Add(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear);
             }
             if (projectUpdate.CompletionYear < projectUpdate.PlanningDesignStartYear)
             {
-                _warningMessages.Add(ProjectFirmaValidationMessages.CompletionYearGreaterThanEqualToPlanningDesignStartYear);
+                _warningMessages.Add(FirmaValidationMessages.CompletionYearGreaterThanEqualToPlanningDesignStartYear);
             }
         }
 

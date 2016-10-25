@@ -267,11 +267,11 @@ namespace ProjectFirma.Web.Models
 
         private static List<int> GetYearRangesImpl(ProjectUpdate projectUpdate, int? startYear)
         {
-            var currentYearToUse = ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var currentYearToUse = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             if (projectUpdate != null)
             {
-                if (startYear.HasValue && startYear.Value < ProjectFirmaDateUtilities.MinimumYearForReporting &&
-                    (projectUpdate.CompletionYear.HasValue && projectUpdate.CompletionYear.Value < ProjectFirmaDateUtilities.MinimumYearForReporting))
+                if (startYear.HasValue && startYear.Value < FirmaDateUtilities.MinimumYearForReporting &&
+                    (projectUpdate.CompletionYear.HasValue && projectUpdate.CompletionYear.Value < FirmaDateUtilities.MinimumYearForReporting))
                 {
                     // both start and completion year are before the minimum year, so no year range required
                     return new List<int>();
@@ -287,11 +287,11 @@ namespace ProjectFirma.Web.Models
                     return new List<int>();
                 }
             }
-            return ProjectFirmaDateUtilities.CalculateCalendarYearRangeAccountingForExistingYears(new List<int>(),
+            return FirmaDateUtilities.CalculateCalendarYearRangeAccountingForExistingYears(new List<int>(),
                 startYear,
                 projectUpdate == null ? null : projectUpdate.CompletionYear,
                 currentYearToUse,
-                ProjectFirmaDateUtilities.MinimumYearForReporting,
+                FirmaDateUtilities.MinimumYearForReporting,
                 currentYearToUse);
         }
 
@@ -327,7 +327,7 @@ namespace ProjectFirma.Web.Models
         {
             if (!AreProjectBasicsValid)
             {
-                return new EIPPerformanceMeasuresValidationResult(ProjectFirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection);
+                return new EIPPerformanceMeasuresValidationResult(FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection);
             }
             
             // validation 1: ensure that we have PM values from ProjectUpdate start year to min(endyear, currentyear); if the ProjectUpdate record has a stage of Planning/Design, we do not do this validation
@@ -369,7 +369,7 @@ namespace ProjectFirma.Web.Models
         {
             if (!AreProjectBasicsValid)
             {
-                return new ExpendituresValidationResult(ProjectFirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection);
+                return new ExpendituresValidationResult(FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection);
             }
 
             if (ProjectUpdate.ProjectStage.RequiresReportedExpenditures() || ProjectUpdate.ProjectStage == ProjectStage.Completed)
@@ -424,13 +424,13 @@ namespace ProjectFirma.Web.Models
 
             if (!AreProjectBasicsValid)
             {
-                return new TransportationBudgetsValidationResult(ProjectFirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection);
+                return new TransportationBudgetsValidationResult(FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection);
             }
 
             // get distinct Funding Sources
             var fundingSources = TransportationProjectBudgetUpdates.Select(x => x.FundingSource).Distinct().ToList();
             // validation 1: ensure that we have budget values from ProjectUpdate start year to min(endyear, currentyear)
-            var yearsExpected = ProjectFirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), ProjectUpdate, ProjectFirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+            var yearsExpected = FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), ProjectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
             if (!fundingSources.Any())
             {
                 // we need to at least check for the missing years

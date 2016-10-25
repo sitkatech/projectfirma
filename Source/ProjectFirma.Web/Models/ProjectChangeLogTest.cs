@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Models
     /// Experimental code to explore ways to do EF 6 automated change logging
     /// </summary>
     [TestFixture]
-    public class ProjectChangeLogTest : ProjectFirmaTestWithContext
+    public class ProjectChangeLogTest : FirmaTestWithContext
     {
         [Test]
         public void ChangeProjectAndAttemptToLogWhatChanged()

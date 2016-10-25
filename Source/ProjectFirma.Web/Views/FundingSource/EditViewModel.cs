@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             var existingFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.Where(x => x.OrganizationID == OrganizationID).ToList();
             if (!Models.FundingSource.IsFundingSourceNameUnique(existingFundingSources, FundingSourceName, FundingSourceID))
             {
-                errors.Add(new SitkaValidationResult<EditViewModel, string>(ProjectFirmaValidationMessages.FundingSourceNameUnique, x => x.FundingSourceName));
+                errors.Add(new SitkaValidationResult<EditViewModel, string>(FirmaValidationMessages.FundingSourceNameUnique, x => x.FundingSourceName));
             }
             return errors;
         }

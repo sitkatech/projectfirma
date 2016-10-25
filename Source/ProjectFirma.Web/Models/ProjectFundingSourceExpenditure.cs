@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Models
 
         public static IEnumerable<CalendarYearReportedValue> ToCalendarYearReportedValues(IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
         {
-            var yearRange = ProjectFirmaDateUtilities.GetRangeOfYearsForReporting();
+            var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
             return yearRange.OrderBy(cy => cy).Select(cy =>
             {
                 var pmavForThisCalendaYear = projectFundingSourceExpenditures.Where(x => x.CalendarYear == cy).ToList();

@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Controllers
             var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
             var endYear = DateTime.Now.Year;
             var startYear = project.ImplementationStartYear ?? endYear;
-            var possibleYearsToExempt = ProjectFirmaDateUtilities.GetRangeOfYears(startYear, endYear).OrderBy(x => x).ToList();
+            var possibleYearsToExempt = FirmaDateUtilities.GetRangeOfYears(startYear, endYear).OrderBy(x => x).ToList();
             projectExemptReportingYears.AddRange(
                 possibleYearsToExempt.Where(x => !currentExemptedYears.Contains(x)).Select((x, index) => new ProjectExemptReportingYearSimple(-(index + 1), project.ProjectID, x)));
 
@@ -68,8 +68,8 @@ namespace ProjectFirma.Web.Controllers
                                   ModelState.Values.SelectMany(x => x.Errors)
                                       .Any(
                                           x =>
-                                              x.ErrorMessage == ProjectFirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears ||
-                                              x.ErrorMessage == ProjectFirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
+                                              x.ErrorMessage == FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears ||
+                                              x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
             var viewData = new EditEIPPerformanceMeasureActualsViewData(project, selectableEIPPerformanceMeasures.ToList(), showExemptYears);
             return RazorPartialView<EditEIPPerformanceMeasureActuals, EditEIPPerformanceMeasureActualsViewData, EditEIPPerformanceMeasureActualsViewModel>(viewData, viewModel);
         }

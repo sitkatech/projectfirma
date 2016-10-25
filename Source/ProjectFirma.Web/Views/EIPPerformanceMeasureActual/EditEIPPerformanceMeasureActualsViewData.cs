@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Views.EIPPerformanceMeasureActual
             AllIndicatorSubcategories = indicatorSubcategories.Select(x => new IndicatorSubcategorySimple(x)).ToList();
             AllIndicatorSubcategoryOptions = indicatorSubcategories.SelectMany(y => y.IndicatorSubcategoryOptions.Select(z => new IndicatorSubcategoryOptionSimple(z))).ToList();
             AllProjects = allProjects;
-            CalendarYears = ProjectFirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x).ToList();
+            CalendarYears = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x).ToList();
         }
 
         public EditEIPPerformanceMeasureActualsViewData(Models.Project project, List<Models.EIPPerformanceMeasure> allEIPPerformanceMeasures, bool showExemptYears)

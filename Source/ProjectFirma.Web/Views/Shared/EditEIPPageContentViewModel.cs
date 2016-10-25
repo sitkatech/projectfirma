@@ -6,7 +6,7 @@ namespace ProjectFirma.Web.Views.Shared
 {
     public class EditEIPPageContentViewModel : FormViewModel
     {
-        public HtmlString ProjectFirmaPageContent { get; set; }
+        public HtmlString FirmaPageContent { get; set; }
 
         /// <summary>
         /// Needed by model binder
@@ -15,16 +15,16 @@ namespace ProjectFirma.Web.Views.Shared
         {
         }
 
-        public EditEIPPageContentViewModel(ProjectFirmaPageType projectFirmaPageType)
+        public EditEIPPageContentViewModel(FirmaPageType firmaPageType)
         {
-            var projectFirmaPage = Models.ProjectFirmaPage.GetProjectFirmaPageByPageType(projectFirmaPageType);
-            ProjectFirmaPageContent = projectFirmaPage.ProjectFirmaPageContentHtmlString;
+            var firmaPage = Models.FirmaPage.GetFirmaPageByPageType(firmaPageType);
+            FirmaPageContent = firmaPage.FirmaPageContentHtmlString;
         }
 
-        public void UpdateModel(ProjectFirmaPageType projectFirmaPageType, Person currentPerson)
+        public void UpdateModel(FirmaPageType firmaPageType, Person currentPerson)
         {
-            var projectFirmaPage = Models.ProjectFirmaPage.GetProjectFirmaPageByPageType(projectFirmaPageType);
-            projectFirmaPage.ProjectFirmaPageContentHtmlString = ProjectFirmaPageContent;
+            var firmaPage = Models.FirmaPage.GetFirmaPageByPageType(firmaPageType);
+            firmaPage.FirmaPageContentHtmlString = FirmaPageContent;
         }
     }
 }

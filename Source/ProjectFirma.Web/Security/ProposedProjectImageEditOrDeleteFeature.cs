@@ -4,7 +4,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Edit/Delete Proposed Project Image")]
-    public class ProposedProjectImageEditOrDeleteFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<ProposedProjectImage>
+    public class ProposedProjectImageEditOrDeleteFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<ProposedProjectImage>
     {
         private readonly FirmaFeatureWithContextImpl<ProposedProjectImage> _firmaFeatureWithContextImpl;
 

@@ -126,14 +126,14 @@ namespace ProjectFirma.Web.UnitTestCommon
 
         public static void AssertInvalidCharacters(IEnumerable<ValidationResult> validationResults)
         {
-            Assert.That(validationResults.Any(x => x.ErrorMessage.Contains(ProjectFirmaValidationMessages.LettersNumbersSpacesDashesAndUnderscoresOnly)),
+            Assert.That(validationResults.Any(x => x.ErrorMessage.Contains(FirmaValidationMessages.LettersNumbersSpacesDashesAndUnderscoresOnly)),
                 Is.True,
                 "Should have error message");
         }
 
         public static void AssertLettersOnly(IEnumerable<ValidationResult> validationResults)
         {
-            Assert.That(validationResults.Any(x => x.ErrorMessage.Contains(ProjectFirmaValidationMessages.LettersOnly)),
+            Assert.That(validationResults.Any(x => x.ErrorMessage.Contains(FirmaValidationMessages.LettersOnly)),
                 Is.True,
                 "Should have error message");
         }

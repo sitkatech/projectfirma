@@ -26,9 +26,9 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult SummaryImpl()
         {
-            var projectFirmaPage = ProjectFirmaPage.GetProjectFirmaPageByPageType(ProjectFirmaPageType.TransportationCostParameterSet);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.TransportationCostParameterSet);
             var transportationCostParameterSet = HttpRequestStorage.DatabaseEntities.TransportationCostParameterSets.Latest();
-            var viewData = new SummaryViewData(CurrentPerson, projectFirmaPage, transportationCostParameterSet);
+            var viewData = new SummaryViewData(CurrentPerson, firmaPage, transportationCostParameterSet);
             return RazorView<Summary, SummaryViewData>(viewData);
         }
 

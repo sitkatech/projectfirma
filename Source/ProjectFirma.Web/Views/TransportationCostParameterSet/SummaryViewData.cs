@@ -11,8 +11,8 @@ namespace ProjectFirma.Web.Views.TransportationCostParameterSet
         public readonly Models.TransportationCostParameterSet TransportationCostParameterSet;
         public readonly bool HasEditPermissions;
 
-        public SummaryViewData(Person currentPerson, Models.ProjectFirmaPage projectFirmaPage, Models.TransportationCostParameterSet transportationCostParameterSet)
-            : base(currentPerson, projectFirmaPage)
+        public SummaryViewData(Person currentPerson, Models.FirmaPage firmaPage, Models.TransportationCostParameterSet transportationCostParameterSet)
+            : base(currentPerson, firmaPage)
         {
             PageTitle = "Transportation Cost Parameters";
             TransportationCostParameterSet = transportationCostParameterSet;            

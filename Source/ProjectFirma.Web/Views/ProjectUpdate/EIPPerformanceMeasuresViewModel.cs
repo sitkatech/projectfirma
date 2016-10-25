@@ -116,12 +116,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             if (ProjectExemptReportingYearUpdates != null && ProjectExemptReportingYearUpdates.Any(x => x.IsExempt) && string.IsNullOrWhiteSpace(Explanation))
             {
-                errors.Add(new SitkaValidationResult<EIPPerformanceMeasuresViewModel, string>(ProjectFirmaValidationMessages.ExplanationNecessaryForProjectExemptYears, x => x.Explanation));
+                errors.Add(new SitkaValidationResult<EIPPerformanceMeasuresViewModel, string>(FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears, x => x.Explanation));
             }
 
             if ((ProjectExemptReportingYearUpdates == null || !ProjectExemptReportingYearUpdates.Any(x => x.IsExempt)) && !string.IsNullOrWhiteSpace(Explanation))
             {
-                errors.Add(new SitkaValidationResult<EIPPerformanceMeasuresViewModel, string>(ProjectFirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears, x => x.Explanation));
+                errors.Add(new SitkaValidationResult<EIPPerformanceMeasuresViewModel, string>(FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears, x => x.Explanation));
             }
 
             return errors;

@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Models
             if (!CanCalculateCapitalCostInYearOfExpenditure(project))
                 return null;
 
-            return ProjectFirmaMathUtilities.FutureValueOfPresentSum(project.EstimatedTotalCost.Value, inflationRate, GetCurrentRTPYearForPVCalculations(), project.CompletionYear.Value);
+            return FirmaMathUtilities.FutureValueOfPresentSum(project.EstimatedTotalCost.Value, inflationRate, GetCurrentRTPYearForPVCalculations(), project.CompletionYear.Value);
         }
 
         public static bool CanCalculateCapitalCostInYearOfExpenditure(IProject project)
@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Models
             var startYearForTotalOperatingCostCalculation = StartYearForTotalCostCalculationsImpl(startYear).Value;
             for (var i = startYearForTotalOperatingCostCalculation; i <= endYear; i++)
             {
-                totalOperatingCost += ProjectFirmaMathUtilities.FutureValueOfPresentSum(annualCost, inflationRate, baseYear, i);
+                totalOperatingCost += FirmaMathUtilities.FutureValueOfPresentSum(annualCost, inflationRate, baseYear, i);
             }
             return totalOperatingCost;
         }

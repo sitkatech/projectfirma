@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string GridName;
         public readonly string GridDataUrl;
         public readonly string ProposeNewProjectUrl;
-        public FiveYearListViewData(Person currentPerson, Models.ProjectFirmaPage projectFirmaPage) : base(currentPerson, projectFirmaPage)
+        public FiveYearListViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             HasProposedProjectPermissions = new ProposedProjectCreateNewFeature().HasPermissionByPerson(currentPerson);
             ProposeNewProjectUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(tc => tc.Instructions(null));

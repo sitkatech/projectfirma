@@ -4,7 +4,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Add Images for Project Updates")]
-    public class ProjectImageUpdateNewFeature : EIPFeatureWithContext, IFirmaBaseFeatureWithContext<ProjectUpdateBatch>
+    public class ProjectImageUpdateNewFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<ProjectUpdateBatch>
     {
         private readonly FirmaFeatureWithContextImpl<ProjectUpdateBatch> _firmaFeatureWithContextImpl;
 
