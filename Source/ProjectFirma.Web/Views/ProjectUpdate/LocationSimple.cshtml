@@ -73,7 +73,7 @@ else
         <table class="summaryLayout" style="width: 100%">
             <tr>
                 <td>
-                    @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> {"btn btn-xs btn-trpa"}, null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> {"btn btn-xs btn-firma"}, null, null)
                 </td>
                 <td>
                     @if (ViewDataTyped.ViewDataForAngular.ValidationWarnings.Any())
@@ -95,7 +95,7 @@ else
                 <td style="text-align: right; white-space: nowrap">
                     @Html.CheckBoxFor(x => x.ShowValidationWarnings, new {data_ng_model = "AngularModel.ShowValidationWarnings", @class = "ignoreSerialization"})
                     @Html.LabelFor(x => x.ShowValidationWarnings)
-                    <button class="btn btn-xs btn-trpa" type="button" style="margin-left: 10px" onclick="saveForm()">Save</button>
+                    <button class="btn btn-xs btn-firma" type="button" style="margin-left: 10px" onclick="saveForm()">Save</button>
                 </td>
             </tr>
         </table>

@@ -5,12 +5,12 @@
             "<div class='modal-dialog ltinfo-modal-dialog'>" +
                 "<div class='modal-content'>" +
                     "<div class='modal-header'>" +
-                        "<button type='button' class='btn btn-xs btn-trpa modal-close-button' data-dismiss='modal'><span>&times</span></button>" +
+                        "<button type='button' class='btn btn-xs btn-firma modal-close-button' data-dismiss='modal'><span>&times</span></button>" +
                         "<span class='modal-title'>" + alertTitle + "</span>" +
                     "</div>" +
                     "<div class='modal-body'>" + alertText + "</div>" +
                     "<div class='modal-footer'>" +
-                        "<button type='button' class='btn btn-xs btn-trpa' data-dismiss='modal'>" + closeButtonText + "</button>" +
+                        "<button type='button' class='btn btn-xs btn-firma' data-dismiss='modal'>" + closeButtonText + "</button>" +
                     "</div>" +
                 "</div>" +
             "</div>" +

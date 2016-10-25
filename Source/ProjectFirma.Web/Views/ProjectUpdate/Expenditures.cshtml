@@ -88,7 +88,7 @@ else
             </div>
             <div style="display: inline-block">
                 <select ng-model="FundingSourceToAdd" ng-options="fundingSource.DisplayName group by fundingSource.OrganizationName for fundingSource in filteredFundingSources()" style="width: 500px"></select>
-                <button class="btn btn-xs btn-trpa" type="button" ng-click="addRow()">Add</button>
+                <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>
                 <span style="vertical-align: middle; display: inline-block; margin-left: 5px">
                     Not listed?
                     @ModalDialogFormHelper.ModalDialogFormLink("Contact support", ViewDataTyped.RequestFundingSourceUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
@@ -153,10 +153,10 @@ else
             <table class="summaryLayout" style="width: 100%">
                 <tr>
                     <td>
-                        @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-trpa" }, null, null)
+                        @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
                         @if (ViewDataTyped.UpdateStatus.IsExpendituresUpdated)
                         {
-                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to Project Expenditures", 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-trpa" }, null, null, null, new List<string>() {"btn-trpa", "btn-xs"})
+                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to Project Expenditures", 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() {"btn-firma", "btn-xs"})
                         }
                     </td>
                     <td>
@@ -179,7 +179,7 @@ else
                     <td style="text-align: right; white-space: nowrap">
                         @Html.CheckBoxFor(x => x.ShowValidationWarnings, new {data_ng_model = "AngularModel.ShowValidationWarnings", @class = "ignoreSerialization"})
                         @Html.LabelFor(x => x.ShowValidationWarnings)
-                        <button class="btn btn-xs btn-trpa" type="submit" ng-disabled="pmForm.$invalid" style="margin-left: 10px">Save</button>
+                        <button class="btn btn-xs btn-firma" type="submit" ng-disabled="pmForm.$invalid" style="margin-left: 10px">Save</button>
                     </td>
                 </tr>
             </table>

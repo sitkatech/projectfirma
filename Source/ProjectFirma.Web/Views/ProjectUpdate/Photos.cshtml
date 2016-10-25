@@ -21,10 +21,10 @@
     <table style="width: 100%">
         <tr>
             <td>
-                @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 700, "Continue", "Cancel", new List<string> { "btn btn-xs btn-trpa" }, null, null)
+                @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 700, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
                 @if (ViewDataTyped.UpdateStatus.IsPhotosUpdated)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to Project Photos", 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-trpa" }, null, null, null, new List<string>() {"btn-trpa", "btn-xs"})
+                    @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to Project Photos", 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() {"btn-firma", "btn-xs"})
                 }
             </td>
         </tr>

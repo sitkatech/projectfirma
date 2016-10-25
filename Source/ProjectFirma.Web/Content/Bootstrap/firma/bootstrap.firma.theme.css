@@ -7,14 +7,11 @@ body {
 .header img {
   margin: 5px;
   height: 50px;
-    vertical-align: middle;
 }
 .header .headerText {
-    display: inline-block;
-    font-size: 30px;
-    font-weight: 600;
-    line-height: 50px;
-    vertical-align: middle;
+  display: inline-block;
+  font-size: 30px;
+  font-weight: 600;
 }
 footer {
   position: absolute;
@@ -29,5 +26,236 @@ footer p {
 }
 .modal-dialog {
   background: transparent;
+}
+.firma-modal {
+  text-align: center;
+}
+@media screen and (min-width: 768px) {
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+.modal-dialog.firma-modal-dialog {
+  margin: 10px;
+  padding-right: 0;
+  padding-left: 0;
+  position: relative;
+  width: auto;
+  background: none;
+  border: none;
+  box-shadow: none;
+  outline: 0 none;
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+.firma-modal-dialog .modal-close-button {
+  float: right;
+  margin-top: -4px;
+  opacity: 1;
+}
+.firma-modal-dialog .modal-title {
+  color: #fff;
+  font-weight: bold;
+}
+.firma-modal-dialog .modal-backdrop {
+  background-color: #aaaaaa;
+}
+.firma-modal-dialog .modal-content {
+  background: #e5e5e5 none repeat scroll 0 0;
+  border: 3px solid #15475c;
+  color: #222;
+}
+.firma-modal-dialog .modal-header {
+  border-bottom: 2px solid #15475c;
+  background-color: #31708f;
+  padding: .5em;
+  cursor: move;
+}
+.firma-modal-dialog .modal-title {
+  color: #fff;
+  font-weight: bold;
+}
+.firma-modal-dialog .modal-footer {
+  border-top: 2px solid #15475c;
+  padding: .5em;
+}
+.firma-modal-dialog .modal-close-button {
+  float: right;
+  margin-top: -4px;
+  opacity: .8;
+}
+.firma-modal.modal {
+  text-align: center;
+}
+.firma-modal .modal-body {
+  max-height: 700px;
+  overflow-y: auto;
+}
+@media screen and (min-width: 768px) {
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+.firma-modal-dialog.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+.btn-firma,
+.form-dialog .ui-widget-content .btn-firma,
+.firma-modal-dialog .btn-firma {
+  color: #ffffff;
+  background-color: #0b3a6a;
+  border-color: #2d5e71;
+  font-size: 14px;
+  box-shadow: 2px 2px 4px #000;
+}
+.btn-firma:focus,
+.form-dialog .ui-widget-content .btn-firma:focus,
+.firma-modal-dialog .btn-firma:focus,
+.btn-firma.focus,
+.form-dialog .ui-widget-content .btn-firma.focus,
+.firma-modal-dialog .btn-firma.focus {
+  color: #ffffff;
+  background-color: #06213c;
+  border-color: #091216;
+}
+.btn-firma:hover,
+.form-dialog .ui-widget-content .btn-firma:hover,
+.firma-modal-dialog .btn-firma:hover {
+  color: #ffffff;
+  background-color: #06213c;
+  border-color: #1c3a45;
+}
+.btn-firma:active,
+.form-dialog .ui-widget-content .btn-firma:active,
+.firma-modal-dialog .btn-firma:active,
+.btn-firma.active,
+.form-dialog .ui-widget-content .btn-firma.active,
+.firma-modal-dialog .btn-firma.active,
+.open > .dropdown-toggle.btn-firma,
+.open > .dropdown-toggle.form-dialog .ui-widget-content .btn-firma,
+.open > .dropdown-toggle.firma-modal-dialog .btn-firma {
+  color: #ffffff;
+  background-color: #06213c;
+  border-color: #1c3a45;
+}
+.btn-firma:active:hover,
+.form-dialog .ui-widget-content .btn-firma:active:hover,
+.firma-modal-dialog .btn-firma:active:hover,
+.btn-firma.active:hover,
+.form-dialog .ui-widget-content .btn-firma.active:hover,
+.firma-modal-dialog .btn-firma.active:hover,
+.open > .dropdown-toggle.btn-firma:hover,
+.open > .dropdown-toggle.form-dialog .ui-widget-content .btn-firma:hover,
+.open > .dropdown-toggle.firma-modal-dialog .btn-firma:hover,
+.btn-firma:active:focus,
+.form-dialog .ui-widget-content .btn-firma:active:focus,
+.firma-modal-dialog .btn-firma:active:focus,
+.btn-firma.active:focus,
+.form-dialog .ui-widget-content .btn-firma.active:focus,
+.firma-modal-dialog .btn-firma.active:focus,
+.open > .dropdown-toggle.btn-firma:focus,
+.open > .dropdown-toggle.form-dialog .ui-widget-content .btn-firma:focus,
+.open > .dropdown-toggle.firma-modal-dialog .btn-firma:focus,
+.btn-firma:active.focus,
+.form-dialog .ui-widget-content .btn-firma:active.focus,
+.firma-modal-dialog .btn-firma:active.focus,
+.btn-firma.active.focus,
+.form-dialog .ui-widget-content .btn-firma.active.focus,
+.firma-modal-dialog .btn-firma.active.focus,
+.open > .dropdown-toggle.btn-firma.focus,
+.open > .dropdown-toggle.form-dialog .ui-widget-content .btn-firma.focus,
+.open > .dropdown-toggle.firma-modal-dialog .btn-firma.focus {
+  color: #ffffff;
+  background-color: #030f1b;
+  border-color: #091216;
+}
+.btn-firma:active,
+.form-dialog .ui-widget-content .btn-firma:active,
+.firma-modal-dialog .btn-firma:active,
+.btn-firma.active,
+.form-dialog .ui-widget-content .btn-firma.active,
+.firma-modal-dialog .btn-firma.active,
+.open > .dropdown-toggle.btn-firma,
+.open > .dropdown-toggle.form-dialog .ui-widget-content .btn-firma,
+.open > .dropdown-toggle.firma-modal-dialog .btn-firma {
+  background-image: none;
+}
+.btn-firma.disabled,
+.form-dialog .ui-widget-content .btn-firma.disabled,
+.firma-modal-dialog .btn-firma.disabled,
+.btn-firma[disabled],
+.form-dialog .ui-widget-content .btn-firma[disabled],
+.firma-modal-dialog .btn-firma[disabled],
+fieldset[disabled] .btn-firma,
+fieldset[disabled] .form-dialog .ui-widget-content .btn-firma,
+fieldset[disabled] .firma-modal-dialog .btn-firma,
+.btn-firma.disabled:hover,
+.form-dialog .ui-widget-content .btn-firma.disabled:hover,
+.firma-modal-dialog .btn-firma.disabled:hover,
+.btn-firma[disabled]:hover,
+.form-dialog .ui-widget-content .btn-firma[disabled]:hover,
+.firma-modal-dialog .btn-firma[disabled]:hover,
+fieldset[disabled] .btn-firma:hover,
+fieldset[disabled] .form-dialog .ui-widget-content .btn-firma:hover,
+fieldset[disabled] .firma-modal-dialog .btn-firma:hover,
+.btn-firma.disabled:focus,
+.form-dialog .ui-widget-content .btn-firma.disabled:focus,
+.firma-modal-dialog .btn-firma.disabled:focus,
+.btn-firma[disabled]:focus,
+.form-dialog .ui-widget-content .btn-firma[disabled]:focus,
+.firma-modal-dialog .btn-firma[disabled]:focus,
+fieldset[disabled] .btn-firma:focus,
+fieldset[disabled] .form-dialog .ui-widget-content .btn-firma:focus,
+fieldset[disabled] .firma-modal-dialog .btn-firma:focus,
+.btn-firma.disabled.focus,
+.form-dialog .ui-widget-content .btn-firma.disabled.focus,
+.firma-modal-dialog .btn-firma.disabled.focus,
+.btn-firma[disabled].focus,
+.form-dialog .ui-widget-content .btn-firma[disabled].focus,
+.firma-modal-dialog .btn-firma[disabled].focus,
+fieldset[disabled] .btn-firma.focus,
+fieldset[disabled] .form-dialog .ui-widget-content .btn-firma.focus,
+fieldset[disabled] .firma-modal-dialog .btn-firma.focus,
+.btn-firma.disabled:active,
+.form-dialog .ui-widget-content .btn-firma.disabled:active,
+.firma-modal-dialog .btn-firma.disabled:active,
+.btn-firma[disabled]:active,
+.form-dialog .ui-widget-content .btn-firma[disabled]:active,
+.firma-modal-dialog .btn-firma[disabled]:active,
+fieldset[disabled] .btn-firma:active,
+fieldset[disabled] .form-dialog .ui-widget-content .btn-firma:active,
+fieldset[disabled] .firma-modal-dialog .btn-firma:active,
+.btn-firma.disabled.active,
+.form-dialog .ui-widget-content .btn-firma.disabled.active,
+.firma-modal-dialog .btn-firma.disabled.active,
+.btn-firma[disabled].active,
+.form-dialog .ui-widget-content .btn-firma[disabled].active,
+.firma-modal-dialog .btn-firma[disabled].active,
+fieldset[disabled] .btn-firma.active,
+fieldset[disabled] .form-dialog .ui-widget-content .btn-firma.active,
+fieldset[disabled] .firma-modal-dialog .btn-firma.active {
+  background-color: #0b3a6a;
+  border-color: #2d5e71;
+}
+.btn-firma .badge,
+.form-dialog .ui-widget-content .btn-firma .badge,
+.firma-modal-dialog .btn-firma .badge {
+  color: #0b3a6a;
+  background-color: #ffffff;
+}
+.btn-firma:hover {
+  background-color: #265d87;
+}
+a.btn-firma {
+  text-decoration: none;
 }
 /*# sourceMappingURL=bootstrap.firma.theme.css.map */

@@ -35,7 +35,7 @@ else
     using (Html.BeginForm<ProjectUpdateController>(x => x.SendCustomNotification(null)))
     {
         <div>
-            <span class="pull-right"><button id="send-preview-email" class="btn btn-xs btn-trpa" type="button" onclick="sendPreviewEmail()">Send Test Email</button></span>
+            <span class="pull-right"><button id="send-preview-email" class="btn btn-xs btn-firma" type="button" onclick="sendPreviewEmail()">Send Test Email</button></span>
             Notification Template: @Html.DropDownList("reminderTemplateDropdown", ViewDataTyped.ReminderTemplates)
         </div>
         <hr/>

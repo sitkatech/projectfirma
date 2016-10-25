@@ -264,10 +264,10 @@
             <table class="summaryLayout" style="width: 100%">
                 <tr>
                     <td>
-                        @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-trpa" }, null, null)
+                        @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
                         @if (ViewDataTyped.UpdateStatus.IsBasicsUpdated)
                         {
-                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to Project Basics", 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-trpa" }, null, null, null, new List<string>() { "btn-trpa", "btn-xs" })
+                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to Project Basics", 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() { "btn-firma", "btn-xs" })
                         }
                     </td>
                     <td>
@@ -290,7 +290,7 @@
                     <td style="text-align: right; white-space: nowrap">
                         @Html.CheckBoxFor(x => x.ShowValidationWarnings, new { data_ng_model = "AngularModel.ShowValidationWarnings", @class = "ignoreSerialization" })
                         @Html.LabelFor(x => x.ShowValidationWarnings)
-                        <button class="btn btn-xs btn-trpa" type="submit" style="margin-left: 10px">Save</button>
+                        <button class="btn btn-xs btn-firma" type="submit" style="margin-left: 10px">Save</button>
                     </td>
                 </tr>
             </table>

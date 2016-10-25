@@ -59,3 +59,114 @@ footer {
 .modal-dialog {
     background: transparent;
 }
+
+
+.firma-modal {
+    text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+    .modal:before {
+        display: inline-block;
+        vertical-align: middle;
+        content: " ";
+        height: 100%;
+    }
+}
+
+.modal-dialog.firma-modal-dialog {
+    margin: 10px;
+    padding-right: 0;
+    padding-left: 0;
+    position: relative;
+    width: auto;
+    background: none;
+    border: none;
+    box-shadow: none;
+    outline: 0 none;
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.firma-modal-dialog .modal-close-button {
+    float: right;
+    margin-top: -4px;
+    opacity: 1;
+}
+
+.firma-modal-dialog .modal-title {
+    color: #fff;
+    font-weight: bold;
+}
+
+.firma-modal-dialog .modal-backdrop {
+    background-color: rgb(170, 170, 170);
+}
+
+.firma-modal-dialog .modal-content {
+    background: #e5e5e5 none repeat scroll 0 0;
+    border: 3px solid #15475c;
+    color: #222;
+}
+
+.firma-modal-dialog .modal-header {
+    border-bottom: 2px solid #15475c;
+    background-color: @alert-info-text;
+    padding: .5em;
+    cursor: move;
+}
+
+.firma-modal-dialog .modal-title {
+    color: #fff;
+    font-weight: bold;
+}
+
+.firma-modal-dialog .modal-footer {
+    border-top: 2px solid #15475c;
+    padding: .5em;
+}
+
+.firma-modal-dialog .modal-close-button {
+    float: right;
+    margin-top: -4px;
+    opacity: .8;
+}
+
+.firma-modal.modal {
+    text-align: center;
+}
+
+.firma-modal .modal-body {
+    max-height: 700px;
+    overflow-y: auto;
+}
+
+@media screen and (min-width: 768px) {
+    .modal:before {
+        display: inline-block;
+        vertical-align: middle;
+        content: " ";
+        height: 100%;
+    }
+}
+
+.firma-modal-dialog.modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.btn-firma, .form-dialog .ui-widget-content .btn-firma, .firma-modal-dialog .btn-firma {
+    .button-variant(#fff; #0b3a6a; #2d5e71);
+    font-size: 14px;
+    box-shadow: 2px 2px 4px #000;
+}
+
+.btn-firma:hover {
+    background-color: #265d87;
+}
+
+a.btn-firma {
+    text-decoration: none;
+}

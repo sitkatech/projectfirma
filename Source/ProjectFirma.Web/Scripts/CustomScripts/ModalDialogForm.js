@@ -166,8 +166,8 @@ function wireUpModalDialogForm(dialogDiv, loadingDivId, javascriptReadyFunction,
 function getModalDialogFromHtmlTemplate(dialogDivId, dialogTitle, dialogContent, width, saveButtonText, saveButtonId, closeButtonText, closeButtonId, buttonCssClasses, loadingDivId)
 {
     var modalDialogHtml =
-    "<div class='modal ltinfo-modal' id='" + dialogDivId + "' tabindex='-1'>" +
-        "<div class='modal-dialog ltinfo-modal-dialog' style = 'width: " + width + "'>" +
+    "<div class='modal firma-modal' id='" + dialogDivId + "' tabindex='-1'>" +
+        "<div class='modal-dialog firma-modal-dialog' style = 'width: " + width + "'>" +
             "<div class='modal-content'>" +
                 "<div class='modal-header'>" +
                     "<button type='button' class='modal-close-button btn " + buttonCssClasses + "' data-dismiss='modal'><span>&times;</span></button>" +

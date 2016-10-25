@@ -25,7 +25,7 @@
         <div style="text-align: left">
             Project to Add:
             <select ng-model="ProjectToAdd" ng-options="project.DisplayName for project in filteredProjects()" style="width: 600px"></select>
-            <button class="btn btn-xs btn-trpa" type="button" ng-click="addRow()">Add</button>
+            <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>
         </div>
     }
     else
@@ -36,7 +36,7 @@
         </div>
         <div style="display: inline-block; vertical-align: top">
             <select ng-model="FundingSourceToAdd" ng-options="fundingSource.DisplayName group by fundingSource.OrganizationName for fundingSource in filteredFundingSources()" style="width: 500px"></select>
-            <button class="btn btn-xs btn-trpa" type="button" ng-click="addRow()">Add</button>
+            <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>
         </div>
     }
     <table class="dialogFormLayout" style="margin-top: 20px; overflow: scroll" ng-show="AngularModel.ProjectFundingSourceExpenditures.length > 0">

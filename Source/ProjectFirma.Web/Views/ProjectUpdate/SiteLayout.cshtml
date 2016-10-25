@@ -131,25 +131,25 @@
 <div class="pull-right">
     @if (ViewDataTyped.ProjectUpdateBatch.IsReadyToSubmit)
     {
-        @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, string.Format("Submit Project {0} to TRPA", ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> {"submitProject btn btn-xs btn-trpa"}, null, null)
+        @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, string.Format("Submit Project {0} to TRPA", ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> {"submitProject btn btn-xs btn-firma"}, null, null)
     }
     else if (ViewDataTyped.ShowApproveAndReturnButton)
     {
-        @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, string.Format("Return Project Updates for Project {0}", ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-trpa" }, null, null)
+        @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, string.Format("Return Project Updates for Project {0}", ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
         <span style="padding: 2px"></span>
         if (ViewDataTyped.IsReadyToApprove)
         {
 
-            @ModalDialogFormHelper.ModalDialogFormLink("Approve", ViewDataTyped.ApproveUrl, string.Format("Approve Project Updates for Project {0}", ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-trpa" }, null, null)
+            @ModalDialogFormHelper.ModalDialogFormLink("Approve", ViewDataTyped.ApproveUrl, string.Format("Approve Project Updates for Project {0}", ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
         }
         else
         {
-            <button class="btn btn-xs btn-trpa" disabled="disabled">Approve</button>
+            <button class="btn btn-xs btn-firma" disabled="disabled">Approve</button>
         }        
     }
     else if (ViewDataTyped.IsEditable)
     {
-        <button class="btn btn-xs btn-trpa" disabled="disabled">Submit</button>
+        <button class="btn btn-xs btn-firma" disabled="disabled">Submit</button>
     }
 </div>
 <div style="margin-left: 190px">

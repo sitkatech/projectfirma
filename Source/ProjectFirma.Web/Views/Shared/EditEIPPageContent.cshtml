@@ -17,8 +17,8 @@
 @section RightOfPageTitle
 {
     <div style="margin-top:10px">
-        <button class="btn btn-xs btn-info" type="submit" onclick=" javascript:jQuery('form').submit(); ">Save</button>
-        <a class="btn btn-xs btn-info" href="@ViewDataTyped.DisplayUrl">Cancel</a>
+        <button class="btn btn-xs btn-firma" type="submit" onclick=" javascript:jQuery('form').submit(); ">Save</button>
+        <a class="btn btn-xs btn-firma" href="@ViewDataTyped.DisplayUrl">Cancel</a>
     </div>
 }
 @using (Html.BeginForm<HomeController>(x => x.EditPageContent(ViewDataTyped.ProjectFirmaPage.ProjectFirmaPageType.ToEnum, null)))

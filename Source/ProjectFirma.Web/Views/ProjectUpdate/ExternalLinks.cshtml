@@ -33,7 +33,7 @@
                 <strong>External Link to Add:</strong><br />
                 Link Text: <input type="text" ng-model="ExternalLinkLabelToAdd" style="width: 300px" />
                 URL: <input type="url" ng-model="ExternalLinkUrlToAdd" style="width: 300px" />
-                <button class="btn btn-xs btn-trpa" type="button" ng-click="addRow()" ng-disabled="isAddButtonDisabled()">Add</button>
+                <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()" ng-disabled="isAddButtonDisabled()">Add</button>
                 <table class="dialogFormLayout">
                     <colgroup>
                         <col style="width: 20px" />
@@ -60,16 +60,16 @@
     <table class="summaryLayout" style="width: 100%">
         <tr>
             <td>
-                @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-trpa" }, null, null)
+                @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
                 @if (ViewDataTyped.UpdateStatus.IsExternalLinksUpdated)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to Project External Links", 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-trpa" }, null, null, null, new List<string>() {"btn-trpa", "btn-xs"})
+                    @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to Project External Links", 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() {"btn-firma", "btn-xs"})
                 }
             </td>
             <td style="text-align: right; white-space: nowrap">
                 @using (Html.BeginForm())
                 {
-                    <button class="btn btn-xs btn-trpa" type="submit" style="margin-left: 10px">Save</button>
+                    <button class="btn btn-xs btn-firma" type="submit" style="margin-left: 10px">Save</button>
                     <input ng-repeat="projectExternalLink in AngularModel.ProjectExternalLinks" type="hidden" name="@Html.NameFor(x => x.ProjectExternalLinks[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectExternalLink.ProjectID}}">
                     <input ng-repeat="projectExternalLink in AngularModel.ProjectExternalLinks" type="hidden" name="@Html.NameFor(x => x.ProjectExternalLinks[0].ExternalLinkLabel).ToString().Replace("0", "{{$index}}")" value="{{projectExternalLink.ExternalLinkLabel}}">
                     <input ng-repeat="projectExternalLink in AngularModel.ProjectExternalLinks" type="hidden" name="@Html.NameFor(x => x.ProjectExternalLinks[0].ExternalLinkUrl).ToString().Replace("0", "{{$index}}")" value="{{projectExternalLink.ExternalLinkUrl}}">
