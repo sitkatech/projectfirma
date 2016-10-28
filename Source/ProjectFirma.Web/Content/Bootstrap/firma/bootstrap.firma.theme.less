@@ -22,9 +22,14 @@
 
 // Global
 
+html, body {
+    height: 100%;
+}
+
 body {
     font-family: @globalFontToUse;
 }
+
 
 // Header
 
@@ -45,8 +50,10 @@ body {
 
 // Footer
 footer {
-    position: absolute;
+    position: relative;
     bottom: 0;
+    left:0;
+    right: 0;
     width: 100%;
     height: 60px;
     background-color: #f5f5f5;
@@ -56,6 +63,26 @@ footer {
         font-size: 12px;
     }
 }
+
+#wrapper {
+    min-height: 100%;
+        height: auto !important;
+        height: 100%;
+        margin: 0 auto -60px;
+}
+
+#push, #footer {
+        height: 60px;
+      }
+
+@media (max-width: 767px) {
+        #footer {
+          margin-left: -20px;
+          margin-right: -20px;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
 
 // Modal 
 .modal-dialog {
@@ -98,42 +125,29 @@ footer {
 }
 
 .firma-modal-dialog .modal-title {
-    color: #fff;
+
     font-weight: bold;
 }
 
 .firma-modal-dialog .modal-backdrop {
-    background-color: rgb(170, 170, 170);
+
 }
 
 .firma-modal-dialog .modal-content {
-    background: #e5e5e5 none repeat scroll 0 0;
-    border: 3px solid #15475c;
-    color: #222;
+
 }
 
 .firma-modal-dialog .modal-header {
-    border-bottom: 2px solid #15475c;
-    background-color: @alert-info-text;
+    background-color: #eee;
     padding: .5em;
     cursor: move;
 }
 
-.firma-modal-dialog .modal-title {
-    color: #fff;
-    font-weight: bold;
-}
-
 .firma-modal-dialog .modal-footer {
-    border-top: 2px solid #15475c;
+
     padding: .5em;
 }
 
-.firma-modal-dialog .modal-close-button {
-    float: right;
-    margin-top: -4px;
-    opacity: .8;
-}
 
 .firma-modal.modal {
     text-align: center;
@@ -159,16 +173,27 @@ footer {
     vertical-align: middle;
 }
 
+.dialogFormLayout {
+    width: 100%;
+}
+
+// buttons
+
 .btn-firma, .form-dialog .ui-widget-content .btn-firma, .firma-modal-dialog .btn-firma {
-    .button-variant(#fff; #0b3a6a; #2d5e71);
     font-size: 14px;
-    box-shadow: 2px 2px 4px #000;
+
 }
 
 .btn-firma:hover {
-    background-color: #265d87;
 }
 
 a.btn-firma {
-    text-decoration: none;
+}
+
+// section
+
+.summarySection {
+    h2 {
+        font-size: 18px;
+    }
 }

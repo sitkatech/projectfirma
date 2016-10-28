@@ -32,7 +32,8 @@
 
    
 </head>
-<body class="ltinfo">
+<body>
+<div id="wrapper">
     <div class="row">
         <div class="col-sm-12">
             <div class="header">
@@ -44,39 +45,41 @@
             </div>
         </div>
         @*<div class="col-sm-6">
-            <div id="searchBox" class="pull-right">
-                <span>Find Project: </span><input id="@SearchResults.ProjectSearchInputTextboxID" name="@SearchResults.ProjectSearchInputTextboxID" type="text" maxlength="200" onkeypress="return submitFormWithEnter(this, event, 4)" placeholder="project #, name, description" />
-            </div>
-        </div>*@
+                <div id="searchBox" class="pull-right">
+                    <span>Find Project: </span><input id="@SearchResults.ProjectSearchInputTextboxID" name="@SearchResults.ProjectSearchInputTextboxID" type="text" maxlength="200" onkeypress="return submitFormWithEnter(this, event, 4)" placeholder="project #, name, description" />
+                </div>
+            </div>*@
     </div>
 
-        <script type="text/javascript">
-            // <![CDATA[
-            function submitFormWithEnter(myfield, e, numMinChars) {
-                var keycode;
-                if (window.event) {
-                    keycode = window.event.keyCode;
-                }
-                else if (e) {
-                    keycode = e.which;
-                }
-                else {
-                    return true;
-                }
-
-                if (keycode == 13) {
-                    if (myfield.value.trim().length >= numMinChars) {
-                        var searchUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS()));
-                        document.location = searchUrlTemplate.ParameterReplace("?searchCriteria=" + encodeURIComponent(myfield.value.trim()));
-                    }
-                    return false;
-                }
-                else {
-                    return true;
-                }
+    <script type="text/javascript">
+        // <![CDATA[
+        function submitFormWithEnter(myfield, e, numMinChars) {
+            var keycode;
+            if (window.event) {
+                keycode = window.event.keyCode;
+            }
+            else if (e) {
+                keycode = e.which;
+            }
+            else {
+                return true;
             }
 
-            jQuery(document).ready(function () {
+            if (keycode == 13) {
+                if (myfield.value.trim().length >= numMinChars) {
+                    var searchUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS()));
+                    document.location = searchUrlTemplate
+                        .ParameterReplace("?searchCriteria=" + encodeURIComponent(myfield.value.trim()));
+                }
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        jQuery(document)
+            .ready(function () {
                 jQuery("#@SearchResults.ProjectSearchInputTextboxID")
                     .autocomplete({
                         source: "@Html.Raw(ViewDataTyped.ProjectFindUrl)",
@@ -89,10 +92,10 @@
                         html: true
                     });
             });
-            // ]]>
-        </script>
+        // ]]>
+    </script>
 
-    <div id="mainnavandcontent" >
+    <div id="mainnavandcontent">
         <nav class="navbar navbar-default">
             <div class="container">
                 <ul class="nav navbar-nav">
@@ -117,10 +120,12 @@
                 </div>
             </div>
         </nav>
-
         @RenderBody()
     </div>
-<footer class="footer">
+    <div id="push"></div>
+</div>
+
+<footer id="footer">
     <div class="container">
         <p class="pull-left">
             <a href="http://www.sitkatech.com/products/ProjectFirma/">ProjectFirma</a> is a site created by <a href="http://sitkatech.com">Sitka Technology Group</a> and implemented for the Clackamas Partnership
@@ -131,7 +136,7 @@
     </div>
 </footer>
 
-    @{ Html.RenderRazorSitkaPartial<FirmaLateLoadingIncludes>(); }
+@{ Html.RenderRazorSitkaPartial<FirmaLateLoadingIncludes>(); }
 
 </body>
 </html>
