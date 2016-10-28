@@ -26,11 +26,11 @@
 </div>
 
 <div class="summarySection">
-    <h2>@(ViewDataTyped.SelectedCalendarYear.HasValue ? ViewDataTyped.SelectedCalendarYear.ToString() : "All") EIP Investments</h2>
+    <h2>@(ViewDataTyped.SelectedCalendarYear.HasValue ? ViewDataTyped.SelectedCalendarYear.ToString() : "All") Investments</h2>
     <div class="contentWrapper">
         <table class="gridLayout" style="width: 1050px">
             <tr>
-                <th style="text-align: left">EIP Programs</th>
+                <th style="text-align: left">Programs</th>
                 @foreach (var sector in ViewDataTyped.Sectors)
                 {
                     <th style="white-space: nowrap">

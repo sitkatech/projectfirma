@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PersonSimple(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int eIPRoleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, Guid? webServiceAccessToken)
+        public PersonSimple(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int roleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, Guid? webServiceAccessToken)
             : this()
         {
             PersonID = personID;
@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Models
             Email = email;
             Phone = phone;
             PasswordPdfK2SaltHash = passwordPdfK2SaltHash;
-            RoleID = eIPRoleID;
+            RoleID = roleID;
             CreateDate = createDate;
             UpdateDate = updateDate;
             LastActivityDate = lastActivityDate;

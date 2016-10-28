@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Views.TransportationObjective
 
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
-        public readonly string EipProjectMapFilteredUrl;
+        public readonly string ProjectMapFilteredUrl;
 
         public SummaryViewData(Person currentPerson, 
             Models.TransportationObjective transportationObjective, 
@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.TransportationObjective
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
 
-            EipProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
+            ProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
 
             UserHasTransportationObjectiveManagePermissions = new TransportationObjectiveManageFeature().HasPermissionByPerson(CurrentPerson);
             EditTransportationObjectiveUrl = SitkaRoute<TransportationObjectiveController>.BuildUrlFromExpression(c => c.Edit(transportationObjective));

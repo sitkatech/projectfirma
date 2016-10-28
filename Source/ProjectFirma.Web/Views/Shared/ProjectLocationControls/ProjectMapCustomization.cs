@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public static string BuildCustomizedUrl(ProjectLocationFilterType filterType, string filterValues)
         {
             return String.Format("{0}?{1}={2}&{3}={4}",
-                SitkaRoute<ResultsController>.BuildUrlFromExpression(p => p.EipProjectMap()),
+                SitkaRoute<ResultsController>.BuildUrlFromExpression(p => p.ProjectMap()),
                 FilterByQueryStringParameter,
                 filterType.ProjectLocationFilterTypeName,
                 FilterValuesQueryStringParameter,

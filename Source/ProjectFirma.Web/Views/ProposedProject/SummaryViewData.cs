@@ -1,11 +1,11 @@
 ﻿using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared.EIPPerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
+using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
 namespace ProjectFirma.Web.Views.ProposedProject
 {
@@ -21,8 +21,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public readonly string FiveYearListUrl;
 
         public readonly string MapFormID;
-        public readonly string EditEIPPerformanceMeasureExpectedsUrl;
-        public readonly EIPPerformanceMeasureExpectedSummaryViewData EIPPerformanceMeasureExpectedSummaryViewData;
+        public readonly string EditPerformanceMeasureExpectedsUrl;
+        public readonly PerformanceMeasureExpectedSummaryViewData PerformanceMeasureExpectedSummaryViewData;
 
         public readonly AuditLogsGridSpec AuditLogsGridSpec;
         public readonly string AuditLogsGridName;
@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
         public TransportationAssessmentTreeViewData TransportationAssessmentTreeViewData;
 
-        public SummaryViewData(Person currentPerson, Models.ProposedProject proposedProject, ProjectLocationSummaryViewData projectLocationSummaryViewData, EIPPerformanceMeasureExpectedSummaryViewData eipPerformanceMeasureExpectedSummaryViewData, ImageGalleryViewData imageGalleryViewData, EntityNotesViewData entityNotesViewData, string mapFormID, TransportationAssessmentTreeViewData transportationAssessmentTreeViewData) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Basics, new ProposalSectionsStatus(proposedProject))
+        public SummaryViewData(Person currentPerson, Models.ProposedProject proposedProject, ProjectLocationSummaryViewData projectLocationSummaryViewData, PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData, ImageGalleryViewData imageGalleryViewData, EntityNotesViewData entityNotesViewData, string mapFormID, TransportationAssessmentTreeViewData transportationAssessmentTreeViewData) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Basics, new ProposalSectionsStatus(proposedProject))
         {
             PageTitle = proposedProject.DisplayName;
             BreadCrumbTitle = "Proposed Project Summary";
@@ -43,12 +43,12 @@ namespace ProjectFirma.Web.Views.ProposedProject
             EditProposedProjectUrl = proposedProject.GetEditUrl();
             EditMapUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditLocationSimple(proposedProject));
             ApproveProjectUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Approve(proposedProject));
-            EditEIPPerformanceMeasureExpectedsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditExpectedEIPPerformanceMeasureValues(proposedProject));
+            EditPerformanceMeasureExpectedsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditExpectedPerformanceMeasureValues(proposedProject));
             ProposedProjectsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Index());
             EditThresholdCategoriesUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(c => c.EditThresholdCategories(proposedProject));
 
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
-            EIPPerformanceMeasureExpectedSummaryViewData = eipPerformanceMeasureExpectedSummaryViewData;
+            PerformanceMeasureExpectedSummaryViewData = performanceMeasureExpectedSummaryViewData;
             ImageGalleryViewData = imageGalleryViewData;
             EntityNotesViewData = entityNotesViewData;
 

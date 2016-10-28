@@ -22,17 +22,6 @@ namespace ProjectFirma.Web.UnitTestCommon
                 return projectLocalAndRegionalPlan;
             }
 
-            /*
-            public static EIPPerformanceMeasure Create(DatabaseEntities dbContext)
-            {
-                var eipPerformanceMeasure = EIPPerformanceMeasure.CreateNewBlank(EIPPerformanceMeasureType.Normal, measurementUnitType.Acres);
-                eipPerformanceMeasure.Indicator.IndicatorName = MakeTestEIPPerformanceMeasureName();
-                eipPerformanceMeasure.Indicator.IndicatorHtmlString = MakeTestEIPPerformanceMeasureDefinition();
-                dbContext.EIPPerformanceMeasures.Add(eipPerformanceMeasure);
-                return eipPerformanceMeasure;
-            }
-            */
-
             public static ProjectLocalAndRegionalPlan Create(Project project, LocalAndRegionalPlan localAndRegionalPlan)
             {
                 var projectLocalAndRegionalPlan = ProjectLocalAndRegionalPlan.CreateNewBlank(project, localAndRegionalPlan);

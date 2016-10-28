@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Views.FocusArea
 
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
-        public readonly string EipProjectMapFilteredUrl;
+        public readonly string ProjectMapFilteredUrl;
 
         public readonly ProjectTaxonomyViewData ProjectTaxonomyViewData;
 
@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.FocusArea
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
 
-            EipProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
+            ProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
 
             PageTitle = focusArea.DisplayName;
             EntityName = "Focus Area";

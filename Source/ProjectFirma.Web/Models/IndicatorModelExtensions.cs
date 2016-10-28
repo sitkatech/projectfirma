@@ -19,16 +19,16 @@ namespace ProjectFirma.Web.Models
         public static HtmlString GetDisplayNameAsInfoSheetUrl(this Indicator indicator)
         {
             string infoSheetUrl = string.Empty;
-            if (indicator.EIPPerformanceMeasure != null)
+            if (indicator.PerformanceMeasure != null)
             {
-                infoSheetUrl = indicator.GetEIPInfoSheetUrl();
+                infoSheetUrl = indicator.GetInfoSheetUrl();
             }
             return UrlTemplate.MakeHrefString(infoSheetUrl, indicator.IndicatorDisplayName);    
         }
 
-        public static string GetEIPInfoSheetUrl(this Indicator indicator)
+        public static string GetInfoSheetUrl(this Indicator indicator)
         {
-            return indicator.EIPPerformanceMeasure != null ? indicator.EIPPerformanceMeasure.GetInfoSheetUrl() : string.Empty;
+            return indicator.PerformanceMeasure != null ? indicator.PerformanceMeasure.GetInfoSheetUrl() : string.Empty;
         }
 
         private static readonly UrlTemplate<int> DefinitionAndGuidanceUrlTemplate = new UrlTemplate<int>(SitkaRoute<IndicatorController>.BuildUrlFromExpression(t => t.DefinitionAndGuidance(UrlTemplate.Parameter1Int)));
@@ -39,11 +39,11 @@ namespace ProjectFirma.Web.Models
 
         public static string GetEditReportedValuesUrl(this Indicator indicator)
         {
-            if (indicator.EIPPerformanceMeasure != null)
+            if (indicator.PerformanceMeasure != null)
             {
                 return null;
             }
-            throw new NotImplementedException("Indicator {0} is not reported in the EIP Project Tracker!  No way to edit reported values!");
+            throw new NotImplementedException("Indicator {0} is not reported in the Project Tracker!  No way to edit reported values!");
         }
 
         public static bool IsIndicatorNameUnique(IEnumerable<Indicator> indicators, string indicatorName, int currentIndicatorID)

@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
         public readonly string ProjectUpdateInstructionsUrl;
         public readonly string ProjectUpdateBasicsUrl;
-        public readonly string ProjectUpdateEIPPerformanceMeasuresUrl;
+        public readonly string ProjectUpdatePerformanceMeasuresUrl;
         public readonly string ProjectUpdateLocationSimpleUrl;
         public readonly string ProjectUpdateLocationDetailedUrl;
         public readonly string ProjectUpdateThresholdCategoriesUrl;
@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
             ProjectUpdateInstructionsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Instructions(proposedProject.ProposedProjectID));
             ProjectUpdateBasicsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditBasics(proposedProject.ProposedProjectID));
-            ProjectUpdateEIPPerformanceMeasuresUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditExpectedEIPPerformanceMeasureValues(proposedProject));
+            ProjectUpdatePerformanceMeasuresUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditExpectedPerformanceMeasureValues(proposedProject));
             ProjectUpdateLocationSimpleUrl =  SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditLocationSimple(proposedProject));
             ProjectUpdateLocationDetailedUrl =  SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditLocationDetailed(proposedProject));
             ProjectUpdateThresholdCategoriesUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditThresholdCategories(proposedProject));
@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             
             ProjectUpdateInstructionsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Instructions(null));
             ProjectUpdateBasicsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.CreateAndEditBasics());
-            ProjectUpdateEIPPerformanceMeasuresUrl = string.Empty;
+            ProjectUpdatePerformanceMeasuresUrl = string.Empty;
             ProjectUpdateLocationSimpleUrl = string.Empty;
             ProjectUpdateLocationDetailedUrl = string.Empty;
             ProjectUpdateNotesUrl = string.Empty;

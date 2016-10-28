@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using LtInfo.Common.DesignByContract;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Models;
 
@@ -13,40 +12,40 @@ namespace ProjectFirma.Web.Service.ServiceModels
     [DataContract]
     public class WebServiceProjectAccomplishments : SimpleModelObject
     {
-        public WebServiceProjectAccomplishments(EIPPerformanceMeasureActual eippmActualValue)
+        public WebServiceProjectAccomplishments(PerformanceMeasureActual perfomanceMeasureActualValue)
         {
-            var project = eippmActualValue.Project;
-            var pm = eippmActualValue.EIPPerformanceMeasure.Indicator;
-            EIPProjectNumber = project.ProjectNumberString;
+            var project = perfomanceMeasureActualValue.Project;
+            var pm = perfomanceMeasureActualValue.PerformanceMeasure.Indicator;
+            ProjectNumber = project.ProjectNumberString;
 
             IndicatorID = pm.IndicatorID;
             IndicatorName = pm.IndicatorDisplayName;
             IndicatorUnits = pm.MeasurementUnitType.MeasurementUnitTypeDisplayName;
-            IndicatorProjectValue = eippmActualValue.ActualValue;
-            IndicatorProjectYear = eippmActualValue.CalendarYear;
+            IndicatorProjectValue = perfomanceMeasureActualValue.ActualValue;
+            IndicatorProjectYear = perfomanceMeasureActualValue.CalendarYear;
 
             var currentPMSubcategoryIndex = 1;
-            foreach (var eippmActualValueSubcategoryOption in eippmActualValue.EIPPerformanceMeasureActualSubcategoryOptions)
+            foreach (var perfomanceMeasureActualValueSubcategoryOption in perfomanceMeasureActualValue.PerformanceMeasureActualSubcategoryOptions)
             {
                 if (currentPMSubcategoryIndex == 1)
                 {
-                    PMSubcategoryName1 = eippmActualValueSubcategoryOption.IndicatorSubcategory.IndicatorSubcategoryDisplayName;
-                    PMSubcategoryOption1 = eippmActualValueSubcategoryOption.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName;
+                    PMSubcategoryName1 = perfomanceMeasureActualValueSubcategoryOption.IndicatorSubcategory.IndicatorSubcategoryDisplayName;
+                    PMSubcategoryOption1 = perfomanceMeasureActualValueSubcategoryOption.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName;
                 }
                 else if (currentPMSubcategoryIndex == 2)
                 {
-                    PMSubcategoryName2 = eippmActualValueSubcategoryOption.IndicatorSubcategory.IndicatorSubcategoryDisplayName;
-                    PMSubcategoryOption2 = eippmActualValueSubcategoryOption.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName;
+                    PMSubcategoryName2 = perfomanceMeasureActualValueSubcategoryOption.IndicatorSubcategory.IndicatorSubcategoryDisplayName;
+                    PMSubcategoryOption2 = perfomanceMeasureActualValueSubcategoryOption.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName;
                 }
                 else if (currentPMSubcategoryIndex == 3)
                 {
-                    PMSubcategoryName3 = eippmActualValueSubcategoryOption.IndicatorSubcategory.IndicatorSubcategoryDisplayName;
-                    PMSubcategoryOption3 = eippmActualValueSubcategoryOption.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName;
+                    PMSubcategoryName3 = perfomanceMeasureActualValueSubcategoryOption.IndicatorSubcategory.IndicatorSubcategoryDisplayName;
+                    PMSubcategoryOption3 = perfomanceMeasureActualValueSubcategoryOption.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName;
                 }
                 else if (currentPMSubcategoryIndex == 4)
                 {
-                    PMSubcategoryName4 = eippmActualValueSubcategoryOption.IndicatorSubcategory.IndicatorSubcategoryDisplayName;
-                    PMSubcategoryOption4 = eippmActualValueSubcategoryOption.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName;
+                    PMSubcategoryName4 = perfomanceMeasureActualValueSubcategoryOption.IndicatorSubcategory.IndicatorSubcategoryDisplayName;
+                    PMSubcategoryOption4 = perfomanceMeasureActualValueSubcategoryOption.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName;
                 }
                 else
                 {
@@ -58,7 +57,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
 
       
 
-        [DataMember] public string EIPProjectNumber { get; set; }
+        [DataMember] public string ProjectNumber { get; set; }
         [DataMember] public int IndicatorID { get; set; }
         [DataMember] public string IndicatorName { get; set; }
         [DataMember] public string IndicatorUnits { get; set; }
@@ -77,7 +76,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
         public static List<WebServiceProjectAccomplishments> GetProjectAccomplishments(string projectNumber)
         {
             var project = HttpRequestStorage.DatabaseEntities.Projects.GetProjectByProjectNumber(projectNumber);
-            return project.EIPPerformanceMeasureActuals.Select(x => new WebServiceProjectAccomplishments(x)).OrderBy(x => x.IndicatorID).ToList();
+            return project.PerformanceMeasureActuals.Select(x => new WebServiceProjectAccomplishments(x)).OrderBy(x => x.IndicatorID).ToList();
         }       
     }
 
@@ -85,7 +84,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
     {
         public WebServiceProjectAccomplishmentsGridSpec()
         {
-            Add("EIPProjectNumber", x => x.EIPProjectNumber, 0);
+            Add("ProjectNumber", x => x.ProjectNumber, 0);
             Add("IndicatorID", x => x.IndicatorID, 0);
             Add("IndicatorName", x => x.IndicatorName, 0);
             Add("IndicatorUnits", x => x.IndicatorUnits, 0);

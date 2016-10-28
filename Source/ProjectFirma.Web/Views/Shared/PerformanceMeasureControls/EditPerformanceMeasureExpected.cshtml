@@ -1,0 +1,89 @@
+﻿@using ProjectFirma.Web.Models
+@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Views.Shared.PerformanceMeasureControls.EditPerformanceMeasureExpected
+
+<script type="text/javascript">
+    // <![CDATA[
+
+    jQuery(document).ready(function()
+    {
+        angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+        {
+            return {
+                AngularModel: @Html.Raw(JObject.FromObject(Model)),
+                AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
+            };
+        }).directive("qtip", function($compile, $templateCache)
+        {
+            function link(scope, el, attr)
+            {
+                var performanceMeasure = scope.text;
+                ProjectFirma.Views.Methods.addHelpTooltipPopup(el, performanceMeasure.DisplayName, performanceMeasure.DefinitionAndGuidanceUrl, 800);
+            }
+
+            return {
+                link: link,
+                scope: {
+                    text: "=qtip"
+                }
+            };
+        });
+        angular.bootstrap(jQuery("#EditPerformanceMeasureExpectedsApp"), ["ProjectFirmaApp"]);
+    });
+    
+    // ]]>
+</script>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+<div id="EditPerformanceMeasureExpectedsApp" ng-controller="PerformanceMeasureExpectedController">
+    Performance Measure to Add:
+    <select ng-model="PerformanceMeasureToAdd" ng-options="performanceMeasure.DisplayName for performanceMeasure in filteredPerformanceMeasures()" style="width: 700px"></select>
+    <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>
+    <table class="dialogFormLayout" ng-show="AngularModel.PerformanceMeasureExpecteds.length > 0">
+        <tr>
+            <th></th>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure)</th>
+            <th ng-show="hasAnySubcategories()">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Subcategories)</th>
+            <th colspan="2" style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ExpectedValue)</th>
+        </tr>
+        <tr ng-repeat="performanceMeasureExpected in AngularModel.PerformanceMeasureExpecteds | orderBy:['PerformanceMeasureID', 'CalendarYear', getProjectName]">
+            <td>
+                <span class="glyphicon glyphicon-trash blue" title="Remove row'" alt="Remove row" ng-click="deleteRow(performanceMeasureExpected)" style="cursor: pointer"></span>
+            </td>
+            <td>
+                <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get help on {{getPerformanceMeasureName(performanceMeasureExpected)}}" data-qtip="getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID)"></span>
+                <span ng-bind="getPerformanceMeasureName(performanceMeasureExpected)"></span>
+            </td>
+            <td style="white-space: nowrap">
+                <span ng-repeat="performanceMeasureExpectedSubcategoryOption in performanceMeasureExpected.PerformanceMeasureExpectedSubcategoryOptions | orderBy:[getSubcategoryName]">
+                    <select ng-model="performanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryOptionID" style="width: 120px" ng-show="getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID).HasRealSubcategories">
+                        <optgroup label="{{getSubcategoryName(performanceMeasureExpectedSubcategoryOption)}}">
+                            <option ng-repeat="indicatorSubcategoryOption in getSubcategoryOptionsForSubcategory(performanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryID)" value="{{indicatorSubcategoryOption.IndicatorSubcategoryOptionID}}" ng-selected="performanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryOptionID == indicatorSubcategoryOption.IndicatorSubcategoryOptionID">{{indicatorSubcategoryOption.IndicatorSubcategoryOptionName}}</option>
+                        </optgroup>
+                    </select>
+                </span>
+            </td>
+            <td>
+                <input type="number" class="sitkaNumber" ng-model="performanceMeasureExpected.ExpectedValue" step="any"/>
+            </td>
+            <td style="white-space: nowrap" ng-bind="getMeasurementUnitTypeDisplayName(performanceMeasureExpected)"></td>
+        </tr>
+    </table>
+    @using (Html.BeginForm())
+    {
+        <div ng-repeat="performanceMeasureExpected in AngularModel.PerformanceMeasureExpecteds | orderBy:'PerformanceMeasureID'">
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureExpected.ProjectID}}">
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureExpected.PerformanceMeasureID}}">
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].ExpectedValue).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureExpected.ExpectedValue}}">
+            <div ng-repeat="performanceMeasureExpectedSubcategoryOption in getPerformanceMeasureExpectedSubcategoryOptionsWithValues(performanceMeasureExpected)">
+                <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureExpectedSubcategoryOptions[1].IndicatorSubcategoryOptionID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryOptionID}}">
+                <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureExpectedSubcategoryOptions[1].IndicatorSubcategoryID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryID}}">
+                <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureExpectedSubcategoryOptions[1].PerformanceMeasureID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureExpectedSubcategoryOption.PerformanceMeasureID}}">
+            </div>
+        </div>
+    }
+</div>

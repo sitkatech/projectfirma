@@ -40,18 +40,18 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
             }
         }
 
-        public void UpdateModel(IndicatorNote eipPerformanceMeasureNote, Person currentPerson)
+        public void UpdateModel(IndicatorNote performanceMeasureNote, Person currentPerson)
         {
-            eipPerformanceMeasureNote.Note = Note;
-            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(eipPerformanceMeasureNote.IndicatorNoteID))
+            performanceMeasureNote.Note = Note;
+            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(performanceMeasureNote.IndicatorNoteID))
             {
-                eipPerformanceMeasureNote.CreateDate = DateTime.Now;
-                eipPerformanceMeasureNote.CreatePerson = currentPerson;
+                performanceMeasureNote.CreateDate = DateTime.Now;
+                performanceMeasureNote.CreatePerson = currentPerson;
             }
             else
             {
-                eipPerformanceMeasureNote.UpdateDate = DateTime.Now;
-                eipPerformanceMeasureNote.UpdatePerson = currentPerson;
+                performanceMeasureNote.UpdateDate = DateTime.Now;
+                performanceMeasureNote.UpdatePerson = currentPerson;
             }
         }
         

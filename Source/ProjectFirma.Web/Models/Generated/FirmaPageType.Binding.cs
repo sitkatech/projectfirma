@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeFullProjectList FullProjectList = FirmaPageTypeFullProjectList.Instance;
         public static readonly FirmaPageTypeFiveYearProjectList FiveYearProjectList = FirmaPageTypeFiveYearProjectList.Instance;
         public static readonly FirmaPageTypeCompletedProjectList CompletedProjectList = FirmaPageTypeCompletedProjectList.Instance;
-        public static readonly FirmaPageTypeEIPPerformanceMeasuresList EIPPerformanceMeasuresList = FirmaPageTypeEIPPerformanceMeasuresList.Instance;
+        public static readonly FirmaPageTypePerformanceMeasuresList PerformanceMeasuresList = FirmaPageTypePerformanceMeasuresList.Instance;
         public static readonly FirmaPageTypeActionPrioritiesList ActionPrioritiesList = FirmaPageTypeActionPrioritiesList.Instance;
         public static readonly FirmaPageTypeLocalAndRegionalPlansList LocalAndRegionalPlansList = FirmaPageTypeLocalAndRegionalPlansList.Instance;
         public static readonly FirmaPageTypeFocusAreasList FocusAreasList = FirmaPageTypeFocusAreasList.Instance;
@@ -34,9 +34,9 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypePagesWithIntroTextList PagesWithIntroTextList = FirmaPageTypePagesWithIntroTextList.Instance;
         public static readonly FirmaPageTypeInvestmentByFundingSector InvestmentByFundingSector = FirmaPageTypeInvestmentByFundingSector.Instance;
         public static readonly FirmaPageTypeSpendingBySectorByFocusAreaByProgram SpendingBySectorByFocusAreaByProgram = FirmaPageTypeSpendingBySectorByFocusAreaByProgram.Instance;
-        public static readonly FirmaPageTypeEIPProjectMap EIPProjectMap = FirmaPageTypeEIPProjectMap.Instance;
-        public static readonly FirmaPageTypeEIPResultsByProgram EIPResultsByProgram = FirmaPageTypeEIPResultsByProgram.Instance;
-        public static readonly FirmaPageTypeEIPHomeAdditionalInfo EIPHomeAdditionalInfo = FirmaPageTypeEIPHomeAdditionalInfo.Instance;
+        public static readonly FirmaPageTypeProjectMap ProjectMap = FirmaPageTypeProjectMap.Instance;
+        public static readonly FirmaPageTypeResultsByProgram ResultsByProgram = FirmaPageTypeResultsByProgram.Instance;
+        public static readonly FirmaPageTypeHomeAdditionalInfo HomeAdditionalInfo = FirmaPageTypeHomeAdditionalInfo.Instance;
         public static readonly FirmaPageTypeFeaturedProjectList FeaturedProjectList = FirmaPageTypeFeaturedProjectList.Instance;
         public static readonly FirmaPageTypeTransportationStrategiesList TransportationStrategiesList = FirmaPageTypeTransportationStrategiesList.Instance;
         public static readonly FirmaPageTypeTransportationObjectivesList TransportationObjectivesList = FirmaPageTypeTransportationObjectivesList.Instance;
@@ -44,10 +44,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeTransportationCostParameterSet TransportationCostParameterSet = FirmaPageTypeTransportationCostParameterSet.Instance;
         public static readonly FirmaPageTypeTerminatedProjectList TerminatedProjectList = FirmaPageTypeTerminatedProjectList.Instance;
         public static readonly FirmaPageTypeFullProjectListSimple FullProjectListSimple = FirmaPageTypeFullProjectListSimple.Instance;
-        public static readonly FirmaPageTypeEIPTaxonomy EIPTaxonomy = FirmaPageTypeEIPTaxonomy.Instance;
+        public static readonly FirmaPageTypeTaxonomy Taxonomy = FirmaPageTypeTaxonomy.Instance;
         public static readonly FirmaPageTypeTransportationTaxonomy TransportationTaxonomy = FirmaPageTypeTransportationTaxonomy.Instance;
         public static readonly FirmaPageTypeTagList TagList = FirmaPageTypeTagList.Instance;
-        public static readonly FirmaPageTypeSpendingByEIPPerformanceMeasureByProject SpendingByEIPPerformanceMeasureByProject = FirmaPageTypeSpendingByEIPPerformanceMeasureByProject.Instance;
+        public static readonly FirmaPageTypeSpendingByPerformanceMeasureByProject SpendingByPerformanceMeasureByProject = FirmaPageTypeSpendingByPerformanceMeasureByProject.Instance;
         public static readonly FirmaPageTypeProposedProjects ProposedProjects = FirmaPageTypeProposedProjects.Instance;
         public static readonly FirmaPageTypeMyOrganizationsProjects MyOrganizationsProjects = FirmaPageTypeMyOrganizationsProjects.Instance;
         public static readonly FirmaPageTypeManageUpdateNotifications ManageUpdateNotifications = FirmaPageTypeManageUpdateNotifications.Instance;
@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FirmaPageType()
         {
-            All = new List<FirmaPageType> { HomePage, AboutClackamasPartnership, Meetings, FullProjectList, FiveYearProjectList, CompletedProjectList, EIPPerformanceMeasuresList, ActionPrioritiesList, LocalAndRegionalPlansList, FocusAreasList, FundingSourcesList, OrganizationsList, ProgramsList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByFocusAreaByProgram, EIPProjectMap, EIPResultsByProgram, EIPHomeAdditionalInfo, FeaturedProjectList, TransportationStrategiesList, TransportationObjectivesList, TransportationProjectList, TransportationCostParameterSet, TerminatedProjectList, FullProjectListSimple, EIPTaxonomy, TransportationTaxonomy, TagList, SpendingByEIPPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, ThresholdCategoriesList, MonitoringProgramsList };
+            All = new List<FirmaPageType> { HomePage, AboutClackamasPartnership, Meetings, FullProjectList, FiveYearProjectList, CompletedProjectList, PerformanceMeasuresList, ActionPrioritiesList, LocalAndRegionalPlansList, FocusAreasList, FundingSourcesList, OrganizationsList, ProgramsList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByFocusAreaByProgram, ProjectMap, ResultsByProgram, HomeAdditionalInfo, FeaturedProjectList, TransportationStrategiesList, TransportationObjectivesList, TransportationProjectList, TransportationCostParameterSet, TerminatedProjectList, FullProjectListSimple, Taxonomy, TransportationTaxonomy, TagList, SpendingByPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, ThresholdCategoriesList, MonitoringProgramsList };
             AllLookupDictionary = new ReadOnlyDictionary<int, FirmaPageType>(All.ToDictionary(x => x.FirmaPageTypeID));
         }
 
@@ -140,16 +140,6 @@ namespace ProjectFirma.Web.Models
                     return ActionPrioritiesList;
                 case FirmaPageTypeEnum.CompletedProjectList:
                     return CompletedProjectList;
-                case FirmaPageTypeEnum.EIPHomeAdditionalInfo:
-                    return EIPHomeAdditionalInfo;
-                case FirmaPageTypeEnum.EIPPerformanceMeasuresList:
-                    return EIPPerformanceMeasuresList;
-                case FirmaPageTypeEnum.EIPProjectMap:
-                    return EIPProjectMap;
-                case FirmaPageTypeEnum.EIPResultsByProgram:
-                    return EIPResultsByProgram;
-                case FirmaPageTypeEnum.EIPTaxonomy:
-                    return EIPTaxonomy;
                 case FirmaPageTypeEnum.FeaturedProjectList:
                     return FeaturedProjectList;
                 case FirmaPageTypeEnum.FiveYearProjectList:
@@ -162,6 +152,8 @@ namespace ProjectFirma.Web.Models
                     return FullProjectListSimple;
                 case FirmaPageTypeEnum.FundingSourcesList:
                     return FundingSourcesList;
+                case FirmaPageTypeEnum.HomeAdditionalInfo:
+                    return HomeAdditionalInfo;
                 case FirmaPageTypeEnum.HomePage:
                     return HomePage;
                 case FirmaPageTypeEnum.InvestmentByFundingSector:
@@ -182,18 +174,26 @@ namespace ProjectFirma.Web.Models
                     return OrganizationsList;
                 case FirmaPageTypeEnum.PagesWithIntroTextList:
                     return PagesWithIntroTextList;
+                case FirmaPageTypeEnum.PerformanceMeasuresList:
+                    return PerformanceMeasuresList;
                 case FirmaPageTypeEnum.ProgramsList:
                     return ProgramsList;
+                case FirmaPageTypeEnum.ProjectMap:
+                    return ProjectMap;
                 case FirmaPageTypeEnum.ProjectUpdateStatus:
                     return ProjectUpdateStatus;
                 case FirmaPageTypeEnum.ProposedProjects:
                     return ProposedProjects;
-                case FirmaPageTypeEnum.SpendingByEIPPerformanceMeasureByProject:
-                    return SpendingByEIPPerformanceMeasureByProject;
+                case FirmaPageTypeEnum.ResultsByProgram:
+                    return ResultsByProgram;
+                case FirmaPageTypeEnum.SpendingByPerformanceMeasureByProject:
+                    return SpendingByPerformanceMeasureByProject;
                 case FirmaPageTypeEnum.SpendingBySectorByFocusAreaByProgram:
                     return SpendingBySectorByFocusAreaByProgram;
                 case FirmaPageTypeEnum.TagList:
                     return TagList;
+                case FirmaPageTypeEnum.Taxonomy:
+                    return Taxonomy;
                 case FirmaPageTypeEnum.TerminatedProjectList:
                     return TerminatedProjectList;
                 case FirmaPageTypeEnum.ThresholdCategoriesList:
@@ -224,7 +224,7 @@ namespace ProjectFirma.Web.Models
         FullProjectList = 6,
         FiveYearProjectList = 7,
         CompletedProjectList = 8,
-        EIPPerformanceMeasuresList = 9,
+        PerformanceMeasuresList = 9,
         ActionPrioritiesList = 11,
         LocalAndRegionalPlansList = 12,
         FocusAreasList = 13,
@@ -236,9 +236,9 @@ namespace ProjectFirma.Web.Models
         PagesWithIntroTextList = 19,
         InvestmentByFundingSector = 20,
         SpendingBySectorByFocusAreaByProgram = 21,
-        EIPProjectMap = 22,
-        EIPResultsByProgram = 23,
-        EIPHomeAdditionalInfo = 25,
+        ProjectMap = 22,
+        ResultsByProgram = 23,
+        HomeAdditionalInfo = 25,
         FeaturedProjectList = 26,
         TransportationStrategiesList = 28,
         TransportationObjectivesList = 29,
@@ -246,10 +246,10 @@ namespace ProjectFirma.Web.Models
         TransportationCostParameterSet = 31,
         TerminatedProjectList = 32,
         FullProjectListSimple = 33,
-        EIPTaxonomy = 34,
+        Taxonomy = 34,
         TransportationTaxonomy = 35,
         TagList = 36,
-        SpendingByEIPPerformanceMeasureByProject = 37,
+        SpendingByPerformanceMeasureByProject = 37,
         ProposedProjects = 38,
         MyOrganizationsProjects = 39,
         ManageUpdateNotifications = 41,
@@ -294,10 +294,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeCompletedProjectList Instance = new FirmaPageTypeCompletedProjectList(8, @"CompletedProjectList", @"Completed Project List", 1);
     }
 
-    public partial class FirmaPageTypeEIPPerformanceMeasuresList : FirmaPageType
+    public partial class FirmaPageTypePerformanceMeasuresList : FirmaPageType
     {
-        private FirmaPageTypeEIPPerformanceMeasuresList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeEIPPerformanceMeasuresList Instance = new FirmaPageTypeEIPPerformanceMeasuresList(9, @"EIPPerformanceMeasuresList", @"EIP Performance Measures List", 1);
+        private FirmaPageTypePerformanceMeasuresList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypePerformanceMeasuresList Instance = new FirmaPageTypePerformanceMeasuresList(9, @"PerformanceMeasuresList", @"Performance Measures List", 1);
     }
 
     public partial class FirmaPageTypeActionPrioritiesList : FirmaPageType
@@ -357,7 +357,7 @@ namespace ProjectFirma.Web.Models
     public partial class FirmaPageTypeInvestmentByFundingSector : FirmaPageType
     {
         private FirmaPageTypeInvestmentByFundingSector(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeInvestmentByFundingSector Instance = new FirmaPageTypeInvestmentByFundingSector(20, @"InvestmentByFundingSector", @"EIP Investment by Funding Sector", 1);
+        public static readonly FirmaPageTypeInvestmentByFundingSector Instance = new FirmaPageTypeInvestmentByFundingSector(20, @"InvestmentByFundingSector", @"Investment by Funding Sector", 1);
     }
 
     public partial class FirmaPageTypeSpendingBySectorByFocusAreaByProgram : FirmaPageType
@@ -366,22 +366,22 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeSpendingBySectorByFocusAreaByProgram Instance = new FirmaPageTypeSpendingBySectorByFocusAreaByProgram(21, @"SpendingBySectorByFocusAreaByProgram", @"Spending by Sector by Focus Area by Program", 1);
     }
 
-    public partial class FirmaPageTypeEIPProjectMap : FirmaPageType
+    public partial class FirmaPageTypeProjectMap : FirmaPageType
     {
-        private FirmaPageTypeEIPProjectMap(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeEIPProjectMap Instance = new FirmaPageTypeEIPProjectMap(22, @"EIPProjectMap", @"EIP Project Map", 1);
+        private FirmaPageTypeProjectMap(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeProjectMap Instance = new FirmaPageTypeProjectMap(22, @"ProjectMap", @"Project Map", 1);
     }
 
-    public partial class FirmaPageTypeEIPResultsByProgram : FirmaPageType
+    public partial class FirmaPageTypeResultsByProgram : FirmaPageType
     {
-        private FirmaPageTypeEIPResultsByProgram(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeEIPResultsByProgram Instance = new FirmaPageTypeEIPResultsByProgram(23, @"EIPResultsByProgram", @"EIP Results by Program", 1);
+        private FirmaPageTypeResultsByProgram(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeResultsByProgram Instance = new FirmaPageTypeResultsByProgram(23, @"ResultsByProgram", @"Results by Program", 1);
     }
 
-    public partial class FirmaPageTypeEIPHomeAdditionalInfo : FirmaPageType
+    public partial class FirmaPageTypeHomeAdditionalInfo : FirmaPageType
     {
-        private FirmaPageTypeEIPHomeAdditionalInfo(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeEIPHomeAdditionalInfo Instance = new FirmaPageTypeEIPHomeAdditionalInfo(25, @"EIPHomeAdditionalInfo", @"EIP Tracker Home Page Additional Info", 2);
+        private FirmaPageTypeHomeAdditionalInfo(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeHomeAdditionalInfo Instance = new FirmaPageTypeHomeAdditionalInfo(25, @"HomeAdditionalInfo", @"Home Page Additional Info", 2);
     }
 
     public partial class FirmaPageTypeFeaturedProjectList : FirmaPageType
@@ -426,10 +426,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeFullProjectListSimple Instance = new FirmaPageTypeFullProjectListSimple(33, @"FullProjectListSimple", @"Full Project List (Simple)", 1);
     }
 
-    public partial class FirmaPageTypeEIPTaxonomy : FirmaPageType
+    public partial class FirmaPageTypeTaxonomy : FirmaPageType
     {
-        private FirmaPageTypeEIPTaxonomy(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeEIPTaxonomy Instance = new FirmaPageTypeEIPTaxonomy(34, @"EIPTaxonomy", @"EIP Taxonomy", 1);
+        private FirmaPageTypeTaxonomy(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeTaxonomy Instance = new FirmaPageTypeTaxonomy(34, @"Taxonomy", @"Taxonomy", 1);
     }
 
     public partial class FirmaPageTypeTransportationTaxonomy : FirmaPageType
@@ -444,10 +444,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeTagList Instance = new FirmaPageTypeTagList(36, @"TagList", @"Tag List", 1);
     }
 
-    public partial class FirmaPageTypeSpendingByEIPPerformanceMeasureByProject : FirmaPageType
+    public partial class FirmaPageTypeSpendingByPerformanceMeasureByProject : FirmaPageType
     {
-        private FirmaPageTypeSpendingByEIPPerformanceMeasureByProject(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeSpendingByEIPPerformanceMeasureByProject Instance = new FirmaPageTypeSpendingByEIPPerformanceMeasureByProject(37, @"SpendingByEIPPerformanceMeasureByProject", @"Spending by Performance Measure by Project", 1);
+        private FirmaPageTypeSpendingByPerformanceMeasureByProject(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeSpendingByPerformanceMeasureByProject Instance = new FirmaPageTypeSpendingByPerformanceMeasureByProject(37, @"SpendingByPerformanceMeasureByProject", @"Spending by Performance Measure by Project", 1);
     }
 
     public partial class FirmaPageTypeProposedProjects : FirmaPageType

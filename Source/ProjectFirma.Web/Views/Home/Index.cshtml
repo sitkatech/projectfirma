@@ -10,7 +10,7 @@
 @section JavascriptAndStylesContent
 {
     <meta charset="utf-8" />
-    <meta name="Description" content="The Lake Tahoe EIP Project Tracker provides public access to program information and details on watershed, habitat, stormwater, forestry, air quality, and transportation projects implemented by the Lake Tahoe Environmental Improvement Program (EIP). This site replaces the Tahoe Information Management Systems (TIIMS). Sponsored by Tahoe Regional Planning Agency (TRPA) and Tahoe Metropolitan Planning Organization (TMPO)." />
+    <meta name="Description" content="The Lake Tahoe Project Tracker provides public access to program information and details on watershed, habitat, stormwater, forestry, air quality, and transportation projects implemented by the Lake Tahoe Environmental Improvement Program. This site replaces the Tahoe Information Management Systems (TIIMS). Sponsored by Tahoe Regional Planning Agency (TRPA) and Tahoe Metropolitan Planning Organization (TMPO)." />
 
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
 
@@ -99,6 +99,7 @@
                                                 </tr>
                                             </table>
                                             <div style="margin-top: 20px">
+
                                                 @Html.Raw(featuredProject.ProjectDescription.HtmlEncodeWithBreaks())
                                             </div>
                                             <div class="pull-right">
@@ -122,7 +123,7 @@
         <div class="col-md-3 col-sm-12" style="padding: 0 15px 10px 0">
             <h2 class="homePage" style="margin-bottom: 5px;">Project Overview Map</h2>
             <p style="margin-bottom: 5px">
-                This map shows an overview of the approximate locations of EIP projects. To zoom into a specific area hold down the Shift key and drag a rectangle, or
+                This map shows an overview of the approximate locations of projects. To zoom into a specific area hold down the Shift key and drag a rectangle, or
                 <a href="@ViewDataTyped.FullMapUrl">view the comprehensive map page</a>.
             </p>
             <div class="ltInfoPanel" style="width: 100%; padding: 10px 10px 0 10px">

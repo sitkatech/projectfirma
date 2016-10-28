@@ -24,8 +24,8 @@ namespace ProjectFirma.Web.Models
         protected Program()
         {
             this.ActionPriorities = new HashSet<ActionPriority>();
-            this.ProgramEIPPerformanceMeasures = new HashSet<ProgramEIPPerformanceMeasure>();
             this.ProgramImages = new HashSet<ProgramImage>();
+            this.ProgramPerformanceMeasures = new HashSet<ProgramPerformanceMeasure>();
         }
 
         /// <summary>
@@ -82,13 +82,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ActionPriorities.Any() || ProgramEIPPerformanceMeasures.Any() || ProgramImages.Any();
+            return ActionPriorities.Any() || ProgramImages.Any() || ProgramPerformanceMeasures.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Program).Name, typeof(ActionPriority).Name, typeof(ProgramEIPPerformanceMeasure).Name, typeof(ProgramImage).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Program).Name, typeof(ActionPriority).Name, typeof(ProgramImage).Name, typeof(ProgramPerformanceMeasure).Name};
 
         [Key]
         public int ProgramID { get; set; }
@@ -112,8 +112,8 @@ namespace ProjectFirma.Web.Models
         public int PrimaryKey { get { return ProgramID; } set { ProgramID = value; } }
 
         public virtual ICollection<ActionPriority> ActionPriorities { get; set; }
-        public virtual ICollection<ProgramEIPPerformanceMeasure> ProgramEIPPerformanceMeasures { get; set; }
         public virtual ICollection<ProgramImage> ProgramImages { get; set; }
+        public virtual ICollection<ProgramPerformanceMeasure> ProgramPerformanceMeasures { get; set; }
         public virtual FocusArea FocusArea { get; set; }
 
         public static class FieldLengths

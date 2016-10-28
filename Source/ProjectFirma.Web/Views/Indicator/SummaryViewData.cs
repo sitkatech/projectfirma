@@ -2,7 +2,7 @@
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.EIPPerformanceMeasure;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Views.Indicator
         public enum IndicatorSummaryTab
         {
             Overview,
-            EIP
+            PerformanceMeasure
         }
 
         public readonly Models.Indicator Indicator;
@@ -30,21 +30,20 @@ namespace ProjectFirma.Web.Views.Indicator
         public readonly string EditCriticalDefinitionsUrl;
         public readonly string EditAccountingPeriodAndScaleUrl;
         public readonly string EditProjectReportingUrl;
-        public readonly string EditEIPContextUrl;
 
         public readonly string IndexUrl;
 
         public readonly string EditMonitoringProgramsUrl;
 
-        public List<KeyValuePair<Models.Program, bool>> EIPPerformanceMeasurePrograms { get; private set; }
+        public List<KeyValuePair<Models.Program, bool>> ProgramPerformanceMeasures { get; private set; }
         public string EditProgramsUrl { get; private set; }
-        public bool UserHasProgramEIPPerformanceMeasureManagePermissions { get; private set; }
-        public EIPPerformanceMeasureReportedValuesGridSpec EIPPerformanceMeasureReportedValuesGridSpec { get; private set; }
-        public string EIPPerformanceMeasureReportedValuesGridName { get; private set; }
-        public string EIPPerformanceMeasureReportedValuesGridDataUrl { get; private set; }
-        public EIPPerformanceMeasureExpectedGridSpec EipPerformanceMeasureExpectedGridSpec { get; private set; }
-        public string EIPPerformanceMeasureExpectedsGridName { get; private set; }
-        public string EIPPerformanceMeasureExpectedsGridDataUrl { get; private set; }
+        public bool UserHasProgramPerformanceMeasureManagePermissions { get; private set; }
+        public PerformanceMeasureReportedValuesGridSpec PerformanceMeasureReportedValuesGridSpec { get; private set; }
+        public string PerformanceMeasureReportedValuesGridName { get; private set; }
+        public string PerformanceMeasureReportedValuesGridDataUrl { get; private set; }
+        public PerformanceMeasureExpectedGridSpec PerformanceMeasureExpectedGridSpec { get; private set; }
+        public string PerformanceMeasureExpectedsGridName { get; private set; }
+        public string PerformanceMeasureExpectedsGridDataUrl { get; private set; }
 
         public SummaryViewData(Person currentPerson,
             Models.Indicator indicator,
@@ -71,47 +70,32 @@ namespace ProjectFirma.Web.Views.Indicator
             EditAccountingPeriodAndScaleUrl =
                 SitkaRoute<IndicatorController>.BuildUrlFromExpression(c => c.EditIndicatorRichText(indicator, EditRtfContent.IndicatorRichTextType.AccountingPeriodAndScale));
             EditProjectReportingUrl = SitkaRoute<IndicatorController>.BuildUrlFromExpression(c => c.EditIndicatorRichText(indicator, EditRtfContent.IndicatorRichTextType.ProjectReporting));
-            EditEIPContextUrl = SitkaRoute<IndicatorController>.BuildUrlFromExpression(c => c.EditIndicatorRichText(indicator, EditRtfContent.IndicatorRichTextType.EIPContext));
 
             IndexUrl = SitkaRoute<IndicatorController>.BuildUrlFromExpression(c => c.Index());
 
-            // EIP specific
-            SetEIPSpecificData(indicator, currentPerson);
-        }
+            UserHasProgramPerformanceMeasureManagePermissions = new ProgramPerformanceMeasureManageFeature().HasPermission(currentPerson, indicator.PerformanceMeasure).HasPermission;
+            EditProgramsUrl = SitkaRoute<ProgramPerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPrograms(indicator.PerformanceMeasure));
+            ProgramPerformanceMeasures = indicator.PerformanceMeasure.GetPrograms().OrderBy(x => x.Key.DisplayName).ToList();
 
-        private void SetEIPSpecificData(Models.Indicator indicator, Person currentPerson)
-        {
-            UserHasProgramEIPPerformanceMeasureManagePermissions = indicator.ReportedInEIP && new ProgramEIPPerformanceMeasureManageFeature().HasPermission(currentPerson, indicator.EIPPerformanceMeasure).HasPermission;
-            EditProgramsUrl = indicator.ReportedInEIP ? SitkaRoute<ProgramEIPPerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPrograms(indicator.EIPPerformanceMeasure)) : string.Empty;
-            EIPPerformanceMeasurePrograms = indicator.ReportedInEIP ? indicator.EIPPerformanceMeasure.GetPrograms().OrderBy(x => x.Key.DisplayName).ToList() : new List<KeyValuePair<Models.Program, bool>>();
+            PerformanceMeasureReportedValuesGridSpec = new PerformanceMeasureReportedValuesGridSpec(indicator.PerformanceMeasure)
+            {
+                ObjectNameSingular = "Reported Value for Projects",
+                ObjectNamePlural = "Reported Values for Projects",
+                SaveFiltersInCookie = true
+            };
 
-            EIPPerformanceMeasureReportedValuesGridSpec = indicator.ReportedInEIP
-                ? new EIPPerformanceMeasureReportedValuesGridSpec(indicator.EIPPerformanceMeasure)
-                {
-                    ObjectNameSingular = "Reported Value for Projects",
-                    ObjectNamePlural = "Reported Values for Projects",
-                    SaveFiltersInCookie = true
-                }
-                : null;
+            PerformanceMeasureReportedValuesGridName = "performanceMeasuresReportedValuesFromPerformanceMeasureGrid";
+            PerformanceMeasureReportedValuesGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.PerformanceMeasureReportedValuesGridJsonData(indicator.PerformanceMeasure));
 
-            EIPPerformanceMeasureReportedValuesGridName = "eipPerformanceMeasuresReportedValuesFromEIPPerformanceMeasureGrid";
-            EIPPerformanceMeasureReportedValuesGridDataUrl = indicator.ReportedInEIP
-                ? SitkaRoute<EIPPerformanceMeasureController>.BuildUrlFromExpression(tc => tc.EIPPerformanceMeasureReportedValuesGridJsonData(indicator.EIPPerformanceMeasure))
-                : string.Empty;
+            PerformanceMeasureExpectedGridSpec = new PerformanceMeasureExpectedGridSpec(indicator.PerformanceMeasure)
+            {
+                ObjectNameSingular = "Expected Value for Projects",
+                ObjectNamePlural = "Expected Values for Projects",
+                SaveFiltersInCookie = true
+            };
 
-            EipPerformanceMeasureExpectedGridSpec = indicator.ReportedInEIP
-                ? new EIPPerformanceMeasureExpectedGridSpec(indicator.EIPPerformanceMeasure)
-                {
-                    ObjectNameSingular = "Expected Value for Projects",
-                    ObjectNamePlural = "Expected Values for Projects",
-                    SaveFiltersInCookie = true
-                }
-                : null;
-
-            EIPPerformanceMeasureExpectedsGridName = "eipPerformanceMeasuresExpectedValuesFromEIPPerformanceMeasureGrid";
-            EIPPerformanceMeasureExpectedsGridDataUrl = indicator.ReportedInEIP
-                ? SitkaRoute<EIPPerformanceMeasureController>.BuildUrlFromExpression(tc => tc.EIPPerformanceMeasureExpectedsGridJsonData(indicator.EIPPerformanceMeasure))
-                : string.Empty;
+            PerformanceMeasureExpectedsGridName = "performanceMeasuresExpectedValuesFromPerformanceMeasureGrid";
+            PerformanceMeasureExpectedsGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.PerformanceMeasureExpectedsGridJsonData(indicator.PerformanceMeasure));
         }
 
         public bool IsActiveTabOverview
@@ -119,9 +103,9 @@ namespace ProjectFirma.Web.Views.Indicator
             get { return ActiveTab == IndicatorSummaryTab.Overview; }
         }
 
-        public bool IsActiveTabEIP
+        public bool IsActiveTabPerformanceMeasure
         {
-            get { return ActiveTab == IndicatorSummaryTab.EIP; }
+            get { return ActiveTab == IndicatorSummaryTab.PerformanceMeasure; }
         }
     }
 }

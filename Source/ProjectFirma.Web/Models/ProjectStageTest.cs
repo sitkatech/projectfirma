@@ -32,9 +32,9 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
-        public void AreEIPPerformanceMeasuresReportableTest()
+        public void ArePerformanceMeasuresReportableTest()
         {
-            Assert.That(ProjectStage.All.Where(x => x.AreEIPPerformanceMeasuresReportable()),
+            Assert.That(ProjectStage.All.Where(x => x.ArePerformanceMeasuresReportable()),
                 Is.EquivalentTo(new ProjectStage[] {ProjectStage.Completed, ProjectStage.Implementation, ProjectStage.PostImplementation}));
         }
 
@@ -53,9 +53,9 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
-        public void RequiresEIPPerformanceMeasureActualsTest()
+        public void RequiresPerformanceMeasureActualsTest()
         {
-            Assert.That(ProjectStage.All.Where(x => x.RequiresEIPPerformanceMeasureActuals()), Is.EquivalentTo(new ProjectStage[] {ProjectStage.Implementation}));
+            Assert.That(ProjectStage.All.Where(x => x.RequiresPerformanceMeasureActuals()), Is.EquivalentTo(new ProjectStage[] {ProjectStage.Implementation}));
         }
     }
 }

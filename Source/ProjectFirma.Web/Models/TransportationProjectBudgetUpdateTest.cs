@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Models
             var projectUpdateBatch = TestFramework.TestProjectUpdateBatch.Create(project);
             var fundingSource1 = TestFramework.TestFundingSource.Create();
 
-            // Arrange: test cloning a EIPPerformanceMeasureActual
+            // Arrange: test cloning a PerformanceMeasureActual
             var transportationProjectBudget1 = TestFramework.TestTransportationProjectBudget.Create(project, fundingSource1, 2011, 555);
 
             const int newCalendarYear = 2017;
@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Models
             var fundingSource1 = TestFramework.TestFundingSource.Create();
             var fundingSource2 = TestFramework.TestFundingSource.Create();
 
-            // Arrange: test cloning a EIPPerformanceMeasureActual
+            // Arrange: test cloning a PerformanceMeasureActual
             TestFramework.TestTransportationProjectBudget.Create(project, fundingSource1, 2011, 555);
             TestFramework.TestTransportationProjectBudget.Create(project, fundingSource1, 2012, 666);
             TestFramework.TestTransportationProjectBudget.Create(project, fundingSource2, 2013, 777);

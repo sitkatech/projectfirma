@@ -5,11 +5,11 @@ namespace ProjectFirma.Web.Views.User
 {
     public class EditRolesViewData : FirmaUserControlViewData
     {
-        public readonly IEnumerable<SelectListItem> EIPRoles;
+        public readonly IEnumerable<SelectListItem> Roles;
 
-        public EditRolesViewData(IEnumerable<SelectListItem> eipRoles)
+        public EditRolesViewData(IEnumerable<SelectListItem> roles)
         {
-            EIPRoles = eipRoles;
+            Roles = roles;
         }
     }
 }

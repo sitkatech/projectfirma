@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<FieldDefinition> _firmaFeatureWithContextImpl;
 
         public FieldDefinitionManageFeature()
-            : base(FirmaBaseFeatureHelpers.AllEIPRolesExceptUnassigned)
+            : base(FirmaBaseFeatureHelpers.AllRolesExceptUnassigned)
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<FieldDefinition>(this);
             ActionFilter = _firmaFeatureWithContextImpl;

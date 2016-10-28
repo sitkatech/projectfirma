@@ -34,16 +34,13 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
                     indicator.AssociatedProgramsHtmlString = RtfContent;
                     break;
                 case EditRtfContent.IndicatorRichTextType.CriticalDefinitions:
-                    indicator.EIPPerformanceMeasure.CriticalDefinitionsHtmlString = RtfContent;
+                    indicator.PerformanceMeasure.CriticalDefinitionsHtmlString = RtfContent;
                     break;
                 case EditRtfContent.IndicatorRichTextType.AccountingPeriodAndScale:
-                    indicator.EIPPerformanceMeasure.AccountingPeriodAndScaleHtmlString = RtfContent;
+                    indicator.PerformanceMeasure.AccountingPeriodAndScaleHtmlString = RtfContent;
                     break;
                 case EditRtfContent.IndicatorRichTextType.ProjectReporting:
-                    indicator.EIPPerformanceMeasure.ProjectReportingHtmlString = RtfContent;
-                    break;
-                case EditRtfContent.IndicatorRichTextType.EIPContext:
-                    indicator.EIPPerformanceMeasure.EIPContextHtmlString = RtfContent;
+                    indicator.PerformanceMeasure.ProjectReportingHtmlString = RtfContent;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(string.Format("Invalid GuidanceType {0}", indicatorRichTextType));

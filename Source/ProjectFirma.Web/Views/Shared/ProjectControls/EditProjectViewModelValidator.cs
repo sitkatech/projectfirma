@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             "Since project is in Completed stage, Completion Year needs to be less than or equal to this year";
         private const string SinceProjectIsInPostImplementationStageCompletionYearNeedsToBeLessThanOrEqualToThisYear =
             "Since project is in Post-Implementation stage, Completion Year needs to be less than or equal to this year";
-        private const string HasToImplementsMultipleProjectsIfThereAreValuesForEIPPerformanceMeasure1And2And3And34 =
+        private const string HasToImplementsMultipleProjectsIfThereAreValuesForPerformanceMeasure1And2And3And34 =
             "The project has expected or reported values for Performance Measure 1, 2, 3 or 34 entered; please remove those before you can set this project to not implement multiple projects";
         private const string TransportationObjectiveRequiredIfIsTransportationProject = "Since project is a Transportation project, Transportation Objective must be specified";
         private const string SinceProjectHasExistingUpdateCannotChangeStage = "There are updates to this project that have not been submitted.<br />Making this change can potentially affect that update in process.<br />Please delete the update if you want to change this project's stage.";
@@ -28,25 +28,25 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             return HttpRequestStorage.DatabaseEntities.Projects.Local;
         };
 
-        public Func<IList<Models.EIPPerformanceMeasureActual>> EIPPerformanceMeasureActuals = () =>
+        public Func<IList<Models.PerformanceMeasureActual>> PerformanceMeasureActuals = () =>
         {
-            HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureActuals.Load();
-            return HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureActuals.Local;
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Load();
+            return HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Local;
         };
 
-        public Func<IList<Models.EIPPerformanceMeasureExpected>> EIPPerformanceMeasureExpecteds = () =>
+        public Func<IList<Models.PerformanceMeasureExpected>> PerformanceMeasureExpecteds = () =>
         {
-            HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureExpecteds.Load();
-            return HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureExpecteds.Local;
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpecteds.Load();
+            return HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpecteds.Local;
         };
 
         public EditProjectViewModelValidator(IList<Models.Project> projects,
-            IList<Models.EIPPerformanceMeasureActual> eipPerformanceMeasureActuals,
-            IList<Models.EIPPerformanceMeasureExpected> eipPerformanceMeasureExpecteds) : this()
+            IList<Models.PerformanceMeasureActual> performanceMeasureActuals,
+            IList<Models.PerformanceMeasureExpected> performanceMeasureExpecteds) : this()
         {
             Projects = (() => projects);
-            EIPPerformanceMeasureActuals = (() => eipPerformanceMeasureActuals);
-            EIPPerformanceMeasureExpecteds = (() => eipPerformanceMeasureExpecteds);
+            PerformanceMeasureActuals = (() => performanceMeasureActuals);
+            PerformanceMeasureExpecteds = (() => performanceMeasureExpecteds);
         }
 
         public EditProjectViewModelValidator()
@@ -76,17 +76,17 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                 if (!implementsMultipleProjects)
                 {
                     return
-                        EIPPerformanceMeasureActuals()
+                        PerformanceMeasureActuals()
                             .Where(x => x.ProjectID == viewModel.ProjectID)
                             .ToList()
-                            .All(x => !x.EIPPerformanceMeasure.EIPPerformanceMeasureType.ForProjectsImplementsMultiplePrograms()) &&
-                        EIPPerformanceMeasureExpecteds()
+                            .All(x => !x.PerformanceMeasure.PerformanceMeasureType.ForProjectsImplementsMultiplePrograms()) &&
+                        PerformanceMeasureExpecteds()
                             .Where(x => x.ProjectID == viewModel.ProjectID)
                             .ToList()
-                            .All(x => !x.EIPPerformanceMeasure.EIPPerformanceMeasureType.ForProjectsImplementsMultiplePrograms());
+                            .All(x => !x.PerformanceMeasure.PerformanceMeasureType.ForProjectsImplementsMultiplePrograms());
                 }
                 return true;
-            }).WithMessage(HasToImplementsMultipleProjectsIfThereAreValuesForEIPPerformanceMeasure1And2And3And34);
+            }).WithMessage(HasToImplementsMultipleProjectsIfThereAreValuesForPerformanceMeasure1And2And3And34);
             RuleFor(x => x.TransportationObjectiveID).NotEmpty().When(viewModel => viewModel.IsTransportationProject).WithMessage(TransportationObjectiveRequiredIfIsTransportationProject);
             RuleFor(x => x.ProjectStageID).Must((viewModel, projectStageID) => !viewModel.HasExistingProjectUpdate || (viewModel.HasExistingProjectUpdate && viewModel.OldProjectStageID == viewModel.ProjectStageID)).WithMessage(SinceProjectHasExistingUpdateCannotChangeStage);
         }

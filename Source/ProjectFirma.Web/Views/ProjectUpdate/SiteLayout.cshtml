@@ -6,12 +6,12 @@
 @inherits SiteLayout
 
 @{
-    SetLayout("~/Areas/EIP/Views/Shared/SiteLayout.cshtml", ViewDataTyped);
+    SetLayout("~/Views/Shared/SiteLayout.cshtml", ViewDataTyped);
 }
 
 @section JavascriptAndStylesContent
 {
-    <link href="@Url.Content("~/Content/css/EIPProjectWizard.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/projectUpdateWizard.css")" rel="stylesheet" type="text/css" />
 
     <style>
         #main-container
@@ -66,13 +66,13 @@
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsLocationDetailUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
                 </a>
             </li>
-            <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.EIPPerformanceMeasures, ViewDataTyped.SelectedProjectUpdateSection)">
-                <a href="@ViewDataTyped.ProjectUpdateEIPPerformanceMeasuresUrl">
+            <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProjectUpdateSection)">
+                <a href="@ViewDataTyped.ProjectUpdatePerformanceMeasuresUrl">
                     Performance Measures
-                    @Html.Raw(ViewDataTyped.UpdateStatus.IsEIPPerformanceMeasuresUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+                    @Html.Raw(ViewDataTyped.UpdateStatus.IsPerformanceMeasuresUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
                 </a>
                 <span class="pull-right" style="padding: 5px">
-                    @Html.Raw(ViewDataTyped.ProjectUpdateBatch.AreEIPPerformanceMeasuresValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                    @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ArePerformanceMeasuresValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                 </span>
             </li>
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Expenditures, ViewDataTyped.SelectedProjectUpdateSection)">

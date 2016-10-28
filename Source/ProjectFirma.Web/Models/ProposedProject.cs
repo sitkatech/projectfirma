@@ -298,22 +298,22 @@ namespace ProjectFirma.Web.Models
 
             project.ProjectTransportationQuestions = proposedProject.ProposedProjectTransportationQuestions.OrderBy(x => x.TransportationQuestionID).Select(x => new ProjectTransportationQuestion(project.ProjectID, x.TransportationQuestionID) {Answer = x.Answer}).ToList();
 
-            foreach (var proposedProjectEIPPerformanceMeasureExpected in proposedProject.EIPPerformanceMeasureExpectedProposeds)
+            foreach (var performanceMeasureExpectedProposed in proposedProject.PerformanceMeasureExpectedProposeds)
             {
-                var eipPerformanceMeasureExpected = new EIPPerformanceMeasureExpected(project.ProjectID, proposedProjectEIPPerformanceMeasureExpected.EIPPerformanceMeasureID);
-                eipPerformanceMeasureExpected.ExpectedValue = proposedProjectEIPPerformanceMeasureExpected.ExpectedValue;
+                var performanceMeasureExpected = new PerformanceMeasureExpected(project.ProjectID, performanceMeasureExpectedProposed.PerformanceMeasureID);
+                performanceMeasureExpected.ExpectedValue = performanceMeasureExpectedProposed.ExpectedValue;
                 foreach (
-                    var proposedProjectEIPPerformanceMeasureExpectedSubcategoryOption in
-                        proposedProjectEIPPerformanceMeasureExpected.EIPPerformanceMeasureExpectedSubcategoryOptionProposeds)
+                    var performanceMeasureExpectedSubcategoryOptionProposed in
+                        performanceMeasureExpectedProposed.PerformanceMeasureExpectedSubcategoryOptionProposeds)
                 {
-                    var eipPerformanceMeasureExpectedSubcategoryOption = new EIPPerformanceMeasureExpectedSubcategoryOption(eipPerformanceMeasureExpected,
-                        proposedProjectEIPPerformanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryOption,
-                        proposedProjectEIPPerformanceMeasureExpectedSubcategoryOption.EIPPerformanceMeasure,
-                        proposedProjectEIPPerformanceMeasureExpectedSubcategoryOption.IndicatorSubcategory);
+                    var performanceMeasureExpectedSubcategoryOption = new PerformanceMeasureExpectedSubcategoryOption(performanceMeasureExpected,
+                        performanceMeasureExpectedSubcategoryOptionProposed.IndicatorSubcategoryOption,
+                        performanceMeasureExpectedSubcategoryOptionProposed.PerformanceMeasure,
+                        performanceMeasureExpectedSubcategoryOptionProposed.IndicatorSubcategory);
 
-                    eipPerformanceMeasureExpected.IndicatorSubcategoryOptions.Add(eipPerformanceMeasureExpectedSubcategoryOption);
+                    performanceMeasureExpected.IndicatorSubcategoryOptions.Add(performanceMeasureExpectedSubcategoryOption);
                 }
-                project.EIPPerformanceMeasureExpecteds.Add(eipPerformanceMeasureExpected);
+                project.PerformanceMeasureExpecteds.Add(performanceMeasureExpected);
             }
 
             foreach (var proposedProjectLocation in proposedProject.ProposedProjectLocations)
@@ -352,7 +352,7 @@ namespace ProjectFirma.Web.Models
             }
         }
         public bool AreProjectBasicsValid { get; set; }
-        public bool AreEIPPerformanceMeasuresValid { get; set; }
+        public bool ArePerformanceMeasuresValid { get; set; }
         public bool AreExpendituresValid { get; set; }
         public bool AreTransportationBudgetsValid { get; set; }
         public bool IsProjectLocationSimpleValid { get; set; }

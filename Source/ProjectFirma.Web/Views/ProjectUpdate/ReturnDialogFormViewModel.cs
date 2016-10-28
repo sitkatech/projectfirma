@@ -21,8 +21,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     case ProjectUpdate.ProjectUpdateSectionEnum.Expenditures:
                         projectUpdateBatch.ExpendituresComment = SectionComments;
                         break;
-                    case ProjectUpdate.ProjectUpdateSectionEnum.EIPPerformanceMeasures:
-                        projectUpdateBatch.EIPPerformanceMeasuresComment = SectionComments;
+                    case ProjectUpdate.ProjectUpdateSectionEnum.PerformanceMeasures:
+                        projectUpdateBatch.PerformanceMeasuresComment = SectionComments;
                         break;
                     case ProjectUpdate.ProjectUpdateSectionEnum.LocationSimple:
                         projectUpdateBatch.LocationSimpleComment = SectionComments;

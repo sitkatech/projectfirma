@@ -9,7 +9,7 @@
 @inherits FactSheet
 
 @{
-    SetLayout("~/Areas/EIP/Views/Shared/NavAndHeaderLayout.cshtml", ViewDataTyped);
+    SetLayout("~/Views/Shared/NavAndHeaderLayout.cshtml", ViewDataTyped);
 }
 
 @section JavascriptAndStylesContent
@@ -232,7 +232,7 @@
     <table style="width: 100%; padding-bottom: 15px">
         <tr>
             <td style="border-right: 2px solid; padding: 10px; width: 270px" class="focusAreaColor">
-                <img src="~/Content/img/eip-logo-factsheet.png" alt="Lake Tahoe EIP" />
+                <img src="~/Content/img/eip-logo-factsheet.png" alt="Lake Tahoe" />
             </td>
             <td style="padding: 20px">
                 <div class="focusAreaColor" style="font-size: medium">
@@ -283,6 +283,7 @@
                 @ViewDataTyped.Project.ActionPriority.Program.ProgramName &gt;
                 @ViewDataTyped.Project.ActionPriority.ActionPriorityName
             </td>
+
         </tr>
     </table>
 
@@ -291,14 +292,14 @@
             <td class="factSheetAboutProject" style="padding-top: 20px; max-width:1000px">
                 <div style="max-height:320px; white-space: normal; text-overflow: ellipsis; overflow-y: hidden">@ViewDataTyped.Project.ProjectDescription</div>
                 <div class="sectionTitle focusAreaColor">Key accomplishments of project</div>
-                @if (ViewDataTyped.EIPPerformanceMeasureReportedValues.Any())
+                @if (ViewDataTyped.PerformanceMeasureReportedValues.Any())
                 {
                     <table>
-                        @foreach (var eipPerformanceMeasureGroup in ViewDataTyped.EIPPerformanceMeasureReportedValues)
+                        @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
                         {
                             <tr>
                                 <td class="bullet">&bull;</td>
-                                <td>@eipPerformanceMeasureGroup.Key.Indicator.IndicatorDisplayName: @eipPerformanceMeasureGroup.Key.Indicator.MeasurementUnitType.DisplayValue(eipPerformanceMeasureGroup.Sum(x => x.ReportedValue)) @eipPerformanceMeasureGroup.Key.Indicator.MeasurementUnitType.LegendDisplayName</td>
+                                <td>@performanceMeasureGroup.Key.Indicator.IndicatorDisplayName: @performanceMeasureGroup.Key.Indicator.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.ReportedValue)) @performanceMeasureGroup.Key.Indicator.MeasurementUnitType.LegendDisplayName</td>
                             </tr>
                         }
                     </table>

@@ -3,10 +3,10 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("View Terminated Project List")]
-    public class ProjectsViewTerminatedListFeature : EIPFeature
+    public class ProjectsViewTerminatedListFeature : FirmaFeature
     {
         public ProjectsViewTerminatedListFeature()
-            : base(FirmaBaseFeatureHelpers.AllEIPRolesExceptUnassigned)
+            : base(FirmaBaseFeatureHelpers.AllRolesExceptUnassigned)
         {
         }
     }

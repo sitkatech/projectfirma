@@ -21,38 +21,38 @@ namespace ProjectFirma.Web.Models
             get { return !String.IsNullOrWhiteSpace(ChartConfigurationJson); }
         }
 
-        public static List<GoogleChartJson> MakeGoogleChartJsonsForEIPSubcategories(EIPPerformanceMeasure eipPerformanceMeasure,
-            IEnumerable<EIPPerformanceMeasureReportedValue> eipPerformanceMeasureReportedValues,
+        public static List<GoogleChartJson> MakeGoogleChartJsonsForSubcategories(PerformanceMeasure performanceMeasure,
+            IEnumerable<PerformanceMeasureReportedValue> performanceMeasureReportedValues,
             IEnumerable<int> yearRange)
         {
             return
-                eipPerformanceMeasure.IndicatorSubcategories.Where(x => x.ShowOnChart)
-                    .Select(x => MakeGoogleChartJsonForEIP(eipPerformanceMeasure, x, eipPerformanceMeasureReportedValues, yearRange)).ToList();
+                performanceMeasure.IndicatorSubcategories.Where(x => x.ShowOnChart)
+                    .Select(x => MakeGoogleChartJson(performanceMeasure, x, performanceMeasureReportedValues, yearRange)).ToList();
         }
 
-        private static GoogleChartJson MakeGoogleChartJsonForEIP(EIPPerformanceMeasure eipPerformanceMeasure, IndicatorSubcategory indicatorSubcategory, IEnumerable<EIPPerformanceMeasureReportedValue> eipPerformanceMeasureReportedValues, IEnumerable<int> yearRange)
+        private static GoogleChartJson MakeGoogleChartJson(PerformanceMeasure performanceMeasure, IndicatorSubcategory indicatorSubcategory, IEnumerable<PerformanceMeasureReportedValue> performanceMeasureReportedValues, IEnumerable<int> yearRange)
         {
             var indicatorSubcategoryOptionsWithCalendarYearReportedValues = indicatorSubcategory.IndicatorSubcategoryOptions.ToDictionary(x => x.ChartName, x =>
             {
                 var calendarYearReportedValuesDict =
-                    eipPerformanceMeasureReportedValues.SelectMany(pmav => pmav.EIPPerformanceMeasureActualSubcategoryOptions)
+                    performanceMeasureReportedValues.SelectMany(pmav => pmav.PerformanceMeasureActualSubcategoryOptions)
                         .Where(pmavsco => indicatorSubcategory.IndicatorSubcategoryID == pmavsco.IndicatorSubcategoryID && pmavsco.IndicatorSubcategoryOptionID == x.IndicatorSubcategoryOptionID)
-                        .GroupBy(pmavsco => pmavsco.EIPPerformanceMeasureActual.CalendarYear)
-                        .ToDictionary(cy => cy.Key, cy => cy.Sum(exp => exp.EIPPerformanceMeasureActual.ActualValue));
+                        .GroupBy(pmavsco => pmavsco.PerformanceMeasureActual.CalendarYear)
+                        .ToDictionary(cy => cy.Key, cy => cy.Sum(exp => exp.PerformanceMeasureActual.ActualValue));
 
                 var calendarYearReportedValues =
                     yearRange.OrderBy(year => year).Select(year => new CalendarYearReportedValue(year, calendarYearReportedValuesDict.ContainsKey(year) ? calendarYearReportedValuesDict[year] : 0));
                 return calendarYearReportedValues;
             });
 
-            var googleChartJson = MakeGoogleChartJsonForEIPIndicatorSubcategory(eipPerformanceMeasure, yearRange, indicatorSubcategory, indicatorSubcategoryOptionsWithCalendarYearReportedValues, indicatorSubcategory.IndicatorSubcategoryDisplayName);
+            var googleChartJson = MakeGoogleChartJsonForIndicatorSubcategory(performanceMeasure, yearRange, indicatorSubcategory, indicatorSubcategoryOptionsWithCalendarYearReportedValues, indicatorSubcategory.IndicatorSubcategoryDisplayName);
             return googleChartJson;
         }
 
-        public static GoogleChartJson MakeGoogleChartJsonForPM34(EIPPerformanceMeasure eipPerformanceMeasure, List<EIPPerformanceMeasureReportedValue> reportedValues, List<int> yearRange)
+        public static GoogleChartJson MakeGoogleChartJsonForPM34(PerformanceMeasure performanceMeasure, List<PerformanceMeasureReportedValue> reportedValues, List<int> yearRange)
         {
-            Check.Require(eipPerformanceMeasure.EIPPerformanceMeasureType == EIPPerformanceMeasureType.EIPPerformanceMeasure34);
-            Check.Require(eipPerformanceMeasure.IndicatorSubcategories.Count == 1, string.Format("PM 34 can only have 1 subcategory but somehow it has  {0}!", eipPerformanceMeasure.IndicatorSubcategories.Count));
+            Check.Require(performanceMeasure.PerformanceMeasureType == PerformanceMeasureType.PerformanceMeasure34);
+            Check.Require(performanceMeasure.IndicatorSubcategories.Count == 1, string.Format("PM 34 can only have 1 subcategory but somehow it has  {0}!", performanceMeasure.IndicatorSubcategories.Count));
 
             var calendarYearReportedValues = reportedValues.Any()
                 ? yearRange.OrderBy(cy => cy).Select(cy =>
@@ -62,42 +62,42 @@ namespace ProjectFirma.Web.Models
                 }).ToList()
                 : new List<CalendarYearReportedValue>();
 
-            var indicatorSubcategoryOptionsWithCalendarYearReportedValues = new Dictionary<string, IEnumerable<CalendarYearReportedValue>>{{eipPerformanceMeasure.DisplayNameNoNumber, calendarYearReportedValues}};
-            var indicatorSubcategory = eipPerformanceMeasure.IndicatorSubcategories.Single(); //This PM only ever has one ("virtual") indicatorSubcategory
+            var indicatorSubcategoryOptionsWithCalendarYearReportedValues = new Dictionary<string, IEnumerable<CalendarYearReportedValue>>{{performanceMeasure.DisplayNameNoNumber, calendarYearReportedValues}};
+            var indicatorSubcategory = performanceMeasure.IndicatorSubcategories.Single(); //This PM only ever has one ("virtual") indicatorSubcategory
 
-            var googleChartJson = MakeGoogleChartJsonForEIPIndicatorSubcategory(eipPerformanceMeasure, yearRange, indicatorSubcategory, indicatorSubcategoryOptionsWithCalendarYearReportedValues, string.Empty);
+            var googleChartJson = MakeGoogleChartJsonForIndicatorSubcategory(performanceMeasure, yearRange, indicatorSubcategory, indicatorSubcategoryOptionsWithCalendarYearReportedValues, string.Empty);
             return googleChartJson;
         }
 
-        public static GoogleChartJson MakeGoogleChartJsonForPM33(EIPPerformanceMeasure eipPerformanceMeasure, IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, List<int> yearRange)
+        public static GoogleChartJson MakeGoogleChartJsonForPM33(PerformanceMeasure performanceMeasure, IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, List<int> yearRange)
         {
-            Check.Require(eipPerformanceMeasure.EIPPerformanceMeasureType == EIPPerformanceMeasureType.EIPPerformanceMeasure33);
-            Check.Require(eipPerformanceMeasure.IndicatorSubcategories.Count == 1, string.Format("PM 33 can only have 1 subcategory but somehow it has  {0}!", eipPerformanceMeasure.IndicatorSubcategories.Count));
+            Check.Require(performanceMeasure.PerformanceMeasureType == PerformanceMeasureType.PerformanceMeasure33);
+            Check.Require(performanceMeasure.IndicatorSubcategories.Count == 1, string.Format("PM 33 can only have 1 subcategory but somehow it has  {0}!", performanceMeasure.IndicatorSubcategories.Count));
 
             var indicatorSubcategoryOptionsWithCalendarYearReportedValues = Sector.All.ToDictionary(x => x.SectorDisplayName, s =>
             {
                 var reportableProjectFundingSourceExpendituresForSector =
                     projectFundingSourceExpenditures.AsQueryable()
                         .GetExpendituresFromMininumYearForReportingOnward()
-                        .Where(pfse => pfse.FundingSource.Organization.SectorID == s.SectorID && pfse.Project.ProjectStage.AreEIPPerformanceMeasuresReportable())
+                        .Where(pfse => pfse.FundingSource.Organization.SectorID == s.SectorID && pfse.Project.ProjectStage.ArePerformanceMeasuresReportable())
                         .ToList();
                 var calendarYearReportedValues = ProjectFundingSourceExpenditure.ToCalendarYearReportedValues(reportableProjectFundingSourceExpendituresForSector);
                 return calendarYearReportedValues;
             });
 
-            var indicatorSubcategory = eipPerformanceMeasure.IndicatorSubcategories.Single(); //This PM only ever has one ("virtual") indicatorSubcategory
-            var googleChartJson = MakeGoogleChartJsonForEIPIndicatorSubcategory(eipPerformanceMeasure, yearRange, indicatorSubcategory, indicatorSubcategoryOptionsWithCalendarYearReportedValues, "Sector");
+            var indicatorSubcategory = performanceMeasure.IndicatorSubcategories.Single(); //This PM only ever has one ("virtual") indicatorSubcategory
+            var googleChartJson = MakeGoogleChartJsonForIndicatorSubcategory(performanceMeasure, yearRange, indicatorSubcategory, indicatorSubcategoryOptionsWithCalendarYearReportedValues, "Sector");
             return googleChartJson;
         }
 
-        private static GoogleChartJson MakeGoogleChartJsonForEIPIndicatorSubcategory(EIPPerformanceMeasure eipPerformanceMeasure,
+        private static GoogleChartJson MakeGoogleChartJsonForIndicatorSubcategory(PerformanceMeasure performanceMeasure,
             IEnumerable<int> yearRange,
             IndicatorSubcategory indicatorSubcategory,
             Dictionary<string, IEnumerable<CalendarYearReportedValue>> indicatorSubcategoryOptionsWithCalendarYearReportedValues,
             string legendTitle)
         {
             var googleChartType = (GoogleChartType) Enum.Parse(typeof(GoogleChartType), indicatorSubcategory.ChartType);
-            var googleChartDataTable = GetGoogleChartDataTableForEIPPerformanceMeasure(yearRange, eipPerformanceMeasure.Indicator.MeasurementUnitType, googleChartType, indicatorSubcategoryOptionsWithCalendarYearReportedValues);
+            var googleChartDataTable = GetGoogleChartDataTableForPerformanceMeasure(yearRange, performanceMeasure.Indicator.MeasurementUnitType, googleChartType, indicatorSubcategoryOptionsWithCalendarYearReportedValues);
             var googleChartJson = MakeGoogleChartJsonForIndicatorSubcategory(indicatorSubcategory, googleChartDataTable);
             return googleChartJson;
         }
@@ -122,19 +122,19 @@ namespace ProjectFirma.Web.Models
             return googleChartJson;
         }
 
-        public static GoogleChartDataTable MakeGoogleChartDataTableForIndicatorWithOnlyOneSubcategoryAndNotReportedInEIP(
-            IIndicatorWithOnlyOneSubcategoryAndNotReportedInEIP indicatorWithOnlyOneSubcategoryAndNotReportedInEIP)
+        public static GoogleChartDataTable MakeGoogleChartDataTableForIndicatorWithOnlyOneSubcategory(
+            IIndicatorWithOnlyOneSubcategory indicatorWithOnlyOneSubcategory)
         {
-            var googleChartType = (GoogleChartType) Enum.Parse(typeof(GoogleChartType), indicatorWithOnlyOneSubcategoryAndNotReportedInEIP.IndicatorSubcategory.ChartType);
-            var swapAxes = indicatorWithOnlyOneSubcategoryAndNotReportedInEIP.IndicatorSubcategory.SwapChartAxes ?? false;
+            var googleChartType = (GoogleChartType) Enum.Parse(typeof(GoogleChartType), indicatorWithOnlyOneSubcategory.IndicatorSubcategory.ChartType);
+            var swapAxes = indicatorWithOnlyOneSubcategory.IndicatorSubcategory.SwapChartAxes ?? false;
             if (swapAxes)
             {
-                return GetGoogleDataTableForNonEIPIndicatorWithReportingPeriodsAsSubcategory(indicatorWithOnlyOneSubcategoryAndNotReportedInEIP, googleChartType);
+                return GetGoogleDataTableForNonPerformanceMeasureIndicatorWithReportingPeriodsAsSubcategory(indicatorWithOnlyOneSubcategory, googleChartType);
             }
-            return GetGoogleChartDataTableForNonEIPIndicator(indicatorWithOnlyOneSubcategoryAndNotReportedInEIP, googleChartType);
+            return GetGoogleChartDataTableForNonPerformanceMeasureIndicator(indicatorWithOnlyOneSubcategory, googleChartType);
         }
 
-        private static GoogleChartDataTable GetGoogleChartDataTableForEIPPerformanceMeasure(IEnumerable<int> yearRange, MeasurementUnitType measurementUnitType, GoogleChartType googleChartType, Dictionary<string, IEnumerable<CalendarYearReportedValue>> indicatorSubcategoryOptionsWithCalendarYearReportedValues)
+        private static GoogleChartDataTable GetGoogleChartDataTableForPerformanceMeasure(IEnumerable<int> yearRange, MeasurementUnitType measurementUnitType, GoogleChartType googleChartType, Dictionary<string, IEnumerable<CalendarYearReportedValue>> indicatorSubcategoryOptionsWithCalendarYearReportedValues)
         {
             var seriesChartType = googleChartType == GoogleChartType.ComboChart ? GoogleChartType.LineChart : googleChartType;
 
@@ -162,52 +162,52 @@ namespace ProjectFirma.Web.Models
             return new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
         }
 
-        private static GoogleChartDataTable GetGoogleChartDataTableForNonEIPIndicator(IIndicatorWithOnlyOneSubcategoryAndNotReportedInEIP indicatorWithOnlyOneSubcategoryAndNotReportedInEIP, GoogleChartType googleChartType)
+        private static GoogleChartDataTable GetGoogleChartDataTableForNonPerformanceMeasureIndicator(IIndicatorWithOnlyOneSubcategory indicatorWithOnlyOneSubcategory, GoogleChartType googleChartType)
         {
             var rowCs = new List<GoogleChartRowC>();
-            var hasTargets = (GetTargetValueType(indicatorWithOnlyOneSubcategoryAndNotReportedInEIP) != IndicatorTargetValueType.NoTarget);
+            var hasTargets = (GetTargetValueType(indicatorWithOnlyOneSubcategory) != IndicatorTargetValueType.NoTarget);
 
-            var indicatorReportingPeriods = indicatorWithOnlyOneSubcategoryAndNotReportedInEIP.GetIndicatorReportingPeriods();
+            var indicatorReportingPeriods = indicatorWithOnlyOneSubcategory.GetIndicatorReportingPeriods();
             foreach (var indicatorReportingPeriod in indicatorReportingPeriods.OrderBy(x => x.ReportingPeriodBeginDate))
             {
                 var rowVs = new List<GoogleChartRowV> { new GoogleChartRowV(indicatorReportingPeriod.ReportingPeriodLabel) };
                 rowVs.AddRange(
-                    indicatorWithOnlyOneSubcategoryAndNotReportedInEIP.GetIndicatorReportedValues()
+                    indicatorWithOnlyOneSubcategory.GetIndicatorReportedValues()
                         .Where(x => x.IndicatorReportingPeriod.ReportingPeriodLabel == indicatorReportingPeriod.ReportingPeriodLabel)
                         .OrderBy(x => x.SortOrder)
                         .Select(
                             irviso =>
                                 new GoogleChartRowV(irviso.ReportedValue,
-                                    GoogleChartJson.GetFormattedValue(irviso.ReportedValue, indicatorWithOnlyOneSubcategoryAndNotReportedInEIP.Indicator.MeasurementUnitType))));
+                                    GoogleChartJson.GetFormattedValue(irviso.ReportedValue, indicatorWithOnlyOneSubcategory.Indicator.MeasurementUnitType))));
 
                 if (hasTargets)
                 {
-                    rowVs.Add(new GoogleChartRowV(indicatorReportingPeriod.TargetValue, GetFormattedTargetValue(indicatorReportingPeriod, indicatorWithOnlyOneSubcategoryAndNotReportedInEIP)));
+                    rowVs.Add(new GoogleChartRowV(indicatorReportingPeriod.TargetValue, GetFormattedTargetValue(indicatorReportingPeriod, indicatorWithOnlyOneSubcategory)));
                 }
                 rowCs.Add(new GoogleChartRowC(rowVs));
             }
 
             var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn("Reporting Period", GoogleChartColumnDataType.String, googleChartType) };
-            var indicatorSubcategoryOptions = indicatorWithOnlyOneSubcategoryAndNotReportedInEIP.IndicatorSubcategory.IndicatorSubcategoryOptions;
+            var indicatorSubcategoryOptions = indicatorWithOnlyOneSubcategory.IndicatorSubcategory.IndicatorSubcategoryOptions;
             googleChartColumns.AddRange(
                 indicatorSubcategoryOptions.OrderBy(x => x.SortOrder).Select(x => new GoogleChartColumn(x.IndicatorSubcategoryOptionName, GoogleChartColumnDataType.Number, googleChartType)));
 
             if (hasTargets)
             {
                 // GoogleChartType for targets is always LINE
-                googleChartColumns.Add(new GoogleChartColumn(GetTargetColumnLabel(indicatorWithOnlyOneSubcategoryAndNotReportedInEIP), GoogleChartColumnDataType.Number, GoogleChartType.LineChart));
+                googleChartColumns.Add(new GoogleChartColumn(GetTargetColumnLabel(indicatorWithOnlyOneSubcategory), GoogleChartColumnDataType.Number, GoogleChartType.LineChart));
             }
 
             return new GoogleChartDataTable(googleChartColumns, rowCs);
         }
 
-        private static GoogleChartDataTable GetGoogleDataTableForNonEIPIndicatorWithReportingPeriodsAsSubcategory(IIndicatorWithOnlyOneSubcategoryAndNotReportedInEIP indicatorWithOnlyOneSubcategoryAndNotReportedInEIP, GoogleChartType googleChartType)
+        private static GoogleChartDataTable GetGoogleDataTableForNonPerformanceMeasureIndicatorWithReportingPeriodsAsSubcategory(IIndicatorWithOnlyOneSubcategory indicatorWithOnlyOneSubcategory, GoogleChartType googleChartType)
         {
-            var indicator = indicatorWithOnlyOneSubcategoryAndNotReportedInEIP.Indicator;
+            var indicator = indicatorWithOnlyOneSubcategory.Indicator;
             var googleChartColumns = new List<GoogleChartColumn> {
                 new GoogleChartColumn(indicator.IndicatorDisplayName, GoogleChartColumnDataType.String, googleChartType)
             };
-            var indicatorReportingPeriods = indicatorWithOnlyOneSubcategoryAndNotReportedInEIP.GetIndicatorReportingPeriods();
+            var indicatorReportingPeriods = indicatorWithOnlyOneSubcategory.GetIndicatorReportingPeriods();
             googleChartColumns.AddRange(
                 indicatorReportingPeriods.OrderBy(x => x.ReportingPeriodBeginDate)
                     .Select(
@@ -220,8 +220,8 @@ namespace ProjectFirma.Web.Models
 
 
             var googleChartRowCs = new List<GoogleChartRowC>();
-            var sustainabilityIndicatorReporteds = indicatorWithOnlyOneSubcategoryAndNotReportedInEIP.GetIndicatorReportedValues();
-            foreach (var indicatorSubcategoryOption in indicatorWithOnlyOneSubcategoryAndNotReportedInEIP.IndicatorSubcategory.IndicatorSubcategoryOptions.OrderBy(x => x.SortOrder))
+            var sustainabilityIndicatorReporteds = indicatorWithOnlyOneSubcategory.GetIndicatorReportedValues();
+            foreach (var indicatorSubcategoryOption in indicatorWithOnlyOneSubcategory.IndicatorSubcategory.IndicatorSubcategoryOptions.OrderBy(x => x.SortOrder))
             {
                 var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(indicatorSubcategoryOption.IndicatorSubcategoryOptionName) };
                 googleChartRowVs.AddRange(
@@ -233,32 +233,32 @@ namespace ProjectFirma.Web.Models
             }
 
             var targetRowVs = new List<GoogleChartRowV>();
-            var hasTargets = (GetTargetValueType(indicatorWithOnlyOneSubcategoryAndNotReportedInEIP) != IndicatorTargetValueType.NoTarget);
+            var hasTargets = (GetTargetValueType(indicatorWithOnlyOneSubcategory) != IndicatorTargetValueType.NoTarget);
             if (hasTargets)
             {
-                targetRowVs.Add(new GoogleChartRowV(GetTargetColumnLabel(indicatorWithOnlyOneSubcategoryAndNotReportedInEIP)));
-                targetRowVs.AddRange(indicatorReportingPeriods.OrderBy(x => x.ReportingPeriodBeginDate).Select(x => new GoogleChartRowV(x.TargetValue, GetFormattedTargetValue(x, indicatorWithOnlyOneSubcategoryAndNotReportedInEIP))));
+                targetRowVs.Add(new GoogleChartRowV(GetTargetColumnLabel(indicatorWithOnlyOneSubcategory)));
+                targetRowVs.AddRange(indicatorReportingPeriods.OrderBy(x => x.ReportingPeriodBeginDate).Select(x => new GoogleChartRowV(x.TargetValue, GetFormattedTargetValue(x, indicatorWithOnlyOneSubcategory))));
                 googleChartRowCs.Add(new GoogleChartRowC(targetRowVs));    
             }
            
             return new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
         }
 
-        private static string GetTargetColumnLabel(IIndicatorWithOnlyOneSubcategoryAndNotReportedInEIP indicatorWithOnlyOneSubcategoryAndNotReportedInEIP)
+        private static string GetTargetColumnLabel(IIndicatorWithOnlyOneSubcategory indicatorWithOnlyOneSubcategory)
         {
-            return GetTargetValueType(indicatorWithOnlyOneSubcategoryAndNotReportedInEIP) == IndicatorTargetValueType.OverallTarget ? indicatorWithOnlyOneSubcategoryAndNotReportedInEIP.GetIndicatorReportingPeriods().First().TargetValueDescription : "Target";
+            return GetTargetValueType(indicatorWithOnlyOneSubcategory) == IndicatorTargetValueType.OverallTarget ? indicatorWithOnlyOneSubcategory.GetIndicatorReportingPeriods().First().TargetValueDescription : "Target";
         }
 
-        private static string GetFormattedTargetValue(IIndicatorReportingPeriod indicatorReportingPeriod, IIndicatorWithOnlyOneSubcategoryAndNotReportedInEIP indicatorWithOnlyOneSubcategoryAndNotReportedInEIP)
+        private static string GetFormattedTargetValue(IIndicatorReportingPeriod indicatorReportingPeriod, IIndicatorWithOnlyOneSubcategory indicatorWithOnlyOneSubcategory)
         {
-            return GetTargetValueType(indicatorWithOnlyOneSubcategoryAndNotReportedInEIP) == IndicatorTargetValueType.OverallTarget
-                ? String.Format("{0}", GoogleChartJson.GetFormattedValue(indicatorReportingPeriod.TargetValue, indicatorWithOnlyOneSubcategoryAndNotReportedInEIP.Indicator.MeasurementUnitType))
-                : String.Format("{0} ({1})", GoogleChartJson.GetFormattedValue(indicatorReportingPeriod.TargetValue, indicatorWithOnlyOneSubcategoryAndNotReportedInEIP.Indicator.MeasurementUnitType), indicatorReportingPeriod.TargetValueDescription);
+            return GetTargetValueType(indicatorWithOnlyOneSubcategory) == IndicatorTargetValueType.OverallTarget
+                ? String.Format("{0}", GoogleChartJson.GetFormattedValue(indicatorReportingPeriod.TargetValue, indicatorWithOnlyOneSubcategory.Indicator.MeasurementUnitType))
+                : String.Format("{0} ({1})", GoogleChartJson.GetFormattedValue(indicatorReportingPeriod.TargetValue, indicatorWithOnlyOneSubcategory.Indicator.MeasurementUnitType), indicatorReportingPeriod.TargetValueDescription);
         }
 
-        public static IndicatorTargetValueType GetTargetValueType(IIndicatorWithOnlyOneSubcategoryAndNotReportedInEIP indicatorWithOnlyOneSubcategoryAndNotReportedInEIP)
+        public static IndicatorTargetValueType GetTargetValueType(IIndicatorWithOnlyOneSubcategory indicatorWithOnlyOneSubcategory)
         {
-            var indicatorReportingPeriods = indicatorWithOnlyOneSubcategoryAndNotReportedInEIP.GetIndicatorReportingPeriods();
+            var indicatorReportingPeriods = indicatorWithOnlyOneSubcategory.GetIndicatorReportingPeriods();
             if (!indicatorReportingPeriods.Any(x => x.TargetValue.HasValue))
             {
                 return IndicatorTargetValueType.NoTarget;

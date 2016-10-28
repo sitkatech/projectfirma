@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ThresholdCategoryController : FirmaBaseController
     {
-        [IndicatorViewFeature]
+        [PerformanceMeasureViewFeature]
         public ViewResult Index()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ThresholdCategoriesList);
@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
-        [IndicatorViewFeature]
+        [PerformanceMeasureViewFeature]
         public ViewResult Summary(string thresholdCategoryName)
         {
             var thresholdCategory = HttpRequestStorage.DatabaseEntities.ThresholdCategories.GetThresholdCategoryByThresholdCategoryeName(thresholdCategoryName);
@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Summary, SummaryViewData>(viewData);
         }
 
-        [IndicatorViewFeature]
+        [PerformanceMeasureViewFeature]
         public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(ThresholdCategoryPrimaryKey thresholdCategoryPrimaryKey)
         {
             BasicProjectInfoGridSpec gridSpec;

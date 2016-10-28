@@ -3,7 +3,7 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Can View Web Services")]
-    public class WebServiceDocumentationViewFeature : EIPFeature
+    public class WebServiceDocumentationViewFeature : FirmaFeature
     {
         public WebServiceDocumentationViewFeature() : base(Role.All) { }
     }

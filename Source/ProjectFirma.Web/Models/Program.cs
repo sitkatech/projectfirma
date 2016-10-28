@@ -79,21 +79,21 @@ namespace ProjectFirma.Web.Models
             get { return ProgramName; }
         }
 
-        public List<EIPPerformanceMeasure> GetEIPPerformanceMeasures()
+        public List<PerformanceMeasure> GetPerformanceMeasures()
         {
-            var primaryEIPPerformanceMeasures = ProgramEIPPerformanceMeasures.Where(x => x.IsPrimaryProgram).OrderBy(x => x.EIPPerformanceMeasureID).Select(x => x.EIPPerformanceMeasure).ToList();
+            var primaryPerformanceMeasures = ProgramPerformanceMeasures.Where(x => x.IsPrimaryProgram).OrderBy(x => x.PerformanceMeasureID).Select(x => x.PerformanceMeasure).ToList();
 
-            var secondaryEIPPerformanceMeasures =
-                new List<EIPPerformanceMeasure>(
-                    HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasures.Where(
+            var secondaryPerformanceMeasures =
+                new List<PerformanceMeasure>(
+                    HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Where(
                         x =>
-                            x.EIPPerformanceMeasureTypeID == EIPPerformanceMeasureType.EIPPerformanceMeasure33.EIPPerformanceMeasureTypeID ||
-                            x.EIPPerformanceMeasureTypeID == EIPPerformanceMeasureType.EIPPerformanceMeasure34.EIPPerformanceMeasureTypeID).ToList());
+                            x.PerformanceMeasureTypeID == PerformanceMeasureType.PerformanceMeasure33.PerformanceMeasureTypeID ||
+                            x.PerformanceMeasureTypeID == PerformanceMeasureType.PerformanceMeasure34.PerformanceMeasureTypeID).ToList());
 
-            var eipPerformanceMeasures = new List<EIPPerformanceMeasure>();
-            eipPerformanceMeasures.AddRange(primaryEIPPerformanceMeasures);
-            eipPerformanceMeasures.AddRange(secondaryEIPPerformanceMeasures);
-            return eipPerformanceMeasures;
+            var performanceMeasures = new List<PerformanceMeasure>();
+            performanceMeasures.AddRange(primaryPerformanceMeasures);
+            performanceMeasures.AddRange(secondaryPerformanceMeasures);
+            return performanceMeasures;
         }
 
         public FancyTreeNode ToFancyTreeNode()

@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Indicator
             GoogleChartJsonDictionary = indicator.GetGoogleChartJsonDictionary(projectIDs);
             foreach (var googleChartJson in GoogleChartJsonDictionary.Values)
             {
-                //JHB 8/23/16: HACK! Chart popup doesn't honor project list filter, so popup was displaying all EIP data for Funding Sources/Expenditures. Just turn off popup for now :(
+                //JHB 8/23/16: HACK! Chart popup doesn't honor project list filter, so popup was displaying all data for Funding Sources/Expenditures. Just turn off popup for now :(
                 if (projectIDs != null && projectIDs.Any())
                 {
                     ChartViewMode = ChartViewMode.NoPopup;

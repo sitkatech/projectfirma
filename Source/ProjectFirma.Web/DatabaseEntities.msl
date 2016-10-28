@@ -56,105 +56,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="EIPPerformanceMeasure">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.EIPPerformanceMeasure">
-        <MappingFragment StoreEntitySet="EIPPerformanceMeasure">
-          <ScalarProperty Name="EIPPerformanceMeasureID" ColumnName="EIPPerformanceMeasureID" />
-          <ScalarProperty Name="IndicatorID" ColumnName="IndicatorID" />
-          <ScalarProperty Name="EIPPerformanceMeasureTypeID" ColumnName="EIPPerformanceMeasureTypeID" />
-          <ScalarProperty Name="CriticalDefinitions" ColumnName="CriticalDefinitions" />
-          <ScalarProperty Name="AccountingPeriodAndScale" ColumnName="AccountingPeriodAndScale" />
-          <ScalarProperty Name="ProjectReporting" ColumnName="ProjectReporting" />
-          <ScalarProperty Name="EIPContext" ColumnName="EIPContext" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EIPPerformanceMeasureActual">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.EIPPerformanceMeasureActual">
-        <MappingFragment StoreEntitySet="EIPPerformanceMeasureActual">
-          <ScalarProperty Name="EIPPerformanceMeasureActualID" ColumnName="EIPPerformanceMeasureActualID" />
-          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-          <ScalarProperty Name="EIPPerformanceMeasureID" ColumnName="EIPPerformanceMeasureID" />
-          <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
-          <ScalarProperty Name="ActualValue" ColumnName="ActualValue" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EIPPerformanceMeasureActualSubcategoryOption">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.EIPPerformanceMeasureActualSubcategoryOption">
-        <MappingFragment StoreEntitySet="EIPPerformanceMeasureActualSubcategoryOption">
-          <ScalarProperty Name="EIPPerformanceMeasureActualSubcategoryOptionID" ColumnName="EIPPerformanceMeasureActualSubcategoryOptionID" />
-          <ScalarProperty Name="EIPPerformanceMeasureActualID" ColumnName="EIPPerformanceMeasureActualID" />
-          <ScalarProperty Name="IndicatorSubcategoryOptionID" ColumnName="IndicatorSubcategoryOptionID" />
-          <ScalarProperty Name="EIPPerformanceMeasureID" ColumnName="EIPPerformanceMeasureID" />
-          <ScalarProperty Name="IndicatorSubcategoryID" ColumnName="IndicatorSubcategoryID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EIPPerformanceMeasureActualSubcategoryOptionUpdate">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.EIPPerformanceMeasureActualSubcategoryOptionUpdate">
-        <MappingFragment StoreEntitySet="EIPPerformanceMeasureActualSubcategoryOptionUpdate">
-          <ScalarProperty Name="EIPPerformanceMeasureActualSubcategoryOptionUpdateID" ColumnName="EIPPerformanceMeasureActualSubcategoryOptionUpdateID" />
-          <ScalarProperty Name="EIPPerformanceMeasureActualUpdateID" ColumnName="EIPPerformanceMeasureActualUpdateID" />
-          <ScalarProperty Name="IndicatorSubcategoryOptionID" ColumnName="IndicatorSubcategoryOptionID" />
-          <ScalarProperty Name="EIPPerformanceMeasureID" ColumnName="EIPPerformanceMeasureID" />
-          <ScalarProperty Name="IndicatorSubcategoryID" ColumnName="IndicatorSubcategoryID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EIPPerformanceMeasureActualUpdate">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.EIPPerformanceMeasureActualUpdate">
-        <MappingFragment StoreEntitySet="EIPPerformanceMeasureActualUpdate">
-          <ScalarProperty Name="EIPPerformanceMeasureActualUpdateID" ColumnName="EIPPerformanceMeasureActualUpdateID" />
-          <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
-          <ScalarProperty Name="EIPPerformanceMeasureID" ColumnName="EIPPerformanceMeasureID" />
-          <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
-          <ScalarProperty Name="ActualValue" ColumnName="ActualValue" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EIPPerformanceMeasureExpected">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.EIPPerformanceMeasureExpected">
-        <MappingFragment StoreEntitySet="EIPPerformanceMeasureExpected">
-          <ScalarProperty Name="EIPPerformanceMeasureExpectedID" ColumnName="EIPPerformanceMeasureExpectedID" />
-          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-          <ScalarProperty Name="EIPPerformanceMeasureID" ColumnName="EIPPerformanceMeasureID" />
-          <ScalarProperty Name="ExpectedValue" ColumnName="ExpectedValue" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EIPPerformanceMeasureExpectedProposed">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.EIPPerformanceMeasureExpectedProposed">
-        <MappingFragment StoreEntitySet="EIPPerformanceMeasureExpectedProposed">
-          <ScalarProperty Name="EIPPerformanceMeasureExpectedProposedID" ColumnName="EIPPerformanceMeasureExpectedProposedID" />
-          <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
-          <ScalarProperty Name="EIPPerformanceMeasureID" ColumnName="EIPPerformanceMeasureID" />
-          <ScalarProperty Name="ExpectedValue" ColumnName="ExpectedValue" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EIPPerformanceMeasureExpectedSubcategoryOption">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.EIPPerformanceMeasureExpectedSubcategoryOption">
-        <MappingFragment StoreEntitySet="EIPPerformanceMeasureExpectedSubcategoryOption">
-          <ScalarProperty Name="EIPPerformanceMeasureExpectedSubcategoryOptionID" ColumnName="EIPPerformanceMeasureExpectedSubcategoryOptionID" />
-          <ScalarProperty Name="EIPPerformanceMeasureExpectedID" ColumnName="EIPPerformanceMeasureExpectedID" />
-          <ScalarProperty Name="IndicatorSubcategoryOptionID" ColumnName="IndicatorSubcategoryOptionID" />
-          <ScalarProperty Name="EIPPerformanceMeasureID" ColumnName="EIPPerformanceMeasureID" />
-          <ScalarProperty Name="IndicatorSubcategoryID" ColumnName="IndicatorSubcategoryID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EIPPerformanceMeasureExpectedSubcategoryOptionProposed">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.EIPPerformanceMeasureExpectedSubcategoryOptionProposed">
-        <MappingFragment StoreEntitySet="EIPPerformanceMeasureExpectedSubcategoryOptionProposed">
-          <ScalarProperty Name="EIPPerformanceMeasureExpectedSubcategoryOptionProposedID" ColumnName="EIPPerformanceMeasureExpectedSubcategoryOptionProposedID" />
-          <ScalarProperty Name="EIPPerformanceMeasureExpectedProposedID" ColumnName="EIPPerformanceMeasureExpectedProposedID" />
-          <ScalarProperty Name="IndicatorSubcategoryOptionID" ColumnName="IndicatorSubcategoryOptionID" />
-          <ScalarProperty Name="EIPPerformanceMeasureID" ColumnName="EIPPerformanceMeasureID" />
-          <ScalarProperty Name="IndicatorSubcategoryID" ColumnName="IndicatorSubcategoryID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="FieldDefinitionData">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FieldDefinitionData">
         <MappingFragment StoreEntitySet="FieldDefinitionData">
@@ -299,7 +200,7 @@
           <ScalarProperty Name="ChartConfigurationJson" ColumnName="ChartConfigurationJson" />
           <ScalarProperty Name="ChartType" ColumnName="ChartType" />
           <ScalarProperty Name="SwapChartAxes" ColumnName="SwapChartAxes" />
-          <ScalarProperty Name="EIPPerformanceMeasureID" ColumnName="EIPPerformanceMeasureID" />
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -418,6 +319,104 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="PerformanceMeasure">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasure">
+        <MappingFragment StoreEntitySet="PerformanceMeasure">
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
+          <ScalarProperty Name="IndicatorID" ColumnName="IndicatorID" />
+          <ScalarProperty Name="PerformanceMeasureTypeID" ColumnName="PerformanceMeasureTypeID" />
+          <ScalarProperty Name="CriticalDefinitions" ColumnName="CriticalDefinitions" />
+          <ScalarProperty Name="AccountingPeriodAndScale" ColumnName="AccountingPeriodAndScale" />
+          <ScalarProperty Name="ProjectReporting" ColumnName="ProjectReporting" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PerformanceMeasureActual">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureActual">
+        <MappingFragment StoreEntitySet="PerformanceMeasureActual">
+          <ScalarProperty Name="PerformanceMeasureActualID" ColumnName="PerformanceMeasureActualID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
+          <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
+          <ScalarProperty Name="ActualValue" ColumnName="ActualValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PerformanceMeasureActualSubcategoryOption">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureActualSubcategoryOption">
+        <MappingFragment StoreEntitySet="PerformanceMeasureActualSubcategoryOption">
+          <ScalarProperty Name="PerformanceMeasureActualSubcategoryOptionID" ColumnName="PerformanceMeasureActualSubcategoryOptionID" />
+          <ScalarProperty Name="PerformanceMeasureActualID" ColumnName="PerformanceMeasureActualID" />
+          <ScalarProperty Name="IndicatorSubcategoryOptionID" ColumnName="IndicatorSubcategoryOptionID" />
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
+          <ScalarProperty Name="IndicatorSubcategoryID" ColumnName="IndicatorSubcategoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PerformanceMeasureActualSubcategoryOptionUpdate">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureActualSubcategoryOptionUpdate">
+        <MappingFragment StoreEntitySet="PerformanceMeasureActualSubcategoryOptionUpdate">
+          <ScalarProperty Name="PerformanceMeasureActualSubcategoryOptionUpdateID" ColumnName="PerformanceMeasureActualSubcategoryOptionUpdateID" />
+          <ScalarProperty Name="PerformanceMeasureActualUpdateID" ColumnName="PerformanceMeasureActualUpdateID" />
+          <ScalarProperty Name="IndicatorSubcategoryOptionID" ColumnName="IndicatorSubcategoryOptionID" />
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
+          <ScalarProperty Name="IndicatorSubcategoryID" ColumnName="IndicatorSubcategoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PerformanceMeasureActualUpdate">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureActualUpdate">
+        <MappingFragment StoreEntitySet="PerformanceMeasureActualUpdate">
+          <ScalarProperty Name="PerformanceMeasureActualUpdateID" ColumnName="PerformanceMeasureActualUpdateID" />
+          <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
+          <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
+          <ScalarProperty Name="ActualValue" ColumnName="ActualValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PerformanceMeasureExpected">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureExpected">
+        <MappingFragment StoreEntitySet="PerformanceMeasureExpected">
+          <ScalarProperty Name="PerformanceMeasureExpectedID" ColumnName="PerformanceMeasureExpectedID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
+          <ScalarProperty Name="ExpectedValue" ColumnName="ExpectedValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PerformanceMeasureExpectedProposed">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureExpectedProposed">
+        <MappingFragment StoreEntitySet="PerformanceMeasureExpectedProposed">
+          <ScalarProperty Name="PerformanceMeasureExpectedProposedID" ColumnName="PerformanceMeasureExpectedProposedID" />
+          <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
+          <ScalarProperty Name="ExpectedValue" ColumnName="ExpectedValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PerformanceMeasureExpectedSubcategoryOption">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOption">
+        <MappingFragment StoreEntitySet="PerformanceMeasureExpectedSubcategoryOption">
+          <ScalarProperty Name="PerformanceMeasureExpectedSubcategoryOptionID" ColumnName="PerformanceMeasureExpectedSubcategoryOptionID" />
+          <ScalarProperty Name="PerformanceMeasureExpectedID" ColumnName="PerformanceMeasureExpectedID" />
+          <ScalarProperty Name="IndicatorSubcategoryOptionID" ColumnName="IndicatorSubcategoryOptionID" />
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
+          <ScalarProperty Name="IndicatorSubcategoryID" ColumnName="IndicatorSubcategoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PerformanceMeasureExpectedSubcategoryOptionProposed">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOptionProposed">
+        <MappingFragment StoreEntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed">
+          <ScalarProperty Name="PerformanceMeasureExpectedSubcategoryOptionProposedID" ColumnName="PerformanceMeasureExpectedSubcategoryOptionProposedID" />
+          <ScalarProperty Name="PerformanceMeasureExpectedProposedID" ColumnName="PerformanceMeasureExpectedProposedID" />
+          <ScalarProperty Name="IndicatorSubcategoryOptionID" ColumnName="IndicatorSubcategoryOptionID" />
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
+          <ScalarProperty Name="IndicatorSubcategoryID" ColumnName="IndicatorSubcategoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Person">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Person">
         <MappingFragment StoreEntitySet="Person">
@@ -451,22 +450,22 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ProgramEIPPerformanceMeasure">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProgramEIPPerformanceMeasure">
-        <MappingFragment StoreEntitySet="ProgramEIPPerformanceMeasure">
-          <ScalarProperty Name="ProgramEIPPerformanceMeasureID" ColumnName="ProgramEIPPerformanceMeasureID" />
-          <ScalarProperty Name="ProgramID" ColumnName="ProgramID" />
-          <ScalarProperty Name="EIPPerformanceMeasureID" ColumnName="EIPPerformanceMeasureID" />
-          <ScalarProperty Name="IsPrimaryProgram" ColumnName="IsPrimaryProgram" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ProgramImage">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProgramImage">
         <MappingFragment StoreEntitySet="ProgramImage">
           <ScalarProperty Name="ProgramImageID" ColumnName="ProgramImageID" />
           <ScalarProperty Name="ProgramID" ColumnName="ProgramID" />
           <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProgramPerformanceMeasure">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProgramPerformanceMeasure">
+        <MappingFragment StoreEntitySet="ProgramPerformanceMeasure">
+          <ScalarProperty Name="ProgramPerformanceMeasureID" ColumnName="ProgramPerformanceMeasureID" />
+          <ScalarProperty Name="ProgramID" ColumnName="ProgramID" />
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
+          <ScalarProperty Name="IsPrimaryProgram" ColumnName="IsPrimaryProgram" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -481,13 +480,13 @@
           <ScalarProperty Name="ProjectDescription" ColumnName="ProjectDescription" />
           <ScalarProperty Name="ImplementationStartYear" ColumnName="ImplementationStartYear" />
           <ScalarProperty Name="CompletionYear" ColumnName="CompletionYear" />
-          <ScalarProperty Name="OldEipNumber" ColumnName="OldEipNumber" />
+          <ScalarProperty Name="OldNumber" ColumnName="OldNumber" />
           <ScalarProperty Name="EstimatedTotalCost" ColumnName="EstimatedTotalCost" />
           <ScalarProperty Name="ImplementsMultipleProjects" ColumnName="ImplementsMultipleProjects" />
           <ScalarProperty Name="SecuredFunding" ColumnName="SecuredFunding" />
           <ScalarProperty Name="ProjectLocationPoint" ColumnName="ProjectLocationPoint" />
           <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
-          <ScalarProperty Name="EIPPerformanceMeasureActualYearsExemptionExplanation" ColumnName="EIPPerformanceMeasureActualYearsExemptionExplanation" />
+          <ScalarProperty Name="PerformanceMeasureActualYearsExemptionExplanation" ColumnName="PerformanceMeasureActualYearsExemptionExplanation" />
           <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
           <ScalarProperty Name="TransportationObjectiveID" ColumnName="TransportationObjectiveID" />
           <ScalarProperty Name="ProjectLocationNotes" ColumnName="ProjectLocationNotes" />
@@ -790,23 +789,23 @@
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
-          <ScalarProperty Name="EIPPerformanceMeasureActualYearsExemptionExplanation" ColumnName="EIPPerformanceMeasureActualYearsExemptionExplanation" />
+          <ScalarProperty Name="PerformanceMeasureActualYearsExemptionExplanation" ColumnName="PerformanceMeasureActualYearsExemptionExplanation" />
           <ScalarProperty Name="ShowBasicsValidationWarnings" ColumnName="ShowBasicsValidationWarnings" />
-          <ScalarProperty Name="ShowEIPPerformanceMeasuresValidationWarnings" ColumnName="ShowEIPPerformanceMeasuresValidationWarnings" />
+          <ScalarProperty Name="ShowPerformanceMeasuresValidationWarnings" ColumnName="ShowPerformanceMeasuresValidationWarnings" />
           <ScalarProperty Name="ShowExpendituresValidationWarnings" ColumnName="ShowExpendituresValidationWarnings" />
           <ScalarProperty Name="ShowTransportationBudgetsValidationWarnings" ColumnName="ShowTransportationBudgetsValidationWarnings" />
           <ScalarProperty Name="ShowLocationSimpleValidationWarnings" ColumnName="ShowLocationSimpleValidationWarnings" />
           <ScalarProperty Name="LastUpdatePersonID" ColumnName="LastUpdatePersonID" />
           <ScalarProperty Name="BasicsComment" ColumnName="BasicsComment" />
           <ScalarProperty Name="ExpendituresComment" ColumnName="ExpendituresComment" />
-          <ScalarProperty Name="EIPPerformanceMeasuresComment" ColumnName="EIPPerformanceMeasuresComment" />
+          <ScalarProperty Name="PerformanceMeasuresComment" ColumnName="PerformanceMeasuresComment" />
           <ScalarProperty Name="LocationSimpleComment" ColumnName="LocationSimpleComment" />
           <ScalarProperty Name="LocationDetailedComment" ColumnName="LocationDetailedComment" />
           <ScalarProperty Name="TransportationBudgetsComment" ColumnName="TransportationBudgetsComment" />
           <ScalarProperty Name="ProjectUpdateStateID" ColumnName="ProjectUpdateStateID" />
           <ScalarProperty Name="IsPhotosUpdated" ColumnName="IsPhotosUpdated" />
           <ScalarProperty Name="BasicsDiffLog" ColumnName="BasicsDiffLog" />
-          <ScalarProperty Name="EIPPerformanceMeasureDiffLog" ColumnName="EIPPerformanceMeasureDiffLog" />
+          <ScalarProperty Name="PerformanceMeasureDiffLog" ColumnName="PerformanceMeasureDiffLog" />
           <ScalarProperty Name="ExpendituresDiffLog" ColumnName="ExpendituresDiffLog" />
           <ScalarProperty Name="TransportationBudgetsDiffLog" ColumnName="TransportationBudgetsDiffLog" />
           <ScalarProperty Name="ExternalLinksDiffLog" ColumnName="ExternalLinksDiffLog" />
@@ -945,24 +944,24 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="SnapshotEIPPerformanceMeasure">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.SnapshotEIPPerformanceMeasure">
-        <MappingFragment StoreEntitySet="SnapshotEIPPerformanceMeasure">
-          <ScalarProperty Name="SnapshotEIPPerformanceMeasureID" ColumnName="SnapshotEIPPerformanceMeasureID" />
+    <EntitySetMapping Name="SnapshotPerformanceMeasure">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.SnapshotPerformanceMeasure">
+        <MappingFragment StoreEntitySet="SnapshotPerformanceMeasure">
+          <ScalarProperty Name="SnapshotPerformanceMeasureID" ColumnName="SnapshotPerformanceMeasureID" />
           <ScalarProperty Name="SnapshotID" ColumnName="SnapshotID" />
-          <ScalarProperty Name="EIPPerformanceMeasureID" ColumnName="EIPPerformanceMeasureID" />
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="ActualValue" ColumnName="ActualValue" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="SnapshotEIPPerformanceMeasureSubcategoryOption">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.SnapshotEIPPerformanceMeasureSubcategoryOption">
-        <MappingFragment StoreEntitySet="SnapshotEIPPerformanceMeasureSubcategoryOption">
-          <ScalarProperty Name="SnapshotEIPPerformanceMeasureSubcategoryOptionID" ColumnName="SnapshotEIPPerformanceMeasureSubcategoryOptionID" />
-          <ScalarProperty Name="SnapshotEIPPerformanceMeasureID" ColumnName="SnapshotEIPPerformanceMeasureID" />
+    <EntitySetMapping Name="SnapshotPerformanceMeasureSubcategoryOption">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.SnapshotPerformanceMeasureSubcategoryOption">
+        <MappingFragment StoreEntitySet="SnapshotPerformanceMeasureSubcategoryOption">
+          <ScalarProperty Name="SnapshotPerformanceMeasureSubcategoryOptionID" ColumnName="SnapshotPerformanceMeasureSubcategoryOptionID" />
+          <ScalarProperty Name="SnapshotPerformanceMeasureID" ColumnName="SnapshotPerformanceMeasureID" />
           <ScalarProperty Name="IndicatorSubcategoryOptionID" ColumnName="IndicatorSubcategoryOptionID" />
-          <ScalarProperty Name="EIPPerformanceMeasureID" ColumnName="EIPPerformanceMeasureID" />
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="IndicatorSubcategoryID" ColumnName="IndicatorSubcategoryID" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -1184,7 +1183,6 @@
           <ScalarProperty Name="ProjectStageDisplayName" ColumnName="ProjectStageDisplayName" />
           <ScalarProperty Name="ImplementationStartYear" ColumnName="ImplementationStartYear" />
           <ScalarProperty Name="CompletionYear" ColumnName="CompletionYear" />
-          <ScalarProperty Name="OldEipNumber" ColumnName="OldEipNumber" />
           <ScalarProperty Name="ImplementsMultipleProjects" ColumnName="ImplementsMultipleProjects" />
         </MappingFragment>
       </EntityTypeMapping>

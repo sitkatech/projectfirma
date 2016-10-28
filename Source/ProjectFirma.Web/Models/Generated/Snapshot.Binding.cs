@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Snapshot()
         {
-            this.SnapshotEIPPerformanceMeasures = new HashSet<SnapshotEIPPerformanceMeasure>();
+            this.SnapshotPerformanceMeasures = new HashSet<SnapshotPerformanceMeasure>();
             this.SnapshotProjects = new HashSet<SnapshotProject>();
             this.SnapshotSectorExpenditures = new HashSet<SnapshotSectorExpenditure>();
         }
@@ -66,13 +66,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return SnapshotEIPPerformanceMeasures.Any() || SnapshotProjects.Any() || SnapshotSectorExpenditures.Any();
+            return SnapshotPerformanceMeasures.Any() || SnapshotProjects.Any() || SnapshotSectorExpenditures.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Snapshot).Name, typeof(SnapshotEIPPerformanceMeasure).Name, typeof(SnapshotProject).Name, typeof(SnapshotSectorExpenditure).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Snapshot).Name, typeof(SnapshotPerformanceMeasure).Name, typeof(SnapshotProject).Name, typeof(SnapshotSectorExpenditure).Name};
 
         [Key]
         public int SnapshotID { get; set; }
@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Models
         public int ProjectCount { get; set; }
         public int PrimaryKey { get { return SnapshotID; } set { SnapshotID = value; } }
 
-        public virtual ICollection<SnapshotEIPPerformanceMeasure> SnapshotEIPPerformanceMeasures { get; set; }
+        public virtual ICollection<SnapshotPerformanceMeasure> SnapshotPerformanceMeasures { get; set; }
         public virtual ICollection<SnapshotProject> SnapshotProjects { get; set; }
         public virtual ICollection<SnapshotSectorExpenditure> SnapshotSectorExpenditures { get; set; }
 

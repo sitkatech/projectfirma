@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.Results
             string reportingYearRangeTitle) : base(currentPerson, firmaPage)
         {
             FundingSectorExpenditures = fundingSectorExpenditures;
-            PageTitle = "EIP Investment by Funding Sector";
+            PageTitle = "Investment by Funding Sector";
             SelectedCalendarYear = selectedCalendarYear;
             CalendarYears = calendarYears;
             ProjectCount = projectCount;

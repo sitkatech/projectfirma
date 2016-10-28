@@ -19,9 +19,9 @@ namespace ProjectFirma.Web.Controllers
         {            
             //Remove certain properties that we don't want saved to the DB
             var chartConfigurationString = CleanAndSerializeChartJsonString(ChartConfigurationJson);
-            var eippmSubcategory = indicator.IndicatorSubcategories.Single(x => x.IndicatorSubcategoryID == indicatorSubcategoryID);
-            eippmSubcategory.ChartType = ChartType;
-            eippmSubcategory.ChartConfigurationJson = chartConfigurationString;
+            var perfomanceMeasureSubcategory = indicator.IndicatorSubcategories.Single(x => x.IndicatorSubcategoryID == indicatorSubcategoryID);
+            perfomanceMeasureSubcategory.ChartType = ChartType;
+            perfomanceMeasureSubcategory.ChartConfigurationJson = chartConfigurationString;
         }
 
         public string CleanAndSerializeChartJsonString(string json)

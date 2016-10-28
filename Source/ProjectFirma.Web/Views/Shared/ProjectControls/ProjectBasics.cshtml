@@ -1,6 +1,5 @@
 ﻿@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared.ProjectControls
-@using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Views
 @inherits ProjectBasics
@@ -18,7 +17,7 @@
             <col style="width: 120px" /> <!--for tags and fact sheet icon-->
         </colgroup>
         <tr>
-            <th colspan="5">EIP Category:</th>
+            <th colspan="5">Category:</th>
             <td rowspan="4" style="text-align: right">
                 @if (ViewDataTyped.ShowFactSheetIcon)
                 {
@@ -66,18 +65,6 @@
                 @Html.Raw(ViewDataTyped.Project.ProjectDescription.HtmlEncodeWithBreaks())
             </td>
         </tr>
-        @if (!GeneralUtility.IsNullOrEmptyOrOnlyWhitespace(ViewDataTyped.Project.OldEipNumber))
-        {
-            <tr>
-                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.OldEIPNumber):</th>
-                <td>
-                    @ViewDataTyped.Project.OldEipNumber
-                </td>
-                <td></td>
-                <td></td>
-            </tr>
-        }
-
         @{ ProjectBasicsCalculatedCosts.RenderPartialView(Html, ViewDataTyped.ProjectBasicsCalculatedCostsViewData); }
 
         <tr>

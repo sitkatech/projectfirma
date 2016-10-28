@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Views.Shared.EIPPerformanceMeasureControls;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
 namespace ProjectFirma.Web.Views.Snapshot
 {
@@ -28,9 +28,9 @@ namespace ProjectFirma.Web.Views.Snapshot
 
         public readonly bool UserHasSnapshotManagePermissions;
 
-        public readonly EIPPerformanceMeasureReportedValuesGroupedViewData SnapshotPerformanceMeasureReportedValuesGroupedViewData;
+        public readonly PerformanceMeasureReportedValuesGroupedViewData SnapshotPerformanceMeasureReportedValuesGroupedViewData;
 
-        public SummaryViewData(Person currentPerson, Models.Snapshot snapshot, SnapshotProjectGridSpec gridSpec, EIPPerformanceMeasureReportedValuesGroupedViewData snapshotPerformanceMeasureReportedValuesGroupedViewData) : base(currentPerson)
+        public SummaryViewData(Person currentPerson, Models.Snapshot snapshot, SnapshotProjectGridSpec gridSpec, PerformanceMeasureReportedValuesGroupedViewData snapshotPerformanceMeasureReportedValuesGroupedViewData) : base(currentPerson)
         {
             Snapshot = snapshot;
             ProjectsAdded =
@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.Snapshot
 
             Sectors = snapshot.SnapshotSectorExpenditures.Select(x => x.Sector).Distinct().OrderBy(x => x.SectorDisplayName).ToList();
             SectorExpenditureCalendarYears = snapshot.SnapshotSectorExpenditures.Select(x => x.CalendarYear).Distinct().OrderBy(x => x).ToList();
-            PerformanceMeasureCalendarYears = snapshot.SnapshotEIPPerformanceMeasures.Select(x => x.CalendarYear).Distinct().OrderBy(x => x).ToList();
+            PerformanceMeasureCalendarYears = snapshot.SnapshotPerformanceMeasures.Select(x => x.CalendarYear).Distinct().OrderBy(x => x).ToList();
 
             SnapshotEditUrl = SitkaRoute<SnapshotController>.BuildUrlFromExpression(controller => controller.Edit(Snapshot.SnapshotID));
             SnapshotIndexUrl = SitkaRoute<SnapshotController>.BuildUrlFromExpression(controller => controller.Index());

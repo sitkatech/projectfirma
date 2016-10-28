@@ -10,7 +10,6 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
             CriticalDefinitions,
             AccountingPeriodAndScale,
             ProjectReporting,
-            EIPContext,
             AssociatedPrograms
         }
     }

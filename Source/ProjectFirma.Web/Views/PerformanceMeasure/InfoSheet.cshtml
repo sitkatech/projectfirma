@@ -1,0 +1,275 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Indicator
+@using LtInfo.Common
+@using LtInfo.Common.BootstrapWrappers
+@using MoreLinq
+@inherits ProjectFirma.Web.Views.PerformanceMeasure.InfoSheet
+
+@{
+    SetLayout("~/Views/Shared/NavAndHeaderLayout.cshtml", ViewDataTyped);
+}
+
+@section JavascriptAndStylesContent
+{
+    <link href="@Url.Content("~/Content/css/ProjectFirmaPrint.css")" rel="stylesheet" type="text/css" media="print" />
+    <style>
+        .infoSheet {
+            background-color: #fff;
+            width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 10px;
+            font-size: 16px;
+            padding: 0 10px 10px 10px;
+        }
+
+        .projectTitle {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .sectionTitle {
+            font-size: 30px;
+            font-weight: bold;
+            margin: 15px 0 5px 10px;
+        }
+
+        hr.subcategoryOptionDivider {
+            border: 0;
+            height: 0;
+            border-top: 1px solid #000000;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #ffffff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .pmCharts {
+            width: 100%;
+            height: 360px;
+            font-size: 16px;
+            margin: 10px 0 10px 0;
+            padding: 0 10px 0 10px;
+            border-width: 0;
+            box-shadow: none;
+        }
+
+        .pmChartSize {
+            width: auto;
+            height: 320px;
+        }
+
+        .helpicon, .summaryLayoutUpdateControls {
+            display: none;
+        }
+
+        .summarySection {
+            padding: 0 10px 0 10px;
+        }
+    </style>
+
+    <style type="text/css" media="print">
+        div.summarySection {
+            page-break-inside: avoid;
+            overflow: visible;
+            width: 100%;
+            margin: 10px 0 10px 0;
+            padding: 0;
+            border: none;
+            border-top: 2px solid #999;
+            border-radius: 0;
+            box-shadow: none;
+            outline: none;
+        }
+
+        div.infoSheet {
+            overflow:visible;
+            word-wrap: break-word;
+            width: 1000px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin: 0;
+            padding: 0;
+        }
+
+        .pmChartSize {
+            width: 100%;
+            height: 320px;
+            
+        }
+
+        .pmCharts
+        {
+            width: 120%;
+            transform: scale(0.80, 1.0) translate(-10%);
+        }
+    </style>
+}
+
+<div style="padding: 10px; background-color: transparent; height: 40px;" class="infoSheet noPrint">
+    <div class="pull-right">
+        <a class="btn btn-xs btn-firma" href="@ViewDataTyped.PerformanceMeasure.GetSummaryUrl()">Details</a>
+        <button class="btn btn-xs btn-firma" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> Print</button>
+    </div>
+    
+</div>
+
+<div class="infoSheet">
+
+    <table style="width: 100%; padding-bottom: 15px">
+        <tr>
+            <td style="padding: 10px; width: 270px">
+                <img src="~/Content/img/eip-logo-factsheet.png" alt="Lake Tahoe"/>
+            </td>
+            <td style="padding: 20px">
+                <table class="summaryLayout">
+                    <tr>
+                        <td colspan="2" class="trpaBlue" style="padding-top: 0">
+                            <div style="font-size: medium">
+                                Performance Measure Info Sheet
+                            </div>
+                            <div class="sectionTitle" style="margin: 0; padding: 0">
+                                @ViewDataTyped.PerformanceMeasure.DisplayNameNoNumber
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="white-space: nowrap">Performance Measure:</th>
+                        <td>@ViewDataTyped.PerformanceMeasure.DisplayName</td>
+                    </tr>
+                    <tr>
+                        <th>Definition:</th>
+                        <td>@ViewDataTyped.PerformanceMeasure.Indicator.IndicatorDefinition.ToHTMLFormattedString()</td>
+                    </tr>
+                    <tr>
+                        <th>Units:</th>
+                        <td>@ViewDataTyped.PerformanceMeasure.Indicator.MeasurementUnitType.MeasurementUnitTypeDisplayName</td>
+                    </tr>
+                    @if (ViewDataTyped.PerformanceMeasure.PrimaryProgram != null)
+                    {
+                        <tr>
+                            <th>Primary Program:</th>
+                            <td>@ViewDataTyped.PerformanceMeasure.PrimaryProgram.ProgramName</td>
+                        </tr>
+                    }
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <div class="summarySection">
+        <span class="sectionTitle trpaBlue">Guidance</span>
+        <div class="contentWrapper">
+            <table class="summaryLayout">
+                <tr>
+                    <th>
+                        @FieldDefinition.IndicatorCriticalDefinitions.FieldDefinitionDisplayName
+                    </th>
+                </tr>
+                <tr>
+                    <td style="padding-left: 28px">
+                        @ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>
+                        @FieldDefinition.IndicatorAccountingPeriodAndScale.FieldDefinitionDisplayName
+                    </th>
+                </tr>
+                <tr>
+                    <td style="padding-left: 28px">
+                        @ViewDataTyped.PerformanceMeasure.AccountingPeriodAndScaleHtmlString
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        @FieldDefinition.IndicatorProjectReporting.FieldDefinitionDisplayName
+                    </th>
+                </tr>
+                <tr>
+                    <td style="padding-left: 28px">
+                        @ViewDataTyped.PerformanceMeasure.ProjectReportingHtmlString
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="summarySection">
+        <span class="sectionTitle trpaBlue">Subcategories</span>
+        <div class="contentWrapper">
+            @if (ViewDataTyped.PerformanceMeasure.Indicator.HasRealSubcategories)
+            {
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>@FieldDefinition.Subcategory.FieldDefinitionDisplayName</th>
+                        <th>@FieldDefinition.SubcategoryOptions.FieldDefinitionDisplayName</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var indicatorSubcategory in ViewDataTyped.PerformanceMeasure.Indicator.IndicatorSubcategories)
+                    {
+                        <tr>
+                            <td>@indicatorSubcategory.IndicatorSubcategoryDisplayName</td>
+                            <td>
+                                @foreach (var subcategoryOptionBatch in indicatorSubcategory.IndicatorSubcategoryOptions.Batch(NumberOfSubcategoryOptionsPerRow).Select((value, index) => new {Index = index, Value = value}))
+                                {
+                                    <div>@string.Join(", ", subcategoryOptionBatch.Value.OrderBy(x => x.SortOrder).ThenBy(x => x.IndicatorSubcategoryOptionName).Select(x => x.IndicatorSubcategoryOptionName))</div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="systemText">No subcategories for this performance measure.</p>
+            }
+        </div>
+    </div>
+
+    <div class="summarySection">
+        <div class="sectionTitle trpaBlue">Performance Measure Results</div>
+        @{IndicatorChart.RenderPartialView(Html, ViewDataTyped.IndicatorChartViewData);}
+    </div>
+
+    @if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureType != PerformanceMeasureType.TMDLRelevant)
+    {
+        <div class="summarySection">
+            <span class="sectionTitle trpaBlue">Programs</span>
+            <div class="contentWrapper">
+                @if (ViewDataTyped.PerformanceMeasurePrograms.Any())
+                {
+                    <table class="summaryLayout">
+                        <tr>
+                            <th>@FieldDefinition.Program.FieldDefinitionDisplayName</th>
+                            <th>@FieldDefinition.IsPrimaryProgram.FieldDefinitionDisplayName</th>
+                        </tr>
+                        @foreach (var programPerformanceMeasure in ViewDataTyped.PerformanceMeasurePrograms)
+                        {
+                            <tr>
+                                <td>@programPerformanceMeasure.Key.DisplayName</td>
+                                <td style="text-align: center">@programPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <p class="systemText">No programs set for this performance measure.</p>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<div class="noPrint infoSheet" style="margin-top: 20px; background-color: transparent">
+    <a class="btn btn-sm btn-firma" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
+</div>
+

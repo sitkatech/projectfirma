@@ -133,7 +133,7 @@ namespace ProjectFirma.Web.Controllers
     <strong>Phone:</strong> {3}<br />
     <br />
     <p>
-        You may want to <a href=""{4}"">assign this user roles</a> to allow them to work with specific areas of the site, such as updating EIP projects or creating new Commodity Transaction. Or you can leave the user with Unassigned roles if they don't need special privileges.
+        You may want to <a href=""{4}"">assign this user roles</a> to allow them to work with specific areas of the site, such as updating projects or creating new Commodity Transaction. Or you can leave the user with Unassigned roles if they don't need special privileges.
     </p>
     <br />
     <br />

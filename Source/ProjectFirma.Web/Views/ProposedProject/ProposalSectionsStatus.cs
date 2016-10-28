@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
     {
         Instructions,
         Basics,
-        EIPPerformanceMeasures,
+        PerformanceMeasures,
         LocationSimple,
         LocationDetailed,
         ThresholdCategories,
@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
     public class ProposalSectionsStatus
     {
         public bool IsBasicsSectionComplete { get; set; }
-        public bool IsEIPPerformanceMeasureSectionComplete { get; set; }
+        public bool IsPerformanceMeasureSectionComplete { get; set; }
         public bool IsProjectLocationSimpleSectionComplete { get; set; }
         public bool IsProjectLocationDetailedSectionComplete { get; set; }
         public bool IsThresholdCategoriesComplete { get; set; }
@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         {
             get
             {
-                return IsBasicsSectionComplete && IsEIPPerformanceMeasureSectionComplete && IsThresholdCategoriesComplete && IsTransportationAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationSimpleSectionComplete && IsNotesSectionComplete;
+                return IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsThresholdCategoriesComplete && IsTransportationAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationSimpleSectionComplete && IsNotesSectionComplete;
             }
         }
 
@@ -46,8 +46,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
             IsProjectLocationDetailedSectionComplete = IsBasicsSectionComplete;
 
-            var pmValidationResults = new ExpectedEipPerformanceMeasureValuesViewModel(proposedProject).GetValidationResults();
-            IsEIPPerformanceMeasureSectionComplete = !pmValidationResults.Any();
+            var pmValidationResults = new ExpectedPerformanceMeasureValuesViewModel(proposedProject).GetValidationResults();
+            IsPerformanceMeasureSectionComplete = !pmValidationResults.Any();
 
             var proposedProjectThresholdCategorySimples = ProposedProjectController.GetProposedProjectThresholdCategorySimples(proposedProject);
             var thresholdValidationResults = new EditProposedProjectThresholdCategoriesViewModel(proposedProjectThresholdCategorySimples).GetValidationResults();
@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public ProposalSectionsStatus()
         {
             IsBasicsSectionComplete = false;
-            IsEIPPerformanceMeasureSectionComplete = false;
+            IsPerformanceMeasureSectionComplete = false;
             IsThresholdCategoriesComplete = false;
             IsTransportationAssessmentComplete = false;
             IsProjectLocationSimpleSectionComplete = false;

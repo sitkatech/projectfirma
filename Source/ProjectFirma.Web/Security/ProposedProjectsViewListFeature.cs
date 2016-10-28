@@ -3,10 +3,10 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("View Proposed Projects List")]
-    public class ProposedProjectsViewListFeature : EIPFeature
+    public class ProposedProjectsViewListFeature : FirmaFeature
     {
         public ProposedProjectsViewListFeature()
-            : base(FirmaBaseFeatureHelpers.AllEIPRolesExceptUnassigned)
+            : base(FirmaBaseFeatureHelpers.AllRolesExceptUnassigned)
         {
         }
     }

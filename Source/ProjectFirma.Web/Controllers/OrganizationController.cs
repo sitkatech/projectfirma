@@ -144,7 +144,7 @@ namespace ProjectFirma.Web.Controllers
             if (projectDetails.Features.Any())
             {
                 hasSpatialData = true;
-                layers.Add(new LayerGeoJson("EIP Project Detailed Mapping", projectDetails, "blue", 1, LayerInitialVisibility.Hide));
+                layers.Add(new LayerGeoJson("Project Detailed Mapping", projectDetails, "blue", 1, LayerInitialVisibility.Hide));
             }
 
             layers.AddRange(MapInitJson.GetWatershedAndJurisdictionMapLayers());
@@ -192,7 +192,7 @@ namespace ProjectFirma.Web.Controllers
                 return feature;
             }).ToList());
 
-            var projectsLayerGeoJson = new LayerGeoJson("EIP Projects", featureCollection, "blue", 1, LayerInitialVisibility.Show);
+            var projectsLayerGeoJson = new LayerGeoJson("Projects", featureCollection, "blue", 1, LayerInitialVisibility.Show);
             return projectsLayerGeoJson;
         }
 

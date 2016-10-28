@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected ProjectUpdateBatch()
         {
-            this.EIPPerformanceMeasureActualUpdates = new HashSet<EIPPerformanceMeasureActualUpdate>();
+            this.PerformanceMeasureActualUpdates = new HashSet<PerformanceMeasureActualUpdate>();
             this.ProjectExemptReportingYearUpdates = new HashSet<ProjectExemptReportingYearUpdate>();
             this.ProjectExternalLinkUpdates = new HashSet<ProjectExternalLinkUpdate>();
             this.ProjectFundingSourceExpenditureUpdates = new HashSet<ProjectFundingSourceExpenditureUpdate>();
@@ -39,28 +39,28 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdateBatch(int projectUpdateBatchID, int projectID, DateTime lastUpdateDate, string eIPPerformanceMeasureActualYearsExemptionExplanation, bool showBasicsValidationWarnings, bool showEIPPerformanceMeasuresValidationWarnings, bool showExpendituresValidationWarnings, bool showTransportationBudgetsValidationWarnings, bool showLocationSimpleValidationWarnings, int lastUpdatePersonID, string basicsComment, string expendituresComment, string eIPPerformanceMeasuresComment, string locationSimpleComment, string locationDetailedComment, string transportationBudgetsComment, int projectUpdateStateID, bool isPhotosUpdated, string basicsDiffLog, string eIPPerformanceMeasureDiffLog, string expendituresDiffLog, string transportationBudgetsDiffLog, string externalLinksDiffLog, string notesDiffLog) : this()
+        public ProjectUpdateBatch(int projectUpdateBatchID, int projectID, DateTime lastUpdateDate, string performanceMeasureActualYearsExemptionExplanation, bool showBasicsValidationWarnings, bool showPerformanceMeasuresValidationWarnings, bool showExpendituresValidationWarnings, bool showTransportationBudgetsValidationWarnings, bool showLocationSimpleValidationWarnings, int lastUpdatePersonID, string basicsComment, string expendituresComment, string performanceMeasuresComment, string locationSimpleComment, string locationDetailedComment, string transportationBudgetsComment, int projectUpdateStateID, bool isPhotosUpdated, string basicsDiffLog, string performanceMeasureDiffLog, string expendituresDiffLog, string transportationBudgetsDiffLog, string externalLinksDiffLog, string notesDiffLog) : this()
         {
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectID = projectID;
             this.LastUpdateDate = lastUpdateDate;
-            this.EIPPerformanceMeasureActualYearsExemptionExplanation = eIPPerformanceMeasureActualYearsExemptionExplanation;
+            this.PerformanceMeasureActualYearsExemptionExplanation = performanceMeasureActualYearsExemptionExplanation;
             this.ShowBasicsValidationWarnings = showBasicsValidationWarnings;
-            this.ShowEIPPerformanceMeasuresValidationWarnings = showEIPPerformanceMeasuresValidationWarnings;
+            this.ShowPerformanceMeasuresValidationWarnings = showPerformanceMeasuresValidationWarnings;
             this.ShowExpendituresValidationWarnings = showExpendituresValidationWarnings;
             this.ShowTransportationBudgetsValidationWarnings = showTransportationBudgetsValidationWarnings;
             this.ShowLocationSimpleValidationWarnings = showLocationSimpleValidationWarnings;
             this.LastUpdatePersonID = lastUpdatePersonID;
             this.BasicsComment = basicsComment;
             this.ExpendituresComment = expendituresComment;
-            this.EIPPerformanceMeasuresComment = eIPPerformanceMeasuresComment;
+            this.PerformanceMeasuresComment = performanceMeasuresComment;
             this.LocationSimpleComment = locationSimpleComment;
             this.LocationDetailedComment = locationDetailedComment;
             this.TransportationBudgetsComment = transportationBudgetsComment;
             this.ProjectUpdateStateID = projectUpdateStateID;
             this.IsPhotosUpdated = isPhotosUpdated;
             this.BasicsDiffLog = basicsDiffLog;
-            this.EIPPerformanceMeasureDiffLog = eIPPerformanceMeasureDiffLog;
+            this.PerformanceMeasureDiffLog = performanceMeasureDiffLog;
             this.ExpendituresDiffLog = expendituresDiffLog;
             this.TransportationBudgetsDiffLog = transportationBudgetsDiffLog;
             this.ExternalLinksDiffLog = externalLinksDiffLog;
@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdateBatch(int projectID, DateTime lastUpdateDate, bool showBasicsValidationWarnings, bool showEIPPerformanceMeasuresValidationWarnings, bool showExpendituresValidationWarnings, bool showTransportationBudgetsValidationWarnings, bool showLocationSimpleValidationWarnings, int lastUpdatePersonID, int projectUpdateStateID, bool isPhotosUpdated) : this()
+        public ProjectUpdateBatch(int projectID, DateTime lastUpdateDate, bool showBasicsValidationWarnings, bool showPerformanceMeasuresValidationWarnings, bool showExpendituresValidationWarnings, bool showTransportationBudgetsValidationWarnings, bool showLocationSimpleValidationWarnings, int lastUpdatePersonID, int projectUpdateStateID, bool isPhotosUpdated) : this()
         {
             // Mark this as a new object by setting primary key with special value
             ProjectUpdateBatchID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Models
             this.ProjectID = projectID;
             this.LastUpdateDate = lastUpdateDate;
             this.ShowBasicsValidationWarnings = showBasicsValidationWarnings;
-            this.ShowEIPPerformanceMeasuresValidationWarnings = showEIPPerformanceMeasuresValidationWarnings;
+            this.ShowPerformanceMeasuresValidationWarnings = showPerformanceMeasuresValidationWarnings;
             this.ShowExpendituresValidationWarnings = showExpendituresValidationWarnings;
             this.ShowTransportationBudgetsValidationWarnings = showTransportationBudgetsValidationWarnings;
             this.ShowLocationSimpleValidationWarnings = showLocationSimpleValidationWarnings;
@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectUpdateBatch(Project project, DateTime lastUpdateDate, bool showBasicsValidationWarnings, bool showEIPPerformanceMeasuresValidationWarnings, bool showExpendituresValidationWarnings, bool showTransportationBudgetsValidationWarnings, bool showLocationSimpleValidationWarnings, Person lastUpdatePerson, ProjectUpdateState projectUpdateState, bool isPhotosUpdated) : this()
+        public ProjectUpdateBatch(Project project, DateTime lastUpdateDate, bool showBasicsValidationWarnings, bool showPerformanceMeasuresValidationWarnings, bool showExpendituresValidationWarnings, bool showTransportationBudgetsValidationWarnings, bool showLocationSimpleValidationWarnings, Person lastUpdatePerson, ProjectUpdateState projectUpdateState, bool isPhotosUpdated) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectUpdateBatchID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Models
             project.ProjectUpdateBatches.Add(this);
             this.LastUpdateDate = lastUpdateDate;
             this.ShowBasicsValidationWarnings = showBasicsValidationWarnings;
-            this.ShowEIPPerformanceMeasuresValidationWarnings = showEIPPerformanceMeasuresValidationWarnings;
+            this.ShowPerformanceMeasuresValidationWarnings = showPerformanceMeasuresValidationWarnings;
             this.ShowExpendituresValidationWarnings = showExpendituresValidationWarnings;
             this.ShowTransportationBudgetsValidationWarnings = showTransportationBudgetsValidationWarnings;
             this.ShowLocationSimpleValidationWarnings = showLocationSimpleValidationWarnings;
@@ -124,28 +124,28 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return EIPPerformanceMeasureActualUpdates.Any() || ProjectExemptReportingYearUpdates.Any() || ProjectExternalLinkUpdates.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectImageUpdates.Any() || ProjectLocationStagingUpdates.Any() || ProjectLocationUpdates.Any() || ProjectNoteUpdates.Any() || (ProjectUpdate != null) || ProjectUpdateHistories.Any() || TransportationProjectBudgetUpdates.Any();
+            return PerformanceMeasureActualUpdates.Any() || ProjectExemptReportingYearUpdates.Any() || ProjectExternalLinkUpdates.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectImageUpdates.Any() || ProjectLocationStagingUpdates.Any() || ProjectLocationUpdates.Any() || ProjectNoteUpdates.Any() || (ProjectUpdate != null) || ProjectUpdateHistories.Any() || TransportationProjectBudgetUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectUpdateBatch).Name, typeof(EIPPerformanceMeasureActualUpdate).Name, typeof(ProjectExemptReportingYearUpdate).Name, typeof(ProjectExternalLinkUpdate).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectImageUpdate).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectLocationUpdate).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateHistory).Name, typeof(TransportationProjectBudgetUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectUpdateBatch).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(ProjectExemptReportingYearUpdate).Name, typeof(ProjectExternalLinkUpdate).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectImageUpdate).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectLocationUpdate).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateHistory).Name, typeof(TransportationProjectBudgetUpdate).Name};
 
         [Key]
         public int ProjectUpdateBatchID { get; set; }
         public int ProjectID { get; set; }
         public DateTime LastUpdateDate { get; set; }
-        public string EIPPerformanceMeasureActualYearsExemptionExplanation { get; set; }
+        public string PerformanceMeasureActualYearsExemptionExplanation { get; set; }
         public bool ShowBasicsValidationWarnings { get; set; }
-        public bool ShowEIPPerformanceMeasuresValidationWarnings { get; set; }
+        public bool ShowPerformanceMeasuresValidationWarnings { get; set; }
         public bool ShowExpendituresValidationWarnings { get; set; }
         public bool ShowTransportationBudgetsValidationWarnings { get; set; }
         public bool ShowLocationSimpleValidationWarnings { get; set; }
         public int LastUpdatePersonID { get; set; }
         public string BasicsComment { get; set; }
         public string ExpendituresComment { get; set; }
-        public string EIPPerformanceMeasuresComment { get; set; }
+        public string PerformanceMeasuresComment { get; set; }
         public string LocationSimpleComment { get; set; }
         public string LocationDetailedComment { get; set; }
         public string TransportationBudgetsComment { get; set; }
@@ -159,11 +159,11 @@ namespace ProjectFirma.Web.Models
             set { BasicsDiffLog = value == null ? null : value.ToString(); }
         }
         [NotMapped]
-        private string EIPPerformanceMeasureDiffLog { get; set; }
-        public HtmlString EIPPerformanceMeasureDiffLogHtmlString
+        private string PerformanceMeasureDiffLog { get; set; }
+        public HtmlString PerformanceMeasureDiffLogHtmlString
         { 
-            get { return EIPPerformanceMeasureDiffLog == null ? null : new HtmlString(EIPPerformanceMeasureDiffLog); }
-            set { EIPPerformanceMeasureDiffLog = value == null ? null : value.ToString(); }
+            get { return PerformanceMeasureDiffLog == null ? null : new HtmlString(PerformanceMeasureDiffLog); }
+            set { PerformanceMeasureDiffLog = value == null ? null : value.ToString(); }
         }
         [NotMapped]
         private string ExpendituresDiffLog { get; set; }
@@ -195,7 +195,7 @@ namespace ProjectFirma.Web.Models
         }
         public int PrimaryKey { get { return ProjectUpdateBatchID; } set { ProjectUpdateBatchID = value; } }
 
-        public virtual ICollection<EIPPerformanceMeasureActualUpdate> EIPPerformanceMeasureActualUpdates { get; set; }
+        public virtual ICollection<PerformanceMeasureActualUpdate> PerformanceMeasureActualUpdates { get; set; }
         public virtual ICollection<ProjectExemptReportingYearUpdate> ProjectExemptReportingYearUpdates { get; set; }
         public virtual ICollection<ProjectExternalLinkUpdate> ProjectExternalLinkUpdates { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get; set; }
@@ -213,10 +213,10 @@ namespace ProjectFirma.Web.Models
 
         public static class FieldLengths
         {
-            public const int EIPPerformanceMeasureActualYearsExemptionExplanation = 4000;
+            public const int PerformanceMeasureActualYearsExemptionExplanation = 4000;
             public const int BasicsComment = 1000;
             public const int ExpendituresComment = 1000;
-            public const int EIPPerformanceMeasuresComment = 1000;
+            public const int PerformanceMeasuresComment = 1000;
             public const int LocationSimpleComment = 1000;
             public const int LocationDetailedComment = 1000;
             public const int TransportationBudgetsComment = 1000;

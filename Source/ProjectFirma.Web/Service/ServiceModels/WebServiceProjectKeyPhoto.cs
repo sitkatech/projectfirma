@@ -15,14 +15,14 @@ namespace ProjectFirma.Web.Service.ServiceModels
     {
         public WebServiceProjectKeyPhoto(Project project)
         {
-            EIPProjectNumber = project.ProjectNumberString;
+            ProjectNumber = project.ProjectNumberString;
             ProjectName = project.ProjectName;
             KeyPhotoUrl = project.KeyPhoto != null
                 ? SitkaRoute<FileResourceController>.BuildAbsoluteUrlHttpsFromExpression(x => x.DisplayResource(project.KeyPhoto.FileResource.FileResourceGUIDAsString), LtInfoWebConfiguration.CanonicalHostName)
                 : ViewUtilities.NoneString;
         }
 
-        [DataMember] public string EIPProjectNumber { get; set; }
+        [DataMember] public string ProjectNumber { get; set; }
         [DataMember] public string ProjectName { get; set; }
         [DataMember] public string KeyPhotoUrl { get; set; }
 
@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
     {
         public WebServiceProjectKeyPhotoGridSpec()
         {
-            Add("EIPProjectNumber", x => x.EIPProjectNumber, 0);
+            Add("ProjectNumber", x => x.ProjectNumber, 0);
             Add("ProjectName", x => x.ProjectName, 0);
             Add("KeyPhotoUrl", x => x.KeyPhotoUrl, 0);            
         }

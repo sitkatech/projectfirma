@@ -33,15 +33,6 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<AuditLog> AuditLogs { get; set; }
         public virtual DbSet<County> Counties { get; set; }
         public virtual DbSet<DatabaseMigration> DatabaseMigrations { get; set; }
-        public virtual DbSet<EIPPerformanceMeasureActual> EIPPerformanceMeasureActuals { get; set; }
-        public virtual DbSet<EIPPerformanceMeasureActualSubcategoryOption> EIPPerformanceMeasureActualSubcategoryOptions { get; set; }
-        public virtual DbSet<EIPPerformanceMeasureActualSubcategoryOptionUpdate> EIPPerformanceMeasureActualSubcategoryOptionUpdates { get; set; }
-        public virtual DbSet<EIPPerformanceMeasureActualUpdate> EIPPerformanceMeasureActualUpdates { get; set; }
-        public virtual DbSet<EIPPerformanceMeasureExpectedProposed> EIPPerformanceMeasureExpectedProposeds { get; set; }
-        public virtual DbSet<EIPPerformanceMeasureExpected> EIPPerformanceMeasureExpecteds { get; set; }
-        public virtual DbSet<EIPPerformanceMeasureExpectedSubcategoryOptionProposed> EIPPerformanceMeasureExpectedSubcategoryOptionProposeds { get; set; }
-        public virtual DbSet<EIPPerformanceMeasureExpectedSubcategoryOption> EIPPerformanceMeasureExpectedSubcategoryOptions { get; set; }
-        public virtual DbSet<EIPPerformanceMeasure> EIPPerformanceMeasures { get; set; }
         public virtual DbSet<FieldDefinitionData> FieldDefinitionDatas { get; set; }
         public virtual DbSet<FieldDefinitionImage> FieldDefinitionImages { get; set; }
         public virtual DbSet<FileResource> FileResources { get; set; }
@@ -67,8 +58,17 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<Notification> Notifications { get; set; }
         public virtual DbSet<Organization> Organizations { get; set; }
         public virtual DbSet<Person> People { get; set; }
-        public virtual DbSet<ProgramEIPPerformanceMeasure> ProgramEIPPerformanceMeasures { get; set; }
+        public virtual DbSet<PerformanceMeasureActual> PerformanceMeasureActuals { get; set; }
+        public virtual DbSet<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
+        public virtual DbSet<PerformanceMeasureActualSubcategoryOptionUpdate> PerformanceMeasureActualSubcategoryOptionUpdates { get; set; }
+        public virtual DbSet<PerformanceMeasureActualUpdate> PerformanceMeasureActualUpdates { get; set; }
+        public virtual DbSet<PerformanceMeasureExpectedProposed> PerformanceMeasureExpectedProposeds { get; set; }
+        public virtual DbSet<PerformanceMeasureExpected> PerformanceMeasureExpecteds { get; set; }
+        public virtual DbSet<PerformanceMeasureExpectedSubcategoryOptionProposed> PerformanceMeasureExpectedSubcategoryOptionProposeds { get; set; }
+        public virtual DbSet<PerformanceMeasureExpectedSubcategoryOption> PerformanceMeasureExpectedSubcategoryOptions { get; set; }
+        public virtual DbSet<PerformanceMeasure> PerformanceMeasures { get; set; }
         public virtual DbSet<ProgramImage> ProgramImages { get; set; }
+        public virtual DbSet<ProgramPerformanceMeasure> ProgramPerformanceMeasures { get; set; }
         public virtual DbSet<Program> Programs { get; set; }
         public virtual DbSet<ProjectExemptReportingYear> ProjectExemptReportingYears { get; set; }
         public virtual DbSet<ProjectExemptReportingYearUpdate> ProjectExemptReportingYearUpdates { get; set; }
@@ -107,8 +107,8 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<ProposedProject> ProposedProjects { get; set; }
         public virtual DbSet<ProposedProjectThresholdCategory> ProposedProjectThresholdCategories { get; set; }
         public virtual DbSet<ProposedProjectTransportationQuestion> ProposedProjectTransportationQuestions { get; set; }
-        public virtual DbSet<SnapshotEIPPerformanceMeasure> SnapshotEIPPerformanceMeasures { get; set; }
-        public virtual DbSet<SnapshotEIPPerformanceMeasureSubcategoryOption> SnapshotEIPPerformanceMeasureSubcategoryOptions { get; set; }
+        public virtual DbSet<SnapshotPerformanceMeasure> SnapshotPerformanceMeasures { get; set; }
+        public virtual DbSet<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual DbSet<SnapshotProject> SnapshotProjects { get; set; }
         public virtual DbSet<Snapshot> Snapshots { get; set; }
         public virtual DbSet<SnapshotSectorExpenditure> SnapshotSectorExpenditures { get; set; }
@@ -154,38 +154,6 @@ namespace ProjectFirma.Web.Models
 
                 case "DatabaseMigration":
                     return DatabaseMigrations.GetDatabaseMigration(primaryKey);
-
-                case "EIPPerformanceMeasureActual":
-                    return EIPPerformanceMeasureActuals.GetEIPPerformanceMeasureActual(primaryKey);
-
-                case "EIPPerformanceMeasureActualSubcategoryOption":
-                    return EIPPerformanceMeasureActualSubcategoryOptions.GetEIPPerformanceMeasureActualSubcategoryOption(primaryKey);
-
-                case "EIPPerformanceMeasureActualSubcategoryOptionUpdate":
-                    return EIPPerformanceMeasureActualSubcategoryOptionUpdates.GetEIPPerformanceMeasureActualSubcategoryOptionUpdate(primaryKey);
-
-                case "EIPPerformanceMeasureActualUpdate":
-                    return EIPPerformanceMeasureActualUpdates.GetEIPPerformanceMeasureActualUpdate(primaryKey);
-
-                case "EIPPerformanceMeasureExpectedProposed":
-                    return EIPPerformanceMeasureExpectedProposeds.GetEIPPerformanceMeasureExpectedProposed(primaryKey);
-
-                case "EIPPerformanceMeasureExpected":
-                    return EIPPerformanceMeasureExpecteds.GetEIPPerformanceMeasureExpected(primaryKey);
-
-                case "EIPPerformanceMeasureExpectedSubcategoryOptionProposed":
-                    return EIPPerformanceMeasureExpectedSubcategoryOptionProposeds.GetEIPPerformanceMeasureExpectedSubcategoryOptionProposed(primaryKey);
-
-                case "EIPPerformanceMeasureExpectedSubcategoryOption":
-                    return EIPPerformanceMeasureExpectedSubcategoryOptions.GetEIPPerformanceMeasureExpectedSubcategoryOption(primaryKey);
-
-                case "EIPPerformanceMeasure":
-                    return EIPPerformanceMeasures.GetEIPPerformanceMeasure(primaryKey);
-
-                case "EIPPerformanceMeasureType":
-                    var eIPPerformanceMeasureType = EIPPerformanceMeasureType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(eIPPerformanceMeasureType, "EIPPerformanceMeasureType", primaryKey);
-                    return eIPPerformanceMeasureType;
 
                 case "FieldDefinitionData":
                     return FieldDefinitionDatas.GetFieldDefinitionData(primaryKey);
@@ -312,11 +280,43 @@ namespace ProjectFirma.Web.Models
                 case "Person":
                     return People.GetPerson(primaryKey);
 
-                case "ProgramEIPPerformanceMeasure":
-                    return ProgramEIPPerformanceMeasures.GetProgramEIPPerformanceMeasure(primaryKey);
+                case "PerformanceMeasureActual":
+                    return PerformanceMeasureActuals.GetPerformanceMeasureActual(primaryKey);
+
+                case "PerformanceMeasureActualSubcategoryOption":
+                    return PerformanceMeasureActualSubcategoryOptions.GetPerformanceMeasureActualSubcategoryOption(primaryKey);
+
+                case "PerformanceMeasureActualSubcategoryOptionUpdate":
+                    return PerformanceMeasureActualSubcategoryOptionUpdates.GetPerformanceMeasureActualSubcategoryOptionUpdate(primaryKey);
+
+                case "PerformanceMeasureActualUpdate":
+                    return PerformanceMeasureActualUpdates.GetPerformanceMeasureActualUpdate(primaryKey);
+
+                case "PerformanceMeasureExpectedProposed":
+                    return PerformanceMeasureExpectedProposeds.GetPerformanceMeasureExpectedProposed(primaryKey);
+
+                case "PerformanceMeasureExpected":
+                    return PerformanceMeasureExpecteds.GetPerformanceMeasureExpected(primaryKey);
+
+                case "PerformanceMeasureExpectedSubcategoryOptionProposed":
+                    return PerformanceMeasureExpectedSubcategoryOptionProposeds.GetPerformanceMeasureExpectedSubcategoryOptionProposed(primaryKey);
+
+                case "PerformanceMeasureExpectedSubcategoryOption":
+                    return PerformanceMeasureExpectedSubcategoryOptions.GetPerformanceMeasureExpectedSubcategoryOption(primaryKey);
+
+                case "PerformanceMeasure":
+                    return PerformanceMeasures.GetPerformanceMeasure(primaryKey);
+
+                case "PerformanceMeasureType":
+                    var performanceMeasureType = PerformanceMeasureType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(performanceMeasureType, "PerformanceMeasureType", primaryKey);
+                    return performanceMeasureType;
 
                 case "ProgramImage":
                     return ProgramImages.GetProgramImage(primaryKey);
+
+                case "ProgramPerformanceMeasure":
+                    return ProgramPerformanceMeasures.GetProgramPerformanceMeasure(primaryKey);
 
                 case "Program":
                     return Programs.GetProgram(primaryKey);
@@ -487,11 +487,11 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(sector, "Sector", primaryKey);
                     return sector;
 
-                case "SnapshotEIPPerformanceMeasure":
-                    return SnapshotEIPPerformanceMeasures.GetSnapshotEIPPerformanceMeasure(primaryKey);
+                case "SnapshotPerformanceMeasure":
+                    return SnapshotPerformanceMeasures.GetSnapshotPerformanceMeasure(primaryKey);
 
-                case "SnapshotEIPPerformanceMeasureSubcategoryOption":
-                    return SnapshotEIPPerformanceMeasureSubcategoryOptions.GetSnapshotEIPPerformanceMeasureSubcategoryOption(primaryKey);
+                case "SnapshotPerformanceMeasureSubcategoryOption":
+                    return SnapshotPerformanceMeasureSubcategoryOptions.GetSnapshotPerformanceMeasureSubcategoryOption(primaryKey);
 
                 case "SnapshotProject":
                     return SnapshotProjects.GetSnapshotProject(primaryKey);

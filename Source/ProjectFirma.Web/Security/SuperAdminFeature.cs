@@ -6,9 +6,9 @@ namespace ProjectFirma.Web.Security
     /// <summary>
     /// Base class for admin level features
     /// </summary>
-    public abstract class EIPAdminFeature : EIPFeature
+    public abstract class SuperAdminFeature : FirmaFeature
     {
-        protected EIPAdminFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
+        protected SuperAdminFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
         {
         }      
     }

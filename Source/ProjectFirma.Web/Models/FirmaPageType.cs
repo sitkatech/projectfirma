@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeEIPHomeAdditionalInfo
+    public partial class FirmaPageTypeHomeAdditionalInfo
     {
         public override string GetViewUrl()
         {
@@ -72,11 +72,11 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeEIPPerformanceMeasuresList
+    public partial class FirmaPageTypePerformanceMeasuresList
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<EIPPerformanceMeasureController>.BuildUrlFromExpression(x => x.Index());
+            return SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 
@@ -176,35 +176,35 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeSpendingByEIPPerformanceMeasureByProject
+    public partial class FirmaPageTypeSpendingByPerformanceMeasureByProject
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingByEIPPerformanceMeasureByProject(null));
+            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingByPerformanceMeasureByProject(null));
         }
     }
 
-    public partial class FirmaPageTypeEIPProjectMap
+    public partial class FirmaPageTypeProjectMap
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.EipProjectMap());
+            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ProjectMap());
         }
     }
 
-    public partial class FirmaPageTypeEIPResultsByProgram
+    public partial class FirmaPageTypeResultsByProgram
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.EipResultsByProgram(null));
+            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ResultsByProgram(null));
         }
     }
 
-    public partial class FirmaPageTypeEIPTaxonomy
+    public partial class FirmaPageTypeTaxonomy
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(x => x.EipTaxonomy());
+            return SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(x => x.Taxonomy());
         }
     }
 

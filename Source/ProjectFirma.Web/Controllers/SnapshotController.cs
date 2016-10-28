@@ -3,13 +3,13 @@ using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Views.Shared.EIPPerformanceMeasureControls;
 using ProjectFirma.Web.Views.Snapshot;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using Index = ProjectFirma.Web.Views.Snapshot.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Snapshot.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Snapshot.IndexViewData;
@@ -47,16 +47,16 @@ namespace ProjectFirma.Web.Controllers
         {
             var snapshot = snapshotPrimaryKey.EntityObject;
 
-            var eipPerformanceMeasureReportedValues = snapshot.SnapshotEIPPerformanceMeasures;
-            var eipPerformanceMeasureSubcategoriesCalendarYearReportedValues =
-                EIPPerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromEIPPerformanceMeasuresAndCalendarYears(new List<IEIPPerformanceMeasureReportedValue>(eipPerformanceMeasureReportedValues));
-            var eipPerformanceMeasureReportedValuesGroupedViewData = new EIPPerformanceMeasureReportedValuesGroupedViewData(eipPerformanceMeasureSubcategoriesCalendarYearReportedValues,
+            var performanceMeasureReportedValues = snapshot.SnapshotPerformanceMeasures;
+            var performanceMeasureSubcategoriesCalendarYearReportedValues =
+                PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(new List<IPerformanceMeasureReportedValue>(performanceMeasureReportedValues));
+            var performanceMeasureReportedValuesGroupedViewData = new PerformanceMeasureReportedValuesGroupedViewData(performanceMeasureSubcategoriesCalendarYearReportedValues,
                 new List<int> (),
                 null,
-                eipPerformanceMeasureReportedValues.Select(x => x.CalendarYear).Distinct().ToList(),
+                performanceMeasureReportedValues.Select(x => x.CalendarYear).Distinct().ToList(),
                 true);
 
-            var viewData = new SummaryViewData(CurrentPerson, snapshot, new SnapshotProjectGridSpec(), eipPerformanceMeasureReportedValuesGroupedViewData);
+            var viewData = new SummaryViewData(CurrentPerson, snapshot, new SnapshotProjectGridSpec(), performanceMeasureReportedValuesGroupedViewData);
             return RazorView<Summary, SummaryViewData>(viewData);
         }
 

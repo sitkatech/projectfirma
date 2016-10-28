@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Security
 {
     public static class FirmaBaseFeatureHelpers
     {
-        public static readonly List<Role> AllEIPRolesExceptUnassigned = Role.All.Except(new[] { Role.Unassigned }).ToList();
+        public static readonly List<Role> AllRolesExceptUnassigned = Role.All.Except(new[] { Role.Unassigned }).ToList();
 
         public static bool DoesRoleHavePermissionsForFeature(IRole role, Type type)
         {

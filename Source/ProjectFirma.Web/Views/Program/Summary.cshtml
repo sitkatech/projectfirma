@@ -37,7 +37,7 @@
         <div class="summarySection">
             <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProgramUrl, string.Format("Edit Program - {0}", ViewDataTyped.Program.DisplayName), ViewDataTyped.UserHasProgramManagePermissions) Basics</h2>
             <div class="contentWrapper">
-                <span class="stylizeLikeTH">EIP Category:</span>
+                <span class="stylizeLikeTH">Category:</span>
                 @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }
                 <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.AssociatedPrograms):</span>
                 @Html.Raw(ViewDataTyped.Program.AssociatedProgramsHtmlString)
@@ -60,7 +60,7 @@
                 <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
                     @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
                 </div>
-                Some projects operate over larger areas and are not represented on the map, but are listed in the project grid below. A <a href="@ViewDataTyped.EipProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.
+                Some projects operate over larger areas and are not represented on the map, but are listed in the project grid below. A <a href="@ViewDataTyped.ProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.
             </div>
         </div>
 
@@ -95,20 +95,20 @@
 
         <div class="summarySection">
             <h2>
-                <a href="@ViewDataTyped.ManageEIPPerformanceMeasuresUrl">Performance Measures</a>
+                <a href="@ViewDataTyped.ManagePerformanceMeasuresUrl">Performance Measures</a>
             </h2>
             <div class="contentWrapper">
-                @if (ViewDataTyped.ProgramEIPPerformanceMeasures.Any())
+                @if (ViewDataTyped.ProgramPerformanceMeasures.Any())
                 {
                     <table class="summaryLayout">
                         <tr>
-                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.EIPPerformanceMeasure):</th>
+                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure):</th>
                         </tr>
-                        @foreach (var eipPerformanceMeasure in ViewDataTyped.ProgramEIPPerformanceMeasures.OrderBy(x => x.EIPPerformanceMeasureID))
+                        @foreach (var performanceMeasure in ViewDataTyped.ProgramPerformanceMeasures.OrderBy(x => x.PerformanceMeasureID))
                         {
                             <tr>
                                 <td>
-                                    @eipPerformanceMeasure.GetDisplayNameAsUrl()
+                                    @performanceMeasure.GetDisplayNameAsUrl()
                                 </td>
                             </tr>
                         }

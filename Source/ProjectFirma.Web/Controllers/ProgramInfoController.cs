@@ -10,13 +10,13 @@ namespace ProjectFirma.Web.Controllers
     public class ProgramInfoController : FirmaBaseController
     {
         [AnonymousUnclassifiedFeature]
-        public ViewResult EipTaxonomy()
+        public ViewResult Taxonomy()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.EIPTaxonomy);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.Taxonomy);
             var focusAreas = HttpRequestStorage.DatabaseEntities.FocusAreas.ToList();
             var focusAreasAsFancyTreeNodes = focusAreas.Select(x => x.ToFancyTreeNode()).ToList();
-            var viewData = new EipTaxonomyViewData(CurrentPerson, firmaPage, focusAreasAsFancyTreeNodes);
-            return RazorView<EipTaxonomy, EipTaxonomyViewData>(viewData);
+            var viewData = new TaxonomyViewData(CurrentPerson, firmaPage, focusAreasAsFancyTreeNodes);
+            return RazorView<Taxonomy, TaxonomyViewData>(viewData);
         }
 
         [AnonymousUnclassifiedFeature]

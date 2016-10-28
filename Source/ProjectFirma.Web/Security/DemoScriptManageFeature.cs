@@ -5,7 +5,7 @@ using ProjectFirma.Web.Security;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Demo Script")]
-    public class DemoScriptManageFeature : EIPFeature
+    public class DemoScriptManageFeature : FirmaFeature
     {
         public DemoScriptManageFeature()
             : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ReadOnlyAdmin })

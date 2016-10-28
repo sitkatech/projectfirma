@@ -18,50 +18,5 @@
                 @Html.ValidationMessageFor(m => m.ChartCaption)
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4 col-header">
-                Data Source Link Text:
-            </div>
-            <div class="col-md-7">
-                @if (ViewDataTyped.ReportedInEIP)
-                {
-                    @Html.TextBoxFor(m => m.DataSourceText, new Dictionary<string, object>() {{"style", "width:100%"}, {"readonly", "readonly"}})
-                }
-                else
-                {
-                    @Html.TextBoxFor(m => m.DataSourceText, new {style = "width:100%"} )
-                    @Html.ValidationMessageFor(m => m.DataSourceText)
-                }
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4 col-header">
-                Data Source Url:
-            </div>
-            <div class="col-md-7">
-                @if (ViewDataTyped.ReportedInEIP)
-                {
-                    @Html.TextBoxFor(m => m.DataSourceUrl, new Dictionary<string, object>() {{"style", "width:100%"}, {"readonly", "readonly"}})
-                }
-                else
-                {
-                    @Html.TextBoxFor(m => m.DataSourceUrl, new {style = "width:100%"})
-                    @Html.ValidationMessageFor(m => m.DataSourceUrl)
-                }
-            </div>
-        </div>
-
-        @if (!ViewDataTyped.ReportedInEIP)
-        {
-            <div class="row">
-                <div class="col-md-4 col-header">
-                    Swap Chart Axes:
-                </div>
-                <div class="col-md-7">                                       
-                    @Html.CheckBoxFor(m => m.SwapChartAxes)
-                    @Html.ValidationMessageFor(m => m.SwapChartAxes)                    
-                </div>
-            </div>
-        }
     </div>
 }

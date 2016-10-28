@@ -8,17 +8,14 @@
             @ViewDataTyped.Indicator.IndicatorDefinition.ToHTMLFormattedString()
         </p>
     </div>
-    @if (ViewDataTyped.Indicator.ReportedInEIP)
-    {
-        <hr/>
-        <h3>Critical Definitions</h3>
-        <div style="margin-left: 20px">
-            @ViewDataTyped.Indicator.EIPPerformanceMeasure.CriticalDefinitionsHtmlString
-        </div>
-        <hr/>
-        <h3>Accounting Period and Scale</h3>
-        <div style="margin-left: 20px">
-            @ViewDataTyped.Indicator.EIPPerformanceMeasure.AccountingPeriodAndScaleHtmlString
-        </div>
-    }
+    <hr/>
+    <h3>Critical Definitions</h3>
+    <div style="margin-left: 20px">
+        @ViewDataTyped.Indicator.PerformanceMeasure.CriticalDefinitionsHtmlString
+    </div>
+    <hr/>
+    <h3>Accounting Period and Scale</h3>
+    <div style="margin-left: 20px">
+        @ViewDataTyped.Indicator.PerformanceMeasure.AccountingPeriodAndScaleHtmlString
+    </div>
 </div>

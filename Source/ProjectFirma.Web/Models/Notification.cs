@@ -23,11 +23,11 @@ namespace ProjectFirma.Web.Models
                 case NotificationTypeEnum.ProjectUpdateReminder:
                     return new HtmlString("Project Update reminder sent.");
                 case NotificationTypeEnum.ProjectUpdateSubmitted:
-                    return new HtmlString(String.Format("The update for EIP project {0} was submitted", displayNameAsUrl));
+                    return new HtmlString(String.Format("The update for project {0} was submitted", displayNameAsUrl));
                 case NotificationTypeEnum.ProjectUpdateReturned:
-                    return new HtmlString(String.Format("The update for EIP project {0} has been returned", displayNameAsUrl));
+                    return new HtmlString(String.Format("The update for project {0} has been returned", displayNameAsUrl));
                 case NotificationTypeEnum.ProjectUpdateApproved:
-                    return new HtmlString(String.Format("The update for EIP project {0} was approved", displayNameAsUrl));
+                    return new HtmlString(String.Format("The update for project {0} was approved", displayNameAsUrl));
                 case NotificationTypeEnum.Custom:
                     return new HtmlString("A customized notification was sent.");
                 default:
@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Models
 
         public static MailAddress DoNotReplyMailAddress()
         {
-            return new MailAddress(FirmaWebConfiguration.DoNotReplyEmail, "TRPA as Administrator of the EIP");
+            return new MailAddress(FirmaWebConfiguration.DoNotReplyEmail, "Sitka as Administrator of ProjectFirma");
         }
 
         private static MailMessage GenerateProjectUpdateReturnedMessage(ProjectUpdateBatch projectUpdateBatch,
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Models
             var message = string.Format(@"
 Dear {0},
 <p>
-    The update submitted for EIP project {1} on {2} has been returned by {3}.
+    The update submitted for project {1} on {2} has been returned by {3}.
 </p>
 <p>
     <a href=""{4}"">View this project update</a>
@@ -112,7 +112,7 @@ Thank you,<br />
                 returnerPerson.Email,
                 FirmaSignature);
 
-            var subject = string.Format("The update for EIP project {0} has been returned - please review and re-submit", projectUpdateBatch.Project.ProjectNumberString);
+            var subject = string.Format("The update for project {0} has been returned - please review and re-submit", projectUpdateBatch.Project.ProjectNumberString);
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true};
             return mailMessage;
         }
@@ -145,13 +145,13 @@ Thank you,<br />
 
         private static MailMessage GenerateProjectUpdateSubmittedMessage(ProjectUpdateBatch projectUpdateBatch, ProjectUpdateHistory latestProjectUpdateHistorySubmitted, Person submitterPerson)
         {
-            var subject = String.Format("The update for EIP project {0} was submitted", projectUpdateBatch.Project.ProjectNumberString);
+            var subject = String.Format("The update for project {0} was submitted", projectUpdateBatch.Project.ProjectNumberString);
             var instructionsUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(projectUpdateBatch.Project), LtInfoWebConfiguration.CanonicalHostName);
             var message = String.Format(@"
-<p>The update for EIP project {0} on {1} was just submitted by {2}.</p>
+<p>The update for project {0} on {1} was just submitted by {2}.</p>
 <p>Please review and Approve or Return it at your earliest convenience.<br />
 <a href=""{3}"">View this project update</a></p>
-<p>You received this email because you are assigned to receive support notifications within the Lake Tahoe EIP Project Tracker tool.</p>
+<p>You received this email because you are assigned to receive support notifications within the ProjectFirma tool.</p>
 ", projectUpdateBatch.Project.DisplayName, latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate(), submitterPerson.FullNameFirstLastAndOrg, instructionsUrl);
 
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true};
@@ -237,7 +237,7 @@ Thank you,<br />
             var message = String.Format(@"
 Dear {0},
 <p>
-    The update submitted for EIP project {1} on {2} was approved by {3}.
+    The update submitted for project {1} on {2} was approved by {3}.
 </p>
 <p>
     There is no action for you to take - this is simply a notification email. The updates for this project are now visible to the general public on this project's summary page:
@@ -250,7 +250,7 @@ Thank you for keeping your project information and accomplishments up to date!<b
 ", personNames, projectUpdateBatch.Project.DisplayName, latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate(), approverPerson.FullNameFirstLastAndOrg, summaryUrl,
                 FirmaSignature);
 
-            var subject = String.Format("The update for EIP project {0} was approved", projectUpdateBatch.Project.ProjectNumberString);
+            var subject = String.Format("The update for project {0} was approved", projectUpdateBatch.Project.ProjectNumberString);
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true};
             return mailMessage;
         }
@@ -269,14 +269,14 @@ Thank you for keeping your project information and accomplishments up to date!<b
 
         private static MailMessage GenerateProposedProjectSubmittedMessage(ProposedProject proposedProject, Person submitterPerson)
         {
-            var subject = String.Format("An EIP Project Proposal was submitted by {0}", submitterPerson.FullNameFirstLastAndOrg);
+            var subject = String.Format("A Project Proposal was submitted by {0}", submitterPerson.FullNameFirstLastAndOrg);
             var instructionsUrl = SitkaRoute<ProposedProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(proposedProject.ProposedProjectID), LtInfoWebConfiguration.CanonicalHostName);
             var message = String.Format(@"
-<p>A proposal was submitted for a new EIP Project, “{0}”.</p>
+<p>A proposal was submitted for a new Project, “{0}”.</p>
 <p>The proposal was submitted on {1} by {2}.<br />
 <p>Please review and Approve or Return it at your earliest convenience.</p>
 <a href=""{3}"">View this proposal</a></p>
-<p>You received this email because you are assigned to receive support notifications within the Lake Tahoe EIP Project Tracker tool.</p>
+<p>You received this email because you are assigned to receive support notifications within the ProjectFirma tool.</p>
 ", proposedProject.DisplayName, proposedProject.ProposingDate.ToStringDate(), submitterPerson.FullNameFirstLastAndOrg, instructionsUrl);
 
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };

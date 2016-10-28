@@ -84,7 +84,7 @@
 
 <div ng-app="InvestmentByFundingSectorApp" ng-controller="InvestmentByFundingSectorController">
     <div class="summarySection">
-        <h2>EIP Investment by Funding Sector</h2>
+        <h2>Investment by Funding Sector</h2>
         <div class="contentWrapper">
             <table>
                 <tr style="vertical-align: top">
@@ -114,7 +114,7 @@
                             </tr>
                         </table>
 
-                        <p>The EIP completed @ViewDataTyped.ProjectCount projects within the selected Time Period. This includes projects in Complete and Post-Implementation stages.</p>
+                        <p>The completed @ViewDataTyped.ProjectCount projects within the selected Time Period. This includes projects in Complete and Post-Implementation stages.</p>
                     </td>
                     <td>
                         <div style="height: @(ViewDataTyped.GoogleChartJson.GoogleChartConfiguration.Height + 30)px; width: @(ViewDataTyped.GoogleChartJson.GoogleChartConfiguration.Width)px overflow:hidden; margin-top: 10px">
@@ -148,7 +148,7 @@
         <div class="contentWrapper">
             @if (ViewDataTyped.IsPreReportingYear)
             {
-                <p class="systemText">Project-level detail is not available for the @ViewDataTyped.ProjectCount projects completed in the "Early Years" of the EIP.</p>
+                <p class="systemText">Project-level detail is not available for the @ViewDataTyped.ProjectCount projects completed in the "Early Years".</p>
             }
             else
             {
@@ -166,4 +166,4 @@
         var chartJson = @Html.Raw(JObject.FromObject(ViewDataTyped.GoogleChartJson).ToString());
         GoogleCharts.drawCharts([chartJson]);
     });
-</script>
+</script>t>

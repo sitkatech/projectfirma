@@ -16,11 +16,11 @@ namespace ProjectFirma.Web.Models
     /// I've covered a lot of ground here, but the following classes don't have tests written for them, and could arguably use them.
     /// I've just run out of steam on this effort for now:
     /// 
-    /// EIPPerformanceMeasureActual
-    /// EIPPerformanceMeasureActualSubcategoryOption
-    /// EIPPerformanceMeasureExpected
-    /// EIPPerformanceMeasureExpectedSubcategoryOption
-    /// ProgramEIPPerformanceMeasure
+    /// PerformanceMeasureActual
+    /// PerformanceMeasureActualSubcategoryOption
+    /// PerformanceMeasureExpected
+    /// PerformanceMeasureExpectedSubcategoryOption
+    /// ProgramPerformanceMeasure
     /// ProjectThresholdCategory
     /// IndicatorSubcategoryOption
     /// 

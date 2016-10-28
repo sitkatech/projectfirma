@@ -28,12 +28,11 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionFundingSourceName FundingSourceName = FieldDefinitionFundingSourceName.Instance;
         public static readonly FieldDefinitionImplementer Implementer = FieldDefinitionImplementer.Instance;
         public static readonly FieldDefinitionLeadImplementer LeadImplementer = FieldDefinitionLeadImplementer.Instance;
-        public static readonly FieldDefinitionOldEIPNumber OldEIPNumber = FieldDefinitionOldEIPNumber.Instance;
         public static readonly FieldDefinitionOrganization Organization = FieldDefinitionOrganization.Instance;
         public static readonly FieldDefinitionOrganizationAbbreviation OrganizationAbbreviation = FieldDefinitionOrganizationAbbreviation.Instance;
         public static readonly FieldDefinitionOrganizationName OrganizationName = FieldDefinitionOrganizationName.Instance;
         public static readonly FieldDefinitionPassword Password = FieldDefinitionPassword.Instance;
-        public static readonly FieldDefinitionEIPPerformanceMeasure EIPPerformanceMeasure = FieldDefinitionEIPPerformanceMeasure.Instance;
+        public static readonly FieldDefinitionPerformanceMeasure PerformanceMeasure = FieldDefinitionPerformanceMeasure.Instance;
         public static readonly FieldDefinitionIndicatorDefinition IndicatorDefinition = FieldDefinitionIndicatorDefinition.Instance;
         public static readonly FieldDefinitionIndicatorDisplayName IndicatorDisplayName = FieldDefinitionIndicatorDisplayName.Instance;
         public static readonly FieldDefinitionMeasurementUnit MeasurementUnit = FieldDefinitionMeasurementUnit.Instance;
@@ -116,7 +115,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionUserFirstName UserFirstName = FieldDefinitionUserFirstName.Instance;
         public static readonly FieldDefinitionUserEmail UserEmail = FieldDefinitionUserEmail.Instance;
         public static readonly FieldDefinitionUserPhone UserPhone = FieldDefinitionUserPhone.Instance;
-        public static readonly FieldDefinitionEIPRoleID EIPRoleID = FieldDefinitionEIPRoleID.Instance;
+        public static readonly FieldDefinitionRoleID RoleID = FieldDefinitionRoleID.Instance;
         public static readonly FieldDefinitionSiteArea SiteArea = FieldDefinitionSiteArea.Instance;
         public static readonly FieldDefinitionRoleName RoleName = FieldDefinitionRoleName.Instance;
         public static readonly FieldDefinitionRegion Region = FieldDefinitionRegion.Instance;
@@ -140,7 +139,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { ActionPriority, ActionPriorityName, LocalAndRegionalPlanName, ExpectedValue, FocusArea, FocusAreaName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, OldEIPNumber, Organization, OrganizationAbbreviation, OrganizationName, Password, EIPPerformanceMeasure, IndicatorDefinition, IndicatorDisplayName, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, Program, ProgramName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, Stage, Subcategories, ProjectIsAProgram, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ProjectNumber, ThresholdCategory, LocalAndRegionalPlan, Watershed, Subcategory, SubcategoryOption, SubcategoryOptions, IsPrimaryProgram, IndicatorCriticalDefinitions, IndicatorAccountingPeriodAndScale, IndicatorProjectReporting, FundedAmount, ProjectLocation, IndicatorBackground, NumberOfReportedPMRecords, NumberOfReportedExpenditureRecords, ProjectLocationState, ProjectLocationJurisdiction, ProjectLocationWatershed, ExcludeFromFactSheet, TransportationStrategy, TransportationObjective, TransportationStrategyName, TransportationObjectiveName, ProjectIsATransportationProject, IsTransportationFundingSource, FundingType, ProjectCostInYearOfExpenditure, TransportationGlobalInflationRate, ReportingYear, TagName, TagDescription, Tags, ReportedExpenditure, ProposedProject, ProjectOnFTIPList, LocalAndRegionalPlanDocumentUrl, LocalAndRegionalPlanDocumentLinkText, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedPrograms, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentRTPYearForPVCalculations, LifecycleOperatingCost, IndicatorSystemName, IndicatorSimpleDescription, IndicatorPrimarySource, IndicatorType, ChartTitle, ProposedProjectState, UserLastName, UserFirstName, UserEmail, UserPhone, EIPRoleID, SiteArea, RoleName, Region, Latitude, Longitude, OrganizationUrl, ChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
+            All = new List<FieldDefinition> { ActionPriority, ActionPriorityName, LocalAndRegionalPlanName, ExpectedValue, FocusArea, FocusAreaName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, Organization, OrganizationAbbreviation, OrganizationName, Password, PerformanceMeasure, IndicatorDefinition, IndicatorDisplayName, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, Program, ProgramName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, Stage, Subcategories, ProjectIsAProgram, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ProjectNumber, ThresholdCategory, LocalAndRegionalPlan, Watershed, Subcategory, SubcategoryOption, SubcategoryOptions, IsPrimaryProgram, IndicatorCriticalDefinitions, IndicatorAccountingPeriodAndScale, IndicatorProjectReporting, FundedAmount, ProjectLocation, IndicatorBackground, NumberOfReportedPMRecords, NumberOfReportedExpenditureRecords, ProjectLocationState, ProjectLocationJurisdiction, ProjectLocationWatershed, ExcludeFromFactSheet, TransportationStrategy, TransportationObjective, TransportationStrategyName, TransportationObjectiveName, ProjectIsATransportationProject, IsTransportationFundingSource, FundingType, ProjectCostInYearOfExpenditure, TransportationGlobalInflationRate, ReportingYear, TagName, TagDescription, Tags, ReportedExpenditure, ProposedProject, ProjectOnFTIPList, LocalAndRegionalPlanDocumentUrl, LocalAndRegionalPlanDocumentLinkText, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedPrograms, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentRTPYearForPVCalculations, LifecycleOperatingCost, IndicatorSystemName, IndicatorSimpleDescription, IndicatorPrimarySource, IndicatorType, ChartTitle, ProposedProjectState, UserLastName, UserFirstName, UserEmail, UserPhone, RoleID, SiteArea, RoleName, Region, Latitude, Longitude, OrganizationUrl, ChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -225,10 +224,6 @@ namespace ProjectFirma.Web.Models
                     return CompletionYear;
                 case FieldDefinitionEnum.CurrentRTPYearForPVCalculations:
                     return CurrentRTPYearForPVCalculations;
-                case FieldDefinitionEnum.EIPPerformanceMeasure:
-                    return EIPPerformanceMeasure;
-                case FieldDefinitionEnum.EIPRoleID:
-                    return EIPRoleID;
                 case FieldDefinitionEnum.EstimatedAnnualOperatingCost:
                     return EstimatedAnnualOperatingCost;
                 case FieldDefinitionEnum.EstimatedTotalCost:
@@ -313,8 +308,6 @@ namespace ProjectFirma.Web.Models
                     return NumberOfReportedExpenditureRecords;
                 case FieldDefinitionEnum.NumberOfReportedPMRecords:
                     return NumberOfReportedPMRecords;
-                case FieldDefinitionEnum.OldEIPNumber:
-                    return OldEIPNumber;
                 case FieldDefinitionEnum.Organization:
                     return Organization;
                 case FieldDefinitionEnum.OrganizationAbbreviation:
@@ -325,6 +318,8 @@ namespace ProjectFirma.Web.Models
                     return OrganizationUrl;
                 case FieldDefinitionEnum.Password:
                     return Password;
+                case FieldDefinitionEnum.PerformanceMeasure:
+                    return PerformanceMeasure;
                 case FieldDefinitionEnum.PhotoCaption:
                     return PhotoCaption;
                 case FieldDefinitionEnum.PhotoCredit:
@@ -377,6 +372,8 @@ namespace ProjectFirma.Web.Models
                     return ReportedValue;
                 case FieldDefinitionEnum.ReportingYear:
                     return ReportingYear;
+                case FieldDefinitionEnum.RoleID:
+                    return RoleID;
                 case FieldDefinitionEnum.RoleName:
                     return RoleName;
                 case FieldDefinitionEnum.Sector:
@@ -459,12 +456,11 @@ namespace ProjectFirma.Web.Models
         FundingSourceName = 10,
         Implementer = 11,
         LeadImplementer = 12,
-        OldEIPNumber = 13,
         Organization = 14,
         OrganizationAbbreviation = 15,
         OrganizationName = 16,
         Password = 17,
-        EIPPerformanceMeasure = 18,
+        PerformanceMeasure = 18,
         IndicatorDefinition = 19,
         IndicatorDisplayName = 20,
         MeasurementUnit = 21,
@@ -547,7 +543,7 @@ namespace ProjectFirma.Web.Models
         UserFirstName = 174,
         UserEmail = 175,
         UserPhone = 176,
-        EIPRoleID = 177,
+        RoleID = 177,
         SiteArea = 181,
         RoleName = 182,
         Region = 184,
@@ -636,12 +632,6 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionLeadImplementer Instance = new FieldDefinitionLeadImplementer(12, @"LeadImplementer", @"Lead Implementer");
     }
 
-    public partial class FieldDefinitionOldEIPNumber : FieldDefinition
-    {
-        private FieldDefinitionOldEIPNumber(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionOldEIPNumber Instance = new FieldDefinitionOldEIPNumber(13, @"OldEIPNumber", @"Old EIP #");
-    }
-
     public partial class FieldDefinitionOrganization : FieldDefinition
     {
         private FieldDefinitionOrganization(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
@@ -666,10 +656,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionPassword Instance = new FieldDefinitionPassword(17, @"Password", @"Password");
     }
 
-    public partial class FieldDefinitionEIPPerformanceMeasure : FieldDefinition
+    public partial class FieldDefinitionPerformanceMeasure : FieldDefinition
     {
-        private FieldDefinitionEIPPerformanceMeasure(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionEIPPerformanceMeasure Instance = new FieldDefinitionEIPPerformanceMeasure(18, @"EIPPerformanceMeasure", @"EIP Performance Measure");
+        private FieldDefinitionPerformanceMeasure(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionPerformanceMeasure Instance = new FieldDefinitionPerformanceMeasure(18, @"PerformanceMeasure", @"Performance Measure");
     }
 
     public partial class FieldDefinitionIndicatorDefinition : FieldDefinition
@@ -1164,10 +1154,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionUserPhone Instance = new FieldDefinitionUserPhone(176, @"UserPhone", @"Phone Number");
     }
 
-    public partial class FieldDefinitionEIPRoleID : FieldDefinition
+    public partial class FieldDefinitionRoleID : FieldDefinition
     {
-        private FieldDefinitionEIPRoleID(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionEIPRoleID Instance = new FieldDefinitionEIPRoleID(177, @"EIPRoleID", @"EIP Role");
+        private FieldDefinitionRoleID(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionRoleID Instance = new FieldDefinitionRoleID(177, @"RoleID", @"Role");
     }
 
     public partial class FieldDefinitionSiteArea : FieldDefinition

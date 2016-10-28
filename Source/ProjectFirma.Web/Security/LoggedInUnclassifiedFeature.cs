@@ -6,7 +6,7 @@ namespace ProjectFirma.Web.Security
     /// Must be at least logged in
     /// </summary>
     [SecurityFeatureDescription("Has a ProjectFirma role")]
-    public class LoggedInUnclassifiedFeature : EIPFeature
+    public class LoggedInUnclassifiedFeature : FirmaFeature
     {
         public LoggedInUnclassifiedFeature()
             : base(Role.All)

@@ -3,7 +3,7 @@
     public class UpdateStatus
     {
         public readonly bool IsBasicsUpdated;
-        public readonly bool IsEIPPerformanceMeasuresUpdated;
+        public readonly bool IsPerformanceMeasuresUpdated;
         public readonly bool IsExpendituresUpdated;
         public readonly bool IsTransportationBudgetsUpdated;
         public readonly bool IsPhotosUpdated;
@@ -13,7 +13,7 @@
         public readonly bool IsNotesUpdated;
 
         public UpdateStatus(bool isBasicsUpdated,
-            bool isEIPPerformanceMeasuresUpdated,
+            bool isPerformanceMeasuresUpdated,
             bool isExpendituresUpdated,
             bool isTransportationBudgetsUpdated,
             bool isPhotosUpdated,
@@ -23,7 +23,7 @@
             bool isNotesUpdated)
         {
             IsBasicsUpdated = isBasicsUpdated;
-            IsEIPPerformanceMeasuresUpdated = isEIPPerformanceMeasuresUpdated;
+            IsPerformanceMeasuresUpdated = isPerformanceMeasuresUpdated;
             IsExpendituresUpdated = isExpendituresUpdated;
             IsTransportationBudgetsUpdated = isTransportationBudgetsUpdated;
             IsPhotosUpdated = isPhotosUpdated;

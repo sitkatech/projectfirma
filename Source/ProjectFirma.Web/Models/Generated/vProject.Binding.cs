@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public vProject(string projectNumberFull, int projectID, int actionPriorityID, short projectNumber, string projectName, string projectDescription, int projectStageID, string projectStageDisplayName, int? implementationStartYear, int? completionYear, string oldEipNumber, bool implementsMultipleProjects) : this()
+        public vProject(string projectNumberFull, int projectID, int actionPriorityID, short projectNumber, string projectName, string projectDescription, int projectStageID, string projectStageDisplayName, int? implementationStartYear, int? completionYear, bool implementsMultipleProjects) : this()
         {
             this.ProjectNumberFull = projectNumberFull;
             this.ProjectID = projectID;
@@ -37,7 +37,6 @@ namespace ProjectFirma.Web.Models
             this.ProjectStageDisplayName = projectStageDisplayName;
             this.ImplementationStartYear = implementationStartYear;
             this.CompletionYear = completionYear;
-            this.OldEipNumber = oldEipNumber;
             this.ImplementsMultipleProjects = implementsMultipleProjects;
         }
 
@@ -56,7 +55,6 @@ namespace ProjectFirma.Web.Models
             this.ProjectStageDisplayName = vProject.ProjectStageDisplayName;
             this.ImplementationStartYear = vProject.ImplementationStartYear;
             this.CompletionYear = vProject.CompletionYear;
-            this.OldEipNumber = vProject.OldEipNumber;
             this.ImplementsMultipleProjects = vProject.ImplementsMultipleProjects;
             CallAfterConstructor(vProject);
         }
@@ -73,7 +71,6 @@ namespace ProjectFirma.Web.Models
         public string ProjectStageDisplayName { get; set; }
         public int? ImplementationStartYear { get; set; }
         public int? CompletionYear { get; set; }
-        public string OldEipNumber { get; set; }
         public bool ImplementsMultipleProjects { get; set; }
     }
 }

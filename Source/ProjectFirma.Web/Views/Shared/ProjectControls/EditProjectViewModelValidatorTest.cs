@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             _project.ProjectName = "TestProjectName777";
             _project.ProjectID = -999999;
             var projects = new List<Models.Project> {_project};
-            _validator = new EditProjectViewModelValidator(projects, new List<Models.EIPPerformanceMeasureActual>(), new List<Models.EIPPerformanceMeasureExpected>());
+            _validator = new EditProjectViewModelValidator(projects, new List<Models.PerformanceMeasureActual>(), new List<Models.PerformanceMeasureExpected>());
         }
 
         [Test]

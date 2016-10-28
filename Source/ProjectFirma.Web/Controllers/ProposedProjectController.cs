@@ -10,7 +10,6 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.ProposedProject;
-using ProjectFirma.Web.Views.Shared.EIPPerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared;
@@ -20,6 +19,7 @@ using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -33,8 +33,8 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(proposedProject, mapDivID);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(proposedProject, projectLocationSummaryMapInitJson);
             var mapFormID = GenerateEditProjectLocationSimpleFormID(proposedProject);
-            var eipPerformanceMeasureExpectedsSummaryViewData =
-                new EIPPerformanceMeasureExpectedSummaryViewData(new List<IEIPPerformanceMeasureValue>(proposedProject.EIPPerformanceMeasureExpectedProposeds));
+            var performanceMeasureExpectedsSummaryViewData =
+                new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(proposedProject.PerformanceMeasureExpectedProposeds));
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(proposedProject.ProposedProjectNotes)),
                 SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.NewNote(proposedProject)),
                 proposedProject.DisplayName,
@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new SummaryViewData(CurrentPerson,
                 proposedProject,
                 projectLocationSummaryViewData,
-                eipPerformanceMeasureExpectedsSummaryViewData, imageGalleryViewData, entityNotesViewData, mapFormID, transportationAssessmentTreeViewData);
+                performanceMeasureExpectedsSummaryViewData, imageGalleryViewData, entityNotesViewData, mapFormID, transportationAssessmentTreeViewData);
             return RazorView<Summary, SummaryViewData>(viewData);
         }
 
@@ -215,49 +215,49 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [EIPPerformanceMeasureExpectedProposedFeature]
-        public ViewResult EditExpectedEIPPerformanceMeasureValues(ProposedProjectPrimaryKey projectPrimaryKey)
+        [PerformanceMeasureExpectedProposedFeature]
+        public ViewResult EditExpectedPerformanceMeasureValues(ProposedProjectPrimaryKey projectPrimaryKey)
         {
             var proposedProject = projectPrimaryKey.EntityObject;
-            var viewModel = new ExpectedEipPerformanceMeasureValuesViewModel(proposedProject);
-            return ViewEditExpectedEIPPerformanceMeasureValues(proposedProject, viewModel);
+            var viewModel = new ExpectedPerformanceMeasureValuesViewModel(proposedProject);
+            return ViewEditExpectedPerformanceMeasureValues(proposedProject, viewModel);
         }
 
-        private ViewResult ViewEditExpectedEIPPerformanceMeasureValues(ProposedProject proposedProject, ExpectedEipPerformanceMeasureValuesViewModel viewModel)
+        private ViewResult ViewEditExpectedPerformanceMeasureValues(ProposedProject proposedProject, ExpectedPerformanceMeasureValuesViewModel viewModel)
         {
-            var selectableEIPPerformanceMeasures = HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasures.ToList().Where(pm => pm.EIPPerformanceMeasureType.ValuesAreNotCalculated(false));
+            var selectablePerformanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().Where(pm => pm.PerformanceMeasureType.ValuesAreNotCalculated(false));
             var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
-            proposalSectionsStatus.IsEIPPerformanceMeasureSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsEIPPerformanceMeasureSectionComplete;
+            proposalSectionsStatus.IsPerformanceMeasureSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsPerformanceMeasureSectionComplete;
 
-            var editEIPPerformanceMeasureExpectedsViewData = new EditEIPPerformanceMeasureExpectedViewData(proposedProject, selectableEIPPerformanceMeasures.ToList());
-            var viewData = new ExpectedEIPPerformanceMeasureValuesViewData(CurrentPerson, proposedProject, proposalSectionsStatus, editEIPPerformanceMeasureExpectedsViewData);
-            return RazorView<ExpectedEIPPerformanceMeasureValues, ExpectedEIPPerformanceMeasureValuesViewData, ExpectedEipPerformanceMeasureValuesViewModel>(viewData, viewModel);
+            var editPerformanceMeasureExpectedsViewData = new EditPerformanceMeasureExpectedViewData(proposedProject, selectablePerformanceMeasures.ToList());
+            var viewData = new ExpectedPerformanceMeasureValuesViewData(CurrentPerson, proposedProject, proposalSectionsStatus, editPerformanceMeasureExpectedsViewData);
+            return RazorView<ExpectedPerformanceMeasureValues, ExpectedPerformanceMeasureValuesViewData, ExpectedPerformanceMeasureValuesViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [EIPPerformanceMeasureExpectedProposedFeature]
+        [PerformanceMeasureExpectedProposedFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditExpectedEIPPerformanceMeasureValues(ProposedProjectPrimaryKey projectPrimaryKey, ExpectedEipPerformanceMeasureValuesViewModel viewModel)
+        public ActionResult EditExpectedPerformanceMeasureValues(ProposedProjectPrimaryKey projectPrimaryKey, ExpectedPerformanceMeasureValuesViewModel viewModel)
         {
             var proposedProject = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 ShowValidationErrors(viewModel.GetValidationResults().ToList());
-                return ViewEditExpectedEIPPerformanceMeasureValues(proposedProject, viewModel);
+                return ViewEditExpectedPerformanceMeasureValues(proposedProject, viewModel);
             }
-            var currentEIPPerformanceMeasureExpectedProposeds = proposedProject.EIPPerformanceMeasureExpectedProposeds.ToList();
+            var currentPerformanceMeasureExpectedProposeds = proposedProject.PerformanceMeasureExpectedProposeds.ToList();
 
-            HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureExpectedProposeds.Load();
-            var allEIPPerformanceMeasureExpectedProposeds = HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureExpectedProposeds.Local;
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedProposeds.Load();
+            var allPerformanceMeasureExpectedProposeds = HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedProposeds.Local;
 
-            HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureExpectedSubcategoryOptionProposeds.Load();
-            var allEIPPerformanceMeasureExpectedSubcategoryOptionProposeds = HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureExpectedSubcategoryOptionProposeds.Local;
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptionProposeds.Load();
+            var allPerformanceMeasureExpectedSubcategoryOptionProposeds = HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptionProposeds.Local;
 
-            viewModel.UpdateModel(currentEIPPerformanceMeasureExpectedProposeds, allEIPPerformanceMeasureExpectedProposeds, allEIPPerformanceMeasureExpectedSubcategoryOptionProposeds, proposedProject);
+            viewModel.UpdateModel(currentPerformanceMeasureExpectedProposeds, allPerformanceMeasureExpectedProposeds, allPerformanceMeasureExpectedSubcategoryOptionProposeds, proposedProject);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             SetMessageForDisplay("Proposed Project Performance Measures succesfully saved.");
-            return RedirectToAction(new SitkaRoute<ProposedProjectController>(x => x.EditExpectedEIPPerformanceMeasureValues(proposedProject)));
+            return RedirectToAction(new SitkaRoute<ProposedProjectController>(x => x.EditExpectedPerformanceMeasureValues(proposedProject)));
         }
 
         [HttpGet]
@@ -732,10 +732,10 @@ namespace ProjectFirma.Web.Controllers
         {
             HttpRequestStorage.DatabaseEntities.ProposedProjectNotes.RemoveRange(proposedProject.ProposedProjectNotes);
             HttpRequestStorage.DatabaseEntities.ProposedProjectThresholdCategories.RemoveRange(proposedProject.ProposedProjectThresholdCategories);
-            var proposedProjectEIPPerformanceMeasureExpecteds = proposedProject.EIPPerformanceMeasureExpectedProposeds.ToList();
-            HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureExpectedSubcategoryOptionProposeds.RemoveRange(
-                proposedProjectEIPPerformanceMeasureExpecteds.SelectMany(x => x.EIPPerformanceMeasureExpectedSubcategoryOptionProposeds));
-            HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureExpectedProposeds.RemoveRange(proposedProjectEIPPerformanceMeasureExpecteds);
+            var proposedProjectPerformanceMeasureExpecteds = proposedProject.PerformanceMeasureExpectedProposeds.ToList();
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptionProposeds.RemoveRange(
+                proposedProjectPerformanceMeasureExpecteds.SelectMany(x => x.PerformanceMeasureExpectedSubcategoryOptionProposeds));
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedProposeds.RemoveRange(proposedProjectPerformanceMeasureExpecteds);
             HttpRequestStorage.DatabaseEntities.ProposedProjects.Remove(proposedProject);
         }
 
@@ -757,7 +757,7 @@ namespace ProjectFirma.Web.Controllers
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Submitted;
             proposedProject.SubmissionDate = DateTime.Now;
-            var peopleToNotify = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveEIPNotifications();
+            var peopleToNotify = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
             Notification.SendProposedProjectSubmittedMessage(peopleToNotify, proposedProject); 
             SetMessageForDisplay("Proposed Project succesfully submitted to TRPA for review.");
             return new ModalDialogFormJsonResult(proposedProject.GetSummaryUrl());

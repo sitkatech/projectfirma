@@ -40,7 +40,6 @@ namespace ProjectFirma.Web.Models
                 project.ProjectLocationSimpleType,
                 project.FundingType)
         {
-            OldEipNumber = project.OldEipNumber;
             project.ProjectImplementingOrganizations.ForEach(x => ProjectImplementingOrganizations.Add(x));
             TransportationObjective = project.TransportationObjective;
             OnFederalTransportationImprovementProgramList = project.OnFederalTransportationImprovementProgramList;
@@ -213,7 +212,7 @@ namespace ProjectFirma.Web.Models
 
         public bool IsUpdatableViaProjectUpdateProcess
         {
-            get { return ProjectStage.RequiresReportedExpenditures() || ProjectStage.RequiresEIPPerformanceMeasureActuals(); }
+            get { return ProjectStage.RequiresReportedExpenditures() || ProjectStage.RequiresPerformanceMeasureActuals(); }
         }
 
         public ProjectUpdateState GetLatestUpdateState()
@@ -370,19 +369,19 @@ namespace ProjectFirma.Web.Models
             return person != null && LeadImplementer != null && LeadImplementer.OrganizationID == person.OrganizationID;
         }
 
-        public List<EIPPerformanceMeasureReportedValue> GetReportedEIPPerformanceMeasures()
+        public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasures()
         {
-            var eipPerformanceMeasureReportedValues = GetNonVirtualReportedEIPPerformanceMeasures();
+            var performanceMeasureReportedValues = GetNonVirtualReportedPerformanceMeasures();
             // we need to add the virtual PMs 33
-            var eipPerformanceMeasure33 = HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasures.Single(x => x.EIPPerformanceMeasureTypeID == EIPPerformanceMeasureType.EIPPerformanceMeasure33.EIPPerformanceMeasureTypeID);
-            eipPerformanceMeasureReportedValues.AddRange(EIPPerformanceMeasureType.EIPPerformanceMeasure33.CalculateEIPPerformanceMeasureReportedValues(eipPerformanceMeasure33, ProjectID));
-            return eipPerformanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.EIPPerformanceMeasureID).ToList();
+            var performanceMeasure33 = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureTypeID == PerformanceMeasureType.PerformanceMeasure33.PerformanceMeasureTypeID);
+            performanceMeasureReportedValues.AddRange(PerformanceMeasureType.PerformanceMeasure33.CalculatePerformanceMeasureReportedValues(performanceMeasure33, ProjectID));
+            return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
 
-        public List<EIPPerformanceMeasureReportedValue> GetNonVirtualReportedEIPPerformanceMeasures()
+        public List<PerformanceMeasureReportedValue> GetNonVirtualReportedPerformanceMeasures()
         {
-            var eipPerformanceMeasureReportedValues = EIPPerformanceMeasureActuals.Where(x => x.EIPPerformanceMeasure.EIPPerformanceMeasureType.ValuesAreNotCalculated(ImplementsMultipleProjects)).Select(x => x.EIPPerformanceMeasure).Distinct(new HavePrimaryKeyComparer<EIPPerformanceMeasure>()).SelectMany(x => x.EIPPerformanceMeasureType.CalculateEIPPerformanceMeasureReportedValues(x, ProjectID)).ToList();
-            return eipPerformanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.EIPPerformanceMeasureID).ToList();
+            var performanceMeasureReportedValues = PerformanceMeasureActuals.Where(x => x.PerformanceMeasure.PerformanceMeasureType.ValuesAreNotCalculated(ImplementsMultipleProjects)).Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>()).SelectMany(x => x.PerformanceMeasureType.CalculatePerformanceMeasureReportedValues(x, ProjectID)).ToList();
+            return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
 
         public static short GetNextProjectNumber(ActionPriority actionPriority)
@@ -398,7 +397,7 @@ namespace ProjectFirma.Web.Models
 
         public bool HasDependentObjectsThatCount()
         {
-            return EIPPerformanceMeasureActuals.Any() || ProjectLocalAndRegionalPlans.Any() || EIPPerformanceMeasureExpecteds.Any() || ProjectFundingSourceExpenditures.Any() || ProjectImages.Any() ||
+            return PerformanceMeasureActuals.Any() || ProjectLocalAndRegionalPlans.Any() || PerformanceMeasureExpecteds.Any() || ProjectFundingSourceExpenditures.Any() || ProjectImages.Any() ||
                    ProjectNotes.Any() || ProjectThresholdCategories.Any() || ProjectExemptReportingYears.Any() || ProjectWatersheds.Any() || ProjectUpdateBatches.Any();
         }
 

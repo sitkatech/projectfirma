@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Home
             FeaturedProjects = featuredProjects;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
-            FullMapUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.EipProjectMap());
+            FullMapUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ProjectMap());
         }
     }
 }

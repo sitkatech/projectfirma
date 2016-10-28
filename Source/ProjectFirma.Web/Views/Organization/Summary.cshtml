@@ -23,7 +23,7 @@
 <div class="container-fluid">
     <ul class="nav nav-tabs" id="organizationDetailsTabs">
         <li class="active"><a href="#organizationOverview" aria-controls="organizationOverview" role="tab" data-toggle="tab">Overview</a></li>
-        <li><a href="#eipFundingAndProjects" aria-controls="eipFundingAndProjects" role="tab" data-toggle="tab">EIP Funding &amp; Projects</a></li>
+        <li><a href="#fundingAndProjects" aria-controls="fundingAndProjects" role="tab" data-toggle="tab">Funding &amp; Projects</a></li>
     </ul>
 </div>
 <div class="panel panel-default">
@@ -91,11 +91,11 @@
                                 <div class="contentWrapper">
                                     @if (ViewDataTyped.HasSpatialData)
                                     {
-                                        <span>This map displays any EIP Projects, Development Right Transfers, and jurisdictional boundaries associated with this organiztion.</span>
+                                        <span>This map displays any Projects, Development Right Transfers, and jurisdictional boundaries associated with this organiztion.</span>
 
                                         <div id="legend" style="padding: 10px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);">
                                             <div>
-                                                <span style="font-weight: bold">EIP Projects</span>
+                                                <span style="font-weight: bold">Projects</span>
                                                 <div style="margin-left: 10px">
                                                     <div><span class="glyphicon glyphicon-map-marker" style="color:#3366ff"></span>Lead Implementer</div>
                                                     <div><span class="glyphicon glyphicon-map-marker" style="color:#99b3ff"></span>Funder and/or Implementer</div>
@@ -179,7 +179,7 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="eipFundingAndProjects">
+            <div role="tabpanel" class="tab-pane" id="fundingAndProjects">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="summarySection" style="height: 500px">

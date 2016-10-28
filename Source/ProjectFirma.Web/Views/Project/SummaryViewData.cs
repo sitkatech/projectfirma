@@ -4,12 +4,12 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
-using ProjectFirma.Web.Views.Shared.EIPPerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
+using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -23,9 +23,9 @@ namespace ProjectFirma.Web.Views.Project
         public readonly bool UserHasProjectLocalAndRegionalPlanManagePermissions;
         public readonly bool UserHasProjectWatershedManagePermissions;
         public readonly bool UserHasMapManagePermissions;
-        public readonly bool UserHasEIPPerformanceMeasureExpectedViewPermissions;
-        public readonly bool UserHasEIPPerformanceMeasureExpectedManagePermissions;
-        public readonly bool UserHasEIPPerformanceMeasureActualManagePermissions;
+        public readonly bool UserHasPerformanceMeasureExpectedViewPermissions;
+        public readonly bool UserHasPerformanceMeasureExpectedManagePermissions;
+        public readonly bool UserHasPerformanceMeasureActualManagePermissions;
         public readonly bool UserHasProjectFundingSourceExpenditureManagePermissions;
         public readonly bool UserHasTransportationProjectBudgetManagePermissions;
         public readonly bool UserHasProjectExternalLinkManagePermissions;
@@ -37,8 +37,8 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string EditWatershedsUrl;
         public readonly string EditSimpleProjectLocationUrl;
         public readonly string EditDetailedProjectLocationUrl;
-        public readonly string EditEIPPerformanceMeasureExpectedsUrl;
-        public readonly string EditEIPPerformanceMeasureActualsUrl;
+        public readonly string EditPerformanceMeasureExpectedsUrl;
+        public readonly string EditPerformanceMeasureActualsUrl;
         public readonly string EditReportedExpendituresUrl;
         public readonly string EditTransportationProjectBudgetUrl;
         public readonly string EditExternalLinksUrl;
@@ -49,8 +49,8 @@ namespace ProjectFirma.Web.Views.Project
         public readonly TransportationProjectBudgetSummaryViewData TransportationProjectBudgetSummaryViewData;
         public readonly ProjectBasicsViewData ProjectBasicsViewData;
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
-        public readonly EIPPerformanceMeasureExpectedSummaryViewData EIPPerformanceMeasureExpectedSummaryViewData;
-        public readonly EIPPerformanceMeasureReportedValuesGroupedViewData EIPPerformanceMeasureReportedValuesGroupedViewData;
+        public readonly PerformanceMeasureExpectedSummaryViewData PerformanceMeasureExpectedSummaryViewData;
+        public readonly PerformanceMeasureReportedValuesGroupedViewData PerformanceMeasureReportedValuesGroupedViewData;
         public readonly ProjectExpendituresSummaryViewData ProjectExpendituresSummaryViewData;
         public readonly ImageGalleryViewData ImageGalleryViewData;
         public readonly EntityNotesViewData EntityNotesViewData;
@@ -78,8 +78,8 @@ namespace ProjectFirma.Web.Views.Project
         public SummaryViewData(Person currentPerson, Models.Project project, string confirmNonMandatoryUpdateUrl, List<ProjectStage> projectStages, ProjectTaxonomyViewData projectTaxonomyViewData,
             TransportationProjectBudgetSummaryViewData transportationProjectBudgetSummaryViewData, 
             ProjectLocationSummaryViewData projectLocationSummaryViewData, string mapFormID, string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl,
-            string editProjectOrganizationsUrl, EIPPerformanceMeasureExpectedSummaryViewData eipPerformanceMeasureExpectedSummaryViewData, string editEIPPerformanceMeasureExpectedsUrl,
-            EIPPerformanceMeasureReportedValuesGroupedViewData eipPerformanceMeasureReportedValuesGroupedViewData, string editEIPPerformanceMeasureActualsUrl,
+            string editProjectOrganizationsUrl, PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData, string editPerformanceMeasureExpectedsUrl,
+            PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData, string editPerformanceMeasureActualsUrl,
             ProjectExpendituresSummaryViewData projectExpendituresSummaryViewData, string editReportedExpendituresUrl, 
             string editThresholdCategoriesUrl, string editTransportationAssessmentUrl, string editLocalAndRegionalPlansUrl, string editWatershedsUrl, ImageGalleryViewData imageGalleryViewData, 
             EntityNotesViewData entityNotesViewData, 
@@ -115,14 +115,14 @@ namespace ProjectFirma.Web.Views.Project
             EditProjectOrganizationsUrl = editProjectOrganizationsUrl;
             UserHasProjectOrganizationManagePermissions = new ProjectOrganizationManageFeature().HasPermissionByPerson(currentPerson);
 
-            EIPPerformanceMeasureExpectedSummaryViewData = eipPerformanceMeasureExpectedSummaryViewData;
-            EditEIPPerformanceMeasureExpectedsUrl = editEIPPerformanceMeasureExpectedsUrl;
-            UserHasEIPPerformanceMeasureExpectedManagePermissions = new EIPPerformanceMeasureExpectedFromProjectManageFeature().HasPermission(currentPerson, project).HasPermission;
-            UserHasEIPPerformanceMeasureExpectedViewPermissions = new EIPPerformanceMeasureExpectedFromProjectViewFeature().HasPermission(currentPerson, project).HasPermission;
+            PerformanceMeasureExpectedSummaryViewData = performanceMeasureExpectedSummaryViewData;
+            EditPerformanceMeasureExpectedsUrl = editPerformanceMeasureExpectedsUrl;
+            UserHasPerformanceMeasureExpectedManagePermissions = new PerformanceMeasureExpectedFromProjectManageFeature().HasPermission(currentPerson, project).HasPermission;
+            UserHasPerformanceMeasureExpectedViewPermissions = new PerformanceMeasureExpectedFromProjectViewFeature().HasPermission(currentPerson, project).HasPermission;
 
-            EIPPerformanceMeasureReportedValuesGroupedViewData = eipPerformanceMeasureReportedValuesGroupedViewData;
-            EditEIPPerformanceMeasureActualsUrl = editEIPPerformanceMeasureActualsUrl;
-            UserHasEIPPerformanceMeasureActualManagePermissions = new EIPPerformanceMeasureActualFromProjectManageFeature().HasPermission(currentPerson, project).HasPermission;
+            PerformanceMeasureReportedValuesGroupedViewData = performanceMeasureReportedValuesGroupedViewData;
+            EditPerformanceMeasureActualsUrl = editPerformanceMeasureActualsUrl;
+            UserHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(currentPerson, project).HasPermission;
 
             ProjectExpendituresSummaryViewData = projectExpendituresSummaryViewData;
             EditReportedExpendituresUrl = editReportedExpendituresUrl;

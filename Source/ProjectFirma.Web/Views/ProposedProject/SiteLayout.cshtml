@@ -7,12 +7,12 @@
 @inherits SiteLayout
 
 @{
-    SetLayout("~/Areas/EIP/Views/Shared/SiteLayout.cshtml", ViewDataTyped);
+    SetLayout("~/Views/Shared/SiteLayout.cshtml", ViewDataTyped);
 }
 
 @section JavascriptAndStylesContent
 {
-    <link href="@Url.Content("~/Content/css/EIPProjectWizard.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/projectUpdateWizard.css")" rel="stylesheet" type="text/css" />
 
     <style>
         #main-container
@@ -65,10 +65,10 @@
                     @ProjectWizardComponents.MakeDisabledSectionLink("Location - Detailed");
                 }
             </li>
-            <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.EIPPerformanceMeasures, ViewDataTyped.SelectedProposedProjectSection)">
+            <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProposedProjectSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProjectUpdateEIPPerformanceMeasuresUrl">Performance Measures</a>
+                    <a href="@ViewDataTyped.ProjectUpdatePerformanceMeasuresUrl">Performance Measures</a>
                 }
                 else
                 {
@@ -76,7 +76,7 @@
                     ;
                 }
                 <span class="pull-right" style="padding: 5px;">
-                    @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsEIPPerformanceMeasureSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                    @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsPerformanceMeasureSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                 </span>
             </li>
             <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.ThresholdCategories, ViewDataTyped.SelectedProposedProjectSection)">

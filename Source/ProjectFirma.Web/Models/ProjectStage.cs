@@ -12,10 +12,10 @@
         }
 
         public abstract bool AreExpendituresReportable();
-        public abstract bool AreEIPPerformanceMeasuresReportable();
+        public abstract bool ArePerformanceMeasuresReportable();
         public abstract bool RequiresReportedExpenditures();
-        public abstract bool RequiresEIPPerformanceMeasureActuals();
-        public abstract bool ValidForEIPPerformanceMeasure34();
+        public abstract bool RequiresPerformanceMeasureActuals();
+        public abstract bool ValidForPerformanceMeasure34();
         public abstract bool IsStagedIncludedInTransporationCostCalculations();
         public abstract bool ShouldShowOnMap();
     }
@@ -42,7 +42,7 @@
             return true;
         }
 
-        public override bool AreEIPPerformanceMeasuresReportable()
+        public override bool ArePerformanceMeasuresReportable()
         {
             return false;
         }
@@ -52,12 +52,12 @@
             return true;
         }
 
-        public override bool RequiresEIPPerformanceMeasureActuals()
+        public override bool RequiresPerformanceMeasureActuals()
         {
             return false;
         }
 
-        public override bool ValidForEIPPerformanceMeasure34()
+        public override bool ValidForPerformanceMeasure34()
         {
             return false;
         }
@@ -95,7 +95,7 @@
             return true;
         }
 
-        public override bool AreEIPPerformanceMeasuresReportable()
+        public override bool ArePerformanceMeasuresReportable()
         {
             return true;
         }
@@ -105,12 +105,12 @@
             return true;
         }
 
-        public override bool RequiresEIPPerformanceMeasureActuals()
+        public override bool RequiresPerformanceMeasureActuals()
         {
             return true;
         }
 
-        public override bool ValidForEIPPerformanceMeasure34()
+        public override bool ValidForPerformanceMeasure34()
         {
             return false;
         }
@@ -148,7 +148,7 @@
             return true;
         }
 
-        public override bool AreEIPPerformanceMeasuresReportable()
+        public override bool ArePerformanceMeasuresReportable()
         {
             return true;
         }
@@ -158,12 +158,12 @@
             return false;
         }
 
-        public override bool RequiresEIPPerformanceMeasureActuals()
+        public override bool RequiresPerformanceMeasureActuals()
         {
             return false;
         }
 
-        public override bool ValidForEIPPerformanceMeasure34()
+        public override bool ValidForPerformanceMeasure34()
         {
             return true;
         }
@@ -201,7 +201,7 @@
             return false;
         }
 
-        public override bool AreEIPPerformanceMeasuresReportable()
+        public override bool ArePerformanceMeasuresReportable()
         {
             return false;
         }
@@ -211,12 +211,12 @@
             return false;
         }
 
-        public override bool RequiresEIPPerformanceMeasureActuals()
+        public override bool RequiresPerformanceMeasureActuals()
         {
             return false;
         }
 
-        public override bool ValidForEIPPerformanceMeasure34()
+        public override bool ValidForPerformanceMeasure34()
         {
             return false;
         }
@@ -254,7 +254,7 @@
             return false;
         }
 
-        public override bool AreEIPPerformanceMeasuresReportable()
+        public override bool ArePerformanceMeasuresReportable()
         {
             return false;
         }
@@ -264,12 +264,12 @@
             return false;
         }
 
-        public override bool RequiresEIPPerformanceMeasureActuals()
+        public override bool RequiresPerformanceMeasureActuals()
         {
             return false;
         }
 
-        public override bool ValidForEIPPerformanceMeasure34()
+        public override bool ValidForPerformanceMeasure34()
         {
             return false;
         }
@@ -307,7 +307,7 @@
             return true;
         }
 
-        public override bool AreEIPPerformanceMeasuresReportable()
+        public override bool ArePerformanceMeasuresReportable()
         {
             return true;
         }
@@ -317,12 +317,12 @@
             return true;
         }
 
-        public override bool RequiresEIPPerformanceMeasureActuals()
+        public override bool RequiresPerformanceMeasureActuals()
         {
             return false;
         }
 
-        public override bool ValidForEIPPerformanceMeasure34()
+        public override bool ValidForPerformanceMeasure34()
         {
             return true;
         }

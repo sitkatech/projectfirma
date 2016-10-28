@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public readonly ImageGalleryViewData ImageGalleryViewData;
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
-        public readonly List<IGrouping<Models.EIPPerformanceMeasure, EIPPerformanceMeasureReportedValue>> EIPPerformanceMeasureReportedValues;
+        public readonly List<IGrouping<Models.PerformanceMeasure, PerformanceMeasureReportedValue>> PerformanceMeasureReportedValues;
         public readonly string ChartID;
         public readonly Dictionary<string, decimal> FundingSourceExpenditures;
         public readonly Models.ProjectImage KeyPhoto;
@@ -44,9 +44,9 @@ namespace ProjectFirma.Web.Views.Project
                 x => x.CaptionOnFullView,
                 "Photo");
 
-            EIPPerformanceMeasureReportedValues =
-                Project.GetNonVirtualReportedEIPPerformanceMeasures()
-                    .GroupBy(x => x.EIPPerformanceMeasure, new HavePrimaryKeyComparer<Models.EIPPerformanceMeasure>())
+            PerformanceMeasureReportedValues =
+                Project.GetNonVirtualReportedPerformanceMeasures()
+                    .GroupBy(x => x.PerformanceMeasure, new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
                     .OrderBy(x => x.Key.Indicator.IndicatorName)
                     .ToList();
             ProjectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);

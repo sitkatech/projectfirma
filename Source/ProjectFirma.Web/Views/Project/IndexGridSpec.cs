@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.Project
             Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.PlanningDesignStartYear, 90, DhtmlxGridColumnFormatType.None);
             Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => x.ImplementationStartYear, 115, DhtmlxGridColumnFormatType.None);
             Add(Models.FieldDefinition.CompletionYear.ToGridHeaderString(), x => x.CompletionYear, 90, DhtmlxGridColumnFormatType.None);
-            Add(Models.FieldDefinition.NumberOfReportedPMRecords.ToGridHeaderString(), x => x.EIPPerformanceMeasureActuals.Count, 100);
+            Add(Models.FieldDefinition.NumberOfReportedPMRecords.ToGridHeaderString(), x => x.PerformanceMeasureActuals.Count, 100);
             Add(Models.FieldDefinition.NumberOfReportedExpenditureRecords.ToGridHeaderString(), x => x.ProjectFundingSourceExpenditures.Count, 100);
             Add(Models.FieldDefinition.FundingType.ToGridHeaderString(), x => x.FundingType.FundingTypeShortName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.EstimatedTotalCost.ToGridHeaderString(), x => x.EstimatedTotalCost, 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
@@ -58,11 +58,8 @@ namespace ProjectFirma.Web.Views.Project
                 Add(Models.FieldDefinition.Tags.ToGridHeaderString(), x => new HtmlString(!x.ProjectTags.Any() ? string.Empty : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.DisplayNameAsUrl))), 100, DhtmlxGridColumnFilterType.Html);
             }
 
-            Add(Models.FieldDefinition.OldEIPNumber.ToGridHeaderString(), x => x.OldEipNumber, 60);
             Add("# of Photos", x => x.ProjectImages.Count, 60);
             Add("Five Year List", x => x.IsOnFiveYearList.ToYesNo(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
-
-
         }
     }
 }

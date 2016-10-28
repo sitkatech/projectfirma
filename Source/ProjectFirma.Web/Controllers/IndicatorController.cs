@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
 
-        [IndicatorViewFeature]
+        [PerformanceMeasureViewFeature]
         public ViewResult Index()
         {
             return IndexImpl();
@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        [IndicatorViewFeature]
+        [PerformanceMeasureViewFeature]
         public GridJsonNetJObjectResult<Indicator> IndicatorGridJsonData()
         {
             IndicatorGridSpec gridSpec;
@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Controllers
             return HttpRequestStorage.DatabaseEntities.Indicators.OrderBy(x => x.IndicatorID).ToList();
         }
 
-        [IndicatorViewFeature]
+        [PerformanceMeasureViewFeature]
         public ViewResult Summary(string indicatorName, SummaryViewData.IndicatorSummaryTab? indicatorSummaryTab)
         {
             var indicator = HttpRequestStorage.DatabaseEntities.Indicators.GetIndicatorByIndicatorName(indicatorName);
@@ -138,7 +138,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditAccomplishmentsMetadata(EditAccomplishmentsMetadataViewModel viewModel, Indicator indicator)
         {
-            var viewData = new EditAccomplishmentsMetadataViewData(indicator.ReportedInEIP);
+            var viewData = new EditAccomplishmentsMetadataViewData();
             return RazorPartialView<EditAccomplishmentsMetadata, EditAccomplishmentsMetadataViewData, EditAccomplishmentsMetadataViewModel>(viewData, viewModel);
         }
 
@@ -157,16 +157,13 @@ namespace ProjectFirma.Web.Controllers
                     rtfContent = indicator.AssociatedProgramsHtmlString;
                     break;
                 case EditRtfContent.IndicatorRichTextType.CriticalDefinitions:
-                    rtfContent = indicator.EIPPerformanceMeasure.CriticalDefinitionsHtmlString;
+                    rtfContent = indicator.PerformanceMeasure.CriticalDefinitionsHtmlString;
                     break;
                 case EditRtfContent.IndicatorRichTextType.AccountingPeriodAndScale:
-                    rtfContent = indicator.EIPPerformanceMeasure.AccountingPeriodAndScaleHtmlString;
+                    rtfContent = indicator.PerformanceMeasure.AccountingPeriodAndScaleHtmlString;
                     break;
                 case EditRtfContent.IndicatorRichTextType.ProjectReporting:
-                    rtfContent = indicator.EIPPerformanceMeasure.ProjectReportingHtmlString;
-                    break;
-                case EditRtfContent.IndicatorRichTextType.EIPContext:
-                    rtfContent = indicator.EIPPerformanceMeasure.EIPContextHtmlString;
+                    rtfContent = indicator.PerformanceMeasure.ProjectReportingHtmlString;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(string.Format("Invalid Indicator Rich Text Content Type: '{0}'", indicatorRichTextType));
@@ -199,7 +196,6 @@ namespace ProjectFirma.Web.Controllers
                 case EditRtfContent.IndicatorRichTextType.CriticalDefinitions:
                 case EditRtfContent.IndicatorRichTextType.AccountingPeriodAndScale:
                 case EditRtfContent.IndicatorRichTextType.ProjectReporting:
-                case EditRtfContent.IndicatorRichTextType.EIPContext:
                     viewData = new EditRtfContentViewData(CkEditorExtension.CkEditorToolbar.Minimal, null);
                     break;
                 default:
@@ -234,8 +230,8 @@ namespace ProjectFirma.Web.Controllers
         }
 
 
-        [IndicatorViewFeature]
-        [CrossAreaRoute] //PM DefinitionAndGuidance pages are accessed as qtip popups from EIP
+        [PerformanceMeasureViewFeature]
+        [CrossAreaRoute]
         public PartialViewResult DefinitionAndGuidance(IndicatorPrimaryKey indicatorPrimaryKey)
         {
             var indicator = indicatorPrimaryKey.EntityObject;
@@ -249,8 +245,8 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult IndicatorChartPopup(IndicatorPrimaryKey indicatorPrimaryKey)
         {
             var indicator = indicatorPrimaryKey.EntityObject;
-            var eippmAccomplishmentsChartViewData = new IndicatorChartViewData(indicator, 1080 + 20, 630 + 20, false, ChartViewMode.Large, null);
-            return RazorPartialView<IndicatorChartPopup, IndicatorChartViewData>(eippmAccomplishmentsChartViewData);
+            var accomplishmentsChartViewData = new IndicatorChartViewData(indicator, 1080 + 20, 630 + 20, false, ChartViewMode.Large, null);
+            return RazorPartialView<IndicatorChartPopup, IndicatorChartViewData>(accomplishmentsChartViewData);
         }
 
     }

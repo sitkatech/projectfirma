@@ -4,7 +4,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Create New Proposed Project")]
-    public class ProposedProjectCreateNewFeature : EIPFeature
+    public class ProposedProjectCreateNewFeature : FirmaFeature
     {
         public ProposedProjectCreateNewFeature()
             : base(new List<Role> { Role.Normal, Role.Approver, Role.SitkaAdmin, Role.Admin, Role.TMPOManager })

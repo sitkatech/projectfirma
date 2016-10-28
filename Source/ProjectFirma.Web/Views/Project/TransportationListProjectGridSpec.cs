@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Views.Project
             if (!(project.ProjectStage == ProjectStage.PlanningDesign || project.ProjectStage == ProjectStage.Deferred))
                 return null;
 
-            return project.EIPPerformanceMeasureExpecteds.Where(x => x.EIPPerformanceMeasureID == Models.EIPPerformanceMeasure.EIPPerformanceMeasureIDMilesOfPedestrianAndBicycleRoutesImprovedOrConstructed).Sum(x => x.ExpectedValue);
+            return project.PerformanceMeasureExpecteds.Where(x => x.PerformanceMeasureID == Models.PerformanceMeasure.PerformanceMeasureIDMilesOfPedestrianAndBicycleRoutesImprovedOrConstructed).Sum(x => x.ExpectedValue);
         }
 
         private static double? CalculatePM23ReportedSum(Models.Project project)
@@ -116,7 +116,7 @@ namespace ProjectFirma.Web.Views.Project
             if (!(project.ProjectStage == ProjectStage.Implementation || project.ProjectStage == ProjectStage.PostImplementation || project.ProjectStage == ProjectStage.Completed))
                 return null;
 
-            return project.EIPPerformanceMeasureActuals.Where(x => x.EIPPerformanceMeasureID == Models.EIPPerformanceMeasure.EIPPerformanceMeasureIDMilesOfPedestrianAndBicycleRoutesImprovedOrConstructed).Sum(x => x.ReportedValue ?? 0);
+            return project.PerformanceMeasureActuals.Where(x => x.PerformanceMeasureID == Models.PerformanceMeasure.PerformanceMeasureIDMilesOfPedestrianAndBicycleRoutesImprovedOrConstructed).Sum(x => x.ReportedValue ?? 0);
 
         }
     }

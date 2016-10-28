@@ -14,7 +14,6 @@ using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.ProjectExternalLink;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Views.Shared.EIPPerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.TextControls;
@@ -24,6 +23,7 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 using MoreLinq;
+using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectExpendituresSummaryViewData = ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.ProjectExpendituresSummaryViewData;
 using TransportationProjectBudgetSummaryViewData = ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.TransportationProjectBudgetSummaryViewData;
 
@@ -31,11 +31,11 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ProjectUpdateController : FirmaBaseController
     {
-        public const string ProjectUpdateBatchDiffLogPartialViewPath = "~/Areas/EIP/Views/ProjectUpdate/ProjectUpdateBatchDiffLog.cshtml";
-        public const string ProjectBasicsPartialViewPath = "~/Areas/EIP/Views/Shared/ProjectControls/ProjectBasics.cshtml";
-        public const string EIPPerformanceMeasureReportedValuesPartialViewPath = "~/Areas/EIP/Views/Shared/EIPPerformanceMeasureControls/EIPPerformanceMeasureReportedValuesSummary.cshtml";
-        public const string ProjectExpendituresPartialViewPath = "~/Areas/EIP/Views/Shared/ProjectUpdateDiffControls/ProjectExpendituresSummary.cshtml";
-        public const string TransporationBudgetsPartialViewPath = "~/Areas/EIP/Views/Shared/ProjectUpdateDiffControls/TransportationProjectBudgetSummary.cshtml";
+        public const string ProjectUpdateBatchDiffLogPartialViewPath = "~/Views/ProjectUpdate/ProjectUpdateBatchDiffLog.cshtml";
+        public const string ProjectBasicsPartialViewPath = "~/Views/Shared/ProjectControls/ProjectBasics.cshtml";
+        public const string PerformanceMeasureReportedValuesPartialViewPath = "~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureReportedValuesSummary.cshtml";
+        public const string ProjectExpendituresPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectExpendituresSummary.cshtml";
+        public const string TransporationBudgetsPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/TransportationProjectBudgetSummary.cshtml";
         public const string ImageGalleryPartialViewPath = "~/Views/Shared/ImageGallery.cshtml";
         public const string ExternalLinksPartialViewPath = "~/Views/Shared/TextControls/EntityExternalLinks.cshtml";
         public const string EntityNotesPartialViewPath = "~/Views/Shared/TextControls/EntityNotes.cshtml";
@@ -218,14 +218,14 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateManageFeature]
-        public ViewResult EIPPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult PerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
-            var eipPerformanceMeasureActualUpdateSimples =
-                projectUpdateBatch.EIPPerformanceMeasureActualUpdates.OrderBy(pam => pam.EIPPerformanceMeasureID)
+            var performanceMeasureActualUpdateSimples =
+                projectUpdateBatch.PerformanceMeasureActualUpdates.OrderBy(pam => pam.PerformanceMeasureID)
                     .ThenByDescending(x => x.CalendarYear)
-                    .Select(x => new EIPPerformanceMeasureActualUpdateSimple(x))
+                    .Select(x => new PerformanceMeasureActualUpdateSimple(x))
                     .ToList();
             var projectExemptReportingYearUpdates = projectUpdateBatch.ProjectExemptReportingYearUpdates.Select(x => new ProjectExemptReportingYearUpdateSimple(x)).ToList();
             var currentExemptedYears = projectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList();
@@ -234,44 +234,44 @@ namespace ProjectFirma.Web.Controllers
                 possibleYearsToExempt.Where(x => !currentExemptedYears.Contains(x))
                     .Select((x, index) => new ProjectExemptReportingYearUpdateSimple(-(index + 1), projectUpdateBatch.ProjectUpdateBatchID, x)));
 
-            var viewModel = new EIPPerformanceMeasuresViewModel(eipPerformanceMeasureActualUpdateSimples,
-                projectUpdateBatch.EIPPerformanceMeasureActualYearsExemptionExplanation,
+            var viewModel = new PerformanceMeasuresViewModel(performanceMeasureActualUpdateSimples,
+                projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation,
                 projectExemptReportingYearUpdates.OrderBy(x => x.CalendarYear).ToList(),
-                projectUpdateBatch.ShowEIPPerformanceMeasuresValidationWarnings,
-                projectUpdateBatch.EIPPerformanceMeasuresComment);
-            return ViewEIPPerformanceMeasures(projectUpdateBatch, viewModel);
+                projectUpdateBatch.ShowPerformanceMeasuresValidationWarnings,
+                projectUpdateBatch.PerformanceMeasuresComment);
+            return ViewPerformanceMeasures(projectUpdateBatch, viewModel);
         }
 
         [HttpPost]
         [ProjectUpdateManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EIPPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, EIPPerformanceMeasuresViewModel viewModel)
+        public ActionResult PerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, PerformanceMeasuresViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
             if (!ModelState.IsValid)
             {
-                return ViewEIPPerformanceMeasures(projectUpdateBatch, viewModel);
+                return ViewPerformanceMeasures(projectUpdateBatch, viewModel);
             }
-            var currentEIPPerformanceMeasureActualUpdates = projectUpdateBatch.EIPPerformanceMeasureActualUpdates.ToList();
-            HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureActualUpdates.Load();
-            var allEIPPerformanceMeasureActualUpdates = HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureActualUpdates.Local;
-            HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureActualSubcategoryOptionUpdates.Load();
-            var allEIPPerformanceMeasureActualSubcategoryOptionUpdates = HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureActualSubcategoryOptionUpdates.Local;
-            viewModel.UpdateModel(currentEIPPerformanceMeasureActualUpdates, allEIPPerformanceMeasureActualUpdates, allEIPPerformanceMeasureActualSubcategoryOptionUpdates, projectUpdateBatch);
+            var currentPerformanceMeasureActualUpdates = projectUpdateBatch.PerformanceMeasureActualUpdates.ToList();
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualUpdates.Load();
+            var allPerformanceMeasureActualUpdates = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualUpdates.Local;
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptionUpdates.Load();
+            var allPerformanceMeasureActualSubcategoryOptionUpdates = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptionUpdates.Local;
+            viewModel.UpdateModel(currentPerformanceMeasureActualUpdates, allPerformanceMeasureActualUpdates, allPerformanceMeasureActualSubcategoryOptionUpdates, projectUpdateBatch);
             if (projectUpdateBatch.IsSubmitted)
             {
-                projectUpdateBatch.EIPPerformanceMeasuresComment = viewModel.Comments;
+                projectUpdateBatch.PerformanceMeasuresComment = viewModel.Comments;
             }
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
 
-            return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.EIPPerformanceMeasures(project)));
+            return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.PerformanceMeasures(project)));
         }
 
-        private ViewResult ViewEIPPerformanceMeasures(ProjectUpdateBatch projectUpdateBatch, EIPPerformanceMeasuresViewModel viewModel)
+        private ViewResult ViewPerformanceMeasures(ProjectUpdateBatch projectUpdateBatch, PerformanceMeasuresViewModel viewModel)
         {
-            var selectableEIPPerformanceMeasures =
-                HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasures.ToList().Where(pm => pm.EIPPerformanceMeasureType.ValuesAreNotCalculated(projectUpdateBatch.Project.ImplementsMultipleProjects));
+            var selectablePerformanceMeasures =
+                HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().Where(pm => pm.PerformanceMeasureType.ValuesAreNotCalculated(projectUpdateBatch.Project.ImplementsMultipleProjects));
             var showExemptYears = projectUpdateBatch.ProjectExemptReportingYearUpdates.Any() ||
                                   ModelState.Values.SelectMany(x => x.Errors)
                                       .Any(
@@ -279,59 +279,59 @@ namespace ProjectFirma.Web.Controllers
                                               x.ErrorMessage == FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears ||
                                               x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
 
-            var allEIPPerformanceMeasures = selectableEIPPerformanceMeasures.ToList();
-            var eipPerformanceMeasureSubcategories = allEIPPerformanceMeasures.SelectMany(x => x.IndicatorSubcategories).ToList();
-            var subcategories = eipPerformanceMeasureSubcategories.Distinct(new HavePrimaryKeyComparer<IndicatorSubcategory>()).ToList();
-            var eipPerformanceMeasureSimples = allEIPPerformanceMeasures.Select(x => new EIPPerformanceMeasureSimple(x)).OrderBy(p => p.EIPPerformanceMeasureID).ToList();
-            var eipPerformanceMeasureSubcategorySimples = eipPerformanceMeasureSubcategories.Select(y => new EIPPerformanceMeasureSubcategorySimple(y)).ToList();
+            var allPerformanceMeasures = selectablePerformanceMeasures.ToList();
+            var performanceMeasureSubcategories = allPerformanceMeasures.SelectMany(x => x.IndicatorSubcategories).ToList();
+            var subcategories = performanceMeasureSubcategories.Distinct(new HavePrimaryKeyComparer<IndicatorSubcategory>()).ToList();
+            var performanceMeasureSimples = allPerformanceMeasures.Select(x => new PerformanceMeasureSimple(x)).OrderBy(p => p.PerformanceMeasureID).ToList();
+            var performanceMeasureSubcategorySimples = performanceMeasureSubcategories.Select(y => new PerformanceMeasureSubcategorySimple(y)).ToList();
             var subcategorySimples = subcategories.Select(x => new IndicatorSubcategorySimple(x)).ToList();
             var subcategoryOptionSimples = subcategories.SelectMany(y => y.IndicatorSubcategoryOptions.Select(z => new IndicatorSubcategoryOptionSimple(z))).ToList();
             var calendarYears = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x).ToList();
-            var eipPerformanceMeasuresValidationResult = projectUpdateBatch.ValidateEIPPerformanceMeasures();
+            var performanceMeasuresValidationResult = projectUpdateBatch.ValidatePerformanceMeasures();
 
-            var viewDataForAngularEditor = new EIPPerformanceMeasuresViewData.ViewDataForAngularEditor(projectUpdateBatch.ProjectUpdateBatchID,
-                eipPerformanceMeasureSimples,
-                eipPerformanceMeasureSubcategorySimples,
+            var viewDataForAngularEditor = new PerformanceMeasuresViewData.ViewDataForAngularEditor(projectUpdateBatch.ProjectUpdateBatchID,
+                performanceMeasureSimples,
+                performanceMeasureSubcategorySimples,
                 subcategorySimples,
                 subcategoryOptionSimples,
                 calendarYears,
                 showExemptYears,
-                eipPerformanceMeasuresValidationResult);
+                performanceMeasuresValidationResult);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
-            var viewData = new EIPPerformanceMeasuresViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, updateStatus);
-            return RazorView<EIPPerformanceMeasures, EIPPerformanceMeasuresViewData, EIPPerformanceMeasuresViewModel>(viewData, viewModel);
+            var viewData = new PerformanceMeasuresViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, updateStatus);
+            return RazorView<PerformanceMeasures, PerformanceMeasuresViewData, PerformanceMeasuresViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
         [ProjectUpdateManageFeature]
-        public PartialViewResult RefreshEIPPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
+        public PartialViewResult RefreshPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
-            return ViewRefreshEIPPerformanceMeasures(viewModel);
+            return ViewRefreshPerformanceMeasures(viewModel);
         }
 
         [HttpPost]
         [ProjectUpdateManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult RefreshEIPPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult RefreshPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             Check.RequireNotNull(projectUpdateBatch, string.Format("We should have a project update batch when refreshing; didn't find one for Project {0}", project.DisplayName));
             projectUpdateBatch.DeleteProjectExemptReportingYearUpdates();
-            projectUpdateBatch.DeleteEIPPerformanceMeasureActualUpdates();
+            projectUpdateBatch.DeletePerformanceMeasureActualUpdates();
 
             // refresh the data
-            projectUpdateBatch.SyncEIPPerformanceMeasureActualYearsExemptionExplanation();
+            projectUpdateBatch.SyncPerformanceMeasureActualYearsExemptionExplanation();
             ProjectExemptReportingYearUpdate.CreateFromProject(projectUpdateBatch);
-            EIPPerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
+            PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewRefreshEIPPerformanceMeasures(ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewRefreshPerformanceMeasures(ConfirmDialogFormViewModel viewModel)
         {
             var viewData =
                 new ConfirmDialogFormViewData(
@@ -1021,10 +1021,10 @@ namespace ProjectFirma.Web.Controllers
             var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Local;
             HttpRequestStorage.DatabaseEntities.TransportationProjectBudgets.Load();
             var allTransportationProjectBudgets = HttpRequestStorage.DatabaseEntities.TransportationProjectBudgets.Local;
-            HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureActuals.Load();
-            var allEIPPerformanceMeasureActuals = HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureActuals.Local;
-            HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureActualSubcategoryOptions.Load();
-            var allEIPPerformanceMeasureActualSubcategoryOptions = HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureActualSubcategoryOptions.Local;
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Load();
+            var allPerformanceMeasureActuals = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Local;
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Load();
+            var allPerformanceMeasureActualSubcategoryOptions = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Local;
             HttpRequestStorage.DatabaseEntities.ProjectExternalLinks.Load();
             var allProjectExternalLinks = HttpRequestStorage.DatabaseEntities.ProjectExternalLinks.Local;
             HttpRequestStorage.DatabaseEntities.ProjectNotes.Load();
@@ -1039,8 +1039,8 @@ namespace ProjectFirma.Web.Controllers
                 allProjectExemptReportingYears,
                 allProjectFundingSourceExpenditures,
                 allTransportationProjectBudgets,
-                allEIPPerformanceMeasureActuals,
-                allEIPPerformanceMeasureActualSubcategoryOptions,
+                allPerformanceMeasureActuals,
+                allPerformanceMeasureActualSubcategoryOptions,
                 allProjectExternalLinks,
                 allProjectNotes,
                 allProjectImages,
@@ -1051,10 +1051,10 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.Project.ProjectFundingSourceExpenditures.ToList(),
                 projectUpdateBatch.Project.ProjectFundingOrganizations.ToList());
 
-            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveEIPNotifications();
+            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
             Notification.SendApprovalMessage(peopleToCc, projectUpdateBatch);
 
-            SetMessageForDisplay(string.Format("The update for EIP project {0} was approved", projectUpdateBatch.Project.ProjectNumberString));
+            SetMessageForDisplay(string.Format("The update for project {0} was approved", projectUpdateBatch.Project.ProjectNumberString));
             return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Summary(project.ProjectNumberString)));
         }
 
@@ -1073,11 +1073,11 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.BasicsDiffLogHtmlString = new HtmlString(basicsDiffHelper.Build());
             }            
 
-            var eippmDiffContainer = DiffEIPPerformanceMeasuresImpl(projectPrimaryKey);
-            if (eippmDiffContainer.HasChanged)
+            var performanceMeasureDiffContainer = DiffPerformanceMeasuresImpl(projectPrimaryKey);
+            if (performanceMeasureDiffContainer.HasChanged)
             {
-                var eippmDiffHelper = new HtmlDiff.HtmlDiff(eippmDiffContainer.OriginalHtml, eippmDiffContainer.UpdatedHtml);
-                projectUpdateBatch.EIPPerformanceMeasureDiffLogHtmlString = new HtmlString(eippmDiffHelper.Build());
+                var performanceMeasureDiffHelper = new HtmlDiff.HtmlDiff(performanceMeasureDiffContainer.OriginalHtml, performanceMeasureDiffContainer.UpdatedHtml);
+                projectUpdateBatch.PerformanceMeasureDiffLogHtmlString = new HtmlString(performanceMeasureDiffHelper.Build());
             }
 
             var expendituresDiffContainer = DiffExpendituresImpl(projectPrimaryKey);
@@ -1133,9 +1133,9 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             Check.RequireNotNull(projectUpdateBatch, string.Format("There is no current Project Update to submit for Project {0}", project.DisplayName));
             projectUpdateBatch.SubmitToTrpa(CurrentPerson, DateTime.Now);
-            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveEIPNotifications();
+            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
             Notification.SendSubmittedMessage(peopleToCc, projectUpdateBatch);
-            SetMessageForDisplay(string.Format("The update for EIP project {0} has been submitted.", projectUpdateBatch.Project.ProjectNumberString));
+            SetMessageForDisplay(string.Format("The update for project {0} has been submitted.", projectUpdateBatch.Project.ProjectNumberString));
             return new ModalDialogFormJsonResult();
         }
 
@@ -1162,13 +1162,13 @@ namespace ProjectFirma.Web.Controllers
                 HttpRequestStorage.DatabaseEntities.ProjectUpdateBatches.ToList()
                     .Where(pub => pub.IsReadyToSubmit && pub.Project.ProjectStage.RequiresReportedExpenditures() && pub.Project.IsMyProject(CurrentPerson))
                     .ToList();
-            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveEIPNotifications();
+            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
             projectUpdateBatches.ForEach(pub =>
             {
                 pub.SubmitToTrpa(CurrentPerson, DateTime.Now);
                 Notification.SendSubmittedMessage(peopleToCc, pub);
             });
-            SetMessageForDisplay(string.Format("The update(s) for EIP project(s) {0} have been submitted.", string.Join(", ", projectUpdateBatches.Select(x => x.Project.ProjectNumberString))));
+            SetMessageForDisplay(string.Format("The update(s) for project(s) {0} have been submitted.", string.Join(", ", projectUpdateBatches.Select(x => x.Project.ProjectNumberString))));
             return new ModalDialogFormJsonResult();
         }
 
@@ -1201,9 +1201,9 @@ namespace ProjectFirma.Web.Controllers
             Check.Require(projectUpdateBatch.IsSubmitted, "You cannot return a project update that has not been submitted!");
             viewModel.UpdateModel(projectUpdateBatch);
             projectUpdateBatch.Return(CurrentPerson, DateTime.Now);
-            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveEIPNotifications();
+            var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
             Notification.SendReturnedMessage(peopleToCc, projectUpdateBatch);
-            SetMessageForDisplay(string.Format("The update submitted for EIP project {0} has been returned.", projectUpdateBatch.Project.ProjectNumberString));
+            SetMessageForDisplay(string.Format("The update submitted for project {0} has been returned.", projectUpdateBatch.Project.ProjectNumberString));
             return new ModalDialogFormJsonResult();
         }
 
@@ -1488,81 +1488,81 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateManageFeature]
-        public PartialViewResult DiffEIPPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
+        public PartialViewResult DiffPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
         {
-            var htmlDiffContainer = DiffEIPPerformanceMeasuresImpl(projectPrimaryKey);
+            var htmlDiffContainer = DiffPerformanceMeasuresImpl(projectPrimaryKey);
             var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
             return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
         }
 
-        private HtmlDiffContainer DiffEIPPerformanceMeasuresImpl(ProjectPrimaryKey projectPrimaryKey)
+        private HtmlDiffContainer DiffPerformanceMeasuresImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            var eipPerformanceMeasureReportedValuesOriginal = new List<IEIPPerformanceMeasureReportedValue>(project.GetNonVirtualReportedEIPPerformanceMeasures());
-            var eipPerformanceMeasureReportedValuesUpdated = new List<IEIPPerformanceMeasureReportedValue>(projectUpdateBatch.EIPPerformanceMeasureActualUpdates);
-            var calendarYearsForEIPPerformanceMeasuresOriginal = eipPerformanceMeasureReportedValuesOriginal.Select(x => x.CalendarYear).Distinct().ToList();
-            var calendarYearsForEIPPerformanceMeasuresUpdated = eipPerformanceMeasureReportedValuesUpdated.Select(x => x.CalendarYear).Distinct().ToList();
+            var performanceMeasureReportedValuesOriginal = new List<IPerformanceMeasureReportedValue>(project.GetNonVirtualReportedPerformanceMeasures());
+            var performanceMeasureReportedValuesUpdated = new List<IPerformanceMeasureReportedValue>(projectUpdateBatch.PerformanceMeasureActualUpdates);
+            var calendarYearsForPerformanceMeasuresOriginal = performanceMeasureReportedValuesOriginal.Select(x => x.CalendarYear).Distinct().ToList();
+            var calendarYearsForPerformanceMeasuresUpdated = performanceMeasureReportedValuesUpdated.Select(x => x.CalendarYear).Distinct().ToList();
 
-            var originalHtml = GeneratePartialViewForOriginalEIPPerformanceMeasures(
-                eipPerformanceMeasureReportedValuesOriginal,
-                eipPerformanceMeasureReportedValuesUpdated,
-                calendarYearsForEIPPerformanceMeasuresOriginal,
-                calendarYearsForEIPPerformanceMeasuresUpdated,
+            var originalHtml = GeneratePartialViewForOriginalPerformanceMeasures(
+                performanceMeasureReportedValuesOriginal,
+                performanceMeasureReportedValuesUpdated,
+                calendarYearsForPerformanceMeasuresOriginal,
+                calendarYearsForPerformanceMeasuresUpdated,
                 project.ProjectExemptReportingYears.Select(x => x.CalendarYear).ToList(),
-                project.EIPPerformanceMeasureActualYearsExemptionExplanation);
+                project.PerformanceMeasureActualYearsExemptionExplanation);
 
-            var updatedHtml = GeneratePartialViewForModifiedEIPPerformanceMeasures(
-                eipPerformanceMeasureReportedValuesOriginal,
-                eipPerformanceMeasureReportedValuesUpdated,
-                calendarYearsForEIPPerformanceMeasuresOriginal,
-                calendarYearsForEIPPerformanceMeasuresUpdated,
+            var updatedHtml = GeneratePartialViewForModifiedPerformanceMeasures(
+                performanceMeasureReportedValuesOriginal,
+                performanceMeasureReportedValuesUpdated,
+                calendarYearsForPerformanceMeasuresOriginal,
+                calendarYearsForPerformanceMeasuresUpdated,
                 projectUpdateBatch.ProjectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList(),
-                projectUpdateBatch.EIPPerformanceMeasureActualYearsExemptionExplanation);
+                projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation);
 
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }
 
-        private string GeneratePartialViewForOriginalEIPPerformanceMeasures(List<IEIPPerformanceMeasureReportedValue> eipPerformanceMeasureReportedValuesOriginal,
-            List<IEIPPerformanceMeasureReportedValue> eipPerformanceMeasureReportedValuesUpdated,
+        private string GeneratePartialViewForOriginalPerformanceMeasures(List<IPerformanceMeasureReportedValue> performanceMeasureReportedValuesOriginal,
+            List<IPerformanceMeasureReportedValue> performanceMeasureReportedValuesUpdated,
             List<int> calendarYearsOriginal,
             List<int> calendarYearsUpdated,
             List<int> exemptReportingYears,
             string exemptionExplanation)
         {
-            var eipPerformanceMeasuresInOriginal = eipPerformanceMeasureReportedValuesOriginal.Select(x => x.EIPPerformanceMeasureID).Distinct().ToList();
-            var eipPerformanceMeasuresInUpdated = eipPerformanceMeasureReportedValuesUpdated.Select(x => x.EIPPerformanceMeasureID).Distinct().ToList();
-            var eipPerformanceMeasuresOnlyInOriginal = eipPerformanceMeasuresInOriginal.Where(x => !eipPerformanceMeasuresInUpdated.Contains(x)).ToList();
+            var performanceMeasuresInOriginal = performanceMeasureReportedValuesOriginal.Select(x => x.PerformanceMeasureID).Distinct().ToList();
+            var performanceMeasuresInUpdated = performanceMeasureReportedValuesUpdated.Select(x => x.PerformanceMeasureID).Distinct().ToList();
+            var performanceMeasuresOnlyInOriginal = performanceMeasuresInOriginal.Where(x => !performanceMeasuresInUpdated.Contains(x)).ToList();
 
-            var eipPerformanceMeasureSubcategoriesCalendarYearReportedValuesOriginal =
-                EIPPerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromEIPPerformanceMeasuresAndCalendarYears(eipPerformanceMeasureReportedValuesOriginal);
+            var performanceMeasureSubcategoriesCalendarYearReportedValuesOriginal =
+                PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(performanceMeasureReportedValuesOriginal);
             // we need to zero out calendar year values only in original
-            foreach (var eipPerformanceMeasureSubcategoriesCalendarYearReportedValue in eipPerformanceMeasureSubcategoriesCalendarYearReportedValuesOriginal)
+            foreach (var performanceMeasureSubcategoriesCalendarYearReportedValue in performanceMeasureSubcategoriesCalendarYearReportedValuesOriginal)
             {
-                ZeroOutReportedValue(eipPerformanceMeasureSubcategoriesCalendarYearReportedValue, calendarYearsOriginal.Except(calendarYearsUpdated).ToList());
+                ZeroOutReportedValue(performanceMeasureSubcategoriesCalendarYearReportedValue, calendarYearsOriginal.Except(calendarYearsUpdated).ToList());
             }
-            var eipPerformanceMeasureSubcategoriesCalendarYearReportedValuesUpdated =
-                EIPPerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromEIPPerformanceMeasuresAndCalendarYears(eipPerformanceMeasureReportedValuesUpdated);
+            var performanceMeasureSubcategoriesCalendarYearReportedValuesUpdated =
+                PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(performanceMeasureReportedValuesUpdated);
 
             // find the ones that are only in the modified set and add them and mark them as "added"
-            eipPerformanceMeasureSubcategoriesCalendarYearReportedValuesOriginal.AddRange(
-                eipPerformanceMeasureSubcategoriesCalendarYearReportedValuesUpdated.Where(x => !eipPerformanceMeasuresInOriginal.Contains(x.EIPPerformanceMeasureID))
-                    .Select(x => EIPPerformanceMeasureSubcategoriesCalendarYearReportedValue.Clone(x, HtmlDiffContainer.DisplayCssClassAddedElement))
+            performanceMeasureSubcategoriesCalendarYearReportedValuesOriginal.AddRange(
+                performanceMeasureSubcategoriesCalendarYearReportedValuesUpdated.Where(x => !performanceMeasuresInOriginal.Contains(x.PerformanceMeasureID))
+                    .Select(x => PerformanceMeasureSubcategoriesCalendarYearReportedValue.Clone(x, HtmlDiffContainer.DisplayCssClassAddedElement))
                     .ToList());
             // find the ones only in original and mark them as "deleted"
-            eipPerformanceMeasureSubcategoriesCalendarYearReportedValuesOriginal.Where(x => eipPerformanceMeasuresOnlyInOriginal.Contains(x.EIPPerformanceMeasureID))
+            performanceMeasureSubcategoriesCalendarYearReportedValuesOriginal.Where(x => performanceMeasuresOnlyInOriginal.Contains(x.PerformanceMeasureID))
                 .ForEach(x =>
                 {
                     ZeroOutReportedValue(x, calendarYearsOriginal);
                     x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement;
                 });
             var calendarYearStrings = GetCalendarYearStringsForDiffForOriginal(calendarYearsOriginal, calendarYearsUpdated);
-            return GeneratePartialViewForEIPPerformanceMeasures(eipPerformanceMeasureSubcategoriesCalendarYearReportedValuesOriginal, calendarYearStrings, exemptReportingYears, exemptionExplanation);
+            return GeneratePartialViewForPerformanceMeasures(performanceMeasureSubcategoriesCalendarYearReportedValuesOriginal, calendarYearStrings, exemptReportingYears, exemptionExplanation);
         }
 
-        private static void ZeroOutReportedValue(EIPPerformanceMeasureSubcategoriesCalendarYearReportedValue eipPerformanceMeasureSubcategoriesCalendarYearReportedValue, List<int> calendarYearsToZeroOut)
+        private static void ZeroOutReportedValue(PerformanceMeasureSubcategoriesCalendarYearReportedValue performanceMeasureSubcategoriesCalendarYearReportedValue, List<int> calendarYearsToZeroOut)
         {
-            foreach (var subcategoriesReportedValue in eipPerformanceMeasureSubcategoriesCalendarYearReportedValue.SubcategoriesReportedValues)
+            foreach (var subcategoriesReportedValue in performanceMeasureSubcategoriesCalendarYearReportedValue.SubcategoriesReportedValues)
             {
                 foreach (var calendarYear in calendarYearsToZeroOut)
                 {
@@ -1571,39 +1571,39 @@ namespace ProjectFirma.Web.Controllers
             }
         }
 
-        private string GeneratePartialViewForModifiedEIPPerformanceMeasures(List<IEIPPerformanceMeasureReportedValue> eipPerformanceMeasureReportedValuesOriginal,
-            List<IEIPPerformanceMeasureReportedValue> eipPerformanceMeasureReportedValuesUpdated,
+        private string GeneratePartialViewForModifiedPerformanceMeasures(List<IPerformanceMeasureReportedValue> performanceMeasureReportedValuesOriginal,
+            List<IPerformanceMeasureReportedValue> performanceMeasureReportedValuesUpdated,
             List<int> calendarYearsOriginal,
             List<int> calendarYearsUpdated,
             List<int> exemptReportingYears,
             string exemptionExplanation)
         {
-            var eipPerformanceMeasuresInOriginal = eipPerformanceMeasureReportedValuesOriginal.Select(x => x.EIPPerformanceMeasureID).Distinct().ToList();
-            var eipPerformanceMeasuresInUpdated = eipPerformanceMeasureReportedValuesUpdated.Select(x => x.EIPPerformanceMeasureID).Distinct().ToList();
-            var eipPerformanceMeasuresOnlyInUpdated = eipPerformanceMeasuresInUpdated.Where(x => !eipPerformanceMeasuresInOriginal.Contains(x)).ToList();
+            var performanceMeasuresInOriginal = performanceMeasureReportedValuesOriginal.Select(x => x.PerformanceMeasureID).Distinct().ToList();
+            var performanceMeasuresInUpdated = performanceMeasureReportedValuesUpdated.Select(x => x.PerformanceMeasureID).Distinct().ToList();
+            var performanceMeasuresOnlyInUpdated = performanceMeasuresInUpdated.Where(x => !performanceMeasuresInOriginal.Contains(x)).ToList();
 
-            var eipPerformanceMeasureSubcategoriesCalendarYearReportedValuesOriginal =
-                EIPPerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromEIPPerformanceMeasuresAndCalendarYears(eipPerformanceMeasureReportedValuesOriginal);
-            var eipPerformanceMeasureSubcategoriesCalendarYearReportedValuesUpdated =
-                EIPPerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromEIPPerformanceMeasuresAndCalendarYears(eipPerformanceMeasureReportedValuesUpdated);
+            var performanceMeasureSubcategoriesCalendarYearReportedValuesOriginal =
+                PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(performanceMeasureReportedValuesOriginal);
+            var performanceMeasureSubcategoriesCalendarYearReportedValuesUpdated =
+                PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(performanceMeasureReportedValuesUpdated);
 
             // find the ones that are only in the original set and add them and mark them as "deleted"
-            eipPerformanceMeasureSubcategoriesCalendarYearReportedValuesUpdated.AddRange(
-                eipPerformanceMeasureSubcategoriesCalendarYearReportedValuesOriginal.Where(x => !eipPerformanceMeasuresInUpdated.Contains(x.EIPPerformanceMeasureID))
-                    .Select(x => EIPPerformanceMeasureSubcategoriesCalendarYearReportedValue.Clone(x, HtmlDiffContainer.DisplayCssClassDeletedElement))
+            performanceMeasureSubcategoriesCalendarYearReportedValuesUpdated.AddRange(
+                performanceMeasureSubcategoriesCalendarYearReportedValuesOriginal.Where(x => !performanceMeasuresInUpdated.Contains(x.PerformanceMeasureID))
+                    .Select(x => PerformanceMeasureSubcategoriesCalendarYearReportedValue.Clone(x, HtmlDiffContainer.DisplayCssClassDeletedElement))
                     .ToList());
             // find the ones only in modified and mark them as "added"
-            eipPerformanceMeasureSubcategoriesCalendarYearReportedValuesUpdated.Where(x => eipPerformanceMeasuresOnlyInUpdated.Contains(x.EIPPerformanceMeasureID))
+            performanceMeasureSubcategoriesCalendarYearReportedValuesUpdated.Where(x => performanceMeasuresOnlyInUpdated.Contains(x.PerformanceMeasureID))
                 .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
 
             var calendarYearStrings = GetCalendarYearStringsForDiffForUpdated(calendarYearsOriginal, calendarYearsUpdated);
-            return GeneratePartialViewForEIPPerformanceMeasures(eipPerformanceMeasureSubcategoriesCalendarYearReportedValuesUpdated, calendarYearStrings, exemptReportingYears, exemptionExplanation);
+            return GeneratePartialViewForPerformanceMeasures(performanceMeasureSubcategoriesCalendarYearReportedValuesUpdated, calendarYearStrings, exemptReportingYears, exemptionExplanation);
         }
 
-        private string GeneratePartialViewForEIPPerformanceMeasures(List<EIPPerformanceMeasureSubcategoriesCalendarYearReportedValue> eipPerformanceMeasureSubcategoriesCalendarYearReportedValues, List<CalendarYearString> calendarYearStrings, List<int> exemptReportingYears, string exemptionExplanation)
+        private string GeneratePartialViewForPerformanceMeasures(List<PerformanceMeasureSubcategoriesCalendarYearReportedValue> performanceMeasureSubcategoriesCalendarYearReportedValues, List<CalendarYearString> calendarYearStrings, List<int> exemptReportingYears, string exemptionExplanation)
         {
-            var viewData = new EIPPerformanceMeasureReportedValuesSummaryViewData(eipPerformanceMeasureSubcategoriesCalendarYearReportedValues, exemptReportingYears, exemptionExplanation, calendarYearStrings);
-            var partialViewToString = RenderPartialViewToString(EIPPerformanceMeasureReportedValuesPartialViewPath, viewData);
+            var viewData = new PerformanceMeasureReportedValuesSummaryViewData(performanceMeasureSubcategoriesCalendarYearReportedValues, exemptReportingYears, exemptionExplanation, calendarYearStrings);
+            var partialViewToString = RenderPartialViewToString(PerformanceMeasureReportedValuesPartialViewPath, viewData);
             return partialViewToString;
         }
 
@@ -2092,7 +2092,7 @@ namespace ProjectFirma.Web.Controllers
 
         private UpdateStatus GetUpdateStatus(ProjectUpdateBatch projectUpdateBatch)
         {
-            var isEIPPerformanceMeasuresUpdated = DiffEIPPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
+            var isPerformanceMeasuresUpdated = DiffPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isExpendituresUpdated = DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isTransportationBudgetsUpdated = DiffTransportationBudgetsImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isLocationSimpleUpdated = IsLocationSimpleUpdated(projectUpdateBatch.ProjectID);
@@ -2104,7 +2104,7 @@ namespace ProjectFirma.Web.Controllers
             var isBasicsUpdated = DiffBasicsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
             return new UpdateStatus(isBasicsUpdated,
-                isEIPPerformanceMeasuresUpdated,
+                isPerformanceMeasuresUpdated,
                 isExpendituresUpdated,
                 isTransportationBudgetsUpdated,
                 projectUpdateBatch.IsPhotosUpdated,

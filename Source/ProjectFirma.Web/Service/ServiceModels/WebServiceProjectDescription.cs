@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using LtInfo.Common.DesignByContract;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Models;
 
@@ -15,12 +12,12 @@ namespace ProjectFirma.Web.Service.ServiceModels
     {
         public WebServiceProjectDescription(Project project)
         {
-            EIPProjectNumber = project.ProjectNumberString;
+            ProjectNumber = project.ProjectNumberString;
             ProjectName = project.ProjectName;            
             ProjectDescription = project.ProjectDescription;            
         }
 
-        [DataMember] public string EIPProjectNumber { get; set; }
+        [DataMember] public string ProjectNumber { get; set; }
         [DataMember] public string ProjectName { get; set; }
         [DataMember] public string ProjectDescription { get; set; }
 
@@ -36,7 +33,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
     {
         public WebServiceProjectDescriptionGridSpec()
         {
-            Add("EIPProjectNumber", x => x.EIPProjectNumber, 0);
+            Add("ProjectNumber", x => x.ProjectNumber, 0);
             Add("ProjectName", x => x.ProjectName, 0);
             Add("ProjectDescription", x => x.ProjectDescription, 0);           
         }

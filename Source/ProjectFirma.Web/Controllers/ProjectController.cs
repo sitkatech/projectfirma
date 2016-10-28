@@ -11,7 +11,6 @@ using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.ProposedProject;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
-using ProjectFirma.Web.Views.Shared.EIPPerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Tag;
@@ -22,6 +21,7 @@ using LtInfo.Common;
 using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.MvcResults;
 using MoreLinq;
+using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using Index = ProjectFirma.Web.Views.Project.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Project.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Project.IndexViewData;
@@ -145,11 +145,11 @@ namespace ProjectFirma.Web.Controllers
 
             var editOrganizationsUrl = SitkaRoute<ProjectOrganizationController>.BuildUrlFromExpression(c => c.EditOrganizations(project));
 
-            var eipPerformanceMeasureExpectedsSummaryViewData = new EIPPerformanceMeasureExpectedSummaryViewData(new List<IEIPPerformanceMeasureValue>(project.EIPPerformanceMeasureExpecteds));
-            var editEIPPerformanceMeasureExpectedsUrl = SitkaRoute<EIPPerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditEIPPerformanceMeasureExpectedsForProject(project));
+            var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(project.PerformanceMeasureExpecteds));
+            var editPerformanceMeasureExpectedsUrl = SitkaRoute<PerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForProject(project));
 
-            var eipPerformanceMeasureReportedValuesGroupedViewData = BuildEIPPerformanceMeasureReportedValuesGroupedViewData(project);
-            var editEIPPerformanceMeasureActualsUrl = SitkaRoute<EIPPerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditEIPPerformanceMeasureActualsForProject(project));
+            var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(project);
+            var editPerformanceMeasureActualsUrl = SitkaRoute<PerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureActualsForProject(project));
 
             var projectExpendituresSummaryViewData = BuildProjectExpendituresSummaryViewData(project);
             var editReportedExpendituresUrl = SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
@@ -221,10 +221,10 @@ namespace ProjectFirma.Web.Controllers
                 editSimpleProjectLocationUrl,
                 editDetailedProjectLocationUrl,
                 editOrganizationsUrl,
-                eipPerformanceMeasureExpectedsSummaryViewData,
-                editEIPPerformanceMeasureExpectedsUrl,
-                eipPerformanceMeasureReportedValuesGroupedViewData,
-                editEIPPerformanceMeasureActualsUrl,
+                performanceMeasureExpectedsSummaryViewData,
+                editPerformanceMeasureExpectedsUrl,
+                performanceMeasureReportedValuesGroupedViewData,
+                editPerformanceMeasureActualsUrl,
                 projectExpendituresSummaryViewData,
                 editReportedExpendituresUrl,
                 editThresholdCategoriesUrl,
@@ -274,16 +274,16 @@ namespace ProjectFirma.Web.Controllers
             return projectExpendituresSummaryViewData;
         }
 
-        private static EIPPerformanceMeasureReportedValuesGroupedViewData BuildEIPPerformanceMeasureReportedValuesGroupedViewData(Project project)
+        private static PerformanceMeasureReportedValuesGroupedViewData BuildPerformanceMeasureReportedValuesGroupedViewData(Project project)
         {
-            var eipPerformanceMeasureReportedValues = project.GetNonVirtualReportedEIPPerformanceMeasures();
-            var eipPerformanceMeasureSubcategoriesCalendarYearReportedValues =
-                EIPPerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromEIPPerformanceMeasuresAndCalendarYears(new List<IEIPPerformanceMeasureReportedValue>(eipPerformanceMeasureReportedValues));
-            var eipPerformanceMeasureReportedValuesGroupedViewData = new EIPPerformanceMeasureReportedValuesGroupedViewData(eipPerformanceMeasureSubcategoriesCalendarYearReportedValues,
+            var performanceMeasureReportedValues = project.GetNonVirtualReportedPerformanceMeasures();
+            var performanceMeasureSubcategoriesCalendarYearReportedValues =
+                PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(new List<IPerformanceMeasureReportedValue>(performanceMeasureReportedValues));
+            var performanceMeasureReportedValuesGroupedViewData = new PerformanceMeasureReportedValuesGroupedViewData(performanceMeasureSubcategoriesCalendarYearReportedValues,
                 project.ProjectExemptReportingYears.Select(x => x.CalendarYear).ToList(),
-                project.EIPPerformanceMeasureActualYearsExemptionExplanation,
-                eipPerformanceMeasureReportedValues.Select(x => x.CalendarYear).Distinct().ToList());
-            return eipPerformanceMeasureReportedValuesGroupedViewData;
+                project.PerformanceMeasureActualYearsExemptionExplanation,
+                performanceMeasureReportedValues.Select(x => x.CalendarYear).Distinct().ToList());
+            return performanceMeasureReportedValuesGroupedViewData;
         }
 
         private static ImageGalleryViewData BuildImageGalleryViewData(Project project, Person currentPerson)
@@ -391,15 +391,15 @@ namespace ProjectFirma.Web.Controllers
             var projectNotes = (projects.SelectMany(p => p.ProjectNotes)).ToList();
             var wsProjectNotes = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Project Notes", projectNoteSpec, projectNotes);
 
-            var eipPerformanceMeasureExpectedSpec = new EIPPerformanceMeasureExpectedExcelSpec();
-            var eipPerformanceMeasureExpecteds = (projects.SelectMany(p => p.EIPPerformanceMeasureExpecteds)).ToList();
-            var wsEIPPerformanceMeasureExpecteds = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Expected Performance Measures",
-                eipPerformanceMeasureExpectedSpec,
-                eipPerformanceMeasureExpecteds);
+            var performanceMeasureExpectedExcelSpec = new PerformanceMeasureExpectedExcelSpec();
+            var performanceMeasureExpecteds = (projects.SelectMany(p => p.PerformanceMeasureExpecteds)).ToList();
+            var wsPerformanceMeasureExpecteds = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Expected Performance Measures",
+                performanceMeasureExpectedExcelSpec,
+                performanceMeasureExpecteds);
 
-            var eipPerformanceMeasureActualSpec = new EIPPerformanceMeasureActualExcelSpec();
-            var eipPerformanceMeasureActuals = (projects.SelectMany(p => p.GetReportedEIPPerformanceMeasures())).ToList();
-            var wsEIPPerformanceMeasureActuals = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Reported Performance Measures", eipPerformanceMeasureActualSpec, eipPerformanceMeasureActuals);
+            var performanceMeasureActualExcelSpec = new PerformanceMeasureActualExcelSpec();
+            var performanceMeasureActuals = (projects.SelectMany(p => p.GetReportedPerformanceMeasures())).ToList();
+            var wsPerformanceMeasureActuals = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Reported Performance Measures", performanceMeasureActualExcelSpec, performanceMeasureActuals);
 
             var projectFundingSourceExpenditureSpec = new ProjectFundingSourceExpenditureExcelSpec();
             var projectFundingSourceExpenditures = (projects.SelectMany(p => p.ProjectFundingSourceExpenditures)).ToList();
@@ -423,8 +423,8 @@ namespace ProjectFirma.Web.Controllers
                 wsProjectDescriptions,
                 wsOrganizations,
                 wsProjectNotes,
-                wsEIPPerformanceMeasureExpecteds,
-                wsEIPPerformanceMeasureActuals,
+                wsPerformanceMeasureExpecteds,
+                wsPerformanceMeasureActuals,
                 wsProjectFundingSourceExpenditures,
                 wsProjectWatersheds,
                 wsProjectThresholdCategories,

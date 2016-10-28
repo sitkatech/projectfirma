@@ -41,8 +41,8 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult ViewPageContent(FirmaPageTypeEnum firmaPageTypeEnum)
         {
             var firmaPageType = FirmaPageType.ToType(firmaPageTypeEnum);
-            var viewData = new DisplayEIPPageContentViewData(CurrentPerson, firmaPageType);
-            return RazorView<DisplayEIPPageContent, DisplayEIPPageContentViewData>(viewData);
+            var viewData = new DisplayPageContentViewData(CurrentPerson, firmaPageType);
+            return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
         }
 
         [HttpGet]
@@ -50,21 +50,21 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult EditPageContent(FirmaPageTypeEnum firmaPageTypeEnum)
         {
             var firmaPageType = FirmaPageType.ToType(firmaPageTypeEnum);
-            var viewModel = new EditEIPPageContentViewModel(firmaPageType);
-            var viewData = new EditEIPPageContentViewData(CurrentPerson, firmaPageType);
-            return RazorView<EditEIPPageContent, EditEIPPageContentViewData, EditEIPPageContentViewModel>(viewData, viewModel);
+            var viewModel = new EditPageContentViewModel(firmaPageType);
+            var viewData = new EditPageContentViewData(CurrentPerson, firmaPageType);
+            return RazorView<EditPageContent, EditPageContentViewData, EditPageContentViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
         [PageContentManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditPageContent(FirmaPageTypeEnum firmaPageTypeEnum, EditEIPPageContentViewModel viewModel)
+        public ActionResult EditPageContent(FirmaPageTypeEnum firmaPageTypeEnum, EditPageContentViewModel viewModel)
         {
             var firmaPageType = FirmaPageType.ToType(firmaPageTypeEnum);
             if (!ModelState.IsValid)
             {
-                var viewData = new EditEIPPageContentViewData(CurrentPerson, firmaPageType);
-                return RazorView<EditEIPPageContent, EditEIPPageContentViewData, EditEIPPageContentViewModel>(viewData, viewModel);
+                var viewData = new EditPageContentViewData(CurrentPerson, firmaPageType);
+                return RazorView<EditPageContent, EditPageContentViewData, EditPageContentViewModel>(viewData, viewModel);
             }
             viewModel.UpdateModel(firmaPageType, CurrentPerson);
 

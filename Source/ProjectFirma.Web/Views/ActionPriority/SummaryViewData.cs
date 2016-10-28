@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Views.ActionPriority
 
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
-        public readonly string EipProjectMapFilteredUrl;
+        public readonly string ProjectMapFilteredUrl;
 
         public SummaryViewData(Person currentPerson,
             Models.ActionPriority actionPriority,
@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ActionPriority
 
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
-            EipProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
+            ProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
 
             UserHasActionPriorityManagePermissions = new ActionPriorityManageFeature().HasPermissionByPerson(CurrentPerson);
             EditActionPriorityUrl = SitkaRoute<ActionPriorityController>.BuildUrlFromExpression(c => c.Edit(actionPriority));

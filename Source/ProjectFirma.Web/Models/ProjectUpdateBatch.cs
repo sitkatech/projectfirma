@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Models
 
         private bool IsPassingAllValidationRules
         {
-            get { return AreProjectBasicsValid && AreExpendituresValid() && AreEIPPerformanceMeasuresValid() && AreTransportationBudgetsValid() && IsProjectLocationSimpleValid(); }
+            get { return AreProjectBasicsValid && AreExpendituresValid() && ArePerformanceMeasuresValid() && AreTransportationBudgetsValid() && IsProjectLocationSimpleValid(); }
         }
 
         public bool InEditableState
@@ -100,13 +100,13 @@ namespace ProjectFirma.Web.Models
             TransportationProjectBudgetUpdate.CreateFromProject(projectUpdateBatch);
 
             // performance measures
-            EIPPerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
+            PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
 
             // project exempt reporting years
             ProjectExemptReportingYearUpdate.CreateFromProject(projectUpdateBatch);
 
             // project exempt reporting years reason
-            projectUpdateBatch.SyncEIPPerformanceMeasureActualYearsExemptionExplanation();
+            projectUpdateBatch.SyncPerformanceMeasureActualYearsExemptionExplanation();
 
             // project locations - detailed
             ProjectLocationUpdate.CreateFromProject(projectUpdateBatch);
@@ -136,9 +136,9 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch;
         }
 
-        public void SyncEIPPerformanceMeasureActualYearsExemptionExplanation()
+        public void SyncPerformanceMeasureActualYearsExemptionExplanation()
         {
-            EIPPerformanceMeasureActualYearsExemptionExplanation = Project.EIPPerformanceMeasureActualYearsExemptionExplanation;
+            PerformanceMeasureActualYearsExemptionExplanation = Project.PerformanceMeasureActualYearsExemptionExplanation;
         }
 
         public void TickleLastUpdateDate(Person currentPerson)
@@ -207,11 +207,11 @@ namespace ProjectFirma.Web.Models
             RefreshFromDatabase(TransportationProjectBudgetUpdates);
         }
 
-        public void DeleteEIPPerformanceMeasureActualUpdates()
+        public void DeletePerformanceMeasureActualUpdates()
         {
-            HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureActualSubcategoryOptionUpdates.DeleteEIPPerformanceMeasureActualSubcategoryOptionUpdate(EIPPerformanceMeasureActualUpdates.SelectMany(x => x.EIPPerformanceMeasureActualSubcategoryOptionUpdates.Select(y => y.EIPPerformanceMeasureActualSubcategoryOptionUpdateID)).ToList());
-            HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasureActualUpdates.DeleteEIPPerformanceMeasureActualUpdate(EIPPerformanceMeasureActualUpdates);
-            RefreshFromDatabase(EIPPerformanceMeasureActualUpdates);
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptionUpdates.DeletePerformanceMeasureActualSubcategoryOptionUpdate(PerformanceMeasureActualUpdates.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptionUpdates.Select(y => y.PerformanceMeasureActualSubcategoryOptionUpdateID)).ToList());
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualUpdates.DeletePerformanceMeasureActualUpdate(PerformanceMeasureActualUpdates);
+            RefreshFromDatabase(PerformanceMeasureActualUpdates);
         }
 
         public void DeleteProjectLocationUpdates()
@@ -230,7 +230,7 @@ namespace ProjectFirma.Web.Models
         {
             DeleteProjectLocationStagingUpdates();
             DeleteProjectLocationUpdates();
-            DeleteEIPPerformanceMeasureActualUpdates();
+            DeletePerformanceMeasureActualUpdates();
             DeleteProjectExemptReportingYearUpdates();
             DeleteProjectFundingSourceExpenditureUpdates();
             DeleteTransportationProjectBudgetUpdates();
@@ -317,46 +317,46 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public EIPPerformanceMeasuresValidationResult ValidateEIPPerformanceMeasuresAndForceValidation()
+        public PerformanceMeasuresValidationResult ValidatePerformanceMeasuresAndForceValidation()
         {
             AreProjectBasicsValid = ValidateProjectBasics().IsValid;
-            return ValidateEIPPerformanceMeasures();
+            return ValidatePerformanceMeasures();
         }
 
-        public EIPPerformanceMeasuresValidationResult ValidateEIPPerformanceMeasures()
+        public PerformanceMeasuresValidationResult ValidatePerformanceMeasures()
         {
             if (!AreProjectBasicsValid)
             {
-                return new EIPPerformanceMeasuresValidationResult(FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection);
+                return new PerformanceMeasuresValidationResult(FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection);
             }
             
             // validation 1: ensure that we have PM values from ProjectUpdate start year to min(endyear, currentyear); if the ProjectUpdate record has a stage of Planning/Design, we do not do this validation
             var missingYears = new HashSet<int>();
-            if (ProjectUpdate.ProjectStage.RequiresEIPPerformanceMeasureActuals() || ProjectUpdate.ProjectStage == ProjectStage.Completed)
+            if (ProjectUpdate.ProjectStage.RequiresPerformanceMeasureActuals() || ProjectUpdate.ProjectStage == ProjectStage.Completed)
             {
                 var exemptYears = ProjectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList();
                 var yearsExpected = GetProjectUpdateImplementationStartToCompletionYearRange(ProjectUpdate).Where(x => !exemptYears.Contains(x)).ToList();
-                var yearsEntered = EIPPerformanceMeasureActualUpdates.Select(x => x.CalendarYear).Distinct();
+                var yearsEntered = PerformanceMeasureActualUpdates.Select(x => x.CalendarYear).Distinct();
                 missingYears = yearsExpected.GetMissingYears(yearsEntered);
             }
             // validation 2: incomplete PM row (missing indicatorSubcategory option id)
-            var eipPerformanceMeasureActualUpdatesWithWarnings = ValidateNoIncompleteEIPPerformanceMeasureActualUpdateRow();
+            var performanceMeasureActualUpdatesWithWarnings = ValidateNoIncompletePerformanceMeasureActualUpdateRow();
 
-            var eipPerformanceMeasuresValidationResult = new EIPPerformanceMeasuresValidationResult(missingYears, eipPerformanceMeasureActualUpdatesWithWarnings);
-            return eipPerformanceMeasuresValidationResult;
+            var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(missingYears, performanceMeasureActualUpdatesWithWarnings);
+            return performanceMeasuresValidationResult;
         }
 
-        private HashSet<int> ValidateNoIncompleteEIPPerformanceMeasureActualUpdateRow()
+        private HashSet<int> ValidateNoIncompletePerformanceMeasureActualUpdateRow()
         {
-            var eipPerformanceMeasureActualUpdatesWithMissingSubcategoryOptions =
-                EIPPerformanceMeasureActualUpdates.Where(
-                    x => !x.ActualValue.HasValue || x.EIPPerformanceMeasure.IndicatorSubcategories.Count != x.EIPPerformanceMeasureActualSubcategoryOptionUpdates.Count).ToList();
-            return new HashSet<int>(eipPerformanceMeasureActualUpdatesWithMissingSubcategoryOptions.Select(x => x.EIPPerformanceMeasureActualUpdateID));
+            var performanceMeasureActualUpdatesWithMissingSubcategoryOptions =
+                PerformanceMeasureActualUpdates.Where(
+                    x => !x.ActualValue.HasValue || x.PerformanceMeasure.IndicatorSubcategories.Count != x.PerformanceMeasureActualSubcategoryOptionUpdates.Count).ToList();
+            return new HashSet<int>(performanceMeasureActualUpdatesWithMissingSubcategoryOptions.Select(x => x.PerformanceMeasureActualUpdateID));
         }
 
-        public bool AreEIPPerformanceMeasuresValid()
+        public bool ArePerformanceMeasuresValid()
         {
-            return ValidateEIPPerformanceMeasures().IsValid;
+            return ValidatePerformanceMeasures().IsValid;
         }
 
         public ExpendituresValidationResult ValidateExpendituresAndForceValidation()
@@ -487,8 +487,8 @@ namespace ProjectFirma.Web.Models
             IList<ProjectExemptReportingYear> projectExemptReportingYears,
             IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
             IList<TransportationProjectBudget> transportationProjectBudgets,
-            IList<EIPPerformanceMeasureActual> eipPerformanceMeasureActuals,
-            IList<EIPPerformanceMeasureActualSubcategoryOption> eipPerformanceMeasureActualSubcategoryOptions,
+            IList<PerformanceMeasureActual> performanceMeasureActuals,
+            IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
             IList<ProjectExternalLink> projectExternalLinks,
             IList<ProjectNote> projectNotes,
             IList<ProjectImage> projectImages,
@@ -498,8 +498,8 @@ namespace ProjectFirma.Web.Models
             CommitChangesToProject(projectExemptReportingYears,
                 projectFundingSourceExpenditures,
                 transportationProjectBudgets,
-                eipPerformanceMeasureActuals,
-                eipPerformanceMeasureActualSubcategoryOptions,
+                performanceMeasureActuals,
+                performanceMeasureActualSubcategoryOptions,
                 projectExternalLinks,
                 projectNotes,
                 projectImages,
@@ -524,8 +524,8 @@ namespace ProjectFirma.Web.Models
         private void CommitChangesToProject(IList<ProjectExemptReportingYear> projectExemptReportingYears,
             IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
             IList<TransportationProjectBudget> transportationProjectBudgets,
-            IList<EIPPerformanceMeasureActual> eipPerformanceMeasureActuals,
-            IList<EIPPerformanceMeasureActualSubcategoryOption> eipPerformanceMeasureActualSubcategoryOptions,
+            IList<PerformanceMeasureActual> performanceMeasureActuals,
+            IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
             IList<ProjectExternalLink> projectExternalLinks,
             IList<ProjectNote> projectNotes,
             IList<ProjectImage> projectImages,
@@ -544,13 +544,13 @@ namespace ProjectFirma.Web.Models
             }
 
             // performance measures
-            EIPPerformanceMeasureActualUpdate.CommitChangesToProject(this, eipPerformanceMeasureActuals, eipPerformanceMeasureActualSubcategoryOptions);
+            PerformanceMeasureActualUpdate.CommitChangesToProject(this, performanceMeasureActuals, performanceMeasureActualSubcategoryOptions);
 
             // project exempt reporting years
             ProjectExemptReportingYearUpdate.CommitChangesToProject(this, projectExemptReportingYears);
 
             // project exempt reporting years reason
-            Project.EIPPerformanceMeasureActualYearsExemptionExplanation = EIPPerformanceMeasureActualYearsExemptionExplanation;
+            Project.PerformanceMeasureActualYearsExemptionExplanation = PerformanceMeasureActualYearsExemptionExplanation;
 
             // project location simple
             ProjectUpdate.CommitSimpleLocationToProject(Project);

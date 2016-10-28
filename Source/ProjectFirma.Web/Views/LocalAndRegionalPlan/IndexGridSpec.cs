@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Views.LocalAndRegionalPlan
             }
             Add(Models.FieldDefinition.LocalAndRegionalPlan.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.DisplayName), 550, DhtmlxGridColumnFilterType.Html);
             Add("Transportation Plan?", a => a.IsTransportationPlan.ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("# of EIP Projects", a => a.AssociatedProjects.Count, 90);
+            Add("# of Projects", a => a.AssociatedProjects.Count, 90);
         }
     }
 }

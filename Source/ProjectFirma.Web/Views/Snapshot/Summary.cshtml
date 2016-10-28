@@ -1,5 +1,4 @@
-﻿@using ProjectFirma.Web.Views.Shared.EIPPerformanceMeasureControls
-@using ProjectFirma.Web.Models
+﻿@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
@@ -7,6 +6,7 @@
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 
 @inherits ProjectFirma.Web.Views.Snapshot.Summary
 
@@ -17,11 +17,11 @@
     <script type="text/javascript">
         jQuery(function()
         {
-            jQuery(".eipPerformanceMeasureTableSelector")
+            jQuery(".performanceMeasureTableSelector")
                 .change(function()
                 {
-                    jQuery(".eipPerformanceMeasureTable").hide();
-                    jQuery('#eipPerformanceMeasureTable_' + jQuery(this).val()).show();
+                    jQuery(".performanceMeasureTable").hide();
+                    jQuery('#performanceMeasureTable_' + jQuery(this).val()).show();
                 });
         })
 
@@ -135,14 +135,14 @@
 <div class="summarySection">
     <h2>Snapshot of Performance Measures on @(ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString())</h2>
     <div class="contentWrapper">
-        <select class="eipPerformanceMeasureTableSelector" name="eipPerformanceMeasureTable">
+        <select class="performanceMeasureTableSelector" name="performanceMeasureTable">
             <option value="">Select a Performance Measure</option>
-            @foreach (var eipPerformanceMeasure in ViewDataTyped.Snapshot.SnapshotEIPPerformanceMeasures.Select(x => x.EIPPerformanceMeasure).Distinct())
+            @foreach (var performanceMeasure in ViewDataTyped.Snapshot.SnapshotPerformanceMeasures.Select(x => x.PerformanceMeasure).Distinct())
             {
-                <option value="@eipPerformanceMeasure.EIPPerformanceMeasureID">@eipPerformanceMeasure.DisplayName</option>
+                <option value="@performanceMeasure.PerformanceMeasureID">@performanceMeasure.DisplayName</option>
             }
         </select>
-        @{ EIPPerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.SnapshotPerformanceMeasureReportedValuesGroupedViewData); }
+        @{ PerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.SnapshotPerformanceMeasureReportedValuesGroupedViewData); }
     </div>
 </div>
 

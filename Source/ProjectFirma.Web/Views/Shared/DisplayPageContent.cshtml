@@ -1,0 +1,16 @@
+﻿@using ProjectFirma.Web.Views.Shared
+@inherits DisplayPageContent
+
+@section RightOfPageTitle
+{
+    @if (ViewDataTyped.ShowEditButton)
+    {
+        <div style="margin-top:10px">
+            <a class="btn btn-xs btn-firma" href="@ViewDataTyped.EditUrl">Edit</a>
+        </div>
+    }
+}
+
+<div>
+    @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
+</div>

@@ -11,7 +11,7 @@ namespace ProjectFirma.Web.Views.Watershed
         public IndexGridSpec()
         {
             Add(Models.FieldDefinition.Watershed.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.DisplayName), 400, DhtmlxGridColumnFilterType.Html);
-            Add("# of EIP Projects", a => a.AssociatedProjects.Count, 65);
+            Add("# of Projects", a => a.AssociatedProjects.Count, 65);
         }
     }
 }

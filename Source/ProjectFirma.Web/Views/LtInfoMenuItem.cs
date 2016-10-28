@@ -86,12 +86,12 @@ namespace ProjectFirma.Web.Views
         {
             // Example:
             //    <li><a href="@ViewDataTyped.HomeUrl">Home</a></li>
-            //    <li><a href="@ViewDataTyped.EipOverviewUrl">About</a>
+            //    <li><a href="@ViewDataTyped.OverviewUrl">About</a>
             //        <ul>
-            //            <li><a href="@ViewDataTyped.EipOverviewUrl">EIP Overview</a></li>
-            //            <li><a href="@ViewDataTyped.HistoryOfTheEipUrl">History of the EIP</a></li>
-            //            <li><a href="@ViewDataTyped.EipPartnersUrl">EIP Partners</a></li>
-            //            <li><a href="@ViewDataTyped.EipFaqUrl">FAQ</a></li>
+            //            <li><a href="@ViewDataTyped.OverviewUrl">Overview</a></li>
+            //            <li><a href="@ViewDataTyped.HistoryUrl">History</a></li>
+            //            <li><a href="@ViewDataTyped.PartnersUrl">Partners</a></li>
+            //            <li><a href="@ViewDataTyped.FaqUrl">FAQ</a></li>
             //        </ul>
             //    </li>  
             if (!ShouldShow || (IsTopLevelMenuItem && !HasUrl && !ChildenMenuItemsSecurityFiltered.Any()))

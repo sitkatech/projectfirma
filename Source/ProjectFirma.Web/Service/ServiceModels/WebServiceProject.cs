@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using LtInfo.Common.DesignByContract;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Models;
 
@@ -15,7 +13,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
     {
         public WebServiceProject(Project project)
         {
-            EIPProjectNumber = project.ProjectNumberString;
+            ProjectNumber = project.ProjectNumberString;
             ProjectName = project.ProjectName;
             FocusArea = project.ActionPriority.Program.FocusArea.FocusAreaName;
             Program = project.ActionPriority.Program.ProgramName;
@@ -42,7 +40,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             ProjectFactSheetUrl = project.GetFactSheetUrl();
         }
 
-        [DataMember] public string EIPProjectNumber { get; set; }
+        [DataMember] public string ProjectNumber { get; set; }
         [DataMember] public string ProjectName { get; set; }
         [DataMember] public string FocusArea { get; set; }
         [DataMember] public string Program { get; set; }
@@ -81,7 +79,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             return
                 projects
                     .Select(x => new WebServiceProject(x))
-                    .OrderBy(x => x.EIPProjectNumber)
+                    .OrderBy(x => x.ProjectNumber)
                     .ToList();
         }
 
@@ -95,7 +93,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
 
             return projects
                 .Select(x => new WebServiceProject(x))
-                    .OrderBy(x => x.EIPProjectNumber)
+                    .OrderBy(x => x.ProjectNumber)
                     .ToList();
         }
     }
@@ -104,7 +102,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
     {
         public WebServiceProjectGridSpec()
         {
-            Add("EIPProjectNumber", x => x.EIPProjectNumber, 0);
+            Add("ProjectNumber", x => x.ProjectNumber, 0);
             Add("ProjectName", x => x.ProjectName, 0);
             Add("FocusArea", x => x.FocusArea, 0);
             Add("Program", x => x.Program, 0);

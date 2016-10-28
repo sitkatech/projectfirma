@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     {
         Instructions,
         Basics,
-        EIPPerformanceMeasures,
+        PerformanceMeasures,
         Expenditures,
         Photos,
         LocationSimple,
@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string ProjectUpdateMyProjectsUrl;
         public readonly string ProjectUpdateInstructionsUrl;
         public readonly string ProjectUpdateBasicsUrl;
-        public readonly string ProjectUpdateEIPPerformanceMeasuresUrl;
+        public readonly string ProjectUpdatePerformanceMeasuresUrl;
         public readonly string ProjectUpdateExpendituresUrl;
         public readonly string ProjectUpdateTransportationBudgetsUrl;
         public readonly string ProjectUpdatePhotosUrl;
@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdateMyProjectsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate());
             ProjectUpdateInstructionsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Instructions(Project));
             ProjectUpdateBasicsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Basics(Project));
-            ProjectUpdateEIPPerformanceMeasuresUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.EIPPerformanceMeasures(Project));
+            ProjectUpdatePerformanceMeasuresUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.PerformanceMeasures(Project));
             ProjectUpdateExpendituresUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Expenditures(Project));
             ProjectUpdateTransportationBudgetsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.TransportationBudgets(Project));
             ProjectUpdatePhotosUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Photos(Project));

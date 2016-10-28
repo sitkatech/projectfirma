@@ -3,7 +3,7 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Program")]
-    public class ProgramManageFeature : EIPAdminFeature
+    public class ProgramManageFeature : SuperAdminFeature
     {
     }
 }

@@ -23,12 +23,12 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Indicator()
         {
-            this.EIPPerformanceMeasures = new HashSet<EIPPerformanceMeasure>();
             this.IndicatorMonitoringPrograms = new HashSet<IndicatorMonitoringProgram>();
             this.IndicatorNotes = new HashSet<IndicatorNote>();
             this.IndicatorRelationships = new HashSet<IndicatorRelationship>();
             this.IndicatorRelationshipsWhereYouAreTheRelatedIndicator = new HashSet<IndicatorRelationship>();
             this.IndicatorSubcategories = new HashSet<IndicatorSubcategory>();
+            this.PerformanceMeasures = new HashSet<PerformanceMeasure>();
             this.ThresholdCategoryIndicators = new HashSet<ThresholdCategoryIndicator>();
         }
 
@@ -97,13 +97,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return (EIPPerformanceMeasure != null) || IndicatorMonitoringPrograms.Any() || IndicatorNotes.Any() || IndicatorRelationships.Any() || IndicatorRelationshipsWhereYouAreTheRelatedIndicator.Any() || IndicatorSubcategories.Any() || ThresholdCategoryIndicators.Any();
+            return IndicatorMonitoringPrograms.Any() || IndicatorNotes.Any() || IndicatorRelationships.Any() || IndicatorRelationshipsWhereYouAreTheRelatedIndicator.Any() || IndicatorSubcategories.Any() || (PerformanceMeasure != null) || ThresholdCategoryIndicators.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Indicator).Name, typeof(EIPPerformanceMeasure).Name, typeof(IndicatorMonitoringProgram).Name, typeof(IndicatorNote).Name, typeof(IndicatorRelationship).Name, typeof(IndicatorSubcategory).Name, typeof(ThresholdCategoryIndicator).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Indicator).Name, typeof(IndicatorMonitoringProgram).Name, typeof(IndicatorNote).Name, typeof(IndicatorRelationship).Name, typeof(IndicatorSubcategory).Name, typeof(PerformanceMeasure).Name, typeof(ThresholdCategoryIndicator).Name};
 
         [Key]
         public int IndicatorID { get; set; }
@@ -133,13 +133,13 @@ namespace ProjectFirma.Web.Models
         public string ChartCaption { get; set; }
         public int PrimaryKey { get { return IndicatorID; } set { IndicatorID = value; } }
 
-        protected virtual ICollection<EIPPerformanceMeasure> EIPPerformanceMeasures { get; set; }
-        public EIPPerformanceMeasure EIPPerformanceMeasure { get { return EIPPerformanceMeasures.SingleOrDefault(); } set { EIPPerformanceMeasures = new List<EIPPerformanceMeasure>{value};} }
         public virtual ICollection<IndicatorMonitoringProgram> IndicatorMonitoringPrograms { get; set; }
         public virtual ICollection<IndicatorNote> IndicatorNotes { get; set; }
         public virtual ICollection<IndicatorRelationship> IndicatorRelationships { get; set; }
         public virtual ICollection<IndicatorRelationship> IndicatorRelationshipsWhereYouAreTheRelatedIndicator { get; set; }
         public virtual ICollection<IndicatorSubcategory> IndicatorSubcategories { get; set; }
+        protected virtual ICollection<PerformanceMeasure> PerformanceMeasures { get; set; }
+        public PerformanceMeasure PerformanceMeasure { get { return PerformanceMeasures.SingleOrDefault(); } set { PerformanceMeasures = new List<PerformanceMeasure>{value};} }
         public virtual ICollection<ThresholdCategoryIndicator> ThresholdCategoryIndicators { get; set; }
         public MeasurementUnitType MeasurementUnitType { get { return MeasurementUnitType.AllLookupDictionary[MeasurementUnitTypeID]; } }
         public IndicatorType IndicatorType { get { return IndicatorType.AllLookupDictionary[IndicatorTypeID]; } }

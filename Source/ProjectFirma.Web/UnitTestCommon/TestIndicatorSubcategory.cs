@@ -6,17 +6,17 @@ namespace ProjectFirma.Web.UnitTestCommon
     {
         public static class TestIndicatorSubcategory
         {
-            public static IndicatorSubcategory Create(EIPPerformanceMeasure eipPerformanceMeasure, string indicatorSubcategoryName)
+            public static IndicatorSubcategory Create(PerformanceMeasure performanceMeasure, string indicatorSubcategoryName)
             {
-                var indicatorSubcategory = new IndicatorSubcategory(eipPerformanceMeasure.Indicator, indicatorSubcategoryName, indicatorSubcategoryName) { EIPPerformanceMeasure = eipPerformanceMeasure};
-                eipPerformanceMeasure.Indicator.IndicatorSubcategories.Add(indicatorSubcategory);
-                eipPerformanceMeasure.IndicatorSubcategories.Add(indicatorSubcategory);
+                var indicatorSubcategory = new IndicatorSubcategory(performanceMeasure.Indicator, indicatorSubcategoryName, indicatorSubcategoryName) { PerformanceMeasure = performanceMeasure};
+                performanceMeasure.Indicator.IndicatorSubcategories.Add(indicatorSubcategory);
+                performanceMeasure.IndicatorSubcategories.Add(indicatorSubcategory);
                 return indicatorSubcategory;
             }
 
-            public static IndicatorSubcategory CreateWithSubcategoryOptions(EIPPerformanceMeasure eipPerformanceMeasure, int indicatorSubcategoryID, string indicatorSubcategoryName)
+            public static IndicatorSubcategory CreateWithSubcategoryOptions(PerformanceMeasure performanceMeasure, int indicatorSubcategoryID, string indicatorSubcategoryName)
             {
-                var indicatorSubcategory = Create(eipPerformanceMeasure, indicatorSubcategoryName);
+                var indicatorSubcategory = Create(performanceMeasure, indicatorSubcategoryName);
                 indicatorSubcategory.IndicatorSubcategoryID = indicatorSubcategoryID;
                 var subcategoryOptionIDBase = indicatorSubcategoryID*10;
                 var subcategoryOption1 = TestIndicatorSubcategoryOption.Create(subcategoryOptionIDBase + 1, indicatorSubcategory, string.Format("{0}Option1", indicatorSubcategoryName));

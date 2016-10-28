@@ -23,9 +23,9 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Project()
         {
-            this.EIPPerformanceMeasureActuals = new HashSet<EIPPerformanceMeasureActual>();
-            this.EIPPerformanceMeasureExpecteds = new HashSet<EIPPerformanceMeasureExpected>();
             this.NotificationProjects = new HashSet<NotificationProject>();
+            this.PerformanceMeasureActuals = new HashSet<PerformanceMeasureActual>();
+            this.PerformanceMeasureExpecteds = new HashSet<PerformanceMeasureExpected>();
             this.ProjectExemptReportingYears = new HashSet<ProjectExemptReportingYear>();
             this.ProjectExternalLinks = new HashSet<ProjectExternalLink>();
             this.ProjectFundingOrganizations = new HashSet<ProjectFundingOrganization>();
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int actionPriorityID, int projectStageID, short projectNumber, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, string oldEipNumber, decimal? estimatedTotalCost, bool implementsMultipleProjects, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string eIPPerformanceMeasureActualYearsExemptionExplanation, bool isFeatured, int? transportationObjectiveID, string projectLocationNotes, bool onFederalTransportationImprovementProgramList, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID) : this()
+        public Project(int projectID, int actionPriorityID, int projectStageID, short projectNumber, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, string oldNumber, decimal? estimatedTotalCost, bool implementsMultipleProjects, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, int? transportationObjectiveID, string projectLocationNotes, bool onFederalTransportationImprovementProgramList, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID) : this()
         {
             this.ProjectID = projectID;
             this.ActionPriorityID = actionPriorityID;
@@ -59,13 +59,13 @@ namespace ProjectFirma.Web.Models
             this.ProjectDescription = projectDescription;
             this.ImplementationStartYear = implementationStartYear;
             this.CompletionYear = completionYear;
-            this.OldEipNumber = oldEipNumber;
+            this.OldNumber = oldNumber;
             this.EstimatedTotalCost = estimatedTotalCost;
             this.ImplementsMultipleProjects = implementsMultipleProjects;
             this.SecuredFunding = securedFunding;
             this.ProjectLocationPoint = projectLocationPoint;
             this.ProjectLocationAreaID = projectLocationAreaID;
-            this.EIPPerformanceMeasureActualYearsExemptionExplanation = eIPPerformanceMeasureActualYearsExemptionExplanation;
+            this.PerformanceMeasureActualYearsExemptionExplanation = performanceMeasureActualYearsExemptionExplanation;
             this.IsFeatured = isFeatured;
             this.TransportationObjectiveID = transportationObjectiveID;
             this.ProjectLocationNotes = projectLocationNotes;
@@ -131,13 +131,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return EIPPerformanceMeasureActuals.Any() || EIPPerformanceMeasureExpecteds.Any() || NotificationProjects.Any() || ProjectExemptReportingYears.Any() || ProjectExternalLinks.Any() || ProjectFundingOrganizations.Any() || ProjectFundingSourceExpenditures.Any() || ProjectImages.Any() || ProjectImplementingOrganizations.Any() || ProjectLocalAndRegionalPlans.Any() || ProjectLocations.Any() || ProjectLocationStagings.Any() || ProjectNotes.Any() || ProjectTags.Any() || ProjectThresholdCategories.Any() || ProjectTransportationQuestions.Any() || ProjectUpdateBatches.Any() || ProjectWatersheds.Any() || ProposedProjects.Any() || SnapshotProjects.Any() || TransportationProjectBudgets.Any();
+            return NotificationProjects.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureExpecteds.Any() || ProjectExemptReportingYears.Any() || ProjectExternalLinks.Any() || ProjectFundingOrganizations.Any() || ProjectFundingSourceExpenditures.Any() || ProjectImages.Any() || ProjectImplementingOrganizations.Any() || ProjectLocalAndRegionalPlans.Any() || ProjectLocations.Any() || ProjectLocationStagings.Any() || ProjectNotes.Any() || ProjectTags.Any() || ProjectThresholdCategories.Any() || ProjectTransportationQuestions.Any() || ProjectUpdateBatches.Any() || ProjectWatersheds.Any() || ProposedProjects.Any() || SnapshotProjects.Any() || TransportationProjectBudgets.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Project).Name, typeof(EIPPerformanceMeasureActual).Name, typeof(EIPPerformanceMeasureExpected).Name, typeof(NotificationProject).Name, typeof(ProjectExemptReportingYear).Name, typeof(ProjectExternalLink).Name, typeof(ProjectFundingOrganization).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectImage).Name, typeof(ProjectImplementingOrganization).Name, typeof(ProjectLocalAndRegionalPlan).Name, typeof(ProjectLocation).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectNote).Name, typeof(ProjectTag).Name, typeof(ProjectThresholdCategory).Name, typeof(ProjectTransportationQuestion).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectWatershed).Name, typeof(ProposedProject).Name, typeof(SnapshotProject).Name, typeof(TransportationProjectBudget).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Project).Name, typeof(NotificationProject).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureExpected).Name, typeof(ProjectExemptReportingYear).Name, typeof(ProjectExternalLink).Name, typeof(ProjectFundingOrganization).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectImage).Name, typeof(ProjectImplementingOrganization).Name, typeof(ProjectLocalAndRegionalPlan).Name, typeof(ProjectLocation).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectNote).Name, typeof(ProjectTag).Name, typeof(ProjectThresholdCategory).Name, typeof(ProjectTransportationQuestion).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectWatershed).Name, typeof(ProposedProject).Name, typeof(SnapshotProject).Name, typeof(TransportationProjectBudget).Name};
 
         [Key]
         public int ProjectID { get; set; }
@@ -148,13 +148,13 @@ namespace ProjectFirma.Web.Models
         public string ProjectDescription { get; set; }
         public int? ImplementationStartYear { get; set; }
         public int? CompletionYear { get; set; }
-        public string OldEipNumber { get; set; }
+        public string OldNumber { get; set; }
         public decimal? EstimatedTotalCost { get; set; }
         public bool ImplementsMultipleProjects { get; set; }
         public decimal? SecuredFunding { get; set; }
         public DbGeometry ProjectLocationPoint { get; set; }
         public int? ProjectLocationAreaID { get; set; }
-        public string EIPPerformanceMeasureActualYearsExemptionExplanation { get; set; }
+        public string PerformanceMeasureActualYearsExemptionExplanation { get; set; }
         public bool IsFeatured { get; set; }
         public int? TransportationObjectiveID { get; set; }
         public string ProjectLocationNotes { get; set; }
@@ -165,9 +165,9 @@ namespace ProjectFirma.Web.Models
         public int FundingTypeID { get; set; }
         public int PrimaryKey { get { return ProjectID; } set { ProjectID = value; } }
 
-        public virtual ICollection<EIPPerformanceMeasureActual> EIPPerformanceMeasureActuals { get; set; }
-        public virtual ICollection<EIPPerformanceMeasureExpected> EIPPerformanceMeasureExpecteds { get; set; }
         public virtual ICollection<NotificationProject> NotificationProjects { get; set; }
+        public virtual ICollection<PerformanceMeasureActual> PerformanceMeasureActuals { get; set; }
+        public virtual ICollection<PerformanceMeasureExpected> PerformanceMeasureExpecteds { get; set; }
         public virtual ICollection<ProjectExemptReportingYear> ProjectExemptReportingYears { get; set; }
         public virtual ICollection<ProjectExternalLink> ProjectExternalLinks { get; set; }
         public virtual ICollection<ProjectFundingOrganization> ProjectFundingOrganizations { get; set; }
@@ -197,8 +197,8 @@ namespace ProjectFirma.Web.Models
         {
             public const int ProjectName = 140;
             public const int ProjectDescription = 4000;
-            public const int OldEipNumber = 100;
-            public const int EIPPerformanceMeasureActualYearsExemptionExplanation = 4000;
+            public const int OldNumber = 100;
+            public const int PerformanceMeasureActualYearsExemptionExplanation = 4000;
             public const int ProjectLocationNotes = 4000;
         }
     }

@@ -48,9 +48,9 @@ namespace ProjectFirma.Web.Models
             return people.Where(x => x.IsActive).ToList().OrderBy(ht => ht.FullNameLastFirst).ToList();
         }
 
-        public static List<Person> GetPeopleWhoReceiveEIPNotifications(this IQueryable<Person> people)
+        public static List<Person> GetPeopleWhoReceiveNotifications(this IQueryable<Person> people)
         {
-            return people.ToList().Where(x => x.ShouldReceiveEIPNotifications()).OrderBy(ht => ht.FullNameLastFirst).ToList();
+            return people.ToList().Where(x => x.ShouldReceiveNotifications()).OrderBy(ht => ht.FullNameLastFirst).ToList();
         }
 
         public static List<Person> GetPeopleWhoReceiveSupportEmails(this IQueryable<Person> people)

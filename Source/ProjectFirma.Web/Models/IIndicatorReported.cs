@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Models
         int PrimaryKey { get; }
         int SortOrder { get; }
         IIndicatorReportingPeriod IndicatorReportingPeriod { get; }
-        IIndicatorWithOnlyOneSubcategoryAndNotReportedInEIP IndicatorWithOnlyOneSubcategoryAndNotReportedInEIP { get; }
+        IIndicatorWithOnlyOneSubcategory IndicatorWithOnlyOneSubcategory { get; }
         double ReportedValue { get; }
         List<IIndicatorReportedSubcategoryOption> IndicatorReportedSubcategoryOptions { get; }
     }

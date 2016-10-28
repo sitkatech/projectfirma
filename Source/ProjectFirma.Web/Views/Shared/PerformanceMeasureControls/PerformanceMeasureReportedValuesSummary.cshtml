@@ -1,0 +1,66 @@
+﻿@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Models
+@using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Views.Shared.PerformanceMeasureControls.PerformanceMeasureReportedValuesSummary
+
+@if (ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues.Any())
+{
+    <table class="summaryLayout">
+        <colgroup>
+            <col>
+            <col>
+            @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(x => x.CalendarYear))
+            {
+                switch (calendarYear.AddedDeletedOrRealElement)
+                {
+                    case AddedDeletedOrRealElement.AddedElement:
+                        <col class="@HtmlDiffContainer.DisplayCssClassAddedElement" style="background-color: @HtmlDiffContainer.BackgroundColorForAddedElement">
+                        break;
+                    case AddedDeletedOrRealElement.DeletedElement:
+                        <col class="@HtmlDiffContainer.DisplayCssClassDeletedElement" style="background-color: @HtmlDiffContainer.BackgroundColorForDeletedElement">
+                        break;
+                    case AddedDeletedOrRealElement.RealElement:
+                        <col>
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            <col>
+            <col>
+        </colgroup>
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure)</th>
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Subcategories)</th>
+            @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(cy => cy.CalendarYear))
+            {
+                <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYear</th>
+            }
+            <th style="text-align: right">Total</th>
+            <th></th>
+        </tr>
+        @foreach (var performanceMeasureCalendarYearReportedValue in ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues.OrderBy(x => x.PerformanceMeasureID))
+        {
+            foreach (var subcategoriesReportedValue in performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.OrderBy(x => x.IndicatorSubcategories))
+            {
+                <tr class="@performanceMeasureCalendarYearReportedValue.DisplayCssClass">
+                    <td>@performanceMeasureCalendarYearReportedValue.PerformanceMeasureDisplayNameAsUrl</td>
+                    <td>@Html.Raw(subcategoriesReportedValue.IndicatorSubcategories)</td>
+                    @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(cy => cy.CalendarYear))
+                    {
+                        <td class="@calendarYear.DisplayCssClass" style="text-align: right">
+                            <span>@(subcategoriesReportedValue.CalendarYearReportedValue.ContainsKey(calendarYear.CalendarYear) ? performanceMeasureCalendarYearReportedValue.MeasurementUnitType == MeasurementUnitType.Dollars ? subcategoriesReportedValue.CalendarYearReportedValue[calendarYear.CalendarYear].ToStringCurrency() : subcategoriesReportedValue.CalendarYearReportedValue[calendarYear.CalendarYear].ToGroupedNumeric() : "0")</span>
+                        </td>
+                    }
+                    <th style="text-align: right">
+                        <span>@performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(subcategoriesReportedValue.CalendarYearReportedValue.Sum(z => z.Value))</span>
+                    </th>
+                    <th>
+                        <span>@(performanceMeasureCalendarYearReportedValue.MeasurementUnitType != MeasurementUnitType.Dollars ? performanceMeasureCalendarYearReportedValue.MeasurementUnitType.MeasurementUnitTypeDisplayName : string.Empty)</span>
+                    </th>
+                </tr>
+            }
+        }
+    </table>
+}

@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Project
             : base(currentPerson, true)
         {
             Add("# of Photos", x => x.ProjectImages.Count, 100);
-            Add("Reported PMs", x => string.Join(", ", x.EIPPerformanceMeasureActuals.Select(pm => pm.EIPPerformanceMeasureID).Distinct().OrderBy(pmID => pmID)), 100);
+            Add("Reported PMs", x => string.Join(", ", x.PerformanceMeasureActuals.Select(pm => pm.PerformanceMeasureID).Distinct().OrderBy(pmID => pmID)), 100);
         }
     }
 }

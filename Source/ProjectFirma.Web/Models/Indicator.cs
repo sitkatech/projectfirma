@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                return ReportedInEIP ? EIPPerformanceMeasure.GetInfoSheetUrl() : ExternalDataSourceUrl;
+                return PerformanceMeasure.GetInfoSheetUrl();
             }
         }
 
@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                if (ReportedInEIP && EIPPerformanceMeasure.EIPPerformanceMeasureType == EIPPerformanceMeasureType.EIPPerformanceMeasure33)
+                if (PerformanceMeasure.PerformanceMeasureType == PerformanceMeasureType.PerformanceMeasure33)
                 {
                     return true;
                 }
@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Models
 
         public List<IndicatorSubcategory> GetSubcategoriesForIndicatorChart()
         {
-            if (ReportedInEIP && EIPPerformanceMeasure.EIPPerformanceMeasureType == EIPPerformanceMeasureType.EIPPerformanceMeasure33)
+            if (PerformanceMeasure.PerformanceMeasureType == PerformanceMeasureType.PerformanceMeasure33)
             {
                 return IndicatorSubcategories.ToList();
             }
@@ -47,14 +47,9 @@ namespace ProjectFirma.Web.Models
             return HasRealSubcategories ? IndicatorSubcategories.Count : 0;
         }
 
-        public bool ReportedInEIP
-        {
-            get { return EIPPerformanceMeasure != null; }
-        }
-
         public Dictionary<string, GoogleChartJson> GetGoogleChartJsonDictionary(List<int> projectIDs)
         {
-            var googleChartJsons = EIPPerformanceMeasure.GetSubcategoriesAsGoogleChartJsons(EIPPerformanceMeasure, projectIDs);
+            var googleChartJsons = PerformanceMeasure.GetSubcategoriesAsGoogleChartJsons(PerformanceMeasure, projectIDs);
             return googleChartJsons.ToDictionary(x => x.ChartName);
         }
 

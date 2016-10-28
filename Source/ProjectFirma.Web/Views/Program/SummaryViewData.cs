@@ -9,15 +9,14 @@ using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Indicator;
 using LtInfo.Common;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Program
 {
     public class SummaryViewData : FirmaViewData
     {
         public readonly Models.Program Program;
-        public readonly List<Models.EIPPerformanceMeasure> EIPPerformanceMeasures;
-        public readonly int EIPPerformanceMeasuresEndOfFirstHalf;
+        public readonly List<Models.PerformanceMeasure> PerformanceMeasures;
+        public readonly int PerformanceMeasuresEndOfFirstHalf;
 
         public readonly bool UserHasProgramManagePermissions;
         public readonly string EditProgramUrl;
@@ -30,11 +29,11 @@ namespace ProjectFirma.Web.Views.Program
 
         public readonly ProjectTaxonomyViewData ProjectTaxonomyViewData;
 
-        public readonly List<Models.EIPPerformanceMeasure> ProgramEIPPerformanceMeasures;
+        public readonly List<Models.PerformanceMeasure> ProgramPerformanceMeasures;
 
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
-        public readonly string EipProjectMapFilteredUrl;
+        public readonly string ProjectMapFilteredUrl;
 
         public readonly List<IndicatorChartViewData> IndicatorChartViewDatas;
 
@@ -48,15 +47,15 @@ namespace ProjectFirma.Web.Views.Program
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
             PageTitle = program.DisplayName;
             EntityName = "Program";
-            new ProgramEIPPerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
-            EIPPerformanceMeasures = program.ProgramEIPPerformanceMeasures.Select(x => x.EIPPerformanceMeasure).OrderBy(x => x.Indicator.DisplayOrder).ToList();
-            EIPPerformanceMeasuresEndOfFirstHalf = GeneralUtility.CalculateIndexOfEndOfFirstHalf(EIPPerformanceMeasures.Count);
+            new ProgramPerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
+            PerformanceMeasures = program.ProgramPerformanceMeasures.Select(x => x.PerformanceMeasure).OrderBy(x => x.Indicator.DisplayOrder).ToList();
+            PerformanceMeasuresEndOfFirstHalf = GeneralUtility.CalculateIndexOfEndOfFirstHalf(PerformanceMeasures.Count);
 
-            EipProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
+            ProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
 
             var projectIDs = Program.Projects.Select(y => y.ProjectID).ToList();
             IndicatorChartViewDatas =
-                Program.GetEIPPerformanceMeasures()
+                Program.GetPerformanceMeasures()
                     .Select(x => x.Indicator)
                     .ToList()
                     .OrderBy(x => x.DisplayOrder)
@@ -79,7 +78,7 @@ namespace ProjectFirma.Web.Views.Program
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(program);
             EditDescriptionUrl = SitkaRoute<ProgramController>.BuildUrlFromExpression(tc => tc.EditDescription(program));
 
-            ProgramEIPPerformanceMeasures = program.GetEIPPerformanceMeasures().OrderBy(x => x.EIPPerformanceMeasureID).ToList();
+            ProgramPerformanceMeasures = program.GetPerformanceMeasures().OrderBy(x => x.PerformanceMeasureID).ToList();
         }
     }
 }

@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Models
             return person != null && (IsAdministrator(person) || person.Role == Role.Approver || person.Role == Role.TMPOManager);
         }
 
-        public static bool ShouldReceiveEIPNotifications(this Person person)
+        public static bool ShouldReceiveNotifications(this Person person)
         {
             return person.ReceiveSupportEmails;
         }

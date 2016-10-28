@@ -33,7 +33,6 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(Models.FieldDefinition.ProjectLocationJurisdiction.FieldDefinitionDisplayName, a => a.ProjectLocationJurisdiction);
             AddColumn(Models.FieldDefinition.ProjectLocationWatershed.FieldDefinitionDisplayName, a => a.ProjectLocationWatershed);
             AddColumn("Project Location Notes", a => a.ProjectLocationNotes);
-            AddColumn(Models.FieldDefinition.OldEIPNumber.FieldDefinitionDisplayName, x => x.OldEipNumber);
             AddColumn(Models.FieldDefinition.ProjectIsAProgram.FieldDefinitionDisplayName, x => x.ImplementsMultipleProjects.ToYesNo());
         }
     }
@@ -75,28 +74,28 @@ namespace ProjectFirma.Web.Views.Project
         }
     }
 
-    public class EIPPerformanceMeasureExpectedExcelSpec : ExcelWorksheetSpec<Models.EIPPerformanceMeasureExpected>
+    public class PerformanceMeasureExpectedExcelSpec : ExcelWorksheetSpec<Models.PerformanceMeasureExpected>
     {
-        public EIPPerformanceMeasureExpectedExcelSpec()
+        public PerformanceMeasureExpectedExcelSpec()
         {
             AddColumn("Project #", x => x.Project.ProjectNumberString);
             AddColumn("Project Name", x => x.Project.ProjectName);
-            AddColumn("Performance Measure ID", x => x.EIPPerformanceMeasureID);
-            AddColumn("Performance Measure Name", x => x.EIPPerformanceMeasure.Indicator.IndicatorName);
-            AddColumn("Performance Measure", x => x.EIPPerformanceMeasure.DisplayName);
+            AddColumn("Performance Measure ID", x => x.PerformanceMeasureID);
+            AddColumn("Performance Measure Name", x => x.PerformanceMeasure.Indicator.IndicatorName);
+            AddColumn("Performance Measure", x => x.PerformanceMeasure.DisplayName);
             AddColumn("Expected Value", x => x.ExpectedValue);
         }
     }
 
-    public class EIPPerformanceMeasureActualExcelSpec : ExcelWorksheetSpec<EIPPerformanceMeasureReportedValue>
+    public class PerformanceMeasureActualExcelSpec : ExcelWorksheetSpec<PerformanceMeasureReportedValue>
     {
-        public EIPPerformanceMeasureActualExcelSpec()
+        public PerformanceMeasureActualExcelSpec()
         {
             AddColumn("Project #", x => x.Project.ProjectNumberString);
             AddColumn("Project Name", x => x.Project.ProjectName);
-            AddColumn("Performance Measure ID", x => x.EIPPerformanceMeasureID);
-            AddColumn("Performance Measure Name", x => x.EIPPerformanceMeasure.Indicator.IndicatorName);
-            AddColumn("Performance Measure", x => x.EIPPerformanceMeasure.DisplayName);
+            AddColumn("Performance Measure ID", x => x.PerformanceMeasureID);
+            AddColumn("Performance Measure Name", x => x.PerformanceMeasure.Indicator.IndicatorName);
+            AddColumn("Performance Measure", x => x.PerformanceMeasure.DisplayName);
             AddColumn("Calendar Year", x => x.CalendarYear);
             AddColumn("Subcategory 1 Name", x => x.IndicatorSubcategoryOptions.Count > 1 ? x.IndicatorSubcategoryOptions[0].IndicatorSubcategory.IndicatorSubcategoryDisplayName : string.Empty);
             AddColumn("Subcategory 1 Option", x => x.IndicatorSubcategoryOptions.Count > 1 ? x.IndicatorSubcategoryOptions[0].IndicatorSubcategoryOption.IndicatorSubcategoryOptionName : string.Empty);

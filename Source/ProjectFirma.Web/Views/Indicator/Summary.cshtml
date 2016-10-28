@@ -51,10 +51,7 @@
 @section RightOfPageTitle
 {
     <div>
-        @if (ViewDataTyped.Indicator.ReportedInEIP)
-        {
-            <a class="btn" href="@ViewDataTyped.Indicator.EIPPerformanceMeasure.GetInfoSheetUrl()">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View EIP Info Sheet</a>
-        }
+        <a class="btn" href="@ViewDataTyped.Indicator.PerformanceMeasure.GetInfoSheetUrl()">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Info Sheet</a>
     </div>
 }
 
@@ -97,7 +94,7 @@
     </div>
     <div class="col-lg-6 col-md-7">
         <div class="summarySection">
-            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.Indicator.GetEditReportedValuesUrl(), "Edit Indicator Data", 1100, ViewDataTyped.UserHasIndicatorOverviewManagePermissions && !ViewDataTyped.Indicator.ReportedInEIP) Accomplishments</h2>
+            <h2>Accomplishments</h2>
             <div class="contentWrapper" style="overflow-x: hidden; margin-right: auto; margin-left: auto">
                 @{ IndicatorChart.RenderPartialView(Html, ViewDataTyped.IndicatorChartViewData); }
 
@@ -133,16 +130,6 @@
                                     @ViewDataTyped.Indicator.ChartCaption.ToHTMLFormattedString()
                                 </td>
                             </tr>
-
-                            if (!ViewDataTyped.Indicator.ReportedInEIP)
-                            {
-                                <tr>
-                                    <th>Subcategories on x-axis?:</th>
-                                    <td>
-                                        @ViewDataTyped.Indicator.IndicatorSubcategories.Single().SwapChartAxes.ToYesNo()
-                                    </td>
-                                </tr>
-                            }
                         }
                     </table>
                 </div>
@@ -153,235 +140,216 @@
 </div>
 
 <hr style="border-color: #ccc" />
-    <div class="container-fluid">
-        <ul class="nav nav-tabs">
-            <li @Html.Raw(ViewDataTyped.IsActiveTabOverview ? "class=\"active\"" : string.Empty)><a role="tab" href="#overviewTab" data-toggle="tab" aria-controls="overviewTab">Overview</a></li>
-            <li @Html.Raw(ViewDataTyped.ActiveTab == SummaryViewData.IndicatorSummaryTab.EIP ? "class=\"active\"" : string.Empty)><a role="tab" href="#eipTab" data-toggle="tab" aria-controls="eipTab">EIP</a></li>
-        </ul>
-    </div>
+<div class="container-fluid">
+    <ul class="nav nav-tabs">
+        <li @Html.Raw(ViewDataTyped.IsActiveTabOverview ? "class=\"active\"" : string.Empty)><a role="tab" href="#overviewTab" data-toggle="tab" aria-controls="overviewTab">Overview</a></li>
+        <li @Html.Raw(ViewDataTyped.ActiveTab == SummaryViewData.IndicatorSummaryTab.PerformanceMeasure ? "class=\"active\"" : string.Empty)><a role="tab" href="#pmTab" data-toggle="tab" aria-controls="pmTab"></a></li>
+    </ul>
+</div>
 
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane @(ViewDataTyped.IsActiveTabOverview ? "active" : string.Empty)" id="overviewTab">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="summarySection">
-                                <h2>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Subcategory, "Subcategories")</h2>
-                                <div class="contentWrapper">
-                                    @if (ViewDataTyped.Indicator.HasRealSubcategories)
-                                    {
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Options</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach (var indicatorSubcategory in ViewDataTyped.Indicator.IndicatorSubcategories)
-                                                {
-                                                    <tr>
-                                                        <td>@indicatorSubcategory.IndicatorSubcategoryDisplayName</td>
-                                                        <td>
-                                                            <div>@string.Join(", ", indicatorSubcategory.IndicatorSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.IndicatorSubcategoryOptionName).Select(x => x.IndicatorSubcategoryOptionName).Take(5))</div>
-                                                            @if (indicatorSubcategory.IndicatorSubcategoryOptions.Count > 5)
-                                                            {
-                                                                <a style="font-size: smaller; font-style: italic" role="button" data-toggle="collapse" data-target="#moreIndicatorSubcategory@(indicatorSubcategory.IndicatorSubcategoryID)Options">[@(indicatorSubcategory.IndicatorSubcategoryOptions.Count - 5) More Options]</a>
-                                                                <div class="collapse" id="moreIndicatorSubcategory@(indicatorSubcategory.IndicatorSubcategoryID)Options">@string.Join(", ", indicatorSubcategory.IndicatorSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.IndicatorSubcategoryOptionName).Select(x => x.IndicatorSubcategoryOptionName).Skip(5))</div>
-                                                            }
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    }
-                                    else
-                                    {
-                                        <p class="systemText">No subcategories for this indicator.</p>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="summarySection">
-                                <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditMonitoringProgramsUrl, string.Format("Edit Monitoring Programs: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgram)</h2>
-                                <div class="contentWrapper">
-                                    @if (ViewDataTyped.Indicator.IndicatorMonitoringPrograms.Any())
-                                    {
-                                        foreach (var a in ViewDataTyped.Indicator.IndicatorMonitoringPrograms)
-                                        {
-                                            <p>
-                                                <strong>Program</strong>:
-                                                @a.MonitoringProgram.DisplayNameAsUrl
-                                            </p>
-                                            <p>
-                                                <strong>Approach</strong>:
-                                                @a.MonitoringProgram.MonitoringApproach
-                                            </p>
-
-                                            <p>
-                                                <strong>Partners</strong>:
-                                                <ul>
-                                                    @Html.Raw(string.Join("\r\n", a.MonitoringProgram.MonitoringProgramPartners.Select(y => y.Organization).OrderBy(x => x.DisplayName).Select(x => string.Format("<li>{0}</li>", x.GetDisplayNameAsUrl()))))
-                                                </ul>
-                                            </p>
-                                            if (ViewDataTyped.Indicator.IndicatorMonitoringPrograms.Count > 1)
-                                            {
-                                                <hr />
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <p class="systemText">No monitoring program are yet associated with this indicator.</p>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="summarySection">
-                        <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAssociatedProgramsUrl, string.Format("Edit Associated Programs: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.AssociatedPrograms)</h2>
-                        <div class="contentWrapper">
-                            <div>
-                                @if (ViewDataTyped.Indicator.AssociatedProgramsHtmlString != null && !string.IsNullOrWhiteSpace(ViewDataTyped.Indicator.AssociatedProgramsHtmlString.ToString()))
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane @(ViewDataTyped.IsActiveTabOverview ? "active" : string.Empty)" id="overviewTab">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="summarySection">
+                            <h2>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Subcategory, "Subcategories")</h2>
+                            <div class="contentWrapper">
+                                @if (ViewDataTyped.Indicator.HasRealSubcategories)
                                 {
-                                    @ViewDataTyped.Indicator.AssociatedProgramsHtmlString
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Options</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var indicatorSubcategory in ViewDataTyped.Indicator.IndicatorSubcategories)
+                                            {
+                                                <tr>
+                                                    <td>@indicatorSubcategory.IndicatorSubcategoryDisplayName</td>
+                                                    <td>
+                                                        <div>@string.Join(", ", indicatorSubcategory.IndicatorSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.IndicatorSubcategoryOptionName).Select(x => x.IndicatorSubcategoryOptionName).Take(5))</div>
+                                                        @if (indicatorSubcategory.IndicatorSubcategoryOptions.Count > 5)
+                                                        {
+                                                            <a style="font-size: smaller; font-style: italic" role="button" data-toggle="collapse" data-target="#moreIndicatorSubcategory@(indicatorSubcategory.IndicatorSubcategoryID)Options">[@(indicatorSubcategory.IndicatorSubcategoryOptions.Count - 5) More Options]</a>
+                                                            <div class="collapse" id="moreIndicatorSubcategory@(indicatorSubcategory.IndicatorSubcategoryID)Options">@string.Join(", ", indicatorSubcategory.IndicatorSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.IndicatorSubcategoryOptionName).Select(x => x.IndicatorSubcategoryOptionName).Skip(5))</div>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
                                 }
                                 else
                                 {
-                                    <p class="systemText">Associated Programs data not provided.</p>
+                                    <p class="systemText">No subcategories for this indicator.</p>
                                 }
                             </div>
                         </div>
                     </div>
 
-                    @if (ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
-                    {
+                    <div class="col-md-6">
                         <div class="summarySection">
-                            <h2>Change History and Rationale Notes (only visible to Administrators)</h2>
+                            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditMonitoringProgramsUrl, string.Format("Edit Monitoring Programs: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgram)</h2>
                             <div class="contentWrapper">
-                                @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
+                                @if (ViewDataTyped.Indicator.IndicatorMonitoringPrograms.Any())
+                                {
+                                    foreach (var a in ViewDataTyped.Indicator.IndicatorMonitoringPrograms)
+                                    {
+                                        <p>
+                                            <strong>Program</strong>:
+                                            @a.MonitoringProgram.DisplayNameAsUrl
+                                        </p>
+                                        <p>
+                                            <strong>Approach</strong>:
+                                            @a.MonitoringProgram.MonitoringApproach
+                                        </p>
+
+                                        <p>
+                                            <strong>Partners</strong>:
+                                            <ul>
+                                                @Html.Raw(string.Join("\r\n", a.MonitoringProgram.MonitoringProgramPartners.Select(y => y.Organization).OrderBy(x => x.DisplayName).Select(x => string.Format("<li>{0}</li>", x.GetDisplayNameAsUrl()))))
+                                            </ul>
+                                        </p>
+                                        if (ViewDataTyped.Indicator.IndicatorMonitoringPrograms.Count > 1)
+                                        {
+                                            <hr />
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <p class="systemText">No monitoring program are yet associated with this indicator.</p>
+                                }
                             </div>
                         </div>
-                    }
+                    </div>
                 </div>
 
-                <div role="tabpanel" class="tab-pane @(ViewDataTyped.IsActiveTabEIP ? "active" : string.Empty)" id="EIPTab">
-                    @if (ViewDataTyped.Indicator.ReportedInEIP)
-                    {
+                <div class="summarySection">
+                    <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAssociatedProgramsUrl, string.Format("Edit Associated Programs: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.AssociatedPrograms)</h2>
+                    <div class="contentWrapper">
+                        <div>
+                            @if (ViewDataTyped.Indicator.AssociatedProgramsHtmlString != null && !string.IsNullOrWhiteSpace(ViewDataTyped.Indicator.AssociatedProgramsHtmlString.ToString()))
+                            {
+                                @ViewDataTyped.Indicator.AssociatedProgramsHtmlString
+                            }
+                            else
+                            {
+                                <p class="systemText">Associated Programs data not provided.</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                @if (ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
+                {
+                    <div class="summarySection">
+                        <h2>Change History and Rationale Notes (only visible to Administrators)</h2>
+                        <div class="contentWrapper">
+                            @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div role="tabpanel" class="tab-pane @(ViewDataTyped.IsActiveTabPerformanceMeasure ? "active" : string.Empty)" id="Tab">
+                <div class="summarySection">
+                    <h2>Reporting Guidance</h2>
+                    <div class="contentWrapper">
+                        <table class="summaryLayout">
+                            <tr>
+                                <th>
+                                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditCriticalDefinitionsUrl, string.Format("Edit Critical Definitions: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
+                                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorCriticalDefinitions)
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="padding-left: 28px">
+                                    @ViewDataTyped.Indicator.PerformanceMeasure.CriticalDefinitionsHtmlString
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAccountingPeriodAndScaleUrl, string.Format("Edit Accounting Period and Scale: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
+                                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorAccountingPeriodAndScale)
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="padding-left: 28px">
+                                    @ViewDataTyped.Indicator.PerformanceMeasure.AccountingPeriodAndScaleHtmlString
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit Project Reporting: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
+                                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorProjectReporting)
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="padding-left: 28px">
+                                    @ViewDataTyped.Indicator.PerformanceMeasure.ProjectReportingHtmlString
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                @if (ViewDataTyped.Indicator.PerformanceMeasure.PerformanceMeasureType != PerformanceMeasureType.TMDLRelevant)
+                {
+                    <div class="row">
                         <div class="summarySection">
-                            <h2>Reporting Guidance</h2>
+                            <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProgramsUrl, "Edit Programs", ViewDataTyped.UserHasProgramPerformanceMeasureManagePermissions) Programs</h2>
                             <div class="contentWrapper">
-                                <table class="summaryLayout">
-                                    <tr>
-                                        <th>
-                                            @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditCriticalDefinitionsUrl, string.Format("Edit Critical Definitions: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
-                                            @Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorCriticalDefinitions)
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding-left: 28px">
-                                            @ViewDataTyped.Indicator.EIPPerformanceMeasure.CriticalDefinitionsHtmlString
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAccountingPeriodAndScaleUrl, string.Format("Edit Accounting Period and Scale: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
-                                            @Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorAccountingPeriodAndScale)
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding-left: 28px">
-                                            @ViewDataTyped.Indicator.EIPPerformanceMeasure.AccountingPeriodAndScaleHtmlString
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit Project Reporting: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
-                                            @Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorProjectReporting)
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding-left: 28px">
-                                            @ViewDataTyped.Indicator.EIPPerformanceMeasure.ProjectReportingHtmlString
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        if (ViewDataTyped.Indicator.EIPPerformanceMeasure.EIPPerformanceMeasureType != EIPPerformanceMeasureType.TMDLRelevant)
-                        {
-                            <div class="row">
-                                <div class="summarySection">
-                                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProgramsUrl, "Edit Programs", ViewDataTyped.UserHasProgramEIPPerformanceMeasureManagePermissions) Programs</h2>
-                                    <div class="contentWrapper">
-                                        @if (ViewDataTyped.EIPPerformanceMeasurePrograms.Any())
+                                @if (ViewDataTyped.ProgramPerformanceMeasures.Any())
+                                {
+                                    <table class="summaryLayout">
+                                        <tr>
+                                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Program)</th>
+                                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryProgram)</th>
+                                        </tr>
+                                        @foreach (var programPerformanceMeasure in ViewDataTyped.ProgramPerformanceMeasures)
                                         {
-                                            <table class="summaryLayout">
-                                                <tr>
-                                                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Program)</th>
-                                                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryProgram)</th>
-                                                </tr>
-                                                @foreach (var programEIPPerformanceMeasure in ViewDataTyped.EIPPerformanceMeasurePrograms)
-                                                {
-                                                    <tr>
-                                                        <td>@programEIPPerformanceMeasure.Key.DisplayNameAsUrl</td>
-                                                        <td style="text-align: center">@programEIPPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
-                                                    </tr>
-                                                }
-                                            </table>
+                                            <tr>
+                                                <td>@programPerformanceMeasure.Key.DisplayNameAsUrl</td>
+                                                <td style="text-align: center">@programPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
+                                            </tr>
                                         }
-                                        else
-                                        {
-                                            <p class="systemText">No programs set for this performance measure.</p>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        }
-
-                        <div class="row">
-                            <div class="summarySection">
-                                <h2>Projects (As Expected Measure)</h2>
-                                <div class="contentWrapper">
-                                    @Html.DhtmlxGrid(ViewDataTyped.EipPerformanceMeasureExpectedGridSpec, ViewDataTyped.EIPPerformanceMeasureExpectedsGridName, ViewDataTyped.EIPPerformanceMeasureExpectedsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                                </div>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <p class="systemText">No programs set for this performance measure.</p>
+                                }
                             </div>
                         </div>
+                    </div>
+                }
 
-                        <div class="row">
-                            <div class="summarySection">
-                                <h2>Projects (As Reported Measure)</h2>
-                                <div class="contentWrapper">
-                                    @Html.DhtmlxGrid(ViewDataTyped.EIPPerformanceMeasureReportedValuesGridSpec, ViewDataTyped.EIPPerformanceMeasureReportedValuesGridName, ViewDataTyped.EIPPerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                                </div>
-                            </div>
+                <div class="row">
+                    <div class="summarySection">
+                        <h2>Projects (As Expected Measure)</h2>
+                        <div class="contentWrapper">
+                            @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureExpectedGridSpec, ViewDataTyped.PerformanceMeasureExpectedsGridName, ViewDataTyped.PerformanceMeasureExpectedsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                         </div>
+                    </div>
+                </div>
 
-                        <div class="summarySection">
-                            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditEIPContextUrl, string.Format("Edit EIP Context: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions) EIP Context</h2>
-                            <div class="contentWrapper">
-                                <div>
-                                    @if (ViewDataTyped.Indicator.EIPPerformanceMeasure.EIPContextHtmlString != null && !string.IsNullOrWhiteSpace(ViewDataTyped.Indicator.EIPPerformanceMeasure.EIPContextHtmlString.ToString()))
-                                    {
-                                        @ViewDataTyped.Indicator.EIPPerformanceMeasure.EIPContextHtmlString
-                                    }
-                                    else
-                                    {
-                                        <p class="systemText">EIP Context data not provided.</p>
-                                    }
-                                </div>
-                            </div>
+                <div class="row">
+                    <div class="summarySection">
+                        <h2>Projects (As Reported Measure)</h2>
+                        <div class="contentWrapper">
+                            @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                         </div>
-                    }
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div style="margin-top: 20px">
-        <a class="btn btn-blue" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
-    </div>
+</div>
+<div style="margin-top: 20px">
+    <a class="btn btn-blue" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
+</div>

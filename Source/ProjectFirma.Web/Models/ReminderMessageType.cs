@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Models
 
         private const string ReminderMessageSignatureTemplate = @"
 Thank you,<br />
-Lake Tahoe EIP Project Tracker team<br/><br/><img src=""cid:eip-logo"" width=""160"" />
+ProjectFirma team<br/><br/><img src=""cid:eip-logo"" width=""160"" />
 <p>
 P.S. - You received this email because you are listed as the Primary Contact for these projects. If you feel that you should not be the Primary Contact for one or more of these projects, please <a href=""mailto:{0}"">contact support</a>.
 </p>";
@@ -110,7 +110,7 @@ P.S. - You received this email because you are listed as the Primary Contact for
             return @"
 Hello {0},
 <p>
-It's that time of year again &mdash; time to take a few minutes to update your EIP project information to include {1} accomplishments and expenditures. 
+It's that time of year again &mdash; time to take a few minutes to update your project information to include {1} accomplishments and expenditures. 
 Please also update your project's location and upload any ""before,"" ""after,"" or ""during"" photos. Remember, photos are important for telling the story as well as great looking Project Fact Sheets!
 </p>
 <div style=""font-weight:bold"">Your projects that require an update are:</div>
@@ -118,13 +118,13 @@ Please also update your project's location and upload any ""before,"" ""after,""
     {2}
 </div>
 <p>
-You can also see this <a href=""{3}"">full list in the EIP Project Tracker</a>.
+You can also see this <a href=""{3}"">full list in the Project Tracker</a>.
 </p>
 <p>
 While the absolute deadline for updates is <span style=""font-weight:bold"">January 15, 2016</span> we would love to start receiving project updates now. You will continue to receive these periodic reminder emails until you submit updates for all the projects listed above. 
 </p>
 <p>
-As administrator of the EIP, TRPA greatly appreciates you taking time out of your busy day to provide the Region with this important information – this reporting exercise provides the transparency required by stakeholders and EIP funders, and lets us continue our good work to protect Lake Tahoe.
+As administrator of the ProjectFirma, Sitka greatly appreciates you taking time out of your busy day to provide the Region with this important information – this reporting exercise provides the transparency required by stakeholders and funders, and lets us continue our good work to protect Lake Tahoe.
 </p>";
         }
     }
@@ -136,20 +136,20 @@ As administrator of the EIP, TRPA greatly appreciates you taking time out of you
             return @"
 Hello {0},
 <p>
-Please take a few minutes to update your EIP project information to include {1} accomplishments and expenditures. Please also update your project’s location and upload any ""before,"" ""after,"" or ""during"" photos.
+Please take a few minutes to update your project information to include {1} accomplishments and expenditures. Please also update your project’s location and upload any ""before,"" ""after,"" or ""during"" photos.
 </p>
 <div style=""font-weight:bold"">Your projects that require an update are:</div>
 <div style=""margin-left: 15px"">
     {2}
 </div>
 <p>
-You can also see this <a href=""{3}"">full list in the EIP Project Tracker</a>.
+You can also see this <a href=""{3}"">full list in the Project Tracker</a>.
 </p>
 <p>
 The deadline for updates is <span style=""font-weight:bold"">January 15, 2016</span>. You will continue to receive these periodic reminder emails until you submit updates to all the projects listed above.
 </p>
 <p>
-As administrator of the EIP, TRPA greatly appreciates you taking time out of your busy day to provide the Region with this important information – this reporting exercise provides the transparency required by stakeholders and EIP funders, and lets us continue our good work to protect Lake Tahoe.
+As administrator of the ProjectFirma, Sitka greatly appreciates you taking time out of your busy day to provide the Region with this important information – this reporting exercise provides the transparency required by stakeholders and funders, and lets us continue our good work to protect Lake Tahoe.
 </p>";
         }
     }
@@ -161,20 +161,20 @@ As administrator of the EIP, TRPA greatly appreciates you taking time out of you
             return @"
 Hello {0},
 <p>
-Please update your EIP project information to include {1} accomplishments and expenditures. Please also update your project’s location and upload any ""before,"" ""after,"" or ""during"" photos.
+Please update your project information to include {1} accomplishments and expenditures. Please also update your project’s location and upload any ""before,"" ""after,"" or ""during"" photos.
 </p>
 <div style=""font-weight:bold"">Your projects that require an update are:</div>
 <div style=""margin-left: 15px"">
     {2}
 </div>
 <p>
-You can also see this <a href=""{3}"">full list in the EIP Project Tracker</a>.
+You can also see this <a href=""{3}"">full list in the Project Tracker</a>.
 </p>
 <p>
 The deadline for updates is a little more than a week away: <span style=""font-weight:bold; color:red"">January 15, 2016</span>. You will continue to receive these periodic reminder emails until you submit updates to all the projects listed above. 
 </p>
 <p>
-As administrator of the EIP, TRPA greatly appreciates you taking time out of your busy day to provide the Region with this important information – this reporting exercise provides the transparency required by stakeholders and EIP funders, and lets us continue our good work to protect Lake Tahoe.
+As administrator of the ProjectFirma, Sitka greatly appreciates you taking time out of your busy day to provide the Region with this important information – this reporting exercise provides the transparency required by stakeholders and funders, and lets us continue our good work to protect Lake Tahoe.
 </p>";
         }
     }
@@ -186,17 +186,17 @@ As administrator of the EIP, TRPA greatly appreciates you taking time out of you
             return @"
 Hello {0},
 <p>
-PLEASE update your EIP project information to include {1} accomplishments and expenditures. <span style=""font-weight:bold; color:red"">Friday January 15 is the deadline for all updates</span>.  It is important that your projects are reflected accurately. Any information not provided by the deadline will not be included in the 2015 EIP summary presented at the annual Lake Tahoe Summit.
+PLEASE update your project information to include {1} accomplishments and expenditures. <span style=""font-weight:bold; color:red"">Friday January 15 is the deadline for all updates</span>.  It is important that your projects are reflected accurately. Any information not provided by the deadline will not be included in the 2015 summary presented at the annual Lake Tahoe Summit.
 </p>
 <div style=""font-weight:bold"">Your projects that require an update are:</div>
 <div style=""margin-left: 15px"">
     {2}
 </div>
 <p>
-You can also see this <a href=""{3}"">full list in the EIP Project Tracker</a>.
+You can also see this <a href=""{3}"">full list in the Project Tracker</a>.
 </p>
 <p>
-As administrator of the EIP, TRPA greatly appreciates you taking time out of your busy day to provide the Region with this important information – this reporting exercise provides the transparency required by stakeholders and EIP funders, and lets us continue our good work to protect Lake Tahoe.
+As administrator of the ProjectFirma, TRPA greatly appreciates you taking time out of your busy day to provide the Region with this important information – this reporting exercise provides the transparency required by stakeholders and funders, and lets us continue our good work to protect Lake Tahoe.
 </p>";
         }
     }
@@ -208,17 +208,17 @@ As administrator of the EIP, TRPA greatly appreciates you taking time out of you
             return @"
 Hello {0},
 <p>
-PLEASE update your EIP project information to include {1} accomplishments and expenditures. <span style=""font-weight:bold; color:red"">The deadline is TODAY</span>. Any information not provided by the deadline will not be included in the 2015 EIP summary presented at the annual Lake Tahoe Summit.
+PLEASE update your project information to include {1} accomplishments and expenditures. <span style=""font-weight:bold; color:red"">The deadline is TODAY</span>. Any information not provided by the deadline will not be included in the 2015 summary presented at the annual Lake Tahoe Summit.
 </p>
 <div style=""font-weight:bold"">Your projects that require an update are:</div>
 <div style=""margin-left: 15px"">
     {2}
 </div>
 <p>
-You can also see this <a href=""{3}"">full list in the EIP Project Tracker</a>.
+You can also see this <a href=""{3}"">full list in the Project Tracker</a>.
 </p>
 <p>
-As administrator of the EIP, TRPA greatly appreciates you taking time out of your busy day to provide the Region with this important information – this reporting exercise provides the transparency required by stakeholders and EIP funders, and lets us continue our good work to protect Lake Tahoe.
+As administrator of the ProjectFirma, TRPA greatly appreciates you taking time out of your busy day to provide the Region with this important information – this reporting exercise provides the transparency required by stakeholders and funders, and lets us continue our good work to protect Lake Tahoe.
 </p>";
         }
     }
@@ -230,17 +230,17 @@ As administrator of the EIP, TRPA greatly appreciates you taking time out of you
             return @"
 Hello {0},
 <p>
-PLEASE update your EIP project information to include {1} accomplishments and expenditures. <span style=""color:red"">While the deadline for providing this information has passed, we still need your updates.</span>
+PLEASE update your project information to include {1} accomplishments and expenditures. <span style=""color:red"">While the deadline for providing this information has passed, we still need your updates.</span>
 </p>
 <div style=""font-weight:bold"">Your projects that require an update are:</div>
 <div style=""margin-left: 15px"">
     {2}
 </div>
 <p>
-You can also see this <a href=""{3}"">full list in the EIP Project Tracker</a>.
+You can also see this <a href=""{3}"">full list in the Project Tracker</a>.
 </p>
 <p>
-This reporting exercise provides the transparency required by stakeholders and EIP funders, and lets us continue our good work to protect Lake Tahoe. 
+This reporting exercise provides the transparency required by stakeholders and funders, and lets us continue our good work to protect Lake Tahoe. 
 </p>";
         }
     }

@@ -23,18 +23,18 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected IndicatorSubcategory()
         {
-            this.EIPPerformanceMeasureActualSubcategoryOptions = new HashSet<EIPPerformanceMeasureActualSubcategoryOption>();
-            this.EIPPerformanceMeasureActualSubcategoryOptionUpdates = new HashSet<EIPPerformanceMeasureActualSubcategoryOptionUpdate>();
-            this.EIPPerformanceMeasureExpectedSubcategoryOptions = new HashSet<EIPPerformanceMeasureExpectedSubcategoryOption>();
-            this.EIPPerformanceMeasureExpectedSubcategoryOptionProposeds = new HashSet<EIPPerformanceMeasureExpectedSubcategoryOptionProposed>();
             this.IndicatorSubcategoryOptions = new HashSet<IndicatorSubcategoryOption>();
-            this.SnapshotEIPPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotEIPPerformanceMeasureSubcategoryOption>();
+            this.PerformanceMeasureActualSubcategoryOptions = new HashSet<PerformanceMeasureActualSubcategoryOption>();
+            this.PerformanceMeasureActualSubcategoryOptionUpdates = new HashSet<PerformanceMeasureActualSubcategoryOptionUpdate>();
+            this.PerformanceMeasureExpectedSubcategoryOptions = new HashSet<PerformanceMeasureExpectedSubcategoryOption>();
+            this.PerformanceMeasureExpectedSubcategoryOptionProposeds = new HashSet<PerformanceMeasureExpectedSubcategoryOptionProposed>();
+            this.SnapshotPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotPerformanceMeasureSubcategoryOption>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public IndicatorSubcategory(int indicatorSubcategoryID, int indicatorID, string indicatorSubcategoryName, string indicatorSubcategoryDisplayName, int? sortOrder, string chartConfigurationJson, string chartType, bool? swapChartAxes, int? eIPPerformanceMeasureID) : this()
+        public IndicatorSubcategory(int indicatorSubcategoryID, int indicatorID, string indicatorSubcategoryName, string indicatorSubcategoryDisplayName, int? sortOrder, string chartConfigurationJson, string chartType, bool? swapChartAxes, int? performanceMeasureID) : this()
         {
             this.IndicatorSubcategoryID = indicatorSubcategoryID;
             this.IndicatorID = indicatorID;
@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Models
             this.ChartConfigurationJson = chartConfigurationJson;
             this.ChartType = chartType;
             this.SwapChartAxes = swapChartAxes;
-            this.EIPPerformanceMeasureID = eIPPerformanceMeasureID;
+            this.PerformanceMeasureID = performanceMeasureID;
         }
 
         /// <summary>
@@ -88,13 +88,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return EIPPerformanceMeasureActualSubcategoryOptions.Any() || EIPPerformanceMeasureActualSubcategoryOptionUpdates.Any() || EIPPerformanceMeasureExpectedSubcategoryOptions.Any() || EIPPerformanceMeasureExpectedSubcategoryOptionProposeds.Any() || IndicatorSubcategoryOptions.Any() || SnapshotEIPPerformanceMeasureSubcategoryOptions.Any();
+            return IndicatorSubcategoryOptions.Any() || PerformanceMeasureActualSubcategoryOptions.Any() || PerformanceMeasureActualSubcategoryOptionUpdates.Any() || PerformanceMeasureExpectedSubcategoryOptions.Any() || PerformanceMeasureExpectedSubcategoryOptionProposeds.Any() || SnapshotPerformanceMeasureSubcategoryOptions.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(IndicatorSubcategory).Name, typeof(EIPPerformanceMeasureActualSubcategoryOption).Name, typeof(EIPPerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(EIPPerformanceMeasureExpectedSubcategoryOption).Name, typeof(EIPPerformanceMeasureExpectedSubcategoryOptionProposed).Name, typeof(IndicatorSubcategoryOption).Name, typeof(SnapshotEIPPerformanceMeasureSubcategoryOption).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(IndicatorSubcategory).Name, typeof(IndicatorSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name, typeof(PerformanceMeasureExpectedSubcategoryOptionProposed).Name, typeof(SnapshotPerformanceMeasureSubcategoryOption).Name};
 
         [Key]
         public int IndicatorSubcategoryID { get; set; }
@@ -105,17 +105,17 @@ namespace ProjectFirma.Web.Models
         public string ChartConfigurationJson { get; set; }
         public string ChartType { get; set; }
         public bool? SwapChartAxes { get; set; }
-        public int? EIPPerformanceMeasureID { get; set; }
+        public int? PerformanceMeasureID { get; set; }
         public int PrimaryKey { get { return IndicatorSubcategoryID; } set { IndicatorSubcategoryID = value; } }
 
-        public virtual ICollection<EIPPerformanceMeasureActualSubcategoryOption> EIPPerformanceMeasureActualSubcategoryOptions { get; set; }
-        public virtual ICollection<EIPPerformanceMeasureActualSubcategoryOptionUpdate> EIPPerformanceMeasureActualSubcategoryOptionUpdates { get; set; }
-        public virtual ICollection<EIPPerformanceMeasureExpectedSubcategoryOption> EIPPerformanceMeasureExpectedSubcategoryOptions { get; set; }
-        public virtual ICollection<EIPPerformanceMeasureExpectedSubcategoryOptionProposed> EIPPerformanceMeasureExpectedSubcategoryOptionProposeds { get; set; }
         public virtual ICollection<IndicatorSubcategoryOption> IndicatorSubcategoryOptions { get; set; }
-        public virtual ICollection<SnapshotEIPPerformanceMeasureSubcategoryOption> SnapshotEIPPerformanceMeasureSubcategoryOptions { get; set; }
+        public virtual ICollection<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
+        public virtual ICollection<PerformanceMeasureActualSubcategoryOptionUpdate> PerformanceMeasureActualSubcategoryOptionUpdates { get; set; }
+        public virtual ICollection<PerformanceMeasureExpectedSubcategoryOption> PerformanceMeasureExpectedSubcategoryOptions { get; set; }
+        public virtual ICollection<PerformanceMeasureExpectedSubcategoryOptionProposed> PerformanceMeasureExpectedSubcategoryOptionProposeds { get; set; }
+        public virtual ICollection<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual Indicator Indicator { get; set; }
-        public virtual EIPPerformanceMeasure EIPPerformanceMeasure { get; set; }
+        public virtual PerformanceMeasure PerformanceMeasure { get; set; }
 
         public static class FieldLengths
         {

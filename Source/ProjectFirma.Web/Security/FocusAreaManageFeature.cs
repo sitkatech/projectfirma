@@ -3,7 +3,7 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Focus Area")]
-    public class FocusAreaManageFeature : EIPAdminFeature
+    public class FocusAreaManageFeature : SuperAdminFeature
     {
     }
 }

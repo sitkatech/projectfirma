@@ -109,11 +109,11 @@ namespace ProjectFirma.Web.Controllers
 
         private static int GetProjectCountForInvestmentByFundingSectorReport(int? calendarYear)
         {
-            var eipPerformanceMeasure34 =
-                HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasures.Single(x => x.EIPPerformanceMeasureTypeID == EIPPerformanceMeasureType.EIPPerformanceMeasure34.EIPPerformanceMeasureTypeID);
+            var performanceMeasure34 =
+                HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureTypeID == PerformanceMeasureType.PerformanceMeasure34.PerformanceMeasureTypeID);
             var projectCount =
                 Convert.ToInt32(
-                    eipPerformanceMeasure34.EIPPerformanceMeasureType.CalculateEIPPerformanceMeasureReportedValues(eipPerformanceMeasure34, null)
+                    performanceMeasure34.PerformanceMeasureType.CalculatePerformanceMeasureReportedValues(performanceMeasure34, null)
                         .Where(x => !calendarYear.HasValue || x.CalendarYear == calendarYear.Value)
                         .Sum(x => x.ReportedValue));
 
@@ -217,7 +217,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProjectLocationsViewFeature]
-        public ViewResult EipProjectMap()
+        public ViewResult ProjectMap()
         {
             List<int> filterValues;
             ProjectLocationFilterType projectLocationFilterType;
@@ -251,7 +251,7 @@ namespace ProjectFirma.Web.Controllers
                 colorByValue = ProjectColorByType.FocusArea;
             }
 
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.EIPProjectMap);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectMap);
 
             var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
             var projects = allProjects.Where(p => p.IsVisibleToThisPerson(CurrentPerson)).ToList();
@@ -259,23 +259,23 @@ namespace ProjectFirma.Web.Controllers
             var initialCustomization = new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
             var projectLocationsLayerGeoJson = new LayerGeoJson("Project Locations", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show);
             var namedAreasAsPointsLayerGeoJson = new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Hide);
-            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, namedAreasAsPointsLayerGeoJson, initialCustomization, "EIPProjectLocationsMap");
+            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, namedAreasAsPointsLayerGeoJson, initialCustomization, "ProjectLocationsMap");
 
             var projectStages = (ProjectStage.All.Where(x => x.ShouldShowOnMap())).OrderBy(x => x.SortOrder).ToList();
             var focusAreas = HttpRequestStorage.DatabaseEntities.FocusAreas.ToList();
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.ProjectColorByTypeDisplayName);
 
             var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(focusAreas, projects, projectStages);
-            var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EipProjectMap(), LtInfoWebConfiguration.CanonicalHostName);
+            var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap(), LtInfoWebConfiguration.CanonicalHostName);
             var filteredProjectsWithLocationAreasUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));
 
-            var viewData = new EipProjectMapViewData(CurrentPerson,
+            var viewData = new ProjectMapViewData(CurrentPerson,
                 firmaPage,
                 projectLocationsMapInitJson,
                 projectLocationsMapViewData,
                 projectLocationFilterTypesAndValues,
                 projectLocationsUrl, filteredProjectsWithLocationAreasUrl);
-            return RazorView<EipProjectMap, EipProjectMapViewData>(viewData);
+            return RazorView<ProjectMap, ProjectMapViewData>(viewData);
         }
 
         private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary(List<FocusArea> focusAreas,
@@ -439,44 +439,44 @@ namespace ProjectFirma.Web.Controllers
             return new ExcelResult(excelWorkbook, String.Format("Funding Source Spending for {0}", sector.SectorDisplayName));
         }
 
-        [EipResultsByProgramViewFeature]
-        public ViewResult EipResultsByProgram(int? programID)
+        [ResultsByProgramViewFeature]
+        public ViewResult ResultsByProgram(int? programID)
         {
             var focusAreas = HttpRequestStorage.DatabaseEntities.FocusAreas.OrderBy(x => x.FocusAreaNumber).ToList();
             var selectedProgram = programID.HasValue ? HttpRequestStorage.DatabaseEntities.Programs.GetProgram(programID.Value) : focusAreas.First().Programs.First();
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.EIPResultsByProgram);
-            var viewData = new EipResultsByProgramViewData(CurrentPerson, firmaPage, focusAreas, selectedProgram);
-            return RazorView<EipResultsByProgram, EipResultsByProgramViewData>(viewData);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ResultsByProgram);
+            var viewData = new ResultsByProgramViewData(CurrentPerson, firmaPage, focusAreas, selectedProgram);
+            return RazorView<ResultsByProgram, ResultsByProgramViewData>(viewData);
         }
 
-        [SpendingByEIPPerformanceMeasureByProjectViewFeature]
-        public ViewResult SpendingByEIPPerformanceMeasureByProject(int? eipPerformanceMeasureID)
+        [SpendingByPerformanceMeasureByProjectViewFeature]
+        public ViewResult SpendingByPerformanceMeasureByProject(int? performanceMeasureID)
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.SpendingByEIPPerformanceMeasureByProject);
-            var eipPerformanceMeasures = HttpRequestStorage.DatabaseEntities.EIPPerformanceMeasures.ToList();
-            var selectedEIPPerformanceMeasure = eipPerformanceMeasureID.HasValue ? eipPerformanceMeasures.Single(x => x.EIPPerformanceMeasureID == eipPerformanceMeasureID) : eipPerformanceMeasures.First();
-            var eippmAccomplishmentsChartViewData = new IndicatorChartViewData(selectedEIPPerformanceMeasure.Indicator, false, ChartViewMode.Small, null);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.SpendingByPerformanceMeasureByProject);
+            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
+            var selectedPerformanceMeasure = performanceMeasureID.HasValue ? performanceMeasures.Single(x => x.PerformanceMeasureID == performanceMeasureID) : performanceMeasures.First();
+            var accomplishmentsChartViewData = new IndicatorChartViewData(selectedPerformanceMeasure.Indicator, false, ChartViewMode.Small, null);
 
-            var viewData = new SpendingByEIPPerformanceMeasureByProjectViewData(CurrentPerson, firmaPage, eipPerformanceMeasures, selectedEIPPerformanceMeasure, eippmAccomplishmentsChartViewData);
-            var viewModel = new SpendingByEIPPerformanceMeasureByProjectViewModel();
-            return RazorView<SpendingByEIPPerformanceMeasureByProject, SpendingByEIPPerformanceMeasureByProjectViewData, SpendingByEIPPerformanceMeasureByProjectViewModel>(viewData, viewModel);
+            var viewData = new SpendingByPerformanceMeasureByProjectViewData(CurrentPerson, firmaPage, performanceMeasures, selectedPerformanceMeasure, accomplishmentsChartViewData);
+            var viewModel = new SpendingByPerformanceMeasureByProjectViewModel();
+            return RazorView<SpendingByPerformanceMeasureByProject, SpendingByPerformanceMeasureByProjectViewData, SpendingByPerformanceMeasureByProjectViewModel>(viewData, viewModel);
         }
 
-        [SpendingByEIPPerformanceMeasureByProjectViewFeature]
-        public GridJsonNetJObjectResult<EIPPerformanceMeasureSubcategoriesTotalReportedValue> SpendingByEIPPerformanceMeasureByProjectGridJsonData(EIPPerformanceMeasurePrimaryKey eipPerformanceMeasurePrimaryKey)
+        [SpendingByPerformanceMeasureByProjectViewFeature]
+        public GridJsonNetJObjectResult<PerformanceMeasureSubcategoriesTotalReportedValue> SpendingByPerformanceMeasureByProjectGridJsonData(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
-            SpendingByEIPPerformanceMeasureByProjectGridSpec gridSpec;
-            var eipPerformanceMeasure = eipPerformanceMeasurePrimaryKey.EntityObject;
-            var eipPerformanceMeasureSubcategoriesTotalReportedValues = GetSpendingByEIPPerformanceMeasureByProjectAndGridSpec(out gridSpec, eipPerformanceMeasure);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<EIPPerformanceMeasureSubcategoriesTotalReportedValue>(eipPerformanceMeasureSubcategoriesTotalReportedValues, gridSpec);
+            SpendingByPerformanceMeasureByProjectGridSpec gridSpec;
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            var performanceMeasureSubcategoriesTotalReportedValues = GetSpendingByPerformanceMeasureByProjectAndGridSpec(out gridSpec, performanceMeasure);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PerformanceMeasureSubcategoriesTotalReportedValue>(performanceMeasureSubcategoriesTotalReportedValues, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
-        private static List<EIPPerformanceMeasureSubcategoriesTotalReportedValue> GetSpendingByEIPPerformanceMeasureByProjectAndGridSpec(out SpendingByEIPPerformanceMeasureByProjectGridSpec gridSpec,
-            EIPPerformanceMeasure eipPerformanceMeasure)
+        private static List<PerformanceMeasureSubcategoriesTotalReportedValue> GetSpendingByPerformanceMeasureByProjectAndGridSpec(out SpendingByPerformanceMeasureByProjectGridSpec gridSpec,
+            PerformanceMeasure performanceMeasure)
         {
-            gridSpec = new SpendingByEIPPerformanceMeasureByProjectGridSpec(eipPerformanceMeasure);
-            return eipPerformanceMeasure.SubcategoriesTotalReportedValues();
+            gridSpec = new SpendingByPerformanceMeasureByProjectGridSpec(performanceMeasure);
+            return performanceMeasure.SubcategoriesTotalReportedValues();
         }
 
 
