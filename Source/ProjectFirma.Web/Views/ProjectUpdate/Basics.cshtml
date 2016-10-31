@@ -227,13 +227,6 @@
                 <td colspan="3">
                     @ViewDataTyped.Project.TransportationObjective.TransportationStrategy.DisplayNameAsUrl /
                     @ViewDataTyped.Project.TransportationObjective.DisplayNameAsUrl
-                    <div>
-                        This project is @(!ViewDataTyped.Project.OnFederalTransportationImprovementProgramList ? " not " : "") on the Federal Transportation Improvement Program (FTIP) list.
-                        @if (!ViewDataTyped.Project.OnFederalTransportationImprovementProgramList)
-                        {
-                            @ModalDialogFormHelper.ModalDialogFormLink("Request to be added to FTIP", ViewDataTyped.RequestToBeAddedToFTIPUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
-                        }
-                    </div>
                 </td>
             </tr>
         }

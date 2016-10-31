@@ -19,6 +19,9 @@ body {
   vertical-align: bottom;
   margin-bottom: 6px;
 }
+.header .headerText a:hover {
+  text-decoration: none;
+}
 footer {
   position: relative;
   bottom: 0;
@@ -116,6 +119,13 @@ footer p {
 }
 .dialogFormLayout {
   width: 100%;
+}
+.form-control {
+  display: inline-block;
+}
+.form-horizontal .control-label {
+  padding-top: 0;
+  padding-right: 10px;
 }
 .btn-firma,
 .form-dialog .ui-widget-content .btn-firma,

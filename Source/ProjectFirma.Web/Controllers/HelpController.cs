@@ -115,13 +115,6 @@ namespace ProjectFirma.Web.Controllers
             return Support(viewModel);
         }
 
-        [AnonymousUnclassifiedFeature]
-        [CrossAreaRoute]
-        [HttpGet]
-        public PartialViewResult RequestToBeAddedToFtipList(ProjectPrimaryKey projectPrimaryKey)
-        {
-            return ViewSupport(SupportRequestTypeEnum.RequestToBeAddedToFtipList, string.Empty);
-        }
 
         [AnonymousUnclassifiedFeature]
         [CrossAreaRoute]

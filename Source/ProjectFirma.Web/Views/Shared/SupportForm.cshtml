@@ -4,15 +4,15 @@
 @inherits SupportForm
 @using (Html.BeginForm())
 {
-    <table class="dialogFormLayout">
-        <tr>
-            <th style="width: 200px">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-2 control-label">
                 @Html.LabelFor(x => x.RequestPersonName):
-            </th>
-            <td>
+            </div>
+            <div class="col-sm-10">
                 @if (ViewDataTyped.IsUserAnonymous)
                 {
-                    @Html.TextBoxFor(x => x.RequestPersonName, new {style = "width:100%"})
+                    @Html.TextBoxFor(x => x.RequestPersonName, new { style = "width:100%" })
                     @Html.ValidationMessageFor(x => x.RequestPersonName)
                 }
                 else
@@ -20,16 +20,16 @@
                     @Model.RequestPersonName
                     @Html.HiddenFor(x => x.RequestPersonName)
                 }
-            </td>
-        </tr>
-        <tr>
-            <th>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">
                 @Html.LabelFor(x => x.RequestPersonEmail):
-            </th>
-            <td>
+            </div>
+            <div class="col-sm-10">
                 @if (ViewDataTyped.IsUserAnonymous)
                 {
-                    @Html.TextBoxFor(x => x.RequestPersonEmail, new {style = "width:100%"})
+                    @Html.TextBoxFor(x => x.RequestPersonEmail, new { style = "width:100%" })
                     @Html.ValidationMessageFor(x => x.RequestPersonEmail)
                 }
                 else
@@ -37,52 +37,51 @@
                     @Model.RequestPersonEmail
                     @Html.HiddenFor(x => x.RequestPersonEmail)
                 }
-            </td>
-        </tr>
-        <tr>
-            <th>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">
                 @Html.LabelFor(x => x.RequestPersonOrganization) (optional):
-            </th>
-            <td>
-                @Html.TextBoxFor(x => x.RequestPersonOrganization, new {style = "width:100%"})
-            </td>
-        </tr>
-        <tr>
-            <th>
+            </div>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(x => x.RequestPersonOrganization, new { style = "width:100%" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">
                 @Html.LabelFor(x => x.RequestPersonPhone) (optional):
-            </th>
-            <td>
+            </div>
+            <div class="col-sm-10">
                 @Html.TextBoxFor(x => x.RequestPersonPhone)
-            </td>
-        </tr>
-        <tr>
-            <th>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">
                 @Html.LabelFor(x => x.SupportRequestTypeEnum):
-            </th>
-            <td>
+            </div>
+            <div class="col-sm-10">
                 @Html.DropDownListFor(x => x.SupportRequestTypeEnum, ViewDataTyped.SupportRequestTypes, new { style = "width:100%" })
                 @Html.ValidationMessageFor(x => x.SupportRequestTypeEnum)
-            </td>
-        </tr>
-        <tr>
-            <th colspan="2">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">
                 @Html.LabelFor(x => x.RequestDescription):
-            </th>
-        </tr>
-        <tr>
-            <td colspan="2">
+            </div>
+            <div class="col-sm-10">
                 @Html.TextAreaWithMaxLengthFor(x => x.RequestDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null)
                 @Html.ValidationMessageFor(x => x.RequestDescription)
-            </td>
-        </tr>
-    </table>
-    @Html.HiddenFor(x => x.CurrentPageUrl)
+            </div>
+        </div>
+        @Html.HiddenFor(x => x.CurrentPageUrl)
 
-    if (ViewDataTyped.IsUserAnonymous)
-    {
+        @if (ViewDataTyped.IsUserAnonymous)
+        {
         <div style="margin-bottom: 5px">
             This question is testing whether you are a human visitor and to prevent automated spam submissions:
         </div>
         SitkaRecaptcha.RenderPartialView(Html);
-    }
+        }
+    </div>
+    
 }

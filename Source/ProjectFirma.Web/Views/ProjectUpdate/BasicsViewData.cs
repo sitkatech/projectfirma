@@ -22,7 +22,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly Models.ProjectUpdate ProjectUpdate;
         public readonly SectionCommentsViewData SectionCommentsViewData;
         // ReSharper disable once InconsistentNaming
-        public readonly string RequestToBeAddedToFTIPUrl;
         public readonly ViewDataForAngularClass ViewDataForAngular;
 
         public readonly decimal InflationRate;
@@ -41,8 +40,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshBasics(Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffBasics(Project));
-            SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.BasicsComment, projectUpdate.ProjectUpdateBatch.IsReturned);
-            RequestToBeAddedToFTIPUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestToBeAddedToFtipList(projectUpdate.ProjectUpdateBatch.Project));
+            SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.BasicsComment, projectUpdate.ProjectUpdateBatch.IsReturned);            
             ViewDataForAngular = viewDataForAngular;
 
             InflationRate = inflationRate;
