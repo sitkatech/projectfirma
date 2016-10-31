@@ -11,6 +11,20 @@
 }
 
 <div class="container">
+    @if (TempData.ContainsKey(SitkaController.StatusErrorIndex))
+    {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            @Html.Raw(TempData[SitkaController.StatusErrorIndex])
+        </div>
+    }
+    @if (TempData.ContainsKey(SitkaController.StatusMessageIndex))
+    {
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            @Html.Raw(TempData[SitkaController.StatusMessageIndex])
+        </div>
+    }
     @if (!string.IsNullOrWhiteSpace(ViewDataTyped.EntityName))
     {
         <div>@ViewDataTyped.EntityName</div>
@@ -19,18 +33,5 @@
         @RenderSection("RightOfPageTitle", false)
     </div>
     <h1>@ViewDataTyped.PageTitle</h1>
-
-    @if (TempData.ContainsKey(SitkaController.StatusErrorIndex))
-    {
-        <div>
-            @Html.Raw(TempData[SitkaController.StatusErrorIndex])
-        </div>
-    }
-    @if (TempData.ContainsKey(SitkaController.StatusMessageIndex))
-    {
-        <div>
-            @Html.Raw(TempData[SitkaController.StatusMessageIndex])
-        </div>
-    }
     @RenderBody()
 </div>

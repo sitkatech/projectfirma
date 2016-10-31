@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Models
 
         public void SendMessage(string ipAddress, string userAgent, string currentUrl, SupportRequestType supportRequestType, Project project)
         {
-            var subject = string.Format("Support Request for TRPA - {0}", DateTime.Now.ToStringDateTime());
+            var subject = string.Format("Support Request for Project Firma - {0}", DateTime.Now.ToStringDateTime());
             var projectSummaryUrl = project == null
                 ? string.Empty
                 : string.Format("    <strong>Project:</strong> <a href=\"{0}\">{1}</a><br />",
