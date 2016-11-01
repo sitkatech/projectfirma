@@ -96,30 +96,54 @@
     </script>
 
     <div id="mainnavandcontent">
+        
         <nav class="navbar navbar-default">
             <div class="container">
-                <ul class="nav navbar-nav">
-                    @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
-                    {
-                        @topLevelMenu.RenderMenu()
-                    }
-                </ul>
-                <div class="nav navbar-nav navbar-right">
-                    <p class="navbar-text">
-                        @if (Request.IsAuthenticated)
-                        {
-                            <text>Welcome <a href="@ViewDataTyped.CurrentPerson.GetSummaryUrl()">@ViewDataTyped.CurrentPerson.FullNameFirstLast</a></text>
-                        }
-                        else
-                        {
-                            <a href="@ViewDataTyped.LogInUrl" title="Log In">Log In</a>
-                        }
-                        <span> | </span>
-                        @ModalDialogFormHelper.ModalDialogFormLink("Request Support", ViewDataTyped.RequestSupportUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
-                    </p>
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#firma-collapse-navbar" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="glyphicon glyphicon-menu-hamburger"></span>
+                    </button>                    
                 </div>
-            </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="firma-collapse-navbar">
+                    <ul class="nav navbar-nav navbar-left">
+                        @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
+                        {
+                            @topLevelMenu.RenderMenu()
+                        }
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                                                        @if (Request.IsAuthenticated)
+                                                        {
+                                                            <p class="navbar-text">Welcome 
+                                                                <a href="@ViewDataTyped.CurrentPerson.GetSummaryUrl()">@ViewDataTyped.CurrentPerson.FullNameFirstLast</a>
+                                                            </p>
+                                                        }
+                                                               
+</li>
+                        <li>
+                            @ModalDialogFormHelper.ModalDialogFormLink("Request Support", ViewDataTyped.RequestSupportUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
+                        </li>
+                        <li>
+                            @if (Request.IsAuthenticated)
+                            {
+                                <a href="@ViewDataTyped.LogOutUrl" title="Log Out">Log Out</a>
+                            }
+                            else
+                            {
+                                <a href="@ViewDataTyped.LogInUrl" title="Log In">Log In</a>
+                            }
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
         </nav>
+
         @RenderBody()
     </div>
     <div id="push"></div>
@@ -127,12 +151,9 @@
 
 <footer id="footer">
     <div class="container">
-        <p class="pull-left">
-            <a href="http://www.sitkatech.com/products/ProjectFirma/">ProjectFirma</a> is a site created by <a href="http://sitkatech.com">Sitka Technology Group</a> and implemented for the Clackamas Partnership
-        </p>
-        <p class="pull-right">
-            Version @LtInfoWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion | DB @FirmaWebConfiguration.LatestDatabaseMigration.Value | Compiled @LtInfoWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss") | PID @Process.GetCurrentProcess().Id
-        </p>
+            <p class="text-center">
+                <a href="http://www.sitkatech.com/products/ProjectFirma/">ProjectFirma</a> is a site created by <a href="http://sitkatech.com">Sitka Technology Group</a> and implemented for the Clackamas Partnership | Version @LtInfoWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion | DB @FirmaWebConfiguration.LatestDatabaseMigration.Value | Compiled @LtInfoWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss") | PID @Process.GetCurrentProcess().Id
+            </p>   
     </div>
 </footer>
 

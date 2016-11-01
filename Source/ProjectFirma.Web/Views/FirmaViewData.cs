@@ -109,14 +109,6 @@ namespace ProjectFirma.Web.Views
             //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FieldDefinitionController>(c => c.Index()), currentPerson, "Field Definitions", "Group7"));
             //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<UserController>(c => c.Index()), currentPerson, "Users", "Group7"));
 
-            if (manageMenu.ChildMenus.Any(x => x.ShouldShow))
-            {
-                manageMenu.AddMenuItem(new LtInfoMenuItem(LogOutUrl, "Log Out", HttpContext.Current.Request.IsAuthenticated, false, "Group8"));
-            }
-            else
-            {
-                manageMenu = new LtInfoMenuItem(LogOutUrl, "Log Out", HttpContext.Current.Request.IsAuthenticated, true, "Group1");
-            }
             return manageMenu;
         }
 
