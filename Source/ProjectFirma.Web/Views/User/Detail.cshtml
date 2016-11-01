@@ -26,70 +26,59 @@
 {
     @if (ViewDataTyped.UserHasPersonManagePermissions)
     {
-        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}{1} User", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>", ViewDataTyped.Person.IsActive ? "Inactivate" : "Activate"), ViewDataTyped.ActivateInactivateUrl, string.Format("{0} this user?", ViewDataTyped.Person.IsActive ? "Inactivate" : "Activate"), 400, "Continue", "Cancel", null, null, null)
+        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}{1} User", "<span class='glyphicon glyphicon-edit blue''></span>", ViewDataTyped.Person.IsActive ? "Inactivate" : "Activate"), ViewDataTyped.ActivateInactivateUrl, string.Format("{0} this user?", ViewDataTyped.Person.IsActive ? "Inactivate" : "Activate"), 400, "Continue", "Cancel", null, null, null)
     }
+}
+
+@if (ViewDataTyped.UserHasPersonViewPermissions)
+{
+    <div>
+        <a class="btn" style="padding-left: 0" href="@ViewDataTyped.Index">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all Users</a>
+    </div>
 }
 
 <div class="row">
     <div class="col-md-6">
-        <div class="summarySection">
-            <h2>Basics</h2>
-            <div class="contentWrapper">
-                <table class="summaryLayout">
-                    <tr>
-                        <th>Name:</th>
-                        <td>
-                            @ViewDataTyped.Person.FullNameFirstLast
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Email:</th>
-                        <td>
-                            @ViewDataTyped.Person.Email
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Phone:</th>
-                        <td>
-                            @ViewDataTyped.Person.Phone.ToPhoneNumberString()
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Username:</th>
-                        <td>
-                            @ViewDataTyped.Person.LoginName
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Organization:</th>
-                        <td>
-                            @ViewDataTyped.Person.Organization.GetDisplayNameAsUrl()
-                        </td>
-                    </tr>
-
-
-                    @if (ViewDataTyped.UserHasPersonManagePermissions)
-                    {
-                        <tr><td>&nbsp;</td></tr>
-                        <tr>
-                            <th>Last Activity:</th>
-                            <td>
-                                @ViewDataTyped.Person.LastActivityDate.ToStringDateTimeNoLeadingZeros()
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Created Date:</th>
-                            <td>
-                                @ViewDataTyped.Person.CreateDate.ToStringDateTimeNoLeadingZeros()
-                            </td>
-                        </tr>
-                    }
-                </table>
+        <div class="panel panel-default panelFirma">
+            <div class="panel-heading panelTitle">
+                Basics
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-4 fieldLabel text-right">Name:</div>
+                    <div class="col-xs-8">@ViewDataTyped.Person.FullNameFirstLast</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 fieldLabel text-right">Email:</div>
+                    <div class="col-xs-8">@ViewDataTyped.Person.Email</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 fieldLabel text-right">Phone:</div>
+                    <div class="col-xs-8">@ViewDataTyped.Person.Phone.ToPhoneNumberString()</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 fieldLabel text-right">Username:</div>
+                    <div class="col-xs-8">@ViewDataTyped.Person.LoginName</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 fieldLabel text-right">Organization:</div>
+                    <div class="col-xs-8">@ViewDataTyped.Person.Organization.GetDisplayNameAsUrl()</div>
+                </div>
+                @if (ViewDataTyped.UserHasPersonManagePermissions)
+                {
+                    <div class="row">
+                        <div class="col-xs-4 fieldLabel text-right">Last Activity:</div>
+                        <div class="col-xs-8">@ViewDataTyped.Person.LastActivityDate.ToStringDateTimeNoLeadingZeros()</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 fieldLabel text-right">Created Date:</div>
+                        <div class="col-xs-8">@ViewDataTyped.Person.CreateDate.ToStringDateTimeNoLeadingZeros()</div>
+                    </div>
+                }
                 @if (ViewDataTyped.UserHasPersonManagePermissions || ViewDataTyped.IsViewingSelf)
                 {
-                    <div class="systemText" style="margin-top: 7px">
-                        This information can be
-                        <a target="_blank" href="@ViewDataTyped.Person.GetKeystoneEditLink()">edited here</a>
+                    <div class="alert" role="alert">
+                        This information can be <a target="_blank" class="alert-link" href="@ViewDataTyped.Person.GetKeystoneEditLink()">edited here</a>
                     </div>
                 }
             </div>
@@ -98,69 +87,75 @@
     @if (ViewDataTyped.UserHasPersonManagePermissions || ViewDataTyped.IsViewingSelf)
     {
         <div class="col-md-6">
-            <div class="summarySection">
-                <h2>@ViewDataTyped.EditRolesLink Roles</h2>
-                <div class="contentWrapper">
-                    <table>
-                        <tr>
-                            <th style="padding-bottom: 10px;" class="paddedTableCell">Role</th>
-                            <th style="padding-bottom: 10px;" class="paddedTableCell">Receive Support Emails</th>
-                        </tr>
-                        <tr>
-                            <td class="paddedTableCell">
-                                @if (ViewDataTyped.UserHasPersonManagePermissions)
-                                {
-                                    @ViewDataTyped.Person.Role.GetDisplayNameAsUrl()
-                                }
-                                else
-                                {
-                                    @ViewDataTyped.Person.Role.RoleDisplayName
-                                }
-                            </td>
-                            <td class="paddedTableCell" style="text-align: center">
-                                @ViewDataTyped.Person.ReceiveSupportEmails.ToYesNo()
-                            </td>
-                        </tr>
-                    </table>
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    @ViewDataTyped.EditRolesLink Roles
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-4 fieldLabel text-right">Role:</div>
+                        <div class="col-xs-8">
+                            @if (ViewDataTyped.UserHasPersonManagePermissions)
+                            {
+                                @ViewDataTyped.Person.Role.GetDisplayNameAsUrl()
+                            }
+                            else
+                            {
+                                @ViewDataTyped.Person.Role.RoleDisplayName
+                            }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 fieldLabel text-right">Receive Support Emails:</div>
+                        <div class="col-xs-8">@ViewDataTyped.Person.ReceiveSupportEmails.ToYesNo()</div>
+                    </div>
                 </div>
             </div>
         </div>
     }
 </div>
-
-<div class="summarySection">
-    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPersonOrganizationPrimaryContactUrl, string.Format("Edit Organizations for which {0} is a Primary Contact", ViewDataTyped.Person.FullNameFirstLast), ViewDataTyped.UserHasPersonManagePermissions) @string.Format("Organizations for which {0} is a Primary Contact", ViewDataTyped.Person.FullNameFirstLast)</h2>
-    <div class="contentWrapper">
-        @if (ViewDataTyped.Person.PrimaryContactOrganizations.Any())
-        {
-            <ul style="margin: 5px 0">
-                @foreach (var organization in ViewDataTyped.Person.PrimaryContactOrganizations)
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPersonOrganizationPrimaryContactUrl, string.Format("Edit Organizations for which {0} is a Primary Contact", ViewDataTyped.Person.FullNameFirstLast), ViewDataTyped.UserHasPersonManagePermissions) @string.Format("Organizations for which {0} is a Primary Contact", ViewDataTyped.Person.FullNameFirstLast)
+            </div>
+            <div class="panel-body">
+                @if (ViewDataTyped.Person.PrimaryContactOrganizations.Any())
                 {
-                    <li>@organization.GetDisplayNameAsUrl()</li>
+                    <ul style="margin: 5px 0">
+                        @foreach (var organization in ViewDataTyped.Person.PrimaryContactOrganizations)
+                        {
+                            <li>@organization.GetDisplayNameAsUrl()</li>
+                        }
+                    </ul>
                 }
-            </ul>
-        }
+            </div>
+        </div>
+
     </div>
 </div>
-
-
-<div class="summarySection">
-    <h2>@string.Format("Projects for which {0} is a Primary Contact", ViewDataTyped.Person.FullNameFirstLast)</h2>
-    <div class="contentWrapper">
-        @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                @string.Format("Projects for which {0} is a Primary Contact", ViewDataTyped.Person.FullNameFirstLast)
+            </div>
+            <div class="panel-body">
+                @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+            </div>
+        </div>
     </div>
 </div>
-
-<div class="summarySection">
-    <h2>System Communications</h2>
-    <div class="contentWrapper">
-        @Html.DhtmlxGrid(ViewDataTyped.UserNotificationGridSpec, ViewDataTyped.UserNotificationGridName, ViewDataTyped.UserNotificationGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                System Communications
+            </div>
+            <div class="panel-body">
+                @Html.DhtmlxGrid(ViewDataTyped.UserNotificationGridSpec, ViewDataTyped.UserNotificationGridName, ViewDataTyped.UserNotificationGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+            </div>
+        </div>
     </div>
 </div>
-
-@if (ViewDataTyped.UserHasPersonViewPermissions)
-{
-    <div style="margin-top: 20px">
-        <a class="btn btn-blue" href="@ViewDataTyped.Index">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
-    </div>
-}

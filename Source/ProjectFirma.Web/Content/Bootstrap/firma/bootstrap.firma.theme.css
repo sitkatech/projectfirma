@@ -25,6 +25,16 @@ body {
 #mainnavandcontent {
   margin-bottom: 20px;
 }
+.rightFloatingInfo {
+  float: right;
+  padding: 20px;
+}
+a.excelbutton {
+  background: url(/Content/img/button_icon_excel.png) no-repeat scroll 0 0 transparent;
+  height: 16px;
+  padding: 0 0 0 20px;
+  font-size: 12px;
+}
 .header img {
   margin: 5px;
   height: 50px;
@@ -159,5 +169,22 @@ footer p {
 }
 .summarySection h2 {
   font-size: 18px;
+}
+.panelFirma {
+  border-color: #ddd;
+}
+.panelFirma .panelTitle {
+  color: #333;
+  background-color: #f5f5f5;
+  border-color: #ddd;
+  font-weight: bold;
+}
+.fieldLabel {
+  font-weight: 600;
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 /*# sourceMappingURL=bootstrap.firma.theme.css.map */
