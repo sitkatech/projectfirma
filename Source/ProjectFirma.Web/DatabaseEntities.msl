@@ -435,6 +435,7 @@
           <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
           <ScalarProperty Name="ReceiveSupportEmails" ColumnName="ReceiveSupportEmails" />
           <ScalarProperty Name="WebServiceAccessToken" ColumnName="WebServiceAccessToken" />
+          <ScalarProperty Name="LoginName" ColumnName="LoginName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

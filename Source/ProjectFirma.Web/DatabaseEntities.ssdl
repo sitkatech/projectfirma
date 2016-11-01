@@ -1202,6 +1202,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_P
     <Property Name="OrganizationID" Type="int" Nullable="false" />
     <Property Name="ReceiveSupportEmails" Type="bit" Nullable="false" />
     <Property Name="WebServiceAccessToken" Type="uniqueidentifier" />
+    <Property Name="LoginName" Type="varchar" Nullable="false" MaxLength="128" />
   </EntityType>
   <EntityType Name="Program">
     <Key>

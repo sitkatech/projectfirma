@@ -14,6 +14,7 @@ namespace ProjectFirma.Web.Views.User
             Add("Email", a => a.Email, 200);
             Add("Organization", a => a.Organization.GetDisplayNameAsUrl(), 200);
             Add("Phone", a => a.Phone.ToPhoneNumberString(), 100);
+            Add("Username", a => a.LoginName.ToString(), 200);
             Add("Last Activity", a => a.LastActivityDate, 120);
             Add("Role", a => a.Role.GetDisplayNameAsUrl(), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add("Active?", a => a.IsActive.ToYesNo(), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);

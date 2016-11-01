@@ -53,7 +53,8 @@ namespace ProjectFirma.Web.Controllers
                     DateTime.Now,
                     true,
                     Organization.OrganizationIDUnknown,
-                    false);
+                    false,
+                    keystoneUserClaims.LoginName);
                 HttpRequestStorage.DatabaseEntities.People.Add(person);
                 sendNewUserNotification = true;
             }
@@ -67,6 +68,7 @@ namespace ProjectFirma.Web.Controllers
             person.LastName = keystoneUserClaims.LastName;
             person.Email = keystoneUserClaims.Email;
             person.Phone = keystoneUserClaims.PrimaryPhone == null ? null : keystoneUserClaims.PrimaryPhone.ToPhoneNumberString();
+            person.LoginName = keystoneUserClaims.LoginName;
 
             // handle the organization
             if (keystoneUserClaims.OrganizationGuid.HasValue)
@@ -124,7 +126,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static void SendNewUserCreatedMessage(Person person, string ipAddress, string userAgent, string loginName)
         {
-            var subject = string.Format("LT Info - User added: {0}", person.FullNameFirstLastAndOrg);
+            var subject = string.Format("User added: {0}", person.FullNameFirstLastAndOrg);
             var message = string.Format(@"
 <div style='font-size: 12px; font-family: Arial'>
     <strong>LT Info User added:</strong> {0}<br />
@@ -133,7 +135,7 @@ namespace ProjectFirma.Web.Controllers
     <strong>Phone:</strong> {3}<br />
     <br />
     <p>
-        You may want to <a href=""{4}"">assign this user roles</a> to allow them to work with specific areas of the site, such as updating projects or creating new Commodity Transaction. Or you can leave the user with Unassigned roles if they don't need special privileges.
+        You may want to <a href=""{4}"">assign this user roles</a> to allow them to work with specific areas of the site. Or you can leave the user with Unassigned roles if they don't need special privileges.
     </p>
     <br />
     <br />
@@ -168,11 +170,11 @@ namespace ProjectFirma.Web.Controllers
         private static void SendNewOrganizationCreatedMessage(Person person, string ipAddress, string userAgent, string loginName)
         {
             var organization = person.Organization;
-            var subject = string.Format("LT Info - Organization added: {0}", person.Organization.DisplayName);
+            var subject = string.Format("Organization added: {0}", person.Organization.DisplayName);
 
             var message = string.Format(@"
 <div style='font-size: 12px; font-family: Arial'>
-    <strong>LT Info Organization created:</strong> {0}<br />
+    <strong>Organization created:</strong> {0}<br />
     <strong>Created on:</strong> {1}<br />
     <strong>Created because:</strong> New user logged in<br />
     <strong>New user:</strong> {2} ({3})<br />
