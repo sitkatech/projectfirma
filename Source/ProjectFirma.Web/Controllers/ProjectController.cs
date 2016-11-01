@@ -578,7 +578,7 @@ namespace ProjectFirma.Web.Controllers
             return projects;
         }
 
-        [AdminReadOnlyViewEverythingFeature]
+        [AdminFeature]
         public GridJsonNetJObjectResult<AuditLog> AuditLogsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             AuditLogsGridSpec gridSpec;

@@ -3,7 +3,7 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Edit/Delete Project Image")]
-    public class ProjectImageEditOrDeleteFeature : AdminAndTMPOAdminFeature
+    public class ProjectImageEditOrDeleteFeature : AdminFeature
     {
     }
 }

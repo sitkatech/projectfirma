@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.Security
     public class DemoScriptManageFeature : FirmaFeature
     {
         public DemoScriptManageFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ReadOnlyAdmin })
+            : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
         {
         }
     }

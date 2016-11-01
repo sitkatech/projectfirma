@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Security
     public class ProjectUpdateAdminFeature : FirmaFeature
     {
         public ProjectUpdateAdminFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.Approver, Role.TMPOManager })
+            : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
         {
         }
     }

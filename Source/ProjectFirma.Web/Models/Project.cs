@@ -356,7 +356,7 @@ namespace ProjectFirma.Web.Models
 
         public bool IsVisibleToThisPerson(Person person)
         {
-            return IsVisibleToEveryone() || IsMyProject(person) || new AdminReadOnlyViewEverythingFeature().HasPermissionByPerson(person);
+            return IsVisibleToEveryone() || IsMyProject(person) || new AdminFeature().HasPermissionByPerson(person);
         }
 
         public bool IsPersonThePrimaryContact(Person person)

@@ -3,7 +3,7 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Set Key Photo for Project Image")]
-    public class ProjectImageSetKeyPhotoFeature : AdminAndTMPOAdminFeature
+    public class ProjectImageSetKeyPhotoFeature : AdminFeature
     {
     }
 }

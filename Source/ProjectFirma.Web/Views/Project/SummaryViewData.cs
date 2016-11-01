@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectStages = projectStages;
 
             EditProjectUrl = project.GetEditUrl();
-            UserHasProjectViewEverythingPermissions = new AdminReadOnlyViewEverythingFeature().HasPermissionByPerson(currentPerson);
+            UserHasProjectViewEverythingPermissions = new AdminFeature().HasPermissionByPerson(currentPerson);
             UserHasEditProjectPermissions = new ProjectEditFeature().HasPermission(currentPerson, project).HasPermission;
             UserHasProjectUpdatePermissions = new ProjectUpdateManageFeature().HasPermission(CurrentPerson, project).HasPermission;
             ProjectBasicsViewData = projectBasicsViewData;

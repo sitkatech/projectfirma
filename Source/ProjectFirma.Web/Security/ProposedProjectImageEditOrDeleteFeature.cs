@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<ProposedProjectImage> _firmaFeatureWithContextImpl;
 
         public ProposedProjectImageEditOrDeleteFeature()
-            : base(new List<Role> { Role.Normal, Role.Approver, Role.SitkaAdmin, Role.Admin, Role.TMPOManager })
+            : base(new List<Role> { Role.Normal, Role.SitkaAdmin, Role.Admin })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ProposedProjectImage>(this);
             ActionFilter = _firmaFeatureWithContextImpl;

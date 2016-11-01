@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Security
     public class IndicatorNoteViewFeature : FirmaFeature
     {
         public IndicatorNoteViewFeature()
-            : base(new List<Role> { Role.ReadOnlyAdmin, Role.SitkaAdmin, Role.Admin })
+            : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
         {
         }
     }

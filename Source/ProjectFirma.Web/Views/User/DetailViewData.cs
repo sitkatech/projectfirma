@@ -7,7 +7,7 @@ using LtInfo.Common.ModalDialog;
 
 namespace ProjectFirma.Web.Views.User
 {
-    public class SummaryViewData : FirmaViewData
+    public class DetailViewData : FirmaViewData
     {
         public readonly Person Person;
         public readonly string EditPersonOrganizationPrimaryContactUrl;
@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Views.User
         public readonly string UserNotificationGridDataUrl;
         public readonly string ActivateInactivateUrl;
 
-        public SummaryViewData(Person currentPerson,
+        public DetailViewData(Person currentPerson,
             Person personToView,
             Project.BasicProjectInfoGridSpec basicProjectInfoGridSpec,
             string basicProjectInfoGridName,
@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.User
 
             UserHasPersonViewPermissions = new UserViewFeature().HasPermissionByPerson(currentPerson);
             UserHasPersonManagePermissions = new UserEditFeature().HasPermissionByPerson(currentPerson);
-            UserHasViewEverythingPermissions = new AdminReadOnlyViewEverythingFeature().HasPermissionByPerson(currentPerson);
+            UserHasViewEverythingPermissions = new AdminFeature().HasPermissionByPerson(currentPerson);
             IsViewingSelf = currentPerson != null && currentPerson.PersonID == personToView.PersonID;
             EditRolesLink = UserHasPersonManagePermissions
                 ? ModalDialogFormHelper.MakeEditIconLink(SitkaRoute<UserController>.BuildUrlFromExpression(c => c.EditRoles(personToView)),

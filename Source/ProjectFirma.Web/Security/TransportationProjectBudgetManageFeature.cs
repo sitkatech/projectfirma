@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Security
     public class TransportationProjectBudgetManageFeature : FirmaFeature
     {
         public TransportationProjectBudgetManageFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.TMPOManager })
+            : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
         {
         }
     }

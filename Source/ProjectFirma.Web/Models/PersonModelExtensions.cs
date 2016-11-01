@@ -12,11 +12,11 @@ namespace ProjectFirma.Web.Models
     /// </summary>
     public static class PersonModelExtensions
     {
-        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<UserController>.BuildUrlFromExpression(t => t.Summary(UrlTemplate.Parameter1Int)));
+        public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<UserController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
 
         public static HtmlString GetFullNameFirstLastAsUrl(this Person person)
         {
-            return UrlTemplate.MakeHrefString(person.GetSummaryUrl(), person.FullNameFirstLast);
+            return UrlTemplate.MakeHrefString(person.GetDetailUrl(), person.FullNameFirstLast);
         }
 
         public static HtmlString GetFullNameFirstLastAndOrgAsUrl(this Person person)
@@ -38,9 +38,9 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<UserController>.BuildUrlFromExpression(t => t.EditRoles(person));
         }
 
-        public static string GetSummaryUrl(this Person person)
+        public static string GetDetailUrl(this Person person)
         {
-            return SummaryUrlTemplate.ParameterReplace(person.PersonID);
+            return DetailUrlTemplate.ParameterReplace(person.PersonID);
         }
 
         public static bool IsSitkaAdministrator(this Person person)
@@ -55,22 +55,12 @@ namespace ProjectFirma.Web.Models
 
         public static bool IsApprover(this Person person)
         {
-            return person != null && (IsAdministrator(person) || person.Role == Role.Approver || person.Role == Role.TMPOManager);
+            return person != null && (person.IsAdministrator() || person.IsSitkaAdministrator());
         }
-
+        
         public static bool ShouldReceiveNotifications(this Person person)
         {
             return person.ReceiveSupportEmails;
-        }
-
-        public static bool IsReadOnlyAdmin(this Person person)
-        {
-            return person != null && person.Role == Role.ReadOnlyAdmin;
-        }
-
-        public static bool IsReadOnly(this Person person)
-        {
-            return (person != null && person.Role == Role.ReadOnlyNormal) || (person != null && person.Role == Role.ReadOnlyAdmin);
         }
 
         public static string GetKeystoneEditLink(this Person person)

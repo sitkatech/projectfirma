@@ -463,8 +463,7 @@
     <Compile Include="Models\TransportationSubGoalModelExtensions.cs" />
     <Compile Include="Security\ActionPriorityManageFeature.cs" />
     <Compile Include="Security\ActionPriorityViewFeature.cs" />
-    <Compile Include="Security\AdminAndTMPOAdminFeature.cs" />
-    <Compile Include="Security\AdminReadOnlyViewEverythingFeature.cs" />
+    <Compile Include="Security\AdminFeature.cs" />
     <Compile Include="Security\DemoScriptManageFeature.cs" />
     <Compile Include="Security\FirmaFeature.cs" />
     <Compile Include="Security\FirmaFeatureWithContext.cs" />
@@ -1765,10 +1764,10 @@
     <Compile Include="Views\User\IndexViewData.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\User\Summary.cs">
+    <Compile Include="Views\User\Detail.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\User\SummaryViewData.cs">
+    <Compile Include="Views\User\DetailViewData.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Views\User\UserNotificationGridSpec.cs" />
@@ -2873,7 +2872,7 @@
     <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateViewingRowCountGridHeaderHtmlTest.approved.txt" />
     <Content Include="Views\User\EditRoles.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\Summary.cshtml" />
+    <Content Include="Views\User\Detail.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

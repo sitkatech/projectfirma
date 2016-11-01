@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<ProjectUpdateBatch> _firmaFeatureWithContextImpl;
 
         public ProjectNoteUpdateNewFeature()
-            : base(new List<Role> { Role.Normal, Role.Approver, Role.SitkaAdmin, Role.Admin, Role.TMPOManager })
+            : base(new List<Role> { Role.Normal, Role.SitkaAdmin, Role.Admin })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ProjectUpdateBatch>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -24,12 +24,12 @@ namespace ProjectFirma.Web.Security
         {
             var hasPermissionByPerson = HasPermissionByPerson(person);
             var project = contextModelObject.Project;
-            if (!hasPermissionByPerson || person.IsReadOnly())
+            if (!hasPermissionByPerson)
             {
                 return new PermissionCheckResult(string.Format("You don't have permission to Edit Project Note for Project {0}", project.DisplayName));
             }
 
-            var projectIsEditableByUser = new AdminAndTMPOAdminFeature().HasPermissionByPerson(person) || project.IsMyProject(person);
+            var projectIsEditableByUser = new AdminFeature().HasPermissionByPerson(person) || project.IsMyProject(person);
             if (!projectIsEditableByUser)
             {
                 return new PermissionCheckResult(string.Format("Project {0} is not editable by you.", project.ProjectID));

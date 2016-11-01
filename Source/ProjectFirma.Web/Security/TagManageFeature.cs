@@ -3,7 +3,7 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Edit Tags")]
-    public class TagManageFeature : AdminAndTMPOAdminFeature
+    public class TagManageFeature : AdminFeature
     {
     }
 }

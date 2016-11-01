@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Security
     public class TagListFeature : FirmaFeature
     {
         public TagListFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ReadOnlyAdmin, Role.TMPOManager })
+            : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
         {
         }
     }

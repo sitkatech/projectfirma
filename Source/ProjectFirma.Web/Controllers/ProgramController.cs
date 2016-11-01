@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Controllers
             return IndexImpl();
         }
 
-        [AdminReadOnlyViewEverythingFeature]
+        [AdminFeature]
         public ViewResult Manage()
         {
             return IndexImpl();

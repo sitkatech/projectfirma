@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 
         public PerformanceMeasureExpectedFromProjectManageFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.TMPOManager, Role.Normal, Role.Approver })
+            : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.Normal })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Project>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Security
             }
 
             // Admin can edit anything
-            if (new AdminAndTMPOAdminFeature().HasPermissionByPerson(person))
+            if (new AdminFeature().HasPermissionByPerson(person))
             {
                 return new PermissionCheckResult();
             }

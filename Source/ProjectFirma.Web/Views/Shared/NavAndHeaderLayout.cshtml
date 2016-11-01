@@ -118,14 +118,14 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                                                        @if (Request.IsAuthenticated)
-                                                        {
-                                                            <p class="navbar-text">Welcome 
-                                                                <a href="@ViewDataTyped.CurrentPerson.GetSummaryUrl()">@ViewDataTyped.CurrentPerson.FullNameFirstLast</a>
-                                                            </p>
-                                                        }
+                            @if (Request.IsAuthenticated)
+                            {
+                            <p class="navbar-text">Welcome 
+                                <a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">@ViewDataTyped.CurrentPerson.FullNameFirstLast</a>
+                            </p>
+                         }
                                                                
-</li>
+                        </li>
                         <li>
                             @ModalDialogFormHelper.ModalDialogFormLink("Request Support", ViewDataTyped.RequestSupportUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
                         </li>

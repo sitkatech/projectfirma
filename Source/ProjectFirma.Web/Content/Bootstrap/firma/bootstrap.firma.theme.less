@@ -14,11 +14,12 @@
 
 
 @sitka-light-blue: rgba(191, 224, 234, 0.77);
+@sitka-blue:  #337ab7;
 @globalFontToUse: "Open Sans",sans-serif;
 @defaultFontSize: 13px;
 @disabled-color: LightGray;
 @firma-white: #fff;
-@firma-gray: #ddd;
+@firma-gray: #e7e7e7;
 
 // Global
 
@@ -41,6 +42,14 @@ body {
     margin-left: auto;
 }
 
+.pageTitle, .entityTitle {
+    font-weight: 600;
+    color: @sitka-blue;
+}
+
+#mainnavandcontent {
+    margin-bottom: 20px;
+}
 
 // Header
 
@@ -75,7 +84,7 @@ footer {
     right: 0;
     width: 100%;
     height: 65px;
-    background-color: #f5f5f5;
+    background-color: @firma-gray;
 
     p {
         margin: 10px 0;
@@ -162,7 +171,7 @@ footer {
 }
 
 .firma-modal-dialog .modal-header {
-    background-color: #eee;
+    background-color: @firma-gray;
     padding: .5em;
     cursor: move;
 }
@@ -212,7 +221,6 @@ footer {
 
 
 // buttons
-
 .btn-firma, .form-dialog .ui-widget-content .btn-firma, .firma-modal-dialog .btn-firma {
     font-size: 14px;
 

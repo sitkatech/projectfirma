@@ -27,11 +27,11 @@
     }
     @if (!string.IsNullOrWhiteSpace(ViewDataTyped.EntityName))
     {
-        <div>@ViewDataTyped.EntityName</div>
+        <h1 class="entityTitle">@ViewDataTyped.EntityName</h1>
     }
     <div style="float: right;">
         @RenderSection("RightOfPageTitle", false)
     </div>
-    <h1>@ViewDataTyped.PageTitle</h1>
+    <h2 class="pageTitle">@ViewDataTyped.PageTitle</h2>
     @RenderBody()
 </div>

@@ -3,7 +3,7 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Project Threshold Category from Threshold Category")]
-    public class ProjectThresholdCategoryManageFromThresholdCategoryFeature : AdminAndTMPOAdminFeature
+    public class ProjectThresholdCategoryManageFromThresholdCategoryFeature : AdminFeature
     {
     }
 }

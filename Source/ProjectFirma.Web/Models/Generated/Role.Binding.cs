@@ -18,10 +18,6 @@ namespace ProjectFirma.Web.Models
     {
         public static readonly RoleAdmin Admin = RoleAdmin.Instance;
         public static readonly RoleNormal Normal = RoleNormal.Instance;
-        public static readonly RoleReadOnlyAdmin ReadOnlyAdmin = RoleReadOnlyAdmin.Instance;
-        public static readonly RoleReadOnlyNormal ReadOnlyNormal = RoleReadOnlyNormal.Instance;
-        public static readonly RoleApprover Approver = RoleApprover.Instance;
-        public static readonly RoleTMPOManager TMPOManager = RoleTMPOManager.Instance;
         public static readonly RoleUnassigned Unassigned = RoleUnassigned.Instance;
         public static readonly RoleSitkaAdmin SitkaAdmin = RoleSitkaAdmin.Instance;
 
@@ -33,7 +29,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static Role()
         {
-            All = new List<Role> { Admin, Normal, ReadOnlyAdmin, ReadOnlyNormal, Approver, TMPOManager, Unassigned, SitkaAdmin };
+            All = new List<Role> { Admin, Normal, Unassigned, SitkaAdmin };
             AllLookupDictionary = new ReadOnlyDictionary<int, Role>(All.ToDictionary(x => x.RoleID));
         }
 
@@ -106,18 +102,10 @@ namespace ProjectFirma.Web.Models
             {
                 case RoleEnum.Admin:
                     return Admin;
-                case RoleEnum.Approver:
-                    return Approver;
                 case RoleEnum.Normal:
                     return Normal;
-                case RoleEnum.ReadOnlyAdmin:
-                    return ReadOnlyAdmin;
-                case RoleEnum.ReadOnlyNormal:
-                    return ReadOnlyNormal;
                 case RoleEnum.SitkaAdmin:
                     return SitkaAdmin;
-                case RoleEnum.TMPOManager:
-                    return TMPOManager;
                 case RoleEnum.Unassigned:
                     return Unassigned;
                 default:
@@ -130,10 +118,6 @@ namespace ProjectFirma.Web.Models
     {
         Admin = 1,
         Normal = 2,
-        ReadOnlyAdmin = 3,
-        ReadOnlyNormal = 4,
-        Approver = 5,
-        TMPOManager = 6,
         Unassigned = 7,
         SitkaAdmin = 8
     }
@@ -148,30 +132,6 @@ namespace ProjectFirma.Web.Models
     {
         private RoleNormal(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
         public static readonly RoleNormal Instance = new RoleNormal(2, @"Normal", @"Normal User", @"Users with this role can propose new EIP projects, update existing EIP projects where their organization is the Lead Implementer, and view almost every page within the EIP Tracker.");
-    }
-
-    public partial class RoleReadOnlyAdmin : Role
-    {
-        private RoleReadOnlyAdmin(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
-        public static readonly RoleReadOnlyAdmin Instance = new RoleReadOnlyAdmin(3, @"ReadOnlyAdmin", @"Read-only Administrator User", @"");
-    }
-
-    public partial class RoleReadOnlyNormal : Role
-    {
-        private RoleReadOnlyNormal(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
-        public static readonly RoleReadOnlyNormal Instance = new RoleReadOnlyNormal(4, @"ReadOnlyNormal", @"Read-only Normal User", @"");
-    }
-
-    public partial class RoleApprover : Role
-    {
-        private RoleApprover(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
-        public static readonly RoleApprover Instance = new RoleApprover(5, @"Approver", @"Approver", @"");
-    }
-
-    public partial class RoleTMPOManager : Role
-    {
-        private RoleTMPOManager(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
-        public static readonly RoleTMPOManager Instance = new RoleTMPOManager(6, @"TMPOManager", @"TMPO Manager", @"");
     }
 
     public partial class RoleUnassigned : Role

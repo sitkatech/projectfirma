@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [UserViewFeature]
-        public ViewResult Summary(PersonPrimaryKey personPrimaryKey)
+        public ViewResult Detail(PersonPrimaryKey personPrimaryKey)
         {
             var person = personPrimaryKey.EntityObject;
             var userNotificationGridSpec = new UserNotificationGridSpec();
@@ -83,8 +83,8 @@ namespace ProjectFirma.Web.Controllers
             const string basicProjectInfoGridName = "userProjectListGrid";
             var basicProjectInfoGridDataUrl = SitkaRoute<UserController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(person));
             var activateInactivateUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.ActivateInactivatePerson(person));
-            var viewData = new SummaryViewData(CurrentPerson, person, basicProjectInfoGridSpec, basicProjectInfoGridName, basicProjectInfoGridDataUrl, userNotificationGridSpec, "userNotifications", userNotificationGridDataUrl, activateInactivateUrl);
-            return RazorView<Summary, SummaryViewData>(viewData);
+            var viewData = new DetailViewData(CurrentPerson, person, basicProjectInfoGridSpec, basicProjectInfoGridName, basicProjectInfoGridDataUrl, userNotificationGridSpec, "userNotifications", userNotificationGridDataUrl, activateInactivateUrl);
+            return RazorView<Detail, DetailViewData>(viewData);
         }
 
         [UserViewFeature]

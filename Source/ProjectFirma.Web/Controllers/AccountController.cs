@@ -146,7 +146,7 @@ namespace ProjectFirma.Web.Controllers
     </div>
     <div  class='systemText'>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {8}.</div>
 </div>
-", person.GetFullNameFirstLastAsUrl(), DateTime.Now, person.Email, person.Phone.ToPhoneNumberString(), person.GetSummaryUrl(), loginName, ipAddress, userAgent, FirmaWebConfiguration
+", person.GetFullNameFirstLastAsUrl(), DateTime.Now, person.Email, person.Phone.ToPhoneNumberString(), person.GetDetailUrl(), loginName, ipAddress, userAgent, FirmaWebConfiguration
                 .SitkaSupportEmail);
             
             var mailMessage = new MailMessage { From = new MailAddress(FirmaWebConfiguration.DoNotReplyEmail), Subject = subject, Body = message, IsBodyHtml = true };

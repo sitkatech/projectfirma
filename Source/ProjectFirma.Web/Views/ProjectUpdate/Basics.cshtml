@@ -209,7 +209,7 @@
             <td colspan="3">
                 @if (ViewDataTyped.Project.PrimaryContactPerson != null)
                 {
-                    <a href="@ViewDataTyped.Project.PrimaryContactPerson.GetSummaryUrl()" target="_blank">@ViewDataTyped.Project.PrimaryContactPerson.FullNameFirstLast</a>
+                    <a href="@ViewDataTyped.Project.PrimaryContactPerson.GetDetailUrl()" target="_blank">@ViewDataTyped.Project.PrimaryContactPerson.FullNameFirstLast</a>
                     if (ViewDataTyped.Project.PrimaryContactPerson.Organization != null)
                     {
                         <span>-</span>

@@ -20,14 +20,14 @@ namespace ProjectFirma.Web.Controllers
 {
     public class SnapshotController : FirmaBaseController
     {
-        [AdminReadOnlyViewEverythingFeature]
+        [AdminFeature]
         public ActionResult Index()
         {
             var viewData = new IndexViewData(CurrentPerson);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        [AdminReadOnlyViewEverythingFeature]
+        [AdminFeature]
         public GridJsonNetJObjectResult<Snapshot> IndexGridJsonData()
         {
             IndexGridSpec gridSpec;
@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Controllers
             return HttpRequestStorage.DatabaseEntities.Snapshots.ToList().OrderByDescending(snapshot => snapshot.SnapshotDate).ToList();
         }
 
-        [AdminReadOnlyViewEverythingFeature]
+        [AdminFeature]
         public ActionResult Summary(SnapshotPrimaryKey snapshotPrimaryKey)
         {
             var snapshot = snapshotPrimaryKey.EntityObject;
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [AdminReadOnlyViewEverythingFeature]
+        [AdminFeature]
         public PartialViewResult Edit(SnapshotPrimaryKey snapshotPrimaryKey)
         {
             var snapshot = snapshotPrimaryKey.EntityObject;
@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [AdminReadOnlyViewEverythingFeature]
+        [AdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(SnapshotPrimaryKey snapshotPrimaryKey, EditViewModel viewModel)
         {
@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
-        [AdminReadOnlyViewEverythingFeature]
+        [AdminFeature]
         public GridJsonNetJObjectResult<SnapshotProject> SnapshotProjectGridJsonData(SnapshotPrimaryKey snapshotPrimaryKey)
         {
             SnapshotProjectGridSpec gridSpec = new SnapshotProjectGridSpec();
