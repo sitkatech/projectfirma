@@ -1789,8 +1789,8 @@
     <Compile Include="Views\Organization\EditViewModelValidator.cs" />
     <Compile Include="Views\Shared\TextControls\EditNoteViewModel.cs" />
     <Compile Include="Views\Shared\TextControls\EditNoteViewModelTest.cs" />
-    <Compile Include="Views\Organization\Summary.cs" />
-    <Compile Include="Views\Organization\SummaryViewData.cs" />
+    <Compile Include="Views\Organization\Detail.cs" />
+    <Compile Include="Views\Organization\DetailViewData.cs" />
     <Compile Include="Views\Organization\EditViewModelTest.cs" />
     <Compile Include="Views\User\EditRoles.cs">
       <SubType>Code</SubType>
@@ -3136,7 +3136,7 @@
     <Content Include="Views\Shared\MapJavascriptIncludes.cshtml" />
     <Content Include="Views\Organization\Edit.cshtml" />
     <Content Include="Views\Organization\Index.cshtml" />
-    <Content Include="Views\Organization\Summary.cshtml" />
+    <Content Include="Views\Organization\Detail.cshtml" />
     <Content Include="Views\Shared\TextControls\EditNote.cshtml" />
     <Content Include="Views\PersonOrganization\EditPersonOrganizations.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Money.cshtml" />

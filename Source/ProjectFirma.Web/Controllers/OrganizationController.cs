@@ -17,8 +17,6 @@ using LtInfo.Common.MvcResults;
 using Index = ProjectFirma.Web.Views.Organization.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Organization.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Organization.IndexViewData;
-using Summary = ProjectFirma.Web.Views.Organization.Summary;
-using SummaryViewData = ProjectFirma.Web.Views.Organization.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -114,7 +112,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [OrganizationViewFeature]
-        public ViewResult Summary(OrganizationPrimaryKey organizationPrimaryKey)
+        public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
             var calendarYearExpendituresLineChartViewData = GetCalendarYearExpendituresLineChartViewData(organization);
@@ -122,8 +120,8 @@ namespace ProjectFirma.Web.Controllers
             bool hasSpatialData;
             var mapInitJson = GetMapInitJson(organization, out hasSpatialData);
 
-            var viewData = new SummaryViewData(CurrentPerson, organization, calendarYearExpendituresLineChartViewData, mapInitJson, hasSpatialData);
-            return RazorView<Summary, SummaryViewData>(viewData);
+            var viewData = new DetailViewData(CurrentPerson, organization, calendarYearExpendituresLineChartViewData, mapInitJson, hasSpatialData);
+            return RazorView<Detail, DetailViewData>(viewData);
         }
 
         private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData)
@@ -227,7 +225,7 @@ namespace ProjectFirma.Web.Controllers
             var canDelete = !organization.HasDependentObjects();
             var confirmMessage = canDelete
                 ? String.Format("Are you sure you want to delete this Organization '{0}'?", organization.OrganizationName)
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Organization", SitkaRoute<OrganizationController>.BuildLinkFromExpression(x => x.Summary(organization), "here"));
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Organization", SitkaRoute<OrganizationController>.BuildLinkFromExpression(x => x.Detail(organization), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);

@@ -8,10 +8,12 @@
     {
         <p class="systemText">This Organization is managed in Keystone. To change this organization's name, please send an @ModalDialogFormHelper.ModalDialogFormLink("email to support", ViewDataTyped.RequestOrganizationChangeUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)</p>
     }
-    <table class="dialogFormLayout">
-        <tr>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.OrganizationName):</th>
-            <td>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithFieldDefinitionFor(m => m.OrganizationName):
+            </div>
+            <div class="col-sm-9">
                 @if (ViewDataTyped.IsInKeystone)
                 {
                     @Model.OrganizationName
@@ -22,53 +24,66 @@
                     @Html.TextBoxFor(m => m.OrganizationName, new { style = "width:100%" })
                     @Html.ValidationMessageFor(m => m.OrganizationName)
                 }
-            </td>
-        </tr>
-        <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.OrganizationAbbreviation):</th>
-            <td>
-                @Html.TextBoxFor(m => m.OrganizationAbbreviation, new { style = "width:100%" })
-                @Html.ValidationMessageFor(m => m.OrganizationAbbreviation)
-            </td>
-        </tr>
-        <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.SectorID):</th>
-            <td>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithFieldDefinitionFor(m => m.OrganizationAbbreviation):
+            </div>
+            <div class="col-sm-9">
+               @Html.TextBoxFor(m => m.OrganizationAbbreviation, new { style = "width:100%" })
+            @Html.ValidationMessageFor(m => m.OrganizationAbbreviation)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+               @Html.LabelWithFieldDefinitionFor(m => m.SectorID):
+            </div>
+            <div class="col-sm-9">
                 @Html.DropDownListFor(m => m.SectorID, ViewDataTyped.Sectors, new { style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.SectorID)
-            </td>
-        </tr>
-        <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.PrimaryContactPersonID):</th>
-            <td>
-                @Html.DropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.People, new {style = "width:100%"})
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithFieldDefinitionFor(m => m.PrimaryContactPersonID):
+            </div>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.People, new { style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
-            </td>
-        </tr>
-        <tr>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.OrganizationUrl):</th>
-            <td>
-                @Html.TextBoxFor(m => m.OrganizationUrl, new {style = "width:100%"})
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithFieldDefinitionFor(m => m.OrganizationUrl):
+            </div>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.OrganizationUrl, new { style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.OrganizationUrl)
-            </td>
-        </tr>
-        <tr>
-            <th>@Html.LabelFor(x => x.LogoFileResourceData): </th>
-            <td>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelFor(x => x.LogoFileResourceData): 
+            </div>
+            <div class="col-sm-9">
                 @Html.EditorFor(x => x.LogoFileResourceData)
                 <span class="smallExplanationText">
                     Allowed Extensions: @Model.GetFileExtensions(x => x.LogoFileResourceData)
                 </span>
                 @Html.ValidationMessageFor(x => x.LogoFileResourceData)
-            </td>
-        </tr>
-        <tr>
-            <th>@Html.LabelFor(m => m.IsActive):</th>
-            <td>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelFor(m => m.IsActive):
+            </div>
+            <div class="col-sm-9">
                 @Html.CheckBoxFor(m => m.IsActive)
                 @Html.ValidationMessageFor(m => m.IsActive)
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
+        
+    </div>
     @Html.HiddenFor(m => m.OrganizationID)
 }

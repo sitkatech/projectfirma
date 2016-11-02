@@ -6,7 +6,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Organization
 {
-    public class SummaryViewData : FirmaViewData
+    public class DetailViewData : FirmaViewData
     {
         public readonly Models.Organization Organization;
         public readonly bool UserHasOrganizationManagePermissions;
@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly MapInitJson MapInitJson;
         public readonly bool HasSpatialData;
 
-        public SummaryViewData(Person currentPerson,
+        public DetailViewData(Person currentPerson,
             Models.Organization organization,
             CalendarYearExpendituresLineChartViewData calendarYearExpendituresLineChartViewData,
             MapInitJson mapInitJson,
