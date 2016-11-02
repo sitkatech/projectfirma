@@ -4,6 +4,7 @@ using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.Home;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -19,7 +20,10 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult Index()
         {
-            return ViewPageContent(FirmaPageTypeEnum.HomePage);
+            var firmaPageType = FirmaPageType.ToType(FirmaPageTypeEnum.HomePage);
+            var firmaPageByPageType = FirmaPage.GetFirmaPageByPageType(firmaPageType);
+            var viewData = new IndexViewData(CurrentPerson, firmaPageByPageType);
+            return RazorView<Index, IndexViewData>(viewData);
         }
 
         [AnonymousUnclassifiedFeature]
