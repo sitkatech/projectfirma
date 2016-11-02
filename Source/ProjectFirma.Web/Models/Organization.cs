@@ -8,8 +8,8 @@ namespace ProjectFirma.Web.Models
 {
     public partial class Organization : IAuditableEntity
     {
-        public const int OrganizationIDSitka = 52;
-        public const int OrganizationIDUnknown = 1111;
+        public const int OrganizationIDSitka = 1;
+        public const int OrganizationIDUnknown = 2;
 
         public string DisplayName
         {
@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
                     return DisplayName;
                 }
                 string postFix = OrganizationName.EndsWith("s") ? "'" : "'s";
-                return string.Format("{0}{1}", OrganizationName, postFix);                 
+                return string.Format("{0}{1}", OrganizationName, postFix);
             }
         }
 
