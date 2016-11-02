@@ -17,8 +17,10 @@ namespace ProjectFirma.Web.Models
     public abstract partial class FirmaPageType : IHavePrimaryKey
     {
         public static readonly FirmaPageTypeHomePage HomePage = FirmaPageTypeHomePage.Instance;
-        public static readonly FirmaPageTypeAboutClackamasPartnership AboutClackamasPartnership = FirmaPageTypeAboutClackamasPartnership.Instance;
-        public static readonly FirmaPageTypeMeetings Meetings = FirmaPageTypeMeetings.Instance;
+        public static readonly FirmaPageTypeAbout About = FirmaPageTypeAbout.Instance;
+        public static readonly FirmaPageTypeFirmaCustomPage1 FirmaCustomPage1 = FirmaPageTypeFirmaCustomPage1.Instance;
+        public static readonly FirmaPageTypeFirmaCustomPage2 FirmaCustomPage2 = FirmaPageTypeFirmaCustomPage2.Instance;
+        public static readonly FirmaPageTypeFirmaCustomPage3 FirmaCustomPage3 = FirmaPageTypeFirmaCustomPage3.Instance;
         public static readonly FirmaPageTypeFullProjectList FullProjectList = FirmaPageTypeFullProjectList.Instance;
         public static readonly FirmaPageTypeFiveYearProjectList FiveYearProjectList = FirmaPageTypeFiveYearProjectList.Instance;
         public static readonly FirmaPageTypeCompletedProjectList CompletedProjectList = FirmaPageTypeCompletedProjectList.Instance;
@@ -63,7 +65,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FirmaPageType()
         {
-            All = new List<FirmaPageType> { HomePage, AboutClackamasPartnership, Meetings, FullProjectList, FiveYearProjectList, CompletedProjectList, PerformanceMeasuresList, ActionPrioritiesList, LocalAndRegionalPlansList, FocusAreasList, FundingSourcesList, OrganizationsList, ProgramsList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByFocusAreaByProgram, ProjectMap, ResultsByProgram, HomeAdditionalInfo, FeaturedProjectList, TransportationStrategiesList, TransportationObjectivesList, TransportationProjectList, TransportationCostParameterSet, TerminatedProjectList, FullProjectListSimple, Taxonomy, TransportationTaxonomy, TagList, SpendingByPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, ThresholdCategoriesList, MonitoringProgramsList };
+            All = new List<FirmaPageType> { HomePage, About, FirmaCustomPage1, FirmaCustomPage2, FirmaCustomPage3, FullProjectList, FiveYearProjectList, CompletedProjectList, PerformanceMeasuresList, ActionPrioritiesList, LocalAndRegionalPlansList, FocusAreasList, FundingSourcesList, OrganizationsList, ProgramsList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByFocusAreaByProgram, ProjectMap, ResultsByProgram, HomeAdditionalInfo, FeaturedProjectList, TransportationStrategiesList, TransportationObjectivesList, TransportationProjectList, TransportationCostParameterSet, TerminatedProjectList, FullProjectListSimple, Taxonomy, TransportationTaxonomy, TagList, SpendingByPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, ThresholdCategoriesList, MonitoringProgramsList };
             AllLookupDictionary = new ReadOnlyDictionary<int, FirmaPageType>(All.ToDictionary(x => x.FirmaPageTypeID));
         }
 
@@ -134,14 +136,20 @@ namespace ProjectFirma.Web.Models
         {
             switch (enumValue)
             {
-                case FirmaPageTypeEnum.AboutClackamasPartnership:
-                    return AboutClackamasPartnership;
+                case FirmaPageTypeEnum.About:
+                    return About;
                 case FirmaPageTypeEnum.ActionPrioritiesList:
                     return ActionPrioritiesList;
                 case FirmaPageTypeEnum.CompletedProjectList:
                     return CompletedProjectList;
                 case FirmaPageTypeEnum.FeaturedProjectList:
                     return FeaturedProjectList;
+                case FirmaPageTypeEnum.FirmaCustomPage1:
+                    return FirmaCustomPage1;
+                case FirmaPageTypeEnum.FirmaCustomPage2:
+                    return FirmaCustomPage2;
+                case FirmaPageTypeEnum.FirmaCustomPage3:
+                    return FirmaCustomPage3;
                 case FirmaPageTypeEnum.FiveYearProjectList:
                     return FiveYearProjectList;
                 case FirmaPageTypeEnum.FocusAreasList:
@@ -162,8 +170,6 @@ namespace ProjectFirma.Web.Models
                     return LocalAndRegionalPlansList;
                 case FirmaPageTypeEnum.ManageUpdateNotifications:
                     return ManageUpdateNotifications;
-                case FirmaPageTypeEnum.Meetings:
-                    return Meetings;
                 case FirmaPageTypeEnum.MonitoringProgramsList:
                     return MonitoringProgramsList;
                 case FirmaPageTypeEnum.MyOrganizationsProjects:
@@ -219,8 +225,10 @@ namespace ProjectFirma.Web.Models
     public enum FirmaPageTypeEnum
     {
         HomePage = 1,
-        AboutClackamasPartnership = 2,
-        Meetings = 3,
+        About = 2,
+        FirmaCustomPage1 = 3,
+        FirmaCustomPage2 = 4,
+        FirmaCustomPage3 = 5,
         FullProjectList = 6,
         FiveYearProjectList = 7,
         CompletedProjectList = 8,
@@ -264,16 +272,28 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeHomePage Instance = new FirmaPageTypeHomePage(1, @"HomePage", @"Home Page", 2);
     }
 
-    public partial class FirmaPageTypeAboutClackamasPartnership : FirmaPageType
+    public partial class FirmaPageTypeAbout : FirmaPageType
     {
-        private FirmaPageTypeAboutClackamasPartnership(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeAboutClackamasPartnership Instance = new FirmaPageTypeAboutClackamasPartnership(2, @"AboutClackamasPartnership", @"About Clackamas Partnership", 2);
+        private FirmaPageTypeAbout(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeAbout Instance = new FirmaPageTypeAbout(2, @"About", @"About Clackamas Partnership", 2);
     }
 
-    public partial class FirmaPageTypeMeetings : FirmaPageType
+    public partial class FirmaPageTypeFirmaCustomPage1 : FirmaPageType
     {
-        private FirmaPageTypeMeetings(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeMeetings Instance = new FirmaPageTypeMeetings(3, @"Meetings", @"Meetings", 2);
+        private FirmaPageTypeFirmaCustomPage1(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeFirmaCustomPage1 Instance = new FirmaPageTypeFirmaCustomPage1(3, @"FirmaCustomPage1", @"Meetings", 2);
+    }
+
+    public partial class FirmaPageTypeFirmaCustomPage2 : FirmaPageType
+    {
+        private FirmaPageTypeFirmaCustomPage2(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeFirmaCustomPage2 Instance = new FirmaPageTypeFirmaCustomPage2(4, @"FirmaCustomPage2", @"Firma Custom Page 2", 2);
+    }
+
+    public partial class FirmaPageTypeFirmaCustomPage3 : FirmaPageType
+    {
+        private FirmaPageTypeFirmaCustomPage3(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeFirmaCustomPage3 Instance = new FirmaPageTypeFirmaCustomPage3(5, @"FirmaCustomPage3", @"Firma Custom Page 3", 2);
     }
 
     public partial class FirmaPageTypeFullProjectList : FirmaPageType

@@ -11,7 +11,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult AboutClackamasPartnership()
         {
             var con = new HomeController { ControllerContext = ControllerContext };
-            return con.ViewPageContent(FirmaPageTypeEnum.AboutClackamasPartnership);
+            return con.ViewPageContent(FirmaPageTypeEnum.About);
         }
 
         [HttpGet]
@@ -19,7 +19,23 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Meetings()
         {
             var con = new HomeController { ControllerContext = ControllerContext };
-            return con.ViewPageContent(FirmaPageTypeEnum.Meetings);
+            return con.ViewPageContent(FirmaPageTypeEnum.FirmaCustomPage1);
+        }
+
+        [HttpGet]
+        [AnonymousUnclassifiedFeature]
+        public ActionResult FirmaCustomPage2()
+        {
+            var con = new HomeController { ControllerContext = ControllerContext };
+            return con.ViewPageContent(FirmaPageTypeEnum.FirmaCustomPage2);
+        }
+
+        [HttpGet]
+        [AnonymousUnclassifiedFeature]
+        public ActionResult FirmaCustomPage3()
+        {
+            var con = new HomeController { ControllerContext = ControllerContext };
+            return con.ViewPageContent(FirmaPageTypeEnum.FirmaCustomPage3);
         }
     }
 }

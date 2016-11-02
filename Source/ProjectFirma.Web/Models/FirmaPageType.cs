@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeAboutClackamasPartnership
+    public partial class FirmaPageTypeAbout
     {
         public override string GetViewUrl()
         {
@@ -24,11 +24,27 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeMeetings
+    public partial class FirmaPageTypeFirmaCustomPage1
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<AboutController>.BuildUrlFromExpression(x => x.AboutClackamasPartnership());
+            return SitkaRoute<AboutController>.BuildUrlFromExpression(x => x.Meetings());
+        }
+    }
+
+    public partial class FirmaPageTypeFirmaCustomPage2
+    {
+        public override string GetViewUrl()
+        {
+            return SitkaRoute<AboutController>.BuildUrlFromExpression(x => x.FirmaCustomPage2());
+        }
+    }
+
+    public partial class FirmaPageTypeFirmaCustomPage3
+    {
+        public override string GetViewUrl()
+        {
+            return SitkaRoute<AboutController>.BuildUrlFromExpression(x => x.FirmaCustomPage3());
         }
     }
 
