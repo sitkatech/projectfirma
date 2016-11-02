@@ -36,6 +36,9 @@ body {
   float: right;
   padding: 20px;
 }
+.backButton {
+  padding: 0 0 20px 0;
+}
 .header {
   background-color: #f8f8f8;
 }
@@ -59,6 +62,9 @@ body {
 }
 .nav li {
   font-weight: 600;
+}
+.nav li a:hover {
+  text-decoration: none;
 }
 .navbar {
   border-top: none;
