@@ -13,13 +13,15 @@
 
 
 
-@sitka-light-blue: rgba(191, 224, 234, 0.77);
-@sitka-blue:  #337ab7;
-@globalFontToUse: "Open Sans",sans-serif;
-@defaultFontSize: 13px;
-@disabled-color: LightGray;
+@firma-light-blue: #f5f8fa;
+@firma-dark: #1e3948;
+@firma-blue:  #337ab7;
 @firma-white: #fff;
 @firma-gray: #e7e7e7;
+@firma-light-gray: #f8f8f8;
+@globalFontToUse: "Open Sans",sans-serif;
+@defaultFontSize: 13px;
+
 
 // Global
 
@@ -29,6 +31,8 @@ html, body {
 
 body {
     font-family: @globalFontToUse;
+    background-color: @firma-light-blue;
+    color: @firma-dark;
 }
 
 .alert {
@@ -44,11 +48,17 @@ body {
 
 .pageTitle, .entityTitle {
     font-weight: 600;
-    color: @sitka-blue;
+    color: @firma-blue;
 }
 
 #mainnavandcontent {
     margin-bottom: 20px;
+}
+
+.firmaContent {
+    background-color: @firma-white;
+    border: 1px solid @firma-gray;
+    padding-bottom: 20px;
 }
 
 .rightFloatingInfo {
@@ -56,17 +66,12 @@ body {
     padding: 20px;
 }
 
-a.excelbutton {
-    background: url(/Content/img/button_icon_excel.png) no-repeat scroll 0 0 transparent;
-    height: 16px;
-    padding: 0 0 0 20px;
-    font-size: 12px;
-}
-
 // Header
 
 .header {
     
+    background-color: @firma-light-gray;
+
     img {
         margin: 5px;
         height: 50px;
@@ -78,7 +83,7 @@ a.excelbutton {
         vertical-align: bottom;
         margin-bottom: 6px;
 
-        a:hover {
+        a:hover, a:active {
             text-decoration: none;
         }
     }
@@ -86,6 +91,23 @@ a.excelbutton {
 
 .nav li p {
     padding:0 15px 0 15px;
+}
+
+.nav li {
+    font-weight: 600;
+}
+
+.navbar {
+    border-top: none;
+}
+
+.navbar-right {
+    padding-right: 15px;
+}
+
+ul.dropdown-menu li a {
+    font-weight: 600;
+    color: @firma-dark;
 }
 
 // Footer
@@ -96,7 +118,7 @@ footer {
     right: 0;
     width: 100%;
     height: 65px;
-    background-color: @firma-gray;
+    background-color: @firma-light-blue;
 
     p {
         margin: 10px 0;
@@ -275,3 +297,12 @@ a.btn-firma {
     padding-right: 15px;
 }
 
+
+// Grids
+
+a.excelbutton {
+    background: url(/Content/img/button_icon_excel.png) no-repeat scroll 0 0 transparent;
+    height: 16px;
+    padding: 0 0 0 20px;
+    font-size: 12px;
+}

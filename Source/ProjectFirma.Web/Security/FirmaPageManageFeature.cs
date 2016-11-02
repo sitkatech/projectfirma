@@ -1,4 +1,5 @@
-﻿using ProjectFirma.Web.Models;
+﻿using System.Collections.Generic;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
@@ -8,7 +9,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<FirmaPage> _firmaFeatureWithContextImpl;
 
         public FirmaPageManageFeature()
-            : base(FirmaBaseFeatureHelpers.AllRolesExceptUnassigned)
+            : base(new List<Role>{Role.Admin, Role.SitkaAdmin})
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<FirmaPage>(this);
             ActionFilter = _firmaFeatureWithContextImpl;

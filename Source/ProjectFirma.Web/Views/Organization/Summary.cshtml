@@ -20,6 +20,10 @@
     <link href="@Url.Content("~/Content/leaflet/leaflet.legend/leaflet-legend.css")" rel="stylesheet" type="text/css" />
 }
 
+<div style="margin-top: 20px">
+    <a class="btn btn-blue" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all Organizations</a>
+</div>
+
 <div class="container-fluid">
     <ul class="nav nav-tabs" id="organizationDetailsTabs">
         <li class="active"><a href="#organizationOverview" aria-controls="organizationOverview" role="tab" data-toggle="tab">Overview</a></li>
@@ -27,133 +31,121 @@
     </ul>
 </div>
 <div class="panel panel-default">
-    <div class="panel-body">
+    <div class="panel-body tabPaneBody">
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="organizationOverview">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="summarySection">
-                            <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationUrl, string.Format("Edit Organization - {0}", ViewDataTyped.Organization.DisplayName), ViewDataTyped.UserHasOrganizationManagePermissions) Basics</h2>
-                            <div class="contentWrapper">
-                                <div class="col-md-6" style="margin-bottom: 15px;">
-                                    <table class="summaryLayout">
-                                        <tr>
-                                            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.OrganizationName):</th>
-                                            <td>
-                                                @ViewDataTyped.Organization.OrganizationName
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.OrganizationAbbreviation):</th>
-                                            <td>
-                                                @ViewDataTyped.Organization.OrganizationAbbreviation
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Sector):</th>
-                                            <td>
-                                                @ViewDataTyped.Organization.Sector.SectorDisplayName
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PrimaryContact):</th>
-                                            <td>
-                                                @(new UserViewFeature().HasPermissionByPerson(ViewDataTyped.CurrentPerson) ? ViewDataTyped.Organization.PrimaryContactPersonWithOrgAsUrl : ViewDataTyped.Organization.PrimaryContactPersonAsStringAndOrgAsUrl)
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.OrganizationUrl, "Home Page"):</th>
-                                            <td>
-                                                <a href="@ViewDataTyped.Organization.OrganizationUrl">@ViewDataTyped.Organization.OrganizationUrl</a>
-                                            </td>
-                                        </tr>
-                                    </table>
+                    <div class="col-md-6">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationUrl, string.Format("Edit Organization - {0}", ViewDataTyped.Organization.DisplayName), ViewDataTyped.UserHasOrganizationManagePermissions) Basics
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithFieldDefinitionFor(FieldDefinition.OrganizationName):</div>
+                                    <div class="col-xs-7">@ViewDataTyped.Organization.OrganizationName</div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div style="width: 100%; text-align: center;">
-                                        @if (ViewDataTyped.Organization.LogoFileResource != null)
-                                        {
-                                            <img src="@ViewDataTyped.Organization.LogoFileResource.FileResourceUrl" style="max-width: 200px; max-height: 200px; margin-left: auto; margin-right: auto;" />
-                                        }
-                                    </div>
+                                <div class="row">
+                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithFieldDefinitionFor(FieldDefinition.OrganizationAbbreviation):</div>
+                                    <div class="col-xs-7">@ViewDataTyped.Organization.OrganizationAbbreviation</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Sector):</div>
+                                    <div class="col-xs-7">@ViewDataTyped.Organization.Sector.SectorDisplayName</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PrimaryContact):</div>
+                                    <div class="col-xs-7">@(new UserViewFeature().HasPermissionByPerson(ViewDataTyped.CurrentPerson) ? ViewDataTyped.Organization.PrimaryContactPersonWithOrgAsUrl : ViewDataTyped.Organization.PrimaryContactPersonAsStringAndOrgAsUrl)</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithFieldDefinitionFor(FieldDefinition.OrganizationUrl, "Home Page"):</div>
+                                    <div class="col-xs-7"><a href="@ViewDataTyped.Organization.OrganizationUrl">@ViewDataTyped.Organization.OrganizationUrl</a></div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
+                    <div class="col-md-6">
+                        <div style="width: 100%; text-align: center;">
+                            @if (ViewDataTyped.Organization.LogoFileResource != null)
+                            {
+                                <img src="@ViewDataTyped.Organization.LogoFileResource.FileResourceUrl" style="max-width: 200px; max-height: 200px; margin-left: auto; margin-right: auto;" />
+                            }
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="summarySection">
-                            <h2>Map</h2>
-                            <div class="contentWrapper">
-                                <div class="contentWrapper">
-                                    @if (ViewDataTyped.HasSpatialData)
-                                    {
-                                        <span>This map displays any Projects, Development Right Transfers, and jurisdictional boundaries associated with this organiztion.</span>
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                Map
+                            </div>
+                            <div class="panel-body">
+                                @if (ViewDataTyped.HasSpatialData)
+                                {
+                                    <span>This map displays any Projects, Development Right Transfers, and jurisdictional boundaries associated with this organiztion.</span>
 
-                                        <div id="legend" style="padding: 10px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);">
-                                            <div>
-                                                <span style="font-weight: bold">Projects</span>
-                                                <div style="margin-left: 10px">
-                                                    <div><span class="glyphicon glyphicon-map-marker" style="color:#3366ff"></span>Lead Implementer</div>
-                                                    <div><span class="glyphicon glyphicon-map-marker" style="color:#99b3ff"></span>Funder and/or Implementer</div>
+                                    <div id="legend" style="padding: 10px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);">
+                                        <div>
+                                            <span style="font-weight: bold">Projects</span>
+                                            <div style="margin-left: 10px">
+                                                <div>
+                                                    <span class="glyphicon glyphicon-map-marker" style="color: #3366ff"></span>Lead Implementer
+                                                </div>
+                                                <div>
+                                                    <span class="glyphicon glyphicon-map-marker" style="color: #99b3ff"></span>Funder and/or Implementer
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 600px; margin: 5px 0 5px 0">
-                                        </div>
-                                        <span class="systemText" style="font-size: 12px">To zoom into a specific area, hold down the Shift key and drag a rectangle.</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="systemText">No spatial data associated with this organization.</span>
-                                    }
-
-                                </div>
-
+                                    <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 600px; margin: 5px 0 5px 0">
+                                    </div>
+                                    <span class="systemText" style="font-size: 12px">To zoom into a specific area, hold down the Shift key and drag a rectangle.</span>
+                                }
+                                else
+                                {
+                                    <span class="systemText">No spatial data associated with this organization.</span>
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-8 col-sm-12">
-                        <div class="summarySection">
-                            <h2>Users</h2>
-                            <div class="contentWrapper">
+                    <div class="col-sm-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                Users
+                            </div>
+                            <div class="panel-body">
                                 @if (ViewDataTyped.Organization.People.Any())
                                 {
-                                    <table class="summaryLayout">
-                                        @foreach (var batchPeople in ViewDataTyped.Organization.People.Where(x => x.IsActive).OrderBy(x => x.FullNameLastFirst).Batch(3))
+                                    <ul>
+                                        @foreach (var person in ViewDataTyped.Organization.People.Where(x => x.IsActive).OrderBy(x => x.FullNameLastFirst))
                                         {
-                                            <tr>
-                                                @foreach (var person in batchPeople.OrderBy(x => x.FullNameLastFirst))
-                                                {
-                                                    <td>
-                                                        @if (new UserViewFeature().HasPermissionByPerson(ViewDataTyped.CurrentPerson))
-                                                        {
-                                                            @person.GetFullNameFirstLastAsUrl()
-                                                        }
-                                                        else
-                                                        {
-                                                            @person.FullNameFirstLast
-                                                        }
-                                                    </td>
-                                                }
-                                            </tr>
+                                            if (new UserViewFeature().HasPermissionByPerson(ViewDataTyped.CurrentPerson))
+                                            {
+                                                <li>
+                                                    @person.GetFullNameFirstLastAsUrl()
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    @person.FullNameFirstLast
+                                                </li>
+                                            }
                                         }
-                                    </table>
+                                    </ul>
                                 }
                                 else
                                 {
-                                    <span class="systemText">No Users belong to this organization.</span>
+                                    <div class="alert" role="alert">No Users belong to this organization.</div>
                                 }
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-12">
+                    <!-- <div class="col-md-4 col-sm-12">
                         <div class="summarySection">
                             <h2>Monitoring Programs</h2>
                             <div class="contentWrapper">
@@ -165,8 +157,8 @@
                                             <tr>
                                                 <td>
                                                     @monitoringProgram.DisplayNameAsUrl
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
                                         }
                                     </table>
                                 }
@@ -176,61 +168,71 @@
                                 }
                             </div>
                         </div>
-                    </div>
+                    </div>  -->
+                    
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="fundingAndProjects">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="summarySection" style="height: 500px">
-                            <h2>
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
                                 @Html.LabelWithFieldDefinitionFor(FieldDefinition.FundingSource, LabelForExtensions.DisplayStyle.HelpIconOnly) <a href="@ViewDataTyped.ManageFundingSourcesUrl">Funding Sources</a>
-                            </h2>
-                            <div class="contentWrapper">
+                            </div>
+                            <div class="panel-body">
                                 @if (ViewDataTyped.Organization.FundingSources.Any())
                                 {
-                                    <table class="table table-condensed">
+                                    <ul>
                                         @foreach (var fundingSource in ViewDataTyped.Organization.FundingSources.OrderBy(x => x.FundingSourceName))
                                         {
-                                            <tr>
-                                                <td>@fundingSource.DisplayNameAsUrl</td>
-                                            </tr>
+                                            <li>
+                                                @fundingSource.DisplayNameAsUrl
+                                            </li>
                                         }
-                                    </table>
+                                    </ul>
+
                                 }
                                 else
                                 {
-                                    <span class="systemText">No funding sources set for this organization.</span>
+                                    <div class="alert">No funding sources set for this organization.</div>
                                 }
                             </div>
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <div class="summarySection" style="height: 500px">
-                            <h2>Reported Expenditures by Funding Source</h2>
-                            <div class="contentWrapper">
-                                <div style="border-radius: 8px; background-color: white; height: 410px; margin-right: auto; margin-left: auto; width: 600px">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                Reported Expenditures by Funding Source
+                            </div>
+                            <div class="panel-body">
+                                <div>
                                     @{ CalendarYearExpendituresLineChart.RenderPartialView(Html, ViewDataTyped.CalendarYearExpendituresLineChartViewData); }
                                 </div>
                             </div>
-                        </div>
+                        </div> 
                     </div>
                 </div>
-                <div class="summarySection">
-                    <h2>Projects</h2>
-                    <div class="contentWrapper">
-                        @Html.DhtmlxGrid(ViewDataTyped.ProjectOrganizationsGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                Projects
+                            </div>
+                            <div class="panel-body">
+                                <div>
+                                   @Html.DhtmlxGrid(ViewDataTyped.ProjectOrganizationsGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                                </div>
+                            </div>
+                        </div> 
                     </div>
                 </div>
             </div>
-
+  
         </div>
     </div>
 </div>
 
-<div style="margin-top: 20px">
-    <a class="btn btn-blue" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
-</div>
+
 
 <script type="text/javascript">
     jQuery(document).ready(function()
