@@ -277,56 +277,6 @@ namespace ProjectFirma.Web.Controllers
         }
 
         /// <summary>
-        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResourceForTransportationObjective(TransportationObjectivePrimaryKey, CkEditorImageUploadViewModel)"/>
-        /// </summary>
-        /// <returns></returns>
-        [CrossAreaRoute]
-        [HttpGet]
-        [TransportationObjectiveManageFeature]
-        public ContentResult CkEditorUploadFileResourceForTransportationObjective(TransportationObjectivePrimaryKey transportationObjectivePrimaryKey)
-        {
-            return Content(String.Empty);
-        }
-
-        [CrossAreaRoute]
-        [HttpPost]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        [TransportationObjectiveManageFeature]
-        public ContentResult CkEditorUploadFileResourceForTransportationObjective(TransportationObjectivePrimaryKey transportationObjectivePrimaryKey, CkEditorImageUploadViewModel viewModel)
-        {
-            var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
-            var transportationObjective = transportationObjectivePrimaryKey.EntityObject;
-            var image = new TransportationObjectiveImage(transportationObjective, fileResource);
-            HttpRequestStorage.DatabaseEntities.TransportationObjectiveImages.Add(image);
-            return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
-        }
-
-        /// <summary>
-        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResourceForTransportationStrategy(TransportationStrategyPrimaryKey, CkEditorImageUploadViewModel)"/>
-        /// </summary>
-        /// <returns></returns>
-        [CrossAreaRoute]
-        [HttpGet]
-        [TransportationStrategyManageFeature]
-        public ContentResult CkEditorUploadFileResourceForTransportationStrategy(TransportationStrategyPrimaryKey transportationStrategyPrimaryKey)
-        {
-            return Content(String.Empty);
-        }
-
-        [CrossAreaRoute]
-        [HttpPost]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        [TransportationStrategyManageFeature]
-        public ContentResult CkEditorUploadFileResourceForTransportationStrategy(TransportationStrategyPrimaryKey transportationStrategyPrimaryKey, CkEditorImageUploadViewModel viewModel)
-        {
-            var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
-            var transportationStrategy = transportationStrategyPrimaryKey.EntityObject;
-            var image = new TransportationStrategyImage(transportationStrategy, fileResource);
-            HttpRequestStorage.DatabaseEntities.TransportationStrategyImages.Add(image);
-            return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
-        }
-
-        /// <summary>
         /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResourceForFieldDefinition(FieldDefinitionPrimaryKey, CkEditorImageUploadViewModel)"/>
         /// </summary>
         /// <returns></returns>

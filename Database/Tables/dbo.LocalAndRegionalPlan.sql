@@ -7,7 +7,6 @@ CREATE TABLE [dbo].[LocalAndRegionalPlan](
 	[LocalAndRegionalPlanName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[PlanDocumentUrl] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[PlanDocumentLinkText] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[IsTransportationPlan] [bit] NOT NULL,
  CONSTRAINT [PK_LocalAndRegionalPlan_LocalAndRegionalPlanID] PRIMARY KEY CLUSTERED 
 (
 	[LocalAndRegionalPlanID] ASC

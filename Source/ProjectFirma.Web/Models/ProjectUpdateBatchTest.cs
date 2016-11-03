@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Models
                             DateTime.Now.AddDays(4),
                             new List<ProjectExemptReportingYear>(),
                             new List<ProjectFundingSourceExpenditure>(),
-                            new List<TransportationProjectBudget>(),
+                            new List<ProjectBudget>(),
                             new List<PerformanceMeasureActual>(),
                             new List<PerformanceMeasureActualSubcategoryOption>(),
                             new List<ProjectExternalLink>(),
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Models
                 DateTime.Now.AddDays(4),
                 new List<ProjectExemptReportingYear>(),
                 new List<ProjectFundingSourceExpenditure>(),
-                new List<TransportationProjectBudget>(),
+                new List<ProjectBudget>(),
                 new List<PerformanceMeasureActual>(),
                 new List<PerformanceMeasureActualSubcategoryOption>(),
                 new List<ProjectExternalLink>(),
@@ -313,7 +313,7 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
-        public void GetProjectUpdatePlanningDesignStartToCompletionYearRangeForTransportationProjectBudgetsTest()
+        public void GetProjectUpdatePlanningDesignStartToCompletionYearRangeForProjectBudgetsTest()
         {
             var project = TestFramework.TestProject.Create();
             var projectUpdateBatch = TestFramework.TestProjectUpdateBatch.Create(project);
@@ -477,51 +477,45 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
-        public void ValidateTransportationBudgetsAndForceValidationWhenNotOnFTIPListTest()
+        public void ValidateBudgetsAndForceValidationWhenNotOnFTIPListTest()
         {
             var projectUpdate = TestFramework.TestProjectUpdate.Create();
             var projectUpdateBatch = projectUpdate.ProjectUpdateBatch;
-            Assert.That(projectUpdateBatch.Project.OnFederalTransportationImprovementProgramList, Is.False, "Should not be on FTIP for this test to be useful");
 
-            var result = projectUpdateBatch.ValidateTransportationBudgetsAndForceValidation();
-            Assert.That(result.IsValid, Is.True, "Should be valid since we don't care about any Transportation Budgets when project is not on FTIP list");
+            var result = projectUpdateBatch.ValidateBudgetsAndForceValidation();
+            Assert.That(result.IsValid, Is.True, "Should be valid since we don't care about any  Budgets when project is not on FTIP list");
 
-            // add some Transportation Budget Rows
+            // add some  Budget Rows
             var currentYear = DateTime.Today.Year;
             projectUpdate.ImplementationStartYear = currentYear - 1;
             projectUpdate.CompletionYear = currentYear + 2;
             var organization1 = TestFramework.TestOrganization.Create("Org1");
             var fundingSource1 = TestFramework.TestFundingSource.Create(organization1, "Funding Source 1");
 
-            TestFramework.TestTransportationProjectBudgetUpdate.Create(projectUpdateBatch, fundingSource1, TransportationProjectCostType.Construction, currentYear + 2, 1000); // record after current year
+            TestFramework.TestProjectBudgetUpdate.Create(projectUpdateBatch, fundingSource1, ProjectCostType.Construction, currentYear + 2, 1000); // record after current year
 
-            result = projectUpdateBatch.ValidateTransportationBudgetsAndForceValidation();
-            Assert.That(result.IsValid, Is.True, "Should be valid since we don't care about any Transportation Budgets when project is not on FTIP list");
+            result = projectUpdateBatch.ValidateBudgetsAndForceValidation();
+            Assert.That(result.IsValid, Is.True, "Should be valid since we don't care about any  Budgets when project is not on FTIP list");
 
-            projectUpdateBatch.Project.OnFederalTransportationImprovementProgramList = true;
-            Assert.That(projectUpdateBatch.Project.OnFederalTransportationImprovementProgramList, Is.True, "Should be on FTIP for this test to be useful");
-
-            result = projectUpdateBatch.ValidateTransportationBudgetsAndForceValidation();
+            result = projectUpdateBatch.ValidateBudgetsAndForceValidation();
             Assert.That(result.IsValid, Is.False, "Should not be valid since project is on FTIP list");
         }
 
         [Test]
-        public void ValidateTransportationBudgetsAndForceValidationWhenOnFTIPListTest()
+        public void ValidateBudgetsAndForceValidationWhenOnFTIPListTest()
         {
             var projectUpdate = TestFramework.TestProjectUpdate.Create();
             var projectUpdateBatch = projectUpdate.ProjectUpdateBatch;
-            projectUpdateBatch.Project.OnFederalTransportationImprovementProgramList = true;
-            Assert.That(projectUpdateBatch.Project.OnFederalTransportationImprovementProgramList, Is.True, "Should be on FTIP for this test to be useful");
 
             Assert.That(projectUpdate.PlanningDesignStartYear, Is.Null, "Should not have a Planning/Design Start Year set");
-            var result = projectUpdateBatch.ValidateTransportationBudgetsAndForceValidation();
+            var result = projectUpdateBatch.ValidateBudgetsAndForceValidation();
             Assert.That(result.IsValid, Is.False, "Should not be valid since we do not have a Planning/Design Start Year set");
             Assert.That(result.GetWarningMessages(), Is.EquivalentTo(new List<string> { FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
 
             var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             projectUpdate.PlanningDesignStartYear = 2005;
             projectUpdate.ImplementationStartYear = currentYear;
-            AssertBudgetYears(projectUpdateBatch.TransportationProjectBudgetUpdates.ToList(),
+            AssertBudgetYears(projectUpdateBatch.ProjectBudgetUpdates.ToList(),
                 projectUpdate.PlanningDesignStartYear.Value,
                 currentYear,
                 projectUpdateBatch,
@@ -529,7 +523,7 @@ namespace ProjectFirma.Web.Models
                 string.Format("Has start year before 2007 but no completion year, expect range of {0} to at least current year to be missing", projectUpdate.ImplementationStartYear));
 
             projectUpdate.PlanningDesignStartYear = currentYear - 3;
-            AssertBudgetYears(projectUpdateBatch.TransportationProjectBudgetUpdates.ToList(),
+            AssertBudgetYears(projectUpdateBatch.ProjectBudgetUpdates.ToList(),
                 projectUpdate.PlanningDesignStartYear.Value,
                 currentYear,
                 projectUpdateBatch,
@@ -538,7 +532,7 @@ namespace ProjectFirma.Web.Models
 
             projectUpdate.CompletionYear = currentYear - 1;
             projectUpdate.ImplementationStartYear = currentYear - 1;
-            AssertBudgetYears(projectUpdateBatch.TransportationProjectBudgetUpdates.ToList(),
+            AssertBudgetYears(projectUpdateBatch.ProjectBudgetUpdates.ToList(),
                 projectUpdate.PlanningDesignStartYear.Value,
                 projectUpdate.CompletionYear.Value,
                 projectUpdateBatch,
@@ -546,7 +540,7 @@ namespace ProjectFirma.Web.Models
                 "Has start year and completion year before current year, expect range of start year to completion year to be missing");
 
             projectUpdate.CompletionYear = currentYear + 1;
-            AssertBudgetYears(projectUpdateBatch.TransportationProjectBudgetUpdates.ToList(),
+            AssertBudgetYears(projectUpdateBatch.ProjectBudgetUpdates.ToList(),
                 projectUpdate.PlanningDesignStartYear.Value,
                 projectUpdate.CompletionYear.Value,
                 projectUpdateBatch,
@@ -556,14 +550,14 @@ namespace ProjectFirma.Web.Models
             projectUpdate.PlanningDesignStartYear = 2002;
             projectUpdate.ImplementationStartYear = 2006;
             projectUpdate.CompletionYear = 2006;
-            AssertBudgetYears(projectUpdateBatch.TransportationProjectBudgetUpdates.ToList(),
+            AssertBudgetYears(projectUpdateBatch.ProjectBudgetUpdates.ToList(),
                 projectUpdate.PlanningDesignStartYear.Value,
                 projectUpdate.CompletionYear.Value,
                 projectUpdateBatch,
                 false,
-                "Transportation budgets are not restricted by the Minimum Year for Reporting (2007)");
+                " budgets are not restricted by the Minimum Year for Reporting (2007)");
 
-            // now add some transportation probject budget update records
+            // now add some  probject budget update records
             projectUpdate.PlanningDesignStartYear = currentYear - 1;
             projectUpdate.ImplementationStartYear = currentYear;
             projectUpdate.CompletionYear = currentYear + 2;
@@ -571,18 +565,18 @@ namespace ProjectFirma.Web.Models
             var fundingSource1 = TestFramework.TestFundingSource.Create(organization1, "Funding Source 1");
 
           
-            TestFramework.TestTransportationProjectBudgetUpdate.Create(projectUpdateBatch, fundingSource1, TransportationProjectCostType.Construction, currentYear + 2, 1000); // record after current year
-            TestFramework.TestTransportationProjectBudgetUpdate.Create(projectUpdateBatch, fundingSource1, TransportationProjectCostType.PreliminaryEngineering, projectUpdate.PlanningDesignStartYear.Value - 2, 2000); // record before start year
-            AssertBudgetYears(projectUpdateBatch.TransportationProjectBudgetUpdates.ToList(),
+            TestFramework.TestProjectBudgetUpdate.Create(projectUpdateBatch, fundingSource1, ProjectCostType.Construction, currentYear + 2, 1000); // record after current year
+            TestFramework.TestProjectBudgetUpdate.Create(projectUpdateBatch, fundingSource1, ProjectCostType.PreliminaryEngineering, projectUpdate.PlanningDesignStartYear.Value - 2, 2000); // record before start year
+            AssertBudgetYears(projectUpdateBatch.ProjectBudgetUpdates.ToList(),
                 projectUpdate.PlanningDesignStartYear.Value,
                 projectUpdate.CompletionYear.Value,
                 projectUpdateBatch,
                 false,
                 "Has start year and completion year after current year, budget record outside of validatable range, expect range of start year to completion year to be missing");
 
-            TestFramework.TestTransportationProjectBudgetUpdate.Create(projectUpdateBatch, fundingSource1, TransportationProjectCostType.RightOfWay, projectUpdate.PlanningDesignStartYear.Value, 3000); // record at start year
-            TestFramework.TestTransportationProjectBudgetUpdate.Create(projectUpdateBatch, fundingSource1, TransportationProjectCostType.PreliminaryEngineering, projectUpdate.CompletionYear.Value, 4000); // record at completion year
-            AssertBudgetYears(projectUpdateBatch.TransportationProjectBudgetUpdates.ToList(),
+            TestFramework.TestProjectBudgetUpdate.Create(projectUpdateBatch, fundingSource1, ProjectCostType.RightOfWay, projectUpdate.PlanningDesignStartYear.Value, 3000); // record at start year
+            TestFramework.TestProjectBudgetUpdate.Create(projectUpdateBatch, fundingSource1, ProjectCostType.PreliminaryEngineering, projectUpdate.CompletionYear.Value, 4000); // record at completion year
+            AssertBudgetYears(projectUpdateBatch.ProjectBudgetUpdates.ToList(),
                 projectUpdate.PlanningDesignStartYear.Value,
                 projectUpdate.CompletionYear.Value,
                 projectUpdateBatch,
@@ -592,8 +586,8 @@ namespace ProjectFirma.Web.Models
             // fill in the other years missing
             FirmaDateUtilities.GetRangeOfYears(projectUpdate.PlanningDesignStartYear.Value, projectUpdate.CompletionYear.Value)
                 .GetMissingYears(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList().Select(x => x.CalendarYear))
-                .ForEach(x => TestFramework.TestTransportationProjectBudgetUpdate.Create(projectUpdateBatch, fundingSource1, TransportationProjectCostType.Construction, x, 5000));
-            AssertBudgetYears(projectUpdateBatch.TransportationProjectBudgetUpdates.ToList(),
+                .ForEach(x => TestFramework.TestProjectBudgetUpdate.Create(projectUpdateBatch, fundingSource1, ProjectCostType.Construction, x, 5000));
+            AssertBudgetYears(projectUpdateBatch.ProjectBudgetUpdates.ToList(),
                 projectUpdate.PlanningDesignStartYear.Value,
                 projectUpdate.CompletionYear.Value,
                 projectUpdateBatch,
@@ -797,19 +791,19 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        private static void AssertBudgetYears(List<TransportationProjectBudgetUpdate> transportationProjectBudgetUpdates,
+        private static void AssertBudgetYears(List<ProjectBudgetUpdate> ProjectBudgetUpdates,
             int startYear,
             int currentYear,
             ProjectUpdateBatch projectUpdateBatch,
             bool isValid,
             string assertionMessage)
         {
-            var result = projectUpdateBatch.ValidateTransportationBudgetsAndForceValidation();
+            var result = projectUpdateBatch.ValidateBudgetsAndForceValidation();
             Assert.That(result.IsValid, Is.EqualTo(isValid), string.Format("Should be {0}", isValid ? " valid" : "not valid"));
 
-            var currentYearsEntered = transportationProjectBudgetUpdates.Select(y => y.CalendarYear).Distinct().ToList();
+            var currentYearsEntered = ProjectBudgetUpdates.Select(y => y.CalendarYear).Distinct().ToList();
             var expectedMissingYears = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).ToList();
-            var fundingSources = transportationProjectBudgetUpdates.Select(x => x.FundingSource).Distinct().ToList();
+            var fundingSources = ProjectBudgetUpdates.Select(x => x.FundingSource).Distinct().ToList();
             if (!fundingSources.Any())
             {
                 if (expectedMissingYears.Any())

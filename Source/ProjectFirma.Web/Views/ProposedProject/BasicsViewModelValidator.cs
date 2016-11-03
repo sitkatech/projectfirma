@@ -51,34 +51,12 @@ namespace ProjectFirma.Web.Views.ProposedProject
             RuleFor(x => x.LeadImplementerOrganizationID)
                 .NotEmpty()
                 .WithMessage(NeedsLeadImplementingOrganizationMessage);
-            RuleFor(x => x.IsTransportationProject).NotNull();
 
-            
-            
             RuleFor(x => x.ImplementsMultipleProjects).Must((viewModel, x) =>
             {
                 var isApprover = new ProposedProjectApproveFeature().HasPermissionByPerson(HttpRequestStorage.Person);
                 return !isApprover || x.HasValue;
-            }).WithMessage("Approvers are required to provide determine whether a project is a program"); ;
-            RuleFor(x => x.TransportationObjectiveID)
-                .Must((viewModel, x) =>
-                {
-                    var isApprover = new ProposedProjectApproveFeature().HasPermissionByPerson(HttpRequestStorage.Person);
-                    return !isApprover || !viewModel.IsTransportationProject.HasValue || !viewModel.IsTransportationProject.Value || x.HasValue;
-                })
-                .WithMessage("Approvers are required to provide a Transportation Objective");
-            RuleFor(x => x.OnFederalTransportationImprovementProgramList)
-                .Must((viewModel, x) =>
-                {
-                    var isApprover = new ProposedProjectApproveFeature().HasPermissionByPerson(HttpRequestStorage.Person);
-                    return !isApprover || !viewModel.IsTransportationProject.HasValue || !viewModel.IsTransportationProject.Value || x.HasValue;
-                })
-                .WithMessage("Approvers are required to determine with the project is on the FTIP list");
-
-
-
-
-
+            }).WithMessage("Approvers are required to provide determine whether a project is a program");
         }
     }
 }

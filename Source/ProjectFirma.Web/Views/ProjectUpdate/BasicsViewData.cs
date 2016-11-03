@@ -44,9 +44,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ViewDataForAngular = viewDataForAngular;
 
             InflationRate = inflationRate;
-            CapitalCostInYearOfExpenditure = Models.TransportationCostParameterSet.CalculateCapitalCostInYearOfExpenditure(projectUpdate);
-            TotalOperatingCostInYearOfExpenditure = Models.TransportationCostParameterSet.CalculateTotalRemainingOperatingCost(projectUpdate);
-            StartYearForTotalOperatingCostCalculation = Models.TransportationCostParameterSet.StartYearForTotalCostCalculations(projectUpdate);
+            CapitalCostInYearOfExpenditure = Models.CostParameterSet.CalculateCapitalCostInYearOfExpenditure(projectUpdate);
+            TotalOperatingCostInYearOfExpenditure = Models.CostParameterSet.CalculateTotalRemainingOperatingCost(projectUpdate);
+            StartYearForTotalOperatingCostCalculation = Models.CostParameterSet.StartYearForTotalCostCalculations(projectUpdate);
         }
 
         public class ViewDataForAngularClass

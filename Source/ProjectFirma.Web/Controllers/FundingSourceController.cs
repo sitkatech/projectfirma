@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult New()
         {
             const int organizationID = 0;
-            var fundingSource = new FundingSource(organizationID, string.Empty, true, false);
+            var fundingSource = new FundingSource(organizationID, string.Empty, true);
             var viewModel = new EditViewModel(fundingSource);
             return ViewEdit(viewModel);
         }
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            var fundingSource = new FundingSource(viewModel.OrganizationID, string.Empty, true, false);
+            var fundingSource = new FundingSource(viewModel.OrganizationID, string.Empty, true);
             viewModel.UpdateModel(fundingSource, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.FundingSources.Add(fundingSource);
             return new ModalDialogFormJsonResult();

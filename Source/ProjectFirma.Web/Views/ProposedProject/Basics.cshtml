@@ -1,5 +1,4 @@
-﻿@using ProjectFirma.Web.Models
-@using LtInfo.Common
+﻿@using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @inherits ProjectFirma.Web.Views.ProposedProject.Basics
 
@@ -119,60 +118,20 @@
             @Html.ValidationMessageFor(m => m.CompletionYear)
         </div>
     </div>    
-    <div class="row">
-        <div class="col-md-4 col-lg-3 col-header">
-            @Html.LabelWithFieldDefinitionFor(m => m.IsTransportationProject):
-        </div>
-        <div class="col-md-4">
-            @Html.DropDownListFor(m => m.IsTransportationProject, BooleanFormats.GetYesNoSelectList(), new {onchange = "toggleTransportationObjectivePanel()"})
-            @Html.ValidationMessageFor(m => m.IsTransportationProject)
-        </div>
-    </div>
 
     if (ViewDataTyped.CurrentPersonIsApprover)
     { 
         <hr />
         <p>Additional Approver Questions</p>
-        <div id="transportationObjectivePanel" @Html.Raw((Model.IsTransportationProject ?? false) ? string.Empty : " style=\"display:none\" ")>
-            <div class="row">
-                <div class="col-md-4 col-lg-3 col-header">
-                    @Html.LabelWithFieldDefinitionFor(m => m.TransportationObjectiveID):
-                </div>
-                <div class="col-md-4">
-                    <select name="@Html.NameFor(x => x.TransportationObjectiveID)" id="@Html.IdFor(x => x.TransportationObjectiveID)">
-                        <option value="">Choose an Objective</option>
-                        @foreach (var transportationStrategy in ViewDataTyped.TransportationObjectives.GroupBy(x => x.TransportationStrategy).OrderBy(x => x.Key.DisplayName))
-                        {
-                            <optgroup label="@transportationStrategy.Key.DisplayName">
-                                @foreach (var transportationObjective in transportationStrategy.OrderBy(x => x.DisplayName))
-                                {
-                                    <option value="@transportationObjective.TransportationObjectiveID" @((Model.TransportationObjectiveID == transportationObjective.TransportationObjectiveID).ToSelectedOrEmpty())>@transportationObjective.DisplayName</option>
-                                }
-                            </optgroup>
-                        }
-                    </select>
-                    @Html.ValidationMessageFor(m => m.TransportationObjectiveID)
-                </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-3 col-header">
+                @Html.LabelWithFieldDefinitionFor(m => m.ImplementsMultipleProjects, "Program that implements multiple projects?")
             </div>
-            <div class="row">
-                <div class="col-md-4 col-lg-3 col-header" >
-                    @Html.LabelWithFieldDefinitionFor(m => m.OnFederalTransportationImprovementProgramList, "Project is on FTIP List?")
-                </div>
-                <div class="col-md-4">
-                    @Html.DropDownListFor(m => m.OnFederalTransportationImprovementProgramList, BooleanFormats.GetYesNoSelectList())
-                    @Html.ValidationMessageFor(m => m.OnFederalTransportationImprovementProgramList)
-                </div>
+            <div class="col-md-4">
+                @Html.DropDownListFor(m => m.ImplementsMultipleProjects, BooleanFormats.GetYesNoSelectList())
+                @Html.ValidationMessageFor(m => m.ImplementsMultipleProjects)
             </div>
         </div>
-    <div class="row">
-        <div class="col-md-4 col-lg-3 col-header">
-            @Html.LabelWithFieldDefinitionFor(m => m.ImplementsMultipleProjects, "Program that implements multiple projects?")
-        </div>
-        <div class="col-md-4">
-            @Html.DropDownListFor(m => m.ImplementsMultipleProjects, BooleanFormats.GetYesNoSelectList())
-            @Html.ValidationMessageFor(m => m.ImplementsMultipleProjects)
-        </div>
-    </div>
     }
 
     <div style="margin: 5px 0;">
@@ -186,17 +145,6 @@
 
 <script type="text/javascript">
     // <![CDATA[
-
-    function toggleTransportationObjectivePanel()
-    {
-        if (jQuery("#@Html.IdFor(x => x.IsTransportationProject)").val() == "@true.ToString()") {
-            jQuery("#transportationObjectivePanel").show();
-        }
-        else {
-            jQuery("#transportationObjectivePanel").hide();
-        }
-    }
-
     function displaySelectedFundingTypeFields() {
         var fundingTypeDropdown = jQuery("#@Html.IdFor(x => x.FundingTypeID)");
         if (fundingTypeDropdown.val() == 1) {

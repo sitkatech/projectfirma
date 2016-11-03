@@ -49,7 +49,7 @@
                 }
                 else
                 {
-                    @ProjectWizardComponents.MakeDisabledSectionLink("Location - Simple");
+                    @ProjectWizardComponents.MakeDisabledSectionLink("Location - Simple")
                 }
                 <span class="pull-right" style="padding: 5px">
                     @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsProjectLocationSimpleSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
@@ -62,7 +62,7 @@
                 }
                 else
                 {
-                    @ProjectWizardComponents.MakeDisabledSectionLink("Location - Detailed");
+                    @ProjectWizardComponents.MakeDisabledSectionLink("Location - Detailed")
                 }
             </li>
             <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProposedProjectSection)">
@@ -73,7 +73,6 @@
                 else
                 {
                     @ProjectWizardComponents.MakeDisabledSectionLink("Performance Measures")
-                    ;
                 }
                 <span class="pull-right" style="padding: 5px;">
                     @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsPerformanceMeasureSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
@@ -86,26 +85,26 @@
                 }
                 else
                 {
-                    @ProjectWizardComponents.MakeDisabledSectionLink("Threshold Categories");
+                    @ProjectWizardComponents.MakeDisabledSectionLink("Threshold Categories")
                 }
                 <span class="pull-right" style="padding: 5px;">
                     @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsThresholdCategoriesComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                 </span>
 
             </li>
-            @if (ViewDataTyped.ProposedProject != null && ViewDataTyped.ProposedProject.IsTransportationProject)
+            @if (ViewDataTyped.ProposedProject != null)
             {
-                <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.TransportationAssessment, ViewDataTyped.SelectedProposedProjectSection)">
+                <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Assessment, ViewDataTyped.SelectedProposedProjectSection)">
                     @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                     {
-                        <a href="@ViewDataTyped.ProjectUpdateTransportationAssessmentUrl">Transportation Assessment</a>
+                        <a href="@ViewDataTyped.ProjectUpdateAssessmentUrl">Assessment</a>
                     }
                     else
                     {
-                        @ProjectWizardComponents.MakeDisabledSectionLink("Transportaion Assessment");
+                        @ProjectWizardComponents.MakeDisabledSectionLink("Assessment")
                     }
                     <span class="pull-right" style="padding: 5px;">
-                        @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsTransportationAssessmentComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                        @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsAssessmentComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                     </span>
 
                 </li>
@@ -117,7 +116,7 @@
                 }
                 else
                 {
-                    @ProjectWizardComponents.MakeDisabledSectionLink("Photos");
+                    @ProjectWizardComponents.MakeDisabledSectionLink("Photos")
                 }
             </li>
             <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Notes, ViewDataTyped.SelectedProposedProjectSection)">
@@ -127,7 +126,7 @@
                 }
                 else
                 {
-                    @ProjectWizardComponents.MakeDisabledSectionLink("Notes");
+                    @ProjectWizardComponents.MakeDisabledSectionLink("Notes")
                 }
             </li>
         </ol>

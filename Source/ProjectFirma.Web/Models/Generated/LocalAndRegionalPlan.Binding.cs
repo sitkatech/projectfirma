@@ -29,25 +29,23 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public LocalAndRegionalPlan(int localAndRegionalPlanID, string localAndRegionalPlanName, string planDocumentUrl, string planDocumentLinkText, bool isTransportationPlan) : this()
+        public LocalAndRegionalPlan(int localAndRegionalPlanID, string localAndRegionalPlanName, string planDocumentUrl, string planDocumentLinkText) : this()
         {
             this.LocalAndRegionalPlanID = localAndRegionalPlanID;
             this.LocalAndRegionalPlanName = localAndRegionalPlanName;
             this.PlanDocumentUrl = planDocumentUrl;
             this.PlanDocumentLinkText = planDocumentLinkText;
-            this.IsTransportationPlan = isTransportationPlan;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public LocalAndRegionalPlan(string localAndRegionalPlanName, bool isTransportationPlan) : this()
+        public LocalAndRegionalPlan(string localAndRegionalPlanName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             LocalAndRegionalPlanID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.LocalAndRegionalPlanName = localAndRegionalPlanName;
-            this.IsTransportationPlan = isTransportationPlan;
         }
 
 
@@ -56,7 +54,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static LocalAndRegionalPlan CreateNewBlank()
         {
-            return new LocalAndRegionalPlan(default(string), default(bool));
+            return new LocalAndRegionalPlan(default(string));
         }
 
         /// <summary>
@@ -78,7 +76,6 @@ namespace ProjectFirma.Web.Models
         public string LocalAndRegionalPlanName { get; set; }
         public string PlanDocumentUrl { get; set; }
         public string PlanDocumentLinkText { get; set; }
-        public bool IsTransportationPlan { get; set; }
         public int PrimaryKey { get { return LocalAndRegionalPlanID; } set { LocalAndRegionalPlanID = value; } }
 
         public virtual ICollection<ProjectLocalAndRegionalPlan> ProjectLocalAndRegionalPlans { get; set; }

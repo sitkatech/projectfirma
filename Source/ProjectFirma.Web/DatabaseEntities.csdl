@@ -3,7 +3,11 @@
   <EntityContainer Name="DatabaseEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="ActionPriority" EntityType="ProjectFirma.Web.Models.ActionPriority" />
     <EntitySet Name="ActionPriorityImage" EntityType="ProjectFirma.Web.Models.ActionPriorityImage" />
+    <EntitySet Name="AssessmentGoal" EntityType="ProjectFirma.Web.Models.AssessmentGoal" />
+    <EntitySet Name="AssessmentQuestion" EntityType="ProjectFirma.Web.Models.AssessmentQuestion" />
+    <EntitySet Name="AssessmentSubGoal" EntityType="ProjectFirma.Web.Models.AssessmentSubGoal" />
     <EntitySet Name="AuditLog" EntityType="ProjectFirma.Web.Models.AuditLog" />
+    <EntitySet Name="CostParameterSet" EntityType="ProjectFirma.Web.Models.CostParameterSet" />
     <EntitySet Name="County" EntityType="ProjectFirma.Web.Models.County" />
     <EntitySet Name="DatabaseMigration" EntityType="ProjectFirma.Web.Models.DatabaseMigration" />
     <EntitySet Name="FieldDefinitionData" EntityType="ProjectFirma.Web.Models.FieldDefinitionData" />
@@ -44,6 +48,9 @@
     <EntitySet Name="ProgramImage" EntityType="ProjectFirma.Web.Models.ProgramImage" />
     <EntitySet Name="ProgramPerformanceMeasure" EntityType="ProjectFirma.Web.Models.ProgramPerformanceMeasure" />
     <EntitySet Name="Project" EntityType="ProjectFirma.Web.Models.Project" />
+    <EntitySet Name="ProjectAssessmentQuestion" EntityType="ProjectFirma.Web.Models.ProjectAssessmentQuestion" />
+    <EntitySet Name="ProjectBudget" EntityType="ProjectFirma.Web.Models.ProjectBudget" />
+    <EntitySet Name="ProjectBudgetUpdate" EntityType="ProjectFirma.Web.Models.ProjectBudgetUpdate" />
     <EntitySet Name="ProjectExemptReportingYear" EntityType="ProjectFirma.Web.Models.ProjectExemptReportingYear" />
     <EntitySet Name="ProjectExemptReportingYearUpdate" EntityType="ProjectFirma.Web.Models.ProjectExemptReportingYearUpdate" />
     <EntitySet Name="ProjectExternalLink" EntityType="ProjectFirma.Web.Models.ProjectExternalLink" />
@@ -68,18 +75,17 @@
     <EntitySet Name="ProjectNoteUpdate" EntityType="ProjectFirma.Web.Models.ProjectNoteUpdate" />
     <EntitySet Name="ProjectTag" EntityType="ProjectFirma.Web.Models.ProjectTag" />
     <EntitySet Name="ProjectThresholdCategory" EntityType="ProjectFirma.Web.Models.ProjectThresholdCategory" />
-    <EntitySet Name="ProjectTransportationQuestion" EntityType="ProjectFirma.Web.Models.ProjectTransportationQuestion" />
     <EntitySet Name="ProjectUpdate" EntityType="ProjectFirma.Web.Models.ProjectUpdate" />
     <EntitySet Name="ProjectUpdateBatch" EntityType="ProjectFirma.Web.Models.ProjectUpdateBatch" />
     <EntitySet Name="ProjectUpdateHistory" EntityType="ProjectFirma.Web.Models.ProjectUpdateHistory" />
     <EntitySet Name="ProjectWatershed" EntityType="ProjectFirma.Web.Models.ProjectWatershed" />
     <EntitySet Name="ProposedProject" EntityType="ProjectFirma.Web.Models.ProposedProject" />
+    <EntitySet Name="ProposedProjectAssessmentQuestion" EntityType="ProjectFirma.Web.Models.ProposedProjectAssessmentQuestion" />
     <EntitySet Name="ProposedProjectImage" EntityType="ProjectFirma.Web.Models.ProposedProjectImage" />
     <EntitySet Name="ProposedProjectLocation" EntityType="ProjectFirma.Web.Models.ProposedProjectLocation" />
     <EntitySet Name="ProposedProjectLocationStaging" EntityType="ProjectFirma.Web.Models.ProposedProjectLocationStaging" />
     <EntitySet Name="ProposedProjectNote" EntityType="ProjectFirma.Web.Models.ProposedProjectNote" />
     <EntitySet Name="ProposedProjectThresholdCategory" EntityType="ProjectFirma.Web.Models.ProposedProjectThresholdCategory" />
-    <EntitySet Name="ProposedProjectTransportationQuestion" EntityType="ProjectFirma.Web.Models.ProposedProjectTransportationQuestion" />
     <EntitySet Name="Snapshot" EntityType="ProjectFirma.Web.Models.Snapshot" />
     <EntitySet Name="SnapshotPerformanceMeasure" EntityType="ProjectFirma.Web.Models.SnapshotPerformanceMeasure" />
     <EntitySet Name="SnapshotPerformanceMeasureSubcategoryOption" EntityType="ProjectFirma.Web.Models.SnapshotPerformanceMeasureSubcategoryOption" />
@@ -91,16 +97,6 @@
     <EntitySet Name="ThresholdCategory" EntityType="ProjectFirma.Web.Models.ThresholdCategory" />
     <EntitySet Name="ThresholdCategoryImage" EntityType="ProjectFirma.Web.Models.ThresholdCategoryImage" />
     <EntitySet Name="ThresholdCategoryIndicator" EntityType="ProjectFirma.Web.Models.ThresholdCategoryIndicator" />
-    <EntitySet Name="TransportationCostParameterSet" EntityType="ProjectFirma.Web.Models.TransportationCostParameterSet" />
-    <EntitySet Name="TransportationGoal" EntityType="ProjectFirma.Web.Models.TransportationGoal" />
-    <EntitySet Name="TransportationObjective" EntityType="ProjectFirma.Web.Models.TransportationObjective" />
-    <EntitySet Name="TransportationObjectiveImage" EntityType="ProjectFirma.Web.Models.TransportationObjectiveImage" />
-    <EntitySet Name="TransportationProjectBudget" EntityType="ProjectFirma.Web.Models.TransportationProjectBudget" />
-    <EntitySet Name="TransportationProjectBudgetUpdate" EntityType="ProjectFirma.Web.Models.TransportationProjectBudgetUpdate" />
-    <EntitySet Name="TransportationQuestion" EntityType="ProjectFirma.Web.Models.TransportationQuestion" />
-    <EntitySet Name="TransportationStrategy" EntityType="ProjectFirma.Web.Models.TransportationStrategy" />
-    <EntitySet Name="TransportationStrategyImage" EntityType="ProjectFirma.Web.Models.TransportationStrategyImage" />
-    <EntitySet Name="TransportationSubGoal" EntityType="ProjectFirma.Web.Models.TransportationSubGoal" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Watershed" />
     <EntitySet Name="vProject" EntityType="ProjectFirma.Web.Models.vProject" />
     <AssociationSet Name="FK_ActionPriority_Program_ProgramID" Association="ProjectFirma.Web.Models.FK_ActionPriority_Program_ProgramID">
@@ -122,6 +118,22 @@
     <AssociationSet Name="FK_ActionPriorityImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ActionPriorityImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="ActionPriorityImages" EntitySet="ActionPriorityImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID" Association="ProjectFirma.Web.Models.FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
+      <End Role="AssessmentGoal" EntitySet="AssessmentGoal" />
+      <End Role="AssessmentSubGoals" EntitySet="AssessmentSubGoal" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID" Association="ProjectFirma.Web.Models.FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID">
+      <End Role="AssessmentSubGoal" EntitySet="AssessmentSubGoal" />
+      <End Role="AssessmentQuestions" EntitySet="AssessmentQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" Association="ProjectFirma.Web.Models.FK_ProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID">
+      <End Role="AssessmentQuestion" EntitySet="AssessmentQuestion" />
+      <End Role="ProjectAssessmentQuestions" EntitySet="ProjectAssessmentQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" Association="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID">
+      <End Role="AssessmentQuestion" EntitySet="AssessmentQuestion" />
+      <End Role="ProposedProjectAssessmentQuestions" EntitySet="ProposedProjectAssessmentQuestion" />
     </AssociationSet>
     <AssociationSet Name="FK_AuditLog_Person_PersonID" Association="ProjectFirma.Web.Models.FK_AuditLog_Person_PersonID">
       <End Role="Person" EntitySet="Person" />
@@ -175,14 +187,6 @@
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="ThresholdCategoryImages" EntitySet="ThresholdCategoryImage" />
     </AssociationSet>
-    <AssociationSet Name="FK_TransportationObjectiveImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_TransportationObjectiveImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="TransportationObjectiveImages" EntitySet="TransportationObjectiveImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TransportationStrategyImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_TransportationStrategyImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="TransportationStrategyImages" EntitySet="TransportationStrategyImage" />
-    </AssociationSet>
     <AssociationSet Name="FK_FirmaPageImage_FirmaPage_FirmaPageID" Association="ProjectFirma.Web.Models.FK_FirmaPageImage_FirmaPage_FirmaPageID">
       <End Role="FirmaPage" EntitySet="FirmaPage" />
       <End Role="FirmaPageImages" EntitySet="FirmaPageImage" />
@@ -199,6 +203,14 @@
       <End Role="Organization" EntitySet="Organization" />
       <End Role="FundingSources" EntitySet="FundingSource" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectBudget_FundingSource_FundingSourceID" Association="ProjectFirma.Web.Models.FK_ProjectBudget_FundingSource_FundingSourceID">
+      <End Role="FundingSource" EntitySet="FundingSource" />
+      <End Role="ProjectBudgets" EntitySet="ProjectBudget" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectBudgetUpdate_FundingSource_FundingSourceID" Association="ProjectFirma.Web.Models.FK_ProjectBudgetUpdate_FundingSource_FundingSourceID">
+      <End Role="FundingSource" EntitySet="FundingSource" />
+      <End Role="ProjectBudgetUpdates" EntitySet="ProjectBudgetUpdate" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectFundingSourceExpenditure_FundingSource_FundingSourceID" Association="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditure_FundingSource_FundingSourceID">
       <End Role="FundingSource" EntitySet="FundingSource" />
       <End Role="ProjectFundingSourceExpenditures" EntitySet="ProjectFundingSourceExpenditure" />
@@ -206,14 +218,6 @@
     <AssociationSet Name="FK_ProjectFundingSourceExpenditureUpdate_FundingSource_FundingSourceID" Association="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditureUpdate_FundingSource_FundingSourceID">
       <End Role="FundingSource" EntitySet="FundingSource" />
       <End Role="ProjectFundingSourceExpenditureUpdates" EntitySet="ProjectFundingSourceExpenditureUpdate" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TransportationProjectBudget_FundingSource_FundingSourceID" Association="ProjectFirma.Web.Models.FK_TransportationProjectBudget_FundingSource_FundingSourceID">
-      <End Role="FundingSource" EntitySet="FundingSource" />
-      <End Role="TransportationProjectBudgets" EntitySet="TransportationProjectBudget" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TransportationProjectBudgetUpdate_FundingSource_FundingSourceID" Association="ProjectFirma.Web.Models.FK_TransportationProjectBudgetUpdate_FundingSource_FundingSourceID">
-      <End Role="FundingSource" EntitySet="FundingSource" />
-      <End Role="TransportationProjectBudgetUpdates" EntitySet="TransportationProjectBudgetUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_IndicatorMonitoringProgram_Indicator_IndicatorID" Association="ProjectFirma.Web.Models.FK_IndicatorMonitoringProgram_Indicator_IndicatorID">
       <End Role="Indicator" EntitySet="Indicator" />
@@ -511,9 +515,13 @@
       <End Role="ProjectLocationArea" EntitySet="ProjectLocationArea" />
       <End Role="Projects" EntitySet="Project" />
     </AssociationSet>
-    <AssociationSet Name="FK_Project_TransportationObjective_TransportationObjectiveID" Association="ProjectFirma.Web.Models.FK_Project_TransportationObjective_TransportationObjectiveID">
-      <End Role="TransportationObjective" EntitySet="TransportationObjective" />
-      <End Role="Projects" EntitySet="Project" />
+    <AssociationSet Name="FK_ProjectAssessmentQuestion_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectAssessmentQuestion_Project_ProjectID">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectAssessmentQuestions" EntitySet="ProjectAssessmentQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectBudget_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectBudget_Project_ProjectID">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectBudgets" EntitySet="ProjectBudget" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectExemptReportingYear_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectExemptReportingYear_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
@@ -563,10 +571,6 @@
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectThresholdCategories" EntitySet="ProjectThresholdCategory" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProjectTransportationQuestion_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectTransportationQuestion_Project_ProjectID">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="ProjectTransportationQuestions" EntitySet="ProjectTransportationQuestion" />
-    </AssociationSet>
     <AssociationSet Name="FK_ProjectUpdateBatch_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectUpdateBatches" EntitySet="ProjectUpdateBatch" />
@@ -583,9 +587,9 @@
       <End Role="Project" EntitySet="Project" />
       <End Role="SnapshotProjects" EntitySet="SnapshotProject" />
     </AssociationSet>
-    <AssociationSet Name="FK_TransportationProjectBudget_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_TransportationProjectBudget_Project_ProjectID">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="TransportationProjectBudgets" EntitySet="TransportationProjectBudget" />
+    <AssociationSet Name="FK_ProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+      <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
+      <End Role="ProjectBudgetUpdates" EntitySet="ProjectBudgetUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectExemptReportingYearUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectExemptReportingYearUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
@@ -667,10 +671,6 @@
       <End Role="ThresholdCategory" EntitySet="ThresholdCategory" />
       <End Role="ProjectThresholdCategories" EntitySet="ProjectThresholdCategory" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProjectTransportationQuestion_TransportationQuestion_TransportationQuestionID" Association="ProjectFirma.Web.Models.FK_ProjectTransportationQuestion_TransportationQuestion_TransportationQuestionID">
-      <End Role="TransportationQuestion" EntitySet="TransportationQuestion" />
-      <End Role="ProjectTransportationQuestions" EntitySet="ProjectTransportationQuestion" />
-    </AssociationSet>
     <AssociationSet Name="FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectUpdates" EntitySet="ProjectUpdate" />
@@ -679,17 +679,13 @@
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectUpdateHistories" EntitySet="ProjectUpdateHistory" />
     </AssociationSet>
-    <AssociationSet Name="FK_TransportationProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_TransportationProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
-      <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
-      <End Role="TransportationProjectBudgetUpdates" EntitySet="TransportationProjectBudgetUpdate" />
-    </AssociationSet>
     <AssociationSet Name="FK_ProjectWatershed_Watershed_WatershedID" Association="ProjectFirma.Web.Models.FK_ProjectWatershed_Watershed_WatershedID">
       <End Role="Watershed" EntitySet="Watershed" />
       <End Role="ProjectWatersheds" EntitySet="ProjectWatershed" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProposedProject_TransportationObjective_TransportationObjectiveID" Association="ProjectFirma.Web.Models.FK_ProposedProject_TransportationObjective_TransportationObjectiveID">
-      <End Role="TransportationObjective" EntitySet="TransportationObjective" />
-      <End Role="ProposedProjects" EntitySet="ProposedProject" />
+    <AssociationSet Name="FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID">
+      <End Role="ProposedProject" EntitySet="ProposedProject" />
+      <End Role="ProposedProjectAssessmentQuestions" EntitySet="ProposedProjectAssessmentQuestion" />
     </AssociationSet>
     <AssociationSet Name="FK_ProposedProjectImage_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectImage_ProposedProject_ProposedProjectID">
       <End Role="ProposedProject" EntitySet="ProposedProject" />
@@ -711,17 +707,9 @@
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectThresholdCategories" EntitySet="ProposedProjectThresholdCategory" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectTransportationQuestion_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectTransportationQuestion_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectTransportationQuestions" EntitySet="ProposedProjectTransportationQuestion" />
-    </AssociationSet>
     <AssociationSet Name="FK_ProposedProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID" Association="ProjectFirma.Web.Models.FK_ProposedProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID">
       <End Role="ThresholdCategory" EntitySet="ThresholdCategory" />
       <End Role="ProposedProjectThresholdCategories" EntitySet="ProposedProjectThresholdCategory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectTransportationQuestion_TransportationQuestion_TransportationQuestionID" Association="ProjectFirma.Web.Models.FK_ProposedProjectTransportationQuestion_TransportationQuestion_TransportationQuestionID">
-      <End Role="TransportationQuestion" EntitySet="TransportationQuestion" />
-      <End Role="ProposedProjectTransportationQuestions" EntitySet="ProposedProjectTransportationQuestion" />
     </AssociationSet>
     <AssociationSet Name="FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID">
       <End Role="Snapshot" EntitySet="Snapshot" />
@@ -746,26 +734,6 @@
     <AssociationSet Name="FK_ThresholdCategoryIndicator_ThresholdCategory_ThresholdCategoryID" Association="ProjectFirma.Web.Models.FK_ThresholdCategoryIndicator_ThresholdCategory_ThresholdCategoryID">
       <End Role="ThresholdCategory" EntitySet="ThresholdCategory" />
       <End Role="ThresholdCategoryIndicators" EntitySet="ThresholdCategoryIndicator" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TransportationSubGoal_TransportationGoal_TransportationGoalID" Association="ProjectFirma.Web.Models.FK_TransportationSubGoal_TransportationGoal_TransportationGoalID">
-      <End Role="TransportationGoal" EntitySet="TransportationGoal" />
-      <End Role="TransportationSubGoals" EntitySet="TransportationSubGoal" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TransportationObjective_TransportationStrategy_TransportationStrategyID" Association="ProjectFirma.Web.Models.FK_TransportationObjective_TransportationStrategy_TransportationStrategyID">
-      <End Role="TransportationStrategy" EntitySet="TransportationStrategy" />
-      <End Role="TransportationObjectives" EntitySet="TransportationObjective" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TransportationObjectiveImage_TransportationObjective_TransportationObjectiveID" Association="ProjectFirma.Web.Models.FK_TransportationObjectiveImage_TransportationObjective_TransportationObjectiveID">
-      <End Role="TransportationObjective" EntitySet="TransportationObjective" />
-      <End Role="TransportationObjectiveImages" EntitySet="TransportationObjectiveImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TransportationQuestion_TransportationSubGoal_TransportationSubGoalID" Association="ProjectFirma.Web.Models.FK_TransportationQuestion_TransportationSubGoal_TransportationSubGoalID">
-      <End Role="TransportationSubGoal" EntitySet="TransportationSubGoal" />
-      <End Role="TransportationQuestions" EntitySet="TransportationQuestion" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TransportationStrategyImage_TransportationStrategy_TransportationStrategyID" Association="ProjectFirma.Web.Models.FK_TransportationStrategyImage_TransportationStrategy_TransportationStrategyID">
-      <End Role="TransportationStrategy" EntitySet="TransportationStrategy" />
-      <End Role="TransportationStrategyImages" EntitySet="TransportationStrategyImage" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="ActionPriority">
@@ -792,6 +760,40 @@
     <NavigationProperty Name="ActionPriority" Relationship="ProjectFirma.Web.Models.FK_ActionPriorityImage_ActionPriority_ActionPriorityID" FromRole="ActionPriorityImages" ToRole="ActionPriority" />
     <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ActionPriorityImage_FileResource_FileResourceID" FromRole="ActionPriorityImages" ToRole="FileResource" />
   </EntityType>
+  <EntityType Name="AssessmentGoal">
+    <Key>
+      <PropertyRef Name="AssessmentGoalID" />
+    </Key>
+    <Property Name="AssessmentGoalID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AssessmentGoalNumber" Type="Int32" Nullable="false" />
+    <Property Name="AssessmentGoalTitle" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="AssessmentGoalDescription" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="AssessmentSubGoals" Relationship="ProjectFirma.Web.Models.FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID" FromRole="AssessmentGoal" ToRole="AssessmentSubGoals" />
+  </EntityType>
+  <EntityType Name="AssessmentQuestion">
+    <Key>
+      <PropertyRef Name="AssessmentQuestionID" />
+    </Key>
+    <Property Name="AssessmentQuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AssessmentSubGoalID" Type="Int32" Nullable="false" />
+    <Property Name="AssessmentQuestionText" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
+    <Property Name="ArchiveDate" Type="DateTime" />
+    <NavigationProperty Name="AssessmentSubGoal" Relationship="ProjectFirma.Web.Models.FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID" FromRole="AssessmentQuestions" ToRole="AssessmentSubGoal" />
+    <NavigationProperty Name="ProjectAssessmentQuestions" Relationship="ProjectFirma.Web.Models.FK_ProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" FromRole="AssessmentQuestion" ToRole="ProjectAssessmentQuestions" />
+    <NavigationProperty Name="ProposedProjectAssessmentQuestions" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" FromRole="AssessmentQuestion" ToRole="ProposedProjectAssessmentQuestions" />
+  </EntityType>
+  <EntityType Name="AssessmentSubGoal">
+    <Key>
+      <PropertyRef Name="AssessmentSubGoalID" />
+    </Key>
+    <Property Name="AssessmentSubGoalID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AssessmentGoalID" Type="Int32" Nullable="false" />
+    <Property Name="AssessmentSubGoalNumber" Type="Int32" Nullable="false" />
+    <Property Name="AssessmentSubGoalTitle" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="AssessmentSubGoalDescription" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="AssessmentGoal" Relationship="ProjectFirma.Web.Models.FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID" FromRole="AssessmentSubGoals" ToRole="AssessmentGoal" />
+    <NavigationProperty Name="AssessmentQuestions" Relationship="ProjectFirma.Web.Models.FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID" FromRole="AssessmentSubGoal" ToRole="AssessmentQuestions" />
+  </EntityType>
   <EntityType Name="AuditLog">
     <Key>
       <PropertyRef Name="AuditLogID" />
@@ -809,6 +811,16 @@
     <Property Name="ProjectID" Type="Int32" />
     <Property Name="ProposedProjectID" Type="Int32" />
     <NavigationProperty Name="Person" Relationship="ProjectFirma.Web.Models.FK_AuditLog_Person_PersonID" FromRole="AuditLogs" ToRole="Person" />
+  </EntityType>
+  <EntityType Name="CostParameterSet">
+    <Key>
+      <PropertyRef Name="CostParameterSetID" />
+    </Key>
+    <Property Name="CostParameterSetID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InflationRate" Type="Decimal" Nullable="false" Precision="9" Scale="6" />
+    <Property Name="CurrentYearForPVCalculations" Type="Int32" Nullable="false" />
+    <Property Name="Comment" Type="String" MaxLength="2000" Unicode="false" FixedLength="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" />
   </EntityType>
   <EntityType Name="County">
     <Key>
@@ -867,8 +879,6 @@
     <NavigationProperty Name="ProjectImageUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectImageUpdates" />
     <NavigationProperty Name="ProposedProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProposedProjectImages" />
     <NavigationProperty Name="ThresholdCategoryImages" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ThresholdCategoryImages" />
-    <NavigationProperty Name="TransportationObjectiveImages" Relationship="ProjectFirma.Web.Models.FK_TransportationObjectiveImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="TransportationObjectiveImages" />
-    <NavigationProperty Name="TransportationStrategyImages" Relationship="ProjectFirma.Web.Models.FK_TransportationStrategyImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="TransportationStrategyImages" />
   </EntityType>
   <EntityType Name="FirmaPage">
     <Key>
@@ -920,12 +930,11 @@
     <Property Name="FundingSourceName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="IsActive" Type="Boolean" Nullable="false" />
     <Property Name="FundingSourceDescription" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
-    <Property Name="IsTransportationFundingSource" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_FundingSource_Organization_OrganizationID" FromRole="FundingSources" ToRole="Organization" />
+    <NavigationProperty Name="ProjectBudgets" Relationship="ProjectFirma.Web.Models.FK_ProjectBudget_FundingSource_FundingSourceID" FromRole="FundingSource" ToRole="ProjectBudgets" />
+    <NavigationProperty Name="ProjectBudgetUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectBudgetUpdate_FundingSource_FundingSourceID" FromRole="FundingSource" ToRole="ProjectBudgetUpdates" />
     <NavigationProperty Name="ProjectFundingSourceExpenditures" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditure_FundingSource_FundingSourceID" FromRole="FundingSource" ToRole="ProjectFundingSourceExpenditures" />
     <NavigationProperty Name="ProjectFundingSourceExpenditureUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditureUpdate_FundingSource_FundingSourceID" FromRole="FundingSource" ToRole="ProjectFundingSourceExpenditureUpdates" />
-    <NavigationProperty Name="TransportationProjectBudgets" Relationship="ProjectFirma.Web.Models.FK_TransportationProjectBudget_FundingSource_FundingSourceID" FromRole="FundingSource" ToRole="TransportationProjectBudgets" />
-    <NavigationProperty Name="TransportationProjectBudgetUpdates" Relationship="ProjectFirma.Web.Models.FK_TransportationProjectBudgetUpdate_FundingSource_FundingSourceID" FromRole="FundingSource" ToRole="TransportationProjectBudgetUpdates" />
   </EntityType>
   <EntityType Name="Indicator">
     <Key>
@@ -1047,7 +1056,6 @@
     <Property Name="LocalAndRegionalPlanName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="PlanDocumentUrl" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
     <Property Name="PlanDocumentLinkText" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
-    <Property Name="IsTransportationPlan" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="ProjectLocalAndRegionalPlans" Relationship="ProjectFirma.Web.Models.FK_ProjectLocalAndRegionalPlan_LocalAndRegionalPlan_LocalAndRegionalPlanID" FromRole="LocalAndRegionalPlan" ToRole="ProjectLocalAndRegionalPlans" />
   </EntityType>
   <EntityType Name="MappedRegion">
@@ -1366,7 +1374,6 @@
     <Property Name="ProjectDescription" Type="String" Nullable="false" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="ImplementationStartYear" Type="Int32" />
     <Property Name="CompletionYear" Type="Int32" />
-    <Property Name="OldNumber" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="EstimatedTotalCost" Type="Decimal" Precision="19" Scale="4" />
     <Property Name="ImplementsMultipleProjects" Type="Boolean" Nullable="false" />
     <Property Name="SecuredFunding" Type="Decimal" Precision="19" Scale="4" />
@@ -1374,9 +1381,7 @@
     <Property Name="ProjectLocationAreaID" Type="Int32" />
     <Property Name="PerformanceMeasureActualYearsExemptionExplanation" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="IsFeatured" Type="Boolean" Nullable="false" />
-    <Property Name="TransportationObjectiveID" Type="Int32" />
     <Property Name="ProjectLocationNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
-    <Property Name="OnFederalTransportationImprovementProgramList" Type="Boolean" Nullable="false" />
     <Property Name="PlanningDesignStartYear" Type="Int32" />
     <Property Name="ProjectLocationSimpleTypeID" Type="Int32" Nullable="false" />
     <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="18" Scale="0" />
@@ -1386,7 +1391,8 @@
     <NavigationProperty Name="PerformanceMeasureActuals" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_Project_ProjectID" FromRole="Project" ToRole="PerformanceMeasureActuals" />
     <NavigationProperty Name="PerformanceMeasureExpecteds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpected_Project_ProjectID" FromRole="Project" ToRole="PerformanceMeasureExpecteds" />
     <NavigationProperty Name="ProjectLocationArea" Relationship="ProjectFirma.Web.Models.FK_Project_ProjectLocationArea_ProjectLocationAreaID" FromRole="Projects" ToRole="ProjectLocationArea" />
-    <NavigationProperty Name="TransportationObjective" Relationship="ProjectFirma.Web.Models.FK_Project_TransportationObjective_TransportationObjectiveID" FromRole="Projects" ToRole="TransportationObjective" />
+    <NavigationProperty Name="ProjectAssessmentQuestions" Relationship="ProjectFirma.Web.Models.FK_ProjectAssessmentQuestion_Project_ProjectID" FromRole="Project" ToRole="ProjectAssessmentQuestions" />
+    <NavigationProperty Name="ProjectBudgets" Relationship="ProjectFirma.Web.Models.FK_ProjectBudget_Project_ProjectID" FromRole="Project" ToRole="ProjectBudgets" />
     <NavigationProperty Name="ProjectExemptReportingYears" Relationship="ProjectFirma.Web.Models.FK_ProjectExemptReportingYear_Project_ProjectID" FromRole="Project" ToRole="ProjectExemptReportingYears" />
     <NavigationProperty Name="ProjectExternalLinks" Relationship="ProjectFirma.Web.Models.FK_ProjectExternalLink_Project_ProjectID" FromRole="Project" ToRole="ProjectExternalLinks" />
     <NavigationProperty Name="ProjectFundingOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingOrganization_Project_ProjectID" FromRole="Project" ToRole="ProjectFundingOrganizations" />
@@ -1399,12 +1405,47 @@
     <NavigationProperty Name="ProjectNotes" Relationship="ProjectFirma.Web.Models.FK_ProjectNote_Project_ProjectID" FromRole="Project" ToRole="ProjectNotes" />
     <NavigationProperty Name="ProjectTags" Relationship="ProjectFirma.Web.Models.FK_ProjectTag_Project_ProjectID" FromRole="Project" ToRole="ProjectTags" />
     <NavigationProperty Name="ProjectThresholdCategories" Relationship="ProjectFirma.Web.Models.FK_ProjectThresholdCategory_Project_ProjectID" FromRole="Project" ToRole="ProjectThresholdCategories" />
-    <NavigationProperty Name="ProjectTransportationQuestions" Relationship="ProjectFirma.Web.Models.FK_ProjectTransportationQuestion_Project_ProjectID" FromRole="Project" ToRole="ProjectTransportationQuestions" />
     <NavigationProperty Name="ProjectUpdateBatches" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Project_ProjectID" FromRole="Project" ToRole="ProjectUpdateBatches" />
     <NavigationProperty Name="ProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Project_ProjectID" FromRole="Project" ToRole="ProjectWatersheds" />
     <NavigationProperty Name="ProposedProjects" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Project_ProjectID" FromRole="Project" ToRole="ProposedProjects" />
     <NavigationProperty Name="SnapshotProjects" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Project_ProjectID" FromRole="Project" ToRole="SnapshotProjects" />
-    <NavigationProperty Name="TransportationProjectBudgets" Relationship="ProjectFirma.Web.Models.FK_TransportationProjectBudget_Project_ProjectID" FromRole="Project" ToRole="TransportationProjectBudgets" />
+  </EntityType>
+  <EntityType Name="ProjectAssessmentQuestion">
+    <Key>
+      <PropertyRef Name="ProjectAssessmentQuestionID" />
+    </Key>
+    <Property Name="ProjectAssessmentQuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectID" Type="Int32" Nullable="false" />
+    <Property Name="AssessmentQuestionID" Type="Int32" Nullable="false" />
+    <Property Name="Answer" Type="Boolean" />
+    <NavigationProperty Name="AssessmentQuestion" Relationship="ProjectFirma.Web.Models.FK_ProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" FromRole="ProjectAssessmentQuestions" ToRole="AssessmentQuestion" />
+    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectAssessmentQuestion_Project_ProjectID" FromRole="ProjectAssessmentQuestions" ToRole="Project" />
+  </EntityType>
+  <EntityType Name="ProjectBudget">
+    <Key>
+      <PropertyRef Name="ProjectBudgetID" />
+    </Key>
+    <Property Name="ProjectBudgetID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectID" Type="Int32" Nullable="false" />
+    <Property Name="FundingSourceID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectCostTypeID" Type="Int32" Nullable="false" />
+    <Property Name="CalendarYear" Type="Int32" Nullable="false" />
+    <Property Name="BudgetedAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <NavigationProperty Name="FundingSource" Relationship="ProjectFirma.Web.Models.FK_ProjectBudget_FundingSource_FundingSourceID" FromRole="ProjectBudgets" ToRole="FundingSource" />
+    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectBudget_Project_ProjectID" FromRole="ProjectBudgets" ToRole="Project" />
+  </EntityType>
+  <EntityType Name="ProjectBudgetUpdate">
+    <Key>
+      <PropertyRef Name="ProjectBudgetUpdateID" />
+    </Key>
+    <Property Name="ProjectBudgetUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
+    <Property Name="FundingSourceID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectCostTypeID" Type="Int32" Nullable="false" />
+    <Property Name="CalendarYear" Type="Int32" Nullable="false" />
+    <Property Name="BudgetedAmount" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="FundingSource" Relationship="ProjectFirma.Web.Models.FK_ProjectBudgetUpdate_FundingSource_FundingSourceID" FromRole="ProjectBudgetUpdates" ToRole="FundingSource" />
+    <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectBudgetUpdates" ToRole="ProjectUpdateBatch" />
   </EntityType>
   <EntityType Name="ProjectExemptReportingYear">
     <Key>
@@ -1689,17 +1730,6 @@
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectThresholdCategory_Project_ProjectID" FromRole="ProjectThresholdCategories" ToRole="Project" />
     <NavigationProperty Name="ThresholdCategory" Relationship="ProjectFirma.Web.Models.FK_ProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID" FromRole="ProjectThresholdCategories" ToRole="ThresholdCategory" />
   </EntityType>
-  <EntityType Name="ProjectTransportationQuestion">
-    <Key>
-      <PropertyRef Name="ProjectTransportationQuestionID" />
-    </Key>
-    <Property Name="ProjectTransportationQuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProjectID" Type="Int32" Nullable="false" />
-    <Property Name="TransportationQuestionID" Type="Int32" Nullable="false" />
-    <Property Name="Answer" Type="Boolean" />
-    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectTransportationQuestion_Project_ProjectID" FromRole="ProjectTransportationQuestions" ToRole="Project" />
-    <NavigationProperty Name="TransportationQuestion" Relationship="ProjectFirma.Web.Models.FK_ProjectTransportationQuestion_TransportationQuestion_TransportationQuestionID" FromRole="ProjectTransportationQuestions" ToRole="TransportationQuestion" />
-  </EntityType>
   <EntityType Name="ProjectUpdate">
     <Key>
       <PropertyRef Name="ProjectUpdateID" />
@@ -1732,7 +1762,7 @@
     <Property Name="ShowBasicsValidationWarnings" Type="Boolean" Nullable="false" />
     <Property Name="ShowPerformanceMeasuresValidationWarnings" Type="Boolean" Nullable="false" />
     <Property Name="ShowExpendituresValidationWarnings" Type="Boolean" Nullable="false" />
-    <Property Name="ShowTransportationBudgetsValidationWarnings" Type="Boolean" Nullable="false" />
+    <Property Name="ShowBudgetsValidationWarnings" Type="Boolean" Nullable="false" />
     <Property Name="ShowLocationSimpleValidationWarnings" Type="Boolean" Nullable="false" />
     <Property Name="LastUpdatePersonID" Type="Int32" Nullable="false" />
     <Property Name="BasicsComment" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
@@ -1740,18 +1770,19 @@
     <Property Name="PerformanceMeasuresComment" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
     <Property Name="LocationSimpleComment" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
     <Property Name="LocationDetailedComment" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
-    <Property Name="TransportationBudgetsComment" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+    <Property Name="BudgetsComment" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
     <Property Name="ProjectUpdateStateID" Type="Int32" Nullable="false" />
     <Property Name="IsPhotosUpdated" Type="Boolean" Nullable="false" />
     <Property Name="BasicsDiffLog" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="PerformanceMeasureDiffLog" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="ExpendituresDiffLog" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="TransportationBudgetsDiffLog" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="BudgetsDiffLog" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="ExternalLinksDiffLog" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="NotesDiffLog" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="PerformanceMeasureActualUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="PerformanceMeasureActualUpdates" />
     <NavigationProperty Name="LastUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Person_LastUpdatePersonID_PersonID" FromRole="ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson" ToRole="LastUpdatePerson" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Project_ProjectID" FromRole="ProjectUpdateBatches" ToRole="Project" />
+    <NavigationProperty Name="ProjectBudgetUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectBudgetUpdates" />
     <NavigationProperty Name="ProjectExemptReportingYearUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectExemptReportingYearUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectExemptReportingYearUpdates" />
     <NavigationProperty Name="ProjectExternalLinkUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectExternalLinkUpdates" />
     <NavigationProperty Name="ProjectFundingSourceExpenditureUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditureUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectFundingSourceExpenditureUpdates" />
@@ -1761,7 +1792,6 @@
     <NavigationProperty Name="ProjectNoteUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectNoteUpdates" />
     <NavigationProperty Name="ProjectUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectUpdates" />
     <NavigationProperty Name="ProjectUpdateHistories" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="ProjectUpdateHistories" />
-    <NavigationProperty Name="TransportationProjectBudgetUpdates" Relationship="ProjectFirma.Web.Models.FK_TransportationProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="TransportationProjectBudgetUpdates" />
   </EntityType>
   <EntityType Name="ProjectUpdateHistory">
     <Key>
@@ -1810,9 +1840,6 @@
     <Property Name="ActionPriorityID" Type="Int32" />
     <Property Name="IndicatorNotes" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
     <Property Name="ProjectID" Type="Int32" />
-    <Property Name="IsTransportationProject" Type="Boolean" Nullable="false" />
-    <Property Name="TransportationObjectiveID" Type="Int32" />
-    <Property Name="OnFederalTransportationImprovementProgramList" Type="Boolean" />
     <Property Name="ImplementsMultipleProjects" Type="Boolean" />
     <Property Name="SubmissionDate" Type="DateTime" />
     <Property Name="ApprovalDate" Type="DateTime" />
@@ -1825,13 +1852,23 @@
     <NavigationProperty Name="ReviewedByPerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Person_ReviewedByPersonID_PersonID" FromRole="ProposedProjectsWhereYouAreTheReviewedByPerson" ToRole="ReviewedByPerson" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Project_ProjectID" FromRole="ProposedProjects" ToRole="Project" />
     <NavigationProperty Name="ProjectLocationArea" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_ProjectLocationArea_ProjectLocationAreaID" FromRole="ProposedProjects" ToRole="ProjectLocationArea" />
-    <NavigationProperty Name="TransportationObjective" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_TransportationObjective_TransportationObjectiveID" FromRole="ProposedProjects" ToRole="TransportationObjective" />
+    <NavigationProperty Name="ProposedProjectAssessmentQuestions" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectAssessmentQuestions" />
     <NavigationProperty Name="ProposedProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectImage_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectImages" />
     <NavigationProperty Name="ProposedProjectLocations" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocation_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectLocations" />
     <NavigationProperty Name="ProposedProjectLocationStagings" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectLocationStagings" />
     <NavigationProperty Name="ProposedProjectNotes" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectNotes" />
     <NavigationProperty Name="ProposedProjectThresholdCategories" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectThresholdCategory_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectThresholdCategories" />
-    <NavigationProperty Name="ProposedProjectTransportationQuestions" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectTransportationQuestion_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectTransportationQuestions" />
+  </EntityType>
+  <EntityType Name="ProposedProjectAssessmentQuestion">
+    <Key>
+      <PropertyRef Name="ProposedProjectAssessmentQuestionID" />
+    </Key>
+    <Property Name="ProposedProjectAssessmentQuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
+    <Property Name="AssessmentQuestionID" Type="Int32" Nullable="false" />
+    <Property Name="Answer" Type="Boolean" />
+    <NavigationProperty Name="AssessmentQuestion" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" FromRole="ProposedProjectAssessmentQuestions" ToRole="AssessmentQuestion" />
+    <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID" FromRole="ProposedProjectAssessmentQuestions" ToRole="ProposedProject" />
   </EntityType>
   <EntityType Name="ProposedProjectImage">
     <Key>
@@ -1893,17 +1930,6 @@
     <Property Name="ProposedProjectThresholdCategoryNotes" Type="String" MaxLength="600" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectThresholdCategory_ProposedProject_ProposedProjectID" FromRole="ProposedProjectThresholdCategories" ToRole="ProposedProject" />
     <NavigationProperty Name="ThresholdCategory" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID" FromRole="ProposedProjectThresholdCategories" ToRole="ThresholdCategory" />
-  </EntityType>
-  <EntityType Name="ProposedProjectTransportationQuestion">
-    <Key>
-      <PropertyRef Name="ProposedProjectTransportationQuestionID" />
-    </Key>
-    <Property Name="ProposedProjectTransportationQuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
-    <Property Name="TransportationQuestionID" Type="Int32" Nullable="false" />
-    <Property Name="Answer" Type="Boolean" />
-    <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectTransportationQuestion_ProposedProject_ProposedProjectID" FromRole="ProposedProjectTransportationQuestions" ToRole="ProposedProject" />
-    <NavigationProperty Name="TransportationQuestion" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectTransportationQuestion_TransportationQuestion_TransportationQuestionID" FromRole="ProposedProjectTransportationQuestions" ToRole="TransportationQuestion" />
   </EntityType>
   <EntityType Name="Snapshot">
     <Key>
@@ -2041,123 +2067,6 @@
     <NavigationProperty Name="Indicator" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryIndicator_Indicator_IndicatorID" FromRole="ThresholdCategoryIndicators" ToRole="Indicator" />
     <NavigationProperty Name="ThresholdCategory" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryIndicator_ThresholdCategory_ThresholdCategoryID" FromRole="ThresholdCategoryIndicators" ToRole="ThresholdCategory" />
   </EntityType>
-  <EntityType Name="TransportationCostParameterSet">
-    <Key>
-      <PropertyRef Name="TransportationCostParameterSetID" />
-    </Key>
-    <Property Name="TransportationCostParameterSetID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="InflationRate" Type="Decimal" Nullable="false" Precision="9" Scale="6" />
-    <Property Name="CurrentRTPYearForPVCalculations" Type="Int32" Nullable="false" />
-    <Property Name="Comment" Type="String" MaxLength="2000" Unicode="false" FixedLength="false" />
-    <Property Name="CreateDate" Type="DateTime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="TransportationGoal">
-    <Key>
-      <PropertyRef Name="TransportationGoalID" />
-    </Key>
-    <Property Name="TransportationGoalID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TransportationGoalNumber" Type="Int32" Nullable="false" />
-    <Property Name="TransportationGoalTitle" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="TransportationGoalDescription" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="TransportationSubGoals" Relationship="ProjectFirma.Web.Models.FK_TransportationSubGoal_TransportationGoal_TransportationGoalID" FromRole="TransportationGoal" ToRole="TransportationSubGoals" />
-  </EntityType>
-  <EntityType Name="TransportationObjective">
-    <Key>
-      <PropertyRef Name="TransportationObjectiveID" />
-    </Key>
-    <Property Name="TransportationObjectiveID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TransportationStrategyID" Type="Int32" Nullable="false" />
-    <Property Name="TransportationObjectiveName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="TransportationObjectiveDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="FundingTypeID" Type="Int32" Nullable="false" />
-    <Property Name="SortOrder" Type="Int32" />
-    <NavigationProperty Name="Projects" Relationship="ProjectFirma.Web.Models.FK_Project_TransportationObjective_TransportationObjectiveID" FromRole="TransportationObjective" ToRole="Projects" />
-    <NavigationProperty Name="ProposedProjects" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_TransportationObjective_TransportationObjectiveID" FromRole="TransportationObjective" ToRole="ProposedProjects" />
-    <NavigationProperty Name="TransportationStrategy" Relationship="ProjectFirma.Web.Models.FK_TransportationObjective_TransportationStrategy_TransportationStrategyID" FromRole="TransportationObjectives" ToRole="TransportationStrategy" />
-    <NavigationProperty Name="TransportationObjectiveImages" Relationship="ProjectFirma.Web.Models.FK_TransportationObjectiveImage_TransportationObjective_TransportationObjectiveID" FromRole="TransportationObjective" ToRole="TransportationObjectiveImages" />
-  </EntityType>
-  <EntityType Name="TransportationObjectiveImage">
-    <Key>
-      <PropertyRef Name="TransportationObjectiveImageID" />
-    </Key>
-    <Property Name="TransportationObjectiveImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TransportationObjectiveID" Type="Int32" Nullable="false" />
-    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_TransportationObjectiveImage_FileResource_FileResourceID" FromRole="TransportationObjectiveImages" ToRole="FileResource" />
-    <NavigationProperty Name="TransportationObjective" Relationship="ProjectFirma.Web.Models.FK_TransportationObjectiveImage_TransportationObjective_TransportationObjectiveID" FromRole="TransportationObjectiveImages" ToRole="TransportationObjective" />
-  </EntityType>
-  <EntityType Name="TransportationProjectBudget">
-    <Key>
-      <PropertyRef Name="TransportationProjectBudgetID" />
-    </Key>
-    <Property Name="TransportationProjectBudgetID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProjectID" Type="Int32" Nullable="false" />
-    <Property Name="FundingSourceID" Type="Int32" Nullable="false" />
-    <Property Name="TransportationProjectCostTypeID" Type="Int32" Nullable="false" />
-    <Property Name="CalendarYear" Type="Int32" Nullable="false" />
-    <Property Name="BudgetedAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-    <NavigationProperty Name="FundingSource" Relationship="ProjectFirma.Web.Models.FK_TransportationProjectBudget_FundingSource_FundingSourceID" FromRole="TransportationProjectBudgets" ToRole="FundingSource" />
-    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_TransportationProjectBudget_Project_ProjectID" FromRole="TransportationProjectBudgets" ToRole="Project" />
-  </EntityType>
-  <EntityType Name="TransportationProjectBudgetUpdate">
-    <Key>
-      <PropertyRef Name="TransportationProjectBudgetUpdateID" />
-    </Key>
-    <Property Name="TransportationProjectBudgetUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
-    <Property Name="FundingSourceID" Type="Int32" Nullable="false" />
-    <Property Name="TransportationProjectCostTypeID" Type="Int32" Nullable="false" />
-    <Property Name="CalendarYear" Type="Int32" Nullable="false" />
-    <Property Name="BudgetedAmount" Type="Decimal" Precision="19" Scale="4" />
-    <NavigationProperty Name="FundingSource" Relationship="ProjectFirma.Web.Models.FK_TransportationProjectBudgetUpdate_FundingSource_FundingSourceID" FromRole="TransportationProjectBudgetUpdates" ToRole="FundingSource" />
-    <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_TransportationProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="TransportationProjectBudgetUpdates" ToRole="ProjectUpdateBatch" />
-  </EntityType>
-  <EntityType Name="TransportationQuestion">
-    <Key>
-      <PropertyRef Name="TransportationQuestionID" />
-    </Key>
-    <Property Name="TransportationQuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TransportationSubGoalID" Type="Int32" Nullable="false" />
-    <Property Name="TransportationQuestionText" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
-    <Property Name="ArchiveDate" Type="DateTime" />
-    <NavigationProperty Name="ProjectTransportationQuestions" Relationship="ProjectFirma.Web.Models.FK_ProjectTransportationQuestion_TransportationQuestion_TransportationQuestionID" FromRole="TransportationQuestion" ToRole="ProjectTransportationQuestions" />
-    <NavigationProperty Name="ProposedProjectTransportationQuestions" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectTransportationQuestion_TransportationQuestion_TransportationQuestionID" FromRole="TransportationQuestion" ToRole="ProposedProjectTransportationQuestions" />
-    <NavigationProperty Name="TransportationSubGoal" Relationship="ProjectFirma.Web.Models.FK_TransportationQuestion_TransportationSubGoal_TransportationSubGoalID" FromRole="TransportationQuestions" ToRole="TransportationSubGoal" />
-  </EntityType>
-  <EntityType Name="TransportationStrategy">
-    <Key>
-      <PropertyRef Name="TransportationStrategyID" />
-    </Key>
-    <Property Name="TransportationStrategyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TransportationStrategyName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="TransportationStrategyDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="TransportationStrategyColor" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-    <Property Name="SortOrder" Type="Int32" />
-    <NavigationProperty Name="TransportationObjectives" Relationship="ProjectFirma.Web.Models.FK_TransportationObjective_TransportationStrategy_TransportationStrategyID" FromRole="TransportationStrategy" ToRole="TransportationObjectives" />
-    <NavigationProperty Name="TransportationStrategyImages" Relationship="ProjectFirma.Web.Models.FK_TransportationStrategyImage_TransportationStrategy_TransportationStrategyID" FromRole="TransportationStrategy" ToRole="TransportationStrategyImages" />
-  </EntityType>
-  <EntityType Name="TransportationStrategyImage">
-    <Key>
-      <PropertyRef Name="TransportationStrategyImageID" />
-    </Key>
-    <Property Name="TransportationStrategyImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TransportationStrategyID" Type="Int32" Nullable="false" />
-    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_TransportationStrategyImage_FileResource_FileResourceID" FromRole="TransportationStrategyImages" ToRole="FileResource" />
-    <NavigationProperty Name="TransportationStrategy" Relationship="ProjectFirma.Web.Models.FK_TransportationStrategyImage_TransportationStrategy_TransportationStrategyID" FromRole="TransportationStrategyImages" ToRole="TransportationStrategy" />
-  </EntityType>
-  <EntityType Name="TransportationSubGoal">
-    <Key>
-      <PropertyRef Name="TransportationSubGoalID" />
-    </Key>
-    <Property Name="TransportationSubGoalID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TransportationGoalID" Type="Int32" Nullable="false" />
-    <Property Name="TransportationSubGoalNumber" Type="Int32" Nullable="false" />
-    <Property Name="TransportationSubGoalTitle" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="TransportationSubGoalDescription" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="TransportationGoal" Relationship="ProjectFirma.Web.Models.FK_TransportationSubGoal_TransportationGoal_TransportationGoalID" FromRole="TransportationSubGoals" ToRole="TransportationGoal" />
-    <NavigationProperty Name="TransportationQuestions" Relationship="ProjectFirma.Web.Models.FK_TransportationQuestion_TransportationSubGoal_TransportationSubGoalID" FromRole="TransportationSubGoal" ToRole="TransportationQuestions" />
-  </EntityType>
   <EntityType Name="Watershed">
     <Key>
       <PropertyRef Name="WatershedID" />
@@ -2250,6 +2159,54 @@
       </Principal>
       <Dependent Role="ActionPriorityImages">
         <PropertyRef Name="FileResourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
+    <End Role="AssessmentGoal" Type="ProjectFirma.Web.Models.AssessmentGoal" Multiplicity="1" />
+    <End Role="AssessmentSubGoals" Type="ProjectFirma.Web.Models.AssessmentSubGoal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AssessmentGoal">
+        <PropertyRef Name="AssessmentGoalID" />
+      </Principal>
+      <Dependent Role="AssessmentSubGoals">
+        <PropertyRef Name="AssessmentGoalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID">
+    <End Role="AssessmentSubGoal" Type="ProjectFirma.Web.Models.AssessmentSubGoal" Multiplicity="1" />
+    <End Role="AssessmentQuestions" Type="ProjectFirma.Web.Models.AssessmentQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AssessmentSubGoal">
+        <PropertyRef Name="AssessmentSubGoalID" />
+      </Principal>
+      <Dependent Role="AssessmentQuestions">
+        <PropertyRef Name="AssessmentSubGoalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID">
+    <End Role="AssessmentQuestion" Type="ProjectFirma.Web.Models.AssessmentQuestion" Multiplicity="1" />
+    <End Role="ProjectAssessmentQuestions" Type="ProjectFirma.Web.Models.ProjectAssessmentQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AssessmentQuestion">
+        <PropertyRef Name="AssessmentQuestionID" />
+      </Principal>
+      <Dependent Role="ProjectAssessmentQuestions">
+        <PropertyRef Name="AssessmentQuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID">
+    <End Role="AssessmentQuestion" Type="ProjectFirma.Web.Models.AssessmentQuestion" Multiplicity="1" />
+    <End Role="ProposedProjectAssessmentQuestions" Type="ProjectFirma.Web.Models.ProposedProjectAssessmentQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AssessmentQuestion">
+        <PropertyRef Name="AssessmentQuestionID" />
+      </Principal>
+      <Dependent Role="ProposedProjectAssessmentQuestions">
+        <PropertyRef Name="AssessmentQuestionID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2409,30 +2366,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TransportationObjectiveImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
-    <End Role="TransportationObjectiveImages" Type="ProjectFirma.Web.Models.TransportationObjectiveImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="TransportationObjectiveImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TransportationStrategyImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
-    <End Role="TransportationStrategyImages" Type="ProjectFirma.Web.Models.TransportationStrategyImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="TransportationStrategyImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_FirmaPageImage_FirmaPage_FirmaPageID">
     <End Role="FirmaPage" Type="ProjectFirma.Web.Models.FirmaPage" Multiplicity="1" />
     <End Role="FirmaPageImages" Type="ProjectFirma.Web.Models.FirmaPageImage" Multiplicity="*" />
@@ -2481,6 +2414,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectBudget_FundingSource_FundingSourceID">
+    <End Role="FundingSource" Type="ProjectFirma.Web.Models.FundingSource" Multiplicity="1" />
+    <End Role="ProjectBudgets" Type="ProjectFirma.Web.Models.ProjectBudget" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FundingSource">
+        <PropertyRef Name="FundingSourceID" />
+      </Principal>
+      <Dependent Role="ProjectBudgets">
+        <PropertyRef Name="FundingSourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectBudgetUpdate_FundingSource_FundingSourceID">
+    <End Role="FundingSource" Type="ProjectFirma.Web.Models.FundingSource" Multiplicity="1" />
+    <End Role="ProjectBudgetUpdates" Type="ProjectFirma.Web.Models.ProjectBudgetUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FundingSource">
+        <PropertyRef Name="FundingSourceID" />
+      </Principal>
+      <Dependent Role="ProjectBudgetUpdates">
+        <PropertyRef Name="FundingSourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectFundingSourceExpenditure_FundingSource_FundingSourceID">
     <End Role="FundingSource" Type="ProjectFirma.Web.Models.FundingSource" Multiplicity="1" />
     <End Role="ProjectFundingSourceExpenditures" Type="ProjectFirma.Web.Models.ProjectFundingSourceExpenditure" Multiplicity="*" />
@@ -2501,30 +2458,6 @@
         <PropertyRef Name="FundingSourceID" />
       </Principal>
       <Dependent Role="ProjectFundingSourceExpenditureUpdates">
-        <PropertyRef Name="FundingSourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TransportationProjectBudget_FundingSource_FundingSourceID">
-    <End Role="FundingSource" Type="ProjectFirma.Web.Models.FundingSource" Multiplicity="1" />
-    <End Role="TransportationProjectBudgets" Type="ProjectFirma.Web.Models.TransportationProjectBudget" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FundingSource">
-        <PropertyRef Name="FundingSourceID" />
-      </Principal>
-      <Dependent Role="TransportationProjectBudgets">
-        <PropertyRef Name="FundingSourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TransportationProjectBudgetUpdate_FundingSource_FundingSourceID">
-    <End Role="FundingSource" Type="ProjectFirma.Web.Models.FundingSource" Multiplicity="1" />
-    <End Role="TransportationProjectBudgetUpdates" Type="ProjectFirma.Web.Models.TransportationProjectBudgetUpdate" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FundingSource">
-        <PropertyRef Name="FundingSourceID" />
-      </Principal>
-      <Dependent Role="TransportationProjectBudgetUpdates">
         <PropertyRef Name="FundingSourceID" />
       </Dependent>
     </ReferentialConstraint>
@@ -3417,15 +3350,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Project_TransportationObjective_TransportationObjectiveID">
-    <End Role="TransportationObjective" Type="ProjectFirma.Web.Models.TransportationObjective" Multiplicity="0..1" />
-    <End Role="Projects" Type="ProjectFirma.Web.Models.Project" Multiplicity="*" />
+  <Association Name="FK_ProjectAssessmentQuestion_Project_ProjectID">
+    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
+    <End Role="ProjectAssessmentQuestions" Type="ProjectFirma.Web.Models.ProjectAssessmentQuestion" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="TransportationObjective">
-        <PropertyRef Name="TransportationObjectiveID" />
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectID" />
       </Principal>
-      <Dependent Role="Projects">
-        <PropertyRef Name="TransportationObjectiveID" />
+      <Dependent Role="ProjectAssessmentQuestions">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectBudget_Project_ProjectID">
+    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
+    <End Role="ProjectBudgets" Type="ProjectFirma.Web.Models.ProjectBudget" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="ProjectBudgets">
+        <PropertyRef Name="ProjectID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3573,18 +3518,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProjectTransportationQuestion_Project_ProjectID">
-    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
-    <End Role="ProjectTransportationQuestions" Type="ProjectFirma.Web.Models.ProjectTransportationQuestion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectID" />
-      </Principal>
-      <Dependent Role="ProjectTransportationQuestions">
-        <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ProjectUpdateBatch_Project_ProjectID">
     <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
     <End Role="ProjectUpdateBatches" Type="ProjectFirma.Web.Models.ProjectUpdateBatch" Multiplicity="*" />
@@ -3633,15 +3566,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TransportationProjectBudget_Project_ProjectID">
-    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
-    <End Role="TransportationProjectBudgets" Type="ProjectFirma.Web.Models.TransportationProjectBudget" Multiplicity="*" />
+  <Association Name="FK_ProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+    <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.ProjectUpdateBatch" Multiplicity="1" />
+    <End Role="ProjectBudgetUpdates" Type="ProjectFirma.Web.Models.ProjectBudgetUpdate" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectID" />
+      <Principal Role="ProjectUpdateBatch">
+        <PropertyRef Name="ProjectUpdateBatchID" />
       </Principal>
-      <Dependent Role="TransportationProjectBudgets">
-        <PropertyRef Name="ProjectID" />
+      <Dependent Role="ProjectBudgetUpdates">
+        <PropertyRef Name="ProjectUpdateBatchID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3885,18 +3818,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProjectTransportationQuestion_TransportationQuestion_TransportationQuestionID">
-    <End Role="TransportationQuestion" Type="ProjectFirma.Web.Models.TransportationQuestion" Multiplicity="1" />
-    <End Role="ProjectTransportationQuestions" Type="ProjectFirma.Web.Models.ProjectTransportationQuestion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TransportationQuestion">
-        <PropertyRef Name="TransportationQuestionID" />
-      </Principal>
-      <Dependent Role="ProjectTransportationQuestions">
-        <PropertyRef Name="TransportationQuestionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
     <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.ProjectUpdateBatch" Multiplicity="1" />
     <End Role="ProjectUpdates" Type="ProjectFirma.Web.Models.ProjectUpdate" Multiplicity="*" />
@@ -3921,18 +3842,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TransportationProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
-    <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.ProjectUpdateBatch" Multiplicity="1" />
-    <End Role="TransportationProjectBudgetUpdates" Type="ProjectFirma.Web.Models.TransportationProjectBudgetUpdate" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProjectUpdateBatch">
-        <PropertyRef Name="ProjectUpdateBatchID" />
-      </Principal>
-      <Dependent Role="TransportationProjectBudgetUpdates">
-        <PropertyRef Name="ProjectUpdateBatchID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ProjectWatershed_Watershed_WatershedID">
     <End Role="Watershed" Type="ProjectFirma.Web.Models.Watershed" Multiplicity="1" />
     <End Role="ProjectWatersheds" Type="ProjectFirma.Web.Models.ProjectWatershed" Multiplicity="*" />
@@ -3945,15 +3854,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProposedProject_TransportationObjective_TransportationObjectiveID">
-    <End Role="TransportationObjective" Type="ProjectFirma.Web.Models.TransportationObjective" Multiplicity="0..1" />
-    <End Role="ProposedProjects" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="*" />
+  <Association Name="FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID">
+    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
+    <End Role="ProposedProjectAssessmentQuestions" Type="ProjectFirma.Web.Models.ProposedProjectAssessmentQuestion" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="TransportationObjective">
-        <PropertyRef Name="TransportationObjectiveID" />
+      <Principal Role="ProposedProject">
+        <PropertyRef Name="ProposedProjectID" />
       </Principal>
-      <Dependent Role="ProposedProjects">
-        <PropertyRef Name="TransportationObjectiveID" />
+      <Dependent Role="ProposedProjectAssessmentQuestions">
+        <PropertyRef Name="ProposedProjectID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -4017,18 +3926,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProposedProjectTransportationQuestion_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectTransportationQuestions" Type="ProjectFirma.Web.Models.ProposedProjectTransportationQuestion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectTransportationQuestions">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ProposedProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID">
     <End Role="ThresholdCategory" Type="ProjectFirma.Web.Models.ThresholdCategory" Multiplicity="1" />
     <End Role="ProposedProjectThresholdCategories" Type="ProjectFirma.Web.Models.ProposedProjectThresholdCategory" Multiplicity="*" />
@@ -4038,18 +3935,6 @@
       </Principal>
       <Dependent Role="ProposedProjectThresholdCategories">
         <PropertyRef Name="ThresholdCategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectTransportationQuestion_TransportationQuestion_TransportationQuestionID">
-    <End Role="TransportationQuestion" Type="ProjectFirma.Web.Models.TransportationQuestion" Multiplicity="1" />
-    <End Role="ProposedProjectTransportationQuestions" Type="ProjectFirma.Web.Models.ProposedProjectTransportationQuestion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TransportationQuestion">
-        <PropertyRef Name="TransportationQuestionID" />
-      </Principal>
-      <Dependent Role="ProposedProjectTransportationQuestions">
-        <PropertyRef Name="TransportationQuestionID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -4122,66 +4007,6 @@
       </Principal>
       <Dependent Role="ThresholdCategoryIndicators">
         <PropertyRef Name="ThresholdCategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TransportationSubGoal_TransportationGoal_TransportationGoalID">
-    <End Role="TransportationGoal" Type="ProjectFirma.Web.Models.TransportationGoal" Multiplicity="1" />
-    <End Role="TransportationSubGoals" Type="ProjectFirma.Web.Models.TransportationSubGoal" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TransportationGoal">
-        <PropertyRef Name="TransportationGoalID" />
-      </Principal>
-      <Dependent Role="TransportationSubGoals">
-        <PropertyRef Name="TransportationGoalID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TransportationObjective_TransportationStrategy_TransportationStrategyID">
-    <End Role="TransportationStrategy" Type="ProjectFirma.Web.Models.TransportationStrategy" Multiplicity="1" />
-    <End Role="TransportationObjectives" Type="ProjectFirma.Web.Models.TransportationObjective" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TransportationStrategy">
-        <PropertyRef Name="TransportationStrategyID" />
-      </Principal>
-      <Dependent Role="TransportationObjectives">
-        <PropertyRef Name="TransportationStrategyID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TransportationObjectiveImage_TransportationObjective_TransportationObjectiveID">
-    <End Role="TransportationObjective" Type="ProjectFirma.Web.Models.TransportationObjective" Multiplicity="1" />
-    <End Role="TransportationObjectiveImages" Type="ProjectFirma.Web.Models.TransportationObjectiveImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TransportationObjective">
-        <PropertyRef Name="TransportationObjectiveID" />
-      </Principal>
-      <Dependent Role="TransportationObjectiveImages">
-        <PropertyRef Name="TransportationObjectiveID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TransportationQuestion_TransportationSubGoal_TransportationSubGoalID">
-    <End Role="TransportationSubGoal" Type="ProjectFirma.Web.Models.TransportationSubGoal" Multiplicity="1" />
-    <End Role="TransportationQuestions" Type="ProjectFirma.Web.Models.TransportationQuestion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TransportationSubGoal">
-        <PropertyRef Name="TransportationSubGoalID" />
-      </Principal>
-      <Dependent Role="TransportationQuestions">
-        <PropertyRef Name="TransportationSubGoalID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TransportationStrategyImage_TransportationStrategy_TransportationStrategyID">
-    <End Role="TransportationStrategy" Type="ProjectFirma.Web.Models.TransportationStrategy" Multiplicity="1" />
-    <End Role="TransportationStrategyImages" Type="ProjectFirma.Web.Models.TransportationStrategyImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TransportationStrategy">
-        <PropertyRef Name="TransportationStrategyID" />
-      </Principal>
-      <Dependent Role="TransportationStrategyImages">
-        <PropertyRef Name="TransportationStrategyID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -29,7 +29,6 @@ namespace ProjectFirma.Web.UnitTestCommon
                     MakeTestName("Test Project Description"),
                     false,
                     false,
-                    false,
                     ProjectLocationSimpleType.None,
                     FundingType.Capital);
 
@@ -41,7 +40,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             {
                 var actionPriority = TestActionPriority.Create();
                 var projectStage = ProjectStage.Implementation;
-                var project = new Project(actionPriority, projectStage, projectID, projectName, "Some description", false, false, false, ProjectLocationSimpleType.None, FundingType.Capital)
+                var project = new Project(actionPriority, projectStage, projectID, projectName, "Some description", false, false, ProjectLocationSimpleType.None, FundingType.Capital)
                 {
                     ProjectID = projectID
                 };

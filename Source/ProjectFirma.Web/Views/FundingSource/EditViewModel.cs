@@ -27,10 +27,6 @@ namespace ProjectFirma.Web.Views.FundingSource
         [DisplayName("Is Active")]
         public bool IsActive { get; set; }
 
-        [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.IsTransportationFundingSource)]
-        public bool IsTransportationFundingSource { get; set; }
-
         [StringLength(Models.FundingSource.FieldLengths.FundingSourceDescription)]
         [FieldDefinitionDisplay(FieldDefinitionEnum.FundingSourceDescription)]
         public string FundingSourceDescription { get; set; }
@@ -49,7 +45,6 @@ namespace ProjectFirma.Web.Views.FundingSource
             FundingSourceDescription = fundingSource.FundingSourceDescription;
             OrganizationID = fundingSource.OrganizationID;
             IsActive = fundingSource.IsActive;
-            IsTransportationFundingSource = fundingSource.IsTransportationFundingSource;
         }
 
         public void UpdateModel(Models.FundingSource fundingSource, Person currentPerson)
@@ -58,7 +53,6 @@ namespace ProjectFirma.Web.Views.FundingSource
             fundingSource.FundingSourceDescription = FundingSourceDescription;
             fundingSource.OrganizationID = OrganizationID;
             fundingSource.IsActive = IsActive;
-            fundingSource.IsTransportationFundingSource = IsTransportationFundingSource;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

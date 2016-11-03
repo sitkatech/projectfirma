@@ -16,17 +16,6 @@ namespace ProjectFirma.Web.Controllers
             var focusAreas = HttpRequestStorage.DatabaseEntities.FocusAreas.ToList();
             var focusAreasAsFancyTreeNodes = focusAreas.Select(x => x.ToFancyTreeNode()).ToList();
             var viewData = new TaxonomyViewData(CurrentPerson, firmaPage, focusAreasAsFancyTreeNodes);
-            return RazorView<Taxonomy, TaxonomyViewData>(viewData);
-        }
-
-        [AnonymousUnclassifiedFeature]
-        public ViewResult TransportationTaxonomy()
-        {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.TransportationTaxonomy);
-            var transportationStrategies = HttpRequestStorage.DatabaseEntities.TransportationStrategies.OrderBy(x => x.SortOrder).ToList();
-            var transportationStrategiesAsFancyNodes = transportationStrategies.Select(x => x.ToFancyTreeNode()).ToList();
-            var viewData = new TransportationTaxonomyViewData(CurrentPerson, firmaPage, transportationStrategiesAsFancyNodes);
-            return RazorView<TransportationTaxonomy, TransportationTaxonomyViewData>(viewData);
-        }
+            return RazorView<Taxonomy, TaxonomyViewData>(viewData);        }
     }
 }

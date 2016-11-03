@@ -31,9 +31,9 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
         public readonly ImageGalleryViewData ImageGalleryViewData;
 
-        public TransportationAssessmentTreeViewData TransportationAssessmentTreeViewData;
+        public AssessmentTreeViewData AssessmentTreeViewData;
 
-        public SummaryViewData(Person currentPerson, Models.ProposedProject proposedProject, ProjectLocationSummaryViewData projectLocationSummaryViewData, PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData, ImageGalleryViewData imageGalleryViewData, EntityNotesViewData entityNotesViewData, string mapFormID, TransportationAssessmentTreeViewData transportationAssessmentTreeViewData) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Basics, new ProposalSectionsStatus(proposedProject))
+        public SummaryViewData(Person currentPerson, Models.ProposedProject proposedProject, ProjectLocationSummaryViewData projectLocationSummaryViewData, PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData, ImageGalleryViewData imageGalleryViewData, EntityNotesViewData entityNotesViewData, string mapFormID, AssessmentTreeViewData assessmentTreeViewData) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Basics, new ProposalSectionsStatus(proposedProject))
         {
             PageTitle = proposedProject.DisplayName;
             BreadCrumbTitle = "Proposed Project Summary";
@@ -56,9 +56,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             AuditLogsGridName = "proposedProjectAuditLogsGrid";
             AuditLogsGridDataUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(tc => tc.AuditLogsGridJsonData(proposedProject));
 
-            TransportationAssessmentTreeViewData = transportationAssessmentTreeViewData;
+            AssessmentTreeViewData = assessmentTreeViewData;
         }
-
-        
     }
 }

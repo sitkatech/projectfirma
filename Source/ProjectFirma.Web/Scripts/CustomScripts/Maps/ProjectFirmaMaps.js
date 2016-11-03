@@ -15,7 +15,7 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
     var esriTerrainUrl = 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}';
     var esriTerrain = new L.TileLayer(esriTerrainUrl, {});
 
-    var streetLabelsLayer = new L.TileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', {});
+    var streetLabelsLayer = new L.TileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_/MapServer/tile/{z}/{y}/{x}', {});
 
     var baseLayers = { 'Aerial': esriAerial, 'Street': esriStreet, 'Terrain': esriTerrain };
     var overlayLayers = { 'Street Labels': streetLabelsLayer };

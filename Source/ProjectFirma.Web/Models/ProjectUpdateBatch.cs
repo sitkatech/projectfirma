@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Models
 
         private bool IsPassingAllValidationRules
         {
-            get { return AreProjectBasicsValid && AreExpendituresValid() && ArePerformanceMeasuresValid() && AreTransportationBudgetsValid() && IsProjectLocationSimpleValid(); }
+            get { return AreProjectBasicsValid && AreExpendituresValid() && ArePerformanceMeasuresValid() && AreBudgetsValid() && IsProjectLocationSimpleValid(); }
         }
 
         public bool InEditableState
@@ -96,8 +96,8 @@ namespace ProjectFirma.Web.Models
             // expenditures
             ProjectFundingSourceExpenditureUpdate.CreateFromProject(projectUpdateBatch);
 
-            // transportation project budgets
-            TransportationProjectBudgetUpdate.CreateFromProject(projectUpdateBatch);
+            //  project budgets
+            ProjectBudgetUpdate.CreateFromProject(projectUpdateBatch);
 
             // performance measures
             PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
@@ -201,10 +201,10 @@ namespace ProjectFirma.Web.Models
             RefreshFromDatabase(ProjectFundingSourceExpenditureUpdates);
         }
 
-        public void DeleteTransportationProjectBudgetUpdates()
+        public void DeleteProjectBudgetUpdates()
         {
-            HttpRequestStorage.DatabaseEntities.TransportationProjectBudgetUpdates.DeleteTransportationProjectBudgetUpdate(TransportationProjectBudgetUpdates);
-            RefreshFromDatabase(TransportationProjectBudgetUpdates);
+            HttpRequestStorage.DatabaseEntities.ProjectBudgetUpdates.DeleteProjectBudgetUpdate(ProjectBudgetUpdates);
+            RefreshFromDatabase(ProjectBudgetUpdates);
         }
 
         public void DeletePerformanceMeasureActualUpdates()
@@ -233,7 +233,7 @@ namespace ProjectFirma.Web.Models
             DeletePerformanceMeasureActualUpdates();
             DeleteProjectExemptReportingYearUpdates();
             DeleteProjectFundingSourceExpenditureUpdates();
-            DeleteTransportationProjectBudgetUpdates();
+            DeleteProjectBudgetUpdates();
             DeleteProjectImageUpdates();
             DeleteProjectExternalLinkUpdates();
             DeleteProjectNoteUpdates();
@@ -409,32 +409,27 @@ namespace ProjectFirma.Web.Models
             return ValidateExpenditures().IsValid;
         }
 
-        public TransportationBudgetsValidationResult ValidateTransportationBudgetsAndForceValidation()
+        public BudgetsValidationResult ValidateBudgetsAndForceValidation()
         {
             AreProjectBasicsValid = ValidateProjectBasics().IsValid;
-            return ValidateTransportationBudgets();
+            return ValidateBudgets();
         }
 
-        public TransportationBudgetsValidationResult ValidateTransportationBudgets()
+        public BudgetsValidationResult ValidateBudgets()
         {
-            if (!ProjectUpdate.ProjectUpdateBatch.Project.OnFederalTransportationImprovementProgramList)
-            {
-                return new TransportationBudgetsValidationResult(new List<int>());
-            }
-
             if (!AreProjectBasicsValid)
             {
-                return new TransportationBudgetsValidationResult(FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection);
+                return new BudgetsValidationResult(FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection);
             }
 
             // get distinct Funding Sources
-            var fundingSources = TransportationProjectBudgetUpdates.Select(x => x.FundingSource).Distinct().ToList();
+            var fundingSources = ProjectBudgetUpdates.Select(x => x.FundingSource).Distinct().ToList();
             // validation 1: ensure that we have budget values from ProjectUpdate start year to min(endyear, currentyear)
             var yearsExpected = FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), ProjectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
             if (!fundingSources.Any())
             {
                 // we need to at least check for the missing years
-                var budgetsValidationResult = new TransportationBudgetsValidationResult(yearsExpected);
+                var budgetsValidationResult = new BudgetsValidationResult(yearsExpected);
                 return budgetsValidationResult;
             }
             else
@@ -444,20 +439,20 @@ namespace ProjectFirma.Web.Models
                 {
                     var currentFundingSource = fundingSource;
                     var missingYears =
-                        yearsExpected.GetMissingYears(TransportationProjectBudgetUpdates.Where(x => x.FundingSourceID == currentFundingSource.FundingSourceID).Select(x => x.CalendarYear));
+                        yearsExpected.GetMissingYears(ProjectBudgetUpdates.Where(x => x.FundingSourceID == currentFundingSource.FundingSourceID).Select(x => x.CalendarYear));
                     if (missingYears.Any())
                     {
                         missingFundingSourceYears.Add(currentFundingSource, missingYears);
                     }
                 }
-                var budgetsValidationResult = new TransportationBudgetsValidationResult(missingFundingSourceYears);
+                var budgetsValidationResult = new BudgetsValidationResult(missingFundingSourceYears);
                 return budgetsValidationResult;
             }
         }
 
-        public bool AreTransportationBudgetsValid()
+        public bool AreBudgetsValid()
         {
-            return ValidateTransportationBudgets().IsValid;
+            return ValidateBudgets().IsValid;
         }
 
         public LocationSimpleValidationResult ValidateProjectLocationSimple()
@@ -486,7 +481,7 @@ namespace ProjectFirma.Web.Models
             DateTime transitionDate,
             IList<ProjectExemptReportingYear> projectExemptReportingYears,
             IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
-            IList<TransportationProjectBudget> transportationProjectBudgets,
+            IList<ProjectBudget> projectBudgets,
             IList<PerformanceMeasureActual> performanceMeasureActuals,
             IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
             IList<ProjectExternalLink> projectExternalLinks,
@@ -497,7 +492,7 @@ namespace ProjectFirma.Web.Models
             Check.Require(IsSubmitted, "You cannot approve a project update that has not been submitted!");
             CommitChangesToProject(projectExemptReportingYears,
                 projectFundingSourceExpenditures,
-                transportationProjectBudgets,
+                projectBudgets,
                 performanceMeasureActuals,
                 performanceMeasureActualSubcategoryOptions,
                 projectExternalLinks,
@@ -523,7 +518,7 @@ namespace ProjectFirma.Web.Models
 
         private void CommitChangesToProject(IList<ProjectExemptReportingYear> projectExemptReportingYears,
             IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
-            IList<TransportationProjectBudget> transportationProjectBudgets,
+            IList<ProjectBudget> projectBudgets,
             IList<PerformanceMeasureActual> performanceMeasureActuals,
             IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
             IList<ProjectExternalLink> projectExternalLinks,
@@ -537,11 +532,8 @@ namespace ProjectFirma.Web.Models
             // expenditures
             ProjectFundingSourceExpenditureUpdate.CommitChangesToProject(this, projectFundingSourceExpenditures);
 
-            // transportation project budgets; we only commit if they are still on FTIP list at time of approval
-            if (Project.OnFederalTransportationImprovementProgramList)
-            {
-                TransportationProjectBudgetUpdate.CommitChangesToProject(this, transportationProjectBudgets);
-            }
+            //  project budgets
+            ProjectBudgetUpdate.CommitChangesToProject(this, projectBudgets);
 
             // performance measures
             PerformanceMeasureActualUpdate.CommitChangesToProject(this, performanceMeasureActuals, performanceMeasureActualSubcategoryOptions);

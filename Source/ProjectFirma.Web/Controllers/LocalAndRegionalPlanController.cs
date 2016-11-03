@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            var localAndRegionalPlan = new LocalAndRegionalPlan(string.Empty, false);
+            var localAndRegionalPlan = new LocalAndRegionalPlan(string.Empty);
             viewModel.UpdateModel(localAndRegionalPlan, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.LocalAndRegionalPlans.Add(localAndRegionalPlan);
             return new ModalDialogFormJsonResult();
@@ -157,15 +157,6 @@ namespace ProjectFirma.Web.Controllers
             var projectLocalAndRegionalPlans = localAndRegionalPlanPrimaryKey.EntityObject.AssociatedProjects.OrderBy(x => x.DisplayName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectLocalAndRegionalPlans, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-        
-        [LocalAndRegionalPlanViewFeature]
-        public GridJsonNetJObjectResult<Project> TransportationProjectsGridJsonData(LocalAndRegionalPlanPrimaryKey localAndRegionalPlanPrimaryKey)
-        {
-            var gridSpec = new TransportationListProjectGridSpec(CurrentPerson);
-            var projectLocalAndRegionalPlans = localAndRegionalPlanPrimaryKey.EntityObject.AssociatedProjects.OrderBy(x => x.DisplayName).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectLocalAndRegionalPlans, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
+        }        
     }
 }

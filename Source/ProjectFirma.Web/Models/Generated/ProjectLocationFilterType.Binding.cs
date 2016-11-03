@@ -23,8 +23,6 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectLocationFilterTypeProjectStage ProjectStage = ProjectLocationFilterTypeProjectStage.Instance;
         public static readonly ProjectLocationFilterTypeImplementingOrganization ImplementingOrganization = ProjectLocationFilterTypeImplementingOrganization.Instance;
         public static readonly ProjectLocationFilterTypeFundingOrganization FundingOrganization = ProjectLocationFilterTypeFundingOrganization.Instance;
-        public static readonly ProjectLocationFilterTypeTransportationStrategy TransportationStrategy = ProjectLocationFilterTypeTransportationStrategy.Instance;
-        public static readonly ProjectLocationFilterTypeTransportationObjective TransportationObjective = ProjectLocationFilterTypeTransportationObjective.Instance;
 
         public static readonly List<ProjectLocationFilterType> All;
         public static readonly ReadOnlyDictionary<int, ProjectLocationFilterType> AllLookupDictionary;
@@ -34,7 +32,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectLocationFilterType()
         {
-            All = new List<ProjectLocationFilterType> { FocusArea, Program, ActionPriority, ThresholdCategory, ProjectStage, ImplementingOrganization, FundingOrganization, TransportationStrategy, TransportationObjective };
+            All = new List<ProjectLocationFilterType> { FocusArea, Program, ActionPriority, ThresholdCategory, ProjectStage, ImplementingOrganization, FundingOrganization };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectLocationFilterType>(All.ToDictionary(x => x.ProjectLocationFilterTypeID));
         }
 
@@ -123,10 +121,6 @@ namespace ProjectFirma.Web.Models
                     return ProjectStage;
                 case ProjectLocationFilterTypeEnum.ThresholdCategory:
                     return ThresholdCategory;
-                case ProjectLocationFilterTypeEnum.TransportationObjective:
-                    return TransportationObjective;
-                case ProjectLocationFilterTypeEnum.TransportationStrategy:
-                    return TransportationStrategy;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -141,9 +135,7 @@ namespace ProjectFirma.Web.Models
         ThresholdCategory = 4,
         ProjectStage = 5,
         ImplementingOrganization = 6,
-        FundingOrganization = 7,
-        TransportationStrategy = 8,
-        TransportationObjective = 9
+        FundingOrganization = 7
     }
 
     public partial class ProjectLocationFilterTypeFocusArea : ProjectLocationFilterType
@@ -186,17 +178,5 @@ namespace ProjectFirma.Web.Models
     {
         private ProjectLocationFilterTypeFundingOrganization(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
         public static readonly ProjectLocationFilterTypeFundingOrganization Instance = new ProjectLocationFilterTypeFundingOrganization(7, @"FundingOrganization", @"FundingOrganizationID", @"Funding Organization", 70, 4);
-    }
-
-    public partial class ProjectLocationFilterTypeTransportationStrategy : ProjectLocationFilterType
-    {
-        private ProjectLocationFilterTypeTransportationStrategy(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeTransportationStrategy Instance = new ProjectLocationFilterTypeTransportationStrategy(8, @"TransportationStrategy", @"TransportationStrategyID", @"Transportation Strategy", 35, 2);
-    }
-
-    public partial class ProjectLocationFilterTypeTransportationObjective : ProjectLocationFilterType
-    {
-        private ProjectLocationFilterTypeTransportationObjective(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeTransportationObjective Instance = new ProjectLocationFilterTypeTransportationObjective(9, @"TransportationObjective", @"TransportationObjectiveID", @"Transportation Objective", 36, 2);
     }
 }

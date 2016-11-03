@@ -1,0 +1,21 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Views.Assessment.EditGoal
+@using (Html.BeginForm())
+{
+    <table class="dialogFormLayout">        
+        <tr>
+            <th>@Html.LabelFor(x => x.AssessmentGoalTitle)</th>
+            <td>
+                @Html.TextBoxFor(m => m.AssessmentGoalTitle, new { style = "width:503px" })
+                @Html.ValidationMessageFor(m => m.AssessmentGoalTitle)
+            </td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(x => x.AssessmentGoalDescription)</th>
+            <td>
+                @Html.TextAreaWithMaxLengthFor(m => m.AssessmentGoalDescription, new TextAreaForExtensions.TextAreaDimensions(null, 3), null)
+                @Html.ValidationMessageFor(m => m.AssessmentGoalDescription)
+            </td>
+        </tr>
+    </table>
+}

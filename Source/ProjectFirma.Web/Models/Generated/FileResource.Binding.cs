@@ -34,8 +34,6 @@ namespace ProjectFirma.Web.Models
             this.ProjectImageUpdates = new HashSet<ProjectImageUpdate>();
             this.ProposedProjectImages = new HashSet<ProposedProjectImage>();
             this.ThresholdCategoryImages = new HashSet<ThresholdCategoryImage>();
-            this.TransportationObjectiveImages = new HashSet<TransportationObjectiveImage>();
-            this.TransportationStrategyImages = new HashSet<TransportationStrategyImage>();
         }
 
         /// <summary>
@@ -102,13 +100,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ActionPriorityImages.Any() || FieldDefinitionImages.Any() || FirmaPageImages.Any() || FocusAreaImages.Any() || MonitoringProgramDocuments.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || ProgramImages.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ProposedProjectImages.Any() || ThresholdCategoryImages.Any() || TransportationObjectiveImages.Any() || TransportationStrategyImages.Any();
+            return ActionPriorityImages.Any() || FieldDefinitionImages.Any() || FirmaPageImages.Any() || FocusAreaImages.Any() || MonitoringProgramDocuments.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || ProgramImages.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ProposedProjectImages.Any() || ThresholdCategoryImages.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(ActionPriorityImage).Name, typeof(FieldDefinitionImage).Name, typeof(FirmaPageImage).Name, typeof(FocusAreaImage).Name, typeof(MonitoringProgramDocument).Name, typeof(Organization).Name, typeof(ProgramImage).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ProposedProjectImage).Name, typeof(ThresholdCategoryImage).Name, typeof(TransportationObjectiveImage).Name, typeof(TransportationStrategyImage).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(ActionPriorityImage).Name, typeof(FieldDefinitionImage).Name, typeof(FirmaPageImage).Name, typeof(FocusAreaImage).Name, typeof(MonitoringProgramDocument).Name, typeof(Organization).Name, typeof(ProgramImage).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ProposedProjectImage).Name, typeof(ThresholdCategoryImage).Name};
 
         [Key]
         public int FileResourceID { get; set; }
@@ -132,8 +130,6 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectImageUpdate> ProjectImageUpdates { get; set; }
         public virtual ICollection<ProposedProjectImage> ProposedProjectImages { get; set; }
         public virtual ICollection<ThresholdCategoryImage> ThresholdCategoryImages { get; set; }
-        public virtual ICollection<TransportationObjectiveImage> TransportationObjectiveImages { get; set; }
-        public virtual ICollection<TransportationStrategyImage> TransportationStrategyImages { get; set; }
         public FileResourceMimeType FileResourceMimeType { get { return FileResourceMimeType.AllLookupDictionary[FileResourceMimeTypeID]; } }
         public virtual Person CreatePerson { get; set; }
 

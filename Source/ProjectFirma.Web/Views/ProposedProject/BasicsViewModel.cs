@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -50,16 +48,6 @@ namespace ProjectFirma.Web.Views.ProposedProject
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectIsAProgram)]
         public bool? ImplementsMultipleProjects { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectIsATransportationProject)]
-        public bool? IsTransportationProject { get; set; }
-
-        [FieldDefinitionDisplay(FieldDefinitionEnum.TransportationObjective)]
-        [DisplayName("Is Transportation Objective?")]
-        public int? TransportationObjectiveID { get; set; }
-
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectOnFTIPList)]
-        public bool? OnFederalTransportationImprovementProgramList { get; set; }
-
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -82,9 +70,6 @@ namespace ProjectFirma.Web.Views.ProposedProject
             ImplementationStartYear = proposedProject.ImplementationStartYear;
             CompletionYear = proposedProject.CompletionYear;
             ImplementsMultipleProjects = proposedProject.ImplementsMultipleProjects;
-            IsTransportationProject = proposedProject.IsTransportationProject;
-            TransportationObjectiveID = proposedProject.TransportationObjectiveID;
-            OnFederalTransportationImprovementProgramList = proposedProject.OnFederalTransportationImprovementProgramList;
         }
 
         public BasicsViewModel(int? organizationID)
@@ -119,13 +104,9 @@ namespace ProjectFirma.Web.Views.ProposedProject
             proposedProject.ImplementationStartYear = ImplementationStartYear;
             proposedProject.CompletionYear = CompletionYear;
             
-            proposedProject.IsTransportationProject = IsTransportationProject.Value;
-
             if (new ProposedProjectApproveFeature().HasPermissionByPerson(person))
             {
                 proposedProject.ImplementsMultipleProjects = ImplementsMultipleProjects;
-                proposedProject.TransportationObjectiveID = TransportationObjectiveID;
-                proposedProject.OnFederalTransportationImprovementProgramList = OnFederalTransportationImprovementProgramList;
             }
         }
     }

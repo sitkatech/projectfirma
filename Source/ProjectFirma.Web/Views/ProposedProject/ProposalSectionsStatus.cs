@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         LocationSimple,
         LocationDetailed,
         ThresholdCategories,
-        TransportationAssessment,
+        Assessment,
         Notes,
         History,
         Photos
@@ -25,13 +25,13 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public bool IsProjectLocationSimpleSectionComplete { get; set; }
         public bool IsProjectLocationDetailedSectionComplete { get; set; }
         public bool IsThresholdCategoriesComplete { get; set; }
-        public bool IsTransportationAssessmentComplete { get; set; }
+        public bool IsAssessmentComplete { get; set; }
         public bool IsNotesSectionComplete { get; set; }
         public bool AreAllSectionsValid
         {
             get
             {
-                return IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsThresholdCategoriesComplete && IsTransportationAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationSimpleSectionComplete && IsNotesSectionComplete;
+                return IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsThresholdCategoriesComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationSimpleSectionComplete && IsNotesSectionComplete;
             }
         }
 
@@ -53,8 +53,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             var thresholdValidationResults = new EditProposedProjectThresholdCategoriesViewModel(proposedProjectThresholdCategorySimples).GetValidationResults();
             IsThresholdCategoriesComplete = !thresholdValidationResults.Any();
 
-            var allQuestionsAnswered = ProposedProjectController.GetProposedProjectTransportationQuestionSimples(proposedProject).All(simple => simple.Answer.HasValue);
-            IsTransportationAssessmentComplete = !proposedProject.IsTransportationProject || allQuestionsAnswered;
+            IsAssessmentComplete = ProposedProjectController.GetProposedProjectAssessmentQuestionSimples(proposedProject).All(simple => simple.Answer.HasValue);
 
             IsNotesSectionComplete = IsBasicsSectionComplete; //there is no validation required on Notes
         }
@@ -64,7 +63,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             IsBasicsSectionComplete = false;
             IsPerformanceMeasureSectionComplete = false;
             IsThresholdCategoriesComplete = false;
-            IsTransportationAssessmentComplete = false;
+            IsAssessmentComplete = false;
             IsProjectLocationSimpleSectionComplete = false;
             IsProjectLocationDetailedSectionComplete = false;
             IsNotesSectionComplete = false;

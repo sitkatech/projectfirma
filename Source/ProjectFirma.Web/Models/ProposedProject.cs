@@ -221,9 +221,9 @@ namespace ProjectFirma.Web.Models
 
         public ProjectType ProjectType {get { return ProjectType.ProposedProject; }}
 
-        public IEnumerable<ITransportationQuestionAnswer> GetTransportationQuestionAnswers()
+        public IEnumerable<IQuestionAnswer> GetQuestionAnswers()
         {
-            return ProposedProjectTransportationQuestions;
+            return ProposedProjectAssessmentQuestions;
         }
 
         public IEnumerable<IProjectLocation> GetProjectLocationDetails()
@@ -273,7 +273,6 @@ namespace ProjectFirma.Web.Models
                 proposedProject.ProjectDescription,
                 false,
                 false,
-                false,
                 ProjectLocationSimpleType.ProjectLocationSimpleTypeID,
                 FundingType.FundingTypeID)
             {
@@ -292,11 +291,9 @@ namespace ProjectFirma.Web.Models
 
             project.ProjectImplementingOrganizations.Add(new ProjectImplementingOrganization(project, proposedProject.LeadImplementerOrganization, true));
 
-            project.TransportationObjectiveID = proposedProject.IsTransportationProject ? proposedProject.TransportationObjectiveID : null;
-            project.OnFederalTransportationImprovementProgramList = proposedProject.OnFederalTransportationImprovementProgramList ?? false;
             project.ImplementsMultipleProjects = proposedProject.ImplementsMultipleProjects ?? false;
 
-            project.ProjectTransportationQuestions = proposedProject.ProposedProjectTransportationQuestions.OrderBy(x => x.TransportationQuestionID).Select(x => new ProjectTransportationQuestion(project.ProjectID, x.TransportationQuestionID) {Answer = x.Answer}).ToList();
+            project.ProjectAssessmentQuestions = proposedProject.ProposedProjectAssessmentQuestions.OrderBy(x => x.AssessmentQuestionID).Select(x => new ProjectAssessmentQuestion(project.ProjectID, x.AssessmentQuestionID) {Answer = x.Answer}).ToList();
 
             foreach (var performanceMeasureExpectedProposed in proposedProject.PerformanceMeasureExpectedProposeds)
             {
@@ -354,7 +351,7 @@ namespace ProjectFirma.Web.Models
         public bool AreProjectBasicsValid { get; set; }
         public bool ArePerformanceMeasuresValid { get; set; }
         public bool AreExpendituresValid { get; set; }
-        public bool AreTransportationBudgetsValid { get; set; }
+        public bool AreBudgetsValid { get; set; }
         public bool IsProjectLocationSimpleValid { get; set; }
     }
 }

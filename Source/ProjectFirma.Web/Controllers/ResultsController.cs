@@ -305,10 +305,6 @@ namespace ProjectFirma.Web.Controllers
                     .OrderBy(x => x.DisplayName)
                     .ToSelectList(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
             var projectStagesAsSelectListItems = projectStages.ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
-            var transportationStrategyItems = HttpRequestStorage.DatabaseEntities.TransportationStrategies.ToSelectList(x => x.TransportationStrategyID.ToString(CultureInfo.InvariantCulture),
-                x => x.DisplayName);
-            var transportationObjectiveItems = HttpRequestStorage.DatabaseEntities.TransportationObjectives.ToSelectList(x => x.TransportationObjectiveID.ToString(CultureInfo.InvariantCulture),
-                x => x.DisplayName);
 
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.FocusArea, focusAreasAsSelectListItems);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.Program, programsAsSelectListItems);
@@ -317,8 +313,6 @@ namespace ProjectFirma.Web.Controllers
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ImplementingOrganization, implementingOrganizationsAsSelectListItems);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.FundingOrganization, fundingOrganizationsAsSelectListItems);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ProjectStage, projectStagesAsSelectListItems);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TransportationStrategy, transportationStrategyItems);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TransportationObjective, transportationObjectiveItems);
 
             return projectLocationFilterTypesAndValues;
         }

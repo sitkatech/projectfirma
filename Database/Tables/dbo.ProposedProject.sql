@@ -24,9 +24,6 @@ CREATE TABLE [dbo].[ProposedProject](
 	[ActionPriorityID] [int] NULL,
 	[IndicatorNotes] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ProjectID] [int] NULL,
-	[IsTransportationProject] [bit] NOT NULL,
-	[TransportationObjectiveID] [int] NULL,
-	[OnFederalTransportationImprovementProgramList] [bit] NULL,
 	[ImplementsMultipleProjects] [bit] NULL,
 	[SubmissionDate] [datetime] NULL,
 	[ApprovalDate] [datetime] NULL,
@@ -86,11 +83,6 @@ ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProj
 REFERENCES [dbo].[ProposedProjectState] ([ProposedProjectStateID])
 GO
 ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [FK_ProposedProject_ProposedProjectState_ProposedProjectStateID]
-GO
-ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProject_TransportationObjective_TransportationObjectiveID] FOREIGN KEY([TransportationObjectiveID])
-REFERENCES [dbo].[TransportationObjective] ([TransportationObjectiveID])
-GO
-ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [FK_ProposedProject_TransportationObjective_TransportationObjectiveID]
 GO
 ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [CK_ProposedProject_AnnualCostForOperationsProposedProjectsOnly] CHECK  (([FundingTypeID]=(2) OR [EstimatedAnnualOperatingCost] IS NULL))
 GO

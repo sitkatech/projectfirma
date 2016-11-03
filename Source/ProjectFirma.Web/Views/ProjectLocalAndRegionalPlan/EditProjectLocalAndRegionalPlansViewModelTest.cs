@@ -63,43 +63,5 @@ namespace ProjectFirma.Web.Views.ProjectLocalAndRegionalPlan
             // Assert
             Assert.That(allProjectLocalAndRegionalPlans.Select(x => x.LocalAndRegionalPlanID), Is.EquivalentTo(localAndRegionalPlansSelected.Select(x => x.LocalAndRegionalPlanID)));
         }
-
-        [Test]
-        public void CanValidateModelTest()
-        {
-            // Arrange
-            var localAndRegionalPlan = TestFramework.TestLocalAndRegionalPlan.Create();
-            var project = TestFramework.TestProject.Create();
-
-            localAndRegionalPlan.IsTransportationPlan = true;
-
-            var error = EditProjectLocalAndRegionalPlansViewModel.ValidateImpl(project, localAndRegionalPlan);
-            // Act
-            // Assert - Associating non-Transpo project with Transpo plan is error
-            Assert.That(error, Is.Not.Null, "Expecting error associating non-Transportation project with Transportation plan");
-
-            localAndRegionalPlan.IsTransportationPlan = false;
-
-            // Act
-            error = EditProjectLocalAndRegionalPlansViewModel.ValidateImpl(project, localAndRegionalPlan);
-            // Assert - Associating non-Transpo project with non-Transpo plan is valid
-            Assert.That(error, Is.Null, "Associating non-Transportation project to non-Transportation plan should be valid");
-
-            localAndRegionalPlan.IsTransportationPlan = true;
-            project.TransportationObjective = TestFramework.TestTransportationObjective.Create();
-
-            // Act
-            error = EditProjectLocalAndRegionalPlansViewModel.ValidateImpl(project, localAndRegionalPlan);
-            // Assert - Associating non-Transpo project with non-Transpo plan is valid
-            Assert.That(error, Is.Null, "Associating Transportation project to Transportation plan should be valid");
-
-            localAndRegionalPlan.IsTransportationPlan = false;
-            project.TransportationObjective = TestFramework.TestTransportationObjective.Create();
-
-            // Act
-            error = EditProjectLocalAndRegionalPlansViewModel.ValidateImpl(project, localAndRegionalPlan);
-            // Assert - Associating non-Transpo project with non-Transpo plan is valid
-            Assert.That(error, Is.Null, "Associating Transportation project to non-Transportation plan should be valid");
-        }
     }
 }

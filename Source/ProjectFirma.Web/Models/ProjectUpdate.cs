@@ -85,17 +85,13 @@ namespace ProjectFirma.Web.Models
         {
             get { return ProjectUpdateBatch.Project.FundingType; }
         }
-        public bool IsTransportationProject
-        {
-            get { return ProjectUpdateBatch.Project.IsTransportationProject; }
-        }
 
         public ProjectType ProjectType
         {
             get { return ProjectType.ProjectUpdate; }
         }
 
-        public IEnumerable<ITransportationQuestionAnswer> GetTransportationQuestionAnswers()
+        public IEnumerable<IQuestionAnswer> GetQuestionAnswers()
         {
             return null;
         }

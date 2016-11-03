@@ -17,12 +17,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public readonly IEnumerable<SelectListItem> ProjectStages;
         public readonly IEnumerable<SelectListItem> FundingTypes;
         public readonly IEnumerable<SelectListItem> Organizations;
-        public readonly List<Models.TransportationObjective> TransportationObjectives;
         public readonly EditProjectType EditProjectType;
         public readonly string ActionPriorityDisplayName;
         public readonly string ProjectNumberString;
         public readonly decimal? TotalExpenditures;
-        public readonly bool HasExistingTransportationProjectBudgetUpdates;
+        public readonly bool HasExistingProjectBudgetUpdates;
 
         public EditProjectViewData(IEnumerable<Models.ActionPriority> actionPriorities,
             EditProjectType editProjectType,
@@ -32,8 +31,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             IEnumerable<FundingType> fundingTypes,
             IEnumerable<Models.Organization> organizations,
             decimal? totalExpenditures,
-            List<Models.TransportationObjective> transportationObjectives,
-            bool hasExistingTransportationProjectBudgetUpdates)
+            bool hasExistingProjectBudgetUpdates)
         {
             EditProjectType = editProjectType;
             ActionPriorityDisplayName = actionPriorityDisplayName;
@@ -43,11 +41,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             FundingTypes = fundingTypes.OrderBy(x => x.SortOrder).ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             Organizations = organizations.ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), y => y.DisplayName);
             ActionPriorities = HttpRequestStorage.DatabaseEntities.ActionPriorities.ToList().OrderBy(ap => ap.DisplayName).ToList().ToGroupedSelectList();
-            //ActionPriorities = actionPriorities.ToList().OrderBy(ap => ap.DisplayName).ToList().ToGroupedSelectList();
             StartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
-            TransportationObjectives = transportationObjectives;
-            HasExistingTransportationProjectBudgetUpdates = hasExistingTransportationProjectBudgetUpdates;
+            HasExistingProjectBudgetUpdates = hasExistingProjectBudgetUpdates;
         }
     }
 }

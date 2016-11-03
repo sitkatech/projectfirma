@@ -5,7 +5,7 @@
         public readonly bool IsBasicsUpdated;
         public readonly bool IsPerformanceMeasuresUpdated;
         public readonly bool IsExpendituresUpdated;
-        public readonly bool IsTransportationBudgetsUpdated;
+        public readonly bool IsBudgetsUpdated;
         public readonly bool IsPhotosUpdated;
         public readonly bool IsLocationSimpleUpdated;
         public readonly bool IsLocationDetailUpdated;
@@ -15,7 +15,7 @@
         public UpdateStatus(bool isBasicsUpdated,
             bool isPerformanceMeasuresUpdated,
             bool isExpendituresUpdated,
-            bool isTransportationBudgetsUpdated,
+            bool isBudgetsUpdated,
             bool isPhotosUpdated,
             bool isLocationSimpleUpdated,
             bool isLocationDetailUpdated,
@@ -25,7 +25,7 @@
             IsBasicsUpdated = isBasicsUpdated;
             IsPerformanceMeasuresUpdated = isPerformanceMeasuresUpdated;
             IsExpendituresUpdated = isExpendituresUpdated;
-            IsTransportationBudgetsUpdated = isTransportationBudgetsUpdated;
+            IsBudgetsUpdated = isBudgetsUpdated;
             IsPhotosUpdated = isPhotosUpdated;
             IsLocationSimpleUpdated = isLocationSimpleUpdated;
             IsLocationDetailUpdated = isLocationDetailUpdated;

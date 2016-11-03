@@ -17,13 +17,13 @@ namespace ProjectFirma.Web.UnitTestCommon
 
             public static FundingSource Create(Organization organization, string fundingSourceName)
             {
-                var fundingSource = new FundingSource(organization, string.Format("{0}{1}", organization.OrganizationName, fundingSourceName), true, false);
+                var fundingSource = new FundingSource(organization, string.Format("{0}{1}", organization.OrganizationName, fundingSourceName), true);
                 return fundingSource;
             }
 
             public static FundingSource CreateWithoutChangingName(Organization organization, string fundingSourceName)
             {
-                var fundingSource = new FundingSource(organization, fundingSourceName, true, false);
+                var fundingSource = new FundingSource(organization, fundingSourceName, true);
                 return fundingSource;
             }
 
@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             {
                 var organization = TestOrganization.Insert(dbContext);
                 string testFundingSourceName = TestFramework.MakeTestName("Test Funding Source");
-                var fundingSource = new FundingSource(organization, testFundingSourceName, true, false);
+                var fundingSource = new FundingSource(organization, testFundingSourceName, true);
 
                 dbContext.FundingSources.Add(fundingSource);
                 return fundingSource;

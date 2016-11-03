@@ -31,13 +31,6 @@
                 @Html.ValidationMessageFor(m => m.IsActive)
             </td>
         </tr>
-        <tr>
-            <th>@Html.LabelFor(m => m.IsTransportationFundingSource):</th>
-            <td>
-                @Html.CheckBoxFor(m => m.IsTransportationFundingSource)
-                @Html.ValidationMessageFor(m => m.IsTransportationFundingSource)
-            </td>
-        </tr>
     </table>
     @Html.HiddenFor(m => m.FundingSourceID)
 }

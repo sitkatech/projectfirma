@@ -158,35 +158,6 @@
                 @Html.ValidationMessageFor(m => m.ImplementsMultipleProjects)
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                @Html.CheckBoxFor(m => m.IsTransportationProject, new { onclick = "toggleTransportationObjectivePanel()" })
-                @Html.LabelWithFieldDefinitionFor(m => m.IsTransportationProject)
-                @Html.ValidationMessageFor(m => m.IsTransportationProject)
-            </div>
-        </div>
-        <div class="row" id="transportationObjectivePanel" @Html.Raw((!Model.IsTransportationProject).ToDisplayNoneOrEmpty())>
-            <div class="col-md-12" style="padding-left: 35px">
-                <span class="col-header">@Html.LabelWithFieldDefinitionFor(m => m.TransportationObjectiveID):</span>
-                <select name="@Html.NameFor(x => x.TransportationObjectiveID)">
-                    @foreach (var transportationStrategy in ViewDataTyped.TransportationObjectives.GroupBy(x => x.TransportationStrategy).OrderBy(x => x.Key.DisplayName))
-                    {
-                        <optgroup label="@transportationStrategy.Key.DisplayName">
-                            @foreach (var transportationObjective in transportationStrategy.OrderBy(x => x.DisplayName))
-                            {
-                                <option value="@transportationObjective.TransportationObjectiveID" @((Model.TransportationObjectiveID == transportationObjective.TransportationObjectiveID).ToSelectedOrEmpty())>@transportationObjective.DisplayName</option>
-                            }
-                        </optgroup>
-                    }
-                </select>
-                @Html.ValidationMessageFor(m => m.TransportationObjectiveID)
-                <div>
-                    @Html.CheckBoxFor(m => m.OnFederalTransportationImprovementProgramList, new { onclick = "warnIfThereAreExistingProjectUpdatesWhenTogglingOnFtipCheckbox()" })
-                    @Html.LabelWithFieldDefinitionFor(m => m.OnFederalTransportationImprovementProgramList)
-                    @Html.ValidationMessageFor(m => m.OnFederalTransportationImprovementProgramList)
-                </div>
-            </div>
-        </div>
     </div>
     @Html.HiddenFor(m => m.ProjectID)
     @Html.HiddenFor(m => m.HasExistingProjectUpdate)
@@ -195,18 +166,6 @@
 
 <script type="text/javascript">
     // <![CDATA[
-    function toggleTransportationObjectivePanel()
-    {
-        if (jQuery("#@Html.IdFor(x => x.IsTransportationProject)").is(":checked"))
-        {
-            jQuery("#transportationObjectivePanel").show();
-        }
-        else
-        {
-            jQuery("#transportationObjectivePanel").hide();
-        }
-    }
-
     function displaySelectedFundingTypeFields()
     {
         var fundingTypeDropdown = jQuery("#@Html.IdFor(x => x.FundingTypeID)");
@@ -225,15 +184,6 @@
             jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('readonly', false);
             jQuery(".op-label").css("color", "");
             jQuery(".cap-label").css("color", "#666");
-        }
-    }
-
-    function warnIfThereAreExistingProjectUpdatesWhenTogglingOnFtipCheckbox()
-    {
-        var hasExistingTransportationProjectBudgetUpdates = @(ViewDataTyped.HasExistingTransportationProjectBudgetUpdates ? 1 : 0);
-        if (hasExistingTransportationProjectBudgetUpdates && !jQuery("#@Html.IdFor(x => x.OnFederalTransportationImprovementProgramList)").is(":checked"))
-        {
-            alert("There are updates to this project's budget data but they have not been submitted. Making this change will delete this new budget data.");
         }
     }
 

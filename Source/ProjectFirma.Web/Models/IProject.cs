@@ -28,15 +28,13 @@ namespace ProjectFirma.Web.Models
         ProjectStage ProjectStage { get; }
         FundingType FundingType { get; }
 
-        bool IsTransportationProject { get; }
-
         decimal? EstimatedTotalCost { get; }
         decimal? EstimatedAnnualOperatingCost { get; }
 
         ProjectType ProjectType { get; }
 
 
-        IEnumerable<ITransportationQuestionAnswer> GetTransportationQuestionAnswers();
+        IEnumerable<IQuestionAnswer> GetQuestionAnswers();
 
         IEnumerable<IProjectLocation> GetProjectLocationDetails();
 

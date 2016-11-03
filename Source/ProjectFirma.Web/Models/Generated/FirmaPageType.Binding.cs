@@ -40,14 +40,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeResultsByProgram ResultsByProgram = FirmaPageTypeResultsByProgram.Instance;
         public static readonly FirmaPageTypeHomeAdditionalInfo HomeAdditionalInfo = FirmaPageTypeHomeAdditionalInfo.Instance;
         public static readonly FirmaPageTypeFeaturedProjectList FeaturedProjectList = FirmaPageTypeFeaturedProjectList.Instance;
-        public static readonly FirmaPageTypeTransportationStrategiesList TransportationStrategiesList = FirmaPageTypeTransportationStrategiesList.Instance;
-        public static readonly FirmaPageTypeTransportationObjectivesList TransportationObjectivesList = FirmaPageTypeTransportationObjectivesList.Instance;
-        public static readonly FirmaPageTypeTransportationProjectList TransportationProjectList = FirmaPageTypeTransportationProjectList.Instance;
-        public static readonly FirmaPageTypeTransportationCostParameterSet TransportationCostParameterSet = FirmaPageTypeTransportationCostParameterSet.Instance;
+        public static readonly FirmaPageTypeCostParameterSet CostParameterSet = FirmaPageTypeCostParameterSet.Instance;
         public static readonly FirmaPageTypeTerminatedProjectList TerminatedProjectList = FirmaPageTypeTerminatedProjectList.Instance;
         public static readonly FirmaPageTypeFullProjectListSimple FullProjectListSimple = FirmaPageTypeFullProjectListSimple.Instance;
         public static readonly FirmaPageTypeTaxonomy Taxonomy = FirmaPageTypeTaxonomy.Instance;
-        public static readonly FirmaPageTypeTransportationTaxonomy TransportationTaxonomy = FirmaPageTypeTransportationTaxonomy.Instance;
         public static readonly FirmaPageTypeTagList TagList = FirmaPageTypeTagList.Instance;
         public static readonly FirmaPageTypeSpendingByPerformanceMeasureByProject SpendingByPerformanceMeasureByProject = FirmaPageTypeSpendingByPerformanceMeasureByProject.Instance;
         public static readonly FirmaPageTypeProposedProjects ProposedProjects = FirmaPageTypeProposedProjects.Instance;
@@ -65,7 +61,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FirmaPageType()
         {
-            All = new List<FirmaPageType> { HomePage, About, FirmaCustomPage1, FirmaCustomPage2, FirmaCustomPage3, FullProjectList, FiveYearProjectList, CompletedProjectList, PerformanceMeasuresList, ActionPrioritiesList, LocalAndRegionalPlansList, FocusAreasList, FundingSourcesList, OrganizationsList, ProgramsList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByFocusAreaByProgram, ProjectMap, ResultsByProgram, HomeAdditionalInfo, FeaturedProjectList, TransportationStrategiesList, TransportationObjectivesList, TransportationProjectList, TransportationCostParameterSet, TerminatedProjectList, FullProjectListSimple, Taxonomy, TransportationTaxonomy, TagList, SpendingByPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, ThresholdCategoriesList, MonitoringProgramsList };
+            All = new List<FirmaPageType> { HomePage, About, FirmaCustomPage1, FirmaCustomPage2, FirmaCustomPage3, FullProjectList, FiveYearProjectList, CompletedProjectList, PerformanceMeasuresList, ActionPrioritiesList, LocalAndRegionalPlansList, FocusAreasList, FundingSourcesList, OrganizationsList, ProgramsList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByFocusAreaByProgram, ProjectMap, ResultsByProgram, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, TerminatedProjectList, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, ThresholdCategoriesList, MonitoringProgramsList };
             AllLookupDictionary = new ReadOnlyDictionary<int, FirmaPageType>(All.ToDictionary(x => x.FirmaPageTypeID));
         }
 
@@ -142,6 +138,8 @@ namespace ProjectFirma.Web.Models
                     return ActionPrioritiesList;
                 case FirmaPageTypeEnum.CompletedProjectList:
                     return CompletedProjectList;
+                case FirmaPageTypeEnum.CostParameterSet:
+                    return CostParameterSet;
                 case FirmaPageTypeEnum.FeaturedProjectList:
                     return FeaturedProjectList;
                 case FirmaPageTypeEnum.FirmaCustomPage1:
@@ -204,16 +202,6 @@ namespace ProjectFirma.Web.Models
                     return TerminatedProjectList;
                 case FirmaPageTypeEnum.ThresholdCategoriesList:
                     return ThresholdCategoriesList;
-                case FirmaPageTypeEnum.TransportationCostParameterSet:
-                    return TransportationCostParameterSet;
-                case FirmaPageTypeEnum.TransportationObjectivesList:
-                    return TransportationObjectivesList;
-                case FirmaPageTypeEnum.TransportationProjectList:
-                    return TransportationProjectList;
-                case FirmaPageTypeEnum.TransportationStrategiesList:
-                    return TransportationStrategiesList;
-                case FirmaPageTypeEnum.TransportationTaxonomy:
-                    return TransportationTaxonomy;
                 case FirmaPageTypeEnum.WatershedsList:
                     return WatershedsList;
                 default:
@@ -248,14 +236,10 @@ namespace ProjectFirma.Web.Models
         ResultsByProgram = 23,
         HomeAdditionalInfo = 25,
         FeaturedProjectList = 26,
-        TransportationStrategiesList = 28,
-        TransportationObjectivesList = 29,
-        TransportationProjectList = 30,
-        TransportationCostParameterSet = 31,
+        CostParameterSet = 31,
         TerminatedProjectList = 32,
         FullProjectListSimple = 33,
         Taxonomy = 34,
-        TransportationTaxonomy = 35,
         TagList = 36,
         SpendingByPerformanceMeasureByProject = 37,
         ProposedProjects = 38,
@@ -410,28 +394,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeFeaturedProjectList Instance = new FirmaPageTypeFeaturedProjectList(26, @"FeaturedProjectList", @"Featured Project List", 1);
     }
 
-    public partial class FirmaPageTypeTransportationStrategiesList : FirmaPageType
+    public partial class FirmaPageTypeCostParameterSet : FirmaPageType
     {
-        private FirmaPageTypeTransportationStrategiesList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeTransportationStrategiesList Instance = new FirmaPageTypeTransportationStrategiesList(28, @"TransportationStrategiesList", @"Transportation Strategies List", 1);
-    }
-
-    public partial class FirmaPageTypeTransportationObjectivesList : FirmaPageType
-    {
-        private FirmaPageTypeTransportationObjectivesList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeTransportationObjectivesList Instance = new FirmaPageTypeTransportationObjectivesList(29, @"TransportationObjectivesList", @"Transportation Objectives List", 1);
-    }
-
-    public partial class FirmaPageTypeTransportationProjectList : FirmaPageType
-    {
-        private FirmaPageTypeTransportationProjectList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeTransportationProjectList Instance = new FirmaPageTypeTransportationProjectList(30, @"TransportationProjectList", @"Transportation Project List", 1);
-    }
-
-    public partial class FirmaPageTypeTransportationCostParameterSet : FirmaPageType
-    {
-        private FirmaPageTypeTransportationCostParameterSet(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeTransportationCostParameterSet Instance = new FirmaPageTypeTransportationCostParameterSet(31, @"TransportationCostParameterSet", @"Transportation Cost Parameter Set", 1);
+        private FirmaPageTypeCostParameterSet(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeCostParameterSet Instance = new FirmaPageTypeCostParameterSet(31, @"CostParameterSet", @"Cost Parameter Set", 1);
     }
 
     public partial class FirmaPageTypeTerminatedProjectList : FirmaPageType
@@ -450,12 +416,6 @@ namespace ProjectFirma.Web.Models
     {
         private FirmaPageTypeTaxonomy(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
         public static readonly FirmaPageTypeTaxonomy Instance = new FirmaPageTypeTaxonomy(34, @"Taxonomy", @"Taxonomy", 1);
-    }
-
-    public partial class FirmaPageTypeTransportationTaxonomy : FirmaPageType
-    {
-        private FirmaPageTypeTransportationTaxonomy(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeTransportationTaxonomy Instance = new FirmaPageTypeTransportationTaxonomy(35, @"TransportationTaxonomy", @"Transportation Strategies and Objectives", 1);
     }
 
     public partial class FirmaPageTypeTagList : FirmaPageType

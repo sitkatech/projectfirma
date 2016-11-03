@@ -36,13 +36,10 @@ namespace ProjectFirma.Web.Models
                 project.ProjectDescription,
                 project.ImplementsMultipleProjects,
                 project.IsFeatured,
-                project.OnFederalTransportationImprovementProgramList,
                 project.ProjectLocationSimpleType,
                 project.FundingType)
         {
             project.ProjectImplementingOrganizations.ForEach(x => ProjectImplementingOrganizations.Add(x));
-            TransportationObjective = project.TransportationObjective;
-            OnFederalTransportationImprovementProgramList = project.OnFederalTransportationImprovementProgramList;
         }
 
         public int EntityID
@@ -432,9 +429,9 @@ namespace ProjectFirma.Web.Models
 
         public ProjectType ProjectType { get { return ProjectType.Project;} }
 
-        public IEnumerable<ITransportationQuestionAnswer> GetTransportationQuestionAnswers()
+        public IEnumerable<IQuestionAnswer> GetQuestionAnswers()
         {
-            return ProjectTransportationQuestions;
+            return ProjectAssessmentQuestions;
         }
 
         public IEnumerable<IProjectLocation> GetProjectLocationDetails()
@@ -474,8 +471,6 @@ namespace ProjectFirma.Web.Models
                 feature.Properties.Add("ThresholdCategoryID", String.Join(",", ProjectThresholdCategories.Select(x => x.ThresholdCategoryID)));
                 feature.Properties.Add("ImplementingOrganizationID", String.Join(",", ProjectImplementingOrganizations.Select(x => x.OrganizationID)));
                 feature.Properties.Add("FundingOrganizationID", String.Join(",", ProjectFundingOrganizations.Select(x => x.OrganizationID)));
-                feature.Properties.Add("TransportationStrategyID", TransportationObjective != null ? TransportationObjective.TransportationStrategyID.ToString(CultureInfo.InvariantCulture) : String.Empty);
-                feature.Properties.Add("TransportationObjectiveID", TransportationObjectiveID.ToString());
                 feature.Properties.Add("PopupUrl", this.GetProjectMapPopupUrl());
             }
             return feature;
@@ -556,11 +551,6 @@ namespace ProjectFirma.Web.Models
         public ProjectImage KeyPhoto
         {
             get { return ProjectImages.SingleOrDefault(x => x.IsKeyPhoto); }
-        }
-
-        public bool IsTransportationProject
-        {
-            get { return TransportationObjective != null; }
         }
 
         private DateTime _lastUpdateDate;

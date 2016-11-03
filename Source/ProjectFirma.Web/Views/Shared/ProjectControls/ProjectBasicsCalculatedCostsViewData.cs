@@ -6,7 +6,7 @@
 
         public ProjectBasicsCalculatedCostsViewData(Models.Project project,
             decimal? capitalCostInYearOfExpenditure,
-            bool userHasTransportationProjectBudgetManagePermissions,
+            bool userHasProjectBudgetManagePermissions,
             string editInflationUrl,
             decimal inflationRate,
             decimal? totalOperatingCostInYearOfExpenditure,
@@ -14,7 +14,7 @@
         {
             Project = project;
             CapitalCostInYearOfExpenditure = capitalCostInYearOfExpenditure;
-            UserHasTransportationProjectBudgetManagePermissions = userHasTransportationProjectBudgetManagePermissions;
+            UserHasProjectBudgetManagePermissions = userHasProjectBudgetManagePermissions;
             EditInflationUrl = editInflationUrl;
             InflationRate = inflationRate;
             TotalOperatingCostInYearOfExpenditure = totalOperatingCostInYearOfExpenditure;
@@ -22,7 +22,7 @@
         }
 
         public readonly decimal? CapitalCostInYearOfExpenditure;
-        public readonly bool UserHasTransportationProjectBudgetManagePermissions;
+        public readonly bool UserHasProjectBudgetManagePermissions;
         public readonly string EditInflationUrl;
         public readonly decimal InflationRate;
         public readonly decimal? TotalOperatingCostInYearOfExpenditure;

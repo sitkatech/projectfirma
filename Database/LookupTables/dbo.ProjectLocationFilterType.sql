@@ -8,6 +8,4 @@ insert dbo.ProjectLocationFilterType (ProjectLocationFilterTypeID, ProjectLocati
 (4, 'ThresholdCategory', 'Threshold Category', 'ThresholdCategoryID', 40, 3),
 (5, 'ProjectStage', 'Project Stage', 'ProjectStageID', 50, 3),
 (6, 'ImplementingOrganization', 'Implementing Organization', 'ImplementingOrganizationID', 60, 4),
-(7, 'FundingOrganization', 'Funding Organization', 'FundingOrganizationID', 70, 4),
-(8, 'TransportationStrategy', 'Transportation Strategy', 'TransportationStrategyID', 35, 2),
-(9, 'TransportationObjective', 'Transportation Objective', 'TransportationObjectiveID', 36, 2)
+(7, 'FundingOrganization', 'Funding Organization', 'FundingOrganizationID', 70, 4)

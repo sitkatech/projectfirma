@@ -91,7 +91,7 @@
                             ;
                         }
                     </td>
-                    @if (TransportationCostParameterSet.CanCalculateCapitalCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
+                    @if (CostParameterSet.CanCalculateCapitalCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
                     {
                         <td colspan="3">
                             <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectCostInYearOfExpenditure):</span>
@@ -135,13 +135,13 @@
                 </td>
                 <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.LifecycleOperatingCost):</th>
                 <td>
-                    @if (TransportationCostParameterSet.CanCalculateLifecycleOperatingCost(ViewDataTyped.ProjectUpdate))
+                    @if (CostParameterSet.CanCalculateLifecycleOperatingCost(ViewDataTyped.ProjectUpdate))
                     {
-                        @TransportationCostParameterSet.LifecycleOperatingCost(ViewDataTyped.ProjectUpdate).ToStringCurrency()
+                        @CostParameterSet.LifecycleOperatingCost(ViewDataTyped.ProjectUpdate).ToStringCurrency()
                     }
                 </td>
             </tr>
-                    if (TransportationCostParameterSet.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
+                    if (CostParameterSet.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
                     {
                         <tr>
                             <th>
@@ -218,18 +218,6 @@
                 }
             </td>
         </tr>
-        @if (ViewDataTyped.Project.IsTransportationProject)
-        {
-            <tr>
-                <th style="white-space: nowrap">
-                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.TransportationObjective) / @Html.LabelWithFieldDefinitionFor(FieldDefinition.TransportationStrategy, "Strategy"):
-                </th>
-                <td colspan="3">
-                    @ViewDataTyped.Project.TransportationObjective.TransportationStrategy.DisplayNameAsUrl /
-                    @ViewDataTyped.Project.TransportationObjective.DisplayNameAsUrl
-                </td>
-            </tr>
-        }
     </table>
     <hr />
     <div>

@@ -70,21 +70,5 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
         {
             actionPriority.ActionPriorityDescriptionHtmlString = RtfContent;
         }
-
-        /// <summary>
-        /// Used by TransportationStrategy Description
-        /// </summary>
-        public void UpdateModel(Models.TransportationStrategy transportationStrategy)
-        {
-            transportationStrategy.TransportationStrategyDescriptionHtmlString = RtfContent;
-        }
-
-        /// <summary>
-        /// Used by TransportationObjective Description
-        /// </summary>
-        public void UpdateModel(Models.TransportationObjective transportationObjective)
-        {
-            transportationObjective.TransportationObjectiveDescriptionHtmlString = RtfContent;
-        }
     }
 }

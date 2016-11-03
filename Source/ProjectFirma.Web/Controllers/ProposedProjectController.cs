@@ -44,17 +44,15 @@ namespace ProjectFirma.Web.Controllers
             var galleryImages = proposedProject.ProposedProjectImages.ToList();
             var imageGalleryViewData = new ImageGalleryViewData(CurrentPerson, galleryName, galleryImages, false, string.Empty, string.Empty, true, x => x.CaptionOnFullView, "Photo");
 
-            var transportationGoals = HttpRequestStorage.DatabaseEntities.TransportationGoals.ToList();
-            var transportationGoalsAsFancyTreeNodes = proposedProject.IsTransportationProject
-                ? transportationGoals.Select(x => x.ToFancyTreeNode(new List<ITransportationQuestionAnswer>(proposedProject.ProposedProjectTransportationQuestions.ToList()))).ToList()
-                : null;
-            var transportationAssessmentTreeViewData = new TransportationAssessmentTreeViewData(transportationGoalsAsFancyTreeNodes);
+            var assessmentGoals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
+            var goalsAsFancyTreeNodes = assessmentGoals.Select(x => x.ToFancyTreeNode(new List<IQuestionAnswer>(proposedProject.ProposedProjectAssessmentQuestions.ToList()))).ToList();
+            var assessmentTreeViewData = new AssessmentTreeViewData(goalsAsFancyTreeNodes);
 
 
             var viewData = new SummaryViewData(CurrentPerson,
                 proposedProject,
                 projectLocationSummaryViewData,
-                performanceMeasureExpectedsSummaryViewData, imageGalleryViewData, entityNotesViewData, mapFormID, transportationAssessmentTreeViewData);
+                performanceMeasureExpectedsSummaryViewData, imageGalleryViewData, entityNotesViewData, mapFormID, assessmentTreeViewData);
             return RazorView<Summary, SummaryViewData>(viewData);
         }
 
@@ -123,8 +121,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var actionPriorities = HttpRequestStorage.DatabaseEntities.ActionPriorities;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations().Where(x => x.PrimaryContactPerson != null); 
-            var transportationObjectives = HttpRequestStorage.DatabaseEntities.TransportationObjectives;
-            var viewData = new BasicsViewData(CurrentPerson, organizations, FundingType.All, transportationObjectives, actionPriorities);
+            var viewData = new BasicsViewData(CurrentPerson, organizations, FundingType.All, actionPriorities);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -147,9 +144,8 @@ namespace ProjectFirma.Web.Controllers
             
             var actionPriorities = HttpRequestStorage.DatabaseEntities.ActionPriorities;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations().Where(x => x.PrimaryContactPerson != null);
-            var transportationObjectives = HttpRequestStorage.DatabaseEntities.TransportationObjectives;
             
-            var viewData = new BasicsViewData(CurrentPerson, proposedProject, proposalSectionsStatus, organizations, FundingType.All, transportationObjectives, actionPriorities);
+            var viewData = new BasicsViewData(CurrentPerson, proposedProject, proposalSectionsStatus, organizations, FundingType.All, actionPriorities);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -166,8 +162,7 @@ namespace ProjectFirma.Web.Controllers
                 DateTime.Now,
                 (int) ProjectLocationSimpleType.None.ToEnum,
                 viewModel.FundingTypeID,
-                (int) ProposedProjectState.Draft.ToEnum,
-                false);
+                (int) ProposedProjectState.Draft.ToEnum);
 
             return SaveProposedProjectAndCreateAuditEntry(proposedProject, viewModel);
         }
@@ -320,25 +315,25 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProposedProjectEditFeature]
-        public ViewResult EditTransportationAssessment(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        public ViewResult EditAssessment(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var proposedProjectTransportationQuestionSimples = GetProposedProjectTransportationQuestionSimples(proposedProject);
+            var proposedProjectAssessmentQuestionSimples = GetProposedProjectAssessmentQuestionSimples(proposedProject);
 
-            var viewModel = new EditTransportationAssessmentViewModel(proposedProjectTransportationQuestionSimples);
-            return ViewEditTransportationAssessment(proposedProject, viewModel);
+            var viewModel = new EditAssessmentViewModel(proposedProjectAssessmentQuestionSimples);
+            return ViewEditAssessment(proposedProject, viewModel);
         }
 
-        public static List<ProposedProjectTransportationQuestionSimple> GetProposedProjectTransportationQuestionSimples(ProposedProject proposedProject)
+        public static List<ProposedProjectAssessmentQuestionSimple> GetProposedProjectAssessmentQuestionSimples(ProposedProject proposedProject)
         {           
             var allQuestionsAsSimples =
-                HttpRequestStorage.DatabaseEntities.TransportationQuestions.Where(x=> !x.ArchiveDate.HasValue).ToList().Select(x => new ProposedProjectTransportationQuestionSimple(x, proposedProject)).ToList();
+                HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Where(x=> !x.ArchiveDate.HasValue).ToList().Select(x => new ProposedProjectAssessmentQuestionSimple(x, proposedProject)).ToList();
 
-            var answeredQuestions = proposedProject.ProposedProjectTransportationQuestions.ToList();
+            var answeredQuestions = proposedProject.ProposedProjectAssessmentQuestions.ToList();
 
             foreach (var question in allQuestionsAsSimples)
             {
-                var matchedQuestionOrNull = answeredQuestions.SingleOrDefault(answeredQuestion => answeredQuestion.TransportationQuestionID == question.TransportationQuestionID);                
+                var matchedQuestionOrNull = answeredQuestions.SingleOrDefault(answeredQuestion => answeredQuestion.AssessmentQuestionID == question.AssessmentQuestionID);                
                 question.Answer = matchedQuestionOrNull == null ? null : matchedQuestionOrNull.Answer;
             }
             return allQuestionsAsSimples;
@@ -348,27 +343,27 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         [ProposedProjectEditFeature]
-        public ActionResult EditTransportationAssessment(ProposedProjectPrimaryKey proposedProjectPrimaryKey, EditTransportationAssessmentViewModel viewModel)
+        public ActionResult EditAssessment(ProposedProjectPrimaryKey proposedProjectPrimaryKey, EditAssessmentViewModel viewModel)
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 ShowValidationErrors(viewModel.GetValidationResults().ToList());
-                return ViewEditTransportationAssessment(proposedProject, viewModel);
+                return ViewEditAssessment(proposedProject, viewModel);
             }
 
             viewModel.UpdateModel(proposedProject);
-            SetMessageForDisplay("Transportation Assessment succesfully saved.");
-            return RedirectToAction(new SitkaRoute<ProposedProjectController>(x => x.EditTransportationAssessment(proposedProject)));
+            SetMessageForDisplay(" Assessment succesfully saved.");
+            return RedirectToAction(new SitkaRoute<ProposedProjectController>(x => x.EditAssessment(proposedProject)));
         }
 
-        private ViewResult ViewEditTransportationAssessment(ProposedProject proposedProject, EditTransportationAssessmentViewModel viewModel)
+        private ViewResult ViewEditAssessment(ProposedProject proposedProject, EditAssessmentViewModel viewModel)
         {
             var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
-            proposalSectionsStatus.IsTransportationAssessmentComplete = ModelState.IsValid && proposalSectionsStatus.IsTransportationAssessmentComplete;
-            var transportationGoals = HttpRequestStorage.DatabaseEntities.TransportationGoals.ToList();
-            var viewData = new EditTransportationAssessmentViewData(CurrentPerson, proposedProject, transportationGoals, ProposedProjectSectionEnum.TransportationAssessment, proposalSectionsStatus);
-            return RazorView<EditTransportationAssessment, EditTransportationAssessmentViewData, EditTransportationAssessmentViewModel>(viewData, viewModel);
+            proposalSectionsStatus.IsAssessmentComplete = ModelState.IsValid && proposalSectionsStatus.IsAssessmentComplete;
+            var assessmentGoals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
+            var viewData = new EditAssessmentViewData(CurrentPerson, proposedProject, assessmentGoals, ProposedProjectSectionEnum.Assessment, proposalSectionsStatus);
+            return RazorView<EditAssessment, EditAssessmentViewData, EditAssessmentViewModel>(viewData, viewModel);
         }
 
         [HttpGet]

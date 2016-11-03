@@ -1,0 +1,66 @@
+﻿@inherits ProjectFirma.Web.Views.Assessment.NewQuestion
+              
+<style>
+    .bootstrap-select .disabled a, .bootstrap-select li.dropdown-header {
+        cursor: default !important;
+        font-size: 15px !important;
+    }
+
+    .bootstrap-select li:not(.disabled) > a {
+        padding-left: 42px !important;
+        font-size: 13px !important;
+    }
+
+    .bootstrap-select .dropdown-toggle {
+        font-size: 13px !important;
+        border-radius: 0 !important;
+        border: 1px solid black;
+    }
+
+    .bootstrap-select {
+        width: 500px;
+    }
+
+    .bootstrap-select .disabled a:hover, .bootstrap-select li.dropdown-header:hover {
+        background-color: lightgray !important;
+        color: gray !important;
+    }         
+
+    .bootstrap-select .dropdown-menu
+    {
+        background-color: white;
+    }
+</style>    
+
+<script type="text/javascript">
+    jQuery(document).ready(function ()
+    {
+        jQuery(@Html.IdFor(x => x.AssessmentSubGoalID))
+            .selectpicker(
+            {
+                size: 12,
+                title: 'Select an Associated Goal and Indicator',
+                width: '695px',
+                dropupAuto: false
+    });
+    });
+</script>
+
+@using (Html.BeginForm())
+{
+    <div style="min-height: 400px">
+        <div class="row">
+            <div class="col-md-3"><strong>@Html.LabelFor(x => x.AssessmentQuestionText)</strong></div>
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.AssessmentQuestionText, new { style = "width:503px" })
+                @Html.ValidationMessageFor(m => m.AssessmentQuestionText)
+            </div>
+        </div>
+        <div class="row">
+             <div class="col-md-12">
+                @Html.DropDownListFor(x => x.AssessmentSubGoalID, ViewDataTyped.SubGoalsGroup, new { style = "display: inline !important; height: 0; widdiv: 1px; border:0; box-shadow:none; color:white; margin-right:-1px; background-color: green;" })
+                @Html.ValidationMessageFor(m => m.AssessmentSubGoalID)
+            </div>
+        </div>
+    </div>
+}

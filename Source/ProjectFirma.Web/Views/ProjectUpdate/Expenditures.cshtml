@@ -57,7 +57,7 @@ else if (ViewDataTyped.Project.FundingType == FundingType.OperationsAndMaintenan
             <td>
                 Estimated Total Operating Cost:
             </td>
-            @if (TransportationCostParameterSet.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(ViewDataTyped.ProjectUpdateBatch.ProjectUpdate))
+            @if (CostParameterSet.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(ViewDataTyped.ProjectUpdateBatch.ProjectUpdate))
             {
                 <td>
                     <span style="font-weight: bold">@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span> (For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.CompletionYear using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)

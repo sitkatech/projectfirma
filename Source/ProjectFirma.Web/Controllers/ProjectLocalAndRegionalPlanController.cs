@@ -55,13 +55,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static List<LocalAndRegionalPlanSimple> GetRelevantLocalAndRegionalPlans(Project project)
         {
-            var allLocalAndRegionalPlans = HttpRequestStorage.DatabaseEntities.LocalAndRegionalPlans.ToList().Select(x => new LocalAndRegionalPlanSimple(x)).ToList();
-            var relevantLocalAndRegionalPlans =
-                allLocalAndRegionalPlans.Where(
-                    x => (
-                        project.IsTransportationProject ||
-                        !x.IsTransportationPlan ||
-                        project.ProjectLocalAndRegionalPlans.Select(y => y.LocalAndRegionalPlanID).Contains(x.LocalAndRegionalPlanID)));
+            var relevantLocalAndRegionalPlans = HttpRequestStorage.DatabaseEntities.LocalAndRegionalPlans.ToList().Select(x => new LocalAndRegionalPlanSimple(x)).ToList();
             return relevantLocalAndRegionalPlans.OrderBy(p => p.DisplayName).ToList();
         }
     }

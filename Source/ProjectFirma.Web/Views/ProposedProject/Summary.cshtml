@@ -69,7 +69,7 @@
             break;
         case ProposedProjectStateEnum.Rejected:
         <span>
-            This proposal was rejected by TRPA. @ModalDialogFormHelper.ModalDialogFormLink("Contact TRPA", @ViewDataTyped.RequestSupportUrl, "Request Support", null) with any questions regarding this Proposed Project.
+            This proposal was rejected by TRPA. @ModalDialogFormHelper.ModalDialogFormLink("Contact TRPA", ViewDataTyped.RequestSupportUrl, "Request Support", null) with any questions regarding this Proposed Project.
         </span>
             break;
         default:
@@ -223,15 +223,12 @@
                         }
                     </div>
                 </div>
-                @if (ViewDataTyped.ProposedProject.IsTransportationProject)
-                {
-                    <div class="summarySection">
-                        <h2>Transportation Assessment</h2>
-                        <div class="contentWrapper">
-                            @{ TransportationAssessmentTree.RenderPartialView(Html, ViewDataTyped.TransportationAssessmentTreeViewData);}
-                        </div>
+                <div class="summarySection">
+                    <h2>Assessment</h2>
+                    <div class="contentWrapper">
+                        @{ AssessmentTree.RenderPartialView(Html, ViewDataTyped.AssessmentTreeViewData);}
                     </div>
-                }
+                </div>
 
                 <div class="summarySection">
                     <h2>Photos</h2>

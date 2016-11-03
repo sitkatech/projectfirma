@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -16,7 +15,7 @@ namespace ProjectFirma.Web.Views
         public readonly string ManageProgramsUrl;
         public readonly string ManageActionPrioritiesUrl;
         public readonly string ManagePerformanceMeasuresUrl;
-        public readonly string ManageTransportationObjectivesUrl;
+        public readonly string ManageObjectivesUrl;
 
         public readonly string FullProjectListUrl;
         public readonly string ProjectSearchUrl;
@@ -60,7 +59,6 @@ namespace ProjectFirma.Web.Views
             ManageProgramsUrl = SitkaRoute<ProgramController>.BuildUrlFromExpression(c => c.Index());
             ManageActionPrioritiesUrl = SitkaRoute<ActionPriorityController>.BuildUrlFromExpression(c => c.Index());
             ManagePerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Index());
-            ManageTransportationObjectivesUrl = SitkaRoute<TransportationObjectiveController>.BuildUrlFromExpression(tc => tc.Index());
 
             FullProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Index());
             ProjectSearchUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Search(UrlTemplate.Parameter1String));
@@ -114,12 +112,10 @@ namespace ProjectFirma.Web.Views
 
         private static LtInfoMenuItem BuildTransporationMenu(Person currentPerson)
         {
-            var transportationMenu = new LtInfoMenuItem("Transportation");
-            transportationMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TransportationStrategyController>(c => c.Manage()), currentPerson, "Transportation Strategies", "Group1"));
-            transportationMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TransportationObjectiveController>(c => c.Manage()), currentPerson, "Transportation Objectives", "Group1"));
-            transportationMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TransportationAssessmentController>(c => c.Manage()), currentPerson, "Transportation Assessment", "Group1"));
-            transportationMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TransportationCostParameterSetController>(c => c.Manage()), currentPerson, "Cost Parameters", "Group2"));
-            return transportationMenu;
+            var menu = new LtInfoMenuItem("");
+            menu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AssessmentController>(c => c.Manage()), currentPerson, " Assessment", "Group1"));
+            menu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CostParameterSetController>(c => c.Manage()), currentPerson, "Cost Parameters", "Group2"));
+            return menu;
         }
 
         private static LtInfoMenuItem BuildResultsMenu(Person currentPerson)
@@ -142,7 +138,7 @@ namespace ProjectFirma.Web.Views
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Index()), currentPerson, "Performance Measures", "Group1"));
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramInfoController>(c => c.Taxonomy()), currentPerson, "Focus Areas, Programs, and Action Priorities", "Group1"));
 
-            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramInfoController>(c => c.TransportationTaxonomy()), currentPerson, "Transportation Strategies and Objectives", "Group2"));
+            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramInfoController>(c => c.Taxonomy()), currentPerson, " Strategies and Objectives", "Group2"));
 
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ThresholdCategoryController>(c => c.Index()), currentPerson, "Threshold Categories", "Group3"));
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<LocalAndRegionalPlanController>(c => c.Index()), currentPerson, "Local and Regional Plans", "Group3"));
@@ -162,7 +158,6 @@ namespace ProjectFirma.Web.Views
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.CompletedList()), currentPerson, "Completed Project List", "Group2"));
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.FiveYearList()), currentPerson, "5-Year Project List", "Group2"));
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.TerminatedList()), currentPerson, "Terminated Project List", "Group2"));
-            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.TransportationList()), currentPerson, "Transportation Project List", "Group2"));
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.MyOrganizationsProjects()), currentPerson, "My Organization's Projects", "Group2"));
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.MyProjectsRequiringAnUpdate()), currentPerson, "Update My Project(s)", "Group3"));
             var projectUpdateStatusMenuItemName = string.Format("{0} Status of Project Updates", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());

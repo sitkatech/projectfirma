@@ -20,7 +20,6 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.MvcResults;
-using MoreLinq;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using Index = ProjectFirma.Web.Views.Project.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Project.IndexGridSpec;
@@ -56,7 +55,6 @@ namespace ProjectFirma.Web.Controllers
                 nextProjectNumber,
                 viewModel.ProjectName,
                 viewModel.ProjectDescription,
-                false,
                 false,
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
@@ -102,14 +100,13 @@ namespace ProjectFirma.Web.Controllers
         {
             var actionPriorities = HttpRequestStorage.DatabaseEntities.ActionPriorities.ToList().OrderBy(ap => ap.DisplayName).ToList();
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
-            var transportationObjectives = HttpRequestStorage.DatabaseEntities.TransportationObjectives.ToList().OrderBy(ap => ap.DisplayName).ToList();
             var hasExistingProjectUpdate = projectUpdateBatch != null;
-            var hasExistingTransportationProjectBudgetUpdates = hasExistingProjectUpdate && projectUpdateBatch.TransportationProjectBudgetUpdates.Any();
+            var hasExistingProjectBudgetUpdates = hasExistingProjectUpdate && projectUpdateBatch.ProjectBudgetUpdates.Any();
             var viewData = new EditProjectViewData(actionPriorities,
                 editProjectType,
                 actionPriorityDisplayName,
                 projectNumberString,
-                ProjectStage.All, FundingType.All, organizations, totalExpenditures, transportationObjectives, hasExistingTransportationProjectBudgetUpdates);
+                ProjectStage.All, FundingType.All, organizations, totalExpenditures, hasExistingProjectBudgetUpdates);
             return RazorPartialView<EditProject, EditProjectViewData, EditProjectViewModel>(viewData, viewModel);
         }
 
@@ -131,10 +128,10 @@ namespace ProjectFirma.Web.Controllers
             var activeProjectStages = GetActiveProjectStages(project);
             var projectTaxonomyViewData = new ProjectTaxonomyViewData(project);
 
-            var transportationProjectBudgetAmounts =
-                TransportationProjectBudgetAmount.CreateFromTransportationProjectBudgets(new List<ITransportationProjectBudgetAmount>(project.TransportationProjectBudgets.ToList()));
-            var calendarYearsForTransportationProjectBudgets = project.TransportationProjectBudgets.ToList().CalculateCalendarYearRangeForBudgets(project);
-            var transportationProjectBudgetSummaryViewData = new TransportationProjectBudgetSummaryViewData(transportationProjectBudgetAmounts, calendarYearsForTransportationProjectBudgets);
+            var projectBudgetAmounts =
+                ProjectBudgetAmount.CreateFromProjectBudgets(new List<IProjectBudgetAmount>(project.ProjectBudgets.ToList()));
+            var calendarYearsForProjectBudgets = project.ProjectBudgets.ToList().CalculateCalendarYearRangeForBudgets(project);
+            var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(projectBudgetAmounts, calendarYearsForProjectBudgets);
 
             var mapDivID = string.Format("project_{0}_Map", project.ProjectID);
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID);
@@ -156,7 +153,7 @@ namespace ProjectFirma.Web.Controllers
 
             var editThresholdCategoriesUrl = SitkaRoute<ProjectThresholdCategoryController>.BuildUrlFromExpression(c => c.EditProjectThresholdCategoriesForProject(project));
 
-            var editTransportationAssessmentUrl = SitkaRoute<ProjectTransportationQuestionController>.BuildUrlFromExpression(c => c.EditTransportationAssessment(project));
+            var editAssessmentUrl = SitkaRoute<ProjectAssessmentQuestionController>.BuildUrlFromExpression(c => c.EditAssessment(project));
 
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(project.ProjectNotes)),
                 SitkaRoute<ProjectNoteController>.BuildUrlFromExpression(x => x.New(project)),
@@ -178,44 +175,42 @@ namespace ProjectFirma.Web.Controllers
             const string projectNotificationGridName = "projectNotifications";
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
-            var inflationRate = HttpRequestStorage.DatabaseEntities.TransportationCostParameterSets.Latest().InflationRate;
-            var editInflationUrl = SitkaRoute<TransportationCostParameterSetController>.BuildUrlFromExpression(controller => controller.Summary());
-            var editTransportationProjectBudgetUrl = SitkaRoute<TransportationProjectBudgetController>.BuildUrlFromExpression(c => c.EditBudgetsForProject(project));
+            var inflationRate = HttpRequestStorage.DatabaseEntities.CostParameterSets.Latest().InflationRate;
+            var editInflationUrl = SitkaRoute<CostParameterSetController>.BuildUrlFromExpression(controller => controller.Summary());
+            var editProjectBudgetUrl = SitkaRoute<ProjectBudgetController>.BuildUrlFromExpression(c => c.EditBudgetsForProject(project));
 
             var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
             var entityExternalLinksViewData = new EntityExternalLinksViewData(ExternalLink.CreateFromEntityExternalLink(new List<IEntityExternalLink>(project.ProjectExternalLinks)));
 
-            var userHasTransportationProjectBudgetManagePermissions = new TransportationProjectBudgetManageFeature().HasPermissionByPerson(CurrentPerson);
+            var userHasProjectBudgetManagePermissions = new ProjectBudgetManageFeature().HasPermissionByPerson(CurrentPerson);
 
             var projectBasicsCalculatedCostsViewData = new ProjectBasicsCalculatedCostsViewData(project,
-                TransportationCostParameterSet.CalculateCapitalCostInYearOfExpenditure(project),
-                userHasTransportationProjectBudgetManagePermissions,
+                CostParameterSet.CalculateCapitalCostInYearOfExpenditure(project),
+                userHasProjectBudgetManagePermissions,
                 editInflationUrl,
                 inflationRate,
-                TransportationCostParameterSet.CalculateTotalRemainingOperatingCost(project),
-                TransportationCostParameterSet.StartYearForTotalCostCalculations(project));
+                CostParameterSet.CalculateTotalRemainingOperatingCost(project),
+                CostParameterSet.StartYearForTotalCostCalculations(project));
 
             var projectBasicsTagsViewData = new ProjectBasicsTagsViewData(project, tagHelper);
 
             var projectBasicsViewData = new ProjectBasicsViewData(project,
-                userHasTransportationProjectBudgetManagePermissions,
+                userHasProjectBudgetManagePermissions,
                 new TagManageFeature().HasPermissionByPerson(CurrentPerson),
                 true,
                 projectBasicsCalculatedCostsViewData,
                 projectBasicsTagsViewData);
 
-            var transportationGoals = HttpRequestStorage.DatabaseEntities.TransportationGoals.ToList();
-            var transportationGoalsAsFancyTreeNodes = project.IsTransportationProject
-                ? transportationGoals.Select(x => x.ToFancyTreeNode(new List<ITransportationQuestionAnswer>(project.ProjectTransportationQuestions.ToList()))).ToList()
-                : null;
-            var transportationAssessmentTreeViewData = new TransportationAssessmentTreeViewData(transportationGoalsAsFancyTreeNodes);
+            var goals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
+            var goalsAsFancyTreeNodes = goals.Select(x => x.ToFancyTreeNode(new List<IQuestionAnswer>(project.ProjectAssessmentQuestions.ToList()))).ToList();
+            var assessmentTreeViewData = new AssessmentTreeViewData(goalsAsFancyTreeNodes);
 
             var viewData = new SummaryViewData(CurrentPerson,
                 project,
                 confirmNonMandatoryUpdateUrl,
                 activeProjectStages,
                 projectTaxonomyViewData,
-                transportationProjectBudgetSummaryViewData,
+                projectBudgetSummaryViewData,
                 projectLocationSummaryViewData,
                 mapFormID,
                 editSimpleProjectLocationUrl,
@@ -228,21 +223,21 @@ namespace ProjectFirma.Web.Controllers
                 projectExpendituresSummaryViewData,
                 editReportedExpendituresUrl,
                 editThresholdCategoriesUrl,
-                editTransportationAssessmentUrl,
+                editAssessmentUrl,
                 editLocalAndRegionalPlansUrl,
                 editWatershedsUrl,
                 imageGalleryViewData,
                 entityNotesViewData,
                 auditLogsGridSpec,
                 auditLogsGridDataUrl,
-                editTransportationProjectBudgetUrl,
+                editProjectBudgetUrl,
                 editExternalLinksUrl,
                 entityExternalLinksViewData,
                 projectNotificationGridSpec,
                 projectNotificationGridName,
                 projectNotificationGridDataUrl,
                 projectBasicsViewData,
-                transportationAssessmentTreeViewData);
+                assessmentTreeViewData);
             return RazorView<Summary, SummaryViewData>(viewData);
         }
 
@@ -550,32 +545,6 @@ namespace ProjectFirma.Web.Controllers
         {
             gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
             return GetProjectsForGrid(p => p.ProjectStage == ProjectStage.Terminated);
-        }
-
-        [AnonymousUnclassifiedFeature]
-        public ViewResult TransportationList()
-        {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.TransportationProjectList);
-            var viewData = new TransportationListViewData(CurrentPerson, firmaPage);
-            return RazorView<TransportationList, TransportationListViewData>(viewData);
-        }
-
-        [AnonymousUnclassifiedFeature]
-        public GridJsonNetJObjectResult<Project> TransportationListGridJsonData()
-        {
-            TransportationListProjectGridSpec gridSpec;
-            var programs = GetTransportationListGridSpec(out gridSpec);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(programs, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-
-        private List<Project> GetTransportationListGridSpec(out TransportationListProjectGridSpec gridSpec)
-        {
-            gridSpec = new TransportationListProjectGridSpec(CurrentPerson);
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.TransportationObjectiveID.HasValue).ToList();
-            var auditLogProjectIDLastDateDict = HttpRequestStorage.DatabaseEntities.AuditLogs.Where(x => x.ProjectID.HasValue).GroupBy(x => x.ProjectID).ToDictionary(x => x.Key, x => x.Max(y => y.AuditLogDate));
-            projects.AsParallel().ForEach(x => x.LastUpdateDate = auditLogProjectIDLastDateDict[x.ProjectID]);
-            return projects;
         }
 
         [AdminFeature]

@@ -1,0 +1,77 @@
+﻿@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Models
+@using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls.ProjectBudgetSummary
+
+@if (ViewDataTyped.ProjectBudgetAmounts.Any())
+{ 
+    <table class="summaryLayout" style="width: 100%">
+        <colgroup>
+            <col />
+            @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
+            {
+                switch (calendarYear.AddedDeletedOrRealElement)
+                {
+                    case AddedDeletedOrRealElement.AddedElement:
+                        <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForAddedElement">
+                        break;
+                    case AddedDeletedOrRealElement.DeletedElement:
+                    <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForDeletedElement">
+                        break;
+                    case AddedDeletedOrRealElement.RealElement:
+                    <col>
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            <col />
+        </colgroup>
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.FundingSource)</th>
+            @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
+            {
+                <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYear</th>
+            }
+            <th>Total</th>
+        </tr>
+        @foreach (var ProjectBudgetAmount2 in ViewDataTyped.ProjectBudgetAmounts.OrderBy(x => x.FundingSourceName))
+        {
+            <tr class="@ProjectBudgetAmount2.DisplayCssClass">
+                <td colspan="@(ViewDataTyped.CalendarYears.Count + 1)">@ProjectBudgetAmount2.FundingSourceName</td>
+                <th>
+                    <span class="normalDollars">@ProjectBudgetAmount2.ProjectCostTypeCalendarYearBudgets.Sum(x => x.CalendarYearBudget.Values.Sum()).ToIntString()</span>
+                </th>
+            </tr>
+            foreach (var ProjectCostType in ViewDataTyped.ProjectCostTypes.OrderBy(x => x.SortOrder))
+            {
+                var current = ProjectBudgetAmount2.ProjectCostTypeCalendarYearBudgets.Single(x => x.ProjectCostType == ProjectCostType);
+                <tr class="@ProjectBudgetAmount2.DisplayCssClass">
+                    <td>@ProjectCostType.ProjectCostTypeDisplayName</td>
+                    @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
+                    {
+                        <td class="@calendarYear.DisplayCssClass">
+                            <span class="normalDollars @calendarYear.DisplayCssClass">@(current.CalendarYearBudget.ContainsKey(calendarYear.CalendarYear) ? current.CalendarYearBudget[calendarYear.CalendarYear].ToIntString() : string.Empty)</span>
+                        </td>
+                    }
+                    <th>
+                        <span class="normalDollars">@current.CalendarYearBudget.Sum(x => x.Value).ToIntString()</span>
+                    </th>
+                </tr>
+            }
+        }
+        <tr>
+            <th>Grand Total</th>
+            @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
+            {
+                <th class="@calendarYear.DisplayCssClass">
+                    <span class="normalDollars">@(calendarYear.IsRealEntry ? ViewDataTyped.ProjectBudgetAmounts.SelectMany(x => x.ProjectCostTypeCalendarYearBudgets.SelectMany(y => y.CalendarYearBudget)).Where(x => x.Key == calendarYear.CalendarYear).Sum(x => x.Value).ToIntString() : string.Empty)</span>
+                </th>
+            }
+            <th>
+                <span class="normalDollars">@ViewDataTyped.ProjectBudgetAmounts.SelectMany(x => x.ProjectCostTypeCalendarYearBudgets.SelectMany(y => y.CalendarYearBudget)).Sum(x => x.Value).ToIntString()</span>
+            </th>
+        </tr>
+    </table>
+}

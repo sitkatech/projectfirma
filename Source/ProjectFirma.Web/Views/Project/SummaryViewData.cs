@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly bool UserHasPerformanceMeasureExpectedManagePermissions;
         public readonly bool UserHasPerformanceMeasureActualManagePermissions;
         public readonly bool UserHasProjectFundingSourceExpenditureManagePermissions;
-        public readonly bool UserHasTransportationProjectBudgetManagePermissions;
+        public readonly bool UserHasProjectBudgetManagePermissions;
         public readonly bool UserHasProjectExternalLinkManagePermissions;
 
         public readonly string EditProjectUrl;
@@ -40,13 +40,13 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string EditPerformanceMeasureExpectedsUrl;
         public readonly string EditPerformanceMeasureActualsUrl;
         public readonly string EditReportedExpendituresUrl;
-        public readonly string EditTransportationProjectBudgetUrl;
+        public readonly string EditProjectBudgetUrl;
         public readonly string EditExternalLinksUrl;
         public readonly string ConfirmNonMandatoryUpdateUrl;
-        public readonly string EditTransportationAssessmentUrl;
+        public readonly string EditAssessmentUrl;
         
         public readonly ProjectTaxonomyViewData ProjectTaxonomyViewData;
-        public readonly TransportationProjectBudgetSummaryViewData TransportationProjectBudgetSummaryViewData;
+        public readonly ProjectBudgetSummaryViewData ProjectBudgetSummaryViewData;
         public readonly ProjectBasicsViewData ProjectBasicsViewData;
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
         public readonly PerformanceMeasureExpectedSummaryViewData PerformanceMeasureExpectedSummaryViewData;
@@ -72,19 +72,19 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string ProjectNotificationGridName;
         public readonly string ProjectNotificationGridDataUrl;
 
-        public readonly TransportationAssessmentTreeViewData TransportationAssessmentTreeViewData;
+        public readonly AssessmentTreeViewData AssessmentTreeViewData;
 
         //TODO: Inline all url parameters
         public SummaryViewData(Person currentPerson, Models.Project project, string confirmNonMandatoryUpdateUrl, List<ProjectStage> projectStages, ProjectTaxonomyViewData projectTaxonomyViewData,
-            TransportationProjectBudgetSummaryViewData transportationProjectBudgetSummaryViewData, 
+            ProjectBudgetSummaryViewData projectBudgetSummaryViewData, 
             ProjectLocationSummaryViewData projectLocationSummaryViewData, string mapFormID, string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl,
             string editProjectOrganizationsUrl, PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData, string editPerformanceMeasureExpectedsUrl,
             PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData, string editPerformanceMeasureActualsUrl,
             ProjectExpendituresSummaryViewData projectExpendituresSummaryViewData, string editReportedExpendituresUrl, 
-            string editThresholdCategoriesUrl, string editTransportationAssessmentUrl, string editLocalAndRegionalPlansUrl, string editWatershedsUrl, ImageGalleryViewData imageGalleryViewData, 
+            string editThresholdCategoriesUrl, string editAssessmentUrl, string editLocalAndRegionalPlansUrl, string editWatershedsUrl, ImageGalleryViewData imageGalleryViewData, 
             EntityNotesViewData entityNotesViewData, 
             AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
-            string editTransportationProjectBudgetUrl, string editExternalLinksUrl, EntityExternalLinksViewData entityExternalLinksViewData, ProjectNotificationGridSpec projectNotificationGridSpec, string projectNotificationGridName, string projectNotificationGridDataUrl, ProjectBasicsViewData projectBasicsViewData, TransportationAssessmentTreeViewData transportationAssessmentTreeViewData) 
+            string editProjectBudgetUrl, string editExternalLinksUrl, EntityExternalLinksViewData entityExternalLinksViewData, ProjectNotificationGridSpec projectNotificationGridSpec, string projectNotificationGridName, string projectNotificationGridDataUrl, ProjectBasicsViewData projectBasicsViewData, AssessmentTreeViewData assessmentTreeViewData) 
             : base(currentPerson, project)
         {
             PageTitle = project.DisplayName.ToEllipsifiedStringClean(110);
@@ -98,12 +98,12 @@ namespace ProjectFirma.Web.Views.Project
             UserHasEditProjectPermissions = new ProjectEditFeature().HasPermission(currentPerson, project).HasPermission;
             UserHasProjectUpdatePermissions = new ProjectUpdateManageFeature().HasPermission(CurrentPerson, project).HasPermission;
             ProjectBasicsViewData = projectBasicsViewData;
-            TransportationAssessmentTreeViewData = transportationAssessmentTreeViewData;
+            AssessmentTreeViewData = assessmentTreeViewData;
 
             ProjectTaxonomyViewData = projectTaxonomyViewData;
 
-            TransportationProjectBudgetSummaryViewData = transportationProjectBudgetSummaryViewData;
-            UserHasTransportationProjectBudgetManagePermissions = new TransportationProjectBudgetManageFeature().HasPermissionByPerson(currentPerson);
+            ProjectBudgetSummaryViewData = projectBudgetSummaryViewData;
+            UserHasProjectBudgetManagePermissions = new ProjectBudgetManageFeature().HasPermissionByPerson(currentPerson);
 
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
             MapFormID = mapFormID;
@@ -131,7 +131,7 @@ namespace ProjectFirma.Web.Views.Project
             EditThresholdCategoriesUrl = editThresholdCategoriesUrl;
             UserHasProjectThresholdCategoryManagePermissions = new ProjectEditFeature().HasPermissionByPerson(currentPerson);
 
-            EditTransportationAssessmentUrl = editTransportationAssessmentUrl;
+            EditAssessmentUrl = editAssessmentUrl;
 
             EditLocalAndRegionalPlansUrl = editLocalAndRegionalPlansUrl;
             UserHasProjectLocalAndRegionalPlanManagePermissions = new ProjectLocalAndRegionalPlanManageFromProjectFeature().HasPermissionByPerson(currentPerson);
@@ -155,7 +155,7 @@ namespace ProjectFirma.Web.Views.Project
             AuditLogsGridName = "projectAuditLogsGrid";
             AuditLogsGridDataUrl = auditLogsGridDataUrl;
 
-            EditTransportationProjectBudgetUrl = editTransportationProjectBudgetUrl;
+            EditProjectBudgetUrl = editProjectBudgetUrl;
 
             ProjectNotificationGridSpec = projectNotificationGridSpec;
             ProjectNotificationGridName = projectNotificationGridName;

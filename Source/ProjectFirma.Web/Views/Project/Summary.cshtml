@@ -22,7 +22,7 @@
     <script src="@Url.Content("~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureExpectedController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/PerformanceMeasureActual/PerformanceMeasureActualController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/ProjectFundingSourceExpenditure/ProjectFundingSourceExpenditureController.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Views/TransportationProjectBudget/TransportationProjectBudgetController.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Views/ProjectBudget/ProjectBudgetController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/ProjectLocalAndRegionalPlan/ProjectLocalAndRegionalPlanController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/ProjectWatershed/ProjectWatershedController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/ProjectExternalLink/ProjectExternalLinkController.js")" type="text/javascript"></script>
@@ -215,15 +215,12 @@
                         }
                     </div>
                 </div>
-                @if (ViewDataTyped.Project.IsTransportationProject)
-                {
-                    <div class="summarySection">
-                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTransportationProjectBudgetUrl, "Edit Estimated Budget", 1000, ViewDataTyped.UserHasTransportationProjectBudgetManagePermissions) Estimated Budgets</h2>
-                        <div class="contentWrapper">
-                            @{ TransportationProjectBudgetSummary.RenderPartialView(Html, ViewDataTyped.TransportationProjectBudgetSummaryViewData); }
-                        </div>
+                <div class="summarySection">
+                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectBudgetUrl, "Edit Estimated Budget", 1000, ViewDataTyped.UserHasProjectBudgetManagePermissions) Estimated Budgets</h2>
+                    <div class="contentWrapper">
+                        @{ ProjectBudgetSummary.RenderPartialView(Html, ViewDataTyped.ProjectBudgetSummaryViewData); }
                     </div>
-                }
+                </div>
 
                 @if (ViewDataTyped.UserHasPerformanceMeasureExpectedViewPermissions)
                 {
@@ -273,12 +270,12 @@
                         }
                     </div>
                 </div>
-                @if (ViewDataTyped.Project.IsTransportationProject && ViewDataTyped.UserHasTransportationProjectBudgetManagePermissions)
+                @if (ViewDataTyped.UserHasProjectBudgetManagePermissions)
                 {
                     <div class="summarySection">
-                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTransportationAssessmentUrl, "Edit Transportation Assessment", 800, ViewDataTyped.UserHasTransportationProjectBudgetManagePermissions) Transportation Assessment</h2>
+                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAssessmentUrl, "Edit Assessment", 800, ViewDataTyped.UserHasProjectBudgetManagePermissions)  Assessment</h2>
                         <div class="contentWrapper">
-                            @{ TransportationAssessmentTree.RenderPartialView(Html, ViewDataTyped.TransportationAssessmentTreeViewData);}
+                            @{ AssessmentTree.RenderPartialView(Html, ViewDataTyped.AssessmentTreeViewData);}
                         </div>
                     </div>
                 }

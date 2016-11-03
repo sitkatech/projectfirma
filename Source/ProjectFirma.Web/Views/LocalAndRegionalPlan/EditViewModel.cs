@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.LocalAndRegionalPlan
         public string LocalAndRegionalPlanDocumentLinkText { get; set; }
 
         [Required]
-        public bool IsTransportationPlan { get; set; }
+        public bool IsPlan { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -43,7 +43,6 @@ namespace ProjectFirma.Web.Views.LocalAndRegionalPlan
             LocalAndRegionalPlanName = localAndRegionalPlan.LocalAndRegionalPlanName;
             LocalAndRegionalPlanDocumentUrl = localAndRegionalPlan.PlanDocumentUrl;
             LocalAndRegionalPlanDocumentLinkText = localAndRegionalPlan.PlanDocumentLinkText;
-            IsTransportationPlan = localAndRegionalPlan.IsTransportationPlan;
         }
 
         public void UpdateModel(Models.LocalAndRegionalPlan localAndRegionalPlan, Person currentPerson)
@@ -51,7 +50,6 @@ namespace ProjectFirma.Web.Views.LocalAndRegionalPlan
             localAndRegionalPlan.LocalAndRegionalPlanName = LocalAndRegionalPlanName;
             localAndRegionalPlan.PlanDocumentUrl = LocalAndRegionalPlanDocumentUrl;
             localAndRegionalPlan.PlanDocumentLinkText = LocalAndRegionalPlanDocumentLinkText;
-            localAndRegionalPlan.IsTransportationPlan = IsTransportationPlan;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -63,21 +61,6 @@ namespace ProjectFirma.Web.Views.LocalAndRegionalPlan
             {
                 errors.Add(new SitkaValidationResult<EditViewModel, string>("Local and Regional Plan Name already exists", x => x.LocalAndRegionalPlanName));
             }
-
-            var larp = HttpRequestStorage.DatabaseEntities.LocalAndRegionalPlans.SingleOrDefault(x => x.LocalAndRegionalPlanID == LocalAndRegionalPlanID);
-
-            if (larp != null && IsTransportationPlan && larp.AssociatedProjects.Any(x => !x.IsTransportationProject))
-            {
-                var nonTransportationProjects = larp.AssociatedProjects.Where(x => !x.IsTransportationProject).ToList();
-
-                var nonTransportationProjectHtmlList = string.Concat(nonTransportationProjects.Select(x => string.Format("<li>{0}</li>", x.ProjectName)));
-                var errorMessage = string.Format("<p>A Transportation Plan can only be associated with Transportation projects.<br />This plan has {0} non-Transportation Project(s) associated with it:</p><ul>{1}</ul>", nonTransportationProjects.Count.ToString(), nonTransportationProjectHtmlList);
-                errors.Add(
-                    new SitkaValidationResult<EditViewModel, bool>(
-                        errorMessage,
-                        x => x.IsTransportationPlan));
-            }
-
             return errors;
         }
     }

@@ -53,15 +53,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectIsAProgram)]
         public bool ImplementsMultipleProjects { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectIsATransportationProject)]
-        public bool IsTransportationProject { get; set; }
-
-        [FieldDefinitionDisplay(FieldDefinitionEnum.TransportationObjective)]
-        public int? TransportationObjectiveID { get; set; }
-
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectOnFTIPList)]
-        public bool OnFederalTransportationImprovementProgramList { get; set; }
-
         public bool HasExistingProjectUpdate { get; set; }
         public int? OldProjectStageID { get; set; }
 
@@ -89,9 +80,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             SecuredFunding = project.SecuredFunding;
             LeadImplementerOrganizationID = project.LeadImplementerOrganizationID;
             ImplementsMultipleProjects = project.ImplementsMultipleProjects;
-            IsTransportationProject = project.IsTransportationProject;
-            TransportationObjectiveID = project.TransportationObjectiveID;
-            OnFederalTransportationImprovementProgramList = project.OnFederalTransportationImprovementProgramList;
             HasExistingProjectUpdate = hasExistingProjectUpdate;
         }
 
@@ -111,9 +99,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             SecuredFunding = proposedProject.SecuredFunding;
             LeadImplementerOrganizationID = proposedProject.LeadImplementerOrganizationID;
             ImplementsMultipleProjects = false;
-            IsTransportationProject = proposedProject.IsTransportationProject;
-            TransportationObjectiveID = null;
-            OnFederalTransportationImprovementProgramList = false;
             HasExistingProjectUpdate = false;
         }
 
@@ -153,8 +138,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                     project.ProjectImplementingOrganizations.Add(new ProjectImplementingOrganization(ProjectID, LeadImplementerOrganizationID.Value, true));
                 }
             }
-            project.TransportationObjectiveID = IsTransportationProject ? TransportationObjectiveID : null;
-            project.OnFederalTransportationImprovementProgramList = project.TransportationObjectiveID.HasValue && OnFederalTransportationImprovementProgramList;
         }
 
         public void UpdateModel(Models.Project project, short nextProjectNumber)

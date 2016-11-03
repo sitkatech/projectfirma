@@ -118,36 +118,12 @@
                     {
                         <li>This project is a featured project</li>
                     }
-                    @if (ViewDataTyped.Project.IsTransportationProject)
-                    {
-                        <li>This project is a TMPO project.</li>
-                    }
                     @if (ViewDataTyped.Project.FundingType == FundingType.OperationsAndMaintenance)
                     {
                         <li>This project is an Operations and Maintenance project with recurring annual costs.</li>
                     }
-                    @if (ViewDataTyped.Project.OnFederalTransportationImprovementProgramList)
-                    {
-                        <li>This project is on the Federal Transportation Improvement Program (FTIP) list.</li>
-                    }
                 </ul>
             </td>
         </tr>
-        @if (ViewDataTyped.Project.IsTransportationProject)
-        {
-            <tr>
-                <th colspan="4" style="white-space: nowrap">Transportation Category:</th>
-            </tr>
-            <tr>
-                <td colspan="4">
-                    <div>
-                        <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.TransportationObjective):</span> <span style="margin-left: 5px">@ViewDataTyped.Project.TransportationObjective.TransportationStrategy.DisplayNameAsUrl</span>
-                    </div>
-                    <div style="margin-left: 20px; padding-top: 4px">
-                        <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.TransportationStrategy):</span> <span style="margin-left: 15px">@ViewDataTyped.Project.TransportationObjective.DisplayNameAsUrl</span>
-                    </div>
-                </td>
-            </tr>
-        }
     </table>
 </div>

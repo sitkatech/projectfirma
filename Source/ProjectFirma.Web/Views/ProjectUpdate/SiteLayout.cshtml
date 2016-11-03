@@ -84,18 +84,15 @@
                     @Html.Raw(ViewDataTyped.ProjectUpdateBatch.AreExpendituresValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                 </span>
             </li>
-            @if (ViewDataTyped.Project.OnFederalTransportationImprovementProgramList)
-            {
-                <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.TransportationBudgets, ViewDataTyped.SelectedProjectUpdateSection)">
-                    <a href="@ViewDataTyped.ProjectUpdateTransportationBudgetsUrl">
-                        Budgets
-                        @Html.Raw(ViewDataTyped.UpdateStatus.IsTransportationBudgetsUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
-                    </a>
-                    <span class="pull-right" style="padding: 5px">
-                        @Html.Raw(ViewDataTyped.ProjectUpdateBatch.AreTransportationBudgetsValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                    </span>
-                </li>
-            }
+            <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Budgets, ViewDataTyped.SelectedProjectUpdateSection)">
+                <a href="@ViewDataTyped.ProjectUpdateBudgetsUrl">
+                    Budgets
+                    @Html.Raw(ViewDataTyped.UpdateStatus.IsBudgetsUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+                </a>
+                <span class="pull-right" style="padding: 5px">
+                    @Html.Raw(ViewDataTyped.ProjectUpdateBatch.AreBudgetsValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                </span>
+            </li>
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Photos, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdatePhotosUrl">
                     Photos

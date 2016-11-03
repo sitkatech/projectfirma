@@ -224,16 +224,6 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeTransportationTaxonomy
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(x => x.TransportationTaxonomy());
-        }
-    }
-
-
-
     public partial class FirmaPageTypeFeaturedProjectList
     {
         public override string GetViewUrl()
@@ -258,35 +248,11 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeTransportationStrategiesList
+    public partial class FirmaPageTypeCostParameterSet
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<TransportationStrategyController>.BuildUrlFromExpression(x => x.Index());
-        }
-    }
-
-    public partial class FirmaPageTypeTransportationObjectivesList
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<TransportationObjectiveController>.BuildUrlFromExpression(x => x.Index());
-        }
-    }
-
-    public partial class FirmaPageTypeTransportationProjectList
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.TransportationList());
-        }
-    }
-
-    public partial class FirmaPageTypeTransportationCostParameterSet
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<TransportationCostParameterSetController>.BuildUrlFromExpression(x => x.Summary());
+            return SitkaRoute<CostParameterSetController>.BuildUrlFromExpression(x => x.Summary());
         }
     }
 

@@ -30,7 +30,11 @@ namespace ProjectFirma.Web.Models
         }
         public virtual DbSet<ActionPriority> ActionPriorities { get; set; }
         public virtual DbSet<ActionPriorityImage> ActionPriorityImages { get; set; }
+        public virtual DbSet<AssessmentGoal> AssessmentGoals { get; set; }
+        public virtual DbSet<AssessmentQuestion> AssessmentQuestions { get; set; }
+        public virtual DbSet<AssessmentSubGoal> AssessmentSubGoals { get; set; }
         public virtual DbSet<AuditLog> AuditLogs { get; set; }
+        public virtual DbSet<CostParameterSet> CostParameterSets { get; set; }
         public virtual DbSet<County> Counties { get; set; }
         public virtual DbSet<DatabaseMigration> DatabaseMigrations { get; set; }
         public virtual DbSet<FieldDefinitionData> FieldDefinitionDatas { get; set; }
@@ -70,6 +74,9 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<ProgramImage> ProgramImages { get; set; }
         public virtual DbSet<ProgramPerformanceMeasure> ProgramPerformanceMeasures { get; set; }
         public virtual DbSet<Program> Programs { get; set; }
+        public virtual DbSet<ProjectAssessmentQuestion> ProjectAssessmentQuestions { get; set; }
+        public virtual DbSet<ProjectBudget> ProjectBudgets { get; set; }
+        public virtual DbSet<ProjectBudgetUpdate> ProjectBudgetUpdates { get; set; }
         public virtual DbSet<ProjectExemptReportingYear> ProjectExemptReportingYears { get; set; }
         public virtual DbSet<ProjectExemptReportingYearUpdate> ProjectExemptReportingYearUpdates { get; set; }
         public virtual DbSet<ProjectExternalLink> ProjectExternalLinks { get; set; }
@@ -95,18 +102,17 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<ProjectTag> ProjectTags { get; set; }
         public virtual DbSet<ProjectThresholdCategory> ProjectThresholdCategories { get; set; }
-        public virtual DbSet<ProjectTransportationQuestion> ProjectTransportationQuestions { get; set; }
         public virtual DbSet<ProjectUpdateBatch> ProjectUpdateBatches { get; set; }
         public virtual DbSet<ProjectUpdateHistory> ProjectUpdateHistories { get; set; }
         public virtual DbSet<ProjectUpdate> ProjectUpdates { get; set; }
         public virtual DbSet<ProjectWatershed> ProjectWatersheds { get; set; }
+        public virtual DbSet<ProposedProjectAssessmentQuestion> ProposedProjectAssessmentQuestions { get; set; }
         public virtual DbSet<ProposedProjectImage> ProposedProjectImages { get; set; }
         public virtual DbSet<ProposedProjectLocation> ProposedProjectLocations { get; set; }
         public virtual DbSet<ProposedProjectLocationStaging> ProposedProjectLocationStagings { get; set; }
         public virtual DbSet<ProposedProjectNote> ProposedProjectNotes { get; set; }
         public virtual DbSet<ProposedProject> ProposedProjects { get; set; }
         public virtual DbSet<ProposedProjectThresholdCategory> ProposedProjectThresholdCategories { get; set; }
-        public virtual DbSet<ProposedProjectTransportationQuestion> ProposedProjectTransportationQuestions { get; set; }
         public virtual DbSet<SnapshotPerformanceMeasure> SnapshotPerformanceMeasures { get; set; }
         public virtual DbSet<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual DbSet<SnapshotProject> SnapshotProjects { get; set; }
@@ -118,16 +124,6 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<ThresholdCategory> ThresholdCategories { get; set; }
         public virtual DbSet<ThresholdCategoryImage> ThresholdCategoryImages { get; set; }
         public virtual DbSet<ThresholdCategoryIndicator> ThresholdCategoryIndicators { get; set; }
-        public virtual DbSet<TransportationCostParameterSet> TransportationCostParameterSets { get; set; }
-        public virtual DbSet<TransportationGoal> TransportationGoals { get; set; }
-        public virtual DbSet<TransportationObjectiveImage> TransportationObjectiveImages { get; set; }
-        public virtual DbSet<TransportationObjective> TransportationObjectives { get; set; }
-        public virtual DbSet<TransportationProjectBudget> TransportationProjectBudgets { get; set; }
-        public virtual DbSet<TransportationProjectBudgetUpdate> TransportationProjectBudgetUpdates { get; set; }
-        public virtual DbSet<TransportationQuestion> TransportationQuestions { get; set; }
-        public virtual DbSet<TransportationStrategy> TransportationStrategies { get; set; }
-        public virtual DbSet<TransportationStrategyImage> TransportationStrategyImages { get; set; }
-        public virtual DbSet<TransportationSubGoal> TransportationSubGoals { get; set; }
         public virtual DbSet<vProject> vProjects { get; set; }
         public virtual DbSet<Watershed> Watersheds { get; set; }
 
@@ -141,6 +137,15 @@ namespace ProjectFirma.Web.Models
                 case "ActionPriorityImage":
                     return ActionPriorityImages.GetActionPriorityImage(primaryKey);
 
+                case "AssessmentGoal":
+                    return AssessmentGoals.GetAssessmentGoal(primaryKey);
+
+                case "AssessmentQuestion":
+                    return AssessmentQuestions.GetAssessmentQuestion(primaryKey);
+
+                case "AssessmentSubGoal":
+                    return AssessmentSubGoals.GetAssessmentSubGoal(primaryKey);
+
                 case "AuditLogEventType":
                     var auditLogEventType = AuditLogEventType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(auditLogEventType, "AuditLogEventType", primaryKey);
@@ -148,6 +153,9 @@ namespace ProjectFirma.Web.Models
 
                 case "AuditLog":
                     return AuditLogs.GetAuditLog(primaryKey);
+
+                case "CostParameterSet":
+                    return CostParameterSets.GetCostParameterSet(primaryKey);
 
                 case "County":
                     return Counties.GetCounty(primaryKey);
@@ -321,10 +329,24 @@ namespace ProjectFirma.Web.Models
                 case "Program":
                     return Programs.GetProgram(primaryKey);
 
+                case "ProjectAssessmentQuestion":
+                    return ProjectAssessmentQuestions.GetProjectAssessmentQuestion(primaryKey);
+
+                case "ProjectBudget":
+                    return ProjectBudgets.GetProjectBudget(primaryKey);
+
+                case "ProjectBudgetUpdate":
+                    return ProjectBudgetUpdates.GetProjectBudgetUpdate(primaryKey);
+
                 case "ProjectColorByType":
                     var projectColorByType = ProjectColorByType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectColorByType, "ProjectColorByType", primaryKey);
                     return projectColorByType;
+
+                case "ProjectCostType":
+                    var projectCostType = ProjectCostType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectCostType, "ProjectCostType", primaryKey);
+                    return projectCostType;
 
                 case "ProjectExemptReportingYear":
                     return ProjectExemptReportingYears.GetProjectExemptReportingYear(primaryKey);
@@ -426,9 +448,6 @@ namespace ProjectFirma.Web.Models
                 case "ProjectThresholdCategory":
                     return ProjectThresholdCategories.GetProjectThresholdCategory(primaryKey);
 
-                case "ProjectTransportationQuestion":
-                    return ProjectTransportationQuestions.GetProjectTransportationQuestion(primaryKey);
-
                 case "ProjectUpdateBatch":
                     return ProjectUpdateBatches.GetProjectUpdateBatch(primaryKey);
 
@@ -445,6 +464,9 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectWatershed":
                     return ProjectWatersheds.GetProjectWatershed(primaryKey);
+
+                case "ProposedProjectAssessmentQuestion":
+                    return ProposedProjectAssessmentQuestions.GetProposedProjectAssessmentQuestion(primaryKey);
 
                 case "ProposedProjectImage":
                     return ProposedProjectImages.GetProposedProjectImage(primaryKey);
@@ -468,9 +490,6 @@ namespace ProjectFirma.Web.Models
 
                 case "ProposedProjectThresholdCategory":
                     return ProposedProjectThresholdCategories.GetProposedProjectThresholdCategory(primaryKey);
-
-                case "ProposedProjectTransportationQuestion":
-                    return ProposedProjectTransportationQuestions.GetProposedProjectTransportationQuestion(primaryKey);
 
                 case "ReminderMessageType":
                     var reminderMessageType = ReminderMessageType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
@@ -529,41 +548,6 @@ namespace ProjectFirma.Web.Models
 
                 case "ThresholdCategoryIndicator":
                     return ThresholdCategoryIndicators.GetThresholdCategoryIndicator(primaryKey);
-
-                case "TransportationCostParameterSet":
-                    return TransportationCostParameterSets.GetTransportationCostParameterSet(primaryKey);
-
-                case "TransportationGoal":
-                    return TransportationGoals.GetTransportationGoal(primaryKey);
-
-                case "TransportationObjectiveImage":
-                    return TransportationObjectiveImages.GetTransportationObjectiveImage(primaryKey);
-
-                case "TransportationObjective":
-                    return TransportationObjectives.GetTransportationObjective(primaryKey);
-
-                case "TransportationProjectBudget":
-                    return TransportationProjectBudgets.GetTransportationProjectBudget(primaryKey);
-
-                case "TransportationProjectBudgetUpdate":
-                    return TransportationProjectBudgetUpdates.GetTransportationProjectBudgetUpdate(primaryKey);
-
-                case "TransportationProjectCostType":
-                    var transportationProjectCostType = TransportationProjectCostType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(transportationProjectCostType, "TransportationProjectCostType", primaryKey);
-                    return transportationProjectCostType;
-
-                case "TransportationQuestion":
-                    return TransportationQuestions.GetTransportationQuestion(primaryKey);
-
-                case "TransportationStrategy":
-                    return TransportationStrategies.GetTransportationStrategy(primaryKey);
-
-                case "TransportationStrategyImage":
-                    return TransportationStrategyImages.GetTransportationStrategyImage(primaryKey);
-
-                case "TransportationSubGoal":
-                    return TransportationSubGoals.GetTransportationSubGoal(primaryKey);
 
                 case "Watershed":
                     return Watersheds.GetWatershed(primaryKey);

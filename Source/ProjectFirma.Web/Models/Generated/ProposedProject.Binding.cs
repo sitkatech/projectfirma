@@ -25,18 +25,18 @@ namespace ProjectFirma.Web.Models
         {
             this.NotificationProposedProjects = new HashSet<NotificationProposedProject>();
             this.PerformanceMeasureExpectedProposeds = new HashSet<PerformanceMeasureExpectedProposed>();
+            this.ProposedProjectAssessmentQuestions = new HashSet<ProposedProjectAssessmentQuestion>();
             this.ProposedProjectImages = new HashSet<ProposedProjectImage>();
             this.ProposedProjectLocations = new HashSet<ProposedProjectLocation>();
             this.ProposedProjectLocationStagings = new HashSet<ProposedProjectLocationStaging>();
             this.ProposedProjectNotes = new HashSet<ProposedProjectNote>();
             this.ProposedProjectThresholdCategories = new HashSet<ProposedProjectThresholdCategory>();
-            this.ProposedProjectTransportationQuestions = new HashSet<ProposedProjectTransportationQuestion>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? actionPriorityID, string indicatorNotes, int? projectID, bool isTransportationProject, int? transportationObjectiveID, bool? onFederalTransportationImprovementProgramList, bool? implementsMultipleProjects, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID) : this()
+        public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? actionPriorityID, string indicatorNotes, int? projectID, bool? implementsMultipleProjects, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID) : this()
         {
             this.ProposedProjectID = proposedProjectID;
             this.ProjectName = projectName;
@@ -59,9 +59,6 @@ namespace ProjectFirma.Web.Models
             this.ActionPriorityID = actionPriorityID;
             this.IndicatorNotes = indicatorNotes;
             this.ProjectID = projectID;
-            this.IsTransportationProject = isTransportationProject;
-            this.TransportationObjectiveID = transportationObjectiveID;
-            this.OnFederalTransportationImprovementProgramList = onFederalTransportationImprovementProgramList;
             this.ImplementsMultipleProjects = implementsMultipleProjects;
             this.SubmissionDate = submissionDate;
             this.ApprovalDate = approvalDate;
@@ -71,7 +68,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProposedProject(string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int projectLocationSimpleTypeID, int fundingTypeID, int proposedProjectStateID, bool isTransportationProject) : this()
+        public ProposedProject(string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int projectLocationSimpleTypeID, int fundingTypeID, int proposedProjectStateID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             ProposedProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -84,13 +81,12 @@ namespace ProjectFirma.Web.Models
             this.ProjectLocationSimpleTypeID = projectLocationSimpleTypeID;
             this.FundingTypeID = fundingTypeID;
             this.ProposedProjectStateID = proposedProjectStateID;
-            this.IsTransportationProject = isTransportationProject;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProposedProject(string projectName, string projectDescription, Organization leadImplementerOrganization, Person proposingPerson, DateTime proposingDate, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, ProposedProjectState proposedProjectState, bool isTransportationProject) : this()
+        public ProposedProject(string projectName, string projectDescription, Organization leadImplementerOrganization, Person proposingPerson, DateTime proposingDate, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, ProposedProjectState proposedProjectState) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -106,7 +102,6 @@ namespace ProjectFirma.Web.Models
             this.ProjectLocationSimpleTypeID = projectLocationSimpleType.ProjectLocationSimpleTypeID;
             this.FundingTypeID = fundingType.FundingTypeID;
             this.ProposedProjectStateID = proposedProjectState.ProposedProjectStateID;
-            this.IsTransportationProject = isTransportationProject;
         }
 
         /// <summary>
@@ -114,7 +109,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static ProposedProject CreateNewBlank(Organization leadImplementerOrganization, Person proposingPerson, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, ProposedProjectState proposedProjectState)
         {
-            return new ProposedProject(default(string), default(string), leadImplementerOrganization, proposingPerson, default(DateTime), projectLocationSimpleType, fundingType, proposedProjectState, default(bool));
+            return new ProposedProject(default(string), default(string), leadImplementerOrganization, proposingPerson, default(DateTime), projectLocationSimpleType, fundingType, proposedProjectState);
         }
 
         /// <summary>
@@ -123,13 +118,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return NotificationProposedProjects.Any() || PerformanceMeasureExpectedProposeds.Any() || ProposedProjectImages.Any() || ProposedProjectLocations.Any() || ProposedProjectLocationStagings.Any() || ProposedProjectNotes.Any() || ProposedProjectThresholdCategories.Any() || ProposedProjectTransportationQuestions.Any();
+            return NotificationProposedProjects.Any() || PerformanceMeasureExpectedProposeds.Any() || ProposedProjectAssessmentQuestions.Any() || ProposedProjectImages.Any() || ProposedProjectLocations.Any() || ProposedProjectLocationStagings.Any() || ProposedProjectNotes.Any() || ProposedProjectThresholdCategories.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProposedProject).Name, typeof(NotificationProposedProject).Name, typeof(PerformanceMeasureExpectedProposed).Name, typeof(ProposedProjectImage).Name, typeof(ProposedProjectLocation).Name, typeof(ProposedProjectLocationStaging).Name, typeof(ProposedProjectNote).Name, typeof(ProposedProjectThresholdCategory).Name, typeof(ProposedProjectTransportationQuestion).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProposedProject).Name, typeof(NotificationProposedProject).Name, typeof(PerformanceMeasureExpectedProposed).Name, typeof(ProposedProjectAssessmentQuestion).Name, typeof(ProposedProjectImage).Name, typeof(ProposedProjectLocation).Name, typeof(ProposedProjectLocationStaging).Name, typeof(ProposedProjectNote).Name, typeof(ProposedProjectThresholdCategory).Name};
 
         [Key]
         public int ProposedProjectID { get; set; }
@@ -153,9 +148,6 @@ namespace ProjectFirma.Web.Models
         public int? ActionPriorityID { get; set; }
         public string IndicatorNotes { get; set; }
         public int? ProjectID { get; set; }
-        public bool IsTransportationProject { get; set; }
-        public int? TransportationObjectiveID { get; set; }
-        public bool? OnFederalTransportationImprovementProgramList { get; set; }
         public bool? ImplementsMultipleProjects { get; set; }
         public DateTime? SubmissionDate { get; set; }
         public DateTime? ApprovalDate { get; set; }
@@ -164,12 +156,12 @@ namespace ProjectFirma.Web.Models
 
         public virtual ICollection<NotificationProposedProject> NotificationProposedProjects { get; set; }
         public virtual ICollection<PerformanceMeasureExpectedProposed> PerformanceMeasureExpectedProposeds { get; set; }
+        public virtual ICollection<ProposedProjectAssessmentQuestion> ProposedProjectAssessmentQuestions { get; set; }
         public virtual ICollection<ProposedProjectImage> ProposedProjectImages { get; set; }
         public virtual ICollection<ProposedProjectLocation> ProposedProjectLocations { get; set; }
         public virtual ICollection<ProposedProjectLocationStaging> ProposedProjectLocationStagings { get; set; }
         public virtual ICollection<ProposedProjectNote> ProposedProjectNotes { get; set; }
         public virtual ICollection<ProposedProjectThresholdCategory> ProposedProjectThresholdCategories { get; set; }
-        public virtual ICollection<ProposedProjectTransportationQuestion> ProposedProjectTransportationQuestions { get; set; }
         public virtual Organization LeadImplementerOrganization { get; set; }
         public virtual Person ProposingPerson { get; set; }
         public virtual Person ReviewedByPerson { get; set; }
@@ -179,7 +171,6 @@ namespace ProjectFirma.Web.Models
         public ProposedProjectState ProposedProjectState { get { return ProposedProjectState.AllLookupDictionary[ProposedProjectStateID]; } }
         public virtual ActionPriority ActionPriority { get; set; }
         public virtual Project Project { get; set; }
-        public virtual TransportationObjective TransportationObjective { get; set; }
 
         public static class FieldLengths
         {

@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Models
             "ProjectUpdateBatch",
             "ProjectUpdateHistory",
             "SupportRequestLog",
-            "TransportationProjectBudgetUpdate",
+            "ProjectBudgetUpdate",
         };
 
         public string AuditDescriptionDisplay

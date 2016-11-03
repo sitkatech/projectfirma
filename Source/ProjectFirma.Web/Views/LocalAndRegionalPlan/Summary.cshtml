@@ -35,30 +35,16 @@
                         @ViewDataTyped.LocalAndRegionalPlan.PlanDocumentLinkText
                     }
                 </td>
-            </tr>
-            <tr>
-                <th style="white-space: nowrap">Transportation Plan?</th>
-                <td>This project is @(ViewDataTyped.IsTransportationPlan ? string.Empty : "not") a designated Transportation Plan</td>
-            </tr>
-            
+            </tr>            
         </table>
     </div>
 </div>
 
 <div class="summarySection">
     <h2>Projects</h2>
-        @if (ViewDataTyped.LocalAndRegionalPlan.IsTransportationPlan)
-        {
-            <div class="contentWrapper">
-                @Html.DhtmlxGrid(ViewDataTyped.TransportationListProjectGridSpec, ViewDataTyped.TransportationListProjectGridName, ViewDataTyped.TransportationListProjectGridDataUrl, "height:320px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-            </div>
-        }
-        else
-        {
-            <div class="contentWrapper">
-                @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:320px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-            </div>
-        }
+        <div class="contentWrapper">
+            @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:320px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+        </div>
     <p style="margin-left: 10px">Since some projects contribute to multiple Local and Regional Plans, expected cost and accomplishments can not be summed by Plan and then aggregated without over-reporting.</p>
     </div>
 

@@ -79,22 +79,15 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionProjectLocationJurisdiction ProjectLocationJurisdiction = FieldDefinitionProjectLocationJurisdiction.Instance;
         public static readonly FieldDefinitionProjectLocationWatershed ProjectLocationWatershed = FieldDefinitionProjectLocationWatershed.Instance;
         public static readonly FieldDefinitionExcludeFromFactSheet ExcludeFromFactSheet = FieldDefinitionExcludeFromFactSheet.Instance;
-        public static readonly FieldDefinitionTransportationStrategy TransportationStrategy = FieldDefinitionTransportationStrategy.Instance;
-        public static readonly FieldDefinitionTransportationObjective TransportationObjective = FieldDefinitionTransportationObjective.Instance;
-        public static readonly FieldDefinitionTransportationStrategyName TransportationStrategyName = FieldDefinitionTransportationStrategyName.Instance;
-        public static readonly FieldDefinitionTransportationObjectiveName TransportationObjectiveName = FieldDefinitionTransportationObjectiveName.Instance;
-        public static readonly FieldDefinitionProjectIsATransportationProject ProjectIsATransportationProject = FieldDefinitionProjectIsATransportationProject.Instance;
-        public static readonly FieldDefinitionIsTransportationFundingSource IsTransportationFundingSource = FieldDefinitionIsTransportationFundingSource.Instance;
         public static readonly FieldDefinitionFundingType FundingType = FieldDefinitionFundingType.Instance;
         public static readonly FieldDefinitionProjectCostInYearOfExpenditure ProjectCostInYearOfExpenditure = FieldDefinitionProjectCostInYearOfExpenditure.Instance;
-        public static readonly FieldDefinitionTransportationGlobalInflationRate TransportationGlobalInflationRate = FieldDefinitionTransportationGlobalInflationRate.Instance;
+        public static readonly FieldDefinitionGlobalInflationRate GlobalInflationRate = FieldDefinitionGlobalInflationRate.Instance;
         public static readonly FieldDefinitionReportingYear ReportingYear = FieldDefinitionReportingYear.Instance;
         public static readonly FieldDefinitionTagName TagName = FieldDefinitionTagName.Instance;
         public static readonly FieldDefinitionTagDescription TagDescription = FieldDefinitionTagDescription.Instance;
         public static readonly FieldDefinitionTags Tags = FieldDefinitionTags.Instance;
         public static readonly FieldDefinitionReportedExpenditure ReportedExpenditure = FieldDefinitionReportedExpenditure.Instance;
         public static readonly FieldDefinitionProposedProject ProposedProject = FieldDefinitionProposedProject.Instance;
-        public static readonly FieldDefinitionProjectOnFTIPList ProjectOnFTIPList = FieldDefinitionProjectOnFTIPList.Instance;
         public static readonly FieldDefinitionLocalAndRegionalPlanDocumentUrl LocalAndRegionalPlanDocumentUrl = FieldDefinitionLocalAndRegionalPlanDocumentUrl.Instance;
         public static readonly FieldDefinitionLocalAndRegionalPlanDocumentLinkText LocalAndRegionalPlanDocumentLinkText = FieldDefinitionLocalAndRegionalPlanDocumentLinkText.Instance;
         public static readonly FieldDefinitionSpendingAssociatedWithPM SpendingAssociatedWithPM = FieldDefinitionSpendingAssociatedWithPM.Instance;
@@ -103,7 +96,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionExternalLinks ExternalLinks = FieldDefinitionExternalLinks.Instance;
         public static readonly FieldDefinitionEstimatedAnnualOperatingCost EstimatedAnnualOperatingCost = FieldDefinitionEstimatedAnnualOperatingCost.Instance;
         public static readonly FieldDefinitionCalculatedTotalRemainingOperatingCost CalculatedTotalRemainingOperatingCost = FieldDefinitionCalculatedTotalRemainingOperatingCost.Instance;
-        public static readonly FieldDefinitionCurrentRTPYearForPVCalculations CurrentRTPYearForPVCalculations = FieldDefinitionCurrentRTPYearForPVCalculations.Instance;
+        public static readonly FieldDefinitionCurrentYearForPVCalculations CurrentYearForPVCalculations = FieldDefinitionCurrentYearForPVCalculations.Instance;
         public static readonly FieldDefinitionLifecycleOperatingCost LifecycleOperatingCost = FieldDefinitionLifecycleOperatingCost.Instance;
         public static readonly FieldDefinitionIndicatorSystemName IndicatorSystemName = FieldDefinitionIndicatorSystemName.Instance;
         public static readonly FieldDefinitionIndicatorSimpleDescription IndicatorSimpleDescription = FieldDefinitionIndicatorSimpleDescription.Instance;
@@ -139,7 +132,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { ActionPriority, ActionPriorityName, LocalAndRegionalPlanName, ExpectedValue, FocusArea, FocusAreaName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, Organization, OrganizationAbbreviation, OrganizationName, Password, PerformanceMeasure, IndicatorDefinition, IndicatorDisplayName, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, Program, ProgramName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, Stage, Subcategories, ProjectIsAProgram, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ProjectNumber, ThresholdCategory, LocalAndRegionalPlan, Watershed, Subcategory, SubcategoryOption, SubcategoryOptions, IsPrimaryProgram, IndicatorCriticalDefinitions, IndicatorAccountingPeriodAndScale, IndicatorProjectReporting, FundedAmount, ProjectLocation, IndicatorBackground, NumberOfReportedPMRecords, NumberOfReportedExpenditureRecords, ProjectLocationState, ProjectLocationJurisdiction, ProjectLocationWatershed, ExcludeFromFactSheet, TransportationStrategy, TransportationObjective, TransportationStrategyName, TransportationObjectiveName, ProjectIsATransportationProject, IsTransportationFundingSource, FundingType, ProjectCostInYearOfExpenditure, TransportationGlobalInflationRate, ReportingYear, TagName, TagDescription, Tags, ReportedExpenditure, ProposedProject, ProjectOnFTIPList, LocalAndRegionalPlanDocumentUrl, LocalAndRegionalPlanDocumentLinkText, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedPrograms, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentRTPYearForPVCalculations, LifecycleOperatingCost, IndicatorSystemName, IndicatorSimpleDescription, IndicatorPrimarySource, IndicatorType, ChartTitle, ProposedProjectState, UserLastName, UserFirstName, UserEmail, UserPhone, RoleID, SiteArea, RoleName, Region, Latitude, Longitude, OrganizationUrl, ChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
+            All = new List<FieldDefinition> { ActionPriority, ActionPriorityName, LocalAndRegionalPlanName, ExpectedValue, FocusArea, FocusAreaName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, Organization, OrganizationAbbreviation, OrganizationName, Password, PerformanceMeasure, IndicatorDefinition, IndicatorDisplayName, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, Program, ProgramName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, Stage, Subcategories, ProjectIsAProgram, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ProjectNumber, ThresholdCategory, LocalAndRegionalPlan, Watershed, Subcategory, SubcategoryOption, SubcategoryOptions, IsPrimaryProgram, IndicatorCriticalDefinitions, IndicatorAccountingPeriodAndScale, IndicatorProjectReporting, FundedAmount, ProjectLocation, IndicatorBackground, NumberOfReportedPMRecords, NumberOfReportedExpenditureRecords, ProjectLocationState, ProjectLocationJurisdiction, ProjectLocationWatershed, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, Tags, ReportedExpenditure, ProposedProject, LocalAndRegionalPlanDocumentUrl, LocalAndRegionalPlanDocumentLinkText, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedPrograms, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, IndicatorSystemName, IndicatorSimpleDescription, IndicatorPrimarySource, IndicatorType, ChartTitle, ProposedProjectState, UserLastName, UserFirstName, UserEmail, UserPhone, RoleID, SiteArea, RoleName, Region, Latitude, Longitude, OrganizationUrl, ChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -222,8 +215,8 @@ namespace ProjectFirma.Web.Models
                     return ChartTitle;
                 case FieldDefinitionEnum.CompletionYear:
                     return CompletionYear;
-                case FieldDefinitionEnum.CurrentRTPYearForPVCalculations:
-                    return CurrentRTPYearForPVCalculations;
+                case FieldDefinitionEnum.CurrentYearForPVCalculations:
+                    return CurrentYearForPVCalculations;
                 case FieldDefinitionEnum.EstimatedAnnualOperatingCost:
                     return EstimatedAnnualOperatingCost;
                 case FieldDefinitionEnum.EstimatedTotalCost:
@@ -250,6 +243,8 @@ namespace ProjectFirma.Web.Models
                     return FundingSourceName;
                 case FieldDefinitionEnum.FundingType:
                     return FundingType;
+                case FieldDefinitionEnum.GlobalInflationRate:
+                    return GlobalInflationRate;
                 case FieldDefinitionEnum.ImplementationStartYear:
                     return ImplementationStartYear;
                 case FieldDefinitionEnum.Implementer:
@@ -276,8 +271,6 @@ namespace ProjectFirma.Web.Models
                     return IndicatorType;
                 case FieldDefinitionEnum.IsPrimaryProgram:
                     return IsPrimaryProgram;
-                case FieldDefinitionEnum.IsTransportationFundingSource:
-                    return IsTransportationFundingSource;
                 case FieldDefinitionEnum.Latitude:
                     return Latitude;
                 case FieldDefinitionEnum.LeadImplementer:
@@ -342,8 +335,6 @@ namespace ProjectFirma.Web.Models
                     return ProjectDescription;
                 case FieldDefinitionEnum.ProjectIsAProgram:
                     return ProjectIsAProgram;
-                case FieldDefinitionEnum.ProjectIsATransportationProject:
-                    return ProjectIsATransportationProject;
                 case FieldDefinitionEnum.ProjectLocation:
                     return ProjectLocation;
                 case FieldDefinitionEnum.ProjectLocationJurisdiction:
@@ -358,8 +349,6 @@ namespace ProjectFirma.Web.Models
                     return ProjectNote;
                 case FieldDefinitionEnum.ProjectNumber:
                     return ProjectNumber;
-                case FieldDefinitionEnum.ProjectOnFTIPList:
-                    return ProjectOnFTIPList;
                 case FieldDefinitionEnum.ProposedProject:
                     return ProposedProject;
                 case FieldDefinitionEnum.ProposedProjectState:
@@ -410,16 +399,6 @@ namespace ProjectFirma.Web.Models
                     return ThresholdCategoryName;
                 case FieldDefinitionEnum.ThresholdCategoryNarrative:
                     return ThresholdCategoryNarrative;
-                case FieldDefinitionEnum.TransportationGlobalInflationRate:
-                    return TransportationGlobalInflationRate;
-                case FieldDefinitionEnum.TransportationObjective:
-                    return TransportationObjective;
-                case FieldDefinitionEnum.TransportationObjectiveName:
-                    return TransportationObjectiveName;
-                case FieldDefinitionEnum.TransportationStrategy:
-                    return TransportationStrategy;
-                case FieldDefinitionEnum.TransportationStrategyName:
-                    return TransportationStrategyName;
                 case FieldDefinitionEnum.UnfundedNeed:
                     return UnfundedNeed;
                 case FieldDefinitionEnum.UserEmail:
@@ -507,22 +486,15 @@ namespace ProjectFirma.Web.Models
         ProjectLocationJurisdiction = 62,
         ProjectLocationWatershed = 63,
         ExcludeFromFactSheet = 64,
-        TransportationStrategy = 65,
-        TransportationObjective = 66,
-        TransportationStrategyName = 67,
-        TransportationObjectiveName = 68,
-        ProjectIsATransportationProject = 69,
-        IsTransportationFundingSource = 72,
         FundingType = 73,
         ProjectCostInYearOfExpenditure = 74,
-        TransportationGlobalInflationRate = 75,
+        GlobalInflationRate = 75,
         ReportingYear = 76,
         TagName = 77,
         TagDescription = 78,
         Tags = 79,
         ReportedExpenditure = 80,
         ProposedProject = 81,
-        ProjectOnFTIPList = 82,
         LocalAndRegionalPlanDocumentUrl = 83,
         LocalAndRegionalPlanDocumentLinkText = 84,
         SpendingAssociatedWithPM = 85,
@@ -531,7 +503,7 @@ namespace ProjectFirma.Web.Models
         ExternalLinks = 88,
         EstimatedAnnualOperatingCost = 89,
         CalculatedTotalRemainingOperatingCost = 90,
-        CurrentRTPYearForPVCalculations = 91,
+        CurrentYearForPVCalculations = 91,
         LifecycleOperatingCost = 92,
         IndicatorSystemName = 93,
         IndicatorSimpleDescription = 94,
@@ -938,42 +910,6 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionExcludeFromFactSheet Instance = new FieldDefinitionExcludeFromFactSheet(64, @"ExcludeFromFactSheet", @"Exclude from Fact Sheet");
     }
 
-    public partial class FieldDefinitionTransportationStrategy : FieldDefinition
-    {
-        private FieldDefinitionTransportationStrategy(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionTransportationStrategy Instance = new FieldDefinitionTransportationStrategy(65, @"TransportationStrategy", @"Transportation Strategy");
-    }
-
-    public partial class FieldDefinitionTransportationObjective : FieldDefinition
-    {
-        private FieldDefinitionTransportationObjective(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionTransportationObjective Instance = new FieldDefinitionTransportationObjective(66, @"TransportationObjective", @"Transportation Objective");
-    }
-
-    public partial class FieldDefinitionTransportationStrategyName : FieldDefinition
-    {
-        private FieldDefinitionTransportationStrategyName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionTransportationStrategyName Instance = new FieldDefinitionTransportationStrategyName(67, @"TransportationStrategyName", @"Transportation Strategy Name");
-    }
-
-    public partial class FieldDefinitionTransportationObjectiveName : FieldDefinition
-    {
-        private FieldDefinitionTransportationObjectiveName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionTransportationObjectiveName Instance = new FieldDefinitionTransportationObjectiveName(68, @"TransportationObjectiveName", @"Transportation Objective Name");
-    }
-
-    public partial class FieldDefinitionProjectIsATransportationProject : FieldDefinition
-    {
-        private FieldDefinitionProjectIsATransportationProject(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionProjectIsATransportationProject Instance = new FieldDefinitionProjectIsATransportationProject(69, @"ProjectIsATransportationProject", @"This Project is a Transportation Project");
-    }
-
-    public partial class FieldDefinitionIsTransportationFundingSource : FieldDefinition
-    {
-        private FieldDefinitionIsTransportationFundingSource(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionIsTransportationFundingSource Instance = new FieldDefinitionIsTransportationFundingSource(72, @"IsTransportationFundingSource", @"Transportation Funding Source");
-    }
-
     public partial class FieldDefinitionFundingType : FieldDefinition
     {
         private FieldDefinitionFundingType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
@@ -986,10 +922,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionProjectCostInYearOfExpenditure Instance = new FieldDefinitionProjectCostInYearOfExpenditure(74, @"ProjectCostInYearOfExpenditure", @"Cost in Year of Expenditure");
     }
 
-    public partial class FieldDefinitionTransportationGlobalInflationRate : FieldDefinition
+    public partial class FieldDefinitionGlobalInflationRate : FieldDefinition
     {
-        private FieldDefinitionTransportationGlobalInflationRate(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionTransportationGlobalInflationRate Instance = new FieldDefinitionTransportationGlobalInflationRate(75, @"TransportationGlobalInflationRate", @"Global Inflation Rate");
+        private FieldDefinitionGlobalInflationRate(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionGlobalInflationRate Instance = new FieldDefinitionGlobalInflationRate(75, @"GlobalInflationRate", @"Global Inflation Rate");
     }
 
     public partial class FieldDefinitionReportingYear : FieldDefinition
@@ -1026,12 +962,6 @@ namespace ProjectFirma.Web.Models
     {
         private FieldDefinitionProposedProject(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
         public static readonly FieldDefinitionProposedProject Instance = new FieldDefinitionProposedProject(81, @"ProposedProject", @"Proposed Project");
-    }
-
-    public partial class FieldDefinitionProjectOnFTIPList : FieldDefinition
-    {
-        private FieldDefinitionProjectOnFTIPList(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionProjectOnFTIPList Instance = new FieldDefinitionProjectOnFTIPList(82, @"ProjectOnFTIPList", @"This project is on the Federal Transportation Improvement Program (FTIP), list");
     }
 
     public partial class FieldDefinitionLocalAndRegionalPlanDocumentUrl : FieldDefinition
@@ -1082,10 +1012,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionCalculatedTotalRemainingOperatingCost Instance = new FieldDefinitionCalculatedTotalRemainingOperatingCost(90, @"CalculatedTotalRemainingOperatingCost", @"Remaining Operating Cost");
     }
 
-    public partial class FieldDefinitionCurrentRTPYearForPVCalculations : FieldDefinition
+    public partial class FieldDefinitionCurrentYearForPVCalculations : FieldDefinition
     {
-        private FieldDefinitionCurrentRTPYearForPVCalculations(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionCurrentRTPYearForPVCalculations Instance = new FieldDefinitionCurrentRTPYearForPVCalculations(91, @"CurrentRTPYearForPVCalculations", @"Current RTP Year for PV Calculations");
+        private FieldDefinitionCurrentYearForPVCalculations(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionCurrentYearForPVCalculations Instance = new FieldDefinitionCurrentYearForPVCalculations(91, @"CurrentYearForPVCalculations", @"Current Year for PV Calculations");
     }
 
     public partial class FieldDefinitionLifecycleOperatingCost : FieldDefinition

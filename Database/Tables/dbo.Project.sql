@@ -11,7 +11,6 @@ CREATE TABLE [dbo].[Project](
 	[ProjectDescription] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ImplementationStartYear] [int] NULL,
 	[CompletionYear] [int] NULL,
-	[OldNumber] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[EstimatedTotalCost] [money] NULL,
 	[ImplementsMultipleProjects] [bit] NOT NULL,
 	[SecuredFunding] [money] NULL,
@@ -19,9 +18,7 @@ CREATE TABLE [dbo].[Project](
 	[ProjectLocationAreaID] [int] NULL,
 	[PerformanceMeasureActualYearsExemptionExplanation] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[IsFeatured] [bit] NOT NULL,
-	[TransportationObjectiveID] [int] NULL,
 	[ProjectLocationNotes] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[OnFederalTransportationImprovementProgramList] [bit] NOT NULL,
 	[PlanningDesignStartYear] [int] NULL,
 	[ProjectLocationSimpleTypeID] [int] NOT NULL,
 	[EstimatedAnnualOperatingCost] [decimal](18, 0) NULL,
@@ -67,11 +64,6 @@ REFERENCES [dbo].[ProjectStage] ([ProjectStageID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_ProjectStage_ProjectStageID]
 GO
-ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_TransportationObjective_TransportationObjectiveID] FOREIGN KEY([TransportationObjectiveID])
-REFERENCES [dbo].[TransportationObjective] ([TransportationObjectiveID])
-GO
-ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_TransportationObjective_TransportationObjectiveID]
-GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [CK_Project_AnnualCostForOperationsProjectsOnly] CHECK  (([FundingTypeID]=(2) OR [EstimatedAnnualOperatingCost] IS NULL))
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [CK_Project_AnnualCostForOperationsProjectsOnly]
@@ -115,7 +107,3 @@ GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [CK_Project_TotalOrAnnualCostNotBoth] CHECK  (([EstimatedAnnualOperatingCost] IS NOT NULL AND [EstimatedTotalCost] IS NULL OR [EstimatedAnnualOperatingCost] IS NULL AND [EstimatedTotalCost] IS NOT NULL OR [EstimatedAnnualOperatingCost] IS NULL AND [EstimatedTotalCost] IS NULL))
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [CK_Project_TotalOrAnnualCostNotBoth]
-GO
-ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [CK_Project_TransportationObjectiveIDNeedsToBeSetToBeOnFTIPList] CHECK  (([OnFederalTransportationImprovementProgramList]=(0) OR [OnFederalTransportationImprovementProgramList]=(1) AND [TransportationObjectiveID] IS NOT NULL))
-GO
-ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [CK_Project_TransportationObjectiveIDNeedsToBeSetToBeOnFTIPList]

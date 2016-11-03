@@ -10,24 +10,21 @@
         <td>
             @ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()
         </td>
-        @if (ViewDataTyped.Project.IsTransportationProject)
-        {
-            <td colspan="4">
-                <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectCostInYearOfExpenditure):</span>
-                @if (TransportationCostParameterSet.CanCalculateCapitalCostInYearOfExpenditure(ViewDataTyped.Project))
+        <td colspan="4">
+            <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectCostInYearOfExpenditure):</span>
+            @if (CostParameterSet.CanCalculateCapitalCostInYearOfExpenditure(ViewDataTyped.Project))
+            {
+                <span style="margin-left: 10px">@ViewDataTyped.CapitalCostInYearOfExpenditure.ToStringCurrency()</span>
+                if (ViewDataTyped.UserHasProjectBudgetManagePermissions)
                 {
-                    <span style="margin-left: 10px">@ViewDataTyped.CapitalCostInYearOfExpenditure.ToStringCurrency()</span>
-                    if (ViewDataTyped.UserHasTransportationProjectBudgetManagePermissions)
-                    {
-                        <span> (Using <a href="@ViewDataTyped.EditInflationUrl">@ViewDataTyped.InflationRate.ToStringPercent() annual inflation</a>)</span>
-                    }
-                    else
-                    {
-                        <span> (Using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</span>
-                    }
+                    <span> (Using <a href="@ViewDataTyped.EditInflationUrl">@ViewDataTyped.InflationRate.ToStringPercent() annual inflation</a>)</span>
                 }
-            </td>
-        }
+                else
+                {
+                    <span> (Using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</span>
+                }
+            }
+        </td>
     </tr>
     <tr>
         <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.SecuredFunding):</th>
@@ -50,27 +47,24 @@ else
                 @ViewDataTyped.Project.EstimatedAnnualOperatingCost.ToStringCurrency()
             </td>
         </tr>
-        if (ViewDataTyped.Project.IsTransportationProject)
-        {
-            <tr>
-                <td>
-                    <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.CalculatedTotalRemainingOperatingCost):</span>
+        <tr>
+            <td>
+                <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.CalculatedTotalRemainingOperatingCost):</span>
+            </td>
+            @if (CostParameterSet.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(ViewDataTyped.Project))
+            {
+                <td colspan="4">
+                    <span>@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span>
+                    @if (ViewDataTyped.UserHasProjectBudgetManagePermissions)
+                    {
+                        <span>(For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.Project.CompletionYear using <a href="@ViewDataTyped.EditInflationUrl">@ViewDataTyped.InflationRate.ToStringPercent() annual inflation</a>)</span>
+                    }
+                    else
+                    {
+                        <span>(For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.Project.CompletionYear using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</span>
+                    }
                 </td>
-                @if (TransportationCostParameterSet.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(ViewDataTyped.Project))
-                {
-                    <td colspan="4">
-                        <span>@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span>
-                        @if (ViewDataTyped.UserHasTransportationProjectBudgetManagePermissions)
-                        {
-                            <span>(For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.Project.CompletionYear using <a href="@ViewDataTyped.EditInflationUrl">@ViewDataTyped.InflationRate.ToStringPercent() annual inflation</a>)</span>
-                        }
-                        else
-                        {
-                            <span>(For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.Project.CompletionYear using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</span>
-                        }
-                    </td>
-                }
-            </tr>
-        }
+            }
+        </tr>
     }
 }

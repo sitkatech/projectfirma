@@ -1,0 +1,65 @@
+﻿@using LtInfo.Common
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@inherits ProjectFirma.Web.Views.Assessment.Manage
+@section JavascriptAndStylesContent
+{
+    <style>
+        .inactiveQuestion {
+            background-color: #f5f5f5;
+        }
+
+        .activeQuestion {
+            background-color: #f4fafe;
+        }
+    </style>
+}
+
+<div>
+    <div class="pull-right">
+        @Html.Raw(DhtmlxGridHtmlHelpers.CreateCustomExcelDownloadIconHtml("spendingBySectorAndOrganization", ViewDataTyped.DownloadAllAssessmentsUrl, "Download all Assessment Results", "Download Excel file of all Assessment Results"))
+        @ModalDialogFormHelper.ModalDialogFormLink(@"<span class='glyphicon glyphicon-plus-sign' style='margin-right: 3px'></span>Add New Question", ViewDataTyped.AddQuestionUrl, "Add Question", ViewDataTyped.HasEditPermissions)
+    </div>
+    <p>
+        Manage  Assessment goals, indicators, and questions.
+    </p>
+</div>
+
+@foreach (var assessmentGoal in ViewDataTyped.AssessmentGoals.OrderBy(x => x.AssessmentGoalNumber))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading" style="padding: 5px 15px">
+            <h2 class="panel-title" style="border: none; margin-bottom: 5px">@ModalDialogFormHelper.MakeEditIconLink(assessmentGoal.EditUrl, "Edit Goal", ViewDataTyped.HasEditPermissions) @assessmentGoal.DisplayName</h2>
+            <p style="margin-bottom: 5px;">
+                Description: <i>@assessmentGoal.AssessmentGoalDescription</i>
+            </p>
+        </div>
+        <div class="panel-body">
+            @foreach (var assessmentSubGoal in assessmentGoal.AssessmentSubGoals)
+            {
+
+                <h2 style="margin-bottom: 5px">@ModalDialogFormHelper.MakeEditIconLink(assessmentSubGoal.EditUrl, "Edit Indicator", ViewDataTyped.HasEditPermissions) @assessmentSubGoal.DisplayName </h2>
+                <p>
+                    Description: <i>@assessmentSubGoal.AssessmentSubGoalDescription</i>
+                </p>
+                <p>Related Questions:</p>
+                <ul>
+                    @foreach (var assessmentQuestion in assessmentSubGoal.AssessmentQuestions.Where(x => x.ArchiveDate == null))
+                    {
+                        <li class="list-group-item activeQuestion">
+                            @ModalDialogFormHelper.MakeEditIconLink(assessmentQuestion.EditUrl, "Edit Question", ViewDataTyped.HasEditPermissions) @assessmentQuestion.AssessmentQuestionText
+                        </li>
+                    }
+                    @foreach (var assessmentQuestion in assessmentSubGoal.AssessmentQuestions.Where(x => x.ArchiveDate.HasValue))
+                    {
+                        <li class="list-group-item inactiveQuestion">
+                            <span>@ModalDialogFormHelper.MakeEditIconLink(assessmentQuestion.EditUrl, "Edit Question", ViewDataTyped.HasEditPermissions) @assessmentQuestion.AssessmentQuestionText <i>Archived on: @assessmentQuestion.ArchiveDate.ToStringDate()</i></span>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+
+
+}

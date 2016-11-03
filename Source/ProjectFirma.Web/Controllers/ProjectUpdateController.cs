@@ -25,7 +25,7 @@ using LtInfo.Common.MvcResults;
 using MoreLinq;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectExpendituresSummaryViewData = ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.ProjectExpendituresSummaryViewData;
-using TransportationProjectBudgetSummaryViewData = ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.TransportationProjectBudgetSummaryViewData;
+using ProjectBudgetSummaryViewData = ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.ProjectBudgetSummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Controllers
         public const string ProjectBasicsPartialViewPath = "~/Views/Shared/ProjectControls/ProjectBasics.cshtml";
         public const string PerformanceMeasureReportedValuesPartialViewPath = "~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureReportedValuesSummary.cshtml";
         public const string ProjectExpendituresPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectExpendituresSummary.cshtml";
-        public const string TransporationBudgetsPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/TransportationProjectBudgetSummary.cshtml";
+        public const string TransporationBudgetsPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectBudgetSummary.cshtml";
         public const string ImageGalleryPartialViewPath = "~/Views/Shared/ImageGallery.cshtml";
         public const string ExternalLinksPartialViewPath = "~/Views/Shared/TextControls/EntityExternalLinks.cshtml";
         public const string EntityNotesPartialViewPath = "~/Views/Shared/TextControls/EntityNotes.cshtml";
@@ -174,7 +174,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var basicsValidationResult = projectUpdate.ProjectUpdateBatch.ValidateProjectBasics();
             var viewDataForAngularClass = new BasicsViewData.ViewDataForAngularClass(basicsValidationResult.GetWarningMessages());
-            var inflationRate = HttpRequestStorage.DatabaseEntities.TransportationCostParameterSets.Latest().InflationRate;
+            var inflationRate = HttpRequestStorage.DatabaseEntities.CostParameterSets.Latest().InflationRate;
             var updateStatus = GetUpdateStatus(projectUpdate.ProjectUpdateBatch);
 
             var viewData = new BasicsViewData(CurrentPerson, projectUpdate, ProjectStage.All, viewDataForAngularClass, inflationRate, updateStatus);
@@ -435,92 +435,92 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateManageFeature]
-        public ViewResult TransportationBudgets(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult Budgets(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
-            var projectFundingSourceTransportationBudgetUpdates = projectUpdateBatch.TransportationProjectBudgetUpdates.ToList();
-            var calendarYearRange = projectFundingSourceTransportationBudgetUpdates.CalculateCalendarYearRangeForBudgets(projectUpdateBatch.ProjectUpdate);
-            var viewModel = new TransportationBudgetsViewModel(projectFundingSourceTransportationBudgetUpdates,
+            var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectBudgetUpdates.ToList();
+            var calendarYearRange = projectFundingSourceBudgetUpdates.CalculateCalendarYearRangeForBudgets(projectUpdateBatch.ProjectUpdate);
+            var viewModel = new BudgetsViewModel(projectFundingSourceBudgetUpdates,
                 calendarYearRange,
-                projectUpdateBatch.ShowTransportationBudgetsValidationWarnings,
-                projectUpdateBatch.TransportationBudgetsComment);
-            return ViewTransportationBudgets(projectUpdateBatch, calendarYearRange, viewModel);
+                projectUpdateBatch.ShowBudgetsValidationWarnings,
+                projectUpdateBatch.BudgetsComment);
+            return ViewBudgets(projectUpdateBatch, calendarYearRange, viewModel);
         }
 
         [HttpPost]
         [ProjectUpdateManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult TransportationBudgets(ProjectPrimaryKey projectPrimaryKey, TransportationBudgetsViewModel viewModel)
+        public ActionResult Budgets(ProjectPrimaryKey projectPrimaryKey, BudgetsViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
-            var projectFundingSourceTransportationBudgetUpdates = projectUpdateBatch.TransportationProjectBudgetUpdates.ToList();
-            var calendarYearRange = projectFundingSourceTransportationBudgetUpdates.CalculateCalendarYearRangeForBudgets(projectUpdateBatch.ProjectUpdate);
+            var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectBudgetUpdates.ToList();
+            var calendarYearRange = projectFundingSourceBudgetUpdates.CalculateCalendarYearRangeForBudgets(projectUpdateBatch.ProjectUpdate);
             if (!ModelState.IsValid)
             {
-                return ViewTransportationBudgets(projectUpdateBatch, calendarYearRange, viewModel);
+                return ViewBudgets(projectUpdateBatch, calendarYearRange, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.TransportationProjectBudgetUpdates.Load();
-            var allProjectFundingSourceTransportationBudgets = HttpRequestStorage.DatabaseEntities.TransportationProjectBudgetUpdates.Local;
-            viewModel.UpdateModel(projectUpdateBatch, projectFundingSourceTransportationBudgetUpdates, allProjectFundingSourceTransportationBudgets);
+            HttpRequestStorage.DatabaseEntities.ProjectBudgetUpdates.Load();
+            var allProjectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.ProjectBudgetUpdates.Local;
+            viewModel.UpdateModel(projectUpdateBatch, projectFundingSourceBudgetUpdates, allProjectFundingSourceBudgets);
             if (projectUpdateBatch.IsSubmitted)
             {
-                projectUpdateBatch.TransportationBudgetsComment = viewModel.Comments;
+                projectUpdateBatch.BudgetsComment = viewModel.Comments;
             }
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.TransportationBudgets(project)));
+            return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Budgets(project)));
         }
 
-        private ViewResult ViewTransportationBudgets(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearRange, TransportationBudgetsViewModel viewModel)
+        private ViewResult ViewBudgets(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearRange, BudgetsViewModel viewModel)
         {
             var project = projectUpdateBatch.Project;
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var projectFundingOrganizationFundingSourceIDs = project.ProjectFundingOrganizations.SelectMany(x => x.Organization.FundingSources.Select(y => y.FundingSourceID));
-            var budgetsValidationResult = projectUpdateBatch.ValidateTransportationBudgets();
-            var transportationProjectCostTypeSimples = TransportationProjectCostType.All.Select(x => new TransportationProjectCostTypeSimple(x)).ToList();
+            var budgetsValidationResult = projectUpdateBatch.ValidateBudgets();
+            var projectCostTypeSimples = ProjectCostType.All.Select(x => new ProjectCostTypeSimple(x)).ToList();
 
-            var viewDataForAngularEditor = new TransportationBudgetsViewData.ViewDataForAngularEditor(project, 
+            var viewDataForAngularEditor = new BudgetsViewData.ViewDataForAngularEditor(project, 
                 allFundingSources,
-                transportationProjectCostTypeSimples,
+                projectCostTypeSimples,
                 calendarYearRange,
                 projectFundingOrganizationFundingSourceIDs,
                 budgetsValidationResult);
 
-            var transportationProjectBudgetAmounts =
-                TransportationProjectBudgetAmount.CreateFromTransportationProjectBudgets(new List<ITransportationProjectBudgetAmount>(projectUpdateBatch.TransportationProjectBudgetUpdates.ToList()));
-            var projectTransportationBudgetsSummaryViewData = new TransportationProjectBudgetSummaryViewData(transportationProjectBudgetAmounts, calendarYearRange);
+            var projectBudgetAmounts =
+                ProjectBudgetAmount.CreateFromProjectBudgets(new List<IProjectBudgetAmount>(projectUpdateBatch.ProjectBudgetUpdates.ToList()));
+            var projectBudgetsSummaryViewData = new ProjectBudgetSummaryViewData(projectBudgetAmounts, calendarYearRange);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
-            var viewData = new TransportationBudgetsViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectTransportationBudgetsSummaryViewData, updateStatus);
-            return RazorView<TransportationBudgets, TransportationBudgetsViewData, TransportationBudgetsViewModel>(viewData, viewModel);
+            var viewData = new BudgetsViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectBudgetsSummaryViewData, updateStatus);
+            return RazorView<Budgets, BudgetsViewData, BudgetsViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
         [ProjectUpdateManageFeature]
-        public PartialViewResult RefreshTransportationBudgets(ProjectPrimaryKey projectPrimaryKey)
+        public PartialViewResult RefreshBudgets(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
-            return ViewRefreshTransportationBudgets(viewModel);
+            return ViewRefreshBudgets(viewModel);
         }
 
         [HttpPost]
         [ProjectUpdateManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult RefreshTransportationBudgets(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult RefreshBudgets(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             Check.RequireNotNull(projectUpdateBatch, string.Format("We should have a project update batch when refreshing; didn't find one for Project {0}", project.DisplayName));
-            projectUpdateBatch.DeleteTransportationProjectBudgetUpdates();
+            projectUpdateBatch.DeleteProjectBudgetUpdates();
             // refresh data
-            TransportationProjectBudgetUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectBudgetUpdate.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewRefreshTransportationBudgets(ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewRefreshBudgets(ConfirmDialogFormViewModel viewModel)
         {
             var viewData =
                 new ConfirmDialogFormViewData(
@@ -1019,8 +1019,8 @@ namespace ProjectFirma.Web.Controllers
             var allProjectExemptReportingYears = HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Local;
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Load();
             var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Local;
-            HttpRequestStorage.DatabaseEntities.TransportationProjectBudgets.Load();
-            var allTransportationProjectBudgets = HttpRequestStorage.DatabaseEntities.TransportationProjectBudgets.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectBudgets.Load();
+            var allProjectBudgets = HttpRequestStorage.DatabaseEntities.ProjectBudgets.Local;
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Load();
             var allPerformanceMeasureActuals = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Local;
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Load();
@@ -1038,7 +1038,7 @@ namespace ProjectFirma.Web.Controllers
                 DateTime.Now,
                 allProjectExemptReportingYears,
                 allProjectFundingSourceExpenditures,
-                allTransportationProjectBudgets,
+                allProjectBudgets,
                 allPerformanceMeasureActuals,
                 allPerformanceMeasureActualSubcategoryOptions,
                 allProjectExternalLinks,
@@ -1087,14 +1087,11 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.ExpendituresDiffLogHtmlString = new HtmlString(expendituresDiffHelper.Build());
             }
 
-            if (projectPrimaryKey.EntityObject.OnFederalTransportationImprovementProgramList)
+            var budgetsDiffContainer = DiffBudgetsImpl(projectPrimaryKey);
+            if (budgetsDiffContainer.HasChanged)
             {
-                var transportationBudgetsDiffContainer = DiffTransportationBudgetsImpl(projectPrimaryKey);
-                if (transportationBudgetsDiffContainer.HasChanged)
-                {
-                    var transportationBudgetsDiffHelper = new HtmlDiff.HtmlDiff(transportationBudgetsDiffContainer.OriginalHtml, transportationBudgetsDiffContainer.UpdatedHtml);
-                    projectUpdateBatch.TransportationBudgetsDiffLogHtmlString = new HtmlString(transportationBudgetsDiffHelper.Build());
-                }
+                var budgetsDiffHelper = new HtmlDiff.HtmlDiff(budgetsDiffContainer.OriginalHtml, budgetsDiffContainer.UpdatedHtml);
+                projectUpdateBatch.BudgetsDiffLogHtmlString = new HtmlString(budgetsDiffHelper.Build());
             }
 
             var externalLinksDiffContainer = DiffExternalLinksImpl(projectPrimaryKey);
@@ -1473,12 +1470,12 @@ namespace ProjectFirma.Web.Controllers
         private string GeneratePartialViewForProjectBasics(Project project)
         {
             var projectBasicsCalculatedCostsViewData = new ProjectBasicsCalculatedCostsViewData(project,
-                TransportationCostParameterSet.CalculateCapitalCostInYearOfExpenditure(project),
+                CostParameterSet.CalculateCapitalCostInYearOfExpenditure(project),
                 false,
                 "javascript:void(0)",
-                TransportationCostParameterSet.GetLatestInflationRate(),
-                TransportationCostParameterSet.CalculateTotalRemainingOperatingCost(project),
-                TransportationCostParameterSet.StartYearForTotalCostCalculations(project));
+                CostParameterSet.GetLatestInflationRate(),
+                CostParameterSet.CalculateTotalRemainingOperatingCost(project),
+                CostParameterSet.StartYearForTotalCostCalculations(project));
 
             var viewData = new ProjectBasicsViewData(project, false, false, false, projectBasicsCalculatedCostsViewData, null);
 
@@ -1714,69 +1711,69 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateManageFeature]
-        public PartialViewResult DiffTransportationBudgets(ProjectPrimaryKey projectPrimaryKey)
+        public PartialViewResult DiffBudgets(ProjectPrimaryKey projectPrimaryKey)
         {
-            var htmlDiffContainer = DiffTransportationBudgetsImpl(projectPrimaryKey);
+            var htmlDiffContainer = DiffBudgetsImpl(projectPrimaryKey);
             var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
             return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
         }
 
-        private HtmlDiffContainer DiffTransportationBudgetsImpl(ProjectPrimaryKey projectPrimaryKey)
+        private HtmlDiffContainer DiffBudgetsImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
 
-            var transportationProjectBudgetsOriginal = project.TransportationProjectBudgets.ToList();
-            var calendarYearsOriginal = transportationProjectBudgetsOriginal.CalculateCalendarYearRangeForBudgets(project);
-            var transportationProjectBudgetsUpdated = projectUpdateBatch.TransportationProjectBudgetUpdates.ToList();
-            var calendarYearsUpdated = transportationProjectBudgetsUpdated.CalculateCalendarYearRangeForBudgets(projectUpdateBatch.ProjectUpdate);
+            var projectBudgetsOriginal = project.ProjectBudgets.ToList();
+            var calendarYearsOriginal = projectBudgetsOriginal.CalculateCalendarYearRangeForBudgets(project);
+            var projectBudgetsUpdated = projectUpdateBatch.ProjectBudgetUpdates.ToList();
+            var calendarYearsUpdated = projectBudgetsUpdated.CalculateCalendarYearRangeForBudgets(projectUpdateBatch.ProjectUpdate);
 
-            var originalHtml = GeneratePartialViewForOriginalTransportationBudgets(new List<ITransportationProjectBudgetAmount>(transportationProjectBudgetsOriginal),
+            var originalHtml = GeneratePartialViewForOriginalBudgets(new List<IProjectBudgetAmount>(projectBudgetsOriginal),
                 calendarYearsOriginal,
-                new List<ITransportationProjectBudgetAmount>(transportationProjectBudgetsUpdated),
+                new List<IProjectBudgetAmount>(projectBudgetsUpdated),
                 calendarYearsUpdated);
 
-            var updatedHtml = GeneratePartialViewForModifiedTransportationBudgets(new List<ITransportationProjectBudgetAmount>(transportationProjectBudgetsOriginal),
+            var updatedHtml = GeneratePartialViewForModifiedBudgets(new List<IProjectBudgetAmount>(projectBudgetsOriginal),
                 calendarYearsOriginal,
-                new List<ITransportationProjectBudgetAmount>(transportationProjectBudgetsUpdated),
+                new List<IProjectBudgetAmount>(projectBudgetsUpdated),
                 calendarYearsUpdated);
             var htmlDiffContainer = new HtmlDiffContainer(originalHtml, updatedHtml);
             return htmlDiffContainer;
         }
 
-        private string GeneratePartialViewForTransportationBudgetsAsString(List<TransportationProjectBudgetAmount2> transportationProjectBudgetAmounts, List<CalendarYearString> calendarYearStrings)
+        private string GeneratePartialViewForBudgetsAsString(List<ProjectBudgetAmount2> projectBudgetAmounts, List<CalendarYearString> calendarYearStrings)
         {
-            var viewData = new Views.Shared.ProjectUpdateDiffControls.TransportationProjectBudgetSummaryViewData(transportationProjectBudgetAmounts, calendarYearStrings);
+            var viewData = new Views.Shared.ProjectUpdateDiffControls.ProjectBudgetSummaryViewData(projectBudgetAmounts, calendarYearStrings);
             var partialViewAsString = RenderPartialViewToString(TransporationBudgetsPartialViewPath, viewData);
             return partialViewAsString;
         }
 
-        private string GeneratePartialViewForOriginalTransportationBudgets(List<ITransportationProjectBudgetAmount> transportationProjectBudgetAmountsOriginal,
+        private string GeneratePartialViewForOriginalBudgets(List<IProjectBudgetAmount> projectBudgetAmountsOriginal,
             List<int> calendarYearsOriginal,
-            List<ITransportationProjectBudgetAmount> transportationProjectBudgetAmountsUpdated,
+            List<IProjectBudgetAmount> projectBudgetAmountsUpdated,
             List<int> calendarYearsUpdated)
         {
-            var fundingSourcesInOriginal = transportationProjectBudgetAmountsOriginal.Select(x => x.FundingSourceID).Distinct().ToList();
-            var fundingSourcesInUpdated = transportationProjectBudgetAmountsUpdated.Select(x => x.FundingSourceID).Distinct().ToList();
+            var fundingSourcesInOriginal = projectBudgetAmountsOriginal.Select(x => x.FundingSourceID).Distinct().ToList();
+            var fundingSourcesInUpdated = projectBudgetAmountsUpdated.Select(x => x.FundingSourceID).Distinct().ToList();
             var fundingSourcesOnlyInOriginal = fundingSourcesInOriginal.Where(x => !fundingSourcesInUpdated.Contains(x)).ToList();
 
-            var transportationProjectBudgetAmountsInOriginal = TransportationProjectBudgetAmount2.CreateFromTransportationProjectBudgets(transportationProjectBudgetAmountsOriginal,
+            var projectBudgetAmountsInOriginal = ProjectBudgetAmount2.CreateFromProjectBudgets(projectBudgetAmountsOriginal,
                 calendarYearsOriginal);
             // we need to zero out calendar year values only in original
-            foreach (var transportationProjectBudgetAmount2 in transportationProjectBudgetAmountsInOriginal)
+            foreach (var projectBudgetAmount2 in projectBudgetAmountsInOriginal)
             {
-                ZeroOutBudget(transportationProjectBudgetAmount2, calendarYearsOriginal.Except(calendarYearsUpdated).ToList());
+                ZeroOutBudget(projectBudgetAmount2, calendarYearsOriginal.Except(calendarYearsUpdated).ToList());
             }
 
-            var transportationProjectBudgetAmountsInUpdated = TransportationProjectBudgetAmount2.CreateFromTransportationProjectBudgets(transportationProjectBudgetAmountsUpdated, calendarYearsUpdated);
+            var projectBudgetAmountsInUpdated = ProjectBudgetAmount2.CreateFromProjectBudgets(projectBudgetAmountsUpdated, calendarYearsUpdated);
 
             // find the ones that are only in the modified set and add them and mark them as "added"
-            transportationProjectBudgetAmountsInOriginal.AddRange(
-                transportationProjectBudgetAmountsInUpdated.Where(x => !fundingSourcesInOriginal.Contains(x.FundingSourceID))
-                    .Select(x => TransportationProjectBudgetAmount2.Clone(x, HtmlDiffContainer.DisplayCssClassAddedElement))
+            projectBudgetAmountsInOriginal.AddRange(
+                projectBudgetAmountsInUpdated.Where(x => !fundingSourcesInOriginal.Contains(x.FundingSourceID))
+                    .Select(x => ProjectBudgetAmount2.Clone(x, HtmlDiffContainer.DisplayCssClassAddedElement))
                     .ToList());
             // find the ones only in original and mark them as "deleted"
-            transportationProjectBudgetAmountsInOriginal.Where(x => fundingSourcesOnlyInOriginal.Contains(x.FundingSourceID))
+            projectBudgetAmountsInOriginal.Where(x => fundingSourcesOnlyInOriginal.Contains(x.FundingSourceID))
                 .ForEach(x =>
                 {
                     ZeroOutBudget(x, calendarYearsOriginal);
@@ -1784,42 +1781,42 @@ namespace ProjectFirma.Web.Controllers
                 });
 
             var calendarYearStrings = GetCalendarYearStringsForDiffForOriginal(calendarYearsOriginal, calendarYearsUpdated);
-            return GeneratePartialViewForTransportationBudgetsAsString(transportationProjectBudgetAmountsInOriginal, calendarYearStrings);
+            return GeneratePartialViewForBudgetsAsString(projectBudgetAmountsInOriginal, calendarYearStrings);
         }
 
-        private static void ZeroOutBudget(TransportationProjectBudgetAmount2 transportationProjectBudgetAmount2, List<int> calendarYearsToZeroOut)
+        private static void ZeroOutBudget(ProjectBudgetAmount2 projectBudgetAmount2, List<int> calendarYearsToZeroOut)
         {
-            foreach (var transportationProjectCostTypeCalendarYearBudget in transportationProjectBudgetAmount2.TransportationProjectCostTypeCalendarYearBudgets)
+            foreach (var projectCostTypeCalendarYearBudget in projectBudgetAmount2.ProjectCostTypeCalendarYearBudgets)
             {
                 foreach (var calendarYear in calendarYearsToZeroOut)
                 {
-                    transportationProjectCostTypeCalendarYearBudget.CalendarYearBudget[calendarYear] = 0;
+                    projectCostTypeCalendarYearBudget.CalendarYearBudget[calendarYear] = 0;
                 }                
             }
         }
 
-        private string GeneratePartialViewForModifiedTransportationBudgets(List<ITransportationProjectBudgetAmount> transportationProjectBudgetAmountsOriginal,
+        private string GeneratePartialViewForModifiedBudgets(List<IProjectBudgetAmount> projectBudgetAmountsOriginal,
             List<int> calendarYearsOriginal,
-            List<ITransportationProjectBudgetAmount> transportationProjectBudgetAmountsUpdated,
+            List<IProjectBudgetAmount> projectBudgetAmountsUpdated,
             List<int> calendarYearsUpdated)
         {
-            var fundingSourcesInOriginal = transportationProjectBudgetAmountsOriginal.Select(x => x.FundingSourceID).Distinct().ToList();
-            var fundingSourcesInUpdated = transportationProjectBudgetAmountsUpdated.Select(x => x.FundingSourceID).Distinct().ToList();
+            var fundingSourcesInOriginal = projectBudgetAmountsOriginal.Select(x => x.FundingSourceID).Distinct().ToList();
+            var fundingSourcesInUpdated = projectBudgetAmountsUpdated.Select(x => x.FundingSourceID).Distinct().ToList();
             var fundingSourcesOnlyInUpdated = fundingSourcesInUpdated.Where(x => !fundingSourcesInOriginal.Contains(x)).ToList();
 
-            var transportationProjectBudgetAmountsInOriginal = TransportationProjectBudgetAmount2.CreateFromTransportationProjectBudgets(transportationProjectBudgetAmountsOriginal, calendarYearsOriginal);
-            var transportationProjectBudgetAmountsInUpdated = TransportationProjectBudgetAmount2.CreateFromTransportationProjectBudgets(transportationProjectBudgetAmountsUpdated, calendarYearsUpdated);
+            var projectBudgetAmountsInOriginal = ProjectBudgetAmount2.CreateFromProjectBudgets(projectBudgetAmountsOriginal, calendarYearsOriginal);
+            var projectBudgetAmountsInUpdated = ProjectBudgetAmount2.CreateFromProjectBudgets(projectBudgetAmountsUpdated, calendarYearsUpdated);
 
             // find the ones that are only in the original set and add them and mark them as "deleted"
-            transportationProjectBudgetAmountsInUpdated.AddRange(
-                transportationProjectBudgetAmountsInOriginal.Where(x => !fundingSourcesInUpdated.Contains(x.FundingSourceID))
-                    .Select(x => TransportationProjectBudgetAmount2.Clone(x, HtmlDiffContainer.DisplayCssClassDeletedElement))
+            projectBudgetAmountsInUpdated.AddRange(
+                projectBudgetAmountsInOriginal.Where(x => !fundingSourcesInUpdated.Contains(x.FundingSourceID))
+                    .Select(x => ProjectBudgetAmount2.Clone(x, HtmlDiffContainer.DisplayCssClassDeletedElement))
                     .ToList());
             // find the ones only in modified and mark them as "added"
-            transportationProjectBudgetAmountsInUpdated.Where(x => fundingSourcesOnlyInUpdated.Contains(x.FundingSourceID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
+            projectBudgetAmountsInUpdated.Where(x => fundingSourcesOnlyInUpdated.Contains(x.FundingSourceID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
 
             var calendarYearStrings = GetCalendarYearStringsForDiffForUpdated(calendarYearsOriginal, calendarYearsUpdated);
-            return GeneratePartialViewForTransportationBudgetsAsString(transportationProjectBudgetAmountsInUpdated, calendarYearStrings);
+            return GeneratePartialViewForBudgetsAsString(projectBudgetAmountsInUpdated, calendarYearStrings);
         }
 
         [HttpGet]
@@ -2094,7 +2091,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var isPerformanceMeasuresUpdated = DiffPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isExpendituresUpdated = DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged;
-            var isTransportationBudgetsUpdated = DiffTransportationBudgetsImpl(projectUpdateBatch.ProjectID).HasChanged;
+            var isBudgetsUpdated = DiffBudgetsImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isLocationSimpleUpdated = IsLocationSimpleUpdated(projectUpdateBatch.ProjectID);
             var isLocationDetailUpdated = IsLocationDetailedUpdated(projectUpdateBatch.ProjectID);
             var isExternalLinksUpdated = DiffExternalLinksImpl(projectUpdateBatch.ProjectID).HasChanged;
@@ -2106,7 +2103,7 @@ namespace ProjectFirma.Web.Controllers
             return new UpdateStatus(isBasicsUpdated,
                 isPerformanceMeasuresUpdated,
                 isExpendituresUpdated,
-                isTransportationBudgetsUpdated,
+                isBudgetsUpdated,
                 projectUpdateBatch.IsPhotosUpdated,
                 isLocationSimpleUpdated,
                 isLocationDetailUpdated,

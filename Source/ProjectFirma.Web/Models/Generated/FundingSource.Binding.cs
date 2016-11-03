@@ -23,29 +23,28 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected FundingSource()
         {
+            this.ProjectBudgets = new HashSet<ProjectBudget>();
+            this.ProjectBudgetUpdates = new HashSet<ProjectBudgetUpdate>();
             this.ProjectFundingSourceExpenditures = new HashSet<ProjectFundingSourceExpenditure>();
             this.ProjectFundingSourceExpenditureUpdates = new HashSet<ProjectFundingSourceExpenditureUpdate>();
-            this.TransportationProjectBudgets = new HashSet<TransportationProjectBudget>();
-            this.TransportationProjectBudgetUpdates = new HashSet<TransportationProjectBudgetUpdate>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FundingSource(int fundingSourceID, int organizationID, string fundingSourceName, bool isActive, string fundingSourceDescription, bool isTransportationFundingSource) : this()
+        public FundingSource(int fundingSourceID, int organizationID, string fundingSourceName, bool isActive, string fundingSourceDescription) : this()
         {
             this.FundingSourceID = fundingSourceID;
             this.OrganizationID = organizationID;
             this.FundingSourceName = fundingSourceName;
             this.IsActive = isActive;
             this.FundingSourceDescription = fundingSourceDescription;
-            this.IsTransportationFundingSource = isTransportationFundingSource;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FundingSource(int organizationID, string fundingSourceName, bool isActive, bool isTransportationFundingSource) : this()
+        public FundingSource(int organizationID, string fundingSourceName, bool isActive) : this()
         {
             // Mark this as a new object by setting primary key with special value
             FundingSourceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -53,13 +52,12 @@ namespace ProjectFirma.Web.Models
             this.OrganizationID = organizationID;
             this.FundingSourceName = fundingSourceName;
             this.IsActive = isActive;
-            this.IsTransportationFundingSource = isTransportationFundingSource;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public FundingSource(Organization organization, string fundingSourceName, bool isActive, bool isTransportationFundingSource) : this()
+        public FundingSource(Organization organization, string fundingSourceName, bool isActive) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.FundingSourceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -68,7 +66,6 @@ namespace ProjectFirma.Web.Models
             organization.FundingSources.Add(this);
             this.FundingSourceName = fundingSourceName;
             this.IsActive = isActive;
-            this.IsTransportationFundingSource = isTransportationFundingSource;
         }
 
         /// <summary>
@@ -76,7 +73,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static FundingSource CreateNewBlank(Organization organization)
         {
-            return new FundingSource(organization, default(string), default(bool), default(bool));
+            return new FundingSource(organization, default(string), default(bool));
         }
 
         /// <summary>
@@ -85,13 +82,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectFundingSourceExpenditures.Any() || ProjectFundingSourceExpenditureUpdates.Any() || TransportationProjectBudgets.Any() || TransportationProjectBudgetUpdates.Any();
+            return ProjectBudgets.Any() || ProjectBudgetUpdates.Any() || ProjectFundingSourceExpenditures.Any() || ProjectFundingSourceExpenditureUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FundingSource).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(TransportationProjectBudget).Name, typeof(TransportationProjectBudgetUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FundingSource).Name, typeof(ProjectBudget).Name, typeof(ProjectBudgetUpdate).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name};
 
         [Key]
         public int FundingSourceID { get; set; }
@@ -99,13 +96,12 @@ namespace ProjectFirma.Web.Models
         public string FundingSourceName { get; set; }
         public bool IsActive { get; set; }
         public string FundingSourceDescription { get; set; }
-        public bool IsTransportationFundingSource { get; set; }
         public int PrimaryKey { get { return FundingSourceID; } set { FundingSourceID = value; } }
 
+        public virtual ICollection<ProjectBudget> ProjectBudgets { get; set; }
+        public virtual ICollection<ProjectBudgetUpdate> ProjectBudgetUpdates { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get; set; }
-        public virtual ICollection<TransportationProjectBudget> TransportationProjectBudgets { get; set; }
-        public virtual ICollection<TransportationProjectBudgetUpdate> TransportationProjectBudgetUpdates { get; set; }
         public virtual Organization Organization { get; set; }
 
         public static class FieldLengths

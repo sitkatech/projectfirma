@@ -21,6 +21,37 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="AssessmentGoal">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.AssessmentGoal">
+        <MappingFragment StoreEntitySet="AssessmentGoal">
+          <ScalarProperty Name="AssessmentGoalID" ColumnName="AssessmentGoalID" />
+          <ScalarProperty Name="AssessmentGoalNumber" ColumnName="AssessmentGoalNumber" />
+          <ScalarProperty Name="AssessmentGoalTitle" ColumnName="AssessmentGoalTitle" />
+          <ScalarProperty Name="AssessmentGoalDescription" ColumnName="AssessmentGoalDescription" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AssessmentQuestion">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.AssessmentQuestion">
+        <MappingFragment StoreEntitySet="AssessmentQuestion">
+          <ScalarProperty Name="AssessmentQuestionID" ColumnName="AssessmentQuestionID" />
+          <ScalarProperty Name="AssessmentSubGoalID" ColumnName="AssessmentSubGoalID" />
+          <ScalarProperty Name="AssessmentQuestionText" ColumnName="AssessmentQuestionText" />
+          <ScalarProperty Name="ArchiveDate" ColumnName="ArchiveDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AssessmentSubGoal">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.AssessmentSubGoal">
+        <MappingFragment StoreEntitySet="AssessmentSubGoal">
+          <ScalarProperty Name="AssessmentSubGoalID" ColumnName="AssessmentSubGoalID" />
+          <ScalarProperty Name="AssessmentGoalID" ColumnName="AssessmentGoalID" />
+          <ScalarProperty Name="AssessmentSubGoalNumber" ColumnName="AssessmentSubGoalNumber" />
+          <ScalarProperty Name="AssessmentSubGoalTitle" ColumnName="AssessmentSubGoalTitle" />
+          <ScalarProperty Name="AssessmentSubGoalDescription" ColumnName="AssessmentSubGoalDescription" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="AuditLog">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.AuditLog">
         <MappingFragment StoreEntitySet="AuditLog">
@@ -36,6 +67,17 @@
           <ScalarProperty Name="AuditDescription" ColumnName="AuditDescription" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CostParameterSet">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.CostParameterSet">
+        <MappingFragment StoreEntitySet="CostParameterSet">
+          <ScalarProperty Name="CostParameterSetID" ColumnName="CostParameterSetID" />
+          <ScalarProperty Name="InflationRate" ColumnName="InflationRate" />
+          <ScalarProperty Name="CurrentYearForPVCalculations" ColumnName="CurrentYearForPVCalculations" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -134,7 +176,6 @@
           <ScalarProperty Name="FundingSourceName" ColumnName="FundingSourceName" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="FundingSourceDescription" ColumnName="FundingSourceDescription" />
-          <ScalarProperty Name="IsTransportationFundingSource" ColumnName="IsTransportationFundingSource" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -232,7 +273,6 @@
           <ScalarProperty Name="LocalAndRegionalPlanName" ColumnName="LocalAndRegionalPlanName" />
           <ScalarProperty Name="PlanDocumentUrl" ColumnName="PlanDocumentUrl" />
           <ScalarProperty Name="PlanDocumentLinkText" ColumnName="PlanDocumentLinkText" />
-          <ScalarProperty Name="IsTransportationPlan" ColumnName="IsTransportationPlan" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -481,7 +521,6 @@
           <ScalarProperty Name="ProjectDescription" ColumnName="ProjectDescription" />
           <ScalarProperty Name="ImplementationStartYear" ColumnName="ImplementationStartYear" />
           <ScalarProperty Name="CompletionYear" ColumnName="CompletionYear" />
-          <ScalarProperty Name="OldNumber" ColumnName="OldNumber" />
           <ScalarProperty Name="EstimatedTotalCost" ColumnName="EstimatedTotalCost" />
           <ScalarProperty Name="ImplementsMultipleProjects" ColumnName="ImplementsMultipleProjects" />
           <ScalarProperty Name="SecuredFunding" ColumnName="SecuredFunding" />
@@ -489,13 +528,45 @@
           <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
           <ScalarProperty Name="PerformanceMeasureActualYearsExemptionExplanation" ColumnName="PerformanceMeasureActualYearsExemptionExplanation" />
           <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
-          <ScalarProperty Name="TransportationObjectiveID" ColumnName="TransportationObjectiveID" />
           <ScalarProperty Name="ProjectLocationNotes" ColumnName="ProjectLocationNotes" />
-          <ScalarProperty Name="OnFederalTransportationImprovementProgramList" ColumnName="OnFederalTransportationImprovementProgramList" />
           <ScalarProperty Name="PlanningDesignStartYear" ColumnName="PlanningDesignStartYear" />
           <ScalarProperty Name="ProjectLocationSimpleTypeID" ColumnName="ProjectLocationSimpleTypeID" />
           <ScalarProperty Name="EstimatedAnnualOperatingCost" ColumnName="EstimatedAnnualOperatingCost" />
           <ScalarProperty Name="FundingTypeID" ColumnName="FundingTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectAssessmentQuestion">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectAssessmentQuestion">
+        <MappingFragment StoreEntitySet="ProjectAssessmentQuestion">
+          <ScalarProperty Name="ProjectAssessmentQuestionID" ColumnName="ProjectAssessmentQuestionID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="AssessmentQuestionID" ColumnName="AssessmentQuestionID" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectBudget">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectBudget">
+        <MappingFragment StoreEntitySet="ProjectBudget">
+          <ScalarProperty Name="ProjectBudgetID" ColumnName="ProjectBudgetID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="FundingSourceID" ColumnName="FundingSourceID" />
+          <ScalarProperty Name="ProjectCostTypeID" ColumnName="ProjectCostTypeID" />
+          <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
+          <ScalarProperty Name="BudgetedAmount" ColumnName="BudgetedAmount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectBudgetUpdate">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectBudgetUpdate">
+        <MappingFragment StoreEntitySet="ProjectBudgetUpdate">
+          <ScalarProperty Name="ProjectBudgetUpdateID" ColumnName="ProjectBudgetUpdateID" />
+          <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
+          <ScalarProperty Name="FundingSourceID" ColumnName="FundingSourceID" />
+          <ScalarProperty Name="ProjectCostTypeID" ColumnName="ProjectCostTypeID" />
+          <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
+          <ScalarProperty Name="BudgetedAmount" ColumnName="BudgetedAmount" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -754,16 +825,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ProjectTransportationQuestion">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectTransportationQuestion">
-        <MappingFragment StoreEntitySet="ProjectTransportationQuestion">
-          <ScalarProperty Name="ProjectTransportationQuestionID" ColumnName="ProjectTransportationQuestionID" />
-          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-          <ScalarProperty Name="TransportationQuestionID" ColumnName="TransportationQuestionID" />
-          <ScalarProperty Name="Answer" ColumnName="Answer" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ProjectUpdate">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectUpdate">
         <MappingFragment StoreEntitySet="ProjectUpdate">
@@ -794,7 +855,7 @@
           <ScalarProperty Name="ShowBasicsValidationWarnings" ColumnName="ShowBasicsValidationWarnings" />
           <ScalarProperty Name="ShowPerformanceMeasuresValidationWarnings" ColumnName="ShowPerformanceMeasuresValidationWarnings" />
           <ScalarProperty Name="ShowExpendituresValidationWarnings" ColumnName="ShowExpendituresValidationWarnings" />
-          <ScalarProperty Name="ShowTransportationBudgetsValidationWarnings" ColumnName="ShowTransportationBudgetsValidationWarnings" />
+          <ScalarProperty Name="ShowBudgetsValidationWarnings" ColumnName="ShowBudgetsValidationWarnings" />
           <ScalarProperty Name="ShowLocationSimpleValidationWarnings" ColumnName="ShowLocationSimpleValidationWarnings" />
           <ScalarProperty Name="LastUpdatePersonID" ColumnName="LastUpdatePersonID" />
           <ScalarProperty Name="BasicsComment" ColumnName="BasicsComment" />
@@ -802,13 +863,13 @@
           <ScalarProperty Name="PerformanceMeasuresComment" ColumnName="PerformanceMeasuresComment" />
           <ScalarProperty Name="LocationSimpleComment" ColumnName="LocationSimpleComment" />
           <ScalarProperty Name="LocationDetailedComment" ColumnName="LocationDetailedComment" />
-          <ScalarProperty Name="TransportationBudgetsComment" ColumnName="TransportationBudgetsComment" />
+          <ScalarProperty Name="BudgetsComment" ColumnName="BudgetsComment" />
           <ScalarProperty Name="ProjectUpdateStateID" ColumnName="ProjectUpdateStateID" />
           <ScalarProperty Name="IsPhotosUpdated" ColumnName="IsPhotosUpdated" />
           <ScalarProperty Name="BasicsDiffLog" ColumnName="BasicsDiffLog" />
           <ScalarProperty Name="PerformanceMeasureDiffLog" ColumnName="PerformanceMeasureDiffLog" />
           <ScalarProperty Name="ExpendituresDiffLog" ColumnName="ExpendituresDiffLog" />
-          <ScalarProperty Name="TransportationBudgetsDiffLog" ColumnName="TransportationBudgetsDiffLog" />
+          <ScalarProperty Name="BudgetsDiffLog" ColumnName="BudgetsDiffLog" />
           <ScalarProperty Name="ExternalLinksDiffLog" ColumnName="ExternalLinksDiffLog" />
           <ScalarProperty Name="NotesDiffLog" ColumnName="NotesDiffLog" />
         </MappingFragment>
@@ -858,13 +919,20 @@
           <ScalarProperty Name="ActionPriorityID" ColumnName="ActionPriorityID" />
           <ScalarProperty Name="IndicatorNotes" ColumnName="IndicatorNotes" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-          <ScalarProperty Name="IsTransportationProject" ColumnName="IsTransportationProject" />
-          <ScalarProperty Name="TransportationObjectiveID" ColumnName="TransportationObjectiveID" />
-          <ScalarProperty Name="OnFederalTransportationImprovementProgramList" ColumnName="OnFederalTransportationImprovementProgramList" />
           <ScalarProperty Name="ImplementsMultipleProjects" ColumnName="ImplementsMultipleProjects" />
           <ScalarProperty Name="SubmissionDate" ColumnName="SubmissionDate" />
           <ScalarProperty Name="ApprovalDate" ColumnName="ApprovalDate" />
           <ScalarProperty Name="ReviewedByPersonID" ColumnName="ReviewedByPersonID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProposedProjectAssessmentQuestion">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProjectAssessmentQuestion">
+        <MappingFragment StoreEntitySet="ProposedProjectAssessmentQuestion">
+          <ScalarProperty Name="ProposedProjectAssessmentQuestionID" ColumnName="ProposedProjectAssessmentQuestionID" />
+          <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
+          <ScalarProperty Name="AssessmentQuestionID" ColumnName="AssessmentQuestionID" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -922,16 +990,6 @@
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
           <ScalarProperty Name="ThresholdCategoryID" ColumnName="ThresholdCategoryID" />
           <ScalarProperty Name="ProposedProjectThresholdCategoryNotes" ColumnName="ProposedProjectThresholdCategoryNotes" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProposedProjectTransportationQuestion">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProjectTransportationQuestion">
-        <MappingFragment StoreEntitySet="ProposedProjectTransportationQuestion">
-          <ScalarProperty Name="ProposedProjectTransportationQuestionID" ColumnName="ProposedProjectTransportationQuestionID" />
-          <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
-          <ScalarProperty Name="TransportationQuestionID" ColumnName="TransportationQuestionID" />
-          <ScalarProperty Name="Answer" ColumnName="Answer" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1052,113 +1110,6 @@
           <ScalarProperty Name="ThresholdCategoryID" ColumnName="ThresholdCategoryID" />
           <ScalarProperty Name="IndicatorID" ColumnName="IndicatorID" />
           <ScalarProperty Name="IsPrimaryChart" ColumnName="IsPrimaryChart" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TransportationCostParameterSet">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TransportationCostParameterSet">
-        <MappingFragment StoreEntitySet="TransportationCostParameterSet">
-          <ScalarProperty Name="TransportationCostParameterSetID" ColumnName="TransportationCostParameterSetID" />
-          <ScalarProperty Name="InflationRate" ColumnName="InflationRate" />
-          <ScalarProperty Name="CurrentRTPYearForPVCalculations" ColumnName="CurrentRTPYearForPVCalculations" />
-          <ScalarProperty Name="Comment" ColumnName="Comment" />
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TransportationGoal">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TransportationGoal">
-        <MappingFragment StoreEntitySet="TransportationGoal">
-          <ScalarProperty Name="TransportationGoalID" ColumnName="TransportationGoalID" />
-          <ScalarProperty Name="TransportationGoalNumber" ColumnName="TransportationGoalNumber" />
-          <ScalarProperty Name="TransportationGoalTitle" ColumnName="TransportationGoalTitle" />
-          <ScalarProperty Name="TransportationGoalDescription" ColumnName="TransportationGoalDescription" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TransportationObjective">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TransportationObjective">
-        <MappingFragment StoreEntitySet="TransportationObjective">
-          <ScalarProperty Name="TransportationObjectiveID" ColumnName="TransportationObjectiveID" />
-          <ScalarProperty Name="TransportationStrategyID" ColumnName="TransportationStrategyID" />
-          <ScalarProperty Name="TransportationObjectiveName" ColumnName="TransportationObjectiveName" />
-          <ScalarProperty Name="TransportationObjectiveDescription" ColumnName="TransportationObjectiveDescription" />
-          <ScalarProperty Name="FundingTypeID" ColumnName="FundingTypeID" />
-          <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TransportationObjectiveImage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TransportationObjectiveImage">
-        <MappingFragment StoreEntitySet="TransportationObjectiveImage">
-          <ScalarProperty Name="TransportationObjectiveImageID" ColumnName="TransportationObjectiveImageID" />
-          <ScalarProperty Name="TransportationObjectiveID" ColumnName="TransportationObjectiveID" />
-          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TransportationProjectBudget">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TransportationProjectBudget">
-        <MappingFragment StoreEntitySet="TransportationProjectBudget">
-          <ScalarProperty Name="TransportationProjectBudgetID" ColumnName="TransportationProjectBudgetID" />
-          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-          <ScalarProperty Name="FundingSourceID" ColumnName="FundingSourceID" />
-          <ScalarProperty Name="TransportationProjectCostTypeID" ColumnName="TransportationProjectCostTypeID" />
-          <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
-          <ScalarProperty Name="BudgetedAmount" ColumnName="BudgetedAmount" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TransportationProjectBudgetUpdate">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TransportationProjectBudgetUpdate">
-        <MappingFragment StoreEntitySet="TransportationProjectBudgetUpdate">
-          <ScalarProperty Name="TransportationProjectBudgetUpdateID" ColumnName="TransportationProjectBudgetUpdateID" />
-          <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
-          <ScalarProperty Name="FundingSourceID" ColumnName="FundingSourceID" />
-          <ScalarProperty Name="TransportationProjectCostTypeID" ColumnName="TransportationProjectCostTypeID" />
-          <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
-          <ScalarProperty Name="BudgetedAmount" ColumnName="BudgetedAmount" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TransportationQuestion">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TransportationQuestion">
-        <MappingFragment StoreEntitySet="TransportationQuestion">
-          <ScalarProperty Name="TransportationQuestionID" ColumnName="TransportationQuestionID" />
-          <ScalarProperty Name="TransportationSubGoalID" ColumnName="TransportationSubGoalID" />
-          <ScalarProperty Name="TransportationQuestionText" ColumnName="TransportationQuestionText" />
-          <ScalarProperty Name="ArchiveDate" ColumnName="ArchiveDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TransportationStrategy">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TransportationStrategy">
-        <MappingFragment StoreEntitySet="TransportationStrategy">
-          <ScalarProperty Name="TransportationStrategyID" ColumnName="TransportationStrategyID" />
-          <ScalarProperty Name="TransportationStrategyName" ColumnName="TransportationStrategyName" />
-          <ScalarProperty Name="TransportationStrategyDescription" ColumnName="TransportationStrategyDescription" />
-          <ScalarProperty Name="TransportationStrategyColor" ColumnName="TransportationStrategyColor" />
-          <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TransportationStrategyImage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TransportationStrategyImage">
-        <MappingFragment StoreEntitySet="TransportationStrategyImage">
-          <ScalarProperty Name="TransportationStrategyImageID" ColumnName="TransportationStrategyImageID" />
-          <ScalarProperty Name="TransportationStrategyID" ColumnName="TransportationStrategyID" />
-          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TransportationSubGoal">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TransportationSubGoal">
-        <MappingFragment StoreEntitySet="TransportationSubGoal">
-          <ScalarProperty Name="TransportationSubGoalID" ColumnName="TransportationSubGoalID" />
-          <ScalarProperty Name="TransportationGoalID" ColumnName="TransportationGoalID" />
-          <ScalarProperty Name="TransportationSubGoalNumber" ColumnName="TransportationSubGoalNumber" />
-          <ScalarProperty Name="TransportationSubGoalTitle" ColumnName="TransportationSubGoalTitle" />
-          <ScalarProperty Name="TransportationSubGoalDescription" ColumnName="TransportationSubGoalDescription" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

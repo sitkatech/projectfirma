@@ -50,23 +50,19 @@
         }
     </div>
 
-    @if (ViewDataTyped.ProjectUpdateBatch.Project.OnFederalTransportationImprovementProgramList)
-    {
-        <div class="summarySection">
-            <h2>
-                Transportation Budgets
-            </h2>
-            @if (ViewDataTyped.ProjectUpdateBatch.TransportationBudgetsDiffLogHtmlString != null)
-            {
-                @Html.Raw(ViewDataTyped.ProjectUpdateBatch.TransportationBudgetsDiffLogHtmlString)
-            }
-            else
-            {
-                <div class="contentWrapper">No changes to Transportation Budgets section</div>
-            }
-        </div>
-
-    }
+    <div class="summarySection">
+        <h2>
+                Budgets
+        </h2>
+        @if (ViewDataTyped.ProjectUpdateBatch.BudgetsDiffLogHtmlString != null)
+        {
+            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.BudgetsDiffLogHtmlString)
+        }
+        else
+        {
+            <div class="contentWrapper">No changes to Budgets section</div>
+        }
+    </div>
 
     <div class="summarySection">
         <h2>
