@@ -10,6 +10,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.UnitTestCommon;
 using LtInfo.Common;
 using NUnit.Framework;
+using FirmaWebConfiguration = LtInfo.Common.FirmaWebConfiguration;
 
 namespace ProjectFirma.Web.Models
 {
@@ -185,7 +186,7 @@ where c.DATA_TYPE in ('char','nvarchar','text','ntext','varchar')
                                             x["TABLE_SCHEMA"],
                                             x["TABLE_NAME"],
                                             x["COLUMN_NAME"],
-                                            LtInfoWebConfiguration.ApplicationDomain,
+                                            FirmaWebConfiguration.ApplicationDomain,
                                             ControllerPartOfUri))
                                 .ToList();
                     }

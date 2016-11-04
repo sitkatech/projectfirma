@@ -1,0 +1,362 @@
+﻿<#@ assembly name="System.Data" #>
+<#@ assembly name="System.Data.Entity" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.Common" #>
+<#@ import namespace="System.Data.Entity.Core.EntityClient" #>
+<#@ import namespace="System.Data.Entity.Core.Metadata.Edm" #>
+<#@ import namespace="System.Data.Entity.Core.Mapping" #>
+<#@ include file="EF6.Utility.CS.ttinclude"#><#@ include file="..\ConfigurationAccessor.ttinclude" #><#
+var code = new CodeGenerationTools(this);
+var config = new ConfigurationAccessor((IServiceProvider)this.Host);
+var textTransform = DynamicTextTransformation.Create(this);
+var itemCollection = new EdmMetadataLoader(textTransform.Host, textTransform.Errors).CreateEdmItemCollection(EdmxFileName);
+var	fileManager = EntityFrameworkTemplateFileManager.Create(this);
+
+// load an entity connection since it understands the connection string syntax, unfortunately the metaspace cannot be loaded so we have to use the store connection to execute queries
+var connectionString = config.ConnectionStrings[ConnectionStringIndexer].ToString();
+var econnection = new EntityConnection(connectionString);
+var connection = econnection.StoreConnection;
+connection.Open();
+#>
+using <#=BaseNamespace #>.Common;
+using LtInfo.Common.Models;
+using System;
+using System.Data.Entity.Core;
+using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
+ 
+// ReSharper disable InconsistentNaming
+namespace <#= code.VsNamespaceSuggestion() #>
+{<#
+var entityCollection = itemCollection.OfType<EntityType>().Where(x => enumeratedEntities.Contains(x.Name)).ToList();
+
+foreach(var item in entityCollection) 
+{
+    var wrapper = new EnumeratedEntityWrapper(item, connection, EnumColumnName, DisplayColumnName);
+    var escapedEntityName = code.Escape(wrapper.EntityClassName).Replace("/", "");
+    var entityNameEnum = escapedEntityName + "Enum";
+#>
+
+    public enum <#= entityNameEnum #>
+    {
+        <#= string.Join(",\r\n		", wrapper.EnumValues.Keys.Select(enumName => enumName + " = " + wrapper.EnumKeyValue(wrapper.EnumValues[enumName]))) #> 
+	}
+
+    [DebuggerDisplay("<#=String.Format("ID: {{{0}}}, Name: {{{1}}}", wrapper.KeyMemberNames[0], wrapper.EnumColumnName)#>")]
+    public partial class <#= escapedEntityName #> : IEnumeratedEntity
+    {
+<# foreach(var enumName in wrapper.EnumValues.Keys) {#>
+        public static <#= escapedEntityName #> <#=enumName#> 
+        { 	
+            get 
+            { 
+                var item = HttpRequestStorage.<#=RequestDatabaseAccessor#>.<#=wrapper.EntityClassNamePlural#>.Find((int) <#= entityNameEnum #>.<#= enumName #>);
+                if (item == null)
+                {
+                    throw new ObjectNotFoundException(string.Format("For entity \"<#= escapedEntityName #>\" could not find expected row for lookup value \"<#= entityNameEnum #>.<#= enumName #>\" with primary key {0}", (int) <#= entityNameEnum #>.<#= enumName #>));
+                }
+                return item;
+            }
+        }
+
+<# } #>
+		public <#= entityNameEnum #> ToEnum
+		{	
+			get 
+			{ 	
+				return (<#= entityNameEnum #>) GetHashCode();
+			}
+		}
+
+        public static <#= escapedEntityName #> ToType(int <#= entityNameEnum #>ID)
+        {
+            var enumValue = (<#= entityNameEnum #>) <#= entityNameEnum #>ID;
+            return ToType(enumValue);
+        }
+
+        public static <#= escapedEntityName #> ToType(<#= entityNameEnum #> enumValue)
+        {
+            switch(enumValue)
+            {
+<# foreach(var enumName in wrapper.EnumValues.Keys) {#>
+		        case <#= entityNameEnum #>.<#= enumName #>:
+					return <#= enumName #>;
+<# } #>
+                default:
+                    throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
+            }
+        }
+
+ 		public static List<<#= escapedEntityName #>> All
+		{
+			get 
+			{	
+				return HttpRequestStorage.<#=RequestDatabaseAccessor#>.<#= wrapper.EntityClassNamePlural #>.OfType<<#= escapedEntityName #>>().ToList();
+			}			
+		}
+		
+		public bool Equals(<#= escapedEntityName #> other)
+		{
+			if (ReferenceEquals(null, other))
+			{
+				return false;
+			}
+			if (ReferenceEquals(this, other))
+			{
+				return true;
+			}
+			
+			return (other.GetHashCode() == GetHashCode());
+		}
+		
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if (obj.GetType() != typeof(<#= escapedEntityName #>))
+            {
+                return false;
+            }
+            return Equals((<#= escapedEntityName #>) obj);
+        }
+
+		public override int GetHashCode()
+		{
+			var result = 0;
+<#			
+            int digits = 0;
+			foreach(String keyName in wrapper.KeyMemberLengths.Keys)
+			{	#>
+			result = result + (<#= keyName #> * <#=Math.Pow(10,digits)#>);
+<#				digits = digits + wrapper.KeyMemberLengths[keyName];
+			}	#>
+				
+			return result;
+		}
+		
+		public override string ToString()
+        {		
+            return <#= wrapper.DisplayColumnName #>;
+        }
+
+		public static bool operator ==(<#= escapedEntityName #> left, <#= escapedEntityName #> right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(<#= escapedEntityName #> left, <#= escapedEntityName #> right)
+        {
+            return !Equals(left, right);
+        }
+    }
+<# } #>
+// ReSharper restore InconsistentNaming
+}
+<#+
+    public class EnumeratedEntityWrapper
+    {
+        private readonly EntityType _entity;
+        private readonly DbConnection _connection;
+        private Dictionary<string, Type> _keys;
+
+        public String EnumKeyValue(Dictionary<string, object> keyValues)
+        {
+            var result = 0.0;
+            var digits = 0.0;
+            foreach (var keyName in KeyMemberLengths.Keys)
+            {
+                result = result + (int.Parse(keyValues[keyName].ToString()) * Math.Pow(10, digits));
+                digits = digits + KeyMemberLengths[keyName];
+            }
+            return result.ToString(CultureInfo.InvariantCulture);
+        }
+
+        private Dictionary<String, Dictionary<String, object>> _enumValues;
+        public Dictionary<String, Dictionary<String, object>> EnumValues
+        {
+            get
+            {
+                if (_enumValues == null)
+                {
+                    ParseData();
+                }
+                return _enumValues;
+            }
+        }
+
+        public string EntityTypeName
+        {
+            get
+            {
+                return _entity.BaseType != null ? _entity.BaseType.Name : EntityClassName;
+            }
+        }
+
+        public string EntityClassName { get; private set; }
+        public string EntityClassNamePlural
+        {
+            get
+            {
+                var pluralizationService = new
+                    System.Data.Entity.Infrastructure.Pluralization.EnglishPluralizationService();
+                return pluralizationService.Pluralize(EntityClassName);
+            }
+        }
+
+        public string EnumColumnName { get; private set; }
+        public string DisplayColumnName { get; private set; }
+
+        public List<string> KeyMemberNames
+        {
+            get { return _entity.KeyMembers.Select(k => k.Name).ToList(); }
+        }
+
+        private Dictionary<String, int> _keyMemberLengths;
+        public Dictionary<String, int> KeyMemberLengths
+        {
+            get
+            {
+                if (_keyMemberLengths == null)
+                {
+                    GetKeyMemberMaxLengths();
+                }
+                return _keyMemberLengths;
+            }
+        }
+
+        public EnumeratedEntityWrapper(EntityType entity, DbConnection connection, string enumColumnName, string displayColumnName)
+        {
+            _entity = entity;
+            _connection = connection;
+            EntityClassName = entity.Name;
+            EnumColumnName = EntityClassName + enumColumnName;
+            DisplayColumnName = EntityClassName + displayColumnName;
+
+            if (entity.Properties.All(x => x.Name != EnumColumnName))
+            {
+                throw new ApplicationException(String.Format("Enumerated entities must have a \"{0}\" property",
+                                                             EnumColumnName));
+            }
+
+            if (KeyMemberLengths.Values.Sum(v => v) >= int.MaxValue.ToString(CultureInfo.InvariantCulture).Length)
+            {
+                throw new ApplicationException(String.Format("Enumerated entity {0} has too many keys", entity.Name));
+            }
+        }
+
+        private void GetKeyMemberMaxLengths()
+        {
+            var command = _connection.CreateCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = string.Format("select {1} from dbo.{0}", EntityClassName, string.Join(",", KeyMemberNames.Select(k => string.Format("{0} = MAX([{0}])", k))));
+            var reader = command.ExecuteReader();
+
+            _keyMemberLengths = new Dictionary<String, int>();
+
+            while (reader.Read())
+            {
+                for (var i = 0; i < reader.FieldCount; i++)
+                {
+                    _keyMemberLengths.Add(reader.GetName(i), reader.GetValue(i).ToString().Length);
+                }
+            }
+        }
+
+        private void ParseData()
+        {
+            var keys = string.Join(",", KeyMemberNames.Select(k => string.Format("[{0}]", k)));
+            var command = _connection.CreateCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = string.Format("select [{1}], [{2}], {3} from dbo.{0}", EntityClassName, EnumColumnName,
+                                                DisplayColumnName, keys);
+
+            if (_entity.BaseType != null)
+            {
+                var baseClass = EntityTypeName;
+                var derivedClass = EntityClassName;
+                var pks = new List<string>();
+                var columns = "";
+                foreach (var k in KeyMemberNames)
+                {
+                    pks.Add(string.Format("{0}.{2} = {1}.{2}", baseClass, derivedClass, k));
+                    columns += string.Format("{0}.[{1}]", baseClass, k);
+                }
+                var pkColumn = string.Join(" and ", pks);
+                //we have to select columns based on the join...right?            
+                command.CommandText = string.Format("select [{1}],[{2}],{3} from dbo.{0}", derivedClass, EnumColumnName,
+                                                    DisplayColumnName, columns);
+                command.CommandText += string.Format(" join {0} on {1}", baseClass, pkColumn);
+                command.CommandText += string.Format(" where {0}", pkColumn);
+
+            }
+
+
+            var reader = command.ExecuteReader();
+            _enumValues = new Dictionary<String, Dictionary<String, object>>();
+
+            while (reader.Read())
+            {
+                if (_keys == null)
+                {
+                    _keys = new Dictionary<String, Type>();
+                    for (var q = 0; q < KeyMemberNames.Count(); q++)
+                    {
+                        _keys.Add(KeyMemberNames[q], reader.GetFieldType(q));
+                    }
+                }
+
+                var keyValues = new Dictionary<String, object>();
+                foreach (var keyMemberName in KeyMemberNames)
+                {
+                    var myVal = reader[keyMemberName];
+                    keyValues.Add(keyMemberName, myVal);
+                }
+
+                var enumColumnIndexer = EscapeName(reader[EnumColumnName].ToString());
+                _enumValues.Add(enumColumnIndexer, keyValues);
+            }
+        }
+
+        private static String EscapeName(String name)
+        {
+            var charEscapedString =
+                name.Replace(" ", "")
+                    .Replace("/", "")
+                    .Replace("&", "")
+                    .Replace("(", "")
+                    .Replace(")", "")
+                    .Replace("-", "")
+                    .Replace("/", "")
+                    .Replace("_", "")
+                    .Replace(".", "")
+                    .Replace(">", "")
+                    .Replace("<", "")
+                    .Replace("-", "")
+                    .Replace(",", "")
+                    .Replace(":", "");
+            int result;
+            if (int.TryParse(charEscapedString.Substring(0, 1), out result))
+            {
+                charEscapedString = 'N' + charEscapedString;
+            }
+            return charEscapedString;
+        }
+    }
+
+    public static void ArgumentNotNull<T>(T arg, string name) where T : class
+    {
+        if (arg == null)
+        {
+            throw new ArgumentNullException(name);
+        }
+    }
+#>

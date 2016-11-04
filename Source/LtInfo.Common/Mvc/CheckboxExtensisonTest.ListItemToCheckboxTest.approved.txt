@@ -1,0 +1,1 @@
+﻿<label for="someNamesomeValue"><input id="someNamesomeValue" name="someName" type="checkbox" value="someValue"></input> someText</label>

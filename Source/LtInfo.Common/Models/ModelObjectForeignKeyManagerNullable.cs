@@ -1,0 +1,106 @@
+﻿using System;
+using LtInfo.Common.DesignByContract;
+
+namespace LtInfo.Common.Models
+{
+    /// <summary>
+    /// Handles the intracacies for a <see cref="ModelObject"/> between a foreign key integer ID and the foreign key object
+    /// Idea is to coordinate so that the foreign key ID and the foreign key object's primary key are always aligned.
+    /// Defer to the object for the integer ID if at all possible
+    /// 
+    /// Must have same signatures as <see cref="ModelObjectForeignKeyManagerNonNullable{T}"/>
+    /// </summary>
+    [Serializable]
+    public class ModelObjectForeignKeyManagerNullable<T> where T : class, IHavePrimaryKey
+    {
+        private readonly Func<int, T> _funcLoadModelObjectById;
+
+        [NonSerialized]
+        private bool _hasLoadedObject;
+
+        [NonSerialized]
+        private T _modelObject;
+
+        private int? _modelObjectID;
+
+        public ModelObjectForeignKeyManagerNullable(Func<int, T> funcLoadModelObjectById)
+        {
+            Check.RequireNotNull(funcLoadModelObjectById, "The loader function can't be null");
+            _funcLoadModelObjectById = funcLoadModelObjectById;
+        }
+
+        /// <summary>
+        /// Get the foreign key ID. Prefer <see cref="ModelObject.PrimaryKey"/> if available.
+        /// </summary>
+        public int? GetForeignKeyID()
+        {
+            if (_modelObject != null)
+            {
+                // Keep consistency between the stored ID and the object
+                _modelObjectID = _modelObject.PrimaryKey;
+            }
+            return _modelObjectID;
+        }
+
+        /// <summary>
+        /// Set the foreign key ID
+        /// If the foreign key ID disagrees with <see cref="ModelObject.PrimaryKey"/> the object will be nulled out and reset to try to load from database
+        /// </summary>
+        public void SetForeignKeyID(int? value)
+        {
+            // if in "object" mode...
+            if (_modelObject != null)
+            {
+                // Use the object to decide
+                if (value != _modelObject.PrimaryKey)
+                {
+                    _modelObject = null;
+                    _hasLoadedObject = false;
+                }
+                // Don't merge the IFs above, this implicit else clause does nothing on purpose - we don't consider the ID if the object is set
+            }
+                // Otherwise use the ID
+            else if (value != _modelObjectID)
+            {
+                _modelObject = null;
+                _hasLoadedObject = false;
+            }
+            _modelObjectID = value;
+        }
+
+        /// <summary>
+        /// Sets the foreign key object
+        /// Aligns the foreign key ID with the object
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetForeignKeyObject(T value)
+        {
+            if (value == null)
+            {
+                _modelObjectID = null;
+            }
+            else
+            {
+                _modelObjectID = value.PrimaryKey;
+            }
+            _modelObject = value;
+            _hasLoadedObject = true;
+        }
+
+        /// <summary>
+        /// Returns or loads the object referred to by the ID
+        /// </summary>
+        public T GetForeignKeyObject()
+        {
+            if (!_hasLoadedObject)
+            {
+                if (_modelObjectID.HasValue)
+                {
+                    _modelObject = _funcLoadModelObjectById(_modelObjectID.Value);
+                }
+                _hasLoadedObject = true;
+            }
+            return _modelObject;
+        }
+    }
+}

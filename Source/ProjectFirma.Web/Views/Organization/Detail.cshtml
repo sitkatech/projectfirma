@@ -7,7 +7,6 @@
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
-@using MoreLinq
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.Organization.Detail
@@ -102,6 +101,24 @@
                                     <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 600px; margin: 5px 0 5px 0">
                                     </div>
                                     <span class="systemText" style="font-size: 12px">To zoom into a specific area, hold down the Shift key and drag a rectangle.</span>
+                                    <script type="text/javascript">
+                                    jQuery(document).ready(function()
+                                    {
+                                        var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
+                                        var map = new ProjectFirmaMaps.Map(mapInitJson);
+
+                                        var legend = new L.Control.Legend({
+                                            position: 'topleft',
+                                            collapsed: false,
+                                            controlButton: {
+                                                title: "Legend"
+                                            }
+                                        });
+
+                                        map.map.addControl( legend );
+                                        $(".legend-container").append( $("#legend") );
+                                    });
+                                    </script>
                                 }
                                 else
                                 {
@@ -231,24 +248,3 @@
         </div>
     </div>
 </div>
-
-
-
-<script type="text/javascript">
-    jQuery(document).ready(function()
-    {
-        var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
-        var map = new ProjectFirmaMaps.Map(mapInitJson);
-
-        var Legend = new L.Control.Legend({
-            position: 'topleft',
-            collapsed: false,
-            controlButton: {
-                title: "Legend"
-            }
-        });
-
-        map.map.addControl( Legend );
-        $(".legend-container").append( $("#legend") );
-    });
-</script>

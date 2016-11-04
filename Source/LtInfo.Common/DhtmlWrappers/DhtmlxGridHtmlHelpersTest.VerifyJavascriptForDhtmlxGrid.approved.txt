@@ -1,0 +1,61 @@
+﻿
+<div id ="testGridNameContainerDivID">
+    <div id="testGridNameLoadingBar" style="display:none"></div>
+    <div id="testGridNameMetaDivID" class="DhtmlxGridMeta"></div>
+    <div id="testGridNameDivID" style="height:250px;"></div>
+    <script type="text/javascript">
+    // <![CDATA[
+        
+    jQuery(document).ready(function ()
+    {
+        // Initialize Grid
+        Sitka.testGridName = new Sitka.Grid.Class.Grid("testGridName", "testGridNameDivID", null, "scrollToFirst", "mm", 30);
+        // Initialize Grid Columns
+        Sitka.testGridName.setGridColumns(
+        [
+            new Sitka.Grid.Class.GridColumn("Column0", "", "35", "left", "ro", "htmlstring", "#select_filter_html_strict", "noneSitka"),
+            new Sitka.Grid.Class.GridColumn("Column1", "", "35", "left", "ro", "htmlstring", "#select_filter_html_strict", "noneSitka"),
+            new Sitka.Grid.Class.GridColumn("DisplayName", 'Display Name', "200", "left", "rotxt", "str", "#text_filter", "noneSitka"),
+            new Sitka.Grid.Class.GridColumn("IsActive", 'Is Active', "60", "left", "rotxt", "str", "#select_filter_strict", "noneSitka"),
+            new Sitka.Grid.Class.GridColumn("Amount", 'Amount', "100", "right", "ron", "num", "#numeric_filter", "currencySitka")
+        ]);
+
+        var columnFilterList = "#select_filter_html_strict,#select_filter_html_strict,#text_filter,#select_filter_strict,#numeric_filter";
+        Sitka.testGridName.grid.attachFooter(",,,,{#stat_total}", ["","","","","text-align:right"]);
+        
+        Sitka.testGridName.buildWithArguments(null, null, columnFilterList, "TestController/ListGridDataXml", false, null);
+
+        // Show loading bar
+        jQuery("#testGridNameLoadingBar").show();
+
+        Sitka.testGridName.grid.attachEvent("onXLE", function (gridObj, count){
+            var showFilterBar = true;
+            Sitka.testGridName.unfilteredRowCount = Sitka.testGridName.grid.getRowsNum();
+            if(showFilterBar)
+            {
+                Sitka.testGridName.setupCookieFiltering("testGridNameFilteredButton");
+                Sitka.testGridName.setupFilterCountElement("testGridNameFilteredRowCount");
+                Sitka.testGridName.setFilteringButtonTagName("testGridNameFilteredButton");
+            }
+            jQuery("#testGridNameFilteredRowCount").text(Sitka.testGridName.unfilteredRowCount);
+            jQuery("#testGridNameUnfilteredRowCount").text(Sitka.testGridName.unfilteredRowCount);
+            jQuery("#testGridNameLoadingBar").hide();
+            jQuery("#testGridNameDivID").show();
+            // if there are no rows, don't show grid and show a "No records available" message
+            if(Sitka.testGridName.unfilteredRowCount > 0)
+            {
+                Sitka.testGridName.showHideFilterRow(showFilterBar);
+                Sitka.testGridName.hideGridInstructions();
+            }
+            else
+            {
+                Sitka.testGridName.showHideFilterRow(false);
+                Sitka.testGridName.setGridInstructions("<div style=\"padding:10px; font-weight:bold\">I am empty</div>", true);
+            }
+        });
+        
+        
+    });
+    // ]]>
+    </script>
+</div>

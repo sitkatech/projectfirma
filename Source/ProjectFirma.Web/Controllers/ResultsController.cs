@@ -18,6 +18,7 @@ using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using FirmaWebConfiguration = LtInfo.Common.FirmaWebConfiguration;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -121,11 +122,11 @@ namespace ProjectFirma.Web.Controllers
             {
                 if (calendarYear.Value == FirmaDateUtilities.MinimumYear)
                 {
-                    projectCount += FirmaWebConfiguration.Pre2007ProjectCount;
+                    projectCount += Common.FirmaWebConfiguration.Pre2007ProjectCount;
                 }
                 else if (calendarYear.Value == FirmaDateUtilities.GetYearUsedToRepresentPreReportingYears())
                 {
-                    projectCount = FirmaWebConfiguration.Pre2007ProjectCount;
+                    projectCount = Common.FirmaWebConfiguration.Pre2007ProjectCount;
                 }
             }
             return projectCount;
@@ -266,7 +267,7 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.ProjectColorByTypeDisplayName);
 
             var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(focusAreas, projects, projectStages);
-            var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap(), LtInfoWebConfiguration.CanonicalHostName);
+            var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap(), FirmaWebConfiguration.CanonicalHostName);
             var filteredProjectsWithLocationAreasUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));
 
             var viewData = new ProjectMapViewData(CurrentPerson,

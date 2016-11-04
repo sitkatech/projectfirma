@@ -8,6 +8,7 @@ using ProjectFirma.Web.Security.Shared;
 using Keystone.Common;
 using LtInfo.Common;
 using LtInfo.Common.Email;
+using FirmaWebConfiguration = LtInfo.Common.FirmaWebConfiguration;
 using Person = ProjectFirma.Web.Models.Person;
 
 namespace ProjectFirma.Web.Controllers
@@ -16,7 +17,7 @@ namespace ProjectFirma.Web.Controllers
     {
         protected override string LoginUrl
         {
-            get { return SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOn(), LtInfoWebConfiguration.CanonicalHostName); }
+            get { return SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOn(), FirmaWebConfiguration.CanonicalHostName); }
         }
 
         protected override ISitkaDbContext SitkaDbContext
@@ -148,11 +149,11 @@ namespace ProjectFirma.Web.Controllers
     </div>
     <div  class='systemText'>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {8}.</div>
 </div>
-", person.GetFullNameFirstLastAsUrl(), DateTime.Now, person.Email, person.Phone.ToPhoneNumberString(), person.GetDetailUrl(), loginName, ipAddress, userAgent, FirmaWebConfiguration
+", person.GetFullNameFirstLastAsUrl(), DateTime.Now, person.Email, person.Phone.ToPhoneNumberString(), person.GetDetailUrl(), loginName, ipAddress, userAgent, Common.FirmaWebConfiguration
                 .SitkaSupportEmail);
             
-            var mailMessage = new MailMessage { From = new MailAddress(FirmaWebConfiguration.DoNotReplyEmail), Subject = subject, Body = message, IsBodyHtml = true };
-            mailMessage.To.Add(FirmaWebConfiguration.SitkaSupportEmail);
+            var mailMessage = new MailMessage { From = new MailAddress(Common.FirmaWebConfiguration.DoNotReplyEmail), Subject = subject, Body = message, IsBodyHtml = true };
+            mailMessage.To.Add(Common.FirmaWebConfiguration.SitkaSupportEmail);
 
             // Reply-To Header
             mailMessage.ReplyToList.Add(person.Email);
@@ -193,10 +194,10 @@ namespace ProjectFirma.Web.Controllers
     </div>
     <div  class='systemText'>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {8}</div>.
 </div>
-", organization.GetDisplayNameAsUrl(), DateTime.Now, person.FullNameFirstLast, person.Email, organization.GetSummaryUrl(), loginName, ipAddress, userAgent, FirmaWebConfiguration.SitkaSupportEmail);
+", organization.GetDisplayNameAsUrl(), DateTime.Now, person.FullNameFirstLast, person.Email, organization.GetSummaryUrl(), loginName, ipAddress, userAgent, Common.FirmaWebConfiguration.SitkaSupportEmail);
             
-            var mailMessage = new MailMessage { From = new MailAddress(FirmaWebConfiguration.DoNotReplyEmail), Subject = subject, Body = message, IsBodyHtml = true };
-            mailMessage.To.Add(FirmaWebConfiguration.SitkaSupportEmail);
+            var mailMessage = new MailMessage { From = new MailAddress(Common.FirmaWebConfiguration.DoNotReplyEmail), Subject = subject, Body = message, IsBodyHtml = true };
+            mailMessage.To.Add(Common.FirmaWebConfiguration.SitkaSupportEmail);
 
             // Reply-To Header
             mailMessage.ReplyToList.Add(person.Email);

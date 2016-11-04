@@ -1,0 +1,12 @@
+﻿<div class="row">
+<div class="col-md-6">
+<label for="testFullName"><input id="testFullName" name="testFullName" type="checkbox" value=""></input> testOptionLabel</label>
+<label for="testFullName5_testValue"><input id="testFullName5_testValue" name="testFullName" type="checkbox" value="5_testValue"></input> someText_5</label>
+<label for="testFullName6_testValue"><input id="testFullName6_testValue" name="testFullName" type="checkbox" value="6_testValue"></input> someText_6</label>
+</div>
+<div class="col-md-6">
+<label for="testFullName7_testValue"><input id="testFullName7_testValue" name="testFullName" type="checkbox" value="7_testValue"></input> someText_7</label>
+<label for="testFullName8_testValue"><input id="testFullName8_testValue" name="testFullName" type="checkbox" value="8_testValue"></input> someText_8</label>
+<label for="testFullName9_testValue"><input id="testFullName9_testValue" name="testFullName" type="checkbox" value="9_testValue"></input> someText_9</label>
+</div>
+</div>

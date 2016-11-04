@@ -3292,11 +3292,7 @@
       <Project>{8792E614-C20E-41D6-BDE4-BCB3178FC796}</Project>
       <Name>Keystone.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\LtInfo\LtInfo.Base.Common\LtInfo.Base.Common.csproj">
-      <Project>{54e3c7f6-8ad9-4e86-8302-5f7d4f18607c}</Project>
-      <Name>LtInfo.Base.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\LtInfo\LtInfo.Common\LtInfo.Common.csproj">
+    <ProjectReference Include="..\LtInfo.Common\LtInfo.Common.csproj">
       <Project>{c6586ad8-9357-4fa3-92ae-a2ed5eacdacc}</Project>
       <Name>LtInfo.Common</Name>
     </ProjectReference>

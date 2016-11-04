@@ -5,6 +5,7 @@ using ProjectFirma.Web.Common;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
 using LtInfo.Common.GdalOgr;
+using FirmaWebConfiguration = ProjectFirma.Web.Common.FirmaWebConfiguration;
 
 namespace ProjectFirma.Web.Models
 {

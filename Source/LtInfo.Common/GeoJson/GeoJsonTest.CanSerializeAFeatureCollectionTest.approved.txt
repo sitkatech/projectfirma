@@ -1,0 +1,227 @@
+﻿{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          30.0,
+          10.0
+        ],
+        "type": "Point"
+      },
+      "id": "1",
+      "properties": {
+        "name": "Test Point"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            10.0,
+            40.0
+          ],
+          [
+            40.0,
+            30.0
+          ],
+          [
+            20.0,
+            20.0
+          ],
+          [
+            30.0,
+            10.0
+          ]
+        ],
+        "type": "MultiPoint"
+      },
+      "id": "2",
+      "properties": {
+        "name": "Test MultiPoint"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              30.0,
+              10.0
+            ],
+            [
+              10.0,
+              20.0
+            ],
+            [
+              20.0,
+              40.0
+            ],
+            [
+              40.0,
+              40.0
+            ],
+            [
+              30.0,
+              10.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "id": "3",
+      "properties": {
+        "name": "Test Polygon"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              [
+                40.0,
+                40.0
+              ],
+              [
+                20.0,
+                45.0
+              ],
+              [
+                45.0,
+                30.0
+              ],
+              [
+                40.0,
+                40.0
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                20.0,
+                35.0
+              ],
+              [
+                10.0,
+                30.0
+              ],
+              [
+                10.0,
+                10.0
+              ],
+              [
+                30.0,
+                5.0
+              ],
+              [
+                45.0,
+                20.0
+              ],
+              [
+                20.0,
+                35.0
+              ]
+            ],
+            [
+              [
+                30.0,
+                20.0
+              ],
+              [
+                20.0,
+                15.0
+              ],
+              [
+                20.0,
+                25.0
+              ],
+              [
+                30.0,
+                20.0
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "id": "4",
+      "properties": {
+        "name": "Test MultiPolygon"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            30.0,
+            10.0
+          ],
+          [
+            10.0,
+            30.0
+          ],
+          [
+            40.0,
+            40.0
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": "5",
+      "properties": {
+        "name": "Test LineString"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              10.0,
+              10.0
+            ],
+            [
+              20.0,
+              20.0
+            ],
+            [
+              10.0,
+              40.0
+            ]
+          ],
+          [
+            [
+              40.0,
+              40.0
+            ],
+            [
+              30.0,
+              30.0
+            ],
+            [
+              40.0,
+              20.0
+            ],
+            [
+              30.0,
+              10.0
+            ]
+          ]
+        ],
+        "type": "MultiLineString"
+      },
+      "id": "6",
+      "properties": {
+        "name": "Test MultiLineString"
+      },
+      "type": "Feature"
+    }
+  ],
+  "type": "FeatureCollection"
+}

@@ -4,6 +4,7 @@ using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
+using FirmaWebConfiguration = ProjectFirma.Web.Common.FirmaWebConfiguration;
 
 namespace ProjectFirma.Web.Models
 {

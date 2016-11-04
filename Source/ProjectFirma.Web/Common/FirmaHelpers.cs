@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Common
 
         public static string GenerateLogOutUrlWithReturnUrl()
         {
-            var logOutUrl = SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOff(), LtInfoWebConfiguration.CanonicalHostName);
+            var logOutUrl = SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOff(), LtInfo.Common.FirmaWebConfiguration.CanonicalHostName);
             
             var returnUrl = HttpContext.Current.Request.Url.AbsoluteUri;
 

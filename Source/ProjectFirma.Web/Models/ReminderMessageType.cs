@@ -7,6 +7,7 @@ using System.Web.Hosting;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
+using FirmaWebConfiguration = LtInfo.Common.FirmaWebConfiguration;
 
 namespace ProjectFirma.Web.Models
 {
@@ -26,7 +27,7 @@ P.S. - You received this email because you are listed as the Primary Contact for
             var projectListAsHtmlStrings = GenerateProjectListAsHtmlStrings(primaryContactPerson.GetPrimaryContactProjects().GetUpdatableProjectsThatHaveNotBeenSubmitted());
 
             var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
-            var projectsRequiringAnUpdateUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.MyProjectsRequiringAnUpdate(), LtInfoWebConfiguration.CanonicalHostName);
+            var projectsRequiringAnUpdateUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.MyProjectsRequiringAnUpdate(), FirmaWebConfiguration.CanonicalHostName);
             var body = String.Format(GetReminderMessageTemplate(),
                 primaryContactPerson.FullNameFirstLast,
                 reportingYear,
@@ -52,7 +53,7 @@ P.S. - You received this email because you are listed as the Primary Contact for
                 projectListAsHtmlStrings.Add(String.Format(@"<div style=""margin-top: 10px; font-weight:bold"">{0}</div>", projectsGroupedByFocusArea.Key.FocusAreaName));
                 var projects = projectsGroupedByFocusArea.OrderBy(x => x.ProjectNumberString).Select(project =>
                 {
-                    var projectUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Summary(project.ProjectNumberString), LtInfoWebConfiguration.CanonicalHostName);
+                    var projectUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Summary(project.ProjectNumberString), FirmaWebConfiguration.CanonicalHostName);
                     return String.Format(@"<div style=""font-size:smaller""><a href=""{0}"">{1} &mdash; {2}</a></div>", projectUrl, project.ProjectNumberString, project.ProjectName);
                 });
                 projectListAsHtmlStrings.AddRange(projects);
@@ -83,7 +84,7 @@ P.S. - You received this email because you are listed as the Primary Contact for
 
         public static Person GetAnnualReportingContactPerson()
         {
-            return HttpRequestStorage.DatabaseEntities.People.GetPerson(FirmaWebConfiguration.AnnualReportingContactPersonID);
+            return HttpRequestStorage.DatabaseEntities.People.GetPerson(Common.FirmaWebConfiguration.AnnualReportingContactPersonID);
         }
 
         public List<Notification> SendProjectUpdateReminderMessage(Person primaryContactPerson)

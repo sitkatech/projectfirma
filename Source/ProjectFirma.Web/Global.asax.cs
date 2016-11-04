@@ -11,6 +11,7 @@ using ProjectFirma.Web.Models;
 using Keystone.Common;
 using Microsoft.IdentityModel.Web;
 using Microsoft.IdentityModel.Web.Configuration;
+using FirmaWebConfiguration = LtInfo.Common.FirmaWebConfiguration;
 
 namespace ProjectFirma.Web
 {
@@ -18,7 +19,7 @@ namespace ProjectFirma.Web
     {
         public static Dictionary<string, string> AreasDictionary = new Dictionary<string, string>
         {
-            {string.Empty, LtInfoWebConfiguration.CanonicalHostName}
+            {string.Empty, FirmaWebConfiguration.CanonicalHostName}
         };
 
         protected void Application_Start()
@@ -42,8 +43,8 @@ namespace ProjectFirma.Web
                             false)).ToList();
 
             ApplicationStart("ProjectFirma",
-                LtInfoWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion,
-                LtInfoWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled,
+                FirmaWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion,
+                FirmaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled,
                 FirmaBaseController.AllControllerActionMethods,
                 new List<string>
                 {
@@ -55,7 +56,7 @@ namespace ProjectFirma.Web
                     "~/Views/Shared/ProjectUpdateDiffControls/{0}.cshtml"
                 }, defaultRoutes, AreasDictionary);
 
-            Logger.InfoFormat("Latest Database Migration: {0}", FirmaWebConfiguration.LatestDatabaseMigration.Value);
+            Logger.InfoFormat("Latest Database Migration: {0}", Common.FirmaWebConfiguration.LatestDatabaseMigration.Value);
             RegisterGlobalFilters(GlobalFilters.Filters);
             FluentValidationModelValidatorProvider.Configure();
 
@@ -95,7 +96,7 @@ namespace ProjectFirma.Web
             KeystoneUtilities.SignOutOnBadCookie(Request, Response);
 
             // Call this in Application_BeginRequest because later on it can be too late to be mucking with the Response HTTP Headers
-            AddCachingHeaders(Response, Request, LtInfoWebConfiguration.CacheStaticContentTimeSpan);
+            AddCachingHeaders(Response, Request, FirmaWebConfiguration.CacheStaticContentTimeSpan);
 
             ApplicationBeginRequest();
         }
@@ -119,12 +120,12 @@ namespace ProjectFirma.Web
 
         public override string ErrorUrl
         {
-            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Error(), LtInfoWebConfiguration.CanonicalHostName); }
+            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Error(), FirmaWebConfiguration.CanonicalHostName); }
         }
 
         public override string NotFoundUrl
         {
-            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.NotFound(), LtInfoWebConfiguration.CanonicalHostName); }
+            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.NotFound(), FirmaWebConfiguration.CanonicalHostName); }
         }
 
         public override string ErrorHtml

@@ -1,0 +1,5 @@
+﻿new Sitka.Grid.Class.GridColumn("Column0", "", "35", "left", "ro", "htmlstring", "#select_filter_html_strict", "noneSitka"),
+new Sitka.Grid.Class.GridColumn("Column1", "", "35", "left", "ro", "htmlstring", "#select_filter_html_strict", "noneSitka"),
+new Sitka.Grid.Class.GridColumn("DisplayName", 'Display Name', "200", "left", "rotxt", "str", "#text_filter", "noneSitka"),
+new Sitka.Grid.Class.GridColumn("IsActive", 'Is Active', "60", "left", "rotxt", "str", "#select_filter_strict", "noneSitka"),
+new Sitka.Grid.Class.GridColumn("Amount", 'Amount', "100", "right", "ron", "num", "#numeric_filter", "currencySitka")

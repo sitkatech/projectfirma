@@ -1,0 +1,492 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C6586AD8-9357-4FA3-92AE-A2ED5EACDACC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LtInfo.Common</RootNamespace>
+    <AssemblyName>LtInfo.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\Armstrong\Source\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCpu'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCpu</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCpu'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ApprovalTests, Version=3.0.0.0, Culture=neutral, PublicKeyToken=11bd7d124fc62e0f, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\ApprovalTests.3.0.11\lib\net40\ApprovalTests.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ApprovalUtilities, Version=3.0.0.0, Culture=neutral, PublicKeyToken=11bd7d124fc62e0f, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\ApprovalUtilities.3.0.11\lib\net45\ApprovalUtilities.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ApprovalUtilities.Net45, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\ApprovalUtilities.3.0.11\lib\net45\ApprovalUtilities.Net45.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ClosedXML, Version=0.76.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NuGetPackages\ClosedXML.0.76.0\lib\net40-client\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="DHTMLX.Export.Excel">
+      <HintPath>..\DhtmlxGrid\DHTMLX.Export.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\NuGetPackages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GeoJSON.Net, Version=0.1.47.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\GeoJSON.Net.0.1.47\lib\portable-net40+sl5+wp80+win8+wpa81\GeoJSON.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\NuGetPackages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc">
+      <HintPath>..\NuGetPackages\Microsoft.AspNet.Mvc.Futures.5.0.0\lib\net40\Microsoft.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\NuGetPackages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NuGetPackages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NuGetPackages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NuGetPackages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NuGetPackages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NuGetPackages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NuGetPackages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssertCustom.cs" />
+    <Compile Include="BootstrapWrappers\BootstrapHtmlHelpers.cs" />
+    <Compile Include="CommonUtility.cs" />
+    <Compile Include="CommonUtilityTest.cs" />
+    <Compile Include="CrossAreaRouteAttribute.cs" />
+    <Compile Include="Crypto.cs" />
+    <Compile Include="DataTableExtensions.cs" />
+    <Compile Include="DbSpatial\DbSpatialHelper.cs" />
+    <Compile Include="DbSpatial\DbSpatialHelperTest.cs" />
+    <Compile Include="DesignByContract\AssertionException.cs" />
+    <Compile Include="DesignByContract\Check.cs" />
+    <Compile Include="DesignByContract\InvariantException.cs" />
+    <Compile Include="DesignByContract\PostconditionException.cs" />
+    <Compile Include="DesignByContract\PreconditionException.cs" />
+    <Compile Include="DhtmlWrappers\AutoGridSpec.cs" />
+    <Compile Include="DhtmlWrappers\BulkTagModalDialogForm.cs" />
+    <Compile Include="DhtmlWrappers\DhtmlxGridColumnAlignType.cs" />
+    <Compile Include="DhtmlWrappers\DhtmlxGridColumnDataType.cs" />
+    <Compile Include="DhtmlWrappers\DhtmlxGridColumnFormatType.cs" />
+    <Compile Include="DhtmlWrappers\DhtmlxGridColumnAggregationType.cs" />
+    <Compile Include="DhtmlWrappers\DhtmlxGridHtmlHelpersTest.cs" />
+    <Compile Include="GeneralUtility.cs" />
+    <Compile Include="GeneralUtilityTest.cs" />
+    <Compile Include="HtmlHelperExtensions\FieldDefinitionHelpers.cs" />
+    <Compile Include="HtmlHelperExtensions\FieldDefinitionInterfaces.cs" />
+    <Compile Include="HtmlHelperExtensions\LabelForExtensions.cs" />
+    <Compile Include="HtmlHelperExtensions\LabelForExtensionsTest.cs" />
+    <Compile Include="HtmlHelperExtensions\SitkaHtmlHelpers.cs" />
+    <Compile Include="HtmlHelperExtensions\TextAreaForExtensions.cs" />
+    <Compile Include="ModalDialog\ModalDialogForm.cs" />
+    <Compile Include="DhtmlWrappers\ColumnSpec.cs" />
+    <Compile Include="DisposableHtmlHelper.cs" />
+    <Compile Include="DisposableTempDirectory.cs" />
+    <Compile Include="EntityModelBinding\LtInfoEntityPrimaryKeyModelBinder.cs" />
+    <Compile Include="ExcelWorkbookUtilities\ExcelColumnSpec.cs" />
+    <Compile Include="ExcelWorkbookUtilities\ExcelWorkbookMaker.cs" />
+    <Compile Include="ExcelWorkbookUtilities\ExcelWorkbookMakerTest.cs" />
+    <Compile Include="ExcelWorkbookUtilities\ExcelWorkbookSheetDescriptorFactory.cs" />
+    <Compile Include="ExcelWorkbookUtilities\ExcelWorksheetSpec.cs" />
+    <Compile Include="ExcelWorkbookUtilities\IExcelWorkbookSheetDescriptor.cs" />
+    <Compile Include="ExtensionMethodsTest.cs" />
+    <Compile Include="FileUtilityTest.cs" />
+    <Compile Include="GdalOgr\DatabaseDirectAccessTestFixtureBase.cs" />
+    <Compile Include="GdalOgr\GdalGeoJsonTest.cs" />
+    <Compile Include="GdalOgr\Ogr2OgrCommandLineException.cs" />
+    <Compile Include="GdalOgr\Ogr2OgrCommandLineRunner.cs" />
+    <Compile Include="GdalOgr\Ogr2OgrCommandLineRunnerTest.cs" />
+    <Compile Include="GdalOgr\OgrInfoCommandLineRunner.cs" />
+    <Compile Include="GdalOgr\OgrInfoCommandLineRunnerTest.cs" />
+    <Compile Include="GdalOgr\TempDbSqlDatabase.cs" />
+    <Compile Include="GeoJson\DbGeometryToGeoJsonHelper.cs" />
+    <Compile Include="GeoJson\GeoJsonFeatureCollectionExtensions.cs" />
+    <Compile Include="GeoJson\GeoJsonTest.cs" />
+    <Compile Include="DbSpatial\IHaveSqlGeometry.cs" />
+    <Compile Include="GraphHelperTest.cs" />
+    <Compile Include="HealthMonitor\HealthCheckResult.cs" />
+    <Compile Include="HealthMonitor\HealthCheckResults.cs" />
+    <Compile Include="IEnumerableExtensions.cs" />
+    <Compile Include="EntityModelBinding\ILtInfoEntityTypeLoader.cs" />
+    <Compile Include="Interfaces\IRecaptchaModel.cs" />
+    <Compile Include="LoggingFilters\RemoteHostClosedTheConnectionLoggingFilter.cs" />
+    <Compile Include="LoggingFilters\SitkaDisplayExceptionWith503ServiceUnavailable503LoggingFilter.cs" />
+    <Compile Include="LoggingFilters\RequireSslLoggingFilter.cs" />
+    <Compile Include="LoggingFilters\TrendMicroFilterTest.cs" />
+    <Compile Include="EntityModelBinding\LtInfoEntityPrimaryKey.cs" />
+    <Compile Include="LoggingFilters\UnsupportedHttpMethodHandler.cs" />
+    <Compile Include="LtInfoVersionInfo.cs" />
+    <Compile Include="FirmaWebConfiguration.cs" />
+    <Compile Include="MergeListHelper.cs" />
+    <Compile Include="ModalDialog\ModalDialogFormHelper.cs" />
+    <Compile Include="Models\EntityFrameworkHelpers.cs" />
+    <Compile Include="Models\FormViewModel.cs" />
+    <Compile Include="Models\IEnumeratedEntity.cs" />
+    <Compile Include="Models\IFileResource.cs" />
+    <Compile Include="Models\IHavePrimaryKey.cs" />
+    <Compile Include="Models\IStateType.cs" />
+    <Compile Include="Models\ModelObjectForeignKeyManagerNonNullable.cs" />
+    <Compile Include="Models\ModelObjectForeignKeyManagerNullable.cs" />
+    <Compile Include="Models\ModelObjectHelpers.cs" />
+    <Compile Include="Models\MoneyWholeNumber\MoneyWholeNumber.cs" />
+    <Compile Include="Models\MoneyWholeNumber\MoneyWholeNumberTest.cs" />
+    <Compile Include="Models\Money\Currency.cs" />
+    <Compile Include="Models\Money\CurrencyTest.cs" />
+    <Compile Include="Models\Money\FractionReceivers.cs" />
+    <Compile Include="Models\Money\MersenneTwister.cs" />
+    <Compile Include="Models\Money\MidpointRoundingRule.cs" />
+    <Compile Include="Models\Money\Money.cs" />
+    <Compile Include="Models\Money\MoneyAllocationException.cs" />
+    <Compile Include="Models\Money\MoneyDistributor.cs" />
+    <Compile Include="Models\Money\MoneyDistributorTest.cs" />
+    <Compile Include="Models\Money\MoneyExtensions.cs" />
+    <Compile Include="Models\Money\MoneyTest.cs" />
+    <Compile Include="Models\Money\RoundingPlaces.cs" />
+    <Compile Include="Models\PartialViewModel.cs" />
+    <Compile Include="Models\Percentage.cs" />
+    <Compile Include="Models\PercentageGreaterThanOne.cs" />
+    <Compile Include="Models\PercentageTest.cs" />
+    <Compile Include="Models\SitkaModelBinder.cs" />
+    <Compile Include="Models\TinyURL.cs" />
+    <Compile Include="MvcResults\DhtmlxGridJsonRow.cs" />
+    <Compile Include="MvcResults\GridXmlDataTableResult.cs" />
+    <Compile Include="MvcResults\GridXmlResult.cs" />
+    <Compile Include="MvcResults\JsonNetJArrayResult.cs" />
+    <Compile Include="MvcResults\JsonNetJObjectResult.cs" />
+    <Compile Include="MvcResults\ModalDialogFormJsonResult.cs" />
+    <Compile Include="MvcResults\XmlResult.cs" />
+    <Compile Include="Mvc\CheckboxExtensisonTest.cs" />
+    <Compile Include="Mvc\MvcExtensionMethods.cs" />
+    <Compile Include="MvcResults\ExcelResult.cs" />
+    <Compile Include="Mvc\DataAnnotationsValidator.cs" />
+    <Compile Include="Mvc\ModelAttributeHelpers.cs" />
+    <Compile Include="Mvc\CheckboxExtensions.cs" />
+    <Compile Include="Mvc\SitkaFileExtensionsAttribute.cs" />
+    <Compile Include="Mvc\SitkaRecaptchaBinder.cs" />
+    <Compile Include="Mvc\ToSelectListExtensions.cs" />
+    <Compile Include="Mvc\TypedLayoutPage.cs" />
+    <Compile Include="Mvc\TypedWebViewPage`1.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mvc\TypedWebViewPage`2.cs" />
+    <Compile Include="ProcessUtilityResult.cs" />
+    <Compile Include="RedirectToHttpsAttribute.cs" />
+    <Compile Include="NullableComparer.cs" />
+    <Compile Include="NullableRange.cs" />
+    <Compile Include="NullableRangeTest.cs" />
+    <Compile Include="AssemblyVersionInfo.cs" />
+    <Compile Include="ProcessUtilityTest.cs" />
+    <Compile Include="RouteTableBuilderTest.cs" />
+    <Compile Include="RouteTableBuilderTestFolder\Areas\MyTestArea1\Controllers\MyTest4Controller.cs" />
+    <Compile Include="RouteTableBuilderTestFolder\Controllers\MyAbstractBaseController.cs" />
+    <Compile Include="RouteTableBuilderTestFolder\Controllers\MyTest1Controller.cs" />
+    <Compile Include="RouteTableBuilderTestFolder\Controllers\MyTest2Controller.cs" />
+    <Compile Include="RouteTableBuilderTestFolder\Controllers\MyTest3Controller.cs" />
+    <Compile Include="SitkaConfiguration.cs" />
+    <Compile Include="SitkaDisplayErrorException.cs" />
+    <Compile Include="SitkaDisplayErrorExceptionWithHttpCode.cs" />
+    <Compile Include="SitkaDuplicateRecordException.cs" />
+    <Compile Include="SitkaLinkBuilder.cs" />
+    <Compile Include="DomainRoute.cs" />
+    <Compile Include="SitkaRecordNotAuthorizedException.cs" />
+    <Compile Include="SitkaRecordNotFoundException.cs" />
+    <Compile Include="SitkaRegexLibrary.cs" />
+    <Compile Include="SitkaReverseProxy.cs" />
+    <Compile Include="BrowserMatch.cs" />
+    <Compile Include="ConnectionString.cs" />
+    <Compile Include="CookieHelper.cs" />
+    <Compile Include="DnsUtility.cs" />
+    <Compile Include="BooleanFormats.cs" />
+    <Compile Include="EncryptorTest.cs" />
+    <Compile Include="FileExtension.cs" />
+    <Compile Include="DateUtilities.cs" />
+    <Compile Include="DisposableTempFile.cs" />
+    <Compile Include="Email\MockModeContext.cs" />
+    <Compile Include="Email\SitkaSmtpClient.cs" />
+    <Compile Include="Encryptor.cs" />
+    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="FileUtility.cs" />
+    <Compile Include="HostAndPort.cs" />
+    <Compile Include="HttpDebugInfo.cs" />
+    <Compile Include="HttpHelper.cs" />
+    <Compile Include="ImageHelper.cs" />
+    <Compile Include="LoggingFilters\ISitkaLoggingFilter.cs" />
+    <Compile Include="JsonTools.cs" />
+    <Compile Include="LoggingFilters\NagiosLoggingFilter.cs" />
+    <Compile Include="LoggingFilters\NotReferred404LoggingFilter.cs" />
+    <Compile Include="LoggingFilters\TrendMicroFilter.cs" />
+    <Compile Include="MimeType.cs" />
+    <Compile Include="Models\Attributes\PercentDecimalAttribute.cs" />
+    <Compile Include="Models\Attributes\RadioButtonListAttribute.cs" />
+    <Compile Include="Models\Attributes\DropDownGroupList.cs" />
+    <Compile Include="Models\Attributes\GroupedDropDownListAttribute.cs" />
+    <Compile Include="BrowserAutomationCookie.cs" />
+    <Compile Include="GuidUtility.cs" />
+    <Compile Include="HttpSchemeType.cs" />
+    <Compile Include="Models\Attributes\ColumnBindingAttribute.cs" />
+    <Compile Include="Models\Attributes\DropDownListAttribute.cs" />
+    <Compile Include="Models\Attributes\IsComplexOverrideAttribute.cs" />
+    <Compile Include="Models\Attributes\OrderAttribute.cs" />
+    <Compile Include="Models\IStringIndexer.cs" />
+    <Compile Include="Models\ModelListAbstract.cs" />
+    <Compile Include="Models\SimpleModelObject.cs" />
+    <Compile Include="Models\StringIndexerDataReader.cs" />
+    <Compile Include="MvcResults\CsvDownloadResult.cs" />
+    <Compile Include="MvcResults\GridJsonNetJObjectResult.cs" />
+    <Compile Include="Mvc\SitkaDefaultModelBinder.cs" />
+    <Compile Include="NunitSetupFixtureFirma.cs" />
+    <Compile Include="ProcessUtility.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecaptchaValidator.cs" />
+    <Compile Include="RemoteSyslogAppenderWithMessageSpanning.cs" />
+    <Compile Include="RemoteSyslogAppenderWithMessageSpanningTest.cs" />
+    <Compile Include="RouteTableBuilder.cs" />
+    <Compile Include="SitkaController.cs" />
+    <Compile Include="SitkaGlobalBase.cs" />
+    <Compile Include="HtmlHelperExtensions\SitkaHtmlHelpersTest.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SitkaHttpApplication.cs" />
+    <Compile Include="SitkaHttpRequestStorage.cs" />
+    <Compile Include="SitkaLogger.cs" />
+    <Compile Include="SitkaRequestInfo.cs" />
+    <Compile Include="SitkaReverseProxyTest.cs" />
+    <Compile Include="SitkaRouteTableEntry.cs" />
+    <Compile Include="SitkaSetupFixture.cs" />
+    <Compile Include="SitkaWcfException.cs" />
+    <Compile Include="SmtpAppenderWithPathAndExceptionTypeInSubject.cs" />
+    <Compile Include="StringFormatsTest.cs" />
+    <Compile Include="Tasks\LtInfoTaskBase.cs" />
+    <Compile Include="Tasks\SitkaTaskBase.cs" />
+    <Compile Include="SitkaValidationException.cs" />
+    <Compile Include="SitkaValidationResult.cs" />
+    <Compile Include="StreamHelper.cs" />
+    <Compile Include="StringFormats.cs" />
+    <Compile Include="SitkaRoute.cs" />
+    <Compile Include="SitkaControllerObsoleteFunctions.cs" />
+    <Compile Include="Tasks\SitkaTaskBaseTest.cs" />
+    <Compile Include="TcpUtility.cs" />
+    <Compile Include="TcpUtilityTest.cs" />
+    <Compile Include="Threading\SitkaThreadCheckBase.cs" />
+    <Compile Include="Threading\ThreadUtility.cs" />
+    <Compile Include="ToCsvExtensionMethods.cs" />
+    <Compile Include="ToCsvExtensionMethodsTest.cs" />
+    <Compile Include="ToJsExtensionMethods.cs" />
+    <Compile Include="ToJsExtensionMethodsTest.cs" />
+    <Compile Include="GraphHelper.cs" />
+    <Compile Include="UnixTimeConverter.cs" />
+    <Compile Include="UrlTemplate.cs" />
+    <Compile Include="UrlTemplateTest.cs" />
+    <Compile Include="Validation.cs" />
+    <Compile Include="ValidationAttributes.cs" />
+    <Compile Include="DhtmlWrappers\DhtmlxGridColumnSortType.cs" />
+    <Compile Include="DhtmlWrappers\DhtmlxGridColumnFilterType.cs" />
+    <Compile Include="DhtmlWrappers\DhtmlxGridHtmlHelpers.cs" />
+    <Compile Include="VersionInformation.cs" />
+    <Compile Include="Views\CKEditorWithMaxLengthAttribute.cs" />
+    <Compile Include="Views\DownloadFileDescriptor.cs" />
+    <Compile Include="Views\FieldTemplateMetadata.cs" />
+    <Compile Include="DhtmlWrappers\GridSpec.cs" />
+    <Compile Include="Views\TextAreaWithMaxLengthAttribute.cs" />
+    <Compile Include="Views\ViewUtilities.cs" />
+    <Compile Include="WebServicesErrorHandler.cs" />
+    <Compile Include="WhoisUtility.cs" />
+    <Compile Include="WhoisUtilityTest.cs" />
+    <Compile Include="_Annotations.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\NuGetPackages\PhantomJS.2.0.0\tools\phantomjs\phantomjs.exe">
+      <Link>phantomjs.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Copyright.txt" />
+    <Content Include="DhtmlWrappers\DhtmlxGridHtmlHelpersTest.BuildGridColumnsTest.approved.txt" />
+    <Content Include="DhtmlWrappers\DhtmlxGridHtmlHelpersTest.VerifyJavascriptForDhtmlxGrid.approved.txt" />
+    <Content Include="HtmlHelperExtensions\LabelForExtensionsTest.GenerateLabelWithFieldDefinitionForDefinedFieldDefinitionForGridHeaderTest.approved.txt" />
+    <Content Include="HtmlHelperExtensions\LabelForExtensionsTest.GenerateLabelWithFieldDefinitionForDefinedFieldDefinitionForHelpIconOnlyTest.approved.txt" />
+    <Content Include="HtmlHelperExtensions\LabelForExtensionsTest.GenerateLabelWithFieldDefinitionForDefinedFieldDefinitionTest.approved.txt" />
+    <Content Include="HtmlHelperExtensions\LabelForExtensionsTest.GenerateLabelWithFieldDefinitionForNotYetDefinedFieldDefinitionTest.approved.txt" />
+    <Content Include="phantomjs-license.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Models\EnumeratedEntities.ttinclude" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

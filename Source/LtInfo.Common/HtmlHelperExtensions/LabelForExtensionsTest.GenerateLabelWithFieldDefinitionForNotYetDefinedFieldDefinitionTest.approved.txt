@@ -1,0 +1,1 @@
+﻿<span class="helpicon glyphicon glyphicon-question-sign helpiconGridGray" onmouseover="Corral.Views.Methods.addHelpTooltipPopup(this, &#39;My Field&#39;, &#39;\/FieldDefinition\/FieldDefinitionDetails\/1&#39;, 300)" title="Click to get help on My Field"></span> <label for="myField">My Field</label>

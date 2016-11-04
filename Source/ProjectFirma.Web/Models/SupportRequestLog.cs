@@ -5,6 +5,7 @@ using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.Email;
 using LtInfo.Common.Views;
+using FirmaWebConfiguration = LtInfo.Common.FirmaWebConfiguration;
 
 namespace ProjectFirma.Web.Models
 {
@@ -39,7 +40,7 @@ namespace ProjectFirma.Web.Models
             var projectSummaryUrl = project == null
                 ? string.Empty
                 : string.Format("    <strong>Project:</strong> <a href=\"{0}\">{1}</a><br />",
-                    SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Summary(project.ProjectNumberString), LtInfoWebConfiguration.CanonicalHostName),
+                    SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Summary(project.ProjectNumberString), FirmaWebConfiguration.CanonicalHostName),
                     project.DisplayName);
             var message = string.Format(@"
 <div style='font-size: 12px; font-family: Arial'>
@@ -74,9 +75,9 @@ namespace ProjectFirma.Web.Models
                 ipAddress,
                 userAgent,
                 currentUrl,
-                FirmaWebConfiguration.SitkaSupportEmail);
+                Common.FirmaWebConfiguration.SitkaSupportEmail);
             // Create Notification
-            var mailMessage = new MailMessage {From = new MailAddress(FirmaWebConfiguration.DoNotReplyEmail), Subject = subject, Body = message, IsBodyHtml = true};
+            var mailMessage = new MailMessage {From = new MailAddress(Common.FirmaWebConfiguration.DoNotReplyEmail), Subject = subject, Body = message, IsBodyHtml = true};
 
             // Reply-To Header
             mailMessage.ReplyToList.Add(RequestPersonEmail);

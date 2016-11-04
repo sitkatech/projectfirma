@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.UnitTestCommon
                 person.Email = MakeTestEmail("email");
                 person.FirstName = MakeTestName("firstName", Person.FieldLengths.FirstName);
                 person.LastName = MakeTestName("lastName", Person.FieldLengths.LastName);
-                person.PasswordPdfK2SaltHash = person.PasswordPdfK2SaltHash = LtInfo.Common.PasswordHash.CreateHash(LoginConstants.Password);
+                person.PasswordPdfK2SaltHash = null;
 
                 return person;
             }

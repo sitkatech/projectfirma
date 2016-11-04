@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectFirma.Web", "ProjectFirma.Web\ProjectFirma.Web.csproj", "{8EB2FDE5-7FBA-4257-919F-11921D2C9615}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LtInfo.Common", "..\..\LtInfo\LtInfo.Common\LtInfo.Common.csproj", "{C6586AD8-9357-4FA3-92AE-A2ED5EACDACC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LtInfo.Common", "LtInfo.Common\LtInfo.Common.csproj", "{C6586AD8-9357-4FA3-92AE-A2ED5EACDACC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{540BA74C-3EE4-49E3-8E28-4FAACBFF1558}"
 	ProjectSection(SolutionItems) = preProject
@@ -21,8 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{62CA46
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LtInfo.Base.Common", "..\..\LtInfo\LtInfo.Base.Common\LtInfo.Base.Common.csproj", "{54E3C7F6-8AD9-4E86-8302-5F7D4F18607C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Keystone.Common", "..\..\Libraries\Keystone.Common\Keystone.Common.csproj", "{8792E614-C20E-41D6-BDE4-BCB3178FC796}"
 EndProject
@@ -56,16 +54,6 @@ Global
 		{C6586AD8-9357-4FA3-92AE-A2ED5EACDACC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C6586AD8-9357-4FA3-92AE-A2ED5EACDACC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C6586AD8-9357-4FA3-92AE-A2ED5EACDACC}.Release|x86.ActiveCfg = Release|Any CPU
-		{54E3C7F6-8AD9-4E86-8302-5F7D4F18607C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{54E3C7F6-8AD9-4E86-8302-5F7D4F18607C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{54E3C7F6-8AD9-4E86-8302-5F7D4F18607C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{54E3C7F6-8AD9-4E86-8302-5F7D4F18607C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{54E3C7F6-8AD9-4E86-8302-5F7D4F18607C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{54E3C7F6-8AD9-4E86-8302-5F7D4F18607C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{54E3C7F6-8AD9-4E86-8302-5F7D4F18607C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{54E3C7F6-8AD9-4E86-8302-5F7D4F18607C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{54E3C7F6-8AD9-4E86-8302-5F7D4F18607C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{54E3C7F6-8AD9-4E86-8302-5F7D4F18607C}.Release|x86.ActiveCfg = Release|Any CPU
 		{8792E614-C20E-41D6-BDE4-BCB3178FC796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8792E614-C20E-41D6-BDE4-BCB3178FC796}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8792E614-C20E-41D6-BDE4-BCB3178FC796}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
