@@ -1,0 +1,75 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Results
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@using LtInfo.Common.Views
+@inherits ProjectFirma.Web.Views.FundingSource.Detail
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    <script src="@Url.Content("~/Views/ProjectFundingSourceExpenditure/ProjectFundingSourceExpenditureController.js")" type="text/javascript"></script>
+}
+
+<div>
+    <a class="btn backButton" href="@ViewDataTyped.ManageFundingSourcesUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all Funding Sources</a>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditFundingSourceUrl, string.Format("Edit Funding Source - {0}", ViewDataTyped.FundingSource.DisplayName), ViewDataTyped.UserHasFundingSourceManagePermissions) Basics
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithFieldDefinitionFor(FieldDefinition.FundingSourceName):</div>
+                        <div class="col-xs-6">@ViewDataTyped.FundingSource.FundingSourceName</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithFieldDefinitionFor(FieldDefinition.FundingSourceDescription):</div>
+                        <div class="col-xs-6">@Html.Raw(ViewDataTyped.FundingSource.FundingSourceDescription.HtmlEncodeWithBreaks())</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Organization):</div>
+                        <div class="col-xs-6">@ViewDataTyped.FundingSource.Organization.GetDisplayNameAsUrl()</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 fieldLabel text-right">Is Active:</div>
+                        <div class="col-xs-6">@ViewDataTyped.FundingSource.IsActive.ToYesNo()</div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    Expenditures by Funding Source Sector
+                </div>
+                <div class="panel-body">
+                    <div style="border-radius: 8px; background-color: white; height: 410px; margin-right: auto; margin-left: auto; width: 600px">
+                        @{ CalendarYearExpendituresLineChart.RenderPartialView(Html, ViewDataTyped.CalendarYearExpendituresLineChartViewData); }
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    Reported Expenditures
+                </div>
+                <div class="panel-body">
+                    @Html.DhtmlxGrid(ViewDataTyped.ProjectCalendarYearExpendituresGridSpec, ViewDataTyped.ProjectCalendarYearExpendituresGridName, ViewDataTyped.ProjectCalendarYearExpendituresGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>

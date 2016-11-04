@@ -14,12 +14,12 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
         </div>
-        <div class="col-md-6">
-            <h2 style="margin-top: 0">Definition</h2>
-            <div id="fieldDefinition" style="outline: 1px solid gray; padding: 10px; margin-top: 10px"></div>
+        <div class="col-md-8">
+            <h3>Definition:</h3>
+            <div id="fieldDefinition"></div>
         </div>
     </div>
 </div>

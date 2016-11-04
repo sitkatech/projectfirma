@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Views.FundingSource
                 a => UrlTemplate.MakeHrefString(a.Project.GetSummaryUrl(), a.Project.DisplayName),
                 350,
                 DhtmlxGridColumnFilterType.Html);
-            Add(Models.FieldDefinition.Stage.ToGridHeaderStringWider(), x => x.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.ProjectStage.ToGridHeaderStringWider(), x => x.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             foreach (var year in calendarYearsForProjectExpenditures)
             {
                 var calendarYear = year;

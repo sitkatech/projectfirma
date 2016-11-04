@@ -148,7 +148,7 @@ else
                     <th></th>
                     <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure)</th>
                     <th>Year</th>
-                    <th ng-show="hasAnySubcategories()" colspan="@ViewDataTyped.ViewDataForAngular.MaxSubcategoryOptions">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Subcategories)</th>
+                    <th ng-show="hasAnySubcategories()" colspan="@ViewDataTyped.ViewDataForAngular.MaxSubcategoryOptions">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureSubcategory)</th>
                     <th colspan="2">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ReportedValue)</th>
                 </tr>
                 <tr ng-repeat="performanceMeasureActualUpdate in AngularModel.PerformanceMeasureActualUpdates" ng-form="pmActualValuesForm">

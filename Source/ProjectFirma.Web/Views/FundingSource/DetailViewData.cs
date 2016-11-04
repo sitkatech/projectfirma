@@ -9,7 +9,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.FundingSource
 {
-    public class SummaryViewData : FirmaViewData
+    public class DetailViewData : FirmaViewData
     {
         public readonly Models.FundingSource FundingSource;
         public readonly bool UserHasFundingSourceManagePermissions;
@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Views.FundingSource
         public readonly string ProjectCalendarYearExpendituresGridDataUrl;
         public readonly CalendarYearExpendituresLineChartViewData CalendarYearExpendituresLineChartViewData;
 
-        public SummaryViewData(Person currentPerson, Models.FundingSource fundingSource, CalendarYearExpendituresLineChartViewData calendarYearExpendituresLineChartViewData) : base(currentPerson)
+        public DetailViewData(Person currentPerson, Models.FundingSource fundingSource, CalendarYearExpendituresLineChartViewData calendarYearExpendituresLineChartViewData) : base(currentPerson)
         {
             CalendarYearExpendituresLineChartViewData = calendarYearExpendituresLineChartViewData;
             FundingSource = fundingSource;

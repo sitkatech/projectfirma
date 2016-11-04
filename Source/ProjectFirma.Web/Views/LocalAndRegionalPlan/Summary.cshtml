@@ -17,13 +17,13 @@
     <div class="contentWrapper">
         <table class="summaryLayout">
             <tr>
-                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.LocalAndRegionalPlanName):</th>
+                <th style="white-space: nowrap">Local And Regional Plan Name:</th>
                 <td>
                     @ViewDataTyped.LocalAndRegionalPlan.LocalAndRegionalPlanName
                 </td>
             </tr>
             <tr>
-                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.LocalAndRegionalPlanDocumentUrl):</th>
+                <th style="white-space: nowrap">Local And Regional Plan Document Url:</th>
                 <td>
                     @if (!string.IsNullOrWhiteSpace(ViewDataTyped.LocalAndRegionalPlan.PlanDocumentUrl))
                     {

@@ -15,16 +15,13 @@ namespace ProjectFirma.Web.Views.LocalAndRegionalPlan
 
         [Required]
         [StringLength(Models.LocalAndRegionalPlan.FieldLengths.LocalAndRegionalPlanName)]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.LocalAndRegionalPlanName)]
         public string LocalAndRegionalPlanName { get; set; }
 
         [StringLength(Models.LocalAndRegionalPlan.FieldLengths.PlanDocumentUrl)]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.LocalAndRegionalPlanDocumentUrl)]
         [Url]
         public string LocalAndRegionalPlanDocumentUrl { get; set; }
 
         [StringLength(Models.LocalAndRegionalPlan.FieldLengths.PlanDocumentLinkText)]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.LocalAndRegionalPlanDocumentLinkText)]
         public string LocalAndRegionalPlanDocumentLinkText { get; set; }
 
         [Required]

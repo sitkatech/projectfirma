@@ -15,7 +15,6 @@ namespace ProjectFirma.Web.Views.Indicator
 
         [Required]
         [StringLength(Models.Indicator.FieldLengths.IndicatorDisplayName)]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.IndicatorDisplayName)]
         public string IndicatorDisplayName { get; set; }
 
         [Required]
@@ -23,11 +22,9 @@ namespace ProjectFirma.Web.Views.Indicator
         public int MeasurementUnitTypeID { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.IndicatorDefinition)]
         public string IndicationDefinition { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.IndicatorType)]
         public int? IndicatorTypeID { get; set; }
 
         /// <summary>

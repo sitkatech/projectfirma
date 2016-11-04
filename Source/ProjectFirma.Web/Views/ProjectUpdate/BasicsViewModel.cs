@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         [StringLength(Models.Project.ProjectDescriptionMaximumLength)]
         public string ProjectDescription { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.Stage)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStage)]
         public int ProjectStageID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.PlanningDesignStartYear)]

@@ -40,9 +40,9 @@ namespace ProjectFirma.Web.Views.ProposedProject
             Add("Submitted Date", a => a.SubmissionDate, 120);                     
             Add("Last Updated", a => a.LastUpdateDate, 120);
             Add(Models.FieldDefinition.Region.ToGridHeaderString(), a => a.ProjectLocationTypeDisplay, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.ProjectLocationState.ToGridHeaderString(), a => a.ProjectLocationStateProvince, 95, DhtmlxGridColumnFilterType.Text);
-            Add(Models.FieldDefinition.ProjectLocationJurisdiction.ToGridHeaderString(), a => a.ProjectLocationJurisdiction, 95, DhtmlxGridColumnFilterType.Text);
-            Add(Models.FieldDefinition.ProjectLocationWatershed.ToGridHeaderString(), a => a.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
+            Add("State", a => a.ProjectLocationStateProvince, 95, DhtmlxGridColumnFilterType.Text);
+            Add("Jurisdiction", a => a.ProjectLocationJurisdiction, 95, DhtmlxGridColumnFilterType.Text);
+            Add("Watershed", a => a.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
             Add(Models.FieldDefinition.ProjectDescription.ToGridHeaderString(), x => x.ProjectDescription, 300);
         }
     }

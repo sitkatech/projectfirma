@@ -9,13 +9,12 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectExcelSpec()
         {
-            AddColumn(Models.FieldDefinition.ProjectNumber.FieldDefinitionDisplayName, x => x.ProjectNumberString);
             AddColumn(Models.FieldDefinition.ProjectName.FieldDefinitionDisplayName, x => x.ProjectName);
             AddColumn(Models.FieldDefinition.LeadImplementer.FieldDefinitionDisplayName, x => x.LeadImplementerName);
             AddColumn(Models.FieldDefinition.PrimaryContact.FieldDefinitionDisplayName, x => (x.LeadImplementer != null) ? x.LeadImplementer.PrimaryContactPersonWithOrgAsString : string.Empty);
             AddColumn("Non-Lead Implementing Organizations",
                 x => string.Join(",", x.ProjectImplementingOrganizations.Where(pio => pio.OrganizationID != x.LeadImplementer.OrganizationID).Select(pio => pio.Organization.DisplayName)));
-            AddColumn(Models.FieldDefinition.Stage.FieldDefinitionDisplayName, x => x.ProjectStage.ProjectStageDisplayName);
+            AddColumn(Models.FieldDefinition.ProjectStage.FieldDefinitionDisplayName, x => x.ProjectStage.ProjectStageDisplayName);
             AddColumn("Threshold Categories", x => string.Join(",", x.ProjectThresholdCategories.Select(tc => tc.ThresholdCategory.DisplayName)));
             AddColumn("Local and Regional Plans", x => string.Join(",", x.ProjectLocalAndRegionalPlans.Select(ap => ap.LocalAndRegionalPlan.LocalAndRegionalPlanName)));
             AddColumn("Watersheds", x => string.Join(",", x.ProjectWatersheds.Select(pw => pw.Watershed.DisplayName)));
@@ -29,11 +28,10 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(Models.FieldDefinition.Latitude.FieldDefinitionDisplayName, a => a.ProjectLocationPointLatitude);
             AddColumn(Models.FieldDefinition.Longitude.FieldDefinitionDisplayName, a => a.ProjectLocationPointLongitude);
             AddColumn(Models.FieldDefinition.Region.FieldDefinitionDisplayName, a => a.ProjectLocationTypeDisplay);
-            AddColumn(Models.FieldDefinition.ProjectLocationState.FieldDefinitionDisplayName, a => a.ProjectLocationStateProvince);
-            AddColumn(Models.FieldDefinition.ProjectLocationJurisdiction.FieldDefinitionDisplayName, a => a.ProjectLocationJurisdiction);
-            AddColumn(Models.FieldDefinition.ProjectLocationWatershed.FieldDefinitionDisplayName, a => a.ProjectLocationWatershed);
+            AddColumn("State", a => a.ProjectLocationStateProvince);
+            AddColumn("Jurisdiction", a => a.ProjectLocationJurisdiction);
+            AddColumn("Watershed", a => a.ProjectLocationWatershed);
             AddColumn("Project Location Notes", a => a.ProjectLocationNotes);
-            AddColumn(Models.FieldDefinition.ProjectIsAProgram.FieldDefinitionDisplayName, x => x.ImplementsMultipleProjects.ToYesNo());
         }
     }
 

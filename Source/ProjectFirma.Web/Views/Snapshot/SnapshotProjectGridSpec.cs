@@ -11,11 +11,10 @@ namespace ProjectFirma.Web.Views.Snapshot
         public SnapshotProjectGridSpec()
         {
             Add(string.Empty, x => UrlTemplate.MakeHrefString(x.Project.GetFactSheetUrl(), FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString()), 30);
-            Add(Models.FieldDefinition.ProjectNumber.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.Project.GetSummaryUrl(), x.Project.ProjectNumberString), 100, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.ProjectName.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.Project.GetSummaryUrl(), x.Project.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
             Add("Added/ Updated", x => x.SnapshotProjectType.SnapshotProjectTypeDisplayName, 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.LeadImplementer.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.Project.LeadImplementer != null ? x.Project.LeadImplementer.GetSummaryUrl() : null, x.Project.LeadImplementerName), 140);
-            Add(Models.FieldDefinition.Stage.ToGridHeaderStringWider(), x => x.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.ProjectStage.ToGridHeaderStringWider(), x => x.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.Project.PlanningDesignStartYear, 90, DhtmlxGridColumnFormatType.None);
             Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => x.Project.ImplementationStartYear, 115, DhtmlxGridColumnFormatType.None);
             Add(Models.FieldDefinition.CompletionYear.ToGridHeaderString(), x => x.Project.CompletionYear, 90, DhtmlxGridColumnFormatType.None);
@@ -26,9 +25,9 @@ namespace ProjectFirma.Web.Views.Snapshot
             Add(Models.FieldDefinition.Latitude.ToGridHeaderString(), x => x.Project.ProjectLocationPointLatitude, 80, DhtmlxGridColumnFormatType.LatLong);
             Add(Models.FieldDefinition.Longitude.ToGridHeaderString(), x => x.Project.ProjectLocationPointLongitude, 80, DhtmlxGridColumnFormatType.LatLong);
             Add(Models.FieldDefinition.Region.ToGridHeaderString(), x => x.Project.ProjectLocationTypeDisplay, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.ProjectLocationState.ToGridHeaderString(), x => x.Project.ProjectLocationStateProvince, 95, DhtmlxGridColumnFilterType.Text);
-            Add(Models.FieldDefinition.ProjectLocationJurisdiction.ToGridHeaderString(), x => x.Project.ProjectLocationJurisdiction, 95, DhtmlxGridColumnFilterType.Text);
-            Add(Models.FieldDefinition.ProjectLocationWatershed.ToGridHeaderString(), x => x.Project.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
+            Add("State", x => x.Project.ProjectLocationStateProvince, 95, DhtmlxGridColumnFilterType.Text);
+            Add("Jurisdiction", x => x.Project.ProjectLocationJurisdiction, 95, DhtmlxGridColumnFilterType.Text);
+            Add("Watershed", x => x.Project.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
             Add(Models.FieldDefinition.ProjectDescription.ToGridHeaderString(), x => x.Project.ProjectDescription, 300);
         }
     }

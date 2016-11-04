@@ -138,7 +138,7 @@
     <div class="pull-right" style="margin-top: 10px">
         @if (ViewDataTyped.ProposedProject != null)
         {
-            <span style="margin-right: 20px">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ProposedProjectState, "Project Proposal Status"): <span style="font-weight: bold">@ViewDataTyped.ProposedProject.ProposedProjectState.ProposedProjectStateDisplayName</span></span>
+            <span style="margin-right: 20px">Project Proposal Status: <span style="font-weight: bold">@ViewDataTyped.ProposedProject.ProposedProjectState.ProposedProjectStateDisplayName</span></span>
 
             switch (ViewDataTyped.ProposedProject.ProposedProjectState.ToEnum)
             {

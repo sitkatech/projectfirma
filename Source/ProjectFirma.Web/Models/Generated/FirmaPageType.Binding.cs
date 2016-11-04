@@ -265,7 +265,7 @@ namespace ProjectFirma.Web.Models
     public partial class FirmaPageTypeFirmaCustomPage1 : FirmaPageType
     {
         private FirmaPageTypeFirmaCustomPage1(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeFirmaCustomPage1 Instance = new FirmaPageTypeFirmaCustomPage1(3, @"FirmaCustomPage1", @"Meetings", 2);
+        public static readonly FirmaPageTypeFirmaCustomPage1 Instance = new FirmaPageTypeFirmaCustomPage1(3, @"FirmaCustomPage1", @"Meetings and Documents", 2);
     }
 
     public partial class FirmaPageTypeFirmaCustomPage2 : FirmaPageType

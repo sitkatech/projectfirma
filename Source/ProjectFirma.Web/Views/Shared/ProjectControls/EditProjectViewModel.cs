@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         [StringLength(Models.Project.ProjectDescriptionMaximumLength)]
         public string ProjectDescription { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.Stage)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStage)]
         public int ProjectStageID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
@@ -50,7 +50,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         [FieldDefinitionDisplay(FieldDefinitionEnum.LeadImplementer)]
         public int? LeadImplementerOrganizationID { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectIsAProgram)]
         public bool ImplementsMultipleProjects { get; set; }
 
         public bool HasExistingProjectUpdate { get; set; }

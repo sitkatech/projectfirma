@@ -33,15 +33,14 @@ namespace ProjectFirma.Web.Views.Project
 
             Add(string.Empty, x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(), FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString()), 30);
 
-            Add(Models.FieldDefinition.ProjectNumber.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetSummaryUrl(), x.ProjectNumberString), 100, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.ProjectName.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetSummaryUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.LeadImplementer.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.LeadImplementer != null ? x.LeadImplementer.GetSummaryUrl() : null, x.LeadImplementerName), 175);
-            Add(Models.FieldDefinition.Stage.ToGridHeaderStringWider(), x => x.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.ProjectStage.ToGridHeaderStringWider(), x => x.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.PlanningDesignStartYear, 90, DhtmlxGridColumnFormatType.None);
             Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => x.ImplementationStartYear, 115, DhtmlxGridColumnFormatType.None);
             Add(Models.FieldDefinition.CompletionYear.ToGridHeaderString(), x => x.CompletionYear, 90, DhtmlxGridColumnFormatType.None);
-            Add(Models.FieldDefinition.NumberOfReportedPMRecords.ToGridHeaderString(), x => x.PerformanceMeasureActuals.Count, 100);
-            Add(Models.FieldDefinition.NumberOfReportedExpenditureRecords.ToGridHeaderString(), x => x.ProjectFundingSourceExpenditures.Count, 100);
+            Add("Number Of Reported PM Records", x => x.PerformanceMeasureActuals.Count, 100);
+            Add("Number Of Reported Expenditure Records", x => x.ProjectFundingSourceExpenditures.Count, 100);
             Add(Models.FieldDefinition.FundingType.ToGridHeaderString(), x => x.FundingType.FundingTypeShortName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.EstimatedTotalCost.ToGridHeaderString(), x => x.EstimatedTotalCost, 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add(Models.FieldDefinition.SecuredFunding.ToGridHeaderString(), x => x.SecuredFunding, 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
@@ -49,13 +48,13 @@ namespace ProjectFirma.Web.Views.Project
             Add(Models.FieldDefinition.Latitude.ToGridHeaderString(), a => a.ProjectLocationPointLatitude, 80, DhtmlxGridColumnFormatType.LatLong);
             Add(Models.FieldDefinition.Longitude.ToGridHeaderString(), a => a.ProjectLocationPointLongitude, 80, DhtmlxGridColumnFormatType.LatLong);
             Add(Models.FieldDefinition.Region.ToGridHeaderString(), a => a.ProjectLocationTypeDisplay, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.ProjectLocationState.ToGridHeaderString(), a => a.ProjectLocationStateProvince, 95, DhtmlxGridColumnFilterType.Text);
-            Add(Models.FieldDefinition.ProjectLocationJurisdiction.ToGridHeaderString(), a => a.ProjectLocationJurisdiction, 95, DhtmlxGridColumnFilterType.Text);
-            Add(Models.FieldDefinition.ProjectLocationWatershed.ToGridHeaderString(), a => a.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
+            Add("State", a => a.ProjectLocationStateProvince, 95, DhtmlxGridColumnFilterType.Text);
+            Add("Jurisdiction", a => a.ProjectLocationJurisdiction, 95, DhtmlxGridColumnFilterType.Text);
+            Add("Watershed", a => a.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
             Add(Models.FieldDefinition.ProjectDescription.ToGridHeaderString(), x => x.ProjectDescription, 200);
             if (userHasTagViewPermissions)
             {
-                Add(Models.FieldDefinition.Tags.ToGridHeaderString(), x => new HtmlString(!x.ProjectTags.Any() ? string.Empty : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.DisplayNameAsUrl))), 100, DhtmlxGridColumnFilterType.Html);
+                Add("Tags", x => new HtmlString(!x.ProjectTags.Any() ? string.Empty : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.DisplayNameAsUrl))), 100, DhtmlxGridColumnFilterType.Html);
             }
 
             Add("# of Photos", x => x.ProjectImages.Count, 60);

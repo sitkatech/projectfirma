@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             Add("#", a => UrlTemplate.MakeHrefString(a.GetInfoSheetUrl(), a.PerformanceMeasureID.ToString(CultureInfo.InvariantCulture)), 35, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.PerformanceMeasure.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetInfoSheetUrl(), a.DisplayNameNoNumber), 320, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.MeasurementUnit.ToGridHeaderString("Units"), a => a.Indicator.MeasurementUnitType.MeasurementUnitTypeDisplayName, 110, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.IndicatorDefinition.ToGridHeaderString("Performance Measure Definition"), a => a.Indicator.IndicatorDefinition, 350, DhtmlxGridColumnFilterType.Text);
+            Add("Performance Measure Definition", a => a.Indicator.IndicatorDefinition, 350, DhtmlxGridColumnFilterType.Text);
             Add("# of Subcategories", a => a.Indicator.GetRealSubcategoryCount(), 110);
             Add("# of Projects", a => a.ReportedProjectsCount, 80);
             Add("# of Projects Expected", a => a.ExpectedProjectsCount, 100);

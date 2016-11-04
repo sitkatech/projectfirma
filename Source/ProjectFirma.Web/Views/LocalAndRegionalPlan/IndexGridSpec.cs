@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Views.LocalAndRegionalPlan
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, !x.HasDependentObjects()), 30);
             }
-            Add(Models.FieldDefinition.LocalAndRegionalPlan.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.DisplayName), 550, DhtmlxGridColumnFilterType.Html);
+            Add("Local And Regional Plan", a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.DisplayName), 550, DhtmlxGridColumnFilterType.Html);
             Add("# of Projects", a => a.AssociatedProjects.Count, 90);
         }
     }

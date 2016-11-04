@@ -5,7 +5,7 @@ insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeD
 values
 (1, 'HomePage', 'Home Page', 2),
 (2, 'About', 'About Clackamas Partnership', 2),
-(3, 'FirmaCustomPage1', 'Meetings', 2),
+(3, 'FirmaCustomPage1', 'Meetings and Documents', 2),
 (4, 'FirmaCustomPage2', 'Firma Custom Page 2', 2),
 (5, 'FirmaCustomPage3', 'Firma Custom Page 3', 2),
 (6, 'FullProjectList', 'Full Project List', 1),

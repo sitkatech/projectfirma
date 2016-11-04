@@ -63,13 +63,13 @@
             <div class="contentWrapper">
                 <table class="summaryLayout">
                     <tr>
-                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorDisplayName, "Display Name"):</th>
+                        <th>Display Name:</th>
                         <td>
                             @ViewDataTyped.Indicator.IndicatorDisplayName
                         </td>
                     </tr>
                     <tr>
-                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorType):</th>
+                        <th>Indicator Type:</th>
                         <td>
                             @ViewDataTyped.Indicator.IndicatorType.IndicatorTypeDisplayName
                         </td>
@@ -82,7 +82,7 @@
                     </tr>
                     <tr>
                         <th>
-                            @Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorDefinition, "Definition"):
+                            Definition:
                         </th>
                         <td>
                             @ViewDataTyped.Indicator.IndicatorDefinition.ToHTMLFormattedString()
@@ -102,7 +102,7 @@
                     <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAccomplishmentsMetadataUrl, string.Format("Edit Accomplishments Metadata: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions) Chart Metadata</h2>
                     <table class="summaryLayout" style="margin: 10px 0">
                         <tr>
-                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorPrimarySource, "Data Source"):</th>
+                            <th>Data Source:</th>
                             <td>
                                 @if (!string.IsNullOrWhiteSpace(ViewDataTyped.Indicator.DataSourceUrl))
                                 {
@@ -118,7 +118,7 @@
                         @if (ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
                         {
                             <tr>
-                                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.ChartTitle):</th>
+                                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureChartTitle):</th>
                                 <td>
                                     @ViewDataTyped.Indicator.ChartTitle
                                 </td>
@@ -154,7 +154,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="summarySection">
-                            <h2>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Subcategory, "Subcategories")</h2>
+                            <h2>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureSubcategory, "Subcategories")</h2>
                             <div class="contentWrapper">
                                 @if (ViewDataTyped.Indicator.HasRealSubcategories)
                                 {
@@ -264,7 +264,7 @@
                             <tr>
                                 <th>
                                     @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditCriticalDefinitionsUrl, string.Format("Edit Critical Definitions: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
-                                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorCriticalDefinitions)
+                                    Indicator Critical Definitions
                                 </th>
                             </tr>
                             <tr>
@@ -275,7 +275,7 @@
                             <tr>
                                 <th>
                                     @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAccountingPeriodAndScaleUrl, string.Format("Edit Accounting Period and Scale: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
-                                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorAccountingPeriodAndScale)
+                                    Indicator Accounting Period And Scale
                                 </th>
                             </tr>
                             <tr>
@@ -286,7 +286,7 @@
                             <tr>
                                 <th>
                                     @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit Project Reporting: {0}", ViewDataTyped.Indicator.IndicatorDisplayName), 800, ViewDataTyped.UserHasIndicatorOverviewManagePermissions)
-                                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorProjectReporting)
+                                    Indicator Project Reporting
                                 </th>
                             </tr>
                             <tr>

@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
 
         public string SummaryUrl
         {
-            get { return SitkaRoute<FundingSourceController>.BuildUrlFromExpression(x => x.Summary(FundingSourceID)); }
+            get { return SitkaRoute<FundingSourceController>.BuildUrlFromExpression(x => x.Detail(FundingSourceID)); }
         }
 
         public static bool IsFundingSourceNameUnique(IEnumerable<FundingSource> fundingSources, string fundingSourceName, int currentFundingSourceID)

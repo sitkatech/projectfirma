@@ -2,35 +2,43 @@
 @inherits ProjectFirma.Web.Views.FundingSource.Edit
 @using (Html.BeginForm())
 {
-    <table class="dialogFormLayout">
-        <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.FundingSourceName):</th>
-            <td>
-                @Html.TextBoxFor(m => m.FundingSourceName, new {style = "width:480px"})
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+               @Html.LabelWithFieldDefinitionFor(m => m.FundingSourceName):
+            </div>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.FundingSourceName, new { style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.FundingSourceName)
-            </td>
-        </tr>
-        <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.FundingSourceDescription):</th>
-            <td>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+               @Html.LabelWithFieldDefinitionFor(m => m.FundingSourceDescription):
+            </div>
+            <div class="col-sm-9">
                 @Html.TextAreaWithMaxLengthFor(m => m.FundingSourceDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null)
                 @Html.ValidationMessageFor(m => m.FundingSourceDescription)
-            </td>
-        </tr>
-        <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.OrganizationID):</th>
-            <td>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithFieldDefinitionFor(m => m.OrganizationID):
+            </div>
+            <div class="col-sm-9">
                 @Html.DropDownListFor(m => m.OrganizationID, ViewDataTyped.Organizations)
                 @Html.ValidationMessageFor(m => m.OrganizationID)
-            </td>
-        </tr>
-        <tr>
-            <th>@Html.LabelFor(m => m.IsActive):</th>
-            <td>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelFor(m => m.IsActive):
+            </div>
+            <div class="col-sm-9">
                 @Html.CheckBoxFor(m => m.IsActive)
                 @Html.ValidationMessageFor(m => m.IsActive)
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
+    </div>
     @Html.HiddenFor(m => m.FundingSourceID)
 }

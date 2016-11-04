@@ -19,8 +19,6 @@ using EditViewModel = ProjectFirma.Web.Views.FundingSource.EditViewModel;
 using Index = ProjectFirma.Web.Views.FundingSource.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.FundingSource.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.FundingSource.IndexViewData;
-using Summary = ProjectFirma.Web.Views.FundingSource.Summary;
-using SummaryViewData = ProjectFirma.Web.Views.FundingSource.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -119,7 +117,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [FundingSourceViewFeature]
-        public ViewResult Summary(FundingSourcePrimaryKey fundingSourcePrimaryKey)
+        public ViewResult Detail(FundingSourcePrimaryKey fundingSourcePrimaryKey)
         {
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
             var focusAreas = HttpRequestStorage.DatabaseEntities.FocusAreas.OrderBy(x => x.FocusAreaNumber).ToList();
@@ -137,8 +135,8 @@ namespace ProjectFirma.Web.Controllers
             var chartColorRange = focusAreas.Select(x => x.FocusAreaColor).ToList();
             var calendarYearExpendituresLineChartViewData = new CalendarYearExpendituresLineChartViewData(googleChart,
                 chartColorRange);
-            var viewData = new SummaryViewData(CurrentPerson, fundingSource, calendarYearExpendituresLineChartViewData);
-            return RazorView<Summary, SummaryViewData>(viewData);
+            var viewData = new DetailViewData(CurrentPerson, fundingSource, calendarYearExpendituresLineChartViewData);
+            return RazorView<Detail, DetailViewData>(viewData);
         }
 
         [HttpGet]
@@ -155,7 +153,7 @@ namespace ProjectFirma.Web.Controllers
             var canDelete = !fundingSource.HasDependentObjects();
             var confirmMessage = canDelete
                 ? string.Format("Are you sure you want to delete this Funding Source '{0}'?", fundingSource.FundingSourceName)
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Funding Source", SitkaRoute<FundingSourceController>.BuildLinkFromExpression(x => x.Summary(fundingSource), "here"));
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Funding Source", SitkaRoute<FundingSourceController>.BuildLinkFromExpression(x => x.Detail(fundingSource), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);

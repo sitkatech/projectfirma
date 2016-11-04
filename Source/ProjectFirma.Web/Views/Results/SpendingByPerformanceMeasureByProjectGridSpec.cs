@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Views.Results
         public SpendingByPerformanceMeasureByProjectGridSpec(Models.PerformanceMeasure performanceMeasure)
         {
             Add(Models.FieldDefinition.Project.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.ProjectUrl, a.ProjectName), 350, DhtmlxGridColumnFilterType.Html);
-            Add(Models.FieldDefinition.Stage.ToGridHeaderStringWider(), x => x.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.ProjectStage.ToGridHeaderStringWider(), x => x.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             foreach (var indicatorSubcategory in performanceMeasure.IndicatorSubcategories.OrderBy(x => x.IndicatorSubcategoryDisplayName))
             {
                 Add(indicatorSubcategory.IndicatorSubcategoryDisplayName,
@@ -63,9 +63,9 @@ namespace ProjectFirma.Web.Views.Results
             Add(Models.FieldDefinition.Latitude.ToGridHeaderString(), a => a.Project.ProjectLocationPointLatitude, 80, DhtmlxGridColumnFormatType.LatLong);
             Add(Models.FieldDefinition.Longitude.ToGridHeaderString(), a => a.Project.ProjectLocationPointLongitude, 80, DhtmlxGridColumnFormatType.LatLong);
             Add(Models.FieldDefinition.Region.ToGridHeaderString(), a => a.Project.ProjectLocationTypeDisplay, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.ProjectLocationState.ToGridHeaderString(), a => a.Project.ProjectLocationStateProvince, 95, DhtmlxGridColumnFilterType.Text);
-            Add(Models.FieldDefinition.ProjectLocationJurisdiction.ToGridHeaderString(), a => a.Project.ProjectLocationJurisdiction, 95, DhtmlxGridColumnFilterType.Text);
-            Add(Models.FieldDefinition.ProjectLocationWatershed.ToGridHeaderString(), a => a.Project.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
+            Add("State", a => a.Project.ProjectLocationStateProvince, 95, DhtmlxGridColumnFilterType.Text);
+            Add("Jurisdiction", a => a.Project.ProjectLocationJurisdiction, 95, DhtmlxGridColumnFilterType.Text);
+            Add("Watershed", a => a.Project.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
         }
     }
 }

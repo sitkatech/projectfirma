@@ -10,18 +10,14 @@ namespace ProjectFirma.Web.Views.Results
     public class ProjectFundingSourceExpendituresBySectorGridSpec : GridSpec<ProjectFundingSourceSectorExpenditure>
     {
         public ProjectFundingSourceExpendituresBySectorGridSpec(int? calendarYear)
-        {
-            Add(Models.FieldDefinition.ProjectNumber.ToGridHeaderString(),
-                x => UrlTemplate.MakeHrefString(x.Project.GetSummaryUrl(), x.Project.ProjectNumberString),
-                100,
-                DhtmlxGridColumnFilterType.Html);
+        {            
             Add(Models.FieldDefinition.ProjectName.ToGridHeaderString(),
                 x => UrlTemplate.MakeHrefString(x.Project.GetSummaryUrl(), x.Project.ProjectName),
                 200,
                 DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.FocusArea.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.Project.ActionPriority.Program.FocusArea.SummaryUrl, x.Project.ActionPriority.Program.FocusArea.DisplayName), 150);
             Add(Models.FieldDefinition.Program.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.Project.ActionPriority.Program.SummaryUrl, x.Project.ActionPriority.Program.DisplayName), 100);
-            Add(Models.FieldDefinition.Stage.ToGridHeaderStringWider(), x => x.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.ProjectStage.ToGridHeaderStringWider(), x => x.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.Sector.ToGridHeaderString(), x => x.FundingSource.Organization.Sector.SectorDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.FundingSource.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.FundingSource.SummaryUrl, x.FundingSource.DisplayName), 200);
             Add(Models.FieldDefinition.Organization.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.FundingSource.Organization.GetSummaryUrl(), x.FundingSource.Organization.DisplayName), 100);

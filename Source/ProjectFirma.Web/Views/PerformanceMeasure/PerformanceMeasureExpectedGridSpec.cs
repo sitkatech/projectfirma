@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 a => UrlTemplate.MakeHrefString(a.Project.GetSummaryUrl(), a.Project.DisplayName),
                 350,
                 DhtmlxGridColumnFilterType.Html);
-            Add(Models.FieldDefinition.Stage.ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             foreach (var indicatorSubcategory in performanceMeasure.IndicatorSubcategories.OrderBy(x => x.IndicatorSubcategoryDisplayName))
             {
                 Add(indicatorSubcategory.IndicatorSubcategoryDisplayName,

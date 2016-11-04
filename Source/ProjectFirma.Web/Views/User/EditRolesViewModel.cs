@@ -13,7 +13,6 @@ namespace ProjectFirma.Web.Views.User
         public int PersonID { get; set; }
 
         [Required]        
-        [FieldDefinitionDisplay(FieldDefinitionEnum.RoleID)]
         public int? RoleID { get; set; }
 
         [Required]

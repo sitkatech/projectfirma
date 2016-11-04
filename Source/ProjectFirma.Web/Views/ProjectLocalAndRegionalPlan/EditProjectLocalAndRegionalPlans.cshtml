@@ -31,7 +31,7 @@
     <select ng-model="LocalAndRegionalPlanToAdd" ng-options="localAndRegionalPlan.DisplayName for localAndRegionalPlan in filteredLocalAndRegionalPlans()" style="width: 700px"></select>
     <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>
 
-    <p class="stylizeLikeTH" style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.LocalAndRegionalPlan):</p>
+    <p class="stylizeLikeTH" style="white-space: nowrap">Local And Regional Plan</p>
 
     <div style="max-height: 500px; overflow-y: auto; overflow-x:hidden">
         <div ng-repeat="projectLocalAndRegionalPlan in AngularModel.ProjectLocalAndRegionalPlans | orderBy:[getLocalAndRegionalPlanName]">

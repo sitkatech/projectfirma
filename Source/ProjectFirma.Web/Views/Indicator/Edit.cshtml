@@ -5,14 +5,14 @@
 {
     <div class="container-fluid container-fluid-dialog-form" style="max-height: 600px; overflow-y: auto">
         <div class="row">
-            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorDisplayName, "Display Name"):</div>
+            <div class="col-md-3 col-header">Display Name:</div>
             <div class="col-md-8">
                 @Html.TextBoxFor(m => m.IndicatorDisplayName, new { style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.IndicatorDisplayName)
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorType):</div>
+            <div class="col-md-3 col-header">Indicator Type:</div>
             <div class="col-md-8">
                 @Html.DropDownListFor(m => m.IndicatorTypeID, ViewDataTyped.IndicatorTypes)
                 @Html.ValidationMessageFor(m => m.IndicatorTypeID)
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(FieldDefinition.IndicatorDefinition, "Definition"):</div>
+            <div class="col-md-3 col-header">Definition:</div>
             <div class="col-md-8">
                 <div style="max-height: 600px; overflow-y: auto">
                     @Html.TextAreaWithMaxLengthFor(x => x.IndicationDefinition, new TextAreaForExtensions.TextAreaDimensions(null, 6), null)

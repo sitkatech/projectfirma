@@ -217,4 +217,11 @@ a.excelbutton {
   padding: 0 0 0 20px;
   font-size: 12px;
 }
+.helpicon {
+  font-size: 10px;
+  cursor: pointer;
+}
+.helpiconGridBlue {
+  color: #70a1cc;
+}
 /*# sourceMappingURL=bootstrap.firma.theme.css.map */

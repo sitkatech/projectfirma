@@ -45,7 +45,6 @@ namespace ProjectFirma.Web.Views.ProposedProject
         [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
         public int FundingTypeID { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectIsAProgram)]
         public bool? ImplementsMultipleProjects { get; set; }
 
         /// <summary>

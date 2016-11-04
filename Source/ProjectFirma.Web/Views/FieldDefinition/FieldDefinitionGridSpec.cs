@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Views.FieldDefinition
                                 string.Format("Edit Field Definition '{0}'", a.FieldDefinitionDisplayName))),
                     30);
             }
-            Add("Field Name", a => a.FieldDefinitionDisplayName, 280);
+            Add("Field Name", a => a.FieldDefinitionDisplayName, 250);
             Add("Defined?", a => a.HasDefinition.ToYesNo(), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("FieldDefinitionID", a => a.FieldDefinitionID, 0);
         }

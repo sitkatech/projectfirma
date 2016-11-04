@@ -10,12 +10,12 @@
 
 .qtip-default .qtip-titlebar 
 {
-	background-color: #007BBA;
+	background-color: #84AFD3;
 	color: white;
 }
 
 .qtip-default {
-	border: 2px solid;
+	border: 1px solid;
 	border-radius: 3px 3px 3px 3px;
 }
 
@@ -26,12 +26,12 @@
 
 .ui-tooltip-red {
     background-color: #eb9d9e;
-	border-color: #800000;
+	border-color: #F0564D;
     font-size: 11px;
 }
 
 .ui-tooltip-help {
     background-color: #F5F5F5;
-	border-color: #007CB9;
+	border-color: #84AFD3;
     font-size: 11px;
 }

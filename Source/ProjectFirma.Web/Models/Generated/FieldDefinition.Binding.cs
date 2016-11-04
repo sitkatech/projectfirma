@@ -18,7 +18,6 @@ namespace ProjectFirma.Web.Models
     {
         public static readonly FieldDefinitionActionPriority ActionPriority = FieldDefinitionActionPriority.Instance;
         public static readonly FieldDefinitionActionPriorityName ActionPriorityName = FieldDefinitionActionPriorityName.Instance;
-        public static readonly FieldDefinitionLocalAndRegionalPlanName LocalAndRegionalPlanName = FieldDefinitionLocalAndRegionalPlanName.Instance;
         public static readonly FieldDefinitionExpectedValue ExpectedValue = FieldDefinitionExpectedValue.Instance;
         public static readonly FieldDefinitionFocusArea FocusArea = FieldDefinitionFocusArea.Instance;
         public static readonly FieldDefinitionFocusAreaName FocusAreaName = FieldDefinitionFocusAreaName.Instance;
@@ -33,8 +32,6 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionOrganizationName OrganizationName = FieldDefinitionOrganizationName.Instance;
         public static readonly FieldDefinitionPassword Password = FieldDefinitionPassword.Instance;
         public static readonly FieldDefinitionPerformanceMeasure PerformanceMeasure = FieldDefinitionPerformanceMeasure.Instance;
-        public static readonly FieldDefinitionIndicatorDefinition IndicatorDefinition = FieldDefinitionIndicatorDefinition.Instance;
-        public static readonly FieldDefinitionIndicatorDisplayName IndicatorDisplayName = FieldDefinitionIndicatorDisplayName.Instance;
         public static readonly FieldDefinitionMeasurementUnit MeasurementUnit = FieldDefinitionMeasurementUnit.Instance;
         public static readonly FieldDefinitionPhotoCaption PhotoCaption = FieldDefinitionPhotoCaption.Instance;
         public static readonly FieldDefinitionPhotoCredit PhotoCredit = FieldDefinitionPhotoCredit.Instance;
@@ -50,34 +47,20 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionReportedValue ReportedValue = FieldDefinitionReportedValue.Instance;
         public static readonly FieldDefinitionSector Sector = FieldDefinitionSector.Instance;
         public static readonly FieldDefinitionSecuredFunding SecuredFunding = FieldDefinitionSecuredFunding.Instance;
-        public static readonly FieldDefinitionStage Stage = FieldDefinitionStage.Instance;
-        public static readonly FieldDefinitionSubcategories Subcategories = FieldDefinitionSubcategories.Instance;
-        public static readonly FieldDefinitionProjectIsAProgram ProjectIsAProgram = FieldDefinitionProjectIsAProgram.Instance;
+        public static readonly FieldDefinitionProjectStage ProjectStage = FieldDefinitionProjectStage.Instance;
         public static readonly FieldDefinitionThresholdCategoryName ThresholdCategoryName = FieldDefinitionThresholdCategoryName.Instance;
         public static readonly FieldDefinitionEstimatedTotalCost EstimatedTotalCost = FieldDefinitionEstimatedTotalCost.Instance;
         public static readonly FieldDefinitionUnfundedNeed UnfundedNeed = FieldDefinitionUnfundedNeed.Instance;
         public static readonly FieldDefinitionUsername Username = FieldDefinitionUsername.Instance;
         public static readonly FieldDefinitionWatershedName WatershedName = FieldDefinitionWatershedName.Instance;
         public static readonly FieldDefinitionProject Project = FieldDefinitionProject.Instance;
-        public static readonly FieldDefinitionProjectNumber ProjectNumber = FieldDefinitionProjectNumber.Instance;
         public static readonly FieldDefinitionThresholdCategory ThresholdCategory = FieldDefinitionThresholdCategory.Instance;
-        public static readonly FieldDefinitionLocalAndRegionalPlan LocalAndRegionalPlan = FieldDefinitionLocalAndRegionalPlan.Instance;
         public static readonly FieldDefinitionWatershed Watershed = FieldDefinitionWatershed.Instance;
-        public static readonly FieldDefinitionSubcategory Subcategory = FieldDefinitionSubcategory.Instance;
-        public static readonly FieldDefinitionSubcategoryOption SubcategoryOption = FieldDefinitionSubcategoryOption.Instance;
-        public static readonly FieldDefinitionSubcategoryOptions SubcategoryOptions = FieldDefinitionSubcategoryOptions.Instance;
+        public static readonly FieldDefinitionPerformanceMeasureSubcategory PerformanceMeasureSubcategory = FieldDefinitionPerformanceMeasureSubcategory.Instance;
+        public static readonly FieldDefinitionPerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption = FieldDefinitionPerformanceMeasureSubcategoryOption.Instance;
         public static readonly FieldDefinitionIsPrimaryProgram IsPrimaryProgram = FieldDefinitionIsPrimaryProgram.Instance;
-        public static readonly FieldDefinitionIndicatorCriticalDefinitions IndicatorCriticalDefinitions = FieldDefinitionIndicatorCriticalDefinitions.Instance;
-        public static readonly FieldDefinitionIndicatorAccountingPeriodAndScale IndicatorAccountingPeriodAndScale = FieldDefinitionIndicatorAccountingPeriodAndScale.Instance;
-        public static readonly FieldDefinitionIndicatorProjectReporting IndicatorProjectReporting = FieldDefinitionIndicatorProjectReporting.Instance;
         public static readonly FieldDefinitionFundedAmount FundedAmount = FieldDefinitionFundedAmount.Instance;
         public static readonly FieldDefinitionProjectLocation ProjectLocation = FieldDefinitionProjectLocation.Instance;
-        public static readonly FieldDefinitionIndicatorBackground IndicatorBackground = FieldDefinitionIndicatorBackground.Instance;
-        public static readonly FieldDefinitionNumberOfReportedPMRecords NumberOfReportedPMRecords = FieldDefinitionNumberOfReportedPMRecords.Instance;
-        public static readonly FieldDefinitionNumberOfReportedExpenditureRecords NumberOfReportedExpenditureRecords = FieldDefinitionNumberOfReportedExpenditureRecords.Instance;
-        public static readonly FieldDefinitionProjectLocationState ProjectLocationState = FieldDefinitionProjectLocationState.Instance;
-        public static readonly FieldDefinitionProjectLocationJurisdiction ProjectLocationJurisdiction = FieldDefinitionProjectLocationJurisdiction.Instance;
-        public static readonly FieldDefinitionProjectLocationWatershed ProjectLocationWatershed = FieldDefinitionProjectLocationWatershed.Instance;
         public static readonly FieldDefinitionExcludeFromFactSheet ExcludeFromFactSheet = FieldDefinitionExcludeFromFactSheet.Instance;
         public static readonly FieldDefinitionFundingType FundingType = FieldDefinitionFundingType.Instance;
         public static readonly FieldDefinitionProjectCostInYearOfExpenditure ProjectCostInYearOfExpenditure = FieldDefinitionProjectCostInYearOfExpenditure.Instance;
@@ -85,11 +68,8 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionReportingYear ReportingYear = FieldDefinitionReportingYear.Instance;
         public static readonly FieldDefinitionTagName TagName = FieldDefinitionTagName.Instance;
         public static readonly FieldDefinitionTagDescription TagDescription = FieldDefinitionTagDescription.Instance;
-        public static readonly FieldDefinitionTags Tags = FieldDefinitionTags.Instance;
         public static readonly FieldDefinitionReportedExpenditure ReportedExpenditure = FieldDefinitionReportedExpenditure.Instance;
         public static readonly FieldDefinitionProposedProject ProposedProject = FieldDefinitionProposedProject.Instance;
-        public static readonly FieldDefinitionLocalAndRegionalPlanDocumentUrl LocalAndRegionalPlanDocumentUrl = FieldDefinitionLocalAndRegionalPlanDocumentUrl.Instance;
-        public static readonly FieldDefinitionLocalAndRegionalPlanDocumentLinkText LocalAndRegionalPlanDocumentLinkText = FieldDefinitionLocalAndRegionalPlanDocumentLinkText.Instance;
         public static readonly FieldDefinitionSpendingAssociatedWithPM SpendingAssociatedWithPM = FieldDefinitionSpendingAssociatedWithPM.Instance;
         public static readonly FieldDefinitionPlanningDesignStartYear PlanningDesignStartYear = FieldDefinitionPlanningDesignStartYear.Instance;
         public static readonly FieldDefinitionAssociatedPrograms AssociatedPrograms = FieldDefinitionAssociatedPrograms.Instance;
@@ -98,18 +78,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionCalculatedTotalRemainingOperatingCost CalculatedTotalRemainingOperatingCost = FieldDefinitionCalculatedTotalRemainingOperatingCost.Instance;
         public static readonly FieldDefinitionCurrentYearForPVCalculations CurrentYearForPVCalculations = FieldDefinitionCurrentYearForPVCalculations.Instance;
         public static readonly FieldDefinitionLifecycleOperatingCost LifecycleOperatingCost = FieldDefinitionLifecycleOperatingCost.Instance;
-        public static readonly FieldDefinitionIndicatorSystemName IndicatorSystemName = FieldDefinitionIndicatorSystemName.Instance;
-        public static readonly FieldDefinitionIndicatorSimpleDescription IndicatorSimpleDescription = FieldDefinitionIndicatorSimpleDescription.Instance;
-        public static readonly FieldDefinitionIndicatorPrimarySource IndicatorPrimarySource = FieldDefinitionIndicatorPrimarySource.Instance;
-        public static readonly FieldDefinitionIndicatorType IndicatorType = FieldDefinitionIndicatorType.Instance;
-        public static readonly FieldDefinitionChartTitle ChartTitle = FieldDefinitionChartTitle.Instance;
-        public static readonly FieldDefinitionProposedProjectState ProposedProjectState = FieldDefinitionProposedProjectState.Instance;
-        public static readonly FieldDefinitionUserLastName UserLastName = FieldDefinitionUserLastName.Instance;
-        public static readonly FieldDefinitionUserFirstName UserFirstName = FieldDefinitionUserFirstName.Instance;
-        public static readonly FieldDefinitionUserEmail UserEmail = FieldDefinitionUserEmail.Instance;
-        public static readonly FieldDefinitionUserPhone UserPhone = FieldDefinitionUserPhone.Instance;
-        public static readonly FieldDefinitionRoleID RoleID = FieldDefinitionRoleID.Instance;
-        public static readonly FieldDefinitionSiteArea SiteArea = FieldDefinitionSiteArea.Instance;
+        public static readonly FieldDefinitionPerformanceMeasureChartTitle PerformanceMeasureChartTitle = FieldDefinitionPerformanceMeasureChartTitle.Instance;
         public static readonly FieldDefinitionRoleName RoleName = FieldDefinitionRoleName.Instance;
         public static readonly FieldDefinitionRegion Region = FieldDefinitionRegion.Instance;
         public static readonly FieldDefinitionLatitude Latitude = FieldDefinitionLatitude.Instance;
@@ -132,7 +101,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { ActionPriority, ActionPriorityName, LocalAndRegionalPlanName, ExpectedValue, FocusArea, FocusAreaName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, Organization, OrganizationAbbreviation, OrganizationName, Password, PerformanceMeasure, IndicatorDefinition, IndicatorDisplayName, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, Program, ProgramName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, Stage, Subcategories, ProjectIsAProgram, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ProjectNumber, ThresholdCategory, LocalAndRegionalPlan, Watershed, Subcategory, SubcategoryOption, SubcategoryOptions, IsPrimaryProgram, IndicatorCriticalDefinitions, IndicatorAccountingPeriodAndScale, IndicatorProjectReporting, FundedAmount, ProjectLocation, IndicatorBackground, NumberOfReportedPMRecords, NumberOfReportedExpenditureRecords, ProjectLocationState, ProjectLocationJurisdiction, ProjectLocationWatershed, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, Tags, ReportedExpenditure, ProposedProject, LocalAndRegionalPlanDocumentUrl, LocalAndRegionalPlanDocumentLinkText, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedPrograms, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, IndicatorSystemName, IndicatorSimpleDescription, IndicatorPrimarySource, IndicatorType, ChartTitle, ProposedProjectState, UserLastName, UserFirstName, UserEmail, UserPhone, RoleID, SiteArea, RoleName, Region, Latitude, Longitude, OrganizationUrl, ChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
+            All = new List<FieldDefinition> { ActionPriority, ActionPriorityName, ExpectedValue, FocusArea, FocusAreaName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, Organization, OrganizationAbbreviation, OrganizationName, Password, PerformanceMeasure, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, Program, ProgramName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, ProjectStage, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ThresholdCategory, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryProgram, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, ProposedProject, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedPrograms, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, Latitude, Longitude, OrganizationUrl, ChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -211,8 +180,6 @@ namespace ProjectFirma.Web.Models
                     return CalculatedTotalRemainingOperatingCost;
                 case FieldDefinitionEnum.ChartCaption:
                     return ChartCaption;
-                case FieldDefinitionEnum.ChartTitle:
-                    return ChartTitle;
                 case FieldDefinitionEnum.CompletionYear:
                     return CompletionYear;
                 case FieldDefinitionEnum.CurrentYearForPVCalculations:
@@ -249,26 +216,6 @@ namespace ProjectFirma.Web.Models
                     return ImplementationStartYear;
                 case FieldDefinitionEnum.Implementer:
                     return Implementer;
-                case FieldDefinitionEnum.IndicatorAccountingPeriodAndScale:
-                    return IndicatorAccountingPeriodAndScale;
-                case FieldDefinitionEnum.IndicatorBackground:
-                    return IndicatorBackground;
-                case FieldDefinitionEnum.IndicatorCriticalDefinitions:
-                    return IndicatorCriticalDefinitions;
-                case FieldDefinitionEnum.IndicatorDefinition:
-                    return IndicatorDefinition;
-                case FieldDefinitionEnum.IndicatorDisplayName:
-                    return IndicatorDisplayName;
-                case FieldDefinitionEnum.IndicatorPrimarySource:
-                    return IndicatorPrimarySource;
-                case FieldDefinitionEnum.IndicatorProjectReporting:
-                    return IndicatorProjectReporting;
-                case FieldDefinitionEnum.IndicatorSimpleDescription:
-                    return IndicatorSimpleDescription;
-                case FieldDefinitionEnum.IndicatorSystemName:
-                    return IndicatorSystemName;
-                case FieldDefinitionEnum.IndicatorType:
-                    return IndicatorType;
                 case FieldDefinitionEnum.IsPrimaryProgram:
                     return IsPrimaryProgram;
                 case FieldDefinitionEnum.Latitude:
@@ -277,14 +224,6 @@ namespace ProjectFirma.Web.Models
                     return LeadImplementer;
                 case FieldDefinitionEnum.LifecycleOperatingCost:
                     return LifecycleOperatingCost;
-                case FieldDefinitionEnum.LocalAndRegionalPlan:
-                    return LocalAndRegionalPlan;
-                case FieldDefinitionEnum.LocalAndRegionalPlanDocumentLinkText:
-                    return LocalAndRegionalPlanDocumentLinkText;
-                case FieldDefinitionEnum.LocalAndRegionalPlanDocumentUrl:
-                    return LocalAndRegionalPlanDocumentUrl;
-                case FieldDefinitionEnum.LocalAndRegionalPlanName:
-                    return LocalAndRegionalPlanName;
                 case FieldDefinitionEnum.Longitude:
                     return Longitude;
                 case FieldDefinitionEnum.MeasurementUnit:
@@ -297,10 +236,6 @@ namespace ProjectFirma.Web.Models
                     return MonitoringProgramPartner;
                 case FieldDefinitionEnum.MonitoringProgramUrl:
                     return MonitoringProgramUrl;
-                case FieldDefinitionEnum.NumberOfReportedExpenditureRecords:
-                    return NumberOfReportedExpenditureRecords;
-                case FieldDefinitionEnum.NumberOfReportedPMRecords:
-                    return NumberOfReportedPMRecords;
                 case FieldDefinitionEnum.Organization:
                     return Organization;
                 case FieldDefinitionEnum.OrganizationAbbreviation:
@@ -313,6 +248,12 @@ namespace ProjectFirma.Web.Models
                     return Password;
                 case FieldDefinitionEnum.PerformanceMeasure:
                     return PerformanceMeasure;
+                case FieldDefinitionEnum.PerformanceMeasureChartTitle:
+                    return PerformanceMeasureChartTitle;
+                case FieldDefinitionEnum.PerformanceMeasureSubcategory:
+                    return PerformanceMeasureSubcategory;
+                case FieldDefinitionEnum.PerformanceMeasureSubcategoryOption:
+                    return PerformanceMeasureSubcategoryOption;
                 case FieldDefinitionEnum.PhotoCaption:
                     return PhotoCaption;
                 case FieldDefinitionEnum.PhotoCredit:
@@ -333,26 +274,16 @@ namespace ProjectFirma.Web.Models
                     return ProjectCostInYearOfExpenditure;
                 case FieldDefinitionEnum.ProjectDescription:
                     return ProjectDescription;
-                case FieldDefinitionEnum.ProjectIsAProgram:
-                    return ProjectIsAProgram;
                 case FieldDefinitionEnum.ProjectLocation:
                     return ProjectLocation;
-                case FieldDefinitionEnum.ProjectLocationJurisdiction:
-                    return ProjectLocationJurisdiction;
-                case FieldDefinitionEnum.ProjectLocationState:
-                    return ProjectLocationState;
-                case FieldDefinitionEnum.ProjectLocationWatershed:
-                    return ProjectLocationWatershed;
                 case FieldDefinitionEnum.ProjectName:
                     return ProjectName;
                 case FieldDefinitionEnum.ProjectNote:
                     return ProjectNote;
-                case FieldDefinitionEnum.ProjectNumber:
-                    return ProjectNumber;
+                case FieldDefinitionEnum.ProjectStage:
+                    return ProjectStage;
                 case FieldDefinitionEnum.ProposedProject:
                     return ProposedProject;
-                case FieldDefinitionEnum.ProposedProjectState:
-                    return ProposedProjectState;
                 case FieldDefinitionEnum.Region:
                     return Region;
                 case FieldDefinitionEnum.ReportedExpenditure:
@@ -361,34 +292,18 @@ namespace ProjectFirma.Web.Models
                     return ReportedValue;
                 case FieldDefinitionEnum.ReportingYear:
                     return ReportingYear;
-                case FieldDefinitionEnum.RoleID:
-                    return RoleID;
                 case FieldDefinitionEnum.RoleName:
                     return RoleName;
                 case FieldDefinitionEnum.Sector:
                     return Sector;
                 case FieldDefinitionEnum.SecuredFunding:
                     return SecuredFunding;
-                case FieldDefinitionEnum.SiteArea:
-                    return SiteArea;
                 case FieldDefinitionEnum.SpendingAssociatedWithPM:
                     return SpendingAssociatedWithPM;
-                case FieldDefinitionEnum.Stage:
-                    return Stage;
-                case FieldDefinitionEnum.Subcategories:
-                    return Subcategories;
-                case FieldDefinitionEnum.Subcategory:
-                    return Subcategory;
-                case FieldDefinitionEnum.SubcategoryOption:
-                    return SubcategoryOption;
-                case FieldDefinitionEnum.SubcategoryOptions:
-                    return SubcategoryOptions;
                 case FieldDefinitionEnum.TagDescription:
                     return TagDescription;
                 case FieldDefinitionEnum.TagName:
                     return TagName;
-                case FieldDefinitionEnum.Tags:
-                    return Tags;
                 case FieldDefinitionEnum.ThresholdCategory:
                     return ThresholdCategory;
                 case FieldDefinitionEnum.ThresholdCategoryDescription:
@@ -401,16 +316,8 @@ namespace ProjectFirma.Web.Models
                     return ThresholdCategoryNarrative;
                 case FieldDefinitionEnum.UnfundedNeed:
                     return UnfundedNeed;
-                case FieldDefinitionEnum.UserEmail:
-                    return UserEmail;
-                case FieldDefinitionEnum.UserFirstName:
-                    return UserFirstName;
-                case FieldDefinitionEnum.UserLastName:
-                    return UserLastName;
                 case FieldDefinitionEnum.Username:
                     return Username;
-                case FieldDefinitionEnum.UserPhone:
-                    return UserPhone;
                 case FieldDefinitionEnum.Watershed:
                     return Watershed;
                 case FieldDefinitionEnum.WatershedName:
@@ -425,7 +332,6 @@ namespace ProjectFirma.Web.Models
     {
         ActionPriority = 1,
         ActionPriorityName = 2,
-        LocalAndRegionalPlanName = 3,
         ExpectedValue = 4,
         FocusArea = 5,
         FocusAreaName = 6,
@@ -440,8 +346,6 @@ namespace ProjectFirma.Web.Models
         OrganizationName = 16,
         Password = 17,
         PerformanceMeasure = 18,
-        IndicatorDefinition = 19,
-        IndicatorDisplayName = 20,
         MeasurementUnit = 21,
         PhotoCaption = 22,
         PhotoCredit = 23,
@@ -457,34 +361,20 @@ namespace ProjectFirma.Web.Models
         ReportedValue = 33,
         Sector = 34,
         SecuredFunding = 35,
-        Stage = 36,
-        Subcategories = 37,
-        ProjectIsAProgram = 38,
+        ProjectStage = 36,
         ThresholdCategoryName = 39,
         EstimatedTotalCost = 40,
         UnfundedNeed = 41,
         Username = 42,
         WatershedName = 43,
         Project = 44,
-        ProjectNumber = 45,
         ThresholdCategory = 46,
-        LocalAndRegionalPlan = 47,
         Watershed = 48,
-        Subcategory = 49,
-        SubcategoryOption = 50,
-        SubcategoryOptions = 51,
+        PerformanceMeasureSubcategory = 49,
+        PerformanceMeasureSubcategoryOption = 50,
         IsPrimaryProgram = 52,
-        IndicatorCriticalDefinitions = 53,
-        IndicatorAccountingPeriodAndScale = 54,
-        IndicatorProjectReporting = 55,
         FundedAmount = 56,
         ProjectLocation = 57,
-        IndicatorBackground = 58,
-        NumberOfReportedPMRecords = 59,
-        NumberOfReportedExpenditureRecords = 60,
-        ProjectLocationState = 61,
-        ProjectLocationJurisdiction = 62,
-        ProjectLocationWatershed = 63,
         ExcludeFromFactSheet = 64,
         FundingType = 73,
         ProjectCostInYearOfExpenditure = 74,
@@ -492,11 +382,8 @@ namespace ProjectFirma.Web.Models
         ReportingYear = 76,
         TagName = 77,
         TagDescription = 78,
-        Tags = 79,
         ReportedExpenditure = 80,
         ProposedProject = 81,
-        LocalAndRegionalPlanDocumentUrl = 83,
-        LocalAndRegionalPlanDocumentLinkText = 84,
         SpendingAssociatedWithPM = 85,
         PlanningDesignStartYear = 86,
         AssociatedPrograms = 87,
@@ -505,18 +392,7 @@ namespace ProjectFirma.Web.Models
         CalculatedTotalRemainingOperatingCost = 90,
         CurrentYearForPVCalculations = 91,
         LifecycleOperatingCost = 92,
-        IndicatorSystemName = 93,
-        IndicatorSimpleDescription = 94,
-        IndicatorPrimarySource = 95,
-        IndicatorType = 96,
-        ChartTitle = 97,
-        ProposedProjectState = 98,
-        UserLastName = 173,
-        UserFirstName = 174,
-        UserEmail = 175,
-        UserPhone = 176,
-        RoleID = 177,
-        SiteArea = 181,
+        PerformanceMeasureChartTitle = 97,
         RoleName = 182,
         Region = 184,
         Latitude = 185,
@@ -542,12 +418,6 @@ namespace ProjectFirma.Web.Models
     {
         private FieldDefinitionActionPriorityName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
         public static readonly FieldDefinitionActionPriorityName Instance = new FieldDefinitionActionPriorityName(2, @"ActionPriorityName", @"Action Priority Name");
-    }
-
-    public partial class FieldDefinitionLocalAndRegionalPlanName : FieldDefinition
-    {
-        private FieldDefinitionLocalAndRegionalPlanName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionLocalAndRegionalPlanName Instance = new FieldDefinitionLocalAndRegionalPlanName(3, @"LocalAndRegionalPlanName", @"Local and Regional Plan Name");
     }
 
     public partial class FieldDefinitionExpectedValue : FieldDefinition
@@ -632,18 +502,6 @@ namespace ProjectFirma.Web.Models
     {
         private FieldDefinitionPerformanceMeasure(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
         public static readonly FieldDefinitionPerformanceMeasure Instance = new FieldDefinitionPerformanceMeasure(18, @"PerformanceMeasure", @"Performance Measure");
-    }
-
-    public partial class FieldDefinitionIndicatorDefinition : FieldDefinition
-    {
-        private FieldDefinitionIndicatorDefinition(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionIndicatorDefinition Instance = new FieldDefinitionIndicatorDefinition(19, @"IndicatorDefinition", @"Indicator Definition");
-    }
-
-    public partial class FieldDefinitionIndicatorDisplayName : FieldDefinition
-    {
-        private FieldDefinitionIndicatorDisplayName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionIndicatorDisplayName Instance = new FieldDefinitionIndicatorDisplayName(20, @"IndicatorDisplayName", @"Indicator Name");
     }
 
     public partial class FieldDefinitionMeasurementUnit : FieldDefinition
@@ -736,22 +594,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionSecuredFunding Instance = new FieldDefinitionSecuredFunding(35, @"SecuredFunding", @"Secured Funding");
     }
 
-    public partial class FieldDefinitionStage : FieldDefinition
+    public partial class FieldDefinitionProjectStage : FieldDefinition
     {
-        private FieldDefinitionStage(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionStage Instance = new FieldDefinitionStage(36, @"Stage", @"Stage");
-    }
-
-    public partial class FieldDefinitionSubcategories : FieldDefinition
-    {
-        private FieldDefinitionSubcategories(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionSubcategories Instance = new FieldDefinitionSubcategories(37, @"Subcategories", @"Subcategories");
-    }
-
-    public partial class FieldDefinitionProjectIsAProgram : FieldDefinition
-    {
-        private FieldDefinitionProjectIsAProgram(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionProjectIsAProgram Instance = new FieldDefinitionProjectIsAProgram(38, @"ProjectIsAProgram", @"This project is a program that implements multiple projects");
+        private FieldDefinitionProjectStage(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionProjectStage Instance = new FieldDefinitionProjectStage(36, @"ProjectStage", @"Project Stage");
     }
 
     public partial class FieldDefinitionThresholdCategoryName : FieldDefinition
@@ -790,22 +636,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionProject Instance = new FieldDefinitionProject(44, @"Project", @"Project");
     }
 
-    public partial class FieldDefinitionProjectNumber : FieldDefinition
-    {
-        private FieldDefinitionProjectNumber(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionProjectNumber Instance = new FieldDefinitionProjectNumber(45, @"ProjectNumber", @"Project #");
-    }
-
     public partial class FieldDefinitionThresholdCategory : FieldDefinition
     {
         private FieldDefinitionThresholdCategory(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
         public static readonly FieldDefinitionThresholdCategory Instance = new FieldDefinitionThresholdCategory(46, @"ThresholdCategory", @"Threshold Category");
-    }
-
-    public partial class FieldDefinitionLocalAndRegionalPlan : FieldDefinition
-    {
-        private FieldDefinitionLocalAndRegionalPlan(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionLocalAndRegionalPlan Instance = new FieldDefinitionLocalAndRegionalPlan(47, @"LocalAndRegionalPlan", @"Local and Regional Plan");
     }
 
     public partial class FieldDefinitionWatershed : FieldDefinition
@@ -814,46 +648,22 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionWatershed Instance = new FieldDefinitionWatershed(48, @"Watershed", @"Watershed");
     }
 
-    public partial class FieldDefinitionSubcategory : FieldDefinition
+    public partial class FieldDefinitionPerformanceMeasureSubcategory : FieldDefinition
     {
-        private FieldDefinitionSubcategory(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionSubcategory Instance = new FieldDefinitionSubcategory(49, @"Subcategory", @"Subcategory");
+        private FieldDefinitionPerformanceMeasureSubcategory(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionPerformanceMeasureSubcategory Instance = new FieldDefinitionPerformanceMeasureSubcategory(49, @"PerformanceMeasureSubcategory", @"Performance Measure Subcategory");
     }
 
-    public partial class FieldDefinitionSubcategoryOption : FieldDefinition
+    public partial class FieldDefinitionPerformanceMeasureSubcategoryOption : FieldDefinition
     {
-        private FieldDefinitionSubcategoryOption(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionSubcategoryOption Instance = new FieldDefinitionSubcategoryOption(50, @"SubcategoryOption", @"Subcategory Option");
-    }
-
-    public partial class FieldDefinitionSubcategoryOptions : FieldDefinition
-    {
-        private FieldDefinitionSubcategoryOptions(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionSubcategoryOptions Instance = new FieldDefinitionSubcategoryOptions(51, @"SubcategoryOptions", @"Subcategory Options");
+        private FieldDefinitionPerformanceMeasureSubcategoryOption(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionPerformanceMeasureSubcategoryOption Instance = new FieldDefinitionPerformanceMeasureSubcategoryOption(50, @"PerformanceMeasureSubcategoryOption", @"Performance Measure Subcategory Option");
     }
 
     public partial class FieldDefinitionIsPrimaryProgram : FieldDefinition
     {
         private FieldDefinitionIsPrimaryProgram(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
         public static readonly FieldDefinitionIsPrimaryProgram Instance = new FieldDefinitionIsPrimaryProgram(52, @"IsPrimaryProgram", @"Is Primary Program");
-    }
-
-    public partial class FieldDefinitionIndicatorCriticalDefinitions : FieldDefinition
-    {
-        private FieldDefinitionIndicatorCriticalDefinitions(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionIndicatorCriticalDefinitions Instance = new FieldDefinitionIndicatorCriticalDefinitions(53, @"IndicatorCriticalDefinitions", @"Critical Definitions");
-    }
-
-    public partial class FieldDefinitionIndicatorAccountingPeriodAndScale : FieldDefinition
-    {
-        private FieldDefinitionIndicatorAccountingPeriodAndScale(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionIndicatorAccountingPeriodAndScale Instance = new FieldDefinitionIndicatorAccountingPeriodAndScale(54, @"IndicatorAccountingPeriodAndScale", @"Accounting Period and Scale");
-    }
-
-    public partial class FieldDefinitionIndicatorProjectReporting : FieldDefinition
-    {
-        private FieldDefinitionIndicatorProjectReporting(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionIndicatorProjectReporting Instance = new FieldDefinitionIndicatorProjectReporting(55, @"IndicatorProjectReporting", @"Project Reporting");
     }
 
     public partial class FieldDefinitionFundedAmount : FieldDefinition
@@ -866,42 +676,6 @@ namespace ProjectFirma.Web.Models
     {
         private FieldDefinitionProjectLocation(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
         public static readonly FieldDefinitionProjectLocation Instance = new FieldDefinitionProjectLocation(57, @"ProjectLocation", @"Project Location");
-    }
-
-    public partial class FieldDefinitionIndicatorBackground : FieldDefinition
-    {
-        private FieldDefinitionIndicatorBackground(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionIndicatorBackground Instance = new FieldDefinitionIndicatorBackground(58, @"IndicatorBackground", @"Background");
-    }
-
-    public partial class FieldDefinitionNumberOfReportedPMRecords : FieldDefinition
-    {
-        private FieldDefinitionNumberOfReportedPMRecords(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionNumberOfReportedPMRecords Instance = new FieldDefinitionNumberOfReportedPMRecords(59, @"NumberOfReportedPMRecords", @"# of Reported PM Records");
-    }
-
-    public partial class FieldDefinitionNumberOfReportedExpenditureRecords : FieldDefinition
-    {
-        private FieldDefinitionNumberOfReportedExpenditureRecords(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionNumberOfReportedExpenditureRecords Instance = new FieldDefinitionNumberOfReportedExpenditureRecords(60, @"NumberOfReportedExpenditureRecords", @"# of Reported Expenditure Records");
-    }
-
-    public partial class FieldDefinitionProjectLocationState : FieldDefinition
-    {
-        private FieldDefinitionProjectLocationState(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionProjectLocationState Instance = new FieldDefinitionProjectLocationState(61, @"ProjectLocationState", @"State (Geospatial),");
-    }
-
-    public partial class FieldDefinitionProjectLocationJurisdiction : FieldDefinition
-    {
-        private FieldDefinitionProjectLocationJurisdiction(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionProjectLocationJurisdiction Instance = new FieldDefinitionProjectLocationJurisdiction(62, @"ProjectLocationJurisdiction", @"Jurisdiction (Geospatial),");
-    }
-
-    public partial class FieldDefinitionProjectLocationWatershed : FieldDefinition
-    {
-        private FieldDefinitionProjectLocationWatershed(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionProjectLocationWatershed Instance = new FieldDefinitionProjectLocationWatershed(63, @"ProjectLocationWatershed", @"Watershed (Geospatial),");
     }
 
     public partial class FieldDefinitionExcludeFromFactSheet : FieldDefinition
@@ -946,12 +720,6 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionTagDescription Instance = new FieldDefinitionTagDescription(78, @"TagDescription", @"Tag Description");
     }
 
-    public partial class FieldDefinitionTags : FieldDefinition
-    {
-        private FieldDefinitionTags(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionTags Instance = new FieldDefinitionTags(79, @"Tags", @"Tags");
-    }
-
     public partial class FieldDefinitionReportedExpenditure : FieldDefinition
     {
         private FieldDefinitionReportedExpenditure(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
@@ -962,18 +730,6 @@ namespace ProjectFirma.Web.Models
     {
         private FieldDefinitionProposedProject(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
         public static readonly FieldDefinitionProposedProject Instance = new FieldDefinitionProposedProject(81, @"ProposedProject", @"Proposed Project");
-    }
-
-    public partial class FieldDefinitionLocalAndRegionalPlanDocumentUrl : FieldDefinition
-    {
-        private FieldDefinitionLocalAndRegionalPlanDocumentUrl(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionLocalAndRegionalPlanDocumentUrl Instance = new FieldDefinitionLocalAndRegionalPlanDocumentUrl(83, @"LocalAndRegionalPlanDocumentUrl", @"Local and Regional Plan Document URL");
-    }
-
-    public partial class FieldDefinitionLocalAndRegionalPlanDocumentLinkText : FieldDefinition
-    {
-        private FieldDefinitionLocalAndRegionalPlanDocumentLinkText(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionLocalAndRegionalPlanDocumentLinkText Instance = new FieldDefinitionLocalAndRegionalPlanDocumentLinkText(84, @"LocalAndRegionalPlanDocumentLinkText", @"Local and Regional Plan Document Link Text");
     }
 
     public partial class FieldDefinitionSpendingAssociatedWithPM : FieldDefinition
@@ -1024,76 +780,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionLifecycleOperatingCost Instance = new FieldDefinitionLifecycleOperatingCost(92, @"LifecycleOperatingCost", @"Lifecycle Operating Cost");
     }
 
-    public partial class FieldDefinitionIndicatorSystemName : FieldDefinition
+    public partial class FieldDefinitionPerformanceMeasureChartTitle : FieldDefinition
     {
-        private FieldDefinitionIndicatorSystemName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionIndicatorSystemName Instance = new FieldDefinitionIndicatorSystemName(93, @"IndicatorSystemName", @"Indicator System Name");
-    }
-
-    public partial class FieldDefinitionIndicatorSimpleDescription : FieldDefinition
-    {
-        private FieldDefinitionIndicatorSimpleDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionIndicatorSimpleDescription Instance = new FieldDefinitionIndicatorSimpleDescription(94, @"IndicatorSimpleDescription", @"Indicator Simple Description");
-    }
-
-    public partial class FieldDefinitionIndicatorPrimarySource : FieldDefinition
-    {
-        private FieldDefinitionIndicatorPrimarySource(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionIndicatorPrimarySource Instance = new FieldDefinitionIndicatorPrimarySource(95, @"IndicatorPrimarySource", @"Indicator Primary Source");
-    }
-
-    public partial class FieldDefinitionIndicatorType : FieldDefinition
-    {
-        private FieldDefinitionIndicatorType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionIndicatorType Instance = new FieldDefinitionIndicatorType(96, @"IndicatorType", @"Indicator Type");
-    }
-
-    public partial class FieldDefinitionChartTitle : FieldDefinition
-    {
-        private FieldDefinitionChartTitle(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionChartTitle Instance = new FieldDefinitionChartTitle(97, @"ChartTitle", @"Chart Title");
-    }
-
-    public partial class FieldDefinitionProposedProjectState : FieldDefinition
-    {
-        private FieldDefinitionProposedProjectState(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionProposedProjectState Instance = new FieldDefinitionProposedProjectState(98, @"ProposedProjectState", @"Proposed Project State");
-    }
-
-    public partial class FieldDefinitionUserLastName : FieldDefinition
-    {
-        private FieldDefinitionUserLastName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionUserLastName Instance = new FieldDefinitionUserLastName(173, @"UserLastName", @"User Last Name");
-    }
-
-    public partial class FieldDefinitionUserFirstName : FieldDefinition
-    {
-        private FieldDefinitionUserFirstName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionUserFirstName Instance = new FieldDefinitionUserFirstName(174, @"UserFirstName", @"User First Name");
-    }
-
-    public partial class FieldDefinitionUserEmail : FieldDefinition
-    {
-        private FieldDefinitionUserEmail(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionUserEmail Instance = new FieldDefinitionUserEmail(175, @"UserEmail", @"User Email");
-    }
-
-    public partial class FieldDefinitionUserPhone : FieldDefinition
-    {
-        private FieldDefinitionUserPhone(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionUserPhone Instance = new FieldDefinitionUserPhone(176, @"UserPhone", @"Phone Number");
-    }
-
-    public partial class FieldDefinitionRoleID : FieldDefinition
-    {
-        private FieldDefinitionRoleID(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionRoleID Instance = new FieldDefinitionRoleID(177, @"RoleID", @"Role");
-    }
-
-    public partial class FieldDefinitionSiteArea : FieldDefinition
-    {
-        private FieldDefinitionSiteArea(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionSiteArea Instance = new FieldDefinitionSiteArea(181, @"SiteArea", @"Site Area");
+        private FieldDefinitionPerformanceMeasureChartTitle(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionPerformanceMeasureChartTitle Instance = new FieldDefinitionPerformanceMeasureChartTitle(97, @"PerformanceMeasureChartTitle", @"Performance Measure Chart Title");
     }
 
     public partial class FieldDefinitionRoleName : FieldDefinition

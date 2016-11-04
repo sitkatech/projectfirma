@@ -43,7 +43,7 @@
             <th></th>
             <th style="white-space: nowrap">@Html.Raw(Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure))</th>
             <th>Year</th>
-            <th ng-show="hasAnySubcategories()">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Subcategories)</th>
+            <th ng-show="hasAnySubcategories()">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureSubcategory)</th>
             <th colspan="2" style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ReportedValue)</th>
         </tr>
         <tr ng-repeat="performanceMeasureActual in AngularModel.PerformanceMeasureActuals | orderBy:['PerformanceMeasureID', 'CalendarYear', getProjectName]">

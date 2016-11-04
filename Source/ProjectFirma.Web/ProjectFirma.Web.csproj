@@ -575,8 +575,8 @@
     <Compile Include="Views\FundingSource\IndexGridSpec.cs" />
     <Compile Include="Views\FundingSource\IndexViewData.cs" />
     <Compile Include="Views\FundingSource\ProjectCalendarYearExpendituresGridSpec.cs" />
-    <Compile Include="Views\FundingSource\Summary.cs" />
-    <Compile Include="Views\FundingSource\SummaryViewData.cs" />
+    <Compile Include="Views\FundingSource\Detail.cs" />
+    <Compile Include="Views\FundingSource\DetailViewData.cs" />
     <Compile Include="Views\Home\Index.cs" />
     <Compile Include="Views\Home\IndexViewData.cs" />
     <Compile Include="Views\IndicatorMonitoringProgram\EditIndicatorMonitoringPrograms.cs" />
@@ -3174,7 +3174,7 @@
     <Content Include="Views\FocusArea\Summary.cshtml" />
     <Content Include="Views\FundingSource\Edit.cshtml" />
     <Content Include="Views\FundingSource\Index.cshtml" />
-    <Content Include="Views\FundingSource\Summary.cshtml" />
+    <Content Include="Views\FundingSource\Detail.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ProgramPerformanceMeasure\EditPrograms.cshtml" />
     <Content Include="Views\Program\DefinitionAndGuidance.cshtml" />
