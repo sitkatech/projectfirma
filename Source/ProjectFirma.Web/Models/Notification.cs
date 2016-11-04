@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Models
 {
     public partial class Notification
     {
-        public const string FirmaSignature = @"Clackamas Partnership team<br/><br/><img src=""http://clackamaspartnership.org/Content/img/eip-logo-factsheet.png"" width=""160"" />";
+        public const string FirmaSignature = @"Clackamas Partnership team<br/><br/><img src=""http://clackamaspartnership.org/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png"" width=""600"" />";
 
         public HtmlString GetFullDescriptionFromUserPerspective()
         {
