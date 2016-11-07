@@ -6,7 +6,6 @@ using ProjectFirma.Web.Security;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
-using FirmaWebConfiguration = ProjectFirma.Web.Common.FirmaWebConfiguration;
 
 namespace ProjectFirma.Web.Controllers
 {

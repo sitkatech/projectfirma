@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace LtInfo.Common
 {
-    public class FirmaWebConfiguration
+    public class SitkaWebConfiguration
     {
         public static readonly string ApplicationDomain = SitkaConfiguration.GetRequiredAppSettingNotNullNotEmptyNotWhitespace("ApplicationDomain");
         public static readonly string WebApplicationRootPath = String.IsNullOrWhiteSpace(SitkaConfiguration.GetOptionalAppSetting("WebApplicationRootPath")) ? String.Empty : SitkaConfiguration.GetOptionalAppSetting("WebApplicationRootPath");
@@ -18,7 +18,6 @@ namespace LtInfo.Common
 
         public static readonly Lazy<LtInfoVersionInfo> WebApplicationVersionInfo = new Lazy<LtInfoVersionInfo>(() => new LtInfoVersionInfo(Assembly.GetCallingAssembly()));
 
-        public static readonly List<Uri> SitkaReverseProxyWhitelist = SitkaReverseProxy.LoadWhiteList();
         public static readonly int? DebugInfoMaxLength = SitkaConfiguration.GetOptionalIntAppSetting("ErrorDebugInfoMaxLength");
 
         public static List<string> CanonicalHostNames

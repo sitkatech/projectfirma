@@ -7,7 +7,6 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
-using FirmaWebConfiguration = ProjectFirma.Web.Common.FirmaWebConfiguration;
 
 namespace ProjectFirma.Web.Views.Shared
 {

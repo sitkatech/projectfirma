@@ -7,7 +7,7 @@ using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirma.Web.Common
 {
-    public class FirmaWebConfiguration : LtInfo.Common.FirmaWebConfiguration
+    public class FirmaWebConfiguration : SitkaWebConfiguration
     {
         public static readonly int MaximumAllowedUploadFileSize = Int32.Parse(SitkaConfiguration.GetRequiredAppSetting("MaximumAllowedUploadFileSize"));
         public static readonly string DatabaseConnectionString = SitkaConfiguration.GetRequiredAppSetting("DatabaseConnectionString");

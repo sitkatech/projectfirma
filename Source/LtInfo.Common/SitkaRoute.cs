@@ -34,7 +34,7 @@ namespace LtInfo.Common
         // ReSharper restore StaticFieldInGenericType
         {
             var sw = new StringWriter();
-            var url = string.Format("http://{0}{1}", FirmaWebConfiguration.CanonicalHostName, FirmaWebConfiguration.WebApplicationRootPath);
+            var url = string.Format("http://{0}{1}", SitkaWebConfiguration.CanonicalHostName, SitkaWebConfiguration.WebApplicationRootPath);
             var request = new HttpRequest(String.Empty, url, String.Empty);
             var httpContext = new HttpContext(request, new HttpResponse(sw));
             return new RequestContext(new HttpContextWrapper(httpContext), new RouteData());

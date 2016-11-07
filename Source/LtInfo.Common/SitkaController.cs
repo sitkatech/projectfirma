@@ -257,7 +257,7 @@ namespace LtInfo.Common
         /// <param name="controllerName">Controller name (name minus the "Controller" suffix)</param>
         public static string ControllerNameToUrlSegment(string controllerName)
         {
-            var mvcFileExtensionIfAny = (FirmaWebConfiguration.UseMvcExtensionInUrl) ? ".mvc" : "";
+            var mvcFileExtensionIfAny = (SitkaWebConfiguration.UseMvcExtensionInUrl) ? ".mvc" : "";
             return string.Format("{0}{1}", controllerName, mvcFileExtensionIfAny);
         }
 

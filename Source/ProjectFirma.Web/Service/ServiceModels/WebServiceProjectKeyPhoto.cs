@@ -7,7 +7,6 @@ using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
-using FirmaWebConfiguration = LtInfo.Common.FirmaWebConfiguration;
 
 namespace ProjectFirma.Web.Service.ServiceModels
 {
@@ -19,7 +18,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             ProjectNumber = project.ProjectNumberString;
             ProjectName = project.ProjectName;
             KeyPhotoUrl = project.KeyPhoto != null
-                ? SitkaRoute<FileResourceController>.BuildAbsoluteUrlHttpsFromExpression(x => x.DisplayResource(project.KeyPhoto.FileResource.FileResourceGUIDAsString), FirmaWebConfiguration.CanonicalHostName)
+                ? SitkaRoute<FileResourceController>.BuildAbsoluteUrlHttpsFromExpression(x => x.DisplayResource(project.KeyPhoto.FileResource.FileResourceGUIDAsString), SitkaWebConfiguration.CanonicalHostName)
                 : ViewUtilities.NoneString;
         }
 

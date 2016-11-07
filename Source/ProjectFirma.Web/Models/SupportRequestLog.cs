@@ -5,7 +5,6 @@ using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.Email;
 using LtInfo.Common.Views;
-using FirmaWebConfiguration = LtInfo.Common.FirmaWebConfiguration;
 
 namespace ProjectFirma.Web.Models
 {
@@ -40,7 +39,7 @@ namespace ProjectFirma.Web.Models
             var projectSummaryUrl = project == null
                 ? string.Empty
                 : string.Format("    <strong>Project:</strong> <a href=\"{0}\">{1}</a><br />",
-                    SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Summary(project.ProjectNumberString), FirmaWebConfiguration.CanonicalHostName),
+                    SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Summary(project.ProjectNumberString), SitkaWebConfiguration.CanonicalHostName),
                     project.DisplayName);
             var message = string.Format(@"
 <div style='font-size: 12px; font-family: Arial'>

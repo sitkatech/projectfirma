@@ -45,7 +45,7 @@ namespace LtInfo.Common.Email
         }
 
         /// <summary>
-        /// Sends an email including mock mode and address redirection  <see cref="FirmaWebConfiguration.SitkaEmailRedirect"/>, then calls onward to <see cref="SendDirectly"/>
+        /// Sends an email including mock mode and address redirection  <see cref="SitkaWebConfiguration.SitkaEmailRedirect"/>, then calls onward to <see cref="SendDirectly"/>
         /// </summary>
         /// <param name="message"></param>
         /// <param name="linkedResources"></param>
@@ -101,20 +101,20 @@ namespace LtInfo.Common.Email
 
         
         /// <summary>
-        /// Sends an email message at a lower level than <see cref="Send"/>, skipping mock mode and address redirection  <see cref="FirmaWebConfiguration.SitkaEmailRedirect"/>
-        /// Encapsulates all the access to <see cref="SmtpClient"/> so that the setting <see cref="FirmaWebConfiguration.IsEmailEnabled" /> can disable emailing as needed
-        /// Also will use the <see cref="FirmaWebConfiguration.MailLogBcc" /> to send a BCC to another address
+        /// Sends an email message at a lower level than <see cref="Send"/>, skipping mock mode and address redirection  <see cref="SitkaWebConfiguration.SitkaEmailRedirect"/>
+        /// Encapsulates all the access to <see cref="SmtpClient"/> so that the setting <see cref="SitkaWebConfiguration.IsEmailEnabled" /> can disable emailing as needed
+        /// Also will use the <see cref="SitkaWebConfiguration.MailLogBcc" /> to send a BCC to another address
         /// </summary>
         /// <param name="mailMessage"></param>
         public static void SendDirectly(MailMessage mailMessage)
         {
-            if (!String.IsNullOrWhiteSpace(FirmaWebConfiguration.MailLogBcc))
+            if (!String.IsNullOrWhiteSpace(SitkaWebConfiguration.MailLogBcc))
             {
-                mailMessage.Bcc.Add(FirmaWebConfiguration.MailLogBcc);
+                mailMessage.Bcc.Add(SitkaWebConfiguration.MailLogBcc);
             }
 
             var humanReadableDisplayOfMessage = GetHumanReadableDisplayOfMessage(mailMessage);
-            if (FirmaWebConfiguration.IsEmailEnabled)
+            if (SitkaWebConfiguration.IsEmailEnabled)
             {
                 var smtpClient = new SmtpClient();
                 smtpClient.Send(mailMessage);
@@ -122,19 +122,19 @@ namespace LtInfo.Common.Email
             }
             else
             {
-                _logger.Error(string.Format("Skipping sending email because configuration setting IsEmailEnabled={0}, normally the site should be running with it on, are you sure you want emails disabled? (did not cause a user visible exception)\r\nMail Message that did not get sent:\r\n{1}", FirmaWebConfiguration.IsEmailEnabled, humanReadableDisplayOfMessage));
+                _logger.Error(string.Format("Skipping sending email because configuration setting IsEmailEnabled={0}, normally the site should be running with it on, are you sure you want emails disabled? (did not cause a user visible exception)\r\nMail Message that did not get sent:\r\n{1}", SitkaWebConfiguration.IsEmailEnabled, humanReadableDisplayOfMessage));
             }
         }
 
         /// <summary>
-        /// Alter message TO, CC, BCC if the setting <see cref="FirmaWebConfiguration.SitkaEmailRedirect"/> is set
+        /// Alter message TO, CC, BCC if the setting <see cref="SitkaWebConfiguration.SitkaEmailRedirect"/> is set
         /// Appends the real to the body
         /// </summary>
         /// <param name="realMailMessage"></param>
         /// <returns></returns>
         private static MailMessage AlterMessageIfInRedirectMode(MailMessage realMailMessage)
         {
-            var redirectEmail = FirmaWebConfiguration.SitkaEmailRedirect;
+            var redirectEmail = SitkaWebConfiguration.SitkaEmailRedirect;
             var isInRedirectMode = !GeneralUtility.IsNullOrEmptyOrOnlyWhitespace(redirectEmail);
 
             if (!isInRedirectMode)

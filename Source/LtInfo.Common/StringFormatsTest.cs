@@ -59,7 +59,7 @@ namespace LtInfo.Common
         public void MakeAbsoluteLinksToApplicationDomainRelativeActualAppDomainTest()
         {
             const string relativeUrl = "/awesome/awesomepage.cshtml";
-            var absoluteUrl = string.Format("http://{0}{1}", FirmaWebConfiguration.ApplicationDomain, relativeUrl);
+            var absoluteUrl = string.Format("http://{0}{1}", SitkaWebConfiguration.ApplicationDomain, relativeUrl);
             var result = new HtmlString(absoluteUrl).MakeAbsoluteLinksToApplicationDomainRelative();
 
             Assert.That(result.ToString(), Is.EqualTo(relativeUrl));

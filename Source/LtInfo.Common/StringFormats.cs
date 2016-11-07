@@ -53,7 +53,7 @@ namespace LtInfo.Common
                             newValue = String.Format("<a {2} href=\"{0}\" target=\"_blank\">{1}</a>"
                                 , valueWithProtocolPrefix
                                 , match.Value
-                                , (valueWithProtocolPrefix.Contains(FirmaWebConfiguration.CanonicalHostName)) ? String.Empty : "class=\"" + externalLinkClassName + "\""
+                                , (valueWithProtocolPrefix.Contains(SitkaWebConfiguration.CanonicalHostName)) ? String.Empty : "class=\"" + externalLinkClassName + "\""
                                 );
                         }
                         else
@@ -498,7 +498,7 @@ namespace LtInfo.Common
             return words.Aggregate("", (current, word) => current + String.Format("{0}{1}", word.Substring(0, 1).ToUpper(), word.Substring(1)));
         }
 
-        public static readonly Regex ContainAbsoluteUrlWithApplicationDomainReferenceRegEx = new Regex(ConstructContainAbsoluteUrlWithApplicationDomainReferenceRegExForApplicationDomain(FirmaWebConfiguration.ApplicationDomain), RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        public static readonly Regex ContainAbsoluteUrlWithApplicationDomainReferenceRegEx = new Regex(ConstructContainAbsoluteUrlWithApplicationDomainReferenceRegExForApplicationDomain(SitkaWebConfiguration.ApplicationDomain), RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
         /// <summary>
         /// Does a given HTML string contain a non-server root relative URL pointing to the application domain? 

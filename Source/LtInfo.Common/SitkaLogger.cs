@@ -86,7 +86,7 @@ namespace LtInfo.Common
             var requestContent = HttpDebugInfo.GetRequestContent(request);
 
             var orgContentLength = requestContent.Length;
-            var maxContentLength = FirmaWebConfiguration.DebugInfoMaxLength ?? orgContentLength;
+            var maxContentLength = SitkaWebConfiguration.DebugInfoMaxLength ?? orgContentLength;
             var newContentLength = Math.Min(maxContentLength, orgContentLength);
 
             requestContent = requestContent.Substring(0, newContentLength);

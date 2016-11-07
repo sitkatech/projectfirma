@@ -8,7 +8,6 @@ using ProjectFirma.Web.Security.Shared;
 using Keystone.Common;
 using LtInfo.Common;
 using LtInfo.Common.Email;
-using FirmaWebConfiguration = LtInfo.Common.FirmaWebConfiguration;
 using Person = ProjectFirma.Web.Models.Person;
 
 namespace ProjectFirma.Web.Controllers
@@ -17,7 +16,7 @@ namespace ProjectFirma.Web.Controllers
     {
         protected override string LoginUrl
         {
-            get { return SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOn(), FirmaWebConfiguration.CanonicalHostName); }
+            get { return SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOn(), SitkaWebConfiguration.CanonicalHostName); }
         }
 
         protected override ISitkaDbContext SitkaDbContext
@@ -130,7 +129,7 @@ namespace ProjectFirma.Web.Controllers
             var subject = string.Format("User added: {0}", person.FullNameFirstLastAndOrg);
             var message = string.Format(@"
 <div style='font-size: 12px; font-family: Arial'>
-    <strong>LT Info User added:</strong> {0}<br />
+    <strong>Project Firma User added:</strong> {0}<br />
     <strong>Added on:</strong> {1}<br />
     <strong>Email:</strong> {2}<br />
     <strong>Phone:</strong> {3}<br />

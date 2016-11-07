@@ -51,7 +51,7 @@ namespace LtInfo.Common
         }
 
         /// <summary>
-        /// If the URL doesn't match <see cref="FirmaWebConfiguration.CanonicalHostName"/> do a redirect. Otherwise do nothing. This is especially important for sites using SSL to get certificate to match up
+        /// If the URL doesn't match <see cref="SitkaWebConfiguration.CanonicalHostName"/> do a redirect. Otherwise do nothing. This is especially important for sites using SSL to get certificate to match up
         /// </summary>
         private void RedirectToCanonicalHostnameIfNeeded()
         {
@@ -60,7 +60,7 @@ namespace LtInfo.Common
                 return;
             }
 
-            var canonicalHostName = FirmaWebConfiguration.GetCanonicalHost(Request.Url.Host, true) ?? FirmaWebConfiguration.CanonicalHostName;
+            var canonicalHostName = SitkaWebConfiguration.GetCanonicalHost(Request.Url.Host, true) ?? SitkaWebConfiguration.CanonicalHostName;
 
             // Check for hostname match (deliberately case-insensitive, DNS is case-insensitive and so is SSL Cert for common name) against the canonical host name as specified in the configuration
             if (!String.Equals(Request.Url.Host, canonicalHostName, StringComparison.InvariantCultureIgnoreCase))

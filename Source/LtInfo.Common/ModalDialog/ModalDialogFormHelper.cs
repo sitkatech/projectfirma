@@ -10,7 +10,7 @@ namespace LtInfo.Common.ModalDialog
         public const string SaveButtonId = "ltinfo-modal-dialog-save-button-id";
         public const string CancelButtonId = "ltinfo-modal-dialog-cancel-button-id";
         public const int DefaultDialogWidth = 800;
-        private static readonly List<string> DefaultExtraButtonCssClasses = FirmaWebConfiguration.DefaultModalDialogButtonCssClasses;
+        private static readonly List<string> DefaultExtraButtonCssClasses = SitkaWebConfiguration.DefaultModalDialogButtonCssClasses;
 
         /// <summary>
         ///  Creates a link that will open a jQuery UI dialog form.

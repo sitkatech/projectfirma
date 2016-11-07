@@ -11,7 +11,6 @@ using ProjectFirma.Web.Models;
 using Keystone.Common;
 using Microsoft.IdentityModel.Web;
 using Microsoft.IdentityModel.Web.Configuration;
-using FirmaWebConfiguration = LtInfo.Common.FirmaWebConfiguration;
 
 namespace ProjectFirma.Web
 {
@@ -19,7 +18,7 @@ namespace ProjectFirma.Web
     {
         public static Dictionary<string, string> AreasDictionary = new Dictionary<string, string>
         {
-            {string.Empty, FirmaWebConfiguration.CanonicalHostName}
+            {string.Empty, SitkaWebConfiguration.CanonicalHostName}
         };
 
         protected void Application_Start()
@@ -43,8 +42,8 @@ namespace ProjectFirma.Web
                             false)).ToList();
 
             ApplicationStart("ProjectFirma",
-                FirmaWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion,
-                FirmaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled,
+                SitkaWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion,
+                SitkaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled,
                 FirmaBaseController.AllControllerActionMethods,
                 new List<string>
                 {
@@ -96,7 +95,7 @@ namespace ProjectFirma.Web
             KeystoneUtilities.SignOutOnBadCookie(Request, Response);
 
             // Call this in Application_BeginRequest because later on it can be too late to be mucking with the Response HTTP Headers
-            AddCachingHeaders(Response, Request, FirmaWebConfiguration.CacheStaticContentTimeSpan);
+            AddCachingHeaders(Response, Request, SitkaWebConfiguration.CacheStaticContentTimeSpan);
 
             ApplicationBeginRequest();
         }
@@ -120,12 +119,12 @@ namespace ProjectFirma.Web
 
         public override string ErrorUrl
         {
-            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Error(), FirmaWebConfiguration.CanonicalHostName); }
+            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Error(), SitkaWebConfiguration.CanonicalHostName); }
         }
 
         public override string NotFoundUrl
         {
-            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.NotFound(), FirmaWebConfiguration.CanonicalHostName); }
+            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.NotFound(), SitkaWebConfiguration.CanonicalHostName); }
         }
 
         public override string ErrorHtml
