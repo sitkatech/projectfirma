@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Models
 
             project.EstimatedTotalCost = 2000000m;
             project.ImplementationStartYear = null;
-            project.CompletionYear = 2020;
+            project.CompletionYear = null;
 
             var inflationRate = 0.02m;
 

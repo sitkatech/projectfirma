@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Models
     {
         public static CostParameterSet Latest(this IEnumerable<CostParameterSet> CostParameterSets)
         {
-            return CostParameterSets.OrderByDescending(x => x.CreateDate).First();
+            return CostParameterSets.OrderByDescending(x => x.CreateDate).FirstOrDefault();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using ProjectFirma.Web.Common;
 using LtInfo.Common; 
 
@@ -101,7 +102,8 @@ namespace ProjectFirma.Web.Models
 
         public static int GetCurrentRTPYearForPVCalculations()
         {
-            return HttpRequestStorage.DatabaseEntities.CostParameterSets.Latest().CurrentYearForPVCalculations;
+            var costParameterSet = HttpRequestStorage.DatabaseEntities.CostParameterSets.Latest();
+            return costParameterSet == null ? DateTime.Now.Year : costParameterSet.CurrentYearForPVCalculations;
         }
 
         public static decimal GetLatestInflationRate()

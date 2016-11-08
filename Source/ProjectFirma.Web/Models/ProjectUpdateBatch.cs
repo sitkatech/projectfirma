@@ -62,7 +62,8 @@ namespace ProjectFirma.Web.Models
 
         private bool IsPassingAllValidationRules
         {
-            get { return AreProjectBasicsValid && AreExpendituresValid() && ArePerformanceMeasuresValid() && AreBudgetsValid() && IsProjectLocationSimpleValid(); }
+            //Budget section used to be required for Transportation projects. Now that we have no notion of transportation project, make budget never required until we decide on rules.
+            get { return AreProjectBasicsValid && AreExpendituresValid() && ArePerformanceMeasuresValid() && IsProjectLocationSimpleValid(); }
         }
 
         public bool InEditableState

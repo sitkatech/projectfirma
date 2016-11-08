@@ -477,6 +477,7 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
+        [Ignore] //Ignore test, since it used to depend on IsTransportationProject, which made Budgets required.
         public void ValidateBudgetsAndForceValidationWhenNotOnFTIPListTest()
         {
             var projectUpdate = TestFramework.TestProjectUpdate.Create();
