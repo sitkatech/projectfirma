@@ -105,7 +105,7 @@ namespace ProjectFirma.Web.Service
         }
 
         public const string SampleProjectNumber = "01.01.01.0001";
-        public const int SampleOrganizationID = 18; //TRPA
+        public const int SampleOrganizationID = 1; //Sitka
 
         public class SampleRouteEntry
         {

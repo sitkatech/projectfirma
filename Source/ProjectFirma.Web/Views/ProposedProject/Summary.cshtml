@@ -51,7 +51,7 @@
                 break;
         case ProposedProjectStateEnum.Submitted:
         <span>
-            This Proposed Project is awaiting TRPA review.
+            This Proposed Project is awaiting review.
             @if (ViewDataTyped.CurrentPersonIsApprover)
             {
                 <span>You may <a href="@ViewDataTyped.ProjectUpdateBasicsUrl">review/approve/reject the Project Proposal</a> at any time.</span>
@@ -64,12 +64,12 @@
             break;
         case ProposedProjectStateEnum.Approved:
         <span>
-            This proposal was accepted by TRPA and the <a href="@ViewDataTyped.ProposedProject.Project.GetSummaryUrl()">approved Project</a> is now included on the <a href="@ViewDataTyped.FiveYearListUrl">5-year list</a>.
+            This proposal was accepted by the review and the <a href="@ViewDataTyped.ProposedProject.Project.GetSummaryUrl()">approved Project</a> is now included on the <a href="@ViewDataTyped.FiveYearListUrl">5-year list</a>.
         </span>
             break;
         case ProposedProjectStateEnum.Rejected:
         <span>
-            This proposal was rejected by TRPA. @ModalDialogFormHelper.ModalDialogFormLink("Contact TRPA", ViewDataTyped.RequestSupportUrl, "Request Support", null) with any questions regarding this Proposed Project.
+            This proposal was rejected by the reviewer. @ModalDialogFormHelper.ModalDialogFormLink("Contact TRPA", ViewDataTyped.RequestSupportUrl, "Request Support", null) with any questions regarding this Proposed Project.
         </span>
             break;
         default:

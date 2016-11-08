@@ -52,7 +52,7 @@ SitkaAjax.load = function (jqSelector, url, errorHandler) {
 
 SitkaAjax.errorHandler = function (xhr, status)
 {
-    var errorMessage = "Please reload the page and try again. If the problem persists, please contact support@trpa.org";
+    var errorMessage = "Please reload the page and try again. If the problem persists, please contact projectfirma@sitkatech.com";
     try
     {
         if (!Sitka.Methods.isUndefinedNullOrEmpty(xhr))

@@ -16,19 +16,15 @@ namespace ProjectFirma.Web.Views.FundingSource
 
         [Required]
         [StringLength(Models.FundingSource.FieldLengths.FundingSourceName)]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.FundingSourceName)]
         public string FundingSourceName { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.Organization)]
         public int OrganizationID { get; set; }
 
         [Required]
-        [DisplayName("Is Active")]
         public bool IsActive { get; set; }
 
         [StringLength(Models.FundingSource.FieldLengths.FundingSourceDescription)]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.FundingSourceDescription)]
         public string FundingSourceDescription { get; set; }
 
         /// <summary>

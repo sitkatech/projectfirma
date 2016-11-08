@@ -1129,7 +1129,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             Check.RequireNotNull(projectUpdateBatch, string.Format("There is no current Project Update to submit for Project {0}", project.DisplayName));
-            projectUpdateBatch.SubmitToTrpa(CurrentPerson, DateTime.Now);
+            projectUpdateBatch.SubmitToReviewer(CurrentPerson, DateTime.Now);
             var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
             Notification.SendSubmittedMessage(peopleToCc, projectUpdateBatch);
             SetMessageForDisplay(string.Format("The update for project {0} has been submitted.", projectUpdateBatch.Project.ProjectNumberString));
@@ -1138,7 +1138,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewSubmit(ProjectUpdateBatch projectUpdate, ConfirmDialogFormViewModel viewModel)
         {
-            var viewData = new ConfirmDialogFormViewData(string.Format("Are you sure you want to submit Project {0} to TRPA?", projectUpdate.Project.DisplayName));
+            //TODO: Change "for review" to specific reviewer as determined by tentant review 
+            var viewData = new ConfirmDialogFormViewData(string.Format("Are you sure you want to submit Project {0} for review?", projectUpdate.Project.DisplayName));
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -1162,7 +1163,7 @@ namespace ProjectFirma.Web.Controllers
             var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
             projectUpdateBatches.ForEach(pub =>
             {
-                pub.SubmitToTrpa(CurrentPerson, DateTime.Now);
+                pub.SubmitToReviewer(CurrentPerson, DateTime.Now);
                 Notification.SendSubmittedMessage(peopleToCc, pub);
             });
             SetMessageForDisplay(string.Format("The update(s) for project(s) {0} have been submitted.", string.Join(", ", projectUpdateBatches.Select(x => x.Project.ProjectNumberString))));
@@ -1171,7 +1172,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewSubmitAll(ConfirmDialogFormViewModel viewModel)
         {
-            var viewData = new ConfirmDialogFormViewData("Are you sure you want to submit all your Projects that are ready to be submitted to TRPA?");
+            //TODO: Change "for review" to specific reviewer as determined by tentant review 
+            var viewData = new ConfirmDialogFormViewData("Are you sure you want to submit all your Projects that are ready to be submitted for review?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 

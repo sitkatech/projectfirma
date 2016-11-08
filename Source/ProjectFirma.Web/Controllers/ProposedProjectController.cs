@@ -740,7 +740,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             var viewModel = new ConfirmDialogFormViewModel(proposedProject.ProposedProjectID);
-            var viewData = new ConfirmDialogFormViewData(string.Format("Are you sure you want to submit Proposed Project \"{0}\" to TRPA?", proposedProject.DisplayName));
+            //TODO: Change "reviewer" to specific reviewer as determined by tentant review 
+            var viewData = new ConfirmDialogFormViewData(string.Format("Are you sure you want to submit Proposed Project \"{0}\" to the reviewer?", proposedProject.DisplayName));
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -753,8 +754,9 @@ namespace ProjectFirma.Web.Controllers
             proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Submitted;
             proposedProject.SubmissionDate = DateTime.Now;
             var peopleToNotify = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
-            Notification.SendProposedProjectSubmittedMessage(peopleToNotify, proposedProject); 
-            SetMessageForDisplay("Proposed Project succesfully submitted to TRPA for review.");
+            Notification.SendProposedProjectSubmittedMessage(peopleToNotify, proposedProject);
+            //TODO: Change "reviewer" to specific reviewer as determined by tentant review 
+            SetMessageForDisplay("Proposed Project succesfully submitted for review.");
             return new ModalDialogFormJsonResult(proposedProject.GetSummaryUrl());
         }
 
@@ -819,7 +821,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             var viewModel = new ConfirmDialogFormViewModel(proposedProject.ProposedProjectID);
-            var viewData = new ConfirmDialogFormViewData(string.Format("Are you sure you want to withdraw Proposed Project \"{0}\" from TRPA review?", proposedProject.DisplayName));
+            //TODO: Change "reviewer" to specific reviewer as determined by tentant review 
+            var viewData = new ConfirmDialogFormViewData(string.Format("Are you sure you want to withdraw Proposed Project \"{0}\" from review?", proposedProject.DisplayName));
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -830,7 +833,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Draft;
-            SetMessageForDisplay("Proposed Project withdrawn from TRPA review.");
+            //TODO: Change "reviewer" to specific reviewer as determined by tentant review 
+            SetMessageForDisplay("Proposed Project withdrawn from review.");
             return new ModalDialogFormJsonResult(proposedProject.GetSummaryUrl());
         }
 

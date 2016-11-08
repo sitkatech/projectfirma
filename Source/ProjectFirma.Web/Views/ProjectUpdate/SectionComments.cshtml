@@ -3,7 +3,7 @@
 
 @if (ViewDataTyped.IsReturned && !string.IsNullOrWhiteSpace(ViewDataTyped.Comments))
 {
-    <div style="font-weight: bold">TRPA Comments:</div>
+    <div style="font-weight: bold">Reviewer Comments:</div>
     <div class="warning" style="margin-bottom: 10px">
         @Html.Raw(ViewDataTyped.Comments.HtmlEncodeWithBreaks())
     </div>

@@ -47,7 +47,7 @@
             }
             @if (!subcategoriesForIndicatorChart.Any())
             {
-                <!-- MB: This is to ensure that all three logical branches give us the same overall height; otherwise the ltinfoChartControls DIV sometimes gets offset wrong -->
+                <!-- MB: This is to ensure that all three logical branches give us the same overall height; otherwise the firmaChartControls DIV sometimes gets offset wrong -->
                 <br />
             }
             else
@@ -75,7 +75,7 @@
                 <div id="@(googleChartJson.ChartName)_container" class="chartGroup@(ViewDataTyped.Indicator.IndicatorID)" style="position: absolute; width: @(ViewDataTyped.ChartWidth)px; height: @(ViewDataTyped.ChartHeight)px">
 
                     <!-- Expand / Save / Configure controls, based on current ChartViewMode -->
-                    <div class="ltinfoChartControls noPrint">
+                    <div class="firmaChartControls noPrint">
                         @switch (ViewDataTyped.ChartViewMode)
                         {
                             case ChartViewMode.Small:

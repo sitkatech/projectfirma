@@ -6,7 +6,6 @@ namespace ProjectFirma.Web.Models
 {
     public partial class Jurisdiction : IAuditableEntity
     {
-        public const int JurisdictionIDTRPA = 6;
         public const int JurisdictionIDUnknown = 8;
 
         public static GeoJSON.Net.Feature.FeatureCollection ToGeoJsonFeatureCollection(List<Jurisdiction> jurisdictions)
@@ -25,10 +24,5 @@ namespace ProjectFirma.Web.Models
         }
 
         public string AuditDescriptionString { get { return Organization.OrganizationName; } }
-
-        public bool IsTRPA()
-        {
-            return JurisdictionID == JurisdictionIDTRPA;
-        }
     }
 }

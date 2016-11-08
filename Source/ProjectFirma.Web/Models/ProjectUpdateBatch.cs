@@ -465,7 +465,7 @@ namespace ProjectFirma.Web.Models
             return ValidateProjectLocationSimple().IsValid;
         }
 
-        public void SubmitToTrpa(Person currentPerson, DateTime transitionDate)
+        public void SubmitToReviewer(Person currentPerson, DateTime transitionDate)
         {
             Check.Require(IsReadyToSubmit, "You cannot submit a project update that is not ready to be submitted!");
             CreateNewTransitionRecord(this, ProjectUpdateState.Submitted, currentPerson, transitionDate);

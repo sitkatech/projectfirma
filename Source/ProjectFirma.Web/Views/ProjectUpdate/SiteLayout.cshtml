@@ -128,7 +128,7 @@
 <div class="pull-right">
     @if (ViewDataTyped.ProjectUpdateBatch.IsReadyToSubmit)
     {
-        @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, string.Format("Submit Project {0} to TRPA", ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> {"submitProject btn btn-xs btn-firma"}, null, null)
+        @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, string.Format("Submit Project {0} for review", ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> {"submitProject btn btn-xs btn-firma"}, null, null)
     }
     else if (ViewDataTyped.ShowApproveAndReturnButton)
     {

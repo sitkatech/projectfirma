@@ -31,9 +31,9 @@ namespace ProjectFirma.Web.Models
 
             var expectedExpenditureYearCostCalculated = FirmaMathUtilities.FutureValueOfPresentSum(currentYearCost, inflationRate, currentYear, expenditureYear);
 
-            var expectedExpenditureYearCostFromTRPA = 2297371.34m;
+            var expectedExpenditureYearCostExpected = 2297371.34m;
 
-            expectedExpenditureYearCostCalculated.AssertThatIsWithinOnePennyOf(expectedExpenditureYearCostFromTRPA, "Future value calculation does not match value derived from TRPA spreadsheet.");
+            expectedExpenditureYearCostCalculated.AssertThatIsWithinOnePennyOf(expectedExpenditureYearCostExpected, "Future value calculation does not match expected value.");
         }
 
         [Test]
@@ -47,8 +47,8 @@ namespace ProjectFirma.Web.Models
             var inflationRate = 0.02m;
             var expectedExpenditureYearCostCalculated = CostParameterSet.CalculateCapitalCostInYearOfExpenditureImpl(project, inflationRate) ?? 0;
 
-            var expectedExpenditureYearCostFromTRPA = 2164864.32m;
-            expectedExpenditureYearCostCalculated.AssertThatIsWithinOnePennyOf(expectedExpenditureYearCostFromTRPA, "Project Cost in Year of Expenditure calculated incorrectly.");
+            var expectedExpenditureYearCostFromExpected = 2164864.32m;
+            expectedExpenditureYearCostCalculated.AssertThatIsWithinOnePennyOf(expectedExpenditureYearCostFromExpected, "Project Cost in Year of Expenditure calculated incorrectly.");
         }
 
         [Test]

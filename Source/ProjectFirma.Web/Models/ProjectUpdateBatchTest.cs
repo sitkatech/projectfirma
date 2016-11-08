@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdateBatch.IsCreated, Is.True);
             Assert.That(projectUpdateBatch.InEditableState, Is.True);
 
-            var preconditionException = Assert.Catch<PreconditionException>(() => projectUpdateBatch.SubmitToTrpa(person, DateTime.Now.AddDays(1)), "Should not be allowed to submit yet");
+            var preconditionException = Assert.Catch<PreconditionException>(() => projectUpdateBatch.SubmitToReviewer(person, DateTime.Now.AddDays(1)), "Should not be allowed to submit yet");
             Assert.That(preconditionException.Message, Is.StringContaining("You cannot submit a project update that is not ready to be submitted"));
             TestFramework.TestPerformanceMeasureActualUpdate.Create(projectUpdateBatch, currentYear, 1000);
             var organization1 = TestFramework.TestOrganization.Create("Org1");
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Models
             projectUpdate.ProjectLocationSimpleTypeID = ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID;
             projectUpdate.ProjectLocationNotes = "No location for now";
 
-            projectUpdateBatch.SubmitToTrpa(person, DateTime.Now.AddDays(1));
+            projectUpdateBatch.SubmitToReviewer(person, DateTime.Now.AddDays(1));
             Assert.That(projectUpdateBatch.IsApproved, Is.False);
             Assert.That(projectUpdateBatch.IsReadyToSubmit, Is.False);
             Assert.That(projectUpdateBatch.IsSubmitted, Is.True);
@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(preconditionException.Message, Is.StringContaining("You cannot approve a project update that has not been submitted"));
 
             // we have to re submit to get to approve
-            projectUpdateBatch.SubmitToTrpa(person, DateTime.Now.AddDays(3));
+            projectUpdateBatch.SubmitToReviewer(person, DateTime.Now.AddDays(3));
             Assert.That(projectUpdateBatch.IsApproved, Is.False);
             Assert.That(projectUpdateBatch.IsReadyToSubmit, Is.False);
             Assert.That(projectUpdateBatch.IsSubmitted, Is.True);

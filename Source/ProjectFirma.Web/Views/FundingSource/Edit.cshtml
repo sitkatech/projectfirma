@@ -1,11 +1,12 @@
 ﻿@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.FundingSource.Edit
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-sm-3 control-label">
-               @Html.LabelWithFieldDefinitionFor(m => m.FundingSourceName):
+               @Html.LabelWithFieldDefinitionFor(FieldDefinition.FundingSourceName):
             </div>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.FundingSourceName, new { style = "width:100%" })
@@ -14,7 +15,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-               @Html.LabelWithFieldDefinitionFor(m => m.FundingSourceDescription):
+               @Html.LabelWithFieldDefinitionFor(FieldDefinition.FundingSourceDescription, "Description"):
             </div>
             <div class="col-sm-9">
                 @Html.TextAreaWithMaxLengthFor(m => m.FundingSourceDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null)
@@ -23,7 +24,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithFieldDefinitionFor(m => m.OrganizationID):
+                @Html.LabelWithFieldDefinitionFor(FieldDefinition.Organization):
             </div>
             <div class="col-sm-9">
                 @Html.DropDownListFor(m => m.OrganizationID, ViewDataTyped.Organizations)
@@ -32,7 +33,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelFor(m => m.IsActive):
+                @Html.Label("Active Funding Source?")
             </div>
             <div class="col-sm-9">
                 @Html.CheckBoxFor(m => m.IsActive)

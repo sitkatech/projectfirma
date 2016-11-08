@@ -31,9 +31,7 @@ namespace ProjectFirma.Web.Common
         public static readonly string KeystoneRegisterUserUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneRegisterUserUrl");
         public static readonly string KeystoneUserProfileUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneUserProfileUrl");
         public static readonly string KeystoneOrganizationEditUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneOrganizationEditUrl");
-
-        public static readonly string TrpaArcGisServer = SitkaConfiguration.GetRequiredAppSetting("TrpaArcGisServer");
-        
+       
         public static readonly DirectoryInfo LogFileFolder = ParseLogFileFolder();
 
         public static readonly FirmaEnvironment FirmaEnvironment = FirmaEnvironment.MakeFirmaEnvironment(SitkaConfiguration.GetRequiredAppSetting("FirmaEnvironment"));

@@ -1110,7 +1110,6 @@
     <Compile Include="Views\Shared\FieldDefinitionDetailsViewData.cs" />
     <Compile Include="Views\Shared\FirmaLateLoadingIncludes.cs" />
     <Compile Include="Views\Shared\FirmaIncludes.cs" />
-    <Compile Include="Views\Shared\FooterContent.cs" />
     <Compile Include="Views\Shared\GoogleChartJson.cs" />
     <Compile Include="Views\Shared\GoogleChartConfiguration.cs" />
     <Compile Include="Views\Shared\GoogleChartDataTable.cs" />
@@ -3118,7 +3117,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
-    <Content Include="Views\Shared\FooterContent.cshtml" />
     <Content Include="Views\Shared\GoogleChartPopup.cshtml" />
     <Content Include="Views\Shared\FirmaIncludes.cshtml" />
     <Content Include="Views\Shared\FirmaLateLoadingIncludes.cshtml" />

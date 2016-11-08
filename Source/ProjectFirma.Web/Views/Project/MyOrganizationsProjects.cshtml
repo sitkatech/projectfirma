@@ -25,7 +25,7 @@
     <h2>@Html.LabelWithFieldDefinitionFor(FieldDefinition.ProposedProject, LabelForExtensions.DisplayStyle.HelpIconOnly) Proposed Projects</h2>
     <div class="contentWrapper">
         <div>
-            <a class='btn btn-sm btn-firma' href="@ViewDataTyped.ProposeNewProjectUrl" title="Submit a project proposal to TRPA">Propose New Project</a>
+            <a class='btn btn-sm btn-firma' href="@ViewDataTyped.ProposeNewProjectUrl" title="Submit a project proposal">Propose New Project</a>
         </div>        <div>
             @Html.DhtmlxGrid(ViewDataTyped.ProposedProjectsGridSpec, ViewDataTyped.ProposedProjectsGridName, ViewDataTyped.ProposedProjectsGridDataUrl, "height:400px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
         </div>
