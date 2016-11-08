@@ -1257,7 +1257,6 @@ namespace ProjectFirma.Web.Controllers
         [ProjectUpdateAdminFeature]
         public ViewResult Manage()
         {
-            var sendReminderEmailsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.SendReminderEmails());
             var customNotificationUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.CreateCustomNotification(null));
             var projectsRequiringUpdateGridSpec = new ProjectUpdateStatusGridSpec(ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects, CurrentPerson.IsApprover())
             {
@@ -1272,7 +1271,6 @@ namespace ProjectFirma.Web.Controllers
 
             var viewData = new ManageViewData(CurrentPerson,
                 firmaPage,
-                sendReminderEmailsUrl,
                 customNotificationUrl,
                 projectsRequiringUpdateGridSpec,
                 SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ProjectsRequiringUpdateGridJsonData()),
@@ -1312,31 +1310,6 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        [HttpGet]
-        [ProjectUpdateAdminFeature]
-        public PartialViewResult SendReminderEmails()
-        {
-            var viewModel = new SendReminderEmailViewModel();
-            var updatableProjectsThatHaveNotBeenSubmitted = HttpRequestStorage.DatabaseEntities.Projects.GetUpdatableProjectsThatHaveNotBeenSubmitted();
-            var primaryContactPeople = updatableProjectsThatHaveNotBeenSubmitted.GetPrimaryContactPeople();
-            var confirmMessage = string.Format("Are you sure you want to send email reminders to {0} primary contacts for {1} projects requiring an update?",
-                primaryContactPeople.Count,
-                updatableProjectsThatHaveNotBeenSubmitted.Count);
-            var viewData =
-                new SendReminderEmailViewData(confirmMessage, ReminderMessageType.All.ToList());
-            return RazorPartialView<SendReminderEmail, SendReminderEmailViewData, SendReminderEmailViewModel>(viewData, viewModel);
-        }
-
-        [HttpPost]
-        [ProjectUpdateAdminFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult SendReminderEmails(SendReminderEmailViewModel viewModel)
-        {
-            var message = ReminderMessageType.ToType(viewModel.ReminderMessageTypeEnum).SendReminderEmails();
-            SetMessageForDisplay(message);
-            return new ModalDialogFormJsonResult();
-        }
-
         /// <summary>
         /// Dummy get signature so that it can find the post action
         /// </summary>
@@ -1352,9 +1325,8 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult CreateCustomNotification(CustomNotificationViewModel viewModel)
         {
             var peopleToNotify = HttpRequestStorage.DatabaseEntities.People.Where(x => viewModel.PersonIDList.Contains(x.PersonID)).ToList();
-            var loadReminderTemplateUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LoadReminderTemplate(null));
             var sendPreviewEmailUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.SendPreviewOfCustomNotification(null));
-            var viewData = new CustomNotificationViewData(CurrentPerson, peopleToNotify, loadReminderTemplateUrl, sendPreviewEmailUrl);
+            var viewData = new CustomNotificationViewData(CurrentPerson, peopleToNotify, sendPreviewEmailUrl);
             return RazorPartialView<CustomNotification, CustomNotificationViewData, CustomNotificationViewModel>(viewData, viewModel);
         }
 
@@ -1380,7 +1352,7 @@ namespace ProjectFirma.Web.Controllers
 
             var peopleToNotify = HttpRequestStorage.DatabaseEntities.People.Where(x => viewModel.PersonIDList.Contains(x.PersonID)).ToList();
             var emailsToSendTo = peopleToNotify.Select(x => x.Email).ToList();
-            var emailsToReplyTo = new List<string> { ReminderMessageType.GetAnnualReportingContactPerson().Email };
+            var emailsToReplyTo = new List<string> { FirmaWebConfiguration.DoNotReplyEmail };
             var emailsToCc = new List<string>();
 
             var message = new MailMessage {Subject = viewModel.Subject, AlternateViews = {AlternateView.CreateAlternateViewFromString(viewModel.NotificationContent ?? string.Empty, null, "text/html")}};
@@ -1415,25 +1387,6 @@ namespace ProjectFirma.Web.Controllers
             return CreateCustomNotification(viewModel);
         }
 
-        /// <summary>
-        /// Dummy get signature so that it can find the post action
-        /// </summary>
-        [HttpGet]
-        [ProjectUpdateAdminFeature]
-        public ContentResult LoadReminderTemplate()
-        {
-            return new ContentResult();
-        }
-
-        [HttpPost]
-        [ProjectUpdateAdminFeature]
-        public JsonResult LoadReminderTemplate(LoadReminderTemplateViewModel viewModel)
-        {
-            var person = HttpRequestStorage.DatabaseEntities.People.GetPerson(viewModel.PersonID);
-            var reminderMessage = new ReminderMessageSimple(ReminderMessageType.ToType(viewModel.ReminderMessageTypeEnum), person);
-            var result = new JsonResult {Data = reminderMessage};
-            return person == null ? null : result;
-        }
 
         [ProjectUpdateViewFeature]
         public ViewResult ProjectUpdateStatus()
@@ -2138,11 +2091,5 @@ namespace ProjectFirma.Web.Controllers
             calendarYearStrings.AddRange(calendarYearsUpdated.Select(i => new CalendarYearString(i, !calendarYearsOriginal.Contains(i) ? AddedDeletedOrRealElement.AddedElement : AddedDeletedOrRealElement.RealElement)));
             return calendarYearStrings;
         }
-    }
-
-    public class LoadReminderTemplateViewModel : FormViewModel
-    {
-        public ReminderMessageTypeEnum ReminderMessageTypeEnum { get; set; }
-        public int PersonID { get; set; }
     }
 }

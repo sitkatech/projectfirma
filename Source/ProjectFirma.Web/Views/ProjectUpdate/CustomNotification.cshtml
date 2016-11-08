@@ -36,7 +36,6 @@ else
     {
         <div>
             <span class="pull-right"><button id="send-preview-email" class="btn btn-xs btn-firma" type="button" onclick="sendPreviewEmail()">Send Test Email</button></span>
-            Notification Template: @Html.DropDownList("reminderTemplateDropdown", ViewDataTyped.ReminderTemplates)
         </div>
         <hr/>
         <div class="container-fluid customMessageHeader">
@@ -100,45 +99,6 @@ else
                     function() { alert("There was an error sending the preview email."); });
             }
 
-            jQuery(document).ready(function()
-            {
-                var templateDropdown = jQuery("#reminderTemplateDropdown");
-
-                if (@(ViewDataTyped.PeopleToNotify.Count) > 1)
-                {
-                    templateDropdown.prop("disabled", true);
-                }
-
-                templateDropdown.change(function()
-                {
-                    var editorId = "@("CkEditorFor" + Html.IdFor(x => x.NotificationContent))";
-                    var ckEditor = CKEDITOR.instances[editorId];
-                    var subject = jQuery("#@Html.IdFor(x => x.Subject)");
-
-                    if (Sitka.Methods.isUndefinedNullOrEmpty(templateDropdown.val()))
-                    {
-                        ckEditor.setData("");
-                        subject.val("");
-                        return;
-                    }
-                    var postData = {
-                        ReminderMessageTypeEnum: templateDropdown.val(),
-                        PersonID: @ViewDataTyped.PeopleToNotify.First().PersonID
-                    };
-                    SitkaAjax.post(@Html.Raw(ViewDataTyped.LoadReminderTemplateUrl.ToJS()), postData,
-                        function(reminderMessage)
-                        {
-                            ckEditor.setData(reminderMessage.Body);
-                            subject.val(reminderMessage.Subject);
-                        },
-                        function()
-                        {
-                            alert("There was an error selecting the reminder template.");
-                            ckEditor.setData("");
-                            subject.val("");
-                        });
-                });
-            });
         </script>
     }
 }

@@ -491,11 +491,6 @@ namespace ProjectFirma.Web.Models
                 case "ProposedProjectThresholdCategory":
                     return ProposedProjectThresholdCategories.GetProposedProjectThresholdCategory(primaryKey);
 
-                case "ReminderMessageType":
-                    var reminderMessageType = ReminderMessageType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(reminderMessageType, "ReminderMessageType", primaryKey);
-                    return reminderMessageType;
-
                 case "Role":
                     var role = Role.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(role, "Role", primaryKey);

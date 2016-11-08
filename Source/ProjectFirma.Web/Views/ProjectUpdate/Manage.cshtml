@@ -2,7 +2,6 @@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.ModalDialog
 @inherits Manage
 
 @{
@@ -19,10 +18,6 @@
 }
 <div>
     @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
-</div>
-
-<div style="margin-top: 10px">
-    @ModalDialogFormHelper.ModalDialogFormLink("Send Scheduled Reminders", ViewDataTyped.SendReminderEmailsUrl, "Send email reminders to project primary contacts", 500, "Continue", "Cancel", new List<string> {"btn btn-xs btn-firma"}, null, null)
 </div>
 
 <div class="summarySection">

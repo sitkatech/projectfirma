@@ -769,7 +769,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionPerformanceMeasureChartCaption : FieldDefinition
     {
         private FieldDefinitionPerformanceMeasureChartCaption(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionPerformanceMeasureChartCaption Instance = new FieldDefinitionPerformanceMeasureChartCaption(228, @"PerformanceMeasureChartCaption", @"Chart Caption");
+        public static readonly FieldDefinitionPerformanceMeasureChartCaption Instance = new FieldDefinitionPerformanceMeasureChartCaption(228, @"PerformanceMeasureChartCaption", @"Performance Measure Chart Caption");
     }
 
     public partial class FieldDefinitionMonitoringProgram : FieldDefinition

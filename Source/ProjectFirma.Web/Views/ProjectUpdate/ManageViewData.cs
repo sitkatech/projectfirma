@@ -8,7 +8,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     public class ManageViewData : FirmaViewData
     {
         public readonly int ReportingYear;
-        public readonly string SendReminderEmailsUrl;
 
         public readonly ProjectUpdateStatusGridSpec ProjectsRequiringUpdateGridSpec;
         public readonly string ProjectsRequiringUpdateGridName;
@@ -22,7 +21,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public ManageViewData(Person currentPerson,
             Models.FirmaPage firmaPage,
-            string sendReminderEmailsUrl,
             string customNotificationUrl,
             ProjectUpdateStatusGridSpec projectsRequiringUpdateGridSpec,
             string projectsRequiringUpdateGridDataUrl,
@@ -32,7 +30,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             PageTitle = string.Format("Project Update Notifications for Reporting Year: {0}", reportingYear);
             ReportingYear = reportingYear;
-            SendReminderEmailsUrl = sendReminderEmailsUrl;
 
             ProjectsRequiringUpdateGridDataUrl = projectsRequiringUpdateGridDataUrl;
             ProjectsRequiringUpdateGridSpec = projectsRequiringUpdateGridSpec;
