@@ -7,7 +7,7 @@ using LtInfo.Common;
 /// <remarks>A SetUpFixture outside of any namespace provides SetUp and TearDown for the entire assembly</remarks>
 [SetUpFixture]
 // ReSharper disable CheckNamespace
-public class NunitSetupFixtureFirma
+public class NunitSetupFixtureLtInfoCommon
 // ReSharper restore CheckNamespace
 {
     [SetUp]
