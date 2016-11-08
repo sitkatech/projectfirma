@@ -22,8 +22,6 @@ namespace ProjectFirma.Web.Views.Snapshot
             Add(Models.FieldDefinition.EstimatedTotalCost.ToGridHeaderString(), x => x.Project.EstimatedTotalCost, 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add(Models.FieldDefinition.SecuredFunding.ToGridHeaderString(), x => x.Project.SecuredFunding, 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add(Models.FieldDefinition.UnfundedNeed.ToGridHeaderString(), x => x.Project.UnfundedNeed, 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            Add(Models.FieldDefinition.Latitude.ToGridHeaderString(), x => x.Project.ProjectLocationPointLatitude, 80, DhtmlxGridColumnFormatType.LatLong);
-            Add(Models.FieldDefinition.Longitude.ToGridHeaderString(), x => x.Project.ProjectLocationPointLongitude, 80, DhtmlxGridColumnFormatType.LatLong);
             Add(Models.FieldDefinition.Region.ToGridHeaderString(), x => x.Project.ProjectLocationTypeDisplay, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("State", x => x.Project.ProjectLocationStateProvince, 95, DhtmlxGridColumnFilterType.Text);
             Add("Jurisdiction", x => x.Project.ProjectLocationJurisdiction, 95, DhtmlxGridColumnFilterType.Text);

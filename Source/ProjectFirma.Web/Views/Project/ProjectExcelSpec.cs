@@ -25,8 +25,6 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(Models.FieldDefinition.EstimatedTotalCost.FieldDefinitionDisplayName, x => x.EstimatedTotalCost);
             AddColumn(Models.FieldDefinition.SecuredFunding.FieldDefinitionDisplayName, x => x.SecuredFunding);
             AddColumn(Models.FieldDefinition.UnfundedNeed.FieldDefinitionDisplayName, x => x.UnfundedNeed);
-            AddColumn(Models.FieldDefinition.Latitude.FieldDefinitionDisplayName, a => a.ProjectLocationPointLatitude);
-            AddColumn(Models.FieldDefinition.Longitude.FieldDefinitionDisplayName, a => a.ProjectLocationPointLongitude);
             AddColumn(Models.FieldDefinition.Region.FieldDefinitionDisplayName, a => a.ProjectLocationTypeDisplay);
             AddColumn("State", a => a.ProjectLocationStateProvince);
             AddColumn("Jurisdiction", a => a.ProjectLocationJurisdiction);

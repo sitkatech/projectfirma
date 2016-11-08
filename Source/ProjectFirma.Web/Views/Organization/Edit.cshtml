@@ -11,7 +11,7 @@
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithFieldDefinitionFor(m => m.OrganizationName):
+                @Html.Label("Organization Name")
             </div>
             <div class="col-sm-9">
                 @if (ViewDataTyped.IsInKeystone)
@@ -28,7 +28,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithFieldDefinitionFor(m => m.OrganizationAbbreviation):
+                @Html.Label("Abbreviation"):
             </div>
             <div class="col-sm-9">
                @Html.TextBoxFor(m => m.OrganizationAbbreviation, new { style = "width:100%" })
@@ -55,7 +55,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithFieldDefinitionFor(m => m.OrganizationUrl):
+                @Html.Label("Home Page URL")
             </div>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.OrganizationUrl, new { style = "width:100%" })

@@ -28,8 +28,6 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionImplementer Implementer = FieldDefinitionImplementer.Instance;
         public static readonly FieldDefinitionLeadImplementer LeadImplementer = FieldDefinitionLeadImplementer.Instance;
         public static readonly FieldDefinitionOrganization Organization = FieldDefinitionOrganization.Instance;
-        public static readonly FieldDefinitionOrganizationAbbreviation OrganizationAbbreviation = FieldDefinitionOrganizationAbbreviation.Instance;
-        public static readonly FieldDefinitionOrganizationName OrganizationName = FieldDefinitionOrganizationName.Instance;
         public static readonly FieldDefinitionPassword Password = FieldDefinitionPassword.Instance;
         public static readonly FieldDefinitionPerformanceMeasure PerformanceMeasure = FieldDefinitionPerformanceMeasure.Instance;
         public static readonly FieldDefinitionMeasurementUnit MeasurementUnit = FieldDefinitionMeasurementUnit.Instance;
@@ -81,10 +79,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionPerformanceMeasureChartTitle PerformanceMeasureChartTitle = FieldDefinitionPerformanceMeasureChartTitle.Instance;
         public static readonly FieldDefinitionRoleName RoleName = FieldDefinitionRoleName.Instance;
         public static readonly FieldDefinitionRegion Region = FieldDefinitionRegion.Instance;
-        public static readonly FieldDefinitionLatitude Latitude = FieldDefinitionLatitude.Instance;
-        public static readonly FieldDefinitionLongitude Longitude = FieldDefinitionLongitude.Instance;
-        public static readonly FieldDefinitionOrganizationUrl OrganizationUrl = FieldDefinitionOrganizationUrl.Instance;
-        public static readonly FieldDefinitionChartCaption ChartCaption = FieldDefinitionChartCaption.Instance;
+        public static readonly FieldDefinitionPerformanceMeasureChartCaption PerformanceMeasureChartCaption = FieldDefinitionPerformanceMeasureChartCaption.Instance;
         public static readonly FieldDefinitionMonitoringProgram MonitoringProgram = FieldDefinitionMonitoringProgram.Instance;
         public static readonly FieldDefinitionMonitoringApproach MonitoringApproach = FieldDefinitionMonitoringApproach.Instance;
         public static readonly FieldDefinitionMonitoringProgramPartner MonitoringProgramPartner = FieldDefinitionMonitoringProgramPartner.Instance;
@@ -101,7 +96,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { ActionPriority, ActionPriorityName, ExpectedValue, FocusArea, FocusAreaName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, Organization, OrganizationAbbreviation, OrganizationName, Password, PerformanceMeasure, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, Program, ProgramName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, ProjectStage, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ThresholdCategory, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryProgram, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, ProposedProject, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedPrograms, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, Latitude, Longitude, OrganizationUrl, ChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
+            All = new List<FieldDefinition> { ActionPriority, ActionPriorityName, ExpectedValue, FocusArea, FocusAreaName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, Organization, Password, PerformanceMeasure, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, Program, ProgramName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, ProjectStage, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ThresholdCategory, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryProgram, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, ProposedProject, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedPrograms, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -178,8 +173,6 @@ namespace ProjectFirma.Web.Models
                     return AssociatedPrograms;
                 case FieldDefinitionEnum.CalculatedTotalRemainingOperatingCost:
                     return CalculatedTotalRemainingOperatingCost;
-                case FieldDefinitionEnum.ChartCaption:
-                    return ChartCaption;
                 case FieldDefinitionEnum.CompletionYear:
                     return CompletionYear;
                 case FieldDefinitionEnum.CurrentYearForPVCalculations:
@@ -218,14 +211,10 @@ namespace ProjectFirma.Web.Models
                     return Implementer;
                 case FieldDefinitionEnum.IsPrimaryProgram:
                     return IsPrimaryProgram;
-                case FieldDefinitionEnum.Latitude:
-                    return Latitude;
                 case FieldDefinitionEnum.LeadImplementer:
                     return LeadImplementer;
                 case FieldDefinitionEnum.LifecycleOperatingCost:
                     return LifecycleOperatingCost;
-                case FieldDefinitionEnum.Longitude:
-                    return Longitude;
                 case FieldDefinitionEnum.MeasurementUnit:
                     return MeasurementUnit;
                 case FieldDefinitionEnum.MonitoringApproach:
@@ -238,16 +227,12 @@ namespace ProjectFirma.Web.Models
                     return MonitoringProgramUrl;
                 case FieldDefinitionEnum.Organization:
                     return Organization;
-                case FieldDefinitionEnum.OrganizationAbbreviation:
-                    return OrganizationAbbreviation;
-                case FieldDefinitionEnum.OrganizationName:
-                    return OrganizationName;
-                case FieldDefinitionEnum.OrganizationUrl:
-                    return OrganizationUrl;
                 case FieldDefinitionEnum.Password:
                     return Password;
                 case FieldDefinitionEnum.PerformanceMeasure:
                     return PerformanceMeasure;
+                case FieldDefinitionEnum.PerformanceMeasureChartCaption:
+                    return PerformanceMeasureChartCaption;
                 case FieldDefinitionEnum.PerformanceMeasureChartTitle:
                     return PerformanceMeasureChartTitle;
                 case FieldDefinitionEnum.PerformanceMeasureSubcategory:
@@ -342,8 +327,6 @@ namespace ProjectFirma.Web.Models
         Implementer = 11,
         LeadImplementer = 12,
         Organization = 14,
-        OrganizationAbbreviation = 15,
-        OrganizationName = 16,
         Password = 17,
         PerformanceMeasure = 18,
         MeasurementUnit = 21,
@@ -395,10 +378,7 @@ namespace ProjectFirma.Web.Models
         PerformanceMeasureChartTitle = 97,
         RoleName = 182,
         Region = 184,
-        Latitude = 185,
-        Longitude = 186,
-        OrganizationUrl = 188,
-        ChartCaption = 228,
+        PerformanceMeasureChartCaption = 228,
         MonitoringProgram = 236,
         MonitoringApproach = 237,
         MonitoringProgramPartner = 238,
@@ -478,18 +458,6 @@ namespace ProjectFirma.Web.Models
     {
         private FieldDefinitionOrganization(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
         public static readonly FieldDefinitionOrganization Instance = new FieldDefinitionOrganization(14, @"Organization", @"Organization");
-    }
-
-    public partial class FieldDefinitionOrganizationAbbreviation : FieldDefinition
-    {
-        private FieldDefinitionOrganizationAbbreviation(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionOrganizationAbbreviation Instance = new FieldDefinitionOrganizationAbbreviation(15, @"OrganizationAbbreviation", @"Abbreviation");
-    }
-
-    public partial class FieldDefinitionOrganizationName : FieldDefinition
-    {
-        private FieldDefinitionOrganizationName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionOrganizationName Instance = new FieldDefinitionOrganizationName(16, @"OrganizationName", @"Organization Name");
     }
 
     public partial class FieldDefinitionPassword : FieldDefinition
@@ -798,28 +766,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionRegion Instance = new FieldDefinitionRegion(184, @"Region", @"Region (Geospatial),");
     }
 
-    public partial class FieldDefinitionLatitude : FieldDefinition
+    public partial class FieldDefinitionPerformanceMeasureChartCaption : FieldDefinition
     {
-        private FieldDefinitionLatitude(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionLatitude Instance = new FieldDefinitionLatitude(185, @"Latitude", @"Latitude");
-    }
-
-    public partial class FieldDefinitionLongitude : FieldDefinition
-    {
-        private FieldDefinitionLongitude(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionLongitude Instance = new FieldDefinitionLongitude(186, @"Longitude", @"Longitude");
-    }
-
-    public partial class FieldDefinitionOrganizationUrl : FieldDefinition
-    {
-        private FieldDefinitionOrganizationUrl(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionOrganizationUrl Instance = new FieldDefinitionOrganizationUrl(188, @"OrganizationUrl", @"Organization Home Page");
-    }
-
-    public partial class FieldDefinitionChartCaption : FieldDefinition
-    {
-        private FieldDefinitionChartCaption(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionChartCaption Instance = new FieldDefinitionChartCaption(228, @"ChartCaption", @"Chart Caption");
+        private FieldDefinitionPerformanceMeasureChartCaption(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionPerformanceMeasureChartCaption Instance = new FieldDefinitionPerformanceMeasureChartCaption(228, @"PerformanceMeasureChartCaption", @"Chart Caption");
     }
 
     public partial class FieldDefinitionMonitoringProgram : FieldDefinition

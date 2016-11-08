@@ -25,17 +25,6 @@ namespace ProjectFirma.Web.Controllers
         [OrganizationViewFeature]
         public ViewResult Index()
         {
-            return IndexImpl();
-        }
-
-        [FirmaAdminFeature]
-        public ViewResult Manage()
-        {
-            return IndexImpl();
-        }
-
-        private ViewResult IndexImpl()
-        {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.OrganizationsList);
             var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);

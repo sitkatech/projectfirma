@@ -12,13 +12,13 @@ namespace ProjectFirma.Web.Views.Organization
     {
         public IndexGridSpec(Person currentPerson, bool hasDeletePermissions)
         {
-            var userViewFeature = new UserViewFeature();            
+            var userViewFeature = new UserViewFeature();
             if (hasDeletePermissions)
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30);
             }
             Add(Models.FieldDefinition.Organization.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.OrganizationName), 400, DhtmlxGridColumnFilterType.Html);
-            Add(Models.FieldDefinition.OrganizationAbbreviation.ToGridHeaderString(), a => a.OrganizationAbbreviation, 100);
+            Add("Abbreviation", a => a.OrganizationAbbreviation, 100);
             Add(Models.FieldDefinition.Sector.ToGridHeaderString(), a => a.Sector.SectorDisplayName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.PrimaryContact.ToGridHeaderString(), a => userViewFeature.HasPermissionByPerson(currentPerson) ? a.PrimaryContactPersonAsUrl : new HtmlString(a.PrimaryContactPersonAsString), 120);
             Add("# of Projects", a => a.GetAllProjectOrganizations().Count, 90);

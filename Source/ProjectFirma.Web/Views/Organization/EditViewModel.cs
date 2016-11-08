@@ -16,12 +16,10 @@ namespace ProjectFirma.Web.Views.Organization
         public int OrganizationID { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationName)]
         [StringLength(Models.Organization.FieldLengths.OrganizationName)]
         public string OrganizationName { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationAbbreviation)]
         [StringLength(Models.Organization.FieldLengths.OrganizationAbbreviation)]
         public string OrganizationAbbreviation { get; set; }
 
@@ -31,7 +29,6 @@ namespace ProjectFirma.Web.Views.Organization
         [FieldDefinitionDisplay(FieldDefinitionEnum.PrimaryContact)]
         public int? PrimaryContactPersonID { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationUrl)]
         [Url]
         public string OrganizationUrl { get; set; }
 
@@ -39,7 +36,7 @@ namespace ProjectFirma.Web.Views.Organization
         public bool IsActive { get; set; }
 
         [DisplayName("Logo")]
-        [SitkaFileExtensions("jpg|jpeg|gif|png")]        
+        [SitkaFileExtensions("jpg|jpeg|gif|png")]
         public HttpPostedFileBase LogoFileResourceData { get; set; }
 
         /// <summary>

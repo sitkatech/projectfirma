@@ -27,17 +27,6 @@ namespace ProjectFirma.Web.Controllers
         [FundingSourceViewFeature]
         public ViewResult Index()
         {
-            return IndexImpl();
-        }
-
-        [AdminFeature]
-        public ViewResult Manage()
-        {
-            return IndexImpl();
-        }
-
-        private ViewResult IndexImpl()
-        {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.FundingSourcesList);
             var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);

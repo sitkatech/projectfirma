@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4 col-header">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ChartCaption):</div>
+            <div class="col-md-4 col-header">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureChartCaption):</div>
             <div class="col-md-7">
                 @Html.TextAreaWithMaxLengthFor(m => m.ChartCaption, new TextAreaForExtensions.TextAreaDimensions(null, 6), null)
                 @Html.ValidationMessageFor(m => m.ChartCaption)

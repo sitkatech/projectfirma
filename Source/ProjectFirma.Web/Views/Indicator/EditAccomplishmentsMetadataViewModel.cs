@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Views.Indicator
         public string ChartTitle { get; set; }
 
         [StringLength(Models.Indicator.FieldLengths.ChartCaption)]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ChartCaption)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.PerformanceMeasureChartCaption)]
         public string ChartCaption { get; set; }
 
         /// <summary>

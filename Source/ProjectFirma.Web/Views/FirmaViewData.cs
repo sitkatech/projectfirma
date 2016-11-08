@@ -15,7 +15,6 @@ namespace ProjectFirma.Web.Views
         public readonly string ManageProgramsUrl;
         public readonly string ManageActionPrioritiesUrl;
         public readonly string ManagePerformanceMeasuresUrl;
-        public readonly string ManageObjectivesUrl;
 
         public readonly string FullProjectListUrl;
         public readonly string ProjectSearchUrl;
@@ -74,9 +73,8 @@ namespace ProjectFirma.Web.Views
                 homeMenuItem,
                 BuildAboutMenu(currentPerson),
                 //BuildProjectsMenu(currentPerson),
-                //BuildProgramInfoMenu(currentPerson),
+                BuildProgramInfoMenu(currentPerson),
                 //BuildResultsMenu(currentPerson),
-                //BuildTransporationMenu(currentPerson),
                 BuildManageMenu(currentPerson)
             };
 
@@ -84,38 +82,12 @@ namespace ProjectFirma.Web.Views
             TopLevelLtInfoMenuItems.SelectMany(x => x.ChildMenus).ToList().ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-dropdown-item" });
         }
 
-        private LtInfoMenuItem BuildManageMenu(Person currentPerson)
+        private static LtInfoMenuItem BuildAboutMenu(Person currentPerson)
         {
-            var manageMenu = new LtInfoMenuItem("Program Info");
-            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Manage()), currentPerson, "Performance Measures", "Group1"));
-            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.SpendingByPerformanceMeasureByProject(null)), currentPerson, "Spending by Performance Measures", "Group1"));
-
-            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FocusAreaController>(c => c.Manage()), currentPerson, "Focus Areas", "Group2"));
-            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramController>(c => c.Manage()), currentPerson, "Programs", "Group2"));
-            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ActionPriorityController>(c => c.Manage()), currentPerson, "Action Priorities", "Group2"));
-
-            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<LocalAndRegionalPlanController>(c => c.Manage()), currentPerson, "Local and Regional Plans", "Group3"));
-
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FundingSourceController>(c => c.Manage()), currentPerson, "Funding Sources", "Group4"));
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<OrganizationController>(c => c.Manage()), currentPerson, "Organizations", "Group4"));
-
-            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.FeaturedList()), currentPerson, "Featured Projects", "Group6"));
-            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TagController>(c => c.Index()), currentPerson, "Project Tags", "Group6"));
-            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.Manage()), currentPerson, "Manage Project Updates", "Group6"));
-
-            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FirmaPageController>(c => c.Index()), currentPerson, "Page Content", "Group7"));
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FieldDefinitionController>(c => c.Index()), currentPerson, "Field Definitions", "Group7"));
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<UserController>(c => c.Index()), currentPerson, "Users", "Group1"));
-
-            return manageMenu;
-        }
-
-        private static LtInfoMenuItem BuildTransporationMenu(Person currentPerson)
-        {
-            var menu = new LtInfoMenuItem("");
-            menu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AssessmentController>(c => c.Manage()), currentPerson, " Assessment", "Group1"));
-            menu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CostParameterSetController>(c => c.Manage()), currentPerson, "Cost Parameters", "Group2"));
-            return menu;
+            var aboutMenu = new LtInfoMenuItem("About");
+            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AboutController>(c => c.AboutClackamasPartnership()), currentPerson, "About the Partnership"));
+            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AboutController>(c => c.Meetings()), currentPerson, "Meetings and Documents"));
+            return aboutMenu;
         }
 
         private static LtInfoMenuItem BuildResultsMenu(Person currentPerson)
@@ -135,20 +107,42 @@ namespace ProjectFirma.Web.Views
         private static LtInfoMenuItem BuildProgramInfoMenu(Person currentPerson)
         {
             var programInfoMenu = new LtInfoMenuItem("Program Info");
-            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Index()), currentPerson, "Performance Measures", "Group1"));
-            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramInfoController>(c => c.Taxonomy()), currentPerson, "Focus Areas, Programs, and Action Priorities", "Group1"));
+            //programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Index()), currentPerson, "Performance Measures", "Group1"));
+            //programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramInfoController>(c => c.Taxonomy()), currentPerson, "Focus Areas, Programs, and Action Priorities", "Group1"));
 
-            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramInfoController>(c => c.Taxonomy()), currentPerson, " Strategies and Objectives", "Group2"));
+            //programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ThresholdCategoryController>(c => c.Index()), currentPerson, "Threshold Categories", "Group3"));
 
-            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ThresholdCategoryController>(c => c.Index()), currentPerson, "Threshold Categories", "Group3"));
-            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<LocalAndRegionalPlanController>(c => c.Index()), currentPerson, "Local and Regional Plans", "Group3"));
+            //programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AssessmentController>(c => c.Manage()), currentPerson, " Assessment", "Group1"));
+            //programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CostParameterSetController>(c => c.Manage()), currentPerson, "Cost Parameters", "Group2"));
 
-            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<WatershedController>(c => c.Index()), currentPerson, "Watersheds", "Group4"));
-            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<OrganizationController>(c => c.Index()), currentPerson, "Organizations", "Group4"));
+            //programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<WatershedController>(c => c.Index()), currentPerson, "Watersheds", "Group4"));
 
-            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FundingSourceController>(c => c.Index()), currentPerson, "Funding Sources", "Group5"));
+            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<OrganizationController>(c => c.Index()), currentPerson, "Organizations", "Group1"));
+            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FundingSourceController>(c => c.Index()), currentPerson, "Funding Sources", "Group1"));
             return programInfoMenu;
         }
+
+        private LtInfoMenuItem BuildManageMenu(Person currentPerson)
+        {
+            var manageMenu = new LtInfoMenuItem("Manage");
+            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Manage()), currentPerson, "Performance Measures", "Group1"));
+            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.SpendingByPerformanceMeasureByProject(null)), currentPerson, "Spending by Performance Measures", "Group1"));
+
+            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FocusAreaController>(c => c.Manage()), currentPerson, "Focus Areas", "Group2"));
+            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramController>(c => c.Manage()), currentPerson, "Programs", "Group2"));
+            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ActionPriorityController>(c => c.Manage()), currentPerson, "Action Priorities", "Group2"));
+
+            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.FeaturedList()), currentPerson, "Featured Projects", "Group6"));
+            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TagController>(c => c.Index()), currentPerson, "Project Tags", "Group6"));
+            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.Manage()), currentPerson, "Manage Project Updates", "Group6"));
+
+            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FirmaPageController>(c => c.Index()), currentPerson, "Page Content", "Group7"));
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FieldDefinitionController>(c => c.Index()), currentPerson, "Field Definitions", "Group7"));
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<UserController>(c => c.Index()), currentPerson, "Users", "Group1"));
+
+            return manageMenu;
+        }
+
 
         private static LtInfoMenuItem BuildProjectsMenu(Person currentPerson)
         {
@@ -164,14 +158,6 @@ namespace ProjectFirma.Web.Views
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.ProjectUpdateStatus()), currentPerson, projectUpdateStatusMenuItemName, "Group3"));
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProposedProjectController>(c => c.Index()), currentPerson, "Proposed Projects", "Group3"));
             return projectsMenu;
-        }
-
-        private static LtInfoMenuItem BuildAboutMenu(Person currentPerson)
-        {
-            var aboutMenu = new LtInfoMenuItem("About");
-            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AboutController>(c => c.AboutClackamasPartnership()), currentPerson, "Clackamas Partnership"));
-            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AboutController>(c => c.Meetings()), currentPerson, "Meetings and Documents"));
-            return aboutMenu;
         }
 
         public string IsActiveUrl(string currentUrlPathAndQuery, string urlToCompare)

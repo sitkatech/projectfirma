@@ -126,9 +126,12 @@ namespace ProjectFirma.Web.Views
             }
 
             childMenuItems.Add(string.Format("{0}</ul>", childIndent));
-            
+
             var childMenuItemCssClasses = "dropdown-toggle";
-            if (ExtraTopLevelMenuCssClasses.Any()) { childMenuItemCssClasses += " " + string.Join(" ", ExtraTopLevelMenuCssClasses); }
+            if (ExtraTopLevelMenuCssClasses.Any())
+            {
+                childMenuItemCssClasses += " " + string.Join(" ", ExtraTopLevelMenuCssClasses);
+            }
 
             return string.Format(@"{0}<li {1}>
 {0}<a href=""#"" class=""{2}"" data-toggle=""dropdown"" role=""button"" aria-expanded=""false"">{3} <span class=""glyphicon glyphicon-menu-down""></span></a>
