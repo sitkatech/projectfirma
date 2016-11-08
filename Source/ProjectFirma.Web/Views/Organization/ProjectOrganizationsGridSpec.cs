@@ -13,10 +13,7 @@ namespace ProjectFirma.Web.Views.Organization
     {
         public ProjectOrganizationsGridSpec(IEnumerable<int> calendarYearsForProjectExpenditures)
         {
-            Add(Models.FieldDefinition.Project.ToGridHeaderString(),
-                a => UrlTemplate.MakeHrefString(a.Project.GetSummaryUrl(), a.Project.DisplayName),
-                350,
-                DhtmlxGridColumnFilterType.Html);
+            Add(Models.FieldDefinition.Project.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.Project.GetSummaryUrl(), a.Project.DisplayName), 350, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderStringWider(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.LeadImplementer.ToGridHeaderString(), a => a.IsLeadOrganization.ToYesNo(), 120, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.Implementer.ToGridHeaderString(), a => (a.IsImplementingOrganization && !a.IsLeadOrganization).ToYesNo(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
@@ -26,13 +23,11 @@ namespace ProjectFirma.Web.Views.Organization
                 var calendarYear = year;
                 Add(calendarYear.ToString(CultureInfo.InvariantCulture),
                     a =>
-                        a.Organization.FundingSources.SelectMany(
-                            x =>
-                                x.ProjectFundingSourceExpenditures.Where(
-                                    pfse => pfse.CalendarYear == calendarYear && pfse.ProjectID == a.Project.ProjectID))
+                        a.Organization.FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures.Where(pfse => pfse.CalendarYear == calendarYear && pfse.ProjectID == a.Project.ProjectID))
                             .Sum(pfse => pfse.ExpenditureAmount),
                     100,
-                    DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                    DhtmlxGridColumnFormatType.Currency,
+                    DhtmlxGridColumnAggregationType.Total);
             }
         }
     }

@@ -9,7 +9,8 @@
 @using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
-@inherits ProjectFirma.Web.Views.Organization.Detail
+@using ProjectFirma.Web.Views.Organization
+@inherits Detail
 
 @section JavascriptAndStylesContent
 {
@@ -100,7 +101,7 @@
 
                                     <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 600px; margin: 5px 0 5px 0">
                                     </div>
-                                    <span class="systemText" style="font-size: 12px">To zoom into a specific area, hold down the Shift key and drag a rectangle.</span>
+                                    <span class="alert" style="font-size: 12px">To zoom into a specific area, hold down the Shift key and drag a rectangle.</span>
                                     <script type="text/javascript">
                                     jQuery(document).ready(function()
                                     {
@@ -122,7 +123,7 @@
                                 }
                                 else
                                 {
-                                    <span class="systemText">No spatial data associated with this organization.</span>
+                                    <span class="alert">No spatial data associated with this organization.</span>
                                 }
                             </div>
                         </div>
@@ -181,7 +182,7 @@
                                 }
                                 else
                                 {
-                                    <span class="systemText">No monitoring programs for this organization.</span>
+                                    <span class="alert">No monitoring programs for this organization.</span>
                                 }
                             </div>
                         </div>
@@ -237,7 +238,7 @@
                             </div>
                             <div class="panel-body">
                                 <div>
-                                   @Html.DhtmlxGrid(ViewDataTyped.ProjectOrganizationsGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                                    @Html.DhtmlxGrid(ViewDataTyped.ProjectOrganizationsGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, string.Format("height:300px; width:{0}px;", ViewDataTyped.ProjectOrganizationsGridSpec.CalculateTotalColumnWidth()), DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                                 </div>
                             </div>
                         </div> 

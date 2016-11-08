@@ -68,6 +68,11 @@ namespace LtInfo.Common.DhtmlWrappers
             get { return this.Select(colSpec => colSpec.ColumnNameInnerText).ToList(); }
         }
 
+        public int CalculateTotalColumnWidth()
+        {
+            return this.Sum(x => x.GridWidth);
+        }
+
         public string GroupingHeader { get; set; }
 
         public string BuildGroupingHeader(ColumnHeaderGroupingList groupHeaderTitleAndColSpanTuple)
