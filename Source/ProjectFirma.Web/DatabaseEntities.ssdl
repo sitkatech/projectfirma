@@ -25,7 +25,6 @@
     <EntitySet Name="IndicatorSubcategory" EntityType="ProjectFirma.Web.Models.Store.IndicatorSubcategory" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="IndicatorSubcategoryOption" EntityType="ProjectFirma.Web.Models.Store.IndicatorSubcategoryOption" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Jurisdiction" EntityType="ProjectFirma.Web.Models.Store.Jurisdiction" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="LocalAndRegionalPlan" EntityType="ProjectFirma.Web.Models.Store.LocalAndRegionalPlan" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MappedRegion" EntityType="ProjectFirma.Web.Models.Store.MappedRegion" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MonitoringProgram" EntityType="ProjectFirma.Web.Models.Store.MonitoringProgram" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MonitoringProgramDocument" EntityType="ProjectFirma.Web.Models.Store.MonitoringProgramDocument" store:Type="Tables" Schema="dbo" />
@@ -61,7 +60,6 @@
     <EntitySet Name="ProjectImage" EntityType="ProjectFirma.Web.Models.Store.ProjectImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectImageUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectImageUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectImplementingOrganization" EntityType="ProjectFirma.Web.Models.Store.ProjectImplementingOrganization" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProjectLocalAndRegionalPlan" EntityType="ProjectFirma.Web.Models.Store.ProjectLocalAndRegionalPlan" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectLocation" EntityType="ProjectFirma.Web.Models.Store.ProjectLocation" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectLocationArea" EntityType="ProjectFirma.Web.Models.Store.ProjectLocationArea" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectLocationAreaGroup" EntityType="ProjectFirma.Web.Models.Store.ProjectLocationAreaGroup" store:Type="Tables" Schema="dbo" />
@@ -484,14 +482,6 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
     <AssociationSet Name="FK_ProjectImplementingOrganization_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectImplementingOrganization_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectImplementingOrganizations" EntitySet="ProjectImplementingOrganization" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectLocalAndRegionalPlan_LocalAndRegionalPlan_LocalAndRegionalPlanID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocalAndRegionalPlan_LocalAndRegionalPlan_LocalAndRegionalPlanID">
-      <End Role="LocalAndRegionalPlan" EntitySet="LocalAndRegionalPlan" />
-      <End Role="ProjectLocalAndRegionalPlans" EntitySet="ProjectLocalAndRegionalPlan" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectLocalAndRegionalPlan_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocalAndRegionalPlan_Project_ProjectID">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="ProjectLocalAndRegionalPlans" EntitySet="ProjectLocalAndRegionalPlan" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectLocation_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocation_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
@@ -981,9 +971,9 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_I
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubcategoryID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubcatego' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubcategoryI' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubcategoryID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubca' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubcateg' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubcategoryID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="IndicatorSubcategoryOption">
@@ -1004,15 +994,6 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_I
     <Property Name="OrganizationID" Type="int" Nullable="false" />
     <Property Name="JurisdictionFeature" Type="geometry" />
     <Property Name="StateProvinceID" Type="int" />
-  </EntityType>
-  <EntityType Name="LocalAndRegionalPlan">
-    <Key>
-      <PropertyRef Name="LocalAndRegionalPlanID" />
-    </Key>
-    <Property Name="LocalAndRegionalPlanID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="LocalAndRegionalPlanName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="PlanDocumentUrl" Type="varchar" MaxLength="300" />
-    <Property Name="PlanDocumentLinkText" Type="varchar" MaxLength="300" />
   </EntityType>
   <EntityType Name="MappedRegion">
     <Key>
@@ -1101,7 +1082,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_I
     <Property Name="ProjectReporting" Type="varchar(max)" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActual_PerformanceMeasureActualID_PerformanceMeasureI' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActual_PerformanceMeasureActualID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="PerformanceMeasureActual">
     <Key>
@@ -1134,7 +1115,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="IndicatorSubcategoryID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID_P' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID_PerformanceMe' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="PerformanceMeasureActualUpdate">
     <Key>
@@ -1147,7 +1128,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpda
     <Property Name="ActualValue" Type="float" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureExpected_PerformanceMeasureExpectedID_PerformanceMe' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureExpected_PerformanceMeasureExpectedID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="PerformanceMeasureExpected">
     <Key>
@@ -1389,14 +1370,6 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_P
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="OrganizationID" Type="int" Nullable="false" />
     <Property Name="IsLeadOrganization" Type="bit" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ProjectLocalAndRegionalPlan">
-    <Key>
-      <PropertyRef Name="ProjectLocalAndRegionalPlanID" />
-    </Key>
-    <Property Name="ProjectLocalAndRegionalPlanID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="ProjectID" Type="int" Nullable="false" />
-    <Property Name="LocalAndRegionalPlanID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocation">
     <Key>
@@ -1690,7 +1663,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_P
     <Property Name="ProjectCount" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID_PerformanceMe' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="SnapshotPerformanceMeasure">
     <Key>
@@ -2942,30 +2915,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
         <PropertyRef Name="ProjectID" />
       </Principal>
       <Dependent Role="ProjectImplementingOrganizations">
-        <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectLocalAndRegionalPlan_LocalAndRegionalPlan_LocalAndRegionalPlanID">
-    <End Role="LocalAndRegionalPlan" Type="ProjectFirma.Web.Models.Store.LocalAndRegionalPlan" Multiplicity="1" />
-    <End Role="ProjectLocalAndRegionalPlans" Type="ProjectFirma.Web.Models.Store.ProjectLocalAndRegionalPlan" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LocalAndRegionalPlan">
-        <PropertyRef Name="LocalAndRegionalPlanID" />
-      </Principal>
-      <Dependent Role="ProjectLocalAndRegionalPlans">
-        <PropertyRef Name="LocalAndRegionalPlanID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectLocalAndRegionalPlan_Project_ProjectID">
-    <End Role="Project" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="1" />
-    <End Role="ProjectLocalAndRegionalPlans" Type="ProjectFirma.Web.Models.Store.ProjectLocalAndRegionalPlan" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectID" />
-      </Principal>
-      <Dependent Role="ProjectLocalAndRegionalPlans">
         <PropertyRef Name="ProjectID" />
       </Dependent>
     </ReferentialConstraint>

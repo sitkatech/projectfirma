@@ -104,14 +104,6 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeLocalAndRegionalPlansList
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<LocalAndRegionalPlanController>.BuildUrlFromExpression(x => x.Index());
-        }
-    }
-
     public partial class FirmaPageTypeFocusAreasList
     {
         public override string GetViewUrl()

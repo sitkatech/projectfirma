@@ -20,7 +20,6 @@ namespace ProjectFirma.Web.Views.Project
         public readonly bool UserHasProjectUpdatePermissions;
         public readonly bool UserHasProjectOrganizationManagePermissions;
         public readonly bool UserHasProjectThresholdCategoryManagePermissions;
-        public readonly bool UserHasProjectLocalAndRegionalPlanManagePermissions;
         public readonly bool UserHasProjectWatershedManagePermissions;
         public readonly bool UserHasMapManagePermissions;
         public readonly bool UserHasPerformanceMeasureExpectedViewPermissions;
@@ -33,7 +32,6 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string EditProjectUrl;
         public readonly string EditProjectOrganizationsUrl;
         public readonly string EditThresholdCategoriesUrl;
-        public readonly string EditLocalAndRegionalPlansUrl;
         public readonly string EditWatershedsUrl;
         public readonly string EditSimpleProjectLocationUrl;
         public readonly string EditDetailedProjectLocationUrl;
@@ -81,7 +79,7 @@ namespace ProjectFirma.Web.Views.Project
             string editProjectOrganizationsUrl, PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData, string editPerformanceMeasureExpectedsUrl,
             PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData, string editPerformanceMeasureActualsUrl,
             ProjectExpendituresSummaryViewData projectExpendituresSummaryViewData, string editReportedExpendituresUrl, 
-            string editThresholdCategoriesUrl, string editAssessmentUrl, string editLocalAndRegionalPlansUrl, string editWatershedsUrl, ImageGalleryViewData imageGalleryViewData, 
+            string editThresholdCategoriesUrl, string editAssessmentUrl, string editWatershedsUrl, ImageGalleryViewData imageGalleryViewData, 
             EntityNotesViewData entityNotesViewData, 
             AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
             string editProjectBudgetUrl, string editExternalLinksUrl, EntityExternalLinksViewData entityExternalLinksViewData, ProjectNotificationGridSpec projectNotificationGridSpec, string projectNotificationGridName, string projectNotificationGridDataUrl, ProjectBasicsViewData projectBasicsViewData, AssessmentTreeViewData assessmentTreeViewData) 
@@ -132,9 +130,6 @@ namespace ProjectFirma.Web.Views.Project
             UserHasProjectThresholdCategoryManagePermissions = new ProjectEditFeature().HasPermissionByPerson(currentPerson);
 
             EditAssessmentUrl = editAssessmentUrl;
-
-            EditLocalAndRegionalPlansUrl = editLocalAndRegionalPlansUrl;
-            UserHasProjectLocalAndRegionalPlanManagePermissions = new ProjectLocalAndRegionalPlanManageFromProjectFeature().HasPermissionByPerson(currentPerson);
 
             EditWatershedsUrl = editWatershedsUrl;
             UserHasProjectWatershedManagePermissions = new ProjectWatershedManageFromProjectFeature().HasPermissionByPerson(currentPerson);

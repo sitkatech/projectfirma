@@ -280,26 +280,6 @@
                     </div>
                 }
                 <div class="summarySection">
-                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditLocalAndRegionalPlansUrl, "Edit Local and Regional Plans", ViewDataTyped.UserHasProjectLocalAndRegionalPlanManagePermissions) Local and Regional Plans</h2>
-                    <div class="contentWrapper">
-                        @if (ViewDataTyped.Project.ProjectLocalAndRegionalPlans.Any())
-                        {
-                            <ul class="noListStyle">
-                                @foreach (var projectLocalAndRegionalPlan in ViewDataTyped.Project.ProjectLocalAndRegionalPlans.OrderBy(x => x.LocalAndRegionalPlan.DisplayName))
-                                {
-                                    <li>
-                                        @projectLocalAndRegionalPlan.LocalAndRegionalPlan.DisplayNameAsUrl
-                                    </li>
-                                }
-                            </ul>
-                        }
-                        else
-                        {
-                            <p class="alert">No Local and Regional Plans set for this project.</p>
-                        }
-                    </div>
-                </div>
-                <div class="summarySection">
                     <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditWatershedsUrl, "Edit Watersheds", ViewDataTyped.UserHasProjectWatershedManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.Watershed, "Watersheds")</h2>
                     <div class="contentWrapper">
                         @if (ViewDataTyped.Project.ProjectWatersheds.Any())

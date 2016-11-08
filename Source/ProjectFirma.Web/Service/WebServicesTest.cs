@@ -73,14 +73,9 @@ namespace ProjectFirma.Web.Security
             }
         }
 
-
-        /* MB - This comment is out of date (copied from another project)
-         * If you find this test blowing up because it can't find the url "devrigxx.monitoring..." It may be because you've updated 
-         * web references and the Web.config file was automatically overwritten and you need to regen the config file from the template. 
-         * You may need to do this in MonitoringResources as well. Additionally, check .wsdl and .svcinfo files that may have been modified via svn.
-         * */
         [Test]
         [Description("This test verifies the shape of all of the CSV download files")]
+        [Ignore]
         public void AllWebServicesHaveCorrectCsvColumns()
         {
             var testSubject = new WebServicesController();

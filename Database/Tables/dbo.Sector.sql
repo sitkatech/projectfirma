@@ -8,8 +8,6 @@ CREATE TABLE [dbo].[Sector](
 	[SectorDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[SectorAbbreviation] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[LegendColor] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[Pre2007Expenditures] [money] NOT NULL,
-	[Pre2010Expenditures] [money] NOT NULL,
  CONSTRAINT [PK_Sector_SectorID] PRIMARY KEY CLUSTERED 
 (
 	[SectorID] ASC

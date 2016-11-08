@@ -45,7 +45,7 @@ REFERENCES [dbo].[SnapshotPerformanceMeasure] ([SnapshotPerformanceMeasureID])
 GO
 ALTER TABLE [dbo].[SnapshotPerformanceMeasureSubcategoryOption] CHECK CONSTRAINT [FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID]
 GO
-ALTER TABLE [dbo].[SnapshotPerformanceMeasureSubcategoryOption]  WITH CHECK ADD  CONSTRAINT [FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID_PerformanceMe] FOREIGN KEY([SnapshotPerformanceMeasureID], [PerformanceMeasureID])
+ALTER TABLE [dbo].[SnapshotPerformanceMeasureSubcategoryOption]  WITH CHECK ADD  CONSTRAINT [FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID_PerformanceMeasureID] FOREIGN KEY([SnapshotPerformanceMeasureID], [PerformanceMeasureID])
 REFERENCES [dbo].[SnapshotPerformanceMeasure] ([SnapshotPerformanceMeasureID], [PerformanceMeasureID])
 GO
-ALTER TABLE [dbo].[SnapshotPerformanceMeasureSubcategoryOption] CHECK CONSTRAINT [FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID_PerformanceMe]
+ALTER TABLE [dbo].[SnapshotPerformanceMeasureSubcategoryOption] CHECK CONSTRAINT [FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID_PerformanceMeasureID]

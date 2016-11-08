@@ -1,21 +1,7 @@
 ﻿TableName	ColumnName	ParentTableName	ChildTableName	ConstraintName	ParentColumnName	ChildColumnName
-AccelaCAPRecord	AccelaID					
-AggregatedCounter	Id					
 AuditLog	ProjectID					
 AuditLog	ProposedProjectID					
 AuditLog	RecordID					
-BankedCommodity	AccelaCAPRecordID					
-Counter	Id					
-Hash	Id					
-Job	Id					
-Job	StateId					
-JobParameter	Id					
-JobQueue	Id					
-JobQueue	JobId					
-List	Id					
 ProjectLocationStaging	PersonID					
 ProjectLocationStagingUpdate	PersonID					
 ProposedProjectLocationStaging	PersonID					
-Server	Id					
-Set	Id					
-State	Id					

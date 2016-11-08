@@ -9,8 +9,7 @@ namespace ProjectFirma.Web.Common
 {
     public class FirmaDateUtilities
     {
-        public const int MinimumYear = 1997;
-        public const int MinimumYearForReporting = 2007;
+        public const int MinimumYear = 2007;
         public const int YearsBeyondPresentForMaximumYearForUserInput = 70;
 
         /// <summary>
@@ -38,7 +37,7 @@ namespace ProjectFirma.Web.Common
         /// <returns></returns>
         public static List<int> ReportingYearsForUserInput()
         {
-            return GetRangeOfYears(MinimumYearForReporting, DateTime.Now.Year);
+            return GetRangeOfYears(MinimumYear, DateTime.Now.Year);
         }
 
         public static List<int> GetRangeOfYears(int startYear, int endYear)
@@ -54,12 +53,7 @@ namespace ProjectFirma.Web.Common
 
         public static int GetMinimumYearForReportingExpenditures()
         {
-            return FirmaWebConfiguration.MinimumYearForReportingExpenditures;
-        }
-
-        public static int GetYearUsedToRepresentPreReportingYears()
-        {
-            return FirmaWebConfiguration.MinimumYearForReportingExpenditures - 1;
+            return MinimumYear;
         }
 
         public static int CalculateCurrentYearToUseForReporting()
@@ -78,7 +72,7 @@ namespace ProjectFirma.Web.Common
 
         public static List<int> CalculateCalendarYearRangeForExpendituresAccountingForExistingYears(List<int> existingYears, IProject project, int currentYearToUse)
         {
-            return CalculateCalendarYearRangeAccountingForExistingYears(existingYears, project == null ? null : project.PlanningDesignStartYear, project == null ? null : project.CompletionYear, currentYearToUse, MinimumYearForReporting, currentYearToUse);
+            return CalculateCalendarYearRangeAccountingForExistingYears(existingYears, project == null ? null : project.PlanningDesignStartYear, project == null ? null : project.CompletionYear, currentYearToUse, MinimumYear, currentYearToUse);
         }
 
         public static List<int> CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(List<int> existingYears, IProject project, int currentYearToUse)
@@ -135,7 +129,7 @@ namespace ProjectFirma.Web.Common
 
         public static bool DateIsInReportingRange(int calendarYear)
         {
-            return calendarYear > GetYearUsedToRepresentPreReportingYears() && calendarYear <= CalculateCurrentYearToUseForReporting();
+            return calendarYear > MinimumYear && calendarYear <= CalculateCurrentYearToUseForReporting();
         }
 
         public static List<int> GetRangeOfYearsForReportingExpenditures()
@@ -145,7 +139,7 @@ namespace ProjectFirma.Web.Common
 
         public static List<int> GetRangeOfYearsForReporting()
         {
-            return GetRangeOfYears(MinimumYearForReporting, CalculateCurrentYearToUseForReporting());
+            return GetRangeOfYears(MinimumYear, CalculateCurrentYearToUseForReporting());
         }
 
         public static bool IsDayToSendDelinquentReminder(DateTime dateToCheck, int delinquentReminderIntervalInDays, int deadlineMonth, int deadlineDay, int reportingPeriodEndMonth, int reportingPeriodEndDay)

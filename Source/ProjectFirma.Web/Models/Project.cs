@@ -394,7 +394,7 @@ namespace ProjectFirma.Web.Models
 
         public bool HasDependentObjectsThatCount()
         {
-            return PerformanceMeasureActuals.Any() || ProjectLocalAndRegionalPlans.Any() || PerformanceMeasureExpecteds.Any() || ProjectFundingSourceExpenditures.Any() || ProjectImages.Any() ||
+            return PerformanceMeasureActuals.Any() || PerformanceMeasureExpecteds.Any() || ProjectFundingSourceExpenditures.Any() || ProjectImages.Any() ||
                    ProjectNotes.Any() || ProjectThresholdCategories.Any() || ProjectExemptReportingYears.Any() || ProjectWatersheds.Any() || ProjectUpdateBatches.Any();
         }
 

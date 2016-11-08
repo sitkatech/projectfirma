@@ -270,8 +270,8 @@ namespace ProjectFirma.Web.Models
             var currentYearToUse = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             if (projectUpdate != null)
             {
-                if (startYear.HasValue && startYear.Value < FirmaDateUtilities.MinimumYearForReporting &&
-                    (projectUpdate.CompletionYear.HasValue && projectUpdate.CompletionYear.Value < FirmaDateUtilities.MinimumYearForReporting))
+                if (startYear.HasValue && startYear.Value < FirmaDateUtilities.MinimumYear &&
+                    (projectUpdate.CompletionYear.HasValue && projectUpdate.CompletionYear.Value < FirmaDateUtilities.MinimumYear))
                 {
                     // both start and completion year are before the minimum year, so no year range required
                     return new List<int>();
@@ -291,7 +291,7 @@ namespace ProjectFirma.Web.Models
                 startYear,
                 projectUpdate == null ? null : projectUpdate.CompletionYear,
                 currentYearToUse,
-                FirmaDateUtilities.MinimumYearForReporting,
+                FirmaDateUtilities.MinimumYear,
                 currentYearToUse);
         }
 

@@ -266,16 +266,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="LocalAndRegionalPlan">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.LocalAndRegionalPlan">
-        <MappingFragment StoreEntitySet="LocalAndRegionalPlan">
-          <ScalarProperty Name="LocalAndRegionalPlanID" ColumnName="LocalAndRegionalPlanID" />
-          <ScalarProperty Name="LocalAndRegionalPlanName" ColumnName="LocalAndRegionalPlanName" />
-          <ScalarProperty Name="PlanDocumentUrl" ColumnName="PlanDocumentUrl" />
-          <ScalarProperty Name="PlanDocumentLinkText" ColumnName="PlanDocumentLinkText" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="MappedRegion">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.MappedRegion">
         <MappingFragment StoreEntitySet="MappedRegion">
@@ -675,15 +665,6 @@
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
           <ScalarProperty Name="IsLeadOrganization" ColumnName="IsLeadOrganization" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProjectLocalAndRegionalPlan">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocalAndRegionalPlan">
-        <MappingFragment StoreEntitySet="ProjectLocalAndRegionalPlan">
-          <ScalarProperty Name="ProjectLocalAndRegionalPlanID" ColumnName="ProjectLocalAndRegionalPlanID" />
-          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-          <ScalarProperty Name="LocalAndRegionalPlanID" ColumnName="LocalAndRegionalPlanID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

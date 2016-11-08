@@ -135,9 +135,6 @@
     <Compile Include="Models\Generated\Jurisdiction.Binding.cs" />
     <Compile Include="Models\Generated\Jurisdiction.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\JurisdictionPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\LocalAndRegionalPlan.Binding.cs" />
-    <Compile Include="Models\Generated\LocalAndRegionalPlan.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\LocalAndRegionalPlanPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\MappedRegion.Binding.cs" />
     <Compile Include="Models\Generated\MappedRegion.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\MappedRegionPrimaryKey.Binding.cs" />
@@ -254,9 +251,6 @@
     <Compile Include="Models\Generated\ProjectImplementingOrganization.Binding.cs" />
     <Compile Include="Models\Generated\ProjectImplementingOrganization.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectImplementingOrganizationPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectLocalAndRegionalPlan.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectLocalAndRegionalPlan.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectLocalAndRegionalPlanPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectLocation.Binding.cs" />
     <Compile Include="Models\Generated\ProjectLocation.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectLocationArea.Binding.cs" />
@@ -405,7 +399,6 @@
     <Compile Include="Controllers\ProjectFundingSourceExpenditureControllerTest.cs" />
     <Compile Include="Controllers\ProjectImageController.cs" />
     <Compile Include="Controllers\ProjectImageUpdateController.cs" />
-    <Compile Include="Controllers\ProjectLocalAndRegionalPlanController.cs" />
     <Compile Include="Controllers\ProjectLocationController.cs" />
     <Compile Include="Controllers\ProjectNoteController.cs" />
     <Compile Include="Controllers\ProjectNoteUpdateController.cs" />
@@ -482,7 +475,6 @@
     <Compile Include="Security\ProjectImageSetKeyPhotoFeature.cs" />
     <Compile Include="Security\ProjectImageUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectImageUpdateNewFeature.cs" />
-    <Compile Include="Security\ProjectLocalAndRegionalPlanManageFromProjectFeature.cs" />
     <Compile Include="Security\ProjectLocationEditFeature.cs" />
     <Compile Include="Security\ProjectLocationNewFeature.cs" />
     <Compile Include="Security\ProjectLocationsViewFeature.cs" />
@@ -595,7 +587,6 @@
     <Compile Include="Models\MonitoringProgramSimple.cs" />
     <Compile Include="Models\ProgramPerformanceMeasureSimple.cs" />
     <Compile Include="Models\ProjectExternalLinkSimple.cs" />
-    <Compile Include="Models\ProjectLocalAndRegionalPlanSimple.cs" />
     <Compile Include="Models\ProjectThresholdCategorySimple.cs" />
     <Compile Include="Models\MonitoringProgramPartnerSimple.cs" />
     <Compile Include="Models\ProjectWatershedSimple.cs" />
@@ -628,7 +619,6 @@
     <Compile Include="Models\AnonymousRole.cs" />
     <Compile Include="Models\FeaturePermission.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
-    <Compile Include="Controllers\LocalAndRegionalPlanController.cs" />
     <Compile Include="Controllers\WatershedController.cs" />
     <Compile Include="Models\IRoleExtensions.cs" />
     <Compile Include="Models\Person.DatabaseContextExtensions.cs" />
@@ -642,8 +632,6 @@
     <Compile Include="Service\ServiceModels\WebServiceOrganization.cs" />
     <Compile Include="Service\WebServicesTest.cs" />
     <Compile Include="Security\FirmaBaseFeatureHelpers.cs" />
-    <Compile Include="Security\LocalAndRegionalPlanManageFeature.cs" />
-    <Compile Include="Security\LocalAndRegionalPlanViewFeature.cs" />
     <Compile Include="Security\LoggedInUnclassifiedFeature.cs" />
     <Compile Include="Security\SecurityFeatureDescription.cs" />
     <Compile Include="Controllers\RoleController.cs" />
@@ -788,10 +776,6 @@
     <Compile Include="Views\ProjectImage\New.cs" />
     <Compile Include="Views\ProjectImage\NewViewData.cs" />
     <Compile Include="Views\ProjectImage\NewViewModel.cs" />
-    <Compile Include="Views\ProjectLocalAndRegionalPlan\EditProjectLocalAndRegionalPlans.cs" />
-    <Compile Include="Views\ProjectLocalAndRegionalPlan\EditProjectLocalAndRegionalPlansViewData.cs" />
-    <Compile Include="Views\ProjectLocalAndRegionalPlan\EditProjectLocalAndRegionalPlansViewModel.cs" />
-    <Compile Include="Views\ProjectLocalAndRegionalPlan\EditProjectLocalAndRegionalPlansViewModelTest.cs" />
     <Compile Include="Views\ProjectOrganization\EditOrganizations.cs" />
     <Compile Include="Views\ProjectOrganization\EditOrganizationsViewData.cs" />
     <Compile Include="Views\ProjectOrganization\EditOrganizationsViewModel.cs" />
@@ -1080,15 +1064,6 @@
     <Compile Include="Views\FirmaDhtmlxGridHtmlHelpers.cs" />
     <Compile Include="Views\FirmaDhtmlxGridHtmlHelpersTest.cs" />
     <Compile Include="Views\FirmaUserControlViewData.cs" />
-    <Compile Include="Views\LocalAndRegionalPlan\Edit.cs" />
-    <Compile Include="Views\LocalAndRegionalPlan\EditViewData.cs" />
-    <Compile Include="Views\LocalAndRegionalPlan\EditViewModel.cs" />
-    <Compile Include="Views\LocalAndRegionalPlan\EditViewModelTest.cs" />
-    <Compile Include="Views\LocalAndRegionalPlan\Index.cs" />
-    <Compile Include="Views\LocalAndRegionalPlan\IndexGridSpec.cs" />
-    <Compile Include="Views\LocalAndRegionalPlan\IndexViewData.cs" />
-    <Compile Include="Views\LocalAndRegionalPlan\Summary.cs" />
-    <Compile Include="Views\LocalAndRegionalPlan\SummaryViewData.cs" />
     <Compile Include="Views\LtInfoMenuItem.cs" />
     <Compile Include="Views\LtInfoMenuItemTest.cs" />
     <Compile Include="Views\Role\Index.cs" />
@@ -1332,9 +1307,6 @@
     <Compile Include="Models\ProjectFundingSourceExpenditure.DatabaseContextExtensions.cs" />
     <Compile Include="Models\ICalendarYearMonetaryAmount.cs" />
     <Compile Include="Models\Jurisdiction.cs" />
-    <Compile Include="Models\LocalAndRegionalPlan.cs" />
-    <Compile Include="Models\LocalAndRegionalPlans.cs" />
-    <Compile Include="Models\LocalAndRegionalPlanSimple.cs" />
     <Compile Include="Models\AuditLog.cs" />
     <Compile Include="Models\AuditLogEventType.cs" />
     <Compile Include="Models\CalendarYearReportedValue.cs" />
@@ -1402,7 +1374,6 @@
     <Compile Include="Models\ProjectBudget.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Project.DatabaseContextExtensions.cs" />
     <Compile Include="Models\vProject.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\ProjectAreaPlan.cs" />
     <Compile Include="Models\ProjectChangeLogTest.cs" />
     <Compile Include="Models\ProjectExemptReportingYear.cs" />
     <Compile Include="Models\ProjectExemptReportingYearSimple.cs" />
@@ -1457,9 +1428,7 @@
     <Compile Include="UnitTestCommon\TestProjectUpdate.cs" />
     <Compile Include="UnitTestCommon\TestIndicatorSubcategoryOption.cs" />
     <Compile Include="UnitTestCommon\TestIndicatorSubcategory.cs" />
-    <Compile Include="UnitTestCommon\TestLocalAndRegionalPlan.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureActual.cs" />
-    <Compile Include="UnitTestCommon\TestProjectLocalAndRegionalPlan.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureExpected.cs" />
     <Compile Include="UnitTestCommon\TestProjectFundingSourceExpenditure.cs" />
     <Compile Include="UnitTestCommon\TestProjectThresholdCategory.cs" />
@@ -1780,7 +1749,6 @@
     <Content Include="Views\ProjectBudget\ProjectBudgetController.js" />
     <Content Include="Views\ProjectExternalLink\ProjectExternalLinkController.js" />
     <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureController.js" />
-    <Content Include="Views\ProjectLocalAndRegionalPlan\ProjectLocalAndRegionalPlanController.js" />
     <Content Include="Views\ProjectOrganization\EditOrganizationsViewModelTest.AllViewModelFieldsAreSetFromConstructorTest.approved.txt" />
     <Content Include="Views\ProjectUpdate\PerformanceMeasuresController.js" />
     <Content Include="Views\ProjectUpdate\ExpendituresController.js" />
@@ -3114,9 +3082,6 @@
     <Content Include="Views\Shared\FirmaLateLoadingIncludes.cshtml" />
     <Content Include="Views\Role\Summary.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
-    <Content Include="Views\LocalAndRegionalPlan\Edit.cshtml" />
-    <Content Include="Views\LocalAndRegionalPlan\Index.cshtml" />
-    <Content Include="Views\LocalAndRegionalPlan\Summary.cshtml" />
     <Content Include="Views\Watershed\Edit.cshtml" />
     <Content Include="Views\Watershed\Index.cshtml" />
     <Content Include="Views\Watershed\Summary.cshtml" />
@@ -3188,7 +3153,6 @@
     <Content Include="Views\ProjectImageUpdate\New.cshtml" />
     <Content Include="Views\ProjectImage\Edit.cshtml" />
     <Content Include="Views\ProjectImage\New.cshtml" />
-    <Content Include="Views\ProjectLocalAndRegionalPlan\EditProjectLocalAndRegionalPlans.cshtml" />
     <Content Include="Views\ProjectOrganization\EditOrganizations.cshtml" />
     <Content Include="Views\ProjectUpdate\Basics.cshtml" />
     <Content Include="Views\ProjectUpdate\CustomNotification.cshtml" />

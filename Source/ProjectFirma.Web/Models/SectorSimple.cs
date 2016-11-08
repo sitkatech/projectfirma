@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public SectorSimple(int sectorID, string sectorName, string sectorDisplayName, string sectorAbbreviation, string legendColor, decimal pre2007Expenditures)
+        public SectorSimple(int sectorID, string sectorName, string sectorDisplayName, string sectorAbbreviation, string legendColor)
             : this()
         {
             SectorID = sectorID;
@@ -20,7 +20,6 @@ namespace ProjectFirma.Web.Models
             SectorDisplayName = sectorDisplayName;
             SectorAbbreviation = sectorAbbreviation;
             LegendColor = legendColor;
-            Pre2007Expenditures = pre2007Expenditures;
         }
 
         /// <summary>
@@ -34,7 +33,6 @@ namespace ProjectFirma.Web.Models
             SectorDisplayName = sector.SectorDisplayName;
             SectorAbbreviation = sector.SectorAbbreviation;
             LegendColor = sector.LegendColor;
-            Pre2007Expenditures = sector.GetPreReportingYearExpenditures();
         }
 
         public int SectorID { get; set; }
@@ -42,6 +40,5 @@ namespace ProjectFirma.Web.Models
         public string SectorDisplayName { get; set; }
         public string SectorAbbreviation { get; set; }
         public string LegendColor { get; set; }
-        public decimal Pre2007Expenditures { get; set; }
     }
 }

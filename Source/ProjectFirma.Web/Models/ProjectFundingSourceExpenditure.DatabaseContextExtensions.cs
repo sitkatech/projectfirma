@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Models
                 fundingSource.ProjectsWhereYouAreTheFundingSourceMinCalendarYear,
                 fundingSource.ProjectsWhereYouAreTheFundingSourceMaxCalendarYear,
                 DateTime.Today.Year,
-                FirmaDateUtilities.MinimumYearForReporting,
+                FirmaDateUtilities.MinimumYear,
                 null);
         }
 
@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Models
                 organization.FundingSources.Min(x => x.ProjectsWhereYouAreTheFundingSourceMinCalendarYear),
                 organization.FundingSources.Max(x => x.ProjectsWhereYouAreTheFundingSourceMaxCalendarYear),
                 DateTime.Today.Year,
-                FirmaDateUtilities.MinimumYearForReporting,
+                FirmaDateUtilities.MinimumYear,
                 null);
         }
 

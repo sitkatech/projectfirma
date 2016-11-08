@@ -16,7 +16,6 @@ namespace ProjectFirma.Web.Views.Project
                 x => string.Join(",", x.ProjectImplementingOrganizations.Where(pio => pio.OrganizationID != x.LeadImplementer.OrganizationID).Select(pio => pio.Organization.DisplayName)));
             AddColumn(Models.FieldDefinition.ProjectStage.FieldDefinitionDisplayName, x => x.ProjectStage.ProjectStageDisplayName);
             AddColumn("Threshold Categories", x => string.Join(",", x.ProjectThresholdCategories.Select(tc => tc.ThresholdCategory.DisplayName)));
-            AddColumn("Local and Regional Plans", x => string.Join(",", x.ProjectLocalAndRegionalPlans.Select(ap => ap.LocalAndRegionalPlan.LocalAndRegionalPlanName)));
             AddColumn("Watersheds", x => string.Join(",", x.ProjectWatersheds.Select(pw => pw.Watershed.DisplayName)));
             AddColumn(Models.FieldDefinition.ImplementationStartYear.FieldDefinitionDisplayName, x => x.ImplementationStartYear);
             AddColumn(Models.FieldDefinition.CompletionYear.FieldDefinitionDisplayName, x => x.CompletionYear);
@@ -136,16 +135,6 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn("Project #", x => x.Project.ProjectNumberString);
             AddColumn("Project Name", x => x.Project.ProjectName);
             AddColumn("Threshold Category", x => x.ThresholdCategory.DisplayName);
-        }
-    }
-
-    public class ProjectLocalAndRegionalPlanExcelSpec : ExcelWorksheetSpec<Models.ProjectLocalAndRegionalPlan>
-    {
-        public ProjectLocalAndRegionalPlanExcelSpec()
-        {
-            AddColumn("Project #", x => x.Project.ProjectNumberString);
-            AddColumn("Project Name", x => x.Project.ProjectName);
-            AddColumn("Local and Regional Plan", x => x.LocalAndRegionalPlan.DisplayName);
         }
     }
 }

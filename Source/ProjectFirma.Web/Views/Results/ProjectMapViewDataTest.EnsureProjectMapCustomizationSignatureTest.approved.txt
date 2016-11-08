@@ -26,4 +26,3 @@
   "FilterPropertyName": "FocusAreaID",
   "ColorByPropertyName": "ProjectStageID"
 }
-}

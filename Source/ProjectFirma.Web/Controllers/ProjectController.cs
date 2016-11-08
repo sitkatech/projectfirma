@@ -162,8 +162,6 @@ namespace ProjectFirma.Web.Controllers
 
             var imageGalleryViewData = BuildImageGalleryViewData(project, CurrentPerson);
 
-            var editLocalAndRegionalPlansUrl = SitkaRoute<ProjectLocalAndRegionalPlanController>.BuildUrlFromExpression(c => c.EditLocalAndRegionalPlans(project));
-
             var editWatershedsUrl = SitkaRoute<ProjectWatershedController>.BuildUrlFromExpression(c => c.EditProjectWatershedsForProject(project));
 
             var tagHelper = new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList());
@@ -224,7 +222,6 @@ namespace ProjectFirma.Web.Controllers
                 editReportedExpendituresUrl,
                 editThresholdCategoriesUrl,
                 editAssessmentUrl,
-                editLocalAndRegionalPlansUrl,
                 editWatershedsUrl,
                 imageGalleryViewData,
                 entityNotesViewData,
@@ -408,10 +405,7 @@ namespace ProjectFirma.Web.Controllers
             var projectThresholdCategories = (projects.SelectMany(p => p.ProjectThresholdCategories)).ToList();
             var wsProjectThresholdCategories = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Project Threshold Categories", projectThresholdCategorySpec, projectThresholdCategories);
 
-            var projectLocalAndRegionalPlanSpec = new ProjectLocalAndRegionalPlanExcelSpec();
-            var projectLocalAndRegionalPlans = (projects.SelectMany(p => p.ProjectLocalAndRegionalPlans)).ToList();
-            var wsProjectLocalAndRegionalPlans = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Project Local & Regional Plans", projectLocalAndRegionalPlanSpec, projectLocalAndRegionalPlans);
-
+            
             var workSheets = new List<IExcelWorkbookSheetDescriptor>
             {
                 wsProjects,
@@ -422,8 +416,7 @@ namespace ProjectFirma.Web.Controllers
                 wsPerformanceMeasureActuals,
                 wsProjectFundingSourceExpenditures,
                 wsProjectWatersheds,
-                wsProjectThresholdCategories,
-                wsProjectLocalAndRegionalPlans
+                wsProjectThresholdCategories
             };
 
             var wbm = new ExcelWorkbookMaker(workSheets);

@@ -13,7 +13,6 @@ values
 (8, 'CompletedProjectList', 'Completed Project List', 1),
 (9, 'PerformanceMeasuresList', 'Performance Measures List', 1),
 (11, 'ActionPrioritiesList', 'Action Priorities List', 1),
-(12, 'LocalAndRegionalPlansList', 'Local and Regional Plans List', 1),
 (13, 'FocusAreasList', 'Focus Areas List', 1),
 (14, 'FundingSourcesList', 'Funding Sources List', 1),
 (15, 'OrganizationsList', 'Organizations List', 1),

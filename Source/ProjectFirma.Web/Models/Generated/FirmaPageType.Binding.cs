@@ -26,7 +26,6 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeCompletedProjectList CompletedProjectList = FirmaPageTypeCompletedProjectList.Instance;
         public static readonly FirmaPageTypePerformanceMeasuresList PerformanceMeasuresList = FirmaPageTypePerformanceMeasuresList.Instance;
         public static readonly FirmaPageTypeActionPrioritiesList ActionPrioritiesList = FirmaPageTypeActionPrioritiesList.Instance;
-        public static readonly FirmaPageTypeLocalAndRegionalPlansList LocalAndRegionalPlansList = FirmaPageTypeLocalAndRegionalPlansList.Instance;
         public static readonly FirmaPageTypeFocusAreasList FocusAreasList = FirmaPageTypeFocusAreasList.Instance;
         public static readonly FirmaPageTypeFundingSourcesList FundingSourcesList = FirmaPageTypeFundingSourcesList.Instance;
         public static readonly FirmaPageTypeOrganizationsList OrganizationsList = FirmaPageTypeOrganizationsList.Instance;
@@ -61,7 +60,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FirmaPageType()
         {
-            All = new List<FirmaPageType> { HomePage, About, FirmaCustomPage1, FirmaCustomPage2, FirmaCustomPage3, FullProjectList, FiveYearProjectList, CompletedProjectList, PerformanceMeasuresList, ActionPrioritiesList, LocalAndRegionalPlansList, FocusAreasList, FundingSourcesList, OrganizationsList, ProgramsList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByFocusAreaByProgram, ProjectMap, ResultsByProgram, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, TerminatedProjectList, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, ThresholdCategoriesList, MonitoringProgramsList };
+            All = new List<FirmaPageType> { HomePage, About, FirmaCustomPage1, FirmaCustomPage2, FirmaCustomPage3, FullProjectList, FiveYearProjectList, CompletedProjectList, PerformanceMeasuresList, ActionPrioritiesList, FocusAreasList, FundingSourcesList, OrganizationsList, ProgramsList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByFocusAreaByProgram, ProjectMap, ResultsByProgram, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, TerminatedProjectList, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, ThresholdCategoriesList, MonitoringProgramsList };
             AllLookupDictionary = new ReadOnlyDictionary<int, FirmaPageType>(All.ToDictionary(x => x.FirmaPageTypeID));
         }
 
@@ -164,8 +163,6 @@ namespace ProjectFirma.Web.Models
                     return HomePage;
                 case FirmaPageTypeEnum.InvestmentByFundingSector:
                     return InvestmentByFundingSector;
-                case FirmaPageTypeEnum.LocalAndRegionalPlansList:
-                    return LocalAndRegionalPlansList;
                 case FirmaPageTypeEnum.ManageUpdateNotifications:
                     return ManageUpdateNotifications;
                 case FirmaPageTypeEnum.MonitoringProgramsList:
@@ -222,7 +219,6 @@ namespace ProjectFirma.Web.Models
         CompletedProjectList = 8,
         PerformanceMeasuresList = 9,
         ActionPrioritiesList = 11,
-        LocalAndRegionalPlansList = 12,
         FocusAreasList = 13,
         FundingSourcesList = 14,
         OrganizationsList = 15,
@@ -308,12 +304,6 @@ namespace ProjectFirma.Web.Models
     {
         private FirmaPageTypeActionPrioritiesList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
         public static readonly FirmaPageTypeActionPrioritiesList Instance = new FirmaPageTypeActionPrioritiesList(11, @"ActionPrioritiesList", @"Action Priorities List", 1);
-    }
-
-    public partial class FirmaPageTypeLocalAndRegionalPlansList : FirmaPageType
-    {
-        private FirmaPageTypeLocalAndRegionalPlansList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeLocalAndRegionalPlansList Instance = new FirmaPageTypeLocalAndRegionalPlansList(12, @"LocalAndRegionalPlansList", @"Local and Regional Plans List", 1);
     }
 
     public partial class FirmaPageTypeFocusAreasList : FirmaPageType

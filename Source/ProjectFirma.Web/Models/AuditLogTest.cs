@@ -226,50 +226,6 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
-        public void TestLocalAndRegionalPlanAuditLogging()
-        {
-            // Get an arbitrary real-word person to do these actions
-            var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
-
-            // Create audit logging
-            // --------------------
-
-            // Make a test object and save it
-            var dbContext = HttpRequestStorage.DatabaseEntities;
-
-            var testLocalAndRegionalPlan = TestFramework.TestLocalAndRegionalPlan.Create(dbContext);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
-
-            // Check that the audit log mentions this object
-            System.Diagnostics.Trace.WriteLine(string.Format("Looking for LocalAndRegionalPlan named \"{0}\" in Audit Log database entries.", testLocalAndRegionalPlan.LocalAndRegionalPlanName));
-            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testLocalAndRegionalPlan.LocalAndRegionalPlanName)));
-
-            // Change audit logging
-            // --------------------
-
-            // Make changes to the original object
-            var newLocalAndRegionalPlanName = TestFramework.MakeTestName("New LocalAndRegionalPlan Name", LocalAndRegionalPlan.FieldLengths.LocalAndRegionalPlanName);
-            testLocalAndRegionalPlan.LocalAndRegionalPlanName = newLocalAndRegionalPlanName;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
-
-            // Check that the audit log mentions this NEW name
-            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newLocalAndRegionalPlanName)));
-
-            // Delete audit logging
-            // --------------------
-
-            HttpRequestStorage.DatabaseEntities.LocalAndRegionalPlans.Remove(testLocalAndRegionalPlan);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
-            // Check that the audit log mentions this LocalAndRegionalPlan name as deleted
-            Check.Assert(
-                HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
-                    al =>
-                        al.TableName == "LocalAndRegionalPlan" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID &&
-                        al.RecordID == testLocalAndRegionalPlan.LocalAndRegionalPlanID) != null,
-                "Could not find deleted LocalAndRegionalPlan record");
-        }
-
-        [Test]
         public void TestFocusAreaAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
@@ -574,57 +530,5 @@ namespace ProjectFirma.Web.Models
                 "Could not find deleted ThresholdCategory record");
         }
 
-        [Test]
-        public void TestProjectLocalAndRegionalPlanAuditLogging()
-        {
-            // Get an arbitrary real-word person to do these actions
-            var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
-
-            // Create audit logging
-            // --------------------
-
-            // Make a test object and save it
-            var dbContext = HttpRequestStorage.DatabaseEntities;
-
-            var testProjectLocalAndRegionalPlan = TestFramework.TestProjectLocalAndRegionalPlan.Create(dbContext);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
-
-            // Check that the audit log mentions this object
-            System.Diagnostics.Trace.WriteLine(string.Format("Looking for ProjectLocalAndRegionalPlan \"{0}\" in Audit Log database entries.", testProjectLocalAndRegionalPlan.ProjectID));
-            Check.Assert(
-                HttpRequestStorage.DatabaseEntities.AuditLogs.ToList()
-                    .Any(
-                        al =>
-                            al.TableName == "ProjectLocalAndRegionalPlan" && al.ColumnName == "ProjectID" &&
-                            al.OriginalValue == testProjectLocalAndRegionalPlan.ProjectID.ToString(CultureInfo.InvariantCulture)));
-
-            // Change audit logging
-            // --------------------
-
-            // Make changes to the original object
-            var anotherProject = dbContext.Projects.First(p => p.ProjectID != testProjectLocalAndRegionalPlan.ProjectID);
-            testProjectLocalAndRegionalPlan.Project = anotherProject;
-            testProjectLocalAndRegionalPlan.ProjectID = anotherProject.ProjectID;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
-
-            // Check that the audit log mentions this NEW entity
-            Check.Assert(
-                HttpRequestStorage.DatabaseEntities.AuditLogs.ToList()
-                    .Any(al => al.TableName == "ProjectLocalAndRegionalPlan" && al.ColumnName == "ProjectID" && al.NewValue.Contains(anotherProject.ProjectID.ToString(CultureInfo.InvariantCulture))));
-
-            // Delete audit logging
-            // --------------------
-
-            HttpRequestStorage.DatabaseEntities.ProjectLocalAndRegionalPlans.Remove(testProjectLocalAndRegionalPlan);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
-            // Check that the audit log mentions this ProjectLocalAndRegionalPlan name as deleted
-            Check.Assert(
-                HttpRequestStorage.DatabaseEntities.AuditLogs.ToList()
-                    .SingleOrDefault(
-                        al =>
-                            al.TableName == "ProjectLocalAndRegionalPlan" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID &&
-                            al.RecordID == testProjectLocalAndRegionalPlan.ProjectLocalAndRegionalPlanID) != null,
-                "Could not find deleted ProjectLocalAndRegionalPlan record");
-        }
     }
 }

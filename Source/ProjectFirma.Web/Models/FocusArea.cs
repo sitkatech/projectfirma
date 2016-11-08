@@ -53,6 +53,9 @@ namespace ProjectFirma.Web.Models
 
         public static byte GetNextFocusAreaNumber(IEnumerable<FocusArea> focusAreas)
         {
+            if (!focusAreas.Any())
+                return 1;
+
             return (byte) (focusAreas.Max(x => x.FocusAreaNumber) + 1);
         }
 

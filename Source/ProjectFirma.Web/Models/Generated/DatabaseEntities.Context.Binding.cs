@@ -52,7 +52,6 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<IndicatorSubcategory> IndicatorSubcategories { get; set; }
         public virtual DbSet<IndicatorSubcategoryOption> IndicatorSubcategoryOptions { get; set; }
         public virtual DbSet<Jurisdiction> Jurisdictions { get; set; }
-        public virtual DbSet<LocalAndRegionalPlan> LocalAndRegionalPlans { get; set; }
         public virtual DbSet<MappedRegion> MappedRegions { get; set; }
         public virtual DbSet<MonitoringProgramDocument> MonitoringProgramDocuments { get; set; }
         public virtual DbSet<MonitoringProgramPartner> MonitoringProgramPartners { get; set; }
@@ -87,7 +86,6 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<ProjectImage> ProjectImages { get; set; }
         public virtual DbSet<ProjectImageUpdate> ProjectImageUpdates { get; set; }
         public virtual DbSet<ProjectImplementingOrganization> ProjectImplementingOrganizations { get; set; }
-        public virtual DbSet<ProjectLocalAndRegionalPlan> ProjectLocalAndRegionalPlans { get; set; }
         public virtual DbSet<ProjectLocationAreaGroup> ProjectLocationAreaGroups { get; set; }
         public virtual DbSet<ProjectLocationAreaJurisdiction> ProjectLocationAreaJurisdictions { get; set; }
         public virtual DbSet<ProjectLocationArea> ProjectLocationAreas { get; set; }
@@ -248,9 +246,6 @@ namespace ProjectFirma.Web.Models
                 case "Jurisdiction":
                     return Jurisdictions.GetJurisdiction(primaryKey);
 
-                case "LocalAndRegionalPlan":
-                    return LocalAndRegionalPlans.GetLocalAndRegionalPlan(primaryKey);
-
                 case "MappedRegion":
                     return MappedRegions.GetMappedRegion(primaryKey);
 
@@ -382,9 +377,6 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectImplementingOrganization":
                     return ProjectImplementingOrganizations.GetProjectImplementingOrganization(primaryKey);
-
-                case "ProjectLocalAndRegionalPlan":
-                    return ProjectLocalAndRegionalPlans.GetProjectLocalAndRegionalPlan(primaryKey);
 
                 case "ProjectLocationAreaGroup":
                     return ProjectLocationAreaGroups.GetProjectLocationAreaGroup(primaryKey);

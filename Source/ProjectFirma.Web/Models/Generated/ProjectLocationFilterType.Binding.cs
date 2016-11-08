@@ -141,19 +141,19 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectLocationFilterTypeFocusArea : ProjectLocationFilterType
     {
         private ProjectLocationFilterTypeFocusArea(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeFocusArea Instance = new ProjectLocationFilterTypeFocusArea(1, @"FocusArea", @"FocusAreaID", @"EIP Focus Area", 10, 1);
+        public static readonly ProjectLocationFilterTypeFocusArea Instance = new ProjectLocationFilterTypeFocusArea(1, @"FocusArea", @"FocusAreaID", @"Focus Area", 10, 1);
     }
 
     public partial class ProjectLocationFilterTypeProgram : ProjectLocationFilterType
     {
         private ProjectLocationFilterTypeProgram(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeProgram Instance = new ProjectLocationFilterTypeProgram(2, @"Program", @"ProgramID", @"EIP Program", 20, 1);
+        public static readonly ProjectLocationFilterTypeProgram Instance = new ProjectLocationFilterTypeProgram(2, @"Program", @"ProgramID", @"Program", 20, 1);
     }
 
     public partial class ProjectLocationFilterTypeActionPriority : ProjectLocationFilterType
     {
         private ProjectLocationFilterTypeActionPriority(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeActionPriority Instance = new ProjectLocationFilterTypeActionPriority(3, @"ActionPriority", @"ActionPriorityID", @"EIP Action Priority", 30, 1);
+        public static readonly ProjectLocationFilterTypeActionPriority Instance = new ProjectLocationFilterTypeActionPriority(3, @"ActionPriority", @"ActionPriorityID", @"Action Priority", 30, 1);
     }
 
     public partial class ProjectLocationFilterTypeThresholdCategory : ProjectLocationFilterType
