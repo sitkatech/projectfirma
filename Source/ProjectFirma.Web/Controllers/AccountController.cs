@@ -146,7 +146,7 @@ namespace ProjectFirma.Web.Controllers
     USERAGENT: {7}<br />
     <br />
     </div>
-    <div  class='systemText'>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {8}.</div>
+    <div>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {8}.</div>
 </div>
 ", person.GetFullNameFirstLastAsUrl(), DateTime.Now, person.Email, person.Phone.ToPhoneNumberString(), person.GetDetailUrl(), loginName, ipAddress, userAgent, Common.FirmaWebConfiguration
                 .SitkaSupportEmail);
@@ -191,7 +191,7 @@ namespace ProjectFirma.Web.Controllers
     USERAGENT: {7}<br />
     <br />
     </div>
-    <div  class='systemText'>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {8}</div>.
+    <div>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {8}</div>.
 </div>
 ", organization.GetDisplayNameAsUrl(), DateTime.Now, person.FullNameFirstLast, person.Email, organization.GetSummaryUrl(), loginName, ipAddress, userAgent, Common.FirmaWebConfiguration.SitkaSupportEmail);
             

@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Models
     URL FROM: {11}<br />
     <br />
     </div>
-    <div  class='systemText'>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {12}</div>.
+    <div>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {12}</div>.
 </div>
 ", subject, RequestPersonName, RequestPersonOrganization ?? "(not provided)", RequestPersonEmail, RequestPersonPhone ?? "(not provided)", projectSummaryUrl,
                 supportRequestType.SupportRequestTypeDisplayName,

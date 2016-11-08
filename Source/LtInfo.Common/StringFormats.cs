@@ -185,7 +185,7 @@ namespace LtInfo.Common
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                return string.Format("<span class='systemText'>{0} {1}</span>", value.ToProperCase(), ViewUtilities.NotProvidedString);
+                return string.Format("<span class='alert'>{0} {1}</span>", value.ToProperCase(), ViewUtilities.NotProvidedString);
             }
             return value;
         }

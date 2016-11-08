@@ -22,10 +22,10 @@
             <div class="summarySection">
                 <h2>Map</h2>
                 <div class="contentWrapper">
-                    <span class="systemText">To zoom into a specific area, hold down the Shift key and drag a rectangle.</span>
+                    <span class="alert">To zoom into a specific area, hold down the Shift key and drag a rectangle.</span>
                     <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 320px; margin:5px 0 5px 0">
                     </div>
-                    <span class="systemText">Projects can be associated with multiple watersheds, but are currently mapped in a single location. Therefore some projects may appear outside of the watershed boundary.</span>
+                    <span class="alert">Projects can be associated with multiple watersheds, but are currently mapped in a single location. Therefore some projects may appear outside of the watershed boundary.</span>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
                     <div style="border-radius: 8px; background-color: white; height: 420px; margin-right: auto; margin-left: auto;">
                         @{ CalendarYearExpendituresLineChart.RenderPartialView(Html, ViewDataTyped.CalendarYearExpendituresLineChartViewData); }
                     </div>
-                    <span class="systemText" >Since some projects span multiple watersheds, expenditures reported above may be over-reported for this watershed.</span>
+                    <span class="alert" >Since some projects span multiple watersheds, expenditures reported above may be over-reported for this watershed.</span>
                 </div>
             </div>
         </div>
