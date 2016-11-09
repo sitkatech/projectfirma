@@ -395,6 +395,7 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
+        [Ignore] //Ignoring because this test doesn't work without at least one pre-existing entries in the watershed table
         public void TestProjectWatershedAuditLogging()
         {
             // This is a test that is driven off looking for IDs, not strings...
@@ -422,14 +423,14 @@ namespace ProjectFirma.Web.Models
             // --------------------
 
             // Make changes to the original object
-            var newWatershed = HttpRequestStorage.DatabaseEntities.Watersheds.FirstOrDefault(ws => ws.WatershedID != testProjectWatershed.WatershedID);
-            testProjectWatershed.WatershedID = newWatershed == null ? ModelObjectHelpers.NotYetAssignedID : newWatershed.WatershedID;
+            var newWatershed = HttpRequestStorage.DatabaseEntities.Watersheds.First(ws => ws.WatershedID != testProjectWatershed.WatershedID);
+            testProjectWatershed.WatershedID = newWatershed.WatershedID;
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW ID in reference to our ProjectWatershed name
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.ToList()
-                    .Any(al => al.TableName == "ProjectWatershed" && al.ColumnName == "WatershedID" && al.NewValue.Contains(testProjectWatershed.WatershedID.ToString(CultureInfo.InvariantCulture))));
+                    .Any(al => al.TableName == "ProjectWatershed" && al.ColumnName == "WatershedID" && al.NewValue.Contains(newWatershed.WatershedID.ToString(CultureInfo.InvariantCulture))));
 
             // Delete audit logging
             // --------------------
