@@ -4,6 +4,16 @@
     <meta name="Description" content="ProjectFirma provides public access to program information and details on watershed, habitat, stormwater, forestry, air quality, and  projects implemented by ProjectFirma partners." />
 }
 
+@section RightOfPageTitle
+{
+    @if (ViewDataTyped.ShowEditButton)
+    {
+        <div style="margin-top: 10px">
+            <a class="btn btn-xs btn-firma" href="@ViewDataTyped.EditUrl">Edit</a>
+        </div>
+    }
+}
+
 <div>
     @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
 </div>
