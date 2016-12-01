@@ -42,14 +42,9 @@
 
                 $scope.loadProjectFundingSourceExpenditureDetails = function(sectorCalendarYear)
                 {
-                    var isPreReportingYear = @ViewDataTyped.IsPreReportingYear.ToString().ToLower();
-                    if (!isPreReportingYear)
-                    {
-                        var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ProjectFundingSourceExpendituresBySectorUrl.ToJS()));
-                        var newUrl = urlTemplate.ParameterReplace(sectorCalendarYear.SectorID, sectorCalendarYear.CalendarYear);
-                        SitkaAjax.load(jQuery("#projectFundingSectorExpenditureGrid"), newUrl);
-                    }
-                };
+                    var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ProjectFundingSourceExpendituresBySectorUrl.ToJS()));
+                    var newUrl = urlTemplate.ParameterReplace(sectorCalendarYear.SectorID, sectorCalendarYear.CalendarYear);
+                    SitkaAjax.load(jQuery("#projectFundingSectorExpenditureGrid"), newUrl);                };
 
                 $scope.loadSpendingBySectorAndOrganization = function(sectorCalendarYear)
                 {
@@ -114,7 +109,6 @@
                             </tr>
                         </table>
 
-                        <p>The completed @ViewDataTyped.ProjectCount projects within the selected Time Period. This includes projects in Complete and Post-Implementation stages.</p>
                     </td>
                     <td>
                         <div style="height: @(ViewDataTyped.GoogleChartJson.GoogleChartConfiguration.Height + 30)px; width: @(ViewDataTyped.GoogleChartJson.GoogleChartConfiguration.Width)px overflow:hidden; margin-top: 10px">
@@ -146,17 +140,9 @@
     <div class="summarySection">
         <h2>Projects Funded by selected Sector: <span ng-bind="SelectedSector"></span></h2>
         <div class="contentWrapper">
-            @if (ViewDataTyped.IsPreReportingYear)
-            {
-                <p class="alert">Project-level detail is not available for the @ViewDataTyped.ProjectCount projects completed in the "Early Years".</p>
-            }
-            else
-            {
-                <p>These projects are funded in full or in part by a Funding Source that falls under the selected Funding Sector. If a project is funded by more than one Funding Source within the selected Sector, it will be listed multiple times.</p>
-                <div id="projectFundingSectorExpenditureGrid" style="width: 100%">
-                </div>
-            }
-        </div>
+            <p>These projects are funded in full or in part by a Funding Source that falls under the selected Funding Sector. If a project is funded by more than one Funding Source within the selected Sector, it will be listed multiple times.</p>
+            <div id="projectFundingSectorExpenditureGrid" style="width: 100%">
+            </div>        </div>
     </div>
 </div>
 

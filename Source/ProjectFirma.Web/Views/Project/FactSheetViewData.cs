@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.Project
                 "Photo");
 
             PerformanceMeasureReportedValues =
-                Project.GetNonVirtualReportedPerformanceMeasures()
+                Project.GetReportedPerformanceMeasures()
                     .GroupBy(x => x.PerformanceMeasure, new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
                     .OrderBy(x => x.Key.Indicator.IndicatorName)
                     .ToList();

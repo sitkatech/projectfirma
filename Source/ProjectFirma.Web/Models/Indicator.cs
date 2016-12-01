@@ -24,21 +24,12 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                if (PerformanceMeasure.PerformanceMeasureType == PerformanceMeasureType.PerformanceMeasure33)
-                {
-                    return true;
-                }
                 return IndicatorSubcategories.Any(x => x.IndicatorSubcategoryOptions.Count > 1);
             }
         }
 
         public List<IndicatorSubcategory> GetSubcategoriesForIndicatorChart()
         {
-            if (PerformanceMeasure.PerformanceMeasureType == PerformanceMeasureType.PerformanceMeasure33)
-            {
-                return IndicatorSubcategories.ToList();
-            }
-
             return IndicatorSubcategories.Where(x => x.IndicatorSubcategoryOptions.Count > 1 && x.ShowOnChart).OrderBy(x => x.SortOrder).ToList();
         }
 

@@ -270,8 +270,8 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewPerformanceMeasures(ProjectUpdateBatch projectUpdateBatch, PerformanceMeasuresViewModel viewModel)
         {
-            var selectablePerformanceMeasures =
-                HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().Where(pm => pm.PerformanceMeasureType.ValuesAreNotCalculated(projectUpdateBatch.Project.ImplementsMultipleProjects));
+            var performanceMeasures =
+                HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
             var showExemptYears = projectUpdateBatch.ProjectExemptReportingYearUpdates.Any() ||
                                   ModelState.Values.SelectMany(x => x.Errors)
                                       .Any(
@@ -279,10 +279,9 @@ namespace ProjectFirma.Web.Controllers
                                               x.ErrorMessage == FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears ||
                                               x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
 
-            var allPerformanceMeasures = selectablePerformanceMeasures.ToList();
-            var performanceMeasureSubcategories = allPerformanceMeasures.SelectMany(x => x.IndicatorSubcategories).ToList();
+            var performanceMeasureSubcategories = performanceMeasures.SelectMany(x => x.IndicatorSubcategories).ToList();
             var subcategories = performanceMeasureSubcategories.Distinct(new HavePrimaryKeyComparer<IndicatorSubcategory>()).ToList();
-            var performanceMeasureSimples = allPerformanceMeasures.Select(x => new PerformanceMeasureSimple(x)).OrderBy(p => p.PerformanceMeasureID).ToList();
+            var performanceMeasureSimples = performanceMeasures.Select(x => new PerformanceMeasureSimple(x)).OrderBy(p => p.PerformanceMeasureID).ToList();
             var performanceMeasureSubcategorySimples = performanceMeasureSubcategories.Select(y => new PerformanceMeasureSubcategorySimple(y)).ToList();
             var subcategorySimples = subcategories.Select(x => new IndicatorSubcategorySimple(x)).ToList();
             var subcategoryOptionSimples = subcategories.SelectMany(y => y.IndicatorSubcategoryOptions.Select(z => new IndicatorSubcategoryOptionSimple(z))).ToList();
@@ -1451,7 +1450,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            var performanceMeasureReportedValuesOriginal = new List<IPerformanceMeasureReportedValue>(project.GetNonVirtualReportedPerformanceMeasures());
+            var performanceMeasureReportedValuesOriginal = new List<IPerformanceMeasureReportedValue>(project.GetReportedPerformanceMeasures());
             var performanceMeasureReportedValuesUpdated = new List<IPerformanceMeasureReportedValue>(projectUpdateBatch.PerformanceMeasureActualUpdates);
             var calendarYearsForPerformanceMeasuresOriginal = performanceMeasureReportedValuesOriginal.Select(x => x.CalendarYear).Distinct().ToList();
             var calendarYearsForPerformanceMeasuresUpdated = performanceMeasureReportedValuesUpdated.Select(x => x.CalendarYear).Distinct().ToList();

@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.Results
 
             GridSpec = new SpendingByPerformanceMeasureByProjectGridSpec(SelectedPerformanceMeasure)
             {
-                ObjectNameSingular = string.Format("record by PM {0}: {1}", SelectedPerformanceMeasure.PerformanceMeasureTypeID, SelectedPerformanceMeasure.DisplayNameNoNumber),
+                ObjectNameSingular = string.Format("record by PM {0}: {1}", SelectedPerformanceMeasure.PerformanceMeasureID, SelectedPerformanceMeasure.DisplayNameNoNumber),
                 ObjectNamePlural = string.Format("records by PM {0}: {1}", SelectedPerformanceMeasure.PerformanceMeasureID, SelectedPerformanceMeasure.DisplayNameNoNumber),
                 SaveFiltersInCookie = true
             };

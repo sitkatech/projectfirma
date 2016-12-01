@@ -239,34 +239,32 @@
         @{IndicatorChart.RenderPartialView(Html, ViewDataTyped.IndicatorChartViewData);}
     </div>
 
-    @if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureType != PerformanceMeasureType.TMDLRelevant)
-    {
-        <div class="summarySection">
-            <span class="sectionTitle">Programs</span>
-            <div class="contentWrapper">
-                @if (ViewDataTyped.PerformanceMeasurePrograms.Any())
-                {
-                    <table class="summaryLayout">
+    <div class="summarySection">
+        <span class="sectionTitle">Programs</span>
+        <div class="contentWrapper">
+            @if (ViewDataTyped.PerformanceMeasurePrograms.Any())
+            {
+                <table class="summaryLayout">
+                    <tr>
+                        <th>@FieldDefinition.Program.FieldDefinitionDisplayName</th>
+                        <th>@FieldDefinition.IsPrimaryProgram.FieldDefinitionDisplayName</th>
+                    </tr>
+                    @foreach (var programPerformanceMeasure in ViewDataTyped.PerformanceMeasurePrograms)
+                    {
                         <tr>
-                            <th>@FieldDefinition.Program.FieldDefinitionDisplayName</th>
-                            <th>@FieldDefinition.IsPrimaryProgram.FieldDefinitionDisplayName</th>
+                            <td>@programPerformanceMeasure.Key.DisplayName</td>
+                            <td style="text-align: center">@programPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
                         </tr>
-                        @foreach (var programPerformanceMeasure in ViewDataTyped.PerformanceMeasurePrograms)
-                        {
-                            <tr>
-                                <td>@programPerformanceMeasure.Key.DisplayName</td>
-                                <td style="text-align: center">@programPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
-                            </tr>
-                        }
-                    </table>
-                }
-                else
-                {
-                    <p class="alert">No programs set for this performance measure.</p>
-                }
-            </div>
+                    }
+                </table>
+            }
+            else
+            {
+                <p class="alert">No programs set for this performance measure.</p>
+            }
         </div>
-    }
+    </div>
+
 </div>
 
 <div class="noPrint infoSheet" style="margin-top: 20px; background-color: transparent">

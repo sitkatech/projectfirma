@@ -1076,7 +1076,6 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_I
     </Key>
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="IndicatorID" Type="int" Nullable="false" />
-    <Property Name="PerformanceMeasureTypeID" Type="int" Nullable="false" />
     <Property Name="CriticalDefinitions" Type="varchar(max)" />
     <Property Name="AccountingPeriodAndScale" Type="varchar(max)" />
     <Property Name="ProjectReporting" Type="varchar(max)" />

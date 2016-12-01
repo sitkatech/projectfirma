@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             public static PerformanceMeasure Create()
             {
                 var indicator = TestIndicator.Create();
-                var performanceMeasure = new PerformanceMeasure(indicator, PerformanceMeasureType.Normal) {IndicatorSubcategories = new List<IndicatorSubcategory>()};
+                var performanceMeasure = new PerformanceMeasure(indicator) {IndicatorSubcategories = new List<IndicatorSubcategory>()};
                 indicator.PerformanceMeasure = performanceMeasure;
                 return performanceMeasure;
             }

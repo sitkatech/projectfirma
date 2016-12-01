@@ -310,11 +310,6 @@ namespace ProjectFirma.Web.Models
                 case "PerformanceMeasure":
                     return PerformanceMeasures.GetPerformanceMeasure(primaryKey);
 
-                case "PerformanceMeasureType":
-                    var performanceMeasureType = PerformanceMeasureType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(performanceMeasureType, "PerformanceMeasureType", primaryKey);
-                    return performanceMeasureType;
-
                 case "ProgramImage":
                     return ProgramImages.GetProgramImage(primaryKey);
 

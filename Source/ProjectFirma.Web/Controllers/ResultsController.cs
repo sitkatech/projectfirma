@@ -27,12 +27,11 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult InvestmentByFundingSector(int? calendarYear)
         {
             var projectFundingSourceExpenditures = GetProjectExpendituresByFundingSector(null, null);
-            var projectCount = GetProjectCountForInvestmentByFundingSectorReport(calendarYear);
             var fundingSectorExpenditures = GetFundingSectorExpendituresForInvestmentByFundingSectorReport(calendarYear, projectFundingSourceExpenditures);
             var calendarYears = GetCalendarYearsDropdownForInvestmentByFundingSectorAndSpendingBySectorAndFocusAreaReports(projectFundingSourceExpenditures);
             var reportingYearRangeTitle = YearDisplayName(calendarYear);
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.InvestmentByFundingSector);
-            var viewData = new InvestmentByFundingSectorViewData(CurrentPerson, firmaPage, fundingSectorExpenditures, calendarYear, calendarYears, projectCount, reportingYearRangeTitle);
+            var viewData = new InvestmentByFundingSectorViewData(CurrentPerson, firmaPage, fundingSectorExpenditures, calendarYear, calendarYears, reportingYearRangeTitle);
             var viewModel = new InvestmentByFundingSectorViewModel(calendarYear);
             return RazorView<InvestmentByFundingSector, InvestmentByFundingSectorViewData, InvestmentByFundingSectorViewModel>(viewData, viewModel);
         }
@@ -95,19 +94,6 @@ namespace ProjectFirma.Web.Controllers
                 }
             }
             return fundingSectorExpenditures;
-        }
-
-        private static int GetProjectCountForInvestmentByFundingSectorReport(int? calendarYear)
-        {
-            var performanceMeasure34 =
-                HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureTypeID == PerformanceMeasureType.PerformanceMeasure34.PerformanceMeasureTypeID);
-            var projectCount =
-                Convert.ToInt32(
-                    performanceMeasure34.PerformanceMeasureType.CalculatePerformanceMeasureReportedValues(performanceMeasure34, null)
-                        .Where(x => !calendarYear.HasValue || x.CalendarYear == calendarYear.Value)
-                        .Sum(x => x.ReportedValue));
-
-            return projectCount;
         }
 
         [InvestmentByFundingSourceViewFeature]

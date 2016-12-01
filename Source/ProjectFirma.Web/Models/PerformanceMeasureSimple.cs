@@ -5,7 +5,6 @@
         public PerformanceMeasureSimple(PerformanceMeasure performanceMeasure)
             : this(
                 performanceMeasure.PerformanceMeasureID,
-                performanceMeasure.PerformanceMeasureTypeID,
                 performanceMeasure.Indicator.IndicatorName,
                 performanceMeasure.Indicator.MeasurementUnitTypeID,
                 performanceMeasure.Indicator.DisplayOrder,
@@ -17,7 +16,6 @@
         }
 
         public PerformanceMeasureSimple(int performanceMeasureID,
-            int performanceMeasureTypeID,
             string performanceMeasureName,
             int measurementUnitTypeID,
             int displayOrder,
@@ -27,7 +25,6 @@
             string definitionAndGuidanceUrl)
         {
             PerformanceMeasureID = performanceMeasureID;
-            PerformanceMeasureTypeID = performanceMeasureTypeID;
             PerformanceMeasureName = performanceMeasureName;
             MeasurementUnitTypeID = measurementUnitTypeID;
             DisplayOrder = displayOrder;
@@ -38,7 +35,6 @@
         }
 
         public int PerformanceMeasureID { get; set; }
-        public int PerformanceMeasureTypeID { get; set; }
         public string PerformanceMeasureName { get; set; }
         public int MeasurementUnitTypeID { get; set; }
         public int DisplayOrder { get; set; }

@@ -120,11 +120,6 @@ namespace ProjectFirma.Web.Models
             get { return PerformanceMeasure.GetSummaryUrl(); }
         }
 
-        public PerformanceMeasureType PerformanceMeasureType
-        {
-            get { return PerformanceMeasure.PerformanceMeasureType; }
-        }
-
         public MeasurementUnitType MeasurementUnitType
         {
             get { return PerformanceMeasure.Indicator.MeasurementUnitType; }

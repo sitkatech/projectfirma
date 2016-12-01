@@ -298,36 +298,33 @@
                     </div>
                 </div>
 
-                @if (ViewDataTyped.Indicator.PerformanceMeasure.PerformanceMeasureType != PerformanceMeasureType.TMDLRelevant)
-                {
-                    <div class="row">
-                        <div class="summarySection">
-                            <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProgramsUrl, "Edit Programs", ViewDataTyped.UserHasProgramPerformanceMeasureManagePermissions) Programs</h2>
-                            <div class="contentWrapper">
-                                @if (ViewDataTyped.ProgramPerformanceMeasures.Any())
-                                {
-                                    <table class="summaryLayout">
+                <div class="row">
+                    <div class="summarySection">
+                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProgramsUrl, "Edit Programs", ViewDataTyped.UserHasProgramPerformanceMeasureManagePermissions) Programs</h2>
+                        <div class="contentWrapper">
+                            @if (ViewDataTyped.ProgramPerformanceMeasures.Any())
+                            {
+                                <table class="summaryLayout">
+                                    <tr>
+                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Program)</th>
+                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryProgram)</th>
+                                    </tr>
+                                    @foreach (var programPerformanceMeasure in ViewDataTyped.ProgramPerformanceMeasures)
+                                    {
                                         <tr>
-                                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Program)</th>
-                                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryProgram)</th>
+                                            <td>@programPerformanceMeasure.Key.DisplayNameAsUrl</td>
+                                            <td style="text-align: center">@programPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
                                         </tr>
-                                        @foreach (var programPerformanceMeasure in ViewDataTyped.ProgramPerformanceMeasures)
-                                        {
-                                            <tr>
-                                                <td>@programPerformanceMeasure.Key.DisplayNameAsUrl</td>
-                                                <td style="text-align: center">@programPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
-                                            </tr>
-                                        }
-                                    </table>
-                                }
-                                else
-                                {
-                                    <p class="alert">No programs set for this performance measure.</p>
-                                }
-                            </div>
+                                    }
+                                </table>
+                            }
+                            else
+                            {
+                                <p class="alert">No programs set for this performance measure.</p>
+                            }
                         </div>
                     </div>
-                }
+                </div>
 
                 <div class="row">
                     <div class="summarySection">

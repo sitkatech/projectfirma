@@ -49,47 +49,6 @@ namespace ProjectFirma.Web.Models
             return googleChartJson;
         }
 
-        public static GoogleChartJson MakeGoogleChartJsonForPM34(PerformanceMeasure performanceMeasure, List<PerformanceMeasureReportedValue> reportedValues, List<int> yearRange)
-        {
-            Check.Require(performanceMeasure.PerformanceMeasureType == PerformanceMeasureType.PerformanceMeasure34);
-            Check.Require(performanceMeasure.IndicatorSubcategories.Count == 1, string.Format("PM 34 can only have 1 subcategory but somehow it has  {0}!", performanceMeasure.IndicatorSubcategories.Count));
-
-            var calendarYearReportedValues = reportedValues.Any()
-                ? yearRange.OrderBy(cy => cy).Select(cy =>
-                {
-                    var pmavForThisCalendaYear = reportedValues.Where(x => x.CalendarYear == cy).ToList();
-                    return new CalendarYearReportedValue(cy, pmavForThisCalendaYear.Any() ? pmavForThisCalendaYear.Sum(y => y.ReportedValue) : 0);
-                }).ToList()
-                : new List<CalendarYearReportedValue>();
-
-            var indicatorSubcategoryOptionsWithCalendarYearReportedValues = new Dictionary<string, IEnumerable<CalendarYearReportedValue>>{{performanceMeasure.DisplayNameNoNumber, calendarYearReportedValues}};
-            var indicatorSubcategory = performanceMeasure.IndicatorSubcategories.Single(); //This PM only ever has one ("virtual") indicatorSubcategory
-
-            var googleChartJson = MakeGoogleChartJsonForIndicatorSubcategory(performanceMeasure, yearRange, indicatorSubcategory, indicatorSubcategoryOptionsWithCalendarYearReportedValues, string.Empty);
-            return googleChartJson;
-        }
-
-        public static GoogleChartJson MakeGoogleChartJsonForPM33(PerformanceMeasure performanceMeasure, IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, List<int> yearRange)
-        {
-            Check.Require(performanceMeasure.PerformanceMeasureType == PerformanceMeasureType.PerformanceMeasure33);
-            Check.Require(performanceMeasure.IndicatorSubcategories.Count == 1, string.Format("PM 33 can only have 1 subcategory but somehow it has  {0}!", performanceMeasure.IndicatorSubcategories.Count));
-
-            var indicatorSubcategoryOptionsWithCalendarYearReportedValues = Sector.All.ToDictionary(x => x.SectorDisplayName, s =>
-            {
-                var reportableProjectFundingSourceExpendituresForSector =
-                    projectFundingSourceExpenditures.AsQueryable()
-                        .GetExpendituresFromMininumYearForReportingOnward()
-                        .Where(pfse => pfse.FundingSource.Organization.SectorID == s.SectorID && pfse.Project.ProjectStage.ArePerformanceMeasuresReportable())
-                        .ToList();
-                var calendarYearReportedValues = ProjectFundingSourceExpenditure.ToCalendarYearReportedValues(reportableProjectFundingSourceExpendituresForSector);
-                return calendarYearReportedValues;
-            });
-
-            var indicatorSubcategory = performanceMeasure.IndicatorSubcategories.Single(); //This PM only ever has one ("virtual") indicatorSubcategory
-            var googleChartJson = MakeGoogleChartJsonForIndicatorSubcategory(performanceMeasure, yearRange, indicatorSubcategory, indicatorSubcategoryOptionsWithCalendarYearReportedValues, "Sector");
-            return googleChartJson;
-        }
-
         private static GoogleChartJson MakeGoogleChartJsonForIndicatorSubcategory(PerformanceMeasure performanceMeasure,
             IEnumerable<int> yearRange,
             IndicatorSubcategory indicatorSubcategory,

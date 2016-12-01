@@ -354,7 +354,6 @@
         <MappingFragment StoreEntitySet="PerformanceMeasure">
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="IndicatorID" ColumnName="IndicatorID" />
-          <ScalarProperty Name="PerformanceMeasureTypeID" ColumnName="PerformanceMeasureTypeID" />
           <ScalarProperty Name="CriticalDefinitions" ColumnName="CriticalDefinitions" />
           <ScalarProperty Name="AccountingPeriodAndScale" ColumnName="AccountingPeriodAndScale" />
           <ScalarProperty Name="ProjectReporting" ColumnName="ProjectReporting" />

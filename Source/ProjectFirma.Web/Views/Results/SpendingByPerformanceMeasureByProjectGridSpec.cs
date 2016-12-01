@@ -36,15 +36,8 @@ namespace ProjectFirma.Web.Views.Results
             var reportedValueColumnName = string.Format("{0} ({1})",
                 Models.FieldDefinition.ReportedValue.ToGridHeaderString(),
                 performanceMeasure.Indicator.MeasurementUnitType.MeasurementUnitTypeDisplayName);
-            if (performanceMeasure.PerformanceMeasureType == PerformanceMeasureType.PerformanceMeasure33)
-            {
-                Add(reportedValueColumnName, a => a.TotalReportedValue, 150, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            }
-            else
-            {
-                Add(reportedValueColumnName, a => a.TotalReportedValue, 150, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
-            }
-            
+
+            Add(reportedValueColumnName, a => a.TotalReportedValue, 150, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
             Add(Models.FieldDefinition.ReportedExpenditure.ToGridHeaderString(), x => x.CalculateWeightedTotalExpenditure(), 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
 
             var reportedValueUnitCostColumnName = string.Format("Estimated Cost Per {0} ", performanceMeasure.Indicator.MeasurementUnitType.SingularDisplayName);

@@ -5,6 +5,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Models
@@ -20,11 +21,7 @@ namespace ProjectFirma.Web.Models
 
         public string DisplayNameNoNumber
         {
-            get
-            {
-                var tmdlString = PerformanceMeasureType == Models.PerformanceMeasureType.TMDLRelevant ? "TMDL - " : String.Empty;
-                return String.Format("{0}{1}", tmdlString, Indicator.IndicatorDisplayName);
-            }
+            get { return Indicator.IndicatorDisplayName; }
         }
 
         public int ExpectedProjectsCount
@@ -62,12 +59,18 @@ namespace ProjectFirma.Web.Models
 
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(int? projectID)
         {
-            return PerformanceMeasureType.CalculatePerformanceMeasureReportedValues(this, projectID);
+            var performanceMeasureActuals =
+                HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(
+                    pmav => pmav.PerformanceMeasureID == PerformanceMeasureID && (!projectID.HasValue || (projectID.HasValue && pmav.ProjectID == projectID))).ToList();
+            var performanceMeasureReportedValues = PerformanceMeasureReportedValue.MakeFromList(performanceMeasureActuals);
+            return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.ProjectName).ToList();
         }
 
         public Dictionary<Program, bool> GetPrograms()
         {
-            return PerformanceMeasureType.GetPrograms(this);
+            return ProgramPerformanceMeasures.Any()
+                ? ProgramPerformanceMeasures.ToDictionary(x => x.Program, x => x.IsPrimaryProgram, new HavePrimaryKeyComparer<Program>())
+                : new Dictionary<Program, bool>();
         }
 
         public decimal? TotalExpenditure()
@@ -113,16 +116,6 @@ namespace ProjectFirma.Web.Models
         {
             Check.Require(performanceMeasure.IndicatorSubcategories.Any(), "Every PM should have at least one Subcategory!");
 
-            List<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures;
-            if (projectIDs != null && projectIDs.Any())
-            {
-                projectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.GetExpendituresFromMininumYearForReportingOnward().Where(x => projectIDs.Contains(x.ProjectID)).ToList();
-            }
-            else
-            {
-                projectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.GetExpendituresFromMininumYearForReportingOnward().ToList();
-            }
-
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
 
             List<PerformanceMeasureReportedValue> reportedValues;
@@ -135,19 +128,6 @@ namespace ProjectFirma.Web.Models
                 reportedValues = performanceMeasure.GetReportedPerformanceMeasureValues().Where(x => x.Project.ProjectStage.ArePerformanceMeasuresReportable()).ToList();
             }
 
-            if (performanceMeasure.PerformanceMeasureType == Models.PerformanceMeasureType.PerformanceMeasure33)
-            {
-                return new List<GoogleChartJson> {IndicatorSubcategory.MakeGoogleChartJsonForPM33(performanceMeasure,
-                    projectFundingSourceExpenditures,
-                    yearRange.Where(x => x >= FirmaDateUtilities.GetMinimumYearForReportingExpenditures()).ToList())};
-            }
-
-            if (performanceMeasure.PerformanceMeasureType == Models.PerformanceMeasureType.PerformanceMeasure34)
-            {
-                return new List<GoogleChartJson> {IndicatorSubcategory.MakeGoogleChartJsonForPM34(performanceMeasure,
-                    reportedValues,
-                    yearRange.Where(x => x >= FirmaDateUtilities.GetMinimumYearForReportingExpenditures()).ToList())};
-            }
             return IndicatorSubcategory.MakeGoogleChartJsonsForSubcategories(performanceMeasure, reportedValues, yearRange);
         }
     }

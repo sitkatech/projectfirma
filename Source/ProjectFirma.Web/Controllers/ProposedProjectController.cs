@@ -220,11 +220,11 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewEditExpectedPerformanceMeasureValues(ProposedProject proposedProject, ExpectedPerformanceMeasureValuesViewModel viewModel)
         {
-            var selectablePerformanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().Where(pm => pm.PerformanceMeasureType.ValuesAreNotCalculated(false));
+            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
             var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
             proposalSectionsStatus.IsPerformanceMeasureSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsPerformanceMeasureSectionComplete;
 
-            var editPerformanceMeasureExpectedsViewData = new EditPerformanceMeasureExpectedViewData(proposedProject, selectablePerformanceMeasures.ToList());
+            var editPerformanceMeasureExpectedsViewData = new EditPerformanceMeasureExpectedViewData(proposedProject, performanceMeasures);
             var viewData = new ExpectedPerformanceMeasureValuesViewData(CurrentPerson, proposedProject, proposalSectionsStatus, editPerformanceMeasureExpectedsViewData);
             return RazorView<ExpectedPerformanceMeasureValues, ExpectedPerformanceMeasureValuesViewData, ExpectedPerformanceMeasureValuesViewModel>(viewData, viewModel);
         }

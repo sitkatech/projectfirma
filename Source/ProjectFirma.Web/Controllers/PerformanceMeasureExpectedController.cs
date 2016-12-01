@@ -50,8 +50,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditPerformanceMeasureExpecteds(Project project, EditPerformanceMeasureExpectedViewModel viewModel)
         {
-            var selectablePerformanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().Where(pm => pm.PerformanceMeasureType.ValuesAreNotCalculated(project.ImplementsMultipleProjects));
-            var viewData = new EditPerformanceMeasureExpectedViewData(project, selectablePerformanceMeasures.ToList());
+            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
+            var viewData = new EditPerformanceMeasureExpectedViewData(project, performanceMeasures);
             return RazorPartialView<EditPerformanceMeasureExpected, EditPerformanceMeasureExpectedViewData, EditPerformanceMeasureExpectedViewModel>(viewData, viewModel);
         }
     }

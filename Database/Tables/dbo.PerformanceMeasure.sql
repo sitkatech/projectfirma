@@ -5,7 +5,6 @@ GO
 CREATE TABLE [dbo].[PerformanceMeasure](
 	[PerformanceMeasureID] [int] IDENTITY(1,1) NOT NULL,
 	[IndicatorID] [int] NOT NULL,
-	[PerformanceMeasureTypeID] [int] NOT NULL,
 	[CriticalDefinitions] [dbo].[html] NULL,
 	[AccountingPeriodAndScale] [dbo].[html] NULL,
 	[ProjectReporting] [dbo].[html] NULL,
@@ -24,8 +23,3 @@ ALTER TABLE [dbo].[PerformanceMeasure]  WITH CHECK ADD  CONSTRAINT [FK_Performan
 REFERENCES [dbo].[Indicator] ([IndicatorID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasure] CHECK CONSTRAINT [FK_PerformanceMeasure_Indicator_IndicatorID]
-GO
-ALTER TABLE [dbo].[PerformanceMeasure]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasure_PerformanceMeasureType_PerformanceMeasureTypeID] FOREIGN KEY([PerformanceMeasureTypeID])
-REFERENCES [dbo].[PerformanceMeasureType] ([PerformanceMeasureTypeID])
-GO
-ALTER TABLE [dbo].[PerformanceMeasure] CHECK CONSTRAINT [FK_PerformanceMeasure_PerformanceMeasureType_PerformanceMeasureTypeID]

@@ -15,7 +15,6 @@
         public abstract bool ArePerformanceMeasuresReportable();
         public abstract bool RequiresReportedExpenditures();
         public abstract bool RequiresPerformanceMeasureActuals();
-        public abstract bool ValidForPerformanceMeasure34();
         public abstract bool IsStagedIncludedInTransporationCostCalculations();
         public abstract bool ShouldShowOnMap();
     }
@@ -53,11 +52,6 @@
         }
 
         public override bool RequiresPerformanceMeasureActuals()
-        {
-            return false;
-        }
-
-        public override bool ValidForPerformanceMeasure34()
         {
             return false;
         }
@@ -110,11 +104,6 @@
             return true;
         }
 
-        public override bool ValidForPerformanceMeasure34()
-        {
-            return false;
-        }
-
         public override bool IsStagedIncludedInTransporationCostCalculations()
         {
             return true;
@@ -163,11 +152,6 @@
             return false;
         }
 
-        public override bool ValidForPerformanceMeasure34()
-        {
-            return true;
-        }
-
         public override bool IsStagedIncludedInTransporationCostCalculations()
         {
             return false;
@@ -212,11 +196,6 @@
         }
 
         public override bool RequiresPerformanceMeasureActuals()
-        {
-            return false;
-        }
-
-        public override bool ValidForPerformanceMeasure34()
         {
             return false;
         }
@@ -269,11 +248,6 @@
             return false;
         }
 
-        public override bool ValidForPerformanceMeasure34()
-        {
-            return false;
-        }
-
         public override bool IsStagedIncludedInTransporationCostCalculations()
         {
             return true;
@@ -320,11 +294,6 @@
         public override bool RequiresPerformanceMeasureActuals()
         {
             return false;
-        }
-
-        public override bool ValidForPerformanceMeasure34()
-        {
-            return true;
         }
 
         public override bool IsStagedIncludedInTransporationCostCalculations()

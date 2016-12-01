@@ -45,11 +45,6 @@ namespace ProjectFirma.Web.Views.Project
             get { return Project.GetSummaryUrl(); }
         }
 
-        public PerformanceMeasureType PerformanceMeasureType
-        {
-            get { return PerformanceMeasure.PerformanceMeasureType; }
-        }
-
         public MeasurementUnitType MeasurementUnitType
         {
             get { return PerformanceMeasure.Indicator.MeasurementUnitType; }

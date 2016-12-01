@@ -35,14 +35,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             var expectedValueColumnName = string.Format("{0} ({1})",
                 Models.FieldDefinition.ExpectedValue.ToGridHeaderString(),
                 performanceMeasure.Indicator.MeasurementUnitType.MeasurementUnitTypeDisplayName);
-            if (performanceMeasure.PerformanceMeasureType == PerformanceMeasureType.PerformanceMeasure33)
-            {
-                Add(expectedValueColumnName, a => a.ExpectedValue, 150, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            }
-            else
-            {
-                Add(expectedValueColumnName, a => a.ExpectedValue, 150, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
-            }
+
+            Add(expectedValueColumnName, a => a.ExpectedValue, 150, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
         }
     }
 }

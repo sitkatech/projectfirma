@@ -34,14 +34,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             var reportedValueColumnName = string.Format("{0} ({1})",
                 Models.FieldDefinition.ReportedValue.ToGridHeaderString(),
                 performanceMeasure.Indicator.MeasurementUnitType.MeasurementUnitTypeDisplayName);
-            if (performanceMeasure.PerformanceMeasureType == PerformanceMeasureType.PerformanceMeasure33)
-            {
-                Add(reportedValueColumnName, a => a.ReportedValue, 150, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            }
-            else
-            {
-                Add(reportedValueColumnName, a => a.ReportedValue, 150, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
-            }
+
+            Add(reportedValueColumnName, a => a.ReportedValue, 150, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
             Add(Models.FieldDefinition.Region.ToGridHeaderString(), a => a.Project.ProjectLocationTypeDisplay, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("State", a => a.Project.ProjectLocationStateProvince, 95, DhtmlxGridColumnFilterType.Text);
             Add("Jurisdiction", a => a.Project.ProjectLocationJurisdiction, 95, DhtmlxGridColumnFilterType.Text);

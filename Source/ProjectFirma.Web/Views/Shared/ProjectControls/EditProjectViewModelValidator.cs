@@ -16,8 +16,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             "Since project is in Completed stage, Completion Year needs to be less than or equal to this year";
         private const string SinceProjectIsInPostImplementationStageCompletionYearNeedsToBeLessThanOrEqualToThisYear =
             "Since project is in Post-Implementation stage, Completion Year needs to be less than or equal to this year";
-        private const string HasToImplementsMultipleProjectsIfThereAreValuesForPerformanceMeasure1And2And3And34 =
-            "The project has expected or reported values for Performance Measure 1, 2, 3 or 34 entered; please remove those before you can set this project to not implement multiple projects";
         private const string SinceProjectHasExistingUpdateCannotChangeStage = "There are updates to this project that have not been submitted.<br />Making this change can potentially affect that update in process.<br />Please delete the update if you want to change this project's stage.";
 
         // Validators are singletons, so this list must be initialized every time.
@@ -70,22 +68,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             RuleFor(x => x.CompletionYear)
                 .Must((viewModel, completionYear) => viewModel.ProjectStageID != ProjectStage.PostImplementation.ProjectStageID || completionYear <= DateTime.Now.Year)
                 .WithMessage(SinceProjectIsInPostImplementationStageCompletionYearNeedsToBeLessThanOrEqualToThisYear);
-            RuleFor(x => x.ImplementsMultipleProjects).Must((viewModel, implementsMultipleProjects) =>
-            {
-                if (!implementsMultipleProjects)
-                {
-                    return
-                        PerformanceMeasureActuals()
-                            .Where(x => x.ProjectID == viewModel.ProjectID)
-                            .ToList()
-                            .All(x => !x.PerformanceMeasure.PerformanceMeasureType.ForProjectsImplementsMultiplePrograms()) &&
-                        PerformanceMeasureExpecteds()
-                            .Where(x => x.ProjectID == viewModel.ProjectID)
-                            .ToList()
-                            .All(x => !x.PerformanceMeasure.PerformanceMeasureType.ForProjectsImplementsMultiplePrograms());
-                }
-                return true;
-            }).WithMessage(HasToImplementsMultipleProjectsIfThereAreValuesForPerformanceMeasure1And2And3And34);
             RuleFor(x => x.ProjectStageID).Must((viewModel, projectStageID) => !viewModel.HasExistingProjectUpdate || (viewModel.HasExistingProjectUpdate && viewModel.OldProjectStageID == viewModel.ProjectStageID)).WithMessage(SinceProjectHasExistingUpdateCannotChangeStage);
         }
     }

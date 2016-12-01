@@ -81,18 +81,7 @@ namespace ProjectFirma.Web.Models
 
         public List<PerformanceMeasure> GetPerformanceMeasures()
         {
-            var primaryPerformanceMeasures = ProgramPerformanceMeasures.Where(x => x.IsPrimaryProgram).OrderBy(x => x.PerformanceMeasureID).Select(x => x.PerformanceMeasure).ToList();
-
-            var secondaryPerformanceMeasures =
-                new List<PerformanceMeasure>(
-                    HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Where(
-                        x =>
-                            x.PerformanceMeasureTypeID == PerformanceMeasureType.PerformanceMeasure33.PerformanceMeasureTypeID ||
-                            x.PerformanceMeasureTypeID == PerformanceMeasureType.PerformanceMeasure34.PerformanceMeasureTypeID).ToList());
-
-            var performanceMeasures = new List<PerformanceMeasure>();
-            performanceMeasures.AddRange(primaryPerformanceMeasures);
-            performanceMeasures.AddRange(secondaryPerformanceMeasures);
+            var performanceMeasures = ProgramPerformanceMeasures.Where(x => x.IsPrimaryProgram).OrderBy(x => x.PerformanceMeasureID).Select(x => x.PerformanceMeasure).ToList();
             return performanceMeasures;
         }
 

@@ -7,7 +7,6 @@ namespace ProjectFirma.Web.Models
     {
         string PerformanceMeasureName { get; }
         string PerformanceMeasureUrl { get; }
-        PerformanceMeasureType PerformanceMeasureType { get; }
         MeasurementUnitType MeasurementUnitType { get; }
         List<IPerformanceMeasureValueSubcategoryOption> IndicatorSubcategoryOptions { get; }
         string IndicatorSubcategoriesAsString { get; }

@@ -40,11 +40,10 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(int performanceMeasureID, int indicatorID, int performanceMeasureTypeID, string criticalDefinitions, string accountingPeriodAndScale, string projectReporting) : this()
+        public PerformanceMeasure(int performanceMeasureID, int indicatorID, string criticalDefinitions, string accountingPeriodAndScale, string projectReporting) : this()
         {
             this.PerformanceMeasureID = performanceMeasureID;
             this.IndicatorID = indicatorID;
-            this.PerformanceMeasureTypeID = performanceMeasureTypeID;
             this.CriticalDefinitions = criticalDefinitions;
             this.AccountingPeriodAndScale = accountingPeriodAndScale;
             this.ProjectReporting = projectReporting;
@@ -53,33 +52,31 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(int indicatorID, int performanceMeasureTypeID) : this()
+        public PerformanceMeasure(int indicatorID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             PerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.IndicatorID = indicatorID;
-            this.PerformanceMeasureTypeID = performanceMeasureTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PerformanceMeasure(Indicator indicator, PerformanceMeasureType performanceMeasureType) : this()
+        public PerformanceMeasure(Indicator indicator) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.IndicatorID = indicator.IndicatorID;
             this.Indicator = indicator;
-            this.PerformanceMeasureTypeID = performanceMeasureType.PerformanceMeasureTypeID;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static PerformanceMeasure CreateNewBlank(Indicator indicator, PerformanceMeasureType performanceMeasureType)
+        public static PerformanceMeasure CreateNewBlank(Indicator indicator)
         {
-            return new PerformanceMeasure(indicator, performanceMeasureType);
+            return new PerformanceMeasure(indicator);
         }
 
         /// <summary>
@@ -99,7 +96,6 @@ namespace ProjectFirma.Web.Models
         [Key]
         public int PerformanceMeasureID { get; set; }
         public int IndicatorID { get; set; }
-        public int PerformanceMeasureTypeID { get; set; }
         [NotMapped]
         private string CriticalDefinitions { get; set; }
         public HtmlString CriticalDefinitionsHtmlString
@@ -136,7 +132,6 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<SnapshotPerformanceMeasure> SnapshotPerformanceMeasures { get; set; }
         public virtual ICollection<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual Indicator Indicator { get; set; }
-        public PerformanceMeasureType PerformanceMeasureType { get { return PerformanceMeasureType.AllLookupDictionary[PerformanceMeasureTypeID]; } }
 
         public static class FieldLengths
         {

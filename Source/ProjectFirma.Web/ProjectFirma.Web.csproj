@@ -190,8 +190,6 @@
     <Compile Include="Models\Generated\PerformanceMeasureExpectedSubcategoryOptionProposed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureExpectedSubcategoryOptionProposedPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasurePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\PerformanceMeasureType.Binding.cs" />
-    <Compile Include="Models\Generated\PerformanceMeasureTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Person.Binding.cs" />
     <Compile Include="Models\Generated\Person.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PersonPrimaryKey.Binding.cs" />
@@ -1337,7 +1335,6 @@
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionSimple.cs" />
     <Compile Include="Models\PerformanceMeasureReportedValue.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedSimple.cs" />
-    <Compile Include="Models\PerformanceMeasureType.cs" />
     <Compile Include="Models\BoundingBox.cs" />
     <Compile Include="Models\BoundingBoxJson.cs" />
     <Compile Include="Models\CheckPrimaryNaturalAndForeignKeysTest.cs" />

@@ -1143,7 +1143,6 @@
     </Key>
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="IndicatorID" Type="Int32" Nullable="false" />
-    <Property Name="PerformanceMeasureTypeID" Type="Int32" Nullable="false" />
     <Property Name="CriticalDefinitions" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="AccountingPeriodAndScale" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="ProjectReporting" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />

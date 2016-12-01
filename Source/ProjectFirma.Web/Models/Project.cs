@@ -368,16 +368,7 @@ namespace ProjectFirma.Web.Models
 
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasures()
         {
-            var performanceMeasureReportedValues = GetNonVirtualReportedPerformanceMeasures();
-            // we need to add the virtual PMs 33
-            var performanceMeasure33 = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureTypeID == PerformanceMeasureType.PerformanceMeasure33.PerformanceMeasureTypeID);
-            performanceMeasureReportedValues.AddRange(PerformanceMeasureType.PerformanceMeasure33.CalculatePerformanceMeasureReportedValues(performanceMeasure33, ProjectID));
-            return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
-        }
-
-        public List<PerformanceMeasureReportedValue> GetNonVirtualReportedPerformanceMeasures()
-        {
-            var performanceMeasureReportedValues = PerformanceMeasureActuals.Where(x => x.PerformanceMeasure.PerformanceMeasureType.ValuesAreNotCalculated(ImplementsMultipleProjects)).Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>()).SelectMany(x => x.PerformanceMeasureType.CalculatePerformanceMeasureReportedValues(x, ProjectID)).ToList();
+            var performanceMeasureReportedValues = PerformanceMeasureActuals.Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>()).SelectMany(x => x.GetReportedPerformanceMeasureValues(null)).ToList();
             return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
 

@@ -268,7 +268,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static PerformanceMeasureReportedValuesGroupedViewData BuildPerformanceMeasureReportedValuesGroupedViewData(Project project)
         {
-            var performanceMeasureReportedValues = project.GetNonVirtualReportedPerformanceMeasures();
+            var performanceMeasureReportedValues = project.GetReportedPerformanceMeasures();
             var performanceMeasureSubcategoriesCalendarYearReportedValues =
                 PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(new List<IPerformanceMeasureReportedValue>(performanceMeasureReportedValues));
             var performanceMeasureReportedValuesGroupedViewData = new PerformanceMeasureReportedValuesGroupedViewData(performanceMeasureSubcategoriesCalendarYearReportedValues,

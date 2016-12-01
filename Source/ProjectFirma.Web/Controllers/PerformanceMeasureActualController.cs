@@ -62,14 +62,14 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditPerformanceMeasureActuals(Project project, EditPerformanceMeasureActualsViewModel viewModel)
         {
-            var selectablePerformanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().Where(pm => pm.PerformanceMeasureType.ValuesAreNotCalculated(project.ImplementsMultipleProjects));
+            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
             var showExemptYears = project.ProjectExemptReportingYears.Any() ||
                                   ModelState.Values.SelectMany(x => x.Errors)
                                       .Any(
                                           x =>
                                               x.ErrorMessage == FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears ||
                                               x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
-            var viewData = new EditPerformanceMeasureActualsViewData(project, selectablePerformanceMeasures.ToList(), showExemptYears);
+            var viewData = new EditPerformanceMeasureActualsViewData(project, performanceMeasures, showExemptYears);
             return RazorPartialView<EditPerformanceMeasureActuals, EditPerformanceMeasureActualsViewData, EditPerformanceMeasureActualsViewModel>(viewData, viewModel);
         }
     }

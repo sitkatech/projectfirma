@@ -29,12 +29,6 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult(String.Format("You don't have permission to Edit Programs for PM {0}", contextModelObject.DisplayName));
             }
 
-            var performanceMeasureTypeValidToSetPrograms = contextModelObject.PerformanceMeasureType.CanAssociatePrograms();
-            if (!performanceMeasureTypeValidToSetPrograms)
-            {
-                return new PermissionCheckResult(string.Format("You can not set Program associations for PM {0}.", contextModelObject.DisplayName));
-            }
-
             return new PermissionCheckResult();
         }
     }
