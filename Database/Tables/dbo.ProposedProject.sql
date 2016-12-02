@@ -22,7 +22,7 @@ CREATE TABLE [dbo].[ProposedProject](
 	[FundingTypeID] [int] NOT NULL,
 	[ProposedProjectStateID] [int] NOT NULL,
 	[ActionPriorityID] [int] NULL,
-	[IndicatorNotes] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[PerformanceMeasureNotes] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ProjectID] [int] NULL,
 	[ImplementsMultipleProjects] [bit] NULL,
 	[SubmissionDate] [datetime] NULL,
