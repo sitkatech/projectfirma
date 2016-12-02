@@ -2,7 +2,7 @@
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Indicator;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
@@ -12,10 +12,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public readonly Models.PerformanceMeasure PerformanceMeasure;
         public readonly bool HasReportedValues;
         public readonly List<KeyValuePair<Models.Program, bool>> PerformanceMeasurePrograms;
-        public readonly IndicatorChartViewData IndicatorChartViewData;
+        public readonly PerformanceMeasureChartViewData PerformanceMeasureChartViewData;
         public readonly string IndexUrl;
         
-        public InfoSheetViewData(Person currentPerson, Models.PerformanceMeasure performanceMeasure, IndicatorChartViewData indicatorChartViewData)
+        public InfoSheetViewData(Person currentPerson, Models.PerformanceMeasure performanceMeasure, PerformanceMeasureChartViewData performanceMeasureChartViewData)
             : base(currentPerson)
         {
             PerformanceMeasure = performanceMeasure;
@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             HasReportedValues = performanceMeasure.PerformanceMeasureActuals.Any();
             PerformanceMeasurePrograms = performanceMeasure.GetPrograms().OrderBy(x => x.Key.DisplayName).ToList();
-            IndicatorChartViewData = indicatorChartViewData;
+            PerformanceMeasureChartViewData = performanceMeasureChartViewData;
 
             IndexUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Index());
         }

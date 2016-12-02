@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [IndicatorManageFeature]
+        [PerformanceMeasureManageFeature]
         public PartialViewResult Edit(ThresholdCategoryPrimaryKey thresholdCategoryPrimaryKey)
         {
             var thresholdCategory = thresholdCategoryPrimaryKey.EntityObject;
@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [IndicatorManageFeature]
+        [PerformanceMeasureManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(ThresholdCategoryPrimaryKey thresholdCategoryPrimaryKey, EditViewModel viewModel)
         {

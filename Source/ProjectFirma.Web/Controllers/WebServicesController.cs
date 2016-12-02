@@ -117,11 +117,11 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AnonymousUnclassifiedFeature]
-        public ActionResult GetIndicators(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken)
+        public ActionResult GetPerformanceMeasures(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken)
         {
-            var indicators = WebServicePerformanceMeasure.GetIndicators();
+            var performanceMeasures = WebServicePerformanceMeasure.GetPerformanceMeasures();
             var gridSpec = new WebServicePerformanceMeasureGridSpec();
-            return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, indicators, gridSpec, "Indicators");
+            return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, performanceMeasures, gridSpec, "PerformanceMeasures");
         }
 
         [AnonymousUnclassifiedFeature]

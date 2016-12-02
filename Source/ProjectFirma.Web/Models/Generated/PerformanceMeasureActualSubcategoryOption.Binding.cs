@@ -29,56 +29,56 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureActualSubcategoryOption(int performanceMeasureActualSubcategoryOptionID, int performanceMeasureActualID, int indicatorSubcategoryOptionID, int performanceMeasureID, int indicatorSubcategoryID) : this()
+        public PerformanceMeasureActualSubcategoryOption(int performanceMeasureActualSubcategoryOptionID, int performanceMeasureActualID, int performanceMeasureSubcategoryOptionID, int performanceMeasureID, int performanceMeasureSubcategoryID) : this()
         {
             this.PerformanceMeasureActualSubcategoryOptionID = performanceMeasureActualSubcategoryOptionID;
             this.PerformanceMeasureActualID = performanceMeasureActualID;
-            this.IndicatorSubcategoryOptionID = indicatorSubcategoryOptionID;
+            this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
             this.PerformanceMeasureID = performanceMeasureID;
-            this.IndicatorSubcategoryID = indicatorSubcategoryID;
+            this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureActualSubcategoryOption(int performanceMeasureActualID, int indicatorSubcategoryOptionID, int performanceMeasureID, int indicatorSubcategoryID) : this()
+        public PerformanceMeasureActualSubcategoryOption(int performanceMeasureActualID, int performanceMeasureSubcategoryOptionID, int performanceMeasureID, int performanceMeasureSubcategoryID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             PerformanceMeasureActualSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.PerformanceMeasureActualID = performanceMeasureActualID;
-            this.IndicatorSubcategoryOptionID = indicatorSubcategoryOptionID;
+            this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
             this.PerformanceMeasureID = performanceMeasureID;
-            this.IndicatorSubcategoryID = indicatorSubcategoryID;
+            this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PerformanceMeasureActualSubcategoryOption(PerformanceMeasureActual performanceMeasureActual, IndicatorSubcategoryOption indicatorSubcategoryOption, PerformanceMeasure performanceMeasure, IndicatorSubcategory indicatorSubcategory) : this()
+        public PerformanceMeasureActualSubcategoryOption(PerformanceMeasureActual performanceMeasureActual, PerformanceMeasureSubcategoryOption performanceMeasureSubcategoryOption, PerformanceMeasure performanceMeasure, PerformanceMeasureSubcategory performanceMeasureSubcategory) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureActualSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.PerformanceMeasureActualID = performanceMeasureActual.PerformanceMeasureActualID;
             this.PerformanceMeasureActual = performanceMeasureActual;
             performanceMeasureActual.PerformanceMeasureActualSubcategoryOptions.Add(this);
-            this.IndicatorSubcategoryOptionID = indicatorSubcategoryOption.IndicatorSubcategoryOptionID;
-            this.IndicatorSubcategoryOption = indicatorSubcategoryOption;
-            indicatorSubcategoryOption.PerformanceMeasureActualSubcategoryOptions.Add(this);
+            this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID;
+            this.PerformanceMeasureSubcategoryOption = performanceMeasureSubcategoryOption;
+            performanceMeasureSubcategoryOption.PerformanceMeasureActualSubcategoryOptions.Add(this);
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
             performanceMeasure.PerformanceMeasureActualSubcategoryOptions.Add(this);
-            this.IndicatorSubcategoryID = indicatorSubcategory.IndicatorSubcategoryID;
-            this.IndicatorSubcategory = indicatorSubcategory;
-            indicatorSubcategory.PerformanceMeasureActualSubcategoryOptions.Add(this);
+            this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategory.PerformanceMeasureSubcategoryID;
+            this.PerformanceMeasureSubcategory = performanceMeasureSubcategory;
+            performanceMeasureSubcategory.PerformanceMeasureActualSubcategoryOptions.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static PerformanceMeasureActualSubcategoryOption CreateNewBlank(PerformanceMeasureActual performanceMeasureActual, IndicatorSubcategoryOption indicatorSubcategoryOption, PerformanceMeasure performanceMeasure, IndicatorSubcategory indicatorSubcategory)
+        public static PerformanceMeasureActualSubcategoryOption CreateNewBlank(PerformanceMeasureActual performanceMeasureActual, PerformanceMeasureSubcategoryOption performanceMeasureSubcategoryOption, PerformanceMeasure performanceMeasure, PerformanceMeasureSubcategory performanceMeasureSubcategory)
         {
-            return new PerformanceMeasureActualSubcategoryOption(performanceMeasureActual, indicatorSubcategoryOption, performanceMeasure, indicatorSubcategory);
+            return new PerformanceMeasureActualSubcategoryOption(performanceMeasureActual, performanceMeasureSubcategoryOption, performanceMeasure, performanceMeasureSubcategory);
         }
 
         /// <summary>
@@ -98,15 +98,15 @@ namespace ProjectFirma.Web.Models
         [Key]
         public int PerformanceMeasureActualSubcategoryOptionID { get; set; }
         public int PerformanceMeasureActualID { get; set; }
-        public int IndicatorSubcategoryOptionID { get; set; }
+        public int PerformanceMeasureSubcategoryOptionID { get; set; }
         public int PerformanceMeasureID { get; set; }
-        public int IndicatorSubcategoryID { get; set; }
+        public int PerformanceMeasureSubcategoryID { get; set; }
         public int PrimaryKey { get { return PerformanceMeasureActualSubcategoryOptionID; } set { PerformanceMeasureActualSubcategoryOptionID = value; } }
 
         public virtual PerformanceMeasureActual PerformanceMeasureActual { get; set; }
-        public virtual IndicatorSubcategoryOption IndicatorSubcategoryOption { get; set; }
+        public virtual PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
-        public virtual IndicatorSubcategory IndicatorSubcategory { get; set; }
+        public virtual PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; set; }
 
         public static class FieldLengths
         {

@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn("Project #", x => x.Project.ProjectNumberString);
             AddColumn("Project Name", x => x.Project.ProjectName);
             AddColumn("Performance Measure ID", x => x.PerformanceMeasureID);
-            AddColumn("Performance Measure Name", x => x.PerformanceMeasure.Indicator.IndicatorName);
+            AddColumn("Performance Measure Name", x => x.PerformanceMeasure.PerformanceMeasureName);
             AddColumn("Performance Measure", x => x.PerformanceMeasure.DisplayName);
             AddColumn("Expected Value", x => x.ExpectedValue);
         }
@@ -89,17 +89,17 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn("Project #", x => x.Project.ProjectNumberString);
             AddColumn("Project Name", x => x.Project.ProjectName);
             AddColumn("Performance Measure ID", x => x.PerformanceMeasureID);
-            AddColumn("Performance Measure Name", x => x.PerformanceMeasure.Indicator.IndicatorName);
+            AddColumn("Performance Measure Name", x => x.PerformanceMeasure.PerformanceMeasureName);
             AddColumn("Performance Measure", x => x.PerformanceMeasure.DisplayName);
             AddColumn("Calendar Year", x => x.CalendarYear);
-            AddColumn("Subcategory 1 Name", x => x.IndicatorSubcategoryOptions.Count > 1 ? x.IndicatorSubcategoryOptions[0].IndicatorSubcategory.IndicatorSubcategoryDisplayName : string.Empty);
-            AddColumn("Subcategory 1 Option", x => x.IndicatorSubcategoryOptions.Count > 1 ? x.IndicatorSubcategoryOptions[0].IndicatorSubcategoryOption.IndicatorSubcategoryOptionName : string.Empty);
-            AddColumn("Subcategory 2 Name", x => x.IndicatorSubcategoryOptions.Count > 2 ? x.IndicatorSubcategoryOptions[1].IndicatorSubcategory.IndicatorSubcategoryDisplayName : string.Empty);
-            AddColumn("Subcategory 2 Option", x => x.IndicatorSubcategoryOptions.Count > 2 ? x.IndicatorSubcategoryOptions[1].IndicatorSubcategoryOption.IndicatorSubcategoryOptionName : string.Empty);
-            AddColumn("Subcategory 3 Name", x => x.IndicatorSubcategoryOptions.Count > 3 ? x.IndicatorSubcategoryOptions[2].IndicatorSubcategory.IndicatorSubcategoryDisplayName : string.Empty);
-            AddColumn("Subcategory 3 Option", x => x.IndicatorSubcategoryOptions.Count > 3 ? x.IndicatorSubcategoryOptions[2].IndicatorSubcategoryOption.IndicatorSubcategoryOptionName : string.Empty);
-            AddColumn("Subcategory 4 Name", x => x.IndicatorSubcategoryOptions.Count > 4 ? x.IndicatorSubcategoryOptions[3].IndicatorSubcategory.IndicatorSubcategoryDisplayName : string.Empty);
-            AddColumn("Subcategory 4 Option", x => x.IndicatorSubcategoryOptions.Count > 4 ? x.IndicatorSubcategoryOptions[3].IndicatorSubcategoryOption.IndicatorSubcategoryOptionName : string.Empty);
+            AddColumn("Subcategory 1 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 1 ? x.PerformanceMeasureSubcategoryOptions[0].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
+            AddColumn("Subcategory 1 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 1 ? x.PerformanceMeasureSubcategoryOptions[0].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
+            AddColumn("Subcategory 2 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 2 ? x.PerformanceMeasureSubcategoryOptions[1].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
+            AddColumn("Subcategory 2 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 2 ? x.PerformanceMeasureSubcategoryOptions[1].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
+            AddColumn("Subcategory 3 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 3 ? x.PerformanceMeasureSubcategoryOptions[2].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
+            AddColumn("Subcategory 3 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 3 ? x.PerformanceMeasureSubcategoryOptions[2].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
+            AddColumn("Subcategory 4 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 4 ? x.PerformanceMeasureSubcategoryOptions[3].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
+            AddColumn("Subcategory 4 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 4 ? x.PerformanceMeasureSubcategoryOptions[3].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
             AddColumn("Reported Value", x => x.ReportedValue);
         }
     }

@@ -18,12 +18,6 @@
     <EntitySet Name="FocusArea" EntityType="ProjectFirma.Web.Models.FocusArea" />
     <EntitySet Name="FocusAreaImage" EntityType="ProjectFirma.Web.Models.FocusAreaImage" />
     <EntitySet Name="FundingSource" EntityType="ProjectFirma.Web.Models.FundingSource" />
-    <EntitySet Name="Indicator" EntityType="ProjectFirma.Web.Models.Indicator" />
-    <EntitySet Name="IndicatorMonitoringProgram" EntityType="ProjectFirma.Web.Models.IndicatorMonitoringProgram" />
-    <EntitySet Name="IndicatorNote" EntityType="ProjectFirma.Web.Models.IndicatorNote" />
-    <EntitySet Name="IndicatorRelationship" EntityType="ProjectFirma.Web.Models.IndicatorRelationship" />
-    <EntitySet Name="IndicatorSubcategory" EntityType="ProjectFirma.Web.Models.IndicatorSubcategory" />
-    <EntitySet Name="IndicatorSubcategoryOption" EntityType="ProjectFirma.Web.Models.IndicatorSubcategoryOption" />
     <EntitySet Name="Jurisdiction" EntityType="ProjectFirma.Web.Models.Jurisdiction" />
     <EntitySet Name="MappedRegion" EntityType="ProjectFirma.Web.Models.MappedRegion" />
     <EntitySet Name="MonitoringProgram" EntityType="ProjectFirma.Web.Models.MonitoringProgram" />
@@ -42,6 +36,10 @@
     <EntitySet Name="PerformanceMeasureExpectedProposed" EntityType="ProjectFirma.Web.Models.PerformanceMeasureExpectedProposed" />
     <EntitySet Name="PerformanceMeasureExpectedSubcategoryOption" EntityType="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOption" />
     <EntitySet Name="PerformanceMeasureExpectedSubcategoryOptionProposed" EntityType="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOptionProposed" />
+    <EntitySet Name="PerformanceMeasureMonitoringProgram" EntityType="ProjectFirma.Web.Models.PerformanceMeasureMonitoringProgram" />
+    <EntitySet Name="PerformanceMeasureNote" EntityType="ProjectFirma.Web.Models.PerformanceMeasureNote" />
+    <EntitySet Name="PerformanceMeasureSubcategory" EntityType="ProjectFirma.Web.Models.PerformanceMeasureSubcategory" />
+    <EntitySet Name="PerformanceMeasureSubcategoryOption" EntityType="ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOption" />
     <EntitySet Name="Person" EntityType="ProjectFirma.Web.Models.Person" />
     <EntitySet Name="Program" EntityType="ProjectFirma.Web.Models.Program" />
     <EntitySet Name="ProgramImage" EntityType="ProjectFirma.Web.Models.ProgramImage" />
@@ -94,7 +92,7 @@
     <EntitySet Name="Tag" EntityType="ProjectFirma.Web.Models.Tag" />
     <EntitySet Name="ThresholdCategory" EntityType="ProjectFirma.Web.Models.ThresholdCategory" />
     <EntitySet Name="ThresholdCategoryImage" EntityType="ProjectFirma.Web.Models.ThresholdCategoryImage" />
-    <EntitySet Name="ThresholdCategoryIndicator" EntityType="ProjectFirma.Web.Models.ThresholdCategoryIndicator" />
+    <EntitySet Name="ThresholdCategoryPerformanceMeasure" EntityType="ProjectFirma.Web.Models.ThresholdCategoryPerformanceMeasure" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Watershed" />
     <EntitySet Name="vProject" EntityType="ProjectFirma.Web.Models.vProject" />
     <AssociationSet Name="FK_ActionPriority_Program_ProgramID" Association="ProjectFirma.Web.Models.FK_ActionPriority_Program_ProgramID">
@@ -217,94 +215,6 @@
       <End Role="FundingSource" EntitySet="FundingSource" />
       <End Role="ProjectFundingSourceExpenditureUpdates" EntitySet="ProjectFundingSourceExpenditureUpdate" />
     </AssociationSet>
-    <AssociationSet Name="FK_IndicatorMonitoringProgram_Indicator_IndicatorID" Association="ProjectFirma.Web.Models.FK_IndicatorMonitoringProgram_Indicator_IndicatorID">
-      <End Role="Indicator" EntitySet="Indicator" />
-      <End Role="IndicatorMonitoringPrograms" EntitySet="IndicatorMonitoringProgram" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorNote_Indicator_IndicatorID" Association="ProjectFirma.Web.Models.FK_IndicatorNote_Indicator_IndicatorID">
-      <End Role="Indicator" EntitySet="Indicator" />
-      <End Role="IndicatorNotes" EntitySet="IndicatorNote" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorRelationship_Indicator_IndicatorID" Association="ProjectFirma.Web.Models.FK_IndicatorRelationship_Indicator_IndicatorID">
-      <End Role="Indicator" EntitySet="Indicator" />
-      <End Role="IndicatorRelationships" EntitySet="IndicatorRelationship" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorRelationship_Indicator_RelatedIndicatorID_IndicatorID" Association="ProjectFirma.Web.Models.FK_IndicatorRelationship_Indicator_RelatedIndicatorID_IndicatorID">
-      <End Role="RelatedIndicator" EntitySet="Indicator" />
-      <End Role="IndicatorRelationshipsWhereYouAreTheRelatedIndicator" EntitySet="IndicatorRelationship" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorSubcategory_Indicator_IndicatorID" Association="ProjectFirma.Web.Models.FK_IndicatorSubcategory_Indicator_IndicatorID">
-      <End Role="Indicator" EntitySet="Indicator" />
-      <End Role="IndicatorSubcategories" EntitySet="IndicatorSubcategory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasure_Indicator_IndicatorID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasure_Indicator_IndicatorID">
-      <End Role="Indicator" EntitySet="Indicator" />
-      <End Role="PerformanceMeasures" EntitySet="PerformanceMeasure" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdCategoryIndicator_Indicator_IndicatorID" Association="ProjectFirma.Web.Models.FK_ThresholdCategoryIndicator_Indicator_IndicatorID">
-      <End Role="Indicator" EntitySet="Indicator" />
-      <End Role="ThresholdCategoryIndicators" EntitySet="ThresholdCategoryIndicator" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorMonitoringProgram_MonitoringProgram_MonitoringProgramID" Association="ProjectFirma.Web.Models.FK_IndicatorMonitoringProgram_MonitoringProgram_MonitoringProgramID">
-      <End Role="MonitoringProgram" EntitySet="MonitoringProgram" />
-      <End Role="IndicatorMonitoringPrograms" EntitySet="IndicatorMonitoringProgram" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorNote_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_IndicatorNote_Person_CreatePersonID_PersonID">
-      <End Role="CreatePerson" EntitySet="Person" />
-      <End Role="IndicatorNotesWhereYouAreTheCreatePerson" EntitySet="IndicatorNote" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorNote_Person_UpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_IndicatorNote_Person_UpdatePersonID_PersonID">
-      <End Role="UpdatePerson" EntitySet="Person" />
-      <End Role="IndicatorNotesWhereYouAreTheUpdatePerson" EntitySet="IndicatorNote" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorSubcategory_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_IndicatorSubcategory_PerformanceMeasure_PerformanceMeasureID">
-      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
-      <End Role="IndicatorSubcategories" EntitySet="IndicatorSubcategory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" Association="ProjectFirma.Web.Models.FK_IndicatorSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-      <End Role="IndicatorSubcategory" EntitySet="IndicatorSubcategory" />
-      <End Role="IndicatorSubcategoryOptions" EntitySet="IndicatorSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-      <End Role="IndicatorSubcategory" EntitySet="IndicatorSubcategory" />
-      <End Role="PerformanceMeasureActualSubcategoryOptions" EntitySet="PerformanceMeasureActualSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategory_IndicatorSubcategoryID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategory_IndicatorSubcategoryID">
-      <End Role="IndicatorSubcategory" EntitySet="IndicatorSubcategory" />
-      <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" EntitySet="PerformanceMeasureActualSubcategoryOptionUpdate" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-      <End Role="IndicatorSubcategory" EntitySet="IndicatorSubcategory" />
-      <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategory_IndicatorSubcategoryID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategory_IndicatorSubcategoryID">
-      <End Role="IndicatorSubcategory" EntitySet="IndicatorSubcategory" />
-      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-      <End Role="IndicatorSubcategory" EntitySet="IndicatorSubcategory" />
-      <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-      <End Role="IndicatorSubcategoryOption" EntitySet="IndicatorSubcategoryOption" />
-      <End Role="PerformanceMeasureActualSubcategoryOptions" EntitySet="PerformanceMeasureActualSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-      <End Role="IndicatorSubcategoryOption" EntitySet="IndicatorSubcategoryOption" />
-      <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" EntitySet="PerformanceMeasureActualSubcategoryOptionUpdate" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-      <End Role="IndicatorSubcategoryOption" EntitySet="IndicatorSubcategoryOption" />
-      <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-      <End Role="IndicatorSubcategoryOption" EntitySet="IndicatorSubcategoryOption" />
-      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-      <End Role="IndicatorSubcategoryOption" EntitySet="IndicatorSubcategoryOption" />
-      <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
-    </AssociationSet>
     <AssociationSet Name="FK_Jurisdiction_Organization_OrganizationID" Association="ProjectFirma.Web.Models.FK_Jurisdiction_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
       <End Role="Jurisdictions" EntitySet="Jurisdiction" />
@@ -332,6 +242,10 @@
     <AssociationSet Name="FK_MonitoringProgramPartner_MonitoringProgram_MonitoringProgramID" Association="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_MonitoringProgram_MonitoringProgramID">
       <End Role="MonitoringProgram" EntitySet="MonitoringProgram" />
       <End Role="MonitoringProgramPartners" EntitySet="MonitoringProgramPartner" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID">
+      <End Role="MonitoringProgram" EntitySet="MonitoringProgram" />
+      <End Role="PerformanceMeasureMonitoringPrograms" EntitySet="PerformanceMeasureMonitoringProgram" />
     </AssociationSet>
     <AssociationSet Name="FK_MonitoringProgramPartner_Organization_OrganizationID" Association="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
@@ -409,6 +323,18 @@
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
     </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID">
+      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
+      <End Role="PerformanceMeasureMonitoringPrograms" EntitySet="PerformanceMeasureMonitoringProgram" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID">
+      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
+      <End Role="PerformanceMeasureNotes" EntitySet="PerformanceMeasureNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID">
+      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
+      <End Role="PerformanceMeasureSubcategories" EntitySet="PerformanceMeasureSubcategory" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProgramPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_ProgramPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="ProgramPerformanceMeasures" EntitySet="ProgramPerformanceMeasure" />
@@ -421,6 +347,10 @@
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
     </AssociationSet>
+    <AssociationSet Name="FK_ThresholdCategoryPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_ThresholdCategoryPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
+      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
+      <End Role="ThresholdCategoryPerformanceMeasures" EntitySet="ThresholdCategoryPerformanceMeasure" />
+    </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActual_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="PerformanceMeasureActuals" EntitySet="PerformanceMeasureActual" />
@@ -429,8 +359,24 @@
       <End Role="PerformanceMeasureActual" EntitySet="PerformanceMeasureActual" />
       <End Role="PerformanceMeasureActualSubcategoryOptions" EntitySet="PerformanceMeasureActualSubcategoryOption" />
     </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+      <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
+      <End Role="PerformanceMeasureActualSubcategoryOptions" EntitySet="PerformanceMeasureActualSubcategoryOption" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+      <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
+      <End Role="PerformanceMeasureActualSubcategoryOptions" EntitySet="PerformanceMeasureActualSubcategoryOption" />
+    </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID">
       <End Role="PerformanceMeasureActualUpdate" EntitySet="PerformanceMeasureActualUpdate" />
+      <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" EntitySet="PerformanceMeasureActualSubcategoryOptionUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+      <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
+      <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" EntitySet="PerformanceMeasureActualSubcategoryOptionUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+      <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
       <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" EntitySet="PerformanceMeasureActualSubcategoryOptionUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActualUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureActualUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
@@ -452,6 +398,42 @@
     <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID">
       <End Role="PerformanceMeasureExpectedProposed" EntitySet="PerformanceMeasureExpectedProposed" />
       <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+      <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
+      <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+      <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
+      <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+      <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
+      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+      <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
+      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureNote_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_CreatePersonID_PersonID">
+      <End Role="CreatePerson" EntitySet="Person" />
+      <End Role="PerformanceMeasureNotesWhereYouAreTheCreatePerson" EntitySet="PerformanceMeasureNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureNote_Person_UpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_UpdatePersonID_PersonID">
+      <End Role="UpdatePerson" EntitySet="Person" />
+      <End Role="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" EntitySet="PerformanceMeasureNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+      <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
+      <End Role="PerformanceMeasureSubcategoryOptions" EntitySet="PerformanceMeasureSubcategoryOption" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+      <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
+      <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+      <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
+      <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectNote_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ProjectNote_Person_CreatePersonID_PersonID">
       <End Role="CreatePerson" EntitySet="Person" />
@@ -721,9 +703,9 @@
       <End Role="ThresholdCategory" EntitySet="ThresholdCategory" />
       <End Role="ThresholdCategoryImages" EntitySet="ThresholdCategoryImage" />
     </AssociationSet>
-    <AssociationSet Name="FK_ThresholdCategoryIndicator_ThresholdCategory_ThresholdCategoryID" Association="ProjectFirma.Web.Models.FK_ThresholdCategoryIndicator_ThresholdCategory_ThresholdCategoryID">
+    <AssociationSet Name="FK_ThresholdCategoryPerformanceMeasure_ThresholdCategory_ThresholdCategoryID" Association="ProjectFirma.Web.Models.FK_ThresholdCategoryPerformanceMeasure_ThresholdCategory_ThresholdCategoryID">
       <End Role="ThresholdCategory" EntitySet="ThresholdCategory" />
-      <End Role="ThresholdCategoryIndicators" EntitySet="ThresholdCategoryIndicator" />
+      <End Role="ThresholdCategoryPerformanceMeasures" EntitySet="ThresholdCategoryPerformanceMeasure" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="ActionPriority">
@@ -926,105 +908,6 @@
     <NavigationProperty Name="ProjectFundingSourceExpenditures" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditure_FundingSource_FundingSourceID" FromRole="FundingSource" ToRole="ProjectFundingSourceExpenditures" />
     <NavigationProperty Name="ProjectFundingSourceExpenditureUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditureUpdate_FundingSource_FundingSourceID" FromRole="FundingSource" ToRole="ProjectFundingSourceExpenditureUpdates" />
   </EntityType>
-  <EntityType Name="Indicator">
-    <Key>
-      <PropertyRef Name="IndicatorID" />
-    </Key>
-    <Property Name="IndicatorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IndicatorName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="IndicatorDisplayName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="MeasurementUnitTypeID" Type="Int32" Nullable="false" />
-    <Property Name="IndicatorDefinition" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="IndicatorPublicDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="DataSourceText" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="ExternalDataSourceUrl" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
-    <Property Name="AssociatedPrograms" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="IndicatorTypeID" Type="Int32" Nullable="false" />
-    <Property Name="ChartTitle" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
-    <Property Name="ChartCaption" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="IndicatorMonitoringPrograms" Relationship="ProjectFirma.Web.Models.FK_IndicatorMonitoringProgram_Indicator_IndicatorID" FromRole="Indicator" ToRole="IndicatorMonitoringPrograms" />
-    <NavigationProperty Name="IndicatorNotes" Relationship="ProjectFirma.Web.Models.FK_IndicatorNote_Indicator_IndicatorID" FromRole="Indicator" ToRole="IndicatorNotes" />
-    <NavigationProperty Name="IndicatorRelationships" Relationship="ProjectFirma.Web.Models.FK_IndicatorRelationship_Indicator_IndicatorID" FromRole="Indicator" ToRole="IndicatorRelationships" />
-    <NavigationProperty Name="IndicatorRelationshipsWhereYouAreTheRelatedIndicator" Relationship="ProjectFirma.Web.Models.FK_IndicatorRelationship_Indicator_RelatedIndicatorID_IndicatorID" FromRole="RelatedIndicator" ToRole="IndicatorRelationshipsWhereYouAreTheRelatedIndicator" />
-    <NavigationProperty Name="IndicatorSubcategories" Relationship="ProjectFirma.Web.Models.FK_IndicatorSubcategory_Indicator_IndicatorID" FromRole="Indicator" ToRole="IndicatorSubcategories" />
-    <NavigationProperty Name="PerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasure_Indicator_IndicatorID" FromRole="Indicator" ToRole="PerformanceMeasures" />
-    <NavigationProperty Name="ThresholdCategoryIndicators" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryIndicator_Indicator_IndicatorID" FromRole="Indicator" ToRole="ThresholdCategoryIndicators" />
-  </EntityType>
-  <EntityType Name="IndicatorMonitoringProgram">
-    <Key>
-      <PropertyRef Name="IndicatorMonitoringProgramID" />
-    </Key>
-    <Property Name="IndicatorMonitoringProgramID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IndicatorID" Type="Int32" Nullable="false" />
-    <Property Name="MonitoringProgramID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Indicator" Relationship="ProjectFirma.Web.Models.FK_IndicatorMonitoringProgram_Indicator_IndicatorID" FromRole="IndicatorMonitoringPrograms" ToRole="Indicator" />
-    <NavigationProperty Name="MonitoringProgram" Relationship="ProjectFirma.Web.Models.FK_IndicatorMonitoringProgram_MonitoringProgram_MonitoringProgramID" FromRole="IndicatorMonitoringPrograms" ToRole="MonitoringProgram" />
-  </EntityType>
-  <EntityType Name="IndicatorNote">
-    <Key>
-      <PropertyRef Name="IndicatorNoteID" />
-    </Key>
-    <Property Name="IndicatorNoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IndicatorID" Type="Int32" Nullable="false" />
-    <Property Name="Note" Type="String" Nullable="false" MaxLength="8000" Unicode="false" FixedLength="false" />
-    <Property Name="CreatePersonID" Type="Int32" />
-    <Property Name="CreateDate" Type="DateTime" Nullable="false" />
-    <Property Name="UpdatePersonID" Type="Int32" />
-    <Property Name="UpdateDate" Type="DateTime" />
-    <NavigationProperty Name="Indicator" Relationship="ProjectFirma.Web.Models.FK_IndicatorNote_Indicator_IndicatorID" FromRole="IndicatorNotes" ToRole="Indicator" />
-    <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_IndicatorNote_Person_CreatePersonID_PersonID" FromRole="IndicatorNotesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
-    <NavigationProperty Name="UpdatePerson" Relationship="ProjectFirma.Web.Models.FK_IndicatorNote_Person_UpdatePersonID_PersonID" FromRole="IndicatorNotesWhereYouAreTheUpdatePerson" ToRole="UpdatePerson" />
-  </EntityType>
-  <EntityType Name="IndicatorRelationship">
-    <Key>
-      <PropertyRef Name="IndicatorRelationshipID" />
-    </Key>
-    <Property Name="IndicatorRelationshipID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IndicatorID" Type="Int32" Nullable="false" />
-    <Property Name="RelatedIndicatorID" Type="Int32" Nullable="false" />
-    <Property Name="IndicatorRelationshipTypeID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Indicator" Relationship="ProjectFirma.Web.Models.FK_IndicatorRelationship_Indicator_IndicatorID" FromRole="IndicatorRelationships" ToRole="Indicator" />
-    <NavigationProperty Name="RelatedIndicator" Relationship="ProjectFirma.Web.Models.FK_IndicatorRelationship_Indicator_RelatedIndicatorID_IndicatorID" FromRole="IndicatorRelationshipsWhereYouAreTheRelatedIndicator" ToRole="RelatedIndicator" />
-  </EntityType>
-  <EntityType Name="IndicatorSubcategory">
-    <Key>
-      <PropertyRef Name="IndicatorSubcategoryID" />
-    </Key>
-    <Property Name="IndicatorSubcategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IndicatorID" Type="Int32" Nullable="false" />
-    <Property Name="IndicatorSubcategoryName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="IndicatorSubcategoryDisplayName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="SortOrder" Type="Int32" />
-    <Property Name="ChartConfigurationJson" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="ChartType" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="SwapChartAxes" Type="Boolean" />
-    <Property Name="PerformanceMeasureID" Type="Int32" />
-    <NavigationProperty Name="Indicator" Relationship="ProjectFirma.Web.Models.FK_IndicatorSubcategory_Indicator_IndicatorID" FromRole="IndicatorSubcategories" ToRole="Indicator" />
-    <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_IndicatorSubcategory_PerformanceMeasure_PerformanceMeasureID" FromRole="IndicatorSubcategories" ToRole="PerformanceMeasure" />
-    <NavigationProperty Name="IndicatorSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_IndicatorSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" FromRole="IndicatorSubcategory" ToRole="IndicatorSubcategoryOptions" />
-    <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" FromRole="IndicatorSubcategory" ToRole="PerformanceMeasureActualSubcategoryOptions" />
-    <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptionUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategory_IndicatorSubcategoryID" FromRole="IndicatorSubcategory" ToRole="PerformanceMeasureActualSubcategoryOptionUpdates" />
-    <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" FromRole="IndicatorSubcategory" ToRole="PerformanceMeasureExpectedSubcategoryOptions" />
-    <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptionProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategory_IndicatorSubcategoryID" FromRole="IndicatorSubcategory" ToRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" />
-    <NavigationProperty Name="SnapshotPerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" FromRole="IndicatorSubcategory" ToRole="SnapshotPerformanceMeasureSubcategoryOptions" />
-  </EntityType>
-  <EntityType Name="IndicatorSubcategoryOption">
-    <Key>
-      <PropertyRef Name="IndicatorSubcategoryOptionID" />
-    </Key>
-    <Property Name="IndicatorSubcategoryOptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IndicatorSubcategoryID" Type="Int32" Nullable="false" />
-    <Property Name="IndicatorSubcategoryOptionName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="SortOrder" Type="Int32" />
-    <Property Name="ShortName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="IndicatorSubcategory" Relationship="ProjectFirma.Web.Models.FK_IndicatorSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" FromRole="IndicatorSubcategoryOptions" ToRole="IndicatorSubcategory" />
-    <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" FromRole="IndicatorSubcategoryOption" ToRole="PerformanceMeasureActualSubcategoryOptions" />
-    <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptionUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" FromRole="IndicatorSubcategoryOption" ToRole="PerformanceMeasureActualSubcategoryOptionUpdates" />
-    <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" FromRole="IndicatorSubcategoryOption" ToRole="PerformanceMeasureExpectedSubcategoryOptions" />
-    <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptionProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" FromRole="IndicatorSubcategoryOption" ToRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" />
-    <NavigationProperty Name="SnapshotPerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" FromRole="IndicatorSubcategoryOption" ToRole="SnapshotPerformanceMeasureSubcategoryOptions" />
-  </EntityType>
   <EntityType Name="Jurisdiction">
     <Key>
       <PropertyRef Name="JurisdictionID" />
@@ -1056,9 +939,9 @@
     <Property Name="MonitoringProgramName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="MonitoringApproach" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
     <Property Name="MonitoringProgramUrl" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="IndicatorMonitoringPrograms" Relationship="ProjectFirma.Web.Models.FK_IndicatorMonitoringProgram_MonitoringProgram_MonitoringProgramID" FromRole="MonitoringProgram" ToRole="IndicatorMonitoringPrograms" />
     <NavigationProperty Name="MonitoringProgramDocuments" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID" FromRole="MonitoringProgram" ToRole="MonitoringProgramDocuments" />
     <NavigationProperty Name="MonitoringProgramPartners" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_MonitoringProgram_MonitoringProgramID" FromRole="MonitoringProgram" ToRole="MonitoringProgramPartners" />
+    <NavigationProperty Name="PerformanceMeasureMonitoringPrograms" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID" FromRole="MonitoringProgram" ToRole="PerformanceMeasureMonitoringPrograms" />
   </EntityType>
   <EntityType Name="MonitoringProgramDocument">
     <Key>
@@ -1142,12 +1025,20 @@
       <PropertyRef Name="PerformanceMeasureID" />
     </Key>
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IndicatorID" Type="Int32" Nullable="false" />
     <Property Name="CriticalDefinitions" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="AccountingPeriodAndScale" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="ProjectReporting" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="Indicator" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasure_Indicator_IndicatorID" FromRole="PerformanceMeasures" ToRole="Indicator" />
-    <NavigationProperty Name="IndicatorSubcategories" Relationship="ProjectFirma.Web.Models.FK_IndicatorSubcategory_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="IndicatorSubcategories" />
+    <Property Name="PerformanceMeasureName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="PerformanceMeasureDisplayName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="MeasurementUnitTypeID" Type="Int32" Nullable="false" />
+    <Property Name="PerformanceMeasureTypeID" Type="Int32" Nullable="false" />
+    <Property Name="PerformanceMeasureDefinition" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="PerformanceMeasurePublicDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="DataSourceText" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="ExternalDataSourceUrl" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+    <Property Name="ChartTitle" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+    <Property Name="ChartCaption" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="PerformanceMeasureActuals" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureActuals" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureActualSubcategoryOptions" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptionUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureActualSubcategoryOptionUpdates" />
@@ -1156,9 +1047,13 @@
     <NavigationProperty Name="PerformanceMeasureExpectedProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureExpectedProposeds" />
     <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureExpectedSubcategoryOptions" />
     <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptionProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" />
+    <NavigationProperty Name="PerformanceMeasureMonitoringPrograms" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureMonitoringPrograms" />
+    <NavigationProperty Name="PerformanceMeasureNotes" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureNotes" />
+    <NavigationProperty Name="PerformanceMeasureSubcategories" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureSubcategories" />
     <NavigationProperty Name="ProgramPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ProgramPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="ProgramPerformanceMeasures" />
     <NavigationProperty Name="SnapshotPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="SnapshotPerformanceMeasures" />
     <NavigationProperty Name="SnapshotPerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="SnapshotPerformanceMeasureSubcategoryOptions" />
+    <NavigationProperty Name="ThresholdCategoryPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="ThresholdCategoryPerformanceMeasures" />
   </EntityType>
   <EntityType Name="PerformanceMeasureActual">
     <Key>
@@ -1179,13 +1074,13 @@
     </Key>
     <Property Name="PerformanceMeasureActualSubcategoryOptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="PerformanceMeasureActualID" Type="Int32" Nullable="false" />
-    <Property Name="IndicatorSubcategoryOptionID" Type="Int32" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
-    <Property Name="IndicatorSubcategoryID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="IndicatorSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" FromRole="PerformanceMeasureActualSubcategoryOptions" ToRole="IndicatorSubcategory" />
-    <NavigationProperty Name="IndicatorSubcategoryOption" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" FromRole="PerformanceMeasureActualSubcategoryOptions" ToRole="IndicatorSubcategoryOption" />
+    <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureActualSubcategoryOptions" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="PerformanceMeasureActual" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActual_PerformanceMeasureActualID" FromRole="PerformanceMeasureActualSubcategoryOptions" ToRole="PerformanceMeasureActual" />
+    <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureActualSubcategoryOptions" ToRole="PerformanceMeasureSubcategory" />
+    <NavigationProperty Name="PerformanceMeasureSubcategoryOption" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureActualSubcategoryOptions" ToRole="PerformanceMeasureSubcategoryOption" />
   </EntityType>
   <EntityType Name="PerformanceMeasureActualSubcategoryOptionUpdate">
     <Key>
@@ -1193,13 +1088,13 @@
     </Key>
     <Property Name="PerformanceMeasureActualSubcategoryOptionUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="PerformanceMeasureActualUpdateID" Type="Int32" Nullable="false" />
-    <Property Name="IndicatorSubcategoryOptionID" Type="Int32" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
-    <Property Name="IndicatorSubcategoryID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="IndicatorSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategory_IndicatorSubcategoryID" FromRole="PerformanceMeasureActualSubcategoryOptionUpdates" ToRole="IndicatorSubcategory" />
-    <NavigationProperty Name="IndicatorSubcategoryOption" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" FromRole="PerformanceMeasureActualSubcategoryOptionUpdates" ToRole="IndicatorSubcategoryOption" />
+    <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureActualSubcategoryOptionUpdates" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="PerformanceMeasureActualUpdate" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID" FromRole="PerformanceMeasureActualSubcategoryOptionUpdates" ToRole="PerformanceMeasureActualUpdate" />
+    <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureActualSubcategoryOptionUpdates" ToRole="PerformanceMeasureSubcategory" />
+    <NavigationProperty Name="PerformanceMeasureSubcategoryOption" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureActualSubcategoryOptionUpdates" ToRole="PerformanceMeasureSubcategoryOption" />
   </EntityType>
   <EntityType Name="PerformanceMeasureActualUpdate">
     <Key>
@@ -1244,13 +1139,13 @@
     </Key>
     <Property Name="PerformanceMeasureExpectedSubcategoryOptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="PerformanceMeasureExpectedID" Type="Int32" Nullable="false" />
-    <Property Name="IndicatorSubcategoryOptionID" Type="Int32" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
-    <Property Name="IndicatorSubcategoryID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="IndicatorSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" FromRole="PerformanceMeasureExpectedSubcategoryOptions" ToRole="IndicatorSubcategory" />
-    <NavigationProperty Name="IndicatorSubcategoryOption" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" FromRole="PerformanceMeasureExpectedSubcategoryOptions" ToRole="IndicatorSubcategoryOption" />
+    <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureExpectedSubcategoryOptions" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="PerformanceMeasureExpected" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureExpected_PerformanceMeasureExpectedID" FromRole="PerformanceMeasureExpectedSubcategoryOptions" ToRole="PerformanceMeasureExpected" />
+    <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureExpectedSubcategoryOptions" ToRole="PerformanceMeasureSubcategory" />
+    <NavigationProperty Name="PerformanceMeasureSubcategoryOption" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureExpectedSubcategoryOptions" ToRole="PerformanceMeasureSubcategoryOption" />
   </EntityType>
   <EntityType Name="PerformanceMeasureExpectedSubcategoryOptionProposed">
     <Key>
@@ -1258,13 +1153,74 @@
     </Key>
     <Property Name="PerformanceMeasureExpectedSubcategoryOptionProposedID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="PerformanceMeasureExpectedProposedID" Type="Int32" Nullable="false" />
-    <Property Name="IndicatorSubcategoryOptionID" Type="Int32" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
-    <Property Name="IndicatorSubcategoryID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="IndicatorSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategory_IndicatorSubcategoryID" FromRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" ToRole="IndicatorSubcategory" />
-    <NavigationProperty Name="IndicatorSubcategoryOption" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" FromRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" ToRole="IndicatorSubcategoryOption" />
+    <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="PerformanceMeasureExpectedProposed" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID" FromRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" ToRole="PerformanceMeasureExpectedProposed" />
+    <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" ToRole="PerformanceMeasureSubcategory" />
+    <NavigationProperty Name="PerformanceMeasureSubcategoryOption" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" ToRole="PerformanceMeasureSubcategoryOption" />
+  </EntityType>
+  <EntityType Name="PerformanceMeasureMonitoringProgram">
+    <Key>
+      <PropertyRef Name="PerformanceMeasureMonitoringProgramID" />
+    </Key>
+    <Property Name="PerformanceMeasureMonitoringProgramID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
+    <Property Name="MonitoringProgramID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MonitoringProgram" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID" FromRole="PerformanceMeasureMonitoringPrograms" ToRole="MonitoringProgram" />
+    <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureMonitoringPrograms" ToRole="PerformanceMeasure" />
+  </EntityType>
+  <EntityType Name="PerformanceMeasureNote">
+    <Key>
+      <PropertyRef Name="PerformanceMeasureNoteID" />
+    </Key>
+    <Property Name="PerformanceMeasureNoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
+    <Property Name="Note" Type="String" Nullable="false" MaxLength="8000" Unicode="false" FixedLength="false" />
+    <Property Name="CreatePersonID" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+    <Property Name="UpdatePersonID" Type="Int32" />
+    <Property Name="UpdateDate" Type="DateTime" />
+    <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureNotes" ToRole="PerformanceMeasure" />
+    <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_CreatePersonID_PersonID" FromRole="PerformanceMeasureNotesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
+    <NavigationProperty Name="UpdatePerson" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_UpdatePersonID_PersonID" FromRole="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" ToRole="UpdatePerson" />
+  </EntityType>
+  <EntityType Name="PerformanceMeasureSubcategory">
+    <Key>
+      <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+    </Key>
+    <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="PerformanceMeasureSubcategoryDisplayName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="SortOrder" Type="Int32" />
+    <Property Name="ChartConfigurationJson" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="ChartType" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="SwapChartAxes" Type="Boolean" />
+    <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureSubcategories" ToRole="PerformanceMeasure" />
+    <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="PerformanceMeasureActualSubcategoryOptions" />
+    <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptionUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="PerformanceMeasureActualSubcategoryOptionUpdates" />
+    <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="PerformanceMeasureExpectedSubcategoryOptions" />
+    <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptionProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" />
+    <NavigationProperty Name="PerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="PerformanceMeasureSubcategoryOptions" />
+    <NavigationProperty Name="SnapshotPerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="SnapshotPerformanceMeasureSubcategoryOptions" />
+  </EntityType>
+  <EntityType Name="PerformanceMeasureSubcategoryOption">
+    <Key>
+      <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
+    </Key>
+    <Property Name="PerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryOptionName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="SortOrder" Type="Int32" />
+    <Property Name="ShortName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="PerformanceMeasureActualSubcategoryOptions" />
+    <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptionUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="PerformanceMeasureActualSubcategoryOptionUpdates" />
+    <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="PerformanceMeasureExpectedSubcategoryOptions" />
+    <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptionProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" />
+    <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategoryOptions" ToRole="PerformanceMeasureSubcategory" />
+    <NavigationProperty Name="SnapshotPerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="SnapshotPerformanceMeasureSubcategoryOptions" />
   </EntityType>
   <EntityType Name="Person">
     <Key>
@@ -1288,11 +1244,11 @@
     <Property Name="LoginName" Type="String" Nullable="false" MaxLength="128" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="AuditLogs" Relationship="ProjectFirma.Web.Models.FK_AuditLog_Person_PersonID" FromRole="Person" ToRole="AuditLogs" />
     <NavigationProperty Name="FileResourcesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_FileResource_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="FileResourcesWhereYouAreTheCreatePerson" />
-    <NavigationProperty Name="IndicatorNotesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_IndicatorNote_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="IndicatorNotesWhereYouAreTheCreatePerson" />
-    <NavigationProperty Name="IndicatorNotesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_IndicatorNote_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="IndicatorNotesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="Notifications" Relationship="ProjectFirma.Web.Models.FK_Notification_Person_PersonID" FromRole="Person" ToRole="Notifications" />
     <NavigationProperty Name="OrganizationsWhereYouAreThePrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_Organization_Person_PrimaryContactPersonID_PersonID" FromRole="PrimaryContactPerson" ToRole="OrganizationsWhereYouAreThePrimaryContactPerson" />
     <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_Person_Organization_OrganizationID" FromRole="People" ToRole="Organization" />
+    <NavigationProperty Name="PerformanceMeasureNotesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="PerformanceMeasureNotesWhereYouAreTheCreatePerson" />
+    <NavigationProperty Name="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="ProjectNotesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNote_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="ProjectNotesWhereYouAreTheCreatePerson" />
     <NavigationProperty Name="ProjectNotesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNote_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProjectNotesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="ProjectNoteUpdatesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNoteUpdate_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="ProjectNoteUpdatesWhereYouAreTheCreatePerson" />
@@ -1806,7 +1762,7 @@
     <Property Name="FundingTypeID" Type="Int32" Nullable="false" />
     <Property Name="ProposedProjectStateID" Type="Int32" Nullable="false" />
     <Property Name="ActionPriorityID" Type="Int32" />
-    <Property Name="IndicatorNotes" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+    <Property Name="PerformanceMeasureNotes" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
     <Property Name="ProjectID" Type="Int32" />
     <Property Name="ImplementsMultipleProjects" Type="Boolean" />
     <Property Name="SubmissionDate" Type="DateTime" />
@@ -1930,12 +1886,12 @@
     </Key>
     <Property Name="SnapshotPerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="SnapshotPerformanceMeasureID" Type="Int32" Nullable="false" />
-    <Property Name="IndicatorSubcategoryOptionID" Type="Int32" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
-    <Property Name="IndicatorSubcategoryID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="IndicatorSubcategory" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" FromRole="SnapshotPerformanceMeasureSubcategoryOptions" ToRole="IndicatorSubcategory" />
-    <NavigationProperty Name="IndicatorSubcategoryOption" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" FromRole="SnapshotPerformanceMeasureSubcategoryOptions" ToRole="IndicatorSubcategoryOption" />
+    <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="SnapshotPerformanceMeasureSubcategoryOptions" ToRole="PerformanceMeasure" />
+    <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="SnapshotPerformanceMeasureSubcategoryOptions" ToRole="PerformanceMeasureSubcategory" />
+    <NavigationProperty Name="PerformanceMeasureSubcategoryOption" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="SnapshotPerformanceMeasureSubcategoryOptions" ToRole="PerformanceMeasureSubcategoryOption" />
     <NavigationProperty Name="SnapshotPerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID" FromRole="SnapshotPerformanceMeasureSubcategoryOptions" ToRole="SnapshotPerformanceMeasure" />
   </EntityType>
   <EntityType Name="SnapshotProject">
@@ -2012,7 +1968,7 @@
     <NavigationProperty Name="ProjectThresholdCategories" Relationship="ProjectFirma.Web.Models.FK_ProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID" FromRole="ThresholdCategory" ToRole="ProjectThresholdCategories" />
     <NavigationProperty Name="ProposedProjectThresholdCategories" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID" FromRole="ThresholdCategory" ToRole="ProposedProjectThresholdCategories" />
     <NavigationProperty Name="ThresholdCategoryImages" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryImage_ThresholdCategory_ThresholdCategoryID" FromRole="ThresholdCategory" ToRole="ThresholdCategoryImages" />
-    <NavigationProperty Name="ThresholdCategoryIndicators" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryIndicator_ThresholdCategory_ThresholdCategoryID" FromRole="ThresholdCategory" ToRole="ThresholdCategoryIndicators" />
+    <NavigationProperty Name="ThresholdCategoryPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryPerformanceMeasure_ThresholdCategory_ThresholdCategoryID" FromRole="ThresholdCategory" ToRole="ThresholdCategoryPerformanceMeasures" />
   </EntityType>
   <EntityType Name="ThresholdCategoryImage">
     <Key>
@@ -2024,16 +1980,16 @@
     <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryImage_FileResource_FileResourceID" FromRole="ThresholdCategoryImages" ToRole="FileResource" />
     <NavigationProperty Name="ThresholdCategory" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryImage_ThresholdCategory_ThresholdCategoryID" FromRole="ThresholdCategoryImages" ToRole="ThresholdCategory" />
   </EntityType>
-  <EntityType Name="ThresholdCategoryIndicator">
+  <EntityType Name="ThresholdCategoryPerformanceMeasure">
     <Key>
-      <PropertyRef Name="ThresholdCategoryIndicatorID" />
+      <PropertyRef Name="ThresholdCategoryPerformanceMeasureID" />
     </Key>
-    <Property Name="ThresholdCategoryIndicatorID" Type="Int32" Nullable="false" />
+    <Property Name="ThresholdCategoryPerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="ThresholdCategoryID" Type="Int32" Nullable="false" />
-    <Property Name="IndicatorID" Type="Int32" Nullable="false" />
+    <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="IsPrimaryChart" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="Indicator" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryIndicator_Indicator_IndicatorID" FromRole="ThresholdCategoryIndicators" ToRole="Indicator" />
-    <NavigationProperty Name="ThresholdCategory" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryIndicator_ThresholdCategory_ThresholdCategoryID" FromRole="ThresholdCategoryIndicators" ToRole="ThresholdCategory" />
+    <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="ThresholdCategoryPerformanceMeasures" ToRole="PerformanceMeasure" />
+    <NavigationProperty Name="ThresholdCategory" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryPerformanceMeasure_ThresholdCategory_ThresholdCategoryID" FromRole="ThresholdCategoryPerformanceMeasures" ToRole="ThresholdCategory" />
   </EntityType>
   <EntityType Name="Watershed">
     <Key>
@@ -2430,270 +2386,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_IndicatorMonitoringProgram_Indicator_IndicatorID">
-    <End Role="Indicator" Type="ProjectFirma.Web.Models.Indicator" Multiplicity="1" />
-    <End Role="IndicatorMonitoringPrograms" Type="ProjectFirma.Web.Models.IndicatorMonitoringProgram" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Indicator">
-        <PropertyRef Name="IndicatorID" />
-      </Principal>
-      <Dependent Role="IndicatorMonitoringPrograms">
-        <PropertyRef Name="IndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorNote_Indicator_IndicatorID">
-    <End Role="Indicator" Type="ProjectFirma.Web.Models.Indicator" Multiplicity="1" />
-    <End Role="IndicatorNotes" Type="ProjectFirma.Web.Models.IndicatorNote" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Indicator">
-        <PropertyRef Name="IndicatorID" />
-      </Principal>
-      <Dependent Role="IndicatorNotes">
-        <PropertyRef Name="IndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorRelationship_Indicator_IndicatorID">
-    <End Role="Indicator" Type="ProjectFirma.Web.Models.Indicator" Multiplicity="1" />
-    <End Role="IndicatorRelationships" Type="ProjectFirma.Web.Models.IndicatorRelationship" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Indicator">
-        <PropertyRef Name="IndicatorID" />
-      </Principal>
-      <Dependent Role="IndicatorRelationships">
-        <PropertyRef Name="IndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorRelationship_Indicator_RelatedIndicatorID_IndicatorID">
-    <End Role="RelatedIndicator" Type="ProjectFirma.Web.Models.Indicator" Multiplicity="1" />
-    <End Role="IndicatorRelationshipsWhereYouAreTheRelatedIndicator" Type="ProjectFirma.Web.Models.IndicatorRelationship" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="RelatedIndicator">
-        <PropertyRef Name="IndicatorID" />
-      </Principal>
-      <Dependent Role="IndicatorRelationshipsWhereYouAreTheRelatedIndicator">
-        <PropertyRef Name="RelatedIndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorSubcategory_Indicator_IndicatorID">
-    <End Role="Indicator" Type="ProjectFirma.Web.Models.Indicator" Multiplicity="1" />
-    <End Role="IndicatorSubcategories" Type="ProjectFirma.Web.Models.IndicatorSubcategory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Indicator">
-        <PropertyRef Name="IndicatorID" />
-      </Principal>
-      <Dependent Role="IndicatorSubcategories">
-        <PropertyRef Name="IndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasure_Indicator_IndicatorID">
-    <End Role="Indicator" Type="ProjectFirma.Web.Models.Indicator" Multiplicity="1" />
-    <End Role="PerformanceMeasures" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Indicator">
-        <PropertyRef Name="IndicatorID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasures">
-        <PropertyRef Name="IndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdCategoryIndicator_Indicator_IndicatorID">
-    <End Role="Indicator" Type="ProjectFirma.Web.Models.Indicator" Multiplicity="1" />
-    <End Role="ThresholdCategoryIndicators" Type="ProjectFirma.Web.Models.ThresholdCategoryIndicator" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Indicator">
-        <PropertyRef Name="IndicatorID" />
-      </Principal>
-      <Dependent Role="ThresholdCategoryIndicators">
-        <PropertyRef Name="IndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorMonitoringProgram_MonitoringProgram_MonitoringProgramID">
-    <End Role="MonitoringProgram" Type="ProjectFirma.Web.Models.MonitoringProgram" Multiplicity="1" />
-    <End Role="IndicatorMonitoringPrograms" Type="ProjectFirma.Web.Models.IndicatorMonitoringProgram" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="MonitoringProgram">
-        <PropertyRef Name="MonitoringProgramID" />
-      </Principal>
-      <Dependent Role="IndicatorMonitoringPrograms">
-        <PropertyRef Name="MonitoringProgramID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorNote_Person_CreatePersonID_PersonID">
-    <End Role="CreatePerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="0..1" />
-    <End Role="IndicatorNotesWhereYouAreTheCreatePerson" Type="ProjectFirma.Web.Models.IndicatorNote" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CreatePerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="IndicatorNotesWhereYouAreTheCreatePerson">
-        <PropertyRef Name="CreatePersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorNote_Person_UpdatePersonID_PersonID">
-    <End Role="UpdatePerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="0..1" />
-    <End Role="IndicatorNotesWhereYouAreTheUpdatePerson" Type="ProjectFirma.Web.Models.IndicatorNote" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UpdatePerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="IndicatorNotesWhereYouAreTheUpdatePerson">
-        <PropertyRef Name="UpdatePersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorSubcategory_PerformanceMeasure_PerformanceMeasureID">
-    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="0..1" />
-    <End Role="IndicatorSubcategories" Type="ProjectFirma.Web.Models.IndicatorSubcategory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasure">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Principal>
-      <Dependent Role="IndicatorSubcategories">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-    <End Role="IndicatorSubcategory" Type="ProjectFirma.Web.Models.IndicatorSubcategory" Multiplicity="1" />
-    <End Role="IndicatorSubcategoryOptions" Type="ProjectFirma.Web.Models.IndicatorSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategory">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Principal>
-      <Dependent Role="IndicatorSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-    <End Role="IndicatorSubcategory" Type="ProjectFirma.Web.Models.IndicatorSubcategory" Multiplicity="1" />
-    <End Role="PerformanceMeasureActualSubcategoryOptions" Type="ProjectFirma.Web.Models.PerformanceMeasureActualSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategory">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureActualSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategory_IndicatorSubcategoryID">
-    <End Role="IndicatorSubcategory" Type="ProjectFirma.Web.Models.IndicatorSubcategory" Multiplicity="1" />
-    <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" Type="ProjectFirma.Web.Models.PerformanceMeasureActualSubcategoryOptionUpdate" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategory">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureActualSubcategoryOptionUpdates">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-    <End Role="IndicatorSubcategory" Type="ProjectFirma.Web.Models.IndicatorSubcategory" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedSubcategoryOptions" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategory">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategory_IndicatorSubcategoryID">
-    <End Role="IndicatorSubcategory" Type="ProjectFirma.Web.Models.IndicatorSubcategory" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategory">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-    <End Role="IndicatorSubcategory" Type="ProjectFirma.Web.Models.IndicatorSubcategory" Multiplicity="1" />
-    <End Role="SnapshotPerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.SnapshotPerformanceMeasureSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategory">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Principal>
-      <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-    <End Role="IndicatorSubcategoryOption" Type="ProjectFirma.Web.Models.IndicatorSubcategoryOption" Multiplicity="1" />
-    <End Role="PerformanceMeasureActualSubcategoryOptions" Type="ProjectFirma.Web.Models.PerformanceMeasureActualSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategoryOption">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureActualSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-    <End Role="IndicatorSubcategoryOption" Type="ProjectFirma.Web.Models.IndicatorSubcategoryOption" Multiplicity="1" />
-    <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" Type="ProjectFirma.Web.Models.PerformanceMeasureActualSubcategoryOptionUpdate" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategoryOption">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureActualSubcategoryOptionUpdates">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-    <End Role="IndicatorSubcategoryOption" Type="ProjectFirma.Web.Models.IndicatorSubcategoryOption" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedSubcategoryOptions" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategoryOption">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-    <End Role="IndicatorSubcategoryOption" Type="ProjectFirma.Web.Models.IndicatorSubcategoryOption" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategoryOption">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-    <End Role="IndicatorSubcategoryOption" Type="ProjectFirma.Web.Models.IndicatorSubcategoryOption" Multiplicity="1" />
-    <End Role="SnapshotPerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.SnapshotPerformanceMeasureSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategoryOption">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Principal>
-      <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Jurisdiction_Organization_OrganizationID">
     <End Role="Organization" Type="ProjectFirma.Web.Models.Organization" Multiplicity="1" />
     <End Role="Jurisdictions" Type="ProjectFirma.Web.Models.Jurisdiction" Multiplicity="*" />
@@ -2774,6 +2466,18 @@
         <PropertyRef Name="MonitoringProgramID" />
       </Principal>
       <Dependent Role="MonitoringProgramPartners">
+        <PropertyRef Name="MonitoringProgramID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID">
+    <End Role="MonitoringProgram" Type="ProjectFirma.Web.Models.MonitoringProgram" Multiplicity="1" />
+    <End Role="PerformanceMeasureMonitoringPrograms" Type="ProjectFirma.Web.Models.PerformanceMeasureMonitoringProgram" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MonitoringProgram">
+        <PropertyRef Name="MonitoringProgramID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureMonitoringPrograms">
         <PropertyRef Name="MonitoringProgramID" />
       </Dependent>
     </ReferentialConstraint>
@@ -3006,6 +2710,42 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID">
+    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
+    <End Role="PerformanceMeasureMonitoringPrograms" Type="ProjectFirma.Web.Models.PerformanceMeasureMonitoringProgram" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasure">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureMonitoringPrograms">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID">
+    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
+    <End Role="PerformanceMeasureNotes" Type="ProjectFirma.Web.Models.PerformanceMeasureNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasure">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureNotes">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID">
+    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
+    <End Role="PerformanceMeasureSubcategories" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasure">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureSubcategories">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProgramPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
     <End Role="ProgramPerformanceMeasures" Type="ProjectFirma.Web.Models.ProgramPerformanceMeasure" Multiplicity="*" />
@@ -3042,6 +2782,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ThresholdCategoryPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
+    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
+    <End Role="ThresholdCategoryPerformanceMeasures" Type="ProjectFirma.Web.Models.ThresholdCategoryPerformanceMeasure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasure">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Principal>
+      <Dependent Role="ThresholdCategoryPerformanceMeasures">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PerformanceMeasureActual_Project_ProjectID">
     <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
     <End Role="PerformanceMeasureActuals" Type="ProjectFirma.Web.Models.PerformanceMeasureActual" Multiplicity="*" />
@@ -3066,6 +2818,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+    <End Role="PerformanceMeasureSubcategory" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategory" Multiplicity="1" />
+    <End Role="PerformanceMeasureActualSubcategoryOptions" Type="ProjectFirma.Web.Models.PerformanceMeasureActualSubcategoryOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategory">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureActualSubcategoryOptions">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+    <End Role="PerformanceMeasureSubcategoryOption" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOption" Multiplicity="1" />
+    <End Role="PerformanceMeasureActualSubcategoryOptions" Type="ProjectFirma.Web.Models.PerformanceMeasureActualSubcategoryOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategoryOption">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureActualSubcategoryOptions">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID">
     <End Role="PerformanceMeasureActualUpdate" Type="ProjectFirma.Web.Models.PerformanceMeasureActualUpdate" Multiplicity="1" />
     <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" Type="ProjectFirma.Web.Models.PerformanceMeasureActualSubcategoryOptionUpdate" Multiplicity="*" />
@@ -3075,6 +2851,30 @@
       </Principal>
       <Dependent Role="PerformanceMeasureActualSubcategoryOptionUpdates">
         <PropertyRef Name="PerformanceMeasureActualUpdateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+    <End Role="PerformanceMeasureSubcategory" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategory" Multiplicity="1" />
+    <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" Type="ProjectFirma.Web.Models.PerformanceMeasureActualSubcategoryOptionUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategory">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureActualSubcategoryOptionUpdates">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+    <End Role="PerformanceMeasureSubcategoryOption" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOption" Multiplicity="1" />
+    <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" Type="ProjectFirma.Web.Models.PerformanceMeasureActualSubcategoryOptionUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategoryOption">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureActualSubcategoryOptionUpdates">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3135,6 +2935,114 @@
       </Principal>
       <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
         <PropertyRef Name="PerformanceMeasureExpectedProposedID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+    <End Role="PerformanceMeasureSubcategory" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategory" Multiplicity="1" />
+    <End Role="PerformanceMeasureExpectedSubcategoryOptions" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategory">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptions">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+    <End Role="PerformanceMeasureSubcategoryOption" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOption" Multiplicity="1" />
+    <End Role="PerformanceMeasureExpectedSubcategoryOptions" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategoryOption">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptions">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+    <End Role="PerformanceMeasureSubcategory" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategory" Multiplicity="1" />
+    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategory">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+    <End Role="PerformanceMeasureSubcategoryOption" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOption" Multiplicity="1" />
+    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategoryOption">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureNote_Person_CreatePersonID_PersonID">
+    <End Role="CreatePerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="0..1" />
+    <End Role="PerformanceMeasureNotesWhereYouAreTheCreatePerson" Type="ProjectFirma.Web.Models.PerformanceMeasureNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CreatePerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureNotesWhereYouAreTheCreatePerson">
+        <PropertyRef Name="CreatePersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureNote_Person_UpdatePersonID_PersonID">
+    <End Role="UpdatePerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="0..1" />
+    <End Role="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" Type="ProjectFirma.Web.Models.PerformanceMeasureNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UpdatePerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureNotesWhereYouAreTheUpdatePerson">
+        <PropertyRef Name="UpdatePersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+    <End Role="PerformanceMeasureSubcategory" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategory" Multiplicity="1" />
+    <End Role="PerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategory">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureSubcategoryOptions">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+    <End Role="PerformanceMeasureSubcategory" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategory" Multiplicity="1" />
+    <End Role="SnapshotPerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.SnapshotPerformanceMeasureSubcategoryOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategory">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Principal>
+      <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+    <End Role="PerformanceMeasureSubcategoryOption" Type="ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOption" Multiplicity="1" />
+    <End Role="SnapshotPerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.SnapshotPerformanceMeasureSubcategoryOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategoryOption">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
+      </Principal>
+      <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3942,14 +3850,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ThresholdCategoryIndicator_ThresholdCategory_ThresholdCategoryID">
+  <Association Name="FK_ThresholdCategoryPerformanceMeasure_ThresholdCategory_ThresholdCategoryID">
     <End Role="ThresholdCategory" Type="ProjectFirma.Web.Models.ThresholdCategory" Multiplicity="1" />
-    <End Role="ThresholdCategoryIndicators" Type="ProjectFirma.Web.Models.ThresholdCategoryIndicator" Multiplicity="*" />
+    <End Role="ThresholdCategoryPerformanceMeasures" Type="ProjectFirma.Web.Models.ThresholdCategoryPerformanceMeasure" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ThresholdCategory">
         <PropertyRef Name="ThresholdCategoryID" />
       </Principal>
-      <Dependent Role="ThresholdCategoryIndicators">
+      <Dependent Role="ThresholdCategoryPerformanceMeasures">
         <PropertyRef Name="ThresholdCategoryID" />
       </Dependent>
     </ReferentialConstraint>

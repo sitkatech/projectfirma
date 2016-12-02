@@ -7,10 +7,6 @@
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
-<div>
-    @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
-</div>
-
 <div style="margin-top: 10px">
-    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureGridSpec, ViewDataTyped.PerformanceMeasureGridName, ViewDataTyped.PerformanceMeasureGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
 </div>

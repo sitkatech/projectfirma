@@ -2,7 +2,7 @@
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Indicator;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Results
@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Views.Results
         public readonly List<Models.FocusArea> FocusAreas;
         public readonly Models.Program SelectedProgram;
         public readonly string ResultsByProgramUrl;
-        public readonly List<IndicatorChartViewData> IndicatorChartViewDatas;
+        public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
 
         public ResultsByProgramViewData(Person currentPerson,
             Models.FirmaPage firmaPage,
@@ -25,12 +25,11 @@ namespace ProjectFirma.Web.Views.Results
             ResultsByProgramUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ResultsByProgram(UrlTemplate.Parameter1Int));
 
             var projectIDs = selectedProgram.Projects.Select(y => y.ProjectID).ToList();
-            IndicatorChartViewDatas =
+            PerformanceMeasureChartViewDatas =
                 selectedProgram.GetPerformanceMeasures()
-                    .Select(x => x.Indicator)
                     .ToList()
                     .OrderBy(x => x.DisplayOrder)
-                    .Select(x => new IndicatorChartViewData(x, true, ChartViewMode.Small, projectIDs))
+                    .Select(x => new PerformanceMeasureChartViewData(x, true, ChartViewMode.Small, projectIDs))
                     .ToList();
         }
     }

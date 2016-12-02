@@ -16,16 +16,16 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 350,
                 DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            foreach (var indicatorSubcategory in performanceMeasure.IndicatorSubcategories.OrderBy(x => x.IndicatorSubcategoryDisplayName))
+            foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories.OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName))
             {
-                Add(indicatorSubcategory.IndicatorSubcategoryDisplayName,
+                Add(performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName,
                     a =>
                     {
                         var performanceMeasureExpectedSubcategoryOption =
-                            a.PerformanceMeasureExpectedSubcategoryOptions.SingleOrDefault(x => x.IndicatorSubcategoryID == indicatorSubcategory.IndicatorSubcategoryID);
+                            a.PerformanceMeasureExpectedSubcategoryOptions.SingleOrDefault(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategory.PerformanceMeasureSubcategoryID);
                         if (performanceMeasureExpectedSubcategoryOption != null)
                         {
-                            return performanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName;
+                            return performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName;
                         }
                         return string.Empty;
                     },
@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             }
             var expectedValueColumnName = string.Format("{0} ({1})",
                 Models.FieldDefinition.ExpectedValue.ToGridHeaderString(),
-                performanceMeasure.Indicator.MeasurementUnitType.MeasurementUnitTypeDisplayName);
+                performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName);
 
             Add(expectedValueColumnName, a => a.ExpectedValue, 150, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
         }

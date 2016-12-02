@@ -2,7 +2,7 @@ namespace ProjectFirma.Web.Models
 {
     public class ReportingCategoryForDisplay
     {
-        public int? IndicatorSubcategoryOptionID { get; set; }
+        public int? PerformanceMeasureSubcategoryOptionID { get; set; }
         public double ReportedValue { get; set; }
         public string DisplayName { get; set; }
         public int SortOrder { get; set; }
@@ -14,18 +14,18 @@ namespace ProjectFirma.Web.Models
         {
         }
 
-        public ReportingCategoryForDisplay(Indicator indicator)
+        public ReportingCategoryForDisplay(PerformanceMeasure performanceMeasure)
         {
-            IndicatorSubcategoryOptionID = null;
-            DisplayName = indicator.IndicatorDisplayName;
+            PerformanceMeasureSubcategoryOptionID = null;
+            DisplayName = performanceMeasure.PerformanceMeasureDisplayName;
             SortOrder = 1;
         }
 
-        public ReportingCategoryForDisplay(IndicatorSubcategoryOption indicatorSubcategoryOption)
+        public ReportingCategoryForDisplay(PerformanceMeasureSubcategoryOption performanceMeasureSubcategoryOption)
         {
-            IndicatorSubcategoryOptionID = indicatorSubcategoryOption.IndicatorSubcategoryOptionID;
-            DisplayName = indicatorSubcategoryOption.IndicatorSubcategoryOptionName;
-            SortOrder = indicatorSubcategoryOption.SortOrder ?? 0;
+            PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID;
+            DisplayName = performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName;
+            SortOrder = performanceMeasureSubcategoryOption.SortOrder ?? 0;
         }
     }
 }

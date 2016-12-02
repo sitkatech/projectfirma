@@ -18,22 +18,22 @@ namespace ProjectFirma.Web.Models
 
         public MeasurementUnitType MeasurementUnitType
         {
-            get { return PerformanceMeasure.Indicator.MeasurementUnitType; }
+            get { return PerformanceMeasure.MeasurementUnitType; }
         }
 
-        public List<IPerformanceMeasureValueSubcategoryOption> IndicatorSubcategoryOptions
+        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions
         {
             get { return new List<IPerformanceMeasureValueSubcategoryOption>(SnapshotPerformanceMeasureSubcategoryOptions); }
         }
 
-        public string IndicatorSubcategoriesAsString
+        public string PerformanceMeasureSubcategoriesAsString
         {
             get
             {
                 return SnapshotPerformanceMeasureSubcategoryOptions.Any()
                     ? string.Join("\r\n",
-                        SnapshotPerformanceMeasureSubcategoryOptions.OrderBy(x => x.IndicatorSubcategory.IndicatorSubcategoryDisplayName)
-                            .Select(x => string.Format("{0}: {1}", x.IndicatorSubcategory.IndicatorSubcategoryDisplayName, x.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName)))
+                        SnapshotPerformanceMeasureSubcategoryOptions.OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
+                            .Select(x => string.Format("{0}: {1}", x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName, x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName)))
                     : ViewUtilities.NoneString;
             }
         }

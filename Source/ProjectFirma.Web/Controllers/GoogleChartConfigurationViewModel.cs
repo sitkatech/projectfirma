@@ -15,11 +15,11 @@ namespace ProjectFirma.Web.Controllers
         [JsonProperty(PropertyName = "chartType")]
         public string ChartType { get; set; }
 
-        public void UpdateModel(Indicator indicator, int indicatorSubcategoryID)
+        public void UpdateModel(PerformanceMeasure performanceMeasure, int performanceMeasureSubcategoryID)
         {            
             //Remove certain properties that we don't want saved to the DB
             var chartConfigurationString = CleanAndSerializeChartJsonString(ChartConfigurationJson);
-            var perfomanceMeasureSubcategory = indicator.IndicatorSubcategories.Single(x => x.IndicatorSubcategoryID == indicatorSubcategoryID);
+            var perfomanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.Single(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategoryID);
             perfomanceMeasureSubcategory.ChartType = ChartType;
             perfomanceMeasureSubcategory.ChartConfigurationJson = chartConfigurationString;
         }

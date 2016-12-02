@@ -18,12 +18,6 @@
     <EntitySet Name="FocusArea" EntityType="ProjectFirma.Web.Models.Store.FocusArea" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FocusAreaImage" EntityType="ProjectFirma.Web.Models.Store.FocusAreaImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FundingSource" EntityType="ProjectFirma.Web.Models.Store.FundingSource" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Indicator" EntityType="ProjectFirma.Web.Models.Store.Indicator" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="IndicatorMonitoringProgram" EntityType="ProjectFirma.Web.Models.Store.IndicatorMonitoringProgram" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="IndicatorNote" EntityType="ProjectFirma.Web.Models.Store.IndicatorNote" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="IndicatorRelationship" EntityType="ProjectFirma.Web.Models.Store.IndicatorRelationship" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="IndicatorSubcategory" EntityType="ProjectFirma.Web.Models.Store.IndicatorSubcategory" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="IndicatorSubcategoryOption" EntityType="ProjectFirma.Web.Models.Store.IndicatorSubcategoryOption" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Jurisdiction" EntityType="ProjectFirma.Web.Models.Store.Jurisdiction" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MappedRegion" EntityType="ProjectFirma.Web.Models.Store.MappedRegion" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MonitoringProgram" EntityType="ProjectFirma.Web.Models.Store.MonitoringProgram" store:Type="Tables" Schema="dbo" />
@@ -42,6 +36,10 @@
     <EntitySet Name="PerformanceMeasureExpectedProposed" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedProposed" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PerformanceMeasureExpectedSubcategoryOption" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOption" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PerformanceMeasureExpectedSubcategoryOptionProposed" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOptionProposed" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PerformanceMeasureMonitoringProgram" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureMonitoringProgram" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PerformanceMeasureNote" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureNote" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PerformanceMeasureSubcategory" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategory" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PerformanceMeasureSubcategoryOption" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategoryOption" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Person" EntityType="ProjectFirma.Web.Models.Store.Person" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Program" EntityType="ProjectFirma.Web.Models.Store.Program" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProgramImage" EntityType="ProjectFirma.Web.Models.Store.ProgramImage" store:Type="Tables" Schema="dbo" />
@@ -94,7 +92,7 @@
     <EntitySet Name="Tag" EntityType="ProjectFirma.Web.Models.Store.Tag" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ThresholdCategory" EntityType="ProjectFirma.Web.Models.Store.ThresholdCategory" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ThresholdCategoryImage" EntityType="ProjectFirma.Web.Models.Store.ThresholdCategoryImage" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ThresholdCategoryIndicator" EntityType="ProjectFirma.Web.Models.Store.ThresholdCategoryIndicator" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ThresholdCategoryPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.ThresholdCategoryPerformanceMeasure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Store.Watershed" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="vProject" EntityType="ProjectFirma.Web.Models.Store.vProject" store:Type="Views" store:Schema="dbo" store:Name="vProject">
       <DefiningQuery>SELECT 
@@ -167,46 +165,6 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
       <End Role="Organization" EntitySet="Organization" />
       <End Role="FundingSources" EntitySet="FundingSource" />
     </AssociationSet>
-    <AssociationSet Name="FK_IndicatorMonitoringProgram_Indicator_IndicatorID" Association="ProjectFirma.Web.Models.Store.FK_IndicatorMonitoringProgram_Indicator_IndicatorID">
-      <End Role="Indicator" EntitySet="Indicator" />
-      <End Role="IndicatorMonitoringPrograms" EntitySet="IndicatorMonitoringProgram" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorMonitoringProgram_MonitoringProgram_MonitoringProgramID" Association="ProjectFirma.Web.Models.Store.FK_IndicatorMonitoringProgram_MonitoringProgram_MonitoringProgramID">
-      <End Role="MonitoringProgram" EntitySet="MonitoringProgram" />
-      <End Role="IndicatorMonitoringPrograms" EntitySet="IndicatorMonitoringProgram" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorNote_Indicator_IndicatorID" Association="ProjectFirma.Web.Models.Store.FK_IndicatorNote_Indicator_IndicatorID">
-      <End Role="Indicator" EntitySet="Indicator" />
-      <End Role="IndicatorNotes" EntitySet="IndicatorNote" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorNote_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_IndicatorNote_Person_CreatePersonID_PersonID">
-      <End Role="CreatePerson" EntitySet="Person" />
-      <End Role="IndicatorNotesWhereYouAreTheCreatePerson" EntitySet="IndicatorNote" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorNote_Person_UpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_IndicatorNote_Person_UpdatePersonID_PersonID">
-      <End Role="UpdatePerson" EntitySet="Person" />
-      <End Role="IndicatorNotesWhereYouAreTheUpdatePerson" EntitySet="IndicatorNote" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorRelationship_Indicator_IndicatorID" Association="ProjectFirma.Web.Models.Store.FK_IndicatorRelationship_Indicator_IndicatorID">
-      <End Role="Indicator" EntitySet="Indicator" />
-      <End Role="IndicatorRelationships" EntitySet="IndicatorRelationship" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorRelationship_Indicator_RelatedIndicatorID_IndicatorID" Association="ProjectFirma.Web.Models.Store.FK_IndicatorRelationship_Indicator_RelatedIndicatorID_IndicatorID">
-      <End Role="RelatedIndicator" EntitySet="Indicator" />
-      <End Role="IndicatorRelationshipsWhereYouAreTheRelatedIndicator" EntitySet="IndicatorRelationship" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorSubcategory_Indicator_IndicatorID" Association="ProjectFirma.Web.Models.Store.FK_IndicatorSubcategory_Indicator_IndicatorID">
-      <End Role="Indicator" EntitySet="Indicator" />
-      <End Role="IndicatorSubcategories" EntitySet="IndicatorSubcategory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorSubcategory_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_IndicatorSubcategory_PerformanceMeasure_PerformanceMeasureID">
-      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
-      <End Role="IndicatorSubcategories" EntitySet="IndicatorSubcategory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_IndicatorSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_IndicatorSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-      <End Role="IndicatorSubcategory" EntitySet="IndicatorSubcategory" />
-      <End Role="IndicatorSubcategoryOptions" EntitySet="IndicatorSubcategoryOption" />
-    </AssociationSet>
     <AssociationSet Name="FK_Jurisdiction_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_Jurisdiction_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
       <End Role="Jurisdictions" EntitySet="Jurisdiction" />
@@ -259,10 +217,6 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
       <End Role="PrimaryContactPerson" EntitySet="Person" />
       <End Role="OrganizationsWhereYouAreThePrimaryContactPerson" EntitySet="Organization" />
     </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasure_Indicator_IndicatorID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasure_Indicator_IndicatorID">
-      <End Role="Indicator" EntitySet="Indicator" />
-      <End Role="PerformanceMeasures" EntitySet="PerformanceMeasure" />
-    </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="PerformanceMeasureActuals" EntitySet="PerformanceMeasureActual" />
@@ -270,14 +224,6 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
     <AssociationSet Name="FK_PerformanceMeasureActual_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActual_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="PerformanceMeasureActuals" EntitySet="PerformanceMeasureActual" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-      <End Role="IndicatorSubcategory" EntitySet="IndicatorSubcategory" />
-      <End Role="PerformanceMeasureActualSubcategoryOptions" EntitySet="PerformanceMeasureActualSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-      <End Role="IndicatorSubcategoryOption" EntitySet="IndicatorSubcategoryOption" />
-      <End Role="PerformanceMeasureActualSubcategoryOptions" EntitySet="PerformanceMeasureActualSubcategoryOption" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
@@ -287,13 +233,13 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
       <End Role="PerformanceMeasureActual" EntitySet="PerformanceMeasureActual" />
       <End Role="PerformanceMeasureActualSubcategoryOptions" EntitySet="PerformanceMeasureActualSubcategoryOption" />
     </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategory_IndicatorSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategory_IndicatorSubcategoryID">
-      <End Role="IndicatorSubcategory" EntitySet="IndicatorSubcategory" />
-      <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" EntitySet="PerformanceMeasureActualSubcategoryOptionUpdate" />
+    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+      <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
+      <End Role="PerformanceMeasureActualSubcategoryOptions" EntitySet="PerformanceMeasureActualSubcategoryOption" />
     </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-      <End Role="IndicatorSubcategoryOption" EntitySet="IndicatorSubcategoryOption" />
-      <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" EntitySet="PerformanceMeasureActualSubcategoryOptionUpdate" />
+    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+      <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
+      <End Role="PerformanceMeasureActualSubcategoryOptions" EntitySet="PerformanceMeasureActualSubcategoryOption" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
@@ -301,6 +247,14 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID">
       <End Role="PerformanceMeasureActualUpdate" EntitySet="PerformanceMeasureActualUpdate" />
+      <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" EntitySet="PerformanceMeasureActualSubcategoryOptionUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+      <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
+      <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" EntitySet="PerformanceMeasureActualSubcategoryOptionUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+      <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
       <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" EntitySet="PerformanceMeasureActualSubcategoryOptionUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActualUpdate_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualUpdate_PerformanceMeasure_PerformanceMeasureID">
@@ -327,14 +281,6 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="PerformanceMeasureExpectedProposeds" EntitySet="PerformanceMeasureExpectedProposed" />
     </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-      <End Role="IndicatorSubcategory" EntitySet="IndicatorSubcategory" />
-      <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-      <End Role="IndicatorSubcategoryOption" EntitySet="IndicatorSubcategoryOption" />
-      <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
-    </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
@@ -343,13 +289,13 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
       <End Role="PerformanceMeasureExpected" EntitySet="PerformanceMeasureExpected" />
       <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
     </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategory_IndicatorSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategory_IndicatorSubcategoryID">
-      <End Role="IndicatorSubcategory" EntitySet="IndicatorSubcategory" />
-      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
+    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+      <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
+      <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
     </AssociationSet>
-    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-      <End Role="IndicatorSubcategoryOption" EntitySet="IndicatorSubcategoryOption" />
-      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
+    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+      <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
+      <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
@@ -358,6 +304,42 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
     <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID">
       <End Role="PerformanceMeasureExpectedProposed" EntitySet="PerformanceMeasureExpectedProposed" />
       <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+      <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
+      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+      <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
+      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID">
+      <End Role="MonitoringProgram" EntitySet="MonitoringProgram" />
+      <End Role="PerformanceMeasureMonitoringPrograms" EntitySet="PerformanceMeasureMonitoringProgram" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID">
+      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
+      <End Role="PerformanceMeasureMonitoringPrograms" EntitySet="PerformanceMeasureMonitoringProgram" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID">
+      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
+      <End Role="PerformanceMeasureNotes" EntitySet="PerformanceMeasureNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureNote_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureNote_Person_CreatePersonID_PersonID">
+      <End Role="CreatePerson" EntitySet="Person" />
+      <End Role="PerformanceMeasureNotesWhereYouAreTheCreatePerson" EntitySet="PerformanceMeasureNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureNote_Person_UpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureNote_Person_UpdatePersonID_PersonID">
+      <End Role="UpdatePerson" EntitySet="Person" />
+      <End Role="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" EntitySet="PerformanceMeasureNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID">
+      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
+      <End Role="PerformanceMeasureSubcategories" EntitySet="PerformanceMeasureSubcategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+      <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
+      <End Role="PerformanceMeasureSubcategoryOptions" EntitySet="PerformanceMeasureSubcategoryOption" />
     </AssociationSet>
     <AssociationSet Name="FK_Person_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_Person_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
@@ -691,16 +673,16 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
       <End Role="Snapshot" EntitySet="Snapshot" />
       <End Role="SnapshotPerformanceMeasures" EntitySet="SnapshotPerformanceMeasure" />
     </AssociationSet>
-    <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-      <End Role="IndicatorSubcategory" EntitySet="IndicatorSubcategory" />
-      <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-      <End Role="IndicatorSubcategoryOption" EntitySet="IndicatorSubcategoryOption" />
-      <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
-    </AssociationSet>
     <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
+      <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+      <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
+      <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+      <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
       <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
     </AssociationSet>
     <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID">
@@ -731,13 +713,13 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
       <End Role="ThresholdCategory" EntitySet="ThresholdCategory" />
       <End Role="ThresholdCategoryImages" EntitySet="ThresholdCategoryImage" />
     </AssociationSet>
-    <AssociationSet Name="FK_ThresholdCategoryIndicator_Indicator_IndicatorID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdCategoryIndicator_Indicator_IndicatorID">
-      <End Role="Indicator" EntitySet="Indicator" />
-      <End Role="ThresholdCategoryIndicators" EntitySet="ThresholdCategoryIndicator" />
+    <AssociationSet Name="FK_ThresholdCategoryPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdCategoryPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
+      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
+      <End Role="ThresholdCategoryPerformanceMeasures" EntitySet="ThresholdCategoryPerformanceMeasure" />
     </AssociationSet>
-    <AssociationSet Name="FK_ThresholdCategoryIndicator_ThresholdCategory_ThresholdCategoryID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdCategoryIndicator_ThresholdCategory_ThresholdCategoryID">
+    <AssociationSet Name="FK_ThresholdCategoryPerformanceMeasure_ThresholdCategory_ThresholdCategoryID" Association="ProjectFirma.Web.Models.Store.FK_ThresholdCategoryPerformanceMeasure_ThresholdCategory_ThresholdCategoryID">
       <End Role="ThresholdCategory" EntitySet="ThresholdCategory" />
-      <End Role="ThresholdCategoryIndicators" EntitySet="ThresholdCategoryIndicator" />
+      <End Role="ThresholdCategoryPerformanceMeasures" EntitySet="ThresholdCategoryPerformanceMeasure" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="ActionPriority">
@@ -901,91 +883,6 @@ FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="FundingSourceDescription" Type="varchar" MaxLength="500" />
   </EntityType>
-  <EntityType Name="Indicator">
-    <Key>
-      <PropertyRef Name="IndicatorID" />
-    </Key>
-    <Property Name="IndicatorID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="IndicatorName" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="IndicatorDisplayName" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="MeasurementUnitTypeID" Type="int" Nullable="false" />
-    <Property Name="IndicatorDefinition" Type="varchar(max)" />
-    <Property Name="IndicatorPublicDescription" Type="varchar(max)" />
-    <Property Name="DataSourceText" Type="varchar" MaxLength="200" />
-    <Property Name="ExternalDataSourceUrl" Type="varchar" MaxLength="200" />
-    <Property Name="DisplayOrder" Type="int" Nullable="false" />
-    <Property Name="AssociatedPrograms" Type="varchar(max)" />
-    <Property Name="IndicatorTypeID" Type="int" Nullable="false" />
-    <Property Name="ChartTitle" Type="varchar" Nullable="false" MaxLength="500" />
-    <Property Name="ChartCaption" Type="varchar" MaxLength="1000" />
-  </EntityType>
-  <EntityType Name="IndicatorMonitoringProgram">
-    <Key>
-      <PropertyRef Name="IndicatorMonitoringProgramID" />
-    </Key>
-    <Property Name="IndicatorMonitoringProgramID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="IndicatorID" Type="int" Nullable="false" />
-    <Property Name="MonitoringProgramID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="IndicatorNote">
-    <Key>
-      <PropertyRef Name="IndicatorNoteID" />
-    </Key>
-    <Property Name="IndicatorNoteID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="IndicatorID" Type="int" Nullable="false" />
-    <Property Name="Note" Type="varchar" Nullable="false" />
-    <Property Name="CreatePersonID" Type="int" />
-    <Property Name="CreateDate" Type="datetime" Nullable="false" />
-    <Property Name="UpdatePersonID" Type="int" />
-    <Property Name="UpdateDate" Type="datetime" />
-  </EntityType>
-  <EntityType Name="IndicatorRelationship">
-    <Key>
-      <PropertyRef Name="IndicatorRelationshipID" />
-    </Key>
-    <Property Name="IndicatorRelationshipID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="IndicatorID" Type="int" Nullable="false" />
-    <Property Name="RelatedIndicatorID" Type="int" Nullable="false" />
-    <Property Name="IndicatorRelationshipTypeID" Type="int" Nullable="false" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategory_IndicatorSubcategoryID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategory_IndicatorSubcategoryID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
-  <EntityType Name="IndicatorSubcategory">
-    <Key>
-      <PropertyRef Name="IndicatorSubcategoryID" />
-    </Key>
-    <Property Name="IndicatorSubcategoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="IndicatorID" Type="int" Nullable="false" />
-    <Property Name="IndicatorSubcategoryName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="IndicatorSubcategoryDisplayName" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="SortOrder" Type="int" />
-    <Property Name="ChartConfigurationJson" Type="varchar(max)" />
-    <Property Name="ChartType" Type="varchar" MaxLength="100" />
-    <Property Name="SwapChartAxes" Type="bit" />
-    <Property Name="PerformanceMeasureID" Type="int" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubcategoryID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubcategoryI' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubcategoryID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubcateg' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID_IndicatorSubcategoryID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
-  <EntityType Name="IndicatorSubcategoryOption">
-    <Key>
-      <PropertyRef Name="IndicatorSubcategoryOptionID" />
-    </Key>
-    <Property Name="IndicatorSubcategoryOptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="IndicatorSubcategoryID" Type="int" Nullable="false" />
-    <Property Name="IndicatorSubcategoryOptionName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="SortOrder" Type="int" />
-    <Property Name="ShortName" Type="varchar" MaxLength="50" />
-  </EntityType>
   <EntityType Name="Jurisdiction">
     <Key>
       <PropertyRef Name="JurisdictionID" />
@@ -1075,10 +972,20 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_I
       <PropertyRef Name="PerformanceMeasureID" />
     </Key>
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="IndicatorID" Type="int" Nullable="false" />
     <Property Name="CriticalDefinitions" Type="varchar(max)" />
     <Property Name="AccountingPeriodAndScale" Type="varchar(max)" />
     <Property Name="ProjectReporting" Type="varchar(max)" />
+    <Property Name="PerformanceMeasureName" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="PerformanceMeasureDisplayName" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="MeasurementUnitTypeID" Type="int" Nullable="false" />
+    <Property Name="PerformanceMeasureTypeID" Type="int" Nullable="false" />
+    <Property Name="PerformanceMeasureDefinition" Type="varchar(max)" />
+    <Property Name="PerformanceMeasurePublicDescription" Type="varchar(max)" />
+    <Property Name="DataSourceText" Type="varchar" MaxLength="200" />
+    <Property Name="ExternalDataSourceUrl" Type="varchar" MaxLength="200" />
+    <Property Name="DisplayOrder" Type="int" Nullable="false" />
+    <Property Name="ChartTitle" Type="varchar" Nullable="false" MaxLength="500" />
+    <Property Name="ChartCaption" Type="varchar" MaxLength="1000" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActual_PerformanceMeasureActualID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1099,9 +1006,9 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     </Key>
     <Property Name="PerformanceMeasureActualSubcategoryOptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="PerformanceMeasureActualID" Type="int" Nullable="false" />
-    <Property Name="IndicatorSubcategoryOptionID" Type="int" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
-    <Property Name="IndicatorSubcategoryID" Type="int" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PerformanceMeasureActualSubcategoryOptionUpdate">
     <Key>
@@ -1109,9 +1016,9 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     </Key>
     <Property Name="PerformanceMeasureActualSubcategoryOptionUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="PerformanceMeasureActualUpdateID" Type="int" Nullable="false" />
-    <Property Name="IndicatorSubcategoryOptionID" Type="int" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
-    <Property Name="IndicatorSubcategoryID" Type="int" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID_PerformanceMe' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1153,9 +1060,9 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_P
     </Key>
     <Property Name="PerformanceMeasureExpectedSubcategoryOptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="PerformanceMeasureExpectedID" Type="int" Nullable="false" />
-    <Property Name="IndicatorSubcategoryOptionID" Type="int" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
-    <Property Name="IndicatorSubcategoryID" Type="int" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PerformanceMeasureExpectedSubcategoryOptionProposed">
     <Key>
@@ -1163,9 +1070,58 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_P
     </Key>
     <Property Name="PerformanceMeasureExpectedSubcategoryOptionProposedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="PerformanceMeasureExpectedProposedID" Type="int" Nullable="false" />
-    <Property Name="IndicatorSubcategoryOptionID" Type="int" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
-    <Property Name="IndicatorSubcategoryID" Type="int" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PerformanceMeasureMonitoringProgram">
+    <Key>
+      <PropertyRef Name="PerformanceMeasureMonitoringProgramID" />
+    </Key>
+    <Property Name="PerformanceMeasureMonitoringProgramID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
+    <Property Name="MonitoringProgramID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PerformanceMeasureNote">
+    <Key>
+      <PropertyRef Name="PerformanceMeasureNoteID" />
+    </Key>
+    <Property Name="PerformanceMeasureNoteID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
+    <Property Name="Note" Type="varchar" Nullable="false" />
+    <Property Name="CreatePersonID" Type="int" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatePersonID" Type="int" />
+    <Property Name="UpdateDate" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+-->
+  <EntityType Name="PerformanceMeasureSubcategory">
+    <Key>
+      <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+    </Key>
+    <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="PerformanceMeasureSubcategoryDisplayName" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="SortOrder" Type="int" />
+    <Property Name="ChartConfigurationJson" Type="varchar(max)" />
+    <Property Name="ChartType" Type="varchar" MaxLength="100" />
+    <Property Name="SwapChartAxes" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID_Performan' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+-->
+  <EntityType Name="PerformanceMeasureSubcategoryOption">
+    <Key>
+      <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
+    </Key>
+    <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryOptionName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="SortOrder" Type="int" />
+    <Property Name="ShortName" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Person">
     <Key>
@@ -1584,7 +1540,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_P
     <Property Name="FundingTypeID" Type="int" Nullable="false" />
     <Property Name="ProposedProjectStateID" Type="int" Nullable="false" />
     <Property Name="ActionPriorityID" Type="int" />
-    <Property Name="IndicatorNotes" Type="varchar" MaxLength="500" />
+    <Property Name="PerformanceMeasureNotes" Type="varchar" MaxLength="500" />
     <Property Name="ProjectID" Type="int" />
     <Property Name="ImplementsMultipleProjects" Type="bit" />
     <Property Name="SubmissionDate" Type="datetime" />
@@ -1680,9 +1636,9 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     </Key>
     <Property Name="SnapshotPerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="SnapshotPerformanceMeasureID" Type="int" Nullable="false" />
-    <Property Name="IndicatorSubcategoryOptionID" Type="int" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
-    <Property Name="IndicatorSubcategoryID" Type="int" Nullable="false" />
+    <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SnapshotProject">
     <Key>
@@ -1755,13 +1711,13 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="ThresholdCategoryID" Type="int" Nullable="false" />
     <Property Name="FileResourceID" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="ThresholdCategoryIndicator">
+  <EntityType Name="ThresholdCategoryPerformanceMeasure">
     <Key>
-      <PropertyRef Name="ThresholdCategoryIndicatorID" />
+      <PropertyRef Name="ThresholdCategoryPerformanceMeasureID" />
     </Key>
-    <Property Name="ThresholdCategoryIndicatorID" Type="int" Nullable="false" />
+    <Property Name="ThresholdCategoryPerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="ThresholdCategoryID" Type="int" Nullable="false" />
-    <Property Name="IndicatorID" Type="int" Nullable="false" />
+    <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="IsPrimaryChart" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Watershed">
@@ -1970,126 +1926,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_IndicatorMonitoringProgram_Indicator_IndicatorID">
-    <End Role="Indicator" Type="ProjectFirma.Web.Models.Store.Indicator" Multiplicity="1" />
-    <End Role="IndicatorMonitoringPrograms" Type="ProjectFirma.Web.Models.Store.IndicatorMonitoringProgram" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Indicator">
-        <PropertyRef Name="IndicatorID" />
-      </Principal>
-      <Dependent Role="IndicatorMonitoringPrograms">
-        <PropertyRef Name="IndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorMonitoringProgram_MonitoringProgram_MonitoringProgramID">
-    <End Role="MonitoringProgram" Type="ProjectFirma.Web.Models.Store.MonitoringProgram" Multiplicity="1" />
-    <End Role="IndicatorMonitoringPrograms" Type="ProjectFirma.Web.Models.Store.IndicatorMonitoringProgram" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="MonitoringProgram">
-        <PropertyRef Name="MonitoringProgramID" />
-      </Principal>
-      <Dependent Role="IndicatorMonitoringPrograms">
-        <PropertyRef Name="MonitoringProgramID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorNote_Indicator_IndicatorID">
-    <End Role="Indicator" Type="ProjectFirma.Web.Models.Store.Indicator" Multiplicity="1" />
-    <End Role="IndicatorNotes" Type="ProjectFirma.Web.Models.Store.IndicatorNote" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Indicator">
-        <PropertyRef Name="IndicatorID" />
-      </Principal>
-      <Dependent Role="IndicatorNotes">
-        <PropertyRef Name="IndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorNote_Person_CreatePersonID_PersonID">
-    <End Role="CreatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
-    <End Role="IndicatorNotesWhereYouAreTheCreatePerson" Type="ProjectFirma.Web.Models.Store.IndicatorNote" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CreatePerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="IndicatorNotesWhereYouAreTheCreatePerson">
-        <PropertyRef Name="CreatePersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorNote_Person_UpdatePersonID_PersonID">
-    <End Role="UpdatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
-    <End Role="IndicatorNotesWhereYouAreTheUpdatePerson" Type="ProjectFirma.Web.Models.Store.IndicatorNote" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UpdatePerson">
-        <PropertyRef Name="PersonID" />
-      </Principal>
-      <Dependent Role="IndicatorNotesWhereYouAreTheUpdatePerson">
-        <PropertyRef Name="UpdatePersonID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorRelationship_Indicator_IndicatorID">
-    <End Role="Indicator" Type="ProjectFirma.Web.Models.Store.Indicator" Multiplicity="1" />
-    <End Role="IndicatorRelationships" Type="ProjectFirma.Web.Models.Store.IndicatorRelationship" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Indicator">
-        <PropertyRef Name="IndicatorID" />
-      </Principal>
-      <Dependent Role="IndicatorRelationships">
-        <PropertyRef Name="IndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorRelationship_Indicator_RelatedIndicatorID_IndicatorID">
-    <End Role="RelatedIndicator" Type="ProjectFirma.Web.Models.Store.Indicator" Multiplicity="1" />
-    <End Role="IndicatorRelationshipsWhereYouAreTheRelatedIndicator" Type="ProjectFirma.Web.Models.Store.IndicatorRelationship" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="RelatedIndicator">
-        <PropertyRef Name="IndicatorID" />
-      </Principal>
-      <Dependent Role="IndicatorRelationshipsWhereYouAreTheRelatedIndicator">
-        <PropertyRef Name="RelatedIndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorSubcategory_Indicator_IndicatorID">
-    <End Role="Indicator" Type="ProjectFirma.Web.Models.Store.Indicator" Multiplicity="1" />
-    <End Role="IndicatorSubcategories" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Indicator">
-        <PropertyRef Name="IndicatorID" />
-      </Principal>
-      <Dependent Role="IndicatorSubcategories">
-        <PropertyRef Name="IndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorSubcategory_PerformanceMeasure_PerformanceMeasureID">
-    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="0..1" />
-    <End Role="IndicatorSubcategories" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasure">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Principal>
-      <Dependent Role="IndicatorSubcategories">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_IndicatorSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-    <End Role="IndicatorSubcategory" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategory" Multiplicity="1" />
-    <End Role="IndicatorSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategory">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Principal>
-      <Dependent Role="IndicatorSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Jurisdiction_Organization_OrganizationID">
     <End Role="Organization" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="1" />
     <End Role="Jurisdictions" Type="ProjectFirma.Web.Models.Store.Jurisdiction" Multiplicity="*" />
@@ -2246,18 +2082,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PerformanceMeasure_Indicator_IndicatorID">
-    <End Role="Indicator" Type="ProjectFirma.Web.Models.Store.Indicator" Multiplicity="1" />
-    <End Role="PerformanceMeasures" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Indicator">
-        <PropertyRef Name="IndicatorID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasures">
-        <PropertyRef Name="IndicatorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
     <End Role="PerformanceMeasureActuals" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureActual" Multiplicity="*" />
@@ -2279,30 +2103,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
       </Principal>
       <Dependent Role="PerformanceMeasureActuals">
         <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-    <End Role="IndicatorSubcategory" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategory" Multiplicity="1" />
-    <End Role="PerformanceMeasureActualSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureActualSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategory">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureActualSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureActualSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-    <End Role="IndicatorSubcategoryOption" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategoryOption" Multiplicity="1" />
-    <End Role="PerformanceMeasureActualSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureActualSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategoryOption">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureActualSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2330,27 +2130,27 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategory_IndicatorSubcategoryID">
-    <End Role="IndicatorSubcategory" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategory" Multiplicity="1" />
-    <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureActualSubcategoryOptionUpdate" Multiplicity="*" />
+  <Association Name="FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+    <End Role="PerformanceMeasureSubcategory" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategory" Multiplicity="1" />
+    <End Role="PerformanceMeasureActualSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureActualSubcategoryOption" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategory">
-        <PropertyRef Name="IndicatorSubcategoryID" />
+      <Principal Role="PerformanceMeasureSubcategory">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
       </Principal>
-      <Dependent Role="PerformanceMeasureActualSubcategoryOptionUpdates">
-        <PropertyRef Name="IndicatorSubcategoryID" />
+      <Dependent Role="PerformanceMeasureActualSubcategoryOptions">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-    <End Role="IndicatorSubcategoryOption" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategoryOption" Multiplicity="1" />
-    <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureActualSubcategoryOptionUpdate" Multiplicity="*" />
+  <Association Name="FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+    <End Role="PerformanceMeasureSubcategoryOption" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategoryOption" Multiplicity="1" />
+    <End Role="PerformanceMeasureActualSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureActualSubcategoryOption" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategoryOption">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
+      <Principal Role="PerformanceMeasureSubcategoryOption">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
       </Principal>
-      <Dependent Role="PerformanceMeasureActualSubcategoryOptionUpdates">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
+      <Dependent Role="PerformanceMeasureActualSubcategoryOptions">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2375,6 +2175,30 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
       </Principal>
       <Dependent Role="PerformanceMeasureActualSubcategoryOptionUpdates">
         <PropertyRef Name="PerformanceMeasureActualUpdateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+    <End Role="PerformanceMeasureSubcategory" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategory" Multiplicity="1" />
+    <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureActualSubcategoryOptionUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategory">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureActualSubcategoryOptionUpdates">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+    <End Role="PerformanceMeasureSubcategoryOption" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategoryOption" Multiplicity="1" />
+    <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureActualSubcategoryOptionUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategoryOption">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureActualSubcategoryOptionUpdates">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2450,30 +2274,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-    <End Role="IndicatorSubcategory" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategory" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategory">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-    <End Role="IndicatorSubcategoryOption" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategoryOption" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategoryOption">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Principal>
-      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
     <End Role="PerformanceMeasureExpectedSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOption" Multiplicity="*" />
@@ -2498,27 +2298,27 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategory_IndicatorSubcategoryID">
-    <End Role="IndicatorSubcategory" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategory" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
+  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+    <End Role="PerformanceMeasureSubcategory" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategory" Multiplicity="1" />
+    <End Role="PerformanceMeasureExpectedSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOption" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategory">
-        <PropertyRef Name="IndicatorSubcategoryID" />
+      <Principal Role="PerformanceMeasureSubcategory">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
       </Principal>
-      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
-        <PropertyRef Name="IndicatorSubcategoryID" />
+      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptions">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-    <End Role="IndicatorSubcategoryOption" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategoryOption" Multiplicity="1" />
-    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
+  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+    <End Role="PerformanceMeasureSubcategoryOption" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategoryOption" Multiplicity="1" />
+    <End Role="PerformanceMeasureExpectedSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOption" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategoryOption">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
+      <Principal Role="PerformanceMeasureSubcategoryOption">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
       </Principal>
-      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
+      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptions">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2543,6 +2343,114 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
       </Principal>
       <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
         <PropertyRef Name="PerformanceMeasureExpectedProposedID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+    <End Role="PerformanceMeasureSubcategory" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategory" Multiplicity="1" />
+    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategory">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+    <End Role="PerformanceMeasureSubcategoryOption" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategoryOption" Multiplicity="1" />
+    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategoryOption">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID">
+    <End Role="MonitoringProgram" Type="ProjectFirma.Web.Models.Store.MonitoringProgram" Multiplicity="1" />
+    <End Role="PerformanceMeasureMonitoringPrograms" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureMonitoringProgram" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MonitoringProgram">
+        <PropertyRef Name="MonitoringProgramID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureMonitoringPrograms">
+        <PropertyRef Name="MonitoringProgramID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID">
+    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
+    <End Role="PerformanceMeasureMonitoringPrograms" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureMonitoringProgram" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasure">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureMonitoringPrograms">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID">
+    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
+    <End Role="PerformanceMeasureNotes" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasure">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureNotes">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureNote_Person_CreatePersonID_PersonID">
+    <End Role="CreatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
+    <End Role="PerformanceMeasureNotesWhereYouAreTheCreatePerson" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CreatePerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureNotesWhereYouAreTheCreatePerson">
+        <PropertyRef Name="CreatePersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureNote_Person_UpdatePersonID_PersonID">
+    <End Role="UpdatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
+    <End Role="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UpdatePerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureNotesWhereYouAreTheUpdatePerson">
+        <PropertyRef Name="UpdatePersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID">
+    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
+    <End Role="PerformanceMeasureSubcategories" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasure">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureSubcategories">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+    <End Role="PerformanceMeasureSubcategory" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategory" Multiplicity="1" />
+    <End Role="PerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategoryOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategory">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureSubcategoryOptions">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3542,30 +3450,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategory_IndicatorSubcategoryID">
-    <End Role="IndicatorSubcategory" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategory" Multiplicity="1" />
-    <End Role="SnapshotPerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.SnapshotPerformanceMeasureSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategory">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Principal>
-      <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SnapshotPerformanceMeasureSubcategoryOption_IndicatorSubcategoryOption_IndicatorSubcategoryOptionID">
-    <End Role="IndicatorSubcategoryOption" Type="ProjectFirma.Web.Models.Store.IndicatorSubcategoryOption" Multiplicity="1" />
-    <End Role="SnapshotPerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.SnapshotPerformanceMeasureSubcategoryOption" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndicatorSubcategoryOption">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Principal>
-      <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
-        <PropertyRef Name="IndicatorSubcategoryOptionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
     <End Role="SnapshotPerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.SnapshotPerformanceMeasureSubcategoryOption" Multiplicity="*" />
@@ -3575,6 +3459,30 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
       </Principal>
       <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
         <PropertyRef Name="PerformanceMeasureID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
+    <End Role="PerformanceMeasureSubcategory" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategory" Multiplicity="1" />
+    <End Role="SnapshotPerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.SnapshotPerformanceMeasureSubcategoryOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategory">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Principal>
+      <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
+        <PropertyRef Name="PerformanceMeasureSubcategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID">
+    <End Role="PerformanceMeasureSubcategoryOption" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategoryOption" Multiplicity="1" />
+    <End Role="SnapshotPerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.SnapshotPerformanceMeasureSubcategoryOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasureSubcategoryOption">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
+      </Principal>
+      <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
+        <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3662,26 +3570,26 @@ warning 6002: The table/view 'ProjectFirma.dbo.vProject' does not have a primary
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ThresholdCategoryIndicator_Indicator_IndicatorID">
-    <End Role="Indicator" Type="ProjectFirma.Web.Models.Store.Indicator" Multiplicity="1" />
-    <End Role="ThresholdCategoryIndicators" Type="ProjectFirma.Web.Models.Store.ThresholdCategoryIndicator" Multiplicity="*" />
+  <Association Name="FK_ThresholdCategoryPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
+    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
+    <End Role="ThresholdCategoryPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.ThresholdCategoryPerformanceMeasure" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Indicator">
-        <PropertyRef Name="IndicatorID" />
+      <Principal Role="PerformanceMeasure">
+        <PropertyRef Name="PerformanceMeasureID" />
       </Principal>
-      <Dependent Role="ThresholdCategoryIndicators">
-        <PropertyRef Name="IndicatorID" />
+      <Dependent Role="ThresholdCategoryPerformanceMeasures">
+        <PropertyRef Name="PerformanceMeasureID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ThresholdCategoryIndicator_ThresholdCategory_ThresholdCategoryID">
+  <Association Name="FK_ThresholdCategoryPerformanceMeasure_ThresholdCategory_ThresholdCategoryID">
     <End Role="ThresholdCategory" Type="ProjectFirma.Web.Models.Store.ThresholdCategory" Multiplicity="1" />
-    <End Role="ThresholdCategoryIndicators" Type="ProjectFirma.Web.Models.Store.ThresholdCategoryIndicator" Multiplicity="*" />
+    <End Role="ThresholdCategoryPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.ThresholdCategoryPerformanceMeasure" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ThresholdCategory">
         <PropertyRef Name="ThresholdCategoryID" />
       </Principal>
-      <Dependent Role="ThresholdCategoryIndicators">
+      <Dependent Role="ThresholdCategoryPerformanceMeasures">
         <PropertyRef Name="ThresholdCategoryID" />
       </Dependent>
     </ReferentialConstraint>

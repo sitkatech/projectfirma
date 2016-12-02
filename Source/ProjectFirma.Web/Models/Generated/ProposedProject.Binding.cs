@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? actionPriorityID, string indicatorNotes, int? projectID, bool? implementsMultipleProjects, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID) : this()
+        public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? actionPriorityID, string performanceMeasureNotes, int? projectID, bool? implementsMultipleProjects, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID) : this()
         {
             this.ProposedProjectID = proposedProjectID;
             this.ProjectName = projectName;
@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Models
             this.FundingTypeID = fundingTypeID;
             this.ProposedProjectStateID = proposedProjectStateID;
             this.ActionPriorityID = actionPriorityID;
-            this.IndicatorNotes = indicatorNotes;
+            this.PerformanceMeasureNotes = performanceMeasureNotes;
             this.ProjectID = projectID;
             this.ImplementsMultipleProjects = implementsMultipleProjects;
             this.SubmissionDate = submissionDate;
@@ -146,7 +146,7 @@ namespace ProjectFirma.Web.Models
         public int FundingTypeID { get; set; }
         public int ProposedProjectStateID { get; set; }
         public int? ActionPriorityID { get; set; }
-        public string IndicatorNotes { get; set; }
+        public string PerformanceMeasureNotes { get; set; }
         public int? ProjectID { get; set; }
         public bool? ImplementsMultipleProjects { get; set; }
         public DateTime? SubmissionDate { get; set; }
@@ -177,7 +177,7 @@ namespace ProjectFirma.Web.Models
             public const int ProjectName = 140;
             public const int ProjectDescription = 4000;
             public const int ProjectLocationNotes = 4000;
-            public const int IndicatorNotes = 500;
+            public const int PerformanceMeasureNotes = 500;
         }
     }
 }

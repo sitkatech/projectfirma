@@ -9,13 +9,13 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                var indicatorSubcategoryOption = HttpRequestStorage.DatabaseEntities.IndicatorSubcategoryOptions.Find(IndicatorSubcategoryOptionID);
-                var indicatorSubcategory = HttpRequestStorage.DatabaseEntities.IndicatorSubcategories.Find(IndicatorSubcategoryID);
+                var performanceMeasureSubcategoryOption = HttpRequestStorage.DatabaseEntities.PerformanceMeasureSubcategoryOptions.Find(PerformanceMeasureSubcategoryOptionID);
+                var performanceMeasureSubcategory = HttpRequestStorage.DatabaseEntities.PerformanceMeasureSubcategories.Find(PerformanceMeasureSubcategoryID);
                 var performanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Find(PerformanceMeasureID);
-                var indicatorSubcategoryOptionName = indicatorSubcategoryOption != null ? indicatorSubcategoryOption.IndicatorSubcategoryOptionName : ViewUtilities.NotFoundString;
-                var indicatorSubcategoryName = indicatorSubcategory != null ? indicatorSubcategory.IndicatorSubcategoryDisplayName : ViewUtilities.NotFoundString;
+                var performanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOption != null ? performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : ViewUtilities.NotFoundString;
+                var performanceMeasureSubcategoryName = performanceMeasureSubcategory != null ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : ViewUtilities.NotFoundString;
                 var performanceMeasureName = performanceMeasure != null ? performanceMeasure.DisplayName : ViewUtilities.NotFoundString;
-                return string.Format("Performance Measure: {0}, IndicatorSubcategory: {1}, IndicatorSubcategory Option: {2}", performanceMeasureName, indicatorSubcategoryName, indicatorSubcategoryOptionName);
+                return string.Format("Performance Measure: {0}, PerformanceMeasureSubcategory: {1}, PerformanceMeasureSubcategory Option: {2}", performanceMeasureName, performanceMeasureSubcategoryName, performanceMeasureSubcategoryOptionName);
             }
         }
     }

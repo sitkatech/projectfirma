@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Indicator;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Results
@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Views.Results
         public readonly List<Models.PerformanceMeasure> PerformanceMeasures;
         public readonly string SpendingByPerformanceMeasureByProjectUrl;
 
-        public readonly IndicatorChartViewData IndicatorChartViewData;
+        public readonly PerformanceMeasureChartViewData PerformanceMeasureChartViewData;
         
         public readonly SpendingByPerformanceMeasureByProjectGridSpec GridSpec;
         public readonly string GridName;
@@ -22,13 +22,13 @@ namespace ProjectFirma.Web.Views.Results
             Models.FirmaPage firmaPage,
             List<Models.PerformanceMeasure> performanceMeasures,
             Models.PerformanceMeasure selectedPerformanceMeasure,
-            IndicatorChartViewData indicatorChartViewData) : base(currentPerson, firmaPage)
+            PerformanceMeasureChartViewData performanceMeasureChartViewData) : base(currentPerson, firmaPage)
         {
             PageTitle = "Spending by Project for Selected Performance Measure";
 
             PerformanceMeasures = performanceMeasures;
             SelectedPerformanceMeasure = selectedPerformanceMeasure;
-            IndicatorChartViewData = indicatorChartViewData;
+            PerformanceMeasureChartViewData = performanceMeasureChartViewData;
 
             SpendingByPerformanceMeasureByProjectUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingByPerformanceMeasureByProject(UrlTemplate.Parameter1Int));
 

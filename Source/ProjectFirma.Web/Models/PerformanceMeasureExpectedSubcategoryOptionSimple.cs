@@ -12,14 +12,14 @@
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureExpectedSubcategoryOptionSimple(int performanceMeasureExpectedSubcategoryOptionID, int performanceMeasureExpectedID, int indicatorSubcategoryOptionID, int performanceMeasureID, int indicatorSubcategoryID)
+        public PerformanceMeasureExpectedSubcategoryOptionSimple(int performanceMeasureExpectedSubcategoryOptionID, int performanceMeasureExpectedID, int performanceMeasureSubcategoryOptionID, int performanceMeasureID, int performanceMeasureSubcategoryID)
             : this()
         {
             PerformanceMeasureExpectedSubcategoryOptionID = performanceMeasureExpectedSubcategoryOptionID;
             PerformanceMeasureExpectedID = performanceMeasureExpectedID;
-            IndicatorSubcategoryOptionID = indicatorSubcategoryOptionID;
+            PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
             PerformanceMeasureID = performanceMeasureID;
-            IndicatorSubcategoryID = indicatorSubcategoryID;
+            PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
         }
 
         /// <summary>
@@ -30,9 +30,9 @@
         {
             PerformanceMeasureExpectedSubcategoryOptionID = performanceMeasureExpectedSubcategoryOption.PerformanceMeasureExpectedSubcategoryOptionID;
             PerformanceMeasureExpectedID = performanceMeasureExpectedSubcategoryOption.PerformanceMeasureExpectedID;
-            IndicatorSubcategoryOptionID = performanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryOptionID;
+            PerformanceMeasureSubcategoryOptionID = performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID;
             PerformanceMeasureID = performanceMeasureExpectedSubcategoryOption.PerformanceMeasureID;
-            IndicatorSubcategoryID = performanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryID;
+            PerformanceMeasureSubcategoryID = performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryID;
         }
 
         public PerformanceMeasureExpectedSubcategoryOptionSimple(PerformanceMeasureValueSubcategoryOption performanceMeasureExpectedSubcategoryOption,
@@ -40,9 +40,9 @@
             : this(
                 performanceMeasureExpectedSubcategoryOption.PrimaryKey,
                 performanceMeasureExpected.PerformanceMeasureExpectedID,
-                performanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryOptionID,
+                performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID,
                 performanceMeasureExpectedSubcategoryOption.PerformanceMeasureID,
-                performanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryID)
+                performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryID)
         {
         }
 
@@ -51,16 +51,16 @@
             : this(
                 performanceMeasureExpectedSubcategoryOption.PrimaryKey,
                 performanceMeasureExpectedProposed.PerformanceMeasureExpectedProposedID,
-                performanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryOptionID,
+                performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID,
                 performanceMeasureExpectedSubcategoryOption.PerformanceMeasureID,
-                performanceMeasureExpectedSubcategoryOption.IndicatorSubcategoryID)
+                performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryID)
         {
         }
 
         public int PerformanceMeasureExpectedSubcategoryOptionID { get; set; }
         public int PerformanceMeasureExpectedID { get; set; }
-        public int IndicatorSubcategoryOptionID { get; set; }
+        public int PerformanceMeasureSubcategoryOptionID { get; set; }
         public int PerformanceMeasureID { get; set; }
-        public int IndicatorSubcategoryID { get; set; }
+        public int PerformanceMeasureSubcategoryID { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 @using ProjectFirma.Web.Views.Shared.ProjectControls
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 @using ProjectFirma.Web.Views
-@using ProjectFirma.Web.Views.Indicator
+@using ProjectFirma.Web.Views.PerformanceMeasure
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
@@ -122,9 +122,9 @@
         </div>
     </div>
     <div class="tableCell" style="width: 620px; padding-top: 20px">
-    @foreach (var indicatorChartViewData in ViewDataTyped.IndicatorChartViewDatas)
+    @foreach (var performanceMeasureChartViewData in ViewDataTyped.PerformanceMeasureChartViewDatas)
     {
-        IndicatorChart.RenderPartialView(Html, indicatorChartViewData);
+        PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData);
     }
     </div>
 </div>

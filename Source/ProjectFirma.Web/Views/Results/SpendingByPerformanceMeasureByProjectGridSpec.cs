@@ -16,16 +16,16 @@ namespace ProjectFirma.Web.Views.Results
         {
             Add(Models.FieldDefinition.Project.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.ProjectUrl, a.ProjectName), 350, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderStringWider(), x => x.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            foreach (var indicatorSubcategory in performanceMeasure.IndicatorSubcategories.OrderBy(x => x.IndicatorSubcategoryDisplayName))
+            foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories.OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName))
             {
-                Add(indicatorSubcategory.IndicatorSubcategoryDisplayName,
+                Add(performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName,
                     a =>
                     {
                         var performanceMeasureActualSubcategoryOption =
-                            a.PerformanceMeasureActualSubcategoryOptions.SingleOrDefault(x => x.IndicatorSubcategoryID == indicatorSubcategory.IndicatorSubcategoryID);
+                            a.PerformanceMeasureActualSubcategoryOptions.SingleOrDefault(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategory.PerformanceMeasureSubcategoryID);
                         if (performanceMeasureActualSubcategoryOption != null)
                         {
-                            return performanceMeasureActualSubcategoryOption.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName;
+                            return performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName;
                         }
                         return string.Empty;
                     },
@@ -35,12 +35,12 @@ namespace ProjectFirma.Web.Views.Results
 
             var reportedValueColumnName = string.Format("{0} ({1})",
                 Models.FieldDefinition.ReportedValue.ToGridHeaderString(),
-                performanceMeasure.Indicator.MeasurementUnitType.MeasurementUnitTypeDisplayName);
+                performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName);
 
             Add(reportedValueColumnName, a => a.TotalReportedValue, 150, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
             Add(Models.FieldDefinition.ReportedExpenditure.ToGridHeaderString(), x => x.CalculateWeightedTotalExpenditure(), 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
 
-            var reportedValueUnitCostColumnName = string.Format("Estimated Cost Per {0} ", performanceMeasure.Indicator.MeasurementUnitType.SingularDisplayName);
+            var reportedValueUnitCostColumnName = string.Format("Estimated Cost Per {0} ", performanceMeasure.MeasurementUnitType.SingularDisplayName);
             Add(reportedValueUnitCostColumnName, a => a.CalculateWeightedTotalExpenditurePerPerformanceMeasure(), 100, DhtmlxGridColumnFormatType.Currency);
 
             Add("Other Reported Performance Measures",

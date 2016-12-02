@@ -1,0 +1,21 @@
+﻿@using LtInfo.Common
+@inherits ProjectFirma.Web.Views.PerformanceMeasure.DefinitionAndGuidance
+
+<div class="fieldDefinition" style="font-size: 13px">
+    <h3>PerformanceMeasure Definition</h3>
+    <div style="margin-left: 20px">
+        <p>
+            @ViewDataTyped.PerformanceMeasure.PerformanceMeasureDefinition.ToHTMLFormattedString()
+        </p>
+    </div>
+    <hr/>
+    <h3>Critical Definitions</h3>
+    <div style="margin-left: 20px">
+        @ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString
+    </div>
+    <hr/>
+    <h3>Accounting Period and Scale</h3>
+    <div style="margin-left: 20px">
+        @ViewDataTyped.PerformanceMeasure.AccountingPeriodAndScaleHtmlString
+    </div>
+</div>

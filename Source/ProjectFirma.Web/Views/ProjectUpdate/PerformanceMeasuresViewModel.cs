@@ -64,13 +64,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     if (x.PerformanceMeasureActualSubcategoryOptionUpdates != null)
                     {
                         performanceMeasureActual.PerformanceMeasureActualSubcategoryOptionUpdates =
-                            x.PerformanceMeasureActualSubcategoryOptionUpdates.Where(pmavsou => ModelObjectHelpers.IsRealPrimaryKeyValue(pmavsou.IndicatorSubcategoryOptionID))
+                            x.PerformanceMeasureActualSubcategoryOptionUpdates.Where(pmavsou => ModelObjectHelpers.IsRealPrimaryKeyValue(pmavsou.PerformanceMeasureSubcategoryOptionID))
                                 .Select(
                                     y =>
                                         new PerformanceMeasureActualSubcategoryOptionUpdate(performanceMeasureActual.PerformanceMeasureActualUpdateID,
-                                            y.IndicatorSubcategoryOptionID.Value,
+                                            y.PerformanceMeasureSubcategoryOptionID.Value,
                                             y.PerformanceMeasureID,
-                                            y.IndicatorSubcategoryID))
+                                            y.PerformanceMeasureSubcategoryID))
                                 .ToList();
                     }
                     return performanceMeasureActual;
@@ -88,8 +88,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             currentPerformanceMeasureActualSubcategoryOptionUpdates.Merge(
                 performanceMeasureActualUpdatesUpdated.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptionUpdates).ToList(),
                 allPerformanceMeasureActualSubcategoryOptionUpdates,
-                (x, y) => x.PerformanceMeasureActualUpdateID == y.PerformanceMeasureActualUpdateID && x.IndicatorSubcategoryID == y.IndicatorSubcategoryID && x.PerformanceMeasureID == y.PerformanceMeasureID,
-                (x, y) => x.IndicatorSubcategoryOptionID = y.IndicatorSubcategoryOptionID);
+                (x, y) => x.PerformanceMeasureActualUpdateID == y.PerformanceMeasureActualUpdateID && x.PerformanceMeasureSubcategoryID == y.PerformanceMeasureSubcategoryID && x.PerformanceMeasureID == y.PerformanceMeasureID,
+                (x, y) => x.PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID);
 
             var currentProjectExemptYearUpdates = projectUpdateBatch.ProjectExemptReportingYearUpdates.ToList();
             HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYearUpdates.Load();

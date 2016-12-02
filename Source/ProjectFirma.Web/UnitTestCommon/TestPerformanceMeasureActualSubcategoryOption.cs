@@ -8,13 +8,13 @@ namespace ProjectFirma.Web.UnitTestCommon
         {
             public static PerformanceMeasureActualSubcategoryOption Create(int performanceMeasureActualSubcategoryOptionID,
                 PerformanceMeasureActual performanceMeasureActual,
-                IndicatorSubcategory indicatorSubcategory,
-                IndicatorSubcategoryOption indicatorSubcategoryOption)
+                PerformanceMeasureSubcategory performanceMeasureSubcategory,
+                PerformanceMeasureSubcategoryOption performanceMeasureSubcategoryOption)
             {
                 var performanceMeasureActualSubcategoryOption = new PerformanceMeasureActualSubcategoryOption(performanceMeasureActual,
-                    indicatorSubcategoryOption,
+                    performanceMeasureSubcategoryOption,
                     performanceMeasureActual.PerformanceMeasure,
-                    indicatorSubcategory);
+                    performanceMeasureSubcategory);
                 performanceMeasureActualSubcategoryOption.PerformanceMeasureActualSubcategoryOptionID = performanceMeasureActualSubcategoryOptionID;
                 return performanceMeasureActualSubcategoryOption;
             }

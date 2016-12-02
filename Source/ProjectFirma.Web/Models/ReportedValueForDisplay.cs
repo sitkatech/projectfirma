@@ -4,7 +4,7 @@ namespace ProjectFirma.Web.Models
 {
     public class ReportedValueForDisplay
     {
-        public int? IndicatorSubcategoryOptionID { get; set; }
+        public int? PerformanceMeasureSubcategoryOptionID { get; set; }
         public double? ReportedValue { get; set; }
         public int SortOrder { get; set; }
 
@@ -15,12 +15,12 @@ namespace ProjectFirma.Web.Models
         {
         }
 
-        public ReportedValueForDisplay(IIndicatorReported sustainabilityIndicatorReported)
+        public ReportedValueForDisplay(IPerformanceMeasureReported sustainabilityPerformanceMeasureReported)
         {
-            var irviso = sustainabilityIndicatorReported.IndicatorReportedSubcategoryOptions.SingleOrDefault();
-            IndicatorSubcategoryOptionID = irviso != null ? irviso.IndicatorSubcategoryOptionID : (int?) null;
-            ReportedValue = sustainabilityIndicatorReported.ReportedValue;
-            SortOrder = sustainabilityIndicatorReported.SortOrder;
+            var irviso = sustainabilityPerformanceMeasureReported.PerformanceMeasureReportedSubcategoryOptions.SingleOrDefault();
+            PerformanceMeasureSubcategoryOptionID = irviso != null ? irviso.PerformanceMeasureSubcategoryOptionID : (int?) null;
+            ReportedValue = sustainabilityPerformanceMeasureReported.ReportedValue;
+            SortOrder = sustainabilityPerformanceMeasureReported.SortOrder;
         }
     }
 }

@@ -9,15 +9,15 @@ namespace ProjectFirma.Web.Models
     {
         public readonly int PrimaryKey;
         public readonly PerformanceMeasure PerformanceMeasure;
-        public readonly IndicatorSubcategory IndicatorSubcategory;
-        public int IndicatorSubcategoryOptionID { get; set; }
+        public readonly PerformanceMeasureSubcategory PerformanceMeasureSubcategory;
+        public int PerformanceMeasureSubcategoryOptionID { get; set; }
 
-        public PerformanceMeasureValueSubcategoryOption(int primaryKey, int indicatorSubcategoryOptionID, PerformanceMeasure performanceMeasure, IndicatorSubcategory indicatorSubcategory)
+        public PerformanceMeasureValueSubcategoryOption(int primaryKey, int performanceMeasureSubcategoryOptionID, PerformanceMeasure performanceMeasure, PerformanceMeasureSubcategory performanceMeasureSubcategory)
         {
             PrimaryKey = primaryKey;
-            IndicatorSubcategoryOptionID = indicatorSubcategoryOptionID;
+            PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
             PerformanceMeasure = performanceMeasure;
-            IndicatorSubcategory = indicatorSubcategory;
+            PerformanceMeasureSubcategory = performanceMeasureSubcategory;
         }
 
         public int PerformanceMeasureID
@@ -25,32 +25,32 @@ namespace ProjectFirma.Web.Models
             get { return PerformanceMeasure.PerformanceMeasureID; }
         }
 
-        public int IndicatorSubcategoryID
+        public int PerformanceMeasureSubcategoryID
         {
-            get { return IndicatorSubcategory.IndicatorSubcategoryID; }
+            get { return PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID; }
         }
 
         private static IEnumerable<PerformanceMeasureValueSubcategoryOption> GetAllPossibleSubcategoryOptionsForPerformanceMeasureValue(IPerformanceMeasureValue performanceMeasureValue)
         {
             var performanceMeasure = performanceMeasureValue.PerformanceMeasure;
-            var selectedPerformanceMeasureValueSubcategoryOptions = performanceMeasureValue.IndicatorSubcategoryOptions;
+            var selectedPerformanceMeasureValueSubcategoryOptions = performanceMeasureValue.PerformanceMeasureSubcategoryOptions;
             // we need to get all possible subcategories for this performance measure and default it with empty values
-            // we do this to prime the angular editor to have these indicatorSubcategory dropdowns there, even if they didn't choose an option for that indicatorSubcategory
+            // we do this to prime the angular editor to have these performanceMeasureSubcategory dropdowns there, even if they didn't choose an option for that performanceMeasureSubcategory
             // since this part is optional when creating an expected value record
             var allPossiblePerformanceMeasureActualUpdateSubcategoryOptions =
-                performanceMeasure.IndicatorSubcategories.Select(
+                performanceMeasure.PerformanceMeasureSubcategories.Select(
                     x => new PerformanceMeasureValueSubcategoryOption(ModelObjectHelpers.NotYetAssignedID, ModelObjectHelpers.NotYetAssignedID, x.PerformanceMeasure, x)).ToList();
 
             var subcategoryOptionUpdateSimplesSelected =
                 selectedPerformanceMeasureValueSubcategoryOptions.Select(
                     x =>
                         new PerformanceMeasureValueSubcategoryOption(x.PrimaryKey,
-                            x.IndicatorSubcategoryOption == null ? ModelObjectHelpers.NotYetAssignedID : x.IndicatorSubcategoryOption.IndicatorSubcategoryOptionID,
+                            x.PerformanceMeasureSubcategoryOption == null ? ModelObjectHelpers.NotYetAssignedID : x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID,
                             x.PerformanceMeasure,
-                            x.IndicatorSubcategory)).ToList();
+                            x.PerformanceMeasureSubcategory)).ToList();
             allPossiblePerformanceMeasureActualUpdateSubcategoryOptions.MergeUpdate(subcategoryOptionUpdateSimplesSelected,
-                (x, y) => x.IndicatorSubcategoryID == y.IndicatorSubcategoryID,
-                (x, y) => x.IndicatorSubcategoryOptionID = y.IndicatorSubcategoryOptionID);
+                (x, y) => x.PerformanceMeasureSubcategoryID == y.PerformanceMeasureSubcategoryID,
+                (x, y) => x.PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID);
             return allPossiblePerformanceMeasureActualUpdateSubcategoryOptions;
         }
 

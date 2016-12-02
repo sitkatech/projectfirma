@@ -8,8 +8,8 @@ namespace ProjectFirma.Web.Models
         string PerformanceMeasureName { get; }
         string PerformanceMeasureUrl { get; }
         MeasurementUnitType MeasurementUnitType { get; }
-        List<IPerformanceMeasureValueSubcategoryOption> IndicatorSubcategoryOptions { get; }
-        string IndicatorSubcategoriesAsString { get; }
+        List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions { get; }
+        string PerformanceMeasureSubcategoriesAsString { get; }
         string ReportedValueDisplay { get; }
         double? ReportedValue { get; }
         Int32 PerformanceMeasureID { get; }

@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
     /// PerformanceMeasureExpectedSubcategoryOption
     /// ProgramPerformanceMeasure
     /// ProjectThresholdCategory
-    /// IndicatorSubcategoryOption
+    /// PerformanceMeasureSubcategoryOption
     /// 
     /// -- SLG
     /// </summary>

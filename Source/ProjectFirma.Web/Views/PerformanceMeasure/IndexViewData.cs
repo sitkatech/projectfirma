@@ -6,24 +6,22 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly IndexGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
+        public readonly PerformanceMeasureGridSpec PerformanceMeasureGridSpec;
+        public readonly string PerformanceMeasureGridName;
+        public readonly string PerformanceMeasureGridDataUrl;
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
-        {
-            PageTitle = "Performance Measures";
-            EntityName = "Performance Measure";
+        {  
+            PageTitle = "PerformanceMeasures";
 
-            GridSpec = new IndexGridSpec()
-            {
-                ObjectNameSingular = "Performance Measure",
-                ObjectNamePlural = "Performance Measures",
+            PerformanceMeasureGridSpec = new PerformanceMeasureGridSpec {
+                ObjectNameSingular = "PerformanceMeasure",
+                ObjectNamePlural = "PerformanceMeasures",
                 SaveFiltersInCookie = true
             };
 
-            GridName = "performanceMeasuresGrid";
-            GridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            PerformanceMeasureGridName = "performanceMeasuresGrid";
+            PerformanceMeasureGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.PerformanceMeasureGridJsonData());
         }
     }
 }

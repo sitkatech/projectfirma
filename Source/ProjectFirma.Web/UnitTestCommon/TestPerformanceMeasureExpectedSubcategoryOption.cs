@@ -8,13 +8,13 @@ namespace ProjectFirma.Web.UnitTestCommon
         {
             public static PerformanceMeasureExpectedSubcategoryOption Create(int performanceMeasureExpectedSubcategoryOptionID,
                 PerformanceMeasureExpected performanceMeasureExpected,
-                IndicatorSubcategory indicatorSubcategory,
-                IndicatorSubcategoryOption indicatorSubcategoryOption)
+                PerformanceMeasureSubcategory performanceMeasureSubcategory,
+                PerformanceMeasureSubcategoryOption performanceMeasureSubcategoryOption)
             {
                 var performanceMeasureExpectedSubcategoryOption = new PerformanceMeasureExpectedSubcategoryOption(performanceMeasureExpected,
-                    indicatorSubcategoryOption,
+                    performanceMeasureSubcategoryOption,
                     performanceMeasureExpected.PerformanceMeasure,
-                    indicatorSubcategory);
+                    performanceMeasureSubcategory);
                 performanceMeasureExpectedSubcategoryOption.PerformanceMeasureExpectedSubcategoryOptionID = performanceMeasureExpectedSubcategoryOptionID;
                 return performanceMeasureExpectedSubcategoryOption;
             }

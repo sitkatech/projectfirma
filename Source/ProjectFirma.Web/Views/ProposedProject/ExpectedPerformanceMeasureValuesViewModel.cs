@@ -10,8 +10,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
 {
     public class ExpectedPerformanceMeasureValuesViewModel : EditPerformanceMeasureExpectedViewModel, IValidatableObject
     {
-        [StringLength(Models.ProposedProject.FieldLengths.IndicatorNotes)]
-        public string IndicatorNotes { get; set; }
+        [StringLength(Models.ProposedProject.FieldLengths.PerformanceMeasureNotes)]
+        public string PerformanceMeasureNotes { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public ExpectedPerformanceMeasureValuesViewModel(Models.ProposedProject proposedProject)
             : base(proposedProject.PerformanceMeasureExpectedProposeds.OrderBy(pam => pam.PerformanceMeasureID).Select(x => new PerformanceMeasureExpectedSimple(x)).ToList())
         {
-            IndicatorNotes = proposedProject.IndicatorNotes;
+            PerformanceMeasureNotes = proposedProject.PerformanceMeasureNotes;
         }
 
         public void UpdateModel(List<PerformanceMeasureExpectedProposed> currentPerformanceMeasureExpectedProposeds,
@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             Models.ProposedProject proposedProject)
         {
             //Save our note
-            proposedProject.IndicatorNotes = IndicatorNotes;
+            proposedProject.PerformanceMeasureNotes = PerformanceMeasureNotes;
 
             // Remove all existing associations
             currentPerformanceMeasureExpectedProposeds.ForEach(pmav =>
@@ -51,15 +51,15 @@ namespace ProjectFirma.Web.Views.ProposedProject
                     allPerformanceMeasureExpectedProposeds.Add(proposedProjectPerformanceMeasureExpected);
                     if (x.PerformanceMeasureExpectedSubcategoryOptions != null)
                     {
-                        x.PerformanceMeasureExpectedSubcategoryOptions.Where(y => ModelObjectHelpers.IsRealPrimaryKeyValue(y.IndicatorSubcategoryOptionID))
+                        x.PerformanceMeasureExpectedSubcategoryOptions.Where(y => ModelObjectHelpers.IsRealPrimaryKeyValue(y.PerformanceMeasureSubcategoryOptionID))
                             .ToList()
                             .ForEach(
                                 y =>
                                     allPerformanceMeasureExpectedSubcategoryOptionProposeds.Add(
                                         new PerformanceMeasureExpectedSubcategoryOptionProposed(proposedProjectPerformanceMeasureExpected.PerformanceMeasureExpectedProposedID,
-                                            y.IndicatorSubcategoryOptionID,
+                                            y.PerformanceMeasureSubcategoryOptionID,
                                             y.PerformanceMeasureID,
-                                            y.IndicatorSubcategoryID)));
+                                            y.PerformanceMeasureSubcategoryID)));
                     }
                 });
             }
@@ -74,10 +74,10 @@ namespace ProjectFirma.Web.Views.ProposedProject
         {
             var validationResults = new List<ValidationResult>();
 
-            if ((PerformanceMeasureExpecteds == null || !PerformanceMeasureExpecteds.Any()) && string.IsNullOrWhiteSpace(IndicatorNotes))
+            if ((PerformanceMeasureExpecteds == null || !PerformanceMeasureExpecteds.Any()) && string.IsNullOrWhiteSpace(PerformanceMeasureNotes))
             {
                 const string errorMessage = "You must provide one or more expected Performance Measures, or provide a brief note describing why the Performance Measures are not yet known for this proposal.";
-                validationResults.Add(new SitkaValidationResult<ExpectedPerformanceMeasureValuesViewModel, string>(errorMessage, x => x.IndicatorNotes));
+                validationResults.Add(new SitkaValidationResult<ExpectedPerformanceMeasureValuesViewModel, string>(errorMessage, x => x.PerformanceMeasureNotes));
             }
             return validationResults;
         }

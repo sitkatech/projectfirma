@@ -87,15 +87,15 @@
 </div>
 
 <div class="summarySection">
-    <h2>Associated Indicators</h2>
+    <h2>Associated PerformanceMeasures</h2>
     <div class="contentWrapper">
-        @if (ViewDataTyped.MonitoringProgram.IndicatorMonitoringPrograms.Any())
+        @if (ViewDataTyped.MonitoringProgram.PerformanceMeasureMonitoringPrograms.Any())
         {
             <ul>
-                @foreach (var indicatorMonitoringProgram in ViewDataTyped.MonitoringProgram.IndicatorMonitoringPrograms.OrderBy(x => x.Indicator.IndicatorDisplayName))
+                @foreach (var performanceMeasureMonitoringProgram in ViewDataTyped.MonitoringProgram.PerformanceMeasureMonitoringPrograms.OrderBy(x => x.PerformanceMeasure.PerformanceMeasureDisplayName))
                 {
                     <li>
-                        <a href="@indicatorMonitoringProgram.Indicator.GetSummaryUrl()">@indicatorMonitoringProgram.Indicator.IndicatorDisplayName</a>
+                        <a href="@performanceMeasureMonitoringProgram.PerformanceMeasure.GetSummaryUrl()">@performanceMeasureMonitoringProgram.PerformanceMeasure.PerformanceMeasureDisplayName</a>
                     </li>
                 }
             </ul>

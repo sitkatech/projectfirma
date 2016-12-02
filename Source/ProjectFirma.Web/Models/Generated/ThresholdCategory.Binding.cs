@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Models
             this.ProjectThresholdCategories = new HashSet<ProjectThresholdCategory>();
             this.ProposedProjectThresholdCategories = new HashSet<ProposedProjectThresholdCategory>();
             this.ThresholdCategoryImages = new HashSet<ThresholdCategoryImage>();
-            this.ThresholdCategoryIndicators = new HashSet<ThresholdCategoryIndicator>();
+            this.ThresholdCategoryPerformanceMeasures = new HashSet<ThresholdCategoryPerformanceMeasure>();
         }
 
         /// <summary>
@@ -72,13 +72,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectThresholdCategories.Any() || ProposedProjectThresholdCategories.Any() || ThresholdCategoryImages.Any() || ThresholdCategoryIndicators.Any();
+            return ProjectThresholdCategories.Any() || ProposedProjectThresholdCategories.Any() || ThresholdCategoryImages.Any() || ThresholdCategoryPerformanceMeasures.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ThresholdCategory).Name, typeof(ProjectThresholdCategory).Name, typeof(ProposedProjectThresholdCategory).Name, typeof(ThresholdCategoryImage).Name, typeof(ThresholdCategoryIndicator).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ThresholdCategory).Name, typeof(ProjectThresholdCategory).Name, typeof(ProposedProjectThresholdCategory).Name, typeof(ThresholdCategoryImage).Name, typeof(ThresholdCategoryPerformanceMeasure).Name};
 
         [Key]
         public int ThresholdCategoryID { get; set; }
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectThresholdCategory> ProjectThresholdCategories { get; set; }
         public virtual ICollection<ProposedProjectThresholdCategory> ProposedProjectThresholdCategories { get; set; }
         public virtual ICollection<ThresholdCategoryImage> ThresholdCategoryImages { get; set; }
-        public virtual ICollection<ThresholdCategoryIndicator> ThresholdCategoryIndicators { get; set; }
+        public virtual ICollection<ThresholdCategoryPerformanceMeasure> ThresholdCategoryPerformanceMeasures { get; set; }
 
         public static class FieldLengths
         {

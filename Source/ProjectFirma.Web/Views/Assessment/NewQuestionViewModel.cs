@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Views.Assessment
         public string AssessmentQuestionText { get; set; }
 
         [Required]
-        [DisplayName("Associated Goal and Indicator")]
+        [DisplayName("Associated Goal and PerformanceMeasure")]
         public int AssessmentSubGoalID { get; set; }
         
         /// <summary>

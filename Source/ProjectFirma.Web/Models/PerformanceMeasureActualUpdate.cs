@@ -91,16 +91,16 @@ namespace ProjectFirma.Web.Models
                 ActualValue = actualValue
             };
             performanceMeasureActualUpdate.PerformanceMeasureActualSubcategoryOptionUpdates =
-                performanceMeasureValueToClone.IndicatorSubcategoryOptions.Select(
+                performanceMeasureValueToClone.PerformanceMeasureSubcategoryOptions.Select(
                     performanceMeasureActualSubcategoryOption =>
                         new PerformanceMeasureActualSubcategoryOptionUpdate(performanceMeasureActualUpdate,
-                            performanceMeasureActualSubcategoryOption.IndicatorSubcategoryOption,
+                            performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOption,
                             performanceMeasureActualSubcategoryOption.PerformanceMeasure,
-                            performanceMeasureActualSubcategoryOption.IndicatorSubcategory)).ToList();
+                            performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategory)).ToList();
             return performanceMeasureActualUpdate;
         }
 
-        public List<IPerformanceMeasureValueSubcategoryOption> IndicatorSubcategoryOptions
+        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions
         {
             get { return new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureActualSubcategoryOptionUpdates); }
         }
@@ -122,17 +122,17 @@ namespace ProjectFirma.Web.Models
 
         public MeasurementUnitType MeasurementUnitType
         {
-            get { return PerformanceMeasure.Indicator.MeasurementUnitType; }
+            get { return PerformanceMeasure.MeasurementUnitType; }
         }
 
-        public string IndicatorSubcategoriesAsString
+        public string PerformanceMeasureSubcategoriesAsString
         {
             get
             {
                 return PerformanceMeasureActualSubcategoryOptionUpdates.Any()
                     ? string.Join("\r\n",
-                        PerformanceMeasureActualSubcategoryOptionUpdates.OrderBy(x => x.IndicatorSubcategory.IndicatorSubcategoryDisplayName)
-                            .Select(x => string.Format("{0}: {1}", x.IndicatorSubcategory.IndicatorSubcategoryDisplayName, x.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName)))
+                        PerformanceMeasureActualSubcategoryOptionUpdates.OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
+                            .Select(x => string.Format("{0}: {1}", x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName, x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName)))
                     : ViewUtilities.NoneString;
             }
         }
@@ -168,9 +168,9 @@ namespace ProjectFirma.Web.Models
                         performanceMeasureActualSubcategoryOptionUpdates.ForEach(
                             y =>
                                 allPerformanceMeasureActualSubcategoryOptions.Add(new PerformanceMeasureActualSubcategoryOption(performanceMeasureActual,
-                                    y.IndicatorSubcategoryOption,
+                                    y.PerformanceMeasureSubcategoryOption,
                                     y.PerformanceMeasure,
-                                    y.IndicatorSubcategory)));
+                                    y.PerformanceMeasureSubcategory)));
                     }
                 });
             }

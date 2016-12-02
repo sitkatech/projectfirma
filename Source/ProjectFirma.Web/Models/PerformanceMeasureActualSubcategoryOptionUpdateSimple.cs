@@ -16,15 +16,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public PerformanceMeasureActualSubcategoryOptionUpdateSimple(int performanceMeasureActualSubcategoryOptionUpdateID,
             int performanceMeasureActualUpdateID,
-            int? indicatorSubcategoryOptionID,
+            int? performanceMeasureSubcategoryOptionID,
             int performanceMeasureID,
-            int indicatorSubcategoryID) : this()
+            int performanceMeasureSubcategoryID) : this()
         {
             PerformanceMeasureActualSubcategoryOptionUpdateID = performanceMeasureActualSubcategoryOptionUpdateID;
             PerformanceMeasureActualUpdateID = performanceMeasureActualUpdateID;
-            IndicatorSubcategoryOptionID = indicatorSubcategoryOptionID;
+            PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
             PerformanceMeasureID = performanceMeasureID;
-            IndicatorSubcategoryID = indicatorSubcategoryID;
+            PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
         }
 
         /// <summary>
@@ -34,9 +34,9 @@ namespace ProjectFirma.Web.Models
         {
             PerformanceMeasureActualSubcategoryOptionUpdateID = performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureActualSubcategoryOptionUpdateID;
             PerformanceMeasureActualUpdateID = performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureActualUpdateID;
-            IndicatorSubcategoryOptionID = performanceMeasureActualSubcategoryOptionUpdate.IndicatorSubcategoryOptionID;
+            PerformanceMeasureSubcategoryOptionID = performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureSubcategoryOptionID;
             PerformanceMeasureID = performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureID;
-            IndicatorSubcategoryID = performanceMeasureActualSubcategoryOptionUpdate.IndicatorSubcategoryID;
+            PerformanceMeasureSubcategoryID = performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureSubcategoryID;
         }
 
         public PerformanceMeasureActualSubcategoryOptionUpdateSimple(PerformanceMeasureValueSubcategoryOption performanceMeasureActualSubcategoryOption,
@@ -44,17 +44,17 @@ namespace ProjectFirma.Web.Models
             : this(
                 performanceMeasureActualSubcategoryOption.PrimaryKey,
                 performanceMeasureActualUpdate.PerformanceMeasureActualUpdateID,
-                performanceMeasureActualSubcategoryOption.IndicatorSubcategoryOptionID,
+                performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID,
                 performanceMeasureActualSubcategoryOption.PerformanceMeasureID,
-                performanceMeasureActualSubcategoryOption.IndicatorSubcategoryID)
+                performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryID)
         {
         }
 
         public int PerformanceMeasureActualSubcategoryOptionUpdateID { get; set; }
         public int PerformanceMeasureActualUpdateID { get; set; }
-        [DisplayName("IndicatorSubcategory Option")]
-        public int? IndicatorSubcategoryOptionID { get; set; }
+        [DisplayName("PerformanceMeasureSubcategory Option")]
+        public int? PerformanceMeasureSubcategoryOptionID { get; set; }
         public int PerformanceMeasureID { get; set; }
-        public int IndicatorSubcategoryID { get; set; }
+        public int PerformanceMeasureSubcategoryID { get; set; }
     }
 }

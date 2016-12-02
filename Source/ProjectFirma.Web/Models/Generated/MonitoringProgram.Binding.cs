@@ -23,9 +23,9 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected MonitoringProgram()
         {
-            this.IndicatorMonitoringPrograms = new HashSet<IndicatorMonitoringProgram>();
             this.MonitoringProgramDocuments = new HashSet<MonitoringProgramDocument>();
             this.MonitoringProgramPartners = new HashSet<MonitoringProgramPartner>();
+            this.PerformanceMeasureMonitoringPrograms = new HashSet<PerformanceMeasureMonitoringProgram>();
         }
 
         /// <summary>
@@ -65,13 +65,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return IndicatorMonitoringPrograms.Any() || MonitoringProgramDocuments.Any() || MonitoringProgramPartners.Any();
+            return MonitoringProgramDocuments.Any() || MonitoringProgramPartners.Any() || PerformanceMeasureMonitoringPrograms.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(MonitoringProgram).Name, typeof(IndicatorMonitoringProgram).Name, typeof(MonitoringProgramDocument).Name, typeof(MonitoringProgramPartner).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(MonitoringProgram).Name, typeof(MonitoringProgramDocument).Name, typeof(MonitoringProgramPartner).Name, typeof(PerformanceMeasureMonitoringProgram).Name};
 
         [Key]
         public int MonitoringProgramID { get; set; }
@@ -80,9 +80,9 @@ namespace ProjectFirma.Web.Models
         public string MonitoringProgramUrl { get; set; }
         public int PrimaryKey { get { return MonitoringProgramID; } set { MonitoringProgramID = value; } }
 
-        public virtual ICollection<IndicatorMonitoringProgram> IndicatorMonitoringPrograms { get; set; }
         public virtual ICollection<MonitoringProgramDocument> MonitoringProgramDocuments { get; set; }
         public virtual ICollection<MonitoringProgramPartner> MonitoringProgramPartners { get; set; }
+        public virtual ICollection<PerformanceMeasureMonitoringProgram> PerformanceMeasureMonitoringPrograms { get; set; }
 
         public static class FieldLengths
         {

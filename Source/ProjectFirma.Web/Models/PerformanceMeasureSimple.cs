@@ -5,13 +5,13 @@
         public PerformanceMeasureSimple(PerformanceMeasure performanceMeasure)
             : this(
                 performanceMeasure.PerformanceMeasureID,
-                performanceMeasure.Indicator.IndicatorName,
-                performanceMeasure.Indicator.MeasurementUnitTypeID,
-                performanceMeasure.Indicator.DisplayOrder,
+                performanceMeasure.PerformanceMeasureName,
+                performanceMeasure.MeasurementUnitTypeID,
+                performanceMeasure.DisplayOrder,
                 performanceMeasure.DisplayName,
-                performanceMeasure.Indicator.MeasurementUnitType.MeasurementUnitTypeDisplayName,
-                performanceMeasure.Indicator.HasRealSubcategories,
-                performanceMeasure.Indicator.GetDefinitionAndGuidanceUrl())
+                performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName,
+                performanceMeasure.HasRealSubcategories,
+                performanceMeasure.GetDefinitionAndGuidanceUrl())
         {
         }
 

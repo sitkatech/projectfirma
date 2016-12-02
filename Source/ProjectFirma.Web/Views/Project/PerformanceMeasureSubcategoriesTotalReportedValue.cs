@@ -47,22 +47,22 @@ namespace ProjectFirma.Web.Views.Project
 
         public MeasurementUnitType MeasurementUnitType
         {
-            get { return PerformanceMeasure.Indicator.MeasurementUnitType; }
+            get { return PerformanceMeasure.MeasurementUnitType; }
         }
 
-        public string IndicatorSubcategoriesAsString
+        public string PerformanceMeasureSubcategoriesAsString
         {
             get
             {
                 return PerformanceMeasureActualSubcategoryOptions.Any()
                     ? string.Join("\r\n",
-                        PerformanceMeasureActualSubcategoryOptions.OrderBy(x => x.IndicatorSubcategory.IndicatorSubcategoryDisplayName)
-                            .Select(x => string.Format("{0}: {1}", x.IndicatorSubcategory.IndicatorSubcategoryDisplayName, x.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName)))
+                        PerformanceMeasureActualSubcategoryOptions.OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
+                            .Select(x => string.Format("{0}: {1}", x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName, x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName)))
                     : ViewUtilities.NoneString;
             }
         }
 
-        public List<IPerformanceMeasureValueSubcategoryOption> IndicatorSubcategoryOptions
+        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions
         {
             get { return new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureActualSubcategoryOptions); }
         }

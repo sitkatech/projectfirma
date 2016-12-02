@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Views.ThresholdCategory
     {
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
-            PageTitle = "Threshold Categories, Reporting Categories, and Indicators";
+            PageTitle = "Threshold Categories, Reporting Categories, and PerformanceMeasures";
         }
     }
 }

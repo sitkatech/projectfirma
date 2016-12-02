@@ -42,11 +42,11 @@
         </tr>
         @foreach (var performanceMeasureCalendarYearReportedValue in ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues.OrderBy(x => x.PerformanceMeasureID))
         {
-            foreach (var subcategoriesReportedValue in performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.OrderBy(x => x.IndicatorSubcategories))
+            foreach (var subcategoriesReportedValue in performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.OrderBy(x => x.PerformanceMeasureSubcategories))
             {
                 <tr class="@performanceMeasureCalendarYearReportedValue.DisplayCssClass">
                     <td>@performanceMeasureCalendarYearReportedValue.PerformanceMeasureDisplayNameAsUrl</td>
-                    <td>@Html.Raw(subcategoriesReportedValue.IndicatorSubcategories)</td>
+                    <td>@Html.Raw(subcategoriesReportedValue.PerformanceMeasureSubcategories)</td>
                     @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(cy => cy.CalendarYear))
                     {
                         <td class="@calendarYear.DisplayCssClass" style="text-align: right">

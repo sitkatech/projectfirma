@@ -29,56 +29,56 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public SnapshotPerformanceMeasureSubcategoryOption(int snapshotPerformanceMeasureSubcategoryOptionID, int snapshotPerformanceMeasureID, int indicatorSubcategoryOptionID, int performanceMeasureID, int indicatorSubcategoryID) : this()
+        public SnapshotPerformanceMeasureSubcategoryOption(int snapshotPerformanceMeasureSubcategoryOptionID, int snapshotPerformanceMeasureID, int performanceMeasureSubcategoryOptionID, int performanceMeasureID, int performanceMeasureSubcategoryID) : this()
         {
             this.SnapshotPerformanceMeasureSubcategoryOptionID = snapshotPerformanceMeasureSubcategoryOptionID;
             this.SnapshotPerformanceMeasureID = snapshotPerformanceMeasureID;
-            this.IndicatorSubcategoryOptionID = indicatorSubcategoryOptionID;
+            this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
             this.PerformanceMeasureID = performanceMeasureID;
-            this.IndicatorSubcategoryID = indicatorSubcategoryID;
+            this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public SnapshotPerformanceMeasureSubcategoryOption(int snapshotPerformanceMeasureID, int indicatorSubcategoryOptionID, int performanceMeasureID, int indicatorSubcategoryID) : this()
+        public SnapshotPerformanceMeasureSubcategoryOption(int snapshotPerformanceMeasureID, int performanceMeasureSubcategoryOptionID, int performanceMeasureID, int performanceMeasureSubcategoryID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             SnapshotPerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.SnapshotPerformanceMeasureID = snapshotPerformanceMeasureID;
-            this.IndicatorSubcategoryOptionID = indicatorSubcategoryOptionID;
+            this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
             this.PerformanceMeasureID = performanceMeasureID;
-            this.IndicatorSubcategoryID = indicatorSubcategoryID;
+            this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public SnapshotPerformanceMeasureSubcategoryOption(SnapshotPerformanceMeasure snapshotPerformanceMeasure, IndicatorSubcategoryOption indicatorSubcategoryOption, PerformanceMeasure performanceMeasure, IndicatorSubcategory indicatorSubcategory) : this()
+        public SnapshotPerformanceMeasureSubcategoryOption(SnapshotPerformanceMeasure snapshotPerformanceMeasure, PerformanceMeasureSubcategoryOption performanceMeasureSubcategoryOption, PerformanceMeasure performanceMeasure, PerformanceMeasureSubcategory performanceMeasureSubcategory) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.SnapshotPerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.SnapshotPerformanceMeasureID = snapshotPerformanceMeasure.SnapshotPerformanceMeasureID;
             this.SnapshotPerformanceMeasure = snapshotPerformanceMeasure;
             snapshotPerformanceMeasure.SnapshotPerformanceMeasureSubcategoryOptions.Add(this);
-            this.IndicatorSubcategoryOptionID = indicatorSubcategoryOption.IndicatorSubcategoryOptionID;
-            this.IndicatorSubcategoryOption = indicatorSubcategoryOption;
-            indicatorSubcategoryOption.SnapshotPerformanceMeasureSubcategoryOptions.Add(this);
+            this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID;
+            this.PerformanceMeasureSubcategoryOption = performanceMeasureSubcategoryOption;
+            performanceMeasureSubcategoryOption.SnapshotPerformanceMeasureSubcategoryOptions.Add(this);
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
             performanceMeasure.SnapshotPerformanceMeasureSubcategoryOptions.Add(this);
-            this.IndicatorSubcategoryID = indicatorSubcategory.IndicatorSubcategoryID;
-            this.IndicatorSubcategory = indicatorSubcategory;
-            indicatorSubcategory.SnapshotPerformanceMeasureSubcategoryOptions.Add(this);
+            this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategory.PerformanceMeasureSubcategoryID;
+            this.PerformanceMeasureSubcategory = performanceMeasureSubcategory;
+            performanceMeasureSubcategory.SnapshotPerformanceMeasureSubcategoryOptions.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static SnapshotPerformanceMeasureSubcategoryOption CreateNewBlank(SnapshotPerformanceMeasure snapshotPerformanceMeasure, IndicatorSubcategoryOption indicatorSubcategoryOption, PerformanceMeasure performanceMeasure, IndicatorSubcategory indicatorSubcategory)
+        public static SnapshotPerformanceMeasureSubcategoryOption CreateNewBlank(SnapshotPerformanceMeasure snapshotPerformanceMeasure, PerformanceMeasureSubcategoryOption performanceMeasureSubcategoryOption, PerformanceMeasure performanceMeasure, PerformanceMeasureSubcategory performanceMeasureSubcategory)
         {
-            return new SnapshotPerformanceMeasureSubcategoryOption(snapshotPerformanceMeasure, indicatorSubcategoryOption, performanceMeasure, indicatorSubcategory);
+            return new SnapshotPerformanceMeasureSubcategoryOption(snapshotPerformanceMeasure, performanceMeasureSubcategoryOption, performanceMeasure, performanceMeasureSubcategory);
         }
 
         /// <summary>
@@ -98,15 +98,15 @@ namespace ProjectFirma.Web.Models
         [Key]
         public int SnapshotPerformanceMeasureSubcategoryOptionID { get; set; }
         public int SnapshotPerformanceMeasureID { get; set; }
-        public int IndicatorSubcategoryOptionID { get; set; }
+        public int PerformanceMeasureSubcategoryOptionID { get; set; }
         public int PerformanceMeasureID { get; set; }
-        public int IndicatorSubcategoryID { get; set; }
+        public int PerformanceMeasureSubcategoryID { get; set; }
         public int PrimaryKey { get { return SnapshotPerformanceMeasureSubcategoryOptionID; } set { SnapshotPerformanceMeasureSubcategoryOptionID = value; } }
 
         public virtual SnapshotPerformanceMeasure SnapshotPerformanceMeasure { get; set; }
-        public virtual IndicatorSubcategoryOption IndicatorSubcategoryOption { get; set; }
+        public virtual PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
-        public virtual IndicatorSubcategory IndicatorSubcategory { get; set; }
+        public virtual PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; set; }
 
         public static class FieldLengths
         {

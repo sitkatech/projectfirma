@@ -304,11 +304,11 @@ namespace ProjectFirma.Web.Models
                         performanceMeasureExpectedProposed.PerformanceMeasureExpectedSubcategoryOptionProposeds)
                 {
                     var performanceMeasureExpectedSubcategoryOption = new PerformanceMeasureExpectedSubcategoryOption(performanceMeasureExpected,
-                        performanceMeasureExpectedSubcategoryOptionProposed.IndicatorSubcategoryOption,
+                        performanceMeasureExpectedSubcategoryOptionProposed.PerformanceMeasureSubcategoryOption,
                         performanceMeasureExpectedSubcategoryOptionProposed.PerformanceMeasure,
-                        performanceMeasureExpectedSubcategoryOptionProposed.IndicatorSubcategory);
+                        performanceMeasureExpectedSubcategoryOptionProposed.PerformanceMeasureSubcategory);
 
-                    performanceMeasureExpected.IndicatorSubcategoryOptions.Add(performanceMeasureExpectedSubcategoryOption);
+                    performanceMeasureExpected.PerformanceMeasureSubcategoryOptions.Add(performanceMeasureExpectedSubcategoryOption);
                 }
                 project.PerformanceMeasureExpecteds.Add(performanceMeasureExpected);
             }

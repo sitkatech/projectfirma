@@ -1,7 +1,7 @@
 ﻿@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Results
 @using ProjectFirma.Web.Views
-@using ProjectFirma.Web.Views.Indicator
+@using ProjectFirma.Web.Views.PerformanceMeasure
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
 @using LtInfo.Common.DhtmlWrappers
@@ -46,7 +46,7 @@
                         <tr>
                             <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure):</th>
                             <td>
-                                <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this PM" onmouseover="ProjectFirma.Views.Methods.addHelpTooltipPopup(jQuery(this), @ViewDataTyped.SelectedPerformanceMeasure.DisplayName.ToJS(), @ViewDataTyped.SelectedPerformanceMeasure.Indicator.GetDefinitionAndGuidanceUrl().ToJS(), 430)"></span>
+                                <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this PM" onmouseover="ProjectFirma.Views.Methods.addHelpTooltipPopup(jQuery(this), @ViewDataTyped.SelectedPerformanceMeasure.DisplayName.ToJS(), @ViewDataTyped.SelectedPerformanceMeasure.GetDefinitionAndGuidanceUrl().ToJS(), 430)"></span>
                                 <a href="@ViewDataTyped.SelectedPerformanceMeasure.GetSummaryUrl()" class="chartHeader">@ViewDataTyped.SelectedPerformanceMeasure.DisplayName</a>
                             </td>
                         </tr>
@@ -57,13 +57,13 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Total @ViewDataTyped.SelectedPerformanceMeasure.Indicator.MeasurementUnitType.MeasurementUnitTypeDisplayName Completed:</th>
+                            <th>Total @ViewDataTyped.SelectedPerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName Completed:</th>
                             <td>
                                 @ViewDataTyped.SelectedPerformanceMeasure.TotalReportedValueWithNonZeroExpenditures().ToString()
                             </td>
                         </tr>
                         <tr>
-                            <th>@string.Format("Spending Per {0} ", ViewDataTyped.SelectedPerformanceMeasure.Indicator.MeasurementUnitType.SingularDisplayName):</th>
+                            <th>@string.Format("Spending Per {0} ", ViewDataTyped.SelectedPerformanceMeasure.MeasurementUnitType.SingularDisplayName):</th>
                             <td>
                                 @ViewDataTyped.SelectedPerformanceMeasure.TotalExpenditurePerPerformanceMeasureUnit().ToStringCurrency()
                             </td>
@@ -78,7 +78,7 @@
                 <h2>Charts</h2>
                 <div class="contentWrapper">
                     <div style="margin-right: auto; margin-left: auto; width: 600px">
-                        @{ IndicatorChart.RenderPartialView(Html, ViewDataTyped.IndicatorChartViewData); }
+                        @{ PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureChartViewData); }
                     </div>
                 </div>
             </div>

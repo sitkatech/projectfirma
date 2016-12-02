@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Models
 
         public string DisplayNameNoNumber
         {
-            get { return Indicator.IndicatorDisplayName; }
+            get { return PerformanceMeasureDisplayName; }
         }
 
         public int ExpectedProjectsCount
@@ -47,9 +47,9 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public List<IndicatorSubcategory> GetIndicatorSubcategories()
+        public List<PerformanceMeasureSubcategory> GetPerformanceMeasureSubcategories()
         {
-            return IndicatorSubcategories.Any() ? IndicatorSubcategories.Select(x => x).OrderBy(x => x.IndicatorSubcategoryDisplayName).ToList() : new List<IndicatorSubcategory>();
+            return PerformanceMeasureSubcategories.Any() ? PerformanceMeasureSubcategories.Select(x => x).OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName).ToList() : new List<PerformanceMeasureSubcategory>();
         }
 
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues()
@@ -102,19 +102,19 @@ namespace ProjectFirma.Web.Models
         {
             var groupByProjectAndSubcategory = GetReportedPerformanceMeasureValues()
                 .Where(x => FirmaDateUtilities.DateIsInReportingRange(x.CalendarYear))
-                .GroupBy(x => new { x.Project, x.IndicatorSubcategoriesAsString }).ToList();
+                .GroupBy(x => new { x.Project, x.PerformanceMeasureSubcategoriesAsString }).ToList();
 
-            return groupByProjectAndSubcategory.Select(reportedValuesGroup => new PerformanceMeasureSubcategoriesTotalReportedValue(reportedValuesGroup.Key.Project, reportedValuesGroup.First().IndicatorSubcategoryOptions, this, reportedValuesGroup.Sum(x => x.ReportedValue))).ToList();
+            return groupByProjectAndSubcategory.Select(reportedValuesGroup => new PerformanceMeasureSubcategoriesTotalReportedValue(reportedValuesGroup.Key.Project, reportedValuesGroup.First().PerformanceMeasureSubcategoryOptions, this, reportedValuesGroup.Sum(x => x.ReportedValue))).ToList();
         }
 
         public string AuditDescriptionString
         {
-            get { return Indicator != null ? Indicator.IndicatorName : ViewUtilities.NotFoundString; }
+            get { return PerformanceMeasureName; }
         }
 
         public static List<GoogleChartJson> GetSubcategoriesAsGoogleChartJsons(PerformanceMeasure performanceMeasure, List<int> projectIDs)
         {
-            Check.Require(performanceMeasure.IndicatorSubcategories.Any(), "Every PM should have at least one Subcategory!");
+            Check.Require(performanceMeasure.PerformanceMeasureSubcategories.Any(), "Every PM should have at least one Subcategory!");
 
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
 
@@ -128,7 +128,31 @@ namespace ProjectFirma.Web.Models
                 reportedValues = performanceMeasure.GetReportedPerformanceMeasureValues().Where(x => x.Project.ProjectStage.ArePerformanceMeasuresReportable()).ToList();
             }
 
-            return IndicatorSubcategory.MakeGoogleChartJsonsForSubcategories(performanceMeasure, reportedValues, yearRange);
+            return PerformanceMeasureSubcategory.MakeGoogleChartJsonsForSubcategories(performanceMeasure, reportedValues, yearRange);
+        }
+
+        public bool HasRealSubcategories
+        {
+            get
+            {
+                return PerformanceMeasureSubcategories.Any(x => x.PerformanceMeasureSubcategoryOptions.Count > 1);
+            }
+        }
+
+        public List<PerformanceMeasureSubcategory> GetSubcategoriesForPerformanceMeasureChart()
+        {
+            return PerformanceMeasureSubcategories.Where(x => x.PerformanceMeasureSubcategoryOptions.Count > 1 && x.ShowOnChart).OrderBy(x => x.SortOrder).ToList();
+        }
+
+        public int GetRealSubcategoryCount()
+        {
+            return HasRealSubcategories ? PerformanceMeasureSubcategories.Count : 0;
+        }
+
+        public Dictionary<string, GoogleChartJson> GetGoogleChartJsonDictionary(List<int> projectIDs)
+        {
+            var googleChartJsons = GetSubcategoriesAsGoogleChartJsons(this, projectIDs);
+            return googleChartJsons.ToDictionary(x => x.ChartName);
         }
     }
 }

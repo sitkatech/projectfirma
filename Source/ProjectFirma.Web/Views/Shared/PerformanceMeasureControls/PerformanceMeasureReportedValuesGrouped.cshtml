@@ -12,7 +12,7 @@
         <table id="performanceMeasureTable_@(performanceMeasureCalendarYearReportedValue.PerformanceMeasureID)" class="summaryLayout performanceMeasureTable" style="margin-bottom: 20px; @ViewDataTyped.HideByDefaultStyle()">
             @{
                 //TODO: Move this into the viewdata
-                var subcategoryCount = performanceMeasureCalendarYearReportedValue.HasRealSubcategories ? performanceMeasureCalendarYearReportedValue.IndicatorSubcategories.Count : 0;
+                var subcategoryCount = performanceMeasureCalendarYearReportedValue.HasRealSubcategories ? performanceMeasureCalendarYearReportedValue.PerformanceMeasureSubcategories.Count : 0;
 
                 var mismatchedSubcategoryCount = maxSubcategoryCount - subcategoryCount + 1;
 
@@ -40,12 +40,12 @@
                 @if (performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Any())
                 {
                     var paddedColumnCount = 0;
-                    foreach (var indicatorSubcategoryName in performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.First().SubcategoryNames)
+                    foreach (var performanceMeasureSubcategoryName in performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.First().SubcategoryNames)
                     {
                         paddedColumnCount++;
                         var padding = paddedColumnCount == subcategoryCount ? mismatchedSubcategoryCount : 0;
                         <th colspan="@padding">
-                            @indicatorSubcategoryName
+                            @performanceMeasureSubcategoryName
                         </th>
                     }
                 }
@@ -61,11 +61,11 @@
             <tr style="background-color: @backgroundColor">
                 @{ var paddedColumnCount = 0; }
 
-                @foreach (var performanceMeasureValueSubcategoryOption in subcategoriesReportedValue.PerformanceMeasureValueSubcategoryOptions.OrderBy(p => p.IndicatorSubcategory.IndicatorSubcategoryDisplayName))
+                @foreach (var performanceMeasureValueSubcategoryOption in subcategoriesReportedValue.PerformanceMeasureValueSubcategoryOptions.OrderBy(p => p.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName))
                 {
                     paddedColumnCount++;
                     var padding = paddedColumnCount == subcategoryCount ? mismatchedSubcategoryCount : 0;
-                    <td colspan="@padding">@performanceMeasureValueSubcategoryOption.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName</td>
+                    <td colspan="@padding">@performanceMeasureValueSubcategoryOption.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName</td>
                 }
 
                 @if (!subcategoriesReportedValue.SubcategoryNames.Any())

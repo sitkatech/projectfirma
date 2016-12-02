@@ -11,7 +11,7 @@ using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Security.Shared;
-using ProjectFirma.Web.Views.Indicator;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 using LtInfo.Common.ExcelWorkbookUtilities;
@@ -372,7 +372,7 @@ namespace ProjectFirma.Web.Controllers
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.SpendingByPerformanceMeasureByProject);
             var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
             var selectedPerformanceMeasure = performanceMeasureID.HasValue ? performanceMeasures.Single(x => x.PerformanceMeasureID == performanceMeasureID) : performanceMeasures.First();
-            var accomplishmentsChartViewData = new IndicatorChartViewData(selectedPerformanceMeasure.Indicator, false, ChartViewMode.Small, null);
+            var accomplishmentsChartViewData = new PerformanceMeasureChartViewData(selectedPerformanceMeasure, false, ChartViewMode.Small, null);
 
             var viewData = new SpendingByPerformanceMeasureByProjectViewData(CurrentPerson, firmaPage, performanceMeasures, selectedPerformanceMeasure, accomplishmentsChartViewData);
             var viewModel = new SpendingByPerformanceMeasureByProjectViewModel();

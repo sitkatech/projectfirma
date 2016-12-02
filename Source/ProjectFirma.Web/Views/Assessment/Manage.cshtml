@@ -21,7 +21,7 @@
         @ModalDialogFormHelper.ModalDialogFormLink(@"<span class='glyphicon glyphicon-plus-sign' style='margin-right: 3px'></span>Add New Question", ViewDataTyped.AddQuestionUrl, "Add Question", ViewDataTyped.HasEditPermissions)
     </div>
     <p>
-        Manage  Assessment goals, indicators, and questions.
+        Manage  Assessment goals, performanceMeasures, and questions.
     </p>
 </div>
 
@@ -38,7 +38,7 @@
             @foreach (var assessmentSubGoal in assessmentGoal.AssessmentSubGoals)
             {
 
-                <h2 style="margin-bottom: 5px">@ModalDialogFormHelper.MakeEditIconLink(assessmentSubGoal.EditUrl, "Edit Indicator", ViewDataTyped.HasEditPermissions) @assessmentSubGoal.DisplayName </h2>
+                <h2 style="margin-bottom: 5px">@ModalDialogFormHelper.MakeEditIconLink(assessmentSubGoal.EditUrl, "Edit PerformanceMeasure", ViewDataTyped.HasEditPermissions) @assessmentSubGoal.DisplayName </h2>
                 <p>
                     Description: <i>@assessmentSubGoal.AssessmentSubGoalDescription</i>
                 </p>

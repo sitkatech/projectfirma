@@ -17,23 +17,23 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 350,
                 DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            foreach (var indicatorSubcategory in performanceMeasure.IndicatorSubcategories.OrderBy(x => x.IndicatorSubcategoryDisplayName))
+            foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories.OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName))
             {
-                Add(indicatorSubcategory.IndicatorSubcategoryDisplayName,
+                Add(performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName,
                     a =>
                     {
                         var performanceMeasureActualSubcategoryOption =
-                            a.PerformanceMeasureActualSubcategoryOptions.SingleOrDefault(x => x.IndicatorSubcategoryID == indicatorSubcategory.IndicatorSubcategoryID);
+                            a.PerformanceMeasureActualSubcategoryOptions.SingleOrDefault(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategory.PerformanceMeasureSubcategoryID);
                         if (performanceMeasureActualSubcategoryOption != null)
                         {
-                            return performanceMeasureActualSubcategoryOption.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName;
+                            return performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName;
                         }
                         return string.Empty;
                     }, 120, DhtmlxGridColumnFilterType.SelectFilterStrict);
             }
             var reportedValueColumnName = string.Format("{0} ({1})",
                 Models.FieldDefinition.ReportedValue.ToGridHeaderString(),
-                performanceMeasure.Indicator.MeasurementUnitType.MeasurementUnitTypeDisplayName);
+                performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName);
 
             Add(reportedValueColumnName, a => a.ReportedValue, 150, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
             Add(Models.FieldDefinition.Region.ToGridHeaderString(), a => a.Project.ProjectLocationTypeDisplay, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);

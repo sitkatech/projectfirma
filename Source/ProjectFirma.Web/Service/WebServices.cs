@@ -86,11 +86,11 @@ namespace ProjectFirma.Web.Service
             });
         }
 
-        public List<WebServicePerformanceMeasure> GetIndicators(string returnType, string webServiceToken)
+        public List<WebServicePerformanceMeasure> GetPerformanceMeasures(string returnType, string webServiceToken)
         {
             return CommandWrapper(webServiceToken, () =>
             {
-                var filteredProjects = WebServicePerformanceMeasure.GetIndicators();
+                var filteredProjects = WebServicePerformanceMeasure.GetPerformanceMeasures();
                 return filteredProjects;
             });
         }
@@ -173,8 +173,8 @@ namespace ProjectFirma.Web.Service
                 , new List<string> {"Return Type", "Authorization Token", "Project Number"}
                 ),
             new SampleRouteEntry( 
-                MethodNameFromExpression(c => c.GetIndicators(WebServicesController.WebServiceReturnTypeEnum.CSV.ToString(), WebServiceToken.WebServiceTokenGuidForUnitTests.ToString())),
-                new SitkaRoute<WebServicesController>(c => c.GetIndicators(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests))
+                MethodNameFromExpression(c => c.GetPerformanceMeasures(WebServicesController.WebServiceReturnTypeEnum.CSV.ToString(), WebServiceToken.WebServiceTokenGuidForUnitTests.ToString())),
+                new SitkaRoute<WebServicesController>(c => c.GetPerformanceMeasures(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests))
                 , WebServicesController.WebServiceReturnTypeEnum.CSV
                 , new List<string> {"Return Type", "Authorization Token"}
                 ),
@@ -235,8 +235,8 @@ namespace ProjectFirma.Web.Service
                 , new List<string> {"Return Type", "Authorization Token", "(optional) Project Number"}
                 ),
             new SampleRouteEntry( 
-                MethodNameFromExpression(c => c.GetIndicators(WebServicesController.WebServiceReturnTypeEnum.JSON.ToString(), WebServiceToken.WebServiceTokenGuidForUnitTests.ToString())),
-                new SitkaRoute<WebServicesController>(c => c.GetIndicators(WebServicesController.WebServiceReturnTypeEnum.JSON, WebServiceToken.WebServiceTokenForUnitTests))
+                MethodNameFromExpression(c => c.GetPerformanceMeasures(WebServicesController.WebServiceReturnTypeEnum.JSON.ToString(), WebServiceToken.WebServiceTokenGuidForUnitTests.ToString())),
+                new SitkaRoute<WebServicesController>(c => c.GetPerformanceMeasures(WebServicesController.WebServiceReturnTypeEnum.JSON, WebServiceToken.WebServiceTokenForUnitTests))
                 , WebServicesController.WebServiceReturnTypeEnum.JSON
                 , new List<string> {"Return Type", "Authorization Token", "(optional) Project Number"}
                 ),

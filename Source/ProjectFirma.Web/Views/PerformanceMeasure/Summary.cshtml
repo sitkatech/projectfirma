@@ -1,0 +1,336 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.PerformanceMeasure
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.TextControls
+@using LtInfo.Common
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@inherits Summary
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    <script src="@Url.Content("~/Views/PerformanceMeasureMonitoringProgram/PerformanceMeasureMonitoringProgramController.js")" type="text/javascript"></script>
+
+    <style>
+        th {
+            white-space: nowrap;
+        }
+
+        .chartHeader, a.chartHeader {
+            font-weight: normal;
+        }
+
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+            background-color: #0b406b;
+            color: #fff;
+        }
+
+        .nav > li.disabled > a, .nav-tabs > li.disabled > a:hover, .nav-tabs > li.disabled > a:focus {
+            background-color: #ccc;
+        }
+
+        .panel-heading h1, .panel-heading h2, .panel-heading h3, .panel-heading h4 {
+            margin: 0;
+        }
+
+        .panel-primary .panel-heading h4 {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .rightOfPageTitle {
+            margin: 0;
+        }
+    </style>
+}
+
+@section RightOfPageTitle
+{
+    <div>
+        <a class="btn" href="@ViewDataTyped.PerformanceMeasure.GetInfoSheetUrl()">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Info Sheet</a>
+    </div>
+}
+
+
+<div class="row">
+    <div class="col-lg-6 col-md-5">
+        <div class="summarySection" style="margin-right: 10px">
+            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditPerformanceMeasureUrl, string.Format("Edit PerformanceMeasure: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 1000, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) Basics</h2>
+            <div class="contentWrapper">
+                <table class="summaryLayout">
+                    <tr>
+                        <th>Display Name:</th>
+                        <td>
+                            @ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>PerformanceMeasure Type:</th>
+                        <td>
+                            @ViewDataTyped.PerformanceMeasure.PerformanceMeasureType.PerformanceMeasureTypeDisplayName
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.MeasurementUnit, "Measurement Unit"):</th>
+                        <td>
+                            @ViewDataTyped.PerformanceMeasure.MeasurementUnitType.SingularDisplayName (@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Definition:
+                        </th>
+                        <td>
+                            @ViewDataTyped.PerformanceMeasure.PerformanceMeasureDefinition.ToHTMLFormattedString()
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-7">
+        <div class="summarySection">
+            <h2>Accomplishments</h2>
+            <div class="contentWrapper" style="overflow-x: hidden; margin-right: auto; margin-left: auto">
+                @{ PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureChartViewData); }
+
+                <div>
+                    <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAccomplishmentsMetadataUrl, string.Format("Edit Accomplishments Metadata: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) Chart Metadata</h2>
+                    <table class="summaryLayout" style="margin: 10px 0">
+                        <tr>
+                            <th>Data Source:</th>
+                            <td>
+                                @if (!string.IsNullOrWhiteSpace(ViewDataTyped.PerformanceMeasure.ExternalDataSourceUrl))
+                                {
+                                    <a href="@ViewDataTyped.PerformanceMeasure.ExternalDataSourceUrl" target="_blank">@(ViewDataTyped.PerformanceMeasure.DataSourceText ?? ViewDataTyped.PerformanceMeasure.ExternalDataSourceUrl)</a>
+                                    <a href="@ViewDataTyped.PerformanceMeasure.ExternalDataSourceUrl" target="_blank">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")</a>
+                                }
+                                else
+                                {
+                                    @ViewDataTyped.PerformanceMeasure.DataSourceText
+                                }
+                            </td>
+                        </tr>
+                        @if (ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                        {
+                            <tr>
+                                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureChartTitle):</th>
+                                <td>
+                                    @ViewDataTyped.PerformanceMeasure.ChartTitle
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureChartCaption):</th>
+                                <td>
+                                    @ViewDataTyped.PerformanceMeasure.ChartCaption.ToHTMLFormattedString()
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr style="border-color: #ccc" />
+<div class="container-fluid">
+    <ul class="nav nav-tabs">
+        <li @Html.Raw(ViewDataTyped.IsActiveTabOverview ? "class=\"active\"" : string.Empty)><a role="tab" href="#overviewTab" data-toggle="tab" aria-controls="overviewTab">Overview</a></li>
+        <li @Html.Raw(ViewDataTyped.ActiveTab == SummaryViewData.PerformanceMeasureSummaryTab.PerformanceMeasure ? "class=\"active\"" : string.Empty)><a role="tab" href="#pmTab" data-toggle="tab" aria-controls="pmTab"></a></li>
+    </ul>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane @(ViewDataTyped.IsActiveTabOverview ? "active" : string.Empty)" id="overviewTab">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="summarySection">
+                            <h2>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureSubcategory, "Subcategories")</h2>
+                            <div class="contentWrapper">
+                                @if (ViewDataTyped.PerformanceMeasure.HasRealSubcategories)
+                                {
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Options</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var performanceMeasureSubcategory in ViewDataTyped.PerformanceMeasure.PerformanceMeasureSubcategories)
+                                            {
+                                                <tr>
+                                                    <td>@performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName</td>
+                                                    <td>
+                                                        <div>@string.Join(", ", performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.PerformanceMeasureSubcategoryOptionName).Select(x => x.PerformanceMeasureSubcategoryOptionName).Take(5))</div>
+                                                        @if (performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count > 5)
+                                                        {
+                                                            <a style="font-size: smaller; font-style: italic" role="button" data-toggle="collapse" data-target="#morePerformanceMeasureSubcategory@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID)Options">[@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count - 5) More Options]</a>
+                                                            <div class="collapse" id="morePerformanceMeasureSubcategory@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID)Options">@string.Join(", ", performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.PerformanceMeasureSubcategoryOptionName).Select(x => x.PerformanceMeasureSubcategoryOptionName).Skip(5))</div>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <p class="alert">No subcategories for this performanceMeasure.</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="summarySection">
+                            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditMonitoringProgramsUrl, string.Format("Edit Monitoring Programs: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgram)</h2>
+                            <div class="contentWrapper">
+                                @if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Any())
+                                {
+                                    foreach (var a in ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms)
+                                    {
+                                        <p>
+                                            <strong>Program</strong>:
+                                            @a.MonitoringProgram.DisplayNameAsUrl
+                                        </p>
+                                        <p>
+                                            <strong>Approach</strong>:
+                                            @a.MonitoringProgram.MonitoringApproach
+                                        </p>
+
+                                        <p>
+                                            <strong>Partners</strong>:
+                                            <ul>
+                                                @Html.Raw(string.Join("\r\n", a.MonitoringProgram.MonitoringProgramPartners.Select(y => y.Organization).OrderBy(x => x.DisplayName).Select(x => string.Format("<li>{0}</li>", x.GetDisplayNameAsUrl()))))
+                                            </ul>
+                                        </p>
+                                        if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Count > 1)
+                                        {
+                                            <hr />
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <p class="alert">No monitoring program are yet associated with this performanceMeasure.</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                {
+                    <div class="summarySection">
+                        <h2>Change History and Rationale Notes (only visible to Administrators)</h2>
+                        <div class="contentWrapper">
+                            @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div role="tabpanel" class="tab-pane @(ViewDataTyped.IsActiveTabPerformanceMeasure ? "active" : string.Empty)" id="Tab">
+                <div class="summarySection">
+                    <h2>Reporting Guidance</h2>
+                    <div class="contentWrapper">
+                        <table class="summaryLayout">
+                            <tr>
+                                <th>
+                                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditCriticalDefinitionsUrl, string.Format("Edit Critical Definitions: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                                    PerformanceMeasure Critical Definitions
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="padding-left: 28px">
+                                    @ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAccountingPeriodAndScaleUrl, string.Format("Edit Accounting Period and Scale: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                                    PerformanceMeasure Accounting Period And Scale
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="padding-left: 28px">
+                                    @ViewDataTyped.PerformanceMeasure.AccountingPeriodAndScaleHtmlString
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit Project Reporting: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                                    PerformanceMeasure Project Reporting
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="padding-left: 28px">
+                                    @ViewDataTyped.PerformanceMeasure.ProjectReportingHtmlString
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="summarySection">
+                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProgramsUrl, "Edit Programs", ViewDataTyped.UserHasProgramPerformanceMeasureManagePermissions) Programs</h2>
+                        <div class="contentWrapper">
+                            @if (ViewDataTyped.ProgramPerformanceMeasures.Any())
+                            {
+                                <table class="summaryLayout">
+                                    <tr>
+                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Program)</th>
+                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryProgram)</th>
+                                    </tr>
+                                    @foreach (var programPerformanceMeasure in ViewDataTyped.ProgramPerformanceMeasures)
+                                    {
+                                        <tr>
+                                            <td>@programPerformanceMeasure.Key.DisplayNameAsUrl</td>
+                                            <td style="text-align: center">@programPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
+                                        </tr>
+                                    }
+                                </table>
+                            }
+                            else
+                            {
+                                <p class="alert">No programs set for this performance measure.</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="summarySection">
+                        <h2>Projects (As Expected Measure)</h2>
+                        <div class="contentWrapper">
+                            @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureExpectedGridSpec, ViewDataTyped.PerformanceMeasureExpectedsGridName, ViewDataTyped.PerformanceMeasureExpectedsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="summarySection">
+                        <h2>Projects (As Reported Measure)</h2>
+                        <div class="contentWrapper">
+                            @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="margin-top: 20px">
+    <a class="btn btn-blue" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
+</div>

@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Views.ThresholdCategory
             EditThresholdCategoryUrl = SitkaRoute<ThresholdCategoryController>.BuildUrlFromExpression(c => c.Edit(thresholdCategory));
             IndexUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(c => c.Index());
 
-            UserHasThresholdCategoryManagePermissions = new IndicatorManageFeature().HasPermissionByPerson(currentPerson);
+            UserHasThresholdCategoryManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
         }
     }
 }

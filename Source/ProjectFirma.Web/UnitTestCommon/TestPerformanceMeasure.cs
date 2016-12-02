@@ -9,9 +9,8 @@ namespace ProjectFirma.Web.UnitTestCommon
         {
             public static PerformanceMeasure Create()
             {
-                var indicator = TestIndicator.Create();
-                var performanceMeasure = new PerformanceMeasure(indicator) {IndicatorSubcategories = new List<IndicatorSubcategory>()};
-                indicator.PerformanceMeasure = performanceMeasure;
+                var performanceMeasure = TestPerformanceMeasure.Create();
+                performanceMeasure.PerformanceMeasureSubcategories = new List<PerformanceMeasureSubcategory>();
                 return performanceMeasure;
             }
 
@@ -19,9 +18,9 @@ namespace ProjectFirma.Web.UnitTestCommon
             {
                 var performanceMeasure = Create();
                 var subcategoryIDBase = performanceMeasureID*10;
-                var subcategory1 = TestIndicatorSubcategory.CreateWithSubcategoryOptions(performanceMeasure, subcategoryIDBase + 1, string.Format("{0}Subcategory1", performanceMeasureName));
-                var subcategory2 = TestIndicatorSubcategory.CreateWithSubcategoryOptions(performanceMeasure, subcategoryIDBase + 2, string.Format("{0}Subcategory2", performanceMeasureName));
-                var subcategory3 = TestIndicatorSubcategory.CreateWithSubcategoryOptions(performanceMeasure, subcategoryIDBase + 3, string.Format("{0}Subcategory3", performanceMeasureName));
+                var subcategory1 = TestPerformanceMeasureSubcategory.CreateWithSubcategoryOptions(performanceMeasure, subcategoryIDBase + 1, string.Format("{0}Subcategory1", performanceMeasureName));
+                var subcategory2 = TestPerformanceMeasureSubcategory.CreateWithSubcategoryOptions(performanceMeasure, subcategoryIDBase + 2, string.Format("{0}Subcategory2", performanceMeasureName));
+                var subcategory3 = TestPerformanceMeasureSubcategory.CreateWithSubcategoryOptions(performanceMeasure, subcategoryIDBase + 3, string.Format("{0}Subcategory3", performanceMeasureName));
                 return performanceMeasure;
             }
         }

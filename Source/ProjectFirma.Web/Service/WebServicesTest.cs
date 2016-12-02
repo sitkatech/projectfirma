@@ -93,7 +93,7 @@ namespace ProjectFirma.Web.Security
                     () =>
                         (CsvDownloadResult)
                             testSubject.GetProjectAccomplishments(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests, WebServices.SampleProjectNumber),
-"ProjectNumber,IndicatorID,IndicatorName,IndicatorUnits,IndicatorProjectYear,IndicatorProjectValue,PMSubcategoryName1,PMSubcategoryOptionCount1,PMSubcategoryName2,PMSubcategoryOptionCount2,PMSubcategoryName3,PMSubcategoryOptionCount3,PMSubcategoryName4,PMSubcategoryOptionCount4"),
+"ProjectNumber,PerformanceMeasureID,PerformanceMeasureName,PerformanceMeasureUnits,PerformanceMeasureProjectYear,PerformanceMeasureProjectValue,PMSubcategoryName1,PMSubcategoryOptionCount1,PMSubcategoryName2,PMSubcategoryOptionCount2,PMSubcategoryName3,PMSubcategoryOptionCount3,PMSubcategoryName4,PMSubcategoryOptionCount4"),
                 new CsvColumnTestCase("GetProjectDescription",
                     () =>
                         (CsvDownloadResult)
@@ -104,9 +104,9 @@ namespace ProjectFirma.Web.Security
                         (CsvDownloadResult)
                             testSubject.GetProjectKeyPhoto(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests, WebServices.SampleProjectNumber),
                     "ProjectNumber,ProjectName,KeyPhotoUrl"),
-                new CsvColumnTestCase("GetIndicators",
-                    () => (CsvDownloadResult) testSubject.GetIndicators(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests),
-"IndicatorID,IndicatorName,IndicatorDescription,IndicatorUnits,PMSubcategoryName1,PMSubcategoryOptionCount1,PMSubcategoryName2,PMSubcategoryOptionCount2,PMSubcategoryName3,PMSubcategoryOptionCount3,PMSubcategoryName4,PMSubcategoryOptionCount4"),
+                new CsvColumnTestCase("GetPerformanceMeasures",
+                    () => (CsvDownloadResult) testSubject.GetPerformanceMeasures(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests),
+"PerformanceMeasureID,PerformanceMeasureName,PerformanceMeasureDescription,PerformanceMeasureUnits,PMSubcategoryName1,PMSubcategoryOptionCount1,PMSubcategoryName2,PMSubcategoryOptionCount2,PMSubcategoryName3,PMSubcategoryOptionCount3,PMSubcategoryName4,PMSubcategoryOptionCount4"),
                 new CsvColumnTestCase("GetOrganizations",
                     () => (CsvDownloadResult) testSubject.GetOrganizations(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests),
 "OrganizationID,Organization,OrganizationAbbreviation,Sector,PrimaryContact,NumberOfProjects,NumberOfFundingSources,NumberOfUsers,OrganizationSummaryUrl"),

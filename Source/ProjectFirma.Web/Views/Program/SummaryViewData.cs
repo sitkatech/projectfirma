@@ -7,7 +7,7 @@ using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using ProjectFirma.Web.Views.Indicator;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Program
@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Program
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
         public readonly string ProjectMapFilteredUrl;
 
-        public readonly List<IndicatorChartViewData> IndicatorChartViewDatas;
+        public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
 
         public SummaryViewData(Person currentPerson,
             Models.Program program,
@@ -48,18 +48,17 @@ namespace ProjectFirma.Web.Views.Program
             PageTitle = program.DisplayName;
             EntityName = "Program";
             new ProgramPerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
-            PerformanceMeasures = program.ProgramPerformanceMeasures.Select(x => x.PerformanceMeasure).OrderBy(x => x.Indicator.DisplayOrder).ToList();
+            PerformanceMeasures = program.ProgramPerformanceMeasures.Select(x => x.PerformanceMeasure).OrderBy(x => x.DisplayOrder).ToList();
             PerformanceMeasuresEndOfFirstHalf = GeneralUtility.CalculateIndexOfEndOfFirstHalf(PerformanceMeasures.Count);
 
             ProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
 
             var projectIDs = Program.Projects.Select(y => y.ProjectID).ToList();
-            IndicatorChartViewDatas =
+            PerformanceMeasureChartViewDatas =
                 Program.GetPerformanceMeasures()
-                    .Select(x => x.Indicator)
                     .ToList()
                     .OrderBy(x => x.DisplayOrder)
-                    .Select(x => new IndicatorChartViewData(x, true, ChartViewMode.Small, projectIDs))
+                    .Select(x => new PerformanceMeasureChartViewData(x, true, ChartViewMode.Small, projectIDs))
                     .ToList();
 
             UserHasProgramManagePermissions = new ProgramManageFeature().HasPermissionByPerson(CurrentPerson);

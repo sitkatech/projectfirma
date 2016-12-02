@@ -3,10 +3,10 @@
     public interface IPerformanceMeasureValueSubcategoryOption
     {
         int PerformanceMeasureID { get; }
-        int IndicatorSubcategoryID { get; }
-        IndicatorSubcategoryOption IndicatorSubcategoryOption { get; }
+        int PerformanceMeasureSubcategoryID { get; }
+        PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; }
         PerformanceMeasure PerformanceMeasure { get; }
-        IndicatorSubcategory IndicatorSubcategory { get; }
+        PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; }
         int PrimaryKey { get; }
     }
 }

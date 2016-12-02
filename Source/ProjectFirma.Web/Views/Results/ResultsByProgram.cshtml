@@ -1,6 +1,6 @@
 ﻿@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Results
-@using ProjectFirma.Web.Views.Indicator
+@using ProjectFirma.Web.Views.PerformanceMeasure
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @inherits ResultsByProgram
@@ -55,7 +55,7 @@
     }
 </div>
 <hr/>
-@foreach (var indicatorChartViewData in ViewDataTyped.IndicatorChartViewDatas)
+@foreach (var performanceMeasureChartViewData in ViewDataTyped.PerformanceMeasureChartViewDatas)
 {
-    IndicatorChart.RenderPartialView(Html, indicatorChartViewData);
+    PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData);
 }

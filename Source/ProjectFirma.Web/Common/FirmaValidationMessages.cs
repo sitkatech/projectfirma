@@ -20,7 +20,7 @@
         public const string LeadImplementingOrganizationMustHavePrimaryContactSet = "The Lead implementer Organization must have a primary contact set";
         public const string FundingSourceNameUnique = "Funding Source name already exists";
         public const string ThresholdCategoryNameUnique = "Threshold Category name already exists";
-        public const string IndicatorNameUnique = "Indicator name already exists";
+        public const string PerformanceMeasureNameUnique = "PerformanceMeasure name already exists";
         public const string WatershedNameUnique = "Watershed name already exists";
         public const string ExplanationNecessaryForProjectExemptYears = "Please provide an explanation of why the reporting years are exempt";
         public const string ExplanationNotNecessaryForProjectExemptYears = "Explanation is not necessary since no reporting years are exempt";

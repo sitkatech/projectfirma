@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Views.Project
         }
         public bool HasRealSubcategories
         {
-            get { return IndicatorSubcategories.Any(x => x.IndicatorSubcategoryOptions.Count > 1); }
+            get { return PerformanceMeasureSubcategories.Any(x => x.PerformanceMeasureSubcategoryOptions.Count > 1); }
         }
         public HtmlString PerformanceMeasureDisplayNameAsUrl
         {
@@ -22,11 +22,11 @@ namespace ProjectFirma.Web.Views.Project
         }
         public MeasurementUnitType MeasurementUnitType
         {
-            get { return _performanceMeasure.Indicator.MeasurementUnitType; }
+            get { return _performanceMeasure.MeasurementUnitType; }
         }
-        public List<IndicatorSubcategory> IndicatorSubcategories
+        public List<PerformanceMeasureSubcategory> PerformanceMeasureSubcategories
         {
-            get { return _performanceMeasure.GetIndicatorSubcategories(); }
+            get { return _performanceMeasure.GetPerformanceMeasureSubcategories(); }
         }
         public readonly List<SubcategoriesReportedValue> SubcategoriesReportedValues;
         public string DisplayCssClass;
@@ -46,10 +46,10 @@ namespace ProjectFirma.Web.Views.Project
             {
                 var performanceMeasure = reportedValues.Key;
                 var subcategoriesReportedValues =
-                    reportedValues.GroupBy(x => x.IndicatorSubcategoriesAsString)
+                    reportedValues.GroupBy(x => x.PerformanceMeasureSubcategoriesAsString)
                         .Select(
                             subcategoriesReportedValue =>
-                                new SubcategoriesReportedValue(subcategoriesReportedValue.Key, subcategoriesReportedValue.First().IndicatorSubcategoryOptions,
+                                new SubcategoriesReportedValue(subcategoriesReportedValue.Key, subcategoriesReportedValue.First().PerformanceMeasureSubcategoryOptions,
                                     subcategoriesReportedValue.GroupBy(scrv => scrv.CalendarYear).ToDictionary(scrv => scrv.Key, scrv => scrv.Sum(rv => rv.ReportedValue))))
                         .ToList();
                 performanceMeasureCalendarYearReportedValues.Add(new PerformanceMeasureSubcategoriesCalendarYearReportedValue(performanceMeasure, subcategoriesReportedValues, null));
@@ -67,20 +67,20 @@ namespace ProjectFirma.Web.Views.Project
     {
         public readonly List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureValueSubcategoryOptions;
         public readonly Dictionary<int, double?> CalendarYearReportedValue;
-        public readonly string IndicatorSubcategories;         
+        public readonly string PerformanceMeasureSubcategories;         
         public readonly List<string> SubcategoryNames;
         
         public SubcategoriesReportedValue(string subcategories, List<IPerformanceMeasureValueSubcategoryOption> performanceMeasureValueSubcategoryOptions, Dictionary<int, double?> calendarYearReportedValue)
         {
             PerformanceMeasureValueSubcategoryOptions = performanceMeasureValueSubcategoryOptions;
-            IndicatorSubcategories = subcategories;
+            PerformanceMeasureSubcategories = subcategories;
             CalendarYearReportedValue = calendarYearReportedValue;            
-            SubcategoryNames = new List<string>(performanceMeasureValueSubcategoryOptions.Select(p => p.IndicatorSubcategory.IndicatorSubcategoryDisplayName).OrderBy(p => p));
+            SubcategoryNames = new List<string>(performanceMeasureValueSubcategoryOptions.Select(p => p.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName).OrderBy(p => p));
         }
 
         public static SubcategoriesReportedValue Clone(SubcategoriesReportedValue subcategoriesReportedValue)
         {
-            return new SubcategoriesReportedValue(subcategoriesReportedValue.IndicatorSubcategories,
+            return new SubcategoriesReportedValue(subcategoriesReportedValue.PerformanceMeasureSubcategories,
                 subcategoriesReportedValue.PerformanceMeasureValueSubcategoryOptions,
                 subcategoriesReportedValue.CalendarYearReportedValue.ToDictionary(x => x.Key, x => x.Value));
         }

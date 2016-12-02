@@ -1,5 +1,5 @@
 ﻿@using ProjectFirma.Web.Models
-@using ProjectFirma.Web.Views.Indicator
+@using ProjectFirma.Web.Views.PerformanceMeasure
 @using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
 @using MoreLinq
@@ -142,11 +142,11 @@
                     </tr>
                     <tr>
                         <th>Definition:</th>
-                        <td>@ViewDataTyped.PerformanceMeasure.Indicator.IndicatorDefinition.ToHTMLFormattedString()</td>
+                        <td>@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDefinition.ToHTMLFormattedString()</td>
                     </tr>
                     <tr>
                         <th>Units:</th>
-                        <td>@ViewDataTyped.PerformanceMeasure.Indicator.MeasurementUnitType.MeasurementUnitTypeDisplayName</td>
+                        <td>@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName</td>
                     </tr>
                     @if (ViewDataTyped.PerformanceMeasure.PrimaryProgram != null)
                     {
@@ -166,7 +166,7 @@
             <table class="summaryLayout">
                 <tr>
                     <th>
-                        Indicator Critical Definitions
+                        PerformanceMeasure Critical Definitions
                     </th>
                 </tr>
                 <tr>
@@ -177,7 +177,7 @@
                 </tr>
                 <tr>
                     <th>
-                        Indicator Accounting Period And Scale
+                        PerformanceMeasure Accounting Period And Scale
                     </th>
                 </tr>
                 <tr>
@@ -187,7 +187,7 @@
                 </tr>
                 <tr>
                     <th>
-                        Indicator Project Reporting
+                        PerformanceMeasure Project Reporting
                     </th>
                 </tr>
                 <tr>
@@ -202,7 +202,7 @@
     <div class="summarySection">
         <span class="sectionTitle">Subcategories</span>
         <div class="contentWrapper">
-            @if (ViewDataTyped.PerformanceMeasure.Indicator.HasRealSubcategories)
+            @if (ViewDataTyped.PerformanceMeasure.HasRealSubcategories)
             {
                 <table class="table">
                     <thead>
@@ -212,14 +212,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach (var indicatorSubcategory in ViewDataTyped.PerformanceMeasure.Indicator.IndicatorSubcategories)
+                    @foreach (var performanceMeasureSubcategory in ViewDataTyped.PerformanceMeasure.PerformanceMeasureSubcategories)
                     {
                         <tr>
-                            <td>@indicatorSubcategory.IndicatorSubcategoryDisplayName</td>
+                            <td>@performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName</td>
                             <td>
-                                @foreach (var subcategoryOptionBatch in indicatorSubcategory.IndicatorSubcategoryOptions.Batch(NumberOfSubcategoryOptionsPerRow).Select((value, index) => new {Index = index, Value = value}))
+                                @foreach (var subcategoryOptionBatch in performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Batch(NumberOfSubcategoryOptionsPerRow).Select((value, index) => new {Index = index, Value = value}))
                                 {
-                                    <div>@string.Join(", ", subcategoryOptionBatch.Value.OrderBy(x => x.SortOrder).ThenBy(x => x.IndicatorSubcategoryOptionName).Select(x => x.IndicatorSubcategoryOptionName))</div>
+                                    <div>@string.Join(", ", subcategoryOptionBatch.Value.OrderBy(x => x.SortOrder).ThenBy(x => x.PerformanceMeasureSubcategoryOptionName).Select(x => x.PerformanceMeasureSubcategoryOptionName))</div>
                                 }
                             </td>
                         </tr>
@@ -236,7 +236,7 @@
 
     <div class="summarySection">
         <div class="sectionTitle">Performance Measure Results</div>
-        @{IndicatorChart.RenderPartialView(Html, ViewDataTyped.IndicatorChartViewData);}
+        @{PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureChartViewData);}
     </div>
 
     <div class="summarySection">

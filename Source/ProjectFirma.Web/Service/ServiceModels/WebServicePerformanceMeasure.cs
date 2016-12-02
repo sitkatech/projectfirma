@@ -14,35 +14,34 @@ namespace ProjectFirma.Web.Service.ServiceModels
     {
         public WebServicePerformanceMeasure(PerformanceMeasure performanceMeasure)
         {
-            var indicator = performanceMeasure.Indicator;
-            IndicatorID = indicator.IndicatorID;
-            IndicatorName = indicator.IndicatorDisplayName;
-            IndicatorUnits = indicator.MeasurementUnitType.MeasurementUnitTypeDisplayName;
+            PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
+            PerformanceMeasureName = performanceMeasure.PerformanceMeasureDisplayName;
+            PerformanceMeasureUnits = performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName;
 
-            if (performanceMeasure.Indicator.HasRealSubcategories)
+            if (performanceMeasure.HasRealSubcategories)
             {
                 var currentSubcategoryIndex = 1;
-                foreach (var indicatorSubcategory in performanceMeasure.IndicatorSubcategories)
+                foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
                 {
                     if (currentSubcategoryIndex == 1)
                     {
-                        PMSubcategoryName1 = indicatorSubcategory.IndicatorSubcategoryDisplayName;
-                        PMSubcategoryOptionCount1 = indicatorSubcategory.IndicatorSubcategoryOptions.Count;
+                        PMSubcategoryName1 = performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName;
+                        PMSubcategoryOptionCount1 = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count;
                     }
                     else if (currentSubcategoryIndex == 2)
                     {
-                        PMSubcategoryName2 = indicatorSubcategory.IndicatorSubcategoryDisplayName;
-                        PMSubcategoryOptionCount2 = indicatorSubcategory.IndicatorSubcategoryOptions.Count;
+                        PMSubcategoryName2 = performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName;
+                        PMSubcategoryOptionCount2 = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count;
                     }
                     else if (currentSubcategoryIndex == 3)
                     {
-                        PMSubcategoryName3 = indicatorSubcategory.IndicatorSubcategoryDisplayName;
-                        PMSubcategoryOptionCount3 = indicatorSubcategory.IndicatorSubcategoryOptions.Count;
+                        PMSubcategoryName3 = performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName;
+                        PMSubcategoryOptionCount3 = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count;
                     }
                     else if (currentSubcategoryIndex == 4)
                     {
-                        PMSubcategoryName4 = indicatorSubcategory.IndicatorSubcategoryDisplayName;
-                        PMSubcategoryOptionCount4 = indicatorSubcategory.IndicatorSubcategoryOptions.Count;
+                        PMSubcategoryName4 = performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName;
+                        PMSubcategoryOptionCount4 = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count;
                     }
                     else
                     {
@@ -53,10 +52,10 @@ namespace ProjectFirma.Web.Service.ServiceModels
             }
         }    
 
-        [DataMember] public int IndicatorID { get; set; }
-        [DataMember] public string IndicatorName { get; set; }
-        [DataMember] public string IndicatorDescription { get; set; }
-        [DataMember] public string IndicatorUnits { get; set; }
+        [DataMember] public int PerformanceMeasureID { get; set; }
+        [DataMember] public string PerformanceMeasureName { get; set; }
+        [DataMember] public string PerformanceMeasureDescription { get; set; }
+        [DataMember] public string PerformanceMeasureUnits { get; set; }
         
         [DataMember] public string PMSubcategoryName1 { get; set; }
         [DataMember] public int? PMSubcategoryOptionCount1 { get; set; }
@@ -67,10 +66,10 @@ namespace ProjectFirma.Web.Service.ServiceModels
         [DataMember] public string PMSubcategoryName4 { get; set; }
         [DataMember] public int? PMSubcategoryOptionCount4 { get; set; }
 
-        public static List<WebServicePerformanceMeasure> GetIndicators()
+        public static List<WebServicePerformanceMeasure> GetPerformanceMeasures()
         {
-            var indicators = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
-            return indicators.Select(x => new WebServicePerformanceMeasure(x)).OrderBy(x => x.IndicatorID).ToList();
+            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
+            return performanceMeasures.Select(x => new WebServicePerformanceMeasure(x)).OrderBy(x => x.PerformanceMeasureID).ToList();
         }
     }
 
@@ -78,10 +77,10 @@ namespace ProjectFirma.Web.Service.ServiceModels
     {
         public WebServicePerformanceMeasureGridSpec()
         {
-            Add("IndicatorID", x => x.IndicatorID, 0);
-            Add("IndicatorName", x => x.IndicatorName, 0);
-            Add("IndicatorDescription", x => x.IndicatorDescription, 0);
-            Add("IndicatorUnits", x => x.IndicatorUnits, 0);
+            Add("PerformanceMeasureID", x => x.PerformanceMeasureID, 0);
+            Add("PerformanceMeasureName", x => x.PerformanceMeasureName, 0);
+            Add("PerformanceMeasureDescription", x => x.PerformanceMeasureDescription, 0);
+            Add("PerformanceMeasureUnits", x => x.PerformanceMeasureUnits, 0);
 
             Add("PMSubcategoryName1", x => x.PMSubcategoryName1, 0);
             Add("PMSubcategoryOptionCount1", x => x.PMSubcategoryOptionCount1, 0);

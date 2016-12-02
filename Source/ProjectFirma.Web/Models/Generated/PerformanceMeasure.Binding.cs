@@ -23,7 +23,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected PerformanceMeasure()
         {
-            this.IndicatorSubcategories = new HashSet<IndicatorSubcategory>();
             this.PerformanceMeasureActuals = new HashSet<PerformanceMeasureActual>();
             this.PerformanceMeasureActualSubcategoryOptions = new HashSet<PerformanceMeasureActualSubcategoryOption>();
             this.PerformanceMeasureActualSubcategoryOptionUpdates = new HashSet<PerformanceMeasureActualSubcategoryOptionUpdate>();
@@ -32,51 +31,74 @@ namespace ProjectFirma.Web.Models
             this.PerformanceMeasureExpectedProposeds = new HashSet<PerformanceMeasureExpectedProposed>();
             this.PerformanceMeasureExpectedSubcategoryOptions = new HashSet<PerformanceMeasureExpectedSubcategoryOption>();
             this.PerformanceMeasureExpectedSubcategoryOptionProposeds = new HashSet<PerformanceMeasureExpectedSubcategoryOptionProposed>();
+            this.PerformanceMeasureMonitoringPrograms = new HashSet<PerformanceMeasureMonitoringProgram>();
+            this.PerformanceMeasureNotes = new HashSet<PerformanceMeasureNote>();
+            this.PerformanceMeasureSubcategories = new HashSet<PerformanceMeasureSubcategory>();
             this.ProgramPerformanceMeasures = new HashSet<ProgramPerformanceMeasure>();
             this.SnapshotPerformanceMeasures = new HashSet<SnapshotPerformanceMeasure>();
             this.SnapshotPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotPerformanceMeasureSubcategoryOption>();
+            this.ThresholdCategoryPerformanceMeasures = new HashSet<ThresholdCategoryPerformanceMeasure>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(int performanceMeasureID, int indicatorID, string criticalDefinitions, string accountingPeriodAndScale, string projectReporting) : this()
+        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string accountingPeriodAndScale, string projectReporting, string performanceMeasureName, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string performanceMeasurePublicDescription, string dataSourceText, string externalDataSourceUrl, int displayOrder, string chartTitle, string chartCaption) : this()
         {
             this.PerformanceMeasureID = performanceMeasureID;
-            this.IndicatorID = indicatorID;
             this.CriticalDefinitions = criticalDefinitions;
             this.AccountingPeriodAndScale = accountingPeriodAndScale;
             this.ProjectReporting = projectReporting;
+            this.PerformanceMeasureName = performanceMeasureName;
+            this.PerformanceMeasureDisplayName = performanceMeasureDisplayName;
+            this.MeasurementUnitTypeID = measurementUnitTypeID;
+            this.PerformanceMeasureTypeID = performanceMeasureTypeID;
+            this.PerformanceMeasureDefinition = performanceMeasureDefinition;
+            this.PerformanceMeasurePublicDescription = performanceMeasurePublicDescription;
+            this.DataSourceText = dataSourceText;
+            this.ExternalDataSourceUrl = externalDataSourceUrl;
+            this.DisplayOrder = displayOrder;
+            this.ChartTitle = chartTitle;
+            this.ChartCaption = chartCaption;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(int indicatorID) : this()
+        public PerformanceMeasure(string performanceMeasureName, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, int displayOrder, string chartTitle) : this()
         {
             // Mark this as a new object by setting primary key with special value
             PerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.IndicatorID = indicatorID;
+            this.PerformanceMeasureName = performanceMeasureName;
+            this.PerformanceMeasureDisplayName = performanceMeasureDisplayName;
+            this.MeasurementUnitTypeID = measurementUnitTypeID;
+            this.PerformanceMeasureTypeID = performanceMeasureTypeID;
+            this.DisplayOrder = displayOrder;
+            this.ChartTitle = chartTitle;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PerformanceMeasure(Indicator indicator) : this()
+        public PerformanceMeasure(string performanceMeasureName, string performanceMeasureDisplayName, MeasurementUnitType measurementUnitType, PerformanceMeasureType performanceMeasureType, int displayOrder, string chartTitle) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.IndicatorID = indicator.IndicatorID;
-            this.Indicator = indicator;
+            this.PerformanceMeasureName = performanceMeasureName;
+            this.PerformanceMeasureDisplayName = performanceMeasureDisplayName;
+            this.MeasurementUnitTypeID = measurementUnitType.MeasurementUnitTypeID;
+            this.PerformanceMeasureTypeID = performanceMeasureType.PerformanceMeasureTypeID;
+            this.DisplayOrder = displayOrder;
+            this.ChartTitle = chartTitle;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static PerformanceMeasure CreateNewBlank(Indicator indicator)
+        public static PerformanceMeasure CreateNewBlank(MeasurementUnitType measurementUnitType, PerformanceMeasureType performanceMeasureType)
         {
-            return new PerformanceMeasure(indicator);
+            return new PerformanceMeasure(default(string), default(string), measurementUnitType, performanceMeasureType, default(int), default(string));
         }
 
         /// <summary>
@@ -85,17 +107,16 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return IndicatorSubcategories.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureActualSubcategoryOptions.Any() || PerformanceMeasureActualSubcategoryOptionUpdates.Any() || PerformanceMeasureActualUpdates.Any() || PerformanceMeasureExpecteds.Any() || PerformanceMeasureExpectedProposeds.Any() || PerformanceMeasureExpectedSubcategoryOptions.Any() || PerformanceMeasureExpectedSubcategoryOptionProposeds.Any() || ProgramPerformanceMeasures.Any() || SnapshotPerformanceMeasures.Any() || SnapshotPerformanceMeasureSubcategoryOptions.Any();
+            return PerformanceMeasureActuals.Any() || PerformanceMeasureActualSubcategoryOptions.Any() || PerformanceMeasureActualSubcategoryOptionUpdates.Any() || PerformanceMeasureActualUpdates.Any() || PerformanceMeasureExpecteds.Any() || PerformanceMeasureExpectedProposeds.Any() || PerformanceMeasureExpectedSubcategoryOptions.Any() || PerformanceMeasureExpectedSubcategoryOptionProposeds.Any() || PerformanceMeasureMonitoringPrograms.Any() || PerformanceMeasureNotes.Any() || PerformanceMeasureSubcategories.Any() || ProgramPerformanceMeasures.Any() || SnapshotPerformanceMeasures.Any() || SnapshotPerformanceMeasureSubcategoryOptions.Any() || ThresholdCategoryPerformanceMeasures.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasure).Name, typeof(IndicatorSubcategory).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpected).Name, typeof(PerformanceMeasureExpectedProposed).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name, typeof(PerformanceMeasureExpectedSubcategoryOptionProposed).Name, typeof(ProgramPerformanceMeasure).Name, typeof(SnapshotPerformanceMeasure).Name, typeof(SnapshotPerformanceMeasureSubcategoryOption).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasure).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpected).Name, typeof(PerformanceMeasureExpectedProposed).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name, typeof(PerformanceMeasureExpectedSubcategoryOptionProposed).Name, typeof(PerformanceMeasureMonitoringProgram).Name, typeof(PerformanceMeasureNote).Name, typeof(PerformanceMeasureSubcategory).Name, typeof(ProgramPerformanceMeasure).Name, typeof(SnapshotPerformanceMeasure).Name, typeof(SnapshotPerformanceMeasureSubcategoryOption).Name, typeof(ThresholdCategoryPerformanceMeasure).Name};
 
         [Key]
         public int PerformanceMeasureID { get; set; }
-        public int IndicatorID { get; set; }
         [NotMapped]
         private string CriticalDefinitions { get; set; }
         public HtmlString CriticalDefinitionsHtmlString
@@ -117,9 +138,25 @@ namespace ProjectFirma.Web.Models
             get { return ProjectReporting == null ? null : new HtmlString(ProjectReporting); }
             set { ProjectReporting = value == null ? null : value.ToString(); }
         }
+        public string PerformanceMeasureName { get; set; }
+        public string PerformanceMeasureDisplayName { get; set; }
+        public int MeasurementUnitTypeID { get; set; }
+        public int PerformanceMeasureTypeID { get; set; }
+        public string PerformanceMeasureDefinition { get; set; }
+        [NotMapped]
+        private string PerformanceMeasurePublicDescription { get; set; }
+        public HtmlString PerformanceMeasurePublicDescriptionHtmlString
+        { 
+            get { return PerformanceMeasurePublicDescription == null ? null : new HtmlString(PerformanceMeasurePublicDescription); }
+            set { PerformanceMeasurePublicDescription = value == null ? null : value.ToString(); }
+        }
+        public string DataSourceText { get; set; }
+        public string ExternalDataSourceUrl { get; set; }
+        public int DisplayOrder { get; set; }
+        public string ChartTitle { get; set; }
+        public string ChartCaption { get; set; }
         public int PrimaryKey { get { return PerformanceMeasureID; } set { PerformanceMeasureID = value; } }
 
-        public virtual ICollection<IndicatorSubcategory> IndicatorSubcategories { get; set; }
         public virtual ICollection<PerformanceMeasureActual> PerformanceMeasureActuals { get; set; }
         public virtual ICollection<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
         public virtual ICollection<PerformanceMeasureActualSubcategoryOptionUpdate> PerformanceMeasureActualSubcategoryOptionUpdates { get; set; }
@@ -128,14 +165,24 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<PerformanceMeasureExpectedProposed> PerformanceMeasureExpectedProposeds { get; set; }
         public virtual ICollection<PerformanceMeasureExpectedSubcategoryOption> PerformanceMeasureExpectedSubcategoryOptions { get; set; }
         public virtual ICollection<PerformanceMeasureExpectedSubcategoryOptionProposed> PerformanceMeasureExpectedSubcategoryOptionProposeds { get; set; }
+        public virtual ICollection<PerformanceMeasureMonitoringProgram> PerformanceMeasureMonitoringPrograms { get; set; }
+        public virtual ICollection<PerformanceMeasureNote> PerformanceMeasureNotes { get; set; }
+        public virtual ICollection<PerformanceMeasureSubcategory> PerformanceMeasureSubcategories { get; set; }
         public virtual ICollection<ProgramPerformanceMeasure> ProgramPerformanceMeasures { get; set; }
         public virtual ICollection<SnapshotPerformanceMeasure> SnapshotPerformanceMeasures { get; set; }
         public virtual ICollection<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get; set; }
-        public virtual Indicator Indicator { get; set; }
+        public virtual ICollection<ThresholdCategoryPerformanceMeasure> ThresholdCategoryPerformanceMeasures { get; set; }
+        public MeasurementUnitType MeasurementUnitType { get { return MeasurementUnitType.AllLookupDictionary[MeasurementUnitTypeID]; } }
+        public PerformanceMeasureType PerformanceMeasureType { get { return PerformanceMeasureType.AllLookupDictionary[PerformanceMeasureTypeID]; } }
 
         public static class FieldLengths
         {
-
+            public const int PerformanceMeasureName = 200;
+            public const int PerformanceMeasureDisplayName = 200;
+            public const int DataSourceText = 200;
+            public const int ExternalDataSourceUrl = 200;
+            public const int ChartTitle = 500;
+            public const int ChartCaption = 1000;
         }
     }
 }

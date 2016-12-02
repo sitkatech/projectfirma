@@ -163,11 +163,11 @@ else
                         @Html.AngularDropdownListFor(x => x.PerformanceMeasureActualUpdates[0].CalendarYear, "performanceMeasureActualUpdate.CalendarYear", "calendarYear in filteredCalendarYears()", "{{calendarYear}}", "calendarYear", "calendarYear == performanceMeasureActualUpdate.CalendarYear", "-Year-", String.Empty, new { style = "width: 55px", data_uniqueid = "{{performanceMeasureActualUpdate.PerformanceMeasureActualUpdateID}}" })
                     </td>
                     <td ng-repeat="performanceMeasureActualSubcategoryOptionUpdate in performanceMeasureActualUpdate.PerformanceMeasureActualSubcategoryOptionUpdates | orderBy:[getSubcategoryName]">
-                        <select ng-model="performanceMeasureActualSubcategoryOptionUpdate.IndicatorSubcategoryOptionID" style="width: 100px" name="IndicatorSubcategoryOptionID" ng-show="getPerformanceMeasure(performanceMeasureActualUpdate.PerformanceMeasureID).HasRealSubcategories">
+                        <select ng-model="performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureSubcategoryOptionID" style="width: 100px" name="PerformanceMeasureSubcategoryOptionID" ng-show="getPerformanceMeasure(performanceMeasureActualUpdate.PerformanceMeasureID).HasRealSubcategories">
                             <option value="-1" style="font-weight: bold">-{{getSubcategoryName(performanceMeasureActualSubcategoryOptionUpdate)}}-</option>
-                            <option ng-repeat="indicatorSubcategoryOption in getSubcategoryOptionsForSubcategory(performanceMeasureActualSubcategoryOptionUpdate.IndicatorSubcategoryID)"
-                                    value="{{indicatorSubcategoryOption.IndicatorSubcategoryOptionID}}" ng-selected="performanceMeasureActualSubcategoryOptionUpdate.IndicatorSubcategoryOptionID == indicatorSubcategoryOption.IndicatorSubcategoryOptionID"
-                                    ng-bind="indicatorSubcategoryOption.IndicatorSubcategoryOptionName" />
+                            <option ng-repeat="performanceMeasureSubcategoryOption in getSubcategoryOptionsForSubcategory(performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureSubcategoryID)"
+                                    value="{{performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID}}" ng-selected="performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureSubcategoryOptionID == performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID"
+                                    ng-bind="performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName" />
                         </select>
                     </td>
                     <td ng-repeat="extraColumn in addAdditionalColumns(performanceMeasureActualUpdate)">&nbsp;</td>
@@ -182,8 +182,8 @@ else
             </table>
             <div ng-repeat="performanceMeasureActualUpdate in AngularModel.PerformanceMeasureActualUpdates">
                 <div ng-repeat="performanceMeasureActualSubcategoryOptionUpdate in getSubcategoryOptionsSelected(performanceMeasureActualUpdate)">
-                    <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActualUpdates[0].PerformanceMeasureActualSubcategoryOptionUpdates[1].IndicatorSubcategoryOptionID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureActualSubcategoryOptionUpdate.IndicatorSubcategoryOptionID}}">
-                    <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActualUpdates[0].PerformanceMeasureActualSubcategoryOptionUpdates[1].IndicatorSubcategoryID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureActualSubcategoryOptionUpdate.IndicatorSubcategoryID}}">
+                    <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActualUpdates[0].PerformanceMeasureActualSubcategoryOptionUpdates[1].PerformanceMeasureSubcategoryOptionID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureSubcategoryOptionID}}">
+                    <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActualUpdates[0].PerformanceMeasureActualSubcategoryOptionUpdates[1].PerformanceMeasureSubcategoryID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureSubcategoryID}}">
                     <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActualUpdates[0].PerformanceMeasureActualSubcategoryOptionUpdates[1].PerformanceMeasureID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureID}}">
                 </div>
             </div>

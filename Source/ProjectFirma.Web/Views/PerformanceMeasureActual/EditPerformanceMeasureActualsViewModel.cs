@@ -80,9 +80,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
                             y =>
                                 allPerformanceMeasureActualSubcategoryOptions.Add(new PerformanceMeasureActualSubcategoryOption(
                                     performanceMeasureActual.PerformanceMeasureActualID,
-                                    y.IndicatorSubcategoryOptionID.Value,
+                                    y.PerformanceMeasureSubcategoryOptionID.Value,
                                     y.PerformanceMeasureID,
-                                    y.IndicatorSubcategoryID)));
+                                    y.PerformanceMeasureSubcategoryID)));
                     }
                 }
             }

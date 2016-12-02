@@ -340,7 +340,7 @@ namespace ProjectFirma.Web.Models
                 var yearsEntered = PerformanceMeasureActualUpdates.Select(x => x.CalendarYear).Distinct();
                 missingYears = yearsExpected.GetMissingYears(yearsEntered);
             }
-            // validation 2: incomplete PM row (missing indicatorSubcategory option id)
+            // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
             var performanceMeasureActualUpdatesWithWarnings = ValidateNoIncompletePerformanceMeasureActualUpdateRow();
 
             var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(missingYears, performanceMeasureActualUpdatesWithWarnings);
@@ -351,7 +351,7 @@ namespace ProjectFirma.Web.Models
         {
             var performanceMeasureActualUpdatesWithMissingSubcategoryOptions =
                 PerformanceMeasureActualUpdates.Where(
-                    x => !x.ActualValue.HasValue || x.PerformanceMeasure.IndicatorSubcategories.Count != x.PerformanceMeasureActualSubcategoryOptionUpdates.Count).ToList();
+                    x => !x.ActualValue.HasValue || x.PerformanceMeasure.PerformanceMeasureSubcategories.Count != x.PerformanceMeasureActualSubcategoryOptionUpdates.Count).ToList();
             return new HashSet<int>(performanceMeasureActualUpdatesWithMissingSubcategoryOptions.Select(x => x.PerformanceMeasureActualUpdateID));
         }
 

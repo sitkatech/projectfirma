@@ -9,8 +9,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
     public class EditPerformanceMeasureActualsViewData : FirmaUserControlViewData
     {
         public readonly List<PerformanceMeasureSimple> AllPerformanceMeasures;
-        public readonly List<IndicatorSubcategorySimple> AllIndicatorSubcategories;
-        public readonly List<IndicatorSubcategoryOptionSimple> AllIndicatorSubcategoryOptions;
+        public readonly List<PerformanceMeasureSubcategorySimple> AllPerformanceMeasureSubcategories;
+        public readonly List<PerformanceMeasureSubcategoryOptionSimple> AllPerformanceMeasureSubcategoryOptions;
         public readonly List<ProjectSimple> AllProjects;
         public readonly int? ProjectID;
         public readonly List<int> CalendarYears;
@@ -21,10 +21,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
             ShowExemptYears = showExemptYears;
             ProjectID = project.ProjectID;
             AllPerformanceMeasures = allPerformanceMeasures.Select(x => new PerformanceMeasureSimple(x)).OrderBy(p => p.PerformanceMeasureID).ToList();
-            var performanceMeasureSubcategories = allPerformanceMeasures.SelectMany(x => x.IndicatorSubcategories).ToList();
-            var indicatorSubcategories = performanceMeasureSubcategories.Distinct(new HavePrimaryKeyComparer<IndicatorSubcategory>()).ToList();
-            AllIndicatorSubcategories = indicatorSubcategories.Select(x => new IndicatorSubcategorySimple(x)).ToList();
-            AllIndicatorSubcategoryOptions = indicatorSubcategories.SelectMany(y => y.IndicatorSubcategoryOptions.Select(z => new IndicatorSubcategoryOptionSimple(z))).ToList();
+            var performanceMeasureSubcategories =
+                allPerformanceMeasures.SelectMany(x => x.PerformanceMeasureSubcategories).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureSubcategory>()).ToList();
+            AllPerformanceMeasureSubcategories = performanceMeasureSubcategories.Select(x => new PerformanceMeasureSubcategorySimple(x)).ToList();
+            AllPerformanceMeasureSubcategoryOptions = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();
             AllProjects = allProjects;
             CalendarYears = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x).ToList();
         }

@@ -33,32 +33,32 @@
 
     $scope.getSubcategoriesForPerformanceMeasure = function (performanceMeasureId)
     {
-        var performanceMeasureSubcategories = _($scope.AngularViewData.AllIndicatorSubcategories).filter(function (pms) { return pms.PerformanceMeasureID == performanceMeasureId; }).map(function (pms) { return { IndicatorSubcategoryID: pms.IndicatorSubcategoryID, IndicatorSubcategoryName: $scope.getSubcategoryName(pms), SortOrder: pms.SortOrder }; }).sortByAll(["SortOrder", "IndicatorSubcategoryName"]).value();
+        var performanceMeasureSubcategories = _($scope.AngularViewData.AllPerformanceMeasureSubcategories).filter(function (pms) { return pms.PerformanceMeasureID == performanceMeasureId; }).map(function (pms) { return { PerformanceMeasureSubcategoryID: pms.PerformanceMeasureSubcategoryID, PerformanceMeasureSubcategoryName: $scope.getSubcategoryName(pms), SortOrder: pms.SortOrder }; }).sortByAll(["SortOrder", "PerformanceMeasureSubcategoryName"]).value();
         return performanceMeasureSubcategories;
     };
 
-    $scope.getSubcategoryOptionsForSubcategory = function (indicatorSubcategoryId)
+    $scope.getSubcategoryOptionsForSubcategory = function (performanceMeasureSubcategoryId)
     {
-        var subcategoryOptions = _($scope.AngularViewData.AllIndicatorSubcategoryOptions).filter(function (sco) { return sco.IndicatorSubcategoryID == indicatorSubcategoryId; }).sortByAll(["SortOrder", "IndicatorSubcategoryOptionName"]).value();
+        var subcategoryOptions = _($scope.AngularViewData.AllPerformanceMeasureSubcategoryOptions).filter(function (sco) { return sco.PerformanceMeasureSubcategoryID == performanceMeasureSubcategoryId; }).sortByAll(["SortOrder", "PerformanceMeasureSubcategoryOptionName"]).value();
         return subcategoryOptions;
     };
 
-    $scope.getSubcategory = function (indicatorSubcategoryId)
+    $scope.getSubcategory = function (performanceMeasureSubcategoryId)
     {
-        var indicatorSubcategory = _.find($scope.AngularViewData.AllIndicatorSubcategories, function (sc) { return sc.IndicatorSubcategoryID == indicatorSubcategoryId; });
-        return indicatorSubcategory;
+        var performanceMeasureSubcategory = _.find($scope.AngularViewData.AllPerformanceMeasureSubcategories, function (sc) { return sc.PerformanceMeasureSubcategoryID == performanceMeasureSubcategoryId; });
+        return performanceMeasureSubcategory;
     };
 
     $scope.getSubcategoryName = function (performanceMeasureActualSubcategoryOption)
     {
-        var indicatorSubcategory = $scope.getSubcategory(performanceMeasureActualSubcategoryOption.IndicatorSubcategoryID);
-        return indicatorSubcategory.IndicatorSubcategoryDisplayName;
+        var performanceMeasureSubcategory = $scope.getSubcategory(performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryID);
+        return performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName;
     };
 
     $scope.hasAnySubcategories = function ()
     {
         var performanceMeasureIDsInModel = _.pluck($scope.AngularModel.PerformanceMeasureActuals, function(pmav) { return pmav.PerformanceMeasureID; });
-        var anySubcategories = _.any($scope.AngularViewData.AllIndicatorSubcategories, function (sc) { return _.contains(performanceMeasureIDsInModel, sc.PerformanceMeasureID); });
+        var anySubcategories = _.any($scope.AngularViewData.AllPerformanceMeasureSubcategories, function (sc) { return _.contains(performanceMeasureIDsInModel, sc.PerformanceMeasureID); });
         return anySubcategories;
     };
 
@@ -89,19 +89,19 @@
     {
         var performanceMeasureId = performanceMeasure.PerformanceMeasureID;
         var subcategories = $scope.getSubcategoriesForPerformanceMeasure(performanceMeasureId);
-        var performanceMeasureValueSubcategoryOptionRows = _.map(subcategories, function (indicatorSubcategory) { return $scope.createPerformanceMeasureValueSubcategoryOption(indicatorSubcategory, performanceMeasureId); });
+        var performanceMeasureValueSubcategoryOptionRows = _.map(subcategories, function (performanceMeasureSubcategory) { return $scope.createPerformanceMeasureValueSubcategoryOption(performanceMeasureSubcategory, performanceMeasureId); });
         if (!performanceMeasure.HasRealSubcategories) {
-            performanceMeasureValueSubcategoryOptionRows[0].IndicatorSubcategoryOptionID = $scope.getSubcategoryOptionsForSubcategory(subcategories[0].IndicatorSubcategoryID)[0].IndicatorSubcategoryOptionID;
+            performanceMeasureValueSubcategoryOptionRows[0].PerformanceMeasureSubcategoryOptionID = $scope.getSubcategoryOptionsForSubcategory(subcategories[0].PerformanceMeasureSubcategoryID)[0].PerformanceMeasureSubcategoryOptionID;
         }
         return performanceMeasureValueSubcategoryOptionRows;
     };
 
-    $scope.createPerformanceMeasureValueSubcategoryOption = function (indicatorSubcategory, performanceMeasureId)
+    $scope.createPerformanceMeasureValueSubcategoryOption = function (performanceMeasureSubcategory, performanceMeasureId)
     {
         var newPerformanceMeasureActual = {
             PerformanceMeasureID: performanceMeasureId,
-            IndicatorSubcategoryID: indicatorSubcategory.IndicatorSubcategoryID,
-            IndicatorSubcategoryOptionID: null
+            PerformanceMeasureSubcategoryID: performanceMeasureSubcategory.PerformanceMeasureSubcategoryID,
+            PerformanceMeasureSubcategoryOptionID: null
         };
         return newPerformanceMeasureActual;
     };

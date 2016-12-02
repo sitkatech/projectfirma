@@ -45,12 +45,6 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<FocusAreaImage> FocusAreaImages { get; set; }
         public virtual DbSet<FocusArea> FocusAreas { get; set; }
         public virtual DbSet<FundingSource> FundingSources { get; set; }
-        public virtual DbSet<IndicatorMonitoringProgram> IndicatorMonitoringPrograms { get; set; }
-        public virtual DbSet<IndicatorNote> IndicatorNotes { get; set; }
-        public virtual DbSet<IndicatorRelationship> IndicatorRelationships { get; set; }
-        public virtual DbSet<Indicator> Indicators { get; set; }
-        public virtual DbSet<IndicatorSubcategory> IndicatorSubcategories { get; set; }
-        public virtual DbSet<IndicatorSubcategoryOption> IndicatorSubcategoryOptions { get; set; }
         public virtual DbSet<Jurisdiction> Jurisdictions { get; set; }
         public virtual DbSet<MappedRegion> MappedRegions { get; set; }
         public virtual DbSet<MonitoringProgramDocument> MonitoringProgramDocuments { get; set; }
@@ -69,7 +63,11 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<PerformanceMeasureExpected> PerformanceMeasureExpecteds { get; set; }
         public virtual DbSet<PerformanceMeasureExpectedSubcategoryOptionProposed> PerformanceMeasureExpectedSubcategoryOptionProposeds { get; set; }
         public virtual DbSet<PerformanceMeasureExpectedSubcategoryOption> PerformanceMeasureExpectedSubcategoryOptions { get; set; }
+        public virtual DbSet<PerformanceMeasureMonitoringProgram> PerformanceMeasureMonitoringPrograms { get; set; }
+        public virtual DbSet<PerformanceMeasureNote> PerformanceMeasureNotes { get; set; }
         public virtual DbSet<PerformanceMeasure> PerformanceMeasures { get; set; }
+        public virtual DbSet<PerformanceMeasureSubcategory> PerformanceMeasureSubcategories { get; set; }
+        public virtual DbSet<PerformanceMeasureSubcategoryOption> PerformanceMeasureSubcategoryOptions { get; set; }
         public virtual DbSet<ProgramImage> ProgramImages { get; set; }
         public virtual DbSet<ProgramPerformanceMeasure> ProgramPerformanceMeasures { get; set; }
         public virtual DbSet<Program> Programs { get; set; }
@@ -121,7 +119,7 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<Tag> Tags { get; set; }
         public virtual DbSet<ThresholdCategory> ThresholdCategories { get; set; }
         public virtual DbSet<ThresholdCategoryImage> ThresholdCategoryImages { get; set; }
-        public virtual DbSet<ThresholdCategoryIndicator> ThresholdCategoryIndicators { get; set; }
+        public virtual DbSet<ThresholdCategoryPerformanceMeasure> ThresholdCategoryPerformanceMeasures { get; set; }
         public virtual DbSet<vProject> vProjects { get; set; }
         public virtual DbSet<Watershed> Watersheds { get; set; }
 
@@ -210,39 +208,6 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(fundingType, "FundingType", primaryKey);
                     return fundingType;
 
-                case "IndicatorMonitoringProgram":
-                    return IndicatorMonitoringPrograms.GetIndicatorMonitoringProgram(primaryKey);
-
-                case "IndicatorNote":
-                    return IndicatorNotes.GetIndicatorNote(primaryKey);
-
-                case "IndicatorRelationship":
-                    return IndicatorRelationships.GetIndicatorRelationship(primaryKey);
-
-                case "IndicatorRelationshipType":
-                    var indicatorRelationshipType = IndicatorRelationshipType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(indicatorRelationshipType, "IndicatorRelationshipType", primaryKey);
-                    return indicatorRelationshipType;
-
-                case "Indicator":
-                    return Indicators.GetIndicator(primaryKey);
-
-                case "IndicatorSubcategory":
-                    return IndicatorSubcategories.GetIndicatorSubcategory(primaryKey);
-
-                case "IndicatorSubcategoryOption":
-                    return IndicatorSubcategoryOptions.GetIndicatorSubcategoryOption(primaryKey);
-
-                case "IndicatorTargetValueType":
-                    var indicatorTargetValueType = IndicatorTargetValueType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(indicatorTargetValueType, "IndicatorTargetValueType", primaryKey);
-                    return indicatorTargetValueType;
-
-                case "IndicatorType":
-                    var indicatorType = IndicatorType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(indicatorType, "IndicatorType", primaryKey);
-                    return indicatorType;
-
                 case "Jurisdiction":
                     return Jurisdictions.GetJurisdiction(primaryKey);
 
@@ -307,8 +272,30 @@ namespace ProjectFirma.Web.Models
                 case "PerformanceMeasureExpectedSubcategoryOption":
                     return PerformanceMeasureExpectedSubcategoryOptions.GetPerformanceMeasureExpectedSubcategoryOption(primaryKey);
 
+                case "PerformanceMeasureMonitoringProgram":
+                    return PerformanceMeasureMonitoringPrograms.GetPerformanceMeasureMonitoringProgram(primaryKey);
+
+                case "PerformanceMeasureNote":
+                    return PerformanceMeasureNotes.GetPerformanceMeasureNote(primaryKey);
+
                 case "PerformanceMeasure":
                     return PerformanceMeasures.GetPerformanceMeasure(primaryKey);
+
+                case "PerformanceMeasureSubcategory":
+                    return PerformanceMeasureSubcategories.GetPerformanceMeasureSubcategory(primaryKey);
+
+                case "PerformanceMeasureSubcategoryOption":
+                    return PerformanceMeasureSubcategoryOptions.GetPerformanceMeasureSubcategoryOption(primaryKey);
+
+                case "PerformanceMeasureTargetValueType":
+                    var performanceMeasureTargetValueType = PerformanceMeasureTargetValueType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(performanceMeasureTargetValueType, "PerformanceMeasureTargetValueType", primaryKey);
+                    return performanceMeasureTargetValueType;
+
+                case "PerformanceMeasureType":
+                    var performanceMeasureType = PerformanceMeasureType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(performanceMeasureType, "PerformanceMeasureType", primaryKey);
+                    return performanceMeasureType;
 
                 case "ProgramImage":
                     return ProgramImages.GetProgramImage(primaryKey);
@@ -528,8 +515,8 @@ namespace ProjectFirma.Web.Models
                 case "ThresholdCategoryImage":
                     return ThresholdCategoryImages.GetThresholdCategoryImage(primaryKey);
 
-                case "ThresholdCategoryIndicator":
-                    return ThresholdCategoryIndicators.GetThresholdCategoryIndicator(primaryKey);
+                case "ThresholdCategoryPerformanceMeasure":
+                    return ThresholdCategoryPerformanceMeasures.GetThresholdCategoryPerformanceMeasure(primaryKey);
 
                 case "Watershed":
                     return Watersheds.GetWatershed(primaryKey);

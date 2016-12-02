@@ -40,8 +40,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
             public readonly int ProjectUpdateBatchID;
             public readonly List<PerformanceMeasureSimple> AllPerformanceMeasures;
-            public readonly List<IndicatorSubcategorySimple> AllIndicatorSubcategories;
-            public readonly List<IndicatorSubcategoryOptionSimple> AllIndicatorSubcategoryOptions;
+            public readonly List<PerformanceMeasureSubcategorySimple> AllPerformanceMeasureSubcategories;
+            public readonly List<PerformanceMeasureSubcategoryOptionSimple> AllPerformanceMeasureSubcategoryOptions;
             public readonly List<int> CalendarYears;
             public readonly int MaxSubcategoryOptions;
             public readonly HashSet<int> PerformanceMeasureActualUpdatesWithValidationWarnings;
@@ -51,16 +51,15 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             public ViewDataForAngularEditor(int projectUpdateBatchID,
                 List<PerformanceMeasureSimple> allPerformanceMeasures,
                 List<PerformanceMeasureSubcategorySimple> allPerformanceMeasureSubcategories,
-                List<IndicatorSubcategorySimple> allIndicatorSubcategories,
-                List<IndicatorSubcategoryOptionSimple> allIndicatorSubcategoryOptions,
+                List<PerformanceMeasureSubcategoryOptionSimple> allPerformanceMeasureSubcategoryOptions,
                 List<int> calendarYears,
                 bool showExemptYears,
                 PerformanceMeasuresValidationResult performanceMeasuresValidationResult)
             {
                 ProjectUpdateBatchID = projectUpdateBatchID;
                 AllPerformanceMeasures = allPerformanceMeasures;
-                AllIndicatorSubcategories = allIndicatorSubcategories;
-                AllIndicatorSubcategoryOptions = allIndicatorSubcategoryOptions;
+                AllPerformanceMeasureSubcategories = allPerformanceMeasureSubcategories;
+                AllPerformanceMeasureSubcategoryOptions = allPerformanceMeasureSubcategoryOptions;
                 CalendarYears = calendarYears;
                 ShowExemptYears = showExemptYears;
                 PerformanceMeasureActualUpdatesWithValidationWarnings = performanceMeasuresValidationResult.PerformanceMeasureActualUpdatesWithWarnings;

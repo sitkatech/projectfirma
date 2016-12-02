@@ -35,8 +35,8 @@ namespace ProjectFirma.Web.Service
         List<WebServiceProjectKeyPhoto> GetProjectKeyPhoto(string returnType, string webServiceToken, string projectNumber);
 
         [OperationContract]
-        [WebServiceDocumentationAttribute("Provides the list of all Performance Measures (aka Indicators), including their subcategories (aka dimensions) and the number of options in each indicatorSubcategory.")]
-        List<WebServicePerformanceMeasure> GetIndicators(string returnType, string webServiceToken);
+        [WebServiceDocumentationAttribute("Provides the list of all Performance Measures (aka PerformanceMeasures), including their subcategories (aka dimensions) and the number of options in each performanceMeasureSubcategory.")]
+        List<WebServicePerformanceMeasure> GetPerformanceMeasures(string returnType, string webServiceToken);
 
         [OperationContract]
         [WebServiceDocumentationAttribute("Provides the list of all Organizations within the LT Info platform. Most organizations in this list are local jurisdictions, agencies, associations, or private firms within the Lake Tahoe area, however this list will also include organizations of any person who as requested an account.")]

@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.Project
             PerformanceMeasureReportedValues =
                 Project.GetReportedPerformanceMeasures()
                     .GroupBy(x => x.PerformanceMeasure, new HavePrimaryKeyComparer<Models.PerformanceMeasure>())
-                    .OrderBy(x => x.Key.Indicator.IndicatorName)
+                    .OrderBy(x => x.Key.PerformanceMeasureName)
                     .ToList();
             ProjectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
 

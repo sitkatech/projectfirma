@@ -279,20 +279,19 @@ namespace ProjectFirma.Web.Controllers
                                               x.ErrorMessage == FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears ||
                                               x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
 
-            var performanceMeasureSubcategories = performanceMeasures.SelectMany(x => x.IndicatorSubcategories).ToList();
-            var subcategories = performanceMeasureSubcategories.Distinct(new HavePrimaryKeyComparer<IndicatorSubcategory>()).ToList();
+            var performanceMeasureSubcategories = performanceMeasures.SelectMany(x => x.PerformanceMeasureSubcategories).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureSubcategory>()).ToList();
             var performanceMeasureSimples = performanceMeasures.Select(x => new PerformanceMeasureSimple(x)).OrderBy(p => p.PerformanceMeasureID).ToList();
             var performanceMeasureSubcategorySimples = performanceMeasureSubcategories.Select(y => new PerformanceMeasureSubcategorySimple(y)).ToList();
-            var subcategorySimples = subcategories.Select(x => new IndicatorSubcategorySimple(x)).ToList();
-            var subcategoryOptionSimples = subcategories.SelectMany(y => y.IndicatorSubcategoryOptions.Select(z => new IndicatorSubcategoryOptionSimple(z))).ToList();
+
+            var performanceMeasureSubcategoryOptionSimples = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();
+            
             var calendarYears = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x).ToList();
             var performanceMeasuresValidationResult = projectUpdateBatch.ValidatePerformanceMeasures();
 
             var viewDataForAngularEditor = new PerformanceMeasuresViewData.ViewDataForAngularEditor(projectUpdateBatch.ProjectUpdateBatchID,
                 performanceMeasureSimples,
                 performanceMeasureSubcategorySimples,
-                subcategorySimples,
-                subcategoryOptionSimples,
+                performanceMeasureSubcategoryOptionSimples,
                 calendarYears,
                 showExemptYears,
                 performanceMeasuresValidationResult);

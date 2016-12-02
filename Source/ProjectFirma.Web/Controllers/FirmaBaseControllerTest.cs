@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Controllers
                 "FirmaPageController.FirmaPageDetails",
                 "ResultsController.SpendingBySectorByOrganization",
                 "ResultsController.SpendingBySectorByOrganizationExcelDownload",
-                "IndicatorController.SaveChartConfiguration",
+                "PerformanceMeasureController.SaveChartConfiguration",
                 "RoleController.Summary",
                 "RoleController.PersonWithRoleGridJsonData",
             };

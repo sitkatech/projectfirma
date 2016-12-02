@@ -19,23 +19,23 @@ namespace ProjectFirma.Web.Models
             var performanceMeasure = TestFramework.TestPerformanceMeasure.CreateWithSubcategories(-1000, "PerformanceMeasure1");
             var projectUpdateBatch = TestFramework.TestProjectUpdateBatch.Create(project);
 
-            Assert.That(performanceMeasure.IndicatorSubcategories.Count, Is.GreaterThanOrEqualTo(3), "Precondition: Expecting at least 3 subcategories for the performance measure");
+            Assert.That(performanceMeasure.PerformanceMeasureSubcategories.Count, Is.GreaterThanOrEqualTo(3), "Precondition: Expecting at least 3 subcategories for the performance measure");
 
             // Arrange: test cloning a PerformanceMeasureActual
             var performanceMeasureActual = TestFramework.TestPerformanceMeasureActual.Create(-2000, project, performanceMeasure, 777, 2014);
 
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3000,
                 performanceMeasureActual,
-                performanceMeasure.GetIndicatorSubcategories()[0],
-                performanceMeasure.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4000,
                 performanceMeasureActual,
-                performanceMeasure.GetIndicatorSubcategories()[1],
-                performanceMeasure.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5000,
                 performanceMeasureActual,
-                performanceMeasure.GetIndicatorSubcategories()[2],
-                performanceMeasure.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
 
             const int newCalendarYear = 2017;
 
@@ -47,16 +47,16 @@ namespace ProjectFirma.Web.Models
 
             TestFramework.TestPerformanceMeasureExpectedSubcategoryOption.Create(-3001,
                 performanceMeasureExpected,
-                performanceMeasure.GetIndicatorSubcategories()[0],
-                performanceMeasure.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureExpectedSubcategoryOption.Create(-4001,
                 performanceMeasureExpected,
-                performanceMeasure.GetIndicatorSubcategories()[1],
-                performanceMeasure.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureExpectedSubcategoryOption.Create(-5001,
                 performanceMeasureExpected,
-                performanceMeasure.GetIndicatorSubcategories()[2],
-                performanceMeasure.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
 
             // Act && Assert
             AssertClonePerformanceMeasureValueSuccessful(projectUpdateBatch, performanceMeasureExpected, newCalendarYear, performanceMeasureExpected.ReportedValue);
@@ -71,36 +71,36 @@ namespace ProjectFirma.Web.Models
             var performanceMeasure2 = TestFramework.TestPerformanceMeasure.CreateWithSubcategories(-1001, "PerformanceMeasure2");
             var projectUpdateBatch = TestFramework.TestProjectUpdateBatch.Create(project);
 
-            Assert.That(performanceMeasure1.IndicatorSubcategories.Count, Is.GreaterThanOrEqualTo(3), "Precondition: Expecting at least 3 subcategories for the performance measure");
-            Assert.That(performanceMeasure2.IndicatorSubcategories.Count, Is.GreaterThanOrEqualTo(3), "Precondition: Expecting at least 3 subcategories for the performance measure");
+            Assert.That(performanceMeasure1.PerformanceMeasureSubcategories.Count, Is.GreaterThanOrEqualTo(3), "Precondition: Expecting at least 3 subcategories for the performance measure");
+            Assert.That(performanceMeasure2.PerformanceMeasureSubcategories.Count, Is.GreaterThanOrEqualTo(3), "Precondition: Expecting at least 3 subcategories for the performance measure");
 
             var performanceMeasureActual1 = TestFramework.TestPerformanceMeasureActual.Create(-2000, project, performanceMeasure1, 777, 2009);
             var performanceMeasureActual2 = TestFramework.TestPerformanceMeasureActual.Create(-2001, project, performanceMeasure2, 888, 2009);
 
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3000,
                 performanceMeasureActual1,
-                performanceMeasure1.GetIndicatorSubcategories()[0],
-                performanceMeasure1.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4000,
                 performanceMeasureActual1,
-                performanceMeasure1.GetIndicatorSubcategories()[1],
-                performanceMeasure1.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5000,
                 performanceMeasureActual1,
-                performanceMeasure1.GetIndicatorSubcategories()[2],
-                performanceMeasure1.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3001,
                 performanceMeasureActual2,
-                performanceMeasure2.GetIndicatorSubcategories()[0],
-                performanceMeasure2.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4001,
                 performanceMeasureActual2,
-                performanceMeasure2.GetIndicatorSubcategories()[1],
-                performanceMeasure2.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5001,
                 performanceMeasureActual2,
-                performanceMeasure2.GetIndicatorSubcategories()[2],
-                performanceMeasure2.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
 
             const int yearToStartFrom = 2010;
             const int endYear = 2014;
@@ -145,29 +145,29 @@ namespace ProjectFirma.Web.Models
             var performanceMeasureExpected1 = TestFramework.TestPerformanceMeasureExpected.Create(-2001, project, performanceMeasure1, 877);
             TestFramework.TestPerformanceMeasureExpectedSubcategoryOption.Create(-3001,
                 performanceMeasureExpected1,
-                performanceMeasure1.GetIndicatorSubcategories()[0],
-                performanceMeasure1.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureExpectedSubcategoryOption.Create(-4001,
                 performanceMeasureExpected1,
-                performanceMeasure1.GetIndicatorSubcategories()[1],
-                performanceMeasure1.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureExpectedSubcategoryOption.Create(-5001,
                 performanceMeasureExpected1,
-                performanceMeasure1.GetIndicatorSubcategories()[2],
-                performanceMeasure1.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureExpected2 = TestFramework.TestPerformanceMeasureExpected.Create(-2002, project, performanceMeasure2, 997);
             TestFramework.TestPerformanceMeasureExpectedSubcategoryOption.Create(-3002,
                 performanceMeasureExpected2,
-                performanceMeasure2.GetIndicatorSubcategories()[0],
-                performanceMeasure2.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureExpectedSubcategoryOption.Create(-4002,
                 performanceMeasureExpected2,
-                performanceMeasure2.GetIndicatorSubcategories()[1],
-                performanceMeasure2.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureExpectedSubcategoryOption.Create(-5002,
                 performanceMeasureExpected2,
-                performanceMeasure2.GetIndicatorSubcategories()[2],
-                performanceMeasure2.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             Assert.That(project.PerformanceMeasureActuals.Any(), Is.False, "Precondition: no performance measure actual values");
             Assert.That(project.PerformanceMeasureExpecteds.Any(), Is.True, "Precondition: has performance measure expected values");
 
@@ -198,81 +198,81 @@ namespace ProjectFirma.Web.Models
             var performanceMeasureActual1 = TestFramework.TestPerformanceMeasureActual.Create(-2001, project, performanceMeasure1, 177, 2010);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3003,
                 performanceMeasureActual1,
-                performanceMeasure1.GetIndicatorSubcategories()[0],
-                performanceMeasure1.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4003,
                 performanceMeasureActual1,
-                performanceMeasure1.GetIndicatorSubcategories()[1],
-                performanceMeasure1.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5003,
                 performanceMeasureActual1,
-                performanceMeasure1.GetIndicatorSubcategories()[2],
-                performanceMeasure1.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureActual2 = TestFramework.TestPerformanceMeasureActual.Create(-2002, project, performanceMeasure2, 297, 2011);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3004,
                 performanceMeasureActual2,
-                performanceMeasure2.GetIndicatorSubcategories()[0],
-                performanceMeasure2.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4004,
                 performanceMeasureActual2,
-                performanceMeasure2.GetIndicatorSubcategories()[1],
-                performanceMeasure2.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5004,
                 performanceMeasureActual2,
-                performanceMeasure2.GetIndicatorSubcategories()[2],
-                performanceMeasure2.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureActual3 = TestFramework.TestPerformanceMeasureActual.Create(-2003, project, performanceMeasure1, 377, 2011);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3003,
                 performanceMeasureActual3,
-                performanceMeasure1.GetIndicatorSubcategories()[0],
-                performanceMeasure1.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4003,
                 performanceMeasureActual3,
-                performanceMeasure1.GetIndicatorSubcategories()[1],
-                performanceMeasure1.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5003,
                 performanceMeasureActual3,
-                performanceMeasure1.GetIndicatorSubcategories()[2],
-                performanceMeasure1.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureActual4 = TestFramework.TestPerformanceMeasureActual.Create(-2004, project, performanceMeasure2, 497, 2012);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3004,
                 performanceMeasureActual4,
-                performanceMeasure2.GetIndicatorSubcategories()[0],
-                performanceMeasure2.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4004,
                 performanceMeasureActual4,
-                performanceMeasure2.GetIndicatorSubcategories()[1],
-                performanceMeasure2.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5004,
                 performanceMeasureActual4,
-                performanceMeasure2.GetIndicatorSubcategories()[2],
-                performanceMeasure2.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureActual5 = TestFramework.TestPerformanceMeasureActual.Create(-2005, project, performanceMeasure1, 577, 2012);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3003,
                 performanceMeasureActual5,
-                performanceMeasure1.GetIndicatorSubcategories()[0],
-                performanceMeasure1.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4003,
                 performanceMeasureActual5,
-                performanceMeasure1.GetIndicatorSubcategories()[1],
-                performanceMeasure1.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5003,
                 performanceMeasureActual5,
-                performanceMeasure1.GetIndicatorSubcategories()[2],
-                performanceMeasure1.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureActual6 = TestFramework.TestPerformanceMeasureActual.Create(-2006, project, performanceMeasure2, 697, 2012);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3004,
                 performanceMeasureActual6,
-                performanceMeasure2.GetIndicatorSubcategories()[0],
-                performanceMeasure2.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.Last());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.Last());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4004,
                 performanceMeasureActual6,
-                performanceMeasure2.GetIndicatorSubcategories()[1],
-                performanceMeasure2.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.Last());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.Last());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5004,
                 performanceMeasureActual6,
-                performanceMeasure2.GetIndicatorSubcategories()[2],
-                performanceMeasure2.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.Last());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.Last());
             Assert.That(project.PerformanceMeasureActuals.Any(), Is.True, "Precondition: has performance measure expected values");
 
             // Act
@@ -298,81 +298,81 @@ namespace ProjectFirma.Web.Models
             var performanceMeasureActual1 = TestFramework.TestPerformanceMeasureActual.Create(-2001, project, performanceMeasure1, 177, 2010);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3003,
                 performanceMeasureActual1,
-                performanceMeasure1.GetIndicatorSubcategories()[0],
-                performanceMeasure1.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4003,
                 performanceMeasureActual1,
-                performanceMeasure1.GetIndicatorSubcategories()[1],
-                performanceMeasure1.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5003,
                 performanceMeasureActual1,
-                performanceMeasure1.GetIndicatorSubcategories()[2],
-                performanceMeasure1.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureActual2 = TestFramework.TestPerformanceMeasureActual.Create(-2002, project, performanceMeasure2, 297, 2011);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3004,
                 performanceMeasureActual2,
-                performanceMeasure2.GetIndicatorSubcategories()[0],
-                performanceMeasure2.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4004,
                 performanceMeasureActual2,
-                performanceMeasure2.GetIndicatorSubcategories()[1],
-                performanceMeasure2.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5004,
                 performanceMeasureActual2,
-                performanceMeasure2.GetIndicatorSubcategories()[2],
-                performanceMeasure2.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureActual3 = TestFramework.TestPerformanceMeasureActual.Create(-2003, project, performanceMeasure1, 377, 2011);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3003,
                 performanceMeasureActual3,
-                performanceMeasure1.GetIndicatorSubcategories()[0],
-                performanceMeasure1.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4003,
                 performanceMeasureActual3,
-                performanceMeasure1.GetIndicatorSubcategories()[1],
-                performanceMeasure1.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5003,
                 performanceMeasureActual3,
-                performanceMeasure1.GetIndicatorSubcategories()[2],
-                performanceMeasure1.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureActual4 = TestFramework.TestPerformanceMeasureActual.Create(-2004, project, performanceMeasure2, 497, 2012);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3004,
                 performanceMeasureActual4,
-                performanceMeasure2.GetIndicatorSubcategories()[0],
-                performanceMeasure2.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4004,
                 performanceMeasureActual4,
-                performanceMeasure2.GetIndicatorSubcategories()[1],
-                performanceMeasure2.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5004,
                 performanceMeasureActual4,
-                performanceMeasure2.GetIndicatorSubcategories()[2],
-                performanceMeasure2.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureActual5 = TestFramework.TestPerformanceMeasureActual.Create(-2005, project, performanceMeasure1, 577, 2012);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3003,
                 performanceMeasureActual5,
-                performanceMeasure1.GetIndicatorSubcategories()[0],
-                performanceMeasure1.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4003,
                 performanceMeasureActual5,
-                performanceMeasure1.GetIndicatorSubcategories()[1],
-                performanceMeasure1.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5003,
                 performanceMeasureActual5,
-                performanceMeasure1.GetIndicatorSubcategories()[2],
-                performanceMeasure1.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureActual6 = TestFramework.TestPerformanceMeasureActual.Create(-2006, project, performanceMeasure2, 697, 2012);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3004,
                 performanceMeasureActual6,
-                performanceMeasure2.GetIndicatorSubcategories()[0],
-                performanceMeasure2.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.Last());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.Last());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4004,
                 performanceMeasureActual6,
-                performanceMeasure2.GetIndicatorSubcategories()[1],
-                performanceMeasure2.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.Last());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.Last());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5004,
                 performanceMeasureActual6,
-                performanceMeasure2.GetIndicatorSubcategories()[2],
-                performanceMeasure2.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.Last());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.Last());
             Assert.That(project.PerformanceMeasureActuals.Any(), Is.True, "Precondition: has performance measure expected values");
 
             // Act
@@ -398,81 +398,81 @@ namespace ProjectFirma.Web.Models
             var performanceMeasureActual1 = TestFramework.TestPerformanceMeasureActual.Create(-2001, project, performanceMeasure1, 177, 2010);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3003,
                 performanceMeasureActual1,
-                performanceMeasure1.GetIndicatorSubcategories()[0],
-                performanceMeasure1.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4003,
                 performanceMeasureActual1,
-                performanceMeasure1.GetIndicatorSubcategories()[1],
-                performanceMeasure1.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5003,
                 performanceMeasureActual1,
-                performanceMeasure1.GetIndicatorSubcategories()[2],
-                performanceMeasure1.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureActual2 = TestFramework.TestPerformanceMeasureActual.Create(-2002, project, performanceMeasure2, 297, 2011);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3004,
                 performanceMeasureActual2,
-                performanceMeasure2.GetIndicatorSubcategories()[0],
-                performanceMeasure2.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4004,
                 performanceMeasureActual2,
-                performanceMeasure2.GetIndicatorSubcategories()[1],
-                performanceMeasure2.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5004,
                 performanceMeasureActual2,
-                performanceMeasure2.GetIndicatorSubcategories()[2],
-                performanceMeasure2.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureActual3 = TestFramework.TestPerformanceMeasureActual.Create(-2003, project, performanceMeasure1, 377, 2011);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3003,
                 performanceMeasureActual3,
-                performanceMeasure1.GetIndicatorSubcategories()[0],
-                performanceMeasure1.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4003,
                 performanceMeasureActual3,
-                performanceMeasure1.GetIndicatorSubcategories()[1],
-                performanceMeasure1.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5003,
                 performanceMeasureActual3,
-                performanceMeasure1.GetIndicatorSubcategories()[2],
-                performanceMeasure1.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureActual4 = TestFramework.TestPerformanceMeasureActual.Create(-2004, project, performanceMeasure2, 497, 2012);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3004,
                 performanceMeasureActual4,
-                performanceMeasure2.GetIndicatorSubcategories()[0],
-                performanceMeasure2.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4004,
                 performanceMeasureActual4,
-                performanceMeasure2.GetIndicatorSubcategories()[1],
-                performanceMeasure2.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5004,
                 performanceMeasureActual4,
-                performanceMeasure2.GetIndicatorSubcategories()[2],
-                performanceMeasure2.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureActual5 = TestFramework.TestPerformanceMeasureActual.Create(-2005, project, performanceMeasure1, 577, 2012);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3003,
                 performanceMeasureActual5,
-                performanceMeasure1.GetIndicatorSubcategories()[0],
-                performanceMeasure1.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4003,
                 performanceMeasureActual5,
-                performanceMeasure1.GetIndicatorSubcategories()[1],
-                performanceMeasure1.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5003,
                 performanceMeasureActual5,
-                performanceMeasure1.GetIndicatorSubcategories()[2],
-                performanceMeasure1.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureActual6 = TestFramework.TestPerformanceMeasureActual.Create(-2006, project, performanceMeasure2, 697, 2012);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3004,
                 performanceMeasureActual6,
-                performanceMeasure2.GetIndicatorSubcategories()[0],
-                performanceMeasure2.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.Last());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.Last());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4004,
                 performanceMeasureActual6,
-                performanceMeasure2.GetIndicatorSubcategories()[1],
-                performanceMeasure2.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.Last());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.Last());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5004,
                 performanceMeasureActual6,
-                performanceMeasure2.GetIndicatorSubcategories()[2],
-                performanceMeasure2.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.Last());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.Last());
             Assert.That(project.PerformanceMeasureActuals.Any(), Is.True, "Precondition: has performance measure expected values");
 
             // Act
@@ -493,29 +493,29 @@ namespace ProjectFirma.Web.Models
             var performanceMeasureExpected = TestFramework.TestPerformanceMeasureExpected.Create(-2001, project, performanceMeasure1, 877);
             TestFramework.TestPerformanceMeasureExpectedSubcategoryOption.Create(-3001,
                 performanceMeasureExpected,
-                performanceMeasure1.GetIndicatorSubcategories()[0],
-                performanceMeasure1.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureExpectedSubcategoryOption.Create(-4001,
                 performanceMeasureExpected,
-                performanceMeasure1.GetIndicatorSubcategories()[1],
-                performanceMeasure1.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureExpectedSubcategoryOption.Create(-5001,
                 performanceMeasureExpected,
-                performanceMeasure1.GetIndicatorSubcategories()[2],
-                performanceMeasure1.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             var performanceMeasureActual = TestFramework.TestPerformanceMeasureActual.Create(-2002, project, performanceMeasure1, 977, 2012);
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3003,
                 performanceMeasureActual,
-                performanceMeasure1.GetIndicatorSubcategories()[0],
-                performanceMeasure1.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4003,
                 performanceMeasureActual,
-                performanceMeasure1.GetIndicatorSubcategories()[1],
-                performanceMeasure1.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5003,
                 performanceMeasureActual,
-                performanceMeasure1.GetIndicatorSubcategories()[2],
-                performanceMeasure1.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
 
             // Act
             PerformanceMeasureActualUpdate.CreateFromProject(projectUpdateBatch);
@@ -539,36 +539,36 @@ namespace ProjectFirma.Web.Models
             var projectExemptReportingYear2 = TestFramework.TestProjectExemptReportingYear.Create(project, 2013);
             var projectExemptReportingYears = new List<ProjectExemptReportingYear> {projectExemptReportingYear1, projectExemptReportingYear2};
 
-            Assert.That(performanceMeasure1.IndicatorSubcategories.Count, Is.GreaterThanOrEqualTo(3), "Precondition: Expecting at least 3 subcategories for the performance measure");
-            Assert.That(performanceMeasure2.IndicatorSubcategories.Count, Is.GreaterThanOrEqualTo(3), "Precondition: Expecting at least 3 subcategories for the performance measure");
+            Assert.That(performanceMeasure1.PerformanceMeasureSubcategories.Count, Is.GreaterThanOrEqualTo(3), "Precondition: Expecting at least 3 subcategories for the performance measure");
+            Assert.That(performanceMeasure2.PerformanceMeasureSubcategories.Count, Is.GreaterThanOrEqualTo(3), "Precondition: Expecting at least 3 subcategories for the performance measure");
 
             var performanceMeasureActual1 = TestFramework.TestPerformanceMeasureActual.Create(-2000, project, performanceMeasure1, 777, 2009);
             var performanceMeasureActual2 = TestFramework.TestPerformanceMeasureActual.Create(-2001, project, performanceMeasure2, 888, 2009);
 
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3000,
                 performanceMeasureActual1,
-                performanceMeasure1.GetIndicatorSubcategories()[0],
-                performanceMeasure1.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4000,
                 performanceMeasureActual1,
-                performanceMeasure1.GetIndicatorSubcategories()[1],
-                performanceMeasure1.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5000,
                 performanceMeasureActual1,
-                performanceMeasure1.GetIndicatorSubcategories()[2],
-                performanceMeasure1.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure1.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-3001,
                 performanceMeasureActual2,
-                performanceMeasure2.GetIndicatorSubcategories()[0],
-                performanceMeasure2.GetIndicatorSubcategories()[0].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[0].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-4001,
                 performanceMeasureActual2,
-                performanceMeasure2.GetIndicatorSubcategories()[1],
-                performanceMeasure2.GetIndicatorSubcategories()[1].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[1].PerformanceMeasureSubcategoryOptions.First());
             TestFramework.TestPerformanceMeasureActualSubcategoryOption.Create(-5001,
                 performanceMeasureActual2,
-                performanceMeasure2.GetIndicatorSubcategories()[2],
-                performanceMeasure2.GetIndicatorSubcategories()[2].IndicatorSubcategoryOptions.First());
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2],
+                performanceMeasure2.GetPerformanceMeasureSubcategories()[2].PerformanceMeasureSubcategoryOptions.First());
 
             const int yearToStartFrom = 2010;
             const int endYear = 2014;
@@ -628,25 +628,25 @@ namespace ProjectFirma.Web.Models
             Assert.That(result.ActualValue, Is.EqualTo(reportedValue), "Should have cloned the reported value correctly");
             Assert.That(result.CalendarYear, Is.EqualTo(newCalendarYear), "Should be set to the new calendar year");
             Assert.That(result.PerformanceMeasureActualSubcategoryOptionUpdates.Select(PerformanceMeasureValueSubcategoryOptionToString),
-                Is.EquivalentTo(performanceMeasureValue.IndicatorSubcategoryOptions.Select(PerformanceMeasureValueSubcategoryOptionToString)),
-                "Should have copied the indicatorSubcategory options correctly");
+                Is.EquivalentTo(performanceMeasureValue.PerformanceMeasureSubcategoryOptions.Select(PerformanceMeasureValueSubcategoryOptionToString)),
+                "Should have copied the performanceMeasureSubcategory options correctly");
         }
 
         private static string PerformanceMeasureValueToString(IPerformanceMeasureValue pmev, int year, double? actualValueExpected)
         {
-            return string.Format("PerformanceMeasureID: {0}; CalendarYear: {1}; ActualValue: {2}; IndicatorSubcategoryOptions: {3}",
+            return string.Format("PerformanceMeasureID: {0}; CalendarYear: {1}; ActualValue: {2}; PerformanceMeasureSubcategoryOptions: {3}",
                 pmev.PerformanceMeasureID,
                 year,
                 actualValueExpected,
-                string.Join(", ", pmev.IndicatorSubcategoryOptions.Select(PerformanceMeasureValueSubcategoryOptionToString)));
+                string.Join(", ", pmev.PerformanceMeasureSubcategoryOptions.Select(PerformanceMeasureValueSubcategoryOptionToString)));
         }
 
         private static string PerformanceMeasureValueSubcategoryOptionToString(IPerformanceMeasureValueSubcategoryOption pmavsco)
         {
-            return string.Format("PerformanceMeasureID: {0}, IndicatorSubcategoryID: {1}, IndicatorSubcategoryOptionID: {2}",
+            return string.Format("PerformanceMeasureID: {0}, PerformanceMeasureSubcategoryID: {1}, PerformanceMeasureSubcategoryOptionID: {2}",
                 pmavsco.PerformanceMeasureID,
-                pmavsco.IndicatorSubcategoryID,
-                pmavsco.IndicatorSubcategoryOption != null ? pmavsco.IndicatorSubcategoryOption.IndicatorSubcategoryOptionID : ModelObjectHelpers.NotYetAssignedID);
+                pmavsco.PerformanceMeasureSubcategoryID,
+                pmavsco.PerformanceMeasureSubcategoryOption != null ? pmavsco.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID : ModelObjectHelpers.NotYetAssignedID);
         }
     }
 }

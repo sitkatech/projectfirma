@@ -21,29 +21,26 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
         }
 
         /// <summary>
-        /// Used by Indicator Guidance
+        /// Used by PerformanceMeasure Guidance
         /// </summary>
-        public void UpdateModel(Models.Indicator indicator, EditRtfContent.IndicatorRichTextType indicatorRichTextType)
+        public void UpdateModel(Models.PerformanceMeasure performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType performanceMeasureRichTextType)
         {
-            switch (indicatorRichTextType)
+            switch (performanceMeasureRichTextType)
             {
-                case EditRtfContent.IndicatorRichTextType.SimpleDescription:
-                    indicator.IndicatorPublicDescriptionHtmlString = RtfContent;
+                case EditRtfContent.PerformanceMeasureRichTextType.SimpleDescription:
+                    performanceMeasure.PerformanceMeasurePublicDescriptionHtmlString = RtfContent;
                     break;
-                case EditRtfContent.IndicatorRichTextType.AssociatedPrograms:
-                    indicator.AssociatedProgramsHtmlString = RtfContent;
+                case EditRtfContent.PerformanceMeasureRichTextType.CriticalDefinitions:
+                    performanceMeasure.CriticalDefinitionsHtmlString = RtfContent;
                     break;
-                case EditRtfContent.IndicatorRichTextType.CriticalDefinitions:
-                    indicator.PerformanceMeasure.CriticalDefinitionsHtmlString = RtfContent;
+                case EditRtfContent.PerformanceMeasureRichTextType.AccountingPeriodAndScale:
+                    performanceMeasure.AccountingPeriodAndScaleHtmlString = RtfContent;
                     break;
-                case EditRtfContent.IndicatorRichTextType.AccountingPeriodAndScale:
-                    indicator.PerformanceMeasure.AccountingPeriodAndScaleHtmlString = RtfContent;
-                    break;
-                case EditRtfContent.IndicatorRichTextType.ProjectReporting:
-                    indicator.PerformanceMeasure.ProjectReportingHtmlString = RtfContent;
+                case EditRtfContent.PerformanceMeasureRichTextType.ProjectReporting:
+                    performanceMeasure.ProjectReportingHtmlString = RtfContent;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(string.Format("Invalid GuidanceType {0}", indicatorRichTextType));
+                    throw new ArgumentOutOfRangeException(string.Format("Invalid GuidanceType {0}", performanceMeasureRichTextType));
             }
         }
 

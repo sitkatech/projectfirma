@@ -43,15 +43,15 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
                     allPerformanceMeasureExpecteds.Add(performanceMeasureExpected);                                   
                     if (x.PerformanceMeasureExpectedSubcategoryOptions != null)
                     {
-                        x.PerformanceMeasureExpectedSubcategoryOptions.Where(y => ModelObjectHelpers.IsRealPrimaryKeyValue(y.IndicatorSubcategoryOptionID))
+                        x.PerformanceMeasureExpectedSubcategoryOptions.Where(y => ModelObjectHelpers.IsRealPrimaryKeyValue(y.PerformanceMeasureSubcategoryOptionID))
                             .ToList()
                             .ForEach(
                                 y =>
                                     allPerformanceMeasureExpectedSubcategoryOptions.Add(
                                         new PerformanceMeasureExpectedSubcategoryOption(performanceMeasureExpected.PerformanceMeasureExpectedID,
-                                            y.IndicatorSubcategoryOptionID,
+                                            y.PerformanceMeasureSubcategoryOptionID,
                                             y.PerformanceMeasureID,
-                                            y.IndicatorSubcategoryID)));
+                                            y.PerformanceMeasureSubcategoryID)));
                     }
                 }
             }

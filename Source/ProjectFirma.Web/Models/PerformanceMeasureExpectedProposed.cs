@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Models
 
         private static string GetExpectedValueDisplay(double? expectedValue, PerformanceMeasure performanceMeasure)
         {
-            return performanceMeasure.Indicator.MeasurementUnitType.DisplayValue(expectedValue);
+            return performanceMeasure.MeasurementUnitType.DisplayValue(expectedValue);
         }
 
         public string AuditDescriptionString
@@ -31,19 +31,19 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public string IndicatorSubcategoriesAsString
+        public string PerformanceMeasureSubcategoriesAsString
         {
             get
             {
                 return PerformanceMeasureExpectedSubcategoryOptionProposeds.Any()
                     ? String.Join(", ",
-                        PerformanceMeasureExpectedSubcategoryOptionProposeds.OrderBy(x => x.IndicatorSubcategory.IndicatorSubcategoryDisplayName)
-                            .Select(x => String.Format("[{0}: {1}]", x.IndicatorSubcategory.IndicatorSubcategoryDisplayName, x.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName)))
+                        PerformanceMeasureExpectedSubcategoryOptionProposeds.OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
+                            .Select(x => String.Format("[{0}: {1}]", x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName, x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName)))
                     : ViewUtilities.NoneString;
             }
         }
 
-        public List<IPerformanceMeasureValueSubcategoryOption> IndicatorSubcategoryOptions
+        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions
         {
             get { return new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureExpectedSubcategoryOptionProposeds.ToList()); }
         }

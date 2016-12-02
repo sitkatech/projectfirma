@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Models
 
         private static string GetActualValueDisplay(double expectedValue, PerformanceMeasure performanceMeasure)
         {
-            return performanceMeasure.Indicator.MeasurementUnitType.DisplayValue(expectedValue);
+            return performanceMeasure.MeasurementUnitType.DisplayValue(expectedValue);
         }
 
         public string AuditDescriptionString
@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public List<IPerformanceMeasureValueSubcategoryOption> IndicatorSubcategoryOptions
+        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions
         {
             get { return new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureActualSubcategoryOptions.ToList()); }
         }
@@ -39,16 +39,16 @@ namespace ProjectFirma.Web.Models
             get { return ActualValue; }
         }
 
-        public string IndicatorSubcategoriesAsString
+        public string PerformanceMeasureSubcategoriesAsString
         {
             get
             {
-                if (PerformanceMeasure.Indicator.HasRealSubcategories)
+                if (PerformanceMeasure.HasRealSubcategories)
                 {
                     return PerformanceMeasureActualSubcategoryOptions.Any()
                         ? string.Join("\r\n",
-                            PerformanceMeasureActualSubcategoryOptions.OrderBy(x => x.IndicatorSubcategory.IndicatorSubcategoryDisplayName)
-                                .Select(x => string.Format("{0}: {1}", x.IndicatorSubcategory.IndicatorSubcategoryDisplayName, x.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName)))
+                            PerformanceMeasureActualSubcategoryOptions.OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
+                                .Select(x => string.Format("{0}: {1}", x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName, x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName)))
                         : ViewUtilities.NoneString;
                 }
                 else
