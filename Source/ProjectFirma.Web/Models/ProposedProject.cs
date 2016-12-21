@@ -34,7 +34,12 @@ namespace ProjectFirma.Web.Models
 
         public static bool IsProjectNameUnique(IEnumerable<ProposedProject> projects, string projectName, int currentProposedProjectID)
         {
-            var project = projects.SingleOrDefault(x => x.ProposedProjectID != currentProposedProjectID && String.Equals(x.ProjectName, projectName, StringComparison.InvariantCultureIgnoreCase));
+            if (string.IsNullOrWhiteSpace(projectName))
+            {
+                return false;
+            }
+
+            var project = projects.SingleOrDefault(x => x.ProposedProjectID != currentProposedProjectID && string.Equals(x.ProjectName.Trim(), projectName.Trim(), StringComparison.InvariantCultureIgnoreCase));
             return project == null;
         }
 

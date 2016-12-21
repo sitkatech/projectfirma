@@ -32,6 +32,10 @@ CREATE TABLE [dbo].[ProposedProject](
 (
 	[ProposedProjectID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_ProposedProject_ProjectID] UNIQUE NONCLUSTERED 
+(
+	[ProjectID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
  CONSTRAINT [AK_ProposedProject_ProjectName] UNIQUE NONCLUSTERED 
 (
 	[ProjectName] ASC
@@ -96,6 +100,10 @@ ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [CK_ProposedProj
 GO
 ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [CK_ProposedProject_ImplementationStartYearLessThanEqualToCompletionYear]
 GO
+ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [CK_ProposedProject_MustHaveProjectIDIfStateIsApproved] CHECK  (([ProposedProject].[ProjectID] IS NOT NULL OR [ProposedProject].[ProposedProjectStateID]<>(3)))
+GO
+ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [CK_ProposedProject_MustHaveProjectIDIfStateIsApproved]
+GO
 ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [CK_ProposedProject_PlanningDesignStartYearLessThanEqualToImplementationYear] CHECK  (([PlanningDesignStartYear] IS NULL OR [ImplementationStartYear] IS NULL OR [ImplementationStartYear]>=[PlanningDesignStartYear]))
 GO
 ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [CK_ProposedProject_PlanningDesignStartYearLessThanEqualToImplementationYear]
@@ -119,7 +127,3 @@ GO
 ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [CK_ProposedProject_TotalOrAnnualCostNotBoth] CHECK  (([EstimatedAnnualOperatingCost] IS NOT NULL AND [EstimatedTotalCost] IS NULL OR [EstimatedAnnualOperatingCost] IS NULL AND [EstimatedTotalCost] IS NOT NULL OR [EstimatedAnnualOperatingCost] IS NULL AND [EstimatedTotalCost] IS NULL))
 GO
 ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [CK_ProposedProject_TotalOrAnnualCostNotBoth]
-GO
-ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [CK_ProposedProjectMustHaveProjectIDIfStateIsApproved] CHECK  (([ProposedProject].[ProjectID] IS NOT NULL OR [ProposedProject].[ProposedProjectStateID]<>(3)))
-GO
-ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [CK_ProposedProjectMustHaveProjectIDIfStateIsApproved]

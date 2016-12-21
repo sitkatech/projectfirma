@@ -727,10 +727,16 @@ namespace ProjectFirma.Web.Controllers
         {
             HttpRequestStorage.DatabaseEntities.ProposedProjectNotes.RemoveRange(proposedProject.ProposedProjectNotes);
             HttpRequestStorage.DatabaseEntities.ProposedProjectThresholdCategories.RemoveRange(proposedProject.ProposedProjectThresholdCategories);
+
             var proposedProjectPerformanceMeasureExpecteds = proposedProject.PerformanceMeasureExpectedProposeds.ToList();
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptionProposeds.RemoveRange(
                 proposedProjectPerformanceMeasureExpecteds.SelectMany(x => x.PerformanceMeasureExpectedSubcategoryOptionProposeds));
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedProposeds.RemoveRange(proposedProjectPerformanceMeasureExpecteds);
+
+            var notifications = proposedProject.NotificationProposedProjects.Select(x => x.Notification).ToList();
+            HttpRequestStorage.DatabaseEntities.NotificationProposedProjects.RemoveRange(proposedProject.NotificationProposedProjects);
+            HttpRequestStorage.DatabaseEntities.Notifications.RemoveRange(notifications);
+
             HttpRequestStorage.DatabaseEntities.ProposedProjects.Remove(proposedProject);
         }
 

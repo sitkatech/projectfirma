@@ -463,7 +463,16 @@ namespace ProjectFirma.Web.Controllers
             // since we do not check for these in the CanDelete call, we need to remove them manually; this is because we are requiring a lead organization for each project, so the editor no longer supports deletion of all organizations per Mingle story #209.
             HttpRequestStorage.DatabaseEntities.ProjectImplementingOrganizations.RemoveRange(project.ProjectImplementingOrganizations);
             HttpRequestStorage.DatabaseEntities.ProjectFundingOrganizations.RemoveRange(project.ProjectFundingOrganizations);
+            HttpRequestStorage.DatabaseEntities.ProjectThresholdCategories.RemoveRange(project.ProjectThresholdCategories);
+            HttpRequestStorage.DatabaseEntities.SnapshotProjects.RemoveRange(project.SnapshotProjects);
+            HttpRequestStorage.DatabaseEntities.ProjectTags.RemoveRange(project.ProjectTags);
             HttpRequestStorage.DatabaseEntities.NotificationProjects.RemoveRange(project.NotificationProjects);
+            if (project.ProposedProject != null)
+            {
+                project.ProposedProject.ProposedProjectStateID = ProposedProjectState.Rejected.ProposedProjectStateID;
+                project.ProposedProject.Project = null;
+            }
+
             HttpRequestStorage.DatabaseEntities.Projects.Remove(project);
             return new ModalDialogFormJsonResult();
         }
