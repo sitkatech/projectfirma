@@ -48,11 +48,9 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNew(viewModel);
             }
-            var actionPriority = HttpRequestStorage.DatabaseEntities.ActionPriorities.GetActionPriority(viewModel.ActionPriorityID);
-            var nextProjectNumber = Project.GetNextProjectNumber(actionPriority);
-            var project = new Project(viewModel.ActionPriorityID,
+            var taxonomyTierOne = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.GetTaxonomyTierOne(viewModel.TaxonomyTierOneID);
+            var project = new Project(viewModel.TaxonomyTierOneID,
                 viewModel.ProjectStageID,
-                nextProjectNumber,
                 viewModel.ProjectName,
                 viewModel.ProjectDescription,
                 false,
@@ -74,7 +72,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var latestNotApprovedUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             var viewModel = new EditProjectViewModel(project, latestNotApprovedUpdateBatch != null);
-            return ViewEdit(viewModel, EditProjectType.ExistingProject, project.ProjectNumberString, project.ActionPriority.DisplayName, project.TotalExpenditures, latestNotApprovedUpdateBatch);
+            return ViewEdit(viewModel, EditProjectType.ExistingProject, project.ProjectNumberString, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, latestNotApprovedUpdateBatch);
         }
 
         [HttpPost]
@@ -85,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, EditProjectType.ExistingProject, project.ProjectNumberString, project.ActionPriority.DisplayName, project.TotalExpenditures, project.GetLatestNotApprovedUpdateBatch());
+                return ViewEdit(viewModel, EditProjectType.ExistingProject, project.ProjectNumberString, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, project.GetLatestNotApprovedUpdateBatch());
             }
             viewModel.UpdateModel(project);
             return new ModalDialogFormJsonResult();
@@ -96,15 +94,15 @@ namespace ProjectFirma.Web.Controllers
             return ViewEdit(viewModel, EditProjectType.NewProject, string.Empty, string.Empty, null, null);
         }
 
-        private PartialViewResult ViewEdit(EditProjectViewModel viewModel, EditProjectType editProjectType, string projectNumberString, string actionPriorityDisplayName, decimal? totalExpenditures, ProjectUpdateBatch projectUpdateBatch)
+        private PartialViewResult ViewEdit(EditProjectViewModel viewModel, EditProjectType editProjectType, string projectNumberString, string taxonomyTierOneDisplayName, decimal? totalExpenditures, ProjectUpdateBatch projectUpdateBatch)
         {
-            var actionPriorities = HttpRequestStorage.DatabaseEntities.ActionPriorities.ToList().OrderBy(ap => ap.DisplayName).ToList();
+            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().OrderBy(ap => ap.DisplayName).ToList();
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var hasExistingProjectUpdate = projectUpdateBatch != null;
             var hasExistingProjectBudgetUpdates = hasExistingProjectUpdate && projectUpdateBatch.ProjectBudgetUpdates.Any();
-            var viewData = new EditProjectViewData(actionPriorities,
+            var viewData = new EditProjectViewData(taxonomyTierOnes,
                 editProjectType,
-                actionPriorityDisplayName,
+                taxonomyTierOneDisplayName,
                 projectNumberString,
                 ProjectStage.All, FundingType.All, organizations, totalExpenditures, hasExistingProjectBudgetUpdates);
             return RazorPartialView<EditProject, EditProjectViewData, EditProjectViewModel>(viewData, viewModel);
@@ -513,8 +511,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> CompletedListGridJsonData()
         {
             BasicProjectInfoGridSpec gridSpec;
-            var programs = GetCompletedListGridSpec(out gridSpec);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(programs, gridSpec);
+            var taxonomyTierTwos = GetCompletedListGridSpec(out gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -537,8 +535,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> TerminatedListGridJsonData()
         {
             BasicProjectInfoGridSpec gridSpec;
-            var programs = GetTerminatedListGridSpec(out gridSpec);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(programs, gridSpec);
+            var taxonomyTierTwos = GetTerminatedListGridSpec(out gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -578,7 +576,7 @@ namespace ProjectFirma.Web.Controllers
 
         private List<Project> GetViewableProjectsFromSearchCriteria(string searchCriteria)
         {
-            var projectIDsFound = HttpRequestStorage.DatabaseEntities.vProjects.GetProjectFindResultsForProjectNameAndDescriptionAndNumber(searchCriteria).Select(x => x.ProjectID);
+            var projectIDsFound = HttpRequestStorage.DatabaseEntities.Projects.GetProjectFindResultsForProjectNameAndDescriptionAndNumber(searchCriteria).Select(x => x.ProjectID);
             var projectsFound =
                 HttpRequestStorage.DatabaseEntities.Projects.Where(x => projectIDsFound.Contains(x.ProjectID))
                     .ToList()
@@ -631,8 +629,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> FeaturedListGridJsonData()
         {
             FeaturesListProjectGridSpec gridSpec;
-            var programs = GetFeaturedListGridSpec(out gridSpec);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(programs, gridSpec);
+            var taxonomyTierTwos = GetFeaturedListGridSpec(out gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -824,8 +822,8 @@ Continue with a new project update?
         public GridJsonNetJObjectResult<Project> MyOrganizationsProjectsGridJsonData()
         {
             BasicProjectInfoGridSpec gridSpec;
-            var programs = GetMyOrganizationsProjectsGridSpec(CurrentPerson, out gridSpec);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(programs, gridSpec);
+            var taxonomyTierTwos = GetMyOrganizationsProjectsGridSpec(CurrentPerson, out gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -839,8 +837,8 @@ Continue with a new project update?
         public GridJsonNetJObjectResult<ProposedProject> MyOrganizationsProposedProjectsGridJsonData()
         {
             ProposedProjectGridSpec gridSpec;
-            var programs = GetMyOrganizationsProposedProjectsGridSpec(CurrentPerson, out gridSpec);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(programs, gridSpec);
+            var taxonomyTierTwos = GetMyOrganizationsProposedProjectsGridSpec(CurrentPerson, out gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
         }
 

@@ -29,9 +29,8 @@ namespace ProjectFirma.Web.Models
 
         public Project(Project project)
             : this(
-                project.ActionPriority,
+                project.TaxonomyTierOne,
                 project.ProjectStage,
-                project.ProjectNumber,
                 project.ProjectName,
                 project.ProjectDescription,
                 project.ImplementsMultipleProjects,
@@ -54,7 +53,7 @@ namespace ProjectFirma.Web.Models
 
         public string ProjectNumberString
         {
-            get { return String.Format("{0}.{1:0000}", ActionPriority.DisplayNumber, ProjectNumber); }
+            get { return string.Empty; }
         }
 
         public string DisplayName
@@ -376,17 +375,6 @@ namespace ProjectFirma.Web.Models
             return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
 
-        public static short GetNextProjectNumber(ActionPriority actionPriority)
-        {
-            var projectsForActionPriority = actionPriority.Projects.ToList();
-            short nextProjectNumber = 1;
-            if (projectsForActionPriority.Any())
-            {
-                nextProjectNumber += projectsForActionPriority.Max(x => x.ProjectNumber);
-            }
-            return nextProjectNumber;
-        }
-
         public bool HasDependentObjectsThatCount()
         {
             return PerformanceMeasureActuals.Any() || PerformanceMeasureExpecteds.Any() || ProjectFundingSourceExpenditures.Any() || ProjectImages.Any() ||
@@ -455,14 +443,14 @@ namespace ProjectFirma.Web.Models
         public Feature MakePointFeatureWithRelevantProperties(DbGeometry projectLocationPoint, bool addProjectProperties)
         {
             var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(projectLocationPoint);
-            feature.Properties.Add("FocusAreaID", ActionPriority.Program.FocusAreaID.ToString(CultureInfo.InvariantCulture));
+            feature.Properties.Add("TaxonomyTierThreeID", TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture));
             feature.Properties.Add("ProjectStageID", ProjectStageID.ToString(CultureInfo.InvariantCulture));
             if (addProjectProperties)
             {
                 feature.Properties.Add("ProjectID", ProjectID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ProjectName", DisplayName);
-                feature.Properties.Add("ProgramID", ActionPriority.ProgramID.ToString(CultureInfo.InvariantCulture));
-                feature.Properties.Add("ActionPriorityID", ActionPriorityID.ToString(CultureInfo.InvariantCulture));
+                feature.Properties.Add("TaxonomyTierTwoID", TaxonomyTierOne.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture));
+                feature.Properties.Add("TaxonomyTierOneID", TaxonomyTierOneID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ThresholdCategoryID", String.Join(",", ProjectThresholdCategories.Select(x => x.ThresholdCategoryID)));
                 feature.Properties.Add("ImplementingOrganizationID", String.Join(",", ProjectImplementingOrganizations.Select(x => x.OrganizationID)));
                 feature.Properties.Add("FundingOrganizationID", String.Join(",", ProjectFundingOrganizations.Select(x => x.OrganizationID)));
@@ -579,7 +567,7 @@ namespace ProjectFirma.Web.Models
 
         public FancyTreeNode ToFancyTreeNode()
         {
-            var fancyTreeNode = new FancyTreeNode(String.Format("{0} - {1}", ProjectNumberString, UrlTemplate.MakeHrefString(this.GetFactSheetUrl(), ProjectName, ProjectName)), ProjectID.ToString(), false) { ThemeColor = ActionPriority.Program.FocusArea.FocusAreaColor, MapUrl = null };
+            var fancyTreeNode = new FancyTreeNode(String.Format("{0} - {1}", ProjectNumberString, UrlTemplate.MakeHrefString(this.GetFactSheetUrl(), ProjectName, ProjectName)), ProjectID.ToString(), false) { ThemeColor = TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeColor, MapUrl = null };
             return fancyTreeNode;
         }
 

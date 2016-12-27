@@ -12,8 +12,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
     {
         public int ProposedProjectID { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ActionPriority)]
-        public int? ProposedActionPriorityID { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierOne)]
+        public int? ProposedTaxonomyTierOneID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectName)]
         public string ProjectName { get; set; }
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
         public BasicsViewModel(Models.ProposedProject proposedProject)
         {
-            ProposedActionPriorityID = proposedProject.ActionPriorityID;
+            ProposedTaxonomyTierOneID = proposedProject.TaxonomyTierOneID;
             ProposedProjectID = proposedProject.ProposedProjectID;
             ProjectName = proposedProject.ProjectName;
             ProjectDescription = proposedProject.ProjectDescription;
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         {
             proposedProject.ProposingPersonID = person.PersonID;
             proposedProject.LeadImplementerOrganizationID = LeadImplementerOrganizationID.Value;
-            proposedProject.ActionPriorityID = ProposedActionPriorityID;
+            proposedProject.TaxonomyTierOneID = ProposedTaxonomyTierOneID;
             proposedProject.ProposedProjectID = ProposedProjectID;
             proposedProject.ProjectName = ProjectName;
             proposedProject.ProjectDescription = ProjectDescription;

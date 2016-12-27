@@ -8,6 +8,7 @@
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Common
 @inherits Summary
 
 @section JavascriptAndStylesContent
@@ -200,7 +201,7 @@
                                     foreach (var a in ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms)
                                     {
                                         <p>
-                                            <strong>Program</strong>:
+                                            <strong>Monitoring Progeam</strong>:
                                             @a.MonitoringProgram.DisplayNameAsUrl
                                         </p>
                                         <p>
@@ -222,7 +223,7 @@
                                 }
                                 else
                                 {
-                                    <p class="alert">No monitoring program are yet associated with this performanceMeasure.</p>
+                                    <p class="alert">No monitoring taxonomyTierTwo are yet associated with this performanceMeasure.</p>
                                 }
                             </div>
                         </div>
@@ -284,27 +285,27 @@
 
                 <div class="row">
                     <div class="summarySection">
-                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProgramsUrl, "Edit Programs", ViewDataTyped.UserHasProgramPerformanceMeasureManagePermissions) Programs</h2>
+                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwosUrl, string.Format("Edit {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()), ViewDataTyped.UserHasTaxonomyTierTwoPerformanceMeasureManagePermissions) @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</h2>
                         <div class="contentWrapper">
-                            @if (ViewDataTyped.ProgramPerformanceMeasures.Any())
+                            @if (ViewDataTyped.TaxonomyTierTwoPerformanceMeasures.Any())
                             {
                                 <table class="summaryLayout">
                                     <tr>
-                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Program)</th>
-                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryProgram)</th>
+                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</th>
+                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryTaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()))</th>
                                     </tr>
-                                    @foreach (var programPerformanceMeasure in ViewDataTyped.ProgramPerformanceMeasures)
+                                    @foreach (var taxonomyTierTwoPerformanceMeasure in ViewDataTyped.TaxonomyTierTwoPerformanceMeasures)
                                     {
                                         <tr>
-                                            <td>@programPerformanceMeasure.Key.DisplayNameAsUrl</td>
-                                            <td style="text-align: center">@programPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
+                                            <td>@taxonomyTierTwoPerformanceMeasure.Key.DisplayNameAsUrl</td>
+                                            <td style="text-align: center">@taxonomyTierTwoPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
                                         </tr>
                                     }
                                 </table>
                             }
                             else
                             {
-                                <p class="alert">No programs set for this performance measure.</p>
+                                <p class="alert">No @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() set for this performance measure.</p>
                             }
                         </div>
                     </div>

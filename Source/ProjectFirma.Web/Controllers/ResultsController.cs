@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectFundingSourceExpenditures = GetProjectExpendituresByFundingSector(null, null);
             var fundingSectorExpenditures = GetFundingSectorExpendituresForInvestmentByFundingSectorReport(calendarYear, projectFundingSourceExpenditures);
-            var calendarYears = GetCalendarYearsDropdownForInvestmentByFundingSectorAndSpendingBySectorAndFocusAreaReports(projectFundingSourceExpenditures);
+            var calendarYears = GetCalendarYearsDropdownForInvestmentByFundingSectorAndSpendingBySectorAndTaxonomyTierThreeReports(projectFundingSourceExpenditures);
             var reportingYearRangeTitle = YearDisplayName(calendarYear);
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.InvestmentByFundingSector);
             var viewData = new InvestmentByFundingSectorViewData(CurrentPerson, firmaPage, fundingSectorExpenditures, calendarYear, calendarYears, reportingYearRangeTitle);
@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Controllers
             return year.Value.ToString(CultureInfo.InvariantCulture);
         }
 
-        private static IEnumerable<SelectListItem> GetCalendarYearsDropdownForInvestmentByFundingSectorAndSpendingBySectorAndFocusAreaReports(
+        private static IEnumerable<SelectListItem> GetCalendarYearsDropdownForInvestmentByFundingSectorAndSpendingBySectorAndTaxonomyTierThreeReports(
             IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
         {
             var allYearsWithValues = projectFundingSourceExpenditures.Select(x => x.CalendarYear).Distinct().ToList();
@@ -133,38 +133,38 @@ namespace ProjectFirma.Web.Controllers
                     .ToList();
         }
 
-        [SpendingBySectorByFocusAreaByProgramViewFeature]
-        public ViewResult SpendingBySectorByFocusAreaByProgram(int? calendarYear)
+        [SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewFeature]
+        public ViewResult SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo(int? calendarYear)
         {
             var projectFundingSourceExpenditures = GetProjectExpendituresByFundingSector(null, null);
-            var programSectorExpenditures = GetProgramSectorExpenditures(calendarYear, projectFundingSourceExpenditures);
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.SpendingBySectorByFocusAreaByProgram);
-            var calendarYears = GetCalendarYearsDropdownForInvestmentByFundingSectorAndSpendingBySectorAndFocusAreaReports(projectFundingSourceExpenditures);
-            var viewData = new SpendingBySectorByFocusAreaByProgramViewData(CurrentPerson, firmaPage, programSectorExpenditures, Sector.All, calendarYear, calendarYears);
-            var viewModel = new SpendingBySectorByFocusAreaByProgramViewModel(calendarYear);
-            return RazorView<SpendingBySectorByFocusAreaByProgram, SpendingBySectorByFocusAreaByProgramViewData, SpendingBySectorByFocusAreaByProgramViewModel>(viewData, viewModel);
+            var taxonomyTierTwoSectorExpenditures = GetTaxonomyTierTwoSectorExpenditures(calendarYear, projectFundingSourceExpenditures);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo);
+            var calendarYears = GetCalendarYearsDropdownForInvestmentByFundingSectorAndSpendingBySectorAndTaxonomyTierThreeReports(projectFundingSourceExpenditures);
+            var viewData = new SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewData(CurrentPerson, firmaPage, taxonomyTierTwoSectorExpenditures, Sector.All, calendarYear, calendarYears);
+            var viewModel = new SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewModel(calendarYear);
+            return RazorView<SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo, SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewData, SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewModel>(viewData, viewModel);
         }
 
-        private static List<ProgramSectorExpenditure> GetProgramSectorExpenditures(int? calendarYear, IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
+        private static List<TaxonomyTierTwoSectorExpenditure> GetTaxonomyTierTwoSectorExpenditures(int? calendarYear, IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
         {
-            List<ProgramSectorExpenditure> programSectorExpenditures;
+            List<TaxonomyTierTwoSectorExpenditure> taxonomyTierTwoSectorExpenditures;
             if (!calendarYear.HasValue)
             {
-                programSectorExpenditures =
-                    projectFundingSourceExpenditures.GroupBy(y => new {y.Project.ActionPriority.Program, y.FundingSource.Organization.Sector})
-                        .Select(x => new ProgramSectorExpenditure(x.Key.Sector, x.Key.Program, x.Sum(y => y.ExpenditureAmount)))
+                taxonomyTierTwoSectorExpenditures =
+                    projectFundingSourceExpenditures.GroupBy(y => new {y.Project.TaxonomyTierOne.TaxonomyTierTwo, y.FundingSource.Organization.Sector})
+                        .Select(x => new TaxonomyTierTwoSectorExpenditure(x.Key.Sector, x.Key.TaxonomyTierTwo, x.Sum(y => y.ExpenditureAmount)))
                         .ToList();
             }
             else
             {
-                programSectorExpenditures =
+                taxonomyTierTwoSectorExpenditures =
                     projectFundingSourceExpenditures.Where(x => x.CalendarYear == calendarYear.Value)
-                        .GroupBy(y => new {y.Project.ActionPriority.Program, y.FundingSource.Organization.Sector})
-                        .Select(x => new ProgramSectorExpenditure(x.Key.Sector, x.Key.Program, x.Sum(y => y.ExpenditureAmount)))
+                        .GroupBy(y => new {y.Project.TaxonomyTierOne.TaxonomyTierTwo, y.FundingSource.Organization.Sector})
+                        .Select(x => new TaxonomyTierTwoSectorExpenditure(x.Key.Sector, x.Key.TaxonomyTierTwo, x.Sum(y => y.ExpenditureAmount)))
                         .ToList();
 
             }
-            return programSectorExpenditures;
+            return taxonomyTierTwoSectorExpenditures;
         }
 
         [ProjectLocationsViewFeature]
@@ -180,7 +180,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                projectLocationFilterType = ProjectLocationFilterType.Program;
+                projectLocationFilterType = ProjectLocationFilterType.TaxonomyTierTwo;
             }
 
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.FilterValuesQueryStringParameter]))
@@ -190,7 +190,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                filterValues = HttpRequestStorage.DatabaseEntities.Programs.Select(x => x.ProgramID).OrderBy(x => x).ToList();
+                filterValues = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.Select(x => x.TaxonomyTierTwoID).OrderBy(x => x).ToList();
             }
 
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.ColorByQueryStringParameter]))
@@ -199,7 +199,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                colorByValue = ProjectColorByType.FocusArea;
+                colorByValue = ProjectColorByType.TaxonomyTierThree;
             }
 
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectMap);
@@ -213,10 +213,10 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, namedAreasAsPointsLayerGeoJson, initialCustomization, "ProjectLocationsMap");
 
             var projectStages = (ProjectStage.All.Where(x => x.ShouldShowOnMap())).OrderBy(x => x.SortOrder).ToList();
-            var focusAreas = HttpRequestStorage.DatabaseEntities.FocusAreas.ToList();
+            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList();
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.ProjectColorByTypeDisplayName);
 
-            var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(focusAreas, projects, projectStages);
+            var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(taxonomyTierThrees, projects, projectStages);
             var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap(), SitkaWebConfiguration.CanonicalHostName);
             var filteredProjectsWithLocationAreasUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));
 
@@ -229,17 +229,17 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<ProjectMap, ProjectMapViewData>(viewData);
         }
 
-        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary(List<FocusArea> focusAreas,
+        private static Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> CreateProjectLocationFilterTypesAndValuesDictionary(List<TaxonomyTierThree> taxonomyTierThrees,
             List<Project> projects,
             List<ProjectStage> projectStages)
         {
             var projectLocationFilterTypesAndValues = new Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>>();
 
-            var focusAreasAsSelectListItems = focusAreas.ToSelectList(x => x.FocusAreaID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+            var taxonomyTierThreesAsSelectListItems = taxonomyTierThrees.ToSelectList(x => x.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
 
-            var programsAsSelectListItems = HttpRequestStorage.DatabaseEntities.Programs.ToSelectList(x => x.ProgramID.ToString(CultureInfo.InvariantCulture),
+            var taxonomyTierTwosAsSelectListItems = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToSelectList(x => x.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture),
                 x => x.DisplayName);
-            var actionPrioritiesAsSelectListItems = HttpRequestStorage.DatabaseEntities.ActionPriorities.ToSelectList(x => x.ActionPriorityID.ToString(CultureInfo.InvariantCulture),
+            var taxonomyTierOnesAsSelectListItems = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToSelectList(x => x.TaxonomyTierOneID.ToString(CultureInfo.InvariantCulture),
                 x => x.DisplayName);
             var thresholdCategoriesAsSelectListItems =
                 HttpRequestStorage.DatabaseEntities.ThresholdCategories.ToSelectList(x => x.ThresholdCategoryID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
@@ -257,9 +257,9 @@ namespace ProjectFirma.Web.Controllers
                     .ToSelectList(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
             var projectStagesAsSelectListItems = projectStages.ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
 
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.FocusArea, focusAreasAsSelectListItems);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.Program, programsAsSelectListItems);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ActionPriority, actionPrioritiesAsSelectListItems);
+            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierThree, taxonomyTierThreesAsSelectListItems);
+            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierTwo, taxonomyTierTwosAsSelectListItems);
+            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierOne, taxonomyTierOnesAsSelectListItems);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ThresholdCategory, thresholdCategoriesAsSelectListItems);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ImplementingOrganization, implementingOrganizationsAsSelectListItems);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.FundingOrganization, fundingOrganizationsAsSelectListItems);
@@ -356,14 +356,14 @@ namespace ProjectFirma.Web.Controllers
             return new ExcelResult(excelWorkbook, String.Format("Funding Source Spending for {0}", sector.SectorDisplayName));
         }
 
-        [ResultsByProgramViewFeature]
-        public ViewResult ResultsByProgram(int? programID)
+        [ResultsByTaxonomyTierTwoViewFeature]
+        public ViewResult ResultsByTaxonomyTierTwo(int? taxonomyTierTwoID)
         {
-            var focusAreas = HttpRequestStorage.DatabaseEntities.FocusAreas.OrderBy(x => x.FocusAreaNumber).ToList();
-            var selectedProgram = programID.HasValue ? HttpRequestStorage.DatabaseEntities.Programs.GetProgram(programID.Value) : focusAreas.First().Programs.First();
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ResultsByProgram);
-            var viewData = new ResultsByProgramViewData(CurrentPerson, firmaPage, focusAreas, selectedProgram);
-            return RazorView<ResultsByProgram, ResultsByProgramViewData>(viewData);
+            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.OrderBy(x => x.TaxonomyTierThreeName).ToList();
+            var selectedTaxonomyTierTwo = taxonomyTierTwoID.HasValue ? HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.GetTaxonomyTierTwo(taxonomyTierTwoID.Value) : taxonomyTierThrees.First().TaxonomyTierTwos.First();
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ResultsByTaxonomyTierTwo);
+            var viewData = new ResultsByTaxonomyTierTwoViewData(CurrentPerson, firmaPage, taxonomyTierThrees, selectedTaxonomyTierTwo);
+            return RazorView<ResultsByTaxonomyTierTwo, ResultsByTaxonomyTierTwoViewData>(viewData);
         }
 
         [SpendingByPerformanceMeasureByProjectViewFeature]

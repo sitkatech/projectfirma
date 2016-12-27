@@ -4,42 +4,42 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
     public class ProjectTaxonomyViewData : FirmaUserControlViewData
     {
-        public readonly Models.FocusArea FocusArea;
-        public readonly Models.Program Program;
-        public readonly Models.ActionPriority ActionPriority;
+        public readonly Models.TaxonomyTierThree TaxonomyTierThree;
+        public readonly Models.TaxonomyTierTwo TaxonomyTierTwo;
+        public readonly Models.TaxonomyTierOne TaxonomyTierOne;
         public readonly Models.Project Project;
 
         public readonly bool IsProject;
-        public readonly bool IsActionPriority;
-        public readonly bool IsProgram;
-        public readonly bool IsFocusArea;
+        public readonly bool IsTaxonomyTierOne;
+        public readonly bool IsTaxonomyTierTwo;
+        public readonly bool IsTaxonomyTierThree;
 
-        public ProjectTaxonomyViewData(Models.FocusArea focusArea) : this(focusArea, null, null, null)
+        public ProjectTaxonomyViewData(Models.TaxonomyTierThree taxonomyTierThree) : this(taxonomyTierThree, null, null, null)
         {
         }
 
-        public ProjectTaxonomyViewData(Models.Program program) : this(program.FocusArea, program, null, null)
+        public ProjectTaxonomyViewData(Models.TaxonomyTierTwo taxonomyTierTwo) : this(taxonomyTierTwo.TaxonomyTierThree, taxonomyTierTwo, null, null)
         {
         }
 
-        public ProjectTaxonomyViewData(Models.ActionPriority actionPriority) : this(actionPriority.Program.FocusArea, actionPriority.Program, actionPriority, null)
+        public ProjectTaxonomyViewData(Models.TaxonomyTierOne taxonomyTierOne) : this(taxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree, taxonomyTierOne.TaxonomyTierTwo, taxonomyTierOne, null)
         {
         }
 
-        public ProjectTaxonomyViewData(Models.Project project) : this(project.ActionPriority.Program.FocusArea, project.ActionPriority.Program, project.ActionPriority, project)
+        public ProjectTaxonomyViewData(Models.Project project) : this(project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree, project.TaxonomyTierOne.TaxonomyTierTwo, project.TaxonomyTierOne, project)
         {
         }
 
-        private ProjectTaxonomyViewData(Models.FocusArea focusArea, Models.Program program, Models.ActionPriority actionPriority, Models.Project project)
+        private ProjectTaxonomyViewData(Models.TaxonomyTierThree taxonomyTierThree, Models.TaxonomyTierTwo taxonomyTierTwo, Models.TaxonomyTierOne taxonomyTierOne, Models.Project project)
         {
-            FocusArea = focusArea;
-            Program = program;
-            ActionPriority = actionPriority;
+            TaxonomyTierThree = taxonomyTierThree;
+            TaxonomyTierTwo = taxonomyTierTwo;
+            TaxonomyTierOne = taxonomyTierOne;
             Project = project;
             IsProject = Project != null;
-            IsActionPriority = ActionPriority != null && !IsProject;
-            IsProgram = Program != null && !IsActionPriority && !IsProject;
-            IsFocusArea = FocusArea != null && !IsProgram && !IsActionPriority && !IsProject;
+            IsTaxonomyTierOne = TaxonomyTierOne != null && !IsProject;
+            IsTaxonomyTierTwo = TaxonomyTierTwo != null && !IsTaxonomyTierOne && !IsProject;
+            IsTaxonomyTierThree = TaxonomyTierThree != null && !IsTaxonomyTierTwo && !IsTaxonomyTierOne && !IsProject;
         }
     }
 }

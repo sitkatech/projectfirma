@@ -16,9 +16,9 @@ namespace ProjectFirma.Web.Models
 {
     public abstract partial class ProjectLocationFilterType : IHavePrimaryKey
     {
-        public static readonly ProjectLocationFilterTypeFocusArea FocusArea = ProjectLocationFilterTypeFocusArea.Instance;
-        public static readonly ProjectLocationFilterTypeProgram Program = ProjectLocationFilterTypeProgram.Instance;
-        public static readonly ProjectLocationFilterTypeActionPriority ActionPriority = ProjectLocationFilterTypeActionPriority.Instance;
+        public static readonly ProjectLocationFilterTypeTaxonomyTierThree TaxonomyTierThree = ProjectLocationFilterTypeTaxonomyTierThree.Instance;
+        public static readonly ProjectLocationFilterTypeTaxonomyTierTwo TaxonomyTierTwo = ProjectLocationFilterTypeTaxonomyTierTwo.Instance;
+        public static readonly ProjectLocationFilterTypeTaxonomyTierOne TaxonomyTierOne = ProjectLocationFilterTypeTaxonomyTierOne.Instance;
         public static readonly ProjectLocationFilterTypeThresholdCategory ThresholdCategory = ProjectLocationFilterTypeThresholdCategory.Instance;
         public static readonly ProjectLocationFilterTypeProjectStage ProjectStage = ProjectLocationFilterTypeProjectStage.Instance;
         public static readonly ProjectLocationFilterTypeImplementingOrganization ImplementingOrganization = ProjectLocationFilterTypeImplementingOrganization.Instance;
@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectLocationFilterType()
         {
-            All = new List<ProjectLocationFilterType> { FocusArea, Program, ActionPriority, ThresholdCategory, ProjectStage, ImplementingOrganization, FundingOrganization };
+            All = new List<ProjectLocationFilterType> { TaxonomyTierThree, TaxonomyTierTwo, TaxonomyTierOne, ThresholdCategory, ProjectStage, ImplementingOrganization, FundingOrganization };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectLocationFilterType>(All.ToDictionary(x => x.ProjectLocationFilterTypeID));
         }
 
@@ -107,18 +107,18 @@ namespace ProjectFirma.Web.Models
         {
             switch (enumValue)
             {
-                case ProjectLocationFilterTypeEnum.ActionPriority:
-                    return ActionPriority;
-                case ProjectLocationFilterTypeEnum.FocusArea:
-                    return FocusArea;
                 case ProjectLocationFilterTypeEnum.FundingOrganization:
                     return FundingOrganization;
                 case ProjectLocationFilterTypeEnum.ImplementingOrganization:
                     return ImplementingOrganization;
-                case ProjectLocationFilterTypeEnum.Program:
-                    return Program;
                 case ProjectLocationFilterTypeEnum.ProjectStage:
                     return ProjectStage;
+                case ProjectLocationFilterTypeEnum.TaxonomyTierOne:
+                    return TaxonomyTierOne;
+                case ProjectLocationFilterTypeEnum.TaxonomyTierThree:
+                    return TaxonomyTierThree;
+                case ProjectLocationFilterTypeEnum.TaxonomyTierTwo:
+                    return TaxonomyTierTwo;
                 case ProjectLocationFilterTypeEnum.ThresholdCategory:
                     return ThresholdCategory;
                 default:
@@ -129,31 +129,31 @@ namespace ProjectFirma.Web.Models
 
     public enum ProjectLocationFilterTypeEnum
     {
-        FocusArea = 1,
-        Program = 2,
-        ActionPriority = 3,
+        TaxonomyTierThree = 1,
+        TaxonomyTierTwo = 2,
+        TaxonomyTierOne = 3,
         ThresholdCategory = 4,
         ProjectStage = 5,
         ImplementingOrganization = 6,
         FundingOrganization = 7
     }
 
-    public partial class ProjectLocationFilterTypeFocusArea : ProjectLocationFilterType
+    public partial class ProjectLocationFilterTypeTaxonomyTierThree : ProjectLocationFilterType
     {
-        private ProjectLocationFilterTypeFocusArea(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeFocusArea Instance = new ProjectLocationFilterTypeFocusArea(1, @"FocusArea", @"FocusAreaID", @"Focus Area", 10, 1);
+        private ProjectLocationFilterTypeTaxonomyTierThree(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
+        public static readonly ProjectLocationFilterTypeTaxonomyTierThree Instance = new ProjectLocationFilterTypeTaxonomyTierThree(1, @"TaxonomyTierThree", @"TaxonomyTierThreeID", @"Focus Area", 10, 1);
     }
 
-    public partial class ProjectLocationFilterTypeProgram : ProjectLocationFilterType
+    public partial class ProjectLocationFilterTypeTaxonomyTierTwo : ProjectLocationFilterType
     {
-        private ProjectLocationFilterTypeProgram(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeProgram Instance = new ProjectLocationFilterTypeProgram(2, @"Program", @"ProgramID", @"Program", 20, 1);
+        private ProjectLocationFilterTypeTaxonomyTierTwo(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
+        public static readonly ProjectLocationFilterTypeTaxonomyTierTwo Instance = new ProjectLocationFilterTypeTaxonomyTierTwo(2, @"TaxonomyTierTwo", @"TaxonomyTierTwoID", @"TaxonomyTierTwo", 20, 1);
     }
 
-    public partial class ProjectLocationFilterTypeActionPriority : ProjectLocationFilterType
+    public partial class ProjectLocationFilterTypeTaxonomyTierOne : ProjectLocationFilterType
     {
-        private ProjectLocationFilterTypeActionPriority(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeActionPriority Instance = new ProjectLocationFilterTypeActionPriority(3, @"ActionPriority", @"ActionPriorityID", @"Action Priority", 30, 1);
+        private ProjectLocationFilterTypeTaxonomyTierOne(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
+        public static readonly ProjectLocationFilterTypeTaxonomyTierOne Instance = new ProjectLocationFilterTypeTaxonomyTierOne(3, @"TaxonomyTierOne", @"TaxonomyTierOneID", @"Action Priority", 30, 1);
     }
 
     public partial class ProjectLocationFilterTypeThresholdCategory : ProjectLocationFilterType

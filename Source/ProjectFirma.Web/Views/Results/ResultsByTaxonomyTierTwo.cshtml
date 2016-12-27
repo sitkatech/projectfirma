@@ -1,0 +1,51 @@
+﻿@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Results
+@using ProjectFirma.Web.Views.PerformanceMeasure
+@using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
+@inherits ResultsByTaxonomyTierTwo
+
+@section JavascriptAndStylesContent
+{
+    <script type="text/javascript">
+        function reloadWithNewTaxonomyTierTwo(ddl)
+        {
+            var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ResultsByTaxonomyTierTwoUrl.ToJS()));
+            var newUrl = urlTemplate.ParameterReplace(ddl.value);
+            document.location = newUrl;
+        }
+    </script>
+}
+
+<div>
+    @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()):</span>
+        </div>
+
+        <div class="col-md-10">
+            <select onchange="reloadWithNewTaxonomyTierTwo(this)">
+                @foreach (var taxonomyTierThree in ViewDataTyped.TaxonomyTierThrees)
+                {
+                    <optgroup label="@taxonomyTierThree.DisplayName">
+                        @foreach (var taxonomyTierTwo in taxonomyTierThree.TaxonomyTierTwos.OrderBy(x => x.TaxonomyTierTwoName))
+                        {
+                            <option value="@taxonomyTierTwo.TaxonomyTierTwoID" @((ViewDataTyped.SelectedTaxonomyTierTwo.TaxonomyTierTwoID == taxonomyTierTwo.TaxonomyTierTwoID).ToSelectedOrEmpty())>@taxonomyTierTwo.DisplayName</option>
+                        }
+                    </optgroup>
+                }
+            </select>
+            <a style="white-space: nowrap" href="javascript:void(0)" onmouseover="ProjectFirma.Views.Methods.addHelpTooltipPopup(jQuery(this), @ViewDataTyped.SelectedTaxonomyTierTwo.DisplayName.ToJS(), @ViewDataTyped.SelectedTaxonomyTierTwo.DefinitionAndGuidanceUrl.ToJS(), 500)">About this taxonomyTierTwo</a>
+        </div>
+    </div>
+</div>
+<hr/>
+@foreach (var performanceMeasureChartViewData in ViewDataTyped.PerformanceMeasureChartViewDatas)
+{
+    PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData);
+}

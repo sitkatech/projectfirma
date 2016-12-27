@@ -11,9 +11,9 @@ namespace ProjectFirma.Web.Views
     {
         public List<LtInfoMenuItem> TopLevelLtInfoMenuItems;
         
-        public readonly string ManageFocusAreasUrl;
-        public readonly string ManageProgramsUrl;
-        public readonly string ManageActionPrioritiesUrl;
+        public readonly string ManageTaxonomyTierThreesUrl;
+        public readonly string ManageTaxonomyTierTwosUrl;
+        public readonly string ManageTaxonomyTierOnesUrl;
         public readonly string ManagePerformanceMeasuresUrl;
 
         public readonly string FullProjectListUrl;
@@ -54,9 +54,9 @@ namespace ProjectFirma.Web.Views
 
             MakeFirmaMenu(currentPerson);
             
-            ManageFocusAreasUrl = SitkaRoute<FocusAreaController>.BuildUrlFromExpression(c => c.Index());
-            ManageProgramsUrl = SitkaRoute<ProgramController>.BuildUrlFromExpression(c => c.Index());
-            ManageActionPrioritiesUrl = SitkaRoute<ActionPriorityController>.BuildUrlFromExpression(c => c.Index());
+            ManageTaxonomyTierThreesUrl = SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(c => c.Index());
+            ManageTaxonomyTierTwosUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(c => c.Index());
+            ManageTaxonomyTierOnesUrl = SitkaRoute<TaxonomyTierOneController>.BuildUrlFromExpression(c => c.Index());
             ManagePerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Index());
 
             FullProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Index());
@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views
                 homeMenuItem,
                 BuildAboutMenu(currentPerson),
                 //BuildProjectsMenu(currentPerson),
-                BuildProgramInfoMenu(currentPerson),
+                BuildTaxonomyTierTwoInfoMenu(currentPerson),
                 //BuildResultsMenu(currentPerson),
                 BuildManageMenu(currentPerson)
             };
@@ -94,32 +94,32 @@ namespace ProjectFirma.Web.Views
         {
             var resultsMenu = new LtInfoMenuItem("Results");
             resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.InvestmentByFundingSector(null)), currentPerson, "Investment by Funding Sector"));
-            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.SpendingBySectorByFocusAreaByProgram(null)),
+            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo(null)),
                 currentPerson,
-                "Spending by Funding Sector by Focus Area by Program"));
-            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ResultsByProgram(null)), currentPerson, "Results by Program"));
+                string.Format("Spending by Funding Sector by {0} by {1}", MultiTenantHelpers.GetTaxonomyTierThreeDisplayName(), MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())));
+            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ResultsByTaxonomyTierTwo(null)), currentPerson, string.Format("Results by {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())));
             resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentPerson, "Project Map"));
 
             resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<SnapshotController>(c => c.Index()), currentPerson, "System Snapshot", "Group2"));
             return resultsMenu;
         }
 
-        private static LtInfoMenuItem BuildProgramInfoMenu(Person currentPerson)
+        private static LtInfoMenuItem BuildTaxonomyTierTwoInfoMenu(Person currentPerson)
         {
-            var programInfoMenu = new LtInfoMenuItem("Program Info");
-            //programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Index()), currentPerson, "Performance Measures", "Group1"));
-            //programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramInfoController>(c => c.Taxonomy()), currentPerson, "Focus Areas, Programs, and Action Priorities", "Group1"));
+            var taxonomyTierTwoInfoMenu = new LtInfoMenuItem("Program Info");
+            //taxonomyTierTwoInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Index()), currentPerson, "Performance Measures", "Group1"));
+            //taxonomyTierTwoInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramInfoController>(c => c.Taxonomy()), currentPerson, "Taxonomy", "Group1"));
 
-            //programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ThresholdCategoryController>(c => c.Index()), currentPerson, "Threshold Categories", "Group3"));
+            //taxonomyTierTwoInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ThresholdCategoryController>(c => c.Index()), currentPerson, "Threshold Categories", "Group3"));
 
-            //programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AssessmentController>(c => c.Manage()), currentPerson, " Assessment", "Group1"));
-            //programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CostParameterSetController>(c => c.Manage()), currentPerson, "Cost Parameters", "Group2"));
+            //taxonomyTierTwoInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AssessmentController>(c => c.Manage()), currentPerson, " Assessment", "Group1"));
+            //taxonomyTierTwoInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CostParameterSetController>(c => c.Manage()), currentPerson, "Cost Parameters", "Group2"));
 
-            //programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<WatershedController>(c => c.Index()), currentPerson, "Watersheds", "Group4"));
+            //taxonomyTierTwoInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<WatershedController>(c => c.Index()), currentPerson, "Watersheds", "Group4"));
 
-            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<OrganizationController>(c => c.Index()), currentPerson, "Organizations", "Group1"));
-            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FundingSourceController>(c => c.Index()), currentPerson, "Funding Sources", "Group1"));
-            return programInfoMenu;
+            taxonomyTierTwoInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<OrganizationController>(c => c.Index()), currentPerson, "Organizations", "Group1"));
+            taxonomyTierTwoInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FundingSourceController>(c => c.Index()), currentPerson, "Funding Sources", "Group1"));
+            return taxonomyTierTwoInfoMenu;
         }
 
         private LtInfoMenuItem BuildManageMenu(Person currentPerson)
@@ -128,9 +128,9 @@ namespace ProjectFirma.Web.Views
             //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Manage()), currentPerson, "Performance Measures", "Group1"));
             //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.SpendingByPerformanceMeasureByProject(null)), currentPerson, "Spending by Performance Measures", "Group1"));
 
-            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FocusAreaController>(c => c.Manage()), currentPerson, "Focus Areas", "Group2"));
-            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramController>(c => c.Manage()), currentPerson, "Programs", "Group2"));
-            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ActionPriorityController>(c => c.Manage()), currentPerson, "Action Priorities", "Group2"));
+            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierThreeController>(c => c.Manage()), currentPerson, MultiTenantHelpers.GetTaxonomyTierThreeDisplayNamePluralized(), "Group2"));
+            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierTwoController>(c => c.Manage()), currentPerson, MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized(), "Group2"));
+            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierOneController>(c => c.Manage()), currentPerson, MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized(), "Group2"));
 
             //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.FeaturedList()), currentPerson, "Featured Projects", "Group6"));
             //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TagController>(c => c.Index()), currentPerson, "Project Tags", "Group6"));

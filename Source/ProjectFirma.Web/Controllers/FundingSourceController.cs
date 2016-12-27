@@ -109,19 +109,19 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(FundingSourcePrimaryKey fundingSourcePrimaryKey)
         {
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
-            var focusAreas = HttpRequestStorage.DatabaseEntities.FocusAreas.OrderBy(x => x.FocusAreaNumber).ToList();
+            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.OrderBy(x => x.TaxonomyTierThreeName).ToList();
 
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
             var chartPopupUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(x => x.GoogleChartPopup(fundingSourcePrimaryKey));
             var googleChart = fundingSource.ProjectFundingSourceExpenditures
-                .ToGoogleChart(x => x.Project.ActionPriority.Program.FocusArea.DisplayName,
-                    focusAreas.Select(x => x.DisplayName).ToList(),
-                    x => x.Project.ActionPriority.Program.FocusArea.DisplayName,
+                .ToGoogleChart(x => x.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.DisplayName,
+                    taxonomyTierThrees.Select(x => x.DisplayName).ToList(),
+                    x => x.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.DisplayName,
                     yearRange,
                     "ReportedExpendituresChart",
                     fundingSource.DisplayName, chartPopupUrl);
 
-            var chartColorRange = focusAreas.Select(x => x.FocusAreaColor).ToList();
+            var chartColorRange = taxonomyTierThrees.Select(x => x.TaxonomyTierThreeColor).ToList();
             var calendarYearExpendituresLineChartViewData = new CalendarYearExpendituresLineChartViewData(googleChart,
                 chartColorRange);
             var viewData = new DetailViewData(CurrentPerson, fundingSource, calendarYearExpendituresLineChartViewData);
@@ -185,13 +185,13 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult GoogleChartPopup(FundingSourcePrimaryKey fundingSourcePrimaryKey)
         {
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
-            var focusAreas = HttpRequestStorage.DatabaseEntities.FocusAreas.OrderBy(x => x.FocusAreaNumber).ToList();
+            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.OrderBy(x => x.TaxonomyTierThreeName).ToList();
 
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
             var googleChart = fundingSource.ProjectFundingSourceExpenditures
-                .ToGoogleChart(x => x.Project.ActionPriority.Program.FocusArea.DisplayName,
-                    focusAreas.Select(x => x.DisplayName).ToList(),
-                    x => x.Project.ActionPriority.Program.FocusArea.DisplayName,
+                .ToGoogleChart(x => x.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.DisplayName,
+                    taxonomyTierThrees.Select(x => x.DisplayName).ToList(),
+                    x => x.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.DisplayName,
                     yearRange,
                     "ReportedExpendituresChart",
                     fundingSource.DisplayName, string.Empty);

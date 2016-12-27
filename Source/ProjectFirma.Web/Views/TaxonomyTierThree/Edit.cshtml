@@ -1,0 +1,15 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Views.TaxonomyTierThree.Edit
+@using (Html.BeginForm())
+{
+    <table class="dialogFormLayout">
+        <tr>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierThreeName):</th>
+            <td>
+                @Html.TextBoxFor(m => m.TaxonomyTierThreeName, new {style = "width:522px"})
+                @Html.ValidationMessageFor(m => m.TaxonomyTierThreeName)
+            </td>
+        </tr>
+    </table>
+    @Html.HiddenFor(m => m.TaxonomyTierThreeID)
+}

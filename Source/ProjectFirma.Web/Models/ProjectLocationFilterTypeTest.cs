@@ -11,7 +11,7 @@ namespace ProjectFirma.Web.Models
         [Test]
         public void TestProjectLocationFilterTypesAddedAsProjectProperties()
         {
-            var project = Project.CreateNewBlank(ActionPriority.CreateNewBlank(Program.CreateNewBlank(FocusArea.CreateNewBlank())),
+            var project = Project.CreateNewBlank(TaxonomyTierOne.CreateNewBlank(TaxonomyTierTwo.CreateNewBlank(TaxonomyTierThree.CreateNewBlank())),
                 ProjectStage.Completed,
                 ProjectLocationSimpleType.None,
                 FundingType.Capital);

@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             RuleFor(x => x.ProjectDescription).NotEmpty().WithName(Models.FieldDefinition.ProjectDescription.FieldDefinitionDisplayName);
             RuleFor(x => x.ImplementationStartYear).GreaterThanOrEqualTo(x => x.PlanningDesignStartYear ?? 0).WithMessage(FirmaValidationMessages.ImplementationStartYearGreaterThanPlanningDesignStartYear);
             RuleFor(x => x.CompletionYear).GreaterThanOrEqualTo(x => x.ImplementationStartYear ?? 0).WithMessage(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear);
-            RuleFor(x => x.ActionPriorityID).NotEmpty().WithName(Models.FieldDefinition.ActionPriority.FieldDefinitionDisplayName);
+            RuleFor(x => x.TaxonomyTierOneID).NotEmpty().WithName(Models.FieldDefinition.TaxonomyTierOne.FieldDefinitionDisplayName);
             RuleFor(x => x.ProjectStageID).NotEmpty().WithName(Models.FieldDefinition.ProjectStage.FieldDefinitionDisplayName);
             RuleFor(x => x.LeadImplementerOrganizationID)
                 .Must((viewModel, leadImplementingOrganizationID) => ModelObjectHelpers.IsRealPrimaryKeyValue(viewModel.ProjectID) || leadImplementingOrganizationID.HasValue)

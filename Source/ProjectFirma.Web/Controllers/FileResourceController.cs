@@ -177,13 +177,13 @@ namespace ProjectFirma.Web.Controllers
         }
 
         /// <summary>
-        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResourceForFocusArea(FocusAreaPrimaryKey, CkEditorImageUploadViewModel)"/>
+        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResourceForTaxonomyTierThree(TaxonomyTierThreePrimaryKey, CkEditorImageUploadViewModel)"/>
         /// </summary>
         /// <returns></returns>
         [CrossAreaRoute]
         [HttpGet]
-        [FocusAreaManageFeature]
-        public ContentResult CkEditorUploadFileResourceForFocusArea(FocusAreaPrimaryKey focusAreaPrimaryKey)
+        [TaxonomyTierThreeManageFeature]
+        public ContentResult CkEditorUploadFileResourceForTaxonomyTierThree(TaxonomyTierThreePrimaryKey taxonomyTierThreePrimaryKey)
         {
             return Content(String.Empty);
         }
@@ -191,24 +191,24 @@ namespace ProjectFirma.Web.Controllers
         [CrossAreaRoute]
         [HttpPost]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        [FocusAreaManageFeature]
-        public ContentResult CkEditorUploadFileResourceForFocusArea(FocusAreaPrimaryKey focusAreaPrimaryKey, CkEditorImageUploadViewModel viewModel)
+        [TaxonomyTierThreeManageFeature]
+        public ContentResult CkEditorUploadFileResourceForTaxonomyTierThree(TaxonomyTierThreePrimaryKey taxonomyTierThreePrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
             var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
-            var focusArea = focusAreaPrimaryKey.EntityObject;
-            var image = new FocusAreaImage(focusArea, fileResource);
-            HttpRequestStorage.DatabaseEntities.FocusAreaImages.Add(image);
+            var taxonomyTierThree = taxonomyTierThreePrimaryKey.EntityObject;
+            var image = new TaxonomyTierThreeImage(taxonomyTierThree, fileResource);
+            HttpRequestStorage.DatabaseEntities.TaxonomyTierThreeImages.Add(image);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
 
         /// <summary>
-        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResourceForProgram(ProgramPrimaryKey, CkEditorImageUploadViewModel)"/>
+        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResourceForTaxonomyTierTwo(TaxonomyTierTwoPrimaryKey, CkEditorImageUploadViewModel)"/>
         /// </summary>
         /// <returns></returns>
         [CrossAreaRoute]
         [HttpGet]
-        [ProgramManageFeature]
-        public ContentResult CkEditorUploadFileResourceForProgram(ProgramPrimaryKey programPrimaryKey)
+        [TaxonomyTierTwoManageFeature]
+        public ContentResult CkEditorUploadFileResourceForTaxonomyTierTwo(TaxonomyTierTwoPrimaryKey taxonomyTierTwoPrimaryKey)
         {
             return Content(String.Empty);
         }
@@ -216,24 +216,24 @@ namespace ProjectFirma.Web.Controllers
         [CrossAreaRoute]
         [HttpPost]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        [ProgramManageFeature]
-        public ContentResult CkEditorUploadFileResourceForProgram(ProgramPrimaryKey programPrimaryKey, CkEditorImageUploadViewModel viewModel)
+        [TaxonomyTierTwoManageFeature]
+        public ContentResult CkEditorUploadFileResourceForTaxonomyTierTwo(TaxonomyTierTwoPrimaryKey taxonomyTierTwoPrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
             var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
-            var program = programPrimaryKey.EntityObject;
-            var image = new ProgramImage(program, fileResource);
-            HttpRequestStorage.DatabaseEntities.ProgramImages.Add(image);
+            var taxonomyTierTwo = taxonomyTierTwoPrimaryKey.EntityObject;
+            var image = new TaxonomyTierTwoImage(taxonomyTierTwo, fileResource);
+            HttpRequestStorage.DatabaseEntities.TaxonomyTierTwoImages.Add(image);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
 
         /// <summary>
-        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResourceForActionPriority(ActionPriorityPrimaryKey, CkEditorImageUploadViewModel)"/>
+        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResourceForTaxonomyTierOne(TaxonomyTierOnePrimaryKey, CkEditorImageUploadViewModel)"/>
         /// </summary>
         /// <returns></returns>
         [CrossAreaRoute]
         [HttpGet]
-        [ActionPriorityManageFeature]
-        public ContentResult CkEditorUploadFileResourceForActionPriority(ActionPriorityPrimaryKey actionPriorityPrimaryKey)
+        [TaxonomyTierOneManageFeature]
+        public ContentResult CkEditorUploadFileResourceForTaxonomyTierOne(TaxonomyTierOnePrimaryKey taxonomyTierOnePrimaryKey)
         {
             return Content(String.Empty);
         }
@@ -241,18 +241,18 @@ namespace ProjectFirma.Web.Controllers
         [CrossAreaRoute]
         [HttpPost]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        [ActionPriorityManageFeature]
-        public ContentResult CkEditorUploadFileResourceForActionPriority(ActionPriorityPrimaryKey actionPriorityPrimaryKey, CkEditorImageUploadViewModel viewModel)
+        [TaxonomyTierOneManageFeature]
+        public ContentResult CkEditorUploadFileResourceForTaxonomyTierOne(TaxonomyTierOnePrimaryKey taxonomyTierOnePrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
             var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
-            var actionPriority = actionPriorityPrimaryKey.EntityObject;
-            var image = new ActionPriorityImage(actionPriority, fileResource);
-            HttpRequestStorage.DatabaseEntities.ActionPriorityImages.Add(image);
+            var taxonomyTierOne = taxonomyTierOnePrimaryKey.EntityObject;
+            var image = new TaxonomyTierOneImage(taxonomyTierOne, fileResource);
+            HttpRequestStorage.DatabaseEntities.TaxonomyTierOneImages.Add(image);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
 
         /// <summary>
-        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResourceForActionPriority(ActionPriorityPrimaryKey, CkEditorImageUploadViewModel)"/>
+        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResourceForTaxonomyTierOne(TaxonomyTierOnePrimaryKey, CkEditorImageUploadViewModel)"/>
         /// </summary>
         /// <returns></returns>
         [CrossAreaRoute]

@@ -21,7 +21,7 @@ CREATE TABLE [dbo].[ProposedProject](
 	[EstimatedAnnualOperatingCost] [decimal](18, 0) NULL,
 	[FundingTypeID] [int] NOT NULL,
 	[ProposedProjectStateID] [int] NOT NULL,
-	[ActionPriorityID] [int] NULL,
+	[TaxonomyTierOneID] [int] NULL,
 	[PerformanceMeasureNotes] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ProjectID] [int] NULL,
 	[ImplementsMultipleProjects] [bit] NULL,
@@ -42,11 +42,6 @@ CREATE TABLE [dbo].[ProposedProject](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
-GO
-ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProject_ActionPriority_ActionPriorityID] FOREIGN KEY([ActionPriorityID])
-REFERENCES [dbo].[ActionPriority] ([ActionPriorityID])
-GO
-ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [FK_ProposedProject_ActionPriority_ActionPriorityID]
 GO
 ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProject_FundingType_FundingTypeID] FOREIGN KEY([FundingTypeID])
 REFERENCES [dbo].[FundingType] ([FundingTypeID])
@@ -87,6 +82,11 @@ ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProj
 REFERENCES [dbo].[ProposedProjectState] ([ProposedProjectStateID])
 GO
 ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [FK_ProposedProject_ProposedProjectState_ProposedProjectStateID]
+GO
+ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID] FOREIGN KEY([TaxonomyTierOneID])
+REFERENCES [dbo].[TaxonomyTierOne] ([TaxonomyTierOneID])
+GO
+ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID]
 GO
 ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [CK_ProposedProject_AnnualCostForOperationsProposedProjectsOnly] CHECK  (([FundingTypeID]=(2) OR [EstimatedAnnualOperatingCost] IS NULL))
 GO

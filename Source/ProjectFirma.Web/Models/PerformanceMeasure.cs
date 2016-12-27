@@ -34,14 +34,14 @@ namespace ProjectFirma.Web.Models
             get { return PerformanceMeasureActuals.ToList().Select(pepm => pepm.ProjectID).Distinct().Count(); }
         }
 
-        public Program PrimaryProgram
+        public TaxonomyTierTwo PrimaryTaxonomyTierTwo
         {
             get
             {
-                var programPerformanceMeasure = ProgramPerformanceMeasures.SingleOrDefault(ppm => ppm.IsPrimaryProgram);
-                if (programPerformanceMeasure != null)
+                var taxonomyTierTwoPerformanceMeasure = TaxonomyTierTwoPerformanceMeasures.SingleOrDefault(ppm => ppm.IsPrimaryTaxonomyTierTwo);
+                if (taxonomyTierTwoPerformanceMeasure != null)
                 {
-                    return programPerformanceMeasure.Program;
+                    return taxonomyTierTwoPerformanceMeasure.TaxonomyTierTwo;
                 }
                 return null;
             }
@@ -66,11 +66,11 @@ namespace ProjectFirma.Web.Models
             return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.ProjectName).ToList();
         }
 
-        public Dictionary<Program, bool> GetPrograms()
+        public Dictionary<TaxonomyTierTwo, bool> GetTaxonomyTierTwos()
         {
-            return ProgramPerformanceMeasures.Any()
-                ? ProgramPerformanceMeasures.ToDictionary(x => x.Program, x => x.IsPrimaryProgram, new HavePrimaryKeyComparer<Program>())
-                : new Dictionary<Program, bool>();
+            return TaxonomyTierTwoPerformanceMeasures.Any()
+                ? TaxonomyTierTwoPerformanceMeasures.ToDictionary(x => x.TaxonomyTierTwo, x => x.IsPrimaryTaxonomyTierTwo, new HavePrimaryKeyComparer<TaxonomyTierTwo>())
+                : new Dictionary<TaxonomyTierTwo, bool>();
         }
 
         public decimal? TotalExpenditure()

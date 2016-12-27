@@ -2,6 +2,7 @@
 @using ProjectFirma.Web.Views.Shared.ProjectControls
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
 @inherits EditProject
 
 <style>
@@ -50,20 +51,20 @@
         @if (ViewDataTyped.EditProjectType == EditProjectType.ExistingProject)
         {
             <div class="row">
-                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.ActionPriorityID, 600):</div>
+                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneID, 600):</div>
                 <div class="col-md-9">
-                    @ViewDataTyped.ActionPriorityDisplayName
-                    @Html.HiddenFor(m => m.ActionPriorityID)
+                    @ViewDataTyped.TaxonomyTierOneDisplayName
+                    @Html.HiddenFor(m => m.TaxonomyTierOneID)
                 </div>
             </div>            
         }
         else
         {
             <div class="row">
-                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.ActionPriorityID, 600):</div>
+                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneID, 600):</div>
                 <div class="col-md-9">
-                    @Html.DropDownListFor(x => x.ActionPriorityID, ViewDataTyped.ActionPriorities, new { style = "display: inline !important; height: 0; width: 1px; border:0; box-shadow:none; color:white; overflow:hidden; margin-right:-1px;" })
-                    @Html.ValidationMessageFor(m => m.ActionPriorityID)
+                    @Html.DropDownListFor(x => x.TaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, new { style = "display: inline !important; height: 0; width: 1px; border:0; box-shadow:none; color:white; overflow:hidden; margin-right:-1px;" })
+                    @Html.ValidationMessageFor(m => m.TaxonomyTierOneID)
                 </div>
             </div>
         }
@@ -186,9 +187,9 @@
     jQuery(document).ready(function()
     {
         displaySelectedFundingTypeFields();
-        jQuery(@Html.IdFor(x => x.ActionPriorityID)).selectpicker(
+        jQuery(@Html.IdFor(x => x.TaxonomyTierOneID)).selectpicker(
             {
-                size: 12, title: 'Select an Action Priority', width: '400px'
+                size: 12, title: 'Select an @MultiTenantHelpers.GetTaxonomyTierOneDisplayName()', width: '400px'
             });
     });
     // ]]>

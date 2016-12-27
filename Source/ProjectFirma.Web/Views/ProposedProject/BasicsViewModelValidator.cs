@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
         public BasicsViewModelValidator()
         {
-            RuleFor(x => x.ProposedActionPriorityID).NotNull().WithMessage("Select an Action Priority");
+            RuleFor(x => x.ProposedTaxonomyTierOneID).NotNull().WithMessage(string.Format("Select {0}", MultiTenantHelpers.GetTaxonomyTierOneDisplayName()));
             RuleFor(x => x.ProjectName)
                 .NotEmpty()
                 .WithName(Models.FieldDefinition.ProjectName.FieldDefinitionDisplayName)
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             {
                 var isApprover = new ProposedProjectApproveFeature().HasPermissionByPerson(HttpRequestStorage.Person);
                 return !isApprover || x.HasValue;
-            }).WithMessage("Approvers are required to provide determine whether a project is a program");
+            }).WithMessage("Approvers are required to provide determine whether a project is a taxonomyTierTwo");
         }
     }
 }

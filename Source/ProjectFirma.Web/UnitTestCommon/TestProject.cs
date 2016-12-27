@@ -10,21 +10,19 @@ namespace ProjectFirma.Web.UnitTestCommon
         {
             public static Project Create()
             {
-                var actionPriority = TestActionPriority.Create();
+                var taxonomyTierOne = TestTaxonomyTierOne.Create();
                 var projectStage = ProjectStage.PlanningDesign;
-                var project = Project.CreateNewBlank(actionPriority, projectStage, ProjectLocationSimpleType.None, FundingType.Capital);
+                var project = Project.CreateNewBlank(taxonomyTierOne, projectStage, ProjectLocationSimpleType.None, FundingType.Capital);
                 return project;
             }
 
             public static Project Create(DatabaseEntities dbContext)
             {
-                var actionPriority = TestActionPriority.Create(dbContext);
-                var nextProjectNumber = Project.GetNextProjectNumber(actionPriority);
+                var taxonomyTierOne = TestTaxonomyTierOne.Create(dbContext);
 
                 var projectStage = ProjectStage.PlanningDesign;
-                var project = new Project(actionPriority,
+                var project = new Project(taxonomyTierOne,
                     projectStage,
-                    nextProjectNumber,
                     string.Format("Test Project Name {0}", Guid.NewGuid()),
                     MakeTestName("Test Project Description"),
                     false,
@@ -38,9 +36,9 @@ namespace ProjectFirma.Web.UnitTestCommon
 
             public static Project Create(short projectID, string projectName)
             {
-                var actionPriority = TestActionPriority.Create();
+                var taxonomyTierOne = TestTaxonomyTierOne.Create();
                 var projectStage = ProjectStage.Implementation;
-                var project = new Project(actionPriority, projectStage, projectID, projectName, "Some description", false, false, ProjectLocationSimpleType.None, FundingType.Capital)
+                var project = new Project(taxonomyTierOne, projectStage, projectName, "Some description", false, false, ProjectLocationSimpleType.None, FundingType.Capital)
                 {
                     ProjectID = projectID
                 };

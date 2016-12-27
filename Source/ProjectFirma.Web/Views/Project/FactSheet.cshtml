@@ -6,6 +6,7 @@
 @using MoreLinq
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
 @inherits FactSheet
 
 @{
@@ -106,10 +107,10 @@
             margin: 5px 0 5px 0;
         }
 
-        .focusAreaColor
+        .taxonomyTierThreeColor
         {
-            color: @ViewDataTyped.Project.ActionPriority.Program.FocusArea.FocusAreaColor;
-            border-color: @ViewDataTyped.Project.ActionPriority.Program.FocusArea.FocusAreaColor;
+            color: @ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeColor;
+            border-color: @ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeColor;
         }
 
         table.summaryLayout th
@@ -135,8 +136,8 @@
             height: 20px;
             color: #ffffff;
             font-weight: bold;
-            background-color: @ViewDataTyped.Project.ActionPriority.Program.FocusArea.FocusAreaColor;
-            border: solid 4px @ViewDataTyped.Project.ActionPriority.Program.FocusArea.FocusAreaColor;
+            background-color: @ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeColor;
+            border: solid 4px @ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeColor;
             border-right: 0;
             border-left: 0;
             font-size: 18px;
@@ -231,22 +232,22 @@
 <div class="container factSheet">
     <table style="width: 100%; padding-bottom: 15px">
         <tr>
-            <td style="border-right: 2px solid; padding: 10px; width: 270px" class="focusAreaColor">
+            <td style="border-right: 2px solid; padding: 10px; width: 270px" class="taxonomyTierThreeColor">
                 <img src="~/Content/img/eip-logo-factsheet.png" alt="Lake Tahoe" />
             </td>
             <td style="padding: 20px">
-                <div class="focusAreaColor" style="font-size: medium">
+                <div class="taxonomyTierThreeColor" style="font-size: medium">
                     Project Fact Sheet
                 </div>
-                <div class="projectTitle focusAreaColor">@ViewDataTyped.Project.ProjectName</div>
+                <div class="projectTitle taxonomyTierThreeColor">@ViewDataTyped.Project.ProjectName</div>
                 <table class="summaryLayout">
                     <tr>
                         <th>Project Number:</th>
                         <td>@ViewDataTyped.Project.ProjectNumberString</td>
                     </tr>
                     <tr>
-                        <th>Action Priority:</th>
-                        <td>@ViewDataTyped.Project.ActionPriority.ActionPriorityName</td>
+                        <th>@MultiTenantHelpers.GetTaxonomyTierOneDisplayName():</th>
+                        <td>@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierOneName</td>
                     </tr>
                     <tr>
                         <th>Implementers:</th>
@@ -280,8 +281,8 @@
         </tr>
         <tr>
             <td colspan="2" class="projectTaxonomy">
-                @ViewDataTyped.Project.ActionPriority.Program.ProgramName &gt;
-                @ViewDataTyped.Project.ActionPriority.ActionPriorityName
+                @ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierTwoName &gt;
+                @ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierOneName
             </td>
 
         </tr>
@@ -291,7 +292,7 @@
         <tr>
             <td class="factSheetAboutProject" style="padding-top: 20px; max-width:1000px">
                 <div style="max-height:320px; white-space: normal; text-overflow: ellipsis; overflow-y: hidden">@ViewDataTyped.Project.ProjectDescription</div>
-                <div class="sectionTitle focusAreaColor">Key accomplishments of project</div>
+                <div class="sectionTitle taxonomyTierThreeColor">Key accomplishments of project</div>
                 @if (ViewDataTyped.PerformanceMeasureReportedValues.Any())
                 {
                     <table>
@@ -308,7 +309,7 @@
                 {
                     <div class="alert">Accomplishments to be provided upon completion of project.</div>
                 }
-                <div class="sectionTitle focusAreaColor">Threshold categories</div>
+                <div class="sectionTitle taxonomyTierThreeColor">Threshold categories</div>
                 @if (ViewDataTyped.Project.ProjectThresholdCategories.Any())
                 {
                     <table>
@@ -347,7 +348,7 @@
         <tr>
             <td style="width: 550px">
                 <div style="width: 560px; margin-left: auto; margin-right: auto; page-break-inside: avoid">
-                    <div class="sectionTitle focusAreaColor">Location</div>
+                    <div class="sectionTitle taxonomyTierThreeColor">Location</div>
                     <div id="@ViewDataTyped.ProjectLocationSummaryViewData.ProjectLocationSummaryMapInitJson.MapDivID" class="ltInfoPanel mapPanel"></div>
                     <script type="text/javascript">
                         jQuery(document).ready(function()
@@ -360,7 +361,7 @@
             </td>
             <td style="width: 550px; padding-right:20px">
                 <div style="width: 560px; margin-left: auto; margin-right: auto; page-break-inside: avoid">
-                    <div class="sectionTitle focusAreaColor">Expenditures</div>
+                    <div class="sectionTitle taxonomyTierThreeColor">Expenditures</div>
                     <div class="ltInfoPanel ltInfoPanelDimensions">
                         <div style="width: 450px; height: 550px; overflow: hidden">
                             @if (ViewDataTyped.FundingSourceExpenditures.Any())
@@ -391,7 +392,7 @@
     </table>
     <div class="pull-right onlyOnPrint">Data as of @DateTime.Today.ToStringDate()</div>
 
-    <div class="sectionTitle focusAreaColor photosSection">Photos</div>
+    <div class="sectionTitle taxonomyTierThreeColor photosSection">Photos</div>
     @if (ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming.Any())
     {
         <table style="width: 1160px">

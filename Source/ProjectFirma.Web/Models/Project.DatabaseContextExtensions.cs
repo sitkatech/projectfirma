@@ -65,5 +65,13 @@ namespace ProjectFirma.Web.Models
             }
             return project;
         }
+
+        public static List<Project> GetProjectFindResultsForProjectNameAndDescriptionAndNumber(this IQueryable<Project> projects, string projectKeyword)
+        {
+            return
+                projects.Where(x => x.ProjectName.Contains(projectKeyword) || x.ProjectDescription.Contains(projectKeyword))
+                    .OrderBy(x => x.ProjectName)
+                    .ToList();
+        }
     }
 }

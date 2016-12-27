@@ -68,8 +68,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<ProposedProject> IndexGridJsonData()
         {
             ProposedProjectGridSpec gridSpec;
-            var programs = GetIndexGridSpec(CurrentPerson, out gridSpec);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(programs, gridSpec);
+            var taxonomyTierTwos = GetIndexGridSpec(CurrentPerson, out gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -119,9 +119,9 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel)
         {
-            var actionPriorities = HttpRequestStorage.DatabaseEntities.ActionPriorities;
+            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations().Where(x => x.PrimaryContactPerson != null); 
-            var viewData = new BasicsViewData(CurrentPerson, organizations, FundingType.All, actionPriorities);
+            var viewData = new BasicsViewData(CurrentPerson, organizations, FundingType.All, taxonomyTierOnes);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -142,10 +142,10 @@ namespace ProjectFirma.Web.Controllers
             var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
             proposalSectionsStatus.IsBasicsSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsBasicsSectionComplete;
             
-            var actionPriorities = HttpRequestStorage.DatabaseEntities.ActionPriorities;
+            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations().Where(x => x.PrimaryContactPerson != null);
             
-            var viewData = new BasicsViewData(CurrentPerson, proposedProject, proposalSectionsStatus, organizations, FundingType.All, actionPriorities);
+            var viewData = new BasicsViewData(CurrentPerson, proposedProject, proposalSectionsStatus, organizations, FundingType.All, taxonomyTierOnes);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }

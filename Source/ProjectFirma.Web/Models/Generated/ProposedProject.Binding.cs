@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? actionPriorityID, string performanceMeasureNotes, int? projectID, bool? implementsMultipleProjects, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID) : this()
+        public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? taxonomyTierOneID, string performanceMeasureNotes, int? projectID, bool? implementsMultipleProjects, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID) : this()
         {
             this.ProposedProjectID = proposedProjectID;
             this.ProjectName = projectName;
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Models
             this.EstimatedAnnualOperatingCost = estimatedAnnualOperatingCost;
             this.FundingTypeID = fundingTypeID;
             this.ProposedProjectStateID = proposedProjectStateID;
-            this.ActionPriorityID = actionPriorityID;
+            this.TaxonomyTierOneID = taxonomyTierOneID;
             this.PerformanceMeasureNotes = performanceMeasureNotes;
             this.ProjectID = projectID;
             this.ImplementsMultipleProjects = implementsMultipleProjects;
@@ -145,7 +145,7 @@ namespace ProjectFirma.Web.Models
         public decimal? EstimatedAnnualOperatingCost { get; set; }
         public int FundingTypeID { get; set; }
         public int ProposedProjectStateID { get; set; }
-        public int? ActionPriorityID { get; set; }
+        public int? TaxonomyTierOneID { get; set; }
         public string PerformanceMeasureNotes { get; set; }
         public int? ProjectID { get; set; }
         public bool? ImplementsMultipleProjects { get; set; }
@@ -169,7 +169,7 @@ namespace ProjectFirma.Web.Models
         public ProjectLocationSimpleType ProjectLocationSimpleType { get { return ProjectLocationSimpleType.AllLookupDictionary[ProjectLocationSimpleTypeID]; } }
         public FundingType FundingType { get { return FundingType.AllLookupDictionary[FundingTypeID]; } }
         public ProposedProjectState ProposedProjectState { get { return ProposedProjectState.AllLookupDictionary[ProposedProjectStateID]; } }
-        public virtual ActionPriority ActionPriority { get; set; }
+        public virtual TaxonomyTierOne TaxonomyTierOne { get; set; }
         public virtual Project Project { get; set; }
 
         public static class FieldLengths

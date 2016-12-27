@@ -1,5 +1,6 @@
 ﻿@using ProjectFirma.Web.Models
 @using LtInfo.Common
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectMapPopup
 
 <div style="font-weight: bold">@ViewDataTyped.Project.DisplayName</div>
@@ -16,16 +17,16 @@
             <td>@ViewDataTyped.Project.Duration @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName</td>
         </tr>
         <tr>
-            <th>Focus Area</th>
-            <td>@ViewDataTyped.Project.ActionPriority.Program.FocusArea.FocusAreaName</td>
+            <th>@MultiTenantHelpers.GetTaxonomyTierThreeDisplayName()</th>
+            <td>@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName</td>
         </tr>
         <tr>
-            <th>Program</th>
-            <td>@ViewDataTyped.Project.ActionPriority.Program.ProgramName</td>
+            <th>@MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()</th>
+            <td>@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierTwoName</td>
         </tr>
         <tr>
-            <th>Action Priority</th>
-            <td>@ViewDataTyped.Project.ActionPriority.ActionPriorityName</td>
+            <th>@MultiTenantHelpers.GetTaxonomyTierOneDisplayName()</th>
+            <td>@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierOneName</td>
         </tr>
         <tr>
             <th>Lead Implementer</th>

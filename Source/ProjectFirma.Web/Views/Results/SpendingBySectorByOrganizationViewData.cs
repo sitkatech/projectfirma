@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Results
 {

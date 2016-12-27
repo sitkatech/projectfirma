@@ -267,13 +267,11 @@ namespace ProjectFirma.Web.Models
 
         public Project PromoteToProject(ProposedProject proposedProject)
         {
-            var actionPriority = HttpRequestStorage.DatabaseEntities.ActionPriorities.GetActionPriority(proposedProject.ActionPriorityID.Value);
-            var nextProjectNumber = Project.GetNextProjectNumber(actionPriority);
+            var taxonomyTierOne = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.GetTaxonomyTierOne(proposedProject.TaxonomyTierOneID.Value);
             var projectName = proposedProject.ProjectName;
 
-            var project = new Project(proposedProject.ActionPriorityID.Value,
+            var project = new Project(proposedProject.TaxonomyTierOneID.Value,
                 ProjectStage.PlanningDesign.ProjectStageID,
-                nextProjectNumber,
                 projectName,
                 proposedProject.ProjectDescription,
                 false,

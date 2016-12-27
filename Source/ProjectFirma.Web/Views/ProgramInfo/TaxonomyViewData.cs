@@ -5,13 +5,13 @@ namespace ProjectFirma.Web.Views.ProgramInfo
 {
     public class TaxonomyViewData : FirmaViewData
     {
-        public readonly List<FancyTreeNode> FocusAreasAsFancyTreeNodes;
+        public readonly List<FancyTreeNode> TaxonomyTierThreesAsFancyTreeNodes;
 
         public TaxonomyViewData(Person currentPerson, Models.FirmaPage firmaPage,
-            List<FancyTreeNode> focusAreasAsFancyTreeNodes) : base(currentPerson, firmaPage)
+            List<FancyTreeNode> taxonomyTierThreesAsFancyTreeNodes) : base(currentPerson, firmaPage)
         {
-            FocusAreasAsFancyTreeNodes = focusAreasAsFancyTreeNodes;
-            PageTitle = "Focus Areas, Programs, and Action Priorities";
+            TaxonomyTierThreesAsFancyTreeNodes = taxonomyTierThreesAsFancyTreeNodes;
+            PageTitle = "Project Taxonomy";
         }
     }
 }

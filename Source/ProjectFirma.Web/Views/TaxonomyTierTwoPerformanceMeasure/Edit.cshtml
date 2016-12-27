@@ -1,0 +1,100 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Models
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@inherits ProjectFirma.Web.Views.TaxonomyTierTwoPerformanceMeasure.Edit
+<script type="text/javascript">
+    // <![CDATA[    
+    angular.module("EditAngularApp", []).controller("TaxonomyTierTwoPerformanceMeasureController", function($scope)
+    {
+        $scope.AngularModel = @Html.Raw(JObject.FromObject(Model));
+        $scope.AngularViewData = @Html.Raw(JObject.FromObject(ViewDataTyped));
+        $scope.TaxonomyTierTwoToAdd = null;
+
+        $scope.filteredTaxonomyTierTwos = function()
+        {
+            var usedTaxonomyTierTwoIDs = _.map($scope.AngularModel.TaxonomyTierTwoPerformanceMeasures, function(p) { return p.TaxonomyTierTwoID; });
+            var filter = _.filter($scope.AngularViewData.AllTaxonomyTierTwos, function(f) { return !_.contains(usedTaxonomyTierTwoIDs, f.TaxonomyTierTwoID); });
+            return filter;
+        };
+
+        $scope.setPrimaryTaxonomyTierTwo = function(program)
+        {
+            $scope.AngularModel.PrimaryTaxonomyTierTwoID = program.TaxonomyTierTwoID;
+        };
+
+        $scope.getTaxonomyTierTwoName = function(programPerformanceMeasure)
+        {
+            var programToFind = $scope.getTaxonomyTierTwo(programPerformanceMeasure.TaxonomyTierTwoID);
+            return programToFind.DisplayName;
+        };
+
+        $scope.getTaxonomyTierTwo = function(programId) { return _.find($scope.AngularViewData.AllTaxonomyTierTwos, function(f) { return programId == f.TaxonomyTierTwoID; }); };
+
+        $scope.addTaxonomyTierTwo = function()
+        {
+            if ($scope.TaxonomyTierTwoToAdd != null)
+            {
+                if ($scope.AngularModel.TaxonomyTierTwoPerformanceMeasures.length == 0)
+                {
+                    $scope.setPrimaryTaxonomyTierTwo($scope.TaxonomyTierTwoToAdd);
+                }
+                var newTaxonomyTierTwoPerformanceMeasureJson = {
+                    TaxonomyTierTwoID: $scope.TaxonomyTierTwoToAdd.TaxonomyTierTwoID,
+                    PerformanceMeasureID: $scope.AngularViewData.PerformanceMeasure.PerformanceMeasureID,
+                    IsPrimaryTaxonomyTierTwo: false
+                };
+                $scope.AngularModel.TaxonomyTierTwoPerformanceMeasures.push(newTaxonomyTierTwoPerformanceMeasureJson);
+                $scope.TaxonomyTierTwoToAdd = null;
+            }
+        };
+
+        $scope.deleteTaxonomyTierTwo = function(program)
+        {
+            var isTaxonomyTierTwoTheCurrentPrimary = program.TaxonomyTierTwoID == $scope.AngularModel.PrimaryTaxonomyTierTwoID;
+            Sitka.Methods.removeFromJsonArray($scope.AngularModel.TaxonomyTierTwoPerformanceMeasures, program);
+
+            if (isTaxonomyTierTwoTheCurrentPrimary && $scope.AngularModel.TaxonomyTierTwoPerformanceMeasures.length > 0)
+            {
+                $scope.setPrimaryTaxonomyTierTwo($scope.AngularModel.TaxonomyTierTwoPerformanceMeasures[0]);
+            }
+        };
+    });
+    angular.bootstrap(jQuery("#EditTaxonomyTierTwosAngularApp"), ["EditAngularApp"]);
+    // ]]>
+</script>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+<div style="font-weight: bold; margin-bottom: 20px">@MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() Associated with Performance Measure</div>
+<div id="EditTaxonomyTierTwosAngularApp" ng-controller="TaxonomyTierTwoPerformanceMeasureController">
+    @MultiTenantHelpers.GetTaxonomyTierTwoDisplayName() to Add: <select ng-model="TaxonomyTierTwoToAdd" ng-options="program.DisplayName for program in filteredTaxonomyTierTwos()">
+    <option value="">Choose One</option>
+</select>
+    <button class="btn btn-xs btn-firma" type="button" ng-click="addTaxonomyTierTwo()">Add</button>
+    <table class="dialogFormLayout">
+        <tr>
+            <th></th>
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</th>
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryTaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()))</th>
+        </tr>
+        <tr ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyTierTwoPerformanceMeasures | orderBy:getTaxonomyTierTwoName">
+            <td>
+                <span class="glyphicon glyphicon-trash blue" title="Remove '{{programPerformanceMeasure.DisplayName}}'" alt="Remove '{{programPerformanceMeasure.DisplayName}}'" ng-click="deleteTaxonomyTierTwo(programPerformanceMeasure)" style="cursor: pointer"></span>
+            </td>
+            <td>{{getTaxonomyTierTwoName(programPerformanceMeasure)}}</td>
+            <td>
+                <input type="radio" ng-model="AngularModel.PrimaryTaxonomyTierTwoID" ng-value="programPerformanceMeasure.TaxonomyTierTwoID" />
+            </td>
+
+        </tr>
+    </table>
+    @using (Html.BeginForm())
+    {
+        <input ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyTierTwoPerformanceMeasures" type="hidden" name="@Html.NameFor(x => x.TaxonomyTierTwoPerformanceMeasures[0].TaxonomyTierTwoID).ToString().Replace("0", "{{$index}}")" value="{{programPerformanceMeasure.TaxonomyTierTwoID}}">
+        <input ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyTierTwoPerformanceMeasures" type="hidden" name="@Html.NameFor(x => x.TaxonomyTierTwoPerformanceMeasures[0].PerformanceMeasureID).ToString().Replace("0", "{{$index}}")" value="{{programPerformanceMeasure.PerformanceMeasureID}}">
+        <input type="hidden" name="@Html.NameFor(x => x.PrimaryTaxonomyTierTwoID)" value="{{AngularModel.PrimaryTaxonomyTierTwoID}}">
+    }
+</div>

@@ -2,17 +2,17 @@
 @using LtInfo.Common.HtmlHelperExtensions
 @inherits ProjectFirma.Web.Views.Shared.ProjectControls.ProjectTaxonomy
 
-<div class="focusAreaTaxonomy">
+<div class="taxonomyTierThreeTaxonomy">
     <div>
-        @Html.LabelWithFieldDefinitionFor(FieldDefinition.FocusArea): <span class="taxonomyLink@(ViewDataTyped.IsFocusArea ? " selected" : string.Empty)">@(ViewDataTyped.IsFocusArea ? new HtmlString(ViewDataTyped.FocusArea.DisplayName) : ViewDataTyped.FocusArea.DisplayNameAsUrl)</span>
-        @if (ViewDataTyped.Program != null)
+        @Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierThree): <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierThree ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierThree ? new HtmlString(ViewDataTyped.TaxonomyTierThree.DisplayName) : ViewDataTyped.TaxonomyTierThree.DisplayNameAsUrl)</span>
+        @if (ViewDataTyped.TaxonomyTierTwo != null)
         {
             <div>
-                @Html.LabelWithFieldDefinitionFor(FieldDefinition.Program): <span class="taxonomyLink@(ViewDataTyped.IsProgram ? " selected" : string.Empty)" style="margin-left: 25px;">@(ViewDataTyped.IsProgram ? new HtmlString(ViewDataTyped.Program.DisplayName) : ViewDataTyped.Program.DisplayNameAsUrl)</span>
-                @if (ViewDataTyped.ActionPriority != null)
+                @Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo): <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierTwo ? " selected" : string.Empty)" style="margin-left: 25px;">@(ViewDataTyped.IsTaxonomyTierTwo ? new HtmlString(ViewDataTyped.TaxonomyTierTwo.DisplayName) : ViewDataTyped.TaxonomyTierTwo.DisplayNameAsUrl)</span>
+                @if (ViewDataTyped.TaxonomyTierOne != null)
                 {
                     <div>
-                        @Html.LabelWithFieldDefinitionFor(FieldDefinition.ActionPriority): <span class="taxonomyLink@(ViewDataTyped.IsActionPriority ? " selected" : string.Empty)">@(ViewDataTyped.IsActionPriority ? new HtmlString(ViewDataTyped.ActionPriority.DisplayName) : ViewDataTyped.ActionPriority.GetDisplayNameAsUrl())</span>
+                        @Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierOne): <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierOne ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierOne ? new HtmlString(ViewDataTyped.TaxonomyTierOne.DisplayName) : ViewDataTyped.TaxonomyTierOne.GetDisplayNameAsUrl())</span>
                         @if (ViewDataTyped.Project != null)
                         {
                             <div>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Project): <span class="taxonomyLink selected" style="margin-left: 45px">@ViewDataTyped.Project.DisplayName</span></div>

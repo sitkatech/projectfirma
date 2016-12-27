@@ -1,4 +1,5 @@
 ﻿@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.ProgramInfo.Taxonomy
 @section JavascriptAndStylesContent
 {
@@ -74,18 +75,18 @@
     </div>
     <div style="padding: 0 15px;">
         <div class="pull-left" style="font-weight: bold">
-            Focus Area <span class='glyphicon glyphicon-chevron-right'></span>
-            Program <span class='glyphicon glyphicon-chevron-right'></span>
-            Action Priority <span class='glyphicon glyphicon-chevron-right'></span>
+            @MultiTenantHelpers.GetTaxonomyTierThreeDisplayName() <span class='glyphicon glyphicon-chevron-right'></span>
+            @MultiTenantHelpers.GetTaxonomyTierTwoDisplayName() <span class='glyphicon glyphicon-chevron-right'></span>
+            @MultiTenantHelpers.GetTaxonomyTierOneDisplayName() <span class='glyphicon glyphicon-chevron-right'></span>
             Project
         </div>
         <div class="pull-right" style="font-weight: bold">
             Number of Projects
         </div>
         <div style="clear: both">
-            @foreach (var focusArea in ViewDataTyped.FocusAreasAsFancyTreeNodes)
+            @foreach (var taxonomyTierThree in ViewDataTyped.TaxonomyTierThreesAsFancyTreeNodes)
             {
-                <table id="@(string.Format("projecttaxonomytree{0}", focusArea.Key))" class="table table-hover table-condensed projecttaxonomytree" style="margin-bottom: 10px; border-color: @focusArea.ThemeColor">
+                <table id="@(string.Format("projecttaxonomytree{0}", taxonomyTierThree.Key))" class="table table-hover table-condensed projecttaxonomytree" style="margin-bottom: 10px; border-color: @taxonomyTierThree.ThemeColor">
                     <colgroup>
                         <col />
                         <col style="width: 80px;" />
@@ -126,8 +127,7 @@
                 loading: "glyphicon glyphicon-refresh"
             }
         };
-        // Initialize Fancytree for each focus area
-        var treeSources = @Html.Raw(JArray.FromObject(ViewDataTyped.FocusAreasAsFancyTreeNodes));
+        var treeSources = @Html.Raw(JArray.FromObject(ViewDataTyped.TaxonomyTierThreesAsFancyTreeNodes));
         for (var i = 0; i < treeSources.length; ++i)
         {
             var currentTreeSource = treeSources[i];

@@ -15,9 +15,9 @@ namespace ProjectFirma.Web.Service.ServiceModels
         {
             ProjectNumber = project.ProjectNumberString;
             ProjectName = project.ProjectName;
-            FocusArea = project.ActionPriority.Program.FocusArea.FocusAreaName;
-            Program = project.ActionPriority.Program.ProgramName;
-            ActionPriority = project.ActionPriority.ActionPriorityName;
+            TaxonomyTierThree = project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName;
+            TaxonomyTierTwo = project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierTwoName;
+            TaxonomyTierOne = project.TaxonomyTierOne.TaxonomyTierOneName;
             ProjectDescription = project.ProjectDescription;
             LeadImplementer = project.LeadImplementerName;
 
@@ -42,9 +42,9 @@ namespace ProjectFirma.Web.Service.ServiceModels
 
         [DataMember] public string ProjectNumber { get; set; }
         [DataMember] public string ProjectName { get; set; }
-        [DataMember] public string FocusArea { get; set; }
-        [DataMember] public string Program { get; set; }
-        [DataMember] public string ActionPriority { get; set; }
+        [DataMember] public string TaxonomyTierThree { get; set; }
+        [DataMember] public string TaxonomyTierTwo { get; set; }
+        [DataMember] public string TaxonomyTierOne { get; set; }
         [DataMember] public string ProjectDescription { get; set; }
         [DataMember] public string LeadImplementer { get; set; }
 
@@ -104,9 +104,9 @@ namespace ProjectFirma.Web.Service.ServiceModels
         {
             Add("ProjectNumber", x => x.ProjectNumber, 0);
             Add("ProjectName", x => x.ProjectName, 0);
-            Add("FocusArea", x => x.FocusArea, 0);
-            Add("Program", x => x.Program, 0);
-            Add("ActionPriority", x => x.ActionPriority, 0);
+            Add("TaxonomyTierThree", x => x.TaxonomyTierThree, 0);
+            Add("TaxonomyTierTwo", x => x.TaxonomyTierTwo, 0);
+            Add("TaxonomyTierOne", x => x.TaxonomyTierOne, 0);
             Add("Stage", x => x.Stage, 0);
             Add("ProjectDescription", x => x.ProjectDescription, 0);
             Add("LeadImplementer", x => x.LeadImplementer, 0);

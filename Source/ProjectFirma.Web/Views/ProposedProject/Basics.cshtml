@@ -1,5 +1,6 @@
 ﻿@using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.ProposedProject.Basics
 
 @section JavascriptAndStylesContent
@@ -41,11 +42,11 @@
 @using (Html.BeginForm())
 {
     <div class="row dynamicallySizeRow">
-        <div class="col-md-4 col-lg-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.ProposedActionPriorityID, 600):</div>
+        <div class="col-md-4 col-lg-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.ProposedTaxonomyTierOneID, 600):</div>
         <div class="col-md-6">
             <div>
-                @Html.DropDownListFor(x => x.ProposedActionPriorityID, ViewDataTyped.ActionPriorities, new { style = "display: inline !important; height: 0; width: 1px; border:0; box-shadow:none; color:white; overflow:hidden; margin-right:-1px; background-color: green;" })
-                @Html.ValidationMessageFor(m => m.ProposedActionPriorityID)
+                @Html.DropDownListFor(x => x.ProposedTaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, new { style = "display: inline !important; height: 0; width: 1px; border:0; box-shadow:none; color:white; overflow:hidden; margin-right:-1px; background-color: green;" })
+                @Html.ValidationMessageFor(m => m.ProposedTaxonomyTierOneID)
             </div>
         </div>
     </div>
@@ -125,7 +126,7 @@
         <p>Additional Approver Questions</p>
         <div class="row">
             <div class="col-md-4 col-lg-3 col-header">
-                @Html.LabelWithFieldDefinitionFor(m => m.ImplementsMultipleProjects, "Program that implements multiple projects?")
+                @Html.LabelWithFieldDefinitionFor(m => m.ImplementsMultipleProjects, string.Format("{0} that implements multiple projects?", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()))
             </div>
             <div class="col-md-4">
                 @Html.DropDownListFor(m => m.ImplementsMultipleProjects, BooleanFormats.GetYesNoSelectList())
@@ -167,9 +168,9 @@
     jQuery(document).ready(function ()
     {
         displaySelectedFundingTypeFields();
-        jQuery(@Html.IdFor(x => x.ProposedActionPriorityID)).selectpicker(
+        jQuery(@Html.IdFor(x => x.ProposedTaxonomyTierOneID)).selectpicker(
             {
-                size: 12, title: 'Select an Action Priority', width: '400px'
+                size: 12, title: 'Select an @MultiTenantHelpers.GetTaxonomyTierOneDisplayName()', width: '400px'
             });
         HookupCheckIfFormIsDirty(undefined, ".submitProposal");
     });

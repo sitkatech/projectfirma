@@ -28,8 +28,6 @@ namespace ProjectFirma.Web.Models
         {
             throw new UnintentionalCodeFirstException();
         }
-        public virtual DbSet<ActionPriority> ActionPriorities { get; set; }
-        public virtual DbSet<ActionPriorityImage> ActionPriorityImages { get; set; }
         public virtual DbSet<AssessmentGoal> AssessmentGoals { get; set; }
         public virtual DbSet<AssessmentQuestion> AssessmentQuestions { get; set; }
         public virtual DbSet<AssessmentSubGoal> AssessmentSubGoals { get; set; }
@@ -42,8 +40,6 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<FileResource> FileResources { get; set; }
         public virtual DbSet<FirmaPageImage> FirmaPageImages { get; set; }
         public virtual DbSet<FirmaPage> FirmaPages { get; set; }
-        public virtual DbSet<FocusAreaImage> FocusAreaImages { get; set; }
-        public virtual DbSet<FocusArea> FocusAreas { get; set; }
         public virtual DbSet<FundingSource> FundingSources { get; set; }
         public virtual DbSet<Jurisdiction> Jurisdictions { get; set; }
         public virtual DbSet<MappedRegion> MappedRegions { get; set; }
@@ -68,9 +64,6 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<PerformanceMeasure> PerformanceMeasures { get; set; }
         public virtual DbSet<PerformanceMeasureSubcategory> PerformanceMeasureSubcategories { get; set; }
         public virtual DbSet<PerformanceMeasureSubcategoryOption> PerformanceMeasureSubcategoryOptions { get; set; }
-        public virtual DbSet<ProgramImage> ProgramImages { get; set; }
-        public virtual DbSet<ProgramPerformanceMeasure> ProgramPerformanceMeasures { get; set; }
-        public virtual DbSet<Program> Programs { get; set; }
         public virtual DbSet<ProjectAssessmentQuestion> ProjectAssessmentQuestions { get; set; }
         public virtual DbSet<ProjectBudget> ProjectBudgets { get; set; }
         public virtual DbSet<ProjectBudgetUpdate> ProjectBudgetUpdates { get; set; }
@@ -117,22 +110,22 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<StateProvince> StateProvinces { get; set; }
         public virtual DbSet<SupportRequestLog> SupportRequestLogs { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<TaxonomyTierOneImage> TaxonomyTierOneImages { get; set; }
+        public virtual DbSet<TaxonomyTierOne> TaxonomyTierOnes { get; set; }
+        public virtual DbSet<TaxonomyTierThreeImage> TaxonomyTierThreeImages { get; set; }
+        public virtual DbSet<TaxonomyTierThree> TaxonomyTierThrees { get; set; }
+        public virtual DbSet<TaxonomyTierTwoImage> TaxonomyTierTwoImages { get; set; }
+        public virtual DbSet<TaxonomyTierTwoPerformanceMeasure> TaxonomyTierTwoPerformanceMeasures { get; set; }
+        public virtual DbSet<TaxonomyTierTwo> TaxonomyTierTwos { get; set; }
         public virtual DbSet<ThresholdCategory> ThresholdCategories { get; set; }
         public virtual DbSet<ThresholdCategoryImage> ThresholdCategoryImages { get; set; }
         public virtual DbSet<ThresholdCategoryPerformanceMeasure> ThresholdCategoryPerformanceMeasures { get; set; }
-        public virtual DbSet<vProject> vProjects { get; set; }
         public virtual DbSet<Watershed> Watersheds { get; set; }
 
         public object LoadType(Type type, int primaryKey)
         {
             switch (type.Name)
             {
-                case "ActionPriority":
-                    return ActionPriorities.GetActionPriority(primaryKey);
-
-                case "ActionPriorityImage":
-                    return ActionPriorityImages.GetActionPriorityImage(primaryKey);
-
                 case "AssessmentGoal":
                     return AssessmentGoals.GetAssessmentGoal(primaryKey);
 
@@ -193,12 +186,6 @@ namespace ProjectFirma.Web.Models
                     var firmaPageType = FirmaPageType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(firmaPageType, "FirmaPageType", primaryKey);
                     return firmaPageType;
-
-                case "FocusAreaImage":
-                    return FocusAreaImages.GetFocusAreaImage(primaryKey);
-
-                case "FocusArea":
-                    return FocusAreas.GetFocusArea(primaryKey);
 
                 case "FundingSource":
                     return FundingSources.GetFundingSource(primaryKey);
@@ -296,15 +283,6 @@ namespace ProjectFirma.Web.Models
                     var performanceMeasureType = PerformanceMeasureType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(performanceMeasureType, "PerformanceMeasureType", primaryKey);
                     return performanceMeasureType;
-
-                case "ProgramImage":
-                    return ProgramImages.GetProgramImage(primaryKey);
-
-                case "ProgramPerformanceMeasure":
-                    return ProgramPerformanceMeasures.GetProgramPerformanceMeasure(primaryKey);
-
-                case "Program":
-                    return Programs.GetProgram(primaryKey);
 
                 case "ProjectAssessmentQuestion":
                     return ProjectAssessmentQuestions.GetProjectAssessmentQuestion(primaryKey);
@@ -508,6 +486,27 @@ namespace ProjectFirma.Web.Models
 
                 case "Tag":
                     return Tags.GetTag(primaryKey);
+
+                case "TaxonomyTierOneImage":
+                    return TaxonomyTierOneImages.GetTaxonomyTierOneImage(primaryKey);
+
+                case "TaxonomyTierOne":
+                    return TaxonomyTierOnes.GetTaxonomyTierOne(primaryKey);
+
+                case "TaxonomyTierThreeImage":
+                    return TaxonomyTierThreeImages.GetTaxonomyTierThreeImage(primaryKey);
+
+                case "TaxonomyTierThree":
+                    return TaxonomyTierThrees.GetTaxonomyTierThree(primaryKey);
+
+                case "TaxonomyTierTwoImage":
+                    return TaxonomyTierTwoImages.GetTaxonomyTierTwoImage(primaryKey);
+
+                case "TaxonomyTierTwoPerformanceMeasure":
+                    return TaxonomyTierTwoPerformanceMeasures.GetTaxonomyTierTwoPerformanceMeasure(primaryKey);
+
+                case "TaxonomyTierTwo":
+                    return TaxonomyTierTwos.GetTaxonomyTierTwo(primaryKey);
 
                 case "ThresholdCategory":
                     return ThresholdCategories.GetThresholdCategory(primaryKey);

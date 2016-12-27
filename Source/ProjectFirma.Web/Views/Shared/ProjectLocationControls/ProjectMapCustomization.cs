@@ -14,8 +14,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public const string FilterValuesQueryStringParameter = "FilterValues";
         public const string ColorByQueryStringParameter = "ColorBy";
 
-        public static readonly ProjectLocationFilterType DefaultLocationFilterType = ProjectLocationFilterType.FocusArea;
-        public static readonly ProjectColorByType DefaultColorByType = ProjectColorByType.FocusArea;
+        public static readonly ProjectLocationFilterType DefaultLocationFilterType = ProjectLocationFilterType.TaxonomyTierThree;
+        public static readonly ProjectColorByType DefaultColorByType = ProjectColorByType.TaxonomyTierThree;
 
         public List<int> FilterPropertyValues { get; set; }
         public string FilterPropertyName { get; set; }
@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public static ProjectMapCustomization CreateDefaultCustomization(List<Models.Project> projects )
         {
 
-            return new ProjectMapCustomization(ProjectLocationFilterType.FocusArea, projects != null ? projects.Select(p => p.ActionPriority.Program.FocusAreaID).ToList() : new List<int>(), ProjectColorByType.FocusArea);
+            return new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyTierThree, projects != null ? projects.Select(p => p.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThreeID).ToList() : new List<int>(), ProjectColorByType.TaxonomyTierThree);
         }
 
         public string GetCustomizedUrl()

@@ -23,16 +23,16 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected FileResource()
         {
-            this.ActionPriorityImages = new HashSet<ActionPriorityImage>();
             this.FieldDefinitionImages = new HashSet<FieldDefinitionImage>();
             this.FirmaPageImages = new HashSet<FirmaPageImage>();
-            this.FocusAreaImages = new HashSet<FocusAreaImage>();
             this.MonitoringProgramDocuments = new HashSet<MonitoringProgramDocument>();
             this.OrganizationsWhereYouAreTheLogoFileResource = new HashSet<Organization>();
-            this.ProgramImages = new HashSet<ProgramImage>();
             this.ProjectImages = new HashSet<ProjectImage>();
             this.ProjectImageUpdates = new HashSet<ProjectImageUpdate>();
             this.ProposedProjectImages = new HashSet<ProposedProjectImage>();
+            this.TaxonomyTierOneImages = new HashSet<TaxonomyTierOneImage>();
+            this.TaxonomyTierThreeImages = new HashSet<TaxonomyTierThreeImage>();
+            this.TaxonomyTierTwoImages = new HashSet<TaxonomyTierTwoImage>();
             this.ThresholdCategoryImages = new HashSet<ThresholdCategoryImage>();
         }
 
@@ -100,13 +100,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ActionPriorityImages.Any() || FieldDefinitionImages.Any() || FirmaPageImages.Any() || FocusAreaImages.Any() || MonitoringProgramDocuments.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || ProgramImages.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ProposedProjectImages.Any() || ThresholdCategoryImages.Any();
+            return FieldDefinitionImages.Any() || FirmaPageImages.Any() || MonitoringProgramDocuments.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ProposedProjectImages.Any() || TaxonomyTierOneImages.Any() || TaxonomyTierThreeImages.Any() || TaxonomyTierTwoImages.Any() || ThresholdCategoryImages.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(ActionPriorityImage).Name, typeof(FieldDefinitionImage).Name, typeof(FirmaPageImage).Name, typeof(FocusAreaImage).Name, typeof(MonitoringProgramDocument).Name, typeof(Organization).Name, typeof(ProgramImage).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ProposedProjectImage).Name, typeof(ThresholdCategoryImage).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(FieldDefinitionImage).Name, typeof(FirmaPageImage).Name, typeof(MonitoringProgramDocument).Name, typeof(Organization).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ProposedProjectImage).Name, typeof(TaxonomyTierOneImage).Name, typeof(TaxonomyTierThreeImage).Name, typeof(TaxonomyTierTwoImage).Name, typeof(ThresholdCategoryImage).Name};
 
         [Key]
         public int FileResourceID { get; set; }
@@ -119,16 +119,16 @@ namespace ProjectFirma.Web.Models
         public DateTime CreateDate { get; set; }
         public int PrimaryKey { get { return FileResourceID; } set { FileResourceID = value; } }
 
-        public virtual ICollection<ActionPriorityImage> ActionPriorityImages { get; set; }
         public virtual ICollection<FieldDefinitionImage> FieldDefinitionImages { get; set; }
         public virtual ICollection<FirmaPageImage> FirmaPageImages { get; set; }
-        public virtual ICollection<FocusAreaImage> FocusAreaImages { get; set; }
         public virtual ICollection<MonitoringProgramDocument> MonitoringProgramDocuments { get; set; }
         public virtual ICollection<Organization> OrganizationsWhereYouAreTheLogoFileResource { get; set; }
-        public virtual ICollection<ProgramImage> ProgramImages { get; set; }
         public virtual ICollection<ProjectImage> ProjectImages { get; set; }
         public virtual ICollection<ProjectImageUpdate> ProjectImageUpdates { get; set; }
         public virtual ICollection<ProposedProjectImage> ProposedProjectImages { get; set; }
+        public virtual ICollection<TaxonomyTierOneImage> TaxonomyTierOneImages { get; set; }
+        public virtual ICollection<TaxonomyTierThreeImage> TaxonomyTierThreeImages { get; set; }
+        public virtual ICollection<TaxonomyTierTwoImage> TaxonomyTierTwoImages { get; set; }
         public virtual ICollection<ThresholdCategoryImage> ThresholdCategoryImages { get; set; }
         public FileResourceMimeType FileResourceMimeType { get { return FileResourceMimeType.AllLookupDictionary[FileResourceMimeTypeID]; } }
         public virtual Person CreatePerson { get; set; }

@@ -96,19 +96,19 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeActionPrioritiesList
+    public partial class FirmaPageTypeTaxonomyTierOnesList
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<ActionPriorityController>.BuildUrlFromExpression(x => x.Index());
+            return SitkaRoute<TaxonomyTierOneController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 
-    public partial class FirmaPageTypeFocusAreasList
+    public partial class FirmaPageTypeTaxonomyTierThreesList
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<FocusAreaController>.BuildUrlFromExpression(x => x.Index());
+            return SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 
@@ -128,11 +128,11 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeProgramsList
+    public partial class FirmaPageTypeTaxonomyTierTwosList
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<ProgramController>.BuildUrlFromExpression(x => x.Index());
+            return SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 
@@ -176,11 +176,11 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeSpendingBySectorByFocusAreaByProgram
+    public partial class FirmaPageTypeSpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingBySectorByFocusAreaByProgram(null));
+            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo(null));
         }
     }
 
@@ -200,11 +200,11 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeResultsByProgram
+    public partial class FirmaPageTypeResultsByTaxonomyTierTwo
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ResultsByProgram(null));
+            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ResultsByTaxonomyTierTwo(null));
         }
     }
 

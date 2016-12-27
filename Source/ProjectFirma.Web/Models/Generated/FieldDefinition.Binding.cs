@@ -16,11 +16,11 @@ namespace ProjectFirma.Web.Models
 {
     public abstract partial class FieldDefinition : IHavePrimaryKey
     {
-        public static readonly FieldDefinitionActionPriority ActionPriority = FieldDefinitionActionPriority.Instance;
-        public static readonly FieldDefinitionActionPriorityName ActionPriorityName = FieldDefinitionActionPriorityName.Instance;
+        public static readonly FieldDefinitionTaxonomyTierOne TaxonomyTierOne = FieldDefinitionTaxonomyTierOne.Instance;
+        public static readonly FieldDefinitionTaxonomyTierOneName TaxonomyTierOneName = FieldDefinitionTaxonomyTierOneName.Instance;
         public static readonly FieldDefinitionExpectedValue ExpectedValue = FieldDefinitionExpectedValue.Instance;
-        public static readonly FieldDefinitionFocusArea FocusArea = FieldDefinitionFocusArea.Instance;
-        public static readonly FieldDefinitionFocusAreaName FocusAreaName = FieldDefinitionFocusAreaName.Instance;
+        public static readonly FieldDefinitionTaxonomyTierThree TaxonomyTierThree = FieldDefinitionTaxonomyTierThree.Instance;
+        public static readonly FieldDefinitionTaxonomyTierThreeName TaxonomyTierThreeName = FieldDefinitionTaxonomyTierThreeName.Instance;
         public static readonly FieldDefinitionFunder Funder = FieldDefinitionFunder.Instance;
         public static readonly FieldDefinitionFundingSource FundingSource = FieldDefinitionFundingSource.Instance;
         public static readonly FieldDefinitionFundingSourceDescription FundingSourceDescription = FieldDefinitionFundingSourceDescription.Instance;
@@ -35,8 +35,8 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionPhotoCredit PhotoCredit = FieldDefinitionPhotoCredit.Instance;
         public static readonly FieldDefinitionPhotoTiming PhotoTiming = FieldDefinitionPhotoTiming.Instance;
         public static readonly FieldDefinitionPrimaryContact PrimaryContact = FieldDefinitionPrimaryContact.Instance;
-        public static readonly FieldDefinitionProgram Program = FieldDefinitionProgram.Instance;
-        public static readonly FieldDefinitionProgramName ProgramName = FieldDefinitionProgramName.Instance;
+        public static readonly FieldDefinitionTaxonomyTierTwo TaxonomyTierTwo = FieldDefinitionTaxonomyTierTwo.Instance;
+        public static readonly FieldDefinitionTaxonomyTierTwoName TaxonomyTierTwoName = FieldDefinitionTaxonomyTierTwoName.Instance;
         public static readonly FieldDefinitionCompletionYear CompletionYear = FieldDefinitionCompletionYear.Instance;
         public static readonly FieldDefinitionProjectDescription ProjectDescription = FieldDefinitionProjectDescription.Instance;
         public static readonly FieldDefinitionProjectName ProjectName = FieldDefinitionProjectName.Instance;
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionWatershed Watershed = FieldDefinitionWatershed.Instance;
         public static readonly FieldDefinitionPerformanceMeasureSubcategory PerformanceMeasureSubcategory = FieldDefinitionPerformanceMeasureSubcategory.Instance;
         public static readonly FieldDefinitionPerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption = FieldDefinitionPerformanceMeasureSubcategoryOption.Instance;
-        public static readonly FieldDefinitionIsPrimaryProgram IsPrimaryProgram = FieldDefinitionIsPrimaryProgram.Instance;
+        public static readonly FieldDefinitionIsPrimaryTaxonomyTierTwo IsPrimaryTaxonomyTierTwo = FieldDefinitionIsPrimaryTaxonomyTierTwo.Instance;
         public static readonly FieldDefinitionFundedAmount FundedAmount = FieldDefinitionFundedAmount.Instance;
         public static readonly FieldDefinitionProjectLocation ProjectLocation = FieldDefinitionProjectLocation.Instance;
         public static readonly FieldDefinitionExcludeFromFactSheet ExcludeFromFactSheet = FieldDefinitionExcludeFromFactSheet.Instance;
@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionProposedProject ProposedProject = FieldDefinitionProposedProject.Instance;
         public static readonly FieldDefinitionSpendingAssociatedWithPM SpendingAssociatedWithPM = FieldDefinitionSpendingAssociatedWithPM.Instance;
         public static readonly FieldDefinitionPlanningDesignStartYear PlanningDesignStartYear = FieldDefinitionPlanningDesignStartYear.Instance;
-        public static readonly FieldDefinitionAssociatedPrograms AssociatedPrograms = FieldDefinitionAssociatedPrograms.Instance;
+        public static readonly FieldDefinitionAssociatedTaxonomyTierTwos AssociatedTaxonomyTierTwos = FieldDefinitionAssociatedTaxonomyTierTwos.Instance;
         public static readonly FieldDefinitionExternalLinks ExternalLinks = FieldDefinitionExternalLinks.Instance;
         public static readonly FieldDefinitionEstimatedAnnualOperatingCost EstimatedAnnualOperatingCost = FieldDefinitionEstimatedAnnualOperatingCost.Instance;
         public static readonly FieldDefinitionCalculatedTotalRemainingOperatingCost CalculatedTotalRemainingOperatingCost = FieldDefinitionCalculatedTotalRemainingOperatingCost.Instance;
@@ -96,7 +96,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { ActionPriority, ActionPriorityName, ExpectedValue, FocusArea, FocusAreaName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, Organization, Password, PerformanceMeasure, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, Program, ProgramName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, ProjectStage, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ThresholdCategory, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryProgram, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, ProposedProject, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedPrograms, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
+            All = new List<FieldDefinition> { TaxonomyTierOne, TaxonomyTierOneName, ExpectedValue, TaxonomyTierThree, TaxonomyTierThreeName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, Organization, Password, PerformanceMeasure, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, TaxonomyTierTwo, TaxonomyTierTwoName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, ProjectStage, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ThresholdCategory, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, ProposedProject, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -165,12 +165,8 @@ namespace ProjectFirma.Web.Models
         {
             switch (enumValue)
             {
-                case FieldDefinitionEnum.ActionPriority:
-                    return ActionPriority;
-                case FieldDefinitionEnum.ActionPriorityName:
-                    return ActionPriorityName;
-                case FieldDefinitionEnum.AssociatedPrograms:
-                    return AssociatedPrograms;
+                case FieldDefinitionEnum.AssociatedTaxonomyTierTwos:
+                    return AssociatedTaxonomyTierTwos;
                 case FieldDefinitionEnum.CalculatedTotalRemainingOperatingCost:
                     return CalculatedTotalRemainingOperatingCost;
                 case FieldDefinitionEnum.CompletionYear:
@@ -187,10 +183,6 @@ namespace ProjectFirma.Web.Models
                     return ExpectedValue;
                 case FieldDefinitionEnum.ExternalLinks:
                     return ExternalLinks;
-                case FieldDefinitionEnum.FocusArea:
-                    return FocusArea;
-                case FieldDefinitionEnum.FocusAreaName:
-                    return FocusAreaName;
                 case FieldDefinitionEnum.FundedAmount:
                     return FundedAmount;
                 case FieldDefinitionEnum.Funder:
@@ -209,8 +201,8 @@ namespace ProjectFirma.Web.Models
                     return ImplementationStartYear;
                 case FieldDefinitionEnum.Implementer:
                     return Implementer;
-                case FieldDefinitionEnum.IsPrimaryProgram:
-                    return IsPrimaryProgram;
+                case FieldDefinitionEnum.IsPrimaryTaxonomyTierTwo:
+                    return IsPrimaryTaxonomyTierTwo;
                 case FieldDefinitionEnum.LeadImplementer:
                     return LeadImplementer;
                 case FieldDefinitionEnum.LifecycleOperatingCost:
@@ -249,10 +241,6 @@ namespace ProjectFirma.Web.Models
                     return PlanningDesignStartYear;
                 case FieldDefinitionEnum.PrimaryContact:
                     return PrimaryContact;
-                case FieldDefinitionEnum.Program:
-                    return Program;
-                case FieldDefinitionEnum.ProgramName:
-                    return ProgramName;
                 case FieldDefinitionEnum.Project:
                     return Project;
                 case FieldDefinitionEnum.ProjectCostInYearOfExpenditure:
@@ -289,6 +277,18 @@ namespace ProjectFirma.Web.Models
                     return TagDescription;
                 case FieldDefinitionEnum.TagName:
                     return TagName;
+                case FieldDefinitionEnum.TaxonomyTierOne:
+                    return TaxonomyTierOne;
+                case FieldDefinitionEnum.TaxonomyTierOneName:
+                    return TaxonomyTierOneName;
+                case FieldDefinitionEnum.TaxonomyTierThree:
+                    return TaxonomyTierThree;
+                case FieldDefinitionEnum.TaxonomyTierThreeName:
+                    return TaxonomyTierThreeName;
+                case FieldDefinitionEnum.TaxonomyTierTwo:
+                    return TaxonomyTierTwo;
+                case FieldDefinitionEnum.TaxonomyTierTwoName:
+                    return TaxonomyTierTwoName;
                 case FieldDefinitionEnum.ThresholdCategory:
                     return ThresholdCategory;
                 case FieldDefinitionEnum.ThresholdCategoryDescription:
@@ -315,11 +315,11 @@ namespace ProjectFirma.Web.Models
 
     public enum FieldDefinitionEnum
     {
-        ActionPriority = 1,
-        ActionPriorityName = 2,
+        TaxonomyTierOne = 1,
+        TaxonomyTierOneName = 2,
         ExpectedValue = 4,
-        FocusArea = 5,
-        FocusAreaName = 6,
+        TaxonomyTierThree = 5,
+        TaxonomyTierThreeName = 6,
         Funder = 7,
         FundingSource = 8,
         FundingSourceDescription = 9,
@@ -334,8 +334,8 @@ namespace ProjectFirma.Web.Models
         PhotoCredit = 23,
         PhotoTiming = 24,
         PrimaryContact = 25,
-        Program = 26,
-        ProgramName = 27,
+        TaxonomyTierTwo = 26,
+        TaxonomyTierTwoName = 27,
         CompletionYear = 28,
         ProjectDescription = 29,
         ProjectName = 30,
@@ -355,7 +355,7 @@ namespace ProjectFirma.Web.Models
         Watershed = 48,
         PerformanceMeasureSubcategory = 49,
         PerformanceMeasureSubcategoryOption = 50,
-        IsPrimaryProgram = 52,
+        IsPrimaryTaxonomyTierTwo = 52,
         FundedAmount = 56,
         ProjectLocation = 57,
         ExcludeFromFactSheet = 64,
@@ -369,7 +369,7 @@ namespace ProjectFirma.Web.Models
         ProposedProject = 81,
         SpendingAssociatedWithPM = 85,
         PlanningDesignStartYear = 86,
-        AssociatedPrograms = 87,
+        AssociatedTaxonomyTierTwos = 87,
         ExternalLinks = 88,
         EstimatedAnnualOperatingCost = 89,
         CalculatedTotalRemainingOperatingCost = 90,
@@ -388,16 +388,16 @@ namespace ProjectFirma.Web.Models
         ThresholdCategoryNarrative = 242
     }
 
-    public partial class FieldDefinitionActionPriority : FieldDefinition
+    public partial class FieldDefinitionTaxonomyTierOne : FieldDefinition
     {
-        private FieldDefinitionActionPriority(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionActionPriority Instance = new FieldDefinitionActionPriority(1, @"ActionPriority", @"Action Priority");
+        private FieldDefinitionTaxonomyTierOne(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionTaxonomyTierOne Instance = new FieldDefinitionTaxonomyTierOne(1, @"TaxonomyTierOne", @"Taxonomy Tier One");
     }
 
-    public partial class FieldDefinitionActionPriorityName : FieldDefinition
+    public partial class FieldDefinitionTaxonomyTierOneName : FieldDefinition
     {
-        private FieldDefinitionActionPriorityName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionActionPriorityName Instance = new FieldDefinitionActionPriorityName(2, @"ActionPriorityName", @"Action Priority Name");
+        private FieldDefinitionTaxonomyTierOneName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionTaxonomyTierOneName Instance = new FieldDefinitionTaxonomyTierOneName(2, @"TaxonomyTierOneName", @"Taxonomy Tier One Name");
     }
 
     public partial class FieldDefinitionExpectedValue : FieldDefinition
@@ -406,16 +406,16 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionExpectedValue Instance = new FieldDefinitionExpectedValue(4, @"ExpectedValue", @"Expected Value");
     }
 
-    public partial class FieldDefinitionFocusArea : FieldDefinition
+    public partial class FieldDefinitionTaxonomyTierThree : FieldDefinition
     {
-        private FieldDefinitionFocusArea(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionFocusArea Instance = new FieldDefinitionFocusArea(5, @"FocusArea", @"Focus Area");
+        private FieldDefinitionTaxonomyTierThree(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionTaxonomyTierThree Instance = new FieldDefinitionTaxonomyTierThree(5, @"TaxonomyTierThree", @"Taxonomy Tier Three");
     }
 
-    public partial class FieldDefinitionFocusAreaName : FieldDefinition
+    public partial class FieldDefinitionTaxonomyTierThreeName : FieldDefinition
     {
-        private FieldDefinitionFocusAreaName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionFocusAreaName Instance = new FieldDefinitionFocusAreaName(6, @"FocusAreaName", @"Focus Area Name");
+        private FieldDefinitionTaxonomyTierThreeName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionTaxonomyTierThreeName Instance = new FieldDefinitionTaxonomyTierThreeName(6, @"TaxonomyTierThreeName", @"Taxonomy Tier Three Name");
     }
 
     public partial class FieldDefinitionFunder : FieldDefinition
@@ -502,16 +502,16 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionPrimaryContact Instance = new FieldDefinitionPrimaryContact(25, @"PrimaryContact", @"Primary Contact");
     }
 
-    public partial class FieldDefinitionProgram : FieldDefinition
+    public partial class FieldDefinitionTaxonomyTierTwo : FieldDefinition
     {
-        private FieldDefinitionProgram(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionProgram Instance = new FieldDefinitionProgram(26, @"Program", @"Program");
+        private FieldDefinitionTaxonomyTierTwo(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionTaxonomyTierTwo Instance = new FieldDefinitionTaxonomyTierTwo(26, @"TaxonomyTierTwo", @"Taxonomy Tier Two");
     }
 
-    public partial class FieldDefinitionProgramName : FieldDefinition
+    public partial class FieldDefinitionTaxonomyTierTwoName : FieldDefinition
     {
-        private FieldDefinitionProgramName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionProgramName Instance = new FieldDefinitionProgramName(27, @"ProgramName", @"Program Name");
+        private FieldDefinitionTaxonomyTierTwoName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionTaxonomyTierTwoName Instance = new FieldDefinitionTaxonomyTierTwoName(27, @"TaxonomyTierTwoName", @"Taxonomy Tier Two Name");
     }
 
     public partial class FieldDefinitionCompletionYear : FieldDefinition
@@ -628,10 +628,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionPerformanceMeasureSubcategoryOption Instance = new FieldDefinitionPerformanceMeasureSubcategoryOption(50, @"PerformanceMeasureSubcategoryOption", @"Performance Measure Subcategory Option");
     }
 
-    public partial class FieldDefinitionIsPrimaryProgram : FieldDefinition
+    public partial class FieldDefinitionIsPrimaryTaxonomyTierTwo : FieldDefinition
     {
-        private FieldDefinitionIsPrimaryProgram(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionIsPrimaryProgram Instance = new FieldDefinitionIsPrimaryProgram(52, @"IsPrimaryProgram", @"Is Primary Program");
+        private FieldDefinitionIsPrimaryTaxonomyTierTwo(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionIsPrimaryTaxonomyTierTwo Instance = new FieldDefinitionIsPrimaryTaxonomyTierTwo(52, @"IsPrimaryTaxonomyTierTwo", @"Is Primary Taxonomy Tier Two");
     }
 
     public partial class FieldDefinitionFundedAmount : FieldDefinition
@@ -712,10 +712,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionPlanningDesignStartYear Instance = new FieldDefinitionPlanningDesignStartYear(86, @"PlanningDesignStartYear", @"Planning / Design Start Year");
     }
 
-    public partial class FieldDefinitionAssociatedPrograms : FieldDefinition
+    public partial class FieldDefinitionAssociatedTaxonomyTierTwos : FieldDefinition
     {
-        private FieldDefinitionAssociatedPrograms(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionAssociatedPrograms Instance = new FieldDefinitionAssociatedPrograms(87, @"AssociatedPrograms", @"Associated Programs");
+        private FieldDefinitionAssociatedTaxonomyTierTwos(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionAssociatedTaxonomyTierTwos Instance = new FieldDefinitionAssociatedTaxonomyTierTwos(87, @"AssociatedTaxonomyTierTwos", @"Associated TaxonomyTierTwos");
     }
 
     public partial class FieldDefinitionExternalLinks : FieldDefinition

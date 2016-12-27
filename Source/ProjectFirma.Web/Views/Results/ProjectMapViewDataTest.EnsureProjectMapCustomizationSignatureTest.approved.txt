@@ -1,9 +1,9 @@
 ﻿{
   "ProjectLocationFilterType": {
     "ProjectLocationFilterTypeID": 1,
-    "ProjectLocationFilterTypeName": "FocusArea",
-    "ProjectLocationFilterTypeNameWithIdentifier": "FocusAreaID",
-    "ProjectLocationFilterTypeDisplayName": "Focus Area",
+    "ProjectLocationFilterTypeName": "TaxonomyTierThree",
+    "ProjectLocationFilterTypeNameWithIdentifier": "TaxonomyTierThreeID",
+    "ProjectLocationFilterTypeDisplayName": "Taxonomy Tier Three",
     "SortOrder": 10,
     "DisplayGroup": 1,
     "PrimaryKey": 1,
@@ -23,6 +23,6 @@
     3,
     4
   ],
-  "FilterPropertyName": "FocusAreaID",
+  "FilterPropertyName": "TaxonomyTierThreeID",
   "ColorByPropertyName": "ProjectStageID"
 }

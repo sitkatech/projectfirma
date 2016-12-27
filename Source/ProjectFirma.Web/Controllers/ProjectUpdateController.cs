@@ -1790,7 +1790,7 @@ namespace ProjectFirma.Web.Controllers
             var originalImages = new List<IFileResourcePhoto>(project.ProjectImages);
             var updatedImages = new List<IFileResourcePhoto>(projectUpdateBatch.ProjectImageUpdates);
             
-            var dummyProject = Project.CreateNewBlank(ActionPriority.CreateNewBlank(Program.CreateNewBlank(FocusArea.CreateNewBlank())),
+            var dummyProject = Project.CreateNewBlank(TaxonomyTierOne.CreateNewBlank(TaxonomyTierTwo.CreateNewBlank(TaxonomyTierThree.CreateNewBlank())),
                 ProjectStage.Completed,
                 ProjectLocationSimpleType.None,
                 FundingType.Capital);

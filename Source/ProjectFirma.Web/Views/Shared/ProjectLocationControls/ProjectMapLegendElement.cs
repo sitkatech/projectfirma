@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
         public static Dictionary<string, List<ProjectMapLegendElement>> BuildLegendFormatDictionary()
         {
-            var focusAreas = HttpRequestStorage.DatabaseEntities.FocusAreas.ToList(); //TODO: May not be best practice to hit database here?
+            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList(); //TODO: May not be best practice to hit database here?
             var legendFormats = new Dictionary<string, List<ProjectMapLegendElement>>
             {
                 {
@@ -28,8 +28,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
                     ProjectStage.All.Where(x => x.ShouldShowOnMap()).OrderBy(x => x.SortOrder).Select(x => new ProjectMapLegendElement(x.ProjectStageID, x.ProjectStageColor, x.ProjectStageDisplayName)).ToList()
                 },
                 {
-                    ProjectColorByType.FocusArea.ProjectColorByTypeNameWithIdentifier,
-                    focusAreas.Select(x => new ProjectMapLegendElement(x.FocusAreaID, x.FocusAreaColor, x.FocusAreaName)).ToList()
+                    ProjectColorByType.TaxonomyTierThree.ProjectColorByTypeNameWithIdentifier,
+                    taxonomyTierThrees.Select(x => new ProjectMapLegendElement(x.TaxonomyTierThreeID, x.TaxonomyTierThreeColor, x.TaxonomyTierThreeName)).ToList()
                 }
             };
 

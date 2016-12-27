@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="ProjectFirma.Web.Models" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="DatabaseEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="ActionPriority" EntityType="ProjectFirma.Web.Models.ActionPriority" />
-    <EntitySet Name="ActionPriorityImage" EntityType="ProjectFirma.Web.Models.ActionPriorityImage" />
     <EntitySet Name="AssessmentGoal" EntityType="ProjectFirma.Web.Models.AssessmentGoal" />
     <EntitySet Name="AssessmentQuestion" EntityType="ProjectFirma.Web.Models.AssessmentQuestion" />
     <EntitySet Name="AssessmentSubGoal" EntityType="ProjectFirma.Web.Models.AssessmentSubGoal" />
@@ -15,8 +13,6 @@
     <EntitySet Name="FileResource" EntityType="ProjectFirma.Web.Models.FileResource" />
     <EntitySet Name="FirmaPage" EntityType="ProjectFirma.Web.Models.FirmaPage" />
     <EntitySet Name="FirmaPageImage" EntityType="ProjectFirma.Web.Models.FirmaPageImage" />
-    <EntitySet Name="FocusArea" EntityType="ProjectFirma.Web.Models.FocusArea" />
-    <EntitySet Name="FocusAreaImage" EntityType="ProjectFirma.Web.Models.FocusAreaImage" />
     <EntitySet Name="FundingSource" EntityType="ProjectFirma.Web.Models.FundingSource" />
     <EntitySet Name="Jurisdiction" EntityType="ProjectFirma.Web.Models.Jurisdiction" />
     <EntitySet Name="MappedRegion" EntityType="ProjectFirma.Web.Models.MappedRegion" />
@@ -41,9 +37,6 @@
     <EntitySet Name="PerformanceMeasureSubcategory" EntityType="ProjectFirma.Web.Models.PerformanceMeasureSubcategory" />
     <EntitySet Name="PerformanceMeasureSubcategoryOption" EntityType="ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOption" />
     <EntitySet Name="Person" EntityType="ProjectFirma.Web.Models.Person" />
-    <EntitySet Name="Program" EntityType="ProjectFirma.Web.Models.Program" />
-    <EntitySet Name="ProgramImage" EntityType="ProjectFirma.Web.Models.ProgramImage" />
-    <EntitySet Name="ProgramPerformanceMeasure" EntityType="ProjectFirma.Web.Models.ProgramPerformanceMeasure" />
     <EntitySet Name="Project" EntityType="ProjectFirma.Web.Models.Project" />
     <EntitySet Name="ProjectAssessmentQuestion" EntityType="ProjectFirma.Web.Models.ProjectAssessmentQuestion" />
     <EntitySet Name="ProjectBudget" EntityType="ProjectFirma.Web.Models.ProjectBudget" />
@@ -90,31 +83,17 @@
     <EntitySet Name="StateProvince" EntityType="ProjectFirma.Web.Models.StateProvince" />
     <EntitySet Name="SupportRequestLog" EntityType="ProjectFirma.Web.Models.SupportRequestLog" />
     <EntitySet Name="Tag" EntityType="ProjectFirma.Web.Models.Tag" />
+    <EntitySet Name="TaxonomyTierOne" EntityType="ProjectFirma.Web.Models.TaxonomyTierOne" />
+    <EntitySet Name="TaxonomyTierOneImage" EntityType="ProjectFirma.Web.Models.TaxonomyTierOneImage" />
+    <EntitySet Name="TaxonomyTierThree" EntityType="ProjectFirma.Web.Models.TaxonomyTierThree" />
+    <EntitySet Name="TaxonomyTierThreeImage" EntityType="ProjectFirma.Web.Models.TaxonomyTierThreeImage" />
+    <EntitySet Name="TaxonomyTierTwo" EntityType="ProjectFirma.Web.Models.TaxonomyTierTwo" />
+    <EntitySet Name="TaxonomyTierTwoImage" EntityType="ProjectFirma.Web.Models.TaxonomyTierTwoImage" />
+    <EntitySet Name="TaxonomyTierTwoPerformanceMeasure" EntityType="ProjectFirma.Web.Models.TaxonomyTierTwoPerformanceMeasure" />
     <EntitySet Name="ThresholdCategory" EntityType="ProjectFirma.Web.Models.ThresholdCategory" />
     <EntitySet Name="ThresholdCategoryImage" EntityType="ProjectFirma.Web.Models.ThresholdCategoryImage" />
     <EntitySet Name="ThresholdCategoryPerformanceMeasure" EntityType="ProjectFirma.Web.Models.ThresholdCategoryPerformanceMeasure" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Watershed" />
-    <EntitySet Name="vProject" EntityType="ProjectFirma.Web.Models.vProject" />
-    <AssociationSet Name="FK_ActionPriority_Program_ProgramID" Association="ProjectFirma.Web.Models.FK_ActionPriority_Program_ProgramID">
-      <End Role="Program" EntitySet="Program" />
-      <End Role="ActionPriorities" EntitySet="ActionPriority" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ActionPriorityImage_ActionPriority_ActionPriorityID" Association="ProjectFirma.Web.Models.FK_ActionPriorityImage_ActionPriority_ActionPriorityID">
-      <End Role="ActionPriority" EntitySet="ActionPriority" />
-      <End Role="ActionPriorityImages" EntitySet="ActionPriorityImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Project_ActionPriority_ActionPriorityID" Association="ProjectFirma.Web.Models.FK_Project_ActionPriority_ActionPriorityID">
-      <End Role="ActionPriority" EntitySet="ActionPriority" />
-      <End Role="Projects" EntitySet="Project" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProject_ActionPriority_ActionPriorityID" Association="ProjectFirma.Web.Models.FK_ProposedProject_ActionPriority_ActionPriorityID">
-      <End Role="ActionPriority" EntitySet="ActionPriority" />
-      <End Role="ProposedProjects" EntitySet="ProposedProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ActionPriorityImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ActionPriorityImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="ActionPriorityImages" EntitySet="ActionPriorityImage" />
-    </AssociationSet>
     <AssociationSet Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID" Association="ProjectFirma.Web.Models.FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
       <End Role="AssessmentGoal" EntitySet="AssessmentGoal" />
       <End Role="AssessmentSubGoals" EntitySet="AssessmentSubGoal" />
@@ -151,10 +130,6 @@
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="FirmaPageImages" EntitySet="FirmaPageImage" />
     </AssociationSet>
-    <AssociationSet Name="FK_FocusAreaImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_FocusAreaImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="FocusAreaImages" EntitySet="FocusAreaImage" />
-    </AssociationSet>
     <AssociationSet Name="FK_MonitoringProgramDocument_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="MonitoringProgramDocuments" EntitySet="MonitoringProgramDocument" />
@@ -162,10 +137,6 @@
     <AssociationSet Name="FK_Organization_FileResource_LogoFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.FK_Organization_FileResource_LogoFileResourceID_FileResourceID">
       <End Role="LogoFileResource" EntitySet="FileResource" />
       <End Role="OrganizationsWhereYouAreTheLogoFileResource" EntitySet="Organization" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProgramImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ProgramImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="ProgramImages" EntitySet="ProgramImage" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ProjectImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
@@ -179,6 +150,18 @@
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="ProposedProjectImages" EntitySet="ProposedProjectImage" />
     </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierOneImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierOneImage_FileResource_FileResourceID">
+      <End Role="FileResource" EntitySet="FileResource" />
+      <End Role="TaxonomyTierOneImages" EntitySet="TaxonomyTierOneImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierThreeImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierThreeImage_FileResource_FileResourceID">
+      <End Role="FileResource" EntitySet="FileResource" />
+      <End Role="TaxonomyTierThreeImages" EntitySet="TaxonomyTierThreeImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierTwoImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierTwoImage_FileResource_FileResourceID">
+      <End Role="FileResource" EntitySet="FileResource" />
+      <End Role="TaxonomyTierTwoImages" EntitySet="TaxonomyTierTwoImage" />
+    </AssociationSet>
     <AssociationSet Name="FK_ThresholdCategoryImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ThresholdCategoryImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="ThresholdCategoryImages" EntitySet="ThresholdCategoryImage" />
@@ -186,14 +169,6 @@
     <AssociationSet Name="FK_FirmaPageImage_FirmaPage_FirmaPageID" Association="ProjectFirma.Web.Models.FK_FirmaPageImage_FirmaPage_FirmaPageID">
       <End Role="FirmaPage" EntitySet="FirmaPage" />
       <End Role="FirmaPageImages" EntitySet="FirmaPageImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_FocusAreaImage_FocusArea_FocusAreaID" Association="ProjectFirma.Web.Models.FK_FocusAreaImage_FocusArea_FocusAreaID">
-      <End Role="FocusArea" EntitySet="FocusArea" />
-      <End Role="FocusAreaImages" EntitySet="FocusAreaImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Program_FocusArea_FocusAreaID" Association="ProjectFirma.Web.Models.FK_Program_FocusArea_FocusAreaID">
-      <End Role="FocusArea" EntitySet="FocusArea" />
-      <End Role="Programs" EntitySet="Program" />
     </AssociationSet>
     <AssociationSet Name="FK_FundingSource_Organization_OrganizationID" Association="ProjectFirma.Web.Models.FK_FundingSource_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
@@ -335,10 +310,6 @@
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="PerformanceMeasureSubcategories" EntitySet="PerformanceMeasureSubcategory" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProgramPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_ProgramPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
-      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
-      <End Role="ProgramPerformanceMeasures" EntitySet="ProgramPerformanceMeasure" />
-    </AssociationSet>
     <AssociationSet Name="FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="SnapshotPerformanceMeasures" EntitySet="SnapshotPerformanceMeasure" />
@@ -346,6 +317,10 @@
     <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
+      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
+      <End Role="TaxonomyTierTwoPerformanceMeasures" EntitySet="TaxonomyTierTwoPerformanceMeasure" />
     </AssociationSet>
     <AssociationSet Name="FK_ThresholdCategoryPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_ThresholdCategoryPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
@@ -479,16 +454,12 @@
       <End Role="RequestPerson" EntitySet="Person" />
       <End Role="SupportRequestLogsWhereYouAreTheRequestPerson" EntitySet="SupportRequestLog" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProgramImage_Program_ProgramID" Association="ProjectFirma.Web.Models.FK_ProgramImage_Program_ProgramID">
-      <End Role="Program" EntitySet="Program" />
-      <End Role="ProgramImages" EntitySet="ProgramImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProgramPerformanceMeasure_Program_ProgramID" Association="ProjectFirma.Web.Models.FK_ProgramPerformanceMeasure_Program_ProgramID">
-      <End Role="Program" EntitySet="Program" />
-      <End Role="ProgramPerformanceMeasures" EntitySet="ProgramPerformanceMeasure" />
-    </AssociationSet>
     <AssociationSet Name="FK_Project_ProjectLocationArea_ProjectLocationAreaID" Association="ProjectFirma.Web.Models.FK_Project_ProjectLocationArea_ProjectLocationAreaID">
       <End Role="ProjectLocationArea" EntitySet="ProjectLocationArea" />
+      <End Role="Projects" EntitySet="Project" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Project_TaxonomyTierOne_TaxonomyTierOneID" Association="ProjectFirma.Web.Models.FK_Project_TaxonomyTierOne_TaxonomyTierOneID">
+      <End Role="TaxonomyTierOne" EntitySet="TaxonomyTierOne" />
       <End Role="Projects" EntitySet="Project" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectAssessmentQuestion_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectAssessmentQuestion_Project_ProjectID">
@@ -655,6 +626,10 @@
       <End Role="Watershed" EntitySet="Watershed" />
       <End Role="ProjectWatersheds" EntitySet="ProjectWatershed" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID" Association="ProjectFirma.Web.Models.FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID">
+      <End Role="TaxonomyTierOne" EntitySet="TaxonomyTierOne" />
+      <End Role="ProposedProjects" EntitySet="ProposedProject" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID">
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectAssessmentQuestions" EntitySet="ProposedProjectAssessmentQuestion" />
@@ -699,6 +674,30 @@
       <End Role="SnapshotPerformanceMeasure" EntitySet="SnapshotPerformanceMeasure" />
       <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
     </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID">
+      <End Role="TaxonomyTierTwo" EntitySet="TaxonomyTierTwo" />
+      <End Role="TaxonomyTierOnes" EntitySet="TaxonomyTierOne" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierOneImage_TaxonomyTierOne_TaxonomyTierOneID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierOneImage_TaxonomyTierOne_TaxonomyTierOneID">
+      <End Role="TaxonomyTierOne" EntitySet="TaxonomyTierOne" />
+      <End Role="TaxonomyTierOneImages" EntitySet="TaxonomyTierOneImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierThreeImage_TaxonomyTierThree_TaxonomyTierThreeID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierThreeImage_TaxonomyTierThree_TaxonomyTierThreeID">
+      <End Role="TaxonomyTierThree" EntitySet="TaxonomyTierThree" />
+      <End Role="TaxonomyTierThreeImages" EntitySet="TaxonomyTierThreeImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID">
+      <End Role="TaxonomyTierThree" EntitySet="TaxonomyTierThree" />
+      <End Role="TaxonomyTierTwos" EntitySet="TaxonomyTierTwo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID">
+      <End Role="TaxonomyTierTwo" EntitySet="TaxonomyTierTwo" />
+      <End Role="TaxonomyTierTwoImages" EntitySet="TaxonomyTierTwoImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID">
+      <End Role="TaxonomyTierTwo" EntitySet="TaxonomyTierTwo" />
+      <End Role="TaxonomyTierTwoPerformanceMeasures" EntitySet="TaxonomyTierTwoPerformanceMeasure" />
+    </AssociationSet>
     <AssociationSet Name="FK_ThresholdCategoryImage_ThresholdCategory_ThresholdCategoryID" Association="ProjectFirma.Web.Models.FK_ThresholdCategoryImage_ThresholdCategory_ThresholdCategoryID">
       <End Role="ThresholdCategory" EntitySet="ThresholdCategory" />
       <End Role="ThresholdCategoryImages" EntitySet="ThresholdCategoryImage" />
@@ -708,30 +707,6 @@
       <End Role="ThresholdCategoryPerformanceMeasures" EntitySet="ThresholdCategoryPerformanceMeasure" />
     </AssociationSet>
   </EntityContainer>
-  <EntityType Name="ActionPriority">
-    <Key>
-      <PropertyRef Name="ActionPriorityID" />
-    </Key>
-    <Property Name="ActionPriorityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProgramID" Type="Int32" Nullable="false" />
-    <Property Name="ActionPriorityNumber" Type="Byte" Nullable="false" />
-    <Property Name="ActionPriorityName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="ActionPriorityDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="Program" Relationship="ProjectFirma.Web.Models.FK_ActionPriority_Program_ProgramID" FromRole="ActionPriorities" ToRole="Program" />
-    <NavigationProperty Name="ActionPriorityImages" Relationship="ProjectFirma.Web.Models.FK_ActionPriorityImage_ActionPriority_ActionPriorityID" FromRole="ActionPriority" ToRole="ActionPriorityImages" />
-    <NavigationProperty Name="Projects" Relationship="ProjectFirma.Web.Models.FK_Project_ActionPriority_ActionPriorityID" FromRole="ActionPriority" ToRole="Projects" />
-    <NavigationProperty Name="ProposedProjects" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_ActionPriority_ActionPriorityID" FromRole="ActionPriority" ToRole="ProposedProjects" />
-  </EntityType>
-  <EntityType Name="ActionPriorityImage">
-    <Key>
-      <PropertyRef Name="ActionPriorityImageID" />
-    </Key>
-    <Property Name="ActionPriorityImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ActionPriorityID" Type="Int32" Nullable="false" />
-    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="ActionPriority" Relationship="ProjectFirma.Web.Models.FK_ActionPriorityImage_ActionPriority_ActionPriorityID" FromRole="ActionPriorityImages" ToRole="ActionPriority" />
-    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ActionPriorityImage_FileResource_FileResourceID" FromRole="ActionPriorityImages" ToRole="FileResource" />
-  </EntityType>
   <EntityType Name="AssessmentGoal">
     <Key>
       <PropertyRef Name="AssessmentGoalID" />
@@ -839,17 +814,17 @@
     <Property Name="FileResourceData" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
     <Property Name="CreatePersonID" Type="Int32" Nullable="false" />
     <Property Name="CreateDate" Type="DateTime" Nullable="false" />
-    <NavigationProperty Name="ActionPriorityImages" Relationship="ProjectFirma.Web.Models.FK_ActionPriorityImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ActionPriorityImages" />
     <NavigationProperty Name="FieldDefinitionImages" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FieldDefinitionImages" />
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_FileResource_Person_CreatePersonID_PersonID" FromRole="FileResourcesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
     <NavigationProperty Name="FirmaPageImages" Relationship="ProjectFirma.Web.Models.FK_FirmaPageImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FirmaPageImages" />
-    <NavigationProperty Name="FocusAreaImages" Relationship="ProjectFirma.Web.Models.FK_FocusAreaImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FocusAreaImages" />
     <NavigationProperty Name="MonitoringProgramDocuments" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_FileResource_FileResourceID" FromRole="FileResource" ToRole="MonitoringProgramDocuments" />
     <NavigationProperty Name="OrganizationsWhereYouAreTheLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_Organization_FileResource_LogoFileResourceID_FileResourceID" FromRole="LogoFileResource" ToRole="OrganizationsWhereYouAreTheLogoFileResource" />
-    <NavigationProperty Name="ProgramImages" Relationship="ProjectFirma.Web.Models.FK_ProgramImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProgramImages" />
     <NavigationProperty Name="ProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProjectImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectImages" />
     <NavigationProperty Name="ProjectImageUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectImageUpdates" />
     <NavigationProperty Name="ProposedProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProposedProjectImages" />
+    <NavigationProperty Name="TaxonomyTierOneImages" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOneImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="TaxonomyTierOneImages" />
+    <NavigationProperty Name="TaxonomyTierThreeImages" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierThreeImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="TaxonomyTierThreeImages" />
+    <NavigationProperty Name="TaxonomyTierTwoImages" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="TaxonomyTierTwoImages" />
     <NavigationProperty Name="ThresholdCategoryImages" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ThresholdCategoryImages" />
   </EntityType>
   <EntityType Name="FirmaPage">
@@ -870,28 +845,6 @@
     <Property Name="FileResourceID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_FirmaPageImage_FileResource_FileResourceID" FromRole="FirmaPageImages" ToRole="FileResource" />
     <NavigationProperty Name="FirmaPage" Relationship="ProjectFirma.Web.Models.FK_FirmaPageImage_FirmaPage_FirmaPageID" FromRole="FirmaPageImages" ToRole="FirmaPage" />
-  </EntityType>
-  <EntityType Name="FocusArea">
-    <Key>
-      <PropertyRef Name="FocusAreaID" />
-    </Key>
-    <Property Name="FocusAreaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="FocusAreaNumber" Type="Byte" Nullable="false" />
-    <Property Name="FocusAreaName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="FocusAreaDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="FocusAreaColor" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="FocusAreaImages" Relationship="ProjectFirma.Web.Models.FK_FocusAreaImage_FocusArea_FocusAreaID" FromRole="FocusArea" ToRole="FocusAreaImages" />
-    <NavigationProperty Name="Programs" Relationship="ProjectFirma.Web.Models.FK_Program_FocusArea_FocusAreaID" FromRole="FocusArea" ToRole="Programs" />
-  </EntityType>
-  <EntityType Name="FocusAreaImage">
-    <Key>
-      <PropertyRef Name="FocusAreaImageID" />
-    </Key>
-    <Property Name="FocusAreaImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="FocusAreaID" Type="Int32" Nullable="false" />
-    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_FocusAreaImage_FileResource_FileResourceID" FromRole="FocusAreaImages" ToRole="FileResource" />
-    <NavigationProperty Name="FocusArea" Relationship="ProjectFirma.Web.Models.FK_FocusAreaImage_FocusArea_FocusAreaID" FromRole="FocusAreaImages" ToRole="FocusArea" />
   </EntityType>
   <EntityType Name="FundingSource">
     <Key>
@@ -1050,9 +1003,9 @@
     <NavigationProperty Name="PerformanceMeasureMonitoringPrograms" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureMonitoringPrograms" />
     <NavigationProperty Name="PerformanceMeasureNotes" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureNotes" />
     <NavigationProperty Name="PerformanceMeasureSubcategories" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureSubcategories" />
-    <NavigationProperty Name="ProgramPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ProgramPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="ProgramPerformanceMeasures" />
     <NavigationProperty Name="SnapshotPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="SnapshotPerformanceMeasures" />
     <NavigationProperty Name="SnapshotPerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="SnapshotPerformanceMeasureSubcategoryOptions" />
+    <NavigationProperty Name="TaxonomyTierTwoPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="TaxonomyTierTwoPerformanceMeasures" />
     <NavigationProperty Name="ThresholdCategoryPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="ThresholdCategoryPerformanceMeasures" />
   </EntityType>
   <EntityType Name="PerformanceMeasureActual">
@@ -1261,50 +1214,13 @@
     <NavigationProperty Name="ProposedProjectNotesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProposedProjectNotesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="SupportRequestLogsWhereYouAreTheRequestPerson" Relationship="ProjectFirma.Web.Models.FK_SupportRequestLog_Person_RequestPersonID_PersonID" FromRole="RequestPerson" ToRole="SupportRequestLogsWhereYouAreTheRequestPerson" />
   </EntityType>
-  <EntityType Name="Program">
-    <Key>
-      <PropertyRef Name="ProgramID" />
-    </Key>
-    <Property Name="ProgramID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="FocusAreaID" Type="Int32" Nullable="false" />
-    <Property Name="ProgramNumber" Type="Byte" Nullable="false" />
-    <Property Name="ProgramName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="ProgramDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="AssociatedPrograms" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="ActionPriorities" Relationship="ProjectFirma.Web.Models.FK_ActionPriority_Program_ProgramID" FromRole="Program" ToRole="ActionPriorities" />
-    <NavigationProperty Name="FocusArea" Relationship="ProjectFirma.Web.Models.FK_Program_FocusArea_FocusAreaID" FromRole="Programs" ToRole="FocusArea" />
-    <NavigationProperty Name="ProgramImages" Relationship="ProjectFirma.Web.Models.FK_ProgramImage_Program_ProgramID" FromRole="Program" ToRole="ProgramImages" />
-    <NavigationProperty Name="ProgramPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ProgramPerformanceMeasure_Program_ProgramID" FromRole="Program" ToRole="ProgramPerformanceMeasures" />
-  </EntityType>
-  <EntityType Name="ProgramImage">
-    <Key>
-      <PropertyRef Name="ProgramImageID" />
-    </Key>
-    <Property Name="ProgramImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProgramID" Type="Int32" Nullable="false" />
-    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ProgramImage_FileResource_FileResourceID" FromRole="ProgramImages" ToRole="FileResource" />
-    <NavigationProperty Name="Program" Relationship="ProjectFirma.Web.Models.FK_ProgramImage_Program_ProgramID" FromRole="ProgramImages" ToRole="Program" />
-  </EntityType>
-  <EntityType Name="ProgramPerformanceMeasure">
-    <Key>
-      <PropertyRef Name="ProgramPerformanceMeasureID" />
-    </Key>
-    <Property Name="ProgramPerformanceMeasureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProgramID" Type="Int32" Nullable="false" />
-    <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
-    <Property Name="IsPrimaryProgram" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_ProgramPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="ProgramPerformanceMeasures" ToRole="PerformanceMeasure" />
-    <NavigationProperty Name="Program" Relationship="ProjectFirma.Web.Models.FK_ProgramPerformanceMeasure_Program_ProgramID" FromRole="ProgramPerformanceMeasures" ToRole="Program" />
-  </EntityType>
   <EntityType Name="Project">
     <Key>
       <PropertyRef Name="ProjectID" />
     </Key>
     <Property Name="ProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ActionPriorityID" Type="Int32" Nullable="false" />
+    <Property Name="TaxonomyTierOneID" Type="Int32" Nullable="false" />
     <Property Name="ProjectStageID" Type="Int32" Nullable="false" />
-    <Property Name="ProjectNumber" Type="Int16" Nullable="false" />
     <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="140" Unicode="false" FixedLength="false" />
     <Property Name="ProjectDescription" Type="String" Nullable="false" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="ImplementationStartYear" Type="Int32" />
@@ -1321,11 +1237,11 @@
     <Property Name="ProjectLocationSimpleTypeID" Type="Int32" Nullable="false" />
     <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="18" Scale="0" />
     <Property Name="FundingTypeID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="ActionPriority" Relationship="ProjectFirma.Web.Models.FK_Project_ActionPriority_ActionPriorityID" FromRole="Projects" ToRole="ActionPriority" />
     <NavigationProperty Name="NotificationProjects" Relationship="ProjectFirma.Web.Models.FK_NotificationProject_Project_ProjectID" FromRole="Project" ToRole="NotificationProjects" />
     <NavigationProperty Name="PerformanceMeasureActuals" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_Project_ProjectID" FromRole="Project" ToRole="PerformanceMeasureActuals" />
     <NavigationProperty Name="PerformanceMeasureExpecteds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpected_Project_ProjectID" FromRole="Project" ToRole="PerformanceMeasureExpecteds" />
     <NavigationProperty Name="ProjectLocationArea" Relationship="ProjectFirma.Web.Models.FK_Project_ProjectLocationArea_ProjectLocationAreaID" FromRole="Projects" ToRole="ProjectLocationArea" />
+    <NavigationProperty Name="TaxonomyTierOne" Relationship="ProjectFirma.Web.Models.FK_Project_TaxonomyTierOne_TaxonomyTierOneID" FromRole="Projects" ToRole="TaxonomyTierOne" />
     <NavigationProperty Name="ProjectAssessmentQuestions" Relationship="ProjectFirma.Web.Models.FK_ProjectAssessmentQuestion_Project_ProjectID" FromRole="Project" ToRole="ProjectAssessmentQuestions" />
     <NavigationProperty Name="ProjectBudgets" Relationship="ProjectFirma.Web.Models.FK_ProjectBudget_Project_ProjectID" FromRole="Project" ToRole="ProjectBudgets" />
     <NavigationProperty Name="ProjectExemptReportingYears" Relationship="ProjectFirma.Web.Models.FK_ProjectExemptReportingYear_Project_ProjectID" FromRole="Project" ToRole="ProjectExemptReportingYears" />
@@ -1761,14 +1677,13 @@
     <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="18" Scale="0" />
     <Property Name="FundingTypeID" Type="Int32" Nullable="false" />
     <Property Name="ProposedProjectStateID" Type="Int32" Nullable="false" />
-    <Property Name="ActionPriorityID" Type="Int32" />
+    <Property Name="TaxonomyTierOneID" Type="Int32" />
     <Property Name="PerformanceMeasureNotes" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
     <Property Name="ProjectID" Type="Int32" />
     <Property Name="ImplementsMultipleProjects" Type="Boolean" />
     <Property Name="SubmissionDate" Type="DateTime" />
     <Property Name="ApprovalDate" Type="DateTime" />
     <Property Name="ReviewedByPersonID" Type="Int32" />
-    <NavigationProperty Name="ActionPriority" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_ActionPriority_ActionPriorityID" FromRole="ProposedProjects" ToRole="ActionPriority" />
     <NavigationProperty Name="NotificationProposedProjects" Relationship="ProjectFirma.Web.Models.FK_NotificationProposedProject_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="NotificationProposedProjects" />
     <NavigationProperty Name="LeadImplementerOrganization" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID" FromRole="ProposedProjectsWhereYouAreTheLeadImplementerOrganization" ToRole="LeadImplementerOrganization" />
     <NavigationProperty Name="PerformanceMeasureExpectedProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="PerformanceMeasureExpectedProposeds" />
@@ -1776,6 +1691,7 @@
     <NavigationProperty Name="ReviewedByPerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Person_ReviewedByPersonID_PersonID" FromRole="ProposedProjectsWhereYouAreTheReviewedByPerson" ToRole="ReviewedByPerson" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Project_ProjectID" FromRole="ProposedProjects" ToRole="Project" />
     <NavigationProperty Name="ProjectLocationArea" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_ProjectLocationArea_ProjectLocationAreaID" FromRole="ProposedProjects" ToRole="ProjectLocationArea" />
+    <NavigationProperty Name="TaxonomyTierOne" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID" FromRole="ProposedProjects" ToRole="TaxonomyTierOne" />
     <NavigationProperty Name="ProposedProjectAssessmentQuestions" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectAssessmentQuestions" />
     <NavigationProperty Name="ProposedProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectImage_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectImages" />
     <NavigationProperty Name="ProposedProjectLocations" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocation_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectLocations" />
@@ -1954,6 +1870,84 @@
     <Property Name="TagDescription" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="ProjectTags" Relationship="ProjectFirma.Web.Models.FK_ProjectTag_Tag_TagID" FromRole="Tag" ToRole="ProjectTags" />
   </EntityType>
+  <EntityType Name="TaxonomyTierOne">
+    <Key>
+      <PropertyRef Name="TaxonomyTierOneID" />
+    </Key>
+    <Property Name="TaxonomyTierOneID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TaxonomyTierTwoID" Type="Int32" Nullable="false" />
+    <Property Name="TaxonomyTierOneName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyTierOneDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Projects" Relationship="ProjectFirma.Web.Models.FK_Project_TaxonomyTierOne_TaxonomyTierOneID" FromRole="TaxonomyTierOne" ToRole="Projects" />
+    <NavigationProperty Name="ProposedProjects" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID" FromRole="TaxonomyTierOne" ToRole="ProposedProjects" />
+    <NavigationProperty Name="TaxonomyTierTwo" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierOnes" ToRole="TaxonomyTierTwo" />
+    <NavigationProperty Name="TaxonomyTierOneImages" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOneImage_TaxonomyTierOne_TaxonomyTierOneID" FromRole="TaxonomyTierOne" ToRole="TaxonomyTierOneImages" />
+  </EntityType>
+  <EntityType Name="TaxonomyTierOneImage">
+    <Key>
+      <PropertyRef Name="TaxonomyTierOneImageID" />
+    </Key>
+    <Property Name="TaxonomyTierOneImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TaxonomyTierOneID" Type="Int32" Nullable="false" />
+    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOneImage_FileResource_FileResourceID" FromRole="TaxonomyTierOneImages" ToRole="FileResource" />
+    <NavigationProperty Name="TaxonomyTierOne" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOneImage_TaxonomyTierOne_TaxonomyTierOneID" FromRole="TaxonomyTierOneImages" ToRole="TaxonomyTierOne" />
+  </EntityType>
+  <EntityType Name="TaxonomyTierThree">
+    <Key>
+      <PropertyRef Name="TaxonomyTierThreeID" />
+    </Key>
+    <Property Name="TaxonomyTierThreeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TaxonomyTierThreeName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyTierThreeDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyTierThreeColor" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="TaxonomyTierThreeImages" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierThreeImage_TaxonomyTierThree_TaxonomyTierThreeID" FromRole="TaxonomyTierThree" ToRole="TaxonomyTierThreeImages" />
+    <NavigationProperty Name="TaxonomyTierTwos" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID" FromRole="TaxonomyTierThree" ToRole="TaxonomyTierTwos" />
+  </EntityType>
+  <EntityType Name="TaxonomyTierThreeImage">
+    <Key>
+      <PropertyRef Name="TaxonomyTierThreeImageID" />
+    </Key>
+    <Property Name="TaxonomyTierThreeImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TaxonomyTierThreeID" Type="Int32" Nullable="false" />
+    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierThreeImage_FileResource_FileResourceID" FromRole="TaxonomyTierThreeImages" ToRole="FileResource" />
+    <NavigationProperty Name="TaxonomyTierThree" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierThreeImage_TaxonomyTierThree_TaxonomyTierThreeID" FromRole="TaxonomyTierThreeImages" ToRole="TaxonomyTierThree" />
+  </EntityType>
+  <EntityType Name="TaxonomyTierTwo">
+    <Key>
+      <PropertyRef Name="TaxonomyTierTwoID" />
+    </Key>
+    <Property Name="TaxonomyTierTwoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TaxonomyTierThreeID" Type="Int32" Nullable="false" />
+    <Property Name="TaxonomyTierTwoName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyTierTwoDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="TaxonomyTierOnes" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierTwo" ToRole="TaxonomyTierOnes" />
+    <NavigationProperty Name="TaxonomyTierThree" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID" FromRole="TaxonomyTierTwos" ToRole="TaxonomyTierThree" />
+    <NavigationProperty Name="TaxonomyTierTwoImages" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierTwo" ToRole="TaxonomyTierTwoImages" />
+    <NavigationProperty Name="TaxonomyTierTwoPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierTwo" ToRole="TaxonomyTierTwoPerformanceMeasures" />
+  </EntityType>
+  <EntityType Name="TaxonomyTierTwoImage">
+    <Key>
+      <PropertyRef Name="TaxonomyTierTwoImageID" />
+    </Key>
+    <Property Name="TaxonomyTierTwoImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TaxonomyTierTwoID" Type="Int32" Nullable="false" />
+    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoImage_FileResource_FileResourceID" FromRole="TaxonomyTierTwoImages" ToRole="FileResource" />
+    <NavigationProperty Name="TaxonomyTierTwo" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierTwoImages" ToRole="TaxonomyTierTwo" />
+  </EntityType>
+  <EntityType Name="TaxonomyTierTwoPerformanceMeasure">
+    <Key>
+      <PropertyRef Name="TaxonomyTierTwoPerformanceMeasureID" />
+    </Key>
+    <Property Name="TaxonomyTierTwoPerformanceMeasureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TaxonomyTierTwoID" Type="Int32" Nullable="false" />
+    <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
+    <Property Name="IsPrimaryTaxonomyTierTwo" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="TaxonomyTierTwoPerformanceMeasures" ToRole="PerformanceMeasure" />
+    <NavigationProperty Name="TaxonomyTierTwo" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierTwoPerformanceMeasures" ToRole="TaxonomyTierTwo" />
+  </EntityType>
   <EntityType Name="ThresholdCategory">
     <Key>
       <PropertyRef Name="ThresholdCategoryID" />
@@ -2002,90 +1996,6 @@
     <NavigationProperty Name="ProjectLocationAreaWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaWatershed_Watershed_WatershedID" FromRole="Watershed" ToRole="ProjectLocationAreaWatersheds" />
     <NavigationProperty Name="ProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Watershed_WatershedID" FromRole="Watershed" ToRole="ProjectWatersheds" />
   </EntityType>
-  <EntityType Name="vProject">
-    <Key>
-      <PropertyRef Name="ProjectNumberFull" />
-      <PropertyRef Name="ProjectID" />
-      <PropertyRef Name="ActionPriorityID" />
-      <PropertyRef Name="ProjectNumber" />
-      <PropertyRef Name="ProjectName" />
-      <PropertyRef Name="ProjectDescription" />
-      <PropertyRef Name="ProjectStageID" />
-      <PropertyRef Name="ProjectStageDisplayName" />
-      <PropertyRef Name="ImplementsMultipleProjects" />
-    </Key>
-    <Property Name="ProjectNumberFull" Type="String" Nullable="false" MaxLength="13" Unicode="false" FixedLength="false" />
-    <Property Name="ProjectID" Type="Int32" Nullable="false" />
-    <Property Name="ActionPriorityID" Type="Int32" Nullable="false" />
-    <Property Name="ProjectNumber" Type="Int16" Nullable="false" />
-    <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="140" Unicode="false" FixedLength="false" />
-    <Property Name="ProjectDescription" Type="String" Nullable="false" MaxLength="4000" Unicode="false" FixedLength="false" />
-    <Property Name="ProjectStageID" Type="Int32" Nullable="false" />
-    <Property Name="ProjectStageDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="ImplementationStartYear" Type="Int32" />
-    <Property Name="CompletionYear" Type="Int32" />
-    <Property Name="ImplementsMultipleProjects" Type="Boolean" Nullable="false" />
-  </EntityType>
-  <Association Name="FK_ActionPriority_Program_ProgramID">
-    <End Role="Program" Type="ProjectFirma.Web.Models.Program" Multiplicity="1" />
-    <End Role="ActionPriorities" Type="ProjectFirma.Web.Models.ActionPriority" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Program">
-        <PropertyRef Name="ProgramID" />
-      </Principal>
-      <Dependent Role="ActionPriorities">
-        <PropertyRef Name="ProgramID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ActionPriorityImage_ActionPriority_ActionPriorityID">
-    <End Role="ActionPriority" Type="ProjectFirma.Web.Models.ActionPriority" Multiplicity="1" />
-    <End Role="ActionPriorityImages" Type="ProjectFirma.Web.Models.ActionPriorityImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ActionPriority">
-        <PropertyRef Name="ActionPriorityID" />
-      </Principal>
-      <Dependent Role="ActionPriorityImages">
-        <PropertyRef Name="ActionPriorityID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Project_ActionPriority_ActionPriorityID">
-    <End Role="ActionPriority" Type="ProjectFirma.Web.Models.ActionPriority" Multiplicity="1" />
-    <End Role="Projects" Type="ProjectFirma.Web.Models.Project" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ActionPriority">
-        <PropertyRef Name="ActionPriorityID" />
-      </Principal>
-      <Dependent Role="Projects">
-        <PropertyRef Name="ActionPriorityID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProject_ActionPriority_ActionPriorityID">
-    <End Role="ActionPriority" Type="ProjectFirma.Web.Models.ActionPriority" Multiplicity="0..1" />
-    <End Role="ProposedProjects" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ActionPriority">
-        <PropertyRef Name="ActionPriorityID" />
-      </Principal>
-      <Dependent Role="ProposedProjects">
-        <PropertyRef Name="ActionPriorityID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ActionPriorityImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
-    <End Role="ActionPriorityImages" Type="ProjectFirma.Web.Models.ActionPriorityImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="ActionPriorityImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
     <End Role="AssessmentGoal" Type="ProjectFirma.Web.Models.AssessmentGoal" Multiplicity="1" />
     <End Role="AssessmentSubGoals" Type="ProjectFirma.Web.Models.AssessmentSubGoal" Multiplicity="*" />
@@ -2194,18 +2104,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_FocusAreaImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
-    <End Role="FocusAreaImages" Type="ProjectFirma.Web.Models.FocusAreaImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="FocusAreaImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_MonitoringProgramDocument_FileResource_FileResourceID">
     <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
     <End Role="MonitoringProgramDocuments" Type="ProjectFirma.Web.Models.MonitoringProgramDocument" Multiplicity="*" />
@@ -2227,18 +2125,6 @@
       </Principal>
       <Dependent Role="OrganizationsWhereYouAreTheLogoFileResource">
         <PropertyRef Name="LogoFileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProgramImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
-    <End Role="ProgramImages" Type="ProjectFirma.Web.Models.ProgramImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="ProgramImages">
-        <PropertyRef Name="FileResourceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2278,6 +2164,42 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_TaxonomyTierOneImage_FileResource_FileResourceID">
+    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
+    <End Role="TaxonomyTierOneImages" Type="ProjectFirma.Web.Models.TaxonomyTierOneImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierOneImages">
+        <PropertyRef Name="FileResourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyTierThreeImage_FileResource_FileResourceID">
+    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
+    <End Role="TaxonomyTierThreeImages" Type="ProjectFirma.Web.Models.TaxonomyTierThreeImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierThreeImages">
+        <PropertyRef Name="FileResourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyTierTwoImage_FileResource_FileResourceID">
+    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
+    <End Role="TaxonomyTierTwoImages" Type="ProjectFirma.Web.Models.TaxonomyTierTwoImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierTwoImages">
+        <PropertyRef Name="FileResourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ThresholdCategoryImage_FileResource_FileResourceID">
     <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
     <End Role="ThresholdCategoryImages" Type="ProjectFirma.Web.Models.ThresholdCategoryImage" Multiplicity="*" />
@@ -2299,30 +2221,6 @@
       </Principal>
       <Dependent Role="FirmaPageImages">
         <PropertyRef Name="FirmaPageID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_FocusAreaImage_FocusArea_FocusAreaID">
-    <End Role="FocusArea" Type="ProjectFirma.Web.Models.FocusArea" Multiplicity="1" />
-    <End Role="FocusAreaImages" Type="ProjectFirma.Web.Models.FocusAreaImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FocusArea">
-        <PropertyRef Name="FocusAreaID" />
-      </Principal>
-      <Dependent Role="FocusAreaImages">
-        <PropertyRef Name="FocusAreaID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Program_FocusArea_FocusAreaID">
-    <End Role="FocusArea" Type="ProjectFirma.Web.Models.FocusArea" Multiplicity="1" />
-    <End Role="Programs" Type="ProjectFirma.Web.Models.Program" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FocusArea">
-        <PropertyRef Name="FocusAreaID" />
-      </Principal>
-      <Dependent Role="Programs">
-        <PropertyRef Name="FocusAreaID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2746,18 +2644,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProgramPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
-    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
-    <End Role="ProgramPerformanceMeasures" Type="ProjectFirma.Web.Models.ProgramPerformanceMeasure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasure">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Principal>
-      <Dependent Role="ProgramPerformanceMeasures">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
     <End Role="SnapshotPerformanceMeasures" Type="ProjectFirma.Web.Models.SnapshotPerformanceMeasure" Multiplicity="*" />
@@ -2778,6 +2664,18 @@
         <PropertyRef Name="PerformanceMeasureID" />
       </Principal>
       <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
+    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
+    <End Role="TaxonomyTierTwoPerformanceMeasures" Type="ProjectFirma.Web.Models.TaxonomyTierTwoPerformanceMeasure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasure">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierTwoPerformanceMeasures">
         <PropertyRef Name="PerformanceMeasureID" />
       </Dependent>
     </ReferentialConstraint>
@@ -3178,30 +3076,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProgramImage_Program_ProgramID">
-    <End Role="Program" Type="ProjectFirma.Web.Models.Program" Multiplicity="1" />
-    <End Role="ProgramImages" Type="ProjectFirma.Web.Models.ProgramImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Program">
-        <PropertyRef Name="ProgramID" />
-      </Principal>
-      <Dependent Role="ProgramImages">
-        <PropertyRef Name="ProgramID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProgramPerformanceMeasure_Program_ProgramID">
-    <End Role="Program" Type="ProjectFirma.Web.Models.Program" Multiplicity="1" />
-    <End Role="ProgramPerformanceMeasures" Type="ProjectFirma.Web.Models.ProgramPerformanceMeasure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Program">
-        <PropertyRef Name="ProgramID" />
-      </Principal>
-      <Dependent Role="ProgramPerformanceMeasures">
-        <PropertyRef Name="ProgramID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Project_ProjectLocationArea_ProjectLocationAreaID">
     <End Role="ProjectLocationArea" Type="ProjectFirma.Web.Models.ProjectLocationArea" Multiplicity="0..1" />
     <End Role="Projects" Type="ProjectFirma.Web.Models.Project" Multiplicity="*" />
@@ -3211,6 +3085,18 @@
       </Principal>
       <Dependent Role="Projects">
         <PropertyRef Name="ProjectLocationAreaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Project_TaxonomyTierOne_TaxonomyTierOneID">
+    <End Role="TaxonomyTierOne" Type="ProjectFirma.Web.Models.TaxonomyTierOne" Multiplicity="1" />
+    <End Role="Projects" Type="ProjectFirma.Web.Models.Project" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaxonomyTierOne">
+        <PropertyRef Name="TaxonomyTierOneID" />
+      </Principal>
+      <Dependent Role="Projects">
+        <PropertyRef Name="TaxonomyTierOneID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3706,6 +3592,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID">
+    <End Role="TaxonomyTierOne" Type="ProjectFirma.Web.Models.TaxonomyTierOne" Multiplicity="0..1" />
+    <End Role="ProposedProjects" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaxonomyTierOne">
+        <PropertyRef Name="TaxonomyTierOneID" />
+      </Principal>
+      <Dependent Role="ProposedProjects">
+        <PropertyRef Name="TaxonomyTierOneID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID">
     <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
     <End Role="ProposedProjectAssessmentQuestions" Type="ProjectFirma.Web.Models.ProposedProjectAssessmentQuestion" Multiplicity="*" />
@@ -3835,6 +3733,78 @@
       </Principal>
       <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
         <PropertyRef Name="SnapshotPerformanceMeasureID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID">
+    <End Role="TaxonomyTierTwo" Type="ProjectFirma.Web.Models.TaxonomyTierTwo" Multiplicity="1" />
+    <End Role="TaxonomyTierOnes" Type="ProjectFirma.Web.Models.TaxonomyTierOne" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaxonomyTierTwo">
+        <PropertyRef Name="TaxonomyTierTwoID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierOnes">
+        <PropertyRef Name="TaxonomyTierTwoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyTierOneImage_TaxonomyTierOne_TaxonomyTierOneID">
+    <End Role="TaxonomyTierOne" Type="ProjectFirma.Web.Models.TaxonomyTierOne" Multiplicity="1" />
+    <End Role="TaxonomyTierOneImages" Type="ProjectFirma.Web.Models.TaxonomyTierOneImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaxonomyTierOne">
+        <PropertyRef Name="TaxonomyTierOneID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierOneImages">
+        <PropertyRef Name="TaxonomyTierOneID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyTierThreeImage_TaxonomyTierThree_TaxonomyTierThreeID">
+    <End Role="TaxonomyTierThree" Type="ProjectFirma.Web.Models.TaxonomyTierThree" Multiplicity="1" />
+    <End Role="TaxonomyTierThreeImages" Type="ProjectFirma.Web.Models.TaxonomyTierThreeImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaxonomyTierThree">
+        <PropertyRef Name="TaxonomyTierThreeID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierThreeImages">
+        <PropertyRef Name="TaxonomyTierThreeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID">
+    <End Role="TaxonomyTierThree" Type="ProjectFirma.Web.Models.TaxonomyTierThree" Multiplicity="1" />
+    <End Role="TaxonomyTierTwos" Type="ProjectFirma.Web.Models.TaxonomyTierTwo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaxonomyTierThree">
+        <PropertyRef Name="TaxonomyTierThreeID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierTwos">
+        <PropertyRef Name="TaxonomyTierThreeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID">
+    <End Role="TaxonomyTierTwo" Type="ProjectFirma.Web.Models.TaxonomyTierTwo" Multiplicity="1" />
+    <End Role="TaxonomyTierTwoImages" Type="ProjectFirma.Web.Models.TaxonomyTierTwoImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaxonomyTierTwo">
+        <PropertyRef Name="TaxonomyTierTwoID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierTwoImages">
+        <PropertyRef Name="TaxonomyTierTwoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID">
+    <End Role="TaxonomyTierTwo" Type="ProjectFirma.Web.Models.TaxonomyTierTwo" Multiplicity="1" />
+    <End Role="TaxonomyTierTwoPerformanceMeasures" Type="ProjectFirma.Web.Models.TaxonomyTierTwoPerformanceMeasure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaxonomyTierTwo">
+        <PropertyRef Name="TaxonomyTierTwoID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierTwoPerformanceMeasures">
+        <PropertyRef Name="TaxonomyTierTwoID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

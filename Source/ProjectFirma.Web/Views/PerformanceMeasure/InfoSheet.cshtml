@@ -3,6 +3,7 @@
 @using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
 @using MoreLinq
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.PerformanceMeasure.InfoSheet
 
 @{
@@ -148,11 +149,11 @@
                         <th>Units:</th>
                         <td>@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName</td>
                     </tr>
-                    @if (ViewDataTyped.PerformanceMeasure.PrimaryProgram != null)
+                    @if (ViewDataTyped.PerformanceMeasure.PrimaryTaxonomyTierTwo != null)
                     {
                         <tr>
-                            <th>Primary Program:</th>
-                            <td>@ViewDataTyped.PerformanceMeasure.PrimaryProgram.ProgramName</td>
+                            <th>Primary @MultiTenantHelpers.GetTaxonomyTierTwoDisplayName():</th>
+                            <td>@ViewDataTyped.PerformanceMeasure.PrimaryTaxonomyTierTwo.TaxonomyTierTwoName</td>
                         </tr>
                     }
                 </table>
@@ -240,27 +241,27 @@
     </div>
 
     <div class="summarySection">
-        <span class="sectionTitle">Programs</span>
+        <span class="sectionTitle">@MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</span>
         <div class="contentWrapper">
-            @if (ViewDataTyped.PerformanceMeasurePrograms.Any())
+            @if (ViewDataTyped.PerformanceMeasureTaxonomyTierTwos.Any())
             {
                 <table class="summaryLayout">
                     <tr>
-                        <th>@FieldDefinition.Program.FieldDefinitionDisplayName</th>
-                        <th>@FieldDefinition.IsPrimaryProgram.FieldDefinitionDisplayName</th>
+                        <th>@MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()</th>
+                        <th>Is Primary @MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()</th>
                     </tr>
-                    @foreach (var programPerformanceMeasure in ViewDataTyped.PerformanceMeasurePrograms)
+                    @foreach (var taxonomyTierTwoPerformanceMeasure in ViewDataTyped.PerformanceMeasureTaxonomyTierTwos)
                     {
                         <tr>
-                            <td>@programPerformanceMeasure.Key.DisplayName</td>
-                            <td style="text-align: center">@programPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
+                            <td>@taxonomyTierTwoPerformanceMeasure.Key.DisplayName</td>
+                            <td style="text-align: center">@taxonomyTierTwoPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
                         </tr>
                     }
                 </table>
             }
             else
             {
-                <p class="alert">No programs set for this performance measure.</p>
+                <p class="alert">No @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() set for this performance measure.</p>
             }
         </div>
     </div>

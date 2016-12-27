@@ -48,12 +48,11 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int actionPriorityID, int projectStageID, short projectNumber, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, bool implementsMultipleProjects, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID) : this()
+        public Project(int projectID, int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, bool implementsMultipleProjects, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID) : this()
         {
             this.ProjectID = projectID;
-            this.ActionPriorityID = actionPriorityID;
+            this.TaxonomyTierOneID = taxonomyTierOneID;
             this.ProjectStageID = projectStageID;
-            this.ProjectNumber = projectNumber;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
             this.ImplementationStartYear = implementationStartYear;
@@ -75,14 +74,13 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int actionPriorityID, int projectStageID, short projectNumber, string projectName, string projectDescription, bool implementsMultipleProjects, bool isFeatured, int projectLocationSimpleTypeID, int fundingTypeID) : this()
+        public Project(int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, bool implementsMultipleProjects, bool isFeatured, int projectLocationSimpleTypeID, int fundingTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             ProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.ActionPriorityID = actionPriorityID;
+            this.TaxonomyTierOneID = taxonomyTierOneID;
             this.ProjectStageID = projectStageID;
-            this.ProjectNumber = projectNumber;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
             this.ImplementsMultipleProjects = implementsMultipleProjects;
@@ -94,15 +92,14 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Project(ActionPriority actionPriority, ProjectStage projectStage, short projectNumber, string projectName, string projectDescription, bool implementsMultipleProjects, bool isFeatured, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType) : this()
+        public Project(TaxonomyTierOne taxonomyTierOne, ProjectStage projectStage, string projectName, string projectDescription, bool implementsMultipleProjects, bool isFeatured, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.ActionPriorityID = actionPriority.ActionPriorityID;
-            this.ActionPriority = actionPriority;
-            actionPriority.Projects.Add(this);
+            this.TaxonomyTierOneID = taxonomyTierOne.TaxonomyTierOneID;
+            this.TaxonomyTierOne = taxonomyTierOne;
+            taxonomyTierOne.Projects.Add(this);
             this.ProjectStageID = projectStage.ProjectStageID;
-            this.ProjectNumber = projectNumber;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
             this.ImplementsMultipleProjects = implementsMultipleProjects;
@@ -114,9 +111,9 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static Project CreateNewBlank(ActionPriority actionPriority, ProjectStage projectStage, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType)
+        public static Project CreateNewBlank(TaxonomyTierOne taxonomyTierOne, ProjectStage projectStage, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType)
         {
-            return new Project(actionPriority, projectStage, default(short), default(string), default(string), default(bool), default(bool), projectLocationSimpleType, fundingType);
+            return new Project(taxonomyTierOne, projectStage, default(string), default(string), default(bool), default(bool), projectLocationSimpleType, fundingType);
         }
 
         /// <summary>
@@ -135,9 +132,8 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectID { get; set; }
-        public int ActionPriorityID { get; set; }
+        public int TaxonomyTierOneID { get; set; }
         public int ProjectStageID { get; set; }
-        public short ProjectNumber { get; set; }
         public string ProjectName { get; set; }
         public string ProjectDescription { get; set; }
         public int? ImplementationStartYear { get; set; }
@@ -177,7 +173,7 @@ namespace ProjectFirma.Web.Models
         protected virtual ICollection<ProposedProject> ProposedProjects { get; set; }
         public ProposedProject ProposedProject { get { return ProposedProjects.SingleOrDefault(); } set { ProposedProjects = new List<ProposedProject>{value};} }
         public virtual ICollection<SnapshotProject> SnapshotProjects { get; set; }
-        public virtual ActionPriority ActionPriority { get; set; }
+        public virtual TaxonomyTierOne TaxonomyTierOne { get; set; }
         public ProjectStage ProjectStage { get { return ProjectStage.AllLookupDictionary[ProjectStageID]; } }
         public virtual ProjectLocationArea ProjectLocationArea { get; set; }
         public ProjectLocationSimpleType ProjectLocationSimpleType { get { return ProjectLocationSimpleType.AllLookupDictionary[ProjectLocationSimpleTypeID]; } }

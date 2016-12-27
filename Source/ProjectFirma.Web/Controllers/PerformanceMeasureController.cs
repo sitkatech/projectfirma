@@ -14,7 +14,6 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using Index = ProjectFirma.Web.Views.PerformanceMeasure.Index;
-using IndexGridSpec = ProjectFirma.Web.Views.PerformanceMeasure.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.PerformanceMeasure.IndexViewData;
 
 namespace ProjectFirma.Web.Controllers
@@ -83,7 +82,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             var viewModel = new EditViewModel(performanceMeasure);
-            return ViewEdit(viewModel, performanceMeasure);
+            return ViewEdit(viewModel);
         }
 
         [HttpPost]
@@ -94,13 +93,13 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, performanceMeasure);
+                return ViewEdit(viewModel);
             }
             viewModel.UpdateModel(performanceMeasure, CurrentPerson);
             return new ModalDialogFormJsonResult(performanceMeasure.GetSummaryUrl());
         }
 
-        private PartialViewResult ViewEdit(EditViewModel viewModel, PerformanceMeasure performanceMeasure)
+        private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
             var measurementUnitTypesAsSelectListItems = MeasurementUnitType.All.ToSelectList(x => x.MeasurementUnitTypeID.ToString(CultureInfo.InvariantCulture),
                 x => x.MeasurementUnitTypeDisplayName);
@@ -116,7 +115,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             var viewModel = new EditAccomplishmentsMetadataViewModel(performanceMeasure);
-            return ViewEditAccomplishmentsMetadata(viewModel, performanceMeasure);
+            return ViewEditAccomplishmentsMetadata(viewModel);
         }
 
         [HttpPost]
@@ -128,13 +127,13 @@ namespace ProjectFirma.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                return ViewEditAccomplishmentsMetadata(viewModel, performanceMeasure);
+                return ViewEditAccomplishmentsMetadata(viewModel);
             }
             viewModel.UpdateModel(performanceMeasure, CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEditAccomplishmentsMetadata(EditAccomplishmentsMetadataViewModel viewModel, PerformanceMeasure performanceMeasure)
+        private PartialViewResult ViewEditAccomplishmentsMetadata(EditAccomplishmentsMetadataViewModel viewModel)
         {
             var viewData = new EditAccomplishmentsMetadataViewData();
             return RazorPartialView<EditAccomplishmentsMetadata, EditAccomplishmentsMetadataViewData, EditAccomplishmentsMetadataViewModel>(viewData, viewModel);
@@ -187,7 +186,6 @@ namespace ProjectFirma.Web.Controllers
             switch (performanceMeasureRichTextType)
             {
                 case EditRtfContent.PerformanceMeasureRichTextType.SimpleDescription:
-                case EditRtfContent.PerformanceMeasureRichTextType.AssociatedPrograms:
                 case EditRtfContent.PerformanceMeasureRichTextType.CriticalDefinitions:
                 case EditRtfContent.PerformanceMeasureRichTextType.AccountingPeriodAndScale:
                 case EditRtfContent.PerformanceMeasureRichTextType.ProjectReporting:

@@ -10,27 +10,27 @@ namespace ProjectFirma.Web.Models
         public abstract Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues);
     }
 
-    public partial class ProjectLocationFilterTypeFocusArea
+    public partial class ProjectLocationFilterTypeTaxonomyTierThree
     {
         public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Contains(project.ActionPriority.Program.FocusAreaID);
+            return project => filterValues.Contains(project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThreeID);
         }
     }
 
-    public partial class ProjectLocationFilterTypeProgram
+    public partial class ProjectLocationFilterTypeTaxonomyTierTwo
     {
         public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Contains(project.ActionPriority.ProgramID);
+            return project => filterValues.Contains(project.TaxonomyTierOne.TaxonomyTierTwoID);
         }
     }
 
-    public partial class ProjectLocationFilterTypeActionPriority
+    public partial class ProjectLocationFilterTypeTaxonomyTierOne
     {
         public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Contains(project.ActionPriorityID);
+            return project => filterValues.Contains(project.TaxonomyTierOneID);
         }
     }
 

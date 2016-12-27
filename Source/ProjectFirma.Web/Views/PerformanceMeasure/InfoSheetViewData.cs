@@ -11,7 +11,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
     {
         public readonly Models.PerformanceMeasure PerformanceMeasure;
         public readonly bool HasReportedValues;
-        public readonly List<KeyValuePair<Models.Program, bool>> PerformanceMeasurePrograms;
+        public readonly List<KeyValuePair<Models.TaxonomyTierTwo, bool>> PerformanceMeasureTaxonomyTierTwos;
         public readonly PerformanceMeasureChartViewData PerformanceMeasureChartViewData;
         public readonly string IndexUrl;
         
@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             BreadCrumbTitle = "Info Sheet";
 
             HasReportedValues = performanceMeasure.PerformanceMeasureActuals.Any();
-            PerformanceMeasurePrograms = performanceMeasure.GetPrograms().OrderBy(x => x.Key.DisplayName).ToList();
+            PerformanceMeasureTaxonomyTierTwos = performanceMeasure.GetTaxonomyTierTwos().OrderBy(x => x.Key.DisplayName).ToList();
             PerformanceMeasureChartViewData = performanceMeasureChartViewData;
 
             IndexUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Index());

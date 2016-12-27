@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Models
 {
     public abstract partial class ProjectColorByType : IHavePrimaryKey
     {
-        public static readonly ProjectColorByTypeFocusArea FocusArea = ProjectColorByTypeFocusArea.Instance;
+        public static readonly ProjectColorByTypeTaxonomyTierThree TaxonomyTierThree = ProjectColorByTypeTaxonomyTierThree.Instance;
         public static readonly ProjectColorByTypeProjectStage ProjectStage = ProjectColorByTypeProjectStage.Instance;
 
         public static readonly List<ProjectColorByType> All;
@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectColorByType()
         {
-            All = new List<ProjectColorByType> { FocusArea, ProjectStage };
+            All = new List<ProjectColorByType> { TaxonomyTierThree, ProjectStage };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectColorByType>(All.ToDictionary(x => x.ProjectColorByTypeID));
         }
 
@@ -100,10 +100,10 @@ namespace ProjectFirma.Web.Models
         {
             switch (enumValue)
             {
-                case ProjectColorByTypeEnum.FocusArea:
-                    return FocusArea;
                 case ProjectColorByTypeEnum.ProjectStage:
                     return ProjectStage;
+                case ProjectColorByTypeEnum.TaxonomyTierThree:
+                    return TaxonomyTierThree;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -112,14 +112,14 @@ namespace ProjectFirma.Web.Models
 
     public enum ProjectColorByTypeEnum
     {
-        FocusArea = 1,
+        TaxonomyTierThree = 1,
         ProjectStage = 2
     }
 
-    public partial class ProjectColorByTypeFocusArea : ProjectColorByType
+    public partial class ProjectColorByTypeTaxonomyTierThree : ProjectColorByType
     {
-        private ProjectColorByTypeFocusArea(int projectColorByTypeID, string projectColorByTypeName, string projectColorByTypeNameWithIdentifier, string projectColorByTypeDisplayName, int sortOrder) : base(projectColorByTypeID, projectColorByTypeName, projectColorByTypeNameWithIdentifier, projectColorByTypeDisplayName, sortOrder) {}
-        public static readonly ProjectColorByTypeFocusArea Instance = new ProjectColorByTypeFocusArea(1, @"FocusArea", @"FocusAreaID", @"Focus Area", 10);
+        private ProjectColorByTypeTaxonomyTierThree(int projectColorByTypeID, string projectColorByTypeName, string projectColorByTypeNameWithIdentifier, string projectColorByTypeDisplayName, int sortOrder) : base(projectColorByTypeID, projectColorByTypeName, projectColorByTypeNameWithIdentifier, projectColorByTypeDisplayName, sortOrder) {}
+        public static readonly ProjectColorByTypeTaxonomyTierThree Instance = new ProjectColorByTypeTaxonomyTierThree(1, @"TaxonomyTierThree", @"TaxonomyTierThreeID", @"Focus Area", 10);
     }
 
     public partial class ProjectColorByTypeProjectStage : ProjectColorByType

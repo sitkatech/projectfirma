@@ -1,26 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="ProjectFirmaWebModelsStoreContainer" CdmEntityContainer="DatabaseEntities">
-    <EntitySetMapping Name="ActionPriority">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ActionPriority">
-        <MappingFragment StoreEntitySet="ActionPriority">
-          <ScalarProperty Name="ActionPriorityID" ColumnName="ActionPriorityID" />
-          <ScalarProperty Name="ProgramID" ColumnName="ProgramID" />
-          <ScalarProperty Name="ActionPriorityNumber" ColumnName="ActionPriorityNumber" />
-          <ScalarProperty Name="ActionPriorityName" ColumnName="ActionPriorityName" />
-          <ScalarProperty Name="ActionPriorityDescription" ColumnName="ActionPriorityDescription" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ActionPriorityImage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ActionPriorityImage">
-        <MappingFragment StoreEntitySet="ActionPriorityImage">
-          <ScalarProperty Name="ActionPriorityImageID" ColumnName="ActionPriorityImageID" />
-          <ScalarProperty Name="ActionPriorityID" ColumnName="ActionPriorityID" />
-          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="AssessmentGoal">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.AssessmentGoal">
         <MappingFragment StoreEntitySet="AssessmentGoal">
@@ -144,26 +124,6 @@
         <MappingFragment StoreEntitySet="FirmaPageImage">
           <ScalarProperty Name="FirmaPageImageID" ColumnName="FirmaPageImageID" />
           <ScalarProperty Name="FirmaPageID" ColumnName="FirmaPageID" />
-          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="FocusArea">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FocusArea">
-        <MappingFragment StoreEntitySet="FocusArea">
-          <ScalarProperty Name="FocusAreaID" ColumnName="FocusAreaID" />
-          <ScalarProperty Name="FocusAreaNumber" ColumnName="FocusAreaNumber" />
-          <ScalarProperty Name="FocusAreaName" ColumnName="FocusAreaName" />
-          <ScalarProperty Name="FocusAreaDescription" ColumnName="FocusAreaDescription" />
-          <ScalarProperty Name="FocusAreaColor" ColumnName="FocusAreaColor" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="FocusAreaImage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FocusAreaImage">
-        <MappingFragment StoreEntitySet="FocusAreaImage">
-          <ScalarProperty Name="FocusAreaImageID" ColumnName="FocusAreaImageID" />
-          <ScalarProperty Name="FocusAreaID" ColumnName="FocusAreaID" />
           <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -448,44 +408,12 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Program">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Program">
-        <MappingFragment StoreEntitySet="Program">
-          <ScalarProperty Name="ProgramID" ColumnName="ProgramID" />
-          <ScalarProperty Name="FocusAreaID" ColumnName="FocusAreaID" />
-          <ScalarProperty Name="ProgramNumber" ColumnName="ProgramNumber" />
-          <ScalarProperty Name="ProgramName" ColumnName="ProgramName" />
-          <ScalarProperty Name="ProgramDescription" ColumnName="ProgramDescription" />
-          <ScalarProperty Name="AssociatedPrograms" ColumnName="AssociatedPrograms" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProgramImage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProgramImage">
-        <MappingFragment StoreEntitySet="ProgramImage">
-          <ScalarProperty Name="ProgramImageID" ColumnName="ProgramImageID" />
-          <ScalarProperty Name="ProgramID" ColumnName="ProgramID" />
-          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProgramPerformanceMeasure">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProgramPerformanceMeasure">
-        <MappingFragment StoreEntitySet="ProgramPerformanceMeasure">
-          <ScalarProperty Name="ProgramPerformanceMeasureID" ColumnName="ProgramPerformanceMeasureID" />
-          <ScalarProperty Name="ProgramID" ColumnName="ProgramID" />
-          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
-          <ScalarProperty Name="IsPrimaryProgram" ColumnName="IsPrimaryProgram" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Project">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Project">
         <MappingFragment StoreEntitySet="Project">
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-          <ScalarProperty Name="ActionPriorityID" ColumnName="ActionPriorityID" />
+          <ScalarProperty Name="TaxonomyTierOneID" ColumnName="TaxonomyTierOneID" />
           <ScalarProperty Name="ProjectStageID" ColumnName="ProjectStageID" />
-          <ScalarProperty Name="ProjectNumber" ColumnName="ProjectNumber" />
           <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
           <ScalarProperty Name="ProjectDescription" ColumnName="ProjectDescription" />
           <ScalarProperty Name="ImplementationStartYear" ColumnName="ImplementationStartYear" />
@@ -876,7 +804,7 @@
           <ScalarProperty Name="EstimatedAnnualOperatingCost" ColumnName="EstimatedAnnualOperatingCost" />
           <ScalarProperty Name="FundingTypeID" ColumnName="FundingTypeID" />
           <ScalarProperty Name="ProposedProjectStateID" ColumnName="ProposedProjectStateID" />
-          <ScalarProperty Name="ActionPriorityID" ColumnName="ActionPriorityID" />
+          <ScalarProperty Name="TaxonomyTierOneID" ColumnName="TaxonomyTierOneID" />
           <ScalarProperty Name="PerformanceMeasureNotes" ColumnName="PerformanceMeasureNotes" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="ImplementsMultipleProjects" ColumnName="ImplementsMultipleProjects" />
@@ -1041,6 +969,73 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="TaxonomyTierOne">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyTierOne">
+        <MappingFragment StoreEntitySet="TaxonomyTierOne">
+          <ScalarProperty Name="TaxonomyTierOneID" ColumnName="TaxonomyTierOneID" />
+          <ScalarProperty Name="TaxonomyTierTwoID" ColumnName="TaxonomyTierTwoID" />
+          <ScalarProperty Name="TaxonomyTierOneName" ColumnName="TaxonomyTierOneName" />
+          <ScalarProperty Name="TaxonomyTierOneDescription" ColumnName="TaxonomyTierOneDescription" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaxonomyTierOneImage">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyTierOneImage">
+        <MappingFragment StoreEntitySet="TaxonomyTierOneImage">
+          <ScalarProperty Name="TaxonomyTierOneImageID" ColumnName="TaxonomyTierOneImageID" />
+          <ScalarProperty Name="TaxonomyTierOneID" ColumnName="TaxonomyTierOneID" />
+          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaxonomyTierThree">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyTierThree">
+        <MappingFragment StoreEntitySet="TaxonomyTierThree">
+          <ScalarProperty Name="TaxonomyTierThreeID" ColumnName="TaxonomyTierThreeID" />
+          <ScalarProperty Name="TaxonomyTierThreeName" ColumnName="TaxonomyTierThreeName" />
+          <ScalarProperty Name="TaxonomyTierThreeDescription" ColumnName="TaxonomyTierThreeDescription" />
+          <ScalarProperty Name="TaxonomyTierThreeColor" ColumnName="TaxonomyTierThreeColor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaxonomyTierThreeImage">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyTierThreeImage">
+        <MappingFragment StoreEntitySet="TaxonomyTierThreeImage">
+          <ScalarProperty Name="TaxonomyTierThreeImageID" ColumnName="TaxonomyTierThreeImageID" />
+          <ScalarProperty Name="TaxonomyTierThreeID" ColumnName="TaxonomyTierThreeID" />
+          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaxonomyTierTwo">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyTierTwo">
+        <MappingFragment StoreEntitySet="TaxonomyTierTwo">
+          <ScalarProperty Name="TaxonomyTierTwoID" ColumnName="TaxonomyTierTwoID" />
+          <ScalarProperty Name="TaxonomyTierThreeID" ColumnName="TaxonomyTierThreeID" />
+          <ScalarProperty Name="TaxonomyTierTwoName" ColumnName="TaxonomyTierTwoName" />
+          <ScalarProperty Name="TaxonomyTierTwoDescription" ColumnName="TaxonomyTierTwoDescription" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaxonomyTierTwoImage">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyTierTwoImage">
+        <MappingFragment StoreEntitySet="TaxonomyTierTwoImage">
+          <ScalarProperty Name="TaxonomyTierTwoImageID" ColumnName="TaxonomyTierTwoImageID" />
+          <ScalarProperty Name="TaxonomyTierTwoID" ColumnName="TaxonomyTierTwoID" />
+          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaxonomyTierTwoPerformanceMeasure">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyTierTwoPerformanceMeasure">
+        <MappingFragment StoreEntitySet="TaxonomyTierTwoPerformanceMeasure">
+          <ScalarProperty Name="TaxonomyTierTwoPerformanceMeasureID" ColumnName="TaxonomyTierTwoPerformanceMeasureID" />
+          <ScalarProperty Name="TaxonomyTierTwoID" ColumnName="TaxonomyTierTwoID" />
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
+          <ScalarProperty Name="IsPrimaryTaxonomyTierTwo" ColumnName="IsPrimaryTaxonomyTierTwo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="ThresholdCategory">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ThresholdCategory">
         <MappingFragment StoreEntitySet="ThresholdCategory">
@@ -1079,23 +1074,6 @@
           <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
           <ScalarProperty Name="WatershedName" ColumnName="WatershedName" />
           <ScalarProperty Name="WatershedFeature" ColumnName="WatershedFeature" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="vProject">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.vProject">
-        <MappingFragment StoreEntitySet="vProject">
-          <ScalarProperty Name="ProjectNumberFull" ColumnName="ProjectNumberFull" />
-          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-          <ScalarProperty Name="ActionPriorityID" ColumnName="ActionPriorityID" />
-          <ScalarProperty Name="ProjectNumber" ColumnName="ProjectNumber" />
-          <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
-          <ScalarProperty Name="ProjectDescription" ColumnName="ProjectDescription" />
-          <ScalarProperty Name="ProjectStageID" ColumnName="ProjectStageID" />
-          <ScalarProperty Name="ProjectStageDisplayName" ColumnName="ProjectStageDisplayName" />
-          <ScalarProperty Name="ImplementationStartYear" ColumnName="ImplementationStartYear" />
-          <ScalarProperty Name="CompletionYear" ColumnName="CompletionYear" />
-          <ScalarProperty Name="ImplementsMultipleProjects" ColumnName="ImplementsMultipleProjects" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

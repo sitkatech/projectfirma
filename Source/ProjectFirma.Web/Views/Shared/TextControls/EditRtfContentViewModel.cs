@@ -45,27 +45,27 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
         }
 
         /// <summary>
-        /// Used by FocusArea Description
+        /// Used by TaxonomyTierThree Description
         /// </summary>
-        public void UpdateModel(Models.FocusArea focusArea)
+        public void UpdateModel(Models.TaxonomyTierThree taxonomyTierThree)
         {
-            focusArea.FocusAreaDescriptionHtmlString = RtfContent;
+            taxonomyTierThree.TaxonomyTierThreeDescriptionHtmlString = RtfContent;
         }
 
         /// <summary>
-        /// Used by Program Description
+        /// Used by TaxonomyTierTwo Description
         /// </summary>
-        public void UpdateModel(Models.Program program)
+        public void UpdateModel(Models.TaxonomyTierTwo taxonomyTierTwo)
         {
-            program.ProgramDescriptionHtmlString = RtfContent;
+            taxonomyTierTwo.TaxonomyTierTwoDescriptionHtmlString = RtfContent;
         }
 
         /// <summary>
-        /// Used by ActionPriority Description
+        /// Used by TaxonomyTierOne Description
         /// </summary>
-        public void UpdateModel(Models.ActionPriority actionPriority)
+        public void UpdateModel(Models.TaxonomyTierOne taxonomyTierOne)
         {
-            actionPriority.ActionPriorityDescriptionHtmlString = RtfContent;
+            taxonomyTierOne.TaxonomyTierOneDescriptionHtmlString = RtfContent;
         }
     }
 }

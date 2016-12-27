@@ -35,8 +35,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         [FieldDefinitionDisplay(FieldDefinitionEnum.CompletionYear)]
         public int? CompletionYear { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ActionPriority)]
-        public int ActionPriorityID { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierOne)]
+        public int TaxonomyTierOneID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
         public Money? EstimatedTotalCost { get; set; }
@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
         public EditProjectViewModel(Models.Project project, bool hasExistingProjectUpdate)
         {
-            ActionPriorityID = project.ActionPriorityID;
+            TaxonomyTierOneID = project.TaxonomyTierOneID;
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
             ProjectDescription = project.ProjectDescription;
@@ -84,7 +84,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
         public EditProjectViewModel(Models.ProposedProject proposedProject)
         {
-            ActionPriorityID = proposedProject.ActionPriorityID.Value;
+            TaxonomyTierOneID = proposedProject.TaxonomyTierOneID.Value;
             ProjectName = proposedProject.ProjectName;
             ProjectDescription = proposedProject.ProjectDescription;
             ProjectStageID = ProjectStage.PlanningDesign.ProjectStageID;
@@ -129,7 +129,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(project.ProjectID))
             {
-                project.ActionPriorityID = ActionPriorityID;
+                project.TaxonomyTierOneID = TaxonomyTierOneID;
 
                 Check.RequireNotNull(LeadImplementerOrganizationID, EditProjectViewModelValidator.NeedsLeadImplementingOrganizationMessage);
                 if (LeadImplementerOrganizationID != null)
@@ -137,13 +137,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                     project.ProjectImplementingOrganizations.Add(new ProjectImplementingOrganization(ProjectID, LeadImplementerOrganizationID.Value, true));
                 }
             }
-        }
-
-        public void UpdateModel(Models.Project project, short nextProjectNumber)
-        {
-            UpdateModel(project);
-            // set the project number
-            project.ProjectNumber = nextProjectNumber;
         }
     }
 }
