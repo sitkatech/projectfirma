@@ -66,9 +66,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AnonymousUnclassifiedFeature]
-        public ActionResult GetProject(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, string optionalProjectNumber)
+        public ActionResult GetProject(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, int projectID)
         {
-            var projects = WebServiceProject.GetProject(optionalProjectNumber);
+            var projects = WebServiceProject.GetProject(projectID);
             var gridSpec = new WebServiceProjectGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "Project");
         }
@@ -90,28 +90,25 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AnonymousUnclassifiedFeature]
-        public ActionResult GetProjectAccomplishments(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, string projectNumber)
+        public ActionResult GetProjectAccomplishments(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, int projectID)
         {
-            Check.RequireNotNull(projectNumber, "ProjectNumber cannot be null");
-            var projects = WebServiceProjectAccomplishments.GetProjectAccomplishments(projectNumber);
+            var projects = WebServiceProjectAccomplishments.GetProjectAccomplishments(projectID);
             var gridSpec = new WebServiceProjectAccomplishmentsGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectAccomplishments");
         }
 
         [AnonymousUnclassifiedFeature]
-        public ActionResult GetProjectDescription(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, string projectNumber)
+        public ActionResult GetProjectDescription(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, int projectID)
         {
-            Check.RequireNotNull(projectNumber, "ProjectNumber cannot be null");
-            var projects = WebServiceProjectDescription.GetProjectDescription(projectNumber);
+            var projects = WebServiceProjectDescription.GetProjectDescription(projectID);
             var gridSpec = new WebServiceProjectDescriptionGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectDescription");
         }
 
         [AnonymousUnclassifiedFeature]
-        public ActionResult GetProjectKeyPhoto(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, string projectNumber)
+        public ActionResult GetProjectKeyPhoto(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, int projectID)
         {
-            Check.RequireNotNull(projectNumber, "ProjectNumber cannot be null");
-            var projects = WebServiceProjectKeyPhoto.GetProjectKeyPhoto(projectNumber);
+            var projects = WebServiceProjectKeyPhoto.GetProjectKeyPhoto(projectID);
             var gridSpec = new WebServiceProjectKeyPhotoGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectKeyPhoto");
         }

@@ -51,14 +51,9 @@ namespace ProjectFirma.Web.Models
             get { return ProjectName; }
         }
 
-        public string ProjectNumberString
-        {
-            get { return string.Empty; }
-        }
-
         public string DisplayName
         {
-            get { return String.Format("{0} - {1}", ProjectNumberString, ProjectName); }
+            get { return ProjectName; }
         }
 
         public HtmlString DisplayNameAsUrl
@@ -567,7 +562,7 @@ namespace ProjectFirma.Web.Models
 
         public FancyTreeNode ToFancyTreeNode()
         {
-            var fancyTreeNode = new FancyTreeNode(String.Format("{0} - {1}", ProjectNumberString, UrlTemplate.MakeHrefString(this.GetFactSheetUrl(), ProjectName, ProjectName)), ProjectID.ToString(), false) { ThemeColor = TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeColor, MapUrl = null };
+            var fancyTreeNode = new FancyTreeNode(String.Format("{0}", UrlTemplate.MakeHrefString(this.GetFactSheetUrl(), ProjectName, ProjectName)), ProjectID.ToString(), false) { ThemeColor = TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeColor, MapUrl = null };
             return fancyTreeNode;
         }
 

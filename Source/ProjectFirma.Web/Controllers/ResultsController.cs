@@ -129,7 +129,7 @@ namespace ProjectFirma.Web.Controllers
                     .Where(x => (!calendarYear.HasValue && x.CalendarYear <= currentYearToUseForReporting) || x.CalendarYear == calendarYear)
                     .ToList()
                     .Where(x => !sectorID.HasValue || (x.FundingSource.Organization.Sector == Sector.AllLookupDictionary[sectorID.Value]))
-                    .OrderBy(x => x.Project.ProjectNumberString)
+                    .OrderBy(x => x.Project.DisplayName)
                     .ToList();
         }
 

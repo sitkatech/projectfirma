@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Service
     {
         [OperationContract]
         [WebServiceDocumentationAttribute("Provides detailed information for the specified project.")]
-        List<WebServiceProject> GetProject(string returnType, string webServiceToken, string optionalProjectNumber);
+        List<WebServiceProject> GetProject(string returnType, string webServiceToken, int projectID);
 
         [OperationContract]
         [WebServiceDocumentationAttribute("Provides the list of all projects regardless of stage or year completed.")]
@@ -24,15 +24,15 @@ namespace ProjectFirma.Web.Service
         
         [OperationContract]
         [WebServiceDocumentationAttribute("Provides the list of performance measure accomplishments for the specified Project.")]
-        List<WebServiceProjectAccomplishments> GetProjectAccomplishments(string returnType, string webServiceToken, string projectNumber);
+        List<WebServiceProjectAccomplishments> GetProjectAccomplishments(string returnType, string webServiceToken, int projectID);
 
         [OperationContract]
         [WebServiceDocumentationAttribute("Provides the description of the specified Project.")]
-        List<WebServiceProjectDescription> GetProjectDescription(string returnType, string webServiceToken, string projectNumber);
+        List<WebServiceProjectDescription> GetProjectDescription(string returnType, string webServiceToken, int projectID);
 
         [OperationContract]
         [WebServiceDocumentationAttribute("Provides the URL to the key photo for the specified Project.")]
-        List<WebServiceProjectKeyPhoto> GetProjectKeyPhoto(string returnType, string webServiceToken, string projectNumber);
+        List<WebServiceProjectKeyPhoto> GetProjectKeyPhoto(string returnType, string webServiceToken, int projectID);
 
         [OperationContract]
         [WebServiceDocumentationAttribute("Provides the list of all Performance Measures (aka PerformanceMeasures), including their subcategories (aka dimensions) and the number of options in each performanceMeasureSubcategory.")]

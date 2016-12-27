@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Models
                 x.SetProjectLocationStateProvince(stateProvinces, projectLocationAreas);
                 x.SetProjectLocationWatershed(watersheds, projectLocationAreas);
             });
-            return projectsList.OrderBy(x => x.ProjectNumberString).ToList();
+            return projectsList.OrderBy(x => x.DisplayName).ToList();
         }
 
         public static List<Project> GetUpdatableProjectsThatHaveNotBeenSubmitted(this IQueryable<Project> projects)
@@ -49,21 +49,6 @@ namespace ProjectFirma.Web.Models
         public static List<Person> GetPrimaryContactPeople(this IList<Project> projects)
         {
             return projects.Where(x => x.PrimaryContactPerson != null).Select(x => x.PrimaryContactPerson).Distinct(new HavePrimaryKeyComparer<Person>()).ToList();
-        }
-
-        public static Project GetProjectByProjectNumber(this IQueryable<Project> projects, string projectNumber)
-        {
-            return GetProjectByProjectNumber(projects, projectNumber, true);
-        }
-
-        public static Project GetProjectByProjectNumber(this IQueryable<Project> projects, string projectNumber, bool requireRecordFound)
-        {
-            var project = projects.ToList().SingleOrDefault(x => x.ProjectNumberString.Equals(projectNumber, StringComparison.InvariantCultureIgnoreCase));
-            if (requireRecordFound)
-            {
-                Check.RequireNotNullThrowNotFound(project, projectNumber);
-            }
-            return project;
         }
 
         public static List<Project> GetProjectFindResultsForProjectNameAndDescriptionAndNumber(this IQueryable<Project> projects, string projectKeyword)

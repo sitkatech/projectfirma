@@ -12,18 +12,18 @@ namespace ProjectFirma.Web.Service.ServiceModels
     {
         public WebServiceProjectDescription(Project project)
         {
-            ProjectNumber = project.ProjectNumberString;
+            ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;            
             ProjectDescription = project.ProjectDescription;            
         }
 
-        [DataMember] public string ProjectNumber { get; set; }
+        [DataMember] public int ProjectID { get; set; }
         [DataMember] public string ProjectName { get; set; }
         [DataMember] public string ProjectDescription { get; set; }
 
-        public static List<WebServiceProjectDescription> GetProjectDescription(string projectNumber)
+        public static List<WebServiceProjectDescription> GetProjectDescription(int projectID)
         {
-            var project = HttpRequestStorage.DatabaseEntities.Projects.GetProjectByProjectNumber(projectNumber);
+            var project = HttpRequestStorage.DatabaseEntities.Projects.GetProject(projectID);
             var projectDescription = new WebServiceProjectDescription(project);
             return new List<WebServiceProjectDescription> { projectDescription };
         }
@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
     {
         public WebServiceProjectDescriptionGridSpec()
         {
-            Add("ProjectNumber", x => x.ProjectNumber, 0);
+            Add("ProjectID", x => x.ProjectID, 0);
             Add("ProjectName", x => x.ProjectName, 0);
             Add("ProjectDescription", x => x.ProjectDescription, 0);           
         }

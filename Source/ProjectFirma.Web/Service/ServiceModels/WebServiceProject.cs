@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
     {
         public WebServiceProject(Project project)
         {
-            ProjectNumber = project.ProjectNumberString;
+            ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
             TaxonomyTierThree = project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName;
             TaxonomyTierTwo = project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierTwoName;
@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             ProjectFactSheetUrl = project.GetFactSheetUrl();
         }
 
-        [DataMember] public string ProjectNumber { get; set; }
+        [DataMember] public int ProjectID { get; set; }
         [DataMember] public string ProjectName { get; set; }
         [DataMember] public string TaxonomyTierThree { get; set; }
         [DataMember] public string TaxonomyTierTwo { get; set; }
@@ -64,9 +64,9 @@ namespace ProjectFirma.Web.Service.ServiceModels
         [DataMember] public string ProjectSummaryUrl { get; set; }
         [DataMember] public string ProjectFactSheetUrl { get; set; }
 
-        public static List<WebServiceProject> GetProject(string projectNumber)
+        public static List<WebServiceProject> GetProject(int projectID)
         {
-            var project = HttpRequestStorage.DatabaseEntities.Projects.GetProjectByProjectNumber(projectNumber);
+            var project = HttpRequestStorage.DatabaseEntities.Projects.GetProject(projectID);
             return new List<WebServiceProject> {new WebServiceProject(project)};
         }
 
@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             return
                 projects
                     .Select(x => new WebServiceProject(x))
-                    .OrderBy(x => x.ProjectNumber)
+                    .OrderBy(x => x.ProjectID)
                     .ToList();
         }
 
@@ -93,7 +93,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
 
             return projects
                 .Select(x => new WebServiceProject(x))
-                    .OrderBy(x => x.ProjectNumber)
+                    .OrderBy(x => x.ProjectID)
                     .ToList();
         }
     }
@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
     {
         public WebServiceProjectGridSpec()
         {
-            Add("ProjectNumber", x => x.ProjectNumber, 0);
+            Add("ProjectID", x => x.ProjectID, 0);
             Add("ProjectName", x => x.ProjectName, 0);
             Add("TaxonomyTierThree", x => x.TaxonomyTierThree, 0);
             Add("TaxonomyTierTwo", x => x.TaxonomyTierTwo, 0);

@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.Project
                     current.CalendarYearExpenditure[projectExpenditure.CalendarYear] = projectExpenditure.ExpenditureAmount;
                 }
             }
-            return projectsCrossJoinCalendarYears.OrderBy(x => x.Project.ProjectNumberString).ToList();
+            return projectsCrossJoinCalendarYears.OrderBy(x => x.Project.ProjectID).ToList();
         }
     }
 }

@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.ServiceModel;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Service;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using NUnit.Framework;
+using ProjectFirma.Web.Controllers;
 
-namespace ProjectFirma.Web.Security
+namespace ProjectFirma.Web.Service
 {
     [TestFixture]
     public class WebServicesTest
@@ -82,28 +81,28 @@ namespace ProjectFirma.Web.Security
             var testCases = new[]
             {
                 new CsvColumnTestCase("GetProject",
-                    () => (CsvDownloadResult) testSubject.GetProject(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests, WebServices.SampleProjectNumber), "ProjectNumber,ProjectName,TaxonomyTierThree,TaxonomyTierTwo,TaxonomyTierOne,Stage,ProjectDescription,LeadImplementer,PlanningStartDate,ImplementationStartDate,EndDate,Latitude,Longitude,Datum,ProjectRegion,ProjectState,ProjectJurisdiction,ProjectWatershed,ProjectSummaryUrl,ProjectFactSheetUrl"),
+                    () => (CsvDownloadResult) testSubject.GetProject(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests, WebServices.SampleProjectID), "ProjectID,ProjectName,TaxonomyTierThree,TaxonomyTierTwo,TaxonomyTierOne,Stage,ProjectDescription,LeadImplementer,PlanningStartDate,ImplementationStartDate,EndDate,Latitude,Longitude,Datum,ProjectRegion,ProjectState,ProjectJurisdiction,ProjectWatershed,ProjectSummaryUrl,ProjectFactSheetUrl"),
                 new CsvColumnTestCase("GetProjects",
-                    () => (CsvDownloadResult) testSubject.GetProjects(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests), "ProjectNumber,ProjectName,TaxonomyTierThree,TaxonomyTierTwo,TaxonomyTierOne,Stage,ProjectDescription,LeadImplementer,PlanningStartDate,ImplementationStartDate,EndDate,Latitude,Longitude,Datum,ProjectRegion,ProjectState,ProjectJurisdiction,ProjectWatershed,ProjectSummaryUrl,ProjectFactSheetUrl"),
+                    () => (CsvDownloadResult) testSubject.GetProjects(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests), "ProjectID,ProjectName,TaxonomyTierThree,TaxonomyTierTwo,TaxonomyTierOne,Stage,ProjectDescription,LeadImplementer,PlanningStartDate,ImplementationStartDate,EndDate,Latitude,Longitude,Datum,ProjectRegion,ProjectState,ProjectJurisdiction,ProjectWatershed,ProjectSummaryUrl,ProjectFactSheetUrl"),
                 new CsvColumnTestCase("GetProjectsByOrganization",
                     () =>
                         (CsvDownloadResult)
-                            testSubject.GetProjectsByOrganization(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests, WebServices.SampleOrganizationID), "ProjectNumber,ProjectName,TaxonomyTierThree,TaxonomyTierTwo,TaxonomyTierOne,Stage,ProjectDescription,LeadImplementer,PlanningStartDate,ImplementationStartDate,EndDate,Latitude,Longitude,Datum,ProjectRegion,ProjectState,ProjectJurisdiction,ProjectWatershed,ProjectSummaryUrl,ProjectFactSheetUrl"),
+                            testSubject.GetProjectsByOrganization(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests, WebServices.SampleOrganizationID), "ProjectID,ProjectName,TaxonomyTierThree,TaxonomyTierTwo,TaxonomyTierOne,Stage,ProjectDescription,LeadImplementer,PlanningStartDate,ImplementationStartDate,EndDate,Latitude,Longitude,Datum,ProjectRegion,ProjectState,ProjectJurisdiction,ProjectWatershed,ProjectSummaryUrl,ProjectFactSheetUrl"),
                 new CsvColumnTestCase("GetProjectAccomplishments",
                     () =>
                         (CsvDownloadResult)
-                            testSubject.GetProjectAccomplishments(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests, WebServices.SampleProjectNumber),
-"ProjectNumber,PerformanceMeasureID,PerformanceMeasureName,PerformanceMeasureUnits,PerformanceMeasureProjectYear,PerformanceMeasureProjectValue,PMSubcategoryName1,PMSubcategoryOptionCount1,PMSubcategoryName2,PMSubcategoryOptionCount2,PMSubcategoryName3,PMSubcategoryOptionCount3,PMSubcategoryName4,PMSubcategoryOptionCount4"),
+                            testSubject.GetProjectAccomplishments(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests, WebServices.SampleProjectID),
+"ProjectID,PerformanceMeasureID,PerformanceMeasureName,PerformanceMeasureUnits,PerformanceMeasureProjectYear,PerformanceMeasureProjectValue,PMSubcategoryName1,PMSubcategoryOptionCount1,PMSubcategoryName2,PMSubcategoryOptionCount2,PMSubcategoryName3,PMSubcategoryOptionCount3,PMSubcategoryName4,PMSubcategoryOptionCount4"),
                 new CsvColumnTestCase("GetProjectDescription",
                     () =>
                         (CsvDownloadResult)
-                            testSubject.GetProjectDescription(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests, WebServices.SampleProjectNumber),
-                    "ProjectNumber,ProjectName,ProjectDescription"),
+                            testSubject.GetProjectDescription(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests, WebServices.SampleProjectID),
+                    "ProjectID,ProjectName,ProjectDescription"),
                 new CsvColumnTestCase("GetProjectKeyPhoto",
                     () =>
                         (CsvDownloadResult)
-                            testSubject.GetProjectKeyPhoto(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests, WebServices.SampleProjectNumber),
-                    "ProjectNumber,ProjectName,KeyPhotoUrl"),
+                            testSubject.GetProjectKeyPhoto(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests, WebServices.SampleProjectID),
+                    "ProjectID,ProjectName,KeyPhotoUrl"),
                 new CsvColumnTestCase("GetPerformanceMeasures",
                     () => (CsvDownloadResult) testSubject.GetPerformanceMeasures(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests),
 "PerformanceMeasureID,PerformanceMeasureName,PerformanceMeasureDescription,PerformanceMeasureUnits,PMSubcategoryName1,PMSubcategoryOptionCount1,PMSubcategoryName2,PMSubcategoryOptionCount2,PMSubcategoryName3,PMSubcategoryOptionCount3,PMSubcategoryName4,PMSubcategoryOptionCount4"),

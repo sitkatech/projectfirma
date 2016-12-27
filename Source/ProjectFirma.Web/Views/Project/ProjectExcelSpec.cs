@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectDescriptionExcelSpec()
         {
-            AddColumn("Project #", x => x.ProjectNumberString);
+            AddColumn("Project ID", x => x.ProjectID);
             AddColumn("Project Name", x => x.ProjectName);
             AddColumn("Description", x => x.ProjectDescription);
         }
@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec()
         {
-            AddColumn("Project #", x => x.Project.ProjectNumberString);
+            AddColumn("Project ID", x => x.Project.ProjectID);
             AddColumn("Project Name", x => x.Project.ProjectName);
             AddColumn("Organization ID", x => x.Organization.OrganizationID);
             AddColumn("Organization Name", x => x.Organization.OrganizationName);
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectNoteExcelSpec()
         {
-            AddColumn("Project #", x => x.Project.ProjectNumberString);
+            AddColumn("Project ID", x => x.Project.ProjectID);
             AddColumn("Project Name", x => x.Project.ProjectName);
             AddColumn("Project Note", x => x.Note);
             AddColumn("Create Person", x => x.CreatePersonName);
@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public PerformanceMeasureExpectedExcelSpec()
         {
-            AddColumn("Project #", x => x.Project.ProjectNumberString);
+            AddColumn("Project ID", x => x.Project.ProjectID);
             AddColumn("Project Name", x => x.Project.ProjectName);
             AddColumn("Performance Measure ID", x => x.PerformanceMeasureID);
             AddColumn("Performance Measure Name", x => x.PerformanceMeasure.PerformanceMeasureName);
@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public PerformanceMeasureActualExcelSpec()
         {
-            AddColumn("Project #", x => x.Project.ProjectNumberString);
+            AddColumn("Project ID", x => x.Project.ProjectID);
             AddColumn("Project Name", x => x.Project.ProjectName);
             AddColumn("Performance Measure ID", x => x.PerformanceMeasureID);
             AddColumn("Performance Measure Name", x => x.PerformanceMeasure.PerformanceMeasureName);
@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectFundingSourceExpenditureExcelSpec()
         {
-            AddColumn("Project #", x => x.Project.ProjectNumberString);
+            AddColumn("Project ID", x => x.Project.ProjectID);
             AddColumn("Project Name", x => x.Project.ProjectName);
             AddColumn("Funding Source", x => x.FundingSource.FundingSourceName);
             AddColumn("Funding Organization", x => x.FundingSource.Organization.OrganizationName);
@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectWatershedExcelSpec()
         {
-            AddColumn("Project #", x => x.Project.ProjectNumberString);
+            AddColumn("Project ID", x => x.Project.ProjectID);
             AddColumn("Project Name", x => x.Project.ProjectName);
             AddColumn("Watershed", x => x.Watershed.DisplayName);
         }
@@ -132,7 +132,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectThresholdCategoryExcelSpec()
         {
-            AddColumn("Project #", x => x.Project.ProjectNumberString);
+            AddColumn("Project ID", x => x.Project.ProjectID);
             AddColumn("Project Name", x => x.Project.ProjectName);
             AddColumn("Threshold Category", x => x.ThresholdCategory.DisplayName);
         }

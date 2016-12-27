@@ -18,7 +18,6 @@
     @foreach (var project in ViewDataTyped.Projects)
     {
         <tr>
-            <td><a href="@project.GetSummaryUrl()">@project.ProjectNumberString</a></td>
             <td><a href="@project.GetFactSheetUrl()">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon</a>
             <td><a href="@project.GetSummaryUrl()">@project.ProjectName</a></td>            
             <td style="width:250px">@if (project.LeadImplementerOrganizationID.HasValue) { @project.LeadImplementer.GetDisplayNameAsUrl() }</td>

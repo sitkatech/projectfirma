@@ -113,7 +113,7 @@ Thank you,<br />
                 returnerPerson.Email,
                 FirmaSignature);
 
-            var subject = string.Format("The update for project {0} has been returned - please review and re-submit", projectUpdateBatch.Project.ProjectNumberString);
+            var subject = string.Format("The update for project {0} has been returned - please review and re-submit", projectUpdateBatch.Project.DisplayName);
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true};
             return mailMessage;
         }
@@ -146,7 +146,7 @@ Thank you,<br />
 
         private static MailMessage GenerateProjectUpdateSubmittedMessage(ProjectUpdateBatch projectUpdateBatch, ProjectUpdateHistory latestProjectUpdateHistorySubmitted, Person submitterPerson)
         {
-            var subject = String.Format("The update for project {0} was submitted", projectUpdateBatch.Project.ProjectNumberString);
+            var subject = String.Format("The update for project {0} was submitted", projectUpdateBatch.Project.DisplayName);
             var instructionsUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(projectUpdateBatch.Project), SitkaWebConfiguration.CanonicalHostName);
             var message = String.Format(@"
 <p>The update for project {0} on {1} was just submitted by {2}.</p>
@@ -234,7 +234,7 @@ Thank you,<br />
             ProjectUpdateHistory latestProjectUpdateHistorySubmitted,
             Person approverPerson)
         {
-            var summaryUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Summary(projectUpdateBatch.Project.ProjectNumberString), SitkaWebConfiguration.CanonicalHostName);
+            var summaryUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Summary(projectUpdateBatch.Project), SitkaWebConfiguration.CanonicalHostName);
             var message = String.Format(@"
 Dear {0},
 <p>
@@ -251,7 +251,7 @@ Thank you for keeping your project information and accomplishments up to date!<b
 ", personNames, projectUpdateBatch.Project.DisplayName, latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate(), approverPerson.FullNameFirstLastAndOrg, summaryUrl,
                 FirmaSignature);
 
-            var subject = String.Format("The update for project {0} was approved", projectUpdateBatch.Project.ProjectNumberString);
+            var subject = String.Format("The update for project {0} was approved", projectUpdateBatch.Project.DisplayName);
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true};
             return mailMessage;
         }

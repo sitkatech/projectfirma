@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.Controllers
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects:
                     break;
             }
-            return projects.OrderBy(x => x.ProjectNumberString).ToList();
+            return projects.OrderBy(x => x.DisplayName).ToList();
         }
 
         [ProjectUpdateManageFeature]
@@ -1052,8 +1052,8 @@ namespace ProjectFirma.Web.Controllers
             var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
             Notification.SendApprovalMessage(peopleToCc, projectUpdateBatch);
 
-            SetMessageForDisplay(string.Format("The update for project {0} was approved", projectUpdateBatch.Project.ProjectNumberString));
-            return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Summary(project.ProjectNumberString)));
+            SetMessageForDisplay(string.Format("The update for project {0} was approved", projectUpdateBatch.Project.DisplayName));
+            return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Summary(project)));
         }
 
         private PartialViewResult ViewApprove(ProjectUpdateBatch projectUpdate, ConfirmDialogFormViewModel viewModel)
@@ -1130,7 +1130,7 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.SubmitToReviewer(CurrentPerson, DateTime.Now);
             var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
             Notification.SendSubmittedMessage(peopleToCc, projectUpdateBatch);
-            SetMessageForDisplay(string.Format("The update for project {0} has been submitted.", projectUpdateBatch.Project.ProjectNumberString));
+            SetMessageForDisplay(string.Format("The update for project {0} has been submitted.", projectUpdateBatch.Project.DisplayName));
             return new ModalDialogFormJsonResult();
         }
 
@@ -1164,7 +1164,7 @@ namespace ProjectFirma.Web.Controllers
                 pub.SubmitToReviewer(CurrentPerson, DateTime.Now);
                 Notification.SendSubmittedMessage(peopleToCc, pub);
             });
-            SetMessageForDisplay(string.Format("The update(s) for project(s) {0} have been submitted.", string.Join(", ", projectUpdateBatches.Select(x => x.Project.ProjectNumberString))));
+            SetMessageForDisplay(string.Format("The update(s) for project(s) {0} have been submitted.", string.Join(", ", projectUpdateBatches.Select(x => x.Project.DisplayName))));
             return new ModalDialogFormJsonResult();
         }
 
@@ -1200,7 +1200,7 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.Return(CurrentPerson, DateTime.Now);
             var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
             Notification.SendReturnedMessage(peopleToCc, projectUpdateBatch);
-            SetMessageForDisplay(string.Format("The update submitted for project {0} has been returned.", projectUpdateBatch.Project.ProjectNumberString));
+            SetMessageForDisplay(string.Format("The update submitted for project {0} has been returned.", projectUpdateBatch.Project.DisplayName));
             return new ModalDialogFormJsonResult();
         }
 

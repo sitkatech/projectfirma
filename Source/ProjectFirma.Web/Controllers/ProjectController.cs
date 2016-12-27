@@ -48,7 +48,6 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNew(viewModel);
             }
-            var taxonomyTierOne = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.GetTaxonomyTierOne(viewModel.TaxonomyTierOneID);
             var project = new Project(viewModel.TaxonomyTierOneID,
                 viewModel.ProjectStageID,
                 viewModel.ProjectName,
@@ -72,7 +71,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var latestNotApprovedUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             var viewModel = new EditProjectViewModel(project, latestNotApprovedUpdateBatch != null);
-            return ViewEdit(viewModel, EditProjectType.ExistingProject, project.ProjectNumberString, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, latestNotApprovedUpdateBatch);
+            return ViewEdit(viewModel, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, latestNotApprovedUpdateBatch);
         }
 
         [HttpPost]
@@ -83,7 +82,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, EditProjectType.ExistingProject, project.ProjectNumberString, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, project.GetLatestNotApprovedUpdateBatch());
+                return ViewEdit(viewModel, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, project.GetLatestNotApprovedUpdateBatch());
             }
             viewModel.UpdateModel(project);
             return new ModalDialogFormJsonResult();
@@ -91,19 +90,16 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewNew(EditProjectViewModel viewModel)
         {
-            return ViewEdit(viewModel, EditProjectType.NewProject, string.Empty, string.Empty, null, null);
+            return ViewEdit(viewModel, EditProjectType.NewProject, string.Empty, null, null);
         }
 
-        private PartialViewResult ViewEdit(EditProjectViewModel viewModel, EditProjectType editProjectType, string projectNumberString, string taxonomyTierOneDisplayName, decimal? totalExpenditures, ProjectUpdateBatch projectUpdateBatch)
+        private PartialViewResult ViewEdit(EditProjectViewModel viewModel, EditProjectType editProjectType, string taxonomyTierOneDisplayName, decimal? totalExpenditures, ProjectUpdateBatch projectUpdateBatch)
         {
-            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().OrderBy(ap => ap.DisplayName).ToList();
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var hasExistingProjectUpdate = projectUpdateBatch != null;
             var hasExistingProjectBudgetUpdates = hasExistingProjectUpdate && projectUpdateBatch.ProjectBudgetUpdates.Any();
-            var viewData = new EditProjectViewData(taxonomyTierOnes,
-                editProjectType,
+            var viewData = new EditProjectViewData(editProjectType,
                 taxonomyTierOneDisplayName,
-                projectNumberString,
                 ProjectStage.All, FundingType.All, organizations, totalExpenditures, hasExistingProjectBudgetUpdates);
             return RazorPartialView<EditProject, EditProjectViewData, EditProjectViewModel>(viewData, viewModel);
         }
@@ -116,11 +112,10 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ProjectMapPopup, ProjectMapPopupViewData>(new ProjectMapPopupViewData(project));
         }
 
-        [ProjectsViewFullListFeature] //Handling permission check in code since this route is "overloaded" (can handle ProjectID or ProjectNumber)
-        public ViewResult Summary(string projectNumber)
+        [ProjectsViewFullListFeature]
+        public ViewResult Summary(ProjectPrimaryKey projectPrimaryKey)
         {
-            var project = ParseProjectNumberOrProjectID(projectNumber);
-            new ProjectViewFeature().DemandPermission(CurrentPerson, project);
+            var project = projectPrimaryKey.EntityObject;
 
             var confirmNonMandatoryUpdateUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.ConfirmNonMandatoryUpdate(project.PrimaryKey));
             var activeProjectStages = GetActiveProjectStages(project);
@@ -236,24 +231,6 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Summary, SummaryViewData>(viewData);
         }
 
-        private Project ParseProjectNumberOrProjectID(string projectNumberOrProjectID)
-        {
-            if (projectNumberOrProjectID.Contains("."))
-            {
-                return HttpRequestStorage.DatabaseEntities.Projects.GetProjectByProjectNumber(projectNumberOrProjectID);
-            }
-            else
-            {
-                int projectID;
-                if (int.TryParse(projectNumberOrProjectID, out projectID))
-                {
-                    return HttpRequestStorage.DatabaseEntities.Projects.GetProject(projectID);
-                }
-            }
-
-            throw new SitkaRecordNotFoundException("Unrecognized ProjectID / ProjectNumber", projectNumberOrProjectID);
-        }
-      
         private static ProjectExpendituresSummaryViewData BuildProjectExpendituresSummaryViewData(Project project)
         {
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
@@ -317,12 +294,10 @@ namespace ProjectFirma.Web.Controllers
             return activeProjectStages;
         }
 
-        [ProjectsViewFullListFeature] //Handling permission check in code since this route is "overloaded" (can handle ProjectID or ProjectNumber)
-        public ViewResult FactSheet(string projectNumber)
+        [ProjectsViewFullListFeature]
+        public ViewResult FactSheet(ProjectPrimaryKey projectPrimaryKey)
         {
-            var project = ParseProjectNumberOrProjectID(projectNumber);
-            new ProjectViewFeature().DemandPermission(CurrentPerson, project);
-
+            var project = projectPrimaryKey.EntityObject;
             var mapDivID = string.Format("project_{0}_Map", project.ProjectID);
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID);
             var viewData = new FactSheetViewData(CurrentPerson, project, projectLocationSummaryMapInitJson, FirmaHelpers.DefaultColorRange);
@@ -437,7 +412,7 @@ namespace ProjectFirma.Web.Controllers
                 ? string.Format("Are you sure you want to delete this Project '{0}'?", project.DisplayName)
                 : string.Format("Only projects in the following stages may be deleted: {0}<br />{1}",
                     string.Join(", ", ProjectStage.All.Where(x => x.IsDeletable()).Select(x => x.ProjectStageDisplayName)),
-                    ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Project", SitkaRoute<ProjectController>.BuildLinkFromExpression(x => x.Summary(project.ProjectNumberString), "here")));
+                    ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Project", SitkaRoute<ProjectController>.BuildLinkFromExpression(x => x.Summary(project), "here")));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
@@ -581,7 +556,7 @@ namespace ProjectFirma.Web.Controllers
                 HttpRequestStorage.DatabaseEntities.Projects.Where(x => projectIDsFound.Contains(x.ProjectID))
                     .ToList()
                     .Where(x => x.IsVisibleToThisPerson(CurrentPerson))
-                    .OrderBy(x => x.ProjectNumberString)
+                    .OrderBy(x => x.DisplayName)
                     .ToList();
             return projectsFound;
         }
@@ -591,7 +566,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (projectsFound.Count == 1)
             {
-                return RedirectToAction(new SitkaRoute<ProjectController>(x => x.Summary(projectsFound.Single().ProjectNumberString)));
+                return RedirectToAction(new SitkaRoute<ProjectController>(x => x.Summary(projectsFound.Single())));
             }
 
             var viewData = new SearchResultsViewData(CurrentPerson, projectsFound, searchCriteria);
@@ -637,7 +612,7 @@ namespace ProjectFirma.Web.Controllers
         private List<Project> GetFeaturedListGridSpec(out FeaturesListProjectGridSpec gridSpec)
         {
             gridSpec = new FeaturesListProjectGridSpec(CurrentPerson);
-            return HttpRequestStorage.DatabaseEntities.Projects.Where(p => p.IsFeatured).ToList().OrderBy(x => x.ProjectNumberString).ToList();
+            return HttpRequestStorage.DatabaseEntities.Projects.Where(p => p.IsFeatured).ToList().OrderBy(x => x.DisplayName).ToList();
         }
 
         [HttpGet]
@@ -676,7 +651,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult FullProjectListSimple()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.FullProjectListSimple);
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().OrderBy(x => x.ProjectNumberString).ToList();
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().OrderBy(x => x.DisplayName).ToList();
             var viewData = new FullProjectListSimpleViewData(CurrentPerson, firmaPage, projects);
             return RazorView<FullProjectListSimple, FullProjectListSimpleViewData>(viewData);
         }

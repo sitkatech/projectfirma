@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
         {
             var project = perfomanceMeasureActualValue.Project;
             var pm = perfomanceMeasureActualValue.PerformanceMeasure;
-            ProjectNumber = project.ProjectNumberString;
+            ProjectID = project.ProjectID;
 
             PerformanceMeasureID = pm.PerformanceMeasureID;
             PerformanceMeasureName = pm.PerformanceMeasureDisplayName;
@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
 
       
 
-        [DataMember] public string ProjectNumber { get; set; }
+        [DataMember] public int ProjectID { get; set; }
         [DataMember] public int PerformanceMeasureID { get; set; }
         [DataMember] public string PerformanceMeasureName { get; set; }
         [DataMember] public string PerformanceMeasureUnits { get; set; }
@@ -73,9 +73,9 @@ namespace ProjectFirma.Web.Service.ServiceModels
         [DataMember] public string PMSubcategoryName4 { get; set; }
         [DataMember] public string PMSubcategoryOption4 { get; set; }    
 
-        public static List<WebServiceProjectAccomplishments> GetProjectAccomplishments(string projectNumber)
+        public static List<WebServiceProjectAccomplishments> GetProjectAccomplishments(int projectID)
         {
-            var project = HttpRequestStorage.DatabaseEntities.Projects.GetProjectByProjectNumber(projectNumber);
+            var project = HttpRequestStorage.DatabaseEntities.Projects.GetProject(projectID);
             return project.PerformanceMeasureActuals.Select(x => new WebServiceProjectAccomplishments(x)).OrderBy(x => x.PerformanceMeasureID).ToList();
         }       
     }
@@ -84,7 +84,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
     {
         public WebServiceProjectAccomplishmentsGridSpec()
         {
-            Add("ProjectNumber", x => x.ProjectNumber, 0);
+            Add("ProjectID", x => x.ProjectID, 0);
             Add("PerformanceMeasureID", x => x.PerformanceMeasureID, 0);
             Add("PerformanceMeasureName", x => x.PerformanceMeasureName, 0);
             Add("PerformanceMeasureUnits", x => x.PerformanceMeasureUnits, 0);
