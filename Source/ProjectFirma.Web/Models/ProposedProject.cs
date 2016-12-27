@@ -290,7 +290,7 @@ namespace ProjectFirma.Web.Models
                 ProjectLocationNotes = proposedProject.ProjectLocationNotes,
             };
             project.ProjectNotes = proposedProject.ProposedProjectNotes.Select(x => new ProjectNote(project, x.Note, x.CreateDate)).ToList();
-            project.ProjectThresholdCategories = proposedProject.ProposedProjectThresholdCategories.Select(x => new ProjectThresholdCategory(project.ProjectID, x.ThresholdCategoryID, x.ProposedProjectThresholdCategoryNotes)).ToList();            
+            project.ProjectClassifications = proposedProject.ProposedProjectClassifications.Select(x => new ProjectClassification(project.ProjectID, x.ClassificationID, x.ProposedProjectClassificationNotes)).ToList();            
 
             project.ProjectImplementingOrganizations.Add(new ProjectImplementingOrganization(project, proposedProject.LeadImplementerOrganization, true));
 

@@ -32,6 +32,9 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<AssessmentQuestion> AssessmentQuestions { get; set; }
         public virtual DbSet<AssessmentSubGoal> AssessmentSubGoals { get; set; }
         public virtual DbSet<AuditLog> AuditLogs { get; set; }
+        public virtual DbSet<ClassificationImage> ClassificationImages { get; set; }
+        public virtual DbSet<ClassificationPerformanceMeasure> ClassificationPerformanceMeasures { get; set; }
+        public virtual DbSet<Classification> Classifications { get; set; }
         public virtual DbSet<CostParameterSet> CostParameterSets { get; set; }
         public virtual DbSet<County> Counties { get; set; }
         public virtual DbSet<DatabaseMigration> DatabaseMigrations { get; set; }
@@ -67,6 +70,7 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<ProjectAssessmentQuestion> ProjectAssessmentQuestions { get; set; }
         public virtual DbSet<ProjectBudget> ProjectBudgets { get; set; }
         public virtual DbSet<ProjectBudgetUpdate> ProjectBudgetUpdates { get; set; }
+        public virtual DbSet<ProjectClassification> ProjectClassifications { get; set; }
         public virtual DbSet<ProjectExemptReportingYear> ProjectExemptReportingYears { get; set; }
         public virtual DbSet<ProjectExemptReportingYearUpdate> ProjectExemptReportingYearUpdates { get; set; }
         public virtual DbSet<ProjectExternalLink> ProjectExternalLinks { get; set; }
@@ -90,18 +94,17 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<ProjectNoteUpdate> ProjectNoteUpdates { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<ProjectTag> ProjectTags { get; set; }
-        public virtual DbSet<ProjectThresholdCategory> ProjectThresholdCategories { get; set; }
         public virtual DbSet<ProjectUpdateBatch> ProjectUpdateBatches { get; set; }
         public virtual DbSet<ProjectUpdateHistory> ProjectUpdateHistories { get; set; }
         public virtual DbSet<ProjectUpdate> ProjectUpdates { get; set; }
         public virtual DbSet<ProjectWatershed> ProjectWatersheds { get; set; }
         public virtual DbSet<ProposedProjectAssessmentQuestion> ProposedProjectAssessmentQuestions { get; set; }
+        public virtual DbSet<ProposedProjectClassification> ProposedProjectClassifications { get; set; }
         public virtual DbSet<ProposedProjectImage> ProposedProjectImages { get; set; }
         public virtual DbSet<ProposedProjectLocation> ProposedProjectLocations { get; set; }
         public virtual DbSet<ProposedProjectLocationStaging> ProposedProjectLocationStagings { get; set; }
         public virtual DbSet<ProposedProjectNote> ProposedProjectNotes { get; set; }
         public virtual DbSet<ProposedProject> ProposedProjects { get; set; }
-        public virtual DbSet<ProposedProjectThresholdCategory> ProposedProjectThresholdCategories { get; set; }
         public virtual DbSet<SnapshotPerformanceMeasure> SnapshotPerformanceMeasures { get; set; }
         public virtual DbSet<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual DbSet<SnapshotProject> SnapshotProjects { get; set; }
@@ -117,9 +120,6 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<TaxonomyTierTwoImage> TaxonomyTierTwoImages { get; set; }
         public virtual DbSet<TaxonomyTierTwoPerformanceMeasure> TaxonomyTierTwoPerformanceMeasures { get; set; }
         public virtual DbSet<TaxonomyTierTwo> TaxonomyTierTwos { get; set; }
-        public virtual DbSet<ThresholdCategory> ThresholdCategories { get; set; }
-        public virtual DbSet<ThresholdCategoryImage> ThresholdCategoryImages { get; set; }
-        public virtual DbSet<ThresholdCategoryPerformanceMeasure> ThresholdCategoryPerformanceMeasures { get; set; }
         public virtual DbSet<Watershed> Watersheds { get; set; }
 
         public object LoadType(Type type, int primaryKey)
@@ -142,6 +142,15 @@ namespace ProjectFirma.Web.Models
 
                 case "AuditLog":
                     return AuditLogs.GetAuditLog(primaryKey);
+
+                case "ClassificationImage":
+                    return ClassificationImages.GetClassificationImage(primaryKey);
+
+                case "ClassificationPerformanceMeasure":
+                    return ClassificationPerformanceMeasures.GetClassificationPerformanceMeasure(primaryKey);
+
+                case "Classification":
+                    return Classifications.GetClassification(primaryKey);
 
                 case "CostParameterSet":
                     return CostParameterSets.GetCostParameterSet(primaryKey);
@@ -293,6 +302,9 @@ namespace ProjectFirma.Web.Models
                 case "ProjectBudgetUpdate":
                     return ProjectBudgetUpdates.GetProjectBudgetUpdate(primaryKey);
 
+                case "ProjectClassification":
+                    return ProjectClassifications.GetProjectClassification(primaryKey);
+
                 case "ProjectColorByType":
                     var projectColorByType = ProjectColorByType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectColorByType, "ProjectColorByType", primaryKey);
@@ -397,9 +409,6 @@ namespace ProjectFirma.Web.Models
                 case "ProjectTag":
                     return ProjectTags.GetProjectTag(primaryKey);
 
-                case "ProjectThresholdCategory":
-                    return ProjectThresholdCategories.GetProjectThresholdCategory(primaryKey);
-
                 case "ProjectUpdateBatch":
                     return ProjectUpdateBatches.GetProjectUpdateBatch(primaryKey);
 
@@ -420,6 +429,9 @@ namespace ProjectFirma.Web.Models
                 case "ProposedProjectAssessmentQuestion":
                     return ProposedProjectAssessmentQuestions.GetProposedProjectAssessmentQuestion(primaryKey);
 
+                case "ProposedProjectClassification":
+                    return ProposedProjectClassifications.GetProposedProjectClassification(primaryKey);
+
                 case "ProposedProjectImage":
                     return ProposedProjectImages.GetProposedProjectImage(primaryKey);
 
@@ -439,9 +451,6 @@ namespace ProjectFirma.Web.Models
                     var proposedProjectState = ProposedProjectState.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(proposedProjectState, "ProposedProjectState", primaryKey);
                     return proposedProjectState;
-
-                case "ProposedProjectThresholdCategory":
-                    return ProposedProjectThresholdCategories.GetProposedProjectThresholdCategory(primaryKey);
 
                 case "Role":
                     var role = Role.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
@@ -507,15 +516,6 @@ namespace ProjectFirma.Web.Models
 
                 case "TaxonomyTierTwo":
                     return TaxonomyTierTwos.GetTaxonomyTierTwo(primaryKey);
-
-                case "ThresholdCategory":
-                    return ThresholdCategories.GetThresholdCategory(primaryKey);
-
-                case "ThresholdCategoryImage":
-                    return ThresholdCategoryImages.GetThresholdCategoryImage(primaryKey);
-
-                case "ThresholdCategoryPerformanceMeasure":
-                    return ThresholdCategoryPerformanceMeasures.GetThresholdCategoryPerformanceMeasure(primaryKey);
 
                 case "Watershed":
                     return Watersheds.GetWatershed(primaryKey);

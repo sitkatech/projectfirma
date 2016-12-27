@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly List<IGrouping<ProjectImageTiming, Models.ProjectImage>> ProjectImagesExceptKeyPhotoGroupedByTiming;
         public readonly int ProjectImagesPerTimingGroup;
         public readonly List<string> ChartColorRange;
-        public readonly List<Models.ThresholdCategory> ThresholdCategories;
+        public readonly List<Models.Classification> Classifications;
         public readonly GoogleChartJson GoogleChartJson;
 
         public FactSheetViewData(Person currentPerson, Models.Project project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, List<string> chartColorRange) : base(currentPerson, project)
@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.Project
                     .OrderBy(x => x.Key.SortOrder)
                     .ToList();
             ProjectImagesPerTimingGroup = ProjectImagesExceptKeyPhotoGroupedByTiming.Count == 1 ? 6 : 2;
-            ThresholdCategories = project.ProjectThresholdCategories.Select(x => x.ThresholdCategory).OrderBy(x => x.DisplayName).ToList();
+            Classifications = project.ProjectClassifications.Select(x => x.Classification).OrderBy(x => x.DisplayName).ToList();
 
             GoogleChartJson = ProjectController.GetProjectFactSheetGoogleChart(project.PrimaryKey);
 

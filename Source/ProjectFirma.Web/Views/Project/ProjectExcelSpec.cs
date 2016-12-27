@@ -2,6 +2,7 @@
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.ExcelWorkbookUtilities;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -15,7 +16,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn("Non-Lead Implementing Organizations",
                 x => string.Join(",", x.ProjectImplementingOrganizations.Where(pio => pio.OrganizationID != x.LeadImplementer.OrganizationID).Select(pio => pio.Organization.DisplayName)));
             AddColumn(Models.FieldDefinition.ProjectStage.FieldDefinitionDisplayName, x => x.ProjectStage.ProjectStageDisplayName);
-            AddColumn("Threshold Categories", x => string.Join(",", x.ProjectThresholdCategories.Select(tc => tc.ThresholdCategory.DisplayName)));
+            AddColumn(MultiTenantHelpers.GetClassificationDisplayNamePluralized(), x => string.Join(",", x.ProjectClassifications.Select(tc => tc.Classification.DisplayName)));
             AddColumn("Watersheds", x => string.Join(",", x.ProjectWatersheds.Select(pw => pw.Watershed.DisplayName)));
             AddColumn(Models.FieldDefinition.ImplementationStartYear.FieldDefinitionDisplayName, x => x.ImplementationStartYear);
             AddColumn(Models.FieldDefinition.CompletionYear.FieldDefinitionDisplayName, x => x.CompletionYear);
@@ -128,13 +129,13 @@ namespace ProjectFirma.Web.Views.Project
         }
     }
 
-    public class ProjectThresholdCategoryExcelSpec : ExcelWorksheetSpec<Models.ProjectThresholdCategory>
+    public class ProjectClassificationExcelSpec : ExcelWorksheetSpec<Models.ProjectClassification>
     {
-        public ProjectThresholdCategoryExcelSpec()
+        public ProjectClassificationExcelSpec()
         {
             AddColumn("Project ID", x => x.Project.ProjectID);
             AddColumn("Project Name", x => x.Project.ProjectName);
-            AddColumn("Threshold Category", x => x.ThresholdCategory.DisplayName);
+            AddColumn(MultiTenantHelpers.GetClassificationDisplayName(), x => x.Classification.DisplayName);
         }
     }
 }

@@ -305,17 +305,17 @@
                 {
                     <div class="alert">Accomplishments to be provided upon completion of project.</div>
                 }
-                <div class="sectionTitle taxonomyTierThreeColor">Threshold categories</div>
-                @if (ViewDataTyped.Project.ProjectThresholdCategories.Any())
+                <div class="sectionTitle taxonomyTierThreeColor">@MultiTenantHelpers.GetClassificationDisplayNamePluralized()</div>
+                @if (ViewDataTyped.Project.ProjectClassifications.Any())
                 {
                     <table>
-                        @foreach (var thresholdCategoryBatch in ViewDataTyped.ThresholdCategories.Batch(2))
+                        @foreach (var classificationBatch in ViewDataTyped.Classifications.Batch(2))
                         {
                             <tr>
-                                @foreach (var thresholdCategory in thresholdCategoryBatch)
+                                @foreach (var classification in classificationBatch)
                                 {
                                     <td class="bullet">&bull;</td>
-                                    <td style="padding-right: 50px">@thresholdCategory.DisplayName</td>
+                                    <td style="padding-right: 50px">@classification.DisplayName</td>
                                 }
                             </tr>
                         }
@@ -323,7 +323,7 @@
                 }
                 else
                 {
-                    <div class="alert">No threshold categories provided.</div>
+                    <div class="alert">No @MultiTenantHelpers.GetClassificationDisplayNamePluralized() provided.</div>
                 }
             </td>
             @if (ViewDataTyped.KeyPhoto != null)

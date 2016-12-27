@@ -272,11 +272,11 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeThresholdCategoriesList
+    public partial class FirmaPageTypeClassificationsList
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<ThresholdCategoryController>.BuildUrlFromExpression(x => x.Index());
+            return SitkaRoute<ClassificationController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 

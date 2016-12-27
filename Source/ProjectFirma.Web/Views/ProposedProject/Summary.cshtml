@@ -11,6 +11,7 @@
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Views
 @using MoreLinq
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 @inherits ProjectFirma.Web.Views.ProposedProject.Summary
 
@@ -199,18 +200,18 @@
                 </div>
 
                 <div class="summarySection">
-                    <h2>Threshold Categories</h2>
+                    <h2>@MultiTenantHelpers.GetClassificationDisplayNamePluralized()</h2>
                     <div class="contentWrapper">
-                        @if (ViewDataTyped.ProposedProject.ProposedProjectThresholdCategories != null && ViewDataTyped.ProposedProject.ProposedProjectThresholdCategories.Any())
+                        @if (ViewDataTyped.ProposedProject.ProposedProjectClassifications != null && ViewDataTyped.ProposedProject.ProposedProjectClassifications.Any())
                         {
                             <div class="row">
-                                @foreach (var thresholdCategoriesBatch in ViewDataTyped.ProposedProject.ProposedProjectThresholdCategories.OrderBy(x => x.ThresholdCategory.DisplayName).Batch(3))
+                                @foreach (var classificationsBatch in ViewDataTyped.ProposedProject.ProposedProjectClassifications.OrderBy(x => x.Classification.DisplayName).Batch(3))
                                 {
                                     <div class="col-md-4">
                                         <ul class="noListStyle">
-                                            @foreach (var thresholdCategory in thresholdCategoriesBatch.OrderBy(x => x.ThresholdCategory.DisplayName))
+                                            @foreach (var classification in classificationsBatch.OrderBy(x => x.Classification.DisplayName))
                                             {
-                                                <li>@thresholdCategory.ThresholdCategory.GetDisplayNameAsUrl(): @thresholdCategory.ProposedProjectThresholdCategoryNotes</li>
+                                                <li>@classification.Classification.GetDisplayNameAsUrl(): @classification.ProposedProjectClassificationNotes</li>
                                             }
                                         </ul>
                                     </div>
@@ -219,7 +220,7 @@
                         }
                         else
                         {
-                            <p class="alert">No Threshold Categories set for this project.</p>
+                            <p class="alert">No @MultiTenantHelpers.GetClassificationDisplayNamePluralized() set for this project.</p>
                         }
                     </div>
                 </div>

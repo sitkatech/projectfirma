@@ -26,11 +26,11 @@ namespace ProjectFirma.Web.Models
             this.NotificationProposedProjects = new HashSet<NotificationProposedProject>();
             this.PerformanceMeasureExpectedProposeds = new HashSet<PerformanceMeasureExpectedProposed>();
             this.ProposedProjectAssessmentQuestions = new HashSet<ProposedProjectAssessmentQuestion>();
+            this.ProposedProjectClassifications = new HashSet<ProposedProjectClassification>();
             this.ProposedProjectImages = new HashSet<ProposedProjectImage>();
             this.ProposedProjectLocations = new HashSet<ProposedProjectLocation>();
             this.ProposedProjectLocationStagings = new HashSet<ProposedProjectLocationStaging>();
             this.ProposedProjectNotes = new HashSet<ProposedProjectNote>();
-            this.ProposedProjectThresholdCategories = new HashSet<ProposedProjectThresholdCategory>();
         }
 
         /// <summary>
@@ -118,13 +118,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return NotificationProposedProjects.Any() || PerformanceMeasureExpectedProposeds.Any() || ProposedProjectAssessmentQuestions.Any() || ProposedProjectImages.Any() || ProposedProjectLocations.Any() || ProposedProjectLocationStagings.Any() || ProposedProjectNotes.Any() || ProposedProjectThresholdCategories.Any();
+            return NotificationProposedProjects.Any() || PerformanceMeasureExpectedProposeds.Any() || ProposedProjectAssessmentQuestions.Any() || ProposedProjectClassifications.Any() || ProposedProjectImages.Any() || ProposedProjectLocations.Any() || ProposedProjectLocationStagings.Any() || ProposedProjectNotes.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProposedProject).Name, typeof(NotificationProposedProject).Name, typeof(PerformanceMeasureExpectedProposed).Name, typeof(ProposedProjectAssessmentQuestion).Name, typeof(ProposedProjectImage).Name, typeof(ProposedProjectLocation).Name, typeof(ProposedProjectLocationStaging).Name, typeof(ProposedProjectNote).Name, typeof(ProposedProjectThresholdCategory).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProposedProject).Name, typeof(NotificationProposedProject).Name, typeof(PerformanceMeasureExpectedProposed).Name, typeof(ProposedProjectAssessmentQuestion).Name, typeof(ProposedProjectClassification).Name, typeof(ProposedProjectImage).Name, typeof(ProposedProjectLocation).Name, typeof(ProposedProjectLocationStaging).Name, typeof(ProposedProjectNote).Name};
 
         [Key]
         public int ProposedProjectID { get; set; }
@@ -157,11 +157,11 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<NotificationProposedProject> NotificationProposedProjects { get; set; }
         public virtual ICollection<PerformanceMeasureExpectedProposed> PerformanceMeasureExpectedProposeds { get; set; }
         public virtual ICollection<ProposedProjectAssessmentQuestion> ProposedProjectAssessmentQuestions { get; set; }
+        public virtual ICollection<ProposedProjectClassification> ProposedProjectClassifications { get; set; }
         public virtual ICollection<ProposedProjectImage> ProposedProjectImages { get; set; }
         public virtual ICollection<ProposedProjectLocation> ProposedProjectLocations { get; set; }
         public virtual ICollection<ProposedProjectLocationStaging> ProposedProjectLocationStagings { get; set; }
         public virtual ICollection<ProposedProjectNote> ProposedProjectNotes { get; set; }
-        public virtual ICollection<ProposedProjectThresholdCategory> ProposedProjectThresholdCategories { get; set; }
         public virtual Organization LeadImplementerOrganization { get; set; }
         public virtual Person ProposingPerson { get; set; }
         public virtual Person ReviewedByPerson { get; set; }

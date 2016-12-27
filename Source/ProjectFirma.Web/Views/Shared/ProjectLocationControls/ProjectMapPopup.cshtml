@@ -37,8 +37,8 @@
             <td>@ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()</td>
         </tr>
         <tr>
-            <th>Threshold Categories</th>
-            <td>@string.Join(", ", ViewDataTyped.Project.ProjectThresholdCategories.Select(x => x.ThresholdCategory.DisplayName))</td>
+            <th>@MultiTenantHelpers.GetClassificationDisplayNamePluralized()</th>
+            <td>@string.Join(", ", ViewDataTyped.Project.ProjectClassifications.Select(x => x.Classification.DisplayName))</td>
         </tr>
     </tbody>
 </table>

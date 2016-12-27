@@ -256,61 +256,61 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProposedProjectThresholdCategoryEditFeature]
-        public ViewResult EditThresholdCategories(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        [ProposedProjectClassificationEditFeature]
+        public ViewResult EditClassifications(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var proposedProjectThresholdCategorySimples = GetProposedProjectThresholdCategorySimples(proposedProject);
+            var proposedProjectClassificationSimples = GetProposedProjectClassificationSimples(proposedProject);
 
-            var viewModel = new EditProposedProjectThresholdCategoriesViewModel(proposedProjectThresholdCategorySimples);
-            return ViewEditThresholdCategories(proposedProject, viewModel);
+            var viewModel = new EditProposedProjectClassificationsViewModel(proposedProjectClassificationSimples);
+            return ViewEditClassifications(proposedProject, viewModel);
         }
 
-        public static List<ProposedProjectThresholdCategorySimple> GetProposedProjectThresholdCategorySimples(ProposedProject proposedProject)
+        public static List<ProposedProjectClassificationSimple> GetProposedProjectClassificationSimples(ProposedProject proposedProject)
         {
-            var selectedProposedProjectThresholdCategories = proposedProject.ProposedProjectThresholdCategories;
+            var selectedProposedProjectClassifications = proposedProject.ProposedProjectClassifications;
 
-            var proposedProjectThresholdCategorySimples =
-                HttpRequestStorage.DatabaseEntities.ThresholdCategories.Select(x => new ProposedProjectThresholdCategorySimple { ThresholdCategoryID = x.ThresholdCategoryID }).ToList();
+            var proposedProjectClassificationSimples =
+                HttpRequestStorage.DatabaseEntities.Classifications.Select(x => new ProposedProjectClassificationSimple { ClassificationID = x.ClassificationID }).ToList();
 
-            foreach (var selectedThresholdCategory in selectedProposedProjectThresholdCategories)
+            foreach (var selectedClassification in selectedProposedProjectClassifications)
             {
-                var selectedSimple = proposedProjectThresholdCategorySimples.Single(x => x.ThresholdCategoryID == selectedThresholdCategory.ThresholdCategoryID);
+                var selectedSimple = proposedProjectClassificationSimples.Single(x => x.ClassificationID == selectedClassification.ClassificationID);
                 selectedSimple.Selected = true;
-                selectedSimple.ProposedProjectThresholdCategoryNotes = selectedThresholdCategory.ProposedProjectThresholdCategoryNotes;
+                selectedSimple.ProposedProjectClassificationNotes = selectedClassification.ProposedProjectClassificationNotes;
             }
 
-            return proposedProjectThresholdCategorySimples;
+            return proposedProjectClassificationSimples;
         }
 
-        private ViewResult ViewEditThresholdCategories(ProposedProject proposedProject, EditProposedProjectThresholdCategoriesViewModel viewModel)
+        private ViewResult ViewEditClassifications(ProposedProject proposedProject, EditProposedProjectClassificationsViewModel viewModel)
         {
 
-            var allThresholdCategories = HttpRequestStorage.DatabaseEntities.ThresholdCategories.OrderBy(p => p.DisplayName).ToList();
+            var allClassifications = HttpRequestStorage.DatabaseEntities.Classifications.OrderBy(p => p.DisplayName).ToList();
             var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
-            proposalSectionsStatus.IsThresholdCategoriesComplete = ModelState.IsValid && proposalSectionsStatus.IsThresholdCategoriesComplete;
+            proposalSectionsStatus.IsClassificationsComplete = ModelState.IsValid && proposalSectionsStatus.IsClassificationsComplete;
 
-            var viewData = new EditProposedProjectThresholdCategoriesViewData(CurrentPerson, proposedProject, allThresholdCategories, ProposedProjectSectionEnum.ThresholdCategories, proposalSectionsStatus);
-            return RazorView<EditProposedProjectThresholdCategories, EditProposedProjectThresholdCategoriesViewData, EditProposedProjectThresholdCategoriesViewModel>(viewData, viewModel);
+            var viewData = new EditProposedProjectClassificationsViewData(CurrentPerson, proposedProject, allClassifications, ProposedProjectSectionEnum.Classifications, proposalSectionsStatus);
+            return RazorView<EditProposedProjectClassifications, EditProposedProjectClassificationsViewData, EditProposedProjectClassificationsViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [ProposedProjectThresholdCategoryEditFeature]
+        [ProposedProjectClassificationEditFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditThresholdCategories(ProposedProjectPrimaryKey proposedProjectPrimaryKey, EditProposedProjectThresholdCategoriesViewModel viewModel)
+        public ActionResult EditClassifications(ProposedProjectPrimaryKey proposedProjectPrimaryKey, EditProposedProjectClassificationsViewModel viewModel)
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 ShowValidationErrors(viewModel.GetValidationResults().ToList());
-                return ViewEditThresholdCategories(proposedProject, viewModel);
+                return ViewEditClassifications(proposedProject, viewModel);
             }
-            var currentProposedProjectThresholdCategories = viewModel.ProposedProjectThresholdCategorySimples;
-            HttpRequestStorage.DatabaseEntities.ProposedProjectThresholdCategories.Load();
-            viewModel.UpdateModel(proposedProject, currentProposedProjectThresholdCategories);
+            var currentProposedProjectClassifications = viewModel.ProposedProjectClassificationSimples;
+            HttpRequestStorage.DatabaseEntities.ProposedProjectClassifications.Load();
+            viewModel.UpdateModel(proposedProject, currentProposedProjectClassifications);
 
-            SetMessageForDisplay("Proposed Project Threshold Categories succesfully saved.");
-            return RedirectToAction(new SitkaRoute<ProposedProjectController>(x => x.EditThresholdCategories(proposedProject)));
+            SetMessageForDisplay(string.Format("Proposed Project {0} succesfully saved.", MultiTenantHelpers.GetClassificationDisplayNamePluralized()));
+            return RedirectToAction(new SitkaRoute<ProposedProjectController>(x => x.EditClassifications(proposedProject)));
         }
 
         [HttpGet]
@@ -726,7 +726,7 @@ namespace ProjectFirma.Web.Controllers
         private static void DeleteProposedProject(ProposedProject proposedProject)
         {
             HttpRequestStorage.DatabaseEntities.ProposedProjectNotes.RemoveRange(proposedProject.ProposedProjectNotes);
-            HttpRequestStorage.DatabaseEntities.ProposedProjectThresholdCategories.RemoveRange(proposedProject.ProposedProjectThresholdCategories);
+            HttpRequestStorage.DatabaseEntities.ProposedProjectClassifications.RemoveRange(proposedProject.ProposedProjectClassifications);
 
             var proposedProjectPerformanceMeasureExpecteds = proposedProject.PerformanceMeasureExpectedProposeds.ToList();
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptionProposeds.RemoveRange(

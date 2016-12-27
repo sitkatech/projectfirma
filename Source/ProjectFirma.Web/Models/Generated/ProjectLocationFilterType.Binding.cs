@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectLocationFilterTypeTaxonomyTierThree TaxonomyTierThree = ProjectLocationFilterTypeTaxonomyTierThree.Instance;
         public static readonly ProjectLocationFilterTypeTaxonomyTierTwo TaxonomyTierTwo = ProjectLocationFilterTypeTaxonomyTierTwo.Instance;
         public static readonly ProjectLocationFilterTypeTaxonomyTierOne TaxonomyTierOne = ProjectLocationFilterTypeTaxonomyTierOne.Instance;
-        public static readonly ProjectLocationFilterTypeThresholdCategory ThresholdCategory = ProjectLocationFilterTypeThresholdCategory.Instance;
+        public static readonly ProjectLocationFilterTypeClassification Classification = ProjectLocationFilterTypeClassification.Instance;
         public static readonly ProjectLocationFilterTypeProjectStage ProjectStage = ProjectLocationFilterTypeProjectStage.Instance;
         public static readonly ProjectLocationFilterTypeImplementingOrganization ImplementingOrganization = ProjectLocationFilterTypeImplementingOrganization.Instance;
         public static readonly ProjectLocationFilterTypeFundingOrganization FundingOrganization = ProjectLocationFilterTypeFundingOrganization.Instance;
@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectLocationFilterType()
         {
-            All = new List<ProjectLocationFilterType> { TaxonomyTierThree, TaxonomyTierTwo, TaxonomyTierOne, ThresholdCategory, ProjectStage, ImplementingOrganization, FundingOrganization };
+            All = new List<ProjectLocationFilterType> { TaxonomyTierThree, TaxonomyTierTwo, TaxonomyTierOne, Classification, ProjectStage, ImplementingOrganization, FundingOrganization };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectLocationFilterType>(All.ToDictionary(x => x.ProjectLocationFilterTypeID));
         }
 
@@ -107,6 +107,8 @@ namespace ProjectFirma.Web.Models
         {
             switch (enumValue)
             {
+                case ProjectLocationFilterTypeEnum.Classification:
+                    return Classification;
                 case ProjectLocationFilterTypeEnum.FundingOrganization:
                     return FundingOrganization;
                 case ProjectLocationFilterTypeEnum.ImplementingOrganization:
@@ -119,8 +121,6 @@ namespace ProjectFirma.Web.Models
                     return TaxonomyTierThree;
                 case ProjectLocationFilterTypeEnum.TaxonomyTierTwo:
                     return TaxonomyTierTwo;
-                case ProjectLocationFilterTypeEnum.ThresholdCategory:
-                    return ThresholdCategory;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -132,7 +132,7 @@ namespace ProjectFirma.Web.Models
         TaxonomyTierThree = 1,
         TaxonomyTierTwo = 2,
         TaxonomyTierOne = 3,
-        ThresholdCategory = 4,
+        Classification = 4,
         ProjectStage = 5,
         ImplementingOrganization = 6,
         FundingOrganization = 7
@@ -141,25 +141,25 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectLocationFilterTypeTaxonomyTierThree : ProjectLocationFilterType
     {
         private ProjectLocationFilterTypeTaxonomyTierThree(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeTaxonomyTierThree Instance = new ProjectLocationFilterTypeTaxonomyTierThree(1, @"TaxonomyTierThree", @"TaxonomyTierThreeID", @"Focus Area", 10, 1);
+        public static readonly ProjectLocationFilterTypeTaxonomyTierThree Instance = new ProjectLocationFilterTypeTaxonomyTierThree(1, @"TaxonomyTierThree", @"TaxonomyTierThreeID", @"Taxonomy Tier Three", 10, 1);
     }
 
     public partial class ProjectLocationFilterTypeTaxonomyTierTwo : ProjectLocationFilterType
     {
         private ProjectLocationFilterTypeTaxonomyTierTwo(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeTaxonomyTierTwo Instance = new ProjectLocationFilterTypeTaxonomyTierTwo(2, @"TaxonomyTierTwo", @"TaxonomyTierTwoID", @"TaxonomyTierTwo", 20, 1);
+        public static readonly ProjectLocationFilterTypeTaxonomyTierTwo Instance = new ProjectLocationFilterTypeTaxonomyTierTwo(2, @"TaxonomyTierTwo", @"TaxonomyTierTwoID", @"Taxonomy Tier Two", 20, 1);
     }
 
     public partial class ProjectLocationFilterTypeTaxonomyTierOne : ProjectLocationFilterType
     {
         private ProjectLocationFilterTypeTaxonomyTierOne(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeTaxonomyTierOne Instance = new ProjectLocationFilterTypeTaxonomyTierOne(3, @"TaxonomyTierOne", @"TaxonomyTierOneID", @"Action Priority", 30, 1);
+        public static readonly ProjectLocationFilterTypeTaxonomyTierOne Instance = new ProjectLocationFilterTypeTaxonomyTierOne(3, @"TaxonomyTierOne", @"TaxonomyTierOneID", @"Taxonomy Tier One", 30, 1);
     }
 
-    public partial class ProjectLocationFilterTypeThresholdCategory : ProjectLocationFilterType
+    public partial class ProjectLocationFilterTypeClassification : ProjectLocationFilterType
     {
-        private ProjectLocationFilterTypeThresholdCategory(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeThresholdCategory Instance = new ProjectLocationFilterTypeThresholdCategory(4, @"ThresholdCategory", @"ThresholdCategoryID", @"Threshold Category", 40, 3);
+        private ProjectLocationFilterTypeClassification(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
+        public static readonly ProjectLocationFilterTypeClassification Instance = new ProjectLocationFilterTypeClassification(4, @"Classification", @"ClassificationID", @"Classification", 40, 3);
     }
 
     public partial class ProjectLocationFilterTypeProjectStage : ProjectLocationFilterType

@@ -84,7 +84,7 @@
         nav#tableOfContents ul.nav li.active a, nav#tableOfContents ul.nav li.active ul.nav li.active a
         {
             color: #fff;
-            background: @ViewDataTyped.ThresholdEvaluation.ThresholdIndicator.ThresholdReportingCategory.ThresholdCategory.ThemeColor;
+            background: @ViewDataTyped.ThresholdEvaluation.ThresholdIndicator.ThresholdReportingCategory.Classification.ThemeColor;
             border: none;
             cursor: pointer;
 

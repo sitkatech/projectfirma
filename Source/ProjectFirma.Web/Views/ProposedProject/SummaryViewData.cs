@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public readonly string ApproveProjectUrl;
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
         public readonly string ProposedProjectsUrl;
-        public readonly string EditThresholdCategoriesUrl;
+        public readonly string EditClassificationsUrl;
 
         public readonly string FiveYearListUrl;
 
@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             ApproveProjectUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Approve(proposedProject));
             EditPerformanceMeasureExpectedsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditExpectedPerformanceMeasureValues(proposedProject));
             ProposedProjectsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Index());
-            EditThresholdCategoriesUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(c => c.EditThresholdCategories(proposedProject));
+            EditClassificationsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(c => c.EditClassifications(proposedProject));
 
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
             PerformanceMeasureExpectedSummaryViewData = performanceMeasureExpectedSummaryViewData;

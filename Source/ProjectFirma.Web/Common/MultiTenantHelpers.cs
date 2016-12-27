@@ -31,5 +31,15 @@
         {
             return "Taxonomy Tier Ones";
         }
+
+        public static string GetClassificationDisplayName()
+        {
+            return "Classification";
+        }
+
+        public static string GetClassificationDisplayNamePluralized()
+        {
+            return "Classifications";
+        }
     }
 }

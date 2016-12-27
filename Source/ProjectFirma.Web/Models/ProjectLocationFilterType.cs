@@ -34,11 +34,11 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class ProjectLocationFilterTypeThresholdCategory
+    public partial class ProjectLocationFilterTypeClassification
     {
         public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Intersect(project.ProjectThresholdCategories.Select(x => x.ThresholdCategoryID)).Any();
+            return project => filterValues.Intersect(project.ProjectClassifications.Select(x => x.ClassificationID)).Any();
         }
     }
 

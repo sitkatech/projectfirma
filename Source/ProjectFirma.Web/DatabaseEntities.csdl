@@ -5,6 +5,9 @@
     <EntitySet Name="AssessmentQuestion" EntityType="ProjectFirma.Web.Models.AssessmentQuestion" />
     <EntitySet Name="AssessmentSubGoal" EntityType="ProjectFirma.Web.Models.AssessmentSubGoal" />
     <EntitySet Name="AuditLog" EntityType="ProjectFirma.Web.Models.AuditLog" />
+    <EntitySet Name="Classification" EntityType="ProjectFirma.Web.Models.Classification" />
+    <EntitySet Name="ClassificationImage" EntityType="ProjectFirma.Web.Models.ClassificationImage" />
+    <EntitySet Name="ClassificationPerformanceMeasure" EntityType="ProjectFirma.Web.Models.ClassificationPerformanceMeasure" />
     <EntitySet Name="CostParameterSet" EntityType="ProjectFirma.Web.Models.CostParameterSet" />
     <EntitySet Name="County" EntityType="ProjectFirma.Web.Models.County" />
     <EntitySet Name="DatabaseMigration" EntityType="ProjectFirma.Web.Models.DatabaseMigration" />
@@ -41,6 +44,7 @@
     <EntitySet Name="ProjectAssessmentQuestion" EntityType="ProjectFirma.Web.Models.ProjectAssessmentQuestion" />
     <EntitySet Name="ProjectBudget" EntityType="ProjectFirma.Web.Models.ProjectBudget" />
     <EntitySet Name="ProjectBudgetUpdate" EntityType="ProjectFirma.Web.Models.ProjectBudgetUpdate" />
+    <EntitySet Name="ProjectClassification" EntityType="ProjectFirma.Web.Models.ProjectClassification" />
     <EntitySet Name="ProjectExemptReportingYear" EntityType="ProjectFirma.Web.Models.ProjectExemptReportingYear" />
     <EntitySet Name="ProjectExemptReportingYearUpdate" EntityType="ProjectFirma.Web.Models.ProjectExemptReportingYearUpdate" />
     <EntitySet Name="ProjectExternalLink" EntityType="ProjectFirma.Web.Models.ProjectExternalLink" />
@@ -63,18 +67,17 @@
     <EntitySet Name="ProjectNote" EntityType="ProjectFirma.Web.Models.ProjectNote" />
     <EntitySet Name="ProjectNoteUpdate" EntityType="ProjectFirma.Web.Models.ProjectNoteUpdate" />
     <EntitySet Name="ProjectTag" EntityType="ProjectFirma.Web.Models.ProjectTag" />
-    <EntitySet Name="ProjectThresholdCategory" EntityType="ProjectFirma.Web.Models.ProjectThresholdCategory" />
     <EntitySet Name="ProjectUpdate" EntityType="ProjectFirma.Web.Models.ProjectUpdate" />
     <EntitySet Name="ProjectUpdateBatch" EntityType="ProjectFirma.Web.Models.ProjectUpdateBatch" />
     <EntitySet Name="ProjectUpdateHistory" EntityType="ProjectFirma.Web.Models.ProjectUpdateHistory" />
     <EntitySet Name="ProjectWatershed" EntityType="ProjectFirma.Web.Models.ProjectWatershed" />
     <EntitySet Name="ProposedProject" EntityType="ProjectFirma.Web.Models.ProposedProject" />
     <EntitySet Name="ProposedProjectAssessmentQuestion" EntityType="ProjectFirma.Web.Models.ProposedProjectAssessmentQuestion" />
+    <EntitySet Name="ProposedProjectClassification" EntityType="ProjectFirma.Web.Models.ProposedProjectClassification" />
     <EntitySet Name="ProposedProjectImage" EntityType="ProjectFirma.Web.Models.ProposedProjectImage" />
     <EntitySet Name="ProposedProjectLocation" EntityType="ProjectFirma.Web.Models.ProposedProjectLocation" />
     <EntitySet Name="ProposedProjectLocationStaging" EntityType="ProjectFirma.Web.Models.ProposedProjectLocationStaging" />
     <EntitySet Name="ProposedProjectNote" EntityType="ProjectFirma.Web.Models.ProposedProjectNote" />
-    <EntitySet Name="ProposedProjectThresholdCategory" EntityType="ProjectFirma.Web.Models.ProposedProjectThresholdCategory" />
     <EntitySet Name="Snapshot" EntityType="ProjectFirma.Web.Models.Snapshot" />
     <EntitySet Name="SnapshotPerformanceMeasure" EntityType="ProjectFirma.Web.Models.SnapshotPerformanceMeasure" />
     <EntitySet Name="SnapshotPerformanceMeasureSubcategoryOption" EntityType="ProjectFirma.Web.Models.SnapshotPerformanceMeasureSubcategoryOption" />
@@ -90,9 +93,6 @@
     <EntitySet Name="TaxonomyTierTwo" EntityType="ProjectFirma.Web.Models.TaxonomyTierTwo" />
     <EntitySet Name="TaxonomyTierTwoImage" EntityType="ProjectFirma.Web.Models.TaxonomyTierTwoImage" />
     <EntitySet Name="TaxonomyTierTwoPerformanceMeasure" EntityType="ProjectFirma.Web.Models.TaxonomyTierTwoPerformanceMeasure" />
-    <EntitySet Name="ThresholdCategory" EntityType="ProjectFirma.Web.Models.ThresholdCategory" />
-    <EntitySet Name="ThresholdCategoryImage" EntityType="ProjectFirma.Web.Models.ThresholdCategoryImage" />
-    <EntitySet Name="ThresholdCategoryPerformanceMeasure" EntityType="ProjectFirma.Web.Models.ThresholdCategoryPerformanceMeasure" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Watershed" />
     <AssociationSet Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID" Association="ProjectFirma.Web.Models.FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
       <End Role="AssessmentGoal" EntitySet="AssessmentGoal" />
@@ -113,6 +113,30 @@
     <AssociationSet Name="FK_AuditLog_Person_PersonID" Association="ProjectFirma.Web.Models.FK_AuditLog_Person_PersonID">
       <End Role="Person" EntitySet="Person" />
       <End Role="AuditLogs" EntitySet="AuditLog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ClassificationImage_Classification_ClassificationID" Association="ProjectFirma.Web.Models.FK_ClassificationImage_Classification_ClassificationID">
+      <End Role="Classification" EntitySet="Classification" />
+      <End Role="ClassificationImages" EntitySet="ClassificationImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ClassificationPerformanceMeasure_Classification_ClassificationID" Association="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_Classification_ClassificationID">
+      <End Role="Classification" EntitySet="Classification" />
+      <End Role="ClassificationPerformanceMeasures" EntitySet="ClassificationPerformanceMeasure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectClassification_Classification_ClassificationID" Association="ProjectFirma.Web.Models.FK_ProjectClassification_Classification_ClassificationID">
+      <End Role="Classification" EntitySet="Classification" />
+      <End Role="ProjectClassifications" EntitySet="ProjectClassification" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectClassification_Classification_ClassificationID" Association="ProjectFirma.Web.Models.FK_ProposedProjectClassification_Classification_ClassificationID">
+      <End Role="Classification" EntitySet="Classification" />
+      <End Role="ProposedProjectClassifications" EntitySet="ProposedProjectClassification" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ClassificationImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ClassificationImage_FileResource_FileResourceID">
+      <End Role="FileResource" EntitySet="FileResource" />
+      <End Role="ClassificationImages" EntitySet="ClassificationImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
+      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
+      <End Role="ClassificationPerformanceMeasures" EntitySet="ClassificationPerformanceMeasure" />
     </AssociationSet>
     <AssociationSet Name="FK_County_StateProvince_StateProvinceID" Association="ProjectFirma.Web.Models.FK_County_StateProvince_StateProvinceID">
       <End Role="StateProvince" EntitySet="StateProvince" />
@@ -161,10 +185,6 @@
     <AssociationSet Name="FK_TaxonomyTierTwoImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierTwoImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="TaxonomyTierTwoImages" EntitySet="TaxonomyTierTwoImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdCategoryImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ThresholdCategoryImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="ThresholdCategoryImages" EntitySet="ThresholdCategoryImage" />
     </AssociationSet>
     <AssociationSet Name="FK_FirmaPageImage_FirmaPage_FirmaPageID" Association="ProjectFirma.Web.Models.FK_FirmaPageImage_FirmaPage_FirmaPageID">
       <End Role="FirmaPage" EntitySet="FirmaPage" />
@@ -322,10 +342,6 @@
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="TaxonomyTierTwoPerformanceMeasures" EntitySet="TaxonomyTierTwoPerformanceMeasure" />
     </AssociationSet>
-    <AssociationSet Name="FK_ThresholdCategoryPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_ThresholdCategoryPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
-      <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
-      <End Role="ThresholdCategoryPerformanceMeasures" EntitySet="ThresholdCategoryPerformanceMeasure" />
-    </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActual_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="PerformanceMeasureActuals" EntitySet="PerformanceMeasureActual" />
@@ -470,6 +486,10 @@
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectBudgets" EntitySet="ProjectBudget" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectClassification_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectClassification_Project_ProjectID">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectClassifications" EntitySet="ProjectClassification" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectExemptReportingYear_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectExemptReportingYear_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectExemptReportingYears" EntitySet="ProjectExemptReportingYear" />
@@ -509,10 +529,6 @@
     <AssociationSet Name="FK_ProjectTag_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectTag_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectTags" EntitySet="ProjectTag" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectThresholdCategory_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectThresholdCategory_Project_ProjectID">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="ProjectThresholdCategories" EntitySet="ProjectThresholdCategory" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectUpdateBatch_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
@@ -610,10 +626,6 @@
       <End Role="Tag" EntitySet="Tag" />
       <End Role="ProjectTags" EntitySet="ProjectTag" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID" Association="ProjectFirma.Web.Models.FK_ProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID">
-      <End Role="ThresholdCategory" EntitySet="ThresholdCategory" />
-      <End Role="ProjectThresholdCategories" EntitySet="ProjectThresholdCategory" />
-    </AssociationSet>
     <AssociationSet Name="FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectUpdates" EntitySet="ProjectUpdate" />
@@ -634,6 +646,10 @@
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectAssessmentQuestions" EntitySet="ProposedProjectAssessmentQuestion" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectClassification_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectClassification_ProposedProject_ProposedProjectID">
+      <End Role="ProposedProject" EntitySet="ProposedProject" />
+      <End Role="ProposedProjectClassifications" EntitySet="ProposedProjectClassification" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProposedProjectImage_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectImage_ProposedProject_ProposedProjectID">
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectImages" EntitySet="ProposedProjectImage" />
@@ -649,14 +665,6 @@
     <AssociationSet Name="FK_ProposedProjectNote_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectNote_ProposedProject_ProposedProjectID">
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectNotes" EntitySet="ProposedProjectNote" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectThresholdCategory_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectThresholdCategory_ProposedProject_ProposedProjectID">
-      <End Role="ProposedProject" EntitySet="ProposedProject" />
-      <End Role="ProposedProjectThresholdCategories" EntitySet="ProposedProjectThresholdCategory" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID" Association="ProjectFirma.Web.Models.FK_ProposedProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID">
-      <End Role="ThresholdCategory" EntitySet="ThresholdCategory" />
-      <End Role="ProposedProjectThresholdCategories" EntitySet="ProposedProjectThresholdCategory" />
     </AssociationSet>
     <AssociationSet Name="FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID">
       <End Role="Snapshot" EntitySet="Snapshot" />
@@ -697,14 +705,6 @@
     <AssociationSet Name="FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID">
       <End Role="TaxonomyTierTwo" EntitySet="TaxonomyTierTwo" />
       <End Role="TaxonomyTierTwoPerformanceMeasures" EntitySet="TaxonomyTierTwoPerformanceMeasure" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdCategoryImage_ThresholdCategory_ThresholdCategoryID" Association="ProjectFirma.Web.Models.FK_ThresholdCategoryImage_ThresholdCategory_ThresholdCategoryID">
-      <End Role="ThresholdCategory" EntitySet="ThresholdCategory" />
-      <End Role="ThresholdCategoryImages" EntitySet="ThresholdCategoryImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ThresholdCategoryPerformanceMeasure_ThresholdCategory_ThresholdCategoryID" Association="ProjectFirma.Web.Models.FK_ThresholdCategoryPerformanceMeasure_ThresholdCategory_ThresholdCategoryID">
-      <End Role="ThresholdCategory" EntitySet="ThresholdCategory" />
-      <End Role="ThresholdCategoryPerformanceMeasures" EntitySet="ThresholdCategoryPerformanceMeasure" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="AssessmentGoal">
@@ -758,6 +758,43 @@
     <Property Name="ProjectID" Type="Int32" />
     <Property Name="ProposedProjectID" Type="Int32" />
     <NavigationProperty Name="Person" Relationship="ProjectFirma.Web.Models.FK_AuditLog_Person_PersonID" FromRole="AuditLogs" ToRole="Person" />
+  </EntityType>
+  <EntityType Name="Classification">
+    <Key>
+      <PropertyRef Name="ClassificationID" />
+    </Key>
+    <Property Name="ClassificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClassificationName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="ClassificationDescription" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
+    <Property Name="ThemeColor" Type="String" Nullable="false" MaxLength="7" Unicode="false" FixedLength="false" />
+    <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="GoalStatement" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="Narrative" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="ClassificationImages" Relationship="ProjectFirma.Web.Models.FK_ClassificationImage_Classification_ClassificationID" FromRole="Classification" ToRole="ClassificationImages" />
+    <NavigationProperty Name="ClassificationPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_Classification_ClassificationID" FromRole="Classification" ToRole="ClassificationPerformanceMeasures" />
+    <NavigationProperty Name="ProjectClassifications" Relationship="ProjectFirma.Web.Models.FK_ProjectClassification_Classification_ClassificationID" FromRole="Classification" ToRole="ProjectClassifications" />
+    <NavigationProperty Name="ProposedProjectClassifications" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectClassification_Classification_ClassificationID" FromRole="Classification" ToRole="ProposedProjectClassifications" />
+  </EntityType>
+  <EntityType Name="ClassificationImage">
+    <Key>
+      <PropertyRef Name="ClassificationImageID" />
+    </Key>
+    <Property Name="ClassificationImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClassificationID" Type="Int32" Nullable="false" />
+    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Classification" Relationship="ProjectFirma.Web.Models.FK_ClassificationImage_Classification_ClassificationID" FromRole="ClassificationImages" ToRole="Classification" />
+    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ClassificationImage_FileResource_FileResourceID" FromRole="ClassificationImages" ToRole="FileResource" />
+  </EntityType>
+  <EntityType Name="ClassificationPerformanceMeasure">
+    <Key>
+      <PropertyRef Name="ClassificationPerformanceMeasureID" />
+    </Key>
+    <Property Name="ClassificationPerformanceMeasureID" Type="Int32" Nullable="false" />
+    <Property Name="ClassificationID" Type="Int32" Nullable="false" />
+    <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
+    <Property Name="IsPrimaryChart" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Classification" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_Classification_ClassificationID" FromRole="ClassificationPerformanceMeasures" ToRole="Classification" />
+    <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="ClassificationPerformanceMeasures" ToRole="PerformanceMeasure" />
   </EntityType>
   <EntityType Name="CostParameterSet">
     <Key>
@@ -814,6 +851,7 @@
     <Property Name="FileResourceData" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
     <Property Name="CreatePersonID" Type="Int32" Nullable="false" />
     <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="ClassificationImages" Relationship="ProjectFirma.Web.Models.FK_ClassificationImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ClassificationImages" />
     <NavigationProperty Name="FieldDefinitionImages" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FieldDefinitionImages" />
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_FileResource_Person_CreatePersonID_PersonID" FromRole="FileResourcesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
     <NavigationProperty Name="FirmaPageImages" Relationship="ProjectFirma.Web.Models.FK_FirmaPageImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FirmaPageImages" />
@@ -825,7 +863,6 @@
     <NavigationProperty Name="TaxonomyTierOneImages" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOneImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="TaxonomyTierOneImages" />
     <NavigationProperty Name="TaxonomyTierThreeImages" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierThreeImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="TaxonomyTierThreeImages" />
     <NavigationProperty Name="TaxonomyTierTwoImages" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="TaxonomyTierTwoImages" />
-    <NavigationProperty Name="ThresholdCategoryImages" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ThresholdCategoryImages" />
   </EntityType>
   <EntityType Name="FirmaPage">
     <Key>
@@ -992,6 +1029,7 @@
     <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
     <Property Name="ChartTitle" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
     <Property Name="ChartCaption" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="ClassificationPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="ClassificationPerformanceMeasures" />
     <NavigationProperty Name="PerformanceMeasureActuals" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureActuals" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureActualSubcategoryOptions" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptionUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureActualSubcategoryOptionUpdates" />
@@ -1006,7 +1044,6 @@
     <NavigationProperty Name="SnapshotPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="SnapshotPerformanceMeasures" />
     <NavigationProperty Name="SnapshotPerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="SnapshotPerformanceMeasureSubcategoryOptions" />
     <NavigationProperty Name="TaxonomyTierTwoPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="TaxonomyTierTwoPerformanceMeasures" />
-    <NavigationProperty Name="ThresholdCategoryPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="ThresholdCategoryPerformanceMeasures" />
   </EntityType>
   <EntityType Name="PerformanceMeasureActual">
     <Key>
@@ -1244,6 +1281,7 @@
     <NavigationProperty Name="TaxonomyTierOne" Relationship="ProjectFirma.Web.Models.FK_Project_TaxonomyTierOne_TaxonomyTierOneID" FromRole="Projects" ToRole="TaxonomyTierOne" />
     <NavigationProperty Name="ProjectAssessmentQuestions" Relationship="ProjectFirma.Web.Models.FK_ProjectAssessmentQuestion_Project_ProjectID" FromRole="Project" ToRole="ProjectAssessmentQuestions" />
     <NavigationProperty Name="ProjectBudgets" Relationship="ProjectFirma.Web.Models.FK_ProjectBudget_Project_ProjectID" FromRole="Project" ToRole="ProjectBudgets" />
+    <NavigationProperty Name="ProjectClassifications" Relationship="ProjectFirma.Web.Models.FK_ProjectClassification_Project_ProjectID" FromRole="Project" ToRole="ProjectClassifications" />
     <NavigationProperty Name="ProjectExemptReportingYears" Relationship="ProjectFirma.Web.Models.FK_ProjectExemptReportingYear_Project_ProjectID" FromRole="Project" ToRole="ProjectExemptReportingYears" />
     <NavigationProperty Name="ProjectExternalLinks" Relationship="ProjectFirma.Web.Models.FK_ProjectExternalLink_Project_ProjectID" FromRole="Project" ToRole="ProjectExternalLinks" />
     <NavigationProperty Name="ProjectFundingOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingOrganization_Project_ProjectID" FromRole="Project" ToRole="ProjectFundingOrganizations" />
@@ -1254,7 +1292,6 @@
     <NavigationProperty Name="ProjectLocationStagings" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationStaging_Project_ProjectID" FromRole="Project" ToRole="ProjectLocationStagings" />
     <NavigationProperty Name="ProjectNotes" Relationship="ProjectFirma.Web.Models.FK_ProjectNote_Project_ProjectID" FromRole="Project" ToRole="ProjectNotes" />
     <NavigationProperty Name="ProjectTags" Relationship="ProjectFirma.Web.Models.FK_ProjectTag_Project_ProjectID" FromRole="Project" ToRole="ProjectTags" />
-    <NavigationProperty Name="ProjectThresholdCategories" Relationship="ProjectFirma.Web.Models.FK_ProjectThresholdCategory_Project_ProjectID" FromRole="Project" ToRole="ProjectThresholdCategories" />
     <NavigationProperty Name="ProjectUpdateBatches" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Project_ProjectID" FromRole="Project" ToRole="ProjectUpdateBatches" />
     <NavigationProperty Name="ProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Project_ProjectID" FromRole="Project" ToRole="ProjectWatersheds" />
     <NavigationProperty Name="ProposedProjects" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Project_ProjectID" FromRole="Project" ToRole="ProposedProjects" />
@@ -1296,6 +1333,17 @@
     <Property Name="BudgetedAmount" Type="Decimal" Precision="19" Scale="4" />
     <NavigationProperty Name="FundingSource" Relationship="ProjectFirma.Web.Models.FK_ProjectBudgetUpdate_FundingSource_FundingSourceID" FromRole="ProjectBudgetUpdates" ToRole="FundingSource" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectBudgetUpdates" ToRole="ProjectUpdateBatch" />
+  </EntityType>
+  <EntityType Name="ProjectClassification">
+    <Key>
+      <PropertyRef Name="ProjectClassificationID" />
+    </Key>
+    <Property Name="ProjectClassificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectID" Type="Int32" Nullable="false" />
+    <Property Name="ClassificationID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectClassificationNotes" Type="String" MaxLength="600" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Classification" Relationship="ProjectFirma.Web.Models.FK_ProjectClassification_Classification_ClassificationID" FromRole="ProjectClassifications" ToRole="Classification" />
+    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectClassification_Project_ProjectID" FromRole="ProjectClassifications" ToRole="Project" />
   </EntityType>
   <EntityType Name="ProjectExemptReportingYear">
     <Key>
@@ -1559,17 +1607,6 @@
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectTag_Project_ProjectID" FromRole="ProjectTags" ToRole="Project" />
     <NavigationProperty Name="Tag" Relationship="ProjectFirma.Web.Models.FK_ProjectTag_Tag_TagID" FromRole="ProjectTags" ToRole="Tag" />
   </EntityType>
-  <EntityType Name="ProjectThresholdCategory">
-    <Key>
-      <PropertyRef Name="ProjectThresholdCategoryID" />
-    </Key>
-    <Property Name="ProjectThresholdCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProjectID" Type="Int32" Nullable="false" />
-    <Property Name="ThresholdCategoryID" Type="Int32" Nullable="false" />
-    <Property Name="ProjectThresholdCategoryNotes" Type="String" MaxLength="600" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectThresholdCategory_Project_ProjectID" FromRole="ProjectThresholdCategories" ToRole="Project" />
-    <NavigationProperty Name="ThresholdCategory" Relationship="ProjectFirma.Web.Models.FK_ProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID" FromRole="ProjectThresholdCategories" ToRole="ThresholdCategory" />
-  </EntityType>
   <EntityType Name="ProjectUpdate">
     <Key>
       <PropertyRef Name="ProjectUpdateID" />
@@ -1693,11 +1730,11 @@
     <NavigationProperty Name="ProjectLocationArea" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_ProjectLocationArea_ProjectLocationAreaID" FromRole="ProposedProjects" ToRole="ProjectLocationArea" />
     <NavigationProperty Name="TaxonomyTierOne" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID" FromRole="ProposedProjects" ToRole="TaxonomyTierOne" />
     <NavigationProperty Name="ProposedProjectAssessmentQuestions" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectAssessmentQuestions" />
+    <NavigationProperty Name="ProposedProjectClassifications" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectClassification_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectClassifications" />
     <NavigationProperty Name="ProposedProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectImage_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectImages" />
     <NavigationProperty Name="ProposedProjectLocations" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocation_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectLocations" />
     <NavigationProperty Name="ProposedProjectLocationStagings" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectLocationStagings" />
     <NavigationProperty Name="ProposedProjectNotes" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectNotes" />
-    <NavigationProperty Name="ProposedProjectThresholdCategories" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectThresholdCategory_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectThresholdCategories" />
   </EntityType>
   <EntityType Name="ProposedProjectAssessmentQuestion">
     <Key>
@@ -1709,6 +1746,17 @@
     <Property Name="Answer" Type="Boolean" />
     <NavigationProperty Name="AssessmentQuestion" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" FromRole="ProposedProjectAssessmentQuestions" ToRole="AssessmentQuestion" />
     <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID" FromRole="ProposedProjectAssessmentQuestions" ToRole="ProposedProject" />
+  </EntityType>
+  <EntityType Name="ProposedProjectClassification">
+    <Key>
+      <PropertyRef Name="ProposedProjectClassificationID" />
+    </Key>
+    <Property Name="ProposedProjectClassificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
+    <Property Name="ClassificationID" Type="Int32" Nullable="false" />
+    <Property Name="ProposedProjectClassificationNotes" Type="String" MaxLength="600" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Classification" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectClassification_Classification_ClassificationID" FromRole="ProposedProjectClassifications" ToRole="Classification" />
+    <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectClassification_ProposedProject_ProposedProjectID" FromRole="ProposedProjectClassifications" ToRole="ProposedProject" />
   </EntityType>
   <EntityType Name="ProposedProjectImage">
     <Key>
@@ -1759,17 +1807,6 @@
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_CreatePersonID_PersonID" FromRole="ProposedProjectNotesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
     <NavigationProperty Name="UpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_UpdatePersonID_PersonID" FromRole="ProposedProjectNotesWhereYouAreTheUpdatePerson" ToRole="UpdatePerson" />
     <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_ProposedProject_ProposedProjectID" FromRole="ProposedProjectNotes" ToRole="ProposedProject" />
-  </EntityType>
-  <EntityType Name="ProposedProjectThresholdCategory">
-    <Key>
-      <PropertyRef Name="ProposedProjectThresholdCategoryID" />
-    </Key>
-    <Property Name="ProposedProjectThresholdCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
-    <Property Name="ThresholdCategoryID" Type="Int32" Nullable="false" />
-    <Property Name="ProposedProjectThresholdCategoryNotes" Type="String" MaxLength="600" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectThresholdCategory_ProposedProject_ProposedProjectID" FromRole="ProposedProjectThresholdCategories" ToRole="ProposedProject" />
-    <NavigationProperty Name="ThresholdCategory" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID" FromRole="ProposedProjectThresholdCategories" ToRole="ThresholdCategory" />
   </EntityType>
   <EntityType Name="Snapshot">
     <Key>
@@ -1948,43 +1985,6 @@
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="TaxonomyTierTwoPerformanceMeasures" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="TaxonomyTierTwo" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierTwoPerformanceMeasures" ToRole="TaxonomyTierTwo" />
   </EntityType>
-  <EntityType Name="ThresholdCategory">
-    <Key>
-      <PropertyRef Name="ThresholdCategoryID" />
-    </Key>
-    <Property Name="ThresholdCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ThresholdCategoryName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="ThresholdCategoryDescription" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
-    <Property Name="ThemeColor" Type="String" Nullable="false" MaxLength="7" Unicode="false" FixedLength="false" />
-    <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="GoalStatement" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="Narrative" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="ProjectThresholdCategories" Relationship="ProjectFirma.Web.Models.FK_ProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID" FromRole="ThresholdCategory" ToRole="ProjectThresholdCategories" />
-    <NavigationProperty Name="ProposedProjectThresholdCategories" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID" FromRole="ThresholdCategory" ToRole="ProposedProjectThresholdCategories" />
-    <NavigationProperty Name="ThresholdCategoryImages" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryImage_ThresholdCategory_ThresholdCategoryID" FromRole="ThresholdCategory" ToRole="ThresholdCategoryImages" />
-    <NavigationProperty Name="ThresholdCategoryPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryPerformanceMeasure_ThresholdCategory_ThresholdCategoryID" FromRole="ThresholdCategory" ToRole="ThresholdCategoryPerformanceMeasures" />
-  </EntityType>
-  <EntityType Name="ThresholdCategoryImage">
-    <Key>
-      <PropertyRef Name="ThresholdCategoryImageID" />
-    </Key>
-    <Property Name="ThresholdCategoryImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ThresholdCategoryID" Type="Int32" Nullable="false" />
-    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryImage_FileResource_FileResourceID" FromRole="ThresholdCategoryImages" ToRole="FileResource" />
-    <NavigationProperty Name="ThresholdCategory" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryImage_ThresholdCategory_ThresholdCategoryID" FromRole="ThresholdCategoryImages" ToRole="ThresholdCategory" />
-  </EntityType>
-  <EntityType Name="ThresholdCategoryPerformanceMeasure">
-    <Key>
-      <PropertyRef Name="ThresholdCategoryPerformanceMeasureID" />
-    </Key>
-    <Property Name="ThresholdCategoryPerformanceMeasureID" Type="Int32" Nullable="false" />
-    <Property Name="ThresholdCategoryID" Type="Int32" Nullable="false" />
-    <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
-    <Property Name="IsPrimaryChart" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="ThresholdCategoryPerformanceMeasures" ToRole="PerformanceMeasure" />
-    <NavigationProperty Name="ThresholdCategory" Relationship="ProjectFirma.Web.Models.FK_ThresholdCategoryPerformanceMeasure_ThresholdCategory_ThresholdCategoryID" FromRole="ThresholdCategoryPerformanceMeasures" ToRole="ThresholdCategory" />
-  </EntityType>
   <EntityType Name="Watershed">
     <Key>
       <PropertyRef Name="WatershedID" />
@@ -2053,6 +2053,78 @@
       </Principal>
       <Dependent Role="AuditLogs">
         <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ClassificationImage_Classification_ClassificationID">
+    <End Role="Classification" Type="ProjectFirma.Web.Models.Classification" Multiplicity="1" />
+    <End Role="ClassificationImages" Type="ProjectFirma.Web.Models.ClassificationImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Classification">
+        <PropertyRef Name="ClassificationID" />
+      </Principal>
+      <Dependent Role="ClassificationImages">
+        <PropertyRef Name="ClassificationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ClassificationPerformanceMeasure_Classification_ClassificationID">
+    <End Role="Classification" Type="ProjectFirma.Web.Models.Classification" Multiplicity="1" />
+    <End Role="ClassificationPerformanceMeasures" Type="ProjectFirma.Web.Models.ClassificationPerformanceMeasure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Classification">
+        <PropertyRef Name="ClassificationID" />
+      </Principal>
+      <Dependent Role="ClassificationPerformanceMeasures">
+        <PropertyRef Name="ClassificationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectClassification_Classification_ClassificationID">
+    <End Role="Classification" Type="ProjectFirma.Web.Models.Classification" Multiplicity="1" />
+    <End Role="ProjectClassifications" Type="ProjectFirma.Web.Models.ProjectClassification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Classification">
+        <PropertyRef Name="ClassificationID" />
+      </Principal>
+      <Dependent Role="ProjectClassifications">
+        <PropertyRef Name="ClassificationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProposedProjectClassification_Classification_ClassificationID">
+    <End Role="Classification" Type="ProjectFirma.Web.Models.Classification" Multiplicity="1" />
+    <End Role="ProposedProjectClassifications" Type="ProjectFirma.Web.Models.ProposedProjectClassification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Classification">
+        <PropertyRef Name="ClassificationID" />
+      </Principal>
+      <Dependent Role="ProposedProjectClassifications">
+        <PropertyRef Name="ClassificationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ClassificationImage_FileResource_FileResourceID">
+    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
+    <End Role="ClassificationImages" Type="ProjectFirma.Web.Models.ClassificationImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="ClassificationImages">
+        <PropertyRef Name="FileResourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
+    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
+    <End Role="ClassificationPerformanceMeasures" Type="ProjectFirma.Web.Models.ClassificationPerformanceMeasure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PerformanceMeasure">
+        <PropertyRef Name="PerformanceMeasureID" />
+      </Principal>
+      <Dependent Role="ClassificationPerformanceMeasures">
+        <PropertyRef Name="PerformanceMeasureID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2196,18 +2268,6 @@
         <PropertyRef Name="FileResourceID" />
       </Principal>
       <Dependent Role="TaxonomyTierTwoImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdCategoryImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
-    <End Role="ThresholdCategoryImages" Type="ProjectFirma.Web.Models.ThresholdCategoryImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="ThresholdCategoryImages">
         <PropertyRef Name="FileResourceID" />
       </Dependent>
     </ReferentialConstraint>
@@ -2680,18 +2740,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ThresholdCategoryPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
-    <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.PerformanceMeasure" Multiplicity="1" />
-    <End Role="ThresholdCategoryPerformanceMeasures" Type="ProjectFirma.Web.Models.ThresholdCategoryPerformanceMeasure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PerformanceMeasure">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Principal>
-      <Dependent Role="ThresholdCategoryPerformanceMeasures">
-        <PropertyRef Name="PerformanceMeasureID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_PerformanceMeasureActual_Project_ProjectID">
     <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
     <End Role="PerformanceMeasureActuals" Type="ProjectFirma.Web.Models.PerformanceMeasureActual" Multiplicity="*" />
@@ -3124,6 +3172,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectClassification_Project_ProjectID">
+    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
+    <End Role="ProjectClassifications" Type="ProjectFirma.Web.Models.ProjectClassification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="ProjectClassifications">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectExemptReportingYear_Project_ProjectID">
     <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
     <End Role="ProjectExemptReportingYears" Type="ProjectFirma.Web.Models.ProjectExemptReportingYear" Multiplicity="*" />
@@ -3240,18 +3300,6 @@
         <PropertyRef Name="ProjectID" />
       </Principal>
       <Dependent Role="ProjectTags">
-        <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectThresholdCategory_Project_ProjectID">
-    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
-    <End Role="ProjectThresholdCategories" Type="ProjectFirma.Web.Models.ProjectThresholdCategory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectID" />
-      </Principal>
-      <Dependent Role="ProjectThresholdCategories">
         <PropertyRef Name="ProjectID" />
       </Dependent>
     </ReferentialConstraint>
@@ -3544,18 +3592,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID">
-    <End Role="ThresholdCategory" Type="ProjectFirma.Web.Models.ThresholdCategory" Multiplicity="1" />
-    <End Role="ProjectThresholdCategories" Type="ProjectFirma.Web.Models.ProjectThresholdCategory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThresholdCategory">
-        <PropertyRef Name="ThresholdCategoryID" />
-      </Principal>
-      <Dependent Role="ProjectThresholdCategories">
-        <PropertyRef Name="ThresholdCategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
     <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.ProjectUpdateBatch" Multiplicity="1" />
     <End Role="ProjectUpdates" Type="ProjectFirma.Web.Models.ProjectUpdate" Multiplicity="*" />
@@ -3616,6 +3652,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProposedProjectClassification_ProposedProject_ProposedProjectID">
+    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
+    <End Role="ProposedProjectClassifications" Type="ProjectFirma.Web.Models.ProposedProjectClassification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProposedProject">
+        <PropertyRef Name="ProposedProjectID" />
+      </Principal>
+      <Dependent Role="ProposedProjectClassifications">
+        <PropertyRef Name="ProposedProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProposedProjectImage_ProposedProject_ProposedProjectID">
     <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
     <End Role="ProposedProjectImages" Type="ProjectFirma.Web.Models.ProposedProjectImage" Multiplicity="*" />
@@ -3661,30 +3709,6 @@
       </Principal>
       <Dependent Role="ProposedProjectNotes">
         <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectThresholdCategory_ProposedProject_ProposedProjectID">
-    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
-    <End Role="ProposedProjectThresholdCategories" Type="ProjectFirma.Web.Models.ProposedProjectThresholdCategory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProposedProject">
-        <PropertyRef Name="ProposedProjectID" />
-      </Principal>
-      <Dependent Role="ProposedProjectThresholdCategories">
-        <PropertyRef Name="ProposedProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProjectThresholdCategory_ThresholdCategory_ThresholdCategoryID">
-    <End Role="ThresholdCategory" Type="ProjectFirma.Web.Models.ThresholdCategory" Multiplicity="1" />
-    <End Role="ProposedProjectThresholdCategories" Type="ProjectFirma.Web.Models.ProposedProjectThresholdCategory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThresholdCategory">
-        <PropertyRef Name="ThresholdCategoryID" />
-      </Principal>
-      <Dependent Role="ProposedProjectThresholdCategories">
-        <PropertyRef Name="ThresholdCategoryID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3805,30 +3829,6 @@
       </Principal>
       <Dependent Role="TaxonomyTierTwoPerformanceMeasures">
         <PropertyRef Name="TaxonomyTierTwoID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdCategoryImage_ThresholdCategory_ThresholdCategoryID">
-    <End Role="ThresholdCategory" Type="ProjectFirma.Web.Models.ThresholdCategory" Multiplicity="1" />
-    <End Role="ThresholdCategoryImages" Type="ProjectFirma.Web.Models.ThresholdCategoryImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThresholdCategory">
-        <PropertyRef Name="ThresholdCategoryID" />
-      </Principal>
-      <Dependent Role="ThresholdCategoryImages">
-        <PropertyRef Name="ThresholdCategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ThresholdCategoryPerformanceMeasure_ThresholdCategory_ThresholdCategoryID">
-    <End Role="ThresholdCategory" Type="ProjectFirma.Web.Models.ThresholdCategory" Multiplicity="1" />
-    <End Role="ThresholdCategoryPerformanceMeasures" Type="ProjectFirma.Web.Models.ThresholdCategoryPerformanceMeasure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThresholdCategory">
-        <PropertyRef Name="ThresholdCategoryID" />
-      </Principal>
-      <Dependent Role="ThresholdCategoryPerformanceMeasures">
-        <PropertyRef Name="ThresholdCategoryID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

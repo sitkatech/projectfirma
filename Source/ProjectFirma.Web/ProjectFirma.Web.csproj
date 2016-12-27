@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -58,6 +58,15 @@
     <Compile Include="Models\Generated\AuditLogEventType.Binding.cs" />
     <Compile Include="Models\Generated\AuditLogEventTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\AuditLogPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\Classification.Binding.cs" />
+    <Compile Include="Models\Generated\Classification.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ClassificationImage.Binding.cs" />
+    <Compile Include="Models\Generated\ClassificationImage.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ClassificationImagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ClassificationPerformanceMeasure.Binding.cs" />
+    <Compile Include="Models\Generated\ClassificationPerformanceMeasure.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ClassificationPerformanceMeasurePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ClassificationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\CostParameterSet.Binding.cs" />
     <Compile Include="Models\Generated\CostParameterSet.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\CostParameterSetPrimaryKey.Binding.cs" />
@@ -184,6 +193,9 @@
     <Compile Include="Models\Generated\ProjectBudgetUpdate.Binding.cs" />
     <Compile Include="Models\Generated\ProjectBudgetUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectBudgetUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectClassification.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectClassification.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectClassificationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectColorByType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectColorByTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCostType.Binding.cs" />
@@ -265,9 +277,6 @@
     <Compile Include="Models\Generated\ProjectTag.Binding.cs" />
     <Compile Include="Models\Generated\ProjectTag.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectTagPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectThresholdCategory.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectThresholdCategory.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectThresholdCategoryPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdate.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectUpdateBatch.Binding.cs" />
@@ -287,6 +296,9 @@
     <Compile Include="Models\Generated\ProposedProjectAssessmentQuestion.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProjectAssessmentQuestion.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProposedProjectAssessmentQuestionPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProposedProjectClassification.Binding.cs" />
+    <Compile Include="Models\Generated\ProposedProjectClassification.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProposedProjectClassificationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProjectImage.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProjectImage.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProposedProjectImagePrimaryKey.Binding.cs" />
@@ -302,9 +314,6 @@
     <Compile Include="Models\Generated\ProposedProjectPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProjectState.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProjectStatePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProposedProjectThresholdCategory.Binding.cs" />
-    <Compile Include="Models\Generated\ProposedProjectThresholdCategory.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProposedProjectThresholdCategoryPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Role.Binding.cs" />
     <Compile Include="Models\Generated\RolePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Sector.Binding.cs" />
@@ -358,15 +367,6 @@
     <Compile Include="Models\Generated\TaxonomyTierTwoPerformanceMeasure.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\TaxonomyTierTwoPerformanceMeasurePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\TaxonomyTierTwoPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdCategory.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdCategory.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ThresholdCategoryImage.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdCategoryImage.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ThresholdCategoryImagePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdCategoryPerformanceMeasure.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdCategoryPerformanceMeasure.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ThresholdCategoryPerformanceMeasurePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ThresholdCategoryPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
@@ -403,7 +403,7 @@
     <Compile Include="Controllers\ProjectNoteController.cs" />
     <Compile Include="Controllers\ProjectNoteUpdateController.cs" />
     <Compile Include="Controllers\ProjectOrganizationController.cs" />
-    <Compile Include="Controllers\ProjectThresholdCategoryController.cs" />
+    <Compile Include="Controllers\ProjectClassificationController.cs" />
     <Compile Include="Controllers\ProjectUpdateController.cs" />
     <Compile Include="Controllers\ProjectUpdateControllerControllerTest.cs" />
     <Compile Include="Controllers\ProjectWatershedController.cs" />
@@ -415,7 +415,7 @@
     <Compile Include="Controllers\AssessmentController.cs" />
     <Compile Include="Controllers\CostParameterSetController.cs" />
     <Compile Include="Controllers\ProjectBudgetController.cs" />
-    <Compile Include="Controllers\ThresholdCategoryController.cs" />
+    <Compile Include="Controllers\ClassificationController.cs" />
     <Compile Include="Models\IPerformanceMeasureReported.cs" />
     <Compile Include="Models\IPerformanceMeasureReportedValue.cs" />
     <Compile Include="Models\IPerformanceMeasureValue.cs" />
@@ -489,7 +489,7 @@
     <Compile Include="Security\ProjectsViewFullListFeature.cs" />
     <Compile Include="Security\ProjectsViewMyOrganizationsProjectListFeature.cs" />
     <Compile Include="Security\ProjectsViewTerminatedListFeature.cs" />
-    <Compile Include="Security\ProjectThresholdCategoryManageFromThresholdCategoryFeature.cs" />
+    <Compile Include="Security\ProjectClassificationManageFromClassificationFeature.cs" />
     <Compile Include="Security\ProjectUpdateAdminFeature.cs" />
     <Compile Include="Security\ProjectUpdateManageFeature.cs" />
     <Compile Include="Security\ProjectUpdateViewFeature.cs" />
@@ -503,7 +503,7 @@
     <Compile Include="Security\ProposedProjectNoteCreateFeature.cs" />
     <Compile Include="Security\ProposedProjectNoteManageFeature.cs" />
     <Compile Include="Security\ProposedProjectsViewListFeature.cs" />
-    <Compile Include="Security\ProposedProjectThresholdCategoryEditFeature.cs" />
+    <Compile Include="Security\ProposedProjectClassificationEditFeature.cs" />
     <Compile Include="Security\ProposedProjectViewFeature.cs" />
     <Compile Include="Security\ResultsByTaxonomyTierTwoViewFeature.cs" />
     <Compile Include="Security\SpendingByPerformanceMeasureByProjectViewFeature.cs" />
@@ -521,6 +521,7 @@
     <Compile Include="UnitTestCommon\TestTaxonomyTierTwo.cs" />
     <Compile Include="UnitTestCommon\TestProjectBudget.cs" />
     <Compile Include="UnitTestCommon\TestProjectBudgetUpdate.cs" />
+    <Compile Include="Views\Classification\IndexGridSpec.cs" />
     <Compile Include="Views\PerformanceMeasureMonitoringProgram\EditPerformanceMeasureMonitoringPrograms.cs" />
     <Compile Include="Views\PerformanceMeasureMonitoringProgram\EditPerformanceMeasureMonitoringProgramsViewData.cs" />
     <Compile Include="Views\PerformanceMeasureMonitoringProgram\EditPerformanceMeasureMonitoringProgramsViewModel.cs" />
@@ -608,7 +609,7 @@
     <Compile Include="Models\MonitoringProgramPartner.cs" />
     <Compile Include="Models\MonitoringProgramSimple.cs" />
     <Compile Include="Models\ProjectExternalLinkSimple.cs" />
-    <Compile Include="Models\ProjectThresholdCategorySimple.cs" />
+    <Compile Include="Models\ProjectClassificationSimple.cs" />
     <Compile Include="Models\MonitoringProgramPartnerSimple.cs" />
     <Compile Include="Models\ProjectWatershedSimple.cs" />
     <Compile Include="Models\ProposedProjectImage.cs" />
@@ -618,8 +619,8 @@
     <Compile Include="Models\PerformanceMeasureSubcategorySimple.cs" />
     <Compile Include="Models\SupportRequestTypeSimple.cs" />
     <Compile Include="Models\PerformanceMeasureMonitoringProgramSimple.cs" />
-    <Compile Include="Models\ThresholdCategoryModelExtensions.cs" />
-    <Compile Include="Models\ThresholdCategory.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\ClassificationModelExtensions.cs" />
+    <Compile Include="Models\Classification.DatabaseContextExtensions.cs" />
     <Compile Include="Common\FirmaEnvironment.cs" />
     <Compile Include="Common\WebServiceDocumentationAttribute.cs" />
     <Compile Include="Controllers\WebServicesController.cs" />
@@ -644,7 +645,7 @@
     <Compile Include="Models\IRoleExtensions.cs" />
     <Compile Include="Models\Person.DatabaseContextExtensions.cs" />
     <Compile Include="Models\PerformanceMeasure.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\ProposedProjectThresholdCategorySimple.cs" />
+    <Compile Include="Models\ProposedProjectClassificationSimple.cs" />
     <Compile Include="Models\WatershedModelExtensions.cs" />
     <Compile Include="Security\FirmaPageViewListFeature.cs" />
     <Compile Include="Security\FieldDefinitionViewListFeature.cs" />
@@ -893,9 +894,9 @@
     <Compile Include="Views\ProposedProject\BasicsViewModelTest.cs" />
     <Compile Include="Views\ProposedProject\BasicsViewModelValidator.cs" />
     <Compile Include="Views\ProposedProject\BasicsViewModelValidatorTest.cs" />
-    <Compile Include="Views\ProposedProject\EditProposedProjectThresholdCategories.cs" />
-    <Compile Include="Views\ProposedProject\EditProposedProjectThresholdCategoriesViewData.cs" />
-    <Compile Include="Views\ProposedProject\EditProposedProjectThresholdCategoriesViewModel.cs" />
+    <Compile Include="Views\ProposedProject\EditProposedProjectClassifications.cs" />
+    <Compile Include="Views\ProposedProject\EditProposedProjectClassificationsViewData.cs" />
+    <Compile Include="Views\ProposedProject\EditProposedProjectClassificationsViewModel.cs" />
     <Compile Include="Views\ProposedProject\EditAssessment.cs" />
     <Compile Include="Views\ProposedProject\EditAssessmentViewData.cs" />
     <Compile Include="Views\ProposedProject\EditAssessmentViewModel.cs" />
@@ -967,9 +968,9 @@
     <Compile Include="Views\Shared\HtmlDiffSummaryViewData.cs" />
     <Compile Include="Views\Shared\NavAndHeaderLayout.cs" />
     <Compile Include="Views\Shared\ProjectControls\EditProject.cs" />
-    <Compile Include="Views\Shared\ProjectControls\EditProjectThresholdCategoriesForProject.cs" />
-    <Compile Include="Views\Shared\ProjectControls\EditProjectThresholdCategoriesForProjectViewData.cs" />
-    <Compile Include="Views\Shared\ProjectControls\EditProjectThresholdCategoriesForProjectViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectControls\EditProjectClassificationsForProject.cs" />
+    <Compile Include="Views\Shared\ProjectControls\EditProjectClassificationsForProjectViewData.cs" />
+    <Compile Include="Views\Shared\ProjectControls\EditProjectClassificationsForProjectViewModel.cs" />
     <Compile Include="Views\Shared\ProjectControls\EditProjectViewData.cs" />
     <Compile Include="Views\Shared\ProjectControls\EditProjectViewModel.cs" />
     <Compile Include="Views\Shared\ProjectControls\EditProjectViewModelTest.cs" />
@@ -1031,13 +1032,13 @@
     <Compile Include="Views\Tag\SummaryViewData.cs" />
     <Compile Include="Views\Tag\TagGridSpec.cs" />
     <Compile Include="Views\Tag\TagHelper.cs" />
-    <Compile Include="Views\ThresholdCategory\Edit.cs" />
-    <Compile Include="Views\ThresholdCategory\EditViewData.cs" />
-    <Compile Include="Views\ThresholdCategory\EditViewModel.cs" />
-    <Compile Include="Views\ThresholdCategory\Index.cs" />
-    <Compile Include="Views\ThresholdCategory\IndexViewData.cs" />
-    <Compile Include="Views\ThresholdCategory\Summary.cs" />
-    <Compile Include="Views\ThresholdCategory\SummaryViewData.cs" />
+    <Compile Include="Views\Classification\Edit.cs" />
+    <Compile Include="Views\Classification\EditViewData.cs" />
+    <Compile Include="Views\Classification\EditViewModel.cs" />
+    <Compile Include="Views\Classification\Index.cs" />
+    <Compile Include="Views\Classification\IndexViewData.cs" />
+    <Compile Include="Views\Classification\Summary.cs" />
+    <Compile Include="Views\Classification\SummaryViewData.cs" />
     <Compile Include="Views\Assessment\ExcelSpec.cs" />
     <Compile Include="Views\Assessment\Manage.cs" />
     <Compile Include="Views\Assessment\ManageViewData.cs" />
@@ -1277,7 +1278,7 @@
     <Compile Include="Models\CalendarYearMonetaryAmount.cs" />
     <Compile Include="Models\FancyTreeNode.cs" />
     <Compile Include="Models\FieldDefinitionData.cs" />
-    <Compile Include="Models\IEntityThresholdCategory.cs" />
+    <Compile Include="Models\IEntityClassification.cs" />
     <Compile Include="Models\PerformanceMeasureSimple.cs" />
     <Compile Include="Models\ProjectSimple.cs" />
     <Compile Include="Models\ProjectLocation.cs" />
@@ -1291,7 +1292,7 @@
     <Compile Include="Models\ProposedProjectNote.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedProposed.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionProposed.cs" />
-    <Compile Include="Models\ProposedProjectThresholdCategory.cs" />
+    <Compile Include="Models\ProposedProjectClassification.cs" />
     <Compile Include="Models\Tag.DatabaseContextExtensions.cs" />
     <Compile Include="Models\ProjectLocationFilterType.cs" />
     <Compile Include="Models\OrganizationModelExtensions.cs" />
@@ -1376,7 +1377,7 @@
     <Compile Include="Models\ProjectStage.cs" />
     <Compile Include="Models\ProjectStageTest.cs" />
     <Compile Include="Models\ProjectTest.cs" />
-    <Compile Include="Models\ProjectThresholdCategory.cs" />
+    <Compile Include="Models\ProjectClassification.cs" />
     <Compile Include="Models\ProjectUpdate.cs" />
     <Compile Include="Models\ProjectUpdateBatch.cs" />
     <Compile Include="Models\ProjectUpdateBatchTest.cs" />
@@ -1387,8 +1388,8 @@
     <Compile Include="Models\Sector.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategoryOption.cs" />
     <Compile Include="Models\SupportRequestLog.cs" />
-    <Compile Include="Models\ThresholdCategory.cs" />
-    <Compile Include="Models\ThresholdCategories.cs" />
+    <Compile Include="Models\Classification.cs" />
+    <Compile Include="Models\Classifications.cs" />
     <Compile Include="Models\Watershed.cs" />
     <Compile Include="Models\WatershedSimple.cs" />
     <Compile Include="Security\FirmaFeatureTest.cs" />
@@ -1413,9 +1414,9 @@
     <Compile Include="UnitTestCommon\TestPerformanceMeasureActual.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureExpected.cs" />
     <Compile Include="UnitTestCommon\TestProjectFundingSourceExpenditure.cs" />
-    <Compile Include="UnitTestCommon\TestProjectThresholdCategory.cs" />
+    <Compile Include="UnitTestCommon\TestProjectClassification.cs" />
     <Compile Include="UnitTestCommon\TestProjectWatershed.cs" />
-    <Compile Include="UnitTestCommon\TestThresholdCategory.cs" />
+    <Compile Include="UnitTestCommon\TestClassification.cs" />
     <Compile Include="UnitTestCommon\TestTag.cs" />
     <Compile Include="UnitTestCommon\TestWatershed.cs" />
     <Compile Include="UnitTestCommon\TestProjectNote.cs" />
@@ -3079,9 +3080,9 @@
     <Content Include="Views\MonitoringProgram\Summary.cshtml" />
     <Content Include="Views\MonitoringProgramPartner\EditMonitoringProgramPartners.cshtml" />
     <Content Include="Views\MonitoringProgram\NewMonitoringProgramDocument.cshtml" />
-    <Content Include="Views\ThresholdCategory\Edit.cshtml" />
-    <Content Include="Views\ThresholdCategory\Index.cshtml" />
-    <Content Include="Views\ThresholdCategory\Summary.cshtml" />
+    <Content Include="Views\Classification\Edit.cshtml" />
+    <Content Include="Views\Classification\Index.cshtml" />
+    <Content Include="Views\Classification\Summary.cshtml" />
     <Content Include="Views\Shared\HtmlDiffSummary.cshtml" />
     <Content Include="Views\Shared\DisplayPageContent.cshtml" />
     <Content Include="Views\Shared\EditPageContent.cshtml" />
@@ -3144,7 +3145,7 @@
     <Content Include="Views\ProposedProjectImage\Edit.cshtml" />
     <Content Include="Views\ProposedProjectImage\New.cshtml" />
     <Content Include="Views\ProposedProject\Basics.cshtml" />
-    <Content Include="Views\ProposedProject\EditProposedProjectThresholdCategories.cshtml" />
+    <Content Include="Views\ProposedProject\EditProposedProjectClassifications.cshtml" />
     <Content Include="Views\ProposedProject\ExpectedPerformanceMeasureValues.cshtml" />
     <Content Include="Views\ProposedProject\Index.cshtml" />
     <Content Include="Views\ProposedProject\Instructions.cshtml" />
@@ -3169,7 +3170,7 @@
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ExpendituresBarChart.cshtml" />
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetSummary.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProject.cshtml" />
-    <Content Include="Views\Shared\ProjectControls\EditProjectThresholdCategoriesForProject.cshtml" />
+    <Content Include="Views\Shared\ProjectControls\EditProjectClassificationsForProject.cshtml" />
     <Content Include="Views\Shared\ProjectControls\ProjectBasics.cshtml" />
     <Content Include="Views\Shared\ProjectControls\ProjectBasicsCalculatedCosts.cshtml" />
     <Content Include="Views\Shared\ProjectControls\ProjectBasicsTags.cshtml" />

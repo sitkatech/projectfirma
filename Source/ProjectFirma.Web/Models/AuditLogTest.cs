@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Models
     /// PerformanceMeasureExpected
     /// PerformanceMeasureExpectedSubcategoryOption
     /// TaxonomyTierTwoPerformanceMeasure
-    /// ProjectThresholdCategory
+    /// ProjectClassification
     /// PerformanceMeasureSubcategoryOption
     /// 
     /// -- SLG
@@ -485,7 +485,7 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
-        public void TestThresholdCategoryAuditLogging()
+        public void TestClassificationAuditLogging()
         {
             // Get an arbitrary real-word person to do these actions
             var firmaUser = HttpRequestStorage.DatabaseEntities.People.First();
@@ -496,37 +496,37 @@ namespace ProjectFirma.Web.Models
             // Make a test object and save it
             var dbContext = HttpRequestStorage.DatabaseEntities;
 
-            var testThresholdCategory = TestFramework.TestThresholdCategory.Create(dbContext);
+            var testClassification = TestFramework.TestClassification.Create(dbContext);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this object
-            System.Diagnostics.Trace.WriteLine(string.Format("Looking for ThresholdCategory \"{0}\" in Audit Log database entries.", testThresholdCategory.ThresholdCategoryName));
-            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testThresholdCategory.ThresholdCategoryName)));
+            System.Diagnostics.Trace.WriteLine(string.Format("Looking for Classification \"{0}\" in Audit Log database entries.", testClassification.ClassificationName));
+            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testClassification.ClassificationName)));
 
             // Change audit logging
             // --------------------
 
             // Make changes to the original object
-            var newThresholdCategoryName = TestFramework.MakeTestName("New ThresholdCategory", ThresholdCategory.FieldLengths.ThresholdCategoryName);
-            var newThresholdCategoryDescription = TestFramework.MakeTestName("New ThresholdCategoryDescription");
-            testThresholdCategory.ThresholdCategoryName = newThresholdCategoryName;
-            testThresholdCategory.ThresholdCategoryDescription = newThresholdCategoryDescription;
+            var newClassificationName = TestFramework.MakeTestName("New Classification", Classification.FieldLengths.ClassificationName);
+            var newClassificationDescription = TestFramework.MakeTestName("New ClassificationDescription");
+            testClassification.ClassificationName = newClassificationName;
+            testClassification.ClassificationDescription = newClassificationDescription;
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this NEW name
-            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newThresholdCategoryName)));
+            Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.NewValue.Contains(newClassificationName)));
 
             // Delete audit logging
             // --------------------
 
-            HttpRequestStorage.DatabaseEntities.ThresholdCategories.Remove(testThresholdCategory);
+            HttpRequestStorage.DatabaseEntities.Classifications.Remove(testClassification);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
-            // Check that the audit log mentions this ThresholdCategory name as deleted
+            // Check that the audit log mentions this Classification name as deleted
             Check.Assert(
                 HttpRequestStorage.DatabaseEntities.AuditLogs.SingleOrDefault(
-                    al => al.TableName == "ThresholdCategory" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID && al.RecordID == testThresholdCategory.ThresholdCategoryID) !=
+                    al => al.TableName == "Classification" && al.AuditLogEventTypeID == AuditLogEventType.Deleted.AuditLogEventTypeID && al.RecordID == testClassification.ClassificationID) !=
                 null,
-                "Could not find deleted ThresholdCategory record");
+                "Could not find deleted Classification record");
         }
 
     }

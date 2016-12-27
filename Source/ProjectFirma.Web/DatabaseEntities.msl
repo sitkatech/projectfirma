@@ -50,6 +50,38 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Classification">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Classification">
+        <MappingFragment StoreEntitySet="Classification">
+          <ScalarProperty Name="ClassificationID" ColumnName="ClassificationID" />
+          <ScalarProperty Name="ClassificationName" ColumnName="ClassificationName" />
+          <ScalarProperty Name="ClassificationDescription" ColumnName="ClassificationDescription" />
+          <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
+          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+          <ScalarProperty Name="GoalStatement" ColumnName="GoalStatement" />
+          <ScalarProperty Name="Narrative" ColumnName="Narrative" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ClassificationImage">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ClassificationImage">
+        <MappingFragment StoreEntitySet="ClassificationImage">
+          <ScalarProperty Name="ClassificationImageID" ColumnName="ClassificationImageID" />
+          <ScalarProperty Name="ClassificationID" ColumnName="ClassificationID" />
+          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ClassificationPerformanceMeasure">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ClassificationPerformanceMeasure">
+        <MappingFragment StoreEntitySet="ClassificationPerformanceMeasure">
+          <ScalarProperty Name="ClassificationPerformanceMeasureID" ColumnName="ClassificationPerformanceMeasureID" />
+          <ScalarProperty Name="ClassificationID" ColumnName="ClassificationID" />
+          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
+          <ScalarProperty Name="IsPrimaryChart" ColumnName="IsPrimaryChart" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="CostParameterSet">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.CostParameterSet">
         <MappingFragment StoreEntitySet="CostParameterSet">
@@ -467,6 +499,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ProjectClassification">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectClassification">
+        <MappingFragment StoreEntitySet="ProjectClassification">
+          <ScalarProperty Name="ProjectClassificationID" ColumnName="ProjectClassificationID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="ClassificationID" ColumnName="ClassificationID" />
+          <ScalarProperty Name="ProjectClassificationNotes" ColumnName="ProjectClassificationNotes" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="ProjectExemptReportingYear">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectExemptReportingYear">
         <MappingFragment StoreEntitySet="ProjectExemptReportingYear">
@@ -703,16 +745,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ProjectThresholdCategory">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectThresholdCategory">
-        <MappingFragment StoreEntitySet="ProjectThresholdCategory">
-          <ScalarProperty Name="ProjectThresholdCategoryID" ColumnName="ProjectThresholdCategoryID" />
-          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-          <ScalarProperty Name="ThresholdCategoryID" ColumnName="ThresholdCategoryID" />
-          <ScalarProperty Name="ProjectThresholdCategoryNotes" ColumnName="ProjectThresholdCategoryNotes" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ProjectUpdate">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectUpdate">
         <MappingFragment StoreEntitySet="ProjectUpdate">
@@ -824,6 +856,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ProposedProjectClassification">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProjectClassification">
+        <MappingFragment StoreEntitySet="ProposedProjectClassification">
+          <ScalarProperty Name="ProposedProjectClassificationID" ColumnName="ProposedProjectClassificationID" />
+          <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
+          <ScalarProperty Name="ClassificationID" ColumnName="ClassificationID" />
+          <ScalarProperty Name="ProposedProjectClassificationNotes" ColumnName="ProposedProjectClassificationNotes" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="ProposedProjectImage">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProjectImage">
         <MappingFragment StoreEntitySet="ProposedProjectImage">
@@ -868,16 +910,6 @@
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProposedProjectThresholdCategory">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProjectThresholdCategory">
-        <MappingFragment StoreEntitySet="ProposedProjectThresholdCategory">
-          <ScalarProperty Name="ProposedProjectThresholdCategoryID" ColumnName="ProposedProjectThresholdCategoryID" />
-          <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
-          <ScalarProperty Name="ThresholdCategoryID" ColumnName="ThresholdCategoryID" />
-          <ScalarProperty Name="ProposedProjectThresholdCategoryNotes" ColumnName="ProposedProjectThresholdCategoryNotes" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1033,38 +1065,6 @@
           <ScalarProperty Name="TaxonomyTierTwoID" ColumnName="TaxonomyTierTwoID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="IsPrimaryTaxonomyTierTwo" ColumnName="IsPrimaryTaxonomyTierTwo" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ThresholdCategory">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ThresholdCategory">
-        <MappingFragment StoreEntitySet="ThresholdCategory">
-          <ScalarProperty Name="ThresholdCategoryID" ColumnName="ThresholdCategoryID" />
-          <ScalarProperty Name="ThresholdCategoryName" ColumnName="ThresholdCategoryName" />
-          <ScalarProperty Name="ThresholdCategoryDescription" ColumnName="ThresholdCategoryDescription" />
-          <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
-          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
-          <ScalarProperty Name="GoalStatement" ColumnName="GoalStatement" />
-          <ScalarProperty Name="Narrative" ColumnName="Narrative" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ThresholdCategoryImage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ThresholdCategoryImage">
-        <MappingFragment StoreEntitySet="ThresholdCategoryImage">
-          <ScalarProperty Name="ThresholdCategoryImageID" ColumnName="ThresholdCategoryImageID" />
-          <ScalarProperty Name="ThresholdCategoryID" ColumnName="ThresholdCategoryID" />
-          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ThresholdCategoryPerformanceMeasure">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ThresholdCategoryPerformanceMeasure">
-        <MappingFragment StoreEntitySet="ThresholdCategoryPerformanceMeasure">
-          <ScalarProperty Name="ThresholdCategoryPerformanceMeasureID" ColumnName="ThresholdCategoryPerformanceMeasureID" />
-          <ScalarProperty Name="ThresholdCategoryID" ColumnName="ThresholdCategoryID" />
-          <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
-          <ScalarProperty Name="IsPrimaryChart" ColumnName="IsPrimaryChart" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

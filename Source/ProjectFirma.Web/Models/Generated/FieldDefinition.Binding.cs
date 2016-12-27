@@ -46,13 +46,13 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionSector Sector = FieldDefinitionSector.Instance;
         public static readonly FieldDefinitionSecuredFunding SecuredFunding = FieldDefinitionSecuredFunding.Instance;
         public static readonly FieldDefinitionProjectStage ProjectStage = FieldDefinitionProjectStage.Instance;
-        public static readonly FieldDefinitionThresholdCategoryName ThresholdCategoryName = FieldDefinitionThresholdCategoryName.Instance;
+        public static readonly FieldDefinitionClassificationName ClassificationName = FieldDefinitionClassificationName.Instance;
         public static readonly FieldDefinitionEstimatedTotalCost EstimatedTotalCost = FieldDefinitionEstimatedTotalCost.Instance;
         public static readonly FieldDefinitionUnfundedNeed UnfundedNeed = FieldDefinitionUnfundedNeed.Instance;
         public static readonly FieldDefinitionUsername Username = FieldDefinitionUsername.Instance;
         public static readonly FieldDefinitionWatershedName WatershedName = FieldDefinitionWatershedName.Instance;
         public static readonly FieldDefinitionProject Project = FieldDefinitionProject.Instance;
-        public static readonly FieldDefinitionThresholdCategory ThresholdCategory = FieldDefinitionThresholdCategory.Instance;
+        public static readonly FieldDefinitionClassification Classification = FieldDefinitionClassification.Instance;
         public static readonly FieldDefinitionWatershed Watershed = FieldDefinitionWatershed.Instance;
         public static readonly FieldDefinitionPerformanceMeasureSubcategory PerformanceMeasureSubcategory = FieldDefinitionPerformanceMeasureSubcategory.Instance;
         public static readonly FieldDefinitionPerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption = FieldDefinitionPerformanceMeasureSubcategoryOption.Instance;
@@ -84,9 +84,9 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionMonitoringApproach MonitoringApproach = FieldDefinitionMonitoringApproach.Instance;
         public static readonly FieldDefinitionMonitoringProgramPartner MonitoringProgramPartner = FieldDefinitionMonitoringProgramPartner.Instance;
         public static readonly FieldDefinitionMonitoringProgramUrl MonitoringProgramUrl = FieldDefinitionMonitoringProgramUrl.Instance;
-        public static readonly FieldDefinitionThresholdCategoryDescription ThresholdCategoryDescription = FieldDefinitionThresholdCategoryDescription.Instance;
-        public static readonly FieldDefinitionThresholdCategoryGoalStatement ThresholdCategoryGoalStatement = FieldDefinitionThresholdCategoryGoalStatement.Instance;
-        public static readonly FieldDefinitionThresholdCategoryNarrative ThresholdCategoryNarrative = FieldDefinitionThresholdCategoryNarrative.Instance;
+        public static readonly FieldDefinitionClassificationDescription ClassificationDescription = FieldDefinitionClassificationDescription.Instance;
+        public static readonly FieldDefinitionClassificationGoalStatement ClassificationGoalStatement = FieldDefinitionClassificationGoalStatement.Instance;
+        public static readonly FieldDefinitionClassificationNarrative ClassificationNarrative = FieldDefinitionClassificationNarrative.Instance;
 
         public static readonly List<FieldDefinition> All;
         public static readonly ReadOnlyDictionary<int, FieldDefinition> AllLookupDictionary;
@@ -96,7 +96,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { TaxonomyTierOne, TaxonomyTierOneName, ExpectedValue, TaxonomyTierThree, TaxonomyTierThreeName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, Organization, Password, PerformanceMeasure, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, TaxonomyTierTwo, TaxonomyTierTwoName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, ProjectStage, ThresholdCategoryName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, ThresholdCategory, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, ProposedProject, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ThresholdCategoryDescription, ThresholdCategoryGoalStatement, ThresholdCategoryNarrative };
+            All = new List<FieldDefinition> { TaxonomyTierOne, TaxonomyTierOneName, ExpectedValue, TaxonomyTierThree, TaxonomyTierThreeName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, Organization, Password, PerformanceMeasure, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, TaxonomyTierTwo, TaxonomyTierTwoName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, ProposedProject, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -169,6 +169,16 @@ namespace ProjectFirma.Web.Models
                     return AssociatedTaxonomyTierTwos;
                 case FieldDefinitionEnum.CalculatedTotalRemainingOperatingCost:
                     return CalculatedTotalRemainingOperatingCost;
+                case FieldDefinitionEnum.Classification:
+                    return Classification;
+                case FieldDefinitionEnum.ClassificationDescription:
+                    return ClassificationDescription;
+                case FieldDefinitionEnum.ClassificationGoalStatement:
+                    return ClassificationGoalStatement;
+                case FieldDefinitionEnum.ClassificationName:
+                    return ClassificationName;
+                case FieldDefinitionEnum.ClassificationNarrative:
+                    return ClassificationNarrative;
                 case FieldDefinitionEnum.CompletionYear:
                     return CompletionYear;
                 case FieldDefinitionEnum.CurrentYearForPVCalculations:
@@ -289,16 +299,6 @@ namespace ProjectFirma.Web.Models
                     return TaxonomyTierTwo;
                 case FieldDefinitionEnum.TaxonomyTierTwoName:
                     return TaxonomyTierTwoName;
-                case FieldDefinitionEnum.ThresholdCategory:
-                    return ThresholdCategory;
-                case FieldDefinitionEnum.ThresholdCategoryDescription:
-                    return ThresholdCategoryDescription;
-                case FieldDefinitionEnum.ThresholdCategoryGoalStatement:
-                    return ThresholdCategoryGoalStatement;
-                case FieldDefinitionEnum.ThresholdCategoryName:
-                    return ThresholdCategoryName;
-                case FieldDefinitionEnum.ThresholdCategoryNarrative:
-                    return ThresholdCategoryNarrative;
                 case FieldDefinitionEnum.UnfundedNeed:
                     return UnfundedNeed;
                 case FieldDefinitionEnum.Username:
@@ -345,13 +345,13 @@ namespace ProjectFirma.Web.Models
         Sector = 34,
         SecuredFunding = 35,
         ProjectStage = 36,
-        ThresholdCategoryName = 39,
+        ClassificationName = 39,
         EstimatedTotalCost = 40,
         UnfundedNeed = 41,
         Username = 42,
         WatershedName = 43,
         Project = 44,
-        ThresholdCategory = 46,
+        Classification = 46,
         Watershed = 48,
         PerformanceMeasureSubcategory = 49,
         PerformanceMeasureSubcategoryOption = 50,
@@ -383,9 +383,9 @@ namespace ProjectFirma.Web.Models
         MonitoringApproach = 237,
         MonitoringProgramPartner = 238,
         MonitoringProgramUrl = 239,
-        ThresholdCategoryDescription = 240,
-        ThresholdCategoryGoalStatement = 241,
-        ThresholdCategoryNarrative = 242
+        ClassificationDescription = 240,
+        ClassificationGoalStatement = 241,
+        ClassificationNarrative = 242
     }
 
     public partial class FieldDefinitionTaxonomyTierOne : FieldDefinition
@@ -568,10 +568,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionProjectStage Instance = new FieldDefinitionProjectStage(36, @"ProjectStage", @"Project Stage");
     }
 
-    public partial class FieldDefinitionThresholdCategoryName : FieldDefinition
+    public partial class FieldDefinitionClassificationName : FieldDefinition
     {
-        private FieldDefinitionThresholdCategoryName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionThresholdCategoryName Instance = new FieldDefinitionThresholdCategoryName(39, @"ThresholdCategoryName", @"Threshold Category Name");
+        private FieldDefinitionClassificationName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionClassificationName Instance = new FieldDefinitionClassificationName(39, @"ClassificationName", @"Classification Name");
     }
 
     public partial class FieldDefinitionEstimatedTotalCost : FieldDefinition
@@ -604,10 +604,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionProject Instance = new FieldDefinitionProject(44, @"Project", @"Project");
     }
 
-    public partial class FieldDefinitionThresholdCategory : FieldDefinition
+    public partial class FieldDefinitionClassification : FieldDefinition
     {
-        private FieldDefinitionThresholdCategory(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionThresholdCategory Instance = new FieldDefinitionThresholdCategory(46, @"ThresholdCategory", @"Threshold Category");
+        private FieldDefinitionClassification(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionClassification Instance = new FieldDefinitionClassification(46, @"Classification", @"Classification");
     }
 
     public partial class FieldDefinitionWatershed : FieldDefinition
@@ -796,21 +796,21 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionMonitoringProgramUrl Instance = new FieldDefinitionMonitoringProgramUrl(239, @"MonitoringProgramUrl", @"Monitoring Program Home Page");
     }
 
-    public partial class FieldDefinitionThresholdCategoryDescription : FieldDefinition
+    public partial class FieldDefinitionClassificationDescription : FieldDefinition
     {
-        private FieldDefinitionThresholdCategoryDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionThresholdCategoryDescription Instance = new FieldDefinitionThresholdCategoryDescription(240, @"ThresholdCategoryDescription", @"Threshold Category Description");
+        private FieldDefinitionClassificationDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionClassificationDescription Instance = new FieldDefinitionClassificationDescription(240, @"ClassificationDescription", @"Classification Description");
     }
 
-    public partial class FieldDefinitionThresholdCategoryGoalStatement : FieldDefinition
+    public partial class FieldDefinitionClassificationGoalStatement : FieldDefinition
     {
-        private FieldDefinitionThresholdCategoryGoalStatement(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionThresholdCategoryGoalStatement Instance = new FieldDefinitionThresholdCategoryGoalStatement(241, @"ThresholdCategoryGoalStatement", @"Threshold Category Goal Statement");
+        private FieldDefinitionClassificationGoalStatement(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionClassificationGoalStatement Instance = new FieldDefinitionClassificationGoalStatement(241, @"ClassificationGoalStatement", @"Classification Goal Statement");
     }
 
-    public partial class FieldDefinitionThresholdCategoryNarrative : FieldDefinition
+    public partial class FieldDefinitionClassificationNarrative : FieldDefinition
     {
-        private FieldDefinitionThresholdCategoryNarrative(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
-        public static readonly FieldDefinitionThresholdCategoryNarrative Instance = new FieldDefinitionThresholdCategoryNarrative(242, @"ThresholdCategoryNarrative", @"Threshold Category Narrative");
+        private FieldDefinitionClassificationNarrative(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionClassificationNarrative Instance = new FieldDefinitionClassificationNarrative(242, @"ClassificationNarrative", @"Classification Narrative");
     }
 }

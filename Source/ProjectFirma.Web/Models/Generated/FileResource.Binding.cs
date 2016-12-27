@@ -23,6 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected FileResource()
         {
+            this.ClassificationImages = new HashSet<ClassificationImage>();
             this.FieldDefinitionImages = new HashSet<FieldDefinitionImage>();
             this.FirmaPageImages = new HashSet<FirmaPageImage>();
             this.MonitoringProgramDocuments = new HashSet<MonitoringProgramDocument>();
@@ -33,7 +34,6 @@ namespace ProjectFirma.Web.Models
             this.TaxonomyTierOneImages = new HashSet<TaxonomyTierOneImage>();
             this.TaxonomyTierThreeImages = new HashSet<TaxonomyTierThreeImage>();
             this.TaxonomyTierTwoImages = new HashSet<TaxonomyTierTwoImage>();
-            this.ThresholdCategoryImages = new HashSet<ThresholdCategoryImage>();
         }
 
         /// <summary>
@@ -100,13 +100,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return FieldDefinitionImages.Any() || FirmaPageImages.Any() || MonitoringProgramDocuments.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ProposedProjectImages.Any() || TaxonomyTierOneImages.Any() || TaxonomyTierThreeImages.Any() || TaxonomyTierTwoImages.Any() || ThresholdCategoryImages.Any();
+            return ClassificationImages.Any() || FieldDefinitionImages.Any() || FirmaPageImages.Any() || MonitoringProgramDocuments.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ProposedProjectImages.Any() || TaxonomyTierOneImages.Any() || TaxonomyTierThreeImages.Any() || TaxonomyTierTwoImages.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(FieldDefinitionImage).Name, typeof(FirmaPageImage).Name, typeof(MonitoringProgramDocument).Name, typeof(Organization).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ProposedProjectImage).Name, typeof(TaxonomyTierOneImage).Name, typeof(TaxonomyTierThreeImage).Name, typeof(TaxonomyTierTwoImage).Name, typeof(ThresholdCategoryImage).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(ClassificationImage).Name, typeof(FieldDefinitionImage).Name, typeof(FirmaPageImage).Name, typeof(MonitoringProgramDocument).Name, typeof(Organization).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ProposedProjectImage).Name, typeof(TaxonomyTierOneImage).Name, typeof(TaxonomyTierThreeImage).Name, typeof(TaxonomyTierTwoImage).Name};
 
         [Key]
         public int FileResourceID { get; set; }
@@ -119,6 +119,7 @@ namespace ProjectFirma.Web.Models
         public DateTime CreateDate { get; set; }
         public int PrimaryKey { get { return FileResourceID; } set { FileResourceID = value; } }
 
+        public virtual ICollection<ClassificationImage> ClassificationImages { get; set; }
         public virtual ICollection<FieldDefinitionImage> FieldDefinitionImages { get; set; }
         public virtual ICollection<FirmaPageImage> FirmaPageImages { get; set; }
         public virtual ICollection<MonitoringProgramDocument> MonitoringProgramDocuments { get; set; }
@@ -129,7 +130,6 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<TaxonomyTierOneImage> TaxonomyTierOneImages { get; set; }
         public virtual ICollection<TaxonomyTierThreeImage> TaxonomyTierThreeImages { get; set; }
         public virtual ICollection<TaxonomyTierTwoImage> TaxonomyTierTwoImages { get; set; }
-        public virtual ICollection<ThresholdCategoryImage> ThresholdCategoryImages { get; set; }
         public FileResourceMimeType FileResourceMimeType { get { return FileResourceMimeType.AllLookupDictionary[FileResourceMimeTypeID]; } }
         public virtual Person CreatePerson { get; set; }
 

@@ -28,6 +28,7 @@ namespace ProjectFirma.Web.Models
             this.PerformanceMeasureExpecteds = new HashSet<PerformanceMeasureExpected>();
             this.ProjectAssessmentQuestions = new HashSet<ProjectAssessmentQuestion>();
             this.ProjectBudgets = new HashSet<ProjectBudget>();
+            this.ProjectClassifications = new HashSet<ProjectClassification>();
             this.ProjectExemptReportingYears = new HashSet<ProjectExemptReportingYear>();
             this.ProjectExternalLinks = new HashSet<ProjectExternalLink>();
             this.ProjectFundingOrganizations = new HashSet<ProjectFundingOrganization>();
@@ -38,7 +39,6 @@ namespace ProjectFirma.Web.Models
             this.ProjectLocationStagings = new HashSet<ProjectLocationStaging>();
             this.ProjectNotes = new HashSet<ProjectNote>();
             this.ProjectTags = new HashSet<ProjectTag>();
-            this.ProjectThresholdCategories = new HashSet<ProjectThresholdCategory>();
             this.ProjectUpdateBatches = new HashSet<ProjectUpdateBatch>();
             this.ProjectWatersheds = new HashSet<ProjectWatershed>();
             this.ProposedProjects = new HashSet<ProposedProject>();
@@ -122,13 +122,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return NotificationProjects.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureExpecteds.Any() || ProjectAssessmentQuestions.Any() || ProjectBudgets.Any() || ProjectExemptReportingYears.Any() || ProjectExternalLinks.Any() || ProjectFundingOrganizations.Any() || ProjectFundingSourceExpenditures.Any() || ProjectImages.Any() || ProjectImplementingOrganizations.Any() || ProjectLocations.Any() || ProjectLocationStagings.Any() || ProjectNotes.Any() || ProjectTags.Any() || ProjectThresholdCategories.Any() || ProjectUpdateBatches.Any() || ProjectWatersheds.Any() || (ProposedProject != null) || SnapshotProjects.Any();
+            return NotificationProjects.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureExpecteds.Any() || ProjectAssessmentQuestions.Any() || ProjectBudgets.Any() || ProjectClassifications.Any() || ProjectExemptReportingYears.Any() || ProjectExternalLinks.Any() || ProjectFundingOrganizations.Any() || ProjectFundingSourceExpenditures.Any() || ProjectImages.Any() || ProjectImplementingOrganizations.Any() || ProjectLocations.Any() || ProjectLocationStagings.Any() || ProjectNotes.Any() || ProjectTags.Any() || ProjectUpdateBatches.Any() || ProjectWatersheds.Any() || (ProposedProject != null) || SnapshotProjects.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Project).Name, typeof(NotificationProject).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureExpected).Name, typeof(ProjectAssessmentQuestion).Name, typeof(ProjectBudget).Name, typeof(ProjectExemptReportingYear).Name, typeof(ProjectExternalLink).Name, typeof(ProjectFundingOrganization).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectImage).Name, typeof(ProjectImplementingOrganization).Name, typeof(ProjectLocation).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectNote).Name, typeof(ProjectTag).Name, typeof(ProjectThresholdCategory).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectWatershed).Name, typeof(ProposedProject).Name, typeof(SnapshotProject).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Project).Name, typeof(NotificationProject).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureExpected).Name, typeof(ProjectAssessmentQuestion).Name, typeof(ProjectBudget).Name, typeof(ProjectClassification).Name, typeof(ProjectExemptReportingYear).Name, typeof(ProjectExternalLink).Name, typeof(ProjectFundingOrganization).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectImage).Name, typeof(ProjectImplementingOrganization).Name, typeof(ProjectLocation).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectNote).Name, typeof(ProjectTag).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectWatershed).Name, typeof(ProposedProject).Name, typeof(SnapshotProject).Name};
 
         [Key]
         public int ProjectID { get; set; }
@@ -157,6 +157,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<PerformanceMeasureExpected> PerformanceMeasureExpecteds { get; set; }
         public virtual ICollection<ProjectAssessmentQuestion> ProjectAssessmentQuestions { get; set; }
         public virtual ICollection<ProjectBudget> ProjectBudgets { get; set; }
+        public virtual ICollection<ProjectClassification> ProjectClassifications { get; set; }
         public virtual ICollection<ProjectExemptReportingYear> ProjectExemptReportingYears { get; set; }
         public virtual ICollection<ProjectExternalLink> ProjectExternalLinks { get; set; }
         public virtual ICollection<ProjectFundingOrganization> ProjectFundingOrganizations { get; set; }
@@ -167,7 +168,6 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectLocationStaging> ProjectLocationStagings { get; set; }
         public virtual ICollection<ProjectNote> ProjectNotes { get; set; }
         public virtual ICollection<ProjectTag> ProjectTags { get; set; }
-        public virtual ICollection<ProjectThresholdCategory> ProjectThresholdCategories { get; set; }
         public virtual ICollection<ProjectUpdateBatch> ProjectUpdateBatches { get; set; }
         public virtual ICollection<ProjectWatershed> ProjectWatersheds { get; set; }
         protected virtual ICollection<ProposedProject> ProposedProjects { get; set; }

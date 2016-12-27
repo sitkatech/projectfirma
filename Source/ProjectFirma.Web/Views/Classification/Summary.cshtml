@@ -1,0 +1,76 @@
+﻿@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Common
+@inherits ProjectFirma.Web.Views.Classification.Summary
+
+@{
+    SetLayout("~/Areas/Threshold/Views/Shared/NavAndHeaderLayout.cshtml", ViewDataTyped);
+}
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+
+    <style>
+        .classificationHeader
+        {
+            background-color: @ViewDataTyped.Classification.ThemeColor;
+            margin-top: 10px;
+            border-radius: 10px;
+        }
+        .classificationHeader h1, .classificationHeader h3, .classificationHeader p
+        {
+            color: white;
+
+        }
+
+        .classificationHeader h1
+        {
+            font-size: 42px;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .classificationHeader .glyphicon-edit
+        {
+            color: white;
+            font-size: 15px;
+        }
+
+        .borderCell
+        {
+            border-right: 2px solid black;
+            text-align: center;
+        }
+
+        .firmaChartControls
+        {
+            margin-top: 6px;
+            margin-right: 6px;
+        }
+    </style>
+}
+
+<div class="classificationHeader">
+    <div class="row">
+        <div class="col-lg-8 col-sm-6">
+            <div style="padding: 20px;">
+                <h3 style="margin-top: 0; margin-bottom: 0">@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetClassificationDisplayName(), ViewDataTyped.Classification.DisplayName), ViewDataTyped.UserHasClassificationManagePermissions) @MultiTenantHelpers.GetClassificationDisplayName()</h3>
+                <h1>@ViewDataTyped.Classification.DisplayName</h1>
+                <p style="font-style: italic; border-top: 2px solid white; margin-top: 5px; margin-bottom: 5px; padding-top: 10px">@ViewDataTyped.Classification.GoalStatement</p>
+            </div>
+
+        </div>
+        <div class="col-lg-4 col-sm-6">
+            <div style="margin-right: 10px">
+                <img src="@ViewDataTyped.Classification.KeyImageUrlLarge" style="max-height: 250px; padding: 20px 10px; margin: auto; display: block" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="margin-top: 20px">
+    <a class="btn btn-blue" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
+</div>

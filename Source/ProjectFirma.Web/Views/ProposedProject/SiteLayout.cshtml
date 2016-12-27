@@ -2,8 +2,8 @@
 @using ProjectFirma.Web.Views.ProposedProject
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DesignByContract
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Common
 @inherits SiteLayout
 
 @{
@@ -78,17 +78,17 @@
                     @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsPerformanceMeasureSectionComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                 </span>
             </li>
-            <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.ThresholdCategories, ViewDataTyped.SelectedProposedProjectSection)">
+            <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Classifications, ViewDataTyped.SelectedProposedProjectSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProjectUpdateThresholdCategoriesUrl">Threshold Categories</a>
+                    <a href="@ViewDataTyped.ProjectUpdateClassificationsUrl">@MultiTenantHelpers.GetClassificationDisplayNamePluralized()</a>
                 }
                 else
                 {
-                    @ProjectWizardComponents.MakeDisabledSectionLink("Threshold Categories")
+                    @ProjectWizardComponents.MakeDisabledSectionLink(MultiTenantHelpers.GetClassificationDisplayNamePluralized())
                 }
                 <span class="pull-right" style="padding: 5px;">
-                    @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsThresholdCategoriesComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                    @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsClassificationsComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                 </span>
 
             </li>

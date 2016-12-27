@@ -241,8 +241,8 @@ namespace ProjectFirma.Web.Controllers
                 x => x.DisplayName);
             var taxonomyTierOnesAsSelectListItems = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToSelectList(x => x.TaxonomyTierOneID.ToString(CultureInfo.InvariantCulture),
                 x => x.DisplayName);
-            var thresholdCategoriesAsSelectListItems =
-                HttpRequestStorage.DatabaseEntities.ThresholdCategories.ToSelectList(x => x.ThresholdCategoryID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+            var classificationsAsSelectListItems =
+                HttpRequestStorage.DatabaseEntities.Classifications.ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
             var implementingOrganizationsAsSelectListItems =
                 projects.SelectMany(x => x.ProjectImplementingOrganizations)
                     .Select(x => x.Organization)
@@ -260,7 +260,7 @@ namespace ProjectFirma.Web.Controllers
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierThree, taxonomyTierThreesAsSelectListItems);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierTwo, taxonomyTierTwosAsSelectListItems);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierOne, taxonomyTierOnesAsSelectListItems);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ThresholdCategory, thresholdCategoriesAsSelectListItems);
+            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.Classification, classificationsAsSelectListItems);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ImplementingOrganization, implementingOrganizationsAsSelectListItems);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.FundingOrganization, fundingOrganizationsAsSelectListItems);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ProjectStage, projectStagesAsSelectListItems);

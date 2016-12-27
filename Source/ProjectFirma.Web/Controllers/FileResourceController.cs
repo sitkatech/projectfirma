@@ -258,7 +258,7 @@ namespace ProjectFirma.Web.Controllers
         [CrossAreaRoute]
         [HttpGet]
         [PerformanceMeasureManageFeature]
-        public ContentResult CkEditorUploadFileResourceForThresholdCategory(ThresholdCategoryPrimaryKey thresholdCategoryPrimary)
+        public ContentResult CkEditorUploadFileResourceForClassification(ClassificationPrimaryKey classificationPrimary)
         {
             return Content(String.Empty);
         }
@@ -267,12 +267,12 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         [PerformanceMeasureManageFeature]
-        public ContentResult CkEditorUploadFileResourceForThresholdCategory(ThresholdCategoryPrimaryKey thresholdCategoryPrimary, CkEditorImageUploadViewModel viewModel)
+        public ContentResult CkEditorUploadFileResourceForClassification(ClassificationPrimaryKey classificationPrimary, CkEditorImageUploadViewModel viewModel)
         {
             var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
-            var thresholdCategory = thresholdCategoryPrimary.EntityObject;
-            var image = new ThresholdCategoryImage(thresholdCategory, fileResource);
-            HttpRequestStorage.DatabaseEntities.ThresholdCategoryImages.Add(image);
+            var classification = classificationPrimary.EntityObject;
+            var image = new ClassificationImage(classification, fileResource);
+            HttpRequestStorage.DatabaseEntities.ClassificationImages.Add(image);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
 

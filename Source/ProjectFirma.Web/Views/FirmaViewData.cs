@@ -110,7 +110,7 @@ namespace ProjectFirma.Web.Views
             //taxonomyTierTwoInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Index()), currentPerson, "Performance Measures", "Group1"));
             //taxonomyTierTwoInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramInfoController>(c => c.Taxonomy()), currentPerson, "Taxonomy", "Group1"));
 
-            //taxonomyTierTwoInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ThresholdCategoryController>(c => c.Index()), currentPerson, "Threshold Categories", "Group3"));
+            //taxonomyTierTwoInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ClassificationController>(c => c.Index()), currentPerson, MultiTenantHelpers.GetClassificationDisplayNamePluralized(), "Group3"));
 
             //taxonomyTierTwoInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AssessmentController>(c => c.Manage()), currentPerson, " Assessment", "Group1"));
             //taxonomyTierTwoInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CostParameterSetController>(c => c.Manage()), currentPerson, "Cost Parameters", "Group2"));

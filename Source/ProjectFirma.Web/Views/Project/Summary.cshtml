@@ -12,6 +12,7 @@
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
 @using MoreLinq
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 @inherits ProjectFirma.Web.Views.Project.Summary
 
@@ -246,18 +247,18 @@
                     </div>
                 </div>
                 <div class="summarySection">
-                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditThresholdCategoriesUrl, "Edit Threshold Categories", ViewDataTyped.UserHasProjectThresholdCategoryManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.ThresholdCategory, "Threshold Categories")</h2>
+                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationsUrl, string.Format("Edit {0}", MultiTenantHelpers.GetClassificationDisplayNamePluralized()), ViewDataTyped.UserHasProjectClassificationManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.Classification, MultiTenantHelpers.GetClassificationDisplayNamePluralized())</h2>
                     <div class="contentWrapper">
-                        @if (ViewDataTyped.Project.ProjectThresholdCategories.Any())
+                        @if (ViewDataTyped.Project.ProjectClassifications.Any())
                         {
                             <div class="row">
-                                @foreach (var thresholdCategoriesBatch in ViewDataTyped.Project.ProjectThresholdCategories.OrderBy(x => x.ThresholdCategory.DisplayName).Batch(3))
+                                @foreach (var classificationsBatch in ViewDataTyped.Project.ProjectClassifications.OrderBy(x => x.Classification.DisplayName).Batch(3))
                                 {
                                     <div class="col-md-4">
                                         <ul class="noListStyle">
-                                            @foreach (var thresholdCategory in thresholdCategoriesBatch.OrderBy(x => x.ThresholdCategory.DisplayName))
+                                            @foreach (var classification in classificationsBatch.OrderBy(x => x.Classification.DisplayName))
                                             {
-                                                <li>@thresholdCategory.ThresholdCategory.GetDisplayNameAsUrl(): @thresholdCategory.ProjectThresholdCategoryNotes</li>                                                
+                                                <li>@classification.Classification.GetDisplayNameAsUrl(): @classification.ProjectClassificationNotes</li>                                                
                                             }
                                         </ul>
                                     </div>
@@ -266,7 +267,7 @@
                         }
                         else
                         {
-                            <p class="alert">No Threshold Categories set for this project.</p>
+                            <p class="alert">No @MultiTenantHelpers.GetClassificationDisplayNamePluralized() set for this project.</p>
                         }
                     </div>
                 </div>

@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeMyOrganizationsProjects MyOrganizationsProjects = FirmaPageTypeMyOrganizationsProjects.Instance;
         public static readonly FirmaPageTypeManageUpdateNotifications ManageUpdateNotifications = FirmaPageTypeManageUpdateNotifications.Instance;
         public static readonly FirmaPageTypeProjectUpdateStatus ProjectUpdateStatus = FirmaPageTypeProjectUpdateStatus.Instance;
-        public static readonly FirmaPageTypeThresholdCategoriesList ThresholdCategoriesList = FirmaPageTypeThresholdCategoriesList.Instance;
+        public static readonly FirmaPageTypeClassificationsList ClassificationsList = FirmaPageTypeClassificationsList.Instance;
         public static readonly FirmaPageTypeMonitoringProgramsList MonitoringProgramsList = FirmaPageTypeMonitoringProgramsList.Instance;
 
         public static readonly List<FirmaPageType> All;
@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FirmaPageType()
         {
-            All = new List<FirmaPageType> { HomePage, About, FirmaCustomPage1, FirmaCustomPage2, FirmaCustomPage3, FullProjectList, FiveYearProjectList, CompletedProjectList, PerformanceMeasuresList, TaxonomyTierOnesList, TaxonomyTierThreesList, FundingSourcesList, OrganizationsList, TaxonomyTierTwosList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo, ProjectMap, ResultsByTaxonomyTierTwo, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, TerminatedProjectList, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, ThresholdCategoriesList, MonitoringProgramsList };
+            All = new List<FirmaPageType> { HomePage, About, FirmaCustomPage1, FirmaCustomPage2, FirmaCustomPage3, FullProjectList, FiveYearProjectList, CompletedProjectList, PerformanceMeasuresList, TaxonomyTierOnesList, TaxonomyTierThreesList, FundingSourcesList, OrganizationsList, TaxonomyTierTwosList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo, ProjectMap, ResultsByTaxonomyTierTwo, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, TerminatedProjectList, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, ClassificationsList, MonitoringProgramsList };
             AllLookupDictionary = new ReadOnlyDictionary<int, FirmaPageType>(All.ToDictionary(x => x.FirmaPageTypeID));
         }
 
@@ -133,6 +133,8 @@ namespace ProjectFirma.Web.Models
             {
                 case FirmaPageTypeEnum.About:
                     return About;
+                case FirmaPageTypeEnum.ClassificationsList:
+                    return ClassificationsList;
                 case FirmaPageTypeEnum.CompletedProjectList:
                     return CompletedProjectList;
                 case FirmaPageTypeEnum.CostParameterSet:
@@ -197,8 +199,6 @@ namespace ProjectFirma.Web.Models
                     return TaxonomyTierTwosList;
                 case FirmaPageTypeEnum.TerminatedProjectList:
                     return TerminatedProjectList;
-                case FirmaPageTypeEnum.ThresholdCategoriesList:
-                    return ThresholdCategoriesList;
                 case FirmaPageTypeEnum.WatershedsList:
                     return WatershedsList;
                 default:
@@ -242,7 +242,7 @@ namespace ProjectFirma.Web.Models
         MyOrganizationsProjects = 39,
         ManageUpdateNotifications = 41,
         ProjectUpdateStatus = 42,
-        ThresholdCategoriesList = 66,
+        ClassificationsList = 66,
         MonitoringProgramsList = 67
     }
 
@@ -444,10 +444,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeProjectUpdateStatus Instance = new FirmaPageTypeProjectUpdateStatus(42, @"ProjectUpdateStatus", @"Annual Project Update Status Report", 1);
     }
 
-    public partial class FirmaPageTypeThresholdCategoriesList : FirmaPageType
+    public partial class FirmaPageTypeClassificationsList : FirmaPageType
     {
-        private FirmaPageTypeThresholdCategoriesList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeThresholdCategoriesList Instance = new FirmaPageTypeThresholdCategoriesList(66, @"ThresholdCategoriesList", @"Threshold Categories List", 1);
+        private FirmaPageTypeClassificationsList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeClassificationsList Instance = new FirmaPageTypeClassificationsList(66, @"ClassificationsList", @"Classifications List", 1);
     }
 
     public partial class FirmaPageTypeMonitoringProgramsList : FirmaPageType

@@ -1,0 +1,113 @@
+﻿@using ProjectFirma.Web.Models
+@using LtInfo.Common.HtmlHelperExtensions
+@using MoreLinq
+@using ProjectFirma.Web.Common
+@inherits ProjectFirma.Web.Views.Shared.ProjectControls.EditProjectClassificationsForProject
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+@using (Html.BeginForm())
+{
+    <div>
+        Click the checkboxes below to associate this project with one or more @Html.LabelWithFieldDefinitionFor(FieldDefinition.Classification, MultiTenantHelpers.GetClassificationDisplayNamePluralized()).
+    </div>
+    <table>
+        @{var i = 0;}
+        @foreach (var classificationsBatch in ViewDataTyped.Classifications.OrderBy(x => x.DisplayName).Batch(3))
+        {
+            <tr style="border-bottom: 1px solid lightgray; padding-top: 10px">
+                @foreach (var classification in classificationsBatch.OrderBy(x => x.DisplayName))
+                {
+                    <td style="padding: 10px 20px 10px 0; vertical-align: top; width: 33%">
+                        <div>
+
+                            @Html.CheckBoxFor(x => x.ProjectClassificationSimples[i].Selected)
+
+                            <span style="font-weight: bold">@classification.DisplayName</span>
+                            <br />
+                            <div class="alert" style="font-size: 11px; height: 75px;">
+                                @classification.ClassificationDescription
+                            </div>
+                            <div>
+                                @Html.TextAreaWithMaxLengthFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 2), "Describe how this applies to the Project.")
+                            </div>
+                            @Html.HiddenFor(x => x.ProjectClassificationSimples[i].ClassificationID)
+                            @{ i = i + 1; }
+                        </div>
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+   
+    <div id="bottomOfForm"></div>
+}
+
+<script type="text/javascript">
+    // <![CDATA[
+
+    jQuery(document).ready(function () {
+        @for (var i = 0; i < ViewDataTyped.Classifications.Count; i++)
+        {
+            <text>
+                var checkBox = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].Selected)");
+                var notesTextArea = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
+                var charactersRemaining = jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");
+
+                //Set default display
+                if (checkBox.prop("checked"))
+                {
+                    notesTextArea.css("background-color", "");
+                    notesTextArea.attr("disabled", false);
+                    notesTextArea.attr("disabled", false);
+                    charactersRemaining.css("display", "");
+                }
+                else
+                {
+                    notesTextArea.css("background-color", "#EEEEEE");
+                    notesTextArea.attr("disabled", "disabled");
+                    charactersRemaining.css("display", "none");
+                }
+
+                //Create on-change event
+                jQuery(checkBox).change(function()
+                {
+                    var notesTextAreaForCheckboxFunction = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
+                    var charactersRemainingFunction =
+                        jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");
+
+                    if (this.checked)
+                    {
+                        notesTextAreaForCheckboxFunction.css("background-color", "");
+                        notesTextAreaForCheckboxFunction.attr("disabled", false);
+                        charactersRemainingFunction.css("display", "");
+                    }
+                    else
+                    {
+                        notesTextAreaForCheckboxFunction.css("background-color", "#EEEEEE");
+                        notesTextAreaForCheckboxFunction.attr("disabled", "disabled");
+                        charactersRemainingFunction.css("display", "none");
+                    }
+                });
+            </text>
+        }
+
+        HookupCheckIfFormIsDirty();
+    });
+
+    function saveForm() {
+        var form = jQuery("form");
+        // Do not submit if the form
+        // does not pass client side validation
+
+        if (!form.valid()) {
+            return false;
+        }
+
+        form.submit();
+    }
+
+    // ]]>
+</script>

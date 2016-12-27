@@ -373,7 +373,7 @@ namespace ProjectFirma.Web.Models
         public bool HasDependentObjectsThatCount()
         {
             return PerformanceMeasureActuals.Any() || PerformanceMeasureExpecteds.Any() || ProjectFundingSourceExpenditures.Any() || ProjectImages.Any() ||
-                   ProjectNotes.Any() || ProjectThresholdCategories.Any() || ProjectExemptReportingYears.Any() || ProjectWatersheds.Any() || ProjectUpdateBatches.Any();
+                   ProjectNotes.Any() || ProjectClassifications.Any() || ProjectExemptReportingYears.Any() || ProjectWatersheds.Any() || ProjectUpdateBatches.Any();
         }
 
         public PermissionCheckResult CanDelete()
@@ -446,7 +446,7 @@ namespace ProjectFirma.Web.Models
                 feature.Properties.Add("ProjectName", DisplayName);
                 feature.Properties.Add("TaxonomyTierTwoID", TaxonomyTierOne.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("TaxonomyTierOneID", TaxonomyTierOneID.ToString(CultureInfo.InvariantCulture));
-                feature.Properties.Add("ThresholdCategoryID", String.Join(",", ProjectThresholdCategories.Select(x => x.ThresholdCategoryID)));
+                feature.Properties.Add("ClassificationID", String.Join(",", ProjectClassifications.Select(x => x.ClassificationID)));
                 feature.Properties.Add("ImplementingOrganizationID", String.Join(",", ProjectImplementingOrganizations.Select(x => x.OrganizationID)));
                 feature.Properties.Add("FundingOrganizationID", String.Join(",", ProjectFundingOrganizations.Select(x => x.OrganizationID)));
                 feature.Properties.Add("PopupUrl", this.GetProjectMapPopupUrl());

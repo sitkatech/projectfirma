@@ -36,5 +36,5 @@ values
 (39, 'MyOrganizationsProjects', 'My Organization''s Projects', 1),
 (41, 'ManageUpdateNotifications', 'Manage Project Update Notifications', 1),
 (42, 'ProjectUpdateStatus', 'Annual Project Update Status Report', 1),
-(66, 'ThresholdCategoriesList', 'Threshold Categories List', 1),
+(66, 'ClassificationsList', 'Classifications List', 1),
 (67, 'MonitoringProgramsList', 'Monitoring Programs', 1)

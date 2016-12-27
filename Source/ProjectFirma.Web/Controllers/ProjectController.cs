@@ -144,7 +144,7 @@ namespace ProjectFirma.Web.Controllers
             var projectExpendituresSummaryViewData = BuildProjectExpendituresSummaryViewData(project);
             var editReportedExpendituresUrl = SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
 
-            var editThresholdCategoriesUrl = SitkaRoute<ProjectThresholdCategoryController>.BuildUrlFromExpression(c => c.EditProjectThresholdCategoriesForProject(project));
+            var editClassificationsUrl = SitkaRoute<ProjectClassificationController>.BuildUrlFromExpression(c => c.EditProjectClassificationsForProject(project));
 
             var editAssessmentUrl = SitkaRoute<ProjectAssessmentQuestionController>.BuildUrlFromExpression(c => c.EditAssessment(project));
 
@@ -213,7 +213,7 @@ namespace ProjectFirma.Web.Controllers
                 editPerformanceMeasureActualsUrl,
                 projectExpendituresSummaryViewData,
                 editReportedExpendituresUrl,
-                editThresholdCategoriesUrl,
+                editClassificationsUrl,
                 editAssessmentUrl,
                 editWatershedsUrl,
                 imageGalleryViewData,
@@ -374,9 +374,9 @@ namespace ProjectFirma.Web.Controllers
             var projectWatersheds = (projects.SelectMany(p => p.ProjectWatersheds)).ToList();
             var wsProjectWatersheds = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Project Watersheds", projectWatershedSpec, projectWatersheds);
 
-            var projectThresholdCategorySpec = new ProjectThresholdCategoryExcelSpec();
-            var projectThresholdCategories = (projects.SelectMany(p => p.ProjectThresholdCategories)).ToList();
-            var wsProjectThresholdCategories = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Project Threshold Categories", projectThresholdCategorySpec, projectThresholdCategories);
+            var projectClassificationSpec = new ProjectClassificationExcelSpec();
+            var projectClassifications = (projects.SelectMany(p => p.ProjectClassifications)).ToList();
+            var wsProjectClassifications = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(string.Format("Project {0}", MultiTenantHelpers.GetClassificationDisplayNamePluralized()), projectClassificationSpec, projectClassifications);
 
             
             var workSheets = new List<IExcelWorkbookSheetDescriptor>
@@ -389,7 +389,7 @@ namespace ProjectFirma.Web.Controllers
                 wsPerformanceMeasureActuals,
                 wsProjectFundingSourceExpenditures,
                 wsProjectWatersheds,
-                wsProjectThresholdCategories
+                wsProjectClassifications
             };
 
             var wbm = new ExcelWorkbookMaker(workSheets);
@@ -436,7 +436,7 @@ namespace ProjectFirma.Web.Controllers
             // since we do not check for these in the CanDelete call, we need to remove them manually; this is because we are requiring a lead organization for each project, so the editor no longer supports deletion of all organizations per Mingle story #209.
             HttpRequestStorage.DatabaseEntities.ProjectImplementingOrganizations.RemoveRange(project.ProjectImplementingOrganizations);
             HttpRequestStorage.DatabaseEntities.ProjectFundingOrganizations.RemoveRange(project.ProjectFundingOrganizations);
-            HttpRequestStorage.DatabaseEntities.ProjectThresholdCategories.RemoveRange(project.ProjectThresholdCategories);
+            HttpRequestStorage.DatabaseEntities.ProjectClassifications.RemoveRange(project.ProjectClassifications);
             HttpRequestStorage.DatabaseEntities.SnapshotProjects.RemoveRange(project.SnapshotProjects);
             HttpRequestStorage.DatabaseEntities.ProjectTags.RemoveRange(project.ProjectTags);
             HttpRequestStorage.DatabaseEntities.NotificationProjects.RemoveRange(project.NotificationProjects);
