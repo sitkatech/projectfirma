@@ -12,8 +12,8 @@ namespace ProjectFirma.Web.Views.Watershed
         public readonly Models.Watershed Watershed;
         public readonly bool UserHasWatershedManagePermissions;
         public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
-        public readonly string FiveYearListProjectGridName;
-        public readonly string FiveYearListProjectGridDataUrl;
+        public readonly string BasicProjectInfoGridName;
+        public readonly string BasicProjectInfoGridDataUrl;
         public readonly MapInitJson MapInitJson;
         public readonly CalendarYearExpendituresLineChartViewData CalendarYearExpendituresLineChartViewData;
         public readonly string ManageWatershedsUrl;
@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Views.Watershed
             EntityName = "Watershed";
             UserHasWatershedManagePermissions = new WatershedManageFeature().HasPermissionByPerson(currentPerson);
 
-            FiveYearListProjectGridName = "watershedProjectListGrid";
+            BasicProjectInfoGridName = "watershedProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false)
             {
                 ObjectNameSingular = "Project in this Watershed",
@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Watershed
                 SaveFiltersInCookie = true
             };
           
-            FiveYearListProjectGridDataUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(watershed));
+            BasicProjectInfoGridDataUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(watershed));
             ManageWatershedsUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(c => c.Index());
         }
     }

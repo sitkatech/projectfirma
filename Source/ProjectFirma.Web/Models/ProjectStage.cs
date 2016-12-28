@@ -3,7 +3,7 @@
     public partial class ProjectStage
     {        
         public abstract bool IsOnCompletedList();
-        public abstract bool IsOnFiveYearList();
+        public abstract bool IsOnActiveProjectsList();
         public abstract bool IsDeletable();
 
         public bool IsVisibleToEveryone()
@@ -26,7 +26,7 @@
             return false;
         }
 
-        public override bool IsOnFiveYearList()
+        public override bool IsOnActiveProjectsList()
         {
             return true;
         }
@@ -74,7 +74,7 @@
             return false;
         }
 
-        public override bool IsOnFiveYearList()
+        public override bool IsOnActiveProjectsList()
         {
             return true;
         }
@@ -122,7 +122,7 @@
             return true;
         }
 
-        public override bool IsOnFiveYearList()
+        public override bool IsOnActiveProjectsList()
         {
             return false;
         }
@@ -170,7 +170,7 @@
             return false;
         }
 
-        public override bool IsOnFiveYearList()
+        public override bool IsOnActiveProjectsList()
         {
             return false;
         }
@@ -218,7 +218,7 @@
             return false;
         }
 
-        public override bool IsOnFiveYearList()
+        public override bool IsOnActiveProjectsList()
         {
             return false;
         }
@@ -266,7 +266,7 @@
             return true;
         }
 
-        public override bool IsOnFiveYearList()
+        public override bool IsOnActiveProjectsList()
         {
             return false;
         }

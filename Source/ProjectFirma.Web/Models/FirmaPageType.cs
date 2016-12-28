@@ -64,27 +64,11 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeFiveYearProjectList
+    public partial class FirmaPageTypeActiveProjectsList
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.FiveYearList());
-        }
-    }
-
-    public partial class FirmaPageTypeCompletedProjectList
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.CompletedList());
-        }
-    }
-
-    public partial class FirmaPageTypeTerminatedProjectList
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.TerminatedList());
+            return SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.ActiveProjectsList());
         }
     }
 
@@ -96,7 +80,7 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeTaxonomyTierOnesList
+    public partial class FirmaPageTypeTaxonomyTierOneList
     {
         public override string GetViewUrl()
         {
@@ -104,7 +88,7 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeTaxonomyTierThreesList
+    public partial class FirmaPageTypeTaxonomyTierThreeList
     {
         public override string GetViewUrl()
         {
@@ -128,7 +112,7 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeTaxonomyTierTwosList
+    public partial class FirmaPageTypeTaxonomyTierTwoList
     {
         public override string GetViewUrl()
         {
@@ -176,7 +160,7 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeSpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo
+    public partial class FirmaPageTypeSpendingBySectorByTaxonomyTier
     {
         public override string GetViewUrl()
         {

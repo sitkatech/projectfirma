@@ -5,24 +5,24 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Project
 {
-    public class FiveYearListViewData : FirmaViewData
+    public class ActiveProjectsListViewData : FirmaViewData
     {
         public readonly bool HasProposedProjectPermissions;
         public readonly BasicProjectInfoGridSpec GridSpec;
         public readonly string GridName;
         public readonly string GridDataUrl;
         public readonly string ProposeNewProjectUrl;
-        public FiveYearListViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public ActiveProjectsListViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             HasProposedProjectPermissions = new ProposedProjectCreateNewFeature().HasPermissionByPerson(currentPerson);
             ProposeNewProjectUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(tc => tc.Instructions(null));
 
-            PageTitle = "5-Year Project List";
+            PageTitle = "Active Project List";
 
-            GridName = "fiveYearListGrid";
-            GridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true) { ObjectNameSingular = "5-Year List Project", ObjectNamePlural = "5-Year List Projects", SaveFiltersInCookie = true };
+            GridName = "activeProjectsListGrid";
+            GridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true) { ObjectNameSingular = "Active Project", ObjectNamePlural = "Active Projects", SaveFiltersInCookie = true };
             
-            GridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.FiveYearListGridJsonData());
+            GridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ActiveProjectsListGridJsonData());
 
         }
     }

@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public readonly string ProposedProjectsUrl;
         public readonly string EditClassificationsUrl;
 
-        public readonly string FiveYearListUrl;
+        public readonly string ActiveProjectsListUrl;
 
         public readonly string MapFormID;
         public readonly string EditPerformanceMeasureExpectedsUrl;
@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             BreadCrumbTitle = "Proposed Project Summary";
             MapFormID = mapFormID;
 
-            FiveYearListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.FiveYearList());
+            ActiveProjectsListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.ActiveProjectsList());
             EditProposedProjectUrl = proposedProject.GetEditUrl();
             EditMapUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditLocationSimple(proposedProject));
             ApproveProjectUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Approve(proposedProject));

@@ -72,8 +72,8 @@ namespace ProjectFirma.Web.Views
             {
                 homeMenuItem,
                 BuildAboutMenu(currentPerson),
-                //BuildProjectsMenu(currentPerson),
-                BuildTaxonomyTierTwoInfoMenu(currentPerson),
+                BuildProjectsMenu(currentPerson),
+                BuildTaxonomyProgramInfoMenu(currentPerson),
                 //BuildResultsMenu(currentPerson),
                 BuildManageMenu(currentPerson)
             };
@@ -104,7 +104,7 @@ namespace ProjectFirma.Web.Views
             return resultsMenu;
         }
 
-        private static LtInfoMenuItem BuildTaxonomyTierTwoInfoMenu(Person currentPerson)
+        private static LtInfoMenuItem BuildTaxonomyProgramInfoMenu(Person currentPerson)
         {
             var taxonomyTierTwoInfoMenu = new LtInfoMenuItem("Program Info");
             //taxonomyTierTwoInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Index()), currentPerson, "Performance Measures", "Group1"));
@@ -149,9 +149,7 @@ namespace ProjectFirma.Web.Views
             var projectsMenu = new LtInfoMenuItem("Projects");
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentPerson, "Project Map", "Group1"));
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.Index()), currentPerson, "Full Project List", "Group2"));
-            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.CompletedList()), currentPerson, "Completed Project List", "Group2"));
-            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.FiveYearList()), currentPerson, "5-Year Project List", "Group2"));
-            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.TerminatedList()), currentPerson, "Terminated Project List", "Group2"));
+            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.ActiveProjectsList()), currentPerson, "Active Project List", "Group2"));
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.MyOrganizationsProjects()), currentPerson, "My Organization's Projects", "Group2"));
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.MyProjectsRequiringAnUpdate()), currentPerson, "Update My Project(s)", "Group3"));
             var projectUpdateStatusMenuItemName = string.Format("{0} Status of Project Updates", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());

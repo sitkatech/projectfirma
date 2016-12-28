@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult IndexImpl()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.TaxonomyTierThreesList);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.TaxonomyTierThreeList);
             var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }

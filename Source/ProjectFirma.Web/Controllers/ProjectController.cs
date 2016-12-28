@@ -450,77 +450,28 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        [ProjectsViewFiveYearListFeature] 
-        public ViewResult FiveYearList()
+        [ProjectsViewActiveProjectsListFeature] 
+        public ViewResult ActiveProjectsList()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.FiveYearProjectList);
-            var viewData = new FiveYearListViewData(CurrentPerson, firmaPage);
-            return RazorView<FiveYearList, FiveYearListViewData>(viewData);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ActiveProjectsList);
+            var viewData = new ActiveProjectsListViewData(CurrentPerson, firmaPage);
+            return RazorView<ActiveProjectsList, ActiveProjectsListViewData>(viewData);
         }
 
-        [ProjectsViewFiveYearListFeature]
-        public GridJsonNetJObjectResult<Project> FiveYearListGridJsonData()
+        [ProjectsViewActiveProjectsListFeature]
+        public GridJsonNetJObjectResult<Project> ActiveProjectsListGridJsonData()
         {
             BasicProjectInfoGridSpec gridSpec;
-            var projects = GetFiveYearListGridSpec(out gridSpec);
+            var projects = GetActiveProjectsListGridSpec(out gridSpec);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
-        private List<Project> GetFiveYearListGridSpec(out BasicProjectInfoGridSpec gridSpec)
+        private List<Project> GetActiveProjectsListGridSpec(out BasicProjectInfoGridSpec gridSpec)
         {
             gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            return GetProjectsForGrid(p => p.IsOnFiveYearList);
-        }
-
-        [ProjectsViewFullListFeature]
-        public ViewResult CompletedList()
-        {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.CompletedProjectList);
-
-            var viewData = new CompletedListViewData(CurrentPerson, firmaPage);
-            return RazorView<CompletedList, CompletedListViewData>(viewData);
-        }
-
-        [ProjectsViewFullListFeature]
-        public GridJsonNetJObjectResult<Project> CompletedListGridJsonData()
-        {
-            BasicProjectInfoGridSpec gridSpec;
-            var taxonomyTierTwos = GetCompletedListGridSpec(out gridSpec);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-
-        private List<Project> GetCompletedListGridSpec(out BasicProjectInfoGridSpec gridSpec)
-        {
-            gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            return GetProjectsForGrid(p => p.ProjectStage.IsOnCompletedList());
-        }
-
-        [ProjectsViewTerminatedListFeature]
-        public ViewResult TerminatedList()
-        {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.TerminatedProjectList);
-
-            var viewData = new TerminatedListViewData(CurrentPerson, firmaPage);
-            return RazorView<TerminatedList, TerminatedListViewData>(viewData);
-        }
-
-        [ProjectsViewTerminatedListFeature]
-        public GridJsonNetJObjectResult<Project> TerminatedListGridJsonData()
-        {
-            BasicProjectInfoGridSpec gridSpec;
-            var taxonomyTierTwos = GetTerminatedListGridSpec(out gridSpec);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-
-        [ProjectsViewTerminatedListFeature]
-        private List<Project> GetTerminatedListGridSpec(out BasicProjectInfoGridSpec gridSpec)
-        {
-            gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            return GetProjectsForGrid(p => p.ProjectStage == ProjectStage.Terminated);
-        }
+            return GetProjectsForGrid(p => p.IsOnActiveProjectsList);
+        }      
 
         [AdminFeature]
         public GridJsonNetJObjectResult<AuditLog> AuditLogsGridJsonData(ProjectPrimaryKey projectPrimaryKey)

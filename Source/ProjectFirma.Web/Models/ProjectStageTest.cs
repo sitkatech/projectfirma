@@ -13,9 +13,9 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
-        public void IsOnFiveYearListTest()
+        public void IsOnActiveProjectsListTest()
         {
-            Assert.That(ProjectStage.All.Where(x => x.IsOnFiveYearList()), Is.EquivalentTo(new ProjectStage[] {ProjectStage.PlanningDesign, ProjectStage.Implementation}));
+            Assert.That(ProjectStage.All.Where(x => x.IsOnActiveProjectsList()), Is.EquivalentTo(new ProjectStage[] {ProjectStage.PlanningDesign, ProjectStage.Implementation}));
         }
 
         [Test]

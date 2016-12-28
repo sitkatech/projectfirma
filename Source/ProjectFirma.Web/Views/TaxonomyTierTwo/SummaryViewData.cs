@@ -24,8 +24,8 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
 
         public readonly string BackUrl;
         public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
-        public readonly string FiveYearListProjectGridName;
-        public readonly string FiveYearListProjectGridDataUrl;
+        public readonly string BasicProjectInfoProjectGridName;
+        public readonly string BasicProjectInfoProjectGridDataUrl;
         public readonly string EditDescriptionUrl;
 
         public readonly ProjectTaxonomyViewData ProjectTaxonomyViewData;
@@ -67,14 +67,14 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
 
             BackUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(c => c.Index());
 
-            FiveYearListProjectGridName = "taxonomyTierTwoProjectListGrid";
+            BasicProjectInfoProjectGridName = "taxonomyTierTwoProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
                 ObjectNameSingular = string.Format("Project with this {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()),
                 ObjectNamePlural = string.Format("Projects with this {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()),
                 SaveFiltersInCookie = true
             };
-            FiveYearListProjectGridDataUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyTierTwo));
+            BasicProjectInfoProjectGridDataUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyTierTwo));
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyTierTwo);
             EditDescriptionUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(tc => tc.EditDescription(taxonomyTierTwo));
 

@@ -102,9 +102,9 @@ namespace ProjectFirma.Web.Models
             return project == null;
         }
 
-        public bool IsOnFiveYearList
+        public bool IsOnActiveProjectsList
         {
-            get { return ProjectStage.IsOnFiveYearList(); }
+            get { return ProjectStage.IsOnActiveProjectsList(); }
         }
 
         public Person PrimaryContactPerson

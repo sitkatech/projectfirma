@@ -138,7 +138,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectFundingSourceExpenditures = GetProjectExpendituresByFundingSector(null, null);
             var taxonomyTierTwoSectorExpenditures = GetTaxonomyTierTwoSectorExpenditures(calendarYear, projectFundingSourceExpenditures);
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.SpendingBySectorByTaxonomyTier);
             var calendarYears = GetCalendarYearsDropdownForInvestmentByFundingSectorAndSpendingBySectorAndTaxonomyTierThreeReports(projectFundingSourceExpenditures);
             var viewData = new SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewData(CurrentPerson, firmaPage, taxonomyTierTwoSectorExpenditures, Sector.All, calendarYear, calendarYears);
             var viewModel = new SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewModel(calendarYear);

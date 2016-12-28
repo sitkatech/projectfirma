@@ -110,7 +110,7 @@
             <th>Attributes:</th>
             <td colspan="3">
                 <ul>
-                    <li>This project is @(!ViewDataTyped.Project.IsOnFiveYearList ? "NOT" : string.Empty) on the 5-Year List</li>
+                    <li>This project is @(!ViewDataTyped.Project.IsOnActiveProjectsList ? "NOT" : string.Empty) on the Active List</li>
                     @if (ViewDataTyped.Project.ImplementsMultipleProjects)
                     {
                         <li>This project is a taxonomyTierTwo that implements multiple projects</li>

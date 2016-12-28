@@ -13,8 +13,8 @@ namespace ProjectFirma.Web.Views.Tag
         public readonly string ManageTagsUrl;
         public readonly bool UserHasTagManagePermissions;
         public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
-        public readonly string FiveYearListProjectGridName;
-        public readonly string FiveYearListProjectGridDataUrl;
+        public readonly string BasicProjectInfoGridName;
+        public readonly string BasicProjectInfoGridDataUrl;
 
         public SummaryViewData(Person currentPerson, Models.Tag tag) : base(currentPerson)
         {
@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Views.Tag
             ManageTagsUrl = SitkaRoute<TagController>.BuildUrlFromExpression(c => c.Index());
             UserHasTagManagePermissions = new TagManageFeature().HasPermissionByPerson(currentPerson);
 
-            FiveYearListProjectGridName = "tagProjectListGrid";
+            BasicProjectInfoGridName = "tagProjectListGrid";
 
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Tag
                 SaveFiltersInCookie = true
             };
             
-            FiveYearListProjectGridDataUrl = SitkaRoute<TagController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(tag));
+            BasicProjectInfoGridDataUrl = SitkaRoute<TagController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(tag));
         }
     }
 }

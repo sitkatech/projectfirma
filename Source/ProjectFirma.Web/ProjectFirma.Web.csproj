@@ -485,7 +485,7 @@
     <Compile Include="Security\ProjectNoteUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectNoteUpdateNewFeature.cs" />
     <Compile Include="Security\ProjectOrganizationManageFeature.cs" />
-    <Compile Include="Security\ProjectsViewFiveYearListFeature.cs" />
+    <Compile Include="Security\ProjectsViewActiveProjectsListFeature.cs" />
     <Compile Include="Security\ProjectsViewFullListFeature.cs" />
     <Compile Include="Security\ProjectsViewMyOrganizationsProjectListFeature.cs" />
     <Compile Include="Security\ProjectsViewTerminatedListFeature.cs" />
@@ -849,8 +849,6 @@
     <Compile Include="Views\ProjectWatershed\EditProjectWatershedsViewModel.cs" />
     <Compile Include="Views\ProjectWatershed\EditProjectWatershedsViewModelTest.cs" />
     <Compile Include="Views\Project\BasicProjectInfoGridSpec.cs" />
-    <Compile Include="Views\Project\CompletedList.cs" />
-    <Compile Include="Views\Project\CompletedListViewData.cs" />
     <Compile Include="Views\Project\EditFeaturedProjects.cs" />
     <Compile Include="Views\Project\EditFeaturedProjectsViewData.cs" />
     <Compile Include="Views\Project\EditFeaturedProjectsViewModel.cs" />
@@ -860,8 +858,8 @@
     <Compile Include="Views\Project\FactSheetViewData.cs" />
     <Compile Include="Views\Project\FeaturedList.cs" />
     <Compile Include="Views\Project\FeaturedListViewData.cs" />
-    <Compile Include="Views\Project\FiveYearList.cs" />
-    <Compile Include="Views\Project\FiveYearListViewData.cs" />
+    <Compile Include="Views\Project\ActiveProjectsList.cs" />
+    <Compile Include="Views\Project\ActiveProjectsListViewData.cs" />
     <Compile Include="Views\Project\FullProjectListSimple.cs" />
     <Compile Include="Views\Project\FullProjectListSimpleViewData.cs" />
     <Compile Include="Views\Project\FundingSourceCalendarYearExpenditure.cs" />
@@ -880,8 +878,6 @@
     <Compile Include="Views\Project\SearchResultsViewData.cs" />
     <Compile Include="Views\Project\Summary.cs" />
     <Compile Include="Views\Project\SummaryViewData.cs" />
-    <Compile Include="Views\Project\TerminatedList.cs" />
-    <Compile Include="Views\Project\TerminatedListViewData.cs" />
     <Compile Include="Views\ProposedProjectImage\Edit.cs" />
     <Compile Include="Views\ProposedProjectImage\EditViewData.cs" />
     <Compile Include="Views\ProposedProjectImage\EditViewModel.cs" />
@@ -3104,17 +3100,15 @@
     <Content Include="Views\FundingSource\Detail.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ProjectExternalLink\EditProjectExternalLinks.cshtml" />
-    <Content Include="Views\Project\CompletedList.cshtml" />
     <Content Include="Views\Project\EditFeaturedProjects.cshtml" />
     <Content Include="Views\Project\FactSheet.cshtml" />
     <Content Include="Views\Project\FeaturedList.cshtml" />
-    <Content Include="Views\Project\FiveYearList.cshtml" />
+    <Content Include="Views\Project\ActiveProjectsList.cshtml" />
     <Content Include="Views\Project\FullProjectListSimple.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Project\MyOrganizationsProjects.cshtml" />
     <Content Include="Views\Project\SearchResults.cshtml" />
     <Content Include="Views\Project\Summary.cshtml" />
-    <Content Include="Views\Project\TerminatedList.cshtml" />
     <Content Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpenditures.cshtml" />
     <Content Include="Views\ProjectImageUpdate\Edit.cshtml" />
     <Content Include="Views\ProjectImageUpdate\New.cshtml" />

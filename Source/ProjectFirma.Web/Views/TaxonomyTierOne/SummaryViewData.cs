@@ -16,8 +16,8 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
         public readonly bool UserHasTaxonomyTierOneManagePermissions;
         public readonly string EditTaxonomyTierOneUrl;
         public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
-        public readonly string FiveYearListProjectGridName;
-        public readonly string FiveYearListProjectGridDataUrl;
+        public readonly string BasicProjectInfoGridName;
+        public readonly string BasicProjectInfoGridDataUrl;
         public readonly ProjectTaxonomyViewData ProjectTaxonomyViewData;
         public readonly string EditDescriptionUrl;
 
@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
             UserHasTaxonomyTierOneManagePermissions = new TaxonomyTierOneManageFeature().HasPermissionByPerson(CurrentPerson);
             EditTaxonomyTierOneUrl = SitkaRoute<TaxonomyTierOneController>.BuildUrlFromExpression(c => c.Edit(taxonomyTierOne));
 
-            FiveYearListProjectGridName = "taxonomyTierOneProjectListGrid";
+            BasicProjectInfoGridName = "taxonomyTierOneProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
                 ObjectNameSingular = string.Format("Project with this {0}", MultiTenantHelpers.GetTaxonomyTierOneDisplayName()),
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
                 SaveFiltersInCookie = true
             };
 
-            FiveYearListProjectGridDataUrl = SitkaRoute<TaxonomyTierOneController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyTierOne));
+            BasicProjectInfoGridDataUrl = SitkaRoute<TaxonomyTierOneController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyTierOne));
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyTierOne);
             EditDescriptionUrl = SitkaRoute<TaxonomyTierOneController>.BuildUrlFromExpression(tc => tc.EditDescription(taxonomyTierOne));
         }

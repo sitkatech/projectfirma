@@ -22,25 +22,23 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeFirmaCustomPage2 FirmaCustomPage2 = FirmaPageTypeFirmaCustomPage2.Instance;
         public static readonly FirmaPageTypeFirmaCustomPage3 FirmaCustomPage3 = FirmaPageTypeFirmaCustomPage3.Instance;
         public static readonly FirmaPageTypeFullProjectList FullProjectList = FirmaPageTypeFullProjectList.Instance;
-        public static readonly FirmaPageTypeFiveYearProjectList FiveYearProjectList = FirmaPageTypeFiveYearProjectList.Instance;
-        public static readonly FirmaPageTypeCompletedProjectList CompletedProjectList = FirmaPageTypeCompletedProjectList.Instance;
+        public static readonly FirmaPageTypeActiveProjectsList ActiveProjectsList = FirmaPageTypeActiveProjectsList.Instance;
         public static readonly FirmaPageTypePerformanceMeasuresList PerformanceMeasuresList = FirmaPageTypePerformanceMeasuresList.Instance;
-        public static readonly FirmaPageTypeTaxonomyTierOnesList TaxonomyTierOnesList = FirmaPageTypeTaxonomyTierOnesList.Instance;
-        public static readonly FirmaPageTypeTaxonomyTierThreesList TaxonomyTierThreesList = FirmaPageTypeTaxonomyTierThreesList.Instance;
+        public static readonly FirmaPageTypeTaxonomyTierOneList TaxonomyTierOneList = FirmaPageTypeTaxonomyTierOneList.Instance;
+        public static readonly FirmaPageTypeTaxonomyTierTwoList TaxonomyTierTwoList = FirmaPageTypeTaxonomyTierTwoList.Instance;
+        public static readonly FirmaPageTypeTaxonomyTierThreeList TaxonomyTierThreeList = FirmaPageTypeTaxonomyTierThreeList.Instance;
         public static readonly FirmaPageTypeFundingSourcesList FundingSourcesList = FirmaPageTypeFundingSourcesList.Instance;
         public static readonly FirmaPageTypeOrganizationsList OrganizationsList = FirmaPageTypeOrganizationsList.Instance;
-        public static readonly FirmaPageTypeTaxonomyTierTwosList TaxonomyTierTwosList = FirmaPageTypeTaxonomyTierTwosList.Instance;
         public static readonly FirmaPageTypeWatershedsList WatershedsList = FirmaPageTypeWatershedsList.Instance;
         public static readonly FirmaPageTypeMyProjects MyProjects = FirmaPageTypeMyProjects.Instance;
         public static readonly FirmaPageTypePagesWithIntroTextList PagesWithIntroTextList = FirmaPageTypePagesWithIntroTextList.Instance;
         public static readonly FirmaPageTypeInvestmentByFundingSector InvestmentByFundingSector = FirmaPageTypeInvestmentByFundingSector.Instance;
-        public static readonly FirmaPageTypeSpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo = FirmaPageTypeSpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo.Instance;
+        public static readonly FirmaPageTypeSpendingBySectorByTaxonomyTier SpendingBySectorByTaxonomyTier = FirmaPageTypeSpendingBySectorByTaxonomyTier.Instance;
         public static readonly FirmaPageTypeProjectMap ProjectMap = FirmaPageTypeProjectMap.Instance;
         public static readonly FirmaPageTypeResultsByTaxonomyTierTwo ResultsByTaxonomyTierTwo = FirmaPageTypeResultsByTaxonomyTierTwo.Instance;
         public static readonly FirmaPageTypeHomeAdditionalInfo HomeAdditionalInfo = FirmaPageTypeHomeAdditionalInfo.Instance;
         public static readonly FirmaPageTypeFeaturedProjectList FeaturedProjectList = FirmaPageTypeFeaturedProjectList.Instance;
         public static readonly FirmaPageTypeCostParameterSet CostParameterSet = FirmaPageTypeCostParameterSet.Instance;
-        public static readonly FirmaPageTypeTerminatedProjectList TerminatedProjectList = FirmaPageTypeTerminatedProjectList.Instance;
         public static readonly FirmaPageTypeFullProjectListSimple FullProjectListSimple = FirmaPageTypeFullProjectListSimple.Instance;
         public static readonly FirmaPageTypeTaxonomy Taxonomy = FirmaPageTypeTaxonomy.Instance;
         public static readonly FirmaPageTypeTagList TagList = FirmaPageTypeTagList.Instance;
@@ -60,7 +58,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FirmaPageType()
         {
-            All = new List<FirmaPageType> { HomePage, About, FirmaCustomPage1, FirmaCustomPage2, FirmaCustomPage3, FullProjectList, FiveYearProjectList, CompletedProjectList, PerformanceMeasuresList, TaxonomyTierOnesList, TaxonomyTierThreesList, FundingSourcesList, OrganizationsList, TaxonomyTierTwosList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo, ProjectMap, ResultsByTaxonomyTierTwo, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, TerminatedProjectList, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, ClassificationsList, MonitoringProgramsList };
+            All = new List<FirmaPageType> { HomePage, About, FirmaCustomPage1, FirmaCustomPage2, FirmaCustomPage3, FullProjectList, ActiveProjectsList, PerformanceMeasuresList, TaxonomyTierOneList, TaxonomyTierTwoList, TaxonomyTierThreeList, FundingSourcesList, OrganizationsList, WatershedsList, MyProjects, PagesWithIntroTextList, InvestmentByFundingSector, SpendingBySectorByTaxonomyTier, ProjectMap, ResultsByTaxonomyTierTwo, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, ClassificationsList, MonitoringProgramsList };
             AllLookupDictionary = new ReadOnlyDictionary<int, FirmaPageType>(All.ToDictionary(x => x.FirmaPageTypeID));
         }
 
@@ -133,10 +131,10 @@ namespace ProjectFirma.Web.Models
             {
                 case FirmaPageTypeEnum.About:
                     return About;
+                case FirmaPageTypeEnum.ActiveProjectsList:
+                    return ActiveProjectsList;
                 case FirmaPageTypeEnum.ClassificationsList:
                     return ClassificationsList;
-                case FirmaPageTypeEnum.CompletedProjectList:
-                    return CompletedProjectList;
                 case FirmaPageTypeEnum.CostParameterSet:
                     return CostParameterSet;
                 case FirmaPageTypeEnum.FeaturedProjectList:
@@ -147,8 +145,6 @@ namespace ProjectFirma.Web.Models
                     return FirmaCustomPage2;
                 case FirmaPageTypeEnum.FirmaCustomPage3:
                     return FirmaCustomPage3;
-                case FirmaPageTypeEnum.FiveYearProjectList:
-                    return FiveYearProjectList;
                 case FirmaPageTypeEnum.FullProjectList:
                     return FullProjectList;
                 case FirmaPageTypeEnum.FullProjectListSimple:
@@ -185,20 +181,18 @@ namespace ProjectFirma.Web.Models
                     return ResultsByTaxonomyTierTwo;
                 case FirmaPageTypeEnum.SpendingByPerformanceMeasureByProject:
                     return SpendingByPerformanceMeasureByProject;
-                case FirmaPageTypeEnum.SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo:
-                    return SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo;
+                case FirmaPageTypeEnum.SpendingBySectorByTaxonomyTier:
+                    return SpendingBySectorByTaxonomyTier;
                 case FirmaPageTypeEnum.TagList:
                     return TagList;
                 case FirmaPageTypeEnum.Taxonomy:
                     return Taxonomy;
-                case FirmaPageTypeEnum.TaxonomyTierOnesList:
-                    return TaxonomyTierOnesList;
-                case FirmaPageTypeEnum.TaxonomyTierThreesList:
-                    return TaxonomyTierThreesList;
-                case FirmaPageTypeEnum.TaxonomyTierTwosList:
-                    return TaxonomyTierTwosList;
-                case FirmaPageTypeEnum.TerminatedProjectList:
-                    return TerminatedProjectList;
+                case FirmaPageTypeEnum.TaxonomyTierOneList:
+                    return TaxonomyTierOneList;
+                case FirmaPageTypeEnum.TaxonomyTierThreeList:
+                    return TaxonomyTierThreeList;
+                case FirmaPageTypeEnum.TaxonomyTierTwoList:
+                    return TaxonomyTierTwoList;
                 case FirmaPageTypeEnum.WatershedsList:
                     return WatershedsList;
                 default:
@@ -215,25 +209,23 @@ namespace ProjectFirma.Web.Models
         FirmaCustomPage2 = 4,
         FirmaCustomPage3 = 5,
         FullProjectList = 6,
-        FiveYearProjectList = 7,
-        CompletedProjectList = 8,
+        ActiveProjectsList = 7,
         PerformanceMeasuresList = 9,
-        TaxonomyTierOnesList = 11,
-        TaxonomyTierThreesList = 13,
-        FundingSourcesList = 14,
-        OrganizationsList = 15,
-        TaxonomyTierTwosList = 16,
+        TaxonomyTierOneList = 11,
+        TaxonomyTierTwoList = 13,
+        TaxonomyTierThreeList = 14,
+        FundingSourcesList = 15,
+        OrganizationsList = 16,
         WatershedsList = 17,
         MyProjects = 18,
         PagesWithIntroTextList = 19,
         InvestmentByFundingSector = 20,
-        SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo = 21,
+        SpendingBySectorByTaxonomyTier = 21,
         ProjectMap = 22,
         ResultsByTaxonomyTierTwo = 23,
         HomeAdditionalInfo = 25,
         FeaturedProjectList = 26,
         CostParameterSet = 31,
-        TerminatedProjectList = 32,
         FullProjectListSimple = 33,
         Taxonomy = 34,
         TagList = 36,
@@ -242,8 +234,8 @@ namespace ProjectFirma.Web.Models
         MyOrganizationsProjects = 39,
         ManageUpdateNotifications = 41,
         ProjectUpdateStatus = 42,
-        ClassificationsList = 66,
-        MonitoringProgramsList = 67
+        ClassificationsList = 43,
+        MonitoringProgramsList = 44
     }
 
     public partial class FirmaPageTypeHomePage : FirmaPageType
@@ -282,16 +274,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeFullProjectList Instance = new FirmaPageTypeFullProjectList(6, @"FullProjectList", @"Full Project List", 1);
     }
 
-    public partial class FirmaPageTypeFiveYearProjectList : FirmaPageType
+    public partial class FirmaPageTypeActiveProjectsList : FirmaPageType
     {
-        private FirmaPageTypeFiveYearProjectList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeFiveYearProjectList Instance = new FirmaPageTypeFiveYearProjectList(7, @"FiveYearProjectList", @"5 Year Project List", 1);
-    }
-
-    public partial class FirmaPageTypeCompletedProjectList : FirmaPageType
-    {
-        private FirmaPageTypeCompletedProjectList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeCompletedProjectList Instance = new FirmaPageTypeCompletedProjectList(8, @"CompletedProjectList", @"Completed Project List", 1);
+        private FirmaPageTypeActiveProjectsList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeActiveProjectsList Instance = new FirmaPageTypeActiveProjectsList(7, @"ActiveProjectsList", @"Active Projects List", 1);
     }
 
     public partial class FirmaPageTypePerformanceMeasuresList : FirmaPageType
@@ -300,34 +286,34 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypePerformanceMeasuresList Instance = new FirmaPageTypePerformanceMeasuresList(9, @"PerformanceMeasuresList", @"Performance Measures List", 1);
     }
 
-    public partial class FirmaPageTypeTaxonomyTierOnesList : FirmaPageType
+    public partial class FirmaPageTypeTaxonomyTierOneList : FirmaPageType
     {
-        private FirmaPageTypeTaxonomyTierOnesList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeTaxonomyTierOnesList Instance = new FirmaPageTypeTaxonomyTierOnesList(11, @"TaxonomyTierOnesList", @"Action Priorities List", 1);
+        private FirmaPageTypeTaxonomyTierOneList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeTaxonomyTierOneList Instance = new FirmaPageTypeTaxonomyTierOneList(11, @"TaxonomyTierOneList", @"Taxonomy Tier One List", 1);
     }
 
-    public partial class FirmaPageTypeTaxonomyTierThreesList : FirmaPageType
+    public partial class FirmaPageTypeTaxonomyTierTwoList : FirmaPageType
     {
-        private FirmaPageTypeTaxonomyTierThreesList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeTaxonomyTierThreesList Instance = new FirmaPageTypeTaxonomyTierThreesList(13, @"TaxonomyTierThreesList", @"Focus Areas List", 1);
+        private FirmaPageTypeTaxonomyTierTwoList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeTaxonomyTierTwoList Instance = new FirmaPageTypeTaxonomyTierTwoList(13, @"TaxonomyTierTwoList", @"Taxonomy Tier Two List", 1);
+    }
+
+    public partial class FirmaPageTypeTaxonomyTierThreeList : FirmaPageType
+    {
+        private FirmaPageTypeTaxonomyTierThreeList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeTaxonomyTierThreeList Instance = new FirmaPageTypeTaxonomyTierThreeList(14, @"TaxonomyTierThreeList", @"Taxonomy Tier Three List", 1);
     }
 
     public partial class FirmaPageTypeFundingSourcesList : FirmaPageType
     {
         private FirmaPageTypeFundingSourcesList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeFundingSourcesList Instance = new FirmaPageTypeFundingSourcesList(14, @"FundingSourcesList", @"Funding Sources List", 1);
+        public static readonly FirmaPageTypeFundingSourcesList Instance = new FirmaPageTypeFundingSourcesList(15, @"FundingSourcesList", @"Funding Sources List", 1);
     }
 
     public partial class FirmaPageTypeOrganizationsList : FirmaPageType
     {
         private FirmaPageTypeOrganizationsList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeOrganizationsList Instance = new FirmaPageTypeOrganizationsList(15, @"OrganizationsList", @"Organizations List", 1);
-    }
-
-    public partial class FirmaPageTypeTaxonomyTierTwosList : FirmaPageType
-    {
-        private FirmaPageTypeTaxonomyTierTwosList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeTaxonomyTierTwosList Instance = new FirmaPageTypeTaxonomyTierTwosList(16, @"TaxonomyTierTwosList", @"TaxonomyTierTwos List", 1);
+        public static readonly FirmaPageTypeOrganizationsList Instance = new FirmaPageTypeOrganizationsList(16, @"OrganizationsList", @"Organizations List", 1);
     }
 
     public partial class FirmaPageTypeWatershedsList : FirmaPageType
@@ -354,10 +340,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeInvestmentByFundingSector Instance = new FirmaPageTypeInvestmentByFundingSector(20, @"InvestmentByFundingSector", @"Investment by Funding Sector", 1);
     }
 
-    public partial class FirmaPageTypeSpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo : FirmaPageType
+    public partial class FirmaPageTypeSpendingBySectorByTaxonomyTier : FirmaPageType
     {
-        private FirmaPageTypeSpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeSpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo Instance = new FirmaPageTypeSpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo(21, @"SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo", @"Spending by Sector by Focus Area by TaxonomyTierTwo", 1);
+        private FirmaPageTypeSpendingBySectorByTaxonomyTier(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeSpendingBySectorByTaxonomyTier Instance = new FirmaPageTypeSpendingBySectorByTaxonomyTier(21, @"SpendingBySectorByTaxonomyTier", @"Spending by Sector by Taxonomy Tier", 1);
     }
 
     public partial class FirmaPageTypeProjectMap : FirmaPageType
@@ -369,7 +355,7 @@ namespace ProjectFirma.Web.Models
     public partial class FirmaPageTypeResultsByTaxonomyTierTwo : FirmaPageType
     {
         private FirmaPageTypeResultsByTaxonomyTierTwo(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeResultsByTaxonomyTierTwo Instance = new FirmaPageTypeResultsByTaxonomyTierTwo(23, @"ResultsByTaxonomyTierTwo", @"Results by TaxonomyTierTwo", 1);
+        public static readonly FirmaPageTypeResultsByTaxonomyTierTwo Instance = new FirmaPageTypeResultsByTaxonomyTierTwo(23, @"ResultsByTaxonomyTierTwo", @"Results by Taxonomy Tier Two", 1);
     }
 
     public partial class FirmaPageTypeHomeAdditionalInfo : FirmaPageType
@@ -388,12 +374,6 @@ namespace ProjectFirma.Web.Models
     {
         private FirmaPageTypeCostParameterSet(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
         public static readonly FirmaPageTypeCostParameterSet Instance = new FirmaPageTypeCostParameterSet(31, @"CostParameterSet", @"Cost Parameter Set", 1);
-    }
-
-    public partial class FirmaPageTypeTerminatedProjectList : FirmaPageType
-    {
-        private FirmaPageTypeTerminatedProjectList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeTerminatedProjectList Instance = new FirmaPageTypeTerminatedProjectList(32, @"TerminatedProjectList", @"Terminated Project List", 1);
     }
 
     public partial class FirmaPageTypeFullProjectListSimple : FirmaPageType
@@ -447,12 +427,12 @@ namespace ProjectFirma.Web.Models
     public partial class FirmaPageTypeClassificationsList : FirmaPageType
     {
         private FirmaPageTypeClassificationsList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeClassificationsList Instance = new FirmaPageTypeClassificationsList(66, @"ClassificationsList", @"Classifications List", 1);
+        public static readonly FirmaPageTypeClassificationsList Instance = new FirmaPageTypeClassificationsList(43, @"ClassificationsList", @"Classifications List", 1);
     }
 
     public partial class FirmaPageTypeMonitoringProgramsList : FirmaPageType
     {
         private FirmaPageTypeMonitoringProgramsList(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeMonitoringProgramsList Instance = new FirmaPageTypeMonitoringProgramsList(67, @"MonitoringProgramsList", @"Monitoring Programs", 1);
+        public static readonly FirmaPageTypeMonitoringProgramsList Instance = new FirmaPageTypeMonitoringProgramsList(44, @"MonitoringProgramsList", @"Monitoring Programs", 1);
     }
 }

@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.Project
             }
 
             Add("# of Photos", x => x.ProjectImages.Count, 60);
-            Add("Five Year List", x => x.IsOnFiveYearList.ToYesNo(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Active Projects List", x => x.IsOnActiveProjectsList.ToYesNo(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
     }
 }
