@@ -6,12 +6,12 @@
 @if (ViewDataTyped.Project.FundingType.ToEnum == FundingTypeEnum.Capital)
 {
     <tr>
-        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedTotalCost):</th>
+        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedTotalCost)</th>
         <td>
             @ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()
         </td>
         <td colspan="4">
-            <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectCostInYearOfExpenditure):</span>
+            <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectCostInYearOfExpenditure)</span>
             @if (CostParameterSet.CanCalculateCapitalCostInYearOfExpenditure(ViewDataTyped.Project))
             {
                 <span style="margin-left: 10px">@ViewDataTyped.CapitalCostInYearOfExpenditure.ToStringCurrency()</span>
@@ -27,11 +27,11 @@
         </td>
     </tr>
     <tr>
-        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.SecuredFunding):</th>
+        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.SecuredFunding)</th>
         <td>
             @ViewDataTyped.Project.SecuredFunding.ToStringCurrency()
         </td>
-        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.UnfundedNeed):</th>
+        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.UnfundedNeed)</th>
         <td>
             @ViewDataTyped.Project.UnfundedNeed.ToStringCurrency()
         </td>
@@ -42,14 +42,14 @@ else
     if (ViewDataTyped.Project.FundingType.ToEnum == FundingTypeEnum.OperationsAndMaintenance)
     {
         <tr>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedAnnualOperatingCost):</th>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedAnnualOperatingCost)</th>
             <td>
                 @ViewDataTyped.Project.EstimatedAnnualOperatingCost.ToStringCurrency()
             </td>
         </tr>
         <tr>
             <td>
-                <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.CalculatedTotalRemainingOperatingCost):</span>
+                <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.CalculatedTotalRemainingOperatingCost)</span>
             </td>
             @if (CostParameterSet.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(ViewDataTyped.Project))
             {

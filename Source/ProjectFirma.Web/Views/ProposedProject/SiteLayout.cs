@@ -4,7 +4,7 @@
     {
         protected string SetSelectedSectionStyle(ProposedProjectSectionEnum currentSection, ProposedProjectSectionEnum selectedProposedProjectSection)
         {
-            return selectedProposedProjectSection == currentSection ? "selected" : string.Empty;
+            return selectedProposedProjectSection == currentSection ? "selected" : "selectable";
         }
     }
 }

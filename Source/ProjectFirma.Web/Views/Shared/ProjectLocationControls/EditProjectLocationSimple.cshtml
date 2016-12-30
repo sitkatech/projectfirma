@@ -60,7 +60,7 @@
 
                     <div class="groupedControl">
                         @Html.RadioButtonFor(x => x.ProjectLocationSimpleType, ProjectLocationSimpleTypeEnum.NamedAreas, new { @id = "ProjectLocationTypeNamedAreas" })
-                        Pick from list of known areas:
+                        Pick from list of known areas
                         @Html.DropDownListFor(x => x.ProjectLocationAreaID, ViewDataTyped.ProjectLocationSelectListItems)
                     </div>
 
@@ -69,7 +69,7 @@
                         No location
                     </div>
                     <div style="margin: 10px 0">
-                        @Html.LabelFor(x => x.ProjectLocationNotes):<br />
+                        @Html.LabelFor(x => x.ProjectLocationNotes)<br />
                         @Html.TextAreaWithMaxLengthFor(m => m.ProjectLocationNotes, new TextAreaForExtensions.TextAreaDimensions(null, 2), null)
                         @Html.ValidationMessageFor(x => x.ProjectLocationNotes)
                     </div>

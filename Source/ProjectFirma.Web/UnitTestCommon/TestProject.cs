@@ -26,7 +26,6 @@ namespace ProjectFirma.Web.UnitTestCommon
                     string.Format("Test Project Name {0}", Guid.NewGuid()),
                     MakeTestName("Test Project Description"),
                     false,
-                    false,
                     ProjectLocationSimpleType.None,
                     FundingType.Capital);
 
@@ -38,7 +37,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             {
                 var taxonomyTierOne = TestTaxonomyTierOne.Create();
                 var projectStage = ProjectStage.Implementation;
-                var project = new Project(taxonomyTierOne, projectStage, projectName, "Some description", false, false, ProjectLocationSimpleType.None, FundingType.Capital)
+                var project = new Project(taxonomyTierOne, projectStage, projectName, "Some description",  false, ProjectLocationSimpleType.None, FundingType.Capital)
                 {
                     ProjectID = projectID
                 };

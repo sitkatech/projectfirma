@@ -1134,7 +1134,6 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ImplementationStartYear" Type="int" />
     <Property Name="CompletionYear" Type="int" />
     <Property Name="EstimatedTotalCost" Type="money" />
-    <Property Name="ImplementsMultipleProjects" Type="bit" Nullable="false" />
     <Property Name="SecuredFunding" Type="money" />
     <Property Name="ProjectLocationPoint" Type="geometry" />
     <Property Name="ProjectLocationAreaID" Type="int" />
@@ -1491,7 +1490,6 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="TaxonomyTierOneID" Type="int" />
     <Property Name="PerformanceMeasureNotes" Type="varchar" MaxLength="500" />
     <Property Name="ProjectID" Type="int" />
-    <Property Name="ImplementsMultipleProjects" Type="bit" />
     <Property Name="SubmissionDate" Type="datetime" />
     <Property Name="ApprovalDate" Type="datetime" />
     <Property Name="ReviewedByPersonID" Type="int" />

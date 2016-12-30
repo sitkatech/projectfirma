@@ -4,14 +4,14 @@
 {
     <table class="dialogFormLayout">
         <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneName):</th>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneName)</th>
             <td>
                 @Html.TextBoxFor(m => m.TaxonomyTierOneName, new {style = "width:522px"})
                 @Html.ValidationMessageFor(m => m.TaxonomyTierOneName)
             </td>
         </tr>
         <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierTwoID):</th>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierTwoID)</th>
             <td>
                 @if (ViewDataTyped.HasProjects)
                 {

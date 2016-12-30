@@ -100,7 +100,7 @@
                                         <col style="width: auto" />
                                     </colgroup>
                                     <tr>
-                                        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectDescription):</th>
+                                        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectDescription)</th>
                                         <td>
                                             @Html.Raw(ViewDataTyped.ProposedProject.ProjectDescription.HtmlEncodeWithBreaks())
                                         </td>
@@ -109,19 +109,19 @@
                                     {
                                         case FundingTypeEnum.Capital:
                                             <tr>
-                                                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedTotalCost):</th>
+                                                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedTotalCost)</th>
                                                 <td>
                                                     @ViewDataTyped.ProposedProject.EstimatedTotalCost.ToStringCurrency()
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.SecuredFunding):</th>
+                                                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.SecuredFunding)</th>
                                                 <td>
                                                     @ViewDataTyped.ProposedProject.SecuredFunding.ToStringCurrency()
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.UnfundedNeed):</th>
+                                                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.UnfundedNeed)</th>
                                                 <td>
                                                     @ViewDataTyped.ProposedProject.UnfundedNeed.ToStringCurrency()
                                                 </td>
@@ -129,7 +129,7 @@
                                             break;
                                         case FundingTypeEnum.OperationsAndMaintenance:
                                         <tr>
-                                            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedAnnualOperatingCost):</th>
+                                            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedAnnualOperatingCost)</th>
                                             <td>
                                                 @ViewDataTyped.ProposedProject.EstimatedAnnualOperatingCost.ToStringCurrency()
                                             </td>
@@ -137,43 +137,43 @@
                                             break;
                                     }
                                     <tr>
-                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PlanningDesignStartYear):</th>
+                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PlanningDesignStartYear)</th>
                                         <td>
                                             @ViewDataTyped.ProposedProject.PlanningDesignStartYear
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.ImplementationStartYear):</th>
+                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.ImplementationStartYear)</th>
                                         <td>
                                             @ViewDataTyped.ProposedProject.ImplementationStartYear
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.CompletionYear):</th>
+                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.CompletionYear)</th>
                                         <td>
                                             @ViewDataTyped.ProposedProject.CompletionYear
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>Proposed by:</th>
+                                        <th>Proposed by</th>
                                         <td>
                                             @ViewDataTyped.ProposedProject.ProposingPerson.GetFullNameFirstLastAsStringAndOrgAsUrl()
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>Proposed on:</th>
+                                        <th>Proposed on</th>
                                         <td>
                                             @ViewDataTyped.ProposedProject.ProposingDate.ToStringDate()
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>Submitted on:</th>
+                                        <th>Submitted on</th>
                                         <td>
                                             @ViewDataTyped.ProposedProject.SubmissionDate.ToStringDate()
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>Approved on:</th>
+                                        <th>Approved on</th>
                                         <td>
                                             @ViewDataTyped.ProposedProject.ApprovalDate.ToStringDate()
                                         </td>

@@ -44,9 +44,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         
         [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
         public int FundingTypeID { get; set; }
-
-        public bool? ImplementsMultipleProjects { get; set; }
-
+        
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -68,7 +66,6 @@ namespace ProjectFirma.Web.Views.ProposedProject
             PlanningDesignStartYear = proposedProject.PlanningDesignStartYear;
             ImplementationStartYear = proposedProject.ImplementationStartYear;
             CompletionYear = proposedProject.CompletionYear;
-            ImplementsMultipleProjects = proposedProject.ImplementsMultipleProjects;
         }
 
         public BasicsViewModel(int? organizationID)
@@ -101,12 +98,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             
             proposedProject.PlanningDesignStartYear = PlanningDesignStartYear;
             proposedProject.ImplementationStartYear = ImplementationStartYear;
-            proposedProject.CompletionYear = CompletionYear;
-            
-            if (new ProposedProjectApproveFeature().HasPermissionByPerson(person))
-            {
-                proposedProject.ImplementsMultipleProjects = ImplementsMultipleProjects;
-            }
+            proposedProject.CompletionYear = CompletionYear;            
         }
     }
 }

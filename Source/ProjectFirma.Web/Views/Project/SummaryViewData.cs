@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectUpdate;
@@ -10,6 +11,7 @@ using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Tag;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -54,6 +56,9 @@ namespace ProjectFirma.Web.Views.Project
         public readonly EntityNotesViewData EntityNotesViewData;
         public readonly EntityExternalLinksViewData EntityExternalLinksViewData;
 
+        public readonly bool UserHasTaggingPermissions;
+        public readonly ProjectBasicsTagsViewData ProjectBasicsTagsViewData;
+
         public readonly List<ProjectStage> ProjectStages;
         public readonly List<ProjectImplementingOrganizationOrProjectFundingOrganization> AllProjectOrganizations;
         public readonly string MapFormID;
@@ -97,6 +102,10 @@ namespace ProjectFirma.Web.Views.Project
             UserHasProjectUpdatePermissions = new ProjectUpdateManageFeature().HasPermission(CurrentPerson, project).HasPermission;
             ProjectBasicsViewData = projectBasicsViewData;
             AssessmentTreeViewData = assessmentTreeViewData;
+
+            UserHasTaggingPermissions = new TagManageFeature().HasPermissionByPerson(CurrentPerson);
+            var tagHelper = new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList());
+            ProjectBasicsTagsViewData = new ProjectBasicsTagsViewData(project, tagHelper);
 
             ProjectTaxonomyViewData = projectTaxonomyViewData;
 

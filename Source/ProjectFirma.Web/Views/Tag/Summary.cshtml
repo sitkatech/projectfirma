@@ -19,13 +19,13 @@
     <div class="contentWrapper">
         <table class="summaryLayout">
             <tr>
-                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TagName):</th>
+                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TagName)</th>
                 <td>
                     @ViewDataTyped.Tag.TagName
                 </td>
             </tr>
             <tr>
-                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TagDescription):</th>
+                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TagDescription)</th>
                 <td>
                     @Html.Raw(ViewDataTyped.Tag.TagDescription.HtmlEncodeWithBreaks())
                 </td>

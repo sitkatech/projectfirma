@@ -275,7 +275,6 @@ namespace ProjectFirma.Web.Models
                 projectName,
                 proposedProject.ProjectDescription,
                 false,
-                false,
                 ProjectLocationSimpleType.ProjectLocationSimpleTypeID,
                 FundingType.FundingTypeID)
             {
@@ -293,8 +292,6 @@ namespace ProjectFirma.Web.Models
             project.ProjectClassifications = proposedProject.ProposedProjectClassifications.Select(x => new ProjectClassification(project.ProjectID, x.ClassificationID, x.ProposedProjectClassificationNotes)).ToList();            
 
             project.ProjectImplementingOrganizations.Add(new ProjectImplementingOrganization(project, proposedProject.LeadImplementerOrganization, true));
-
-            project.ImplementsMultipleProjects = proposedProject.ImplementsMultipleProjects ?? false;
 
             project.ProjectAssessmentQuestions = proposedProject.ProposedProjectAssessmentQuestions.OrderBy(x => x.AssessmentQuestionID).Select(x => new ProjectAssessmentQuestion(project.ProjectID, x.AssessmentQuestionID) {Answer = x.Answer}).ToList();
 

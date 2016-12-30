@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(FieldDefinition.MeasurementUnit, "Measurement Unit"):</div>
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(FieldDefinition.MeasurementUnit, "Measurement Unit")</div>
             <div class="col-md-8">
                 @Html.DropDownListFor(m => m.MeasurementUnitTypeID, ViewDataTyped.MeasurementUnitTypes)
                 @Html.ValidationMessageFor(m => m.MeasurementUnitTypeID)

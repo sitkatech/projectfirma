@@ -4,21 +4,21 @@
 {
     <table class="dialogFormLayout">
         <tr>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.MonitoringProgramName):</th>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.MonitoringProgramName)</th>
             <td style="width:100%">
                 @Html.TextBoxFor(m => m.MonitoringProgramName, new { style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.MonitoringProgramName)
             </td>
         </tr>
         <tr>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.MonitoringApproach):</th>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.MonitoringApproach)</th>
             <td style="width:100%">
                 @Html.TextAreaWithMaxLengthFor(m => m.MonitoringApproach, new TextAreaForExtensions.TextAreaDimensions(null, 3), null)
                 @Html.ValidationMessageFor(m => m.MonitoringApproach)
             </td>
         </tr>
         <tr>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.MonitoringProgramUrl):</th>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.MonitoringProgramUrl)</th>
             <td>
                 @Html.TextBoxFor(m => m.MonitoringProgramUrl, new { style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.MonitoringProgramUrl)

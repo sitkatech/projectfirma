@@ -13,7 +13,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Clackamas Partnership @(!string.IsNullOrWhiteSpace(ViewDataTyped.HtmlPageTitle) ? string.Format(" | {0}", ViewDataTyped.HtmlPageTitle) : string.Empty)@ViewDataTyped.GetBreadCrumbTitle()</title>
+    <title>@MultiTenantHelpers.GetTenantDisplayName()  @(!string.IsNullOrWhiteSpace(ViewDataTyped.HtmlPageTitle) ? string.Format(" | {0}", ViewDataTyped.HtmlPageTitle) : string.Empty)@ViewDataTyped.GetBreadCrumbTitle()</title>
     
     <link rel="apple-touch-icon" sizes="57x57" href="/Content/img/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/Content/img/apple-icon-60x60.png">
@@ -35,13 +35,12 @@
 </head>
 <body>
 <div id="wrapper">
-
-            <div class="header">
-                <img class="headerLogo" src="~/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png" />
-                <div class="headerText">
-                    |
-                    <a href="@ViewDataTyped.FirmaHomeUrl">Clackamas Partnership</a> @*TODO: Read from Tenant table*@
-                </div>
+    <div class="header">
+        <img class="headerLogo" src="@MultiTenantHelpers.GetTenantBannerLogoUrl()" />
+        <div class="headerText">
+            |
+            <a href="@ViewDataTyped.FirmaHomeUrl">@MultiTenantHelpers.GetTenantDisplayName()</a>
+        </div>
 
         @*<div class="col-sm-6">
                 <div id="searchBox" class="pull-right">
@@ -151,7 +150,7 @@
 <footer id="footer">
     <div class="container">
             <p class="text-center">
-                <a href="http://www.sitkatech.com/products/ProjectFirma/">ProjectFirma</a> is a site created by <a href="http://sitkatech.com">Sitka Technology Group</a> and implemented for the Clackamas Partnership | Version @FirmaWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion | DB @ProjectFirma.Web.Common.FirmaWebConfiguration.LatestDatabaseMigration.Value | Compiled @FirmaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss") | PID @Process.GetCurrentProcess().Id
+                <a href="http://www.sitkatech.com/products/ProjectFirma/">ProjectFirma</a> is a site created by <a href="http://sitkatech.com">Sitka Technology Group</a> and implemented for the @MultiTenantHelpers.GetTenantDisplayName() | Version @FirmaWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion | DB @ProjectFirma.Web.Common.FirmaWebConfiguration.LatestDatabaseMigration.Value | Compiled @FirmaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss") | PID @Process.GetCurrentProcess().Id
             </p>   
     </div>
 </footer>

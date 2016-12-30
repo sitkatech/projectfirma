@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
                     return isProjectNameUnique;
                 })
                 .WithMessage(FirmaValidationMessages.ProjectNameUnique);
-            RuleFor(x => x.ProjectDescription).NotEmpty().Length(1, Models.Project.ProjectDescriptionMaximumLength).WithName(Models.FieldDefinition.ProjectDescription.FieldDefinitionDisplayName);
+            RuleFor(x => x.ProjectDescription).NotEmpty().Length(1, Models.Project.FieldLengths.ProjectDescription).WithName(Models.FieldDefinition.ProjectDescription.FieldDefinitionDisplayName);
 
             RuleFor(x => x.FundingTypeID).NotNull();
 
@@ -51,12 +51,6 @@ namespace ProjectFirma.Web.Views.ProposedProject
             RuleFor(x => x.LeadImplementerOrganizationID)
                 .NotEmpty()
                 .WithMessage(NeedsLeadImplementingOrganizationMessage);
-
-            RuleFor(x => x.ImplementsMultipleProjects).Must((viewModel, x) =>
-            {
-                var isApprover = new ProposedProjectApproveFeature().HasPermissionByPerson(HttpRequestStorage.Person);
-                return !isApprover || x.HasValue;
-            }).WithMessage("Approvers are required to provide determine whether a project is a taxonomyTierTwo");
         }
     }
 }

@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public bool ShowValidationWarnings { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
-        [StringLength(Models.Project.ProjectDescriptionMaximumLength)]
+        [StringLength(Models.Project.FieldLengths.ProjectDescription)]
         public string ProjectDescription { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStage)]

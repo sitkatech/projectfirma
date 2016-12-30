@@ -66,9 +66,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AnonymousUnclassifiedFeature]
-        public ActionResult GetProject(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, int projectID)
+        public ActionResult GetProject(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
         {
-            var projects = WebServiceProject.GetProject(projectID);
+            var projects = WebServiceProject.GetProject(projectPK.PrimaryKeyValue);
             var gridSpec = new WebServiceProjectGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "Project");
         }
@@ -90,25 +90,25 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AnonymousUnclassifiedFeature]
-        public ActionResult GetProjectAccomplishments(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, int projectID)
+        public ActionResult GetProjectAccomplishments(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
         {
-            var projects = WebServiceProjectAccomplishments.GetProjectAccomplishments(projectID);
+            var projects = WebServiceProjectAccomplishments.GetProjectAccomplishments(projectPK.PrimaryKeyValue);
             var gridSpec = new WebServiceProjectAccomplishmentsGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectAccomplishments");
         }
 
         [AnonymousUnclassifiedFeature]
-        public ActionResult GetProjectDescription(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, int projectID)
+        public ActionResult GetProjectDescription(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
         {
-            var projects = WebServiceProjectDescription.GetProjectDescription(projectID);
+            var projects = WebServiceProjectDescription.GetProjectDescription(projectPK.PrimaryKeyValue);
             var gridSpec = new WebServiceProjectDescriptionGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectDescription");
         }
 
         [AnonymousUnclassifiedFeature]
-        public ActionResult GetProjectKeyPhoto(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, int projectID)
+        public ActionResult GetProjectKeyPhoto(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
         {
-            var projects = WebServiceProjectKeyPhoto.GetProjectKeyPhoto(projectID);
+            var projects = WebServiceProjectKeyPhoto.GetProjectKeyPhoto(projectPK.PrimaryKeyValue);
             var gridSpec = new WebServiceProjectKeyPhotoGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectKeyPhoto");
         }

@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? taxonomyTierOneID, string performanceMeasureNotes, int? projectID, bool? implementsMultipleProjects, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID) : this()
+        public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? taxonomyTierOneID, string performanceMeasureNotes, int? projectID, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID) : this()
         {
             this.ProposedProjectID = proposedProjectID;
             this.ProjectName = projectName;
@@ -59,7 +59,6 @@ namespace ProjectFirma.Web.Models
             this.TaxonomyTierOneID = taxonomyTierOneID;
             this.PerformanceMeasureNotes = performanceMeasureNotes;
             this.ProjectID = projectID;
-            this.ImplementsMultipleProjects = implementsMultipleProjects;
             this.SubmissionDate = submissionDate;
             this.ApprovalDate = approvalDate;
             this.ReviewedByPersonID = reviewedByPersonID;
@@ -148,7 +147,6 @@ namespace ProjectFirma.Web.Models
         public int? TaxonomyTierOneID { get; set; }
         public string PerformanceMeasureNotes { get; set; }
         public int? ProjectID { get; set; }
-        public bool? ImplementsMultipleProjects { get; set; }
         public DateTime? SubmissionDate { get; set; }
         public DateTime? ApprovalDate { get; set; }
         public int? ReviewedByPersonID { get; set; }

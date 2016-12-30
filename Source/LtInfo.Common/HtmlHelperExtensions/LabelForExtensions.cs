@@ -290,11 +290,11 @@ namespace LtInfo.Common.HtmlHelperExtensions
             var helpIconImgTag = GenerateHelpIconImgTag(labelText, fieldDefinitionDefinition, urlToContent, popupWidth, displayStyle);
             var labelTag = new TagBuilder("label");
             labelTag.Attributes.Add("for", fullHtmlFieldID);
-            labelTag.SetInnerText(labelText);
-
+            
             switch (displayStyle)
             {
                 case DisplayStyle.AsGridHeader:
+                    labelTag.SetInnerText(labelText);
                     var divTag = new TagBuilder("div");
                     divTag.Attributes.Add("style", "display:table; vertical-align: top");
                     labelTag.Attributes.Add("style", "display:table-cell");
@@ -303,11 +303,12 @@ namespace LtInfo.Common.HtmlHelperExtensions
                 case DisplayStyle.HelpIconOnly:
                     return MvcHtmlString.Create(helpIconImgTag);
                 case DisplayStyle.HelpIconWithLabel:
+                    labelTag.InnerHtml = string.Format("{0} {1}", helpIconImgTag, labelText);
                     if (hasRequiredAttribute)
                     {
                         labelTag.Attributes.Add("class", "required");
                     }
-                    return MvcHtmlString.Create(string.Format(@"{0} {1}", helpIconImgTag, labelTag.ToString(TagRenderMode.Normal)));
+                    return MvcHtmlString.Create(labelTag.ToString(TagRenderMode.Normal));
                 default:
                     throw new ArgumentOutOfRangeException("displayStyle");
             }

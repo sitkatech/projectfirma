@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Models
 {
     public partial class Notification
     {
-        public const string FirmaSignature = @"Clackamas Partnership team<br/><br/><img src=""http://clackamaspartnership.org/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png"" width=""600"" />";
+        public static string FirmaSignature = string.Format("{0} team<br/><br/><img src=\"http://clackamaspartnership.org/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png\" width=\"600\" />", MultiTenantHelpers.GetTenantDisplayName());
 
         public HtmlString GetFullDescriptionFromUserPerspective()
         {

@@ -451,7 +451,6 @@
           <ScalarProperty Name="ImplementationStartYear" ColumnName="ImplementationStartYear" />
           <ScalarProperty Name="CompletionYear" ColumnName="CompletionYear" />
           <ScalarProperty Name="EstimatedTotalCost" ColumnName="EstimatedTotalCost" />
-          <ScalarProperty Name="ImplementsMultipleProjects" ColumnName="ImplementsMultipleProjects" />
           <ScalarProperty Name="SecuredFunding" ColumnName="SecuredFunding" />
           <ScalarProperty Name="ProjectLocationPoint" ColumnName="ProjectLocationPoint" />
           <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
@@ -839,7 +838,6 @@
           <ScalarProperty Name="TaxonomyTierOneID" ColumnName="TaxonomyTierOneID" />
           <ScalarProperty Name="PerformanceMeasureNotes" ColumnName="PerformanceMeasureNotes" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-          <ScalarProperty Name="ImplementsMultipleProjects" ColumnName="ImplementsMultipleProjects" />
           <ScalarProperty Name="SubmissionDate" ColumnName="SubmissionDate" />
           <ScalarProperty Name="ApprovalDate" ColumnName="ApprovalDate" />
           <ScalarProperty Name="ReviewedByPersonID" ColumnName="ReviewedByPersonID" />

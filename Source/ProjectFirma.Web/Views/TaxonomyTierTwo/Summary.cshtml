@@ -65,14 +65,14 @@
 
         <div class="summarySection">
             <h2>
-                <a href="@ViewDataTyped.ManageTaxonomyTierOnesUrl">@MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized()</a>
+                <a href="@ViewDataTyped.ManageTaxonomyTierOneIndexUrl">@MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized()</a>
             </h2>
             <div class="contentWrapper">
                 @if (ViewDataTyped.TaxonomyTierTwo.TaxonomyTierOnes.Any())
                 {
                     <table class="summaryLayout">
                         <tr>
-                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierOne, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierOneDisplayName()):</th>
+                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierOne, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierOneDisplayName())</th>
                         </tr>
                         @foreach (var taxonomyTierOne in ViewDataTyped.TaxonomyTierTwo.TaxonomyTierOnes)
                         {
@@ -101,7 +101,7 @@
                 {
                     <table class="summaryLayout">
                         <tr>
-                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure):</th>
+                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure)</th>
                         </tr>
                         @foreach (var performanceMeasure in ViewDataTyped.TaxonomyTierTwoPerformanceMeasures.OrderBy(x => x.PerformanceMeasureID))
                         {

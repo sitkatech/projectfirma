@@ -1263,7 +1263,6 @@
     <Property Name="ImplementationStartYear" Type="Int32" />
     <Property Name="CompletionYear" Type="Int32" />
     <Property Name="EstimatedTotalCost" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="ImplementsMultipleProjects" Type="Boolean" Nullable="false" />
     <Property Name="SecuredFunding" Type="Decimal" Precision="19" Scale="4" />
     <Property Name="ProjectLocationPoint" Type="Geometry" />
     <Property Name="ProjectLocationAreaID" Type="Int32" />
@@ -1717,7 +1716,6 @@
     <Property Name="TaxonomyTierOneID" Type="Int32" />
     <Property Name="PerformanceMeasureNotes" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
     <Property Name="ProjectID" Type="Int32" />
-    <Property Name="ImplementsMultipleProjects" Type="Boolean" />
     <Property Name="SubmissionDate" Type="DateTime" />
     <Property Name="ApprovalDate" Type="DateTime" />
     <Property Name="ReviewedByPersonID" Type="Int32" />

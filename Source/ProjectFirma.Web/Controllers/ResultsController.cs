@@ -180,7 +180,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                projectLocationFilterType = ProjectLocationFilterType.TaxonomyTierTwo;
+                projectLocationFilterType = ProjectMapCustomization.DefaultLocationFilterType;
             }
 
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.FilterValuesQueryStringParameter]))
@@ -190,7 +190,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                filterValues = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.Select(x => x.TaxonomyTierTwoID).OrderBy(x => x).ToList();
+                filterValues = ProjectMapCustomization.DefaultLocationFilterValues;
             }
 
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.ColorByQueryStringParameter]))
@@ -199,7 +199,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                colorByValue = ProjectColorByType.TaxonomyTierThree;
+                colorByValue = ProjectMapCustomization.DefaultColorByType;
             }
 
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectMap);

@@ -44,26 +44,26 @@
                             <col style="width: auto"/>
                         </colgroup>
                         <tr>
-                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure):</th>
+                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure)</th>
                             <td>
                                 <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this PM" onmouseover="ProjectFirma.Views.Methods.addHelpTooltipPopup(jQuery(this), @ViewDataTyped.SelectedPerformanceMeasure.DisplayName.ToJS(), @ViewDataTyped.SelectedPerformanceMeasure.GetDefinitionAndGuidanceUrl().ToJS(), 430)"></span>
                                 <a href="@ViewDataTyped.SelectedPerformanceMeasure.GetSummaryUrl()" class="chartHeader">@ViewDataTyped.SelectedPerformanceMeasure.DisplayName</a>
                             </td>
                         </tr>
                         <tr>
-                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.SpendingAssociatedWithPM):</th>
+                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.SpendingAssociatedWithPM)</th>
                             <td>
                                 @ViewDataTyped.SelectedPerformanceMeasure.TotalExpenditure().ToStringCurrency() - This includes all project expenditures, even for projects that have multiple performance measure accomplishments
                             </td>
                         </tr>
                         <tr>
-                            <th>Total @ViewDataTyped.SelectedPerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName Completed:</th>
+                            <th>Total @ViewDataTyped.SelectedPerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName Completed</th>
                             <td>
                                 @ViewDataTyped.SelectedPerformanceMeasure.TotalReportedValueWithNonZeroExpenditures().ToString()
                             </td>
                         </tr>
                         <tr>
-                            <th>@string.Format("Spending Per {0} ", ViewDataTyped.SelectedPerformanceMeasure.MeasurementUnitType.SingularDisplayName):</th>
+                            <th>@string.Format("Spending Per {0} ", ViewDataTyped.SelectedPerformanceMeasure.MeasurementUnitType.SingularDisplayName)</th>
                             <td>
                                 @ViewDataTyped.SelectedPerformanceMeasure.TotalExpenditurePerPerformanceMeasureUnit().ToStringCurrency()
                             </td>

@@ -32,8 +32,8 @@
     <a href="@ViewDataTyped.ProjectUpdateMyProjectsUrl" style="text-decoration: none">Back to Update My Projects list</a>
 }
 
-<div id="projectWizardContent">
-    <div id="tab-container">
+<div id="projectWizardContent" class="row">
+    <div id="tab-container" class="col-xs-4 col-sm-4 col-md-3 col-lg-2">
         <ol>
             <li style="list-style-type: none" class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Instructions, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdateInstructionsUrl">Instructions</a>
@@ -46,7 +46,7 @@
                     Basics
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsBasicsUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
                 </a>
-                <span class="pull-right" style="padding: 5px">
+                <span class="pull-right statusIcon">
                     @Html.Raw(ViewDataTyped.ProjectUpdateBatch.AreProjectBasicsValid ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                 </span>
 
@@ -56,7 +56,7 @@
                     Location - Simple
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsLocationSimpleUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
                 </a>
-                <span class="pull-right" style="padding: 5px">
+                <span class="pull-right statusIcon">
                     @Html.Raw(ViewDataTyped.ProjectUpdateBatch.IsProjectLocationSimpleValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                 </span>
             </li>
@@ -71,7 +71,7 @@
                     Performance Measures
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsPerformanceMeasuresUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
                 </a>
-                <span class="pull-right" style="padding: 5px">
+                <span class="pull-right statusIcon">
                     @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ArePerformanceMeasuresValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
                 </span>
             </li>
@@ -86,19 +86,19 @@
             </li>
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Budgets, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdateBudgetsUrl">
-                    Budgets
+                        Budgets
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsBudgetsUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
-                </a>
-                <span class="pull-right" style="padding: 5px">
+                    </a>
+                    <span class="pull-right statusIcon">
                     @Html.Raw(ViewDataTyped.ProjectUpdateBatch.AreBudgetsValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                </span>
-            </li>
+                    </span>
+                </li>
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Photos, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdatePhotosUrl">
                     Photos
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsPhotosUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
                 </a>
-            </li>            
+            </li>
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.ExternalLinks, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdateExternalLinksUrl">
                     External Links
@@ -120,7 +120,7 @@
         </ol>
 
     </div>
-    <div id="main-container">
+    <div id="main-container" class="col-xs-8 col-sm-8 col-md-9 col-lg-10">
         @RenderBody()
     </div>
 </div>
@@ -149,7 +149,7 @@
         <button class="btn btn-xs btn-firma" disabled="disabled">Submit</button>
     }
 </div>
-<div style="margin-left: 190px">
+<div>
     @if (ViewDataTyped.ProjectUpdateBatch.IsSubmitted)
     {
         <span>Submitted by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.UpdatePerson.FullNameFirstLastAndOrg on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.TransitionDate.ToStringDateTime()</span>

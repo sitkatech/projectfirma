@@ -14,8 +14,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public const string FilterValuesQueryStringParameter = "FilterValues";
         public const string ColorByQueryStringParameter = "ColorBy";
 
-        public static readonly ProjectLocationFilterType DefaultLocationFilterType = ProjectLocationFilterType.TaxonomyTierThree;
-        public static readonly ProjectColorByType DefaultColorByType = ProjectColorByType.TaxonomyTierThree;
+        public static readonly ProjectLocationFilterType DefaultLocationFilterType = ProjectLocationFilterType.ProjectStage;
+        public static readonly List<int> DefaultLocationFilterValues = ProjectStage.All.Select(x => x.ProjectStageID).ToList();
+        public static readonly ProjectColorByType DefaultColorByType = ProjectColorByType.ProjectStage;
 
         public List<int> FilterPropertyValues { get; set; }
         public string FilterPropertyName { get; set; }

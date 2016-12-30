@@ -1,6 +1,7 @@
 ﻿
 #projectWizardContent {
     padding-bottom: 10px;
+    margin-right: 5px;
 }
 
 #projectWizardContent textarea, #projectWizardContent input, #projectWizardContent select, #projectWizardContent .dropdown-toggle, #projectWizardContent .dropdown-menu {
@@ -16,6 +17,12 @@
     z-index: 16000;
 }
 
+#projectWizardContent .row
+{
+    margin-right: 0;
+    margin-left: 0;
+}
+
 
 .greenLight, .validationWarning { 
     font-size: 14px;
@@ -27,38 +34,53 @@
     font-size: 14px;
 }
 
-#tab-container {
-    float: left;
+#tab-container
+{ 
     margin: 0;
-    width: 200px;
+    padding-right: 0;
+
 }
 
-#tab-container ol {
+#tab-container ol, #tab-container ul
+{
     list-style-position: inside;
     text-align: left;
     margin: 0;
     padding: 0;
 }
 
-#tab-container ol li {
+
+#tab-container ol li, #tab-container ul li
+{
     color: #666;
     background-color: transparent;
     padding-left: 5px;
 }
 
-#tab-container ol li a, #tab-container ol li a:visited {
-    text-decoration: none;
-    color: #666;
-    display: inline-block;
+#tab-container ol li.selectable:hover, #tab-container ul li.selectable:hover
+{
+    background-color: #eee;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+#tab-container ul li .statusIcon, #tab-container ol li .statusIcon
+{
     padding: 5px 5px 5px 0;
 }
 
-#tab-container ol li.selected {
+#tab-container ol li a, #tab-container ol li a:visited, #tab-container ul li a, #tab-container ul li a:visited
+{
+    text-decoration: none;
+    color: #666;
+    display: inline-block;
+    padding: 5px 0 5px 0;
+}
+
+#tab-container ol li.selected, #tab-container ul li.selected
+{
     border-right: none;
-    background-color: #fff;
-    border-left: 1px solid #666;
-    border-top: 1px solid #666;
-    border-bottom: 1px solid #666;
+    background-color: #bbb;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
 }
@@ -67,25 +89,14 @@
     color: green;
 }
 
-#main-container {
-    min-height: 300px;
-    margin: 0 0 0 199px;
+#main-container
+{    
+    min-height: 300px;    
     padding: 10px;
     background-color: #fff;
-    border: 1px solid #888;
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
     border-bottom-left-radius: 6px;
-}
-
-.dynamicallySizeRow {height: 72px;}
-@media only screen and (min-width: 992px)
-{
-    .dynamicallySizeRow {
-        height: 36px;
-        margin-top: 0;
-    }
-     
 }
 
 .sectionComments {

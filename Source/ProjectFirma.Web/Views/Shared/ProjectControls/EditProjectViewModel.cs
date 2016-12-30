@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public string ProjectName { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
-        [StringLength(Models.Project.ProjectDescriptionMaximumLength)]
+        [StringLength(Models.Project.FieldLengths.ProjectDescription)]
         public string ProjectDescription { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStage)]
@@ -50,8 +50,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         [FieldDefinitionDisplay(FieldDefinitionEnum.LeadImplementer)]
         public int? LeadImplementerOrganizationID { get; set; }
 
-        public bool ImplementsMultipleProjects { get; set; }
-
         public bool HasExistingProjectUpdate { get; set; }
         public int? OldProjectStageID { get; set; }
 
@@ -78,7 +76,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
             SecuredFunding = project.SecuredFunding;
             LeadImplementerOrganizationID = project.LeadImplementerOrganizationID;
-            ImplementsMultipleProjects = project.ImplementsMultipleProjects;
             HasExistingProjectUpdate = hasExistingProjectUpdate;
         }
 
@@ -97,7 +94,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             EstimatedAnnualOperatingCost = proposedProject.EstimatedAnnualOperatingCost;
             SecuredFunding = proposedProject.SecuredFunding;
             LeadImplementerOrganizationID = proposedProject.LeadImplementerOrganizationID;
-            ImplementsMultipleProjects = false;
             HasExistingProjectUpdate = false;
         }
 
@@ -105,6 +101,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         {
             project.ProjectName = ProjectName;
             project.ProjectDescription = ProjectDescription;
+            project.TaxonomyTierOneID = TaxonomyTierOneID;
             project.ProjectStageID = ProjectStageID;
             project.FundingTypeID = FundingTypeID;
             project.ImplementationStartYear = ImplementationStartYear;
@@ -124,13 +121,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                 project.SecuredFunding = null;
                 project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost; 
             }
-            
-            project.ImplementsMultipleProjects = ImplementsMultipleProjects;
 
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(project.ProjectID))
             {
-                project.TaxonomyTierOneID = TaxonomyTierOneID;
-
                 Check.RequireNotNull(LeadImplementerOrganizationID, EditProjectViewModelValidator.NeedsLeadImplementingOrganizationMessage);
                 if (LeadImplementerOrganizationID != null)
                 {

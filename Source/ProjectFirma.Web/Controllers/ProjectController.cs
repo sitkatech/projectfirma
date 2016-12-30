@@ -53,7 +53,6 @@ namespace ProjectFirma.Web.Controllers
                 viewModel.ProjectName,
                 viewModel.ProjectDescription,
                 false,
-                false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
                 FundingType.Capital.FundingTypeID);
             HttpRequestStorage.DatabaseEntities.Projects.Add(project);
@@ -166,7 +165,7 @@ namespace ProjectFirma.Web.Controllers
             const string projectNotificationGridName = "projectNotifications";
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
-            var inflationRate = HttpRequestStorage.DatabaseEntities.CostParameterSets.Latest().InflationRate;
+            var inflationRate = CostParameterSet.GetLatestInflationRate();
             var editInflationUrl = SitkaRoute<CostParameterSetController>.BuildUrlFromExpression(controller => controller.Summary());
             var editProjectBudgetUrl = SitkaRoute<ProjectBudgetController>.BuildUrlFromExpression(c => c.EditBudgetsForProject(project));
 

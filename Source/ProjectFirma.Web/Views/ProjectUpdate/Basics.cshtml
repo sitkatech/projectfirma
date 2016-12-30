@@ -41,11 +41,11 @@
 {
     <table class="formLayout">
         <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierOne, 600):</th>
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierOne, 600)</th>
             <td colspan="3">@ViewDataTyped.TaxonomyTierOneDisplayName</td>
         </tr>
         <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.ProjectDescription):</th>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.ProjectDescription)</th>
             <td colspan="3">
                 @if (ViewDataTyped.IsEditable)
                 {
@@ -61,7 +61,7 @@
             </td>
         </tr>
         <tr>
-            <th>@Html.LabelWithFieldDefinitionWiderFor(m => m.ProjectStageID):</th>
+            <th>@Html.LabelWithFieldDefinitionWiderFor(m => m.ProjectStageID)</th>
             <td colspan="3">
                 @if (ViewDataTyped.IsEditable)
                 {
@@ -78,7 +78,7 @@
         {
             case FundingTypeEnum.Capital:
                 <tr>
-                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedTotalCost):</th>
+                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedTotalCost)</th>
                     <td>
                         @if (ViewDataTyped.IsEditable)
                         {
@@ -94,14 +94,14 @@
                     @if (CostParameterSet.CanCalculateCapitalCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
                     {
                         <td colspan="3">
-                            <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectCostInYearOfExpenditure):</span>
+                            <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectCostInYearOfExpenditure)</span>
                             <span style="margin-left: 10px">@ViewDataTyped.CapitalCostInYearOfExpenditure.ToStringCurrency()</span>
                             <span> (Using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</span>
                         </td>
                     }
                 </tr>
                 <tr>
-                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.SecuredFunding):</th>
+                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.SecuredFunding)</th>
                     <td>
                         @if (ViewDataTyped.IsEditable)
                         {
@@ -113,7 +113,7 @@
                             @ViewDataTyped.ProjectUpdate.SecuredFunding.ToStringCurrency()
                         }
                     </td>
-                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.UnfundedNeed):</th>
+                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.UnfundedNeed)</th>
                     <td>
                         @ViewDataTyped.Project.UnfundedNeed.ToStringCurrency()
                     </td>
@@ -121,7 +121,7 @@
                         break;
             case FundingTypeEnum.OperationsAndMaintenance:
             <tr>
-                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedAnnualOperatingCost):</th>
+                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedAnnualOperatingCost)</th>
                 <td>
                     @if (ViewDataTyped.IsEditable)
                     {
@@ -133,7 +133,7 @@
                         @ViewDataTyped.ProjectUpdate.EstimatedAnnualOperatingCost.ToStringCurrency()
                     }
                 </td>
-                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.LifecycleOperatingCost):</th>
+                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.LifecycleOperatingCost)</th>
                 <td>
                     @if (CostParameterSet.CanCalculateLifecycleOperatingCost(ViewDataTyped.ProjectUpdate))
                     {
@@ -145,7 +145,7 @@
                     {
                         <tr>
                             <th>
-                                @Html.LabelWithFieldDefinitionFor(FieldDefinition.CalculatedTotalRemainingOperatingCost):
+                                @Html.LabelWithFieldDefinitionFor(FieldDefinition.CalculatedTotalRemainingOperatingCost)
                             </th>
                             <td colspan="3">
                                 <span>@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span>
@@ -156,7 +156,7 @@
                     break;
         }
         <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.PlanningDesignStartYear):</th>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.PlanningDesignStartYear)</th>
             <td>
                 @if (ViewDataTyped.IsEditable)
                 {
@@ -170,7 +170,7 @@
             </td>
         </tr>
         <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.ImplementationStartYear):</th>
+            <th>@Html.LabelWithFieldDefinitionFor(m => m.ImplementationStartYear)</th>
             <td>
                 @if (ViewDataTyped.IsEditable)
                 {
@@ -182,7 +182,7 @@
                     @ViewDataTyped.ProjectUpdate.ImplementationStartYear
                 }
             </td>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.CompletionYear):</th>
+            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.CompletionYear)</th>
             <td>
                 @if (ViewDataTyped.IsEditable)
                 {
@@ -196,7 +196,7 @@
             </td>
         </tr>
         <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.LeadImplementer):</th>
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.LeadImplementer)</th>
             <td colspan="3">
                 @if (ViewDataTyped.Project.LeadImplementer != null)
                 {
@@ -205,7 +205,7 @@
             </td>
         </tr>
         <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PrimaryContact):</th>
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PrimaryContact)</th>
             <td colspan="3">
                 @if (ViewDataTyped.Project.PrimaryContactPerson != null)
                 {
@@ -231,7 +231,7 @@
         {
             <table class="formLayout">
                 <tr>
-                    <th>@Html.LabelFor(x => x.Comments):</th>
+                    <th>@Html.LabelFor(x => x.Comments)</th>
                     <td>
                         @Html.TextAreaFor(x => x.Comments, new { @class = "sectionComments" })
                         @Html.Hidden("Section", ViewDataTyped.SelectedProjectUpdateSection)

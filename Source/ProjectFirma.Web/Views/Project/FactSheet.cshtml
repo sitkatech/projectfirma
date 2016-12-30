@@ -109,8 +109,8 @@
 
         .taxonomyTierThreeColor
         {
-            color: @ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeColor;
-            border-color: @ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeColor;
+            color: @ViewDataTyped.TaxonomyColor;
+            border-color: @ViewDataTyped.TaxonomyColor;
         }
 
         table.summaryLayout th
@@ -136,8 +136,8 @@
             height: 20px;
             color: #ffffff;
             font-weight: bold;
-            background-color: @ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeColor;
-            border: solid 4px @ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeColor;
+            background-color: @ViewDataTyped.TaxonomyColor;
+            border: solid 4px @ViewDataTyped.TaxonomyColor;
             border-right: 0;
             border-left: 0;
             font-size: 18px;
@@ -233,7 +233,7 @@
     <table style="width: 100%; padding-bottom: 15px">
         <tr>
             <td style="border-right: 2px solid; padding: 10px; width: 270px" class="taxonomyTierThreeColor">
-                <img src="~/Content/img/eip-logo-factsheet.png" alt="Lake Tahoe" />
+                <img src="@MultiTenantHelpers.GetTenantSquareLogoUrl()" alt="@MultiTenantHelpers.GetTenantDisplayName()" />
             </td>
             <td style="padding: 20px">
                 <div class="taxonomyTierThreeColor" style="font-size: medium">
@@ -242,8 +242,8 @@
                 <div class="projectTitle taxonomyTierThreeColor">@ViewDataTyped.Project.ProjectName</div>
                 <table class="summaryLayout">
                     <tr>
-                        <th>@MultiTenantHelpers.GetTaxonomyTierOneDisplayName():</th>
-                        <td>@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierOneName</td>
+                        <th style="padding-right: 5px">@MultiTenantHelpers.GetTaxonomyTierOneDisplayName():</th>
+                        <td>@ViewDataTyped.TaxonomyTierOneName</td>
                     </tr>
                     <tr>
                         <th>Implementers:</th>
@@ -277,8 +277,8 @@
         </tr>
         <tr>
             <td colspan="2" class="projectTaxonomy">
-                @ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierTwoName &gt;
-                @ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierOneName
+                @ViewDataTyped.TaxonomyTierTwoName &gt;
+                @ViewDataTyped.TaxonomyTierOneName
             </td>
 
         </tr>

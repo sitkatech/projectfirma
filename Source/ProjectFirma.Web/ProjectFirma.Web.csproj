@@ -1537,27 +1537,14 @@
       <DependentUpon>jquery.ui.firma.css</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap-toc\bootstrap-toc.js" />
-    <Content Include="Content\img\android-icon-144x144.png" />
-    <Content Include="Content\img\android-icon-192x192.png" />
-    <Content Include="Content\img\android-icon-36x36.png" />
-    <Content Include="Content\img\android-icon-48x48.png" />
-    <Content Include="Content\img\android-icon-72x72.png" />
-    <Content Include="Content\img\android-icon-96x96.png" />
     <Content Include="Content\img\apple-icon-114x114.png" />
     <Content Include="Content\img\apple-icon-120x120.png" />
-    <Content Include="Content\img\apple-icon-144x144.png" />
-    <Content Include="Content\img\apple-icon-152x152.png" />
-    <Content Include="Content\img\apple-icon-180x180.png" />
     <Content Include="Content\img\apple-icon-57x57.png" />
     <Content Include="Content\img\apple-icon-60x60.png" />
     <Content Include="Content\img\apple-icon-72x72.png" />
     <Content Include="Content\img\apple-icon-76x76.png" />
-    <Content Include="Content\img\apple-icon.png" />
-    <Content Include="Content\img\ms-icon-144x144.png" />
-    <Content Include="Content\img\ms-icon-150x150.png" />
-    <Content Include="Content\img\ms-icon-310x310.png" />
-    <Content Include="Content\img\ms-icon-70x70.png" />
     <Content Include="Content\img\ProjectFirma_Logo_2016_FNL.width-600.png" />
+    <Content Include="Content\img\ProjectFirma_Logo_Square.png" />
     <Content Include="Content\qtip\jquery.qtip.firma.min.css">
       <DependentUpon>jquery.qtip.firma.css</DependentUpon>
     </Content>
@@ -1572,8 +1559,6 @@
     <Content Include="Content\img\funding_org_sgc.png" />
     <Content Include="Content\img\funding_org_trpa.png" />
     <Content Include="Content\img\funding_org_usfs.png" />
-    <Content Include="Content\img\laketahoeinfo-logo_large.png" />
-    <Content Include="Content\img\South lake Pano3.jpg" />
     <Content Include="Content\leaflet\leaflet.fullscreen\fullscreen%402x.png" />
     <Content Include="Content\leaflet\leaflet.fullscreen\fullscreen.png" />
     <Content Include="Content\leaflet\leaflet.fullscreen\leaflet.fullscreen.css" />
@@ -1604,27 +1589,10 @@
     </Content>
     <Content Include="Content\css\projectUpdateWizard.css" />
     <Content Include="Content\css\jquery.ui.firma.css" />
-    <Content Include="Content\img\apple-touch-icon-114x114.png" />
-    <Content Include="Content\img\apple-touch-icon-120x120.png" />
-    <Content Include="Content\img\apple-touch-icon-144x144.png" />
-    <Content Include="Content\img\apple-touch-icon-152x152.png" />
-    <Content Include="Content\img\apple-touch-icon-57x57.png" />
-    <Content Include="Content\img\apple-touch-icon-60x60.png" />
-    <Content Include="Content\img\apple-touch-icon-72x72.png" />
-    <Content Include="Content\img\apple-touch-icon-76x76.png" />
-    <Content Include="Content\img\favicon-128.png" />
     <Content Include="Content\img\favicon-16x16.png" />
-    <Content Include="Content\img\favicon-196x196.png" />
     <Content Include="Content\img\favicon-32x32.png" />
     <Content Include="Content\img\favicon-96x96.png" />
     <Content Include="Content\img\favicon.ico" />
-    <Content Include="Content\img\homepage-header-bg.jpg" />
-    <Content Include="Content\img\laketahoeinfo-logo.png" />
-    <Content Include="Content\img\mstile-144x144.png" />
-    <Content Include="Content\img\mstile-150x150.png" />
-    <Content Include="Content\img\mstile-310x150.png" />
-    <Content Include="Content\img\mstile-310x310.png" />
-    <Content Include="Content\img\mstile-70x70.png" />
     <Content Include="Content\qtip\jquery.qtip.firma.css" />
     <Content Include="Content\qtip\jquery.qtip.validation.min.js">
       <DependentUpon>jquery.qtip.validation.js</DependentUpon>
@@ -1840,7 +1808,6 @@
     <Content Include="Content\Bootstrap\fonts\glyphicons\glyphicons-filetypes-regular.svg" />
     <Content Include="Content\Bootstrap\fonts\glyphicons\glyphicons-regular.svg" />
     <Content Include="Content\Bootstrap\fonts\glyphicons\glyphicons-social-regular.svg" />
-    <Content Include="Content\img\eip-logo-appheader-horizontal.png" />
     <Content Include="Content\JQuery\jquery.blockUI.min.js">
       <DependentUpon>jquery.blockUI.js</DependentUpon>
     </Content>
@@ -2127,9 +2094,6 @@
     </Content>
     <Content Include="Content\img\ajax-loader.gif" />
     <Content Include="Content\img\collapsed.png" />
-    <Content Include="Content\img\eip_background_lake.png" />
-    <Content Include="Content\img\eip-logo-appheader.png" />
-    <Content Include="Content\img\eip-logo-factsheet.png" />
     <Content Include="Content\img\expanded.png" />
     <Content Include="Content\img\fact_sheet_teaser.gif" />
     <Content Include="Content\img\keys.png" />
@@ -2436,7 +2400,6 @@
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.base.css.map">
       <DependentUpon>bootstrap.firma.base.css</DependentUpon>
     </Content>
-    <Content Include="Content\img\manifest.json" />
     <Content Include="Content\Bootstrap\bootstrap-3.3.7\dist\css\bootstrap-theme.css.map" />
     <Content Include="Content\Bootstrap\bootstrap-3.3.7\dist\css\bootstrap-theme.min.css.map" />
     <Content Include="Content\Bootstrap\bootstrap-3.3.7\dist\css\bootstrap.css.map" />
@@ -3226,7 +3189,7 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
-<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NoMVCBuild|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NoMVCBuild|AnyCPU'">
     <DebugSymbols>false</DebugSymbols>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>

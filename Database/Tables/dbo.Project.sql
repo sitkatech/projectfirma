@@ -11,7 +11,6 @@ CREATE TABLE [dbo].[Project](
 	[ImplementationStartYear] [int] NULL,
 	[CompletionYear] [int] NULL,
 	[EstimatedTotalCost] [money] NULL,
-	[ImplementsMultipleProjects] [bit] NOT NULL,
 	[SecuredFunding] [money] NULL,
 	[ProjectLocationPoint] [geometry] NULL,
 	[ProjectLocationAreaID] [int] NULL,

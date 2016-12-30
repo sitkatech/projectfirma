@@ -6,14 +6,14 @@
 {
     <div class="container-fluid container-fluid-dialog-form">
         <div class="row">
-            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierTwoName):</div>
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierTwoName)</div>
             <div class="col-md-9">
                 @Html.TextBoxFor(m => m.TaxonomyTierTwoName)
                 @Html.ValidationMessageFor(m => m.TaxonomyTierTwoName)
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierThreeID):</div>
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierThreeID)</div>
             <div class="col-md-9">
                 @if (ViewDataTyped.HasProjects)
                 {

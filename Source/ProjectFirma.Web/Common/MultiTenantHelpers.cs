@@ -2,6 +2,10 @@
 {
     public static class MultiTenantHelpers
     {
+        public static string GetTaxonomySystemName()
+        {
+            return "Project Taxonomy";
+        }
         public static string GetTaxonomyTierThreeDisplayName()
         {
             return "Taxonomy Tier Three";
@@ -40,6 +44,21 @@
         public static string GetClassificationDisplayNamePluralized()
         {
             return "Classifications";
+        }
+
+        public static string GetTenantDisplayName()
+        {
+            return "Clackamas Partnership";
+        }
+
+        public static string GetTenantSquareLogoUrl()
+        {
+            return "/Content/img/ProjectFirma_Logo_Square.png";
+        }
+
+        public static string GetTenantBannerLogoUrl()
+        {
+            return "/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png";
         }
     }
 }

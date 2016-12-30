@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, bool implementsMultipleProjects, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID) : this()
+        public Project(int projectID, int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID) : this()
         {
             this.ProjectID = projectID;
             this.TaxonomyTierOneID = taxonomyTierOneID;
@@ -58,7 +58,6 @@ namespace ProjectFirma.Web.Models
             this.ImplementationStartYear = implementationStartYear;
             this.CompletionYear = completionYear;
             this.EstimatedTotalCost = estimatedTotalCost;
-            this.ImplementsMultipleProjects = implementsMultipleProjects;
             this.SecuredFunding = securedFunding;
             this.ProjectLocationPoint = projectLocationPoint;
             this.ProjectLocationAreaID = projectLocationAreaID;
@@ -74,7 +73,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, bool implementsMultipleProjects, bool isFeatured, int projectLocationSimpleTypeID, int fundingTypeID) : this()
+        public Project(int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, bool isFeatured, int projectLocationSimpleTypeID, int fundingTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             ProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -83,7 +82,6 @@ namespace ProjectFirma.Web.Models
             this.ProjectStageID = projectStageID;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
-            this.ImplementsMultipleProjects = implementsMultipleProjects;
             this.IsFeatured = isFeatured;
             this.ProjectLocationSimpleTypeID = projectLocationSimpleTypeID;
             this.FundingTypeID = fundingTypeID;
@@ -92,7 +90,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Project(TaxonomyTierOne taxonomyTierOne, ProjectStage projectStage, string projectName, string projectDescription, bool implementsMultipleProjects, bool isFeatured, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType) : this()
+        public Project(TaxonomyTierOne taxonomyTierOne, ProjectStage projectStage, string projectName, string projectDescription, bool isFeatured, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -102,7 +100,6 @@ namespace ProjectFirma.Web.Models
             this.ProjectStageID = projectStage.ProjectStageID;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
-            this.ImplementsMultipleProjects = implementsMultipleProjects;
             this.IsFeatured = isFeatured;
             this.ProjectLocationSimpleTypeID = projectLocationSimpleType.ProjectLocationSimpleTypeID;
             this.FundingTypeID = fundingType.FundingTypeID;
@@ -113,7 +110,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static Project CreateNewBlank(TaxonomyTierOne taxonomyTierOne, ProjectStage projectStage, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType)
         {
-            return new Project(taxonomyTierOne, projectStage, default(string), default(string), default(bool), default(bool), projectLocationSimpleType, fundingType);
+            return new Project(taxonomyTierOne, projectStage, default(string), default(string), default(bool), projectLocationSimpleType, fundingType);
         }
 
         /// <summary>
@@ -139,7 +136,6 @@ namespace ProjectFirma.Web.Models
         public int? ImplementationStartYear { get; set; }
         public int? CompletionYear { get; set; }
         public decimal? EstimatedTotalCost { get; set; }
-        public bool ImplementsMultipleProjects { get; set; }
         public decimal? SecuredFunding { get; set; }
         public DbGeometry ProjectLocationPoint { get; set; }
         public int? ProjectLocationAreaID { get; set; }

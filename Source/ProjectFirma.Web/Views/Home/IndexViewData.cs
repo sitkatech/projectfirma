@@ -1,4 +1,5 @@
 ﻿using LtInfo.Common;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 
@@ -11,7 +12,7 @@ namespace ProjectFirma.Web.Views.Home
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
-            PageTitle = "Clackamas Partnership Project Tracker";
+            PageTitle =  string.Format("{0} Project Tracker", MultiTenantHelpers.GetTenantDisplayName());
 
             var permissionCheckResult = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage);
             ShowEditButton = permissionCheckResult.HasPermission;

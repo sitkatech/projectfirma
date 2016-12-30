@@ -51,7 +51,7 @@
         @if (ViewDataTyped.EditProjectType == EditProjectType.ExistingProject)
         {
             <div class="row">
-                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneID, 600):</div>
+                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneID, 600)</div>
                 <div class="col-md-9">
                     @ViewDataTyped.TaxonomyTierOneDisplayName
                     @Html.HiddenFor(m => m.TaxonomyTierOneID)
@@ -61,7 +61,7 @@
         else
         {
             <div class="row">
-                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneID, 600):</div>
+                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneID, 600)</div>
                 <div class="col-md-9">
                     @Html.DropDownListFor(x => x.TaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, new { style = "display: inline !important; height: 0; width: 1px; border:0; box-shadow:none; color:white; overflow:hidden; margin-right:-1px;" })
                     @Html.ValidationMessageFor(m => m.TaxonomyTierOneID)
@@ -69,14 +69,14 @@
             </div>
         }
         <div class="row">
-            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.ProjectName):</div>
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.ProjectName)</div>
             <div class="col-md-9">
                 @Html.TextBoxFor(m => m.ProjectName, new { style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.ProjectName)
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.ProjectDescription):</div>
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.ProjectDescription)</div>
             <div class="col-md-9">
                 @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null)
                 @Html.ValidationMessageFor(m => m.ProjectDescription)
@@ -85,7 +85,7 @@
         @if (ViewDataTyped.EditProjectType != EditProjectType.ExistingProject)
         {
             <div class="row">
-                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.LeadImplementerOrganizationID):</div>
+                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.LeadImplementerOrganizationID)</div>
                 <div class="col-md-9">
                     @Html.DropDownListFor(m => m.LeadImplementerOrganizationID, ViewDataTyped.Organizations, new Dictionary<string, object>() {{"style", "width:100%"}})
                     @Html.ValidationMessageFor(m => m.LeadImplementerOrganizationID)
@@ -93,66 +93,60 @@
             </div>
         }
         <div class="row">
-            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionWiderFor(m => m.ProjectStageID):</div>
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionWiderFor(m => m.ProjectStageID)</div>
             <div class="col-md-9">
                 @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStages)
                 @Html.ValidationMessageFor(m => m.ProjectStageID)
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionWiderFor(m => m.FundingTypeID):</div>
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionWiderFor(m => m.FundingTypeID)</div>
             <div class="col-md-9">
                 @Html.DropDownListFor(m => m.FundingTypeID, ViewDataTyped.FundingTypes, new { onchange = "displaySelectedFundingTypeFields()" })
                 @Html.ValidationMessageFor(m => m.FundingTypeID)
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 col-header cap-label">@Html.LabelWithFieldDefinitionFor(m => m.EstimatedTotalCost):</div>
-            <div class="col-md-2">
+            <div class="col-md-3 col-header cap-label">@Html.LabelWithFieldDefinitionFor(m => m.EstimatedTotalCost)</div>
+            <div class="col-md-9">
                 @Html.EditorFor(m => m.EstimatedTotalCost)
                 @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
             </div>
-            <div class="col-md-2 col-header cap-label">@Html.LabelWithFieldDefinitionFor(m => m.SecuredFunding):</div>
-            <div class="col-md-5">
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-header cap-label">@Html.LabelWithFieldDefinitionFor(m => m.SecuredFunding)</div>
+            <div class="col-md-9">
                 @Html.EditorFor(m => m.SecuredFunding)
                 <span style="font-size: 12px">Total Expenditures to-date: @ViewDataTyped.TotalExpenditures.ToStringCurrency()</span>
                 @Html.ValidationMessageFor(m => m.SecuredFunding)
             </div>
         </div>
-
         <div class="row">
-            <div class="col-md-3 col-header op-label">@Html.LabelWithFieldDefinitionFor(m => m.EstimatedAnnualOperatingCost):</div>
-            <div class="col-md-2">
+            <div class="col-md-3 col-header op-label">@Html.LabelWithFieldDefinitionFor(m => m.EstimatedAnnualOperatingCost)</div>
+            <div class="col-md-9">
                 @Html.EditorFor(m => m.EstimatedAnnualOperatingCost)
                 @Html.ValidationMessageFor(m => m.EstimatedAnnualOperatingCost)
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 col-header" style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.PlanningDesignStartYear):</div>
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.PlanningDesignStartYear)</div>
             <div class="col-md-9">
                 @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.StartYearRange)
                 @Html.ValidationMessageFor(m => m.PlanningDesignStartYear)
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 col-header" style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.ImplementationStartYear):</div>
+            <div class="col-md-3 col-header" >@Html.LabelWithFieldDefinitionFor(m => m.ImplementationStartYear)</div>
             <div class="col-md-9">
                 @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.StartYearRange)
                 @Html.ValidationMessageFor(m => m.ImplementationStartYear)
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 col-header" style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.CompletionYear):</div>
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.CompletionYear)</div>
             <div class="col-md-9">
                 @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange)
                 @Html.ValidationMessageFor(m => m.CompletionYear)
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                @Html.CheckBoxFor(m => m.ImplementsMultipleProjects)
-                @Html.LabelWithFieldDefinitionFor(m => m.ImplementsMultipleProjects)
-                @Html.ValidationMessageFor(m => m.ImplementsMultipleProjects)
             </div>
         </div>
     </div>

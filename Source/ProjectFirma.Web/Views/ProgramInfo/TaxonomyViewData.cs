@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProgramInfo
@@ -11,7 +12,7 @@ namespace ProjectFirma.Web.Views.ProgramInfo
             List<FancyTreeNode> taxonomyTierThreesAsFancyTreeNodes) : base(currentPerson, firmaPage)
         {
             TaxonomyTierThreesAsFancyTreeNodes = taxonomyTierThreesAsFancyTreeNodes;
-            PageTitle = "Project Taxonomy";
+            PageTitle = MultiTenantHelpers.GetTaxonomySystemName();
         }
     }
 }

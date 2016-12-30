@@ -20,20 +20,12 @@ namespace ProjectFirma.Web.Models
 {
     public partial class Project : IAuditableEntity, IProject
     {
-        /// <summary>
-        /// Use this instead generated field length, since moving forward all projects must have shorter descriptions, but
-        /// we aren't able to fix all project descriptions in the DB.      
-        /// </summary>
-        public const int ProjectDescriptionMaximumLength = 700;
-        //TODO: When all projects in the DB have been updated with descriptions less than 700, update the DB definition
-
         public Project(Project project)
             : this(
                 project.TaxonomyTierOne,
                 project.ProjectStage,
                 project.ProjectName,
                 project.ProjectDescription,
-                project.ImplementsMultipleProjects,
                 project.IsFeatured,
                 project.ProjectLocationSimpleType,
                 project.FundingType)
@@ -444,7 +436,7 @@ namespace ProjectFirma.Web.Models
             {
                 feature.Properties.Add("ProjectID", ProjectID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ProjectName", DisplayName);
-                feature.Properties.Add("TaxonomyTierTwoID", TaxonomyTierOne.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture));
+                    feature.Properties.Add("TaxonomyTierTwoID", TaxonomyTierOne.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("TaxonomyTierOneID", TaxonomyTierOneID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ClassificationID", String.Join(",", ProjectClassifications.Select(x => x.ClassificationID)));
                 feature.Properties.Add("ImplementingOrganizationID", String.Join(",", ProjectImplementingOrganizations.Select(x => x.OrganizationID)));
@@ -578,5 +570,5 @@ namespace ProjectFirma.Web.Models
             HttpRequestStorage.DatabaseEntities.ProjectImages.DeleteProjectImage(projectImageIDsToDelete);
             HttpRequestStorage.DatabaseEntities.FileResources.DeleteFileResource(projectImageFileResourceIDsToDelete);
         }
-    }
+        }
 }

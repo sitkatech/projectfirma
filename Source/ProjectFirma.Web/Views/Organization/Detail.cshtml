@@ -42,23 +42,23 @@
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-xs-5 fieldLabel text-right">@Html.Label("Organization Name"):</div>
+                                    <div class="col-xs-5 fieldLabel text-right">@Html.Label("Organization Name")</div>
                                     <div class="col-xs-7">@ViewDataTyped.Organization.OrganizationName</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-5 fieldLabel text-right">@Html.Label("Abbreviation"):</div>
+                                    <div class="col-xs-5 fieldLabel text-right">@Html.Label("Abbreviation")</div>
                                     <div class="col-xs-7">@ViewDataTyped.Organization.OrganizationAbbreviation</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Sector):</div>
+                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Sector)</div>
                                     <div class="col-xs-7">@ViewDataTyped.Organization.Sector.SectorDisplayName</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PrimaryContact):</div>
+                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PrimaryContact)</div>
                                     <div class="col-xs-7">@(new UserViewFeature().HasPermissionByPerson(ViewDataTyped.CurrentPerson) ? ViewDataTyped.Organization.PrimaryContactPersonWithOrgAsUrl : ViewDataTyped.Organization.PrimaryContactPersonAsStringAndOrgAsUrl)</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-5 fieldLabel text-right">@Html.Label("Home Page URL"):</div>
+                                    <div class="col-xs-5 fieldLabel text-right">@Html.Label("Home Page URL")</div>
                                     <div class="col-xs-7"><a href="@ViewDataTyped.Organization.OrganizationUrl">@ViewDataTyped.Organization.OrganizationUrl</a></div>
                                 </div>
                             </div>
