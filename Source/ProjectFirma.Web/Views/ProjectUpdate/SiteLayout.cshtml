@@ -33,7 +33,7 @@
 }
 
 <div id="projectWizardContent" class="row">
-    <div id="tab-container" class="col-xs-4 col-sm-4 col-md-3 col-lg-2">
+    <div id="tab-container" class="col-sm-4 col-md-3">
         <ol>
             <li style="list-style-type: none" class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Instructions, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdateInstructionsUrl">Instructions</a>
@@ -86,13 +86,13 @@
             </li>
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Budgets, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdateBudgetsUrl">
-                        Budgets
+                    Budgets
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsBudgetsUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
-                    </a>
-                    <span class="pull-right statusIcon">
+                </a>
+                <span class="pull-right statusIcon">
                     @Html.Raw(ViewDataTyped.ProjectUpdateBatch.AreBudgetsValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
-                    </span>
-                </li>
+                </span>
+            </li>
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Photos, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdatePhotosUrl">
                     Photos
@@ -120,7 +120,7 @@
         </ol>
 
     </div>
-    <div id="main-container" class="col-xs-8 col-sm-8 col-md-9 col-lg-10">
+    <div id="main-container" class="col-sm-8 col-md-9">
         @RenderBody()
     </div>
 </div>

@@ -2,6 +2,12 @@
 #projectWizardContent {
     padding-bottom: 10px;
     margin-right: 5px;
+ 
+}
+
+.firmaContent
+{
+    background-color: #eee;
 }
 
 #projectWizardContent textarea, #projectWizardContent input, #projectWizardContent select, #projectWizardContent .dropdown-toggle, #projectWizardContent .dropdown-menu {
@@ -59,7 +65,7 @@
 
 #tab-container ol li.selectable:hover, #tab-container ul li.selectable:hover
 {
-    background-color: #eee;
+    background-color: #bbb;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
 }
@@ -80,7 +86,7 @@
 #tab-container ol li.selected, #tab-container ul li.selected
 {
     border-right: none;
-    background-color: #bbb;
+    background-color: #fff;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
 }
@@ -97,6 +103,8 @@
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
     border-bottom-left-radius: 6px;
+    border-color: #333;
+    border-width: 10px;
 }
 
 .sectionComments {

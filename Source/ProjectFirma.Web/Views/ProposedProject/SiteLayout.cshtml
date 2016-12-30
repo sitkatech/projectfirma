@@ -163,8 +163,8 @@
                     {
                         <span style="margin-right: 5px">
                             @{
-                        var linkText = "<button class='btn btn-xs btn-firma'>" + string.Format("{0} Approve", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-open")) + "</button>";
-                        @ModalDialogFormHelper.ModalDialogFormLink(linkText, ViewDataTyped.ApproveUrl, "Approve Proposal", 400, "Approve", "Cancel", null, null, null)
+                                var linkText = "<button class='btn btn-xs btn-firma'>" + string.Format("{0} Approve", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-open")) + "</button>";
+                                @ModalDialogFormHelper.ModalDialogFormLink(linkText, ViewDataTyped.ApproveUrl, "Approve Proposal", 400, "Approve", "Cancel", null, null, null)
                             }
                         </span>
                     }
@@ -199,5 +199,5 @@
 
 <div style="margin-left: 205px; margin-top:10px;">
     <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposedProjectListUrl"><span class="glyphicon glyphicon-chevron-left"></span>Index</a>
-    @ModalDialogFormHelper.ModalDialogFormLink("<span class='glyphicon glyphicon-comment'></span> Provide Feedback", ViewDataTyped.ProvideFeedbackUrl, "Provide Feedback", 800, "Submit Request", "Cancel", new List<string> { "btn", "btn-xs", "btn-firma" }, null, null);
+    @ModalDialogFormHelper.ModalDialogFormLink("<span class='glyphicon glyphicon-comment'></span> Provide Feedback", ViewDataTyped.ProvideFeedbackUrl, "Provide Feedback", 800, "Submit Request", "Cancel", new List<string> { "btn", "btn-xs", "btn-firma" }, null, null)
 </div>

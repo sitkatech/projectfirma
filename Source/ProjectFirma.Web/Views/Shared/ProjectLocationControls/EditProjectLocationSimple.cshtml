@@ -41,50 +41,47 @@
     This "Simple" information is used to indicate the general location of your project within the basin and for
     summarizing accomplishments by geospatial categories such as State, County/City, or Watershed.
 </p>
-<hr />
-<div>
-    <table style="width: 100%" class="summaryLayout">
-        <tr>
-            <td style="width: 250px">
-                <form method="POST" id="@ViewDataTyped.MapFormID" action="@ViewDataTyped.MapPostUrl">
-                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectLocation, LabelForExtensions.DisplayStyle.HelpIconOnly)
-                    <b>How do you want to specify your simple Project location?</b>
 
-                    <div class="groupedControl">
-                        @Html.RadioButtonFor(x => x.ProjectLocationSimpleType, ProjectLocationSimpleTypeEnum.PointOnMap, new { @id = "ProjectLocationTypePointOnMap" })
-                        Plot a point on the map
-                        @Html.TextBoxFor(x => x.ProjectLocationPointX, new { style = "visibility: hidden; display:inline; width:0" })
-                        @Html.HiddenFor(x => x.ProjectLocationPointY)
-                        @Html.ValidationMessageFor(x => x.ProjectLocationPointX)
-                    </div>
+<div class="row">
+    <div class="col-md-5 col-lg-4">
+        <form method="POST" id="@ViewDataTyped.MapFormID" action="@ViewDataTyped.MapPostUrl">
+            @Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectLocation, LabelForExtensions.DisplayStyle.HelpIconOnly)
+            <b>How do you want to specify your simple Project location?</b>
 
-                    <div class="groupedControl">
-                        @Html.RadioButtonFor(x => x.ProjectLocationSimpleType, ProjectLocationSimpleTypeEnum.NamedAreas, new { @id = "ProjectLocationTypeNamedAreas" })
-                        Pick from list of known areas
-                        @Html.DropDownListFor(x => x.ProjectLocationAreaID, ViewDataTyped.ProjectLocationSelectListItems)
-                    </div>
+            <div class="groupedControl">
+                @Html.RadioButtonFor(x => x.ProjectLocationSimpleType, ProjectLocationSimpleTypeEnum.PointOnMap, new { @id = "ProjectLocationTypePointOnMap" })
+                Plot a point on the map
+                @Html.TextBoxFor(x => x.ProjectLocationPointX, new { style = "visibility: hidden; display:inline; width:0" })
+                @Html.HiddenFor(x => x.ProjectLocationPointY)
+                @Html.ValidationMessageFor(x => x.ProjectLocationPointX)
+            </div>
 
-                    <div class="groupedControl">
-                        @Html.RadioButtonFor(x => x.ProjectLocationSimpleType, ProjectLocationSimpleTypeEnum.None, new { @id = "ProjectLocationTypeNone" })
-                        No location
-                    </div>
-                    <div style="margin: 10px 0">
-                        @Html.LabelFor(x => x.ProjectLocationNotes)<br />
-                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectLocationNotes, new TextAreaForExtensions.TextAreaDimensions(null, 2), null)
-                        @Html.ValidationMessageFor(x => x.ProjectLocationNotes)
-                    </div>
-                </form>
-                <div id="@ViewDataTyped.ProjectLocationInformationContainer"></div>
-            </td>
-            <td id="mapContainer">
-                To zoom into a specific area, hold down the Shift key and drag a rectangle.
-                <div id="@ViewDataTyped.MapInitJson.MapDivID" class="mapDiv">
-                </div>
-                If your project has multiple locations, plot a point that best represents it, e.g. the centroid of the area where it is focused.
-            </td>
-        </tr>
-    </table>
+            <div class="groupedControl">
+                @Html.RadioButtonFor(x => x.ProjectLocationSimpleType, ProjectLocationSimpleTypeEnum.NamedAreas, new { @id = "ProjectLocationTypeNamedAreas" })
+                Pick from list of known areas
+                @Html.DropDownListFor(x => x.ProjectLocationAreaID, ViewDataTyped.ProjectLocationSelectListItems)
+            </div>
+
+            <div class="groupedControl">
+                @Html.RadioButtonFor(x => x.ProjectLocationSimpleType, ProjectLocationSimpleTypeEnum.None, new { @id = "ProjectLocationTypeNone" })
+                No location
+            </div>
+            <div style="margin: 10px 0">
+                @Html.LabelFor(x => x.ProjectLocationNotes)<br />
+                @Html.TextAreaWithMaxLengthFor(m => m.ProjectLocationNotes, new TextAreaForExtensions.TextAreaDimensions(null, 2), null)
+                @Html.ValidationMessageFor(x => x.ProjectLocationNotes)
+            </div>
+        </form>
+        <div id="@ViewDataTyped.ProjectLocationInformationContainer"></div>
+    </div>
+    <div class="col-md-7 col-lg-8" id="mapContainer">
+        To zoom into a specific area, hold down the Shift key and drag a rectangle.
+        <div id="@ViewDataTyped.MapInitJson.MapDivID" class="mapDiv">
+        </div>
+        If your project has multiple locations, plot a point that best represents it, e.g. the centroid of the area where it is focused.
+    </div>
 </div>
+
 
 <script type="text/javascript" language="javascript">
     // we are extending ProjectFirma Maps to handle the edit project locations functinality

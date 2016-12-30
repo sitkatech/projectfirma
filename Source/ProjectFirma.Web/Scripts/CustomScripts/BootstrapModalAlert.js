@@ -1,8 +1,8 @@
 ﻿function createBootstrapAlert(alertText, alertTitle, closeButtonText)
 {         
     var alertHtml =
-        "<div class='modal ltinfo-modal'>" +
-            "<div class='modal-dialog ltinfo-modal-dialog'>" +
+        "<div class='modal firma-modal'>" +
+            "<div class='modal-dialog firma-modal-dialog'>" +
                 "<div class='modal-content'>" +
                     "<div class='modal-header'>" +
                         "<button type='button' class='btn btn-xs btn-firma modal-close-button' data-dismiss='modal'><span>&times</span></button>" +
@@ -22,8 +22,8 @@
 
 function createBootstrapAlertWithNoButtons(alertText, alertTitle, closeButtonText) {
     var alertHtml =
-        "<div class='modal ltinfo-modal'>" +
-            "<div class='modal-dialog ltinfo-modal-dialog'>" +
+        "<div class='modal firma-modal'>" +
+            "<div class='modal-dialog firma-modal-dialog'>" +
                 "<div class='modal-content'>" +
                     "<div class='modal-header'>" +
                         "<span class='modal-title'>" + alertTitle + "</span>" +

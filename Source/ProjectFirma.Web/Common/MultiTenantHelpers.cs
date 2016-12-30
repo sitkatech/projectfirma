@@ -1,4 +1,6 @@
-﻿namespace ProjectFirma.Web.Common
+﻿using ProjectFirma.Web.Models;
+
+namespace ProjectFirma.Web.Common
 {
     public static class MultiTenantHelpers
     {
@@ -59,6 +61,16 @@
         public static string GetTenantBannerLogoUrl()
         {
             return "/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png";
+        }
+
+        public static Point GetDefaultSouthWestPoint()
+        {
+            return new Point(44.821389, -122.608611);
+        }
+
+        public static Point GetDefaultNorthEastPoint()
+        {
+            return new Point(45.3725, -121.796389);
         }
     }
 }

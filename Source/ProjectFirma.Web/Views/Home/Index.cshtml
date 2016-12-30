@@ -1,7 +1,13 @@
-﻿@inherits ProjectFirma.Web.Views.Home.Index
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.ProjectLocationControls
+@inherits ProjectFirma.Web.Views.Home.Index
 @section JavascriptAndStylesContent
 {
     <meta name="Description" content="ProjectFirma provides public access to program information and details on watershed, habitat, stormwater, forestry, air quality, and  projects implemented by ProjectFirma partners." />
+
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
 }
 
 @section RightOfPageTitle
@@ -12,8 +18,37 @@
             <a class="btn btn-xs btn-firma" href="@ViewDataTyped.EditUrl">Edit</a>
         </div>
     }
+
+    <style>
+        #@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID
+        {
+            height: 400px;
+        }
+    </style>
 }
 
-<div>
-    @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
+<div class="row">
+    <div class="col-md-8">
+        @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
+    </div>
+
+    <div class="col-md-4">
+        <h4 class="homePage" style="margin-bottom: 5px;">Project Map</h4>
+        <p style="margin-bottom: 5px">
+            This map shows approximate project locations. For more detail, <a href="@ViewDataTyped.FullMapUrl">view the comprehensive map page</a>.
+        </p>
+        <div>
+            @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
+        </div>
+
+    </div>
 </div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function()
+    {
+        var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
+        var map = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
+        map.initializeProjectLocations(projectLocationsMapInitJson);
+    })
+</script>

@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Views.Map;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GdalOgr;
 using LtInfo.Common.Models;
@@ -17,8 +16,6 @@ namespace ProjectFirma.Web.Models
     public class BoundingBox
     {
         // This is for the Lake Tahoe region
-        private readonly static Point DefaultSouthWestPoint = new Point(38.886160, -120.180229);
-        private readonly static Point DefaultNorthEastPoint = new Point(39.304957, -119.902373);
         private const decimal DefaultPadding = 1.0m;
 
         public Point Southwest { get; private set; }
@@ -51,8 +48,8 @@ namespace ProjectFirma.Web.Models
 
                 MakeFromPoint(sw, ne);
             }
-            var southwest = !pointList.Any() ?  DefaultSouthWestPoint : new Point(pointList.Min(point => point.Latitude), pointList.Min(point => point.Longitude));
-            var northeast = !pointList.Any() ? DefaultNorthEastPoint : new Point(pointList.Max(point => point.Latitude), pointList.Max(point => point.Longitude));
+            var southwest = !pointList.Any() ? MultiTenantHelpers.GetDefaultSouthWestPoint() : new Point(pointList.Min(point => point.Latitude), pointList.Min(point => point.Longitude));
+            var northeast = !pointList.Any() ? MultiTenantHelpers.GetDefaultNorthEastPoint() : new Point(pointList.Max(point => point.Latitude), pointList.Max(point => point.Longitude));
 
             MakeFromPoint(southwest, northeast);
         }
@@ -114,7 +111,7 @@ namespace ProjectFirma.Web.Models
 
         public static BoundingBox MakeNewDefaultBoundingBox()
         {
-            return new BoundingBox(DefaultSouthWestPoint, DefaultNorthEastPoint);
+            return new BoundingBox(MultiTenantHelpers.GetDefaultSouthWestPoint(), MultiTenantHelpers.GetDefaultNorthEastPoint());
         }
 
         private static List<Point> MakeBoundingBoxFromDbGeometry(DbGeometry geometry)

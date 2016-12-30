@@ -224,4 +224,13 @@ a.excelbutton {
 .helpiconGridBlue {
   color: #70a1cc;
 }
+.red {
+  color: red;
+}
+.green {
+  color: limegreen;
+}
+.black {
+  color: #000;
+}
 /*# sourceMappingURL=bootstrap.firma.theme.css.map */
