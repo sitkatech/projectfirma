@@ -140,7 +140,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteTaxonomyTierThree(TaxonomyTierThree taxonomyTierThree, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !taxonomyTierThree.HasDependentObjects();
+            var canDelete = !taxonomyTierThree.HasDependentObjects() && HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.Count() > 1; ;
             var confirmMessage = canDelete
                 ? string.Format("Are you sure you want to delete this {0} '{1}'?", MultiTenantHelpers.GetTaxonomyTierThreeDisplayName(), taxonomyTierThree.DisplayName)
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(MultiTenantHelpers.GetTaxonomyTierThreeDisplayName(), SitkaRoute<TaxonomyTierThreeController>.BuildLinkFromExpression(x => x.Summary(taxonomyTierThree), "here"));
