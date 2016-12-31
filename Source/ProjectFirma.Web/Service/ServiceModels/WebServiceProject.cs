@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             ProjectJurisdiction = project.ProjectLocationJurisdiction;
             ProjectWatershed = project.ProjectLocationWatershed;
 
-            ProjectSummaryUrl = project.GetSummaryUrl();
+            ProjectDetailUrl = project.GetDetailUrl();
             ProjectFactSheetUrl = project.GetFactSheetUrl();
         }
 
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
         [DataMember] public string ProjectJurisdiction { get; set; }
         [DataMember] public string ProjectWatershed { get; set; }
 
-        [DataMember] public string ProjectSummaryUrl { get; set; }
+        [DataMember] public string ProjectDetailUrl { get; set; }
         [DataMember] public string ProjectFactSheetUrl { get; set; }
 
         public static List<WebServiceProject> GetProject(int projectID)
@@ -120,7 +120,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             Add("ProjectState", x => x.ProjectState, 0);
             Add("ProjectJurisdiction", x => x.ProjectJurisdiction, 0);
             Add("ProjectWatershed", x => x.ProjectWatershed, 0);
-            Add("ProjectSummaryUrl", x => x.ProjectSummaryUrl, 0);
+            Add("ProjectDetailUrl", x => x.ProjectDetailUrl, 0);
             Add("ProjectFactSheetUrl", x => x.ProjectFactSheetUrl, 0);
         }
     }

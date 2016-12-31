@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Models
 
         public string SummaryUrl
         {
-            get { return SitkaRoute<TagController>.BuildUrlFromExpression(x => x.Summary(TagName)); }
+            get { return SitkaRoute<TagController>.BuildUrlFromExpression(x => x.Detail(TagName)); }
         }
 
         public string AuditDescriptionString

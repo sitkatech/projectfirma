@@ -19,7 +19,7 @@
     {
         <tr>
             <td><a href="@project.GetFactSheetUrl()">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon</a>
-            <td><a href="@project.GetSummaryUrl()">@project.ProjectName</a></td>            
+            <td><a href="@project.GetDetailUrl()">@project.ProjectName</a></td>            
             <td style="width:250px">@if (project.LeadImplementerOrganizationID.HasValue) { @project.LeadImplementer.GetDisplayNameAsUrl() }</td>
             <td style="white-space: nowrap">@project.ProjectStage.ProjectStageDisplayName</td>
             <td style="text-align: right">@project.ImplementationStartYear</td>

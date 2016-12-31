@@ -14,7 +14,7 @@
 @using MoreLinq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
-@inherits ProjectFirma.Web.Views.Project.Summary
+@inherits ProjectFirma.Web.Views.Project.Detail
 
 @section JavascriptAndStylesContent
 {
@@ -66,16 +66,14 @@
         margin-left: 5px;
     }
 
-    #projectTags .glyphicon-remove:hover, #projectTags .glyphicon-plus:hover {
-        color: #265d87;
-    }
+        #projectTags .glyphicon-remove:hover, #projectTags .glyphicon-plus:hover {
+            color: #265d87;
+        }
 
     /*Hack to get scrollspy to select sections with no content*/
-    footer
-    {
+    footer {
         height: 600px;
     }
-
 </style>
 
 @section RightOfPageTitle
@@ -152,24 +150,31 @@
 <div data-spy="scroll" data-target="#toc">
     <div id="contentForTOC" class="container-fluid">
         <div class="row">
-        <div data-target="#tableofcontents" id="scrollSpyContent" class="col-lg-2 col-md-3 hidden-sm hidden-xs hidden-print">
-            <div id="tableOfContentsAffixed" class="navSummarySection"  >
-                <h4 data-toc-skip>Page Contents</h4>
-                <nav id="tableOfContents" class="scrollSpy"></nav>
+            <div data-target="#tableofcontents" id="scrollSpyContent" class="col-lg-2 col-md-3 hidden-sm hidden-xs hidden-print">
+                <div id="tableOfContentsAffixed" class="navpanel panelFirma">
+                    <h4 data-toc-skip>Page Contents</h4>
+                    <nav id="tableOfContents" class="scrollSpy"></nav>
+                </div>
             </div>
-        </div>
             <div class="col-sm-12 col-md-9 col-lg-10">
+                <h2 class="sectionHeader">Project Overview</h2>
                 <div class="row">
                     <div class="col-md-12 col-lg-8">
-                        <div class="summarySection">
-                            <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUrl, string.Format("Edit {0}", ViewDataTyped.Project.DisplayName), 950, ViewDataTyped.UserHasEditProjectPermissions) Basics</h2>
-                            @{ ProjectBasics.RenderPartialView(Html, ViewDataTyped.ProjectBasicsViewData); }
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUrl, string.Format("Edit {0}", ViewDataTyped.Project.DisplayName), 950, ViewDataTyped.UserHasEditProjectPermissions) Basics</h3>
+                            </div>
+                            <div class="panel-body">
+                                @{ ProjectBasics.RenderPartialView(Html, ViewDataTyped.ProjectBasicsViewData); }
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-12 col-lg-4">
-                        <div class="summarySection">
-                            <h2>Location</h2>
-                            <div class="contentWrapper">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h3>Location</h3>
+                            </div>
+                            <div class="panel-body">
                                 @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Simple Location", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditSimpleProjectLocationUrl, "Edit Project Location - Simple", 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)
                                 @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Detailed Location", "<span class='glyphicon glyphicon-edit blue' style='margin:0 3px 0 20px'></span>"), ViewDataTyped.EditDetailedProjectLocationUrl, "Edit Project Location - Detail", 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)
                                 @{ ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData); }
@@ -177,18 +182,22 @@
                         </div>
                         @if (ViewDataTyped.UserHasTaggingPermissions)
                         {
-                            <div class="summarySection">
-                                <h3>Tags</h3>
-                                <div class="contentWrapper">
+                            <div class="panel panelFirma">
+                                <div class="panel-heading panelTitle">
+                                    <h3>Tags</h3>
+                                </div>
+                                <div class="panel-body">
                                     @{ ProjectBasicsTags.RenderPartialView(Html, ViewDataTyped.ProjectBasicsTagsViewData); }
                                 </div>
                             </div>
                         }
                     </div>
                 </div>
-                <div class="summarySection">
-                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasProjectOrganizationManagePermissions) Organizations</h2>
-                    <div class="contentWrapper">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasProjectOrganizationManagePermissions) Organizations</h3>
+                    </div>
+                    <div class="panel-body">
                         @if (ViewDataTyped.AllProjectOrganizations.Any())
                         {
                             <table class="summaryLayout">
@@ -224,39 +233,53 @@
                         }
                     </div>
                 </div>
-                <div class="summarySection">
-                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectBudgetUrl, "Edit Estimated Budget", 1000, ViewDataTyped.UserHasProjectBudgetManagePermissions) Estimated Budgets</h2>
-                    <div class="contentWrapper">
-                        @{ ProjectBudgetSummary.RenderPartialView(Html, ViewDataTyped.ProjectBudgetSummaryViewData); }
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectBudgetUrl, "Edit Estimated Budget", 1000, ViewDataTyped.UserHasProjectBudgetManagePermissions) Estimated Budgets</h2>
+                    </div>
+                    <div class="panel-body">
+                        @{ ProjectBudgetDetail.RenderPartialView(Html, ViewDataTyped.ProjectBudgetDetailViewData); }
                     </div>
                 </div>
 
+                <h2 class="sectionHeader">Performance Measures</h2>
                 @if (ViewDataTyped.UserHasPerformanceMeasureExpectedViewPermissions)
                 {
-                    <div class="summarySection">
-                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureExpectedsUrl, "Edit Expected Performance Measures", 1000, ViewDataTyped.UserHasPerformanceMeasureExpectedManagePermissions) Expected Performance Measures</h2>
-                        <div class="contentWrapper">
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureExpectedsUrl, "Edit Expected Performance Measures", 1000, ViewDataTyped.UserHasPerformanceMeasureExpectedManagePermissions) Expected Performance Measures</h3>
+                        </div>
+                        <div class="panel-body">
                             @{ PerformanceMeasureExpectedSummary.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureExpectedSummaryViewData); }
                         </div>
                     </div>
                 }
 
-                <div class="summarySection">
-                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported Performance Measures", 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions) Reported Performance Measures</h2>
-                    <div class="contentWrapper">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported Performance Measures", 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions) Reported Performance Measures</h3>
+                    </div>
+                    <div class="panel-body">
                         @{ PerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureReportedValuesGroupedViewData); }
                     </div>
                 </div>
 
-                <div class="summarySection">
-                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, "Edit Reported Expenditures", 1000, ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions) Reported Expenditures</h2>
-                    <div class="contentWrapper">
-                        @{ ProjectExpendituresSummary.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresSummaryViewData); }
+                <h2 data-toc-skip class="sectionHeader">Reported Expenditures</h2>
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, "Edit Reported Expenditures", 1000, ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions) Reported Expenditures</h2>
+                    </div>
+                    <div class="panel-body">
+                        @{ ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData); }
                     </div>
                 </div>
-                <div class="summarySection">
-                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationsUrl, string.Format("Edit {0}", MultiTenantHelpers.GetClassificationDisplayNamePluralized()), ViewDataTyped.UserHasProjectClassificationManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.Classification, MultiTenantHelpers.GetClassificationDisplayNamePluralized())</h2>
-                    <div class="contentWrapper">
+
+                <h2 data-toc-skip class="sectionHeader">Project Classification</h2>
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationsUrl, string.Format("Edit {0}", MultiTenantHelpers.GetClassificationDisplayNamePluralized()), ViewDataTyped.UserHasProjectClassificationManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.Classification, MultiTenantHelpers.GetClassificationDisplayNamePluralized())</h2>
+                    </div>
+                    <div class="panel-body">
                         @if (ViewDataTyped.Project.ProjectClassifications.Any())
                         {
                             <div class="row">
@@ -266,7 +289,7 @@
                                         <ul class="noListStyle">
                                             @foreach (var classification in classificationsBatch.OrderBy(x => x.Classification.DisplayName))
                                             {
-                                                <li>@classification.Classification.GetDisplayNameAsUrl(): @classification.ProjectClassificationNotes</li>                                                
+                                                <li>@classification.Classification.GetDisplayNameAsUrl(): @classification.ProjectClassificationNotes</li>
                                             }
                                         </ul>
                                     </div>
@@ -279,18 +302,24 @@
                         }
                     </div>
                 </div>
+
+                <h2 class="sectionHeader">Project Details</h2>
                 @if (ViewDataTyped.UserHasProjectBudgetManagePermissions)
                 {
-                    <div class="summarySection">
-                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAssessmentUrl, "Edit Assessment", 800, ViewDataTyped.UserHasProjectBudgetManagePermissions)  Assessment</h2>
-                        <div class="contentWrapper">
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAssessmentUrl, "Edit Assessment", 800, ViewDataTyped.UserHasProjectBudgetManagePermissions) Assessment</h3>
+                        </div>
+                        <div class="panel-body">
                             @{ AssessmentTree.RenderPartialView(Html, ViewDataTyped.AssessmentTreeViewData);}
                         </div>
                     </div>
                 }
-                <div class="summarySection">
-                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditWatershedsUrl, "Edit Watersheds", ViewDataTyped.UserHasProjectWatershedManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.Watershed, "Watersheds")</h2>
-                    <div class="contentWrapper">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditWatershedsUrl, "Edit Watersheds", ViewDataTyped.UserHasProjectWatershedManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.Watershed, "Watersheds")</h3>
+                    </div>
+                    <div class="panel-body">
                         @if (ViewDataTyped.Project.ProjectWatersheds.Any())
                         {
                             <ul class="noListStyle">
@@ -308,43 +337,60 @@
                         }
                     </div>
                 </div>
-                <div class="summarySection">
-                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, "Edit External Links", ViewDataTyped.UserHasProjectExternalLinkManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.ExternalLinks)</h2>
-                    <div class="contentWrapper">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, "Edit External Links", ViewDataTyped.UserHasProjectExternalLinkManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.ExternalLinks)</h3>
+                    </div>
+                    <div class="panel-body">
                         @{ EntityExternalLinks.RenderPartialView(Html, ViewDataTyped.EntityExternalLinksViewData); }
                     </div>
                 </div>
-                <div class="summarySection">
-                    <h2>Photos</h2>
-                    <div class="contentWrapper">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h3>Notes</h3>
+                    </div>
+                    <div class="panel-body">
+                        @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
+                    </div>
+                </div>
+
+                <h2 data-toc-skip class="sectionHeader">Photos</h2>
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>Photos</h2>
+                    </div>
+                    <div class="panel-body">
                         @{
                             ImageGallery.RenderPartialView(Html, ViewDataTyped.ImageGalleryViewData);
                         }
                     </div>
                 </div>
-                <div class="summarySection">
-                    <h2>Notes</h2>
-                    <div class="contentWrapper">
-                        @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
-                    </div>
-                </div>
+
+
                 @if (ViewDataTyped.UserHasProjectViewEverythingPermissions)
                 {
-                    <div class="summarySection">
-                        <h2>Project Update History</h2>
-                        <div class="contentWrapper">
+                    <h2 class="sectionHeader">Administrative</h2>
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3>Project Update History</h3>
+                        </div>
+                        <div class="panel-body">
                             @Html.DhtmlxGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                         </div>
                     </div>
-                    <div class="summarySection">
-                        <h2>System Communications</h2>
-                        <div class="contentWrapper">
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3>System Communications</h3>
+                        </div>
+                        <div class="panel-body">
                             @Html.DhtmlxGrid(ViewDataTyped.ProjectNotificationGridSpec, ViewDataTyped.ProjectNotificationGridName, ViewDataTyped.ProjectNotificationGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                         </div>
                     </div>
-                    <div class="summarySection">
-                        <h2>Audit Log</h2>
-                        <div class="contentWrapper">
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3>Audit Log</h3>
+                        </div>
+                        <div class="panel-body">
                             @Html.DhtmlxGrid(ViewDataTyped.AuditLogsGridSpec, ViewDataTyped.AuditLogsGridName, ViewDataTyped.AuditLogsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                         </div>
                     </div>
@@ -358,25 +404,24 @@
     <a class="btn btn-sm btn-firma" href="@ViewDataTyped.FullProjectListUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
 </div>
 
-    <script type="text/javascript">
-        jQuery(document)
-            .ready(function ()
-            {
-                Toc.init({
-                    $nav: jQuery('#tableOfContents'),
-                    $scope: jQuery('#contentForTOC')
-                });
-
-                jQuery('body').scrollspy({
-                    target: '#tableOfContents'
-                });
-
-                jQuery('#tableOfContentsAffixed')
-                    .affix({
-                        offset: {
-                            top: function() { return (this.top = jQuery("#tableOfContentsAffixed").offset().top); },
-                            bottom: function() { return (this.bottom = jQuery('footer').outerHeight(true) + 100); }
-                        }
-                    });
+<script type="text/javascript">
+    jQuery(document)
+        .ready(function () {
+            Toc.init({
+                $nav: jQuery('#tableOfContents'),
+                $scope: jQuery('#contentForTOC')
             });
-    </script>
+
+            jQuery('body').scrollspy({
+                target: '#tableOfContents'
+            });
+
+            jQuery('#tableOfContentsAffixed')
+                .affix({
+                    offset: {
+                        top: function () { return (this.top = jQuery("#tableOfContentsAffixed").offset().top); },
+                        bottom: function () { return (this.bottom = jQuery('footer').outerHeight(true) + 100); }
+                    }
+                });
+        });
+</script>

@@ -6,7 +6,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Tag
 {
-    public class SummaryViewData : FirmaViewData
+    public class DetailViewData : FirmaViewData
     {
         public readonly Models.Tag Tag;
         public readonly string EditTagUrl;
@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Views.Tag
         public readonly string BasicProjectInfoGridName;
         public readonly string BasicProjectInfoGridDataUrl;
 
-        public SummaryViewData(Person currentPerson, Models.Tag tag) : base(currentPerson)
+        public DetailViewData(Person currentPerson, Models.Tag tag) : base(currentPerson)
         {
             Tag = tag;            
             PageTitle = tag.TagName;

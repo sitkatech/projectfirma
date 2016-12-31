@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Controllers
     public class ProposedProjectController : FirmaBaseController
     {
         [ProposedProjectsViewListFeature]
-        public ViewResult Summary(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        public ViewResult Detail(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             var mapDivID = string.Format("proposedProject_{0}_Map", proposedProject.ProposedProjectID);
@@ -49,11 +49,11 @@ namespace ProjectFirma.Web.Controllers
             var assessmentTreeViewData = new AssessmentTreeViewData(goalsAsFancyTreeNodes);
 
 
-            var viewData = new SummaryViewData(CurrentPerson,
+            var viewData = new DetailViewData(CurrentPerson,
                 proposedProject,
                 projectLocationSummaryViewData,
                 performanceMeasureExpectedsSummaryViewData, imageGalleryViewData, entityNotesViewData, mapFormID, assessmentTreeViewData);
-            return RazorView<Summary, SummaryViewData>(viewData);
+            return RazorView<Detail, DetailViewData>(viewData);
         }
 
         [ProposedProjectsViewListFeature]
@@ -698,7 +698,7 @@ namespace ProjectFirma.Web.Controllers
             var canDelete = proposedProject.CanDelete().HasPermission;
             var confirmMessage = canDelete
                 ? String.Format("Are you sure you want to delete Proposed Project \"{0}\"?", proposedProject.DisplayName)
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("ProposedProject", SitkaRoute<ProposedProjectController>.BuildLinkFromExpression(x => x.Summary(proposedProject), "here"));
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("ProposedProject", SitkaRoute<ProposedProjectController>.BuildLinkFromExpression(x => x.Detail(proposedProject), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
@@ -799,9 +799,9 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             GenerateApprovalAuditLogEntries(project, proposedProject);
 
-            SetMessageForDisplay(string.Format("Proposed Project \"{0}\" succesfully approved as an actual project in the Planning/Design stage.", UrlTemplate.MakeHrefString(project.GetSummaryUrl(), project.DisplayName)));
+            SetMessageForDisplay(string.Format("Proposed Project \"{0}\" succesfully approved as an actual project in the Planning/Design stage.", UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)));
 
-            return new ModalDialogFormJsonResult(project.GetSummaryUrl());
+            return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
 
         private void GenerateApprovalAuditLogEntries(Project project, ProposedProject proposedProject)

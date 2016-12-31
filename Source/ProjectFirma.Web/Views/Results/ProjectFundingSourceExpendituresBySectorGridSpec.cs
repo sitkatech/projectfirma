@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Views.Results
         public ProjectFundingSourceExpendituresBySectorGridSpec(int? calendarYear)
         {            
             Add(Models.FieldDefinition.ProjectName.ToGridHeaderString(),
-                x => UrlTemplate.MakeHrefString(x.Project.GetSummaryUrl(), x.Project.ProjectName),
+                x => UrlTemplate.MakeHrefString(x.Project.GetDetailUrl(), x.Project.ProjectName),
                 200,
                 DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.TaxonomyTierThree.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.SummaryUrl, x.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.DisplayName), 150);

@@ -70,7 +70,7 @@ else if (ViewDataTyped.Project.FundingType == FundingType.OperationsAndMaintenan
 
 @if (!ViewDataTyped.IsEditable)
 {
-    ProjectExpendituresSummary.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresSummaryViewData);
+    ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData);
 }
 else if (!ViewDataTyped.AreProjectBasicsValid)
 {

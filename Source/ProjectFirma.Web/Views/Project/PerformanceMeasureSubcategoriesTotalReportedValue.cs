@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.Project
         }
         public string ProjectUrl
         {
-            get { return Project.GetSummaryUrl(); }
+            get { return Project.GetDetailUrl(); }
         }
 
         public MeasurementUnitType MeasurementUnitType

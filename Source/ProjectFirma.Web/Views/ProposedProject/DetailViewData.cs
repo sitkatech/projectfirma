@@ -9,7 +9,7 @@ using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
 namespace ProjectFirma.Web.Views.ProposedProject
 {
-    public class SummaryViewData : ProposedProjectViewData
+    public class DetailViewData : ProposedProjectViewData
     {
         public readonly string EditProposedProjectUrl;
         public readonly string EditMapUrl;
@@ -33,10 +33,10 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
         public AssessmentTreeViewData AssessmentTreeViewData;
 
-        public SummaryViewData(Person currentPerson, Models.ProposedProject proposedProject, ProjectLocationSummaryViewData projectLocationSummaryViewData, PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData, ImageGalleryViewData imageGalleryViewData, EntityNotesViewData entityNotesViewData, string mapFormID, AssessmentTreeViewData assessmentTreeViewData) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Basics, new ProposalSectionsStatus(proposedProject))
+        public DetailViewData(Person currentPerson, Models.ProposedProject proposedProject, ProjectLocationSummaryViewData projectLocationSummaryViewData, PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData, ImageGalleryViewData imageGalleryViewData, EntityNotesViewData entityNotesViewData, string mapFormID, AssessmentTreeViewData assessmentTreeViewData) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Basics, new ProposalSectionsStatus(proposedProject))
         {
             PageTitle = proposedProject.DisplayName;
-            BreadCrumbTitle = "Proposed Project Summary";
+            BreadCrumbTitle = "Proposed Project Detail";
             MapFormID = mapFormID;
 
             ActiveProjectsListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.ActiveProjectsList());

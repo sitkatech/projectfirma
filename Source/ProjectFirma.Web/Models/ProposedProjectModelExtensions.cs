@@ -5,7 +5,7 @@ namespace ProjectFirma.Web.Models
 {
     public static class ProposedProjectModelExtensions
     {
-        public readonly static UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(t => t.Summary(UrlTemplate.Parameter1Int)));
+        public readonly static UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
         public static string GetSummaryUrl(this ProposedProject proposedProject)
         {
             return SummaryUrlTemplate.ParameterReplace(proposedProject.ProposedProjectID);

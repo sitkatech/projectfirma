@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Models
 
         public HtmlString DisplayNameAsUrl
         {
-            get { return UrlTemplate.MakeHrefString(this.GetSummaryUrl(), DisplayName); }
+            get { return UrlTemplate.MakeHrefString(this.GetDetailUrl(), DisplayName); }
         }
 
         public Organization LeadImplementer

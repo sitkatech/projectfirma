@@ -13,6 +13,8 @@ using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using Detail = ProjectFirma.Web.Views.FundingSource.Detail;
+using DetailViewData = ProjectFirma.Web.Views.FundingSource.DetailViewData;
 using Edit = ProjectFirma.Web.Views.FundingSource.Edit;
 using EditViewData = ProjectFirma.Web.Views.FundingSource.EditViewData;
 using EditViewModel = ProjectFirma.Web.Views.FundingSource.EditViewModel;

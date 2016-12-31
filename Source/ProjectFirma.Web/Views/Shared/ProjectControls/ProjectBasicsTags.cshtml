@@ -1,10 +1,7 @@
-﻿@using ProjectFirma.Web.Models
-@using LtInfo.Common
-@using LtInfo.Common.HtmlHelperExtensions
+﻿@using LtInfo.Common
 @using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.Shared.ProjectControls.ProjectBasicsTags
 
-<span class="stylizeLikeTH">Tags:</span>
 <div id="projectTags" style="line-height: 2em; margin-top: 5px; text-align: left;">
 </div>
 <script>
@@ -22,7 +19,7 @@
             templates: {
                 pill: "<div class='btn btn-sm btn-tag' style='margin: 0 5px 5px 0; display:inline-block; position: relative' data-tag-id='{1}'>{0}</div>",
                 delete_icon: "<span class='glyphicon glyphicon-remove'></span>",
-                input_pill: "<div class='btn btn-sm btn-tag' style='display: block'></div>",
+                input_pill: "<div class='btn btn-sm btn-tag' style='display: block; max-width: 200px;'></div>",
                 ok_icon: "<span class='glyphicon glyphicon-plus'></span>",
                 number: " ({0})"
             },

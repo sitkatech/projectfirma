@@ -13,7 +13,7 @@
 @using MoreLinq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
-@inherits ProjectFirma.Web.Views.ProposedProject.Summary
+@inherits ProjectFirma.Web.Views.ProposedProject.Detail
 
 @{
     SetLayout("~/Views/Shared/SiteLayout.cshtml", ViewDataTyped);
@@ -65,7 +65,7 @@
             break;
         case ProposedProjectStateEnum.Approved:
         <span>
-            This proposal was accepted by the review and the <a href="@ViewDataTyped.ProposedProject.Project.GetSummaryUrl()">approved Project</a> is now included on the <a href="@ViewDataTyped.ActiveProjectsListUrl">Active list</a>.
+            This proposal was accepted by the review and the <a href="@ViewDataTyped.ProposedProject.Project.GetDetailUrl()">approved Project</a> is now included on the <a href="@ViewDataTyped.ActiveProjectsListUrl">Active list</a>.
         </span>
             break;
         case ProposedProjectStateEnum.Rejected:

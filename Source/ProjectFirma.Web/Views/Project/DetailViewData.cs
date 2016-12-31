@@ -15,7 +15,7 @@ using ProjectFirma.Web.Views.Tag;
 
 namespace ProjectFirma.Web.Views.Project
 {
-    public class SummaryViewData : ProjectViewData
+    public class DetailViewData : ProjectViewData
     {
         public readonly bool UserHasProjectViewEverythingPermissions;
         public readonly bool UserHasEditProjectPermissions;
@@ -46,12 +46,12 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string EditAssessmentUrl;
         
         public readonly ProjectTaxonomyViewData ProjectTaxonomyViewData;
-        public readonly ProjectBudgetSummaryViewData ProjectBudgetSummaryViewData;
+        public readonly ProjectBudgetDetailViewData ProjectBudgetDetailViewData;
         public readonly ProjectBasicsViewData ProjectBasicsViewData;
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
         public readonly PerformanceMeasureExpectedSummaryViewData PerformanceMeasureExpectedSummaryViewData;
         public readonly PerformanceMeasureReportedValuesGroupedViewData PerformanceMeasureReportedValuesGroupedViewData;
-        public readonly ProjectExpendituresSummaryViewData ProjectExpendituresSummaryViewData;
+        public readonly ProjectExpendituresDetailViewData ProjectExpendituresDetailViewData;
         public readonly ImageGalleryViewData ImageGalleryViewData;
         public readonly EntityNotesViewData EntityNotesViewData;
         public readonly EntityExternalLinksViewData EntityExternalLinksViewData;
@@ -78,12 +78,12 @@ namespace ProjectFirma.Web.Views.Project
         public readonly AssessmentTreeViewData AssessmentTreeViewData;
 
         //TODO: Inline all url parameters
-        public SummaryViewData(Person currentPerson, Models.Project project, string confirmNonMandatoryUpdateUrl, List<ProjectStage> projectStages, ProjectTaxonomyViewData projectTaxonomyViewData,
-            ProjectBudgetSummaryViewData projectBudgetSummaryViewData, 
+        public DetailViewData(Person currentPerson, Models.Project project, string confirmNonMandatoryUpdateUrl, List<ProjectStage> projectStages, ProjectTaxonomyViewData projectTaxonomyViewData,
+            ProjectBudgetDetailViewData projectBudgetDetailViewData, 
             ProjectLocationSummaryViewData projectLocationSummaryViewData, string mapFormID, string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl,
             string editProjectOrganizationsUrl, PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData, string editPerformanceMeasureExpectedsUrl,
             PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData, string editPerformanceMeasureActualsUrl,
-            ProjectExpendituresSummaryViewData projectExpendituresSummaryViewData, string editReportedExpendituresUrl, 
+            ProjectExpendituresDetailViewData projectExpendituresDetailViewData, string editReportedExpendituresUrl, 
             string editClassificationsUrl, string editAssessmentUrl, string editWatershedsUrl, ImageGalleryViewData imageGalleryViewData, 
             EntityNotesViewData entityNotesViewData, 
             AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Views.Project
             : base(currentPerson, project)
         {
             PageTitle = project.DisplayName.ToEllipsifiedStringClean(110);
-            BreadCrumbTitle = "Project Summary";
+            BreadCrumbTitle = "Project Detail";
 
             ConfirmNonMandatoryUpdateUrl = confirmNonMandatoryUpdateUrl;
             ProjectStages = projectStages;
@@ -109,7 +109,7 @@ namespace ProjectFirma.Web.Views.Project
 
             ProjectTaxonomyViewData = projectTaxonomyViewData;
 
-            ProjectBudgetSummaryViewData = projectBudgetSummaryViewData;
+            ProjectBudgetDetailViewData = projectBudgetDetailViewData;
             UserHasProjectBudgetManagePermissions = new ProjectBudgetManageFeature().HasPermissionByPerson(currentPerson);
 
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
@@ -131,7 +131,7 @@ namespace ProjectFirma.Web.Views.Project
             EditPerformanceMeasureActualsUrl = editPerformanceMeasureActualsUrl;
             UserHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(currentPerson, project).HasPermission;
 
-            ProjectExpendituresSummaryViewData = projectExpendituresSummaryViewData;
+            ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             EditReportedExpendituresUrl = editReportedExpendituresUrl;
             UserHasProjectFundingSourceExpenditureManagePermissions = new ProjectFundingSourceExpenditureFromProjectManageFeature().HasPermission(currentPerson, project).HasPermission;
 

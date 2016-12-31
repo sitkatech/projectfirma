@@ -23,9 +23,8 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 using MoreLinq;
+using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
-using ProjectExpendituresSummaryViewData = ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.ProjectExpendituresSummaryViewData;
-using ProjectBudgetSummaryViewData = ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.ProjectBudgetSummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -34,8 +33,8 @@ namespace ProjectFirma.Web.Controllers
         public const string ProjectUpdateBatchDiffLogPartialViewPath = "~/Views/ProjectUpdate/ProjectUpdateBatchDiffLog.cshtml";
         public const string ProjectBasicsPartialViewPath = "~/Views/Shared/ProjectControls/ProjectBasics.cshtml";
         public const string PerformanceMeasureReportedValuesPartialViewPath = "~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureReportedValuesSummary.cshtml";
-        public const string ProjectExpendituresPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectExpendituresSummary.cshtml";
-        public const string TransporationBudgetsPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectBudgetSummary.cshtml";
+        public const string ProjectExpendituresPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectExpendituresDetail.cshtml";
+        public const string TransporationBudgetsPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectBudgetDetail.cshtml";
         public const string ImageGalleryPartialViewPath = "~/Views/Shared/ImageGallery.cshtml";
         public const string ExternalLinksPartialViewPath = "~/Views/Shared/TextControls/EntityExternalLinks.cshtml";
         public const string EntityNotesPartialViewPath = "~/Views/Shared/TextControls/EntityNotes.cshtml";
@@ -392,7 +391,7 @@ namespace ProjectFirma.Web.Controllers
             var fromFundingSourcesAndCalendarYears = FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(
                 new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures),
                 calendarYearRange);
-            var projectExpendituresSummaryViewData = new ProjectExpendituresSummaryViewData(fromFundingSourcesAndCalendarYears, calendarYearRange);
+            var projectExpendituresSummaryViewData = new ProjectExpendituresDetailViewData(fromFundingSourcesAndCalendarYears, calendarYearRange);
 
             var viewData = new ExpendituresViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectExpendituresSummaryViewData, GetUpdateStatus(projectUpdateBatch));
             return RazorView<Expenditures, ExpendituresViewData, ExpendituresViewModel>(viewData, viewModel);
@@ -487,7 +486,7 @@ namespace ProjectFirma.Web.Controllers
 
             var projectBudgetAmounts =
                 ProjectBudgetAmount.CreateFromProjectBudgets(new List<IProjectBudgetAmount>(projectUpdateBatch.ProjectBudgetUpdates.ToList()));
-            var projectBudgetsSummaryViewData = new ProjectBudgetSummaryViewData(projectBudgetAmounts, calendarYearRange);
+            var projectBudgetsSummaryViewData = new ProjectBudgetDetailViewData(projectBudgetAmounts, calendarYearRange);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new BudgetsViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectBudgetsSummaryViewData, updateStatus);
             return RazorView<Budgets, BudgetsViewData, BudgetsViewModel>(viewData, viewModel);
@@ -1053,7 +1052,7 @@ namespace ProjectFirma.Web.Controllers
             Notification.SendApprovalMessage(peopleToCc, projectUpdateBatch);
 
             SetMessageForDisplay(string.Format("The update for project {0} was approved", projectUpdateBatch.Project.DisplayName));
-            return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Summary(project)));
+            return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project)));
         }
 
         private PartialViewResult ViewApprove(ProjectUpdateBatch projectUpdate, ConfirmDialogFormViewModel viewModel)

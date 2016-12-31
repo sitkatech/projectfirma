@@ -11,7 +11,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     {
         public readonly string RefreshUrl;
         public readonly string DiffUrl;
-        public readonly ProjectExpendituresSummaryViewData ProjectExpendituresSummaryViewData;
+        public readonly ProjectExpendituresDetailViewData ProjectExpendituresDetailViewData;
         public readonly string RequestFundingSourceUrl;
         public readonly ViewDataForAngularClass ViewDataForAngular;
         public readonly SectionCommentsViewData SectionCommentsViewData;
@@ -22,13 +22,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ExpendituresViewData(Person currentPerson,
             ProjectUpdateBatch projectUpdateBatch,
             ViewDataForAngularClass viewDataForAngularClass,
-            ProjectExpendituresSummaryViewData projectExpendituresSummaryViewData, UpdateStatus updateStatus) : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.Expenditures, updateStatus)
+            ProjectExpendituresDetailViewData projectExpendituresDetailViewData, UpdateStatus updateStatus) : base(currentPerson, projectUpdateBatch, ProjectUpdateSectionEnum.Expenditures, updateStatus)
         {
             ViewDataForAngular = viewDataForAngularClass;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpenditures(projectUpdateBatch.Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffExpenditures(projectUpdateBatch.Project));
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
-            ProjectExpendituresSummaryViewData = projectExpendituresSummaryViewData;
+            ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.ExpendituresComment, projectUpdateBatch.IsReturned);
             TotalOperatingCostInYearOfExpenditure = Models.CostParameterSet.CalculateTotalRemainingOperatingCost(ProjectUpdateBatch.ProjectUpdate);
             InflationRate = Models.CostParameterSet.GetLatestInflationRate();

@@ -11,14 +11,14 @@ using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.MvcResults;
+using Detail = ProjectFirma.Web.Views.Tag.Detail;
+using DetailViewData = ProjectFirma.Web.Views.Tag.DetailViewData;
 using Edit = ProjectFirma.Web.Views.Tag.Edit;
 using EditViewData = ProjectFirma.Web.Views.Tag.EditViewData;
 using EditViewModel = ProjectFirma.Web.Views.Tag.EditViewModel;
 using Index = ProjectFirma.Web.Views.Tag.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Tag.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Tag.IndexViewData;
-using Summary = ProjectFirma.Web.Views.Tag.Summary;
-using SummaryViewData = ProjectFirma.Web.Views.Tag.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var tag = tagPrimaryKey.EntityObject;
             viewModel.UpdateModel(tag, CurrentPerson);
-            return new ModalDialogFormJsonResult(SitkaRoute<TagController>.BuildUrlFromExpression(x => x.Summary(tag.TagName)));
+            return new ModalDialogFormJsonResult(SitkaRoute<TagController>.BuildUrlFromExpression(x => x.Detail(tag.TagName)));
         }
 
         private PartialViewResult ViewEdit(EditViewModel viewModel)
@@ -101,12 +101,12 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [TagViewFeature]
-        public ViewResult Summary(string tagName)
+        public ViewResult Detail(string tagName)
         {
             var tag = HttpRequestStorage.DatabaseEntities.Tags.GetTag(tagName);
             Check.RequireNotNullThrowNotFound(tag, tagName);
-            var viewData = new SummaryViewData(CurrentPerson, tag);
-            return RazorView<Summary, SummaryViewData>(viewData);
+            var viewData = new DetailViewData(CurrentPerson, tag);
+            return RazorView<Detail, DetailViewData>(viewData);
         }
 
         [HttpGet]

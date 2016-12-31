@@ -4,12 +4,12 @@ using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 {
-    public class ProjectExpendituresSummaryViewData : FirmaUserControlViewData
+    public class ProjectExpendituresDetailViewData : FirmaUserControlViewData
     {
         public readonly List<int> CalendarYears;
         public readonly List<FundingSourceCalendarYearExpenditure> FundingSourceExpenditures;
 
-        public ProjectExpendituresSummaryViewData(List<FundingSourceCalendarYearExpenditure> fundingSourceExpenditures, List<int> calendarYears)
+        public ProjectExpendituresDetailViewData(List<FundingSourceCalendarYearExpenditure> fundingSourceExpenditures, List<int> calendarYears)
         {
             FundingSourceExpenditures = fundingSourceExpenditures;
             CalendarYears = calendarYears;

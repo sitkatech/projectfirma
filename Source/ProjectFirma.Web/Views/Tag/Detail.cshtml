@@ -7,16 +7,18 @@
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Views
 @using ProjectFirma.Web.Common
-@inherits ProjectFirma.Web.Views.Tag.Summary
+@inherits ProjectFirma.Web.Views.Tag.Detail
 
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
-<div class="summarySection">
-    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTagUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetClassificationDisplayName(), ViewDataTyped.Tag.DisplayName), ViewDataTyped.UserHasTagManagePermissions) Basics</h2>
-    <div class="contentWrapper">
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTagUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetClassificationDisplayName(), ViewDataTyped.Tag.DisplayName), ViewDataTyped.UserHasTagManagePermissions) Basics</h2>
+    </div>
+    <div class="panel-body">
         <table class="summaryLayout">
             <tr>
                 <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TagName)</th>
@@ -32,10 +34,14 @@
             </tr>
         </table>
     </div>
-</div>
+    </div>
 
-<div class="summarySection">
-    <div class="contentWrapper">
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>Projects</h2>
+    </div>
+
+    <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>
 </div>

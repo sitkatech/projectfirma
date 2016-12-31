@@ -234,21 +234,21 @@ Thank you,<br />
             ProjectUpdateHistory latestProjectUpdateHistorySubmitted,
             Person approverPerson)
         {
-            var summaryUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Summary(projectUpdateBatch.Project), SitkaWebConfiguration.CanonicalHostName);
+            var detailUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(projectUpdateBatch.Project), SitkaWebConfiguration.CanonicalHostName);
             var message = String.Format(@"
 Dear {0},
 <p>
     The update submitted for project {1} on {2} was approved by {3}.
 </p>
 <p>
-    There is no action for you to take - this is simply a notification email. The updates for this project are now visible to the general public on this project's summary page:
+    There is no action for you to take - this is simply a notification email. The updates for this project are now visible to the general public on this project's detail page:
 </p>
 <p>
     <a href=""{4}"">View this project</a>
 </p>
 Thank you for keeping your project information and accomplishments up to date!<br />
 {5}
-", personNames, projectUpdateBatch.Project.DisplayName, latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate(), approverPerson.FullNameFirstLastAndOrg, summaryUrl,
+", personNames, projectUpdateBatch.Project.DisplayName, latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate(), approverPerson.FullNameFirstLastAndOrg, detailUrl,
                 FirmaSignature);
 
             var subject = String.Format("The update for project {0} was approved", projectUpdateBatch.Project.DisplayName);

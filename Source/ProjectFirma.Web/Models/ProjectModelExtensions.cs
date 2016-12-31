@@ -5,10 +5,10 @@ namespace ProjectFirma.Web.Models
 {
     public static class ProjectModelExtensions
     {
-        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectController>.BuildUrlFromExpression(t => t.Summary(UrlTemplate.Parameter1Int)));
-        public static string GetSummaryUrl(this Project project)
+        public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
+        public static string GetDetailUrl(this Project project)
         {
-            return SummaryUrlTemplate.ParameterReplace(project.ProjectID);
+            return DetailUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
         public static readonly UrlTemplate<int> EditUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectController>.BuildUrlFromExpression(t => t.Edit(UrlTemplate.Parameter1Int)));

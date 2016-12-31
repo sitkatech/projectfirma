@@ -21,11 +21,11 @@ using LtInfo.Common;
 using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using Detail = ProjectFirma.Web.Views.Project.Detail;
+using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
 using Index = ProjectFirma.Web.Views.Project.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Project.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Project.IndexViewData;
-using Summary = ProjectFirma.Web.Views.Project.Summary;
-using SummaryViewData = ProjectFirma.Web.Views.Project.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(project);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            SetMessageForDisplay(string.Format("Project {0} succesfully created.", UrlTemplate.MakeHrefString(project.GetSummaryUrl(), project.DisplayName)));
+            SetMessageForDisplay(string.Format("Project {0} succesfully created.", UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)));
             return new ModalDialogFormJsonResult();
         }
 
@@ -112,7 +112,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProjectsViewFullListFeature]
-        public ViewResult Summary(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult Detail(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
 
@@ -123,7 +123,7 @@ namespace ProjectFirma.Web.Controllers
             var projectBudgetAmounts =
                 ProjectBudgetAmount.CreateFromProjectBudgets(new List<IProjectBudgetAmount>(project.ProjectBudgets.ToList()));
             var calendarYearsForProjectBudgets = project.ProjectBudgets.ToList().CalculateCalendarYearRangeForBudgets(project);
-            var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(projectBudgetAmounts, calendarYearsForProjectBudgets);
+            var projectBudgetSummaryViewData = new ProjectBudgetDetailViewData(projectBudgetAmounts, calendarYearsForProjectBudgets);
 
             var mapDivID = string.Format("project_{0}_Map", project.ProjectID);
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID);
@@ -140,7 +140,7 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(project);
             var editPerformanceMeasureActualsUrl = SitkaRoute<PerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureActualsForProject(project));
 
-            var projectExpendituresSummaryViewData = BuildProjectExpendituresSummaryViewData(project);
+            var projectExpendituresSummaryViewData = BuildProjectExpendituresDetailViewData(project);
             var editReportedExpendituresUrl = SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
 
             var editClassificationsUrl = SitkaRoute<ProjectClassificationController>.BuildUrlFromExpression(c => c.EditProjectClassificationsForProject(project));
@@ -195,7 +195,7 @@ namespace ProjectFirma.Web.Controllers
             var goalsAsFancyTreeNodes = goals.Select(x => x.ToFancyTreeNode(new List<IQuestionAnswer>(project.ProjectAssessmentQuestions.ToList()))).ToList();
             var assessmentTreeViewData = new AssessmentTreeViewData(goalsAsFancyTreeNodes);
 
-            var viewData = new SummaryViewData(CurrentPerson,
+            var viewData = new DetailViewData(CurrentPerson,
                 project,
                 confirmNonMandatoryUpdateUrl,
                 activeProjectStages,
@@ -227,17 +227,17 @@ namespace ProjectFirma.Web.Controllers
                 projectNotificationGridDataUrl,
                 projectBasicsViewData,
                 assessmentTreeViewData);
-            return RazorView<Summary, SummaryViewData>(viewData);
+            return RazorView<Detail, DetailViewData>(viewData);
         }
 
-        private static ProjectExpendituresSummaryViewData BuildProjectExpendituresSummaryViewData(Project project)
+        private static ProjectExpendituresDetailViewData BuildProjectExpendituresDetailViewData(Project project)
         {
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var calendarYearsForFundingSourceExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
             var fromFundingSourcesAndCalendarYears = FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures),
                 calendarYearsForFundingSourceExpenditures);
-            var projectExpendituresSummaryViewData = new ProjectExpendituresSummaryViewData(fromFundingSourcesAndCalendarYears, calendarYearsForFundingSourceExpenditures);
-            return projectExpendituresSummaryViewData;
+            var projectExpendituresDetailViewData = new ProjectExpendituresDetailViewData(fromFundingSourcesAndCalendarYears, calendarYearsForFundingSourceExpenditures);
+            return projectExpendituresDetailViewData;
         }
 
         private static PerformanceMeasureReportedValuesGroupedViewData BuildPerformanceMeasureReportedValuesGroupedViewData(Project project)
@@ -411,7 +411,7 @@ namespace ProjectFirma.Web.Controllers
                 ? string.Format("Are you sure you want to delete this Project '{0}'?", project.DisplayName)
                 : string.Format("Only projects in the following stages may be deleted: {0}<br />{1}",
                     string.Join(", ", ProjectStage.All.Where(x => x.IsDeletable()).Select(x => x.ProjectStageDisplayName)),
-                    ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Project", SitkaRoute<ProjectController>.BuildLinkFromExpression(x => x.Summary(project), "here")));
+                    ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Project", SitkaRoute<ProjectController>.BuildLinkFromExpression(x => x.Detail(project), "here")));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
@@ -516,7 +516,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (projectsFound.Count == 1)
             {
-                return RedirectToAction(new SitkaRoute<ProjectController>(x => x.Summary(projectsFound.Single())));
+                return RedirectToAction(new SitkaRoute<ProjectController>(x => x.Detail(projectsFound.Single())));
             }
 
             var viewData = new SearchResultsViewData(CurrentPerson, projectsFound, searchCriteria);
@@ -527,7 +527,7 @@ namespace ProjectFirma.Web.Controllers
         public JsonResult Find(string term)
         {
             var projectFindResults = GetViewableProjectsFromSearchCriteria(term.Trim());
-            var results = projectFindResults.Take(ProjectsCountLimit).Select(pfr => new ListItem(pfr.DisplayName.ToEllipsifiedString(100), pfr.GetSummaryUrl())).ToList();
+            var results = projectFindResults.Take(ProjectsCountLimit).Select(p => new ListItem(p.DisplayName.ToEllipsifiedString(100), p.GetDetailUrl())).ToList();
             if (projectFindResults.Count > ProjectsCountLimit)
             {
                 results.Add(

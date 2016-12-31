@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public PerformanceMeasureExpectedGridSpec(Models.PerformanceMeasure performanceMeasure)
         {
             Add(Models.FieldDefinition.Project.ToGridHeaderString(),
-                a => UrlTemplate.MakeHrefString(a.Project.GetSummaryUrl(), a.Project.DisplayName),
+                a => UrlTemplate.MakeHrefString(a.Project.GetDetailUrl(), a.Project.DisplayName),
                 350,
                 DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
