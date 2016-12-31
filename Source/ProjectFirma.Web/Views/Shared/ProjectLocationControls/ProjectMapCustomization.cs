@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public static ProjectMapCustomization CreateDefaultCustomization(List<Models.Project> projects )
         {
 
-            return new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyTierThree, projects != null ? projects.Select(p => p.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThreeID).ToList() : new List<int>(), ProjectColorByType.TaxonomyTierThree);
+            return new ProjectMapCustomization(DefaultLocationFilterType, DefaultLocationFilterValues);
         }
 
         public string GetCustomizedUrl()

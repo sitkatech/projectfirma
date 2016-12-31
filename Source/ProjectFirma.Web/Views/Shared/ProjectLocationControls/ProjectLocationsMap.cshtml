@@ -2,10 +2,42 @@
 @using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectLocationsMap
 
+<style>
+    .mapLegendContainer {
+        padding: 5px;
+        border-top: 1px solid;
+    }
+
+    #mapLegend {
+        margin-top: 10px;
+    }
+
+    .mapLegendElement {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .mapLegendIcon
+    {
+        margin-bottom: -30px;
+    }
+
+    .mapLegendElement .maki-marker
+    {
+        background-color: blue;
+        margin-left: 0 !important;
+    }
+
+    #mapLegendTitle {
+        font-weight: bold;
+    }
+</style>
+
+
 <div id="@ViewDataTyped.MapDivID"></div>
-<div style="padding: 5px; border-top: 1px solid">
-    <span id="mapLegendTitle" style="font-weight: bold">@ViewDataTyped.LegendTitle:</span>
-    <div id="mapLegend" style="margin-top: 10px">
+<div class="mapLegendContainer">
+    <span id="mapLegendTitle" >@ViewDataTyped.LegendTitle:</span>
+    <div id="mapLegend">
     </div>
 </div>
 
@@ -116,15 +148,9 @@
         for (var i = 0; i < markerColorTable.length; ++i)
         {
             var currentLegendIcon = L.MakiMarkers.icon({ icon: "marker", color: markerColorTable[i].LegendColor, size: "m" });
-            var currentLegendAsHtml = jQuery(currentLegendIcon.createIcon());
-            currentLegendAsHtml.css("position", "relative");
-            currentLegendAsHtml.css("height", "");
-            currentLegendAsHtml.css("width", "30px");
-            currentLegendAsHtml.css("padding-right", "5px");
-            currentLegendAsHtml.css("display", "inline-block");
-            currentLegendAsHtml.css("margin", "0");
-            currentLegendAsHtml.css("float", "left");
-            allLegendsHtml += "<div class=\"mapLegendElement\">" + currentLegendAsHtml.wrap("<div>").parent().html() + markerColorTable[i].LegendText + "</div>";
+            console.log(currentLegendIcon);
+            var currentLegendAsHtml = currentLegendIcon.options.iconUrl;
+            allLegendsHtml += "<div class=\"mapLegendElement\">" + "<img class='mapLegendIcon' src= '" + currentLegendAsHtml  + "'></img>" + markerColorTable[i].LegendText + "</div>";
         }
         return allLegendsHtml;
     };
