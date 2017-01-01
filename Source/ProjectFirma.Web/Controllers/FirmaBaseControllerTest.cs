@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Controllers
                 "ResultsController.SpendingBySectorByOrganization",
                 "ResultsController.SpendingBySectorByOrganizationExcelDownload",
                 "PerformanceMeasureController.SaveChartConfiguration",
-                "RoleController.Summary",
+                "RoleController.Detail",
                 "RoleController.PersonWithRoleGridJsonData",
             };
             var missingHumanReadable = missing.Select(x => String.Format("{0}.{1}", x.ReflectedType.Name, x.Name)).Where(x => !exceptions.Contains(x)).ToList();
