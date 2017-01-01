@@ -7,7 +7,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Role
 {
-    public class SummaryViewData : FirmaViewData
+    public class DetailViewData : FirmaViewData
     {
         public readonly PersonWithRoleGridSpec GridSpec;
         public readonly string GridName;
@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Views.Role
         public readonly string RoleName;
         public readonly string RoleDescription;
 
-        public SummaryViewData(Person currentPerson, IRole role)
+        public DetailViewData(Person currentPerson, IRole role)
             : base(currentPerson)
         {
             var featurePermissions = role.GetFeaturePermissions();

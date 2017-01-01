@@ -11,11 +11,11 @@ using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Watershed;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
+using Detail = ProjectFirma.Web.Views.Watershed.Detail;
+using DetailViewData = ProjectFirma.Web.Views.Watershed.DetailViewData;
 using Index = ProjectFirma.Web.Views.Watershed.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Watershed.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Watershed.IndexViewData;
-using Summary = ProjectFirma.Web.Views.Watershed.Summary;
-using SummaryViewData = ProjectFirma.Web.Views.Watershed.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [WatershedViewFeature]
-        public ViewResult Summary(WatershedPrimaryKey watershedPrimaryKey)
+        public ViewResult Detail(WatershedPrimaryKey watershedPrimaryKey)
         {
             var watershed = watershedPrimaryKey.EntityObject;
             var mapDivID = string.Format("watershed_{0}_Map", watershed.WatershedID);
@@ -127,8 +127,8 @@ namespace ProjectFirma.Web.Controllers
             var calendarYearExpendituresLineChartViewData = new CalendarYearExpendituresLineChartViewData(googleChartJson,
                 FirmaHelpers.DefaultColorRange);
 
-            var viewData = new SummaryViewData(CurrentPerson, watershed, mapInitJson, calendarYearExpendituresLineChartViewData);
-            return RazorView<Summary, SummaryViewData>(viewData);
+            var viewData = new DetailViewData(CurrentPerson, watershed, mapInitJson, calendarYearExpendituresLineChartViewData);
+            return RazorView<Detail, DetailViewData>(viewData);
         }
 
         [HttpGet]
@@ -145,7 +145,7 @@ namespace ProjectFirma.Web.Controllers
             var canDelete = !watershed.HasDependentObjects();
             var confirmMessage = canDelete
                 ? string.Format("Are you sure you want to delete this Watershed '{0}'?", watershed.WatershedName)
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Watershed", SitkaRoute<WatershedController>.BuildLinkFromExpression(x => x.Summary(watershed), "here"));
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Watershed", SitkaRoute<WatershedController>.BuildLinkFromExpression(x => x.Detail(watershed), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);

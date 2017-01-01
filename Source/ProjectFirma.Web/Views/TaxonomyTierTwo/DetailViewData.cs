@@ -13,7 +13,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.TaxonomyTierTwo
 {
-    public class SummaryViewData : FirmaViewData
+    public class DetailViewData : FirmaViewData
     {
         public readonly Models.TaxonomyTierTwo TaxonomyTierTwo;
         public readonly List<Models.PerformanceMeasure> PerformanceMeasures;
@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
 
         public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
 
-        public SummaryViewData(Person currentPerson,
+        public DetailViewData(Person currentPerson,
             Models.TaxonomyTierTwo taxonomyTierTwo,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
             ProjectLocationsMapViewData projectLocationsMapViewData) : base(currentPerson)

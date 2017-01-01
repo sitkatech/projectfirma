@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Models
 
         public HtmlString GetDisplayNameAsUrl()
         {
-            return UrlTemplate.MakeHrefString(SitkaRoute<RoleController>.BuildUrlFromExpression(t => t.Summary(RoleID)), RoleDisplayName);
+            return UrlTemplate.MakeHrefString(SitkaRoute<RoleController>.BuildUrlFromExpression(t => t.Detail(RoleID)), RoleDisplayName);
         }
 
         public static string GetAnonymousRoleUrl()

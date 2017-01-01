@@ -6,7 +6,7 @@ namespace ProjectFirma.Web.Models
 {
     public static class WatershedModelExtensions
     {
-        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<WatershedController>.BuildUrlFromExpression(t => t.Summary(UrlTemplate.Parameter1Int)));
+        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<WatershedController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
 
         public static string GetSummaryUrl(this Watershed watershed)
         {

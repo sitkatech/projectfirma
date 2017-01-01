@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Models
             }
             else
             {
-                return SitkaRoute<RoleController>.BuildUrlFromExpression(t => t.Summary(role.RoleID));
+                return SitkaRoute<RoleController>.BuildUrlFromExpression(t => t.Detail(role.RoleID));
             }
 
         }

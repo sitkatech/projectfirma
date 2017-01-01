@@ -46,20 +46,20 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult Anonymous()
         {
-            return ViewSummary(new AnonymousRole());
+            return ViewDetail(new AnonymousRole());
         }
 
         [FirmaAdminFeature]
-        public ViewResult Summary(int roleID)
+        public ViewResult Detail(int roleID)
         {
             var role = Role.AllLookupDictionary[roleID];
-            return ViewSummary(role);
+            return ViewDetail(role);
         }
 
-        private ViewResult ViewSummary(IRole role)
+        private ViewResult ViewDetail(IRole role)
         {
-            var viewData = new SummaryViewData(CurrentPerson, role);
-            return RazorView<Summary, SummaryViewData>(viewData);
+            var viewData = new DetailViewData(CurrentPerson, role);
+            return RazorView<Detail, DetailViewData>(viewData);
         }
     }
 }

@@ -7,7 +7,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Watershed
 {
-    public class SummaryViewData : FirmaViewData
+    public class DetailViewData : FirmaViewData
     {
         public readonly Models.Watershed Watershed;
         public readonly bool UserHasWatershedManagePermissions;
@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Views.Watershed
         public readonly CalendarYearExpendituresLineChartViewData CalendarYearExpendituresLineChartViewData;
         public readonly string ManageWatershedsUrl;
 
-        public SummaryViewData(Person currentPerson, Models.Watershed watershed, MapInitJson mapInitJson, CalendarYearExpendituresLineChartViewData calendarYearExpendituresLineChartViewData) : base(currentPerson)
+        public DetailViewData(Person currentPerson, Models.Watershed watershed, MapInitJson mapInitJson, CalendarYearExpendituresLineChartViewData calendarYearExpendituresLineChartViewData) : base(currentPerson)
         {
             Watershed = watershed;
             MapInitJson = mapInitJson;

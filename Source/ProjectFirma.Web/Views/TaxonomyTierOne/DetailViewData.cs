@@ -10,7 +10,7 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.TaxonomyTierOne
 {
-    public class SummaryViewData : FirmaViewData
+    public class DetailViewData : FirmaViewData
     {
         public readonly Models.TaxonomyTierOne TaxonomyTierOne;
         public readonly bool UserHasTaxonomyTierOneManagePermissions;
@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
         public readonly string ProjectMapFilteredUrl;
 
-        public SummaryViewData(Person currentPerson,
+        public DetailViewData(Person currentPerson,
             Models.TaxonomyTierOne taxonomyTierOne,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
             ProjectLocationsMapViewData projectLocationsMapViewData) : base(currentPerson)

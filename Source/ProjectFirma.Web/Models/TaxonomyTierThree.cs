@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Models
 
         public string SummaryUrl
         {
-            get { return SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(x => x.Summary(TaxonomyTierThreeID)); }
+            get { return SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(x => x.Detail(TaxonomyTierThreeID)); }
         }
 
         public string CustomizedMapUrl

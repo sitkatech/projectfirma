@@ -5,16 +5,15 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Snapshot;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using Detail = ProjectFirma.Web.Views.Snapshot.Detail;
+using DetailViewData = ProjectFirma.Web.Views.Snapshot.DetailViewData;
 using Index = ProjectFirma.Web.Views.Snapshot.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Snapshot.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Snapshot.IndexViewData;
-using Summary = ProjectFirma.Web.Views.Snapshot.Summary;
-using SummaryViewData = ProjectFirma.Web.Views.Snapshot.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -43,7 +42,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AdminFeature]
-        public ActionResult Summary(SnapshotPrimaryKey snapshotPrimaryKey)
+        public ActionResult Detail(SnapshotPrimaryKey snapshotPrimaryKey)
         {
             var snapshot = snapshotPrimaryKey.EntityObject;
 
@@ -56,8 +55,8 @@ namespace ProjectFirma.Web.Controllers
                 performanceMeasureReportedValues.Select(x => x.CalendarYear).Distinct().ToList(),
                 true);
 
-            var viewData = new SummaryViewData(CurrentPerson, snapshot, new SnapshotProjectGridSpec(), performanceMeasureReportedValuesGroupedViewData);
-            return RazorView<Summary, SummaryViewData>(viewData);
+            var viewData = new DetailViewData(CurrentPerson, snapshot, new SnapshotProjectGridSpec(), performanceMeasureReportedValuesGroupedViewData);
+            return RazorView<Detail, DetailViewData>(viewData);
         }
 
         [HttpGet]

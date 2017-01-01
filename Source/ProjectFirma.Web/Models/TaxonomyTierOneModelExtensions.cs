@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Models
 
         public static string GetSummaryUrl(this TaxonomyTierOne taxonomyTierOne)
         {
-            return SitkaRoute<TaxonomyTierOneController>.BuildUrlFromExpression(x => x.Summary(taxonomyTierOne.TaxonomyTierOneID));
+            return SitkaRoute<TaxonomyTierOneController>.BuildUrlFromExpression(x => x.Detail(taxonomyTierOne.TaxonomyTierOneID));
         }
 
         public static string GetDeleteUrl(this TaxonomyTierOne taxonomyTierOne)

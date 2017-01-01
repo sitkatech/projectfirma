@@ -540,8 +540,8 @@
     <Compile Include="Views\TaxonomyTierOne\Index.cs" />
     <Compile Include="Views\TaxonomyTierOne\IndexGridSpec.cs" />
     <Compile Include="Views\TaxonomyTierOne\IndexViewData.cs" />
-    <Compile Include="Views\TaxonomyTierOne\Summary.cs" />
-    <Compile Include="Views\TaxonomyTierOne\SummaryViewData.cs" />
+    <Compile Include="Views\TaxonomyTierOne\Detail.cs" />
+    <Compile Include="Views\TaxonomyTierOne\DetailViewData.cs" />
     <Compile Include="Views\TaxonomyTierThree\Edit.cs" />
     <Compile Include="Views\TaxonomyTierThree\EditViewData.cs" />
     <Compile Include="Views\TaxonomyTierThree\EditViewModel.cs" />
@@ -549,8 +549,8 @@
     <Compile Include="Views\TaxonomyTierThree\Index.cs" />
     <Compile Include="Views\TaxonomyTierThree\IndexGridSpec.cs" />
     <Compile Include="Views\TaxonomyTierThree\IndexViewData.cs" />
-    <Compile Include="Views\TaxonomyTierThree\Summary.cs" />
-    <Compile Include="Views\TaxonomyTierThree\SummaryViewData.cs" />
+    <Compile Include="Views\TaxonomyTierThree\Detail.cs" />
+    <Compile Include="Views\TaxonomyTierThree\DetailViewData.cs" />
     <Compile Include="Views\ProgramInfo\Taxonomy.cs" />
     <Compile Include="Views\ProgramInfo\TaxonomyViewData.cs" />
     <Compile Include="Views\TaxonomyTierTwo\DefinitionAndGuidance.cs" />
@@ -562,8 +562,8 @@
     <Compile Include="Views\TaxonomyTierTwo\Index.cs" />
     <Compile Include="Views\TaxonomyTierTwo\IndexGridSpec.cs" />
     <Compile Include="Views\TaxonomyTierTwo\IndexViewData.cs" />
-    <Compile Include="Views\TaxonomyTierTwo\Summary.cs" />
-    <Compile Include="Views\TaxonomyTierTwo\SummaryViewData.cs" />
+    <Compile Include="Views\TaxonomyTierTwo\Detail.cs" />
+    <Compile Include="Views\TaxonomyTierTwo\DetailViewData.cs" />
     <Compile Include="Views\Assessment\EditGoal.cs" />
     <Compile Include="Views\Assessment\EditGoalViewData.cs" />
     <Compile Include="Views\Assessment\EditGoalViewModel.cs" />
@@ -1012,8 +1012,8 @@
     <Compile Include="Views\Snapshot\IndexGridSpec.cs" />
     <Compile Include="Views\Snapshot\IndexViewData.cs" />
     <Compile Include="Views\Snapshot\SnapshotProjectGridSpec.cs" />
-    <Compile Include="Views\Snapshot\Summary.cs" />
-    <Compile Include="Views\Snapshot\SummaryViewData.cs" />
+    <Compile Include="Views\Snapshot\Detail.cs" />
+    <Compile Include="Views\Snapshot\DetailViewData.cs" />
     <Compile Include="Views\Tag\BulkTagProjects.cs" />
     <Compile Include="Views\Tag\BulkTagProjectsViewData.cs" />
     <Compile Include="Views\Tag\BulkTagProjectsViewModel.cs" />
@@ -1033,8 +1033,8 @@
     <Compile Include="Views\Classification\EditViewModel.cs" />
     <Compile Include="Views\Classification\Index.cs" />
     <Compile Include="Views\Classification\IndexViewData.cs" />
-    <Compile Include="Views\Classification\Summary.cs" />
-    <Compile Include="Views\Classification\SummaryViewData.cs" />
+    <Compile Include="Views\Classification\Detail.cs" />
+    <Compile Include="Views\Classification\DetailViewData.cs" />
     <Compile Include="Views\Assessment\ExcelSpec.cs" />
     <Compile Include="Views\Assessment\Manage.cs" />
     <Compile Include="Views\Assessment\ManageViewData.cs" />
@@ -1061,9 +1061,9 @@
     <Compile Include="Views\Role\Index.cs" />
     <Compile Include="Views\Role\PersonWithRoleGridSpec.cs" />
     <Compile Include="Views\Role\IndexGridSpec.cs" />
-    <Compile Include="Views\Role\Summary.cs" />
+    <Compile Include="Views\Role\Detail.cs" />
     <Compile Include="Views\Role\IndexViewData.cs" />
-    <Compile Include="Views\Role\SummaryViewData.cs" />
+    <Compile Include="Views\Role\DetailViewData.cs" />
     <Compile Include="Views\Shared\AuditLogsGridSpec.cs" />
     <Compile Include="Views\Shared\FieldDefinitionDetails.cs" />
     <Compile Include="Views\Shared\FieldDefinitionDetailsViewData.cs" />
@@ -1088,8 +1088,8 @@
     <Compile Include="Views\Watershed\Index.cs" />
     <Compile Include="Views\Watershed\IndexGridSpec.cs" />
     <Compile Include="Views\Watershed\IndexViewData.cs" />
-    <Compile Include="Views\Watershed\Summary.cs" />
-    <Compile Include="Views\Watershed\SummaryViewData.cs" />
+    <Compile Include="Views\Watershed\Detail.cs" />
+    <Compile Include="Views\Watershed\DetailViewData.cs" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -3018,11 +3018,11 @@
     <Content Include="Views\Shared\GoogleChartPopup.cshtml" />
     <Content Include="Views\Shared\FirmaIncludes.cshtml" />
     <Content Include="Views\Shared\FirmaLateLoadingIncludes.cshtml" />
-    <Content Include="Views\Role\Summary.cshtml" />
+    <Content Include="Views\Role\Detail.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Watershed\Edit.cshtml" />
     <Content Include="Views\Watershed\Index.cshtml" />
-    <Content Include="Views\Watershed\Summary.cshtml" />
+    <Content Include="Views\Watershed\Detail.cshtml" />
     <Content Include="Views\Shared\SupportForm.cshtml" />
     <Content Include="Views\WebServices\List.cshtml" />
     <Content Include="Views\WebServices\Index.cshtml" />
@@ -3041,14 +3041,14 @@
     <Content Include="Views\MonitoringProgram\NewMonitoringProgramDocument.cshtml" />
     <Content Include="Views\Classification\Edit.cshtml" />
     <Content Include="Views\Classification\Index.cshtml" />
-    <Content Include="Views\Classification\Summary.cshtml" />
+    <Content Include="Views\Classification\Detail.cshtml" />
     <Content Include="Views\Shared\HtmlDiffSummary.cshtml" />
     <Content Include="Views\Shared\DisplayPageContent.cshtml" />
     <Content Include="Views\Shared\EditPageContent.cshtml" />
     <Content Include="Views\Shared\NavAndHeaderLayout.cshtml" />
     <Content Include="Views\Snapshot\Edit.cshtml" />
     <Content Include="Views\Snapshot\Index.cshtml" />
-    <Content Include="Views\Snapshot\Summary.cshtml" />
+    <Content Include="Views\Snapshot\Detail.cshtml" />
     <Content Include="Views\Tag\BulkTagProjects.cshtml" />
     <Content Include="Views\Tag\Edit.cshtml" />
     <Content Include="Views\Tag\Index.cshtml" />
@@ -3153,13 +3153,13 @@
     <Content Include="Views\TaxonomyTierTwo\DefinitionAndGuidance.cshtml" />
     <Content Include="Views\TaxonomyTierTwo\Edit.cshtml" />
     <Content Include="Views\TaxonomyTierTwo\Index.cshtml" />
-    <Content Include="Views\TaxonomyTierTwo\Summary.cshtml" />
+    <Content Include="Views\TaxonomyTierTwo\Detail.cshtml" />
     <Content Include="Views\TaxonomyTierThree\Edit.cshtml" />
     <Content Include="Views\TaxonomyTierThree\Index.cshtml" />
-    <Content Include="Views\TaxonomyTierThree\Summary.cshtml" />
+    <Content Include="Views\TaxonomyTierThree\Detail.cshtml" />
     <Content Include="Views\TaxonomyTierOne\Edit.cshtml" />
     <Content Include="Views\TaxonomyTierOne\Index.cshtml" />
-    <Content Include="Views\TaxonomyTierOne\Summary.cshtml" />
+    <Content Include="Views\TaxonomyTierOne\Detail.cshtml" />
     <Content Include="Views\Results\SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo.cshtml" />
     <Content Include="Views\Results\ResultsByTaxonomyTierTwo.cshtml" />
     <Content Include="Views\TaxonomyTierTwoPerformanceMeasure\Edit.cshtml" />

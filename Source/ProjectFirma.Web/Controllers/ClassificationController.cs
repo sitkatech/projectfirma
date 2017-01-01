@@ -4,15 +4,15 @@ using System.Web.Mvc;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Classification;
+using ProjectFirma.Web.Views.Project;
+using DetailViewData = ProjectFirma.Web.Views.Classification.DetailViewData;
+using Detail = ProjectFirma.Web.Views.Classification.Detail;
 using Index = ProjectFirma.Web.Views.Classification.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Classification.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Classification.IndexViewData;
-using Summary = ProjectFirma.Web.Views.Classification.Summary;
-using SummaryViewData = ProjectFirma.Web.Views.Classification.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -64,11 +64,11 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [PerformanceMeasureViewFeature]
-        public ViewResult Summary(string classificationName)
+        public ViewResult Detail(string classificationName)
         {
             var classification = HttpRequestStorage.DatabaseEntities.Classifications.GetClassificationByClassificationeName(classificationName);
-            var viewData = new SummaryViewData(CurrentPerson, classification);
-            return RazorView<Summary, SummaryViewData>(viewData);
+            var viewData = new DetailViewData(CurrentPerson, classification);
+            return RazorView<Detail, DetailViewData>(viewData);
         }
 
         [PerformanceMeasureViewFeature]

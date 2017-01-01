@@ -14,14 +14,14 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using DetailViewData = ProjectFirma.Web.Views.TaxonomyTierOne.DetailViewData;
 using Edit = ProjectFirma.Web.Views.TaxonomyTierOne.Edit;
 using EditViewData = ProjectFirma.Web.Views.TaxonomyTierOne.EditViewData;
 using EditViewModel = ProjectFirma.Web.Views.TaxonomyTierOne.EditViewModel;
 using Index = ProjectFirma.Web.Views.TaxonomyTierOne.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.TaxonomyTierOne.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.TaxonomyTierOne.IndexViewData;
-using Summary = ProjectFirma.Web.Views.TaxonomyTierOne.Summary;
-using SummaryViewData = ProjectFirma.Web.Views.TaxonomyTierOne.SummaryViewData;
+using Summary = ProjectFirma.Web.Views.TaxonomyTierOne.Detail;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AnonymousUnclassifiedFeature]
-        public ViewResult Summary(TaxonomyTierOnePrimaryKey taxonomyTierOnePrimaryKey)
+        public ViewResult Detail(TaxonomyTierOnePrimaryKey taxonomyTierOnePrimaryKey)
         {
             var taxonomyTierOne = taxonomyTierOnePrimaryKey.EntityObject;
 
@@ -77,9 +77,9 @@ namespace ProjectFirma.Web.Controllers
 
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.ProjectColorByTypeDisplayName);
 
-            var viewData = new SummaryViewData(CurrentPerson, taxonomyTierOne, projectLocationsMapInitJson, projectLocationsMapViewData);
+            var viewData = new DetailViewData(CurrentPerson, taxonomyTierOne, projectLocationsMapInitJson, projectLocationsMapViewData);
 
-            return RazorView<Summary, SummaryViewData>(viewData);
+            return RazorView<Summary, DetailViewData>(viewData);
         }
 
         [HttpGet]
@@ -154,7 +154,7 @@ namespace ProjectFirma.Web.Controllers
             var canDelete = !taxonomyTierOne.HasDependentObjects() && HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.Count() > 1;
             var confirmMessage = canDelete
                 ? string.Format("Are you sure you want to delete this {0} '{1}'?", MultiTenantHelpers.GetTaxonomyTierOneDisplayName(), taxonomyTierOne.DisplayName)
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(MultiTenantHelpers.GetTaxonomyTierOneDisplayName(), SitkaRoute<TaxonomyTierOneController>.BuildLinkFromExpression(x => x.Summary(taxonomyTierOne), "here"));
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(MultiTenantHelpers.GetTaxonomyTierOneDisplayName(), SitkaRoute<TaxonomyTierOneController>.BuildLinkFromExpression(x => x.Detail(taxonomyTierOne), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);

@@ -3,13 +3,11 @@ using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
-using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
 namespace ProjectFirma.Web.Views.Snapshot
 {
-    public class SummaryViewData : FirmaViewData
+    public class DetailViewData : FirmaViewData
     {
         public readonly Models.Snapshot Snapshot;
         public readonly List<Models.Project> ProjectsAdded;
@@ -30,7 +28,7 @@ namespace ProjectFirma.Web.Views.Snapshot
 
         public readonly PerformanceMeasureReportedValuesGroupedViewData SnapshotPerformanceMeasureReportedValuesGroupedViewData;
 
-        public SummaryViewData(Person currentPerson, Models.Snapshot snapshot, SnapshotProjectGridSpec gridSpec, PerformanceMeasureReportedValuesGroupedViewData snapshotPerformanceMeasureReportedValuesGroupedViewData) : base(currentPerson)
+        public DetailViewData(Person currentPerson, Models.Snapshot snapshot, SnapshotProjectGridSpec gridSpec, PerformanceMeasureReportedValuesGroupedViewData snapshotPerformanceMeasureReportedValuesGroupedViewData) : base(currentPerson)
         {
             Snapshot = snapshot;
             ProjectsAdded =

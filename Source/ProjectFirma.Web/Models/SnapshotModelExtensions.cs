@@ -5,7 +5,7 @@ namespace ProjectFirma.Web.Models
 {
     public static class SnapshotModelExtensions
     {
-        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<SnapshotController>.BuildUrlFromExpression(t => t.Summary(UrlTemplate.Parameter1Int)));
+        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<SnapshotController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
 
         public static string GetSummaryUrl(this Snapshot snapshot)
         {
