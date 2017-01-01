@@ -59,9 +59,11 @@
 
 <div class="row">
     <div class="col-lg-6 col-md-5">
-        <div class="summarySection" style="margin-right: 10px">
-            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditPerformanceMeasureUrl, string.Format("Edit PerformanceMeasure: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 1000, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) Basics</h2>
-            <div class="contentWrapper">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditPerformanceMeasureUrl, string.Format("Edit PerformanceMeasure: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 1000, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) Basics</h2>
+            </div>
+            <div class="panel-body">
                 <table class="summaryLayout">
                     <tr>
                         <th>Display Name</th>
@@ -94,8 +96,10 @@
         </div>
     </div>
     <div class="col-lg-6 col-md-7">
-        <div class="summarySection">
-            <h2>Accomplishments</h2>
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>Accomplishments</h2>
+            </div>
             <div class="contentWrapper" style="overflow-x: hidden; margin-right: auto; margin-left: auto">
                 @{ PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureChartViewData); }
 
@@ -154,9 +158,11 @@
             <div role="tabpanel" class="tab-pane @(ViewDataTyped.IsActiveTabOverview ? "active" : string.Empty)" id="overviewTab">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="summarySection">
-                            <h2>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureSubcategory, "Subcategories")</h2>
-                            <div class="contentWrapper">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureSubcategory, "Subcategories")</h2>
+                            </div>
+                            <div class="panel-body">
                                 @if (ViewDataTyped.PerformanceMeasure.HasRealSubcategories)
                                 {
                                     <table class="table">
@@ -193,9 +199,11 @@
                     </div>
 
                     <div class="col-md-6">
-                        <div class="summarySection">
-                            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditMonitoringProgramsUrl, string.Format("Edit Monitoring Programs: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgram)</h2>
-                            <div class="contentWrapper">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditMonitoringProgramsUrl, string.Format("Edit Monitoring Programs: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgram)</h2>
+                            </div>
+                            <div class="panel-body">
                                 @if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Any())
                                 {
                                     foreach (var a in ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms)
@@ -232,9 +240,11 @@
 
                 @if (ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                 {
-                    <div class="summarySection">
-                        <h2>Change History and Rationale Notes (only visible to Administrators)</h2>
-                        <div class="contentWrapper">
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h2>Change History and Rationale Notes (only visible to Administrators)</h2>
+                        </div>
+                        <div class="panel-body">
                             @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
                         </div>
                     </div>
@@ -242,9 +252,11 @@
             </div>
 
             <div role="tabpanel" class="tab-pane @(ViewDataTyped.IsActiveTabPerformanceMeasure ? "active" : string.Empty)" id="Tab">
-                <div class="summarySection">
-                    <h2>Reporting Guidance</h2>
-                    <div class="contentWrapper">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>Reporting Guidance</h2>
+                    </div>
+                    <div class="panel-body">
                         <table class="summaryLayout">
                             <tr>
                                 <th>
@@ -284,9 +296,11 @@
                 </div>
 
                 <div class="row">
-                    <div class="summarySection">
-                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwosUrl, string.Format("Edit {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()), ViewDataTyped.UserHasTaxonomyTierTwoPerformanceMeasureManagePermissions) @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</h2>
-                        <div class="contentWrapper">
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwosUrl, string.Format("Edit {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()), ViewDataTyped.UserHasTaxonomyTierTwoPerformanceMeasureManagePermissions) @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</h2>
+                        </div>
+                        <div class="panel-body">
                             @if (ViewDataTyped.TaxonomyTierTwoPerformanceMeasures.Any())
                             {
                                 <table class="summaryLayout">
@@ -312,18 +326,22 @@
                 </div>
 
                 <div class="row">
-                    <div class="summarySection">
-                        <h2>Projects (As Expected Measure)</h2>
-                        <div class="contentWrapper">
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h2>Projects (As Expected Measure)</h2>
+                        </div>
+                        <div class="panel-body">
                             @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureExpectedGridSpec, ViewDataTyped.PerformanceMeasureExpectedsGridName, ViewDataTyped.PerformanceMeasureExpectedsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="summarySection">
-                        <h2>Projects (As Reported Measure)</h2>
-                        <div class="contentWrapper">
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h2>Projects (As Reported Measure)</h2>
+                        </div>
+                        <div class="panel-body">
                             @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                         </div>
                     </div>

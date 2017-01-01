@@ -19,40 +19,48 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-5">
-            <div class="summarySection">
-                <h2>Map</h2>
-                <div class="contentWrapper">
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    <h2>Map</h2>
+                </div>
+                <div class="panel-body">
                     <span class="alert">To zoom into a specific area, hold down the Shift key and drag a rectangle.</span>
-                    <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 320px; margin:5px 0 5px 0">
+                    <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 320px; margin: 5px 0 5px 0">
                     </div>
                     <span class="alert">Projects can be associated with multiple watersheds, but are currently mapped in a single location. Therefore some projects may appear outside of the watershed boundary.</span>
                 </div>
             </div>
         </div>
         <div class="col-lg-7">
-            <div class="summarySection">
-                <h2>Expenditures by Funding Source Sector</h2>
-                <div class="contentWrapper">
-                    <div style="border-radius: 8px; background-color: white; height: 420px; margin-right: auto; margin-left: auto;">
-                        @{ CalendarYearExpendituresLineChart.RenderPartialView(Html, ViewDataTyped.CalendarYearExpendituresLineChartViewData); }
+            <div class="panel-heading panelTitle">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>Expenditures by Funding Source Sector</h2>
                     </div>
-                    <span class="alert" >Since some projects span multiple watersheds, expenditures reported above may be over-reported for this watershed.</span>
+                    <div class="panel-body">
+                        <div style="border-radius: 8px; background-color: white; height: 420px; margin-right: auto; margin-left: auto;">
+                            @{ CalendarYearExpendituresLineChart.RenderPartialView(Html, ViewDataTyped.CalendarYearExpendituresLineChartViewData); }
+                        </div>
+                        <span class="alert">Since some projects span multiple watersheds, expenditures reported above may be over-reported for this watershed.</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="summarySection">
-                <h2>Projects</h2>
-                <div class="contentWrapper">
-                    @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>Projects</h2>
+                    </div>
+                    <div class="panel-body">
+                        @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
+    </div>
 </div>
 
 <div style="margin-top: 20px">

@@ -17,9 +17,11 @@
     @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
 </div>
 
-<div class="summarySection">
-    <h2>Status of Project Update Submittals</h2>
-    <div class="contentWrapper">
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>Status of Project Update Submittals</h2>
+    </div>
+    <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.PeopleReceivingReminderGridSpec, ViewDataTyped.PeopleReceivingReminderGridName, ViewDataTyped.PeopleReceivingReminderGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
     </div>
 </div>

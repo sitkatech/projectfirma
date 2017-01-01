@@ -20,16 +20,20 @@
     @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
 </div>
 
-<div class="summarySection">
-    <h2>Primary Contacts Receiving Notification</h2>
-    <div class="contentWrapper">
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>Primary Contacts Receiving Notification</h2>
+    </div>
+    <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.PeopleReceivingReminderGridSpec, ViewDataTyped.PeopleReceivingReminderGridName, ViewDataTyped.PeopleReceivingReminderGridDataUrl, "height:350px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>
 </div>
 
-<div class="summarySection">
-    <h2>Project Update Status</h2>
-    <div class="contentWrapper">
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>Project Update Status</h2>
+    </div>
+    <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.ProjectsRequiringUpdateGridSpec, ViewDataTyped.ProjectsRequiringUpdateGridName, ViewDataTyped.ProjectsRequiringUpdateGridDataUrl, "height:450px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>
 </div>

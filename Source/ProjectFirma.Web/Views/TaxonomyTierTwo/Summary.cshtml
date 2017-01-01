@@ -35,25 +35,29 @@
 
 <div class="tableLayout">
     <div class="tableCell">
-        <div class="summarySection">
-            <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwoUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName(), ViewDataTyped.TaxonomyTierTwo.DisplayName), ViewDataTyped.UserHasTaxonomyTierTwoManagePermissions) Basics</h2>
-            <div class="contentWrapper">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwoUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName(), ViewDataTyped.TaxonomyTierTwo.DisplayName), ViewDataTyped.UserHasTaxonomyTierTwoManagePermissions) Basics</h2>
+            </div>
+            <div class="panel-body">
                 <span class="stylizeLikeTH">Category:</span>
                 @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }
             </div>
         </div>
 
-        <div class="summarySection">
+        <div class="panel panelFirma">
             <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditDescriptionUrl, string.Format("Edit Description - {0}", ViewDataTyped.TaxonomyTierTwo.DisplayName), ViewDataTyped.UserHasTaxonomyTierTwoManagePermissions) Description</h2>
-            <div class="contentWrapper">
+            <div class="panel-body">
                 <div>
                     @ViewDataTyped.TaxonomyTierTwo.TaxonomyTierTwoDescriptionHtmlString
                 </div>
             </div>
         </div>
 
-        <div class="summarySection">
-            <h2>@MultiTenantHelpers.GetTaxonomyTierTwoDisplayName() Projects Map</h2>
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>@MultiTenantHelpers.GetTaxonomyTierTwoDisplayName() Projects Map</h2>
+            </div>
             <div style="padding: 10px">
                 To zoom into a specific area, hold down the Shift key and drag a rectangle.
                 <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
@@ -63,11 +67,13 @@
             </div>
         </div>
 
-        <div class="summarySection">
-            <h2>
-                <a href="@ViewDataTyped.ManageTaxonomyTierOneIndexUrl">@MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized()</a>
-            </h2>
-            <div class="contentWrapper">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    <a href="@ViewDataTyped.ManageTaxonomyTierOneIndexUrl">@MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized()</a>
+                </h2>
+            </div>
+            <div class="panel-body">
                 @if (ViewDataTyped.TaxonomyTierTwo.TaxonomyTierOnes.Any())
                 {
                     <table class="summaryLayout">
@@ -92,11 +98,13 @@
         </div>
 
 
-        <div class="summarySection">
-            <h2>
-                <a href="@ViewDataTyped.ManagePerformanceMeasuresUrl">Performance Measures</a>
-            </h2>
-            <div class="contentWrapper">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    <a href="@ViewDataTyped.ManagePerformanceMeasuresUrl">Performance Measures</a>
+                </h2>
+            </div>
+            <div class="panel-body">
                 @if (ViewDataTyped.TaxonomyTierTwoPerformanceMeasures.Any())
                 {
                     <table class="summaryLayout">
@@ -121,18 +129,20 @@
         </div>
     </div>
     <div class="tableCell" style="width: 620px; padding-top: 20px">
-    @foreach (var performanceMeasureChartViewData in ViewDataTyped.PerformanceMeasureChartViewDatas)
-    {
-        PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData);
-    }
+        @foreach (var performanceMeasureChartViewData in ViewDataTyped.PerformanceMeasureChartViewDatas)
+        {
+            PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData);
+        }
     </div>
 </div>
 
-<div class="summarySection">
-    <h2>
-        <a href="@ViewDataTyped.FullProjectListUrl">Projects</a>
-    </h2>
-    <div class="contentWrapper">
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>
+            <a href="@ViewDataTyped.FullProjectListUrl">Projects</a>
+        </h2>
+    </div>
+    <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoProjectGridName, ViewDataTyped.BasicProjectInfoProjectGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>
 </div>

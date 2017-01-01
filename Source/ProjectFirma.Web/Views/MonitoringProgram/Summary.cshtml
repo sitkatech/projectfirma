@@ -10,9 +10,11 @@
 }
 
 
-<div class="summarySection">
-    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditMonitoringProgramUrl, string.Format("Edit Local and Regional Plan - {0}", ViewDataTyped.MonitoringProgram.MonitoringProgramName), ViewDataTyped.UserHasMonitoringProgramManagePermissions) Basics</h2>
-    <div class="contentWrapper">
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditMonitoringProgramUrl, string.Format("Edit Local and Regional Plan - {0}", ViewDataTyped.MonitoringProgram.MonitoringProgramName), ViewDataTyped.UserHasMonitoringProgramManagePermissions) Basics</h2>
+    </div>
+    <div class="panel-body">
         <table class="summaryLayout">
             <tr>
                 <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgram)</th>
@@ -36,9 +38,11 @@
     </div>
 </div>
 
-<div class="summarySection">
-    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditMonitoringProgramPartnersUrl, "Edit Monitoring Program Partners", ViewDataTyped.UserHasMonitoringProgramManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgramPartner, "Partners")</h2>
-    <div class="contentWrapper">
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditMonitoringProgramPartnersUrl, "Edit Monitoring Program Partners", ViewDataTyped.UserHasMonitoringProgramManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgramPartner, "Partners")</h2>
+    </div>
+    <div class="panel-body">
         @if (ViewDataTyped.MonitoringProgram.MonitoringProgramPartners.Any())
         {
             <ul>
@@ -57,9 +61,11 @@
     </div>
 </div>
 
-<div class="summarySection">
-    <h2>Documents</h2>
-    <div class="contentWrapper">
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>Documents</h2>
+    </div>
+    <div class="panel-body">
         <div class="pull-right">
             @ModalDialogFormHelper.ModalDialogFormLink(string.Format("<span class='glyphicon glyphicon-plus-sign' style='margin-right: 3px'></span>Add {0}", "PDF"), ViewDataTyped.MonitoringProgram.NewMonitoringProgramDocumentUrl, "Add New PDF", ViewDataTyped.UserHasMonitoringProgramManagePermissions)
         </div>
@@ -86,9 +92,11 @@
     </div>
 </div>
 
-<div class="summarySection">
-    <h2>Associated PerformanceMeasures</h2>
-    <div class="contentWrapper">
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>Associated PerformanceMeasures</h2>
+    </div>
+    <div class="panel-body">
         @if (ViewDataTyped.MonitoringProgram.PerformanceMeasureMonitoringPrograms.Any())
         {
             <ul>

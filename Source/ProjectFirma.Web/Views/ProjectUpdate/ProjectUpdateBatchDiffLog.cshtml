@@ -1,94 +1,94 @@
 ﻿@using ProjectFirma.Web.Views.ProjectUpdate
 @inherits ProjectUpdateBatchDiffLog
 
-<style >#hidden-save-button
- {
-     display: none;
- }
-    </style>
+<style>
+    #hidden-save-button {
+        display: none;
+    }
+</style>
 
 <div class="overflow-y: auto">
-    <div class="summarySection" style="margin-top: 0">
-        <h2>
-            Project Basics
-        </h2>
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>Project Basics</h2>
+        </div>
         @if (ViewDataTyped.ProjectUpdateBatch.BasicsDiffLogHtmlString != null)
         {
             @Html.Raw(ViewDataTyped.ProjectUpdateBatch.BasicsDiffLogHtmlString)
         }
         else
         {
-            <div class="contentWrapper">No changes to Basics section</div>
+            <div class="panel-body">No changes to Basics section</div>
         }
     </div>
 
-    <div class="summarySection">
-        <h2>
-            Performance Measures
-        </h2>
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>Performance Measures</h2>
+        </div>
         @if (ViewDataTyped.ProjectUpdateBatch.PerformanceMeasureDiffLogHtmlString != null)
         {
             @Html.Raw(ViewDataTyped.ProjectUpdateBatch.PerformanceMeasureDiffLogHtmlString)
         }
         else
         {
-            <div class="contentWrapper">No changes to Performance Measures section</div>
+            <div class="panel-body">No changes to Performance Measures section</div>
         }
     </div>
 
-    <div class="summarySection">
-        <h2>
-            Expenditures
-        </h2>
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>Expenditures</h2>
+        </div>
         @if (ViewDataTyped.ProjectUpdateBatch.ExpendituresDiffLogHtmlString != null)
         {
             @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ExpendituresDiffLogHtmlString)
         }
         else
         {
-            <div class="contentWrapper">No changes to Expenditures section</div>
+            <div class="panel-body">No changes to Expenditures section</div>
         }
     </div>
 
-    <div class="summarySection">
-        <h2>
-                Budgets
-        </h2>
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>Budgets</h2>
+        </div>
         @if (ViewDataTyped.ProjectUpdateBatch.BudgetsDiffLogHtmlString != null)
         {
             @Html.Raw(ViewDataTyped.ProjectUpdateBatch.BudgetsDiffLogHtmlString)
         }
         else
         {
-            <div class="contentWrapper">No changes to Budgets section</div>
+            <div class="panel-body">No changes to Budgets section</div>
         }
     </div>
 
-    <div class="summarySection">
-        <h2>
-            External Links
-        </h2>
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>External Links</h2>
+        </div>
         @if (ViewDataTyped.ProjectUpdateBatch.ExternalLinksDiffLogHtmlString != null)
         {
             @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ExternalLinksDiffLogHtmlString)
         }
         else
         {
-            <div class="contentWrapper">No changes to External Links section</div>
+            <div class="panel-body">No changes to External Links section</div>
         }
     </div>
 
-    <div class="summarySection">
-        <h2>
-            Notes
-        </h2>
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>Notes</h2>
+        </div>>
         @if (ViewDataTyped.ProjectUpdateBatch.NotesDiffLogHtmlString != null)
         {
             @Html.Raw(ViewDataTyped.ProjectUpdateBatch.NotesDiffLogHtmlString)
         }
         else
         {
-            <div class="contentWrapper">No changes to Notes section</div>
+            <div class="panel-body">No changes to Notes section</div>
         }
     </div>
 </div>

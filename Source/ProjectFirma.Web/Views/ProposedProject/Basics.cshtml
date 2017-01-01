@@ -84,6 +84,7 @@
             @Html.EditorFor(m => m.EstimatedTotalCost)
             @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
         </div>
+    </div><div class="row">
         <div class="col-md-4 col-lg-3 col-header cap-label">@Html.LabelWithFieldDefinitionFor(m => m.SecuredFunding)</div>
         <div class="col-md-4">
             @Html.EditorFor(m => m.SecuredFunding)
@@ -134,16 +135,16 @@
     function displaySelectedFundingTypeFields() {
         var fundingTypeDropdown = jQuery("#@Html.IdFor(x => x.FundingTypeID)");
         if (fundingTypeDropdown.val() == 1) {
-            jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('readonly', false);
-            jQuery("#@Html.IdFor(x => x.SecuredFunding)").prop('readonly', false);
-            jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('readonly', true);
+            jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('disabled', false);
+            jQuery("#@Html.IdFor(x => x.SecuredFunding)").prop('disabled', false);
+            jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('disabled', true);
             jQuery(".op-label").css("color", "#666");
             jQuery(".cap-label").css("color", "");
         }
         else if (fundingTypeDropdown.val() == 2) {
-            jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('readonly', true);
-            jQuery("#@Html.IdFor(x => x.SecuredFunding)").prop('readonly', true);
-            jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('readonly', false);
+            jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('disabled', true);
+            jQuery("#@Html.IdFor(x => x.SecuredFunding)").prop('disabled', true);
+            jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('disabled', false);
             jQuery(".op-label").css("color", "");
             jQuery(".cap-label").css("color", "#666");
 

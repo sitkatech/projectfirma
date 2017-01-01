@@ -35,13 +35,15 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-5">
-            <div class="summarySection" style="margin-right: 10px">
-                <h2>Summary Statistics</h2>
+            <div class="panel panelFirma" style="margin-right: 10px">
+                <div class="panel-heading panelTitle">
+                    <h2>Summary Statistics</h2>
+                </div>
                 <div>
                     <table class="summaryLayout" style="width: 100%">
                         <colgroup>
-                            <col style="width: 250px"/>
-                            <col style="width: auto"/>
+                            <col style="width: 250px" />
+                            <col style="width: auto" />
                         </colgroup>
                         <tr>
                             <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure)</th>
@@ -74,24 +76,26 @@
         </div>
 
         <div class="col-lg-7">
-            <div class="summarySection" style="height: 500px">
-                <h2>Charts</h2>
-                <div class="contentWrapper">
+            <div class="panel panelFirma" style="height: 500px">
+                <div class="panel-heading panelTitle">
+                    <h2>Charts</h2>
+                </div>
+                <div class="panel-body">
                     <div style="margin-right: auto; margin-left: auto; width: 600px">
                         @{ PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureChartViewData); }
                     </div>
                 </div>
             </div>
         </div>
-
-       
     </div>
 
     <div class="row">
         <div class="col-md-12">
-            <div class="summarySection">
-                <h2>Projects</h2>
-                <div class="contentWrapper">
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    <h2>Projects</h2>
+                </div>
+                <div class="panel-body">
                     @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:450px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                 </div>-
             </div>

@@ -103,22 +103,22 @@
                                     </div>
                                     <span class="alert" style="font-size: 12px">To zoom into a specific area, hold down the Shift key and drag a rectangle.</span>
                                     <script type="text/javascript">
-                                    jQuery(document).ready(function()
-                                    {
-                                        var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
-                                        var map = new ProjectFirmaMaps.Map(mapInitJson);
+                                        jQuery(document).ready(function()
+                                        {
+                                            var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
+                                            var map = new ProjectFirmaMaps.Map(mapInitJson);
 
-                                        var legend = new L.Control.Legend({
-                                            position: 'topleft',
-                                            collapsed: false,
-                                            controlButton: {
-                                                title: "Legend"
-                                            }
+                                            var legend = new L.Control.Legend({
+                                                position: 'topleft',
+                                                collapsed: false,
+                                                controlButton: {
+                                                    title: "Legend"
+                                                }
+                                            });
+
+                                            map.map.addControl( legend );
+                                            $(".legend-container").append( $("#legend") );
                                         });
-
-                                        map.map.addControl( legend );
-                                        $(".legend-container").append( $("#legend") );
-                                    });
                                     </script>
                                 }
                                 else
@@ -163,10 +163,12 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="col-md-4 col-sm-12">
-                        <div class="summarySection">
-                            <h2>Monitoring Programs</h2>
-                            <div class="contentWrapper">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>Monitoring Programs</h2>
+                            </div>
+                            <div class="panel-body">
                                 @if (ViewDataTyped.Organization.MonitoringProgramPartners.Any())
                                 {
                                     <table class="summaryLayout">
@@ -186,8 +188,8 @@
                                 }
                             </div>
                         </div>
-                    </div>  -->
-                    
+                    </div>
+
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="fundingAndProjects">
@@ -227,7 +229,7 @@
                                     @{ CalendarYearExpendituresLineChart.RenderPartialView(Html, ViewDataTyped.CalendarYearExpendituresLineChartViewData); }
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -241,11 +243,11 @@
                                     @Html.DhtmlxGrid(ViewDataTyped.ProjectOrganizationsGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, string.Format("height:300px; width:{0}px;", ViewDataTyped.ProjectOrganizationsGridSpec.CalculateTotalColumnWidth()), DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
-  
+
         </div>
     </div>
 </div>

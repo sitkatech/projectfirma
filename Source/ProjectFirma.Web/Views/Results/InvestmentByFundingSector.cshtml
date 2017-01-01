@@ -70,7 +70,7 @@
 
 <div style="margin-top: 10px">
     @Html.LabelFor(x => x.CalendarYear):
-    @Html.DropDownListFor(x => x.CalendarYear, ViewDataTyped.CalendarYears, new {onchange = "reloadWithNewCalendarYear()"})
+    @Html.DropDownListFor(x => x.CalendarYear, ViewDataTyped.CalendarYears, new { onchange = "reloadWithNewCalendarYear()" })
 </div>
 
 <div>
@@ -78,9 +78,11 @@
 </div>
 
 <div ng-app="InvestmentByFundingSectorApp" ng-controller="InvestmentByFundingSectorController">
-    <div class="summarySection">
-        <h2>Investment by Funding Sector</h2>
-        <div class="contentWrapper">
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>Investment by Funding Sector</h2>
+        </div>
+        <div class="panel-body">
             <table>
                 <tr style="vertical-align: top">
                     <td>
@@ -114,7 +116,7 @@
                         <div style="height: @(ViewDataTyped.GoogleChartJson.GoogleChartConfiguration.Height + 30)px; width: @(ViewDataTyped.GoogleChartJson.GoogleChartConfiguration.Width)px overflow:hidden; margin-top: 10px">
                             <div style="font-weight: bold; max-width: 280px;">Investment by Funding Sector for: @ViewDataTyped.ReportingYearRangeTitle</div>
                             <div class="firmaChartControls">
-                                <a class="expandBox" style="font-size:small" href="@ViewDataTyped.GoogleChartJson.ChartPopupUrl">
+                                <a class="expandBox" style="font-size: small" href="@ViewDataTyped.GoogleChartJson.ChartPopupUrl">
                                     <span class="glyphicon glyphicon-fullscreen" style="margin-right: 5px"></span>Enlarge
                                 </a>
                             </div>
@@ -128,21 +130,26 @@
         </div>
     </div>
 
-    <div class="summarySection">
-        <h2>Organization/Funding Source spending by selected Sector: <span ng-bind="SelectedSector"></span></h2>
-        <div class="contentWrapper">
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>Organization/Funding Source spending by selected Sector: <span ng-bind="SelectedSector"></span></h2>
+        </div>
+        <div class="panel-body">
             <div id="spendingBySectorAndOrganization">
             </div>
         </div>
     </div>
 
 
-    <div class="summarySection">
-        <h2>Projects Funded by selected Sector: <span ng-bind="SelectedSector"></span></h2>
-        <div class="contentWrapper">
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>Projects Funded by selected Sector: <span ng-bind="SelectedSector"></span></h2>
+        </div>
+        <div class="panel-body">
             <p>These projects are funded in full or in part by a Funding Source that falls under the selected Funding Sector. If a project is funded by more than one Funding Source within the selected Sector, it will be listed multiple times.</p>
             <div id="projectFundingSectorExpenditureGrid" style="width: 100%">
-            </div>        </div>
+            </div>
+        </div>
     </div>
 </div>
 

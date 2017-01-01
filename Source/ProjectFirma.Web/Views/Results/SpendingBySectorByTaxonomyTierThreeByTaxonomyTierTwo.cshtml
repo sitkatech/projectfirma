@@ -7,8 +7,7 @@
 {
     <script type="text/javascript">
         // <![CDATA[
-        function reloadWithNewCalendarYear()
-        {
+        function reloadWithNewCalendarYear() {
             var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoUrl.ToJS()));
             var newUrl = urlTemplate.ParameterReplace(jQuery("#@Html.IdFor(x => x.CalendarYear)").val());
             document.location = newUrl;
@@ -19,23 +18,26 @@
 
 <div style="margin-top: 10px">
     @Html.LabelFor(x => x.CalendarYear):
-    @Html.DropDownListFor(x => x.CalendarYear, ViewDataTyped.CalendarYears, new {onchange = "reloadWithNewCalendarYear()"})
+    @Html.DropDownListFor(x => x.CalendarYear, ViewDataTyped.CalendarYears, new { onchange = "reloadWithNewCalendarYear()" })
 </div>
 
 <div>
     @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
 </div>
 
-<div class="summarySection">
-    <h2>@(ViewDataTyped.SelectedCalendarYear.HasValue ? ViewDataTyped.SelectedCalendarYear.ToString() : "All") Investments</h2>
-    <div class="contentWrapper">
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>@(ViewDataTyped.SelectedCalendarYear.HasValue ? ViewDataTyped.SelectedCalendarYear.ToString() : "All") Investments</h2>
+    </div>
+    <div class="panel-body">
         <table class="gridLayout" style="width: 1050px">
             <tr>
                 <th style="text-align: left">@MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</th>
                 @foreach (var sector in ViewDataTyped.Sectors)
                 {
                     <th style="white-space: nowrap">
-                        <div style="display: inline-block; margin-right: 4px; width: 16px; height: 10px; background-color: @sector.LegendColor"></div>@sector.SectorDisplayName</th>
+                        <div style="display: inline-block; margin-right: 4px; width: 16px; height: 10px; background-color: @sector.LegendColor"></div>@sector.SectorDisplayName
+                    </th>
                 }
                 <th>Total</th>
             </tr>

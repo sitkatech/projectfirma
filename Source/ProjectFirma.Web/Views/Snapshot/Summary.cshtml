@@ -15,11 +15,9 @@
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 
     <script type="text/javascript">
-        jQuery(function()
-        {
+        jQuery(function () {
             jQuery(".performanceMeasureTableSelector")
-                .change(function()
-                {
+                .change(function () {
                     jQuery(".performanceMeasureTable").hide();
                     jQuery('#performanceMeasureTable_' + jQuery(this).val()).show();
                 });
@@ -30,13 +28,12 @@
 
 <div class="row">
     <div class="col-md-3">
-        <div class="summarySection">
-            <h2>
-                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.SnapshotEditUrl, string.Format("Edit Snapshot for {0}", ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString()), ViewDataTyped.UserHasSnapshotManagePermissions)
-                Snapshot Basics
-            </h2>
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.SnapshotEditUrl, string.Format("Edit Snapshot for {0}", ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString()), ViewDataTyped.UserHasSnapshotManagePermissions) Snapshot Basics</h2>
+            </div>
 
-            <div class="contentWrapper">
+            <div class="panel-body">
                 <div class="row">
                     <div class="col-sm-4">
                         <strong>Snapshot Date:</strong>
@@ -88,8 +85,10 @@
         </div>
     </div>
     <div class="col-md-9">
-        <div class="summarySection">
-            <h2>Snapshot of Sector Expenditures on @(ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString())</h2>
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>Snapshot of Sector Expenditures on @(ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString())</h2>
+            </div>
             <table class="summaryLayout">
                 <tr>
                     <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Sector)</th>
@@ -132,9 +131,11 @@
     </div>
 </div>
 
-<div class="summarySection">
-    <h2>Snapshot of Performance Measures on @(ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString())</h2>
-    <div class="contentWrapper">
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>Snapshot of Performance Measures on @(ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString())</h2>
+    </div>
+    <div class="panel-body">
         <select class="performanceMeasureTableSelector" name="performanceMeasureTable">
             <option value="">Select a Performance Measure</option>
             @foreach (var performanceMeasure in ViewDataTyped.Snapshot.SnapshotPerformanceMeasures.Select(x => x.PerformanceMeasure).Distinct())
@@ -146,10 +147,12 @@
     </div>
 </div>
 
-<div class="summarySection">
-    <h2>Projects Changed on @(ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString())</h2>
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>Projects Changed on @(ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString())</h2>
+    </div>
 
-    <div class="contentWrapper">
+    <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
     </div>
 </div>

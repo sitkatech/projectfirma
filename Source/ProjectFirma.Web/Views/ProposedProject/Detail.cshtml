@@ -37,7 +37,7 @@
 }
 
 
-<div class="warning" style="margin-bottom: 10px">
+<div class="alert alert-info" style="margin-bottom: 10px">
     <span class="glyphicon glyphicon-info-sign blue" title="Proposed Project"></span>
     @switch (ViewDataTyped.ProposedProject.ProposedProjectState.ToEnum)
     {
@@ -83,17 +83,19 @@
     <div id="contentForTOC" class="container-fluid">
         <div class="row">
             <div data-target="#tableofcontents" id="scrollSpyContent" class="col-lg-2 col-md-3 hidden-sm hidden-xs hidden-print">
-                <div id="tableOfContentsAffixed" class="navSummarySection">
-                    <h2 data-toc-skip>Page Contents</h2>
+                <div id="tableOfContentsAffixed" class="navpanel panelFirma">
+                    <h4 data-toc-skip>Page Contents</h4>
                     <nav id="tableOfContents" class="scrollSpy"></nav>
                 </div>
             </div>
             <div class="col-sm-12 col-md-9 col-lg-10">
                 <div class="row">
                     <div class="col-md-12 col-lg-8" style="padding-right: 10px">
-                        <div class="summarySection">
-                            <h2>Basics</h2>
-                            <div class="contentWrapper">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>Basics</h2>
+                            </div>
+                            <div class="panel-body">
                                 <table class="summaryLayout" style="width: 100%">
                                     <colgroup>
                                         <col style="width: 250px" />
@@ -108,32 +110,32 @@
                                     @switch (ViewDataTyped.ProposedProject.FundingType.ToEnum)
                                     {
                                         case FundingTypeEnum.Capital:
-                                            <tr>
-                                                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedTotalCost)</th>
-                                                <td>
-                                                    @ViewDataTyped.ProposedProject.EstimatedTotalCost.ToStringCurrency()
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.SecuredFunding)</th>
-                                                <td>
-                                                    @ViewDataTyped.ProposedProject.SecuredFunding.ToStringCurrency()
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.UnfundedNeed)</th>
-                                                <td>
-                                                    @ViewDataTyped.ProposedProject.UnfundedNeed.ToStringCurrency()
-                                                </td>
-                                            </tr>
+                                    <tr>
+                                        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedTotalCost)</th>
+                                        <td>
+                                            @ViewDataTyped.ProposedProject.EstimatedTotalCost.ToStringCurrency()
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.SecuredFunding)</th>
+                                        <td>
+                                            @ViewDataTyped.ProposedProject.SecuredFunding.ToStringCurrency()
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.UnfundedNeed)</th>
+                                        <td>
+                                            @ViewDataTyped.ProposedProject.UnfundedNeed.ToStringCurrency()
+                                        </td>
+                                    </tr>
                                             break;
                                         case FundingTypeEnum.OperationsAndMaintenance:
-                                        <tr>
-                                            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedAnnualOperatingCost)</th>
-                                            <td>
-                                                @ViewDataTyped.ProposedProject.EstimatedAnnualOperatingCost.ToStringCurrency()
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedAnnualOperatingCost)</th>
+                                        <td>
+                                            @ViewDataTyped.ProposedProject.EstimatedAnnualOperatingCost.ToStringCurrency()
+                                        </td>
+                                    </tr>
                                             break;
                                     }
                                     <tr>
@@ -184,24 +186,30 @@
                     </div>
 
                     <div class="col-md-12 col-lg-8">
-                        <div class="summarySection">
-                            <h2>Location</h2>
-                            <div class="contentWrapper">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>Location</h2>
+                            </div>
+                            <div class="panel-body">
                                 @{ ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData); }
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="summarySection">
-                    <h2>Expected Performance Measures</h2>
-                    <div class="contentWrapper">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>Expected Performance Measures</h2>
+                    </div>
+                    <div class="panel-body">
                         @{ PerformanceMeasureExpectedSummary.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureExpectedSummaryViewData); }
                     </div>
                 </div>
 
-                <div class="summarySection">
-                    <h2>@MultiTenantHelpers.GetClassificationDisplayNamePluralized()</h2>
-                    <div class="contentWrapper">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>@MultiTenantHelpers.GetClassificationDisplayNamePluralized()</h2>
+                    </div>
+                    <div class="panel-body">
                         @if (ViewDataTyped.ProposedProject.ProposedProjectClassifications != null && ViewDataTyped.ProposedProject.ProposedProjectClassifications.Any())
                         {
                             <div class="row">
@@ -224,30 +232,38 @@
                         }
                     </div>
                 </div>
-                <div class="summarySection">
-                    <h2>Assessment</h2>
-                    <div class="contentWrapper">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>Assessment</h2>
+                    </div>
+                    <div class="panel-body">
                         @{ AssessmentTree.RenderPartialView(Html, ViewDataTyped.AssessmentTreeViewData);}
                     </div>
                 </div>
 
-                <div class="summarySection">
-                    <h2>Photos</h2>
-                    <div class="contentWrapper">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>Photos</h2>
+                    </div>
+                    <div class="panel-body">
                         @{ ImageGallery.RenderPartialView(Html, ViewDataTyped.ImageGalleryViewData); }
                     </div>
                 </div>
 
-                <div class="summarySection">
-                    <h2>Notes</h2>
-                    <div class="contentWrapper">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>Notes</h2>
+                    </div>
+                    <div class="panel-body">
                         @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
                     </div>
                 </div>
 
-                <div class="summarySection">
-                    <h2>Audit Log</h2>
-                    <div class="contentWrapper">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>Audit Log</h2>
+                    </div>
+                    <div class="panel-body">
                         @Html.DhtmlxGrid(ViewDataTyped.AuditLogsGridSpec, ViewDataTyped.AuditLogsGridName, ViewDataTyped.AuditLogsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                     </div>
                 </div>
@@ -256,28 +272,28 @@
     </div>
 </div>
 
-    <div style="margin-top: 20px">
-        <a class="btn btn-sm btn-firma" href="@ViewDataTyped.ProposedProjectsUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
-    </div>
+<div style="margin-top: 20px">
+    <a class="btn btn-sm btn-firma" href="@ViewDataTyped.ProposedProjectsUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
+</div>
 
-    <script type="text/javascript">
-        jQuery(document)
-            .ready(function () {
-                Toc.init({
-                    $nav: jQuery('#tableOfContents'),
-                    $scope: jQuery('#contentForTOC')
-                });
-
-                jQuery('body').scrollspy({
-                    target: '#tableOfContents'
-                });
-
-                jQuery('#tableOfContentsAffixed')
-                    .affix({
-                        offset: {
-                            top: function() { return (this.top = jQuery("#tableOfContentsAffixed").offset().top); },
-                            bottom: function() { return (this.bottom = jQuery('footer').outerHeight(true) + 100); }
-                        }
-                    });
+<script type="text/javascript">
+    jQuery(document)
+        .ready(function () {
+            Toc.init({
+                $nav: jQuery('#tableOfContents'),
+                $scope: jQuery('#contentForTOC')
             });
-    </script>
+
+            jQuery('body').scrollspy({
+                target: '#tableOfContents'
+            });
+
+            jQuery('#tableOfContentsAffixed')
+                .affix({
+                    offset: {
+                        top: function () { return (this.top = jQuery("#tableOfContentsAffixed").offset().top); },
+                        bottom: function () { return (this.bottom = jQuery('footer').outerHeight(true) + 100); }
+                    }
+                });
+        });
+</script>
