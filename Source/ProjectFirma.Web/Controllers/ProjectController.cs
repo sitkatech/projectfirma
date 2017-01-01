@@ -166,7 +166,7 @@ namespace ProjectFirma.Web.Controllers
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
             var inflationRate = CostParameterSet.GetLatestInflationRate();
-            var editInflationUrl = SitkaRoute<CostParameterSetController>.BuildUrlFromExpression(controller => controller.Summary());
+            var editInflationUrl = SitkaRoute<CostParameterSetController>.BuildUrlFromExpression(controller => controller.Detail());
             var editProjectBudgetUrl = SitkaRoute<ProjectBudgetController>.BuildUrlFromExpression(c => c.EditBudgetsForProject(project));
 
             var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));

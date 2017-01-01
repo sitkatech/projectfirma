@@ -696,8 +696,8 @@
     <Compile Include="Views\MonitoringProgram\Index.cs" />
     <Compile Include="Views\MonitoringProgram\IndexGridSpec.cs" />
     <Compile Include="Views\MonitoringProgram\IndexViewData.cs" />
-    <Compile Include="Views\MonitoringProgram\Summary.cs" />
-    <Compile Include="Views\MonitoringProgram\SummaryViewData.cs" />
+    <Compile Include="Views\MonitoringProgram\Detail.cs" />
+    <Compile Include="Views\MonitoringProgram\DetailViewData.cs" />
     <Compile Include="Common\FirmaValidationMessages.cs" />
     <Compile Include="Common\ToadsValidationMessages.cs" />
     <Compile Include="Controllers\FieldDefinitionController.cs" />
@@ -1042,8 +1042,8 @@
     <Compile Include="Views\CostParameterSet\NewViewData.cs" />
     <Compile Include="Views\CostParameterSet\NewViewModel.cs" />
     <Compile Include="Views\CostParameterSet\NewViewModelTest.cs" />
-    <Compile Include="Views\CostParameterSet\Summary.cs" />
-    <Compile Include="Views\CostParameterSet\SummaryViewData.cs" />
+    <Compile Include="Views\CostParameterSet\Detail.cs" />
+    <Compile Include="Views\CostParameterSet\DetailViewData.cs" />
     <Compile Include="Views\WebServices\ViewAccessToken.cs" />
     <Compile Include="Views\WebServices\Index.cs" />
     <Compile Include="Views\WebServices\ViewAccessTokenViewData.cs" />
@@ -3036,7 +3036,7 @@
     <Content Include="Views\PerformanceMeasure\EditAccomplishmentsMetadata.cshtml" />
     <Content Include="Views\MonitoringProgram\Edit.cshtml" />
     <Content Include="Views\MonitoringProgram\Index.cshtml" />
-    <Content Include="Views\MonitoringProgram\Summary.cshtml" />
+    <Content Include="Views\MonitoringProgram\Detail.cshtml" />
     <Content Include="Views\MonitoringProgramPartner\EditMonitoringProgramPartners.cshtml" />
     <Content Include="Views\MonitoringProgram\NewMonitoringProgramDocument.cshtml" />
     <Content Include="Views\Classification\Edit.cshtml" />
@@ -3055,7 +3055,7 @@
     <Content Include="Views\Tag\Detail.cshtml" />
     <Content Include="Views\Assessment\Manage.cshtml" />
     <Content Include="Views\CostParameterSet\New.cshtml" />
-    <Content Include="Views\CostParameterSet\Summary.cshtml" />
+    <Content Include="Views\CostParameterSet\Detail.cshtml" />
     <Content Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActuals.cshtml" />
     <Content Include="Views\PerformanceMeasure\InfoSheet.cshtml" />
     <Content Include="Views\FundingSource\Edit.cshtml" />

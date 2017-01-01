@@ -5,13 +5,13 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.CostParameterSet
 {
-    public class SummaryViewData : FirmaViewData
+    public class DetailViewData : FirmaViewData
     {
         public readonly string EditCostParameterSet;
         public readonly Models.CostParameterSet CostParameterSet;
         public readonly bool HasEditPermissions;
 
-        public SummaryViewData(Person currentPerson, Models.FirmaPage firmaPage, Models.CostParameterSet costParameterSet)
+        public DetailViewData(Person currentPerson, Models.FirmaPage firmaPage, Models.CostParameterSet costParameterSet)
             : base(currentPerson, firmaPage)
         {
             PageTitle = " Cost Parameters";

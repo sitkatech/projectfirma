@@ -5,7 +5,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.MonitoringProgram
 {
-    public class SummaryViewData : FirmaViewData
+    public class DetailViewData : FirmaViewData
     {
         public readonly Models.MonitoringProgram MonitoringProgram;
         public readonly string EditMonitoringProgramUrl;
@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Views.MonitoringProgram
 
         public readonly bool UserHasMonitoringProgramManagePermissions;
 
-        public SummaryViewData(Person currentPerson, Models.MonitoringProgram monitoringProgram) : base(currentPerson)
+        public DetailViewData(Person currentPerson, Models.MonitoringProgram monitoringProgram) : base(currentPerson)
         {
             MonitoringProgram = monitoringProgram;
             PageTitle = monitoringProgram.MonitoringProgramName;

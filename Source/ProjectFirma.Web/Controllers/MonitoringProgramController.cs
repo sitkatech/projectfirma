@@ -11,8 +11,6 @@ using LtInfo.Common.MvcResults;
 using Index = ProjectFirma.Web.Views.MonitoringProgram.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.MonitoringProgram.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.MonitoringProgram.IndexViewData;
-using Summary = ProjectFirma.Web.Views.MonitoringProgram.Summary;
-using SummaryViewData = ProjectFirma.Web.Views.MonitoringProgram.SummaryViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -119,7 +117,7 @@ namespace ProjectFirma.Web.Controllers
             var confirmMessage = canDelete
                 ? string.Format("Are you sure you want to delete this Monitoring Program '{0}'?", monitoringProgram.MonitoringProgramName)
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Monitoring Program",
-                    SitkaRoute<MonitoringProgramController>.BuildLinkFromExpression(x => x.Summary(monitoringProgram), "here"));
+                    SitkaRoute<MonitoringProgramController>.BuildLinkFromExpression(x => x.Detail(monitoringProgram), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
@@ -140,11 +138,11 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [MonitoringProgramViewFeature]
-        public ViewResult Summary(MonitoringProgramPrimaryKey monitoringProgramPrimaryKey)
+        public ViewResult Detail(MonitoringProgramPrimaryKey monitoringProgramPrimaryKey)
         {
             var monitoringProgram = monitoringProgramPrimaryKey.EntityObject;
-            var viewData = new SummaryViewData(CurrentPerson, monitoringProgram);
-            return RazorView<Summary, SummaryViewData>(viewData);
+            var viewData = new DetailViewData(CurrentPerson, monitoringProgram);
+            return RazorView<Detail, DetailViewData>(viewData);
         }
 
         [HttpGet]
@@ -193,7 +191,7 @@ namespace ProjectFirma.Web.Controllers
             var confirmMessage = canDelete
                 ? "Are you sure you want to delete this Monitoring Program Document?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Monitoring Program Document",
-                    SitkaRoute<MonitoringProgramController>.BuildLinkFromExpression(x => x.Summary(monitoringProgramDocument.MonitoringProgramID), "here"));
+                    SitkaRoute<MonitoringProgramController>.BuildLinkFromExpression(x => x.Detail(monitoringProgramDocument.MonitoringProgramID), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);

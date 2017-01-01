@@ -13,23 +13,23 @@ namespace ProjectFirma.Web.Controllers
     public class CostParameterSetController : FirmaBaseController
     {
         [AnonymousUnclassifiedFeature]
-        public ViewResult Summary()
+        public ViewResult Detail()
         {
-            return SummaryImpl();
+            return DetailImpl();
         }
 
         [ProjectBudgetManageFeature]
         public ViewResult Manage()
         {
-            return SummaryImpl();
+            return DetailImpl();
         }
 
-        private ViewResult SummaryImpl()
+        private ViewResult DetailImpl()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.CostParameterSet);
             var costParameterSet = HttpRequestStorage.DatabaseEntities.CostParameterSets.Latest();
-            var viewData = new SummaryViewData(CurrentPerson, firmaPage, costParameterSet);
-            return RazorView<Summary, SummaryViewData>(viewData);
+            var viewData = new DetailViewData(CurrentPerson, firmaPage, costParameterSet);
+            return RazorView<Detail, DetailViewData>(viewData);
         }
 
         [HttpGet]
