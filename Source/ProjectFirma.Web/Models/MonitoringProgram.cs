@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Models
 
         public HtmlString DisplayNameAsUrl
         {
-            get { return UrlTemplate.MakeHrefString(SummaryUrl, DisplayName); }
+            get { return UrlTemplate.MakeHrefString(DetailUrl, DisplayName); }
         }
 
         public string DisplayName
@@ -29,9 +29,9 @@ namespace ProjectFirma.Web.Models
             get { return MonitoringProgramName; }
         }
 
-        public string SummaryUrl
+        public string DetailUrl
         {
-            get { return SitkaRoute<MonitoringProgramController>.BuildUrlFromExpression(x => x.Summary(MonitoringProgramID)); }
+            get { return SitkaRoute<MonitoringProgramController>.BuildUrlFromExpression(x => x.Detail(MonitoringProgramID)); }
         }
 
         public static bool IsMonitoringProgramNameUnique(IEnumerable<MonitoringProgram> monitoringPrograms, string monitoringProgramName, int currentMonitoringProgramID)

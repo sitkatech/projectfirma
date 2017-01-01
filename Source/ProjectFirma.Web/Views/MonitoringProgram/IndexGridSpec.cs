@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Views.MonitoringProgram
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, !x.HasDependentObjects()), 30);
             }
-            Add(Models.FieldDefinition.MonitoringProgram.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.DisplayName), 450, DhtmlxGridColumnFilterType.Html);
+            Add(Models.FieldDefinition.MonitoringProgram.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.DetailUrl, a.DisplayName), 450, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.MonitoringProgramUrl.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.MonitoringProgramUrl, a.MonitoringProgramUrl), 200, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.MonitoringApproach.ToGridHeaderString(), a => a.MonitoringApproach, 450);
             Add("# of Partners", a => a.MonitoringProgramPartners.Count, 90);
