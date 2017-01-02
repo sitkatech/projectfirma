@@ -29,16 +29,16 @@ namespace ProjectFirma.Web.Models
             if (!CanCalculateCapitalCostInYearOfExpenditure(project))
                 return null;
 
-            return CalculateCapitalCostInYearOfExpenditureImpl(project, GetLatestInflationRate());
+            return CalculateCapitalCostInYearOfExpenditureImpl(project, GetLatestInflationRate(), 2016);
         }
 
         //Only public for unit testing
-        public static decimal? CalculateCapitalCostInYearOfExpenditureImpl(IProject project, decimal inflationRate)
+        public static decimal? CalculateCapitalCostInYearOfExpenditureImpl(IProject project, decimal inflationRate, int currentRTPYearForPVCalculations)
         {
             if (!CanCalculateCapitalCostInYearOfExpenditure(project))
                 return null;
 
-            return FirmaMathUtilities.FutureValueOfPresentSum(project.EstimatedTotalCost.Value, inflationRate, GetCurrentRTPYearForPVCalculations(), project.CompletionYear.Value);
+            return FirmaMathUtilities.FutureValueOfPresentSum(project.EstimatedTotalCost.Value, inflationRate, currentRTPYearForPVCalculations, project.CompletionYear.Value);
         }
 
         public static bool CanCalculateCapitalCostInYearOfExpenditure(IProject project)

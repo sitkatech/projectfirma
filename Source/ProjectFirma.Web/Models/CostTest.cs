@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Models
             project.CompletionYear = 2020;
 
             var inflationRate = 0.02m;
-            var expectedExpenditureYearCostCalculated = CostParameterSet.CalculateCapitalCostInYearOfExpenditureImpl(project, inflationRate) ?? 0;
+            var expectedExpenditureYearCostCalculated = CostParameterSet.CalculateCapitalCostInYearOfExpenditureImpl(project, inflationRate, 2016) ?? 0;
 
             var expectedExpenditureYearCostFromExpected = 2164864.32m;
             expectedExpenditureYearCostCalculated.AssertThatIsWithinOnePennyOf(expectedExpenditureYearCostFromExpected, "Project Cost in Year of Expenditure calculated incorrectly.");
@@ -62,13 +62,13 @@ namespace ProjectFirma.Web.Models
 
             var inflationRate = 0.02m;
 
-            Assert.That(CostParameterSet.CalculateCapitalCostInYearOfExpenditureImpl(project, inflationRate), Is.Null, "Incorrect implementation of nullable type.");
+            Assert.That(CostParameterSet.CalculateCapitalCostInYearOfExpenditureImpl(project, inflationRate, 2016), Is.Null, "Incorrect implementation of nullable type.");
 
             project.EstimatedTotalCost = null;
             project.ImplementationStartYear = 2013;
             project.CompletionYear = 2020;
 
-            Assert.That(CostParameterSet.CalculateCapitalCostInYearOfExpenditureImpl(project, inflationRate), Is.Null, "Incorrect implementation of nullable type.");
+            Assert.That(CostParameterSet.CalculateCapitalCostInYearOfExpenditureImpl(project, inflationRate, 2016), Is.Null, "Incorrect implementation of nullable type.");
         }
 
         [Test]
