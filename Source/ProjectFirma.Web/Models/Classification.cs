@@ -11,14 +11,9 @@ namespace ProjectFirma.Web.Models
             get { return ProjectClassifications.Select(ptc => ptc.Project).Distinct(new HavePrimaryKeyComparer<Project>()).OrderBy(x => x.DisplayName).ToList(); }
         }
 
-        public string KeyImageUrlSmall
-        {
-            get { return string.Format("/Areas/Threshold/content/img/Classification_{0}_sm.jpg", ClassificationName); }
-        }
-
         public string KeyImageUrlLarge
         {
-            get { return string.Format("/Areas/Threshold/content/img/Classification_{0}_lg.jpg", ClassificationName); }
+            get { return "http://placehold.it/280x210"; }
         }
 
         public string AuditDescriptionString

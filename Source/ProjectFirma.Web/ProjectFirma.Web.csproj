@@ -428,7 +428,6 @@
     <Compile Include="Models\ProposedProjectAssessmentQuestion.cs" />
     <Compile Include="Models\ProposedProjectAssessmentQuestionSimple.cs" />
     <Compile Include="Models\SnapshotPerformanceMeasure.cs" />
-    <Compile Include="Models\PerformanceMeasureThresholdReportingCategorySimple.cs" />
     <Compile Include="Models\ProposedProjectLocation.cs" />
     <Compile Include="Models\ProposedProjectLocationStaging.cs" />
     <Compile Include="Models\SnapshotPerformanceMeasureSubcategoryOption.cs" />
@@ -1549,7 +1548,6 @@
       <DependentUpon>jquery.qtip.firma.css</DependentUpon>
     </Content>
     <Content Include="Security\FirmaFeatureTest.AdministratorsCanAccessAllFeaturesAndUnassignedCantAccessAnyFeatures.approved.txt" />
-    <Content Include="Security\FirmaFeatureTest.EachControllerActionShouldUseAreaBaseFeature.approved.txt" />
     <Content Include="Security\FirmaFeatureTest.SitkaAdministratorsCanAccessAllFeaturesAndUnassignedCantAccessAnyFeatures.approved.txt" />
     <Content Include="Views\PerformanceMeasureActual\PerformanceMeasureActualController.js" />
     <Content Include="Views\PerformanceMeasureMonitoringProgram\PerformanceMeasureMonitoringProgramController.js" />

@@ -119,7 +119,7 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectColorByTypeTaxonomyTierThree : ProjectColorByType
     {
         private ProjectColorByTypeTaxonomyTierThree(int projectColorByTypeID, string projectColorByTypeName, string projectColorByTypeNameWithIdentifier, string projectColorByTypeDisplayName, int sortOrder) : base(projectColorByTypeID, projectColorByTypeName, projectColorByTypeNameWithIdentifier, projectColorByTypeDisplayName, sortOrder) {}
-        public static readonly ProjectColorByTypeTaxonomyTierThree Instance = new ProjectColorByTypeTaxonomyTierThree(1, @"TaxonomyTierThree", @"TaxonomyTierThreeID", @"Focus Area", 10);
+        public static readonly ProjectColorByTypeTaxonomyTierThree Instance = new ProjectColorByTypeTaxonomyTierThree(1, @"TaxonomyTierThree", @"TaxonomyTierThreeID", @"Taxonomy Tier Three", 10);
     }
 
     public partial class ProjectColorByTypeProjectStage : ProjectColorByType

@@ -50,8 +50,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
             IsPerformanceMeasureSectionComplete = !pmValidationResults.Any();
 
             var proposedProjectClassificationSimples = ProposedProjectController.GetProposedProjectClassificationSimples(proposedProject);
-            var thresholdValidationResults = new EditProposedProjectClassificationsViewModel(proposedProjectClassificationSimples).GetValidationResults();
-            IsClassificationsComplete = !thresholdValidationResults.Any();
+            var classificationValidationResults = new EditProposedProjectClassificationsViewModel(proposedProjectClassificationSimples).GetValidationResults();
+            IsClassificationsComplete = !classificationValidationResults.Any();
 
             IsAssessmentComplete = ProposedProjectController.GetProposedProjectAssessmentQuestionSimples(proposedProject).All(simple => simple.Answer.HasValue);
 
