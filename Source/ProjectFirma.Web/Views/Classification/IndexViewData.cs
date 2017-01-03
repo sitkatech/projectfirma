@@ -1,4 +1,5 @@
 using LtInfo.Common;
+using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -18,7 +19,8 @@ namespace ProjectFirma.Web.Views.Classification
             {
                 ObjectNameSingular = MultiTenantHelpers.GetClassificationDisplayName(),
                 ObjectNamePlural = MultiTenantHelpers.GetClassificationDisplayNamePluralized(),
-                SaveFiltersInCookie = true
+                SaveFiltersInCookie = true,
+                CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.New()), "New Project Classification"),
             };
 
             GridName = "classificationsGrid";

@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Common
 
         public static string GetClassificationDisplayName()
         {
-            return "Classification";
+            return "Project Classification";
         }
 
         public static string GetClassificationDisplayNamePluralized()

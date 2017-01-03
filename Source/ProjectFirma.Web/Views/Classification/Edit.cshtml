@@ -2,28 +2,34 @@
 @inherits ProjectFirma.Web.Views.Classification.Edit
 @using (Html.BeginForm())
 {
-    <table class="dialogFormLayout" style="font-size: 14px;">        
-        <tr>
-            <th style="white-space: nowrap; font-size: 16px;">@Html.LabelFor(m => m.DisplayName, "Display Name:")</th>
-            <td style="width:100%">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelFor(m => m.DisplayName, "Display Name")
+            </div>
+            <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.DisplayName, new { style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.DisplayName)
-            </td>
-        </tr>
-        <tr>
-            <th style="font-size: 16px;">@Html.LabelFor(m => m.ClassificationDescription, "Description:")</th>
-            <td>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelFor(m => m.ClassificationDescription, "Description")
+            </div>
+            <div class="col-sm-9">
                 @Html.TextAreaWithMaxLengthFor(m => m.ClassificationDescription, new TextAreaForExtensions.TextAreaDimensions(null, 3), null)
                 @Html.ValidationMessageFor(m => m.ClassificationDescription)
-            </td>
-        </tr>
-        <tr>
-            <th style="font-size: 16px;">@Html.LabelFor(m => m.GoalStatement, "Goal Statement:")</th>
-            <td>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelFor(m => m.GoalStatement, "Goal Statement")
+            </div>
+            <div class="col-sm-9">
                 @Html.TextAreaWithMaxLengthFor(m => m.GoalStatement, new TextAreaForExtensions.TextAreaDimensions(null, 3), null)
                 @Html.ValidationMessageFor(m => m.GoalStatement)
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
+    </div>
     @Html.HiddenFor(m => m.ClassificationID)
 }

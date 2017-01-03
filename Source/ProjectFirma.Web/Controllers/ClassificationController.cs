@@ -34,6 +34,30 @@ namespace ProjectFirma.Web.Controllers
             return new GridJsonNetJObjectResult<Classification>(taxonomyTierOnes, gridSpec);
         }
 
+
+        [HttpGet]
+        [PerformanceMeasureManageFeature]
+        public PartialViewResult New()
+        {
+            var viewModel = new EditViewModel();
+            return ViewEdit(viewModel);
+        }
+
+        [HttpPost]
+        [PerformanceMeasureManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult New(EditViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(viewModel);
+            }
+            var classification = new Classification(viewModel.DisplayName, string.Empty, "#BBBBBB", string.Empty);
+            viewModel.UpdateModel(classification, CurrentPerson);
+            HttpRequestStorage.DatabaseEntities.Classifications.Add(classification);
+            return new ModalDialogFormJsonResult();
+        }
+
         [HttpGet]
         [PerformanceMeasureManageFeature]
         public PartialViewResult Edit(ClassificationPrimaryKey classificationPrimaryKey)
@@ -64,9 +88,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [PerformanceMeasureViewFeature]
-        public ViewResult Detail(string classificationName)
+        public ViewResult Detail(ClassificationPrimaryKey classificationPrimaryKey)
         {
-            var classification = HttpRequestStorage.DatabaseEntities.Classifications.GetClassificationByClassificationeName(classificationName);
+            var classification = classificationPrimaryKey.EntityObject;
             var viewData = new DetailViewData(CurrentPerson, classification);
             return RazorView<Detail, DetailViewData>(viewData);
         }

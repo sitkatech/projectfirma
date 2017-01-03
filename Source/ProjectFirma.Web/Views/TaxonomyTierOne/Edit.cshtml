@@ -2,17 +2,21 @@
 @inherits ProjectFirma.Web.Views.TaxonomyTierOne.Edit
 @using (Html.BeginForm())
 {
-    <table class="dialogFormLayout">
-        <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneName)</th>
-            <td>
-                @Html.TextBoxFor(m => m.TaxonomyTierOneName, new {style = "width:522px"})
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneName)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.TaxonomyTierOneName, new { style = "width:522px" })
                 @Html.ValidationMessageFor(m => m.TaxonomyTierOneName)
-            </td>
-        </tr>
-        <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierTwoID)</th>
-            <td>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierTwoID)
+            </div>
+            <div class="col-sm-9">
                 @if (ViewDataTyped.HasProjects)
                 {
                     @ViewDataTyped.TaxonomyTierTwoDisplayName
@@ -23,8 +27,8 @@
                     @Html.DropDownListFor(m => m.TaxonomyTierTwoID, ViewDataTyped.TaxonomyTierTwos)
                     @Html.ValidationMessageFor(m => m.TaxonomyTierTwoID)
                 }
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
+    </div>
     @Html.HiddenFor(m => m.TaxonomyTierOneID)
 }

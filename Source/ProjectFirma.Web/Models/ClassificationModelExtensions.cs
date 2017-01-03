@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Models
 
         public static string GetSummaryUrl(this Classification classification)
         {
-            return SitkaRoute<ClassificationController>.BuildUrlFromExpression(t => t.Detail(classification.ClassificationName));
+            return SitkaRoute<ClassificationController>.BuildUrlFromExpression(t => t.Detail(classification));
         }
 
         public static HtmlString GetDisplayNameAsUrl(this Classification classification)

@@ -15,10 +15,9 @@ namespace ProjectFirma.Web.Views.Classification
         public DetailViewData(Person currentPerson, Models.Classification classification)
             : base(currentPerson)
         {
-            PageTitle = classification.DisplayName;
             Classification = classification;
             EditClassificationUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Edit(classification));
-            IndexUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(c => c.Index());
+            IndexUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Index());
 
             UserHasClassificationManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
         }
