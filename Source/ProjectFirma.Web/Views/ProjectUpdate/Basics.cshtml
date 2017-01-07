@@ -39,14 +39,20 @@
 <hr />
 @using (Html.BeginForm())
 {
-    <table class="formLayout">
-        <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierOne, 600)</th>
-            <td colspan="3">@ViewDataTyped.TaxonomyTierOneDisplayName</td>
-        </tr>
-        <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.ProjectDescription)</th>
-            <td colspan="3">
+    <div class="form-horizontal">
+        <div class="row form-group">
+            <div class="col-md-3 col-header">
+                @Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierOne, 600)
+            </div>
+            <div class="col-md-9">
+                @ViewDataTyped.TaxonomyTierOneDisplayName
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-header">
+                @Html.LabelWithFieldDefinitionFor(m => m.ProjectDescription)
+            </div>
+            <div class="col-md-9">
                 @if (ViewDataTyped.IsEditable)
                 {
                     @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 6), null)
@@ -58,11 +64,13 @@
                         @Html.Raw(ViewDataTyped.ProjectUpdate.ProjectDescription.HtmlEncodeWithBreaks())
                     </div>
                 }
-            </td>
-        </tr>
-        <tr>
-            <th>@Html.LabelWithFieldDefinitionWiderFor(m => m.ProjectStageID)</th>
-            <td colspan="3">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-header">
+                @Html.LabelWithFieldDefinitionWiderFor(m => m.ProjectStageID)
+            </div>
+            <div class="col-md-9">
                 @if (ViewDataTyped.IsEditable)
                 {
                     @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStages)
@@ -72,14 +80,16 @@
                 {
                     @ViewDataTyped.ProjectUpdate.ProjectStage.ProjectStageDisplayName
                 }
-            </td>
-        </tr>
+            </div>
+        </div>
         @switch (ViewDataTyped.Project.FundingType.ToEnum)
         {
             case FundingTypeEnum.Capital:
-                <tr>
-                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedTotalCost)</th>
-                    <td>
+                <div class="row">
+                    <div class="col-md-3 col-header">
+                        @Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedTotalCost)
+                    </div>
+                    <div class="col-md-3">
                         @if (ViewDataTyped.IsEditable)
                         {
                             @Html.EditorFor(m => m.EstimatedTotalCost)
@@ -88,21 +98,26 @@
                         else
                         {
                             @ViewDataTyped.ProjectUpdate.EstimatedTotalCost.ToStringCurrency()
-                            ;
                         }
-                    </td>
+                    </div>
                     @if (CostParameterSet.CanCalculateCapitalCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
                     {
-                        <td colspan="3">
-                            <span class="stylizeLikeTH">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectCostInYearOfExpenditure)</span>
-                            <span style="margin-left: 10px">@ViewDataTyped.CapitalCostInYearOfExpenditure.ToStringCurrency()</span>
-                            <span> (Using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</span>
-                        </td>
+                        <div class="col-md-3 col-header">
+                            <span>@Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectCostInYearOfExpenditure)</span>
+                        </div>
+                            <div class="col-md-3">
+                                <span>@ViewDataTyped.CapitalCostInYearOfExpenditure.ToStringCurrency()</span>
+                                <span> (Using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</span>
+                            </div>
+                        
+
                     }
-                </tr>
-                <tr>
-                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.SecuredFunding)</th>
-                    <td>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-header">
+                        @Html.LabelWithFieldDefinitionFor(FieldDefinition.SecuredFunding)
+                    </div>
+                    <div class="col-md-3">
                         @if (ViewDataTyped.IsEditable)
                         {
                             @Html.EditorFor(m => m.SecuredFunding)
@@ -112,17 +127,21 @@
                         {
                             @ViewDataTyped.ProjectUpdate.SecuredFunding.ToStringCurrency()
                         }
-                    </td>
-                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.UnfundedNeed)</th>
-                    <td>
+                    </div>
+                    <div class="col-md-3">
+                        @Html.LabelWithFieldDefinitionFor(FieldDefinition.UnfundedNeed)
+                    </div>
+                    <div class="col-md-3">
                         @ViewDataTyped.Project.UnfundedNeed.ToStringCurrency()
-                    </td>
-                </tr>
+                    </div>
+                </div>
                         break;
             case FundingTypeEnum.OperationsAndMaintenance:
-            <tr>
-                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedAnnualOperatingCost)</th>
-                <td>
+            <div class="row">
+                <div class="col-md-3 col-header">
+                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedAnnualOperatingCost)
+                </div>
+                <div class="col-md-3">
                     @if (ViewDataTyped.IsEditable)
                     {
                         @Html.EditorFor(m => m.EstimatedAnnualOperatingCost)
@@ -132,32 +151,37 @@
                     {
                         @ViewDataTyped.ProjectUpdate.EstimatedAnnualOperatingCost.ToStringCurrency()
                     }
-                </td>
-                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.LifecycleOperatingCost)</th>
-                <td>
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.LifecycleOperatingCost)
+                </div>
+                <div class="col-md-3">
                     @if (CostParameterSet.CanCalculateLifecycleOperatingCost(ViewDataTyped.ProjectUpdate))
                     {
                         @CostParameterSet.LifecycleOperatingCost(ViewDataTyped.ProjectUpdate).ToStringCurrency()
                     }
-                </td>
-            </tr>
+                </div>
+            </div>
                     if (CostParameterSet.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
                     {
-                        <tr>
-                            <th>
+                        <div class="row">
+                            <div class="col-md-3 col-header">
+
                                 @Html.LabelWithFieldDefinitionFor(FieldDefinition.CalculatedTotalRemainingOperatingCost)
-                            </th>
-                            <td colspan="3">
+                            </div>
+                            <div class="col-md-9">
                                 <span>@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span>
                                 <span>(For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.ProjectUpdate.CompletionYear using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</span>
-                            </td>
-                        </tr>
+                            </div>
+                        </div>
                     }
                     break;
         }
-        <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.PlanningDesignStartYear)</th>
-            <td>
+        <div class="row">
+            <div class="col-md-3 col-header">
+                @Html.LabelWithFieldDefinitionFor(m => m.PlanningDesignStartYear)
+            </div>
+            <div class="col-md-9">
                 @if (ViewDataTyped.IsEditable)
                 {
                     @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.PlanningDesignStartYearRange)
@@ -167,11 +191,14 @@
                 {
                     @ViewDataTyped.ProjectUpdate.PlanningDesignStartYear
                 }
-            </td>
-        </tr>
-        <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.ImplementationStartYear)</th>
-            <td>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-header">
+                @Html.LabelWithFieldDefinitionFor(m => m.ImplementationStartYear)
+            </div>
+            <div class="col-md-3">
                 @if (ViewDataTyped.IsEditable)
                 {
                     @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.ImplementationStartYearRange)
@@ -181,9 +208,12 @@
                 {
                     @ViewDataTyped.ProjectUpdate.ImplementationStartYear
                 }
-            </td>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(m => m.CompletionYear)</th>
-            <td>
+            </div>
+            <div class="col-md-3 col-header">
+                @Html.LabelWithFieldDefinitionFor(m => m.CompletionYear)
+            </div>
+
+            <div class="col-md-3">
                 @if (ViewDataTyped.IsEditable)
                 {
                     @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange)
@@ -193,20 +223,25 @@
                 {
                     @ViewDataTyped.ProjectUpdate.CompletionYear
                 }
-            </td>
-        </tr>
-        <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.LeadImplementer)</th>
-            <td colspan="3">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-header">
+                @Html.LabelWithFieldDefinitionFor(FieldDefinition.LeadImplementer)
+            </div>
+            <div class="col-md-9">
                 @if (ViewDataTyped.Project.LeadImplementer != null)
                 {
                     <a href="@ViewDataTyped.Project.LeadImplementer.GetSummaryUrl()" target="_blank">@ViewDataTyped.Project.LeadImplementer.DisplayName</a>
                 }
-            </td>
-        </tr>
-        <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PrimaryContact)</th>
-            <td colspan="3">
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-header">
+                @Html.LabelWithFieldDefinitionFor(FieldDefinition.PrimaryContact)
+            </div>
+            <div class="col-md-9">
                 @if (ViewDataTyped.Project.PrimaryContactPerson != null)
                 {
                     <a href="@ViewDataTyped.Project.PrimaryContactPerson.GetDetailUrl()" target="_blank">@ViewDataTyped.Project.PrimaryContactPerson.FullNameFirstLast</a>
@@ -216,9 +251,10 @@
                         <a href="@ViewDataTyped.Project.PrimaryContactPerson.Organization.GetSummaryUrl()" target="_blank">@ViewDataTyped.Project.PrimaryContactPerson.Organization.DisplayName</a>
                     }
                 }
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
+
+    </div>
     <hr />
     <div>
         View the current Project Detail for <a href="@ViewDataTyped.Project.GetDetailUrl()" target="_blank">@ViewDataTyped.Project.DisplayName</a>

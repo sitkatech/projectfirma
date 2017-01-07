@@ -10,6 +10,9 @@ body {
   background-color: #f5f8fa;
   color: #1e3948;
 }
+input[disabled] {
+  background-color: gray;
+}
 .alert {
   margin-top: 10px;
 }

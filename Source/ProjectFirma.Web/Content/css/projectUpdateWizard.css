@@ -14,7 +14,7 @@
     background-color: #fcfcf0;
 }
 
-#projectWizardContent textarea[readonly], #projectWizardContent input[readonly], #projectWizardContent select[readonly], #projectWizardContent .dropdown-toggle[readonly], #projectWizardContent .dropdown-menu[readonly] {
+#projectWizardContent textarea[disabled], #projectWizardContent input[disabled], #projectWizardContent select[disabled], #projectWizardContent .dropdown-toggle[disabled], #projectWizardContent .dropdown-menu[disabled] {
     background-color: lightgray;
 }
 
