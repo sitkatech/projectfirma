@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string ProposeNewProjectUrl;
 
 
-        public MyOrganizationsProjectsViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public MyOrganizationsProjectsViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage, false)
         {
             //TODO: It shouldn't be possible to reach this if Person.Organization is null...
             string organizationNamePossessive = currentPerson.Organization.OrganizationNamePossessive;

@@ -42,6 +42,14 @@ input[disabled] {
 .backButton {
   padding: 0 0 20px 0;
 }
+form .form-group {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+form .form-group-condensed {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 .header {
   background-color: #f8f8f8;
 }
@@ -193,6 +201,26 @@ footer p {
 .form-dialog .ui-widget-content .btn-firma,
 .firma-modal-dialog .btn-firma {
   font-size: 14px;
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+.btn-firma:hover,
+.btn-primary:focus,
+.btn-primary.focus {
+  color: #fff;
+  background-color: #286090;
+  border-color: #122b40;
+}
+a.btn-firma {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
 }
 .btn-tag {
   color: black;
@@ -315,9 +343,7 @@ table.summaryLayout td {
 }
 a.excelbutton {
   background: url(/Content/img/button_icon_excel.png) no-repeat scroll 0 0 transparent;
-  height: 16px;
-  padding: 0 0 0 20px;
-  font-size: 12px;
+  padding: 0 0 0 15px;
 }
 .helpicon {
   font-size: 10px;

@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         protected ProposedProjectViewData(Person currentPerson,
             Models.ProposedProject proposedProject,
             ProposedProjectSectionEnum selectedProposedProjectSection,
-            ProposalSectionsStatus proposalSectionsStatus) : base(currentPerson)
+            ProposalSectionsStatus proposalSectionsStatus) : base(currentPerson, null, true)
         {
             Check.Assert(proposedProject != null);
             Check.Assert(selectedProposedProjectSection == ProposedProjectSectionEnum.Instructions || selectedProposedProjectSection == ProposedProjectSectionEnum.Basics ||

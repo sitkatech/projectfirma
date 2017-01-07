@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Views.Home
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
         public readonly string FullMapUrl;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, ProjectLocationsMapViewData projectLocationsMapViewData, ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, ProjectLocationsMapViewData projectLocationsMapViewData, ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentPerson, firmaPage, false)
         {
             PageTitle =  string.Format("{0} Project Tracker", MultiTenantHelpers.GetTenantDisplayName());
 

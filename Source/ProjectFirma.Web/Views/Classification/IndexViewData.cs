@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Views.Classification
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage, false)
         {
             PageTitle = MultiTenantHelpers.GetClassificationDisplayNamePluralized();
             GridSpec = new IndexGridSpec

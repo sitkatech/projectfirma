@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Views.Results
             Models.FirmaPage firmaPage,
             List<Models.PerformanceMeasure> performanceMeasures,
             Models.PerformanceMeasure selectedPerformanceMeasure,
-            PerformanceMeasureChartViewData performanceMeasureChartViewData) : base(currentPerson, firmaPage)
+            PerformanceMeasureChartViewData performanceMeasureChartViewData) : base(currentPerson, firmaPage, false)
         {
             PageTitle = "Spending by Project for Selected Performance Measure";
 

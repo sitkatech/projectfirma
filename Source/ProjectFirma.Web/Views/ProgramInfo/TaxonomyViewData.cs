@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.Views.ProgramInfo
         public readonly List<FancyTreeNode> TaxonomyTierThreesAsFancyTreeNodes;
 
         public TaxonomyViewData(Person currentPerson, Models.FirmaPage firmaPage,
-            List<FancyTreeNode> taxonomyTierThreesAsFancyTreeNodes) : base(currentPerson, firmaPage)
+            List<FancyTreeNode> taxonomyTierThreesAsFancyTreeNodes) : base(currentPerson, firmaPage, false)
         {
             TaxonomyTierThreesAsFancyTreeNodes = taxonomyTierThreesAsFancyTreeNodes;
             PageTitle = MultiTenantHelpers.GetTaxonomySystemName();

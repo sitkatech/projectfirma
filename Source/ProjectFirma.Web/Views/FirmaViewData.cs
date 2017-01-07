@@ -10,6 +10,7 @@ namespace ProjectFirma.Web.Views
     public abstract class FirmaViewData
     {
         public List<LtInfoMenuItem> TopLevelLtInfoMenuItems;
+        public bool UseFluidContainer;
         
         public readonly string ManageTaxonomyTierThreeIndexUrl;
         public readonly string ManageTaxonomyTierTwoIndexUrl;
@@ -33,15 +34,16 @@ namespace ProjectFirma.Web.Views
         /// <summary>
         /// Call for page without associated FirmaPage
         /// </summary>
-        protected FirmaViewData(Person currentPerson) : this(currentPerson, null)
+        protected FirmaViewData(Person currentPerson) : this(currentPerson, null, false)
         {
         }
      
         /// <summary>
         /// Call for page with associated FirmaPage
         /// </summary>
-        protected FirmaViewData(Person currentPerson, Models.FirmaPage firmaPage)
+        protected FirmaViewData(Person currentPerson, Models.FirmaPage firmaPage, bool useFluidContainer)
         {
+            UseFluidContainer = useFluidContainer;
             FirmaPage = firmaPage;
 
             CurrentPerson = currentPerson;
@@ -63,6 +65,7 @@ namespace ProjectFirma.Web.Views
             ProjectSearchUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Search(UrlTemplate.Parameter1String));
             ProjectFindUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Find(string.Empty));
         }
+
 
         private void MakeFirmaMenu(Person currentPerson)
         {

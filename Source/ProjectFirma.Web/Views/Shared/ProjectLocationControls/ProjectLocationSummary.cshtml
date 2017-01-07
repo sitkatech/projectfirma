@@ -3,39 +3,36 @@
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectLocationSummary
 
 <style>
-    .blockOverlay
-    {
+    .blockOverlay {
         z-index: 999;
     }
 </style>
 
-<table style="width: 100%" class="summaryLayout">
-    <tr>
-        <td colspan="2">
-            To zoom, hold down the Shift key and drag a rectangle.
-            <div id="@ViewDataTyped.ProjectLocationSummaryMapInitJson.MapDivID" style="height: 390px">
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <th style="vertical-align: top">
-            Location Information
-        </th>
-        <th style="vertical-align: top; white-space: nowrap">
-            Location Notes
-        </th>
-    </tr>
-    <tr>
-        <td>
-            <div id="projectLocationInformationContainer" style="min-width:200px"></div>
-        </td>
-        <td>
-            <div style="max-height: 150px; max-width: 240px; overflow-y: auto; overflow-x: hidden">
+<div>
+    To zoom, hold down the Shift key and drag a rectangle.
+    <div id="@ViewDataTyped.ProjectLocationSummaryMapInitJson.MapDivID" style="height: 390px">
+    </div>
+</div>
+
+<div>
+    @if (!string.IsNullOrWhiteSpace(ViewDataTyped.ProjectLocationNotes))
+    {
+        <div>
+            <label>
+                Location Notes
+            </label>
+            <div>
                 @ViewDataTyped.ProjectLocationNotes
             </div>
-        </td>
-    </tr>
-</table>
+        </div>
+    }
+    <div>
+        <label>
+            Location Information
+        </label>
+        <div id="projectLocationInformationContainer" style="min-width: 200px"></div>
+    </div>
+</div>
 
 <script type="text/javascript">
     jQuery(document).ready(function()

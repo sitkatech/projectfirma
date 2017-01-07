@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Views.Shared
         public readonly string DisplayUrl;
 
         public EditPageContentViewData(Person currentPerson, FirmaPageType firmaPageType)
-            : base(currentPerson, Models.FirmaPage.GetFirmaPageByPageType(firmaPageType))
+            : base(currentPerson, Models.FirmaPage.GetFirmaPageByPageType(firmaPageType), false)
         {
             PageTitle = firmaPageType.FirmaPageTypeDisplayName;
             DisplayUrl = firmaPageType.GetViewUrl();

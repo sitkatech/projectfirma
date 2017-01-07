@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public FeaturedListViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public FeaturedListViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage, false)
         {
             PageTitle = "Featured Projects";
             GridName = "featuredListGrid";

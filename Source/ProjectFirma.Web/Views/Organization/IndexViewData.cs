@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly string GridDataUrl;
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage)
-            : base(currentPerson, firmaPage)
+            : base(currentPerson, firmaPage, false)
         {
             PageTitle = "Organizations";
 

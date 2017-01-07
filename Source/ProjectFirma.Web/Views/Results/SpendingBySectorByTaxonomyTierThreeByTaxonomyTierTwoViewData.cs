@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Views.Results
             List<TaxonomyTierTwoSectorExpenditure> taxonomyTierTwoSectorExpenditures,
             List<Sector> sectors,
             int? selectedCalendarYear,
-            IEnumerable<SelectListItem> calendarYears) : base(currentPerson, firmaPage)
+            IEnumerable<SelectListItem> calendarYears) : base(currentPerson, firmaPage, false)
         {
             TaxonomyTierTwoSectorExpenditures = taxonomyTierTwoSectorExpenditures;
             PageTitle = string.Format("Spending by Sector by {0} by {1}", MultiTenantHelpers.GetTaxonomyTierThreeDisplayName(), MultiTenantHelpers.GetTaxonomyTierTwoDisplayName());

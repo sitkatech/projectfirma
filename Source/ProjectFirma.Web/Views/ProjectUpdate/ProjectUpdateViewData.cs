@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly bool AreProjectBasicsValid;
         public readonly UpdateStatus UpdateStatus;
 
-        public ProjectUpdateViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSectionEnum selectedProjectUpdateSection, UpdateStatus updateStatus) : base(currentPerson)
+        public ProjectUpdateViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSectionEnum selectedProjectUpdateSection, UpdateStatus updateStatus) : base(currentPerson, null, true)
         {
             SelectedProjectUpdateSection = selectedProjectUpdateSection;
             ProjectUpdateBatch = projectUpdateBatch;

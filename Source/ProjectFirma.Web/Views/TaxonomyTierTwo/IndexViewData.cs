@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage, false)
         {
             PageTitle = MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized();
 

@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Views.Results
         public ResultsByTaxonomyTierTwoViewData(Person currentPerson,
             Models.FirmaPage firmaPage,
             List<Models.TaxonomyTierThree> taxonomyTierThrees,
-            Models.TaxonomyTierTwo selectedTaxonomyTierTwo) : base(currentPerson, firmaPage)
+            Models.TaxonomyTierTwo selectedTaxonomyTierTwo) : base(currentPerson, firmaPage, false)
         {
             TaxonomyTierThrees = taxonomyTierThrees;
             PageTitle = string.Format("Results by {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName());

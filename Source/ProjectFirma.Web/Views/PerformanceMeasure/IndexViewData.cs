@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public readonly string PerformanceMeasureGridName;
         public readonly string PerformanceMeasureGridDataUrl;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage, false)
         {  
             PageTitle = "PerformanceMeasures";
 

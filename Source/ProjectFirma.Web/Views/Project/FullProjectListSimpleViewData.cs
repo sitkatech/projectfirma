@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly List<Models.Project> Projects; 
 
         public FullProjectListSimpleViewData(Person currentPerson, Models.FirmaPage firmaPage, List<Models.Project> projects)
-            : base(currentPerson, firmaPage)
+            : base(currentPerson, firmaPage, false)
         {
             Projects = projects;
             PageTitle = "Full Project List (Simple)";
