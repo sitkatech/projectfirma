@@ -850,16 +850,23 @@ namespace ProjectFirma.Web.Models
             var currentYearsEntered = performanceMeasureActualUpdates.Select(y => y.CalendarYear).Distinct().ToList();
             var missingReportedValues = performanceMeasureActualUpdates.Where(x => !x.ActualValue.HasValue).ToList();
             var expectedMissingYears = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).ToList();
-            var missingYearsMessage = string.Format("Missing Performance Measures for {0}", string.Join(", ", expectedMissingYears));
+            var missingYearsMessage = string.Format("for {0}", string.Join(", ", expectedMissingYears));
             if (expectedMissingYears.Any() && missingReportedValues.Any())
             {
                 Assert.That(result.GetWarningMessages(),
-                    Is.EquivalentTo(new List<string> {missingYearsMessage, PerformanceMeasuresValidationResult.FoundIncompletePerformanceMeasureRowsMessage}),
-                    assertionMessage);
+                    Has.Count.EqualTo(2));
+
+                Assert.That(result.GetWarningMessages()[0], Is.StringEnding(missingYearsMessage));
+
+                Assert.That(result.GetWarningMessages()[1], Is.StringEnding("You must either delete irrelevant rows, or provide complete information for each row."));
+
+
+
             }
             else if (expectedMissingYears.Any())
             {
-                Assert.That(result.GetWarningMessages(), Is.EquivalentTo(new List<string> {missingYearsMessage}), assertionMessage);
+                Assert.That(result.GetWarningMessages(), Has.Count.EqualTo(1));
+                Assert.That(result.GetWarningMessages()[0], Is.StringEnding(missingYearsMessage));
             }
             else if (missingReportedValues.Any())
             {
