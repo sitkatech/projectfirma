@@ -9,13 +9,13 @@
 </style>
 
 <div>
-    To zoom, hold down the Shift key and drag a rectangle.
     <div id="@ViewDataTyped.ProjectLocationSummaryMapInitJson.MapDivID" style="height: 390px">
     </div>
+    <span style="font-size: 10px">To zoom, hold down the Shift key and drag a rectangle.</span>
 </div>
 
 <div>
-    @if (!string.IsNullOrWhiteSpace(ViewDataTyped.ProjectLocationNotes))
+    @if (ViewDataTyped.HasLocationNotes)
     {
         <div>
             <label>
@@ -26,12 +26,15 @@
             </div>
         </div>
     }
-    <div>
-        <label>
-            Location Information
-        </label>
-        <div id="projectLocationInformationContainer" style="min-width: 200px"></div>
-    </div>
+    @if (ViewDataTyped.HasLocationInformation)
+    {
+        <div>
+            <label>
+                Location Information
+            </label>
+            <div id="projectLocationInformationContainer" style="min-width: 200px"></div>
+        </div>
+    }
 </div>
 
 <script type="text/javascript">

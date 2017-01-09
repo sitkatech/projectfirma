@@ -165,31 +165,14 @@ namespace ProjectFirma.Web.Controllers
             const string projectNotificationGridName = "projectNotifications";
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
-            var inflationRate = CostParameterSet.GetLatestInflationRate();
-            var editInflationUrl = SitkaRoute<CostParameterSetController>.BuildUrlFromExpression(controller => controller.Detail());
             var editProjectBudgetUrl = SitkaRoute<ProjectBudgetController>.BuildUrlFromExpression(c => c.EditBudgetsForProject(project));
 
             var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
             var entityExternalLinksViewData = new EntityExternalLinksViewData(ExternalLink.CreateFromEntityExternalLink(new List<IEntityExternalLink>(project.ProjectExternalLinks)));
 
-            var userHasProjectBudgetManagePermissions = new ProjectBudgetManageFeature().HasPermissionByPerson(CurrentPerson);
-
-            var projectBasicsCalculatedCostsViewData = new ProjectBasicsCalculatedCostsViewData(project,
-                CostParameterSet.CalculateCapitalCostInYearOfExpenditure(project),
-                userHasProjectBudgetManagePermissions,
-                editInflationUrl,
-                inflationRate,
-                CostParameterSet.CalculateTotalRemainingOperatingCost(project),
-                CostParameterSet.StartYearForTotalCostCalculations(project));
-
             var projectBasicsTagsViewData = new ProjectBasicsTagsViewData(project, tagHelper);
 
-            var projectBasicsViewData = new ProjectBasicsViewData(project,
-                userHasProjectBudgetManagePermissions,
-                new TagManageFeature().HasPermissionByPerson(CurrentPerson),
-                true,
-                projectBasicsCalculatedCostsViewData,
-                projectBasicsTagsViewData);
+            var projectBasicsViewData = new ProjectBasicsViewData(project, new ProjectBudgetManageFeature().HasPermissionByPerson(CurrentPerson), new TagManageFeature().HasPermissionByPerson(CurrentPerson), projectBasicsTagsViewData);
 
             var goals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
             var goalsAsFancyTreeNodes = goals.Select(x => x.ToFancyTreeNode(new List<IQuestionAnswer>(project.ProjectAssessmentQuestions.ToList()))).ToList();

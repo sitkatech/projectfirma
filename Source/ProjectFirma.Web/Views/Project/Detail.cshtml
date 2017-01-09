@@ -82,15 +82,14 @@
     {
         if (ViewDataTyped.Project.IsUpdateMandatory)
         {
-            <a href="@ViewDataTyped.Project.GetProjectUpdateUrl()" title="Update Project">@DhtmlxGridHtmlHelpers.EditIconBootstrap</a>
-            <a href="@ViewDataTyped.Project.GetProjectUpdateUrl()">Update Project</a>
+            <a class="btn btn-firma" href="@ViewDataTyped.Project.GetProjectUpdateUrl()" title="Update Project">@DhtmlxGridHtmlHelpers.EditIconBootstrap Update Project</a>
         }
         else
         {
             @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Update Project", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.ConfirmNonMandatoryUpdateUrl, "Update this project?", 400, "Continue", "Cancel", null, null, null)
         }
     }
-    <a href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon</a> <a href="@ViewDataTyped.Project.GetFactSheetUrl()">View Fact Sheet</a>
+    <a class="btn btn-firma" href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Fact Sheet</a>
 }
 
 @if (ViewDataTyped.LatestUpdateState == ProjectUpdateState.Submitted || ViewDataTyped.LatestUpdateState == ProjectUpdateState.Returned)
@@ -106,7 +105,7 @@
     </div>
 }
 
-<div>
+<div style="padding-right: 20px">
     <table style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; width: 100%;">
         <tr style="padding-bottom: 0;">
             @for (var i = 0; i < ViewDataTyped.ProjectStages.Count; i++)
@@ -175,8 +174,10 @@
                                 <h3>Location</h3>
                             </div>
                             <div class="panel-body">
-                                @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Simple Location", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditSimpleProjectLocationUrl, "Edit Project Location - Simple", 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)
-                                @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Detailed Location", "<span class='glyphicon glyphicon-edit blue' style='margin:0 3px 0 20px'></span>"), ViewDataTyped.EditDetailedProjectLocationUrl, "Edit Project Location - Detail", 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)
+                                <ul style="list-style-type: none; padding-left: 0;">
+                                    <li style="display: inline-block; margin-right: 5px" > @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Simple Location", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditSimpleProjectLocationUrl, "Edit Project Location - Simple", 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
+                                    <li style="display: inline-block"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Detailed Location", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditDetailedProjectLocationUrl, "Edit Project Location - Detail", 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
+                                </ul>
                                 @{ ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData); }
                             </div>
                         </div>

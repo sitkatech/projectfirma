@@ -1421,15 +1421,7 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForProjectBasics(Project project)
         {
-            var projectBasicsCalculatedCostsViewData = new ProjectBasicsCalculatedCostsViewData(project,
-                CostParameterSet.CalculateCapitalCostInYearOfExpenditure(project),
-                false,
-                "javascript:void(0)",
-                CostParameterSet.GetLatestInflationRate(),
-                CostParameterSet.CalculateTotalRemainingOperatingCost(project),
-                CostParameterSet.StartYearForTotalCostCalculations(project));
-
-            var viewData = new ProjectBasicsViewData(project, false, false, false, projectBasicsCalculatedCostsViewData, null);
+            var viewData = new ProjectBasicsViewData(project, false, false, null);
 
             var partialViewAsString = RenderPartialViewToString(ProjectBasicsPartialViewPath, viewData);
             return partialViewAsString;

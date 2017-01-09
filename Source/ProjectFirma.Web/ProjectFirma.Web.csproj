@@ -972,8 +972,6 @@
     <Compile Include="Views\Shared\ProjectControls\EditProjectViewModelValidator.cs" />
     <Compile Include="Views\Shared\ProjectControls\EditProjectViewModelValidatorTest.cs" />
     <Compile Include="Views\Shared\ProjectControls\ProjectBasics.cs" />
-    <Compile Include="Views\Shared\ProjectControls\ProjectBasicsCalculatedCosts.cs" />
-    <Compile Include="Views\Shared\ProjectControls\ProjectBasicsCalculatedCostsViewData.cs" />
     <Compile Include="Views\Shared\ProjectControls\ProjectBasicsTags.cs" />
     <Compile Include="Views\Shared\ProjectControls\ProjectBasicsTagsViewData.cs" />
     <Compile Include="Views\Shared\ProjectControls\ProjectBasicsViewData.cs" />
@@ -3127,7 +3125,6 @@
     <Content Include="Views\Shared\ProjectControls\EditProject.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectClassificationsForProject.cshtml" />
     <Content Include="Views\Shared\ProjectControls\ProjectBasics.cshtml" />
-    <Content Include="Views\Shared\ProjectControls\ProjectBasicsCalculatedCosts.cshtml" />
     <Content Include="Views\Shared\ProjectControls\ProjectBasicsTags.cshtml" />
     <Content Include="Views\Shared\ProjectControls\ProjectTaxonomy.cshtml" />
     <Content Include="Views\Shared\ProjectControls\AssessmentTree.cshtml" />
