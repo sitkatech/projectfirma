@@ -76,9 +76,9 @@ namespace ProjectFirma.Web.Views.Project
         {
             AddColumn("Project ID", x => x.Project.ProjectID);
             AddColumn("Project Name", x => x.Project.ProjectName);
-            AddColumn("Performance Measure ID", x => x.PerformanceMeasureID);
-            AddColumn("Performance Measure Name", x => x.PerformanceMeasure.PerformanceMeasureName);
-            AddColumn("Performance Measure", x => x.PerformanceMeasure.DisplayName);
+            AddColumn(MultiTenantHelpers.GetPerformanceMeasureName() + " ID", x => x.PerformanceMeasureID);
+            AddColumn(MultiTenantHelpers.GetPerformanceMeasureName()+ " Name", x => x.PerformanceMeasure.PerformanceMeasureName);
+            AddColumn(MultiTenantHelpers.GetPerformanceMeasureName(), x => x.PerformanceMeasure.PerformanceMeasureDisplayName);
             AddColumn("Expected Value", x => x.ExpectedValue);
         }
     }
@@ -89,9 +89,9 @@ namespace ProjectFirma.Web.Views.Project
         {
             AddColumn("Project ID", x => x.Project.ProjectID);
             AddColumn("Project Name", x => x.Project.ProjectName);
-            AddColumn("Performance Measure ID", x => x.PerformanceMeasureID);
-            AddColumn("Performance Measure Name", x => x.PerformanceMeasure.PerformanceMeasureName);
-            AddColumn("Performance Measure", x => x.PerformanceMeasure.DisplayName);
+            AddColumn(MultiTenantHelpers.GetPerformanceMeasureName() + " ID", x => x.PerformanceMeasureID);
+            AddColumn(MultiTenantHelpers.GetPerformanceMeasureName()+ " Name", x => x.PerformanceMeasure.PerformanceMeasureName);
+            AddColumn(MultiTenantHelpers.GetPerformanceMeasureName(), x => x.PerformanceMeasure.PerformanceMeasureDisplayName);
             AddColumn("Calendar Year", x => x.CalendarYear);
             AddColumn("Subcategory 1 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 1 ? x.PerformanceMeasureSubcategoryOptions[0].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
             AddColumn("Subcategory 1 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 1 ? x.PerformanceMeasureSubcategoryOptions[0].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);

@@ -340,13 +340,13 @@ namespace ProjectFirma.Web.Controllers
 
             var performanceMeasureExpectedExcelSpec = new PerformanceMeasureExpectedExcelSpec();
             var performanceMeasureExpecteds = (projects.SelectMany(p => p.PerformanceMeasureExpecteds)).ToList();
-            var wsPerformanceMeasureExpecteds = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Expected Performance Measures",
+            var wsPerformanceMeasureExpecteds = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(string.Format("Expected {0}s", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()),
                 performanceMeasureExpectedExcelSpec,
                 performanceMeasureExpecteds);
 
             var performanceMeasureActualExcelSpec = new PerformanceMeasureActualExcelSpec();
             var performanceMeasureActuals = (projects.SelectMany(p => p.GetReportedPerformanceMeasures())).ToList();
-            var wsPerformanceMeasureActuals = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Reported Performance Measures", performanceMeasureActualExcelSpec, performanceMeasureActuals);
+            var wsPerformanceMeasureActuals = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(string.Format("Reported {0}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()), performanceMeasureActualExcelSpec, performanceMeasureActuals);
 
             var projectFundingSourceExpenditureSpec = new ProjectFundingSourceExpenditureExcelSpec();
             var projectFundingSourceExpenditures = (projects.SelectMany(p => p.ProjectFundingSourceExpenditures)).ToList();

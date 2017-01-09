@@ -130,16 +130,16 @@
                     <tr>
                         <td colspan="2" style="padding-top: 0">
                             <div style="font-size: medium">
-                                Performance Measure Info Sheet
+                                @MultiTenantHelpers.GetPerformanceMeasureName() Info Sheet
                             </div>
                             <div class="sectionTitle" style="margin: 0; padding: 0">
-                                @ViewDataTyped.PerformanceMeasure.DisplayNameNoNumber
+                                @ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <th style="white-space: nowrap">Performance Measure:</th>
-                        <td>@ViewDataTyped.PerformanceMeasure.DisplayName</td>
+                        <th style="white-space: nowrap">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized():</th>
+                        <td>@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</td>
                     </tr>
                     <tr>
                         <th>Definition:</th>
@@ -230,13 +230,13 @@
             }
             else
             {
-                <p class="alert">No subcategories for this performance measure.</p>
+                <p class="alert">No subcategories for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
             }
         </div>
     </div>
 
     <div class="summarySection">
-        <div class="sectionTitle">Performance Measure Results</div>
+        <div class="sectionTitle">@MultiTenantHelpers.GetPerformanceMeasureName() Results</div>
         @{PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureChartViewData);}
     </div>
 
@@ -261,7 +261,7 @@
             }
             else
             {
-                <p class="alert">No @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() set for this performance measure.</p>
+                <p class="alert">No @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() set for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
             }
         </div>
     </div>

@@ -68,11 +68,11 @@
             <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProposedProjectSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProjectUpdatePerformanceMeasuresUrl">Performance Measures</a>
+                    <a href="@ViewDataTyped.ProjectUpdatePerformanceMeasuresUrl">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>
                 }
                 else
                 {
-                    @ProjectWizardComponents.MakeDisabledSectionLink("Performance Measures")
+                    @ProjectWizardComponents.MakeDisabledSectionLink(MultiTenantHelpers.GetPerformanceMeasureNamePluralized())
                     ;
                 }
                 <span class="pull-right statusIcon">

@@ -251,7 +251,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(currentPerformanceMeasureExpectedProposeds, allPerformanceMeasureExpectedProposeds, allPerformanceMeasureExpectedSubcategoryOptionProposeds, proposedProject);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            SetMessageForDisplay("Proposed Project Performance Measures succesfully saved.");
+            SetMessageForDisplay(string.Format("Proposed Project {0} succesfully saved.", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()));
             return RedirectToAction(new SitkaRoute<ProposedProjectController>(x => x.EditExpectedPerformanceMeasureValues(proposedProject)));
         }
 

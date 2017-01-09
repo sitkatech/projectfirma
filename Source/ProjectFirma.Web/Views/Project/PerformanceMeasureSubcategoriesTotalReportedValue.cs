@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.Project
         }
         public string PerformanceMeasureName
         {
-            get { return PerformanceMeasure.DisplayName; }
+            get { return PerformanceMeasure.PerformanceMeasureDisplayName; }
         }
 
         public string PerformanceMeasureUrl

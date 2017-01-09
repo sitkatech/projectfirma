@@ -8,7 +8,7 @@
                 performanceMeasure.PerformanceMeasureName,
                 performanceMeasure.MeasurementUnitTypeID,
                 performanceMeasure.DisplayOrder,
-                performanceMeasure.DisplayName,
+                performanceMeasure.PerformanceMeasureDisplayName,
                 performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName,
                 performanceMeasure.HasRealSubcategories,
                 performanceMeasure.GetDefinitionAndGuidanceUrl())

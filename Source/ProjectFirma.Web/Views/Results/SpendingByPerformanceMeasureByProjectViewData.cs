@@ -3,6 +3,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Results
 {
@@ -24,7 +25,7 @@ namespace ProjectFirma.Web.Views.Results
             Models.PerformanceMeasure selectedPerformanceMeasure,
             PerformanceMeasureChartViewData performanceMeasureChartViewData) : base(currentPerson, firmaPage, false)
         {
-            PageTitle = "Spending by Project for Selected Performance Measure";
+            PageTitle = string.Format("Spending by Project for Selected {0}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized());
 
             PerformanceMeasures = performanceMeasures;
             SelectedPerformanceMeasure = selectedPerformanceMeasure;
@@ -34,8 +35,8 @@ namespace ProjectFirma.Web.Views.Results
 
             GridSpec = new SpendingByPerformanceMeasureByProjectGridSpec(SelectedPerformanceMeasure)
             {
-                ObjectNameSingular = string.Format("record by PM {0}: {1}", SelectedPerformanceMeasure.PerformanceMeasureID, SelectedPerformanceMeasure.DisplayNameNoNumber),
-                ObjectNamePlural = string.Format("records by PM {0}: {1}", SelectedPerformanceMeasure.PerformanceMeasureID, SelectedPerformanceMeasure.DisplayNameNoNumber),
+                ObjectNameSingular = string.Format("record by {0} {1}: {2}", MultiTenantHelpers.GetPerformanceMeasureName(), SelectedPerformanceMeasure.PerformanceMeasureID, SelectedPerformanceMeasure.PerformanceMeasureDisplayName),
+                ObjectNamePlural = string.Format("records by {0} {1}: {2}", MultiTenantHelpers.GetPerformanceMeasureName(), SelectedPerformanceMeasure.PerformanceMeasureID, SelectedPerformanceMeasure.PerformanceMeasureDisplayName),
                 SaveFiltersInCookie = true
             };
 

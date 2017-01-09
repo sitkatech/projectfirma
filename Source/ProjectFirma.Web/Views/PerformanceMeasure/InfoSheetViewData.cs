@@ -2,8 +2,8 @@
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
@@ -19,8 +19,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             : base(currentPerson)
         {
             PerformanceMeasure = performanceMeasure;
-            HtmlPageTitle = string.Format("PM {0}", performanceMeasure.PerformanceMeasureID);
-            EntityName = "Performance Measure";
+            HtmlPageTitle = string.Format("{0}: {1}", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName);
+            EntityName = MultiTenantHelpers.GetPerformanceMeasureName();
             BreadCrumbTitle = "Info Sheet";
 
             HasReportedValues = performanceMeasure.PerformanceMeasureActuals.Any();

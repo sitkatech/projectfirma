@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
@@ -26,7 +27,7 @@ namespace ProjectFirma.Web.Security
             var hasPermissionByPerson = HasPermissionByPerson(person);
             if (!hasPermissionByPerson)
             {
-                return new PermissionCheckResult(String.Format("You don't have permission to Edit Performance Measure Expected Values for Project {0}", contextModelObject.DisplayName));
+                return new PermissionCheckResult(String.Format("You don't have permission to Edit {0} Expected Values for Project {1}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), contextModelObject.DisplayName));
             }
 
             // Admin can edit anything
@@ -47,7 +48,7 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult();
             }
 
-            return new PermissionCheckResult(String.Format("You don't have permission to Edit Performance Measure Expected Values for Project {0}", contextModelObject.DisplayName));
+            return new PermissionCheckResult(String.Format("You don't have permission to Edit {0} Expected Values for Project {1}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), contextModelObject.DisplayName));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿@using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Models
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.PerformanceMeasureActual.EditPerformanceMeasureActuals
 <script type="text/javascript">
     // <![CDATA[
@@ -35,7 +36,7 @@
             </div>
         </div>
     }
-    Performance Measure to Add:
+    @MultiTenantHelpers.GetPerformanceMeasureName() to Add:
     <select ng-model="PerformanceMeasureToAdd" ng-options="performanceMeasure.DisplayName for performanceMeasure in filteredPerformanceMeasures()" style="width: 700px"></select>
     <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>
     <table class="dialogFormLayout" ng-show="AngularModel.PerformanceMeasureActuals.length > 0">

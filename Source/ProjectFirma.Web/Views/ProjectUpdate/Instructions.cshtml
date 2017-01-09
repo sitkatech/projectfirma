@@ -1,6 +1,7 @@
 ﻿@using ProjectFirma.Web.Models
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.ProjectUpdate.Instructions
 
 @section JavascriptAndStylesContent
@@ -31,7 +32,7 @@
 <ul class="instructionList">
     <li><strong>Basics:</strong> <i>You must enter the project's start and completion dates</i></li>
     <li><strong>Location - Simple:</strong> <i>You must input your project's location via an interactive map or provide a short location description </i></li>
-    <li><strong>Performance Measures (PMs):</strong> <i>You must enter an accomplishment value for at least one PM per year (or indicate you have no accomplishments)</i></li>
+    <li><strong>@MultiTenantHelpers.GetPerformanceMeasureNamePluralized():</strong> <i>You must enter an accomplishment value for at least one @MultiTenantHelpers.GetPerformanceMeasureName()per year (or indicate you have no accomplishments)</i></li>
     <li><strong>Expenditures:</strong> <i>You must enter at least one Expenditure per year (if you spent nothing, enter a $0 expenditure)</i></li>
     <li><strong>Budgets:</strong> <i>You must enter funding sources and project budgets</i></li>
 </ul>
@@ -50,7 +51,7 @@ Use the navigation to the left to view and enter your project updates. Be sure t
 
 <p>Submitting this update will notify the review. The review will review your updates and either approve them or return them to you for corrections/clarifications. The "official" information about this project will not be updated, or included in taxonomyTierTwo reports, until the update is approved.</p>
 <p>
-    Click the <span class="helpicon glyphicon glyphicon-question-sign blue" title="Help"></span> icon to view field-specific help, and to see the reporting guidance for a specific PM. You can also see this same guidance on the PM Summary pages available from the list of  <a href="@ViewDataTyped.ManagePerformanceMeasuresUrl" target="_blank">Performance Measures</a>.
+    Click the <span class="helpicon glyphicon glyphicon-question-sign blue" title="Help"></span> icon to view field-specific help, and to see the reporting guidance for a specific @MultiTenantHelpers.GetPerformanceMeasureName(). You can also see this same guidance on the Detail pages available from the list of  <a href="@ViewDataTyped.ManagePerformanceMeasuresUrl" target="_blank">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>.
 </p>
 <p>
     If you have questions or run into problems, please @(ModalDialogFormHelper.ModalDialogFormLink("Request Support", ViewDataTyped.RequestSupportUrl, "request support", 800, "Submit Request", "Cancel", new List<string>(), null, null)).

@@ -1,6 +1,7 @@
 ﻿@using ProjectFirma.Web.Models
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Shared.PerformanceMeasureControls.PerformanceMeasureReportedValuesGrouped
 
 @if (ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues.Any())
@@ -107,7 +108,7 @@
 }
 else
 {
-    <p class="alert">No annual performance measure accomplishments entered for this project.</p>
+    <p class="alert">No annual @MultiTenantHelpers.GetPerformanceMeasureName() accomplishments entered for this project.</p>
 }
 
 @if (ViewDataTyped.ExemptReportingYears.Any())

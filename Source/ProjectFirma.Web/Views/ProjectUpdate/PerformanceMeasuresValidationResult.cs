@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class PerformanceMeasuresValidationResult
     {
-        public const string FoundIncompletePerformanceMeasureRowsMessage =
-            "Found incomplete Performance Measure (PM) rows. You must either delete irrelevant PM rows, or provide complete information for each PM row.";
+        public static readonly string FoundIncompletePerformanceMeasureRowsMessage = string.Format("Found incomplete {0} rows. You must either delete irrelevant rows, or provide complete information for each row.", MultiTenantHelpers.GetPerformanceMeasureName());
 
         private readonly List<string> _warningMessages;
 
@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             _warningMessages = new List<string>();
             if (missingYears.Any())
             {
-                _warningMessages.Add(string.Format("Missing Performance Measures for {0}", string.Join(", ", missingYears)));
+                _warningMessages.Add(string.Format("Missing {0} for {1}", MultiTenantHelpers.GetPerformanceMeasureName(), string.Join(", ", missingYears)));
             }
             if (performanceMeasureActualUpdatesWithWarnings.Any())
             {

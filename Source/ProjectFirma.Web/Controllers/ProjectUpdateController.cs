@@ -332,7 +332,9 @@ namespace ProjectFirma.Web.Controllers
         {
             var viewData =
                 new ConfirmDialogFormViewData(
-                    "Are you sure you want to refresh the performance measures for this Project? This will pull the most recently approved information for the project and use the updated Start Year and Completion Year from the Basics section. Any updates made in this section will be lost.");
+                    string.Format(
+                        "Are you sure you want to refresh the {0} for this Project? This will pull the most recently approved information for the project and use the updated Start Year and Completion Year from the Basics section. Any updates made in this section will be lost.",
+                        MultiTenantHelpers.GetPerformanceMeasureNamePluralized()));
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 

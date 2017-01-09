@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Models
                 var performanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Find(PerformanceMeasureID);
                 var performanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOption != null ? performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : ViewUtilities.NotFoundString;
                 var performanceMeasureSubcategoryName = performanceMeasureSubcategory != null ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : ViewUtilities.NotFoundString;
-                var performanceMeasureName = performanceMeasure != null ? performanceMeasure.DisplayName : ViewUtilities.NotFoundString;
+                var performanceMeasureName = performanceMeasure != null ? performanceMeasure.PerformanceMeasureDisplayName : ViewUtilities.NotFoundString;
                 return string.Format("Performance Measure: {0}, PerformanceMeasureSubcategory: {1}, PerformanceMeasureSubcategory Option: {2}", performanceMeasureName, performanceMeasureSubcategoryName, performanceMeasureSubcategoryOptionName);
             }
         }

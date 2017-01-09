@@ -3,6 +3,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Project
@@ -35,7 +36,7 @@ namespace ProjectFirma.Web.Views.Project
             : base(currentPerson, true)
         {
             Add("# of Photos", x => x.ProjectImages.Count, 100);
-            Add("Reported PMs", x => string.Join(", ", x.PerformanceMeasureActuals.Select(pm => pm.PerformanceMeasureID).Distinct().OrderBy(pmID => pmID)), 100);
+            Add(string.Format("Reported {0}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()), x => string.Join(", ", x.PerformanceMeasureActuals.Select(pm => pm.PerformanceMeasureID).Distinct().OrderBy(pmID => pmID)), 100);
         }
     }
 }

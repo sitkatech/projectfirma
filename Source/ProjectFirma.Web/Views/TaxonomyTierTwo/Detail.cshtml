@@ -101,7 +101,7 @@
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    <a href="@ViewDataTyped.ManagePerformanceMeasuresUrl">Performance Measures</a>
+                    <a href="@ViewDataTyped.ManagePerformanceMeasuresUrl">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>
                 </h2>
             </div>
             <div class="panel-body">
@@ -123,7 +123,7 @@
                 }
                 else
                 {
-                    <p class="alert">No performance measures set for this taxonomyTierTwo.</p>
+                    <p class="alert">No @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() set for this @MultiTenantHelpers.GetTaxonomyTierTwoDisplayName().</p>
                 }
             </div>
         </div>

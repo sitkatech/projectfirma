@@ -6,6 +6,7 @@
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 
 @inherits ProjectFirma.Web.Views.Snapshot.Detail
@@ -133,14 +134,14 @@
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>Snapshot of Performance Measures on @(ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString())</h2>
+        <h2>Snapshot of @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() on @(ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString())</h2>
     </div>
     <div class="panel-body">
         <select class="performanceMeasureTableSelector" name="performanceMeasureTable">
-            <option value="">Select a Performance Measure</option>
+            <option value="">Select a @MultiTenantHelpers.GetPerformanceMeasureName()</option>
             @foreach (var performanceMeasure in ViewDataTyped.Snapshot.SnapshotPerformanceMeasures.Select(x => x.PerformanceMeasure).Distinct())
             {
-                <option value="@performanceMeasure.PerformanceMeasureID">@performanceMeasure.DisplayName</option>
+                <option value="@performanceMeasure.PerformanceMeasureID">@performanceMeasure.PerformanceMeasureDisplayName</option>
             }
         </select>
         @{ PerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.SnapshotPerformanceMeasureReportedValuesGroupedViewData); }

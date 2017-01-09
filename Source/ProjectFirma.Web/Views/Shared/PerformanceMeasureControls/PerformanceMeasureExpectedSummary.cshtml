@@ -1,5 +1,6 @@
 ﻿@using ProjectFirma.Web.Models
 @using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Shared.PerformanceMeasureControls.PerformanceMeasureExpectedSummary
 
 @if (ViewDataTyped.PerformanceMeasureExpecteds.Any())
@@ -24,5 +25,5 @@
 }
 else
 {
-    <p class="alert">No expected performance measures set for this project.</p>
+    <p class="alert">No expected @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() set for this project.</p>
 }

@@ -6,23 +6,12 @@ using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
-using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class PerformanceMeasure : IAuditableEntity
     {
         public const int PerformanceMeasureIDMilesOfPedestrianAndBicycleRoutesImprovedOrConstructed = 23;
-
-        public string DisplayName
-        {
-            get { return String.Format("{0} - {1}", PerformanceMeasureID, DisplayNameNoNumber); }
-        }
-
-        public string DisplayNameNoNumber
-        {
-            get { return PerformanceMeasureDisplayName; }
-        }
 
         public int ExpectedProjectsCount
         {
@@ -114,7 +103,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<GoogleChartJson> GetSubcategoriesAsGoogleChartJsons(PerformanceMeasure performanceMeasure, List<int> projectIDs)
         {
-            Check.Require(performanceMeasure.PerformanceMeasureSubcategories.Any(), "Every PM should have at least one Subcategory!");
+            Check.Require(performanceMeasure.PerformanceMeasureSubcategories.Any(), "Every Performance Measure should have at least one Subcategory!");
 
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
 

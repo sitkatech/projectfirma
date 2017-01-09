@@ -7,6 +7,7 @@ using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
 using Microsoft.Ajax.Utilities;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Results
 {
@@ -43,7 +44,7 @@ namespace ProjectFirma.Web.Views.Results
             var reportedValueUnitCostColumnName = string.Format("Estimated Cost Per {0} ", performanceMeasure.MeasurementUnitType.SingularDisplayName);
             Add(reportedValueUnitCostColumnName, a => a.CalculateWeightedTotalExpenditurePerPerformanceMeasure(), 100, DhtmlxGridColumnFormatType.Currency);
 
-            Add("Other Reported Performance Measures",
+            Add(string.Format("Other Reported {0}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()),
                 a =>
                 {
                     var reportedPerformanceMeasures = a.Project.GetReportedPerformanceMeasures().Where(x => a.PerformanceMeasureID != x.PerformanceMeasure.PerformanceMeasureID).ToList();

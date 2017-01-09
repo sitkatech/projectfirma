@@ -68,7 +68,7 @@
     @Html.ValidationSummary()
 </div>
 
-<div style="font-weight: bold; margin-bottom: 20px">@MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() Associated with Performance Measure</div>
+<div style="font-weight: bold; margin-bottom: 20px">@MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() Associated with @MultiTenantHelpers.GetPerformanceMeasureName()</div>
 <div id="EditTaxonomyTierTwosAngularApp" ng-controller="TaxonomyTierTwoPerformanceMeasureController">
     @MultiTenantHelpers.GetTaxonomyTierTwoDisplayName() to Add: <select ng-model="TaxonomyTierTwoToAdd" ng-options="program.DisplayName for program in filteredTaxonomyTierTwos()">
     <option value="">Choose One</option>

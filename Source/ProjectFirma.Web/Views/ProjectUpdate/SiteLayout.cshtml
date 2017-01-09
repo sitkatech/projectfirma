@@ -3,6 +3,7 @@
 @using LtInfo.Common
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Models
+@using ProjectFirma.Web.Common
 @inherits SiteLayout
 
 @{
@@ -68,7 +69,7 @@
             </li>
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdatePerformanceMeasuresUrl">
-                    Performance Measures
+                    @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsPerformanceMeasuresUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
                 </a>
                 <span class="pull-right statusIcon">

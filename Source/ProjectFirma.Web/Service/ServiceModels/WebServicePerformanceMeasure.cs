@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
                     }
                     else
                     {
-                        throw new NotImplementedException("Cannot handle more than four subcategories on a PM");
+                        throw new NotImplementedException("Cannot handle more than four subcategories on a Performance Measure");
                     }
                     currentSubcategoryIndex++;
                 }

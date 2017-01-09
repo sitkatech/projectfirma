@@ -7,6 +7,7 @@ using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -39,7 +40,7 @@ namespace ProjectFirma.Web.Views.Project
             Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.PlanningDesignStartYear, 90, DhtmlxGridColumnFormatType.None);
             Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => x.ImplementationStartYear, 115, DhtmlxGridColumnFormatType.None);
             Add(Models.FieldDefinition.CompletionYear.ToGridHeaderString(), x => x.CompletionYear, 90, DhtmlxGridColumnFormatType.None);
-            Add("Number Of Reported PM Records", x => x.PerformanceMeasureActuals.Count, 100);
+            Add("Number Of Reported " + MultiTenantHelpers.GetPerformanceMeasureName() + " Records", x => x.PerformanceMeasureActuals.Count, 100);
             Add("Number Of Reported Expenditure Records", x => x.ProjectFundingSourceExpenditures.Count, 100);
             Add(Models.FieldDefinition.FundingType.ToGridHeaderString(), x => x.FundingType.FundingTypeShortName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.EstimatedTotalCost.ToGridHeaderString(), x => x.EstimatedTotalCost, 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);

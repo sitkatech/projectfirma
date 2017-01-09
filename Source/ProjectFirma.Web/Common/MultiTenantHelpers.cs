@@ -38,14 +38,24 @@ namespace ProjectFirma.Web.Common
             return "Taxonomy Tier Ones";
         }
 
+        public static string GetPerformanceMeasureName()
+        {
+            return "Limiting Factor";
+        }
+
+        public static string GetPerformanceMeasureNamePluralized()
+        {
+            return "Limiting Factors";
+        }
+
         public static string GetClassificationDisplayName()
         {
-            return "Project Classification";
+            return "Focal Species";
         }
 
         public static string GetClassificationDisplayNamePluralized()
         {
-            return "Classifications";
+            return "Listed Species";
         }
 
         public static string GetTenantDisplayName()
