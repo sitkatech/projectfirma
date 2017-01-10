@@ -6,7 +6,7 @@ namespace ProjectFirma.Web.Common
     {
         public static string GetTaxonomySystemName()
         {
-            return "Project Taxonomy";
+            return "Watershed Hierarchy";
         }
         public static string GetTaxonomyTierThreeDisplayName()
         {
@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Common
 
         public static string GetClassificationDisplayNamePluralized()
         {
-            return "Listed Species";
+            return "Focal Species";
         }
 
         public static string GetTenantDisplayName()
