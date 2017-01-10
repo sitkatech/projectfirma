@@ -8,6 +8,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Classification;
 using ProjectFirma.Web.Views.Project;
+using ProjectFirma.Web.Views.Shared;
 using DetailViewData = ProjectFirma.Web.Views.Classification.DetailViewData;
 using Detail = ProjectFirma.Web.Views.Classification.Detail;
 using Index = ProjectFirma.Web.Views.Classification.Index;
@@ -29,11 +30,10 @@ namespace ProjectFirma.Web.Controllers
         [PerformanceMeasureViewFeature]
         public GridJsonNetJObjectResult<Classification> IndexGridJsonData()
         {
-            var gridSpec = new IndexGridSpec();
+            var gridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson));
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.Classifications.ToList().OrderBy(x => x.ClassificationName).ToList();
             return new GridJsonNetJObjectResult<Classification>(taxonomyTierOnes, gridSpec);
         }
-
 
         [HttpGet]
         [PerformanceMeasureManageFeature]
@@ -85,6 +85,40 @@ namespace ProjectFirma.Web.Controllers
         {
             var viewData = new EditViewData();
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [PerformanceMeasureManageFeature]
+        public PartialViewResult DeleteClassification(ClassificationPrimaryKey classificationPrimaryKey)
+        {
+            var classification = classificationPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(classification.ClassificationID);
+            return ViewDeleteClassification(classification, viewModel);
+        }
+
+        private PartialViewResult ViewDeleteClassification(Classification classification, ConfirmDialogFormViewModel viewModel)
+        {
+            var canDelete = !classification.HasDependentObjects();
+            var confirmMessage = canDelete
+                ? string.Format("Are you sure you want to delete this {0} '{1}'?", MultiTenantHelpers.GetClassificationDisplayName(), classification.DisplayName)
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(MultiTenantHelpers.GetClassificationDisplayName(), SitkaRoute<ClassificationController>.BuildLinkFromExpression(x => x.Detail(classification), "here"));
+
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [PerformanceMeasureManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult DeleteClassification(ClassificationPrimaryKey classificationPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var classification = classificationPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewDeleteClassification(classification, viewModel);
+            }
+            HttpRequestStorage.DatabaseEntities.Classifications.Remove(classification);
+            return new ModalDialogFormJsonResult();
         }
 
         [PerformanceMeasureViewFeature]

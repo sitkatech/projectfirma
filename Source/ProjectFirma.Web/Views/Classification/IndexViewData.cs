@@ -3,6 +3,7 @@ using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Classification
 {
@@ -15,7 +16,7 @@ namespace ProjectFirma.Web.Views.Classification
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage, false)
         {
             PageTitle = MultiTenantHelpers.GetClassificationDisplayNamePluralized();
-            GridSpec = new IndexGridSpec
+            GridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson))
             {
                 ObjectNameSingular = MultiTenantHelpers.GetClassificationDisplayName(),
                 ObjectNamePlural = MultiTenantHelpers.GetClassificationDisplayNamePluralized(),
