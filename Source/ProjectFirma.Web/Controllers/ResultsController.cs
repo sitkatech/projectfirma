@@ -214,7 +214,7 @@ namespace ProjectFirma.Web.Controllers
 
             var projectStages = (ProjectStage.All.Where(x => x.ShouldShowOnMap())).OrderBy(x => x.SortOrder).ToList();
             var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList();
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.ProjectColorByTypeDisplayName);
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.DisplayName);
 
             var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(taxonomyTierThrees, projects, projectStages);
             var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap(), SitkaWebConfiguration.CanonicalHostName);

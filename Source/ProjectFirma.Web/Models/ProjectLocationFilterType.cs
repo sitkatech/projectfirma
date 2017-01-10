@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectLocationFilterType
     {
         public abstract Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues);
+        public abstract string DisplayName { get; }
     }
 
     public partial class ProjectLocationFilterTypeTaxonomyTierThree
@@ -15,6 +17,11 @@ namespace ProjectFirma.Web.Models
         public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
         {
             return project => filterValues.Contains(project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThreeID);
+        }
+
+        public override string DisplayName
+        {
+            get { return MultiTenantHelpers.GetTaxonomyTierThreeDisplayName(); }
         }
     }
 
@@ -24,6 +31,11 @@ namespace ProjectFirma.Web.Models
         {
             return project => filterValues.Contains(project.TaxonomyTierOne.TaxonomyTierTwoID);
         }
+
+        public override string DisplayName
+        {
+            get { return MultiTenantHelpers.GetTaxonomyTierTwoDisplayName(); }
+        }
     }
 
     public partial class ProjectLocationFilterTypeTaxonomyTierOne
@@ -31,6 +43,11 @@ namespace ProjectFirma.Web.Models
         public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
         {
             return project => filterValues.Contains(project.TaxonomyTierOneID);
+        }
+
+        public override string DisplayName
+        {
+            get { return MultiTenantHelpers.GetTaxonomyTierOneDisplayName(); }
         }
     }
 
@@ -40,6 +57,11 @@ namespace ProjectFirma.Web.Models
         {
             return project => filterValues.Intersect(project.ProjectClassifications.Select(x => x.ClassificationID)).Any();
         }
+
+        public override string DisplayName
+        {
+            get { return ProjectLocationFilterTypeDisplayName; }
+        }
     }
 
     public partial class ProjectLocationFilterTypeProjectStage
@@ -47,6 +69,11 @@ namespace ProjectFirma.Web.Models
         public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
         {
             return project => filterValues.Contains(project.ProjectStageID);
+        }
+
+        public override string DisplayName
+        {
+            get { return ProjectLocationFilterTypeDisplayName; }
         }
     }
 
@@ -56,6 +83,11 @@ namespace ProjectFirma.Web.Models
         {
             return project => filterValues.Intersect(project.ProjectImplementingOrganizations.Select(x => x.OrganizationID)).Any();
         }
+
+        public override string DisplayName
+        {
+            get { return ProjectLocationFilterTypeDisplayName; }
+        }
     }
 
     public partial class ProjectLocationFilterTypeFundingOrganization
@@ -63,6 +95,11 @@ namespace ProjectFirma.Web.Models
         public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
         {
             return project => filterValues.Intersect(project.ProjectFundingOrganizations.Select(x => x.OrganizationID)).Any();
+        }
+
+        public override string DisplayName
+        {
+            get { return ProjectLocationFilterTypeDisplayName; }
         }
     }
 }

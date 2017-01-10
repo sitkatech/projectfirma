@@ -1,13 +1,14 @@
 ﻿{
   "ProjectLocationFilterType": {
-    "ProjectLocationFilterTypeID": 1,
-    "ProjectLocationFilterTypeName": "TaxonomyTierThree",
-    "ProjectLocationFilterTypeNameWithIdentifier": "TaxonomyTierThreeID",
-    "ProjectLocationFilterTypeDisplayName": "Taxonomy Tier Three",
-    "SortOrder": 10,
-    "DisplayGroup": 1,
-    "PrimaryKey": 1,
-    "ToEnum": 1
+    "DisplayName": "Project Stage",
+    "ProjectLocationFilterTypeID": 5,
+    "ProjectLocationFilterTypeName": "ProjectStage",
+    "ProjectLocationFilterTypeNameWithIdentifier": "ProjectStageID",
+    "ProjectLocationFilterTypeDisplayName": "Project Stage",
+    "SortOrder": 50,
+    "DisplayGroup": 3,
+    "PrimaryKey": 5,
+    "ToEnum": 5
   },
   "ProjectColorByType": {
     "ProjectColorByTypeID": 2,
@@ -23,6 +24,6 @@
     3,
     4
   ],
-  "FilterPropertyName": "TaxonomyTierThreeID",
+  "FilterPropertyName": "ProjectStageID",
   "ColorByPropertyName": "ProjectStageID"
 }

@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Views.Results
         [UseReporter(typeof(DiffReporter))]
         public void EnsureProjectMapCustomizationSignatureTest()
         {
-            var projectLocationFilter = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyTierThree, new List<int> { 2, 3, 4 }, ProjectColorByType.ProjectStage);
+            var projectLocationFilter = new ProjectMapCustomization(ProjectLocationFilterType.ProjectStage, new List<int> { 2, 3, 4 }, ProjectColorByType.ProjectStage);
             Approvals.Verify(JObject.FromObject(projectLocationFilter));
         }
     }

@@ -376,6 +376,7 @@
     <Compile Include="Controllers\ProgramInfoController.cs" />
     <Compile Include="Controllers\TaxonomyTierTwoController.cs" />
     <Compile Include="Controllers\TaxonomyTierOneController.cs" />
+    <Compile Include="Models\ProjectColorByType.cs" />
     <Compile Include="Models\TaxonomyTierTwoPerformanceMeasure.cs" />
     <Compile Include="Models\TaxonomyTierTwoPerformanceMeasureSimple.cs" />
     <Compile Include="Models\TaxonomyTierThree.cs" />

@@ -142,7 +142,7 @@
         <select id="ColorPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
             @foreach (var colorByType in ProjectColorByType.All)
             {
-                <option value="@colorByType.ProjectColorByTypeNameWithIdentifier" data-colorby="@colorByType.ProjectColorByTypeName" data-displayname="@colorByType.ProjectColorByTypeDisplayName">@colorByType.ProjectColorByTypeDisplayName</option>
+                <option value="@colorByType.ProjectColorByTypeNameWithIdentifier" data-colorby="@colorByType.ProjectColorByTypeName" data-displayname="@colorByType.DisplayName">@colorByType.DisplayName</option>
             }
         </select>
 
@@ -157,7 +157,7 @@
                         <option data-divider="true"></option>
                     }
                     <option value="@plft.ProjectLocationFilterTypeNameWithIdentifier" data-filter="@plft.ProjectLocationFilterTypeName">
-                        @plft.ProjectLocationFilterTypeDisplayName
+                        @plft.DisplayName
                     </option>
                     displayGroup = plft.DisplayGroup;
                 }
