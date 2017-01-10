@@ -11,6 +11,7 @@
     "ToEnum": 5
   },
   "ProjectColorByType": {
+    "DisplayName": "Stage",
     "ProjectColorByTypeID": 2,
     "ProjectColorByTypeName": "ProjectStage",
     "ProjectColorByTypeNameWithIdentifier": "ProjectStageID",
