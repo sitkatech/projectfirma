@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Classification(int classificationID, string classificationName, string classificationDescription, string themeColor, string displayName, string goalStatement, string narrative) : this()
+        public Classification(int classificationID, string classificationName, string classificationDescription, string themeColor, string displayName, string goalStatement, string narrative, int? keyImageFileResourceID) : this()
         {
             this.ClassificationID = classificationID;
             this.ClassificationName = classificationName;
@@ -41,6 +41,7 @@ namespace ProjectFirma.Web.Models
             this.DisplayName = displayName;
             this.GoalStatement = goalStatement;
             this.Narrative = narrative;
+            this.KeyImageFileResourceID = keyImageFileResourceID;
         }
 
         /// <summary>
@@ -94,12 +95,14 @@ namespace ProjectFirma.Web.Models
             get { return Narrative == null ? null : new HtmlString(Narrative); }
             set { Narrative = value == null ? null : value.ToString(); }
         }
+        public int? KeyImageFileResourceID { get; set; }
         public int PrimaryKey { get { return ClassificationID; } set { ClassificationID = value; } }
 
         public virtual ICollection<ClassificationImage> ClassificationImages { get; set; }
         public virtual ICollection<ClassificationPerformanceMeasure> ClassificationPerformanceMeasures { get; set; }
         public virtual ICollection<ProjectClassification> ProjectClassifications { get; set; }
         public virtual ICollection<ProposedProjectClassification> ProposedProjectClassifications { get; set; }
+        public virtual FileResource KeyImageFileResource { get; set; }
 
         public static class FieldLengths
         {

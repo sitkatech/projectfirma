@@ -114,6 +114,10 @@
       <End Role="Person" EntitySet="Person" />
       <End Role="AuditLogs" EntitySet="AuditLog" />
     </AssociationSet>
+    <AssociationSet Name="FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID">
+      <End Role="KeyImageFileResource" EntitySet="FileResource" />
+      <End Role="ClassificationsWhereYouAreTheKeyImageFileResource" EntitySet="Classification" />
+    </AssociationSet>
     <AssociationSet Name="FK_ClassificationImage_Classification_ClassificationID" Association="ProjectFirma.Web.Models.FK_ClassificationImage_Classification_ClassificationID">
       <End Role="Classification" EntitySet="Classification" />
       <End Role="ClassificationImages" EntitySet="ClassificationImage" />
@@ -770,6 +774,8 @@
     <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
     <Property Name="GoalStatement" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="Narrative" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="KeyImageFileResourceID" Type="Int32" />
+    <NavigationProperty Name="KeyImageFileResource" Relationship="ProjectFirma.Web.Models.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" FromRole="ClassificationsWhereYouAreTheKeyImageFileResource" ToRole="KeyImageFileResource" />
     <NavigationProperty Name="ClassificationImages" Relationship="ProjectFirma.Web.Models.FK_ClassificationImage_Classification_ClassificationID" FromRole="Classification" ToRole="ClassificationImages" />
     <NavigationProperty Name="ClassificationPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_Classification_ClassificationID" FromRole="Classification" ToRole="ClassificationPerformanceMeasures" />
     <NavigationProperty Name="ProjectClassifications" Relationship="ProjectFirma.Web.Models.FK_ProjectClassification_Classification_ClassificationID" FromRole="Classification" ToRole="ProjectClassifications" />
@@ -851,6 +857,7 @@
     <Property Name="FileResourceData" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
     <Property Name="CreatePersonID" Type="Int32" Nullable="false" />
     <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="ClassificationsWhereYouAreTheKeyImageFileResource" Relationship="ProjectFirma.Web.Models.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" FromRole="KeyImageFileResource" ToRole="ClassificationsWhereYouAreTheKeyImageFileResource" />
     <NavigationProperty Name="ClassificationImages" Relationship="ProjectFirma.Web.Models.FK_ClassificationImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ClassificationImages" />
     <NavigationProperty Name="FieldDefinitionImages" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FieldDefinitionImages" />
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_FileResource_Person_CreatePersonID_PersonID" FromRole="FileResourcesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
@@ -2051,6 +2058,18 @@
       </Principal>
       <Dependent Role="AuditLogs">
         <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID">
+    <End Role="KeyImageFileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="0..1" />
+    <End Role="ClassificationsWhereYouAreTheKeyImageFileResource" Type="ProjectFirma.Web.Models.Classification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="KeyImageFileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="ClassificationsWhereYouAreTheKeyImageFileResource">
+        <PropertyRef Name="KeyImageFileResourceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

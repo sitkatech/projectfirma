@@ -1439,6 +1439,15 @@
     <Compile Include="Views\Shared\DhtmlxGridIncludes.cs" />
     <Compile Include="Views\Shared\TextControls\EntityExternalLinks.cs" />
     <Compile Include="Views\Shared\TextControls\EntityExternalLinksViewData.cs" />
+    <Content Include="Content\bootstrap-colorpicker\css\bootstrap-colorpicker.css" />
+    <Content Include="Content\bootstrap-colorpicker\css\bootstrap-colorpicker.min.css" />
+    <Content Include="Content\bootstrap-colorpicker\img\bootstrap-colorpicker\alpha-horizontal.png" />
+    <Content Include="Content\bootstrap-colorpicker\img\bootstrap-colorpicker\alpha.png" />
+    <Content Include="Content\bootstrap-colorpicker\img\bootstrap-colorpicker\hue-horizontal.png" />
+    <Content Include="Content\bootstrap-colorpicker\img\bootstrap-colorpicker\hue.png" />
+    <Content Include="Content\bootstrap-colorpicker\img\bootstrap-colorpicker\saturation.png" />
+    <Content Include="Content\bootstrap-colorpicker\js\bootstrap-colorpicker.js" />
+    <Content Include="Content\bootstrap-colorpicker\js\bootstrap-colorpicker.min.js" />
     <Content Include="Content\bootstrap-toc\bootstrap-toc.min.js">
       <DependentUpon>bootstrap-toc.js</DependentUpon>
     </Content>
@@ -2594,6 +2603,8 @@
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.variables.css.map">
       <DependentUpon>bootstrap.firma.variables.css</DependentUpon>
     </Content>
+    <Content Include="Content\bootstrap-colorpicker\css\bootstrap-colorpicker.css.map" />
+    <Content Include="Content\bootstrap-colorpicker\css\bootstrap-colorpicker.min.css.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />

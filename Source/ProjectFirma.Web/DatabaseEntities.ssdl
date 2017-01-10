@@ -106,6 +106,10 @@
       <End Role="Person" EntitySet="Person" />
       <End Role="AuditLogs" EntitySet="AuditLog" />
     </AssociationSet>
+    <AssociationSet Name="FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID">
+      <End Role="KeyImageFileResource" EntitySet="FileResource" />
+      <End Role="ClassificationsWhereYouAreTheKeyImageFileResource" EntitySet="Classification" />
+    </AssociationSet>
     <AssociationSet Name="FK_ClassificationImage_Classification_ClassificationID" Association="ProjectFirma.Web.Models.Store.FK_ClassificationImage_Classification_ClassificationID">
       <End Role="Classification" EntitySet="Classification" />
       <End Role="ClassificationImages" EntitySet="ClassificationImage" />
@@ -763,6 +767,7 @@
     <Property Name="DisplayName" Type="varchar" Nullable="false" MaxLength="50" />
     <Property Name="GoalStatement" Type="varchar" MaxLength="200" />
     <Property Name="Narrative" Type="varchar(max)" />
+    <Property Name="KeyImageFileResourceID" Type="int" />
   </EntityType>
   <EntityType Name="ClassificationImage">
     <Key>
@@ -1739,6 +1744,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="AuditLogs">
         <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID">
+    <End Role="KeyImageFileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="0..1" />
+    <End Role="ClassificationsWhereYouAreTheKeyImageFileResource" Type="ProjectFirma.Web.Models.Store.Classification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="KeyImageFileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="ClassificationsWhereYouAreTheKeyImageFileResource">
+        <PropertyRef Name="KeyImageFileResourceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

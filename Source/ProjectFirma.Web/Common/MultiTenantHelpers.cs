@@ -10,32 +10,32 @@ namespace ProjectFirma.Web.Common
         }
         public static string GetTaxonomyTierThreeDisplayName()
         {
-            return "Taxonomy Tier Three";
-        }
-
-        public static string GetTaxonomyTierTwoDisplayName()
-        {
-            return "Taxonomy Tier Two";
-        }
-
-        public static string GetTaxonomyTierOneDisplayName()
-        {
-            return "Taxonomy Tier One";
+            return "Focused Investment Partnership";
         }
 
         public static string GetTaxonomyTierThreeDisplayNamePluralized()
         {
-            return "Taxonomy Tier Threes";
+            return "Focused Investment Partnerships";
+        }
+        
+        public static string GetTaxonomyTierTwoDisplayName()
+        {
+            return "HUC 5 Watershed";
         }
 
         public static string GetTaxonomyTierTwoDisplayNamePluralized()
         {
-            return "Taxonomy Tier Twos";
+            return "HUC 5 Watersheds";
+        }
+
+        public static string GetTaxonomyTierOneDisplayName()
+        {
+            return "HUC 6 Watershed";
         }
 
         public static string GetTaxonomyTierOneDisplayNamePluralized()
         {
-            return "Taxonomy Tier Ones";
+            return "HUC 6 Watersheds";
         }
 
         public static string GetPerformanceMeasureName()

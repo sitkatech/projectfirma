@@ -1,7 +1,9 @@
 ﻿@using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Views
 @inherits ProjectFirma.Web.Views.Classification.Detail
 
 @section JavascriptAndStylesContent
@@ -66,6 +68,20 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>Projects</h2>
+            </div>
+            <div class="panel-body">
+                @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div style="margin-top: 20px">
     <a class="btn btn-blue" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>

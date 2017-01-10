@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Views.Organization
             if (LogoFileResourceData != null)
             {
                 organization.LogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(LogoFileResourceData, currentPerson);    
-            }                       
+            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

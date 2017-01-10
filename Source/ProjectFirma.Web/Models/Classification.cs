@@ -13,7 +13,10 @@ namespace ProjectFirma.Web.Models
 
         public string KeyImageUrlLarge
         {
-            get { return "http://placehold.it/280x210"; }
+            get
+            {
+                return this.KeyImageFileResource != null ? KeyImageFileResource.FileResourceUrlScaledForPrint : "http://placehold.it/280x210";
+            }
         }
 
         public string AuditDescriptionString

@@ -60,6 +60,7 @@
           <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
           <ScalarProperty Name="GoalStatement" ColumnName="GoalStatement" />
           <ScalarProperty Name="Narrative" ColumnName="Narrative" />
+          <ScalarProperty Name="KeyImageFileResourceID" ColumnName="KeyImageFileResourceID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
