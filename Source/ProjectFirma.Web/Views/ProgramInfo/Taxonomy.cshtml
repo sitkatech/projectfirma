@@ -84,9 +84,9 @@
             Number of Projects
         </div>
         <div style="clear: both">
-            @foreach (var taxonomyTierThree in ViewDataTyped.TaxonomyTierThreesAsFancyTreeNodes)
+            @foreach (var taxonomyTier in ViewDataTyped.TopLevelTaxonomyTierAsFancyTreeNodes)
             {
-                <table id="@(string.Format("projecttaxonomytree{0}", taxonomyTierThree.Key))" class="table table-hover table-condensed projecttaxonomytree" style="margin-bottom: 10px; border-color: @taxonomyTierThree.ThemeColor">
+                <table id="@(string.Format("projecttaxonomytree{0}", taxonomyTier.Key))" class="table table-hover table-condensed projecttaxonomytree" style="margin-bottom: 10px; border-color: @taxonomyTier.ThemeColor">
                     <colgroup>
                         <col />
                         <col style="width: 80px;" />
@@ -127,7 +127,7 @@
                 loading: "glyphicon glyphicon-refresh"
             }
         };
-        var treeSources = @Html.Raw(JArray.FromObject(ViewDataTyped.TaxonomyTierThreesAsFancyTreeNodes));
+        var treeSources = @Html.Raw(JArray.FromObject(ViewDataTyped.TopLevelTaxonomyTierAsFancyTreeNodes));
         for (var i = 0; i < treeSources.length; ++i)
         {
             var currentTreeSource = treeSources[i];

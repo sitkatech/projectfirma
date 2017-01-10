@@ -554,7 +554,7 @@ namespace ProjectFirma.Web.Models
 
         public FancyTreeNode ToFancyTreeNode()
         {
-            var fancyTreeNode = new FancyTreeNode(String.Format("{0}", UrlTemplate.MakeHrefString(this.GetFactSheetUrl(), ProjectName, ProjectName)), ProjectID.ToString(), false) { ThemeColor = TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeColor, MapUrl = null };
+            var fancyTreeNode = new FancyTreeNode(String.Format("{0}", UrlTemplate.MakeHrefString(this.GetFactSheetUrl(), ProjectName, ProjectName)), ProjectID.ToString(), false) { ThemeColor = TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor, MapUrl = null };
             return fancyTreeNode;
         }
 

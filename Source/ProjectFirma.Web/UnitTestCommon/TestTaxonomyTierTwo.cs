@@ -10,6 +10,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             {
                 var taxonomyTierThree = TestTaxonomyTierThree.Create();
                 var taxonomyTierTwo = TaxonomyTierTwo.CreateNewBlank(taxonomyTierThree);
+                taxonomyTierTwo.ThemeColor = "#FFFFFF";
                 return taxonomyTierTwo;
             }
 
@@ -17,7 +18,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             {
                 var taxonomyTierThree = TestTaxonomyTierThree.Create(dbContext);
                 var taxonomyTierTwo = new TaxonomyTierTwo(taxonomyTierThree,
-                    MakeTestName("Test Taxonomy Tier Two Name", TaxonomyTierTwo.FieldLengths.TaxonomyTierTwoName));
+                    MakeTestName("Test Taxonomy Tier Two Name", TaxonomyTierTwo.FieldLengths.TaxonomyTierTwoName), string.Empty);
                 dbContext.TaxonomyTierTwos.Add(taxonomyTierTwo);
                 return taxonomyTierTwo;
             }

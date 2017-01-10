@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[TaxonomyTierThree](
 	[TaxonomyTierThreeID] [int] IDENTITY(1,1) NOT NULL,
 	[TaxonomyTierThreeName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[TaxonomyTierThreeDescription] [dbo].[html] NULL,
-	[TaxonomyTierThreeColor] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ThemeColor] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_TaxonomyTierThree_TaxonomyTierThreeID] PRIMARY KEY CLUSTERED 
 (
 	[TaxonomyTierThreeID] ASC

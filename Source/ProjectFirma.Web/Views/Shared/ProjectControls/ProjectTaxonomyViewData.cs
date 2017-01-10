@@ -1,4 +1,7 @@
-﻿using ProjectFirma.Web.Views;
+﻿using System.Linq;
+using System.Web;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
@@ -32,14 +35,19 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
         private ProjectTaxonomyViewData(Models.TaxonomyTierThree taxonomyTierThree, Models.TaxonomyTierTwo taxonomyTierTwo, Models.TaxonomyTierOne taxonomyTierOne, Models.Project project)
         {
+            TaxonomyTierOne = taxonomyTierOne;
             TaxonomyTierThree = taxonomyTierThree;
             TaxonomyTierTwo = taxonomyTierTwo;
-            TaxonomyTierOne = taxonomyTierOne;
             Project = project;
             IsProject = Project != null;
             IsTaxonomyTierOne = TaxonomyTierOne != null && !IsProject;
             IsTaxonomyTierTwo = TaxonomyTierTwo != null && !IsTaxonomyTierOne && !IsProject;
             IsTaxonomyTierThree = TaxonomyTierThree != null && !IsTaxonomyTierTwo && !IsTaxonomyTierOne && !IsProject;
+
+            if (HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.Count() <= 1 && !IsTaxonomyTierThree)
+            {
+                TaxonomyTierThree = null;
+            }
         }
     }
 }

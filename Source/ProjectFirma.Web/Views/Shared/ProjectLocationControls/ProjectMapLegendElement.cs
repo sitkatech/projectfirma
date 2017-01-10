@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
                 },
                 {
                     ProjectColorByType.TaxonomyTierThree.ProjectColorByTypeNameWithIdentifier,
-                    taxonomyTierThrees.Select(x => new ProjectMapLegendElement(x.TaxonomyTierThreeID, x.TaxonomyTierThreeColor, x.TaxonomyTierThreeName)).ToList()
+                    taxonomyTierThrees.Select(x => new ProjectMapLegendElement(x.TaxonomyTierThreeID, x.ThemeColor, x.TaxonomyTierThreeName)).ToList()
                 }
             };
 

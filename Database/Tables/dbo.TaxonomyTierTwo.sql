@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[TaxonomyTierTwo](
 	[TaxonomyTierThreeID] [int] NOT NULL,
 	[TaxonomyTierTwoName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[TaxonomyTierTwoDescription] [dbo].[html] NULL,
+	[ThemeColor] [varchar](7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_TaxonomyTierTwo_TaxonomyTierTwoID] PRIMARY KEY CLUSTERED 
 (
 	[TaxonomyTierTwoID] ASC

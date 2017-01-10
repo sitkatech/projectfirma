@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Views.Project
             var chartHeight = 435 - (FundingSourceExpenditures.Count*19);
             GoogleChartJson.GoogleChartConfiguration.SetSize(chartHeight, 450);
 
-            TaxonomyColor = Project.TaxonomyTierOne == null ? "blue" : Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeColor;
+            TaxonomyColor = Project.TaxonomyTierOne == null ? "blue" : Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor;
             TaxonomyTierOneName = Project.TaxonomyTierOne == null ? "Project Taxonomy Not Set" : Project.TaxonomyTierOne.DisplayName;
             TaxonomyTierOneName = Project.TaxonomyTierOne == null ? "Project Taxonomy Not Set" : Project.TaxonomyTierOne.TaxonomyTierTwo.DisplayName;
         }

@@ -6,12 +6,12 @@ namespace ProjectFirma.Web.Views.ProgramInfo
 {
     public class TaxonomyViewData : FirmaViewData
     {
-        public readonly List<FancyTreeNode> TaxonomyTierThreesAsFancyTreeNodes;
+        public readonly List<FancyTreeNode> TopLevelTaxonomyTierAsFancyTreeNodes;
 
         public TaxonomyViewData(Person currentPerson, Models.FirmaPage firmaPage,
-            List<FancyTreeNode> taxonomyTierThreesAsFancyTreeNodes) : base(currentPerson, firmaPage, false)
+            List<FancyTreeNode> topLevelTaxonomyTierAsFancyTreeNodes) : base(currentPerson, firmaPage, false)
         {
-            TaxonomyTierThreesAsFancyTreeNodes = taxonomyTierThreesAsFancyTreeNodes;
+            TopLevelTaxonomyTierAsFancyTreeNodes = topLevelTaxonomyTierAsFancyTreeNodes;
             PageTitle = MultiTenantHelpers.GetTaxonomySystemName();
         }
     }

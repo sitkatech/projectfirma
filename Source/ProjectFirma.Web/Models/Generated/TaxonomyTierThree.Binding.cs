@@ -30,12 +30,12 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyTierThree(int taxonomyTierThreeID, string taxonomyTierThreeName, string taxonomyTierThreeDescription, string taxonomyTierThreeColor) : this()
+        public TaxonomyTierThree(int taxonomyTierThreeID, string taxonomyTierThreeName, string taxonomyTierThreeDescription, string themeColor) : this()
         {
             this.TaxonomyTierThreeID = taxonomyTierThreeID;
             this.TaxonomyTierThreeName = taxonomyTierThreeName;
             this.TaxonomyTierThreeDescription = taxonomyTierThreeDescription;
-            this.TaxonomyTierThreeColor = taxonomyTierThreeColor;
+            this.ThemeColor = themeColor;
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Models
             get { return TaxonomyTierThreeDescription == null ? null : new HtmlString(TaxonomyTierThreeDescription); }
             set { TaxonomyTierThreeDescription = value == null ? null : value.ToString(); }
         }
-        public string TaxonomyTierThreeColor { get; set; }
+        public string ThemeColor { get; set; }
         public int PrimaryKey { get { return TaxonomyTierThreeID; } set { TaxonomyTierThreeID = value; } }
 
         public virtual ICollection<TaxonomyTierThreeImage> TaxonomyTierThreeImages { get; set; }
@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Models
         public static class FieldLengths
         {
             public const int TaxonomyTierThreeName = 100;
-            public const int TaxonomyTierThreeColor = 20;
+            public const int ThemeColor = 20;
         }
     }
 }

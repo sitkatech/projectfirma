@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNew(viewModel);
             }
-            var taxonomyTierTwo = new TaxonomyTierTwo(viewModel.TaxonomyTierThreeID, string.Empty);
+            var taxonomyTierTwo = new TaxonomyTierTwo(viewModel.TaxonomyTierThreeID, string.Empty, string.Empty);
             viewModel.UpdateModel(taxonomyTierTwo, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.Add(taxonomyTierTwo);
             return new ModalDialogFormJsonResult();

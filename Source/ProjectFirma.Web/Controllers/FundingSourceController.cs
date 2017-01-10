@@ -123,7 +123,7 @@ namespace ProjectFirma.Web.Controllers
                     "ReportedExpendituresChart",
                     fundingSource.DisplayName, chartPopupUrl);
 
-            var chartColorRange = taxonomyTierThrees.Select(x => x.TaxonomyTierThreeColor).ToList();
+            var chartColorRange = taxonomyTierThrees.Select(x => x.ThemeColor).ToList();
             var calendarYearExpendituresLineChartViewData = new CalendarYearExpendituresLineChartViewData(googleChart,
                 chartColorRange);
             var viewData = new DetailViewData(CurrentPerson, fundingSource, calendarYearExpendituresLineChartViewData);

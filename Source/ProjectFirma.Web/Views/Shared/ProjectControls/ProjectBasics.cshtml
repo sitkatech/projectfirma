@@ -36,39 +36,8 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-xs-4 col-header">
-            @Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierThree, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierThreeDisplayName())
-        </div>
-        <div class="col-xs-7">
-            @ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.DisplayNameAsUrl
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-4 col-xs-offset-1 col-header">
-            @Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())
-        </div>
-        <div class="col-xs-6">
-            @ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.DisplayNameAsUrl
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-4 col-xs-offset-2 col-header">
-            @Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierOne, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierOneDisplayName())
-        </div>
-        <div class="col-xs-5">
-            @ViewDataTyped.Project.TaxonomyTierOne.GetDisplayNameAsUrl()
-        </div>
-
-    </div>
-    <div class="row">
-        <div class="col-xs-4 col-xs-offset-3 col-header">
-            @Html.LabelWithFieldDefinitionFor(FieldDefinition.Project, "Project Name")
-        </div>
-        <div class="col-xs-5">
-            @ViewDataTyped.Project.DisplayName
-        </div>
-    </div>
+    @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }
+    
     <hr/>
     <div class="row">
         <div class="col-xs-4 col-header">

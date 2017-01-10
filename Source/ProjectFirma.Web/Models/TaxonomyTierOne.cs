@@ -18,6 +18,11 @@ namespace ProjectFirma.Web.Models
             get { return ProjectMapCustomization.BuildCustomizedUrl(ProjectLocationFilterType.TaxonomyTierOne, TaxonomyTierOneID.ToString(), ProjectColorByType.ProjectStage); }
         }
 
+        public string ThemeColor
+        {
+            get { return TaxonomyTierTwo.ThemeColor; }
+        }
+
         public static bool IsTaxonomyTierOneNameUnique(IEnumerable<TaxonomyTierOne> taxonomyTierOnes, string taxonomyTierOneName, int currentTaxonomyTierOneID)
         {
             var taxonomyTierOne =
@@ -35,7 +40,7 @@ namespace ProjectFirma.Web.Models
         {
             var fancyTreeNode = new FancyTreeNode(string.Format("{0}", UrlTemplate.MakeHrefString(this.GetSummaryUrl(), TaxonomyTierOneName)), TaxonomyTierOneID.ToString(), false)
             {
-                ThemeColor = TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeColor,
+                ThemeColor = ThemeColor,
                 MapUrl = CustomizedMapUrl,
                 Children = Projects.Select(x => x.ToFancyTreeNode()).OrderBy(x => x.Title).ToList()
             };

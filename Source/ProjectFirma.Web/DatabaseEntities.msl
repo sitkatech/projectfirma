@@ -1025,7 +1025,7 @@
           <ScalarProperty Name="TaxonomyTierThreeID" ColumnName="TaxonomyTierThreeID" />
           <ScalarProperty Name="TaxonomyTierThreeName" ColumnName="TaxonomyTierThreeName" />
           <ScalarProperty Name="TaxonomyTierThreeDescription" ColumnName="TaxonomyTierThreeDescription" />
-          <ScalarProperty Name="TaxonomyTierThreeColor" ColumnName="TaxonomyTierThreeColor" />
+          <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1045,6 +1045,7 @@
           <ScalarProperty Name="TaxonomyTierThreeID" ColumnName="TaxonomyTierThreeID" />
           <ScalarProperty Name="TaxonomyTierTwoName" ColumnName="TaxonomyTierTwoName" />
           <ScalarProperty Name="TaxonomyTierTwoDescription" ColumnName="TaxonomyTierTwoDescription" />
+          <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

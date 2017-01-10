@@ -18,6 +18,9 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierThreeName)]
         public string TaxonomyTierThreeName { get; set; }
 
+        [Required]
+        public string ThemeColor { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -29,11 +32,13 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
         {
             TaxonomyTierThreeID = taxonomyTierThree.TaxonomyTierThreeID;
             TaxonomyTierThreeName = taxonomyTierThree.TaxonomyTierThreeName;
+            ThemeColor = taxonomyTierThree.ThemeColor;
         }
 
         public void UpdateModel(Models.TaxonomyTierThree taxonomyTierThree, Person currentPerson)
         {
             taxonomyTierThree.TaxonomyTierThreeName = TaxonomyTierThreeName;
+            taxonomyTierThree.ThemeColor = ThemeColor;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

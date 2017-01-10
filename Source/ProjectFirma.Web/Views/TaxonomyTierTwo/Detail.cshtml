@@ -37,16 +37,22 @@
     <div class="tableCell">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwoUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName(), ViewDataTyped.TaxonomyTierTwo.DisplayName), ViewDataTyped.UserHasTaxonomyTierTwoManagePermissions) Basics</h2>
+                <h2>
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwoUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName(), ViewDataTyped.TaxonomyTierTwo.DisplayName), ViewDataTyped.UserHasTaxonomyTierTwoManagePermissions) Basics
+                </h2>
             </div>
             <div class="panel-body">
-                <span class="stylizeLikeTH">Category:</span>
+                <span>Category</span>
                 @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }
             </div>
         </div>
 
         <div class="panel panelFirma">
-            <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditDescriptionUrl, string.Format("Edit Description - {0}", ViewDataTyped.TaxonomyTierTwo.DisplayName), ViewDataTyped.UserHasTaxonomyTierTwoManagePermissions) Description</h2>
+            <div class="panel-heading panelTitle">
+                <h2>
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditDescriptionUrl, string.Format("Edit Description - {0}", ViewDataTyped.TaxonomyTierTwo.DisplayName), ViewDataTyped.UserHasTaxonomyTierTwoManagePermissions) Description
+                </h2>
+            </div>
             <div class="panel-body">
                 <div>
                     @ViewDataTyped.TaxonomyTierTwo.TaxonomyTierTwoDescriptionHtmlString
@@ -59,11 +65,11 @@
                 <h2>@MultiTenantHelpers.GetTaxonomyTierTwoDisplayName() Projects Map</h2>
             </div>
             <div style="padding: 10px">
-                To zoom into a specific area, hold down the Shift key and drag a rectangle.
                 <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
                     @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
                 </div>
-                Some projects operate over larger areas and are not represented on the map, but are listed in the project grid below. A <a href="@ViewDataTyped.ProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.
+                <span style="font-size: 10px">To zoom into a specific area, hold down the Shift key and drag a rectangle.</span>
+                <span >Some projects operate over larger areas and are not represented on the map, but are listed in the project grid below. A <a href="@ViewDataTyped.ProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.</span>
             </div>
         </div>
 
@@ -142,7 +148,8 @@
             <a href="@ViewDataTyped.FullProjectListUrl">Projects</a>
         </h2>
     </div>
-    <div class="panel-body">y
+    <div class="panel-body">
+        y
         @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoProjectGridName, ViewDataTyped.BasicProjectInfoProjectGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>
 </div>

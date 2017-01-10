@@ -9,6 +9,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             public static TaxonomyTierThree Create()
             {
                 var taxonomyTierThree = TaxonomyTierThree.CreateNewBlank();
+                taxonomyTierThree.ThemeColor = "#FFFFFF";
                 return taxonomyTierThree;
             }
 

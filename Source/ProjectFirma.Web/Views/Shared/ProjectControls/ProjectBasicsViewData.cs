@@ -9,6 +9,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public readonly bool UserHasProjectBudgetManagePermissions;
         public readonly bool UserHasTaggingPermissions;
         public readonly ProjectBasicsCalculatedCosts ProjectBasicsCalculatedCosts;
+        public readonly ProjectTaxonomyViewData ProjectTaxonomyViewData;
         public readonly ProjectBasicsTagsViewData ProjectBasicsTagsViewData;
 
         public ProjectBasicsViewData(Models.Project project, bool userHasProjectBudgetManagePermissions, bool userHasTaggingPermissions, ProjectBasicsTagsViewData projectBasicsTagsViewData)
@@ -16,9 +17,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             Project = project;
             UserHasProjectBudgetManagePermissions = userHasProjectBudgetManagePermissions;
             UserHasTaggingPermissions = userHasTaggingPermissions;
-            ProjectBasicsCalculatedCosts = new ProjectBasicsCalculatedCosts(project);
             ProjectBasicsTagsViewData = projectBasicsTagsViewData;
-        }
+            ProjectTaxonomyViewData = new ProjectTaxonomyViewData(project);
+            ProjectBasicsCalculatedCosts = new ProjectBasicsCalculatedCosts(project);
+            
+        }        
     }
 
     public class ProjectBasicsCalculatedCosts

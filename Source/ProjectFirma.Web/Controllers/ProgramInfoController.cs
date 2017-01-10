@@ -14,8 +14,11 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.Taxonomy);
             var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList();
-            var taxonomyTierThreesAsFancyTreeNodes = taxonomyTierThrees.Select(x => x.ToFancyTreeNode()).ToList();
-            var viewData = new TaxonomyViewData(CurrentPerson, firmaPage, taxonomyTierThreesAsFancyTreeNodes);
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList();
+            var topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTierThrees.Count > 1
+                ? taxonomyTierThrees.Select(x => x.ToFancyTreeNode()).ToList()
+                : taxonomyTierTwos.Select(x => x.ToFancyTreeNode()).ToList();
+            var viewData = new TaxonomyViewData(CurrentPerson, firmaPage, topLevelTaxonomyTierAsFancyTreeNodes);
             return RazorView<Taxonomy, TaxonomyViewData>(viewData);        }
     }
 }
