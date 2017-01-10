@@ -564,7 +564,7 @@ namespace LtInfo.Common.DhtmlWrappers
                 modalDialogForm.OnJavascriptReadyFunction,
                 null,
                 null,
-                new List<string>(){"btn-blue"});
+                new List<string>(){"btn-firma"});
         }
 
         /// <summary>
