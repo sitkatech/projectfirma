@@ -14,7 +14,7 @@
                  @Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierThree, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierThreeDisplayName())
              </div>
              <div class="col-sm-7">
-                 <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierThree ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierThree ? new HtmlString(ViewDataTyped.TaxonomyTierThree.DisplayName) : ViewDataTyped.TaxonomyTierThree.DisplayNameAsUrl)</span>
+                 <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierThree ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierThree ? new HtmlString(ViewDataTyped.TaxonomyTierThree.DisplayName) : ViewDataTyped.TaxonomyTierThree.GetDisplayNameAsUrl())</span>
              </div>
          </div>
          i++;
@@ -27,7 +27,7 @@
                  @Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())
              </div>
              <div class="col-sm-6">
-                 <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierTwo ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierTwo ? new HtmlString(ViewDataTyped.TaxonomyTierTwo.DisplayName) : ViewDataTyped.TaxonomyTierTwo.DisplayNameAsUrl)</span>
+                 <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierTwo ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierTwo ? new HtmlString(ViewDataTyped.TaxonomyTierTwo.DisplayName) : ViewDataTyped.TaxonomyTierTwo.GetDisplayNameAsUrl())</span>
              </div>
          </div>
      }

@@ -96,6 +96,9 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierThree = new TaxonomyTierThree(string.Empty);
             viewModel.UpdateModel(taxonomyTierThree, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.Add(taxonomyTierThree);
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            SetMessageForDisplay(string.Format("New {0} {1} successfully created!", MultiTenantHelpers.GetTaxonomyTierOneDisplayName(), taxonomyTierThree.GetDisplayNameAsUrl()));
             return new ModalDialogFormJsonResult();
         }
 

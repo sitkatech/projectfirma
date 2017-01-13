@@ -311,7 +311,7 @@
                                     @foreach (var taxonomyTierTwoPerformanceMeasure in ViewDataTyped.TaxonomyTierTwoPerformanceMeasures)
                                     {
                                         <tr>
-                                            <td>@taxonomyTierTwoPerformanceMeasure.Key.DisplayNameAsUrl</td>
+                                            <td>@taxonomyTierTwoPerformanceMeasure.Key.GetDisplayNameAsUrl()</td>
                                             <td style="text-align: center">@taxonomyTierTwoPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
                                         </tr>
                                     }

@@ -20,9 +20,9 @@ namespace ProjectFirma.Web.Models
             get { return TaxonomyTierThreeName; }
         }
 
-        public HtmlString DisplayNameAsUrl
+        public HtmlString GetDisplayNameAsUrl()
         {
-            get { return UrlTemplate.MakeHrefString(SummaryUrl, DisplayName); }
+            return UrlTemplate.MakeHrefString(SummaryUrl, DisplayName);
         }
 
         public string SummaryUrl

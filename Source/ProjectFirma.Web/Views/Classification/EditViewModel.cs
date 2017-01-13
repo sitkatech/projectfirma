@@ -23,7 +23,6 @@ namespace ProjectFirma.Web.Views.Classification
         [StringLength(Models.Classification.FieldLengths.ClassificationDescription)]
         public string ClassificationDescription { get; set; }
         
-        [Required]
         [StringLength(Models.Classification.FieldLengths.GoalStatement)]
         public string GoalStatement { get; set; }
 

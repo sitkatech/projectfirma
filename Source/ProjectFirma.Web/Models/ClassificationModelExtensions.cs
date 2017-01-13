@@ -11,14 +11,14 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<ClassificationController>.BuildUrlFromExpression(t => t.Edit(classification));
         }
 
-        public static string GetSummaryUrl(this Classification classification)
+        public static string GetDetailUrl(this Classification classification)
         {
             return SitkaRoute<ClassificationController>.BuildUrlFromExpression(t => t.Detail(classification));
         }
 
         public static HtmlString GetDisplayNameAsUrl(this Classification classification)
         {
-            return UrlTemplate.MakeHrefString(GetSummaryUrl(classification), classification.DisplayName);
+            return UrlTemplate.MakeHrefString(GetDetailUrl(classification), classification.DisplayName);
         }
     }
 }

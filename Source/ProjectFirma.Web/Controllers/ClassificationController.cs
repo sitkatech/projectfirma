@@ -55,6 +55,10 @@ namespace ProjectFirma.Web.Controllers
             var classification = new Classification(viewModel.DisplayName, string.Empty, "#BBBBBB", string.Empty);
             viewModel.UpdateModel(classification, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.Classifications.Add(classification);
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            SetMessageForDisplay(string.Format("New {0} {1} successfully created!", MultiTenantHelpers.GetClassificationDisplayName(), classification.GetDisplayNameAsUrl()));
+
             return new ModalDialogFormJsonResult();
         }
 

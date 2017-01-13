@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.Models
         public readonly HtmlString TaxonomyTierThreeName;
         public readonly decimal ExpenditureAmount;
 
-        public TaxonomyTierTwoSectorExpenditure(Sector sector, TaxonomyTierTwo taxonomyTierTwo, decimal expenditureAmount) : this(sector, taxonomyTierTwo.DisplayNameAsUrl, taxonomyTierTwo.TaxonomyTierThree.DisplayNameAsUrl, expenditureAmount)
+        public TaxonomyTierTwoSectorExpenditure(Sector sector, TaxonomyTierTwo taxonomyTierTwo, decimal expenditureAmount) : this(sector, taxonomyTierTwo.GetDisplayNameAsUrl(), taxonomyTierTwo.TaxonomyTierThree.GetDisplayNameAsUrl(), expenditureAmount)
         {
         }
 
