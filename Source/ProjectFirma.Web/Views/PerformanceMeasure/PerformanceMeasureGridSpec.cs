@@ -4,6 +4,7 @@ using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
@@ -12,7 +13,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public PerformanceMeasureGridSpec()
         {
             Add("#", a => a.PerformanceMeasureID, 30);
-            Add("PerformanceMeasure Name", a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.PerformanceMeasureDisplayName), 300, DhtmlxGridColumnFilterType.Text);
+            Add(Models.FieldDefinition.PerformanceMeasure.ToGridHeaderString(MultiTenantHelpers.GetPerformanceMeasureName()), a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.PerformanceMeasureDisplayName), 300, DhtmlxGridColumnFilterType.Text);
             Add(Models.FieldDefinition.MeasurementUnit.ToGridHeaderString("Unit"), a => a.MeasurementUnitType.MeasurementUnitTypeDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Type",
                 a => a.PerformanceMeasureType.PerformanceMeasureTypeDisplayName,

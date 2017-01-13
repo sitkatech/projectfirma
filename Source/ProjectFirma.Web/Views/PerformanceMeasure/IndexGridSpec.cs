@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public IndexGridSpec()
         {
             Add("#", a => UrlTemplate.MakeHrefString(a.GetInfoSheetUrl(), a.PerformanceMeasureID.ToString(CultureInfo.InvariantCulture)), 35, DhtmlxGridColumnFilterType.Html);
-            Add(Models.FieldDefinition.PerformanceMeasure.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetInfoSheetUrl(), a.PerformanceMeasureDisplayName), 320, DhtmlxGridColumnFilterType.Html);
+            Add(Models.FieldDefinition.PerformanceMeasure.ToGridHeaderString(MultiTenantHelpers.GetPerformanceMeasureName()), a => UrlTemplate.MakeHrefString(a.GetInfoSheetUrl(), a.PerformanceMeasureDisplayName), 320, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.MeasurementUnit.ToGridHeaderString("Units"), a => a.MeasurementUnitType.MeasurementUnitTypeDisplayName, 110, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(string.Format("{0} Definition", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()), a => a.PerformanceMeasureDefinition, 350, DhtmlxGridColumnFilterType.Text);
             Add("# of Subcategories", a => a.GetRealSubcategoryCount(), 110);

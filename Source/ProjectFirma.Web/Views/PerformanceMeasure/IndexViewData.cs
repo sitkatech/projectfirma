@@ -1,6 +1,7 @@
 ﻿using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
@@ -12,11 +13,11 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage, false)
         {  
-            PageTitle = "PerformanceMeasures";
+            PageTitle = MultiTenantHelpers.GetPerformanceMeasureName();
 
             PerformanceMeasureGridSpec = new PerformanceMeasureGridSpec {
-                ObjectNameSingular = "PerformanceMeasure",
-                ObjectNamePlural = "PerformanceMeasures",
+                ObjectNameSingular = MultiTenantHelpers.GetPerformanceMeasureName(),
+                ObjectNamePlural = MultiTenantHelpers.GetPerformanceMeasureNamePluralized(),
                 SaveFiltersInCookie = true
             };
 
