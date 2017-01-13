@@ -683,8 +683,8 @@
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureChartPopup.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureChartViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureGridSpec.cs" />
-    <Compile Include="Views\PerformanceMeasure\Summary.cs" />
-    <Compile Include="Views\PerformanceMeasure\SummaryViewData.cs" />
+    <Compile Include="Views\PerformanceMeasure\Detail.cs" />
+    <Compile Include="Views\PerformanceMeasure\DetailViewData.cs" />
     <Compile Include="Views\Map\ProjectLocationsMapInitJson.cs" />
     <Compile Include="Views\Map\ProjectLocationSummaryMapInitJson.cs" />
     <Compile Include="Views\MonitoringProgram\NewMonitoringProgramDocument.cs" />
@@ -3040,7 +3040,7 @@
     <Content Include="Views\PerformanceMeasure\Index.cshtml" />
     <Content Include="Views\PerformanceMeasure\PerformanceMeasureChart.cshtml" />
     <Content Include="Views\PerformanceMeasure\PerformanceMeasureChartPopup.cshtml" />
-    <Content Include="Views\PerformanceMeasure\Summary.cshtml" />
+    <Content Include="Views\PerformanceMeasure\Detail.cshtml" />
     <Content Include="Views\PerformanceMeasure\EditAccomplishmentsMetadata.cshtml" />
     <Content Include="Views\MonitoringProgram\Edit.cshtml" />
     <Content Include="Views\MonitoringProgram\Index.cshtml" />

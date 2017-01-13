@@ -56,10 +56,10 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [PerformanceMeasureViewFeature]
-        public ViewResult Summary(string performanceMeasureName, SummaryViewData.PerformanceMeasureSummaryTab? performanceMeasureSummaryTab)
+        public ViewResult Detail(string performanceMeasureName, DetailViewData.PerformanceMeasureSummaryTab? performanceMeasureSummaryTab)
         {
             var performanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.GetPerformanceMeasureByPerformanceMeasureName(performanceMeasureName);
-            var activeTab = performanceMeasureSummaryTab ?? SummaryViewData.PerformanceMeasureSummaryTab.Overview;
+            var activeTab = performanceMeasureSummaryTab ?? DetailViewData.PerformanceMeasureSummaryTab.Overview;
             var userHasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson);
             var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, false, userHasPerformanceMeasureManagePermissions ? ChartViewMode.ManagementMode : ChartViewMode.Small, null);
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(performanceMeasure.PerformanceMeasureNotes)),
@@ -67,13 +67,13 @@ namespace ProjectFirma.Web.Controllers
                 performanceMeasure.PerformanceMeasureDisplayName,
                 userHasPerformanceMeasureManagePermissions);
 
-            var viewData = new SummaryViewData(CurrentPerson,
+            var viewData = new DetailViewData(CurrentPerson,
                 performanceMeasure,
                 activeTab,
                 performanceMeasureChartViewData,
                 entityNotesViewData,
                 userHasPerformanceMeasureManagePermissions);
-            return RazorView<Summary, SummaryViewData>(viewData);
+            return RazorView<Detail, DetailViewData>(viewData);
         }
 
         [HttpGet]
@@ -219,7 +219,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 viewModel.UpdateModel(performanceMeasure, performanceMeasureSubcategoryID);
             }
-            return RedirectToAction(new SitkaRoute<PerformanceMeasureController>(x => x.Summary(performanceMeasure.PerformanceMeasureName, null)));
+            return RedirectToAction(new SitkaRoute<PerformanceMeasureController>(x => x.Detail(performanceMeasure.PerformanceMeasureName, null)));
         }
 
 

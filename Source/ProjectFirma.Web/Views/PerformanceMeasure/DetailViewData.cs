@@ -8,7 +8,7 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
-    public class SummaryViewData : FirmaViewData
+    public class DetailViewData : FirmaViewData
     {
         public enum PerformanceMeasureSummaryTab
         {
@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public string PerformanceMeasureExpectedsGridName { get; private set; }
         public string PerformanceMeasureExpectedsGridDataUrl { get; private set; }
 
-        public SummaryViewData(Person currentPerson,
+        public DetailViewData(Person currentPerson,
             Models.PerformanceMeasure performanceMeasure,
             PerformanceMeasureSummaryTab activeTab,
             PerformanceMeasureChartViewData performanceMeasureChartViewData,

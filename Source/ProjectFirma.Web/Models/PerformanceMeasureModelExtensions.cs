@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Models
             return UrlTemplate.MakeHrefString(performanceMeasure.GetSummaryUrl(), performanceMeasure.PerformanceMeasureDisplayName);
         }
 
-        public static readonly UrlTemplate<string> SummaryUrlTemplate = new UrlTemplate<string>(SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(t => t.Summary(UrlTemplate.Parameter1String, SummaryViewData.PerformanceMeasureSummaryTab.PerformanceMeasure)));
+        public static readonly UrlTemplate<string> SummaryUrlTemplate = new UrlTemplate<string>(SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1String, DetailViewData.PerformanceMeasureSummaryTab.PerformanceMeasure)));
         public static string GetSummaryUrl(this PerformanceMeasure performanceMeasure)
         {
             return SummaryUrlTemplate.ParameterReplace(performanceMeasure.PerformanceMeasureName);

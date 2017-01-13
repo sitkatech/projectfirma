@@ -9,7 +9,7 @@
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
-@inherits Summary
+@inherits Detail
 
 @section JavascriptAndStylesContent
 {
@@ -148,7 +148,7 @@
 <div class="container-fluid">
     <ul class="nav nav-tabs">
         <li @Html.Raw(ViewDataTyped.IsActiveTabOverview ? "class=\"active\"" : string.Empty)><a role="tab" href="#overviewTab" data-toggle="tab" aria-controls="overviewTab">Overview</a></li>
-        <li @Html.Raw(ViewDataTyped.ActiveTab == SummaryViewData.PerformanceMeasureSummaryTab.PerformanceMeasure ? "class=\"active\"" : string.Empty)><a role="tab" href="#pmTab" data-toggle="tab" aria-controls="pmTab"></a></li>
+        <li @Html.Raw(ViewDataTyped.ActiveTab == DetailViewData.PerformanceMeasureSummaryTab.PerformanceMeasure ? "class=\"active\"" : string.Empty)><a role="tab" href="#pmTab" data-toggle="tab" aria-controls="pmTab"></a></li>
     </ul>
 </div>
 
