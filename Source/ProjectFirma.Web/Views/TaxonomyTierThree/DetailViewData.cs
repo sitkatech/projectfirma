@@ -16,8 +16,9 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
         public readonly bool UserHasTaxonomyTierThreeManagePermissions;
         public readonly bool UserHasProjectTaxonomyTierThreeExpenditureManagePermissions;
         public readonly string EditTaxonomyTierThreeUrl;
+        public readonly string TaxonomyTierTwoIndexUrl;
 
-        public readonly string BackUrl;
+        public readonly string IndexUrl;
         public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
         public readonly string BasicProjectInfoGridName;
         public readonly string BasicProjectInfoGridDataUrl;
@@ -43,11 +44,12 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
 
             PageTitle = taxonomyTierThree.DisplayName;
             EntityName = MultiTenantHelpers.GetTaxonomyTierThreeDisplayName();
-            BackUrl = SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(c => c.Index());
+            IndexUrl = SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(c => c.Index());
 
             UserHasTaxonomyTierThreeManagePermissions = new TaxonomyTierThreeManageFeature().HasPermissionByPerson(CurrentPerson);
             UserHasProjectTaxonomyTierThreeExpenditureManagePermissions = new TaxonomyTierThreeManageFeature().HasPermissionByPerson(currentPerson);
             EditTaxonomyTierThreeUrl = SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(c => c.Edit(taxonomyTierThree.TaxonomyTierThreeID));
+            TaxonomyTierTwoIndexUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(c => c.Index());
 
             BasicProjectInfoGridName = "taxonomyTierThreeProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)

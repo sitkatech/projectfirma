@@ -30,12 +30,13 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyTierThree(int taxonomyTierThreeID, string taxonomyTierThreeName, string taxonomyTierThreeDescription, string themeColor) : this()
+        public TaxonomyTierThree(int taxonomyTierThreeID, string taxonomyTierThreeName, string taxonomyTierThreeDescription, string themeColor, string taxonomyTierThreeCode) : this()
         {
             this.TaxonomyTierThreeID = taxonomyTierThreeID;
             this.TaxonomyTierThreeName = taxonomyTierThreeName;
             this.TaxonomyTierThreeDescription = taxonomyTierThreeDescription;
             this.ThemeColor = themeColor;
+            this.TaxonomyTierThreeCode = taxonomyTierThreeCode;
         }
 
         /// <summary>
@@ -83,6 +84,7 @@ namespace ProjectFirma.Web.Models
             set { TaxonomyTierThreeDescription = value == null ? null : value.ToString(); }
         }
         public string ThemeColor { get; set; }
+        public string TaxonomyTierThreeCode { get; set; }
         public int PrimaryKey { get { return TaxonomyTierThreeID; } set { TaxonomyTierThreeID = value; } }
 
         public virtual ICollection<TaxonomyTierThreeImage> TaxonomyTierThreeImages { get; set; }
@@ -92,6 +94,7 @@ namespace ProjectFirma.Web.Models
         {
             public const int TaxonomyTierThreeName = 100;
             public const int ThemeColor = 20;
+            public const int TaxonomyTierThreeCode = 10;
         }
     }
 }

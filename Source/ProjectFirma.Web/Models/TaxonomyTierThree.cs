@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Models
 
         public string DisplayName
         {
-            get { return TaxonomyTierThreeName; }
+            get { return string.Format("{0}: {1}", TaxonomyTierThreeCode, TaxonomyTierThreeName); }
         }
 
         public HtmlString GetDisplayNameAsUrl()
@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Models
 
         public FancyTreeNode ToFancyTreeNode()
         {
-            var fancyTreeNode = new FancyTreeNode(string.Format("{0}", UrlTemplate.MakeHrefString(SummaryUrl, TaxonomyTierThreeName)), TaxonomyTierThreeID.ToString(), true)
+            var fancyTreeNode = new FancyTreeNode(string.Format("{0}", UrlTemplate.MakeHrefString(SummaryUrl, DisplayName)), TaxonomyTierThreeID.ToString(), true)
             {
                 ThemeColor = ThemeColor,
                 MapUrl = CustomizedMapUrl,

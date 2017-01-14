@@ -1581,9 +1581,6 @@
     <Content Include="Content\leaflet\leaflet.pip\leaflet-pip.min.js">
       <DependentUpon>leaflet-pip.js</DependentUpon>
     </Content>
-    <Content Include="Content\leaflet\leaflet.timeline\leaflet.timeline.js" />
-    <Content Include="Content\leaflet\leaflet.timeline\leaflet.timeline.min.css" />
-    <Content Include="Content\leaflet\leaflet.timeline\leaflet.timeline.min.js" />
     <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.GeoServerMap.js" />
     <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.GeoServerMap.min.js">
       <DependentUpon>ProjectFirmaMaps.GeoServerMap.js</DependentUpon>
@@ -2369,10 +2366,6 @@
     </Content>
     <Content Include="Content\leaflet\leaflet.pip\leaflet-pip.min.js.map">
       <DependentUpon>leaflet-pip.min.js</DependentUpon>
-    </Content>
-    <Content Include="Content\leaflet\leaflet.timeline\leaflet.timeline.sass" />
-    <Content Include="Content\leaflet\leaflet.timeline\leaflet.timeline.min.js.map">
-      <DependentUpon>leaflet.timeline.min.js</DependentUpon>
     </Content>
     <Content Include="Views\PerformanceMeasureMonitoringProgram\EditPerformanceMeasureMonitoringPrograms.cshtml" />
     <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.GeoServerMap.min.js.map">

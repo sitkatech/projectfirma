@@ -11,11 +11,6 @@ namespace ProjectFirma.Web.Views
     {
         public List<LtInfoMenuItem> TopLevelLtInfoMenuItems;
         public bool UseFluidContainer;
-        
-        public readonly string ManageTaxonomyTierThreeIndexUrl;
-        public readonly string ManageTaxonomyTierTwoIndexUrl;
-        public readonly string ManageTaxonomyTierOneIndexUrl;
-        public readonly string ManagePerformanceMeasuresUrl;
 
         public readonly string FullProjectListUrl;
         public readonly string ProjectSearchUrl;
@@ -55,11 +50,6 @@ namespace ProjectFirma.Web.Views
             RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(c => c.Support());
 
             MakeFirmaMenu(currentPerson);
-            
-            ManageTaxonomyTierThreeIndexUrl = SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(c => c.Index());
-            ManageTaxonomyTierTwoIndexUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(c => c.Index());
-            ManageTaxonomyTierOneIndexUrl = SitkaRoute<TaxonomyTierOneController>.BuildUrlFromExpression(c => c.Index());
-            ManagePerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Index());
 
             FullProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Index());
             ProjectSearchUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Search(UrlTemplate.Parameter1String));

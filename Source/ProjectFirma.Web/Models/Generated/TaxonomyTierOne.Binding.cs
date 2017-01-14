@@ -31,12 +31,13 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyTierOne(int taxonomyTierOneID, int taxonomyTierTwoID, string taxonomyTierOneName, string taxonomyTierOneDescription) : this()
+        public TaxonomyTierOne(int taxonomyTierOneID, int taxonomyTierTwoID, string taxonomyTierOneName, string taxonomyTierOneDescription, string taxonomyTierOneCode) : this()
         {
             this.TaxonomyTierOneID = taxonomyTierOneID;
             this.TaxonomyTierTwoID = taxonomyTierTwoID;
             this.TaxonomyTierOneName = taxonomyTierOneName;
             this.TaxonomyTierOneDescription = taxonomyTierOneDescription;
+            this.TaxonomyTierOneCode = taxonomyTierOneCode;
         }
 
         /// <summary>
@@ -97,6 +98,7 @@ namespace ProjectFirma.Web.Models
             get { return TaxonomyTierOneDescription == null ? null : new HtmlString(TaxonomyTierOneDescription); }
             set { TaxonomyTierOneDescription = value == null ? null : value.ToString(); }
         }
+        public string TaxonomyTierOneCode { get; set; }
         public int PrimaryKey { get { return TaxonomyTierOneID; } set { TaxonomyTierOneID = value; } }
 
         public virtual ICollection<Project> Projects { get; set; }
@@ -107,6 +109,7 @@ namespace ProjectFirma.Web.Models
         public static class FieldLengths
         {
             public const int TaxonomyTierOneName = 100;
+            public const int TaxonomyTierOneCode = 10;
         }
     }
 }

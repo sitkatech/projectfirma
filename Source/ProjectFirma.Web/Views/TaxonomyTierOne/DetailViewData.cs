@@ -15,6 +15,8 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
         public readonly Models.TaxonomyTierOne TaxonomyTierOne;
         public readonly bool UserHasTaxonomyTierOneManagePermissions;
         public readonly string EditTaxonomyTierOneUrl;
+        public readonly string IndexUrl;
+
         public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
         public readonly string BasicProjectInfoGridName;
         public readonly string BasicProjectInfoGridDataUrl;
@@ -40,6 +42,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
 
             UserHasTaxonomyTierOneManagePermissions = new TaxonomyTierOneManageFeature().HasPermissionByPerson(CurrentPerson);
             EditTaxonomyTierOneUrl = SitkaRoute<TaxonomyTierOneController>.BuildUrlFromExpression(c => c.Edit(taxonomyTierOne));
+            IndexUrl = SitkaRoute<TaxonomyTierOneController>.BuildUrlFromExpression(x => x.Index());
 
             BasicProjectInfoGridName = "taxonomyTierOneProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)

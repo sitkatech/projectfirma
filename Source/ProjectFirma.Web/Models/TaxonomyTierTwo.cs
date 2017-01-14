@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Models
 
         public string DisplayName
         {
-            get { return TaxonomyTierTwoName; }
+            get { return string.Format("{0}: {1}", TaxonomyTierTwoCode, TaxonomyTierTwoName); }
         }
 
         public HtmlString GetDisplayNameAsUrl()
@@ -65,9 +65,9 @@ namespace ProjectFirma.Web.Models
 
         public FancyTreeNode ToFancyTreeNode()
         {
-            var fancyTreeNode = new FancyTreeNode(string.Format("{0}", UrlTemplate.MakeHrefString(SummaryUrl, TaxonomyTierTwoName)), TaxonomyTierThreeID.ToString(), false)
+            var fancyTreeNode = new FancyTreeNode(string.Format("{0}", UrlTemplate.MakeHrefString(SummaryUrl, DisplayName)), TaxonomyTierThreeID.ToString(), false)
             {
-                ThemeColor = ThemeColor,
+                ThemeColor = string.IsNullOrWhiteSpace(ThemeColor) ? TaxonomyTierThree.ThemeColor : ThemeColor,
                 MapUrl = CustomizedMapUrl,
                 Children = TaxonomyTierOnes.Select(x => x.ToFancyTreeNode()).ToList()
             };

@@ -21,8 +21,9 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
 
         public readonly bool UserHasTaxonomyTierTwoManagePermissions;
         public readonly string EditTaxonomyTierTwoUrl;
+        public readonly string PerformanceMeasureUrl;
 
-        public readonly string BackUrl;
+        public readonly string IndexUrl;
         public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
         public readonly string BasicProjectInfoProjectGridName;
         public readonly string BasicProjectInfoProjectGridDataUrl;
@@ -64,8 +65,9 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
 
             UserHasTaxonomyTierTwoManagePermissions = new TaxonomyTierTwoManageFeature().HasPermissionByPerson(CurrentPerson);
             EditTaxonomyTierTwoUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(c => c.Edit(taxonomyTierTwo.TaxonomyTierTwoID));
+            PerformanceMeasureUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Index());
 
-            BackUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(c => c.Index());
+            IndexUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(c => c.Index());
 
             BasicProjectInfoProjectGridName = "taxonomyTierTwoProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)

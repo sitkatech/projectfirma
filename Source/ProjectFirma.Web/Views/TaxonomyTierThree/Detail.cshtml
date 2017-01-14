@@ -25,6 +25,11 @@
     </style>
 }
 
+<div>
+    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @MultiTenantHelpers.GetTaxonomyTierThreeDisplayNamePluralized().</a>
+</div>
+
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6">
@@ -55,7 +60,7 @@
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
                     <h2>
-                        <a href="@ViewDataTyped.ManageTaxonomyTierTwoIndexUrl">@MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</a>
+                        <a href="@ViewDataTyped.TaxonomyTierTwoIndexUrl">@MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</a>
                     </h2>
                 </div>
                 <div class="panel-body">
@@ -85,7 +90,7 @@
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
                     <h2>
-                        <a href="@ViewDataTyped.ManageTaxonomyTierOneIndexUrl">@MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized()</a>
+                        <a href="@ViewDataTyped.IndexUrl">@MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized()</a>
                     </h2>
                 </div>
                 <div class="panel-body">
@@ -138,10 +143,6 @@
     <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>
-</div>
-
-<div style="margin-top: 20px">
-    <a class="btn btn-sm btn-firma" href="@ViewDataTyped.BackUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
 </div>
 
 <script type="text/javascript">

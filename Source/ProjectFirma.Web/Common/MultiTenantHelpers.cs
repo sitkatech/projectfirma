@@ -6,46 +6,46 @@ namespace ProjectFirma.Web.Common
     {
         public static string GetTaxonomySystemName()
         {
-            return "Watershed Hierarchy";
+            return "Limiting Factors";
         }
         public static string GetTaxonomyTierThreeDisplayName()
         {
-            return "Focused Investment Partnership";
+            return "Ecological Concern";
         }
 
         public static string GetTaxonomyTierThreeDisplayNamePluralized()
         {
-            return "Focused Investment Partnerships";
+            return "Ecological Concerns";
         }
         
         public static string GetTaxonomyTierTwoDisplayName()
         {
-            return "HUC 5 Watershed";
+            return "Concern Subcategory";
         }
 
         public static string GetTaxonomyTierTwoDisplayNamePluralized()
         {
-            return "HUC 5 Watersheds";
+            return "Concern Subcategories";
         }
 
         public static string GetTaxonomyTierOneDisplayName()
         {
-            return "HUC 6 Watershed";
+            return "Limiting Factor";
         }
 
         public static string GetTaxonomyTierOneDisplayNamePluralized()
         {
-            return "HUC 6 Watersheds";
+            return "Limiting Factors";
         }
 
         public static string GetPerformanceMeasureName()
         {
-            return "Limiting Factor";
+            return "Performance Measure";
         }
 
         public static string GetPerformanceMeasureNamePluralized()
         {
-            return "Limiting Factors";
+            return "Performance Measures";
         }
 
         public static string GetClassificationDisplayName()

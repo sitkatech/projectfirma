@@ -31,32 +31,32 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyTierTwo(int taxonomyTierTwoID, int taxonomyTierThreeID, string taxonomyTierTwoName, string taxonomyTierTwoDescription, string themeColor) : this()
+        public TaxonomyTierTwo(int taxonomyTierTwoID, int taxonomyTierThreeID, string taxonomyTierTwoName, string taxonomyTierTwoDescription, string themeColor, string taxonomyTierTwoCode) : this()
         {
             this.TaxonomyTierTwoID = taxonomyTierTwoID;
             this.TaxonomyTierThreeID = taxonomyTierThreeID;
             this.TaxonomyTierTwoName = taxonomyTierTwoName;
             this.TaxonomyTierTwoDescription = taxonomyTierTwoDescription;
             this.ThemeColor = themeColor;
+            this.TaxonomyTierTwoCode = taxonomyTierTwoCode;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyTierTwo(int taxonomyTierThreeID, string taxonomyTierTwoName, string themeColor) : this()
+        public TaxonomyTierTwo(int taxonomyTierThreeID, string taxonomyTierTwoName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             TaxonomyTierTwoID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.TaxonomyTierThreeID = taxonomyTierThreeID;
             this.TaxonomyTierTwoName = taxonomyTierTwoName;
-            this.ThemeColor = themeColor;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public TaxonomyTierTwo(TaxonomyTierThree taxonomyTierThree, string taxonomyTierTwoName, string themeColor) : this()
+        public TaxonomyTierTwo(TaxonomyTierThree taxonomyTierThree, string taxonomyTierTwoName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyTierTwoID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -64,7 +64,6 @@ namespace ProjectFirma.Web.Models
             this.TaxonomyTierThree = taxonomyTierThree;
             taxonomyTierThree.TaxonomyTierTwos.Add(this);
             this.TaxonomyTierTwoName = taxonomyTierTwoName;
-            this.ThemeColor = themeColor;
         }
 
         /// <summary>
@@ -72,7 +71,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static TaxonomyTierTwo CreateNewBlank(TaxonomyTierThree taxonomyTierThree)
         {
-            return new TaxonomyTierTwo(taxonomyTierThree, default(string), default(string));
+            return new TaxonomyTierTwo(taxonomyTierThree, default(string));
         }
 
         /// <summary>
@@ -101,6 +100,7 @@ namespace ProjectFirma.Web.Models
             set { TaxonomyTierTwoDescription = value == null ? null : value.ToString(); }
         }
         public string ThemeColor { get; set; }
+        public string TaxonomyTierTwoCode { get; set; }
         public int PrimaryKey { get { return TaxonomyTierTwoID; } set { TaxonomyTierTwoID = value; } }
 
         public virtual ICollection<TaxonomyTierOne> TaxonomyTierOnes { get; set; }
@@ -112,6 +112,7 @@ namespace ProjectFirma.Web.Models
         {
             public const int TaxonomyTierTwoName = 100;
             public const int ThemeColor = 7;
+            public const int TaxonomyTierTwoCode = 10;
         }
     }
 }

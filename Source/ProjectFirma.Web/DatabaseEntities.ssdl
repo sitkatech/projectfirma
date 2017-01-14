@@ -1651,6 +1651,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="TaxonomyTierTwoID" Type="int" Nullable="false" />
     <Property Name="TaxonomyTierOneName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="TaxonomyTierOneDescription" Type="varchar(max)" />
+    <Property Name="TaxonomyTierOneCode" Type="varchar" MaxLength="10" />
   </EntityType>
   <EntityType Name="TaxonomyTierOneImage">
     <Key>
@@ -1668,6 +1669,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="TaxonomyTierThreeName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="TaxonomyTierThreeDescription" Type="varchar(max)" />
     <Property Name="ThemeColor" Type="varchar" MaxLength="20" />
+    <Property Name="TaxonomyTierThreeCode" Type="varchar" MaxLength="10" />
   </EntityType>
   <EntityType Name="TaxonomyTierThreeImage">
     <Key>
@@ -1685,7 +1687,8 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="TaxonomyTierThreeID" Type="int" Nullable="false" />
     <Property Name="TaxonomyTierTwoName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="TaxonomyTierTwoDescription" Type="varchar(max)" />
-    <Property Name="ThemeColor" Type="varchar" Nullable="false" MaxLength="7" />
+    <Property Name="ThemeColor" Type="varchar" MaxLength="7" />
+    <Property Name="TaxonomyTierTwoCode" Type="varchar" MaxLength="10" />
   </EntityType>
   <EntityType Name="TaxonomyTierTwoImage">
     <Key>

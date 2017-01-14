@@ -11,6 +11,7 @@ namespace ProjectFirma.Web.Views.Watershed
     {
         public readonly Models.Watershed Watershed;
         public readonly bool UserHasWatershedManagePermissions;
+        public readonly string IndexUrl;
         public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
         public readonly string BasicProjectInfoGridName;
         public readonly string BasicProjectInfoGridDataUrl;
@@ -26,6 +27,7 @@ namespace ProjectFirma.Web.Views.Watershed
             PageTitle = watershed.WatershedName;
             EntityName = "Watershed";
             UserHasWatershedManagePermissions = new WatershedManageFeature().HasPermissionByPerson(currentPerson);
+            IndexUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(x => x.Index());
 
             BasicProjectInfoGridName = "watershedProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false)
@@ -38,5 +40,7 @@ namespace ProjectFirma.Web.Views.Watershed
             BasicProjectInfoGridDataUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(watershed));
             ManageWatershedsUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(c => c.Index());
         }
+
+        
     }
 }

@@ -38,7 +38,7 @@
              <div class="col-sm-5 col-sm-offset-@(i++) col-header">
                  @Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierOne, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierOneDisplayName())
              </div>
-             <div class="col-sm-4">
+             <div class="col-sm-5">
                  <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierOne ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierOne ? new HtmlString(ViewDataTyped.TaxonomyTierOne.DisplayName) : ViewDataTyped.TaxonomyTierOne.GetDisplayNameAsUrl())</span>
              </div>
          </div>
@@ -50,7 +50,7 @@
              <div class="col-sm-5 col-sm-offset-@(i++) col-header">
                  @Html.LabelWithFieldDefinitionFor(FieldDefinition.Project, "Project Name")
              </div>
-             <div class="col-sm-3">
+             <div class="col-sm-4">
                  <span class="taxonomyLink selected">@ViewDataTyped.Project.DisplayName</span>
              </div>
          </div>

@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.Models
     {
         public string DisplayName
         {
-            get { return string.Format("{0}", TaxonomyTierOneName); }
+            get { return string.Format("{0}: {1}", TaxonomyTierOneCode, TaxonomyTierOneName); }
         }
 
         public string CustomizedMapUrl
@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Models
 
         public FancyTreeNode ToFancyTreeNode()
         {
-            var fancyTreeNode = new FancyTreeNode(string.Format("{0}", UrlTemplate.MakeHrefString(this.GetSummaryUrl(), TaxonomyTierOneName)), TaxonomyTierOneID.ToString(), false)
+            var fancyTreeNode = new FancyTreeNode(string.Format("{0}", UrlTemplate.MakeHrefString(this.GetSummaryUrl(), DisplayName)), TaxonomyTierOneID.ToString(), false)
             {
                 ThemeColor = ThemeColor,
                 MapUrl = CustomizedMapUrl,
