@@ -3,13 +3,25 @@
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Shared.ProjectControls.ProjectTaxonomy
 
+<style>
+    .row.taxonomyRow div
+    {
+        padding-right: 0;
+        padding-left: 0;
+    }
+    .row.taxonomyRow
+    {
+        margin-right: 0;
+        margin-left: 0;
+    }
+</style>
 @{
     int i = 0;
 
 
     if (ViewDataTyped.TaxonomyTierThree != null)
      {
-         <div class="row">
+         <div class="row taxonomyRow">
              <div class="col-sm-5 col-header">
                  @Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierThree, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierThreeDisplayName())
              </div>
@@ -21,38 +33,38 @@
      }
 
     if (ViewDataTyped.TaxonomyTierTwo != null)
-     {
-         <div class="row">
-             <div class="col-sm-5 col-sm-offset-@(i++) col-header">
-                 @Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())
-             </div>
-             <div class="col-sm-6">
-                 <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierTwo ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierTwo ? new HtmlString(ViewDataTyped.TaxonomyTierTwo.DisplayName) : ViewDataTyped.TaxonomyTierTwo.GetDisplayNameAsUrl())</span>
-             </div>
-         </div>
-     }
+    {
+        <div class="row taxonomyRow">
+            <div class="col-sm-5 col-sm-offset-@(i++) col-header">
+                @Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())
+            </div>
+            <div class="col-sm-6">
+                <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierTwo ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierTwo ? new HtmlString(ViewDataTyped.TaxonomyTierTwo.DisplayName) : ViewDataTyped.TaxonomyTierTwo.GetDisplayNameAsUrl())</span>
+            </div>
+        </div>
+    }
 
     if (ViewDataTyped.TaxonomyTierOne != null)
-     {
-         <div class="row">
-             <div class="col-sm-5 col-sm-offset-@(i++) col-header">
-                 @Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierOne, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierOneDisplayName())
-             </div>
-             <div class="col-sm-5">
-                 <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierOne ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierOne ? new HtmlString(ViewDataTyped.TaxonomyTierOne.DisplayName) : ViewDataTyped.TaxonomyTierOne.GetDisplayNameAsUrl())</span>
-             </div>
-         </div>
-     }
+    {
+        <div class="row taxonomyRow">
+            <div class="col-sm-5 col-sm-offset-@(i++) col-header">
+                @Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierOne, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierOneDisplayName())
+            </div>
+            <div class="col-sm-5">
+                <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierOne ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierOne ? new HtmlString(ViewDataTyped.TaxonomyTierOne.DisplayName) : ViewDataTyped.TaxonomyTierOne.GetDisplayNameAsUrl())</span>
+            </div>
+        </div>
+    }
 
     if (ViewDataTyped.Project != null)
-     {
-         <div class="row">
-             <div class="col-sm-5 col-sm-offset-@(i++) col-header">
-                 @Html.LabelWithFieldDefinitionFor(FieldDefinition.Project, "Project Name")
-             </div>
-             <div class="col-sm-4">
-                 <span class="taxonomyLink selected">@ViewDataTyped.Project.DisplayName</span>
-             </div>
-         </div>
-     }
+    {
+        <div class="row taxonomyRow">
+            <div class="col-sm-5 col-sm-offset-@(i++) col-header">
+                @Html.LabelWithFieldDefinitionFor(FieldDefinition.Project, "Project Name")
+            </div>
+            <div class="col-sm-4">
+                <span class="taxonomyLink selected">@ViewDataTyped.Project.DisplayName</span>
+            </div>
+        </div>
+    }
 }

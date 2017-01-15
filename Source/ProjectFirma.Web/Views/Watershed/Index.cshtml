@@ -1,16 +1,52 @@
 ﻿@using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.Watershed.Index
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+@{ MapJavascriptIncludes.RenderPartialView(Html); }
 }
 
 <div>
     @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
 </div>
 
-<div style="margin-top: 10px">
-    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    <h2>Map</h2>
+                </div>
+                <div class="panel-body">
+                    <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 500px; margin: 5px 0 5px 0">
+                    </div>
+                    <p style="font-size: 10px">To zoom into a specific area, hold down the Shift key and drag a rectangle.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    <h2>Projects</h2>
+                </div>
+                <div class="panel-body">
+                    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:500px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                </div>
+            </div>
+        </div>
+
+
+    </div>
 </div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function()
+    {
+        var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
+        var map = new ProjectFirmaMaps.Map(mapInitJson);
+    });
+</script>

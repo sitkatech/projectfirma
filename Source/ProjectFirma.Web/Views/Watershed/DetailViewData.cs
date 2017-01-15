@@ -17,7 +17,6 @@ namespace ProjectFirma.Web.Views.Watershed
         public readonly string BasicProjectInfoGridDataUrl;
         public readonly MapInitJson MapInitJson;
         public readonly CalendarYearExpendituresLineChartViewData CalendarYearExpendituresLineChartViewData;
-        public readonly string ManageWatershedsUrl;
 
         public DetailViewData(Person currentPerson, Models.Watershed watershed, MapInitJson mapInitJson, CalendarYearExpendituresLineChartViewData calendarYearExpendituresLineChartViewData) : base(currentPerson)
         {
@@ -38,9 +37,7 @@ namespace ProjectFirma.Web.Views.Watershed
             };
           
             BasicProjectInfoGridDataUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(watershed));
-            ManageWatershedsUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(c => c.Index());
         }
 
-        
     }
 }

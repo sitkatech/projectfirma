@@ -26,6 +26,12 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.DeleteClassification(ClassificationID));
         }
 
+        public string KeyImageScaledForThumbnail
+        {
+            get { return SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.GetFileResourceResized(KeyImageFileResource.FileResourceGUIDAsString, 287, 180)); }
+        }
+
+
 
         public string AuditDescriptionString
         {

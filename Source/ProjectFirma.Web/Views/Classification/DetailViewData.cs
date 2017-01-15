@@ -22,6 +22,7 @@ namespace ProjectFirma.Web.Views.Classification
             : base(currentPerson)
         {
             Classification = classification;
+            PageTitle = MultiTenantHelpers.GetClassificationDisplayName();
             EditClassificationUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Edit(classification));
             IndexUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Index());
 

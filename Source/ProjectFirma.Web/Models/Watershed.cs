@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Models
         private static GeoJSON.Net.Feature.Feature MakeFeatureWithRelevantProperties(Watershed watershed)
         {
             var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(watershed.WatershedFeature);
-            feature.Properties.Add("Watershed", watershed.WatershedName);
+            feature.Properties.Add("Watershed", watershed.GetDisplayNameAsUrl().ToString());
             return feature;
         }
     }

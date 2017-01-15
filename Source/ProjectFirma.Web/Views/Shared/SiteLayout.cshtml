@@ -25,13 +25,13 @@
             @Html.Raw(TempData[SitkaController.StatusMessageIndex])
         </div>
     }
-    
-        <div class="rightFloatingInfo">
-            @RenderSection("RightOfPageTitle", false)
-        </div>
+
+    <div class="rightFloatingInfo">
+        @RenderSection("RightOfPageTitle", false)
+    </div>
 
     <h2 class="pageTitle">@ViewDataTyped.PageTitle</h2>
-    
+
     <div class="clearfix"></div>
     @RenderBody()
 </div>

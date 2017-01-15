@@ -20,7 +20,7 @@
             margin-left: 0;
             margin-right: 0;
             margin-bottom: 20px;
-            
+
         }
         .classificationHeader h1, .classificationHeader h3, .classificationHeader p
         {
@@ -55,18 +55,28 @@
     </style>
 }
 
+<div>
+    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @MultiTenantHelpers.GetClassificationDisplayNamePluralized()</a>
+</div>
+
+
 <div class="row classificationHeader">
-    <div class="col-lg-8 col-sm-6">
+    <div class="col-lg-7 col-sm-6 col-xs-12">
         <div style="padding: 20px;">
-            <h3 style="margin-top: 0; margin-bottom: 0">@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetClassificationDisplayName(), ViewDataTyped.Classification.DisplayName), ViewDataTyped.UserHasClassificationManagePermissions) @MultiTenantHelpers.GetClassificationDisplayName()</h3>
-            <h1>@ViewDataTyped.Classification.DisplayName</h1>
-            <p style="font-style: italic; border-top: 2px solid white; margin-top: 5px; margin-bottom: 5px; padding-top: 10px">@ViewDataTyped.Classification.GoalStatement</p>
+            <h1>
+                <span style="vertical-align: top">
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetClassificationDisplayName(), ViewDataTyped.Classification.DisplayName), ViewDataTyped.UserHasClassificationManagePermissions)
+                </span>
+                @ViewDataTyped.Classification.DisplayName
+            </h1>
+            <p style="border-top: 2px solid white; margin-top: 5px; margin-bottom: 5px; padding-top: 10px">@ViewDataTyped.Classification.ClassificationDescription</p>
+            <p style="font-style: italic; margin-top: 5px; margin-bottom: 5px; padding-top: 10px">@ViewDataTyped.Classification.GoalStatement</p>
         </div>
 
     </div>
-    <div class="col-lg-4 col-sm-6">
+    <div class="col-lg-5 col-sm-6 col-xs-12">
         <div style="margin-right: 10px">
-            <a class="gallery" href="@ViewDataTyped.Classification.KeyImageFileResource.FileResourceUrl"><img src="@ViewDataTyped.Classification.KeyImageUrlLarge" style="max-height: 250px; padding: 20px 10px; margin: auto; display: block"/></a>
+            <a class="gallery" href="@ViewDataTyped.Classification.KeyImageFileResource.FileResourceUrl"><img src="@ViewDataTyped.Classification.KeyImageUrlLarge" style="max-height: 250px; padding: 20px 10px; margin: auto; display: block" /></a>
         </div>
     </div>
 </div>
@@ -82,9 +92,4 @@
             </div>
         </div>
     </div>
-</div>
-
-
-<div style="margin-top: 20px">
-    <a class="btn btn-sm btn-firma" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
 </div>

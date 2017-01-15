@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ProjectFirma.Web.Views;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Results
@@ -18,7 +17,10 @@ namespace ProjectFirma.Web.Views.Results
                 GoogleChartJson.GoogleChartConfiguration.SetSize(415, 550);
             }
 
+            HasChartData = GoogleChartJson != null && GoogleChartJson.HasData();
             ChartColorRange = chartColorRange;
         }
+
+        public readonly bool HasChartData;
     }
 }

@@ -12,8 +12,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public readonly string PerformanceMeasureGridDataUrl;
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage, false)
-        {  
-            PageTitle = MultiTenantHelpers.GetPerformanceMeasureName();
+        {
+            PageTitle = MultiTenantHelpers.GetPerformanceMeasureNamePluralized();
 
             PerformanceMeasureGridSpec = new PerformanceMeasureGridSpec {
                 ObjectNameSingular = MultiTenantHelpers.GetPerformanceMeasureName(),
