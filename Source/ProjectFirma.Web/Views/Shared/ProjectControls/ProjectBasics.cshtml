@@ -75,11 +75,11 @@
                         <span>@ViewDataTyped.ProjectBasicsCalculatedCosts.CapitalCostInYearOfExpenditure.ToStringCurrency()</span>
                         if (ViewDataTyped.UserHasProjectBudgetManagePermissions)
                         {
-                            <span> (Using <a href="@ViewDataTyped.ProjectBasicsCalculatedCosts.EditInflationUrl">@ViewDataTyped.ProjectBasicsCalculatedCosts.InflationRate.ToStringPercent() annual inflation</a>)</span>
+                            <span> (<a href="@ViewDataTyped.ProjectBasicsCalculatedCosts.EditInflationUrl">@ViewDataTyped.ProjectBasicsCalculatedCosts.InflationRate.ToStringPercent() annual inflation</a>)</span>
                         }
                         else
                         {
-                            <span> (Using @ViewDataTyped.ProjectBasicsCalculatedCosts.InflationRate.ToStringPercent() annual inflation)</span>
+                            <span> (@ViewDataTyped.ProjectBasicsCalculatedCosts.InflationRate.ToStringPercent() annual inflation)</span>
                         }
                     }
                 </div>

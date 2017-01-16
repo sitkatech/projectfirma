@@ -10,7 +10,13 @@
     @RenderSection("JavascriptAndStylesContent", false)
 }
 
-<div class="@(ViewDataTyped.UseFluidContainer ? "container-fluid" : "container") firmaContent">
+<div class="@(ViewDataTyped.UseFluidContainer ? "container-fluid" : "container") firmaContent">  
+    <div class="rightFloatingInfo">
+        @RenderSection("RightOfPageTitle", false)
+    </div>
+
+    <h2 class="pageTitle">@ViewDataTyped.PageTitle</h2>
+    
     @if (TempData.ContainsKey(SitkaController.StatusErrorIndex))
     {
         <div class="alert alert-danger alert-dismissible" role="alert">
@@ -25,12 +31,6 @@
             @Html.Raw(TempData[SitkaController.StatusMessageIndex])
         </div>
     }
-
-    <div class="rightFloatingInfo">
-        @RenderSection("RightOfPageTitle", false)
-    </div>
-
-    <h2 class="pageTitle">@ViewDataTyped.PageTitle</h2>
 
     <div class="clearfix"></div>
     @RenderBody()

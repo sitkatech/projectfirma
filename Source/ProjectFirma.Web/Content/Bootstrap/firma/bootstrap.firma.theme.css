@@ -83,6 +83,9 @@ form .form-group-condensed {
 .navbar-right {
   padding-right: 15px;
 }
+.dropdown-menu {
+  z-index: 16000;
+}
 ul.dropdown-menu li a {
   font-weight: 600;
   color: #1e3948;
@@ -404,6 +407,8 @@ nav#tableOfContents ul.nav li ul.nav li a:hover {
   position: relative;
 }
 h2.sectionHeader {
+    margin: 0;
+    padding: 0;
   height: 0;
   visibility: hidden;
 }

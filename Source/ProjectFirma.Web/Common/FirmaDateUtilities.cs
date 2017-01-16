@@ -9,8 +9,8 @@ namespace ProjectFirma.Web.Common
 {
     public class FirmaDateUtilities
     {
-        public const int MinimumYear = 2007;
-        public const int YearsBeyondPresentForMaximumYearForUserInput = 70;
+        public const int MinimumYear = 2015;
+        public const int YearsBeyondPresentForMaximumYearForUserInput = 30;
 
         /// <summary>
         /// Range of Years for user input, using MinimumYear and MaximumYearforUserInput
