@@ -27,14 +27,8 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
         {
             switch (performanceMeasureRichTextType)
             {
-                case EditRtfContent.PerformanceMeasureRichTextType.SimpleDescription:
-                    performanceMeasure.PerformanceMeasurePublicDescriptionHtmlString = RtfContent;
-                    break;
                 case EditRtfContent.PerformanceMeasureRichTextType.CriticalDefinitions:
                     performanceMeasure.CriticalDefinitionsHtmlString = RtfContent;
-                    break;
-                case EditRtfContent.PerformanceMeasureRichTextType.AccountingPeriodAndScale:
-                    performanceMeasure.AccountingPeriodAndScaleHtmlString = RtfContent;
                     break;
                 case EditRtfContent.PerformanceMeasureRichTextType.ProjectReporting:
                     performanceMeasure.ProjectReportingHtmlString = RtfContent;

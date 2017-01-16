@@ -1,7 +1,9 @@
 ﻿using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
+using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
@@ -20,6 +22,13 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 ObjectNamePlural = MultiTenantHelpers.GetPerformanceMeasureNamePluralized(),
                 SaveFiltersInCookie = true
             };
+
+            var hasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
+            if (hasPerformanceMeasureManagePermissions)
+            {
+                var contentUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.New());
+                PerformanceMeasureGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(contentUrl, "Create a new Performance Measure");
+            }
 
             PerformanceMeasureGridName = "performanceMeasuresGrid";
             PerformanceMeasureGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.PerformanceMeasureGridJsonData());

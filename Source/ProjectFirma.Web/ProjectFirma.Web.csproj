@@ -644,7 +644,6 @@
     <Compile Include="Controllers\WatershedController.cs" />
     <Compile Include="Models\IRoleExtensions.cs" />
     <Compile Include="Models\Person.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\PerformanceMeasure.DatabaseContextExtensions.cs" />
     <Compile Include="Models\ProposedProjectClassificationSimple.cs" />
     <Compile Include="Models\WatershedModelExtensions.cs" />
     <Compile Include="Security\FirmaPageViewListFeature.cs" />

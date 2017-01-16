@@ -10,14 +10,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
     public class DetailViewData : FirmaViewData
     {
-        public enum PerformanceMeasureSummaryTab
-        {
-            Overview,
-            PerformanceMeasure
-        }
-
         public readonly Models.PerformanceMeasure PerformanceMeasure;
-        public readonly PerformanceMeasureSummaryTab ActiveTab;
         public readonly PerformanceMeasureChartViewData PerformanceMeasureChartViewData;
         public readonly EntityNotesViewData EntityNotesViewData;
 
@@ -45,7 +38,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public DetailViewData(Person currentPerson,
             Models.PerformanceMeasure performanceMeasure,
-            PerformanceMeasureSummaryTab activeTab,
             PerformanceMeasureChartViewData performanceMeasureChartViewData,
             EntityNotesViewData entityNotesViewData,
             bool userHasPerformanceMeasureManagePermissions) : base(currentPerson)
@@ -54,7 +46,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             EntityName = "PerformanceMeasure Detail";
 
             PerformanceMeasure = performanceMeasure;
-            ActiveTab = activeTab;
             PerformanceMeasureChartViewData = performanceMeasureChartViewData;
             EntityNotesViewData = entityNotesViewData;
             UserHasPerformanceMeasureOverviewManagePermissions = userHasPerformanceMeasureManagePermissions;
@@ -93,16 +84,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             PerformanceMeasureExpectedsGridName = "performanceMeasuresExpectedValuesFromPerformanceMeasureGrid";
             PerformanceMeasureExpectedsGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.PerformanceMeasureExpectedsGridJsonData(performanceMeasure));
-        }
-
-        public bool IsActiveTabOverview
-        {
-            get { return ActiveTab == PerformanceMeasureSummaryTab.Overview; }
-        }
-
-        public bool IsActiveTabPerformanceMeasure
-        {
-            get { return ActiveTab == PerformanceMeasureSummaryTab.PerformanceMeasure; }
         }
     }
 }

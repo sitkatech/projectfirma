@@ -104,40 +104,42 @@
                 @{ PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureChartViewData); }
 
                 <div>
-                    <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAccomplishmentsMetadataUrl, string.Format("Edit Accomplishments Metadata: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) Chart Metadata</h2>
-                    <table class="summaryLayout" style="margin: 10px 0">
-                        <tr>
-                            <th>Data Source</th>
-                            <td>
-                                @if (!string.IsNullOrWhiteSpace(ViewDataTyped.PerformanceMeasure.ExternalDataSourceUrl))
-                                {
-                                    <a href="@ViewDataTyped.PerformanceMeasure.ExternalDataSourceUrl" target="_blank">@(ViewDataTyped.PerformanceMeasure.DataSourceText ?? ViewDataTyped.PerformanceMeasure.ExternalDataSourceUrl)</a>
-                                    <a href="@ViewDataTyped.PerformanceMeasure.ExternalDataSourceUrl" target="_blank">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")</a>
-                                }
-                                else
-                                {
-                                    @ViewDataTyped.PerformanceMeasure.DataSourceText
-                                }
-                            </td>
-                        </tr>
-                        @if (ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                        {
+                    <div class="panel-heading panelTitle">
+                        <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAccomplishmentsMetadataUrl, string.Format("Edit Accomplishments Metadata: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) Chart Metadata</h2>
+                    </div>
+                        <table class="summaryLayout" style="margin: 10px 0">
                             <tr>
-                                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureChartTitle)</th>
+                                <th>Data Source</th>
                                 <td>
-                                    @ViewDataTyped.PerformanceMeasure.ChartTitle
+                                    @if (!string.IsNullOrWhiteSpace(ViewDataTyped.PerformanceMeasure.ExternalDataSourceUrl))
+                                    {
+                                        <a href="@ViewDataTyped.PerformanceMeasure.ExternalDataSourceUrl" target="_blank">@(ViewDataTyped.PerformanceMeasure.DataSourceText ?? ViewDataTyped.PerformanceMeasure.ExternalDataSourceUrl)</a>
+                                        <a href="@ViewDataTyped.PerformanceMeasure.ExternalDataSourceUrl" target="_blank">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")</a>
+                                    }
+                                    else
+                                    {
+                                        @ViewDataTyped.PerformanceMeasure.DataSourceText
+                                    }
                                 </td>
                             </tr>
+                            @if (ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                            {
+                                <tr>
+                                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureChartTitle, String.Format("{0} Chart Title", MultiTenantHelpers.GetPerformanceMeasureName()))</th>
+                                    <td>
+                                        @ViewDataTyped.PerformanceMeasure.ChartTitle
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureChartCaption)</th>
-                                <td>
-                                    @ViewDataTyped.PerformanceMeasure.ChartCaption.ToHTMLFormattedString()
-                                </td>
-                            </tr>
-                        }
-                    </table>
-                </div>
+                                <tr>
+                                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureChartCaption, String.Format("{0} Chart Caption", MultiTenantHelpers.GetPerformanceMeasureName()))</th>
+                                    <td>
+                                        @ViewDataTyped.PerformanceMeasure.ChartCaption.ToHTMLFormattedString()
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
 
             </div>
         </div>
@@ -147,15 +149,19 @@
 <hr style="border-color: #ccc" />
 <div class="container-fluid">
     <ul class="nav nav-tabs">
-        <li @Html.Raw(ViewDataTyped.IsActiveTabOverview ? "class=\"active\"" : string.Empty)><a role="tab" href="#overviewTab" data-toggle="tab" aria-controls="overviewTab">Overview</a></li>
-        <li @Html.Raw(ViewDataTyped.ActiveTab == DetailViewData.PerformanceMeasureSummaryTab.PerformanceMeasure ? "class=\"active\"" : string.Empty)><a role="tab" href="#pmTab" data-toggle="tab" aria-controls="pmTab"></a></li>
+        <li class="active">
+            <a role="tab" href="#overviewTab" data-toggle="tab" aria-controls="overviewTab">Overview</a>
+        </li>
+        <li>
+            <a role="tab" href="#pmTab" data-toggle="tab" aria-controls="pmTab">@MultiTenantHelpers.GetPerformanceMeasureName()</a>
+        </li>
     </ul>
 </div>
 
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane @(ViewDataTyped.IsActiveTabOverview ? "active" : string.Empty)" id="overviewTab">
+            <div role="tabpanel" class="tab-pane active" id="overviewTab">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="panel panelFirma">
@@ -192,7 +198,7 @@
                                 }
                                 else
                                 {
-                                    <p class="alert">No subcategories for this performanceMeasure.</p>
+                                    <p class="alert">No subcategories for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
                                 }
                             </div>
                         </div>
@@ -231,7 +237,7 @@
                                 }
                                 else
                                 {
-                                    <p class="alert">No monitoring taxonomyTierTwo are yet associated with this performanceMeasure.</p>
+                                    <p class="alert">No monitoring programs are yet associated with this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
                                 }
                             </div>
                         </div>
@@ -251,7 +257,7 @@
                 }
             </div>
 
-            <div role="tabpanel" class="tab-pane @(ViewDataTyped.IsActiveTabPerformanceMeasure ? "active" : string.Empty)" id="Tab">
+            <div id="pmTab" class="tab-pane active" role="tabpanel">
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h2>Reporting Guidance</h2>
@@ -274,11 +280,6 @@
                                     @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAccountingPeriodAndScaleUrl, string.Format("Edit Accounting Period and Scale: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                                     PerformanceMeasure Accounting Period And Scale
                                 </th>
-                            </tr>
-                            <tr>
-                                <td style="padding-left: 28px">
-                                    @ViewDataTyped.PerformanceMeasure.AccountingPeriodAndScaleHtmlString
-                                </td>
                             </tr>
                             <tr>
                                 <th>

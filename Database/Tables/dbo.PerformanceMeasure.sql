@@ -5,17 +5,13 @@ GO
 CREATE TABLE [dbo].[PerformanceMeasure](
 	[PerformanceMeasureID] [int] IDENTITY(1,1) NOT NULL,
 	[CriticalDefinitions] [dbo].[html] NULL,
-	[AccountingPeriodAndScale] [dbo].[html] NULL,
 	[ProjectReporting] [dbo].[html] NULL,
-	[PerformanceMeasureName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[PerformanceMeasureDisplayName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[MeasurementUnitTypeID] [int] NOT NULL,
 	[PerformanceMeasureTypeID] [int] NOT NULL,
 	[PerformanceMeasureDefinition] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[PerformanceMeasurePublicDescription] [dbo].[html] NULL,
 	[DataSourceText] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ExternalDataSourceUrl] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[DisplayOrder] [int] NOT NULL,
 	[ChartTitle] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ChartCaption] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_PerformanceMeasure_PerformanceMeasureID] PRIMARY KEY CLUSTERED 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Models
@@ -15,10 +14,10 @@ namespace ProjectFirma.Web.Models
             return UrlTemplate.MakeHrefString(performanceMeasure.GetSummaryUrl(), performanceMeasure.PerformanceMeasureDisplayName);
         }
 
-        public static readonly UrlTemplate<string> SummaryUrlTemplate = new UrlTemplate<string>(SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1String, DetailViewData.PerformanceMeasureSummaryTab.PerformanceMeasure)));
+        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
         public static string GetSummaryUrl(this PerformanceMeasure performanceMeasure)
         {
-            return SummaryUrlTemplate.ParameterReplace(performanceMeasure.PerformanceMeasureName);
+            return SummaryUrlTemplate.ParameterReplace(performanceMeasure.PerformanceMeasureID);
         }
 
         public static readonly UrlTemplate<int> InfoSheetUrlTemplate = new UrlTemplate<int>(SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(t => t.InfoSheet(UrlTemplate.Parameter1Int)));
@@ -52,11 +51,11 @@ namespace ProjectFirma.Web.Models
             throw new NotImplementedException("PerformanceMeasure {0} is not reported in the Project Tracker!  No way to edit reported values!");
         }
 
-        public static bool IsPerformanceMeasureNameUnique(IEnumerable<PerformanceMeasure> performanceMeasures, string performanceMeasureName, int currentPerformanceMeasureID)
+        public static bool IsPerformanceMeasureDisplayNameUnique(IEnumerable<PerformanceMeasure> performanceMeasures, string performanceMeasureDisplayName, int currentPerformanceMeasureID)
         {
             var performanceMeasure =
                 performanceMeasures.SingleOrDefault(
-                    x => x.PerformanceMeasureID != currentPerformanceMeasureID && string.Equals(x.PerformanceMeasureDisplayName, performanceMeasureName, StringComparison.InvariantCultureIgnoreCase));
+                    x => x.PerformanceMeasureID != currentPerformanceMeasureID && string.Equals(x.PerformanceMeasureDisplayName, performanceMeasureDisplayName, StringComparison.InvariantCultureIgnoreCase));
             return performanceMeasure == null;
         }
     }

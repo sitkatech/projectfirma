@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared;
@@ -38,7 +39,9 @@ namespace ProjectFirma.Web.Models
 
         public List<PerformanceMeasureSubcategory> GetPerformanceMeasureSubcategories()
         {
-            return PerformanceMeasureSubcategories.Any() ? PerformanceMeasureSubcategories.Select(x => x).OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName).ToList() : new List<PerformanceMeasureSubcategory>();
+            return PerformanceMeasureSubcategories.Any()
+                ? PerformanceMeasureSubcategories.Select(x => x).OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName).ToList()
+                : new List<PerformanceMeasureSubcategory>();
         }
 
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues()
@@ -74,7 +77,7 @@ namespace ProjectFirma.Web.Models
             {
                 return null;
             }
-            return TotalExpenditure() / (decimal)totalReportedValues;
+            return TotalExpenditure()/(decimal) totalReportedValues;
         }
 
         public decimal? AnnualExpenditure(int calendarYear)
@@ -89,21 +92,40 @@ namespace ProjectFirma.Web.Models
 
         public List<PerformanceMeasureSubcategoriesTotalReportedValue> SubcategoriesTotalReportedValues()
         {
-            var groupByProjectAndSubcategory = GetReportedPerformanceMeasureValues()
-                .Where(x => FirmaDateUtilities.DateIsInReportingRange(x.CalendarYear))
-                .GroupBy(x => new { x.Project, x.PerformanceMeasureSubcategoriesAsString }).ToList();
+            var groupByProjectAndSubcategory =
+                GetReportedPerformanceMeasureValues()
+                    .Where(x => FirmaDateUtilities.DateIsInReportingRange(x.CalendarYear))
+                    .GroupBy(x => new {x.Project, x.PerformanceMeasureSubcategoriesAsString})
+                    .ToList();
 
-            return groupByProjectAndSubcategory.Select(reportedValuesGroup => new PerformanceMeasureSubcategoriesTotalReportedValue(reportedValuesGroup.Key.Project, reportedValuesGroup.First().PerformanceMeasureSubcategoryOptions, this, reportedValuesGroup.Sum(x => x.ReportedValue))).ToList();
+            return
+                groupByProjectAndSubcategory.Select(
+                    reportedValuesGroup =>
+                        new PerformanceMeasureSubcategoriesTotalReportedValue(reportedValuesGroup.Key.Project,
+                            reportedValuesGroup.First().PerformanceMeasureSubcategoryOptions,
+                            this,
+                            reportedValuesGroup.Sum(x => x.ReportedValue))).ToList();
         }
 
         public string AuditDescriptionString
         {
-            get { return PerformanceMeasureName; }
+            get { return PerformanceMeasureDisplayName; }
         }
 
         public static List<GoogleChartJson> GetSubcategoriesAsGoogleChartJsons(PerformanceMeasure performanceMeasure, List<int> projectIDs)
         {
-            Check.Require(performanceMeasure.PerformanceMeasureSubcategories.Any(), "Every Performance Measure should have at least one Subcategory!");
+            try
+            {
+                Check.Require(performanceMeasure.PerformanceMeasureSubcategories.Any(), "Every Performance Measure must have at least one Subcategory!");
+            }
+            catch (Exception)
+            {
+                SitkaLogger.Instance.LogDetailedErrorMessage(string.Format("Found PM without Subcategory or Subcategory Option for PM {0} (ID {1})",
+                    performanceMeasure.PerformanceMeasureDisplayName,
+                    performanceMeasure.PerformanceMeasureID));
+                throw;
+            }
+            
 
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
 
@@ -130,7 +152,7 @@ namespace ProjectFirma.Web.Models
 
         public List<PerformanceMeasureSubcategory> GetSubcategoriesForPerformanceMeasureChart()
         {
-            return PerformanceMeasureSubcategories.Where(x => x.PerformanceMeasureSubcategoryOptions.Count > 1 && x.ShowOnChart).OrderBy(x => x.SortOrder).ToList();
+            return PerformanceMeasureSubcategories.Where(x => x.PerformanceMeasureSubcategoryOptions.Count > 1 && x.ShowOnChart).ToList();
         }
 
         public int GetRealSubcategoryCount()

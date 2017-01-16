@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             PageTitle = taxonomyTierTwo.DisplayName;
             EntityName = MultiTenantHelpers.GetTaxonomyTierTwoDisplayName();
             new TaxonomyTierTwoPerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
-            PerformanceMeasures = taxonomyTierTwo.TaxonomyTierTwoPerformanceMeasures.Select(x => x.PerformanceMeasure).OrderBy(x => x.DisplayOrder).ToList();
+            PerformanceMeasures = taxonomyTierTwo.TaxonomyTierTwoPerformanceMeasures.Select(x => x.PerformanceMeasure).ToList();
             PerformanceMeasuresEndOfFirstHalf = GeneralUtility.CalculateIndexOfEndOfFirstHalf(PerformanceMeasures.Count);
 
             ProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
@@ -59,7 +59,6 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             PerformanceMeasureChartViewDatas =
                 TaxonomyTierTwo.GetPerformanceMeasures()
                     .ToList()
-                    .OrderBy(x => x.DisplayOrder)
                     .Select(x => new PerformanceMeasureChartViewData(x, true, ChartViewMode.Small, projectIDs))
                     .ToList();
 

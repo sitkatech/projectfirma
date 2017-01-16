@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             var errors = new List<ValidationResult>();
 
             var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
-            if (!PerformanceMeasureModelExtensions.IsPerformanceMeasureNameUnique(performanceMeasures, PerformanceMeasureDisplayName, PerformanceMeasureID))
+            if (!PerformanceMeasureModelExtensions.IsPerformanceMeasureDisplayNameUnique(performanceMeasures, PerformanceMeasureDisplayName, PerformanceMeasureID))
             {
                 errors.Add(new SitkaValidationResult<EditViewModel, string>(FirmaValidationMessages.PerformanceMeasureNameUnique, x => x.PerformanceMeasureDisplayName));
             }

@@ -5,14 +5,14 @@
 {
     <div class="container-fluid container-fluid-dialog-form" style="max-height: 600px; overflow-y: auto">
         <div class="row">
-            <div class="col-md-3 col-header">Display Name:</div>
+            <div class="col-md-3 col-header">@Html.Label("Display Name")</div>
             <div class="col-md-8">
                 @Html.TextBoxFor(m => m.PerformanceMeasureDisplayName, new { style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.PerformanceMeasureDisplayName)
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 col-header">PerformanceMeasure Type:</div>
+            <div class="col-md-3 col-header">@Html.Label("PerformanceMeasure Type")</div>
             <div class="col-md-8">
                 @Html.DropDownListFor(m => m.PerformanceMeasureTypeID, ViewDataTyped.PerformanceMeasureTypes)
                 @Html.ValidationMessageFor(m => m.PerformanceMeasureTypeID)
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 col-header">Definition:</div>
+            <div class="col-md-3 col-header">@Html.Label("Definition")</div>
             <div class="col-md-8">
                 <div style="max-height: 600px; overflow-y: auto">
                     @Html.TextAreaWithMaxLengthFor(x => x.IndicationDefinition, new TextAreaForExtensions.TextAreaDimensions(null, 6), null)

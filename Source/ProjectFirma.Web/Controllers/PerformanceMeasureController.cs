@@ -56,10 +56,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [PerformanceMeasureViewFeature]
-        public ViewResult Detail(string performanceMeasureName, DetailViewData.PerformanceMeasureSummaryTab? performanceMeasureSummaryTab)
+        public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
-            var performanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.GetPerformanceMeasureByPerformanceMeasureName(performanceMeasureName);
-            var activeTab = performanceMeasureSummaryTab ?? DetailViewData.PerformanceMeasureSummaryTab.Overview;
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             var userHasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson);
             var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, false, userHasPerformanceMeasureManagePermissions ? ChartViewMode.ManagementMode : ChartViewMode.Small, null);
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(performanceMeasure.PerformanceMeasureNotes)),
@@ -69,7 +68,6 @@ namespace ProjectFirma.Web.Controllers
 
             var viewData = new DetailViewData(CurrentPerson,
                 performanceMeasure,
-                activeTab,
                 performanceMeasureChartViewData,
                 entityNotesViewData,
                 userHasPerformanceMeasureManagePermissions);
@@ -147,14 +145,8 @@ namespace ProjectFirma.Web.Controllers
             HtmlString rtfContent;
             switch (performanceMeasureRichTextType)
             {
-                case EditRtfContent.PerformanceMeasureRichTextType.SimpleDescription:
-                    rtfContent = performanceMeasure.PerformanceMeasurePublicDescriptionHtmlString;
-                    break;
                 case EditRtfContent.PerformanceMeasureRichTextType.CriticalDefinitions:
                     rtfContent = performanceMeasure.CriticalDefinitionsHtmlString;
-                    break;
-                case EditRtfContent.PerformanceMeasureRichTextType.AccountingPeriodAndScale:
-                    rtfContent = performanceMeasure.AccountingPeriodAndScaleHtmlString;
                     break;
                 case EditRtfContent.PerformanceMeasureRichTextType.ProjectReporting:
                     rtfContent = performanceMeasure.ProjectReportingHtmlString;
@@ -219,7 +211,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 viewModel.UpdateModel(performanceMeasure, performanceMeasureSubcategoryID);
             }
-            return RedirectToAction(new SitkaRoute<PerformanceMeasureController>(x => x.Detail(performanceMeasure.PerformanceMeasureName, null)));
+            return RedirectToAction(new SitkaRoute<PerformanceMeasureController>(x => x.Detail(performanceMeasure)));
         }
 
 
@@ -280,6 +272,35 @@ namespace ProjectFirma.Web.Controllers
             gridSpec = new PerformanceMeasureExpectedGridSpec(performanceMeasure);
             return performanceMeasure.PerformanceMeasureExpecteds.ToList();
         }
-        
+
+        [HttpGet]
+        [PerformanceMeasureManageFeature]
+        public PartialViewResult New()
+        {
+            var viewModel = new EditViewModel();
+            return ViewEdit(viewModel);
+        }
+
+        [HttpPost]
+        [PerformanceMeasureManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult New(EditViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(viewModel);
+            }
+            var performanceMeasure = new PerformanceMeasure(default(string), default(int), default(int), String.Empty);
+            viewModel.UpdateModel(performanceMeasure, CurrentPerson);
+
+            var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default");
+            new PerformanceMeasureSubcategoryOption(defaultSubcategory, "Default");
+
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Add(performanceMeasure);
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            SetMessageForDisplay(string.Format("New {0} {1} successfully created!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.GetDisplayNameAsUrl()));
+            return new ModalDialogFormJsonResult();
+        }
     }
 }

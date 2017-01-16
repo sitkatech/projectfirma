@@ -1023,17 +1023,13 @@
     </Key>
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="CriticalDefinitions" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="AccountingPeriodAndScale" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="ProjectReporting" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="PerformanceMeasureName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="PerformanceMeasureDisplayName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="MeasurementUnitTypeID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureTypeID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureDefinition" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="PerformanceMeasurePublicDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="DataSourceText" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="ExternalDataSourceUrl" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
     <Property Name="ChartTitle" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
     <Property Name="ChartCaption" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="ClassificationPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="ClassificationPerformanceMeasures" />
@@ -1189,9 +1185,7 @@
     </Key>
     <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
-    <Property Name="PerformanceMeasureSubcategoryName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="PerformanceMeasureSubcategoryDisplayName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="SortOrder" Type="Int32" />
     <Property Name="ChartConfigurationJson" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="ChartType" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="SwapChartAxes" Type="Boolean" />

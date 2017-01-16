@@ -20,12 +20,12 @@ namespace ProjectFirma.Web.Common
         
         public static string GetTaxonomyTierTwoDisplayName()
         {
-            return "Concern Subcategory";
+            return "Ecological Sub-Concern";
         }
 
         public static string GetTaxonomyTierTwoDisplayNamePluralized()
         {
-            return "Concern Subcategories";
+            return "Ecological Sub-Concerns";
         }
 
         public static string GetTaxonomyTierOneDisplayName()

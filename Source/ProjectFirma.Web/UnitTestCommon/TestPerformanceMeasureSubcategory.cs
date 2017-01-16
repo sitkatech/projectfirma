@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.UnitTestCommon
         {
             public static PerformanceMeasureSubcategory Create(PerformanceMeasure performanceMeasure, string performanceMeasureSubcategoryName)
             {
-                var performanceMeasureSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, performanceMeasureSubcategoryName, performanceMeasureSubcategoryName);
+                var performanceMeasureSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, performanceMeasureSubcategoryName);
                 performanceMeasure.PerformanceMeasureSubcategories.Add(performanceMeasureSubcategory);
                 return performanceMeasureSubcategory;
             }

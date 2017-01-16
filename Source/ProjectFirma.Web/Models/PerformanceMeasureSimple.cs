@@ -5,9 +5,7 @@
         public PerformanceMeasureSimple(PerformanceMeasure performanceMeasure)
             : this(
                 performanceMeasure.PerformanceMeasureID,
-                performanceMeasure.PerformanceMeasureName,
                 performanceMeasure.MeasurementUnitTypeID,
-                performanceMeasure.DisplayOrder,
                 performanceMeasure.PerformanceMeasureDisplayName,
                 performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName,
                 performanceMeasure.HasRealSubcategories,
@@ -16,18 +14,14 @@
         }
 
         public PerformanceMeasureSimple(int performanceMeasureID,
-            string performanceMeasureName,
             int measurementUnitTypeID,
-            int displayOrder,
             string displayName,
             string measurementUnitTypeDisplayName,
             bool hasRealSubcategories,
             string definitionAndGuidanceUrl)
         {
             PerformanceMeasureID = performanceMeasureID;
-            PerformanceMeasureName = performanceMeasureName;
             MeasurementUnitTypeID = measurementUnitTypeID;
-            DisplayOrder = displayOrder;
             DisplayName = displayName;
             MeasurementUnitTypeDisplayName = measurementUnitTypeDisplayName;
             HasRealSubcategories = hasRealSubcategories;

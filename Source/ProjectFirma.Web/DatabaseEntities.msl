@@ -270,17 +270,13 @@
         <MappingFragment StoreEntitySet="PerformanceMeasure">
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="CriticalDefinitions" ColumnName="CriticalDefinitions" />
-          <ScalarProperty Name="AccountingPeriodAndScale" ColumnName="AccountingPeriodAndScale" />
           <ScalarProperty Name="ProjectReporting" ColumnName="ProjectReporting" />
-          <ScalarProperty Name="PerformanceMeasureName" ColumnName="PerformanceMeasureName" />
           <ScalarProperty Name="PerformanceMeasureDisplayName" ColumnName="PerformanceMeasureDisplayName" />
           <ScalarProperty Name="MeasurementUnitTypeID" ColumnName="MeasurementUnitTypeID" />
           <ScalarProperty Name="PerformanceMeasureTypeID" ColumnName="PerformanceMeasureTypeID" />
           <ScalarProperty Name="PerformanceMeasureDefinition" ColumnName="PerformanceMeasureDefinition" />
-          <ScalarProperty Name="PerformanceMeasurePublicDescription" ColumnName="PerformanceMeasurePublicDescription" />
           <ScalarProperty Name="DataSourceText" ColumnName="DataSourceText" />
           <ScalarProperty Name="ExternalDataSourceUrl" ColumnName="ExternalDataSourceUrl" />
-          <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
           <ScalarProperty Name="ChartTitle" ColumnName="ChartTitle" />
           <ScalarProperty Name="ChartCaption" ColumnName="ChartCaption" />
         </MappingFragment>
@@ -399,9 +395,7 @@
         <MappingFragment StoreEntitySet="PerformanceMeasureSubcategory">
           <ScalarProperty Name="PerformanceMeasureSubcategoryID" ColumnName="PerformanceMeasureSubcategoryID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
-          <ScalarProperty Name="PerformanceMeasureSubcategoryName" ColumnName="PerformanceMeasureSubcategoryName" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryDisplayName" ColumnName="PerformanceMeasureSubcategoryDisplayName" />
-          <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
           <ScalarProperty Name="ChartConfigurationJson" ColumnName="ChartConfigurationJson" />
           <ScalarProperty Name="ChartType" ColumnName="ChartType" />
           <ScalarProperty Name="SwapChartAxes" ColumnName="SwapChartAxes" />

@@ -43,21 +43,17 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string accountingPeriodAndScale, string projectReporting, string performanceMeasureName, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string performanceMeasurePublicDescription, string dataSourceText, string externalDataSourceUrl, int displayOrder, string chartTitle, string chartCaption) : this()
+        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartTitle, string chartCaption) : this()
         {
             this.PerformanceMeasureID = performanceMeasureID;
             this.CriticalDefinitions = criticalDefinitions;
-            this.AccountingPeriodAndScale = accountingPeriodAndScale;
             this.ProjectReporting = projectReporting;
-            this.PerformanceMeasureName = performanceMeasureName;
             this.PerformanceMeasureDisplayName = performanceMeasureDisplayName;
             this.MeasurementUnitTypeID = measurementUnitTypeID;
             this.PerformanceMeasureTypeID = performanceMeasureTypeID;
             this.PerformanceMeasureDefinition = performanceMeasureDefinition;
-            this.PerformanceMeasurePublicDescription = performanceMeasurePublicDescription;
             this.DataSourceText = dataSourceText;
             this.ExternalDataSourceUrl = externalDataSourceUrl;
-            this.DisplayOrder = displayOrder;
             this.ChartTitle = chartTitle;
             this.ChartCaption = chartCaption;
         }
@@ -65,31 +61,27 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(string performanceMeasureName, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, int displayOrder, string chartTitle) : this()
+        public PerformanceMeasure(string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string chartTitle) : this()
         {
             // Mark this as a new object by setting primary key with special value
             PerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.PerformanceMeasureName = performanceMeasureName;
             this.PerformanceMeasureDisplayName = performanceMeasureDisplayName;
             this.MeasurementUnitTypeID = measurementUnitTypeID;
             this.PerformanceMeasureTypeID = performanceMeasureTypeID;
-            this.DisplayOrder = displayOrder;
             this.ChartTitle = chartTitle;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PerformanceMeasure(string performanceMeasureName, string performanceMeasureDisplayName, MeasurementUnitType measurementUnitType, PerformanceMeasureType performanceMeasureType, int displayOrder, string chartTitle) : this()
+        public PerformanceMeasure(string performanceMeasureDisplayName, MeasurementUnitType measurementUnitType, PerformanceMeasureType performanceMeasureType, string chartTitle) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.PerformanceMeasureName = performanceMeasureName;
             this.PerformanceMeasureDisplayName = performanceMeasureDisplayName;
             this.MeasurementUnitTypeID = measurementUnitType.MeasurementUnitTypeID;
             this.PerformanceMeasureTypeID = performanceMeasureType.PerformanceMeasureTypeID;
-            this.DisplayOrder = displayOrder;
             this.ChartTitle = chartTitle;
         }
 
@@ -98,7 +90,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static PerformanceMeasure CreateNewBlank(MeasurementUnitType measurementUnitType, PerformanceMeasureType performanceMeasureType)
         {
-            return new PerformanceMeasure(default(string), default(string), measurementUnitType, performanceMeasureType, default(int), default(string));
+            return new PerformanceMeasure(default(string), measurementUnitType, performanceMeasureType, default(string));
         }
 
         /// <summary>
@@ -125,34 +117,18 @@ namespace ProjectFirma.Web.Models
             set { CriticalDefinitions = value == null ? null : value.ToString(); }
         }
         [NotMapped]
-        private string AccountingPeriodAndScale { get; set; }
-        public HtmlString AccountingPeriodAndScaleHtmlString
-        { 
-            get { return AccountingPeriodAndScale == null ? null : new HtmlString(AccountingPeriodAndScale); }
-            set { AccountingPeriodAndScale = value == null ? null : value.ToString(); }
-        }
-        [NotMapped]
         private string ProjectReporting { get; set; }
         public HtmlString ProjectReportingHtmlString
         { 
             get { return ProjectReporting == null ? null : new HtmlString(ProjectReporting); }
             set { ProjectReporting = value == null ? null : value.ToString(); }
         }
-        public string PerformanceMeasureName { get; set; }
         public string PerformanceMeasureDisplayName { get; set; }
         public int MeasurementUnitTypeID { get; set; }
         public int PerformanceMeasureTypeID { get; set; }
         public string PerformanceMeasureDefinition { get; set; }
-        [NotMapped]
-        private string PerformanceMeasurePublicDescription { get; set; }
-        public HtmlString PerformanceMeasurePublicDescriptionHtmlString
-        { 
-            get { return PerformanceMeasurePublicDescription == null ? null : new HtmlString(PerformanceMeasurePublicDescription); }
-            set { PerformanceMeasurePublicDescription = value == null ? null : value.ToString(); }
-        }
         public string DataSourceText { get; set; }
         public string ExternalDataSourceUrl { get; set; }
-        public int DisplayOrder { get; set; }
         public string ChartTitle { get; set; }
         public string ChartCaption { get; set; }
         public int PrimaryKey { get { return PerformanceMeasureID; } set { PerformanceMeasureID = value; } }
@@ -177,7 +153,6 @@ namespace ProjectFirma.Web.Models
 
         public static class FieldLengths
         {
-            public const int PerformanceMeasureName = 200;
             public const int PerformanceMeasureDisplayName = 200;
             public const int DataSourceText = 200;
             public const int ExternalDataSourceUrl = 200;

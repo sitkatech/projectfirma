@@ -34,13 +34,11 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureSubcategory(int performanceMeasureSubcategoryID, int performanceMeasureID, string performanceMeasureSubcategoryName, string performanceMeasureSubcategoryDisplayName, int? sortOrder, string chartConfigurationJson, string chartType, bool? swapChartAxes) : this()
+        public PerformanceMeasureSubcategory(int performanceMeasureSubcategoryID, int performanceMeasureID, string performanceMeasureSubcategoryDisplayName, string chartConfigurationJson, string chartType, bool? swapChartAxes) : this()
         {
             this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
             this.PerformanceMeasureID = performanceMeasureID;
-            this.PerformanceMeasureSubcategoryName = performanceMeasureSubcategoryName;
             this.PerformanceMeasureSubcategoryDisplayName = performanceMeasureSubcategoryDisplayName;
-            this.SortOrder = sortOrder;
             this.ChartConfigurationJson = chartConfigurationJson;
             this.ChartType = chartType;
             this.SwapChartAxes = swapChartAxes;
@@ -49,27 +47,25 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureSubcategory(int performanceMeasureID, string performanceMeasureSubcategoryName, string performanceMeasureSubcategoryDisplayName) : this()
+        public PerformanceMeasureSubcategory(int performanceMeasureID, string performanceMeasureSubcategoryDisplayName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             PerformanceMeasureSubcategoryID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.PerformanceMeasureID = performanceMeasureID;
-            this.PerformanceMeasureSubcategoryName = performanceMeasureSubcategoryName;
             this.PerformanceMeasureSubcategoryDisplayName = performanceMeasureSubcategoryDisplayName;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PerformanceMeasureSubcategory(PerformanceMeasure performanceMeasure, string performanceMeasureSubcategoryName, string performanceMeasureSubcategoryDisplayName) : this()
+        public PerformanceMeasureSubcategory(PerformanceMeasure performanceMeasure, string performanceMeasureSubcategoryDisplayName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureSubcategoryID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
             performanceMeasure.PerformanceMeasureSubcategories.Add(this);
-            this.PerformanceMeasureSubcategoryName = performanceMeasureSubcategoryName;
             this.PerformanceMeasureSubcategoryDisplayName = performanceMeasureSubcategoryDisplayName;
         }
 
@@ -78,7 +74,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static PerformanceMeasureSubcategory CreateNewBlank(PerformanceMeasure performanceMeasure)
         {
-            return new PerformanceMeasureSubcategory(performanceMeasure, default(string), default(string));
+            return new PerformanceMeasureSubcategory(performanceMeasure, default(string));
         }
 
         /// <summary>
@@ -98,9 +94,7 @@ namespace ProjectFirma.Web.Models
         [Key]
         public int PerformanceMeasureSubcategoryID { get; set; }
         public int PerformanceMeasureID { get; set; }
-        public string PerformanceMeasureSubcategoryName { get; set; }
         public string PerformanceMeasureSubcategoryDisplayName { get; set; }
-        public int? SortOrder { get; set; }
         public string ChartConfigurationJson { get; set; }
         public string ChartType { get; set; }
         public bool? SwapChartAxes { get; set; }
@@ -116,7 +110,6 @@ namespace ProjectFirma.Web.Models
 
         public static class FieldLengths
         {
-            public const int PerformanceMeasureSubcategoryName = 100;
             public const int PerformanceMeasureSubcategoryDisplayName = 200;
             public const int ChartType = 100;
         }

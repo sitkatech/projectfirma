@@ -29,7 +29,6 @@ namespace ProjectFirma.Web.Views.Results
             PerformanceMeasureChartViewDatas =
                 selectedTaxonomyTierTwo.GetPerformanceMeasures()
                     .ToList()
-                    .OrderBy(x => x.DisplayOrder)
                     .Select(x => new PerformanceMeasureChartViewData(x, true, ChartViewMode.Small, projectIDs))
                     .ToList();
         }

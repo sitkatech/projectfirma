@@ -77,7 +77,6 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn("Project ID", x => x.Project.ProjectID);
             AddColumn("Project Name", x => x.Project.ProjectName);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName() + " ID", x => x.PerformanceMeasureID);
-            AddColumn(MultiTenantHelpers.GetPerformanceMeasureName()+ " Name", x => x.PerformanceMeasure.PerformanceMeasureName);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName(), x => x.PerformanceMeasure.PerformanceMeasureDisplayName);
             AddColumn("Expected Value", x => x.ExpectedValue);
         }
@@ -90,7 +89,6 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn("Project ID", x => x.Project.ProjectID);
             AddColumn("Project Name", x => x.Project.ProjectName);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName() + " ID", x => x.PerformanceMeasureID);
-            AddColumn(MultiTenantHelpers.GetPerformanceMeasureName()+ " Name", x => x.PerformanceMeasure.PerformanceMeasureName);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName(), x => x.PerformanceMeasure.PerformanceMeasureDisplayName);
             AddColumn("Calendar Year", x => x.CalendarYear);
             AddColumn("Subcategory 1 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 1 ? x.PerformanceMeasureSubcategoryOptions[0].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
