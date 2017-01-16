@@ -154,7 +154,7 @@ namespace ProjectFirma.Web.Common
 
             // Testing if have both Start Year and Completion Year: should always be Start Year to Completion Year
             // -- Start Year in the past
-            startYear = currentYearToUse - 4;
+            startYear = currentYearToUse - 2;
             // -- Completion year in the past
             completionYear = currentYearToUse - 1;
             Assert.That(FirmaDateUtilities.CalculateCalendarYearRangeAccountingForExistingYears(new List<int>(), startYear, completionYear, currentYearToUse, FirmaDateUtilities.MinimumYear, null),

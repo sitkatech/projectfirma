@@ -178,7 +178,7 @@ namespace ProjectFirma.Web.Models
             AssertYearRangeForPerformanceMeasuresCorrect(projectUpdateBatch, FirmaDateUtilities.MinimumYear, currentYear);
 
             // start year in the past but greater than minimum year for reporting (2007), no completion year
-            projectUpdate.ImplementationStartYear = currentYear - 3;
+            projectUpdate.ImplementationStartYear = currentYear - 1;
             AssertYearRangeForPerformanceMeasuresCorrect(projectUpdateBatch, projectUpdate.ImplementationStartYear.Value, currentYear);
 
             // start year in the future, no completion year
@@ -186,7 +186,7 @@ namespace ProjectFirma.Web.Models
             AssertYearRangeForPerformanceMeasuresCorrect(projectUpdateBatch, currentYear, currentYear);
 
             // now set a completion year that is less than current year; expect the range to be start year to completion year
-            projectUpdate.ImplementationStartYear = currentYear - 2;
+            projectUpdate.ImplementationStartYear = currentYear - 1;
             projectUpdate.CompletionYear = currentYear - 1;
             AssertYearRangeForPerformanceMeasuresCorrect(projectUpdateBatch, projectUpdate.ImplementationStartYear.Value, projectUpdate.CompletionYear.Value);
 
@@ -257,7 +257,7 @@ namespace ProjectFirma.Web.Models
             AssertYearRangeForExpendituresCorrect(projectUpdateBatch, FirmaDateUtilities.MinimumYear, currentYear);
 
             // start year in the past but greater than minimum year for reporting (2007), no completion year
-            projectUpdate.PlanningDesignStartYear = currentYear - 3;
+            projectUpdate.PlanningDesignStartYear = currentYear - 1;
             AssertYearRangeForExpendituresCorrect(projectUpdateBatch, projectUpdate.PlanningDesignStartYear.Value, currentYear);
 
             // start year in the future, no completion year
@@ -265,7 +265,7 @@ namespace ProjectFirma.Web.Models
             AssertYearRangeForExpendituresCorrect(projectUpdateBatch, currentYear, currentYear);
 
             // now set a completion year that is less than current year; expect the range to be start year to completion year
-            projectUpdate.PlanningDesignStartYear = currentYear - 2;
+            projectUpdate.PlanningDesignStartYear = currentYear - 1;
             projectUpdate.CompletionYear = currentYear - 1;
             AssertYearRangeForExpendituresCorrect(projectUpdateBatch, projectUpdate.PlanningDesignStartYear.Value, projectUpdate.CompletionYear.Value);
 
@@ -408,7 +408,7 @@ namespace ProjectFirma.Web.Models
                 false,
                 "Has start year before 2007 but no completion year, expect range of 2007 to be at least current year to be missing");
 
-            projectUpdate.PlanningDesignStartYear = currentYear - 3;
+            projectUpdate.PlanningDesignStartYear = currentYear - 1;
             AssertExpenditureYears(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList(),
                 projectUpdate.PlanningDesignStartYear.Value,
                 currentYear,
@@ -621,7 +621,7 @@ namespace ProjectFirma.Web.Models
                 false,
                 "Has start year before 2007 but no completion year, expect range of 2007 to at least current year to be missing");
 
-            projectUpdate.ImplementationStartYear = currentYear - 3;
+            projectUpdate.ImplementationStartYear = currentYear - 1;
             AssertPerformanceMeasures(projectUpdateBatch.PerformanceMeasureActualUpdates.ToList(),
                 projectUpdate.ImplementationStartYear.Value,
                 currentYear,
