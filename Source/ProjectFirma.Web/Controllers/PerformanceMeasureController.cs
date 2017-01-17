@@ -302,5 +302,36 @@ namespace ProjectFirma.Web.Controllers
             SetMessageForDisplay(string.Format("New {0} {1} successfully created!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.GetDisplayNameAsUrl()));
             return new ModalDialogFormJsonResult();
         }
+
+        [HttpGet]
+        [PerformanceMeasureManageFeature]
+        public PartialViewResult EditSubcategoriesAndOptions(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
+        {
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            var viewModel = new EditSubcategoriesAndOptionsViewModel(performanceMeasure);
+            return ViewEditSubcategoriesAndOptions(viewModel);
+        }
+
+        [HttpPost]
+        [PerformanceMeasureManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditSubcategoriesAndOptions(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, EditSubcategoriesAndOptionsViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEditSubcategoriesAndOptions(viewModel);
+            }
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            viewModel.UpdateModel(performanceMeasure);
+
+            SetMessageForDisplay(string.Format("Successfully updated {0} {1}!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName));
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditSubcategoriesAndOptions(EditSubcategoriesAndOptionsViewModel viewModel)
+        {
+            var viewData = new EditSubcategoriesAndOptionsViewData();
+            return RazorPartialView<EditSubcategoriesAndOptions, EditSubcategoriesAndOptionsViewData, EditSubcategoriesAndOptionsViewModel>(viewData, viewModel);
+        }
     }
 }

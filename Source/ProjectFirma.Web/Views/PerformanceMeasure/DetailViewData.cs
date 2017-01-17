@@ -17,6 +17,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public readonly bool UserHasPerformanceMeasureOverviewManagePermissions;
 
         public readonly string EditPerformanceMeasureUrl;
+        public readonly string EditSubcategoriesAndOptionsUrl;
         public readonly string EditAccomplishmentsMetadataUrl;
         public readonly string EditCriticalDefinitionsUrl;
         public readonly string EditAccountingPeriodAndScaleUrl;
@@ -51,6 +52,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             UserHasPerformanceMeasureOverviewManagePermissions = userHasPerformanceMeasureManagePermissions;
 
             EditPerformanceMeasureUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
+            EditSubcategoriesAndOptionsUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditSubcategoriesAndOptions(performanceMeasure));
             EditAccomplishmentsMetadataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditAccomplishmentsMetadata(performanceMeasure));
             EditMonitoringProgramsUrl = SitkaRoute<PerformanceMeasureMonitoringProgramController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureMonitoringPrograms(performanceMeasure));
                 

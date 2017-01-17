@@ -1,0 +1,111 @@
+﻿@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Views.PerformanceMeasure
+@inherits EditSubcategoriesAndOptions
+
+<script type="text/javascript" src="@Url.Content("~/Views/PerformanceMeasure/EditSubcategoriesAndOptionsController.js")"></script>
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp")
+        .factory("angularModelAndViewData",
+            function()
+            {
+                return {
+                    AngularModel: @Html.Raw(JObject.FromObject(Model)),
+                    AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
+                };
+            });
+    angular.bootstrap(jQuery("[ng-controller=\"EditSubcategoriesAndOptionsController\"]"), ["ProjectFirmaApp"]);
+    // ]]>
+</script>
+
+@using (Html.BeginForm())
+{
+<div ng-app="ProjectFirmaApp" ng-controller="EditSubcategoriesAndOptionsController">
+    <div>
+        <button type="button" class="btn btn-firma" ng-click="addSubcategory()">
+            <span class="glyphicon glyphicon-plus"></span>
+            Add Subcategory
+        </button>
+    </div>
+    
+    <div class="alert alert-danger"
+         ng-show="!AngularModel.PerformanceMeasureSubcategorySimples || !AngularModel.PerformanceMeasureSubcategorySimples.length || AngularModel.PerformanceMeasureSubcategorySimples.length < 1">
+        There are currently no Subcategories on this @MultiTenantHelpers.GetPerformanceMeasureName()
+    </div>
+    <div class="row" ng-repeat="subcategorySimple in AngularModel.PerformanceMeasureSubcategorySimples">
+        <div class="panel panelFirma" style="margin: 10px 10px 0;">
+            <div class="panel-heading panelTitle">
+                <span>@MultiTenantHelpers.GetPerformanceMeasureName() Subcategory {{$index+1}}</span>
+                <span class="pull-right panel-heading-right">
+                    <a href="#" ng-click="removeSubcategory(subcategorySimple)">
+                        <i class="glyphicon glyphicon-trash" title="Remove" alt="Remove"></i>
+                    </a>
+                </span>
+            </div>
+            <div class="panel-body" style="padding: 0 30px;">
+                <input type="hidden" value="{{subcategorySimple.PerformanceMeasureSubcategoryID}}"
+                       name="PerformanceMeasureSubcategorySimples[{{$index}}].PerformanceMeasureSubcategoryID" />
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 form-label text-right">Subcategory Name</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" ng-model="subcategorySimple.PerformanceMeasureSubcategoryDisplayName"
+                                   name="PerformanceMeasureSubcategorySimples[{{$index}}].PerformanceMeasureSubcategoryDisplayName" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <strong class="col-sm-9">@MultiTenantHelpers.GetPerformanceMeasureName() Subcategory Options</strong>
+                        <div class="col-sm-3">
+                            <button type="button" class="btn btn-firma" ng-click="addSubcategoryOption(subcategorySimple)">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                Add Subcategory Option
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="col-sm-1"></th>
+                                    <th class="col-sm-3">Option Name</th>
+                                    <th class="col-sm-3">Option Shortname</th>
+                                    <th class="col-sm-5"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-show="!subcategorySimple.PerformanceMeasureSubcategoryOptions || !subcategorySimple.PerformanceMeasureSubcategoryOptions.length || subcategorySimple.PerformanceMeasureSubcategoryOptions.length < 1">
+                                    <td colspan="4">
+                                        <div class="alert alert-danger">There are currently no Options on this Subcategory.</div>
+                                    </td>
+                                </tr>
+                                <tr ng-repeat="optionSimple in subcategorySimple.PerformanceMeasureSubcategoryOptions">
+                                    <td>
+                                        <input type="hidden" value="{{optionSimple.PerformanceMeasureSubcategoryOptionID}}"
+                                               name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].PerformanceMeasureSubcategoryOptionID" />
+                                        <input type="hidden" value="{{$index}}"
+                                               name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].SortOrder" />
+                                        <a href="#" class="glyphicon glyphicon-trash blue" ng-click="removeSubcategoryOption(subcategorySimple, optionSimple)"></a>
+                                    </td>
+                                    <td>
+                                        <div class="input-group input-group-sm">
+                                            <input class="form-control" type="text" ng-model="optionSimple.PerformanceMeasureSubcategoryOptionName"
+                                                   name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].PerformanceMeasureSubcategoryOptionName" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group input-group-sm">
+                                            <input class="form-control" type="text" ng-model="optionSimple.ShortName"
+                                                   name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].ShortName" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

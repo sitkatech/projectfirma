@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
+    <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cs" />
+    <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptionsViewData.cs" />
+    <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptionsViewModel.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.Binding.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\AssessmentGoalPrimaryKey.Binding.cs" />
@@ -1691,6 +1695,7 @@
     <Compile Include="Views\Shared\ConfirmDialogForm.cs" />
     <Compile Include="Views\Shared\ConfirmDialogFormViewData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Views\PerformanceMeasure\EditSubcategoriesAndOptionsController.js" />
     <Content Include="Views\ProjectBudget\ProjectBudgetController.js" />
     <Content Include="Views\ProjectExternalLink\ProjectExternalLinkController.js" />
     <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureController.js" />
