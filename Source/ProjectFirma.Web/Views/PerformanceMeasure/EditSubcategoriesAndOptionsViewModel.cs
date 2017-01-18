@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                                 y.PerformanceMeasureSubcategoryOptionName)
                             {
                                 PerformanceMeasureSubcategory =
-                                    performanceMeasure.PerformanceMeasureSubcategories.SingleOrDefault(z => z.PerformanceMeasureSubcategoryID == y.PerformanceMeasureSubcategoryID),
+                                    performanceMeasure.PerformanceMeasureSubcategories.SingleOrDefault(z => z.PerformanceMeasureSubcategoryID == x.PerformanceMeasureSubcategoryID),
                                 PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID,
                                 ShortName = y.ShortName,
                                 SortOrder = y.SortOrder
