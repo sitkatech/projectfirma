@@ -17,13 +17,14 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         {
             PageTitle = MultiTenantHelpers.GetPerformanceMeasureNamePluralized();
 
-            PerformanceMeasureGridSpec = new PerformanceMeasureGridSpec {
+            var hasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
+
+            PerformanceMeasureGridSpec = new PerformanceMeasureGridSpec (hasPerformanceMeasureManagePermissions) {
                 ObjectNameSingular = MultiTenantHelpers.GetPerformanceMeasureName(),
                 ObjectNamePlural = MultiTenantHelpers.GetPerformanceMeasureNamePluralized(),
                 SaveFiltersInCookie = true
             };
 
-            var hasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
             if (hasPerformanceMeasureManagePermissions)
             {
                 var contentUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.New());

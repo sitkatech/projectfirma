@@ -11,7 +11,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
     {
         public List<PerformanceMeasureSubcategorySimple> PerformanceMeasureSubcategorySimples { get; set; }
 
-        // Needed by ModelBinder
+        /// <summary>
+        /// Needed by ModelBinder
+        /// </summary>
         public EditSubcategoriesAndOptionsViewModel()
         {
         }

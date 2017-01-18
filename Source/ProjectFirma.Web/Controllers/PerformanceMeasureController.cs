@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ApprovalUtilities.Utilities;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -12,6 +13,7 @@ using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using Index = ProjectFirma.Web.Views.PerformanceMeasure.Index;
 using IndexViewData = ProjectFirma.Web.Views.PerformanceMeasure.IndexViewData;
@@ -25,7 +27,6 @@ namespace ProjectFirma.Web.Controllers
         {
             return IndexImpl();
         }
-
 
         [PerformanceMeasureViewFeature]
         public ViewResult Index()
@@ -44,14 +45,15 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<PerformanceMeasure> PerformanceMeasureGridJsonData()
         {
             PerformanceMeasureGridSpec gridSpec;
-            var performanceMeasures = GetPerformanceMeasuresAndGridSpec(out gridSpec);
+            var hasDeletePermission = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson);
+            var performanceMeasures = GetPerformanceMeasuresAndGridSpec(out gridSpec, hasDeletePermission);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PerformanceMeasure>(performanceMeasures, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
-        private static List<PerformanceMeasure> GetPerformanceMeasuresAndGridSpec(out PerformanceMeasureGridSpec gridSpec)
+        private static List<PerformanceMeasure> GetPerformanceMeasuresAndGridSpec(out PerformanceMeasureGridSpec gridSpec, bool hasDeletePermission)
         {
-            gridSpec = new PerformanceMeasureGridSpec();
+            gridSpec = new PerformanceMeasureGridSpec(hasDeletePermission);
             return HttpRequestStorage.DatabaseEntities.PerformanceMeasures.OrderBy(x => x.PerformanceMeasureID).ToList();
         }
 
@@ -60,17 +62,16 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             var userHasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson);
-            var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, false, userHasPerformanceMeasureManagePermissions ? ChartViewMode.ManagementMode : ChartViewMode.Small, null);
+            var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure,
+                false,
+                userHasPerformanceMeasureManagePermissions ? ChartViewMode.ManagementMode : ChartViewMode.Small,
+                null);
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(performanceMeasure.PerformanceMeasureNotes)),
                 SitkaRoute<PerformanceMeasureNoteController>.BuildUrlFromExpression(c => c.New(performanceMeasure.PrimaryKey)),
                 performanceMeasure.PerformanceMeasureDisplayName,
                 userHasPerformanceMeasureManagePermissions);
 
-            var viewData = new DetailViewData(CurrentPerson,
-                performanceMeasure,
-                performanceMeasureChartViewData,
-                entityNotesViewData,
-                userHasPerformanceMeasureManagePermissions);
+            var viewData = new DetailViewData(CurrentPerson, performanceMeasure, performanceMeasureChartViewData, entityNotesViewData, userHasPerformanceMeasureManagePermissions);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -99,10 +100,10 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
-            var measurementUnitTypesAsSelectListItems = MeasurementUnitType.All.ToSelectList(x => x.MeasurementUnitTypeID.ToString(CultureInfo.InvariantCulture),
-                x => x.MeasurementUnitTypeDisplayName);
-            var performanceMeasureTypesAsSelectListItems = PerformanceMeasureType.All.OrderBy(x => x.PerformanceMeasureTypeDisplayName).ToSelectList(x => x.PerformanceMeasureTypeID.ToString(CultureInfo.InvariantCulture),
-                x => x.PerformanceMeasureTypeDisplayName);
+            var measurementUnitTypesAsSelectListItems = MeasurementUnitType.All.ToSelectList(x => x.MeasurementUnitTypeID.ToString(CultureInfo.InvariantCulture), x => x.MeasurementUnitTypeDisplayName);
+            var performanceMeasureTypesAsSelectListItems =
+                PerformanceMeasureType.All.OrderBy(x => x.PerformanceMeasureTypeDisplayName)
+                    .ToSelectList(x => x.PerformanceMeasureTypeID.ToString(CultureInfo.InvariantCulture), x => x.PerformanceMeasureTypeDisplayName);
             var viewData = new EditViewData(measurementUnitTypesAsSelectListItems, performanceMeasureTypesAsSelectListItems);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
@@ -161,7 +162,9 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [PerformanceMeasureManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditPerformanceMeasureRichText(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, EditRtfContent.PerformanceMeasureRichTextType performanceMeasureRichTextType, EditRtfContentViewModel viewModel)
+        public ActionResult EditPerformanceMeasureRichText(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey,
+            EditRtfContent.PerformanceMeasureRichTextType performanceMeasureRichTextType,
+            EditRtfContentViewModel viewModel)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
@@ -214,7 +217,6 @@ namespace ProjectFirma.Web.Controllers
             return RedirectToAction(new SitkaRoute<PerformanceMeasureController>(x => x.Detail(performanceMeasure)));
         }
 
-
         [PerformanceMeasureViewFeature]
         public PartialViewResult DefinitionAndGuidance(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
@@ -231,7 +233,6 @@ namespace ProjectFirma.Web.Controllers
             var accomplishmentsChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, 1080 + 20, 630 + 20, false, ChartViewMode.Large, null);
             return RazorPartialView<PerformanceMeasureChartPopup, PerformanceMeasureChartViewData>(accomplishmentsChartViewData);
         }
-
 
         [PerformanceMeasureViewFeature]
         public ViewResult InfoSheet(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
@@ -266,8 +267,7 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        private static List<PerformanceMeasureExpected> GetPerformanceMeasureExpectedsAndGridSpec(out PerformanceMeasureExpectedGridSpec gridSpec,
-            PerformanceMeasure performanceMeasure)
+        private static List<PerformanceMeasureExpected> GetPerformanceMeasureExpectedsAndGridSpec(out PerformanceMeasureExpectedGridSpec gridSpec, PerformanceMeasure performanceMeasure)
         {
             gridSpec = new PerformanceMeasureExpectedGridSpec(performanceMeasure);
             return performanceMeasure.PerformanceMeasureExpecteds.ToList();
@@ -332,6 +332,48 @@ namespace ProjectFirma.Web.Controllers
         {
             var viewData = new EditSubcategoriesAndOptionsViewData();
             return RazorPartialView<EditSubcategoriesAndOptions, EditSubcategoriesAndOptionsViewData, EditSubcategoriesAndOptionsViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [PerformanceMeasureManageFeature]
+        public PartialViewResult DeletePerformanceMeasure(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
+        {
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(performanceMeasure.PerformanceMeasureID);
+            return ViewDeletePerformanceMeasure(performanceMeasure, viewModel);
+        }
+
+        [HttpPost]
+        [PerformanceMeasureManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult DeletePerformanceMeasure(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewDeletePerformanceMeasure(performanceMeasure, viewModel);
+            }
+            // Delete dependent associated items, then delete Performance Measure
+            performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).ToList().ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureSubcategoryOptions.Remove(x));
+            performanceMeasure.PerformanceMeasureSubcategories.ToList().ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureSubcategories.Remove(x));
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Remove(performanceMeasure);
+
+            SetMessageForDisplay(String.Format("Successfully deleted {0} \"{1}\"!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName));
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewDeletePerformanceMeasure(PerformanceMeasure performanceMeasure, ConfirmDialogFormViewModel viewModel)
+        {
+            var hasAssociations = !performanceMeasure.HasDependentObjects() && performanceMeasure.PerformanceMeasureID != Organization.OrganizationIDUnknown;
+            var confirmMessage = hasAssociations
+                ? String.Format("Are you sure you want to delete {0} \"{1}\"?", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName)
+                : String.Format("Are you sure you want to delete {0} \"{1}\"? This {0} has associations to other items. Click {2} to review.",
+                    MultiTenantHelpers.GetPerformanceMeasureName(),
+                    performanceMeasure.PerformanceMeasureDisplayName,
+                    SitkaRoute<PerformanceMeasureController>.BuildLinkFromExpression(x => x.Detail(performanceMeasure), "here"));
+
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
     }
 }

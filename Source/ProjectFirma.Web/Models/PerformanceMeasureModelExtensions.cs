@@ -58,5 +58,11 @@ namespace ProjectFirma.Web.Models
                     x => x.PerformanceMeasureID != currentPerformanceMeasureID && string.Equals(x.PerformanceMeasureDisplayName, performanceMeasureDisplayName, StringComparison.InvariantCultureIgnoreCase));
             return performanceMeasure == null;
         }
+
+        public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(t => t.DeletePerformanceMeasure(UrlTemplate.Parameter1Int)));
+        public static string GetDeleteUrl(this PerformanceMeasure performanceMeasure)
+        {
+            return DeleteUrlTemplate.ParameterReplace(performanceMeasure.PerformanceMeasureID);
+        }
     }
 }
