@@ -105,7 +105,7 @@
     </div>
 }
 
-<div style="padding-right: 20px">
+<div style="padding-right: 20px; padding-bottom: 20px;">
     <table style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; width: 100%;">
         <tr style="padding-bottom: 0;">
             @for (var i = 0; i < ViewDataTyped.ProjectStages.Count; i++)
@@ -151,7 +151,7 @@
         <div class="row">
             <div data-target="#tableofcontents" id="scrollSpyContent" class="col-lg-2 col-md-3 hidden-sm hidden-xs hidden-print">
                 <div id="tableOfContentsAffixed" class="navpanel panelFirma">
-                    <h4 data-toc-skip>Page Contents</h4>
+                    <h4 data-toc-skip style="margin-top: 0">Contents</h4>
                     <nav id="tableOfContents" class="scrollSpy"></nav>
                 </div>
             </div>
@@ -174,10 +174,13 @@
                                 <h3>Location</h3>
                             </div>
                             <div class="panel-body">
-                                <ul style="list-style-type: none; padding-left: 0;">
-                                    <li style="display: inline-block; margin-right: 5px" > @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Simple Location", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditSimpleProjectLocationUrl, "Edit Project Location - Simple", 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
-                                    <li style="display: inline-block"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Detailed Location", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditDetailedProjectLocationUrl, "Edit Project Location - Detail", 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
-                                </ul>
+                                @if (ViewDataTyped.UserHasMapManagePermissions)
+                                {
+                                    <ul style="list-style-type: none; padding-left: 0;">
+                                        <li style="display: inline-block; margin-right: 5px"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Simple Location", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditSimpleProjectLocationUrl, "Edit Project Location - Simple", 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
+                                        <li style="display: inline-block"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Detailed Location", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditDetailedProjectLocationUrl, "Edit Project Location - Detail", 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
+                                    </ul>
+                                }
                                 @{ ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData); }
                             </div>
                         </div>

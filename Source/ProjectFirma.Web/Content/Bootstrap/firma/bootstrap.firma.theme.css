@@ -373,15 +373,35 @@ nav#tableOfContents ul.nav ul.nav {
   color: #555;
   text-decoration: none;
   font-weight: bold;
-  padding: 5px 0 5px 0 ;
+  padding: 0 0 0 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 nav#tableOfContents ul.nav ul.nav li a {
-  padding: 5px 0 5px 15px ;
+  padding: 0 0 0 15px ;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
-nav#tableOfContents ul.nav li.active a,
+nav#tableOfContents ul.nav li ul.nav {
+  max-height: 0;
+  padding: 0;
+  -moz-transition: max-height 0.5s;
+  -o-transition: max-height 0.5s;
+  -webkit-transition: max-height 0.5s;
+  transition: max-height 0.5s;
+  overflow: hidden;
+}
+nav#tableOfContents ul.nav li.active ul.nav {
+  max-height: 200px;
+}
+nav#tableOfContents ul.nav li.active a {
+  color: #337ab7;
+  border-left: 4px solid #337ab7;
+  cursor: pointer;
+}
 nav#tableOfContents ul.nav li.active ul.nav li.active a {
   color: #337ab7;
-  border-right: 4px solid #337ab7;
+  border-left: 2px solid #337ab7;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li a {
@@ -390,12 +410,15 @@ nav#tableOfContents ul.nav li.active ul.nav li a {
   border: none;
   color: #555;
 }
-nav#tableOfContents ul.nav li a:hover,
+nav#tableOfContents ul.nav li a:hover {
+  color: #337ab7;
+  cursor: pointer;
+  text-decoration: none;
+}
 nav#tableOfContents ul.nav li ul.nav li a:hover {
   color: #337ab7;
   cursor: pointer;
   text-decoration: none;
-  border-right: 2px solid #337ab7;
 }
 .scrollSpy {
   width: 200px;
@@ -407,9 +430,8 @@ nav#tableOfContents ul.nav li ul.nav li a:hover {
   position: relative;
 }
 h2.sectionHeader {
-    margin: 0;
-    padding: 0;
   height: 0;
   visibility: hidden;
+    margin: 0;
 }
 /*# sourceMappingURL=bootstrap.firma.theme.css.map */

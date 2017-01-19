@@ -1,5 +1,4 @@
 ﻿using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -8,7 +7,11 @@ namespace ProjectFirma.Web.Views.Project
         public readonly Models.Project Project;
         public readonly ProjectUpdateState LatestUpdateState;
 
-        protected ProjectViewData(Person currentPerson, Models.Project project) : base(currentPerson)
+        protected ProjectViewData(Person currentPerson, Models.Project project) : this(currentPerson, project, false)
+        {
+        }        
+
+        protected ProjectViewData(Person currentPerson, Models.Project project, bool useFluidContainer) : base(currentPerson, null, useFluidContainer)
         {
             Project = project;
             HtmlPageTitle = project.ProjectName;
