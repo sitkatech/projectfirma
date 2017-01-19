@@ -48,27 +48,13 @@
 @using (Html.BeginForm())
 {
     <div class="container-fluid container-fluid-dialog-form">
-        @if (ViewDataTyped.EditProjectType == EditProjectType.ExistingProject)
-        {
-            <div class="row">
-                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneID, 600)</div>
-                <div class="col-md-9">
-                    @ViewDataTyped.TaxonomyTierOneDisplayName
-                    @Html.HiddenFor(m => m.TaxonomyTierOneID)
-                </div>
-            </div>            
-        }
-        else
-        {
-            <div class="row">
-                <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneID, 600)</div>
-                <div class="col-md-9">
-                    @Html.DropDownListFor(x => x.TaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, new { style = "display: inline !important; height: 0; width: 1px; border:0; box-shadow:none; color:white; overflow:hidden; margin-right:-1px;" })
-                    @Html.ValidationMessageFor(m => m.TaxonomyTierOneID)
-                </div>
-            </div>
-        }
         <div class="row">
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneID, 600, MultiTenantHelpers.GetTaxonomyTierOneDisplayName())</div>
+            <div class="col-md-9">
+                @Html.DropDownListFor(x => x.TaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, new { style = "display: inline !important; height: 0; width: 1px; border:0; box-shadow:none; color:white; overflow:hidden; margin-right:-1px;" })
+                @Html.ValidationMessageFor(m => m.TaxonomyTierOneID)
+            </div>
+        </div>        <div class="row">
             <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.ProjectName)</div>
             <div class="col-md-9">
                 @Html.TextBoxFor(m => m.ProjectName, new { style = "width:100%" })
@@ -87,7 +73,7 @@
             <div class="row">
                 <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.LeadImplementerOrganizationID)</div>
                 <div class="col-md-9">
-                    @Html.DropDownListFor(m => m.LeadImplementerOrganizationID, ViewDataTyped.Organizations, new Dictionary<string, object>() {{"style", "width:100%"}})
+                    @Html.DropDownListFor(m => m.LeadImplementerOrganizationID, ViewDataTyped.Organizations, new Dictionary<string, object>() { { "style", "width:100%" } })
                     @Html.ValidationMessageFor(m => m.LeadImplementerOrganizationID)
                 </div>
             </div>
@@ -136,7 +122,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 col-header" >@Html.LabelWithFieldDefinitionFor(m => m.ImplementationStartYear)</div>
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.ImplementationStartYear)</div>
             <div class="col-md-9">
                 @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.StartYearRange)
                 @Html.ValidationMessageFor(m => m.ImplementationStartYear)
@@ -157,19 +143,16 @@
 
 <script type="text/javascript">
     // <![CDATA[
-    function displaySelectedFundingTypeFields()
-    {
+    function displaySelectedFundingTypeFields() {
         var fundingTypeDropdown = jQuery("#@Html.IdFor(x => x.FundingTypeID)");
-        if (fundingTypeDropdown.val() == 1)
-        {
+        if (fundingTypeDropdown.val() == 1) {
             jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('disabled', false);
             jQuery("#@Html.IdFor(x => x.SecuredFunding)").prop('disabled', false);
             jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('disabled', true);
             jQuery(".op-label").css("color", "#666");
             jQuery(".cap-label").css("color", "");
         }
-        else if (fundingTypeDropdown.val() == 2)
-        {
+        else if (fundingTypeDropdown.val() == 2) {
             jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('disabled', true);
             jQuery("#@Html.IdFor(x => x.SecuredFunding)").prop('disabled', true);
             jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('disabled', false);
@@ -178,12 +161,11 @@
         }
     }
 
-    jQuery(document).ready(function()
-    {
+    jQuery(document).ready(function () {
         displaySelectedFundingTypeFields();
-        jQuery(@Html.IdFor(x => x.TaxonomyTierOneID)).selectpicker(
+        jQuery("#@Html.IdFor(x => x.TaxonomyTierOneID)").selectpicker(
             {
-                size: 12, title: 'Select an @MultiTenantHelpers.GetTaxonomyTierOneDisplayName()', width: '400px'
+                size: 12, title: 'Select a @MultiTenantHelpers.GetTaxonomyTierOneDisplayName()', width: '400px'
             });
     });
     // ]]>

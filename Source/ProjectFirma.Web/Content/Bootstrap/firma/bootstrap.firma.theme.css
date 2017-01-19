@@ -9,6 +9,7 @@ body {
   font-family: "Open Sans", sans-serif;
   background-color: #f5f8fa;
   color: #1e3948;
+  margin: 5px;
 }
 input[disabled] {
   background-color: gray;
@@ -432,6 +433,5 @@ nav#tableOfContents ul.nav li ul.nav li a:hover {
 h2.sectionHeader {
   height: 0;
   visibility: hidden;
-    margin: 0;
 }
 /*# sourceMappingURL=bootstrap.firma.theme.css.map */
