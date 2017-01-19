@@ -204,7 +204,7 @@ namespace LtInfo.Common.ModalDialog
         public static HtmlString MakeLtInfoEditIconLink(string dialogUrl, string dialogTitle, int width, bool hasPermission)
         {
             var linkText = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit blue").ToString();
-            var buttonCssClasses = new List<string>(){"btn-firma"};
+            var buttonCssClasses = new List<string>(){"btn-firma btn-xs"};
             return hasPermission ? ModalDialogFormLink(null, linkText, dialogUrl, dialogTitle, width, SaveButtonId, "Save", CancelButtonId, "Cancel", new List<string>(), null, null, null, buttonCssClasses) : new HtmlString(string.Empty);
         }
 

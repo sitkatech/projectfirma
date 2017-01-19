@@ -8,22 +8,38 @@ namespace ProjectFirma.Web.Views.Shared
 {
     public enum GoogleChartType
     {
-        ColumnChart, LineChart, ComboChart, AreaChart, PieChart, ImageChart, BarChart, Histogram, BubbleChart, ScatterChart
+        ColumnChart,
+        LineChart,
+        ComboChart,
+        AreaChart,
+        PieChart,
+        ImageChart,
+        BarChart,
+        Histogram,
+        BubbleChart,
+        ScatterChart
     }
 
     public enum GoogleChartAxisType
     {
-        Primary, Secondary
+        Primary,
+        Secondary
     }
 
     public enum GoogleChartLegendPosition
     {
-        Top, Bottom, Left, Right, None
+        Top,
+        Bottom,
+        Left,
+        Right,
+        None
     }
 
     public enum GoogleChartScaleFactor
     {
-        None, Thousands, Millions
+        None,
+        Thousands,
+        Millions
     }
 
     public class GooglePieChartConfiguration : GoogleChartConfiguration
@@ -42,7 +58,6 @@ namespace ProjectFirma.Web.Views.Shared
             SetSize(height, width);
         }
     }
-
 
     public class GooglePieChartSlice
     {
@@ -106,7 +121,7 @@ namespace ProjectFirma.Web.Views.Shared
         public GoogleChartConfiguration(string chartTitle, string axisTitle, MeasurementUnitType measurementUnitType)
         {
             Title = string.IsNullOrWhiteSpace(chartTitle) ? "[MISSING CHART TITLE]" : chartTitle;
-            
+
             //Create objects
             Legend = new GoogleChartLegend();
             HorizontalAxis = new GoogleChartAxis("Year", null);
@@ -129,7 +144,10 @@ namespace ProjectFirma.Web.Views.Shared
             DataTable = googleChartDataTable;
 
             //Ensure Series object exists, and populate any missing series (seems safe to assume that in the rare cases we are missing series, the existing ones are in order)
-            if (Series == null) { Series = new List<GoogleChartSeries>(); }
+            if (Series == null)
+            {
+                Series = new List<GoogleChartSeries>();
+            }
             if (Series.Count != DataTable.GoogleChartColumns.Count - 1)
             {
                 var existingSeriesCount = Series.Count;
@@ -197,7 +215,7 @@ namespace ProjectFirma.Web.Views.Shared
                     vaxis.FormatOptions.SetScaleFactor(GetMaximumValue());
                 }
             }
-        }       
+        }
 
         public void MakeBig()
         {
@@ -205,7 +223,7 @@ namespace ProjectFirma.Web.Views.Shared
 
             Height = 670;
             Width = 1100;
-           
+
             TitlePosition = "top";
 
             //Enlarge font, and bold axis text
@@ -225,12 +243,14 @@ namespace ProjectFirma.Web.Views.Shared
             }
 
             //Make lines thicker on Line and Combo charts (but NOT on area charts)
-            if (ChartType != GoogleChartType.AreaChart) {
+            if (ChartType != GoogleChartType.AreaChart)
+            {
                 LineWidth = 6;
             }
 
             //Since PieCharts are square, we have plenty of side area and this will always be the ideal legend placement
-            if (ChartType == GoogleChartType.PieChart) {
+            if (ChartType == GoogleChartType.PieChart)
+            {
                 Legend.Position = "labeled";
             }
 
@@ -304,11 +324,8 @@ namespace ProjectFirma.Web.Views.Shared
                     break;
             }
 
-
-
             //Special cases which ignore minimums
-            if (ChartType == GoogleChartType.PieChart
-                && (Legend.Position == "labeled" || Legend.Position == "none"))
+            if (ChartType == GoogleChartType.PieChart && (Legend.Position == "labeled" || Legend.Position == "none"))
             {
                 bottom = 10;
             }
@@ -528,6 +545,7 @@ namespace ProjectFirma.Web.Views.Shared
                     break;
             }
         }
+
         public void SetScaleFactor(double maxValue)
         {
             if (maxValue > 1000 * 1000)
@@ -616,11 +634,9 @@ namespace ProjectFirma.Web.Views.Shared
 
         //default constructor for serialization, otherwise it will get "creative" with default values...
         public GoogleChartSeries()
-        {            
+        {
             TargetAxisIndex = null;
         }
-
-
 
         public GoogleChartSeries(GoogleChartType displayType, GoogleChartAxisType axisType)
         {
@@ -643,7 +659,7 @@ namespace ProjectFirma.Web.Views.Shared
     }
 
     public static class GoogleChartEnumConverter
-{
+    {
         public static string GoogleChartTypeToString(GoogleChartType googleChartType)
         {
             switch (googleChartType)
@@ -672,6 +688,13 @@ namespace ProjectFirma.Web.Views.Shared
                     throw new ArgumentOutOfRangeException("googleChartType", googleChartType, null);
             }
         }
-}
+    }
 
-}//End of namespace
+    public static class GoogleChartTypeExtension
+    {
+        public static GoogleChartType ParseOrDefault(string googleChartTypeString)
+        {
+            return string.IsNullOrEmpty(googleChartTypeString) ? GoogleChartType.LineChart : (GoogleChartType)Enum.Parse(typeof(GoogleChartType), googleChartTypeString);
+        }
+    }
+} //End of namespace

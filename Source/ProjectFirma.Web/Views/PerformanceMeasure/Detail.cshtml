@@ -163,7 +163,7 @@
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h2>
-                                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0} Subcategories And Subcategory Options for {1}", MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 1000, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0} Subcategories And Subcategory Options for {1}", MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                                     @Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureSubcategory, "Subcategories")
                                 </h2>
                             </div>
@@ -295,55 +295,49 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="panel panelFirma">
-                        <div class="panel-heading panelTitle">
-                            <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwosUrl, string.Format("Edit {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()), ViewDataTyped.UserHasTaxonomyTierTwoPerformanceMeasureManagePermissions) @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</h2>
-                        </div>
-                        <div class="panel-body">
-                            @if (ViewDataTyped.TaxonomyTierTwoPerformanceMeasures.Any())
-                            {
-                                <table class="summaryLayout">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwosUrl, string.Format("Edit {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()), ViewDataTyped.UserHasTaxonomyTierTwoPerformanceMeasureManagePermissions) @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</h2>
+                    </div>
+                    <div class="panel-body">
+                        @if (ViewDataTyped.TaxonomyTierTwoPerformanceMeasures.Any())
+                        {
+                            <table class="summaryLayout">
+                                <tr>
+                                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</th>
+                                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryTaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()))</th>
+                                </tr>
+                                @foreach (var taxonomyTierTwoPerformanceMeasure in ViewDataTyped.TaxonomyTierTwoPerformanceMeasures)
+                                {
                                     <tr>
-                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</th>
-                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryTaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()))</th>
+                                        <td>@taxonomyTierTwoPerformanceMeasure.Key.GetDisplayNameAsUrl()</td>
+                                        <td style="text-align: center">@taxonomyTierTwoPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
                                     </tr>
-                                    @foreach (var taxonomyTierTwoPerformanceMeasure in ViewDataTyped.TaxonomyTierTwoPerformanceMeasures)
-                                    {
-                                        <tr>
-                                            <td>@taxonomyTierTwoPerformanceMeasure.Key.GetDisplayNameAsUrl()</td>
-                                            <td style="text-align: center">@taxonomyTierTwoPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
-                                        </tr>
-                                    }
-                                </table>
-                            }
-                            else
-                            {
-                                <p class="alert">No @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() set for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
-                            }
-                        </div>
+                                }
+                            </table>
+                        }
+                        else
+                        {
+                            <p class="alert">No @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() set for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
+                        }
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="panel panelFirma">
-                        <div class="panel-heading panelTitle">
-                            <h2>Projects (As Expected Measure)</h2>
-                        </div>
-                        <div class="panel-body">
-                            @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureExpectedGridSpec, ViewDataTyped.PerformanceMeasureExpectedsGridName, ViewDataTyped.PerformanceMeasureExpectedsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                        </div>
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>Projects (As Expected Measure)</h2>
+                    </div>
+                    <div class="panel-body">
+                        @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureExpectedGridSpec, ViewDataTyped.PerformanceMeasureExpectedsGridName, ViewDataTyped.PerformanceMeasureExpectedsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="panel panelFirma">
-                        <div class="panel-heading panelTitle">
-                            <h2>Projects (As Reported Measure)</h2>
-                        </div>
-                        <div class="panel-body">
-                            @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                        </div>
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>Projects (As Reported Measure)</h2>
+                    </div>
+                    <div class="panel-body">
+                        @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                     </div>
                 </div>
             </div>

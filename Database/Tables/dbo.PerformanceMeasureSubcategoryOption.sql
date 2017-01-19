@@ -25,6 +25,17 @@ CREATE TABLE [dbo].[PerformanceMeasureSubcategoryOption](
 ) ON [PRIMARY]
 
 GO
+SET ANSI_PADDING ON
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK_TableName_ColumnName] ON [dbo].[PerformanceMeasureSubcategoryOption]
+(
+	[PerformanceMeasureSubcategoryOptionID] ASC,
+	[ShortName] ASC
+)
+WHERE ([ShortName] IS NOT NULL)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[PerformanceMeasureSubcategoryOption]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID] FOREIGN KEY([PerformanceMeasureSubcategoryID])
 REFERENCES [dbo].[PerformanceMeasureSubcategory] ([PerformanceMeasureSubcategoryID])
 GO

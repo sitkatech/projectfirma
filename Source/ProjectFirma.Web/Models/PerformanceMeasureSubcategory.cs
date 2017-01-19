@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Models
 
         public bool ShowOnChart
         {
-            get { return !String.IsNullOrWhiteSpace(ChartConfigurationJson); }
+            get { return true; }
         }
 
         public static List<GoogleChartJson> MakeGoogleChartJsonsForSubcategories(PerformanceMeasure performanceMeasure,
@@ -45,7 +45,11 @@ namespace ProjectFirma.Web.Models
                 return calendarYearReportedValues;
             });
 
-            var googleChartJson = MakeGoogleChartJsonForPerformanceMeasureSubcategory(performanceMeasure, yearRange, performanceMeasureSubcategory, performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues, performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName);
+            var googleChartJson = MakeGoogleChartJsonForPerformanceMeasureSubcategory(performanceMeasure,
+                yearRange,
+                performanceMeasureSubcategory,
+                performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues,
+                performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName);
             return googleChartJson;
         }
 
@@ -55,8 +59,13 @@ namespace ProjectFirma.Web.Models
             Dictionary<string, IEnumerable<CalendarYearReportedValue>> performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues,
             string legendTitle)
         {
-            var googleChartType = (GoogleChartType) Enum.Parse(typeof(GoogleChartType), performanceMeasureSubcategory.ChartType);
-            var googleChartDataTable = GetGoogleChartDataTableForPerformanceMeasure(yearRange, performanceMeasure.MeasurementUnitType, googleChartType, performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues);
+
+            GoogleChartType googleChartType = GoogleChartTypeExtension.ParseOrDefault(performanceMeasureSubcategory.ChartType);
+            
+            var googleChartDataTable = GetGoogleChartDataTableForPerformanceMeasure(yearRange,
+                performanceMeasure.MeasurementUnitType,
+                googleChartType,
+                performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues);
             var googleChartJson = MakeGoogleChartJsonForPerformanceMeasureSubcategory(performanceMeasureSubcategory, googleChartDataTable);
             return googleChartJson;
         }
@@ -65,7 +74,7 @@ namespace ProjectFirma.Web.Models
         {
             var performanceMeasure = performanceMeasureSubcategory.PerformanceMeasure;
 
-            var chartConfiguration = performanceMeasureSubcategory.ShowOnChart
+            var chartConfiguration = performanceMeasureSubcategory.ChartConfigurationJson != null
                 ? JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.ChartConfigurationJson)
                 : new GoogleChartConfiguration(performanceMeasure.PerformanceMeasureDisplayName, performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName.ToProperCase(), performanceMeasure.MeasurementUnitType);
 
@@ -76,7 +85,7 @@ namespace ProjectFirma.Web.Models
             var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.SaveChartConfiguration(performanceMeasureID, performanceMeasureSubcategoryID));
             var chartGroupID = performanceMeasureID.ToString();
             var legendTitle = performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName;
-            var googleChartType = (GoogleChartType) Enum.Parse(typeof(GoogleChartType), performanceMeasureSubcategory.ChartType);
+            var googleChartType = GoogleChartTypeExtension.ParseOrDefault(performanceMeasureSubcategory.ChartType);
             var googleChartJson = new GoogleChartJson(legendTitle, chartName, chartConfiguration, googleChartType, googleChartDataTable, chartPopupUrl, chartGroupID, saveConfigurationUrl);
             return googleChartJson;
         }

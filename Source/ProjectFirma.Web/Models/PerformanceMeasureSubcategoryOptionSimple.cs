@@ -20,6 +20,7 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOptionName;
             SortOrder = sortOrder;
             ShortName = shortName;
+            HasAssociatedActuals = false;
         }
 
         /// <summary>
@@ -33,6 +34,7 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName;
             SortOrder = performanceMeasureSubcategoryOption.SortOrder;
             ShortName = performanceMeasureSubcategoryOption.ShortName;
+            HasAssociatedActuals = performanceMeasureSubcategoryOption.HasDependentObjects();
         }
 
         public int PerformanceMeasureSubcategoryOptionID { get; set; }
@@ -40,5 +42,6 @@ namespace ProjectFirma.Web.Models
         public string PerformanceMeasureSubcategoryOptionName { get; set; }
         public int? SortOrder { get; set; }
         public string ShortName { get; set; }
+        public bool HasAssociatedActuals { get; set; }
     }
 }

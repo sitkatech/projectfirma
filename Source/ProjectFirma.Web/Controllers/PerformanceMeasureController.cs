@@ -354,7 +354,13 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeletePerformanceMeasure(performanceMeasure, viewModel);
             }
             // Delete dependent associated items, then delete Performance Measure
-            performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).ToList().ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureSubcategoryOptions.Remove(x));
+            performanceMeasure.PerformanceMeasureActuals.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions)
+                .ToList()
+                .ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Remove(x));
+            performanceMeasure.PerformanceMeasureActuals.ToList().ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Remove(x));
+            performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions)
+                .ToList()
+                .ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureSubcategoryOptions.Remove(x));
             performanceMeasure.PerformanceMeasureSubcategories.ToList().ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureSubcategories.Remove(x));
             HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Remove(performanceMeasure);
 
@@ -364,15 +370,15 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeletePerformanceMeasure(PerformanceMeasure performanceMeasure, ConfirmDialogFormViewModel viewModel)
         {
-            var hasAssociations = !performanceMeasure.HasDependentObjects() && performanceMeasure.PerformanceMeasureID != Organization.OrganizationIDUnknown;
-            var confirmMessage = hasAssociations
-                ? String.Format("Are you sure you want to delete {0} \"{1}\"?", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName)
-                : String.Format("Are you sure you want to delete {0} \"{1}\"? This {0} has associations to other items. Click {2} to review.",
+            var hasNoAssociations = !performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).Any(x => x.HasDependentObjects());
+            var confirmMessage = hasNoAssociations
+                ? String.Format("<p>Are you sure you want to delete {0} \"{1}\"?</p>", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName)
+                : String.Format("<p>Are you sure you want to delete {0} \"{1}\"?</p><p>Deleting this {0} will <strong>delete all associated reported data</strong>, and this action cannot be undone. Click {2} to review.</p>",
                     MultiTenantHelpers.GetPerformanceMeasureName(),
                     performanceMeasure.PerformanceMeasureDisplayName,
                     SitkaRoute<PerformanceMeasureController>.BuildLinkFromExpression(x => x.Detail(performanceMeasure), "here"));
 
-            var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
+            var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
     }
