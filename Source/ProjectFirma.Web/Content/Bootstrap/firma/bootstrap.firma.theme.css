@@ -433,5 +433,6 @@ nav#tableOfContents ul.nav li ul.nav li a:hover {
 h2.sectionHeader {
   height: 0;
   visibility: hidden;
+  margin: 0;
 }
 /*# sourceMappingURL=bootstrap.firma.theme.css.map */
