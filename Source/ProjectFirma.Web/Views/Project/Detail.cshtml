@@ -92,6 +92,10 @@
     <a class="btn btn-firma" href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Fact Sheet</a>
 }
 
+<div>
+    <a class="btn backButton" href="@ViewDataTyped.FullProjectListUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all Projects</a>
+</div>
+
 @if (ViewDataTyped.LatestUpdateState == ProjectUpdateState.Submitted || ViewDataTyped.LatestUpdateState == ProjectUpdateState.Returned)
 {
     <div class="warning" style="margin-bottom: 10px">
@@ -370,7 +374,6 @@
                     </div>
                 </div>
 
-
                 @if (ViewDataTyped.UserHasProjectViewEverythingPermissions)
                 {
                     <h2 class="sectionHeader">Administrative</h2>
@@ -402,10 +405,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<div style="margin-top: 20px">
-    <a class="btn btn-sm btn-firma" href="@ViewDataTyped.FullProjectListUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Index</a>
 </div>
 
 <script type="text/javascript">

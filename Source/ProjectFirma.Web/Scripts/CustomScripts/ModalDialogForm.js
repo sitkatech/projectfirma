@@ -175,8 +175,11 @@ function getModalDialogFromHtmlTemplate(dialogDivId, dialogTitle, dialogContent,
                 "</div>" +
                 "<div class='modal-body'>" + dialogContent + "</div>" +
                 "<div class='modal-footer'>" +
-                    "<button type='button' id='" + saveButtonId + "' class='btn " + buttonCssClasses + "'>" + saveButtonText + "</button>" +
-                    "<button type='button' id='" + closeButtonId + "' class='btn " + buttonCssClasses + "' data-dismiss='modal'>" + closeButtonText + "</button>" +
+                    "<label>*</label>: Required Field</span>" +
+                    "<div class='modal-footer-buttons'>" +
+                        "<button type='button' id='" + saveButtonId + "' class='btn " + buttonCssClasses + "'>" + saveButtonText + "</button>" +
+                        "<button type='button' id='" + closeButtonId + "' class='btn " + buttonCssClasses + "' data-dismiss='modal'>" + closeButtonText + "</button>" +
+                    "</div>" +
                 "</div>" +
                 "<div class='progress' style='display:none'>" +
                     "<div class='progress-bar progress-bar-info progress-bar-striped active' role='progressbar' style='width:100%'>Saving</div>" +

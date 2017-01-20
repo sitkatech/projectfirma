@@ -1,29 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using FluentValidation.Attributes;
+using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
-    [Validator(typeof(EditProjectViewModelValidator))]
-    public class EditProjectViewModel : FormViewModel
+    public class EditProjectViewModel : FormViewModel, IValidatableObject
     {
         public int ProjectID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectName)]
+        [StringLength(Models.Project.FieldLengths.ProjectName)]
+        [Required]
         public string ProjectName { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
         [StringLength(Models.Project.FieldLengths.ProjectDescription)]
+        [Required]
         public string ProjectDescription { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStage)]
+        [Required]
         public int ProjectStageID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
+        [Required]
         public int FundingTypeID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ImplementationStartYear)]
@@ -36,6 +42,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public int? CompletionYear { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierOne)]
+        [Required]
         public int TaxonomyTierOneID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
@@ -124,12 +131,54 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(project.ProjectID))
             {
-                Check.RequireNotNull(LeadImplementerOrganizationID, EditProjectViewModelValidator.NeedsLeadImplementingOrganizationMessage);
+                Check.RequireNotNull(LeadImplementerOrganizationID, "Lead Implementer must be specified");
                 if (LeadImplementerOrganizationID != null)
                 {
                     project.ProjectImplementingOrganizations.Add(new ProjectImplementingOrganization(ProjectID, LeadImplementerOrganizationID.Value, true));
                 }
             }
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var errors = new List<ValidationResult>();
+
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
+            if (!Models.Project.IsProjectNameUnique(projects, ProjectName, ProjectID))
+            {
+                errors.Add(new SitkaValidationResult<EditProjectViewModel, string>(FirmaValidationMessages.ProjectNameUnique, m => m.ProjectName));
+            }
+
+            if (ImplementationStartYear < PlanningDesignStartYear)
+            {
+                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>(FirmaValidationMessages.ImplementationStartYearGreaterThanPlanningDesignStartYear, m => m.ImplementationStartYear));
+            }
+
+            if (CompletionYear < ImplementationStartYear)
+            {
+                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.CompletionYear));
+            }
+
+            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(ProjectID) && !LeadImplementerOrganizationID.HasValue)
+            {
+                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>("Lead Implementer must be specified", m => m.LeadImplementerOrganizationID));
+            }
+
+            var isCompletedOrPostImplementation = ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID;
+            if (isCompletedOrPostImplementation && CompletionYear < DateTime.Now.Year)
+            {
+                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>("Since project is in Completed or Post-Implementation stage, the Completion Year needs to be less than or equal to the current year", m => m.CompletionYear));    
+            }
+
+            if (HasExistingProjectUpdate && OldProjectStageID != ProjectStageID)
+            {
+                errors.Add(
+                    new SitkaValidationResult<EditProjectViewModel, int?>(
+                        "There are updates to this project that have not been submitted.<br />Making this change can potentially affect that update in process.<br />Please delete the update if you want to change this project's stage.",
+                        m => m.ProjectStageID));
+            }
+
+            return errors;
         }
     }
 }

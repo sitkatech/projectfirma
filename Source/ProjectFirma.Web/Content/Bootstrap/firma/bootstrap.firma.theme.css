@@ -170,6 +170,11 @@ footer p {
 }
 .firma-modal-dialog .modal-footer {
   padding: .5em;
+  float: none;
+  text-align: left;
+}
+.firma-modal-dialog .modal-footer-buttons {
+  float: right;
 }
 .firma-modal.modal {
   text-align: center;
@@ -355,6 +360,10 @@ a.excelbutton {
 }
 .helpiconGridBlue {
   color: #70a1cc;
+}
+.helpiconGridGray {
+  color: #DDDDDD;
+  cursor: default !important;
 }
 .red {
   color: red;
