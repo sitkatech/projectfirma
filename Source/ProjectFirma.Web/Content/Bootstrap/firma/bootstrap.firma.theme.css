@@ -435,4 +435,90 @@ h2.sectionHeader {
   visibility: hidden;
   margin: 0;
 }
+/* begin photo gallery css*/
+span.keyPhotoButton img {
+  cursor: pointer;
+}
+span.keyPhotoButton label {
+  display: inline-block;
+  vertical-align: top;
+  color: #007CB9;
+  text-decoration: underline;
+  cursor: pointer;
+}
+ul.filmStrip {
+  padding-left: 5px;
+}
+ul.filmStrip li {
+  background-color: #ffffff;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  border: 1px solid black;
+  vertical-align: top;
+  position: relative;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+ul.filmStrip li div.icons {
+  padding: 5px;
+  height: 16px;
+}
+ul.filmStrip li a.gallery {
+  cursor: pointer;
+  text-align: center;
+  color: #000000;
+  display: block;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+ul.filmStrip li a.gallery:hover {
+  background-color: #F0C975;
+}
+ul.filmStrip li .img img {
+  max-width: 150px;
+  max-height: 150px;
+  border: 1px solid #99E5FF;
+}
+ul.filmStrip li span.keyPhotoButtonSet {
+  cursor: pointer;
+  margin-top: 4px;
+}
+ul.filmStrip li .keyPhotoIcon {
+  float: right;
+  visibility: hidden;
+  display: inline-block;
+}
+ul.filmStrip li .setKeyPhoto {
+  visibility: visible;
+}
+ul.filmStrip li .img {
+  display: table-cell;
+  width: 170px;
+  height: 170px;
+  vertical-align: middle;
+  text-align: center;
+  margin: 0;
+  *line-height: 170px;
+}
+ul.filmStrip li a div.caption {
+  border-top: 1px solid black;
+  display: block;
+  font-size: 0.9em;
+  line-height: 1.1;
+  padding: 0.3em 5px;
+  width: 160px;
+  min-height: 14px;
+  overflow: hidden;
+}
+/* end photo gallery css*/
+.smallExplanationText,
+.firma-modal-dialog .smallExplanationText {
+  font: 10px/12px Arial, sans-serif;
+  margin-top: 4px;
+  color: #888888;
+}
 /*# sourceMappingURL=bootstrap.firma.theme.css.map */

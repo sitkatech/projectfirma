@@ -11,17 +11,17 @@
 <div>
     <div id="@ViewDataTyped.ProjectLocationSummaryMapInitJson.MapDivID" style="height: 390px">
     </div>
-    <span style="font-size: 10px">To zoom, hold down the Shift key and drag a rectangle.</span>
+    <span style="font-size: 10px">To zoom, hold down Shift and drag a rectangle.</span>
 </div>
 
 <div>
     @if (ViewDataTyped.HasLocationNotes)
     {
-        <div>
+        <div style="margin-bottom: 5px">
             <label>
                 Location Notes
             </label>
-            <div>
+            <div style="padding-left: 6px">
                 @ViewDataTyped.ProjectLocationNotes
             </div>
         </div>
