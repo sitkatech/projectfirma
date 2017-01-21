@@ -175,7 +175,7 @@ function getModalDialogFromHtmlTemplate(dialogDivId, dialogTitle, dialogContent,
                 "</div>" +
                 "<div class='modal-body'>" + dialogContent + "</div>" +
                 "<div class='modal-footer'>" +
-                    "<label>*</label>: Required Field</span>" +
+                    "<span><sup><span class=\"glyphicon glyphicon-flash\" style=\"color: #800020; font-size: 8px; \"></span></sup> Required Field</span>" +
                     "<div class='modal-footer-buttons'>" +
                         "<button type='button' id='" + saveButtonId + "' class='btn " + buttonCssClasses + "'>" + saveButtonText + "</button>" +
                         "<button type='button' id='" + closeButtonId + "' class='btn " + buttonCssClasses + "' data-dismiss='modal'>" + closeButtonText + "</button>" +

@@ -1,30 +1,37 @@
 ﻿using System;
-using ProjectFirma.Web.Security;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using FluentValidation.Attributes;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Views.Shared.ProjectControls;
 
 namespace ProjectFirma.Web.Views.ProposedProject
 {
-    [Validator(typeof(BasicsViewModelValidator))]
-    public class BasicsViewModel : FormViewModel
+    public class BasicsViewModel : FormViewModel, IValidatableObject
     {
         public int ProposedProjectID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierOne)]
+        [Required]
         public int? ProposedTaxonomyTierOneID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectName)]
+        [Required]
         public string ProjectName { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
+        [Required]
         public string ProjectDescription { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.PlanningDesignStartYear)]
+        [Required]
         public int? PlanningDesignStartYear { get; set; }
         
         [FieldDefinitionDisplay(FieldDefinitionEnum.ImplementationStartYear)]
+        [Required]
         public int? ImplementationStartYear { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.CompletionYear)]
@@ -40,9 +47,11 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public Money? SecuredFunding { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.LeadImplementer)]
+        [Required]
         public int? LeadImplementerOrganizationID { get; set; }
         
         [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
+        [Required]
         public int FundingTypeID { get; set; }
         
         /// <summary>
@@ -100,5 +109,37 @@ namespace ProjectFirma.Web.Views.ProposedProject
             proposedProject.ImplementationStartYear = ImplementationStartYear;
             proposedProject.CompletionYear = CompletionYear;            
         }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+           return GetValidationResults();
+        }
+
+        public IEnumerable<ValidationResult> GetValidationResults()
+        {
+            var errors = new List<ValidationResult>();
+
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
+            var proposedProjects = HttpRequestStorage.DatabaseEntities.ProposedProjects.ToList();
+            if (!Models.ProposedProject.IsProjectNameUnique(proposedProjects, ProjectName, ProposedProjectID) || !Models.Project.IsProjectNameUnique(projects, ProjectName, ModelObjectHelpers.NotYetAssignedID))
+            {
+                errors.Add(new SitkaValidationResult<EditProjectViewModel, string>(FirmaValidationMessages.ProjectNameUnique, m => m.ProjectName));
+            }
+
+            if (ImplementationStartYear < PlanningDesignStartYear)
+            {
+                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>(FirmaValidationMessages.ImplementationStartYearGreaterThanPlanningDesignStartYear, m => m.ImplementationStartYear));
+            }
+
+            if (CompletionYear < ImplementationStartYear)
+            {
+                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.CompletionYear));
+            }
+
+
+            return errors;
+        }
+
+
     }
 }

@@ -891,8 +891,6 @@
     <Compile Include="Views\ProposedProject\BasicsViewData.cs" />
     <Compile Include="Views\ProposedProject\BasicsViewModel.cs" />
     <Compile Include="Views\ProposedProject\BasicsViewModelTest.cs" />
-    <Compile Include="Views\ProposedProject\BasicsViewModelValidator.cs" />
-    <Compile Include="Views\ProposedProject\BasicsViewModelValidatorTest.cs" />
     <Compile Include="Views\ProposedProject\EditProposedProjectClassifications.cs" />
     <Compile Include="Views\ProposedProject\EditProposedProjectClassificationsViewData.cs" />
     <Compile Include="Views\ProposedProject\EditProposedProjectClassificationsViewModel.cs" />

@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using LtInfo.Common.BootstrapWrappers;
 using LtInfo.Common.DesignByContract;
 
 namespace LtInfo.Common.HtmlHelperExtensions
@@ -307,9 +308,9 @@ namespace LtInfo.Common.HtmlHelperExtensions
                     var requiredAsterisk = string.Empty;
                     if (hasRequiredAttribute)
                     {
-                        requiredAsterisk = "<sup>*</sup>";
+                        requiredAsterisk = "<sup>"+BootstrapHtmlHelpers.RequiredIcon  +"</sup>";
                     }
-                    return MvcHtmlString.Create(string.Format("{0}{1}", labelTag.ToString(TagRenderMode.Normal), requiredAsterisk));
+                    return MvcHtmlString.Create(string.Format("{0} {1}", labelTag.ToString(TagRenderMode.Normal), requiredAsterisk));
                 default:
                     throw new ArgumentOutOfRangeException("displayStyle");
             }

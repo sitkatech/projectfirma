@@ -37,9 +37,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
         public ProposalSectionsStatus(Models.ProposedProject proposedProject)
         {
-            var basicsValidator = new BasicsViewModelValidator(new List<Models.ProposedProject> { proposedProject });
-            var validationResult = basicsValidator.Validate(new BasicsViewModel(proposedProject));
-            IsBasicsSectionComplete = validationResult.IsValid;
+            var basicsResults = new BasicsViewModel(proposedProject).GetValidationResults();
+            IsBasicsSectionComplete = !basicsResults.Any();
 
             var locationSimpleValidationResults = new LocationSimpleViewModel(proposedProject).GetValidationResults();
             IsProjectLocationSimpleSectionComplete = !locationSimpleValidationResults.Any();
