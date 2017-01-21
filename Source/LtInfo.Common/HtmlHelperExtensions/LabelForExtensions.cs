@@ -305,11 +305,7 @@ namespace LtInfo.Common.HtmlHelperExtensions
                     return MvcHtmlString.Create(helpIconImgTag);
                 case DisplayStyle.HelpIconWithLabel:
                     labelTag.InnerHtml = string.Format("{0} {1}", helpIconImgTag, labelText);
-                    var requiredAsterisk = string.Empty;
-                    if (hasRequiredAttribute)
-                    {
-                        requiredAsterisk = "<sup>"+BootstrapHtmlHelpers.RequiredIcon  +"</sup>";
-                    }
+                    var requiredAsterisk = hasRequiredAttribute ? "<sup>" + BootstrapHtmlHelpers.RequiredIcon + "</sup>" : string.Empty;
                     return MvcHtmlString.Create(string.Format("{0} {1}", labelTag.ToString(TagRenderMode.Normal), requiredAsterisk));
                 default:
                     throw new ArgumentOutOfRangeException("displayStyle");
