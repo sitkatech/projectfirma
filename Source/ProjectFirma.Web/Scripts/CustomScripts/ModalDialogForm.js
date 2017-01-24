@@ -165,6 +165,11 @@ function wireUpModalDialogForm(dialogDiv, loadingDivId, javascriptReadyFunction,
 
 function getModalDialogFromHtmlTemplate(dialogDivId, dialogTitle, dialogContent, width, saveButtonText, saveButtonId, closeButtonText, closeButtonId, buttonCssClasses, loadingDivId)
 {
+    var hasRequired = dialogContent.indexOf("requiredFieldIcon") !== -1;
+    var requiredLegend = hasRequired
+        ? "<span><sup><span class=\"glyphicon glyphicon-flash\" style=\"color: #800020; font-size: 8px; \"></span></sup> Required Field</span>"
+        : "";
+
     var modalDialogHtml =
     "<div class='modal firma-modal' id='" + dialogDivId + "' tabindex='-1'>" +
         "<div class='modal-dialog firma-modal-dialog' style = 'width: " + width + "'>" +
@@ -175,7 +180,7 @@ function getModalDialogFromHtmlTemplate(dialogDivId, dialogTitle, dialogContent,
                 "</div>" +
                 "<div class='modal-body'>" + dialogContent + "</div>" +
                 "<div class='modal-footer'>" +
-                    "<span><sup><span class=\"glyphicon glyphicon-flash\" style=\"color: #800020; font-size: 8px; \"></span></sup> Required Field</span>" +
+                    requiredLegend +
                     "<div class='modal-footer-buttons'>" +
                         "<button type='button' id='" + saveButtonId + "' class='btn " + buttonCssClasses + "'>" + saveButtonText + "</button>" +
                         "<button type='button' id='" + closeButtonId + "' class='btn " + buttonCssClasses + "' data-dismiss='modal'>" + closeButtonText + "</button>" +
