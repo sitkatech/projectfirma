@@ -1,9 +1,15 @@
 ﻿@using ProjectFirma.Web.Views.Shared
-@using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.HtmlHelperExtensions
 @inherits ProjectFirma.Web.Views.ProposedProject.Photos
 
 <p>Add any 'before' photos of the Proposed Project site documenting the current conditions.</p>
 <hr />
 
-@{ Html.RenderRazorSitkaPartial<ImageGallery, ImageGalleryViewData>(ViewDataTyped.ImageGalleryViewData); }
+<div style="min-height: 300px">
+    @{ Html.RenderRazorSitkaPartial<ImageGallery, ImageGalleryViewData>(ViewDataTyped.ImageGalleryViewData); }
+</div>
+
+<hr />
+<div class="pull-right">
+    <button class="btn btn-xs btn-firma" type="submit">Save</button>
+</div>

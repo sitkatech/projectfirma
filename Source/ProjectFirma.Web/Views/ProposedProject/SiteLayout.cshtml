@@ -135,6 +135,10 @@
 
     <div id="main-container" class="col-sm-8 col-md-9">
         @RenderBody()
+        @if (ViewDataTyped.SelectedProposedProjectSection != ProposedProjectSectionEnum.Instructions)
+        {
+            <span><sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup> Required Field</span>
+        }
     </div>
 </div>
 
@@ -197,7 +201,6 @@
                 }
             }
         </div>
-
 
         <a class="btn btn-xs btn-firma" style="margin-right: 5px;" href="@ViewDataTyped.ProposedProjectListUrl"><span class="glyphicon glyphicon-chevron-left"></span>Index</a>
         @ModalDialogFormHelper.ModalDialogFormLink("<span class='glyphicon glyphicon-comment'></span> Provide Feedback", ViewDataTyped.ProvideFeedbackUrl, "Provide Feedback", 800, "Submit Request", "Cancel", new List<string> { "btn", "btn-xs", "btn-firma" }, null, null)

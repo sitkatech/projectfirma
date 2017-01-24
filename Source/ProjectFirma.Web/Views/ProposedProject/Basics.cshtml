@@ -42,7 +42,7 @@
 @using (Html.BeginForm())
 {
     <div class="row">
-        <div class="col-md-4 col-lg-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.ProposedTaxonomyTierOneID, 600)</div>
+        <div class="col-md-4 col-lg-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.ProposedTaxonomyTierOneID, 600, MultiTenantHelpers.GetTaxonomyTierOneDisplayName())</div>
         <div class="col-md-6">
             <div>
                 @Html.DropDownListFor(x => x.ProposedTaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, new { style = "display: inline !important; height: 0; width: 1px; border:0; box-shadow:none; color:white; overflow:hidden; margin-right:-1px; background-color: green;" })
@@ -121,13 +121,12 @@
         </div>
     </div>    
 
-    <div style="margin: 5px 0;">
-        <div class="pull-right">
-            <button class="btn btn-xs btn-firma" type="submit">Save</button>
-        </div>
-        <div>&nbsp;</div>
-    </div>
     @Html.HiddenFor(m => m.ProposedProjectID)
+
+    <hr/>
+    <div class="pull-right">
+        <button class="btn btn-xs btn-firma" type="submit">Save</button>
+    </div>
 }
 
 <script type="text/javascript">
@@ -156,7 +155,7 @@
         displaySelectedFundingTypeFields();
         jQuery(@Html.IdFor(x => x.ProposedTaxonomyTierOneID)).selectpicker(
             {
-                size: 12, title: 'Select an @MultiTenantHelpers.GetTaxonomyTierOneDisplayName()', width: '400px'
+                size: 12, title: 'Select a @MultiTenantHelpers.GetTaxonomyTierOneDisplayName()', width: '400px'
             });
         HookupCheckIfFormIsDirty(undefined, ".submitProposal");
     });

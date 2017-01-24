@@ -6,7 +6,7 @@
 @using (Html.BeginForm<ProjectImageController>(x => x.New(ViewDataTyped.Project.ProjectID, null), FormMethod.Post, new {enctype = "multipart/form-data"}))
 {
     <div class="row form-group">
-        <div class="col-md-4">@Html.LabelFor(x => x.FileResourceData): </div>
+        <div class="col-md-4">@Html.LabelFor(x => x.FileResourceData)</div>
         <div class="col-md-8">
             @Html.EditorFor(x => x.FileResourceData)
             <span class="smallExplanationText">
@@ -16,27 +16,27 @@
         </div>
     </div>
     <div class="row form-group">
-        <div class="col-md-4">@Html.LabelWithFieldDefinitionFor(x => x.Caption): </div>
+        <div class="col-md-4">@Html.LabelWithFieldDefinitionFor(x => x.Caption)</div>
         <div class="col-md-8">
             @Html.TextBoxFor(x => x.Caption, new { style = "width:380px" })
             <div class="smallExplanationText">Be concise yet still descriptive. Thumbnails above will display alphabetically by caption.</div>
         </div>
     </div>
     <div class="row form-group">
-        <div class="col-md-4">@Html.LabelWithFieldDefinitionFor(x => x.Credit): </div>
+        <div class="col-md-4">@Html.LabelWithFieldDefinitionFor(x => x.Credit)</div>
         <div class="col-md-8">
             @Html.TextBoxFor(x => x.Credit, new { style = "width:380px" })
         </div>
     </div>
     <div class="row form-group">
-        <div class="col-md-4">@Html.LabelWithFieldDefinitionFor(x => x.ProjectImageTimingID): </div>
+        <div class="col-md-4">@Html.LabelWithFieldDefinitionFor(x => x.ProjectImageTimingID)</div>
         <div class="col-md-8">
             @Html.DropDownListFor(x => x.ProjectImageTimingID, ViewDataTyped.ProjectImageTimings)
             @Html.ValidationMessageFor(x => x.ProjectImageTimingID)
         </div>
     </div>
     <div class="row form-group">
-        <div class="col-md-4">@Html.LabelWithFieldDefinitionFor(x => x.ExcludeFromFactSheet): </div>
+        <div class="col-md-4">@Html.LabelWithFieldDefinitionFor(x => x.ExcludeFromFactSheet)</div>
         <div class="col-md-8">
             @Html.CheckBoxFor(x => x.ExcludeFromFactSheet)
         </div>

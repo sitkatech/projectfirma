@@ -1,6 +1,7 @@
 ﻿@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.ProjectUpdate
 @using LtInfo.Common
+@using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Models
 @using ProjectFirma.Web.Common
@@ -123,6 +124,10 @@
     </div>
     <div id="main-container" class="col-sm-8 col-md-9">
         @RenderBody()
+        @if (ViewDataTyped.SelectedProjectUpdateSection != ProjectUpdateSectionEnum.Instructions)
+        {
+            <span><sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup> Required Field</span>
+        }       
     </div>
 </div>
 

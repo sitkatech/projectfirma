@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                             null,
                             null,
                             null,
-                            new List<string>() {"btn-firma", "btn-xs"});
+                            new List<string>() {"btn-firma", "btn-xs"}, false);
                     }
                     else if (pub.ProjectUpdateState == ProjectUpdateState.Approved)
                     {

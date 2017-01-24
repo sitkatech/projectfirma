@@ -5,4 +5,11 @@
 <p>Enter notes about this Proposed Project.</p>
 <hr/>
 
-@{ Html.RenderRazorSitkaPartial<EntityNotes, EntityNotesViewData>(ViewDataTyped.EntityNotesViewData); }
+<div style="min-height: 300px">
+    @{ Html.RenderRazorSitkaPartial<EntityNotes, EntityNotesViewData>(ViewDataTyped.EntityNotesViewData); }
+</div>
+
+<hr />
+<div class="pull-right">
+    <button class="btn btn-xs btn-firma" type="submit">Save</button>
+</div>
