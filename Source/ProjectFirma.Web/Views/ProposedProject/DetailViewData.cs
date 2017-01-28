@@ -33,7 +33,14 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
         public AssessmentTreeViewData AssessmentTreeViewData;
 
-        public DetailViewData(Person currentPerson, Models.ProposedProject proposedProject, ProjectLocationSummaryViewData projectLocationSummaryViewData, PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData, ImageGalleryViewData imageGalleryViewData, EntityNotesViewData entityNotesViewData, string mapFormID, AssessmentTreeViewData assessmentTreeViewData) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Basics, new ProposalSectionsStatus(proposedProject))
+        public DetailViewData(Person currentPerson,
+            Models.ProposedProject proposedProject,
+            ProjectLocationSummaryViewData projectLocationSummaryViewData,
+            PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData,
+            ImageGalleryViewData imageGalleryViewData,
+            EntityNotesViewData entityNotesViewData,
+            string mapFormID,
+            AssessmentTreeViewData assessmentTreeViewData) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Basics, new ProposalSectionsStatus(proposedProject))
         {
             PageTitle = proposedProject.DisplayName;
             BreadCrumbTitle = "Proposed Project Detail";

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web.Services.Protocols;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectUpdate;
@@ -10,6 +11,7 @@ using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Tag;
 
@@ -164,6 +166,10 @@ namespace ProjectFirma.Web.Views.Project
             ProjectNotificationGridSpec = projectNotificationGridSpec;
             ProjectNotificationGridName = projectNotificationGridName;
             ProjectNotificationGridDataUrl = projectNotificationGridDataUrl;
+
+            HasAssessment = HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Any();
         }
+
+        public readonly bool HasAssessment;
     }
 }

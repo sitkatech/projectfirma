@@ -93,7 +93,7 @@
                 </span>
 
             </li>
-            @if (ViewDataTyped.ProposedProject != null)
+            @if (ViewDataTyped.HasAssessments)
             {
                 <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Assessment, ViewDataTyped.SelectedProposedProjectSection)">
                     @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)

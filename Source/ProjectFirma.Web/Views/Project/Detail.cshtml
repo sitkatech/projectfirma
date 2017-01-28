@@ -312,7 +312,7 @@
                 </div>
 
                 <h2 class="sectionHeader">Project Details</h2>
-                @if (ViewDataTyped.UserHasProjectBudgetManagePermissions)
+                @if (ViewDataTyped.UserHasProjectBudgetManagePermissions && ViewDataTyped.HasAssessment)
                 {
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">

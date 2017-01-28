@@ -1,8 +1,10 @@
-﻿using ProjectFirma.Web.Controllers;
+﻿using System.Linq;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.ProposedProject
 {
@@ -35,6 +37,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public readonly bool CanAdvanceStage;
         public readonly bool ProjectStateIsValidInWizard;
 
+        public readonly bool HasAssessments;
 
         protected ProposedProjectViewData(Person currentPerson,
             Models.ProposedProject proposedProject,
@@ -76,6 +79,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
             CurrentPersonIsSubmitter = new ProposedProjectEditFeature().HasPermissionByPerson(CurrentPerson);
             CurrentPersonIsApprover = new ProposedProjectApproveFeature().HasPermissionByPerson(CurrentPerson);
+
+            HasAssessments = HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Any();
         }
 
         //New (not yet created) Proposed Projects use this constructor. Valid only for Instructions and Basics page.
