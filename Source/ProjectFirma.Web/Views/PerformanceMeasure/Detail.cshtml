@@ -121,14 +121,14 @@
                         @if (ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                         {
                             <tr>
-                                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureChartTitle, String.Format("{0} Chart Title", MultiTenantHelpers.GetPerformanceMeasureName()))</th>
+                                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureChartTitle, "Chart Title")</th>
                                 <td>
                                     @ViewDataTyped.PerformanceMeasure.ChartTitle
                                 </td>
                             </tr>
 
                             <tr>
-                                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureChartCaption, String.Format("{0} Chart Caption", MultiTenantHelpers.GetPerformanceMeasureName()))</th>
+                                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureChartCaption, "Chart Caption")</th>
                                 <td>
                                     @ViewDataTyped.PerformanceMeasure.ChartCaption.ToHTMLFormattedString()
                                 </td>
@@ -142,205 +142,146 @@
     </div>
 </div>
 
-<hr style="border-color: #ccc" />
-<div class="container-fluid">
-    <ul class="nav nav-tabs">
-        <li class="active">
-            <a role="tab" href="#overviewTab" data-toggle="tab" aria-controls="overviewTab">Overview</a>
-        </li>
-        <li>
-            <a role="tab" href="#pmTab" data-toggle="tab" aria-controls="pmTab">@MultiTenantHelpers.GetPerformanceMeasureName()</a>
-        </li>
-    </ul>
-</div>
 
-<div class="panel panel-default">
-    <div class="panel-body">
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="overviewTab">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="panel panelFirma">
-                            <div class="panel-heading panelTitle">
-                                <h2>
-                                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0} Subcategories And Subcategory Options for {1}", MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureSubcategory, "Subcategories")
-                                </h2>
-                            </div>
-                            <div class="panel-body">
-                                @if (ViewDataTyped.PerformanceMeasure.HasRealSubcategories)
-                                {
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Options</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var performanceMeasureSubcategory in ViewDataTyped.PerformanceMeasure.PerformanceMeasureSubcategories)
-                                            {
-                                                <tr>
-                                                    <td>@performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName</td>
-                                                    <td>
-                                                        <div>@string.Join(", ", performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.PerformanceMeasureSubcategoryOptionName).Select(x => x.PerformanceMeasureSubcategoryOptionName).Take(5))</div>
-                                                        @if (performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count > 5)
-                                                        {
-                                                            <a style="font-size: smaller; font-style: italic" role="button" data-toggle="collapse" data-target="#morePerformanceMeasureSubcategory@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID)Options">[@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count - 5) More Options]</a>
-                                                            <div class="collapse" id="morePerformanceMeasureSubcategory@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID)Options">@string.Join(", ", performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.PerformanceMeasureSubcategoryOptionName).Select(x => x.PerformanceMeasureSubcategoryOptionName).Skip(5))</div>
-                                                        }
-                                                    </td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                }
-                                else
-                                {
-                                    <p class="alert">No subcategories for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
-                                }
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="panel panelFirma">
-                            <div class="panel-heading panelTitle">
-                                <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditMonitoringProgramsUrl, string.Format("Edit Monitoring Programs: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgram)</h2>
-                            </div>
-                            <div class="panel-body">
-                                @if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Any())
-                                {
-                                    foreach (var a in ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms)
-                                    {
-                                        <p>
-                                            <strong>Monitoring Progeam</strong>:
-                                            @a.MonitoringProgram.DisplayNameAsUrl
-                                        </p>
-                                        <p>
-                                            <strong>Approach</strong>:
-                                            @a.MonitoringProgram.MonitoringApproach
-                                        </p>
-
-                                        <p>
-                                            <strong>Partners</strong>:
-                                            <ul>
-                                                @Html.Raw(string.Join("\r\n", a.MonitoringProgram.MonitoringProgramPartners.Select(y => y.Organization).OrderBy(x => x.DisplayName).Select(x => string.Format("<li>{0}</li>", x.GetDisplayNameAsUrl()))))
-                                            </ul>
-                                        </p>
-                                        if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Count > 1)
-                                        {
-                                            <hr />
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    <p class="alert">No monitoring programs are yet associated with this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                @if (ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0} Subcategories And Subcategory Options for {1}", MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureSubcategory, "Subcategories")
+                </h2>
+            </div>
+            <div class="panel-body">
+                @if (ViewDataTyped.PerformanceMeasure.HasRealSubcategories)
                 {
-                    <div class="panel panelFirma">
-                        <div class="panel-heading panelTitle">
-                            <h2>Change History and Rationale Notes (only visible to Administrators)</h2>
-                        </div>
-                        <div class="panel-body">
-                            @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
-                        </div>
-                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var performanceMeasureSubcategory in ViewDataTyped.PerformanceMeasure.PerformanceMeasureSubcategories)
+                            {
+                                <tr>
+                                    <td>@performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName</td>
+                                    <td>
+                                        <div>@string.Join(", ", performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.PerformanceMeasureSubcategoryOptionName).Select(x => x.PerformanceMeasureSubcategoryOptionName).Take(5))</div>
+                                        @if (performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count > 5)
+                                        {
+                                            <a style="font-size: smaller; font-style: italic" role="button" data-toggle="collapse" data-target="#morePerformanceMeasureSubcategory@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID)Options">[@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count - 5) More Options]</a>
+                                            <div class="collapse" id="morePerformanceMeasureSubcategory@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID)Options">@string.Join(", ", performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.PerformanceMeasureSubcategoryOptionName).Select(x => x.PerformanceMeasureSubcategoryOptionName).Skip(5))</div>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="alert">No subcategories for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
                 }
             </div>
+        </div>
+    </div>
 
-            <div id="pmTab" class="tab-pane active" role="tabpanel">
-                <div class="panel panelFirma">
-                    <div class="panel-heading panelTitle">
-                        <h2>Reporting Guidance</h2>
-                    </div>
-                    <div class="panel-body">
-                        <table class="summaryLayout">
-                            <tr>
-                                <th>
-                                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditCriticalDefinitionsUrl, string.Format("Edit Critical Definitions: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                                    @MultiTenantHelpers.GetPerformanceMeasureName() Critical Definitions
-                                </th>
-                            </tr>
-                            <tr>
-                                <td style="padding-left: 28px">
-                                    @ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAccountingPeriodAndScaleUrl, string.Format("Edit Accounting Period and Scale: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                                    @MultiTenantHelpers.GetPerformanceMeasureName() Accounting Period And Scale
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>
-                                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit Project Reporting: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                                    @MultiTenantHelpers.GetPerformanceMeasureName() Project Reporting
-                                </th>
-                            </tr>
-                            <tr>
-                                <td style="padding-left: 28px">
-                                    @ViewDataTyped.PerformanceMeasure.ProjectReportingHtmlString
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+    <div class="col-md-6">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditMonitoringProgramsUrl, string.Format("Edit Monitoring Programs: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgram)</h2>
+            </div>
+            <div class="panel-body">
+                @if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Any())
+                {
+                    foreach (var a in ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms)
+                    {
+                        <p>
+                            <strong>Monitoring Program</strong>:
+                            @a.MonitoringProgram.DisplayNameAsUrl
+                        </p>
+                        <p>
+                            <strong>Approach</strong>:
+                            @a.MonitoringProgram.MonitoringApproach
+                        </p>
 
-                <div class="panel panelFirma">
-                    <div class="panel-heading panelTitle">
-                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwosUrl, string.Format("Edit {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()), ViewDataTyped.UserHasTaxonomyTierTwoPerformanceMeasureManagePermissions) @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</h2>
-                    </div>
-                    <div class="panel-body">
-                        @if (ViewDataTyped.TaxonomyTierTwoPerformanceMeasures.Any())
+                        <p>
+                            <strong>Partners</strong>:
+                            <ul>
+                                @Html.Raw(string.Join("\r\n", a.MonitoringProgram.MonitoringProgramPartners.Select(y => y.Organization).OrderBy(x => x.DisplayName).Select(x => string.Format("<li>{0}</li>", x.GetDisplayNameAsUrl()))))
+                            </ul>
+                        </p>
+                        if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Count > 1)
                         {
-                            <table class="summaryLayout">
-                                <tr>
-                                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</th>
-                                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryTaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()))</th>
-                                </tr>
-                                @foreach (var taxonomyTierTwoPerformanceMeasure in ViewDataTyped.TaxonomyTierTwoPerformanceMeasures)
-                                {
-                                    <tr>
-                                        <td>@taxonomyTierTwoPerformanceMeasure.Key.GetDisplayNameAsUrl()</td>
-                                        <td style="text-align: center">@taxonomyTierTwoPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
-                                    </tr>
-                                }
-                            </table>
+                            <hr />
                         }
-                        else
-                        {
-                            <p class="alert">No @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() set for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
-                        }
-                    </div>
-                </div>
-
-                <div class="panel panelFirma">
-                    <div class="panel-heading panelTitle">
-                        <h2>Projects (As Expected Measure)</h2>
-                    </div>
-                    <div class="panel-body">
-                        @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureExpectedGridSpec, ViewDataTyped.PerformanceMeasureExpectedsGridName, ViewDataTyped.PerformanceMeasureExpectedsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                    </div>
-                </div>
-
-                <div class="panel panelFirma">
-                    <div class="panel-heading panelTitle">
-                        <h2>Projects (As Reported Measure)</h2>
-                    </div>
-                    <div class="panel-body">
-                        @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                    </div>
-                </div>
+                    }
+                }
+                else
+                {
+                    <p class="alert">No monitoring programs are yet associated with this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
+                }
             </div>
         </div>
     </div>
 </div>
+
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwosUrl, string.Format("Edit {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()), ViewDataTyped.UserHasTaxonomyTierTwoPerformanceMeasureManagePermissions) @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</h2>
+    </div>
+    <div class="panel-body">
+        @if (ViewDataTyped.TaxonomyTierTwoPerformanceMeasures.Any())
+        {
+            <table class="summaryLayout">
+                <tr>
+                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</th>
+                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryTaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()))</th>
+                </tr>
+                @foreach (var taxonomyTierTwoPerformanceMeasure in ViewDataTyped.TaxonomyTierTwoPerformanceMeasures)
+                {
+                    <tr>
+                        <td>@taxonomyTierTwoPerformanceMeasure.Key.GetDisplayNameAsUrl()</td>
+                        <td style="text-align: center">@taxonomyTierTwoPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <p class="alert">No @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() set for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
+        }
+    </div>
+</div>
+
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>Expected Performance Measure Results per Project</h2>
+    </div>
+    <div class="panel-body">
+        @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureExpectedGridSpec, ViewDataTyped.PerformanceMeasureExpectedsGridName, ViewDataTyped.PerformanceMeasureExpectedsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+    </div>
+</div>
+
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>Reported Performance Measure Results per Project</h2>
+    </div>
+    <div class="panel-body">
+        @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+    </div>
+</div>
+
+@if (ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+{
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>Change History and Rationale Notes (only visible to Administrators)</h2>
+        </div>
+        <div class="panel-body">
+            @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
+        </div>
+    </div>
+}
