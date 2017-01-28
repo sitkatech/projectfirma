@@ -49,7 +49,7 @@
 {
     <div class="container-fluid container-fluid-dialog-form">
         <div class="row">
-            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneID, 600, MultiTenantHelpers.GetTaxonomyTierOneDisplayName())</div>
+            <div class="col-md-3 col-header">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneID, 600, MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject())</div>
             <div class="col-md-9">
                 @Html.DropDownListFor(x => x.TaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, new { style = "display: inline !important; height: 0; width: 1px; border:0; box-shadow:none; color:white; overflow:hidden; margin-right:-1px;" })
                 @Html.ValidationMessageFor(m => m.TaxonomyTierOneID)
@@ -165,7 +165,7 @@
         displaySelectedFundingTypeFields();
         jQuery("#@Html.IdFor(x => x.TaxonomyTierOneID)").selectpicker(
             {
-                size: 12, title: 'Select a @MultiTenantHelpers.GetTaxonomyTierOneDisplayName()', width: '400px'
+                size: 12, title: 'Select the @MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject()', width: '400px'
             });
     });
     // ]]>

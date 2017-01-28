@@ -138,7 +138,7 @@
     </div>
     <div class="panel-body">
         <select class="performanceMeasureTableSelector" name="performanceMeasureTable">
-            <option value="">Select a @MultiTenantHelpers.GetPerformanceMeasureName()</option>
+            <option value="">Select the @MultiTenantHelpers.GetPerformanceMeasureName()</option>
             @foreach (var performanceMeasure in ViewDataTyped.Snapshot.SnapshotPerformanceMeasures.Select(x => x.PerformanceMeasure).Distinct())
             {
                 <option value="@performanceMeasure.PerformanceMeasureID">@performanceMeasure.PerformanceMeasureDisplayName</option>

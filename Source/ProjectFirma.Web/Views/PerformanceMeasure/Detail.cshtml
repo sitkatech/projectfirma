@@ -49,12 +49,12 @@
     </style>
 }
 
-@section RightOfPageTitle
-{
-    <div>
-        <a class="btn" href="@ViewDataTyped.PerformanceMeasure.GetInfoSheetUrl()">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Info Sheet</a>
-    </div>
-}
+@*@section RightOfPageTitle
+    {
+        <div>
+            <a class="btn" href="@ViewDataTyped.PerformanceMeasure.GetInfoSheetUrl()">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Info Sheet</a>
+        </div>
+    }*@
 <div>
     <a class="btn backButton" href="@ViewDataTyped.IndexUrl">
         @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left")
@@ -90,6 +90,32 @@
                 </div>
             </div>
         </div>
+
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>Reporting Guidance</h2>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel">
+                        Critical Definitions @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditCriticalDefinitionsUrl, string.Format("Edit Critical Definitions: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                    </div>
+                    <div class="col-xs-7">
+                        @ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel">
+                        Project Reporting Instructions @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit Project Reporting: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                    </div>                
+                    <div class="col-xs-7">
+                        @ViewDataTyped.PerformanceMeasure.ProjectReportingHtmlString
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
     <div class="col-lg-6 col-md-7">
         <div class="panel panelFirma">
@@ -182,7 +208,7 @@
                 }
                 else
                 {
-                    <p class="alert">No subcategories for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
+                    <p class="alert">No Subcategories for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
                 }
             </div>
         </div>
@@ -191,70 +217,71 @@
     <div class="col-md-6">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditMonitoringProgramsUrl, string.Format("Edit Monitoring Programs: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgram)</h2>
+                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwosUrl, string.Format("Edit {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()), ViewDataTyped.UserHasTaxonomyTierTwoPerformanceMeasureManagePermissions) @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</h2>
             </div>
             <div class="panel-body">
-                @if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Any())
+                @if (ViewDataTyped.TaxonomyTierTwoPerformanceMeasures.Any())
                 {
-                    foreach (var a in ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms)
-                    {
-                        <p>
-                            <strong>Monitoring Program</strong>:
-                            @a.MonitoringProgram.DisplayNameAsUrl
-                        </p>
-                        <p>
-                            <strong>Approach</strong>:
-                            @a.MonitoringProgram.MonitoringApproach
-                        </p>
-
-                        <p>
-                            <strong>Partners</strong>:
-                            <ul>
-                                @Html.Raw(string.Join("\r\n", a.MonitoringProgram.MonitoringProgramPartners.Select(y => y.Organization).OrderBy(x => x.DisplayName).Select(x => string.Format("<li>{0}</li>", x.GetDisplayNameAsUrl()))))
-                            </ul>
-                        </p>
-                        if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Count > 1)
+                    <table class="summaryLayout">
+                        <tr>
+                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</th>
+                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryTaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()))</th>
+                        </tr>
+                        @foreach (var taxonomyTierTwoPerformanceMeasure in ViewDataTyped.TaxonomyTierTwoPerformanceMeasures)
                         {
-                            <hr />
+                            <tr>
+                                <td>@taxonomyTierTwoPerformanceMeasure.Key.GetDisplayNameAsUrl()</td>
+                                <td style="text-align: center">@taxonomyTierTwoPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
+                            </tr>
                         }
-                    }
+                    </table>
                 }
                 else
                 {
-                    <p class="alert">No monitoring programs are yet associated with this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
+                    <p class="alert">No @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() set for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
                 }
             </div>
         </div>
+
     </div>
 </div>
 
-<div class="panel panelFirma">
-    <div class="panel-heading panelTitle">
-        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwosUrl, string.Format("Edit {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()), ViewDataTyped.UserHasTaxonomyTierTwoPerformanceMeasureManagePermissions) @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</h2>
-    </div>
-    <div class="panel-body">
-        @if (ViewDataTyped.TaxonomyTierTwoPerformanceMeasures.Any())
-        {
-            <table class="summaryLayout">
-                <tr>
-                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</th>
-                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryTaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()))</th>
-                </tr>
-                @foreach (var taxonomyTierTwoPerformanceMeasure in ViewDataTyped.TaxonomyTierTwoPerformanceMeasures)
+@*<div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditMonitoringProgramsUrl, string.Format("Edit Monitoring Programs: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgram)</h2>
+        </div>
+        <div class="panel-body">
+            @if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Any())
+            {
+                foreach (var a in ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms)
                 {
-                    <tr>
-                        <td>@taxonomyTierTwoPerformanceMeasure.Key.GetDisplayNameAsUrl()</td>
-                        <td style="text-align: center">@taxonomyTierTwoPerformanceMeasure.Value.ToCheckboxImageOrEmpty()</td>
-                    </tr>
+                    <p>
+                        <strong>Monitoring Program</strong>:
+                        @a.MonitoringProgram.DisplayNameAsUrl
+                    </p>
+                    <p>
+                        <strong>Approach</strong>:
+                        @a.MonitoringProgram.MonitoringApproach
+                    </p>
+
+                    <p>
+                        <strong>Partners</strong>:
+                        <ul>
+                            @Html.Raw(string.Join("\r\n", a.MonitoringProgram.MonitoringProgramPartners.Select(y => y.Organization).OrderBy(x => x.DisplayName).Select(x => string.Format("<li>{0}</li>", x.GetDisplayNameAsUrl()))))
+                        </ul>
+                    </p>
+                    if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Count > 1)
+                    {
+                        <hr />
+                    }
                 }
-            </table>
-        }
-        else
-        {
-            <p class="alert">No @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() set for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
-        }
-    </div>
-</div>
+            }
+            else
+            {
+                <p class="alert">No monitoring programs are yet associated with this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
+            }
+        </div>
+    </div>*@
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">

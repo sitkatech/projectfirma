@@ -38,6 +38,12 @@ namespace ProjectFirma.Web.Common
             return "Limiting Factors";
         }
 
+        public static string GetTaxonomyTierOneDisplayNameForProject()
+        {
+            return "Primary Limiting Factor";
+        }
+
+
         public static string GetPerformanceMeasureName()
         {
             return "Performance Measure";
