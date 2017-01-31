@@ -25,6 +25,9 @@ namespace LtInfo.Common.GeoJson
                     return new Feature(MultiLineStringFromDbGeometry(inp));
                 case "LineString":
                     return new Feature(LineStringFromDbGeometry(inp));
+                case "GeometryCollection":
+                    SitkaLogger.Instance.LogDetailedErrorMessage("Error parsing geometry: " + inp.SpatialTypeName);
+                    throw new NotImplementedException();
                 default:
                     throw new NotImplementedException();
             }
@@ -123,5 +126,11 @@ namespace LtInfo.Common.GeoJson
             }
             return multiPolygon;
         }
+
+        public static bool CanParseGeometry(DbGeometry geometry)
+        {
+            return geometry != null && geometry.IsValid && geometry.SpatialTypeName != "GeometryCollection";
+        }
+
     }
 }

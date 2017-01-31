@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GdalOgr;
+using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Models
@@ -116,6 +117,11 @@ namespace ProjectFirma.Web.Models
 
         private static List<Point> MakeBoundingBoxFromDbGeometry(DbGeometry geometry)
         {
+            if (!DbGeometryToGeoJsonHelper.CanParseGeometry(geometry))
+            {
+                return new List<Point> { MultiTenantHelpers.GetDefaultSouthWestPoint(), MultiTenantHelpers.GetDefaultNorthEastPoint() };
+            }
+
             var pointCount = geometry.Envelope.ElementAt(1).PointCount.Value;
             var envelope = geometry.Envelope.ElementAt(1);
             var pointList = new List<Point>();
