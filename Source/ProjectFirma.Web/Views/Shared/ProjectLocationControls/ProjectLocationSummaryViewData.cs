@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             ProjectLocationSummaryMapInitJson = projectLocationSummaryMapInitJson;
 
             HasLocationNotes = !string.IsNullOrWhiteSpace(project.ProjectLocationNotes);
-            HasLocationInformation = project.ProjectLocationSimpleType != ProjectLocationSimpleType.None || projectLocationSummaryMapInitJson.HasDetailedLocation;
+            HasLocationInformation = project.ProjectLocationSimpleType != ProjectLocationSimpleType.None;
         }
     }
 }
