@@ -10,6 +10,7 @@ CREATE TABLE [dbo].[PerformanceMeasureNote](
 	[CreateDate] [datetime] NOT NULL,
 	[UpdatePersonID] [int] NULL,
 	[UpdateDate] [datetime] NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_PerformanceMeasureNote_PerformanceMeasureNoteID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureNoteID] ASC
@@ -36,3 +37,8 @@ ALTER TABLE [dbo].[PerformanceMeasureNote]  WITH CHECK ADD  CONSTRAINT [FK_Perfo
 REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasureNote] CHECK CONSTRAINT [FK_PerformanceMeasureNote_Person_UpdatePersonID_PersonID]
+GO
+ALTER TABLE [dbo].[PerformanceMeasureNote]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureNote_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasureNote] CHECK CONSTRAINT [FK_PerformanceMeasureNote_Tenant_TenantID]

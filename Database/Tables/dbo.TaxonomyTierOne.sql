@@ -8,6 +8,7 @@ CREATE TABLE [dbo].[TaxonomyTierOne](
 	[TaxonomyTierOneName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[TaxonomyTierOneDescription] [dbo].[html] NULL,
 	[TaxonomyTierOneCode] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_TaxonomyTierOne_TaxonomyTierOneID] PRIMARY KEY CLUSTERED 
 (
 	[TaxonomyTierOneID] ASC
@@ -23,3 +24,8 @@ ALTER TABLE [dbo].[TaxonomyTierOne]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTier
 REFERENCES [dbo].[TaxonomyTierTwo] ([TaxonomyTierTwoID])
 GO
 ALTER TABLE [dbo].[TaxonomyTierOne] CHECK CONSTRAINT [FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID]
+GO
+ALTER TABLE [dbo].[TaxonomyTierOne]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierOne_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[TaxonomyTierOne] CHECK CONSTRAINT [FK_TaxonomyTierOne_Tenant_TenantID]

@@ -11,6 +11,7 @@ CREATE TABLE [dbo].[FileResource](
 	[FileResourceData] [varbinary](max) NOT NULL,
 	[CreatePersonID] [int] NOT NULL,
 	[CreateDate] [datetime] NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_FileResource_FileResourceID] PRIMARY KEY CLUSTERED 
 (
 	[FileResourceID] ASC
@@ -31,3 +32,8 @@ ALTER TABLE [dbo].[FileResource]  WITH CHECK ADD  CONSTRAINT [FK_FileResource_Pe
 REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[FileResource] CHECK CONSTRAINT [FK_FileResource_Person_CreatePersonID_PersonID]
+GO
+ALTER TABLE [dbo].[FileResource]  WITH CHECK ADD  CONSTRAINT [FK_FileResource_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[FileResource] CHECK CONSTRAINT [FK_FileResource_Tenant_TenantID]

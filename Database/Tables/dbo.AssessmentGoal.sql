@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[AssessmentGoal](
 	[AssessmentGoalNumber] [int] NOT NULL,
 	[AssessmentGoalTitle] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[AssessmentGoalDescription] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_AssessmentGoal_AssessmentGoalID] PRIMARY KEY CLUSTERED 
 (
 	[AssessmentGoalID] ASC
@@ -20,3 +21,9 @@ CREATE TABLE [dbo].[AssessmentGoal](
 	[AssessmentGoalTitle] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
+GO
+ALTER TABLE [dbo].[AssessmentGoal]  WITH CHECK ADD  CONSTRAINT [FK_AssessmentGoal_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[AssessmentGoal] CHECK CONSTRAINT [FK_AssessmentGoal_Tenant_TenantID]

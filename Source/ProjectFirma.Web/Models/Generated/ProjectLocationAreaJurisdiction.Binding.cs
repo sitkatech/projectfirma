@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectLocationAreaJurisdiction]")]
-    public partial class ProjectLocationAreaJurisdiction : IHavePrimaryKey
+    public partial class ProjectLocationAreaJurisdiction : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -89,10 +89,12 @@ namespace ProjectFirma.Web.Models
         public int ProjectLocationAreaJurisdictionID { get; set; }
         public int ProjectLocationAreaID { get; set; }
         public int JurisdictionID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectLocationAreaJurisdictionID; } set { ProjectLocationAreaJurisdictionID = value; } }
 
         public virtual ProjectLocationArea ProjectLocationArea { get; set; }
         public virtual Jurisdiction Jurisdiction { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

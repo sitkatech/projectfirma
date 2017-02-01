@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[Watershed]")]
-    public partial class Watershed : IHavePrimaryKey
+    public partial class Watershed : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -76,11 +76,13 @@ namespace ProjectFirma.Web.Models
         public int WatershedID { get; set; }
         public string WatershedName { get; set; }
         public DbGeometry WatershedFeature { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return WatershedID; } set { WatershedID = value; } }
 
         public virtual ICollection<ProjectLocationArea> ProjectLocationAreas { get; set; }
         public virtual ICollection<ProjectLocationAreaWatershed> ProjectLocationAreaWatersheds { get; set; }
         public virtual ICollection<ProjectWatershed> ProjectWatersheds { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

@@ -10,6 +10,7 @@ CREATE TABLE [dbo].[ProjectLocationStagingUpdate](
 	[GeoJson] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[SelectedProperty] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ShouldImport] [bit] NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectLocationStagingUpdate_ProjectLocationStagingUpdateID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectLocationStagingUpdateID] ASC
@@ -27,3 +28,8 @@ ALTER TABLE [dbo].[ProjectLocationStagingUpdate]  WITH CHECK ADD  CONSTRAINT [FK
 REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID])
 GO
 ALTER TABLE [dbo].[ProjectLocationStagingUpdate] CHECK CONSTRAINT [FK_ProjectLocationStagingUpdate_ProjectUpdateBatch_ProjectUpdateBatchID]
+GO
+ALTER TABLE [dbo].[ProjectLocationStagingUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationStagingUpdate_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[ProjectLocationStagingUpdate] CHECK CONSTRAINT [FK_ProjectLocationStagingUpdate_Tenant_TenantID]

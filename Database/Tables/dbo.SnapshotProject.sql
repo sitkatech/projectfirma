@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[SnapshotProject](
 	[SnapshotID] [int] NOT NULL,
 	[ProjectID] [int] NOT NULL,
 	[SnapshotProjectTypeID] [int] NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_SnapshotProject_SnapshotProjectID] PRIMARY KEY CLUSTERED 
 (
 	[SnapshotProjectID] ASC
@@ -28,3 +29,8 @@ ALTER TABLE [dbo].[SnapshotProject]  WITH CHECK ADD  CONSTRAINT [FK_SnapshotProj
 REFERENCES [dbo].[SnapshotProjectType] ([SnapshotProjectTypeID])
 GO
 ALTER TABLE [dbo].[SnapshotProject] CHECK CONSTRAINT [FK_SnapshotProject_SnapshotProjectType_SnapshotProjectTypeID]
+GO
+ALTER TABLE [dbo].[SnapshotProject]  WITH CHECK ADD  CONSTRAINT [FK_SnapshotProject_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[SnapshotProject] CHECK CONSTRAINT [FK_SnapshotProject_Tenant_TenantID]

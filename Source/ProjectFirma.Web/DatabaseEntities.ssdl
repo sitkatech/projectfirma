@@ -93,22 +93,43 @@
     <EntitySet Name="TaxonomyTierTwo" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierTwo" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyTierTwoImage" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierTwoImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyTierTwoPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierTwoPerformanceMeasure" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Tenant" EntityType="ProjectFirma.Web.Models.Store.Tenant" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Store.Watershed" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_AssessmentGoal_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_AssessmentGoal_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="AssessmentGoals" EntitySet="AssessmentGoal" />
+    </AssociationSet>
     <AssociationSet Name="FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID" Association="ProjectFirma.Web.Models.Store.FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID">
       <End Role="AssessmentSubGoal" EntitySet="AssessmentSubGoal" />
+      <End Role="AssessmentQuestions" EntitySet="AssessmentQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AssessmentQuestion_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_AssessmentQuestion_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="AssessmentQuestions" EntitySet="AssessmentQuestion" />
     </AssociationSet>
     <AssociationSet Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID" Association="ProjectFirma.Web.Models.Store.FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
       <End Role="AssessmentGoal" EntitySet="AssessmentGoal" />
       <End Role="AssessmentSubGoals" EntitySet="AssessmentSubGoal" />
     </AssociationSet>
+    <AssociationSet Name="FK_AssessmentSubGoal_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_AssessmentSubGoal_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="AssessmentSubGoals" EntitySet="AssessmentSubGoal" />
+    </AssociationSet>
     <AssociationSet Name="FK_AuditLog_Person_PersonID" Association="ProjectFirma.Web.Models.Store.FK_AuditLog_Person_PersonID">
       <End Role="Person" EntitySet="Person" />
+      <End Role="AuditLogs" EntitySet="AuditLog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AuditLog_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_AuditLog_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="AuditLogs" EntitySet="AuditLog" />
     </AssociationSet>
     <AssociationSet Name="FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID">
       <End Role="KeyImageFileResource" EntitySet="FileResource" />
       <End Role="ClassificationsWhereYouAreTheKeyImageFileResource" EntitySet="Classification" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Classification_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_Classification_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="Classifications" EntitySet="Classification" />
     </AssociationSet>
     <AssociationSet Name="FK_ClassificationImage_Classification_ClassificationID" Association="ProjectFirma.Web.Models.Store.FK_ClassificationImage_Classification_ClassificationID">
       <End Role="Classification" EntitySet="Classification" />
@@ -116,6 +137,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_ClassificationImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ClassificationImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
+      <End Role="ClassificationImages" EntitySet="ClassificationImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ClassificationImage_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ClassificationImage_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ClassificationImages" EntitySet="ClassificationImage" />
     </AssociationSet>
     <AssociationSet Name="FK_ClassificationPerformanceMeasure_Classification_ClassificationID" Association="ProjectFirma.Web.Models.Store.FK_ClassificationPerformanceMeasure_Classification_ClassificationID">
@@ -126,17 +151,45 @@
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="ClassificationPerformanceMeasures" EntitySet="ClassificationPerformanceMeasure" />
     </AssociationSet>
+    <AssociationSet Name="FK_ClassificationPerformanceMeasure_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ClassificationPerformanceMeasure_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ClassificationPerformanceMeasures" EntitySet="ClassificationPerformanceMeasure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CostParameterSet_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_CostParameterSet_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="CostParameterSets" EntitySet="CostParameterSet" />
+    </AssociationSet>
     <AssociationSet Name="FK_County_StateProvince_StateProvinceID" Association="ProjectFirma.Web.Models.Store.FK_County_StateProvince_StateProvinceID">
       <End Role="StateProvince" EntitySet="StateProvince" />
       <End Role="Counties" EntitySet="County" />
+    </AssociationSet>
+    <AssociationSet Name="FK_County_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_County_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="Counties" EntitySet="County" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FieldDefinitionData_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_FieldDefinitionData_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="FieldDefinitionDatas" EntitySet="FieldDefinitionData" />
     </AssociationSet>
     <AssociationSet Name="FK_FieldDefinitionImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_FieldDefinitionImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="FieldDefinitionImages" EntitySet="FieldDefinitionImage" />
     </AssociationSet>
+    <AssociationSet Name="FK_FieldDefinitionImage_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_FieldDefinitionImage_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="FieldDefinitionImages" EntitySet="FieldDefinitionImage" />
+    </AssociationSet>
     <AssociationSet Name="FK_FileResource_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_FileResource_Person_CreatePersonID_PersonID">
       <End Role="CreatePerson" EntitySet="Person" />
       <End Role="FileResourcesWhereYouAreTheCreatePerson" EntitySet="FileResource" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FileResource_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_FileResource_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="FileResources" EntitySet="FileResource" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FirmaPage_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_FirmaPage_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="FirmaPages" EntitySet="FirmaPage" />
     </AssociationSet>
     <AssociationSet Name="FK_FirmaPageImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_FirmaPageImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
@@ -146,8 +199,16 @@
       <End Role="FirmaPage" EntitySet="FirmaPage" />
       <End Role="FirmaPageImages" EntitySet="FirmaPageImage" />
     </AssociationSet>
+    <AssociationSet Name="FK_FirmaPageImage_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_FirmaPageImage_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="FirmaPageImages" EntitySet="FirmaPageImage" />
+    </AssociationSet>
     <AssociationSet Name="FK_FundingSource_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_FundingSource_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
+      <End Role="FundingSources" EntitySet="FundingSource" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FundingSource_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_FundingSource_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="FundingSources" EntitySet="FundingSource" />
     </AssociationSet>
     <AssociationSet Name="FK_Jurisdiction_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_Jurisdiction_Organization_OrganizationID">
@@ -158,12 +219,28 @@
       <End Role="StateProvince" EntitySet="StateProvince" />
       <End Role="Jurisdictions" EntitySet="Jurisdiction" />
     </AssociationSet>
+    <AssociationSet Name="FK_Jurisdiction_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_Jurisdiction_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="Jurisdictions" EntitySet="Jurisdiction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MappedRegion_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_MappedRegion_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="MappedRegions" EntitySet="MappedRegion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MonitoringProgram_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_MonitoringProgram_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="MonitoringPrograms" EntitySet="MonitoringProgram" />
+    </AssociationSet>
     <AssociationSet Name="FK_MonitoringProgramDocument_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_MonitoringProgramDocument_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="MonitoringProgramDocuments" EntitySet="MonitoringProgramDocument" />
     </AssociationSet>
     <AssociationSet Name="FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID" Association="ProjectFirma.Web.Models.Store.FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID">
       <End Role="MonitoringProgram" EntitySet="MonitoringProgram" />
+      <End Role="MonitoringProgramDocuments" EntitySet="MonitoringProgramDocument" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MonitoringProgramDocument_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_MonitoringProgramDocument_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="MonitoringProgramDocuments" EntitySet="MonitoringProgramDocument" />
     </AssociationSet>
     <AssociationSet Name="FK_MonitoringProgramPartner_MonitoringProgram_MonitoringProgramID" Association="ProjectFirma.Web.Models.Store.FK_MonitoringProgramPartner_MonitoringProgram_MonitoringProgramID">
@@ -174,8 +251,16 @@
       <End Role="Organization" EntitySet="Organization" />
       <End Role="MonitoringProgramPartners" EntitySet="MonitoringProgramPartner" />
     </AssociationSet>
+    <AssociationSet Name="FK_MonitoringProgramPartner_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_MonitoringProgramPartner_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="MonitoringProgramPartners" EntitySet="MonitoringProgramPartner" />
+    </AssociationSet>
     <AssociationSet Name="FK_Notification_Person_PersonID" Association="ProjectFirma.Web.Models.Store.FK_Notification_Person_PersonID">
       <End Role="Person" EntitySet="Person" />
+      <End Role="Notifications" EntitySet="Notification" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Notification_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_Notification_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="Notifications" EntitySet="Notification" />
     </AssociationSet>
     <AssociationSet Name="FK_NotificationProject_Notification_NotificationID" Association="ProjectFirma.Web.Models.Store.FK_NotificationProject_Notification_NotificationID">
@@ -186,12 +271,20 @@
       <End Role="Project" EntitySet="Project" />
       <End Role="NotificationProjects" EntitySet="NotificationProject" />
     </AssociationSet>
+    <AssociationSet Name="FK_NotificationProject_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_NotificationProject_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="NotificationProjects" EntitySet="NotificationProject" />
+    </AssociationSet>
     <AssociationSet Name="FK_NotificationProposedProject_Notification_NotificationID" Association="ProjectFirma.Web.Models.Store.FK_NotificationProposedProject_Notification_NotificationID">
       <End Role="Notification" EntitySet="Notification" />
       <End Role="NotificationProposedProjects" EntitySet="NotificationProposedProject" />
     </AssociationSet>
     <AssociationSet Name="FK_NotificationProposedProject_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_NotificationProposedProject_ProposedProject_ProposedProjectID">
       <End Role="ProposedProject" EntitySet="ProposedProject" />
+      <End Role="NotificationProposedProjects" EntitySet="NotificationProposedProject" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NotificationProposedProject_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_NotificationProposedProject_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="NotificationProposedProjects" EntitySet="NotificationProposedProject" />
     </AssociationSet>
     <AssociationSet Name="FK_Organization_FileResource_LogoFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_Organization_FileResource_LogoFileResourceID_FileResourceID">
@@ -202,12 +295,24 @@
       <End Role="PrimaryContactPerson" EntitySet="Person" />
       <End Role="OrganizationsWhereYouAreThePrimaryContactPerson" EntitySet="Organization" />
     </AssociationSet>
+    <AssociationSet Name="FK_Organization_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_Organization_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="Organizations" EntitySet="Organization" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasure_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasure_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="PerformanceMeasures" EntitySet="PerformanceMeasure" />
+    </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="PerformanceMeasureActuals" EntitySet="PerformanceMeasureActual" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActual_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActual_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
+      <End Role="PerformanceMeasureActuals" EntitySet="PerformanceMeasureActual" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureActual_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActual_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="PerformanceMeasureActuals" EntitySet="PerformanceMeasureActual" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasure_PerformanceMeasureID">
@@ -226,6 +331,10 @@
       <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
       <End Role="PerformanceMeasureActualSubcategoryOptions" EntitySet="PerformanceMeasureActualSubcategoryOption" />
     </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOption_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualSubcategoryOption_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="PerformanceMeasureActualSubcategoryOptions" EntitySet="PerformanceMeasureActualSubcategoryOption" />
+    </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" EntitySet="PerformanceMeasureActualSubcategoryOptionUpdate" />
@@ -242,12 +351,20 @@
       <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
       <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" EntitySet="PerformanceMeasureActualSubcategoryOptionUpdate" />
     </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualSubcategoryOptionUpdate_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" EntitySet="PerformanceMeasureActualSubcategoryOptionUpdate" />
+    </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActualUpdate_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualUpdate_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="PerformanceMeasureActualUpdates" EntitySet="PerformanceMeasureActualUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActualUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
+      <End Role="PerformanceMeasureActualUpdates" EntitySet="PerformanceMeasureActualUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureActualUpdate_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActualUpdate_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="PerformanceMeasureActualUpdates" EntitySet="PerformanceMeasureActualUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureExpected_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpected_PerformanceMeasure_PerformanceMeasureID">
@@ -258,12 +375,20 @@
       <End Role="Project" EntitySet="Project" />
       <End Role="PerformanceMeasureExpecteds" EntitySet="PerformanceMeasureExpected" />
     </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureExpected_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpected_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="PerformanceMeasureExpecteds" EntitySet="PerformanceMeasureExpected" />
+    </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="PerformanceMeasureExpectedProposeds" EntitySet="PerformanceMeasureExpectedProposed" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID">
       <End Role="ProposedProject" EntitySet="ProposedProject" />
+      <End Role="PerformanceMeasureExpectedProposeds" EntitySet="PerformanceMeasureExpectedProposed" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureExpectedProposed_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedProposed_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="PerformanceMeasureExpectedProposeds" EntitySet="PerformanceMeasureExpectedProposed" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID">
@@ -282,6 +407,10 @@
       <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
       <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
     </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOption_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOption_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="PerformanceMeasureExpectedSubcategoryOptions" EntitySet="PerformanceMeasureExpectedSubcategoryOption" />
+    </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
@@ -298,12 +427,20 @@
       <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
       <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
     </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" EntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed" />
+    </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID">
       <End Role="MonitoringProgram" EntitySet="MonitoringProgram" />
       <End Role="PerformanceMeasureMonitoringPrograms" EntitySet="PerformanceMeasureMonitoringProgram" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
+      <End Role="PerformanceMeasureMonitoringPrograms" EntitySet="PerformanceMeasureMonitoringProgram" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureMonitoringProgram_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureMonitoringProgram_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="PerformanceMeasureMonitoringPrograms" EntitySet="PerformanceMeasureMonitoringProgram" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID">
@@ -318,16 +455,32 @@
       <End Role="UpdatePerson" EntitySet="Person" />
       <End Role="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" EntitySet="PerformanceMeasureNote" />
     </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureNote_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureNote_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="PerformanceMeasureNotes" EntitySet="PerformanceMeasureNote" />
+    </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
+      <End Role="PerformanceMeasureSubcategories" EntitySet="PerformanceMeasureSubcategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureSubcategory_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureSubcategory_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="PerformanceMeasureSubcategories" EntitySet="PerformanceMeasureSubcategory" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID">
       <End Role="PerformanceMeasureSubcategory" EntitySet="PerformanceMeasureSubcategory" />
       <End Role="PerformanceMeasureSubcategoryOptions" EntitySet="PerformanceMeasureSubcategoryOption" />
     </AssociationSet>
+    <AssociationSet Name="FK_PerformanceMeasureSubcategoryOption_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureSubcategoryOption_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="PerformanceMeasureSubcategoryOptions" EntitySet="PerformanceMeasureSubcategoryOption" />
+    </AssociationSet>
     <AssociationSet Name="FK_Person_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_Person_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
+      <End Role="People" EntitySet="Person" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Person_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_Person_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="People" EntitySet="Person" />
     </AssociationSet>
     <AssociationSet Name="FK_Project_ProjectLocationArea_ProjectLocationAreaID" Association="ProjectFirma.Web.Models.Store.FK_Project_ProjectLocationArea_ProjectLocationAreaID">
@@ -338,12 +491,20 @@
       <End Role="TaxonomyTierOne" EntitySet="TaxonomyTierOne" />
       <End Role="Projects" EntitySet="Project" />
     </AssociationSet>
+    <AssociationSet Name="FK_Project_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_Project_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="Projects" EntitySet="Project" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" Association="ProjectFirma.Web.Models.Store.FK_ProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID">
       <End Role="AssessmentQuestion" EntitySet="AssessmentQuestion" />
       <End Role="ProjectAssessmentQuestions" EntitySet="ProjectAssessmentQuestion" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectAssessmentQuestion_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectAssessmentQuestion_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectAssessmentQuestions" EntitySet="ProjectAssessmentQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectAssessmentQuestion_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectAssessmentQuestion_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ProjectAssessmentQuestions" EntitySet="ProjectAssessmentQuestion" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectBudget_FundingSource_FundingSourceID" Association="ProjectFirma.Web.Models.Store.FK_ProjectBudget_FundingSource_FundingSourceID">
@@ -354,12 +515,20 @@
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectBudgets" EntitySet="ProjectBudget" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectBudget_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectBudget_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectBudgets" EntitySet="ProjectBudget" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectBudgetUpdate_FundingSource_FundingSourceID" Association="ProjectFirma.Web.Models.Store.FK_ProjectBudgetUpdate_FundingSource_FundingSourceID">
       <End Role="FundingSource" EntitySet="FundingSource" />
       <End Role="ProjectBudgetUpdates" EntitySet="ProjectBudgetUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
+      <End Role="ProjectBudgetUpdates" EntitySet="ProjectBudgetUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectBudgetUpdate_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectBudgetUpdate_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ProjectBudgetUpdates" EntitySet="ProjectBudgetUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectClassification_Classification_ClassificationID" Association="ProjectFirma.Web.Models.Store.FK_ProjectClassification_Classification_ClassificationID">
@@ -370,20 +539,40 @@
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectClassifications" EntitySet="ProjectClassification" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectClassification_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectClassification_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectClassifications" EntitySet="ProjectClassification" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectExemptReportingYear_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectExemptReportingYear_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectExemptReportingYears" EntitySet="ProjectExemptReportingYear" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectExemptReportingYear_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectExemptReportingYear_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ProjectExemptReportingYears" EntitySet="ProjectExemptReportingYear" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectExemptReportingYearUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectExemptReportingYearUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectExemptReportingYearUpdates" EntitySet="ProjectExemptReportingYearUpdate" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectExemptReportingYearUpdate_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectExemptReportingYearUpdate_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectExemptReportingYearUpdates" EntitySet="ProjectExemptReportingYearUpdate" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectExternalLink_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectExternalLink_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectExternalLinks" EntitySet="ProjectExternalLink" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectExternalLink_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectExternalLink_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectExternalLinks" EntitySet="ProjectExternalLink" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
+      <End Role="ProjectExternalLinkUpdates" EntitySet="ProjectExternalLinkUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectExternalLinkUpdate_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectExternalLinkUpdate_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ProjectExternalLinkUpdates" EntitySet="ProjectExternalLinkUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectFundingOrganization_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFundingOrganization_Organization_OrganizationID">
@@ -394,12 +583,20 @@
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectFundingOrganizations" EntitySet="ProjectFundingOrganization" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectFundingOrganization_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFundingOrganization_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectFundingOrganizations" EntitySet="ProjectFundingOrganization" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectFundingSourceExpenditure_FundingSource_FundingSourceID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFundingSourceExpenditure_FundingSource_FundingSourceID">
       <End Role="FundingSource" EntitySet="FundingSource" />
       <End Role="ProjectFundingSourceExpenditures" EntitySet="ProjectFundingSourceExpenditure" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectFundingSourceExpenditure_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFundingSourceExpenditure_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectFundingSourceExpenditures" EntitySet="ProjectFundingSourceExpenditure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectFundingSourceExpenditure_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFundingSourceExpenditure_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ProjectFundingSourceExpenditures" EntitySet="ProjectFundingSourceExpenditure" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectFundingSourceExpenditureUpdate_FundingSource_FundingSourceID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFundingSourceExpenditureUpdate_FundingSource_FundingSourceID">
@@ -410,12 +607,20 @@
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectFundingSourceExpenditureUpdates" EntitySet="ProjectFundingSourceExpenditureUpdate" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectFundingSourceExpenditureUpdate_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFundingSourceExpenditureUpdate_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectFundingSourceExpenditureUpdates" EntitySet="ProjectFundingSourceExpenditureUpdate" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ProjectImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="ProjectImages" EntitySet="ProjectImage" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectImage_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectImage_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectImages" EntitySet="ProjectImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectImage_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectImage_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ProjectImages" EntitySet="ProjectImage" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectImageUpdate_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ProjectImageUpdate_FileResource_FileResourceID">
@@ -430,6 +635,10 @@
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectImageUpdates" EntitySet="ProjectImageUpdate" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectImageUpdate_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectImageUpdate_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectImageUpdates" EntitySet="ProjectImageUpdate" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectImplementingOrganization_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_ProjectImplementingOrganization_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
       <End Role="ProjectImplementingOrganizations" EntitySet="ProjectImplementingOrganization" />
@@ -438,8 +647,16 @@
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectImplementingOrganizations" EntitySet="ProjectImplementingOrganization" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectImplementingOrganization_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectImplementingOrganization_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectImplementingOrganizations" EntitySet="ProjectImplementingOrganization" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectLocation_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocation_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectLocations" EntitySet="ProjectLocation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectLocation_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocation_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ProjectLocations" EntitySet="ProjectLocation" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectLocationArea_Jurisdiction_JurisdictionID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationArea_Jurisdiction_JurisdictionID">
@@ -458,9 +675,17 @@
       <End Role="StateProvince" EntitySet="StateProvince" />
       <End Role="ProjectLocationAreas" EntitySet="ProjectLocationArea" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectLocationArea_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationArea_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectLocationAreas" EntitySet="ProjectLocationArea" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectLocationArea_Watershed_WatershedID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationArea_Watershed_WatershedID">
       <End Role="Watershed" EntitySet="Watershed" />
       <End Role="ProjectLocationAreas" EntitySet="ProjectLocationArea" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectLocationAreaGroup_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationAreaGroup_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectLocationAreaGroups" EntitySet="ProjectLocationAreaGroup" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectLocationAreaJurisdiction_Jurisdiction_JurisdictionID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationAreaJurisdiction_Jurisdiction_JurisdictionID">
       <End Role="Jurisdiction" EntitySet="Jurisdiction" />
@@ -468,6 +693,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_ProjectLocationAreaJurisdiction_ProjectLocationArea_ProjectLocationAreaID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationAreaJurisdiction_ProjectLocationArea_ProjectLocationAreaID">
       <End Role="ProjectLocationArea" EntitySet="ProjectLocationArea" />
+      <End Role="ProjectLocationAreaJurisdictions" EntitySet="ProjectLocationAreaJurisdiction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectLocationAreaJurisdiction_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationAreaJurisdiction_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ProjectLocationAreaJurisdictions" EntitySet="ProjectLocationAreaJurisdiction" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectLocationAreaStateProvince_ProjectLocationArea_ProjectLocationAreaID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationAreaStateProvince_ProjectLocationArea_ProjectLocationAreaID">
@@ -478,8 +707,16 @@
       <End Role="StateProvince" EntitySet="StateProvince" />
       <End Role="ProjectLocationAreaStateProvinces" EntitySet="ProjectLocationAreaStateProvince" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectLocationAreaStateProvince_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationAreaStateProvince_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectLocationAreaStateProvinces" EntitySet="ProjectLocationAreaStateProvince" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectLocationAreaWatershed_ProjectLocationArea_ProjectLocationAreaID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationAreaWatershed_ProjectLocationArea_ProjectLocationAreaID">
       <End Role="ProjectLocationArea" EntitySet="ProjectLocationArea" />
+      <End Role="ProjectLocationAreaWatersheds" EntitySet="ProjectLocationAreaWatershed" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectLocationAreaWatershed_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationAreaWatershed_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ProjectLocationAreaWatersheds" EntitySet="ProjectLocationAreaWatershed" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectLocationAreaWatershed_Watershed_WatershedID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationAreaWatershed_Watershed_WatershedID">
@@ -490,12 +727,24 @@
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectLocationStagings" EntitySet="ProjectLocationStaging" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectLocationStaging_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationStaging_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectLocationStagings" EntitySet="ProjectLocationStaging" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectLocationStagingUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationStagingUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectLocationStagingUpdates" EntitySet="ProjectLocationStagingUpdate" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectLocationStagingUpdate_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationStagingUpdate_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectLocationStagingUpdates" EntitySet="ProjectLocationStagingUpdate" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectLocationUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
+      <End Role="ProjectLocationUpdates" EntitySet="ProjectLocationUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectLocationUpdate_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationUpdate_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ProjectLocationUpdates" EntitySet="ProjectLocationUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectNote_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProjectNote_Person_CreatePersonID_PersonID">
@@ -510,6 +759,10 @@
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectNotes" EntitySet="ProjectNote" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectNote_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectNote_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectNotes" EntitySet="ProjectNote" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectNoteUpdate_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProjectNoteUpdate_Person_CreatePersonID_PersonID">
       <End Role="CreatePerson" EntitySet="Person" />
       <End Role="ProjectNoteUpdatesWhereYouAreTheCreatePerson" EntitySet="ProjectNoteUpdate" />
@@ -522,12 +775,20 @@
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectNoteUpdates" EntitySet="ProjectNoteUpdate" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectNoteUpdate_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectNoteUpdate_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectNoteUpdates" EntitySet="ProjectNoteUpdate" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectTag_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectTag_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectTags" EntitySet="ProjectTag" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectTag_Tag_TagID" Association="ProjectFirma.Web.Models.Store.FK_ProjectTag_Tag_TagID">
       <End Role="Tag" EntitySet="Tag" />
+      <End Role="ProjectTags" EntitySet="ProjectTag" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectTag_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectTag_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ProjectTags" EntitySet="ProjectTag" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectUpdate_ProjectLocationArea_ProjectLocationAreaID" Association="ProjectFirma.Web.Models.Store.FK_ProjectUpdate_ProjectLocationArea_ProjectLocationAreaID">
@@ -538,12 +799,20 @@
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectUpdates" EntitySet="ProjectUpdate" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectUpdate_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectUpdate_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectUpdates" EntitySet="ProjectUpdate" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectUpdateBatch_Person_LastUpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProjectUpdateBatch_Person_LastUpdatePersonID_PersonID">
       <End Role="LastUpdatePerson" EntitySet="Person" />
       <End Role="ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson" EntitySet="ProjectUpdateBatch" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectUpdateBatch_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectUpdateBatch_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectUpdateBatches" EntitySet="ProjectUpdateBatch" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectUpdateBatch_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectUpdateBatch_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ProjectUpdateBatches" EntitySet="ProjectUpdateBatch" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectUpdateHistory_Person_UpdatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProjectUpdateHistory_Person_UpdatePersonID_PersonID">
@@ -554,8 +823,16 @@
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectUpdateHistories" EntitySet="ProjectUpdateHistory" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectUpdateHistory_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectUpdateHistory_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProjectUpdateHistories" EntitySet="ProjectUpdateHistory" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectWatershed_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectWatershed_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectWatersheds" EntitySet="ProjectWatershed" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectWatershed_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProjectWatershed_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ProjectWatersheds" EntitySet="ProjectWatershed" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectWatershed_Watershed_WatershedID" Association="ProjectFirma.Web.Models.Store.FK_ProjectWatershed_Watershed_WatershedID">
@@ -586,12 +863,20 @@
       <End Role="TaxonomyTierOne" EntitySet="TaxonomyTierOne" />
       <End Role="ProposedProjects" EntitySet="ProposedProject" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProposedProject_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProject_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProposedProjects" EntitySet="ProposedProject" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID">
       <End Role="AssessmentQuestion" EntitySet="AssessmentQuestion" />
       <End Role="ProposedProjectAssessmentQuestions" EntitySet="ProposedProjectAssessmentQuestion" />
     </AssociationSet>
     <AssociationSet Name="FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID">
       <End Role="ProposedProject" EntitySet="ProposedProject" />
+      <End Role="ProposedProjectAssessmentQuestions" EntitySet="ProposedProjectAssessmentQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectAssessmentQuestion_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectAssessmentQuestion_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ProposedProjectAssessmentQuestions" EntitySet="ProposedProjectAssessmentQuestion" />
     </AssociationSet>
     <AssociationSet Name="FK_ProposedProjectClassification_Classification_ClassificationID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectClassification_Classification_ClassificationID">
@@ -602,6 +887,10 @@
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectClassifications" EntitySet="ProposedProjectClassification" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectClassification_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectClassification_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProposedProjectClassifications" EntitySet="ProposedProjectClassification" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProposedProjectImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="ProposedProjectImages" EntitySet="ProposedProjectImage" />
@@ -610,12 +899,24 @@
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectImages" EntitySet="ProposedProjectImage" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectImage_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectImage_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProposedProjectImages" EntitySet="ProposedProjectImage" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProposedProjectLocation_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectLocation_ProposedProject_ProposedProjectID">
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectLocations" EntitySet="ProposedProjectLocation" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectLocation_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectLocation_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProposedProjectLocations" EntitySet="ProposedProjectLocation" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID">
       <End Role="ProposedProject" EntitySet="ProposedProject" />
+      <End Role="ProposedProjectLocationStagings" EntitySet="ProposedProjectLocationStaging" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectLocationStaging_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectLocationStaging_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ProposedProjectLocationStagings" EntitySet="ProposedProjectLocationStaging" />
     </AssociationSet>
     <AssociationSet Name="FK_ProposedProjectNote_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectNote_Person_CreatePersonID_PersonID">
@@ -630,12 +931,24 @@
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectNotes" EntitySet="ProposedProjectNote" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectNote_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectNote_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="ProposedProjectNotes" EntitySet="ProposedProjectNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Snapshot_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_Snapshot_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="Snapshots" EntitySet="Snapshot" />
+    </AssociationSet>
     <AssociationSet Name="FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="SnapshotPerformanceMeasures" EntitySet="SnapshotPerformanceMeasure" />
     </AssociationSet>
     <AssociationSet Name="FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID">
       <End Role="Snapshot" EntitySet="Snapshot" />
+      <End Role="SnapshotPerformanceMeasures" EntitySet="SnapshotPerformanceMeasure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SnapshotPerformanceMeasure_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotPerformanceMeasure_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="SnapshotPerformanceMeasures" EntitySet="SnapshotPerformanceMeasure" />
     </AssociationSet>
     <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID">
@@ -654,6 +967,10 @@
       <End Role="SnapshotPerformanceMeasure" EntitySet="SnapshotPerformanceMeasure" />
       <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
     </AssociationSet>
+    <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotPerformanceMeasureSubcategoryOption_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
+    </AssociationSet>
     <AssociationSet Name="FK_SnapshotProject_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotProject_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="SnapshotProjects" EntitySet="SnapshotProject" />
@@ -662,16 +979,40 @@
       <End Role="Snapshot" EntitySet="Snapshot" />
       <End Role="SnapshotProjects" EntitySet="SnapshotProject" />
     </AssociationSet>
+    <AssociationSet Name="FK_SnapshotProject_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotProject_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="SnapshotProjects" EntitySet="SnapshotProject" />
+    </AssociationSet>
     <AssociationSet Name="FK_SnapshotSectorExpenditure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotSectorExpenditure_Snapshot_SnapshotID">
       <End Role="Snapshot" EntitySet="Snapshot" />
       <End Role="SnapshotSectorExpenditures" EntitySet="SnapshotSectorExpenditure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SnapshotSectorExpenditure_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotSectorExpenditure_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="SnapshotSectorExpenditures" EntitySet="SnapshotSectorExpenditure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StateProvince_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_StateProvince_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="StateProvinces" EntitySet="StateProvince" />
     </AssociationSet>
     <AssociationSet Name="FK_SupportRequestLog_Person_RequestPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_SupportRequestLog_Person_RequestPersonID_PersonID">
       <End Role="RequestPerson" EntitySet="Person" />
       <End Role="SupportRequestLogsWhereYouAreTheRequestPerson" EntitySet="SupportRequestLog" />
     </AssociationSet>
+    <AssociationSet Name="FK_SupportRequestLog_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_SupportRequestLog_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="SupportRequestLogs" EntitySet="SupportRequestLog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tag_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_Tag_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="Tags" EntitySet="Tag" />
+    </AssociationSet>
     <AssociationSet Name="FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID">
       <End Role="TaxonomyTierTwo" EntitySet="TaxonomyTierTwo" />
+      <End Role="TaxonomyTierOnes" EntitySet="TaxonomyTierOne" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierOne_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierOne_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="TaxonomyTierOnes" EntitySet="TaxonomyTierOne" />
     </AssociationSet>
     <AssociationSet Name="FK_TaxonomyTierOneImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierOneImage_FileResource_FileResourceID">
@@ -682,6 +1023,14 @@
       <End Role="TaxonomyTierOne" EntitySet="TaxonomyTierOne" />
       <End Role="TaxonomyTierOneImages" EntitySet="TaxonomyTierOneImage" />
     </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierOneImage_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierOneImage_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="TaxonomyTierOneImages" EntitySet="TaxonomyTierOneImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierThree_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierThree_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="TaxonomyTierThrees" EntitySet="TaxonomyTierThree" />
+    </AssociationSet>
     <AssociationSet Name="FK_TaxonomyTierThreeImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierThreeImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="TaxonomyTierThreeImages" EntitySet="TaxonomyTierThreeImage" />
@@ -690,8 +1039,16 @@
       <End Role="TaxonomyTierThree" EntitySet="TaxonomyTierThree" />
       <End Role="TaxonomyTierThreeImages" EntitySet="TaxonomyTierThreeImage" />
     </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierThreeImage_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierThreeImage_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="TaxonomyTierThreeImages" EntitySet="TaxonomyTierThreeImage" />
+    </AssociationSet>
     <AssociationSet Name="FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID">
       <End Role="TaxonomyTierThree" EntitySet="TaxonomyTierThree" />
+      <End Role="TaxonomyTierTwos" EntitySet="TaxonomyTierTwo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierTwo_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierTwo_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="TaxonomyTierTwos" EntitySet="TaxonomyTierTwo" />
     </AssociationSet>
     <AssociationSet Name="FK_TaxonomyTierTwoImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierTwoImage_FileResource_FileResourceID">
@@ -702,6 +1059,10 @@
       <End Role="TaxonomyTierTwo" EntitySet="TaxonomyTierTwo" />
       <End Role="TaxonomyTierTwoImages" EntitySet="TaxonomyTierTwoImage" />
     </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierTwoImage_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierTwoImage_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="TaxonomyTierTwoImages" EntitySet="TaxonomyTierTwoImage" />
+    </AssociationSet>
     <AssociationSet Name="FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="TaxonomyTierTwoPerformanceMeasures" EntitySet="TaxonomyTierTwoPerformanceMeasure" />
@@ -709,6 +1070,14 @@
     <AssociationSet Name="FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID">
       <End Role="TaxonomyTierTwo" EntitySet="TaxonomyTierTwo" />
       <End Role="TaxonomyTierTwoPerformanceMeasures" EntitySet="TaxonomyTierTwoPerformanceMeasure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaxonomyTierTwoPerformanceMeasure_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierTwoPerformanceMeasure_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="TaxonomyTierTwoPerformanceMeasures" EntitySet="TaxonomyTierTwoPerformanceMeasure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Watershed_Tenant_TenantID" Association="ProjectFirma.Web.Models.Store.FK_Watershed_Tenant_TenantID">
+      <End Role="Tenant" EntitySet="Tenant" />
+      <End Role="Watersheds" EntitySet="Watershed" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="AssessmentGoal">
@@ -719,6 +1088,7 @@
     <Property Name="AssessmentGoalNumber" Type="int" Nullable="false" />
     <Property Name="AssessmentGoalTitle" Type="varchar" MaxLength="100" />
     <Property Name="AssessmentGoalDescription" Type="varchar" MaxLength="300" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="AssessmentQuestion">
     <Key>
@@ -728,6 +1098,7 @@
     <Property Name="AssessmentSubGoalID" Type="int" Nullable="false" />
     <Property Name="AssessmentQuestionText" Type="varchar" Nullable="false" MaxLength="300" />
     <Property Name="ArchiveDate" Type="date" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="AssessmentSubGoal">
     <Key>
@@ -738,6 +1109,7 @@
     <Property Name="AssessmentSubGoalNumber" Type="int" Nullable="false" />
     <Property Name="AssessmentSubGoalTitle" Type="varchar" MaxLength="100" />
     <Property Name="AssessmentSubGoalDescription" Type="varchar" MaxLength="300" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="AuditLog">
     <Key>
@@ -755,6 +1127,7 @@
     <Property Name="AuditDescription" Type="varchar(max)" />
     <Property Name="ProjectID" Type="int" />
     <Property Name="ProposedProjectID" Type="int" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Classification">
     <Key>
@@ -768,6 +1141,7 @@
     <Property Name="GoalStatement" Type="varchar" MaxLength="200" />
     <Property Name="Narrative" Type="varchar(max)" />
     <Property Name="KeyImageFileResourceID" Type="int" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ClassificationImage">
     <Key>
@@ -776,6 +1150,7 @@
     <Property Name="ClassificationImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="ClassificationID" Type="int" Nullable="false" />
     <Property Name="FileResourceID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ClassificationPerformanceMeasure">
     <Key>
@@ -785,6 +1160,7 @@
     <Property Name="ClassificationID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="IsPrimaryChart" Type="bit" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CostParameterSet">
     <Key>
@@ -795,6 +1171,7 @@
     <Property Name="CurrentYearForPVCalculations" Type="int" Nullable="false" />
     <Property Name="Comment" Type="varchar" MaxLength="2000" />
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="County">
     <Key>
@@ -804,6 +1181,7 @@
     <Property Name="CountyName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="StateProvinceID" Type="int" Nullable="false" />
     <Property Name="CountyFeature" Type="geometry" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="DatabaseMigration">
     <Key>
@@ -818,6 +1196,7 @@
     <Property Name="FieldDefinitionDataID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="FieldDefinitionID" Type="int" Nullable="false" />
     <Property Name="FieldDefinitionDataValue" Type="varchar(max)" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="FieldDefinitionImage">
     <Key>
@@ -826,6 +1205,7 @@
     <Property Name="FieldDefinitionImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="FieldDefinitionID" Type="int" Nullable="false" />
     <Property Name="FileResourceID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="FileResource">
     <Key>
@@ -839,6 +1219,7 @@
     <Property Name="FileResourceData" Type="varbinary(max)" Nullable="false" />
     <Property Name="CreatePersonID" Type="int" Nullable="false" />
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="FirmaPage">
     <Key>
@@ -847,6 +1228,7 @@
     <Property Name="FirmaPageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="FirmaPageTypeID" Type="int" Nullable="false" />
     <Property Name="FirmaPageContent" Type="varchar(max)" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="FirmaPageImage">
     <Key>
@@ -855,6 +1237,7 @@
     <Property Name="FirmaPageImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="FirmaPageID" Type="int" Nullable="false" />
     <Property Name="FileResourceID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="FundingSource">
     <Key>
@@ -865,6 +1248,7 @@
     <Property Name="FundingSourceName" Type="varchar" Nullable="false" MaxLength="200" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="FundingSourceDescription" Type="varchar" MaxLength="500" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Jurisdiction">
     <Key>
@@ -874,6 +1258,7 @@
     <Property Name="OrganizationID" Type="int" Nullable="false" />
     <Property Name="JurisdictionFeature" Type="geometry" />
     <Property Name="StateProvinceID" Type="int" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="MappedRegion">
     <Key>
@@ -883,6 +1268,7 @@
     <Property Name="RegionName" Type="varchar" Nullable="false" MaxLength="255" />
     <Property Name="RegionDisplayName" Type="varchar" Nullable="false" MaxLength="255" />
     <Property Name="RegionFeature" Type="geometry" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="MonitoringProgram">
     <Key>
@@ -892,6 +1278,7 @@
     <Property Name="MonitoringProgramName" Type="varchar" Nullable="false" MaxLength="200" />
     <Property Name="MonitoringApproach" Type="varchar" MaxLength="1000" />
     <Property Name="MonitoringProgramUrl" Type="varchar" MaxLength="200" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="MonitoringProgramDocument">
     <Key>
@@ -902,6 +1289,7 @@
     <Property Name="MonitoringProgramID" Type="int" Nullable="false" />
     <Property Name="DisplayName" Type="varchar" Nullable="false" MaxLength="200" />
     <Property Name="UploadDate" Type="date" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="MonitoringProgramPartner">
     <Key>
@@ -910,6 +1298,7 @@
     <Property Name="MonitoringProgramPartnerID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="MonitoringProgramID" Type="int" Nullable="false" />
     <Property Name="OrganizationID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Notification">
     <Key>
@@ -919,6 +1308,7 @@
     <Property Name="NotificationTypeID" Type="int" Nullable="false" />
     <Property Name="PersonID" Type="int" Nullable="false" />
     <Property Name="NotificationDate" Type="datetime" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="NotificationProject">
     <Key>
@@ -927,6 +1317,7 @@
     <Property Name="NotificationProjectID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="NotificationID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="NotificationProposedProject">
     <Key>
@@ -935,6 +1326,7 @@
     <Property Name="NotificationProposedProjectID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="ProposedProjectID" Type="int" Nullable="false" />
     <Property Name="NotificationID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Organization">
     <Key>
@@ -949,6 +1341,7 @@
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="OrganizationUrl" Type="varchar" MaxLength="200" />
     <Property Name="LogoFileResourceID" Type="int" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PerformanceMeasure">
     <Key>
@@ -965,6 +1358,7 @@
     <Property Name="ExternalDataSourceUrl" Type="varchar" MaxLength="200" />
     <Property Name="ChartTitle" Type="varchar" Nullable="false" MaxLength="500" />
     <Property Name="ChartCaption" Type="varchar" MaxLength="1000" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActual_PerformanceMeasureActualID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -978,6 +1372,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
     <Property Name="ActualValue" Type="float" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PerformanceMeasureActualSubcategoryOption">
     <Key>
@@ -988,6 +1383,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PerformanceMeasureActualSubcategoryOptionUpdate">
     <Key>
@@ -998,6 +1394,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID_PerformanceMe' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1011,6 +1408,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpda
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
     <Property Name="ActualValue" Type="float" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureExpected_PerformanceMeasureExpectedID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1023,6 +1421,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_P
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="ExpectedValue" Type="float" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PerformanceMeasureExpectedProposed">
     <Key>
@@ -1032,6 +1431,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_P
     <Property Name="ProposedProjectID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="ExpectedValue" Type="float" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PerformanceMeasureExpectedSubcategoryOption">
     <Key>
@@ -1042,6 +1442,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_P
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PerformanceMeasureExpectedSubcategoryOptionProposed">
     <Key>
@@ -1052,6 +1453,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_P
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PerformanceMeasureMonitoringProgram">
     <Key>
@@ -1060,6 +1462,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_P
     <Property Name="PerformanceMeasureMonitoringProgramID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="MonitoringProgramID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PerformanceMeasureNote">
     <Key>
@@ -1072,6 +1475,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_P
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
     <Property Name="UpdatePersonID" Type="int" />
     <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1086,6 +1490,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ChartConfigurationJson" Type="varchar(max)" />
     <Property Name="ChartType" Type="varchar" MaxLength="100" />
     <Property Name="SwapChartAxes" Type="bit" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID_Performan' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1099,6 +1504,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="PerformanceMeasureSubcategoryOptionName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="SortOrder" Type="int" />
     <Property Name="ShortName" Type="varchar" MaxLength="50" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Person">
     <Key>
@@ -1120,6 +1526,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ReceiveSupportEmails" Type="bit" Nullable="false" />
     <Property Name="WebServiceAccessToken" Type="uniqueidentifier" />
     <Property Name="LoginName" Type="varchar" Nullable="false" MaxLength="128" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Project">
     <Key>
@@ -1143,6 +1550,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectLocationSimpleTypeID" Type="int" Nullable="false" />
     <Property Name="EstimatedAnnualOperatingCost" Type="decimal" />
     <Property Name="FundingTypeID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectAssessmentQuestion">
     <Key>
@@ -1152,6 +1560,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="AssessmentQuestionID" Type="int" Nullable="false" />
     <Property Name="Answer" Type="bit" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectBudget">
     <Key>
@@ -1163,6 +1572,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectCostTypeID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
     <Property Name="BudgetedAmount" Type="money" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectBudgetUpdate">
     <Key>
@@ -1174,6 +1584,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectCostTypeID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
     <Property Name="BudgetedAmount" Type="money" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectClassification">
     <Key>
@@ -1183,6 +1594,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="ClassificationID" Type="int" Nullable="false" />
     <Property Name="ProjectClassificationNotes" Type="varchar" MaxLength="600" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectExemptReportingYear">
     <Key>
@@ -1191,6 +1603,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectExemptReportingYearID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectExemptReportingYearUpdate">
     <Key>
@@ -1199,6 +1612,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectExemptReportingYearUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectExternalLink">
     <Key>
@@ -1208,6 +1622,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="ExternalLinkLabel" Type="varchar" Nullable="false" MaxLength="300" />
     <Property Name="ExternalLinkUrl" Type="varchar" Nullable="false" MaxLength="300" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectExternalLinkUpdate">
     <Key>
@@ -1217,6 +1632,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="ExternalLinkLabel" Type="varchar" Nullable="false" MaxLength="300" />
     <Property Name="ExternalLinkUrl" Type="varchar" Nullable="false" MaxLength="300" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectFundingOrganization">
     <Key>
@@ -1225,6 +1641,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectFundingOrganizationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="OrganizationID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectFundingSourceExpenditure">
     <Key>
@@ -1235,6 +1652,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="FundingSourceID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
     <Property Name="ExpenditureAmount" Type="money" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectFundingSourceExpenditureUpdate">
     <Key>
@@ -1245,6 +1663,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="FundingSourceID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
     <Property Name="ExpenditureAmount" Type="money" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectImage">
     <Key>
@@ -1258,6 +1677,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="Credit" Type="varchar" Nullable="false" MaxLength="200" />
     <Property Name="IsKeyPhoto" Type="bit" Nullable="false" />
     <Property Name="ExcludeFromFactSheet" Type="bit" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectImageUpdate">
     <Key>
@@ -1272,6 +1692,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="IsKeyPhoto" Type="bit" Nullable="false" />
     <Property Name="ExcludeFromFactSheet" Type="bit" Nullable="false" />
     <Property Name="ProjectImageID" Type="int" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectImplementingOrganization">
     <Key>
@@ -1281,6 +1702,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="OrganizationID" Type="int" Nullable="false" />
     <Property Name="IsLeadOrganization" Type="bit" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocation">
     <Key>
@@ -1290,6 +1712,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="ProjectLocationGeometry" Type="geometry" Nullable="false" />
     <Property Name="Annotation" Type="varchar" MaxLength="255" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocationArea">
     <Key>
@@ -1301,6 +1724,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="MappedRegionID" Type="int" />
     <Property Name="JurisdictionID" Type="int" />
     <Property Name="WatershedID" Type="int" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocationAreaGroup">
     <Key>
@@ -1308,6 +1732,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     </Key>
     <Property Name="ProjectLocationAreaGroupID" Type="int" Nullable="false" />
     <Property Name="ProjectLocationAreaGroupTypeID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocationAreaJurisdiction">
     <Key>
@@ -1316,6 +1741,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectLocationAreaJurisdictionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="ProjectLocationAreaID" Type="int" Nullable="false" />
     <Property Name="JurisdictionID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocationAreaStateProvince">
     <Key>
@@ -1324,6 +1750,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectLocationAreaStateProvinceID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="ProjectLocationAreaID" Type="int" Nullable="false" />
     <Property Name="StateProvinceID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocationAreaWatershed">
     <Key>
@@ -1332,6 +1759,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectLocationAreaWatershedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="ProjectLocationAreaID" Type="int" Nullable="false" />
     <Property Name="WatershedID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocationStaging">
     <Key>
@@ -1344,6 +1772,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="GeoJson" Type="varchar(max)" Nullable="false" />
     <Property Name="SelectedProperty" Type="varchar" MaxLength="255" />
     <Property Name="ShouldImport" Type="bit" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocationStagingUpdate">
     <Key>
@@ -1356,6 +1785,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="GeoJson" Type="varchar(max)" Nullable="false" />
     <Property Name="SelectedProperty" Type="varchar" MaxLength="255" />
     <Property Name="ShouldImport" Type="bit" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocationUpdate">
     <Key>
@@ -1365,6 +1795,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="ProjectLocationUpdateGeometry" Type="geometry" Nullable="false" />
     <Property Name="Annotation" Type="varchar" MaxLength="255" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectNote">
     <Key>
@@ -1377,6 +1808,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
     <Property Name="UpdatePersonID" Type="int" />
     <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectNoteUpdate">
     <Key>
@@ -1389,6 +1821,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
     <Property Name="UpdatePersonID" Type="int" />
     <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectTag">
     <Key>
@@ -1397,6 +1830,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectTagID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="TagID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectUpdate">
     <Key>
@@ -1416,6 +1850,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="PlanningDesignStartYear" Type="int" />
     <Property Name="ProjectLocationSimpleTypeID" Type="int" Nullable="false" />
     <Property Name="EstimatedAnnualOperatingCost" Type="decimal" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectUpdateBatch">
     <Key>
@@ -1445,6 +1880,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="BudgetsDiffLog" Type="varchar(max)" />
     <Property Name="ExternalLinksDiffLog" Type="varchar(max)" />
     <Property Name="NotesDiffLog" Type="varchar(max)" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectUpdateHistory">
     <Key>
@@ -1455,6 +1891,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectUpdateStateID" Type="int" Nullable="false" />
     <Property Name="UpdatePersonID" Type="int" Nullable="false" />
     <Property Name="TransitionDate" Type="datetime" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectWatershed">
     <Key>
@@ -1463,6 +1900,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProjectWatershedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="WatershedID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProposedProject">
     <Key>
@@ -1492,6 +1930,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="SubmissionDate" Type="datetime" />
     <Property Name="ApprovalDate" Type="datetime" />
     <Property Name="ReviewedByPersonID" Type="int" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProposedProjectAssessmentQuestion">
     <Key>
@@ -1501,6 +1940,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProposedProjectID" Type="int" Nullable="false" />
     <Property Name="AssessmentQuestionID" Type="int" Nullable="false" />
     <Property Name="Answer" Type="bit" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProposedProjectClassification">
     <Key>
@@ -1510,6 +1950,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProposedProjectID" Type="int" Nullable="false" />
     <Property Name="ClassificationID" Type="int" Nullable="false" />
     <Property Name="ProposedProjectClassificationNotes" Type="varchar" MaxLength="600" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProposedProjectImage">
     <Key>
@@ -1520,6 +1961,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProposedProjectID" Type="int" Nullable="false" />
     <Property Name="Caption" Type="varchar" Nullable="false" MaxLength="200" />
     <Property Name="Credit" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProposedProjectLocation">
     <Key>
@@ -1529,6 +1971,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="ProposedProjectID" Type="int" Nullable="false" />
     <Property Name="ProjectLocationGeometry" Type="geometry" Nullable="false" />
     <Property Name="Annotation" Type="varchar" MaxLength="255" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProposedProjectLocationStaging">
     <Key>
@@ -1541,6 +1984,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="GeoJson" Type="varchar(max)" Nullable="false" />
     <Property Name="SelectedProperty" Type="varchar" MaxLength="255" />
     <Property Name="ShouldImport" Type="bit" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProposedProjectNote">
     <Key>
@@ -1553,6 +1997,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
     <Property Name="UpdatePersonID" Type="int" />
     <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Snapshot">
     <Key>
@@ -1562,6 +2007,7 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
     <Property Name="SnapshotDate" Type="date" Nullable="false" />
     <Property Name="SnapshotNote" Type="varchar" MaxLength="200" />
     <Property Name="ProjectCount" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1575,6 +2021,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
     <Property Name="ActualValue" Type="float" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SnapshotPerformanceMeasureSubcategoryOption">
     <Key>
@@ -1585,6 +2032,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SnapshotProject">
     <Key>
@@ -1594,6 +2042,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="SnapshotID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="SnapshotProjectTypeID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SnapshotSectorExpenditure">
     <Key>
@@ -1604,6 +2053,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="SectorID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
     <Property Name="ExpenditureAmount" Type="money" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="StateProvince">
     <Key>
@@ -1614,6 +2064,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="StateProvinceAbbreviation" Type="char" Nullable="false" MaxLength="2" />
     <Property Name="StateProvinceFeature" Type="geometry" />
     <Property Name="StateProvinceFeatureForAnalysis" Type="geometry" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SupportRequestLog">
     <Key>
@@ -1628,6 +2079,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="RequestDescription" Type="varchar" Nullable="false" MaxLength="2000" />
     <Property Name="RequestPersonOrganization" Type="varchar" MaxLength="500" />
     <Property Name="RequestPersonPhone" Type="varchar" MaxLength="50" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Tag">
     <Key>
@@ -1636,6 +2088,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="TagID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TagName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="TagDescription" Type="varchar" MaxLength="1000" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="TaxonomyTierOne">
     <Key>
@@ -1646,6 +2099,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="TaxonomyTierOneName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="TaxonomyTierOneDescription" Type="varchar(max)" />
     <Property Name="TaxonomyTierOneCode" Type="varchar" MaxLength="10" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="TaxonomyTierOneImage">
     <Key>
@@ -1654,6 +2108,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="TaxonomyTierOneImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TaxonomyTierOneID" Type="int" Nullable="false" />
     <Property Name="FileResourceID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="TaxonomyTierThree">
     <Key>
@@ -1664,6 +2119,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="TaxonomyTierThreeDescription" Type="varchar(max)" />
     <Property Name="ThemeColor" Type="varchar" MaxLength="20" />
     <Property Name="TaxonomyTierThreeCode" Type="varchar" MaxLength="10" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="TaxonomyTierThreeImage">
     <Key>
@@ -1672,6 +2128,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="TaxonomyTierThreeImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TaxonomyTierThreeID" Type="int" Nullable="false" />
     <Property Name="FileResourceID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="TaxonomyTierTwo">
     <Key>
@@ -1683,6 +2140,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="TaxonomyTierTwoDescription" Type="varchar(max)" />
     <Property Name="ThemeColor" Type="varchar" MaxLength="7" />
     <Property Name="TaxonomyTierTwoCode" Type="varchar" MaxLength="10" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="TaxonomyTierTwoImage">
     <Key>
@@ -1691,6 +2149,7 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="TaxonomyTierTwoImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TaxonomyTierTwoID" Type="int" Nullable="false" />
     <Property Name="FileResourceID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="TaxonomyTierTwoPerformanceMeasure">
     <Key>
@@ -1700,6 +2159,14 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="TaxonomyTierTwoID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="IsPrimaryTaxonomyTierTwo" Type="bit" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tenant">
+    <Key>
+      <PropertyRef Name="TenantID" />
+    </Key>
+    <Property Name="TenantID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantName" Type="varchar" Nullable="false" MaxLength="100" />
   </EntityType>
   <EntityType Name="Watershed">
     <Key>
@@ -1708,7 +2175,20 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="WatershedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="WatershedName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="WatershedFeature" Type="geometry" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
+  <Association Name="FK_AssessmentGoal_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="AssessmentGoals" Type="ProjectFirma.Web.Models.Store.AssessmentGoal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="AssessmentGoals">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID">
     <End Role="AssessmentSubGoal" Type="ProjectFirma.Web.Models.Store.AssessmentSubGoal" Multiplicity="1" />
     <End Role="AssessmentQuestions" Type="ProjectFirma.Web.Models.Store.AssessmentQuestion" Multiplicity="*" />
@@ -1718,6 +2198,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="AssessmentQuestions">
         <PropertyRef Name="AssessmentSubGoalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AssessmentQuestion_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="AssessmentQuestions" Type="ProjectFirma.Web.Models.Store.AssessmentQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="AssessmentQuestions">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1733,6 +2225,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_AssessmentSubGoal_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="AssessmentSubGoals" Type="ProjectFirma.Web.Models.Store.AssessmentSubGoal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="AssessmentSubGoals">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_AuditLog_Person_PersonID">
     <End Role="Person" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
     <End Role="AuditLogs" Type="ProjectFirma.Web.Models.Store.AuditLog" Multiplicity="*" />
@@ -1745,6 +2249,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_AuditLog_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="AuditLogs" Type="ProjectFirma.Web.Models.Store.AuditLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="AuditLogs">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID">
     <End Role="KeyImageFileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="0..1" />
     <End Role="ClassificationsWhereYouAreTheKeyImageFileResource" Type="ProjectFirma.Web.Models.Store.Classification" Multiplicity="*" />
@@ -1754,6 +2270,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="ClassificationsWhereYouAreTheKeyImageFileResource">
         <PropertyRef Name="KeyImageFileResourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Classification_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="Classifications" Type="ProjectFirma.Web.Models.Store.Classification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="Classifications">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1781,6 +2309,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ClassificationImage_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ClassificationImages" Type="ProjectFirma.Web.Models.Store.ClassificationImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ClassificationImages">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ClassificationPerformanceMeasure_Classification_ClassificationID">
     <End Role="Classification" Type="ProjectFirma.Web.Models.Store.Classification" Multiplicity="1" />
     <End Role="ClassificationPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.ClassificationPerformanceMeasure" Multiplicity="*" />
@@ -1805,6 +2345,30 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ClassificationPerformanceMeasure_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ClassificationPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.ClassificationPerformanceMeasure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ClassificationPerformanceMeasures">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CostParameterSet_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="CostParameterSets" Type="ProjectFirma.Web.Models.Store.CostParameterSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="CostParameterSets">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_County_StateProvince_StateProvinceID">
     <End Role="StateProvince" Type="ProjectFirma.Web.Models.Store.StateProvince" Multiplicity="1" />
     <End Role="Counties" Type="ProjectFirma.Web.Models.Store.County" Multiplicity="*" />
@@ -1814,6 +2378,30 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="Counties">
         <PropertyRef Name="StateProvinceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_County_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="Counties" Type="ProjectFirma.Web.Models.Store.County" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="Counties">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FieldDefinitionData_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="FieldDefinitionDatas" Type="ProjectFirma.Web.Models.Store.FieldDefinitionData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="FieldDefinitionDatas">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1829,6 +2417,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_FieldDefinitionImage_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="FieldDefinitionImages" Type="ProjectFirma.Web.Models.Store.FieldDefinitionImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="FieldDefinitionImages">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_FileResource_Person_CreatePersonID_PersonID">
     <End Role="CreatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
     <End Role="FileResourcesWhereYouAreTheCreatePerson" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="*" />
@@ -1838,6 +2438,30 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="FileResourcesWhereYouAreTheCreatePerson">
         <PropertyRef Name="CreatePersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileResource_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="FileResources" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="FileResources">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FirmaPage_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="FirmaPages" Type="ProjectFirma.Web.Models.Store.FirmaPage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="FirmaPages">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1865,6 +2489,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_FirmaPageImage_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="FirmaPageImages" Type="ProjectFirma.Web.Models.Store.FirmaPageImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="FirmaPageImages">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_FundingSource_Organization_OrganizationID">
     <End Role="Organization" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="1" />
     <End Role="FundingSources" Type="ProjectFirma.Web.Models.Store.FundingSource" Multiplicity="*" />
@@ -1874,6 +2510,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="FundingSources">
         <PropertyRef Name="OrganizationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FundingSource_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="FundingSources" Type="ProjectFirma.Web.Models.Store.FundingSource" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="FundingSources">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1901,6 +2549,42 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Jurisdiction_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="Jurisdictions" Type="ProjectFirma.Web.Models.Store.Jurisdiction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="Jurisdictions">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MappedRegion_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="MappedRegions" Type="ProjectFirma.Web.Models.Store.MappedRegion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="MappedRegions">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MonitoringProgram_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="MonitoringPrograms" Type="ProjectFirma.Web.Models.Store.MonitoringProgram" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="MonitoringPrograms">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_MonitoringProgramDocument_FileResource_FileResourceID">
     <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
     <End Role="MonitoringProgramDocuments" Type="ProjectFirma.Web.Models.Store.MonitoringProgramDocument" Multiplicity="*" />
@@ -1922,6 +2606,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="MonitoringProgramDocuments">
         <PropertyRef Name="MonitoringProgramID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MonitoringProgramDocument_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="MonitoringProgramDocuments" Type="ProjectFirma.Web.Models.Store.MonitoringProgramDocument" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="MonitoringProgramDocuments">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1949,6 +2645,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_MonitoringProgramPartner_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="MonitoringProgramPartners" Type="ProjectFirma.Web.Models.Store.MonitoringProgramPartner" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="MonitoringProgramPartners">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Notification_Person_PersonID">
     <End Role="Person" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
     <End Role="Notifications" Type="ProjectFirma.Web.Models.Store.Notification" Multiplicity="*" />
@@ -1958,6 +2666,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="Notifications">
         <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Notification_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="Notifications" Type="ProjectFirma.Web.Models.Store.Notification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="Notifications">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1985,6 +2705,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_NotificationProject_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="NotificationProjects" Type="ProjectFirma.Web.Models.Store.NotificationProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="NotificationProjects">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_NotificationProposedProject_Notification_NotificationID">
     <End Role="Notification" Type="ProjectFirma.Web.Models.Store.Notification" Multiplicity="1" />
     <End Role="NotificationProposedProjects" Type="ProjectFirma.Web.Models.Store.NotificationProposedProject" Multiplicity="*" />
@@ -2006,6 +2738,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="NotificationProposedProjects">
         <PropertyRef Name="ProposedProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NotificationProposedProject_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="NotificationProposedProjects" Type="ProjectFirma.Web.Models.Store.NotificationProposedProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="NotificationProposedProjects">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2033,6 +2777,30 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Organization_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="Organizations" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="Organizations">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasure_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="PerformanceMeasures" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasures">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
     <End Role="PerformanceMeasureActuals" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureActual" Multiplicity="*" />
@@ -2054,6 +2822,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="PerformanceMeasureActuals">
         <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureActual_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="PerformanceMeasureActuals" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureActual" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureActuals">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2105,6 +2885,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PerformanceMeasureActualSubcategoryOption_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="PerformanceMeasureActualSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureActualSubcategoryOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureActualSubcategoryOptions">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
     <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureActualSubcategoryOptionUpdate" Multiplicity="*" />
@@ -2153,6 +2945,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PerformanceMeasureActualSubcategoryOptionUpdate_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="PerformanceMeasureActualSubcategoryOptionUpdates" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureActualSubcategoryOptionUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureActualSubcategoryOptionUpdates">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PerformanceMeasureActualUpdate_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
     <End Role="PerformanceMeasureActualUpdates" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureActualUpdate" Multiplicity="*" />
@@ -2174,6 +2978,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="PerformanceMeasureActualUpdates">
         <PropertyRef Name="ProjectUpdateBatchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureActualUpdate_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="PerformanceMeasureActualUpdates" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureActualUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureActualUpdates">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2201,6 +3017,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PerformanceMeasureExpected_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="PerformanceMeasureExpecteds" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpected" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureExpecteds">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
     <End Role="PerformanceMeasureExpectedProposeds" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedProposed" Multiplicity="*" />
@@ -2222,6 +3050,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="PerformanceMeasureExpectedProposeds">
         <PropertyRef Name="ProposedProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureExpectedProposed_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="PerformanceMeasureExpectedProposeds" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedProposed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureExpectedProposeds">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2273,6 +3113,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOption_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="PerformanceMeasureExpectedSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptions">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
     <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
@@ -2321,6 +3173,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PerformanceMeasureExpectedSubcategoryOptionProposed_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="PerformanceMeasureExpectedSubcategoryOptionProposeds" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureExpectedSubcategoryOptionProposed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureExpectedSubcategoryOptionProposeds">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID">
     <End Role="MonitoringProgram" Type="ProjectFirma.Web.Models.Store.MonitoringProgram" Multiplicity="1" />
     <End Role="PerformanceMeasureMonitoringPrograms" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureMonitoringProgram" Multiplicity="*" />
@@ -2342,6 +3206,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="PerformanceMeasureMonitoringPrograms">
         <PropertyRef Name="PerformanceMeasureID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureMonitoringProgram_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="PerformanceMeasureMonitoringPrograms" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureMonitoringProgram" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureMonitoringPrograms">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2381,6 +3257,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PerformanceMeasureNote_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="PerformanceMeasureNotes" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureNotes">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
     <End Role="PerformanceMeasureSubcategories" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategory" Multiplicity="*" />
@@ -2390,6 +3278,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="PerformanceMeasureSubcategories">
         <PropertyRef Name="PerformanceMeasureID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceMeasureSubcategory_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="PerformanceMeasureSubcategories" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureSubcategories">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2405,6 +3305,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PerformanceMeasureSubcategoryOption_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="PerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.PerformanceMeasureSubcategoryOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="PerformanceMeasureSubcategoryOptions">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Person_Organization_OrganizationID">
     <End Role="Organization" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="1" />
     <End Role="People" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="*" />
@@ -2414,6 +3326,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="People">
         <PropertyRef Name="OrganizationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Person_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="People" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="People">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2441,6 +3365,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Project_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="Projects" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="Projects">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID">
     <End Role="AssessmentQuestion" Type="ProjectFirma.Web.Models.Store.AssessmentQuestion" Multiplicity="1" />
     <End Role="ProjectAssessmentQuestions" Type="ProjectFirma.Web.Models.Store.ProjectAssessmentQuestion" Multiplicity="*" />
@@ -2462,6 +3398,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="ProjectAssessmentQuestions">
         <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectAssessmentQuestion_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectAssessmentQuestions" Type="ProjectFirma.Web.Models.Store.ProjectAssessmentQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectAssessmentQuestions">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2489,6 +3437,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectBudget_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectBudgets" Type="ProjectFirma.Web.Models.Store.ProjectBudget" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectBudgets">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectBudgetUpdate_FundingSource_FundingSourceID">
     <End Role="FundingSource" Type="ProjectFirma.Web.Models.Store.FundingSource" Multiplicity="1" />
     <End Role="ProjectBudgetUpdates" Type="ProjectFirma.Web.Models.Store.ProjectBudgetUpdate" Multiplicity="*" />
@@ -2510,6 +3470,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="ProjectBudgetUpdates">
         <PropertyRef Name="ProjectUpdateBatchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectBudgetUpdate_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectBudgetUpdates" Type="ProjectFirma.Web.Models.Store.ProjectBudgetUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectBudgetUpdates">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2537,6 +3509,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectClassification_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectClassifications" Type="ProjectFirma.Web.Models.Store.ProjectClassification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectClassifications">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectExemptReportingYear_Project_ProjectID">
     <End Role="Project" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="1" />
     <End Role="ProjectExemptReportingYears" Type="ProjectFirma.Web.Models.Store.ProjectExemptReportingYear" Multiplicity="*" />
@@ -2546,6 +3530,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="ProjectExemptReportingYears">
         <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectExemptReportingYear_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectExemptReportingYears" Type="ProjectFirma.Web.Models.Store.ProjectExemptReportingYear" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectExemptReportingYears">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2561,6 +3557,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectExemptReportingYearUpdate_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectExemptReportingYearUpdates" Type="ProjectFirma.Web.Models.Store.ProjectExemptReportingYearUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectExemptReportingYearUpdates">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectExternalLink_Project_ProjectID">
     <End Role="Project" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="1" />
     <End Role="ProjectExternalLinks" Type="ProjectFirma.Web.Models.Store.ProjectExternalLink" Multiplicity="*" />
@@ -2573,6 +3581,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectExternalLink_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectExternalLinks" Type="ProjectFirma.Web.Models.Store.ProjectExternalLink" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectExternalLinks">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
     <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.Store.ProjectUpdateBatch" Multiplicity="1" />
     <End Role="ProjectExternalLinkUpdates" Type="ProjectFirma.Web.Models.Store.ProjectExternalLinkUpdate" Multiplicity="*" />
@@ -2582,6 +3602,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="ProjectExternalLinkUpdates">
         <PropertyRef Name="ProjectUpdateBatchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectExternalLinkUpdate_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectExternalLinkUpdates" Type="ProjectFirma.Web.Models.Store.ProjectExternalLinkUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectExternalLinkUpdates">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2609,6 +3641,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectFundingOrganization_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectFundingOrganizations" Type="ProjectFirma.Web.Models.Store.ProjectFundingOrganization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectFundingOrganizations">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectFundingSourceExpenditure_FundingSource_FundingSourceID">
     <End Role="FundingSource" Type="ProjectFirma.Web.Models.Store.FundingSource" Multiplicity="1" />
     <End Role="ProjectFundingSourceExpenditures" Type="ProjectFirma.Web.Models.Store.ProjectFundingSourceExpenditure" Multiplicity="*" />
@@ -2630,6 +3674,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="ProjectFundingSourceExpenditures">
         <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectFundingSourceExpenditure_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectFundingSourceExpenditures" Type="ProjectFirma.Web.Models.Store.ProjectFundingSourceExpenditure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectFundingSourceExpenditures">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2657,6 +3713,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectFundingSourceExpenditureUpdate_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectFundingSourceExpenditureUpdates" Type="ProjectFirma.Web.Models.Store.ProjectFundingSourceExpenditureUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectFundingSourceExpenditureUpdates">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectImage_FileResource_FileResourceID">
     <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
     <End Role="ProjectImages" Type="ProjectFirma.Web.Models.Store.ProjectImage" Multiplicity="*" />
@@ -2678,6 +3746,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="ProjectImages">
         <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectImage_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectImages" Type="ProjectFirma.Web.Models.Store.ProjectImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectImages">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2717,6 +3797,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectImageUpdate_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectImageUpdates" Type="ProjectFirma.Web.Models.Store.ProjectImageUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectImageUpdates">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectImplementingOrganization_Organization_OrganizationID">
     <End Role="Organization" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="1" />
     <End Role="ProjectImplementingOrganizations" Type="ProjectFirma.Web.Models.Store.ProjectImplementingOrganization" Multiplicity="*" />
@@ -2741,6 +3833,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectImplementingOrganization_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectImplementingOrganizations" Type="ProjectFirma.Web.Models.Store.ProjectImplementingOrganization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectImplementingOrganizations">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectLocation_Project_ProjectID">
     <End Role="Project" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="1" />
     <End Role="ProjectLocations" Type="ProjectFirma.Web.Models.Store.ProjectLocation" Multiplicity="*" />
@@ -2750,6 +3854,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="ProjectLocations">
         <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectLocation_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectLocations" Type="ProjectFirma.Web.Models.Store.ProjectLocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectLocations">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2801,6 +3917,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectLocationArea_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectLocationAreas" Type="ProjectFirma.Web.Models.Store.ProjectLocationArea" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectLocationAreas">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectLocationArea_Watershed_WatershedID">
     <End Role="Watershed" Type="ProjectFirma.Web.Models.Store.Watershed" Multiplicity="0..1" />
     <End Role="ProjectLocationAreas" Type="ProjectFirma.Web.Models.Store.ProjectLocationArea" Multiplicity="*" />
@@ -2810,6 +3938,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="ProjectLocationAreas">
         <PropertyRef Name="WatershedID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectLocationAreaGroup_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectLocationAreaGroups" Type="ProjectFirma.Web.Models.Store.ProjectLocationAreaGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectLocationAreaGroups">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2837,6 +3977,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectLocationAreaJurisdiction_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectLocationAreaJurisdictions" Type="ProjectFirma.Web.Models.Store.ProjectLocationAreaJurisdiction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectLocationAreaJurisdictions">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectLocationAreaStateProvince_ProjectLocationArea_ProjectLocationAreaID">
     <End Role="ProjectLocationArea" Type="ProjectFirma.Web.Models.Store.ProjectLocationArea" Multiplicity="1" />
     <End Role="ProjectLocationAreaStateProvinces" Type="ProjectFirma.Web.Models.Store.ProjectLocationAreaStateProvince" Multiplicity="*" />
@@ -2861,6 +4013,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectLocationAreaStateProvince_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectLocationAreaStateProvinces" Type="ProjectFirma.Web.Models.Store.ProjectLocationAreaStateProvince" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectLocationAreaStateProvinces">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectLocationAreaWatershed_ProjectLocationArea_ProjectLocationAreaID">
     <End Role="ProjectLocationArea" Type="ProjectFirma.Web.Models.Store.ProjectLocationArea" Multiplicity="1" />
     <End Role="ProjectLocationAreaWatersheds" Type="ProjectFirma.Web.Models.Store.ProjectLocationAreaWatershed" Multiplicity="*" />
@@ -2870,6 +4034,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="ProjectLocationAreaWatersheds">
         <PropertyRef Name="ProjectLocationAreaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectLocationAreaWatershed_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectLocationAreaWatersheds" Type="ProjectFirma.Web.Models.Store.ProjectLocationAreaWatershed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectLocationAreaWatersheds">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2897,6 +4073,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectLocationStaging_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectLocationStagings" Type="ProjectFirma.Web.Models.Store.ProjectLocationStaging" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectLocationStagings">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectLocationStagingUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
     <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.Store.ProjectUpdateBatch" Multiplicity="1" />
     <End Role="ProjectLocationStagingUpdates" Type="ProjectFirma.Web.Models.Store.ProjectLocationStagingUpdate" Multiplicity="*" />
@@ -2909,6 +4097,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectLocationStagingUpdate_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectLocationStagingUpdates" Type="ProjectFirma.Web.Models.Store.ProjectLocationStagingUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectLocationStagingUpdates">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectLocationUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
     <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.Store.ProjectUpdateBatch" Multiplicity="1" />
     <End Role="ProjectLocationUpdates" Type="ProjectFirma.Web.Models.Store.ProjectLocationUpdate" Multiplicity="*" />
@@ -2918,6 +4118,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="ProjectLocationUpdates">
         <PropertyRef Name="ProjectUpdateBatchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectLocationUpdate_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectLocationUpdates" Type="ProjectFirma.Web.Models.Store.ProjectLocationUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectLocationUpdates">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2957,6 +4169,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectNote_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectNotes" Type="ProjectFirma.Web.Models.Store.ProjectNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectNotes">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectNoteUpdate_Person_CreatePersonID_PersonID">
     <End Role="CreatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
     <End Role="ProjectNoteUpdatesWhereYouAreTheCreatePerson" Type="ProjectFirma.Web.Models.Store.ProjectNoteUpdate" Multiplicity="*" />
@@ -2993,6 +4217,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectNoteUpdate_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectNoteUpdates" Type="ProjectFirma.Web.Models.Store.ProjectNoteUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectNoteUpdates">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectTag_Project_ProjectID">
     <End Role="Project" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="1" />
     <End Role="ProjectTags" Type="ProjectFirma.Web.Models.Store.ProjectTag" Multiplicity="*" />
@@ -3014,6 +4250,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="ProjectTags">
         <PropertyRef Name="TagID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectTag_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectTags" Type="ProjectFirma.Web.Models.Store.ProjectTag" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectTags">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3041,6 +4289,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectUpdate_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectUpdates" Type="ProjectFirma.Web.Models.Store.ProjectUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectUpdates">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectUpdateBatch_Person_LastUpdatePersonID_PersonID">
     <End Role="LastUpdatePerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
     <End Role="ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson" Type="ProjectFirma.Web.Models.Store.ProjectUpdateBatch" Multiplicity="*" />
@@ -3062,6 +4322,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="ProjectUpdateBatches">
         <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectUpdateBatch_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectUpdateBatches" Type="ProjectFirma.Web.Models.Store.ProjectUpdateBatch" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectUpdateBatches">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3089,6 +4361,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectUpdateHistory_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectUpdateHistories" Type="ProjectFirma.Web.Models.Store.ProjectUpdateHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectUpdateHistories">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectWatershed_Project_ProjectID">
     <End Role="Project" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="1" />
     <End Role="ProjectWatersheds" Type="ProjectFirma.Web.Models.Store.ProjectWatershed" Multiplicity="*" />
@@ -3098,6 +4382,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="ProjectWatersheds">
         <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectWatershed_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProjectWatersheds" Type="ProjectFirma.Web.Models.Store.ProjectWatershed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProjectWatersheds">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3185,6 +4481,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProposedProject_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProposedProjects" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProposedProjects">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID">
     <End Role="AssessmentQuestion" Type="ProjectFirma.Web.Models.Store.AssessmentQuestion" Multiplicity="1" />
     <End Role="ProposedProjectAssessmentQuestions" Type="ProjectFirma.Web.Models.Store.ProposedProjectAssessmentQuestion" Multiplicity="*" />
@@ -3206,6 +4514,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="ProposedProjectAssessmentQuestions">
         <PropertyRef Name="ProposedProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProposedProjectAssessmentQuestion_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProposedProjectAssessmentQuestions" Type="ProjectFirma.Web.Models.Store.ProposedProjectAssessmentQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProposedProjectAssessmentQuestions">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3233,6 +4553,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProposedProjectClassification_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProposedProjectClassifications" Type="ProjectFirma.Web.Models.Store.ProposedProjectClassification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProposedProjectClassifications">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProposedProjectImage_FileResource_FileResourceID">
     <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
     <End Role="ProposedProjectImages" Type="ProjectFirma.Web.Models.Store.ProposedProjectImage" Multiplicity="*" />
@@ -3257,6 +4589,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProposedProjectImage_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProposedProjectImages" Type="ProjectFirma.Web.Models.Store.ProposedProjectImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProposedProjectImages">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProposedProjectLocation_ProposedProject_ProposedProjectID">
     <End Role="ProposedProject" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="1" />
     <End Role="ProposedProjectLocations" Type="ProjectFirma.Web.Models.Store.ProposedProjectLocation" Multiplicity="*" />
@@ -3269,6 +4613,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProposedProjectLocation_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProposedProjectLocations" Type="ProjectFirma.Web.Models.Store.ProposedProjectLocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProposedProjectLocations">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID">
     <End Role="ProposedProject" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="1" />
     <End Role="ProposedProjectLocationStagings" Type="ProjectFirma.Web.Models.Store.ProposedProjectLocationStaging" Multiplicity="*" />
@@ -3278,6 +4634,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="ProposedProjectLocationStagings">
         <PropertyRef Name="ProposedProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProposedProjectLocationStaging_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProposedProjectLocationStagings" Type="ProjectFirma.Web.Models.Store.ProposedProjectLocationStaging" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProposedProjectLocationStagings">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3317,6 +4685,30 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProposedProjectNote_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="ProposedProjectNotes" Type="ProjectFirma.Web.Models.Store.ProposedProjectNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="ProposedProjectNotes">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Snapshot_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="Snapshots" Type="ProjectFirma.Web.Models.Store.Snapshot" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="Snapshots">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
     <End Role="SnapshotPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.SnapshotPerformanceMeasure" Multiplicity="*" />
@@ -3338,6 +4730,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="SnapshotPerformanceMeasures">
         <PropertyRef Name="SnapshotID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SnapshotPerformanceMeasure_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="SnapshotPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.SnapshotPerformanceMeasure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="SnapshotPerformanceMeasures">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3389,6 +4793,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SnapshotPerformanceMeasureSubcategoryOption_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="SnapshotPerformanceMeasureSubcategoryOptions" Type="ProjectFirma.Web.Models.Store.SnapshotPerformanceMeasureSubcategoryOption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_SnapshotProject_Project_ProjectID">
     <End Role="Project" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="1" />
     <End Role="SnapshotProjects" Type="ProjectFirma.Web.Models.Store.SnapshotProject" Multiplicity="*" />
@@ -3413,6 +4829,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SnapshotProject_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="SnapshotProjects" Type="ProjectFirma.Web.Models.Store.SnapshotProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="SnapshotProjects">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_SnapshotSectorExpenditure_Snapshot_SnapshotID">
     <End Role="Snapshot" Type="ProjectFirma.Web.Models.Store.Snapshot" Multiplicity="1" />
     <End Role="SnapshotSectorExpenditures" Type="ProjectFirma.Web.Models.Store.SnapshotSectorExpenditure" Multiplicity="*" />
@@ -3422,6 +4850,30 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="SnapshotSectorExpenditures">
         <PropertyRef Name="SnapshotID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SnapshotSectorExpenditure_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="SnapshotSectorExpenditures" Type="ProjectFirma.Web.Models.Store.SnapshotSectorExpenditure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="SnapshotSectorExpenditures">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StateProvince_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="StateProvinces" Type="ProjectFirma.Web.Models.Store.StateProvince" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="StateProvinces">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3437,6 +4889,30 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SupportRequestLog_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="SupportRequestLogs" Type="ProjectFirma.Web.Models.Store.SupportRequestLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="SupportRequestLogs">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tag_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="Tags" Type="ProjectFirma.Web.Models.Store.Tag" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="Tags">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID">
     <End Role="TaxonomyTierTwo" Type="ProjectFirma.Web.Models.Store.TaxonomyTierTwo" Multiplicity="1" />
     <End Role="TaxonomyTierOnes" Type="ProjectFirma.Web.Models.Store.TaxonomyTierOne" Multiplicity="*" />
@@ -3446,6 +4922,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="TaxonomyTierOnes">
         <PropertyRef Name="TaxonomyTierTwoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyTierOne_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="TaxonomyTierOnes" Type="ProjectFirma.Web.Models.Store.TaxonomyTierOne" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierOnes">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3473,6 +4961,30 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_TaxonomyTierOneImage_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="TaxonomyTierOneImages" Type="ProjectFirma.Web.Models.Store.TaxonomyTierOneImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierOneImages">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyTierThree_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="TaxonomyTierThrees" Type="ProjectFirma.Web.Models.Store.TaxonomyTierThree" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierThrees">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_TaxonomyTierThreeImage_FileResource_FileResourceID">
     <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
     <End Role="TaxonomyTierThreeImages" Type="ProjectFirma.Web.Models.Store.TaxonomyTierThreeImage" Multiplicity="*" />
@@ -3497,6 +5009,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_TaxonomyTierThreeImage_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="TaxonomyTierThreeImages" Type="ProjectFirma.Web.Models.Store.TaxonomyTierThreeImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierThreeImages">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID">
     <End Role="TaxonomyTierThree" Type="ProjectFirma.Web.Models.Store.TaxonomyTierThree" Multiplicity="1" />
     <End Role="TaxonomyTierTwos" Type="ProjectFirma.Web.Models.Store.TaxonomyTierTwo" Multiplicity="*" />
@@ -3506,6 +5030,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="TaxonomyTierTwos">
         <PropertyRef Name="TaxonomyTierThreeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyTierTwo_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="TaxonomyTierTwos" Type="ProjectFirma.Web.Models.Store.TaxonomyTierTwo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierTwos">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3533,6 +5069,18 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_TaxonomyTierTwoImage_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="TaxonomyTierTwoImages" Type="ProjectFirma.Web.Models.Store.TaxonomyTierTwoImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierTwoImages">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
     <End Role="TaxonomyTierTwoPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.TaxonomyTierTwoPerformanceMeasure" Multiplicity="*" />
@@ -3554,6 +5102,30 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
       </Principal>
       <Dependent Role="TaxonomyTierTwoPerformanceMeasures">
         <PropertyRef Name="TaxonomyTierTwoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaxonomyTierTwoPerformanceMeasure_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="TaxonomyTierTwoPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.TaxonomyTierTwoPerformanceMeasure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="TaxonomyTierTwoPerformanceMeasures">
+        <PropertyRef Name="TenantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Watershed_Tenant_TenantID">
+    <End Role="Tenant" Type="ProjectFirma.Web.Models.Store.Tenant" Multiplicity="1" />
+    <End Role="Watersheds" Type="ProjectFirma.Web.Models.Store.Watershed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tenant">
+        <PropertyRef Name="TenantID" />
+      </Principal>
+      <Dependent Role="Watersheds">
+        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

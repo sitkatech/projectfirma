@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[TaxonomyTierTwoPerformanceMeasure]")]
-    public partial class TaxonomyTierTwoPerformanceMeasure : IHavePrimaryKey
+    public partial class TaxonomyTierTwoPerformanceMeasure : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -93,10 +93,12 @@ namespace ProjectFirma.Web.Models
         public int TaxonomyTierTwoID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public bool IsPrimaryTaxonomyTierTwo { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return TaxonomyTierTwoPerformanceMeasureID; } set { TaxonomyTierTwoPerformanceMeasureID = value; } }
 
         public virtual TaxonomyTierTwo TaxonomyTierTwo { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

@@ -6,6 +6,7 @@ CREATE TABLE [dbo].[FieldDefinitionImage](
 	[FieldDefinitionImageID] [int] IDENTITY(1,1) NOT NULL,
 	[FieldDefinitionID] [int] NOT NULL,
 	[FileResourceID] [int] NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_FieldDefinitionImage_FieldDefinitionImageID] PRIMARY KEY CLUSTERED 
 (
 	[FieldDefinitionImageID] ASC
@@ -27,3 +28,8 @@ ALTER TABLE [dbo].[FieldDefinitionImage]  WITH CHECK ADD  CONSTRAINT [FK_FieldDe
 REFERENCES [dbo].[FileResource] ([FileResourceID])
 GO
 ALTER TABLE [dbo].[FieldDefinitionImage] CHECK CONSTRAINT [FK_FieldDefinitionImage_FileResource_FileResourceID]
+GO
+ALTER TABLE [dbo].[FieldDefinitionImage]  WITH CHECK ADD  CONSTRAINT [FK_FieldDefinitionImage_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[FieldDefinitionImage] CHECK CONSTRAINT [FK_FieldDefinitionImage_Tenant_TenantID]

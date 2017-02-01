@@ -19,6 +19,7 @@ CREATE TABLE [dbo].[Person](
 	[ReceiveSupportEmails] [bit] NOT NULL,
 	[WebServiceAccessToken] [uniqueidentifier] NULL,
 	[LoginName] [varchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_Person_PersonID] PRIMARY KEY CLUSTERED 
 (
 	[PersonID] ASC
@@ -39,3 +40,8 @@ ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_Role_RoleID] F
 REFERENCES [dbo].[Role] ([RoleID])
 GO
 ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_Role_RoleID]
+GO
+ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_Tenant_TenantID]

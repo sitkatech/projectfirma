@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[TaxonomyTierOne]")]
-    public partial class TaxonomyTierOne : IHavePrimaryKey
+    public partial class TaxonomyTierOne : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -99,12 +99,14 @@ namespace ProjectFirma.Web.Models
             set { TaxonomyTierOneDescription = value == null ? null : value.ToString(); }
         }
         public string TaxonomyTierOneCode { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return TaxonomyTierOneID; } set { TaxonomyTierOneID = value; } }
 
         public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<ProposedProject> ProposedProjects { get; set; }
         public virtual ICollection<TaxonomyTierOneImage> TaxonomyTierOneImages { get; set; }
         public virtual TaxonomyTierTwo TaxonomyTierTwo { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

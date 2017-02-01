@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[FirmaPageImage]")]
-    public partial class FirmaPageImage : IHavePrimaryKey
+    public partial class FirmaPageImage : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -89,10 +89,12 @@ namespace ProjectFirma.Web.Models
         public int FirmaPageImageID { get; set; }
         public int FirmaPageID { get; set; }
         public int FileResourceID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return FirmaPageImageID; } set { FirmaPageImageID = value; } }
 
         public virtual FirmaPage FirmaPage { get; set; }
         public virtual FileResource FileResource { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

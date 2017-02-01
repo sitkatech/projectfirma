@@ -6,6 +6,7 @@ using System.Threading;
 using LtInfo.Common;
 using ProjectFirma.Web.Models;
 using Keystone.Common;
+using Z.EntityFramework.Plus;
 using Person = ProjectFirma.Web.Models.Person;
 
 namespace ProjectFirma.Web.Common
@@ -14,7 +15,7 @@ namespace ProjectFirma.Web.Common
     {
         static HttpRequestStorage()
         {
-            LtInfoEntityTypeLoaderFactoryFunction = (() => MakeNewContext(false));
+            LtInfoEntityTypeLoaderFactoryFunction = () => MakeNewContext(false);
         }
 
         protected override List<string> BackingStoreKeys
@@ -28,6 +29,12 @@ namespace ProjectFirma.Web.Common
             set { BackingStore[PersonKey] = value; }
         }
 
+        public static Tenant Tenant
+        {
+            get { return GetValueOrDefault(TenantKey, () => DatabaseEntities.Tenants.GetTenant(2)); }
+            set { BackingStore[TenantKey] = value; }
+        }
+
 
         public static DatabaseEntities DatabaseEntities
         {
@@ -37,6 +44,7 @@ namespace ProjectFirma.Web.Common
         private static DatabaseEntities MakeNewContext(bool autoDetectChangesEnabled)
         {
             var databaseEntities = new DatabaseEntities();
+            databaseEntities.Filter<IHaveATenantID>(q => q.Where(x => x.TenantID == Tenant.TenantID));
             databaseEntities.Configuration.AutoDetectChangesEnabled = autoDetectChangesEnabled;
             return databaseEntities;
         }

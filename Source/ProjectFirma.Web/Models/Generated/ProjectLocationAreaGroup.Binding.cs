@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectLocationAreaGroup]")]
-    public partial class ProjectLocationAreaGroup : IHavePrimaryKey
+    public partial class ProjectLocationAreaGroup : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -81,10 +81,12 @@ namespace ProjectFirma.Web.Models
         [Key]
         public int ProjectLocationAreaGroupID { get; set; }
         public int ProjectLocationAreaGroupTypeID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectLocationAreaGroupID; } set { ProjectLocationAreaGroupID = value; } }
 
         public virtual ICollection<ProjectLocationArea> ProjectLocationAreas { get; set; }
         public ProjectLocationAreaGroupType ProjectLocationAreaGroupType { get { return ProjectLocationAreaGroupType.AllLookupDictionary[ProjectLocationAreaGroupTypeID]; } }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

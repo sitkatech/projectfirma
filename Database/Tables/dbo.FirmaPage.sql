@@ -6,6 +6,7 @@ CREATE TABLE [dbo].[FirmaPage](
 	[FirmaPageID] [int] IDENTITY(1,1) NOT NULL,
 	[FirmaPageTypeID] [int] NOT NULL,
 	[FirmaPageContent] [dbo].[html] NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_FirmaPage_FirmaPageID] PRIMARY KEY CLUSTERED 
 (
 	[FirmaPageID] ASC
@@ -21,3 +22,8 @@ ALTER TABLE [dbo].[FirmaPage]  WITH CHECK ADD  CONSTRAINT [FK_FirmaPage_FirmaPag
 REFERENCES [dbo].[FirmaPageType] ([FirmaPageTypeID])
 GO
 ALTER TABLE [dbo].[FirmaPage] CHECK CONSTRAINT [FK_FirmaPage_FirmaPageType_FirmaPageTypeID]
+GO
+ALTER TABLE [dbo].[FirmaPage]  WITH CHECK ADD  CONSTRAINT [FK_FirmaPage_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[FirmaPage] CHECK CONSTRAINT [FK_FirmaPage_Tenant_TenantID]

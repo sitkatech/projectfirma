@@ -22,8 +22,9 @@ namespace LtInfo.Common
         private const string NotFoundStoredErrorKey = "NotFoundStoredErrorKey";
         protected const string DatabaseContextKey = "DatabaseContextKey";
         protected const string PersonKey = "PersonKey";
+        protected const string TenantKey = "TenantKey";
 
-        private static readonly List<string> BackingStoreKeysList = new List<string> { ShouldLogErrorFromApplicationEndKey, ShouldHandleCustomErrorsKey, WcfStoredErrorKey, NotFoundStoredErrorKey, DatabaseContextKey, PersonKey };
+        private static readonly List<string> BackingStoreKeysList = new List<string> { ShouldLogErrorFromApplicationEndKey, ShouldHandleCustomErrorsKey, WcfStoredErrorKey, NotFoundStoredErrorKey, DatabaseContextKey, PersonKey, TenantKey };
         
         /// <summary>
         /// Indicates whether a passing exception was already logged elsewhere to avoid getting duplicate exception reports

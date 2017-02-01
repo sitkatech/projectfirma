@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[Notification](
 	[NotificationTypeID] [int] NOT NULL,
 	[PersonID] [int] NOT NULL,
 	[NotificationDate] [datetime] NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_Notification_NotificationID] PRIMARY KEY CLUSTERED 
 (
 	[NotificationID] ASC
@@ -23,3 +24,8 @@ ALTER TABLE [dbo].[Notification]  WITH CHECK ADD  CONSTRAINT [FK_Notification_Pe
 REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[Notification] CHECK CONSTRAINT [FK_Notification_Person_PersonID]
+GO
+ALTER TABLE [dbo].[Notification]  WITH CHECK ADD  CONSTRAINT [FK_Notification_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[Notification] CHECK CONSTRAINT [FK_Notification_Tenant_TenantID]

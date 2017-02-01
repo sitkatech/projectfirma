@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectBudgetUpdate]")]
-    public partial class ProjectBudgetUpdate : IHavePrimaryKey
+    public partial class ProjectBudgetUpdate : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -99,11 +99,13 @@ namespace ProjectFirma.Web.Models
         public int ProjectCostTypeID { get; set; }
         public int CalendarYear { get; set; }
         public decimal? BudgetedAmount { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectBudgetUpdateID; } set { ProjectBudgetUpdateID = value; } }
 
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public virtual FundingSource FundingSource { get; set; }
         public ProjectCostType ProjectCostType { get { return ProjectCostType.AllLookupDictionary[ProjectCostTypeID]; } }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

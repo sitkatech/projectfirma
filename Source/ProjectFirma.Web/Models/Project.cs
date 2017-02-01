@@ -7,7 +7,7 @@ using System.Web;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared;
-using EntityFramework.Extensions;
+using Z.EntityFramework.Plus;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;

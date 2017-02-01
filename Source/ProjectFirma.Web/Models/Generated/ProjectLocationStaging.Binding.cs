@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectLocationStaging]")]
-    public partial class ProjectLocationStaging : IHavePrimaryKey
+    public partial class ProjectLocationStaging : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -101,9 +101,11 @@ namespace ProjectFirma.Web.Models
         public string GeoJson { get; set; }
         public string SelectedProperty { get; set; }
         public bool ShouldImport { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectLocationStagingID; } set { ProjectLocationStagingID = value; } }
 
         public virtual Project Project { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

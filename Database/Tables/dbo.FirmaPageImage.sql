@@ -6,6 +6,7 @@ CREATE TABLE [dbo].[FirmaPageImage](
 	[FirmaPageImageID] [int] IDENTITY(1,1) NOT NULL,
 	[FirmaPageID] [int] NOT NULL,
 	[FileResourceID] [int] NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_FirmaPageImage_FirmaPageImageID] PRIMARY KEY CLUSTERED 
 (
 	[FirmaPageImageID] ASC
@@ -27,3 +28,8 @@ ALTER TABLE [dbo].[FirmaPageImage]  WITH CHECK ADD  CONSTRAINT [FK_FirmaPageImag
 REFERENCES [dbo].[FirmaPage] ([FirmaPageID])
 GO
 ALTER TABLE [dbo].[FirmaPageImage] CHECK CONSTRAINT [FK_FirmaPageImage_FirmaPage_FirmaPageID]
+GO
+ALTER TABLE [dbo].[FirmaPageImage]  WITH CHECK ADD  CONSTRAINT [FK_FirmaPageImage_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[FirmaPageImage] CHECK CONSTRAINT [FK_FirmaPageImage_Tenant_TenantID]

@@ -6,6 +6,7 @@ CREATE TABLE [dbo].[ProjectLocationAreaWatershed](
 	[ProjectLocationAreaWatershedID] [int] IDENTITY(1,1) NOT NULL,
 	[ProjectLocationAreaID] [int] NOT NULL,
 	[WatershedID] [int] NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectLocationAreaWatershed_ProjectLocationAreaWatershedID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectLocationAreaWatershedID] ASC
@@ -22,6 +23,11 @@ ALTER TABLE [dbo].[ProjectLocationAreaWatershed]  WITH CHECK ADD  CONSTRAINT [FK
 REFERENCES [dbo].[ProjectLocationArea] ([ProjectLocationAreaID])
 GO
 ALTER TABLE [dbo].[ProjectLocationAreaWatershed] CHECK CONSTRAINT [FK_ProjectLocationAreaWatershed_ProjectLocationArea_ProjectLocationAreaID]
+GO
+ALTER TABLE [dbo].[ProjectLocationAreaWatershed]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationAreaWatershed_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[ProjectLocationAreaWatershed] CHECK CONSTRAINT [FK_ProjectLocationAreaWatershed_Tenant_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectLocationAreaWatershed]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationAreaWatershed_Watershed_WatershedID] FOREIGN KEY([WatershedID])
 REFERENCES [dbo].[Watershed] ([WatershedID])

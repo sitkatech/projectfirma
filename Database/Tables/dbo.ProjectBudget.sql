@@ -9,6 +9,7 @@ CREATE TABLE [dbo].[ProjectBudget](
 	[ProjectCostTypeID] [int] NOT NULL,
 	[CalendarYear] [int] NOT NULL,
 	[BudgetedAmount] [money] NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectBudget_ProjectBudgetID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectBudgetID] ASC
@@ -37,3 +38,8 @@ ALTER TABLE [dbo].[ProjectBudget]  WITH CHECK ADD  CONSTRAINT [FK_ProjectBudget_
 REFERENCES [dbo].[ProjectCostType] ([ProjectCostTypeID])
 GO
 ALTER TABLE [dbo].[ProjectBudget] CHECK CONSTRAINT [FK_ProjectBudget_ProjectCostType_ProjectCostTypeID]
+GO
+ALTER TABLE [dbo].[ProjectBudget]  WITH CHECK ADD  CONSTRAINT [FK_ProjectBudget_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[ProjectBudget] CHECK CONSTRAINT [FK_ProjectBudget_Tenant_TenantID]

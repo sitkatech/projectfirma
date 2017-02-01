@@ -6,6 +6,7 @@ CREATE TABLE [dbo].[TaxonomyTierThreeImage](
 	[TaxonomyTierThreeImageID] [int] IDENTITY(1,1) NOT NULL,
 	[TaxonomyTierThreeID] [int] NOT NULL,
 	[FileResourceID] [int] NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_TaxonomyTierThreeImage_TaxonomyTierThreeImageID] PRIMARY KEY CLUSTERED 
 (
 	[TaxonomyTierThreeImageID] ASC
@@ -27,3 +28,8 @@ ALTER TABLE [dbo].[TaxonomyTierThreeImage]  WITH CHECK ADD  CONSTRAINT [FK_Taxon
 REFERENCES [dbo].[TaxonomyTierThree] ([TaxonomyTierThreeID])
 GO
 ALTER TABLE [dbo].[TaxonomyTierThreeImage] CHECK CONSTRAINT [FK_TaxonomyTierThreeImage_TaxonomyTierThree_TaxonomyTierThreeID]
+GO
+ALTER TABLE [dbo].[TaxonomyTierThreeImage]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierThreeImage_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[TaxonomyTierThreeImage] CHECK CONSTRAINT [FK_TaxonomyTierThreeImage_Tenant_TenantID]

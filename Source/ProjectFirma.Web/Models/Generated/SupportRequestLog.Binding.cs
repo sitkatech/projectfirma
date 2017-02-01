@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[SupportRequestLog]")]
-    public partial class SupportRequestLog : IHavePrimaryKey
+    public partial class SupportRequestLog : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -103,10 +103,12 @@ namespace ProjectFirma.Web.Models
         public string RequestDescription { get; set; }
         public string RequestPersonOrganization { get; set; }
         public string RequestPersonPhone { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return SupportRequestLogID; } set { SupportRequestLogID = value; } }
 
         public virtual Person RequestPerson { get; set; }
         public SupportRequestType SupportRequestType { get { return SupportRequestType.AllLookupDictionary[SupportRequestTypeID]; } }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

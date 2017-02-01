@@ -12,6 +12,7 @@ CREATE TABLE [dbo].[ProjectImageUpdate](
 	[IsKeyPhoto] [bit] NOT NULL,
 	[ExcludeFromFactSheet] [bit] NOT NULL,
 	[ProjectImageID] [int] NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectImageUpdate_ProjectImageUpdateID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectImageUpdateID] ASC
@@ -38,3 +39,8 @@ ALTER TABLE [dbo].[ProjectImageUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectIm
 REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID])
 GO
 ALTER TABLE [dbo].[ProjectImageUpdate] CHECK CONSTRAINT [FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID]
+GO
+ALTER TABLE [dbo].[ProjectImageUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImageUpdate_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[ProjectImageUpdate] CHECK CONSTRAINT [FK_ProjectImageUpdate_Tenant_TenantID]

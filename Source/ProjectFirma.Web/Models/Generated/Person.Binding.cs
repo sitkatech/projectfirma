@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[Person]")]
-    public partial class Person : IHavePrimaryKey
+    public partial class Person : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -145,6 +145,7 @@ namespace ProjectFirma.Web.Models
         public bool ReceiveSupportEmails { get; set; }
         public Guid? WebServiceAccessToken { get; set; }
         public string LoginName { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return PersonID; } set { PersonID = value; } }
 
         public virtual ICollection<AuditLog> AuditLogs { get; set; }
@@ -166,6 +167,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<SupportRequestLog> SupportRequestLogsWhereYouAreTheRequestPerson { get; set; }
         public Role Role { get { return Role.AllLookupDictionary[RoleID]; } }
         public virtual Organization Organization { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

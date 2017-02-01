@@ -4,7 +4,7 @@
 //  Source Table: [dbo].[FirmaPageImage]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
+using Z.EntityFramework.Plus;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;

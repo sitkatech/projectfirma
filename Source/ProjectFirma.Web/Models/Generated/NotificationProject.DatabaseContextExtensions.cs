@@ -4,7 +4,7 @@
 //  Source Table: [dbo].[NotificationProject]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
+using Z.EntityFramework.Plus;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
