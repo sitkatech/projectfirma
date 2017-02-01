@@ -190,33 +190,33 @@
             overflow: visible;
             margin: 0;
             padding: 0;
-                              }
+        }
 
         .factSheetAboutProject {
             font-size: 18px;
-                               }
+        }
 
         .photosSection {
             page-break-before: always;
-                       }
+        }
 
         .projectTaxonomy {
             color: #000;
             font-size: 18px;
-                         }
+        }
 
         .summaryLayout {
             font-size: 20px;
-                       }
+        }
 
         .sectionTitle {
             font-size: 20px;
-                      }
+        }
 
         .projectImageTiming {
             font-size: 19px;
             padding-top: 0;
-                            }
+        }
     </style>
 
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
@@ -227,7 +227,7 @@
         <a class="btn btn-xs btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">Project Details</a>
         <button class="btn btn-xs btn-firma" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> Print</button>
     </div>
-   
+
 </div>
 <div class="container factSheet">
     <table style="width: 100%; padding-bottom: 15px">
@@ -303,7 +303,7 @@
                 }
                 else
                 {
-                    <div class="alert">Accomplishments to be provided upon completion of project.</div>
+                    <p>Accomplishments to be provided upon completion of project.</p>
                 }
                 <div class="sectionTitle taxonomyTierThreeColor">@MultiTenantHelpers.GetClassificationDisplayNamePluralized()</div>
                 @if (ViewDataTyped.Project.ProjectClassifications.Any())
@@ -323,7 +323,7 @@
                 }
                 else
                 {
-                    <div class="alert">No @MultiTenantHelpers.GetClassificationDisplayNamePluralized() provided.</div>
+                    <p>No @MultiTenantHelpers.GetClassificationDisplayNamePluralized() provided.</p>
                 }
             </td>
             @if (ViewDataTyped.KeyPhoto != null)
@@ -375,18 +375,15 @@
                             }
                             else
                             {
-                                <div class="alert">No expenditures provided.</div>
+                                <p>No expenditures provided.</p>
                             }
                         </div>
                     </div>
-
-
 
                 </div>
             </td>
         </tr>
     </table>
-    <div class="pull-right onlyOnPrint">Data as of @DateTime.Today.ToStringDate()</div>
 
     <div class="sectionTitle taxonomyTierThreeColor photosSection">Photos</div>
     @if (ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming.Any())
@@ -417,8 +414,10 @@
     }
     else
     {
-        <div class="alert">No photos provided.</div>
+        <p>No photos provided.</p>
     }
+    
+    <div class="pull-right onlyOnPrint">Data as of @DateTime.Today.ToStringDate()</div>
 </div>
 
 <script type="text/javascript">

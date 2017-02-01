@@ -449,7 +449,11 @@ a.excelbutton {
     padding: 0 0 0 15px;
 }
 
-// Fielf Definitions
+.onlyOnPrint {
+    display: none;
+}
+
+// Field Definitions
 .helpicon {
     font-size: 10px;
     cursor: pointer;
@@ -477,17 +481,22 @@ a.excelbutton {
 }
 
 /* ScrollSpy / Table of Contents */
-nav#tableOfContents ul.nav li a,
-nav#tableOfContents ul.nav ul.nav {
-  margin: 0;
+nav#tableOfContents ul.nav li a {
   border: none;
   background-color: transparent;
   color: #555;
   text-decoration: none;
   font-weight: bold;
   padding: 0 0 0 5px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+    margin-bottom: 5px;
+}
+nav#tableOfContents ul.nav ul.nav {
+  border: none;
+  background-color: transparent;
+  color: #555;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0 0 0 5px;
 }
 nav#tableOfContents ul.nav ul.nav li a {
   padding: 0 0 0 15px ;

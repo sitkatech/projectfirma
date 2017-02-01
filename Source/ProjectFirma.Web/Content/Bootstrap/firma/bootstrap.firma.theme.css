@@ -354,6 +354,9 @@ a.excelbutton {
   background: url(/Content/img/button_icon_excel.png) no-repeat scroll 0 0 transparent;
   padding: 0 0 0 15px;
 }
+.onlyOnPrint {
+  display: none;
+}
 .helpicon {
   font-size: 10px;
   cursor: pointer;
@@ -375,17 +378,22 @@ a.excelbutton {
   color: #000;
 }
 /* ScrollSpy / Table of Contents */
-nav#tableOfContents ul.nav li a,
-nav#tableOfContents ul.nav ul.nav {
-  margin: 0;
+nav#tableOfContents ul.nav li a {
   border: none;
   background-color: transparent;
   color: #555;
   text-decoration: none;
   font-weight: bold;
   padding: 0 0 0 5px;
-  margin-top: 5px;
   margin-bottom: 5px;
+}
+nav#tableOfContents ul.nav ul.nav {
+  border: none;
+  background-color: transparent;
+  color: #555;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0 0 0 5px;
 }
 nav#tableOfContents ul.nav ul.nav li a {
   padding: 0 0 0 15px ;
