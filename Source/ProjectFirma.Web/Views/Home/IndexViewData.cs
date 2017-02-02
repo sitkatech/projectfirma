@@ -13,18 +13,24 @@ namespace ProjectFirma.Web.Views.Home
         public readonly bool ShowEditButton;
         public readonly string EditUrl;
 
+        public readonly FeaturedProjectsViewData FeaturedProjectsViewData;
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
         public readonly string FullMapUrl;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, ProjectLocationsMapViewData projectLocationsMapViewData, ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentPerson, firmaPage, false)
+        public IndexViewData(Person currentPerson,
+            Models.FirmaPage firmaPage,
+            FeaturedProjectsViewData featuredProjectsViewData,
+            ProjectLocationsMapViewData projectLocationsMapViewData,
+            ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentPerson, firmaPage, false)
         {
-            PageTitle =  string.Format("{0} Project Tracker", MultiTenantHelpers.GetTenantDisplayName());
+            PageTitle = string.Format("{0} Project Tracker", MultiTenantHelpers.GetTenantDisplayName());
 
             var permissionCheckResult = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage);
             ShowEditButton = permissionCheckResult.HasPermission;
             EditUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.EditPageContent(FirmaPageTypeEnum.HomePage));
 
+            FeaturedProjectsViewData = featuredProjectsViewData;
             FullMapUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ProjectMap());
             ProjectLocationsMapViewData = projectLocationsMapViewData;
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;

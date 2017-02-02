@@ -1,8 +1,9 @@
 ﻿@using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Views.Home
 @using ProjectFirma.Web.Views.Shared
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
-@inherits ProjectFirma.Web.Views.Home.Index
+@inherits Index
 @section JavascriptAndStylesContent
 {
     <meta name="Description" content="ProjectFirma provides public access to program information and details on watershed, habitat, stormwater, forestry, air quality, and  projects implemented by ProjectFirma partners." />
@@ -29,7 +30,15 @@
 
 <div class="row">
     <div class="col-md-8">
-        @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
+        <div class="introPageContent">
+            @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
+        </div>
+
+        <div class="panel featuredProjectsPanel">
+            <h4 class="homePage">Featured Projects</h4>
+            @{ FeaturedProjects.RenderPartialView(Html, ViewDataTyped.FeaturedProjectsViewData); }
+
+        </div>
     </div>
 
     <div class="col-md-4">

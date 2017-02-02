@@ -1,0 +1,85 @@
+﻿@using LtInfo.Common
+@using LtInfo.Common.Views
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Controllers
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.Home.FeaturedProjects
+
+<style>
+   .featuredProjectsPanel
+        {
+            width: 100%;
+            background-color: transparent;
+            margin-bottom: 30px;
+        }
+
+        .featuredProjectsPanel table.summaryLayout th
+        {
+            color: #000;
+            white-space: nowrap;
+        }
+</style>
+
+
+<div id="featuredProjectsCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox" style="height: 390px">
+        @for (var index = 0; index < ViewDataTyped.FeaturedProjects.Count; ++index)
+        {
+            var featuredProject = ViewDataTyped.FeaturedProjects[index];
+            <div class="item@((index == 0) ? " active" : String.Empty)">
+                <div style="width: 95%" class="summaryLayout">
+                    <div>
+                        <a href="@featuredProject.GetFactSheetUrl()" style="font-weight: bold">@featuredProject.ProjectName</a>
+                    </div>
+                    <div class="row">
+                        @if (featuredProject.KeyPhoto != null)
+                        {
+                            <div class="col-lg-8">
+                                <a class="gallery" href="@featuredProject.KeyPhoto.PhotoUrl" title="@featuredProject.KeyPhoto.CaptionOnFullView" data-caption="@Html.Raw(featuredProject.KeyPhoto.CaptionOnFullView.HtmlEncodeWithBreaks())">
+                                    <img src="@featuredProject.KeyPhoto.FileResource.FileResourceUrlScaledForPrint" alt="@featuredProject.KeyPhoto.CaptionOnFullView"/>
+                                </a>
+                                <br/>
+                                <div>@featuredProject.KeyPhoto.Caption</div>
+                            </div>
+                        }
+                        <div class="col-lg-4">
+                            <table style="color: #000" class="summaryLayout">
+                                <tr>
+                                    <th>@MultiTenantHelpers.GetTaxonomyTierThreeDisplayName()</th>
+                                    <td>@featuredProject.TaxonomyTierOne.TaxonomyTierOneName</td>
+                                </tr>
+                                <tr>
+                                    <th>Implementers</th>
+                                    <td>@featuredProject.ProjectImplementingOrganizationNames</td>
+                                </tr>
+                                <tr>
+                                    <th>Stage</th>
+                                    <td>@featuredProject.ProjectStage.ProjectStageDisplayName</td>
+                                </tr>
+                                <tr>
+                                    <th>Duration</th>
+                                    <td>@featuredProject.Duration</td>
+                                </tr>
+                            </table>
+                            <div style="margin-top: 20px">
+                                @Html.Raw(featuredProject.ProjectDescription.HtmlEncodeWithBreaks())
+                            </div>
+                            <div class="pull-right">
+                                <a href="@featuredProject.GetFactSheetUrl()">View More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <ol class="carousel-indicators">
+        @for (var index = 0; index < ViewDataTyped.FeaturedProjects.Count; ++index)
+        {
+            <li @((index == 0) ? "class=active" : String.Empty) data-target="#featuredProjectsCarousel" data-slide-to="@index"></li>
+        }
+    </ol>
+</div>
