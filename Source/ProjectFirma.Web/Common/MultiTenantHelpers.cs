@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Common
 
         public static Point GetDefaultNorthEastPoint()
         {
-            return new Point(45.3725, -121.796389);
+            return new Point(45.5725, -121.796389);
         }
     }
 }

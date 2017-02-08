@@ -63,7 +63,7 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
                 var fillPolygonByDefault = feature.geometry.type == "Polygon";
                 return {
                     color: feature.properties.FeatureColor == null ? currentLayer.LayerColor : feature.properties.FeatureColor,
-                    weight: feature.properties.FeatureWeight == null ? 3 : feature.properties.FeatureWeight,
+                    weight: feature.properties.FeatureWeight == null ? 2 : feature.properties.FeatureWeight,
                     fill: feature.properties.FillPolygon == null ? fillPolygonByDefault : feature.properties.FillPolygon,
                     fillOpacity: feature.properties.FillOpacity == null ? 0.2 : feature.properties.FillOpacity
                 };
@@ -144,7 +144,7 @@ ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function (clickEventFun
 ProjectFirmaMaps.Map.prototype.getFeatureInfo = function (e)
 {
     var latlng = e.latlng;
-    var html = "<table class=\"summaryLayout\"><tr><th colspan=\"2\">Location Information:</th></tr>";
+    var html = "<table class=\"summaryLayout\"><tr><th colspan=\"2\">Location Information</th></tr>";
     html += this.formatLayerProperty("Latitude", L.Util.formatNum(latlng.lat, 4));
     html += this.formatLayerProperty("Longitude", L.Util.formatNum(latlng.lng, 4));
     for (var j = 0; j < this.vectorLayers.length; ++j) {

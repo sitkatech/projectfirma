@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Models
 
             var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
             var geoJsonForWatersheds = Models.Watershed.ToGeoJsonFeatureCollection(watersheds);
-            layerGeoJsons.Add(new LayerGeoJson("Watershed", geoJsonForWatersheds, "#59ACFF", 0.6m, LayerInitialVisibility.Hide));
+            layerGeoJsons.Add(new LayerGeoJson("Watershed", geoJsonForWatersheds, "#90C3D4", 0.1m, LayerInitialVisibility.Show));
             return layerGeoJsons;
         }
 
