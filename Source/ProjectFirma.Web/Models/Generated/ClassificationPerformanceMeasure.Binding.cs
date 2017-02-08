@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ClassificationPerformanceMeasure]")]
-    public partial class ClassificationPerformanceMeasure : IHavePrimaryKey, IHaveATenantID
+    public partial class ClassificationPerformanceMeasure : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -93,12 +93,10 @@ namespace ProjectFirma.Web.Models
         public int ClassificationID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public bool IsPrimaryChart { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return ClassificationPerformanceMeasureID; } set { ClassificationPerformanceMeasureID = value; } }
 
         public virtual Classification Classification { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

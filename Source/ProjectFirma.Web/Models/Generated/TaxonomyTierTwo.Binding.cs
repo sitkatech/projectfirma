@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[TaxonomyTierTwo]")]
-    public partial class TaxonomyTierTwo : IHavePrimaryKey, IHaveATenantID
+    public partial class TaxonomyTierTwo : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -101,14 +101,12 @@ namespace ProjectFirma.Web.Models
         }
         public string ThemeColor { get; set; }
         public string TaxonomyTierTwoCode { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return TaxonomyTierTwoID; } set { TaxonomyTierTwoID = value; } }
 
         public virtual ICollection<TaxonomyTierOne> TaxonomyTierOnes { get; set; }
         public virtual ICollection<TaxonomyTierTwoImage> TaxonomyTierTwoImages { get; set; }
         public virtual ICollection<TaxonomyTierTwoPerformanceMeasure> TaxonomyTierTwoPerformanceMeasures { get; set; }
         public virtual TaxonomyTierThree TaxonomyTierThree { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

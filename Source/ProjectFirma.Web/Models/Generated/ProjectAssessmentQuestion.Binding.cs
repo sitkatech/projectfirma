@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectAssessmentQuestion]")]
-    public partial class ProjectAssessmentQuestion : IHavePrimaryKey, IHaveATenantID
+    public partial class ProjectAssessmentQuestion : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -91,12 +91,10 @@ namespace ProjectFirma.Web.Models
         public int ProjectID { get; set; }
         public int AssessmentQuestionID { get; set; }
         public bool? Answer { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectAssessmentQuestionID; } set { ProjectAssessmentQuestionID = value; } }
 
         public virtual Project Project { get; set; }
         public virtual AssessmentQuestion AssessmentQuestion { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

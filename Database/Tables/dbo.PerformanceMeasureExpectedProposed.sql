@@ -7,7 +7,6 @@ CREATE TABLE [dbo].[PerformanceMeasureExpectedProposed](
 	[ProposedProjectID] [int] NOT NULL,
 	[PerformanceMeasureID] [int] NOT NULL,
 	[ExpectedValue] [float] NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureExpectedProposedID] ASC
@@ -29,8 +28,3 @@ ALTER TABLE [dbo].[PerformanceMeasureExpectedProposed]  WITH CHECK ADD  CONSTRAI
 REFERENCES [dbo].[ProposedProject] ([ProposedProjectID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasureExpectedProposed] CHECK CONSTRAINT [FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID]
-GO
-ALTER TABLE [dbo].[PerformanceMeasureExpectedProposed]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureExpectedProposed_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[PerformanceMeasureExpectedProposed] CHECK CONSTRAINT [FK_PerformanceMeasureExpectedProposed_Tenant_TenantID]

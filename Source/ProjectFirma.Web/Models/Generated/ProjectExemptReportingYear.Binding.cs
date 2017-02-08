@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectExemptReportingYear]")]
-    public partial class ProjectExemptReportingYear : IHavePrimaryKey, IHaveATenantID
+    public partial class ProjectExemptReportingYear : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -87,11 +87,9 @@ namespace ProjectFirma.Web.Models
         public int ProjectExemptReportingYearID { get; set; }
         public int ProjectID { get; set; }
         public int CalendarYear { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectExemptReportingYearID; } set { ProjectExemptReportingYearID = value; } }
 
         public virtual Project Project { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

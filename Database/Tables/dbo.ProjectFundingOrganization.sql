@@ -6,7 +6,6 @@ CREATE TABLE [dbo].[ProjectFundingOrganization](
 	[ProjectFundingOrganizationID] [int] IDENTITY(1,1) NOT NULL,
 	[ProjectID] [int] NOT NULL,
 	[OrganizationID] [int] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectFundingOrganization_ProjectFundingOrganizationID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectFundingOrganizationID] ASC
@@ -28,8 +27,3 @@ ALTER TABLE [dbo].[ProjectFundingOrganization]  WITH CHECK ADD  CONSTRAINT [FK_P
 REFERENCES [dbo].[Project] ([ProjectID])
 GO
 ALTER TABLE [dbo].[ProjectFundingOrganization] CHECK CONSTRAINT [FK_ProjectFundingOrganization_Project_ProjectID]
-GO
-ALTER TABLE [dbo].[ProjectFundingOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingOrganization_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[ProjectFundingOrganization] CHECK CONSTRAINT [FK_ProjectFundingOrganization_Tenant_TenantID]

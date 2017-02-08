@@ -8,7 +8,6 @@ CREATE TABLE [dbo].[MonitoringProgramDocument](
 	[MonitoringProgramID] [int] NOT NULL,
 	[DisplayName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[UploadDate] [date] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_MonitoringProgramDocument_MonitoringProgramDocumentID] PRIMARY KEY CLUSTERED 
 (
 	[MonitoringProgramDocumentID] ASC
@@ -30,8 +29,3 @@ ALTER TABLE [dbo].[MonitoringProgramDocument]  WITH CHECK ADD  CONSTRAINT [FK_Mo
 REFERENCES [dbo].[MonitoringProgram] ([MonitoringProgramID])
 GO
 ALTER TABLE [dbo].[MonitoringProgramDocument] CHECK CONSTRAINT [FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID]
-GO
-ALTER TABLE [dbo].[MonitoringProgramDocument]  WITH CHECK ADD  CONSTRAINT [FK_MonitoringProgramDocument_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[MonitoringProgramDocument] CHECK CONSTRAINT [FK_MonitoringProgramDocument_Tenant_TenantID]

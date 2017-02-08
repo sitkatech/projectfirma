@@ -8,7 +8,6 @@ CREATE TABLE [dbo].[PerformanceMeasureActual](
 	[PerformanceMeasureID] [int] NOT NULL,
 	[CalendarYear] [int] NOT NULL,
 	[ActualValue] [float] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_PerformanceMeasureActual_PerformanceMeasureActualID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureActualID] ASC
@@ -30,8 +29,3 @@ ALTER TABLE [dbo].[PerformanceMeasureActual]  WITH CHECK ADD  CONSTRAINT [FK_Per
 REFERENCES [dbo].[Project] ([ProjectID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasureActual] CHECK CONSTRAINT [FK_PerformanceMeasureActual_Project_ProjectID]
-GO
-ALTER TABLE [dbo].[PerformanceMeasureActual]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActual_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[PerformanceMeasureActual] CHECK CONSTRAINT [FK_PerformanceMeasureActual_Tenant_TenantID]

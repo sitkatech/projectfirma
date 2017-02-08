@@ -120,7 +120,6 @@ namespace ProjectFirma.Web.Models
         public virtual DbSet<TaxonomyTierTwoImage> TaxonomyTierTwoImages { get; set; }
         public virtual DbSet<TaxonomyTierTwoPerformanceMeasure> TaxonomyTierTwoPerformanceMeasures { get; set; }
         public virtual DbSet<TaxonomyTierTwo> TaxonomyTierTwos { get; set; }
-        public virtual DbSet<Tenant> Tenants { get; set; }
         public virtual DbSet<Watershed> Watersheds { get; set; }
 
         public object LoadType(Type type, int primaryKey)
@@ -517,9 +516,6 @@ namespace ProjectFirma.Web.Models
 
                 case "TaxonomyTierTwo":
                     return TaxonomyTierTwos.GetTaxonomyTierTwo(primaryKey);
-
-                case "Tenant":
-                    return Tenants.GetTenant(primaryKey);
 
                 case "Watershed":
                     return Watersheds.GetWatershed(primaryKey);

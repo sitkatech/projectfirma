@@ -7,7 +7,6 @@ CREATE TABLE [dbo].[ProposedProjectLocation](
 	[ProposedProjectID] [int] NOT NULL,
 	[ProjectLocationGeometry] [geometry] NOT NULL,
 	[Annotation] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProposedProjectLocation_ProposedProjectLocationID] PRIMARY KEY CLUSTERED 
 (
 	[ProposedProjectLocationID] ASC
@@ -19,8 +18,3 @@ ALTER TABLE [dbo].[ProposedProjectLocation]  WITH CHECK ADD  CONSTRAINT [FK_Prop
 REFERENCES [dbo].[ProposedProject] ([ProposedProjectID])
 GO
 ALTER TABLE [dbo].[ProposedProjectLocation] CHECK CONSTRAINT [FK_ProposedProjectLocation_ProposedProject_ProposedProjectID]
-GO
-ALTER TABLE [dbo].[ProposedProjectLocation]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectLocation_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[ProposedProjectLocation] CHECK CONSTRAINT [FK_ProposedProjectLocation_Tenant_TenantID]

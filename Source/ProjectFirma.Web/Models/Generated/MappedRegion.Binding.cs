@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[MappedRegion]")]
-    public partial class MappedRegion : IHavePrimaryKey, IHaveATenantID
+    public partial class MappedRegion : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -78,11 +78,9 @@ namespace ProjectFirma.Web.Models
         public string RegionName { get; set; }
         public string RegionDisplayName { get; set; }
         public DbGeometry RegionFeature { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return MappedRegionID; } set { MappedRegionID = value; } }
 
         public virtual ICollection<ProjectLocationArea> ProjectLocationAreas { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

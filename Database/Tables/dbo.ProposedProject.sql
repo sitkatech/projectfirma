@@ -27,7 +27,6 @@ CREATE TABLE [dbo].[ProposedProject](
 	[SubmissionDate] [datetime] NULL,
 	[ApprovalDate] [datetime] NULL,
 	[ReviewedByPersonID] [int] NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProposedProject_ProposedProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProposedProjectID] ASC
@@ -87,11 +86,6 @@ ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProj
 REFERENCES [dbo].[TaxonomyTierOne] ([TaxonomyTierOneID])
 GO
 ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID]
-GO
-ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProject_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [FK_ProposedProject_Tenant_TenantID]
 GO
 ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [CK_ProposedProject_AnnualCostForOperationsProposedProjectsOnly] CHECK  (([FundingTypeID]=(2) OR [EstimatedAnnualOperatingCost] IS NULL))
 GO

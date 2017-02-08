@@ -125,7 +125,7 @@
             <div class="contentWrapper" style="overflow-x: hidden; margin-right: auto; margin-left: auto">
                 @{ PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureChartViewData); }
 
-                <div>
+                <div style="padding-top: 15px">
                     <div class="panel-heading panelTitle">
                         <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditAccomplishmentsMetadataUrl, string.Format("Edit Accomplishments Metadata: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) Chart Metadata</h2>
                     </div>

@@ -5,7 +5,6 @@ GO
 CREATE TABLE [dbo].[ProjectLocationAreaGroup](
 	[ProjectLocationAreaGroupID] [int] NOT NULL,
 	[ProjectLocationAreaGroupTypeID] [int] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectLocationAreaGroup_ProjectLocationAreaGroupID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectLocationAreaGroupID] ASC
@@ -21,8 +20,3 @@ ALTER TABLE [dbo].[ProjectLocationAreaGroup]  WITH CHECK ADD  CONSTRAINT [FK_Pro
 REFERENCES [dbo].[ProjectLocationAreaGroupType] ([ProjectLocationAreaGroupTypeID])
 GO
 ALTER TABLE [dbo].[ProjectLocationAreaGroup] CHECK CONSTRAINT [FK_ProjectLocationAreaGroup_ProjectLocationAreaGroupType_ProjectLocationAreaGroupTypeID]
-GO
-ALTER TABLE [dbo].[ProjectLocationAreaGroup]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationAreaGroup_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[ProjectLocationAreaGroup] CHECK CONSTRAINT [FK_ProjectLocationAreaGroup_Tenant_TenantID]

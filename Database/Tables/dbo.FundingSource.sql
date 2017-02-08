@@ -8,7 +8,6 @@ CREATE TABLE [dbo].[FundingSource](
 	[FundingSourceName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[IsActive] [bit] NOT NULL,
 	[FundingSourceDescription] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_FundingSource_FundingSourceID] PRIMARY KEY CLUSTERED 
 (
 	[FundingSourceID] ASC
@@ -25,8 +24,3 @@ ALTER TABLE [dbo].[FundingSource]  WITH CHECK ADD  CONSTRAINT [FK_FundingSource_
 REFERENCES [dbo].[Organization] ([OrganizationID])
 GO
 ALTER TABLE [dbo].[FundingSource] CHECK CONSTRAINT [FK_FundingSource_Organization_OrganizationID]
-GO
-ALTER TABLE [dbo].[FundingSource]  WITH CHECK ADD  CONSTRAINT [FK_FundingSource_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[FundingSource] CHECK CONSTRAINT [FK_FundingSource_Tenant_TenantID]

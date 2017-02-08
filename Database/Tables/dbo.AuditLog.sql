@@ -15,7 +15,6 @@ CREATE TABLE [dbo].[AuditLog](
 	[AuditDescription] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ProjectID] [int] NULL,
 	[ProposedProjectID] [int] NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_AuditLog_AuditLogID] PRIMARY KEY CLUSTERED 
 (
 	[AuditLogID] ASC
@@ -32,8 +31,3 @@ ALTER TABLE [dbo].[AuditLog]  WITH CHECK ADD  CONSTRAINT [FK_AuditLog_Person_Per
 REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[AuditLog] CHECK CONSTRAINT [FK_AuditLog_Person_PersonID]
-GO
-ALTER TABLE [dbo].[AuditLog]  WITH CHECK ADD  CONSTRAINT [FK_AuditLog_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[AuditLog] CHECK CONSTRAINT [FK_AuditLog_Tenant_TenantID]

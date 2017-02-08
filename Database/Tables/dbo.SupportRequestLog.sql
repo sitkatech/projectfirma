@@ -12,7 +12,6 @@ CREATE TABLE [dbo].[SupportRequestLog](
 	[RequestDescription] [varchar](2000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[RequestPersonOrganization] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[RequestPersonPhone] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_SupportRequestLog_SupportRequestLogID] PRIMARY KEY CLUSTERED 
 (
 	[SupportRequestLogID] ASC
@@ -29,8 +28,3 @@ ALTER TABLE [dbo].[SupportRequestLog]  WITH CHECK ADD  CONSTRAINT [FK_SupportReq
 REFERENCES [dbo].[SupportRequestType] ([SupportRequestTypeID])
 GO
 ALTER TABLE [dbo].[SupportRequestLog] CHECK CONSTRAINT [FK_SupportRequestLog_SupportRequestType_SupportRequestTypeID]
-GO
-ALTER TABLE [dbo].[SupportRequestLog]  WITH CHECK ADD  CONSTRAINT [FK_SupportRequestLog_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[SupportRequestLog] CHECK CONSTRAINT [FK_SupportRequestLog_Tenant_TenantID]

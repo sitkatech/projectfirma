@@ -7,7 +7,6 @@ CREATE TABLE [dbo].[ClassificationPerformanceMeasure](
 	[ClassificationID] [int] NOT NULL,
 	[PerformanceMeasureID] [int] NOT NULL,
 	[IsPrimaryChart] [bit] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ClassificationPerformanceMeasure_ClassificationPerformanceMeasureID] PRIMARY KEY CLUSTERED 
 (
 	[ClassificationPerformanceMeasureID] ASC
@@ -29,8 +28,3 @@ ALTER TABLE [dbo].[ClassificationPerformanceMeasure]  WITH CHECK ADD  CONSTRAINT
 REFERENCES [dbo].[PerformanceMeasure] ([PerformanceMeasureID])
 GO
 ALTER TABLE [dbo].[ClassificationPerformanceMeasure] CHECK CONSTRAINT [FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID]
-GO
-ALTER TABLE [dbo].[ClassificationPerformanceMeasure]  WITH CHECK ADD  CONSTRAINT [FK_ClassificationPerformanceMeasure_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[ClassificationPerformanceMeasure] CHECK CONSTRAINT [FK_ClassificationPerformanceMeasure_Tenant_TenantID]

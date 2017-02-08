@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectImage]")]
-    public partial class ProjectImage : IHavePrimaryKey, IHaveATenantID
+    public partial class ProjectImage : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -109,14 +109,12 @@ namespace ProjectFirma.Web.Models
         public string Credit { get; set; }
         public bool IsKeyPhoto { get; set; }
         public bool ExcludeFromFactSheet { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectImageID; } set { ProjectImageID = value; } }
 
         public virtual ICollection<ProjectImageUpdate> ProjectImageUpdates { get; set; }
         public virtual FileResource FileResource { get; set; }
         public virtual Project Project { get; set; }
         public ProjectImageTiming ProjectImageTiming { get { return ProjectImageTiming.AllLookupDictionary[ProjectImageTimingID]; } }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

@@ -7,7 +7,6 @@ CREATE TABLE [dbo].[Jurisdiction](
 	[OrganizationID] [int] NOT NULL,
 	[JurisdictionFeature] [geometry] NULL,
 	[StateProvinceID] [int] NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_Jurisdiction_JurisdictionID] PRIMARY KEY CLUSTERED 
 (
 	[JurisdictionID] ASC
@@ -28,8 +27,3 @@ ALTER TABLE [dbo].[Jurisdiction]  WITH CHECK ADD  CONSTRAINT [FK_Jurisdiction_St
 REFERENCES [dbo].[StateProvince] ([StateProvinceID])
 GO
 ALTER TABLE [dbo].[Jurisdiction] CHECK CONSTRAINT [FK_Jurisdiction_StateProvince_StateProvinceID]
-GO
-ALTER TABLE [dbo].[Jurisdiction]  WITH CHECK ADD  CONSTRAINT [FK_Jurisdiction_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[Jurisdiction] CHECK CONSTRAINT [FK_Jurisdiction_Tenant_TenantID]

@@ -6,7 +6,6 @@ CREATE TABLE [dbo].[PerformanceMeasureMonitoringProgram](
 	[PerformanceMeasureMonitoringProgramID] [int] IDENTITY(1,1) NOT NULL,
 	[PerformanceMeasureID] [int] NOT NULL,
 	[MonitoringProgramID] [int] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_PerformanceMeasureMonitoringProgram_PerformanceMeasureMonitoringProgramID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureMonitoringProgramID] ASC
@@ -28,8 +27,3 @@ ALTER TABLE [dbo].[PerformanceMeasureMonitoringProgram]  WITH CHECK ADD  CONSTRA
 REFERENCES [dbo].[PerformanceMeasure] ([PerformanceMeasureID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasureMonitoringProgram] CHECK CONSTRAINT [FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID]
-GO
-ALTER TABLE [dbo].[PerformanceMeasureMonitoringProgram]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureMonitoringProgram_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[PerformanceMeasureMonitoringProgram] CHECK CONSTRAINT [FK_PerformanceMeasureMonitoringProgram_Tenant_TenantID]

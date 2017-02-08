@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[Snapshot]")]
-    public partial class Snapshot : IHavePrimaryKey, IHaveATenantID
+    public partial class Snapshot : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -79,13 +79,11 @@ namespace ProjectFirma.Web.Models
         public DateTime SnapshotDate { get; set; }
         public string SnapshotNote { get; set; }
         public int ProjectCount { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return SnapshotID; } set { SnapshotID = value; } }
 
         public virtual ICollection<SnapshotPerformanceMeasure> SnapshotPerformanceMeasures { get; set; }
         public virtual ICollection<SnapshotProject> SnapshotProjects { get; set; }
         public virtual ICollection<SnapshotSectorExpenditure> SnapshotSectorExpenditures { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[Tag]")]
-    public partial class Tag : IHavePrimaryKey, IHaveATenantID
+    public partial class Tag : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -74,11 +74,9 @@ namespace ProjectFirma.Web.Models
         public int TagID { get; set; }
         public string TagName { get; set; }
         public string TagDescription { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return TagID; } set { TagID = value; } }
 
         public virtual ICollection<ProjectTag> ProjectTags { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

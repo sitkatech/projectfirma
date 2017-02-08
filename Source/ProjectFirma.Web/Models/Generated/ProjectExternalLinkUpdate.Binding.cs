@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectExternalLinkUpdate]")]
-    public partial class ProjectExternalLinkUpdate : IHavePrimaryKey, IHaveATenantID
+    public partial class ProjectExternalLinkUpdate : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -91,11 +91,9 @@ namespace ProjectFirma.Web.Models
         public int ProjectUpdateBatchID { get; set; }
         public string ExternalLinkLabel { get; set; }
         public string ExternalLinkUrl { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectExternalLinkUpdateID; } set { ProjectExternalLinkUpdateID = value; } }
 
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

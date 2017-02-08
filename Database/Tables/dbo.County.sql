@@ -7,7 +7,6 @@ CREATE TABLE [dbo].[County](
 	[CountyName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[StateProvinceID] [int] NOT NULL,
 	[CountyFeature] [geometry] NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_County_CountyID] PRIMARY KEY CLUSTERED 
 (
 	[CountyID] ASC
@@ -23,8 +22,3 @@ ALTER TABLE [dbo].[County]  WITH CHECK ADD  CONSTRAINT [FK_County_StateProvince_
 REFERENCES [dbo].[StateProvince] ([StateProvinceID])
 GO
 ALTER TABLE [dbo].[County] CHECK CONSTRAINT [FK_County_StateProvince_StateProvinceID]
-GO
-ALTER TABLE [dbo].[County]  WITH CHECK ADD  CONSTRAINT [FK_County_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[County] CHECK CONSTRAINT [FK_County_Tenant_TenantID]

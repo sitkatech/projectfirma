@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[PerformanceMeasureExpected]")]
-    public partial class PerformanceMeasureExpected : IHavePrimaryKey, IHaveATenantID
+    public partial class PerformanceMeasureExpected : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -91,13 +91,11 @@ namespace ProjectFirma.Web.Models
         public int ProjectID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public double? ExpectedValue { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return PerformanceMeasureExpectedID; } set { PerformanceMeasureExpectedID = value; } }
 
         public virtual ICollection<PerformanceMeasureExpectedSubcategoryOption> PerformanceMeasureExpectedSubcategoryOptions { get; set; }
         public virtual Project Project { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

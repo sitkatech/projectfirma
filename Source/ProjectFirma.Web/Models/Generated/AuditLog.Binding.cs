@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[AuditLog]")]
-    public partial class AuditLog : IHavePrimaryKey, IHaveATenantID
+    public partial class AuditLog : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -115,12 +115,10 @@ namespace ProjectFirma.Web.Models
         public string AuditDescription { get; set; }
         public int? ProjectID { get; set; }
         public int? ProposedProjectID { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return AuditLogID; } set { AuditLogID = value; } }
 
         public virtual Person Person { get; set; }
         public AuditLogEventType AuditLogEventType { get { return AuditLogEventType.AllLookupDictionary[AuditLogEventTypeID]; } }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

@@ -8,7 +8,6 @@ CREATE TABLE [dbo].[SnapshotPerformanceMeasure](
 	[PerformanceMeasureID] [int] NOT NULL,
 	[CalendarYear] [int] NOT NULL,
 	[ActualValue] [float] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID] PRIMARY KEY CLUSTERED 
 (
 	[SnapshotPerformanceMeasureID] ASC
@@ -30,8 +29,3 @@ ALTER TABLE [dbo].[SnapshotPerformanceMeasure]  WITH CHECK ADD  CONSTRAINT [FK_S
 REFERENCES [dbo].[Snapshot] ([SnapshotID])
 GO
 ALTER TABLE [dbo].[SnapshotPerformanceMeasure] CHECK CONSTRAINT [FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID]
-GO
-ALTER TABLE [dbo].[SnapshotPerformanceMeasure]  WITH CHECK ADD  CONSTRAINT [FK_SnapshotPerformanceMeasure_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[SnapshotPerformanceMeasure] CHECK CONSTRAINT [FK_SnapshotPerformanceMeasure_Tenant_TenantID]

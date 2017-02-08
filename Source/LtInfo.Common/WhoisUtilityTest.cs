@@ -77,8 +77,6 @@ OrgTechRef:    http://whois.arin.net/rest/poc/AWC12-ARIN
         [Test]
         public void CanLookupIp4AddressThatRequiresRecursion()
         {
-            AssertCustom.IgnoreUntil(DateTime.Parse("3/1/2017"), "AFRINIC whois was down, maybe up again now?");
-
             // Arrange
             // -------
             // 156.8.0.1 works in Africa whois.afrinic.net

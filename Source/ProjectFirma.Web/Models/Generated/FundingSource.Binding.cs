@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[FundingSource]")]
-    public partial class FundingSource : IHavePrimaryKey, IHaveATenantID
+    public partial class FundingSource : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -96,7 +96,6 @@ namespace ProjectFirma.Web.Models
         public string FundingSourceName { get; set; }
         public bool IsActive { get; set; }
         public string FundingSourceDescription { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return FundingSourceID; } set { FundingSourceID = value; } }
 
         public virtual ICollection<ProjectBudget> ProjectBudgets { get; set; }
@@ -104,7 +103,6 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get; set; }
         public virtual Organization Organization { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[MonitoringProgramDocument]")]
-    public partial class MonitoringProgramDocument : IHavePrimaryKey, IHaveATenantID
+    public partial class MonitoringProgramDocument : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -97,12 +97,10 @@ namespace ProjectFirma.Web.Models
         public int MonitoringProgramID { get; set; }
         public string DisplayName { get; set; }
         public DateTime UploadDate { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return MonitoringProgramDocumentID; } set { MonitoringProgramDocumentID = value; } }
 
         public virtual FileResource FileResource { get; set; }
         public virtual MonitoringProgram MonitoringProgram { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

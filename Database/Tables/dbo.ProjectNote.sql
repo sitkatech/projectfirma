@@ -10,7 +10,6 @@ CREATE TABLE [dbo].[ProjectNote](
 	[CreateDate] [datetime] NOT NULL,
 	[UpdatePersonID] [int] NULL,
 	[UpdateDate] [datetime] NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectNote_ProjectNoteID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectNoteID] ASC
@@ -37,8 +36,3 @@ ALTER TABLE [dbo].[ProjectNote]  WITH CHECK ADD  CONSTRAINT [FK_ProjectNote_Proj
 REFERENCES [dbo].[Project] ([ProjectID])
 GO
 ALTER TABLE [dbo].[ProjectNote] CHECK CONSTRAINT [FK_ProjectNote_Project_ProjectID]
-GO
-ALTER TABLE [dbo].[ProjectNote]  WITH CHECK ADD  CONSTRAINT [FK_ProjectNote_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[ProjectNote] CHECK CONSTRAINT [FK_ProjectNote_Tenant_TenantID]

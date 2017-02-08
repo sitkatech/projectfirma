@@ -7,7 +7,6 @@ CREATE TABLE [dbo].[ProjectAssessmentQuestion](
 	[ProjectID] [int] NOT NULL,
 	[AssessmentQuestionID] [int] NOT NULL,
 	[Answer] [bit] NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectAssessmentQuestion_ProjectAssessmentQuestionID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectAssessmentQuestionID] ASC
@@ -29,8 +28,3 @@ ALTER TABLE [dbo].[ProjectAssessmentQuestion]  WITH CHECK ADD  CONSTRAINT [FK_Pr
 REFERENCES [dbo].[Project] ([ProjectID])
 GO
 ALTER TABLE [dbo].[ProjectAssessmentQuestion] CHECK CONSTRAINT [FK_ProjectAssessmentQuestion_Project_ProjectID]
-GO
-ALTER TABLE [dbo].[ProjectAssessmentQuestion]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAssessmentQuestion_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[ProjectAssessmentQuestion] CHECK CONSTRAINT [FK_ProjectAssessmentQuestion_Tenant_TenantID]

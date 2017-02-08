@@ -6,7 +6,6 @@ CREATE TABLE [dbo].[ClassificationImage](
 	[ClassificationImageID] [int] IDENTITY(1,1) NOT NULL,
 	[ClassificationID] [int] NOT NULL,
 	[FileResourceID] [int] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ClassificationImage_ClassificationImageID] PRIMARY KEY CLUSTERED 
 (
 	[ClassificationImageID] ASC
@@ -28,8 +27,3 @@ ALTER TABLE [dbo].[ClassificationImage]  WITH CHECK ADD  CONSTRAINT [FK_Classifi
 REFERENCES [dbo].[FileResource] ([FileResourceID])
 GO
 ALTER TABLE [dbo].[ClassificationImage] CHECK CONSTRAINT [FK_ClassificationImage_FileResource_FileResourceID]
-GO
-ALTER TABLE [dbo].[ClassificationImage]  WITH CHECK ADD  CONSTRAINT [FK_ClassificationImage_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[ClassificationImage] CHECK CONSTRAINT [FK_ClassificationImage_Tenant_TenantID]

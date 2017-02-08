@@ -6,7 +6,6 @@ CREATE TABLE [dbo].[ProjectTag](
 	[ProjectTagID] [int] IDENTITY(1,1) NOT NULL,
 	[ProjectID] [int] NOT NULL,
 	[TagID] [int] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectTag_ProjectTagID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectTagID] ASC
@@ -28,8 +27,3 @@ ALTER TABLE [dbo].[ProjectTag]  WITH CHECK ADD  CONSTRAINT [FK_ProjectTag_Tag_Ta
 REFERENCES [dbo].[Tag] ([TagID])
 GO
 ALTER TABLE [dbo].[ProjectTag] CHECK CONSTRAINT [FK_ProjectTag_Tag_TagID]
-GO
-ALTER TABLE [dbo].[ProjectTag]  WITH CHECK ADD  CONSTRAINT [FK_ProjectTag_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[ProjectTag] CHECK CONSTRAINT [FK_ProjectTag_Tenant_TenantID]

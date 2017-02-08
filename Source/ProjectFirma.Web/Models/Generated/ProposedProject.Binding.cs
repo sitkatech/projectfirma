@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProposedProject]")]
-    public partial class ProposedProject : IHavePrimaryKey, IHaveATenantID
+    public partial class ProposedProject : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -150,7 +150,6 @@ namespace ProjectFirma.Web.Models
         public DateTime? SubmissionDate { get; set; }
         public DateTime? ApprovalDate { get; set; }
         public int? ReviewedByPersonID { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProposedProjectID; } set { ProposedProjectID = value; } }
 
         public virtual ICollection<NotificationProposedProject> NotificationProposedProjects { get; set; }
@@ -170,7 +169,6 @@ namespace ProjectFirma.Web.Models
         public ProposedProjectState ProposedProjectState { get { return ProposedProjectState.AllLookupDictionary[ProposedProjectStateID]; } }
         public virtual TaxonomyTierOne TaxonomyTierOne { get; set; }
         public virtual Project Project { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

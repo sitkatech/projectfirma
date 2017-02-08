@@ -6,7 +6,6 @@ CREATE TABLE [dbo].[FieldDefinitionData](
 	[FieldDefinitionDataID] [int] IDENTITY(1,1) NOT NULL,
 	[FieldDefinitionID] [int] NOT NULL,
 	[FieldDefinitionDataValue] [dbo].[html] NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_FieldDefinitionData_FieldDefinitionDataID] PRIMARY KEY CLUSTERED 
 (
 	[FieldDefinitionDataID] ASC
@@ -22,8 +21,3 @@ ALTER TABLE [dbo].[FieldDefinitionData]  WITH CHECK ADD  CONSTRAINT [FK_FieldDef
 REFERENCES [dbo].[FieldDefinition] ([FieldDefinitionID])
 GO
 ALTER TABLE [dbo].[FieldDefinitionData] CHECK CONSTRAINT [FK_FieldDefinitionData_FieldDefinition_FieldDefinitionID]
-GO
-ALTER TABLE [dbo].[FieldDefinitionData]  WITH CHECK ADD  CONSTRAINT [FK_FieldDefinitionData_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[FieldDefinitionData] CHECK CONSTRAINT [FK_FieldDefinitionData_Tenant_TenantID]

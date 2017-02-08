@@ -7,7 +7,6 @@ CREATE TABLE [dbo].[TaxonomyTierTwoPerformanceMeasure](
 	[TaxonomyTierTwoID] [int] NOT NULL,
 	[PerformanceMeasureID] [int] NOT NULL,
 	[IsPrimaryTaxonomyTierTwo] [bit] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwoPerformanceMeasureID] PRIMARY KEY CLUSTERED 
 (
 	[TaxonomyTierTwoPerformanceMeasureID] ASC
@@ -29,8 +28,3 @@ ALTER TABLE [dbo].[TaxonomyTierTwoPerformanceMeasure]  WITH CHECK ADD  CONSTRAIN
 REFERENCES [dbo].[TaxonomyTierTwo] ([TaxonomyTierTwoID])
 GO
 ALTER TABLE [dbo].[TaxonomyTierTwoPerformanceMeasure] CHECK CONSTRAINT [FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID]
-GO
-ALTER TABLE [dbo].[TaxonomyTierTwoPerformanceMeasure]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierTwoPerformanceMeasure_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[TaxonomyTierTwoPerformanceMeasure] CHECK CONSTRAINT [FK_TaxonomyTierTwoPerformanceMeasure_Tenant_TenantID]

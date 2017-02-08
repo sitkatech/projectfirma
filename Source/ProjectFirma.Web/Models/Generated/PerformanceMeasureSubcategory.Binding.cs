@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[PerformanceMeasureSubcategory]")]
-    public partial class PerformanceMeasureSubcategory : IHavePrimaryKey, IHaveATenantID
+    public partial class PerformanceMeasureSubcategory : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -98,7 +98,6 @@ namespace ProjectFirma.Web.Models
         public string ChartConfigurationJson { get; set; }
         public string ChartType { get; set; }
         public bool? SwapChartAxes { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return PerformanceMeasureSubcategoryID; } set { PerformanceMeasureSubcategoryID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
@@ -108,7 +107,6 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<PerformanceMeasureSubcategoryOption> PerformanceMeasureSubcategoryOptions { get; set; }
         public virtual ICollection<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

@@ -8,7 +8,6 @@ CREATE TABLE [dbo].[TaxonomyTierThree](
 	[TaxonomyTierThreeDescription] [dbo].[html] NULL,
 	[ThemeColor] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[TaxonomyTierThreeCode] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_TaxonomyTierThree_TaxonomyTierThreeID] PRIMARY KEY CLUSTERED 
 (
 	[TaxonomyTierThreeID] ASC
@@ -18,9 +17,3 @@ CREATE TABLE [dbo].[TaxonomyTierThree](
 	[TaxonomyTierThreeName] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
-
-GO
-ALTER TABLE [dbo].[TaxonomyTierThree]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierThree_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[TaxonomyTierThree] CHECK CONSTRAINT [FK_TaxonomyTierThree_Tenant_TenantID]

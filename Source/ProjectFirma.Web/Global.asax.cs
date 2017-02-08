@@ -7,6 +7,7 @@ using ProjectFirma.Web.Common;
 using FluentValidation.Mvc;
 using LtInfo.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 using Keystone.Common;
 using Microsoft.IdentityModel.Web;
 using Microsoft.IdentityModel.Web.Configuration;

@@ -4,7 +4,7 @@
 //  Source Table: [dbo].[ProjectImplementingOrganization]
 using System.Collections.Generic;
 using System.Linq;
-using Z.EntityFramework.Plus;
+using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;

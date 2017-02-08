@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[AssessmentGoal]")]
-    public partial class AssessmentGoal : IHavePrimaryKey, IHaveATenantID
+    public partial class AssessmentGoal : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -76,11 +76,9 @@ namespace ProjectFirma.Web.Models
         public int AssessmentGoalNumber { get; set; }
         public string AssessmentGoalTitle { get; set; }
         public string AssessmentGoalDescription { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return AssessmentGoalID; } set { AssessmentGoalID = value; } }
 
         public virtual ICollection<AssessmentSubGoal> AssessmentSubGoals { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

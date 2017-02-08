@@ -131,7 +131,7 @@ namespace ProjectFirma.Web.Models
     public partial class RoleNormal : Role
     {
         private RoleNormal(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
-        public static readonly RoleNormal Instance = new RoleNormal(2, @"Normal", @"Normal User", @"Users with this role can propose new projects, update existing projects where their organization is the Lead Implementer, and view almost every page within Project Firma.");
+        public static readonly RoleNormal Instance = new RoleNormal(2, @"Normal", @"Normal User", @"Users with this role can propose new EIP projects, update existing EIP projects where their organization is the Lead Implementer, and view almost every page within the EIP Tracker.");
     }
 
     public partial class RoleUnassigned : Role

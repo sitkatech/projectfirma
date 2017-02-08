@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[Project]")]
-    public partial class Project : IHavePrimaryKey, IHaveATenantID
+    public partial class Project : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -146,7 +146,6 @@ namespace ProjectFirma.Web.Models
         public int ProjectLocationSimpleTypeID { get; set; }
         public decimal? EstimatedAnnualOperatingCost { get; set; }
         public int FundingTypeID { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectID; } set { ProjectID = value; } }
 
         public virtual ICollection<NotificationProject> NotificationProjects { get; set; }
@@ -175,7 +174,6 @@ namespace ProjectFirma.Web.Models
         public virtual ProjectLocationArea ProjectLocationArea { get; set; }
         public ProjectLocationSimpleType ProjectLocationSimpleType { get { return ProjectLocationSimpleType.AllLookupDictionary[ProjectLocationSimpleTypeID]; } }
         public FundingType FundingType { get { return FundingType.AllLookupDictionary[FundingTypeID]; } }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

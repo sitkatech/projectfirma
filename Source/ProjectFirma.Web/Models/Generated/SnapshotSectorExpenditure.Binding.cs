@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[SnapshotSectorExpenditure]")]
-    public partial class SnapshotSectorExpenditure : IHavePrimaryKey, IHaveATenantID
+    public partial class SnapshotSectorExpenditure : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -95,12 +95,10 @@ namespace ProjectFirma.Web.Models
         public int SectorID { get; set; }
         public int CalendarYear { get; set; }
         public decimal ExpenditureAmount { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return SnapshotSectorExpenditureID; } set { SnapshotSectorExpenditureID = value; } }
 
         public virtual Snapshot Snapshot { get; set; }
         public Sector Sector { get { return Sector.AllLookupDictionary[SectorID]; } }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

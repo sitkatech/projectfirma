@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectNoteUpdate]")]
-    public partial class ProjectNoteUpdate : IHavePrimaryKey, IHaveATenantID
+    public partial class ProjectNoteUpdate : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -97,13 +97,11 @@ namespace ProjectFirma.Web.Models
         public DateTime CreateDate { get; set; }
         public int? UpdatePersonID { get; set; }
         public DateTime? UpdateDate { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectNoteUpdateID; } set { ProjectNoteUpdateID = value; } }
 
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public virtual Person CreatePerson { get; set; }
         public virtual Person UpdatePerson { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

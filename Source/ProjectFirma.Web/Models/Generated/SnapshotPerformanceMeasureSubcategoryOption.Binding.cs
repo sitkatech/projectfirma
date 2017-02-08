@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[SnapshotPerformanceMeasureSubcategoryOption]")]
-    public partial class SnapshotPerformanceMeasureSubcategoryOption : IHavePrimaryKey, IHaveATenantID
+    public partial class SnapshotPerformanceMeasureSubcategoryOption : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -101,14 +101,12 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureSubcategoryOptionID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int PerformanceMeasureSubcategoryID { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return SnapshotPerformanceMeasureSubcategoryOptionID; } set { SnapshotPerformanceMeasureSubcategoryOptionID = value; } }
 
         public virtual SnapshotPerformanceMeasure SnapshotPerformanceMeasure { get; set; }
         public virtual PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
         public virtual PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

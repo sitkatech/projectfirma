@@ -27,7 +27,6 @@ CREATE TABLE [dbo].[ProjectUpdateBatch](
 	[BudgetsDiffLog] [dbo].[html] NULL,
 	[ExternalLinksDiffLog] [dbo].[html] NULL,
 	[NotesDiffLog] [dbo].[html] NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectUpdateBatch_ProjectUpdateBatchID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateBatchID] ASC
@@ -49,8 +48,3 @@ ALTER TABLE [dbo].[ProjectUpdateBatch]  WITH CHECK ADD  CONSTRAINT [FK_ProjectUp
 REFERENCES [dbo].[ProjectUpdateState] ([ProjectUpdateStateID])
 GO
 ALTER TABLE [dbo].[ProjectUpdateBatch] CHECK CONSTRAINT [FK_ProjectUpdateBatch_ProjectUpdateState_ProjectUpdateStateID]
-GO
-ALTER TABLE [dbo].[ProjectUpdateBatch]  WITH CHECK ADD  CONSTRAINT [FK_ProjectUpdateBatch_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[ProjectUpdateBatch] CHECK CONSTRAINT [FK_ProjectUpdateBatch_Tenant_TenantID]

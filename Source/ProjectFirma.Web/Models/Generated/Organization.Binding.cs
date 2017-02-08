@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[Organization]")]
-    public partial class Organization : IHavePrimaryKey, IHaveATenantID
+    public partial class Organization : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -105,7 +105,6 @@ namespace ProjectFirma.Web.Models
         public bool IsActive { get; set; }
         public string OrganizationUrl { get; set; }
         public int? LogoFileResourceID { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return OrganizationID; } set { OrganizationID = value; } }
 
         public virtual ICollection<FundingSource> FundingSources { get; set; }
@@ -119,7 +118,6 @@ namespace ProjectFirma.Web.Models
         public Sector Sector { get { return Sector.AllLookupDictionary[SectorID]; } }
         public virtual Person PrimaryContactPerson { get; set; }
         public virtual FileResource LogoFileResource { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

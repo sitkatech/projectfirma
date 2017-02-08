@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[SnapshotPerformanceMeasure]")]
-    public partial class SnapshotPerformanceMeasure : IHavePrimaryKey, IHaveATenantID
+    public partial class SnapshotPerformanceMeasure : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -97,13 +97,11 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureID { get; set; }
         public int CalendarYear { get; set; }
         public double ActualValue { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return SnapshotPerformanceMeasureID; } set { SnapshotPerformanceMeasureID = value; } }
 
         public virtual ICollection<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual Snapshot Snapshot { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

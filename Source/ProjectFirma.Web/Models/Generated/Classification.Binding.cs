@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[Classification]")]
-    public partial class Classification : IHavePrimaryKey, IHaveATenantID
+    public partial class Classification : IHavePrimaryKey
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -96,7 +96,6 @@ namespace ProjectFirma.Web.Models
             set { Narrative = value == null ? null : value.ToString(); }
         }
         public int? KeyImageFileResourceID { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return ClassificationID; } set { ClassificationID = value; } }
 
         public virtual ICollection<ClassificationImage> ClassificationImages { get; set; }
@@ -104,7 +103,6 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectClassification> ProjectClassifications { get; set; }
         public virtual ICollection<ProposedProjectClassification> ProposedProjectClassifications { get; set; }
         public virtual FileResource KeyImageFileResource { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {
