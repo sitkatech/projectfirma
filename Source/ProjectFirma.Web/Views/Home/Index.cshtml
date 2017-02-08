@@ -47,15 +47,16 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <h4 class="homePage">Featured Projects</h4>
-        @{ FeaturedProjects.RenderPartialView(Html, ViewDataTyped.FeaturedProjectsViewData); }
+@if (ViewDataTyped.FeaturedProjectsViewData.FeaturedProjects.Any())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="homePage">Featured Projects</h4>
+            @{ FeaturedProjects.RenderPartialView(Html, ViewDataTyped.FeaturedProjectsViewData); }
 
+        </div>
     </div>
-
-
-</div>
+}
 
 <script type="text/javascript">
     jQuery(document).ready(function()
