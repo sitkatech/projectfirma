@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectImage]")]
-    public partial class ProjectImage : IHavePrimaryKey
+    public partial class ProjectImage : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectImage(int projectImageID, int fileResourceID, int projectID, int projectImageTimingID, string caption, string credit, bool isKeyPhoto, bool excludeFromFactSheet) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectImageID = projectImageID;
             this.FileResourceID = fileResourceID;
             this.ProjectID = projectID;
@@ -47,8 +49,9 @@ namespace ProjectFirma.Web.Models
         public ProjectImage(int fileResourceID, int projectID, int projectImageTimingID, string caption, string credit, bool isKeyPhoto, bool excludeFromFactSheet) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FileResourceID = fileResourceID;
             this.ProjectID = projectID;
             this.ProjectImageTimingID = projectImageTimingID;
@@ -65,6 +68,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.FileResourceID = fileResource.FileResourceID;
             this.FileResource = fileResource;
             fileResource.ProjectImages.Add(this);
@@ -109,12 +113,14 @@ namespace ProjectFirma.Web.Models
         public string Credit { get; set; }
         public bool IsKeyPhoto { get; set; }
         public bool ExcludeFromFactSheet { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectImageID; } set { ProjectImageID = value; } }
 
         public virtual ICollection<ProjectImageUpdate> ProjectImageUpdates { get; set; }
         public virtual FileResource FileResource { get; set; }
         public virtual Project Project { get; set; }
         public ProjectImageTiming ProjectImageTiming { get { return ProjectImageTiming.AllLookupDictionary[ProjectImageTimingID]; } }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

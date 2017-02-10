@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProposedProject]")]
-    public partial class ProposedProject : IHavePrimaryKey
+    public partial class ProposedProject : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -38,6 +38,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? taxonomyTierOneID, string performanceMeasureNotes, int? projectID, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProposedProjectID = proposedProjectID;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
@@ -70,8 +72,9 @@ namespace ProjectFirma.Web.Models
         public ProposedProject(string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int projectLocationSimpleTypeID, int fundingTypeID, int proposedProjectStateID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProposedProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProposedProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
             this.LeadImplementerOrganizationID = leadImplementerOrganizationID;
@@ -89,6 +92,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
             this.LeadImplementerOrganizationID = leadImplementerOrganization.OrganizationID;
@@ -150,6 +154,7 @@ namespace ProjectFirma.Web.Models
         public DateTime? SubmissionDate { get; set; }
         public DateTime? ApprovalDate { get; set; }
         public int? ReviewedByPersonID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProposedProjectID; } set { ProposedProjectID = value; } }
 
         public virtual ICollection<NotificationProposedProject> NotificationProposedProjects { get; set; }
@@ -169,6 +174,7 @@ namespace ProjectFirma.Web.Models
         public ProposedProjectState ProposedProjectState { get { return ProposedProjectState.AllLookupDictionary[ProposedProjectStateID]; } }
         public virtual TaxonomyTierOne TaxonomyTierOne { get; set; }
         public virtual Project Project { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

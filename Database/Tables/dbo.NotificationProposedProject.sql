@@ -6,6 +6,7 @@ CREATE TABLE [dbo].[NotificationProposedProject](
 	[NotificationProposedProjectID] [int] IDENTITY(1,1) NOT NULL,
 	[ProposedProjectID] [int] NOT NULL,
 	[NotificationID] [int] NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_NotificationProposedProject_NotificationProposedProjectID] PRIMARY KEY CLUSTERED 
 (
 	[NotificationProposedProjectID] ASC
@@ -22,3 +23,8 @@ ALTER TABLE [dbo].[NotificationProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_
 REFERENCES [dbo].[ProposedProject] ([ProposedProjectID])
 GO
 ALTER TABLE [dbo].[NotificationProposedProject] CHECK CONSTRAINT [FK_NotificationProposedProject_ProposedProject_ProposedProjectID]
+GO
+ALTER TABLE [dbo].[NotificationProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_NotificationProposedProject_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[NotificationProposedProject] CHECK CONSTRAINT [FK_NotificationProposedProject_Tenant_TenantID]

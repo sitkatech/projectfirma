@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[ProjectLocationUpdate](
 	[ProjectUpdateBatchID] [int] NOT NULL,
 	[ProjectLocationUpdateGeometry] [geometry] NOT NULL,
 	[Annotation] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectLocationUpdate_ProjectLocationUpdateID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectLocationUpdateID] ASC
@@ -18,3 +19,8 @@ ALTER TABLE [dbo].[ProjectLocationUpdate]  WITH CHECK ADD  CONSTRAINT [FK_Projec
 REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID])
 GO
 ALTER TABLE [dbo].[ProjectLocationUpdate] CHECK CONSTRAINT [FK_ProjectLocationUpdate_ProjectUpdateBatch_ProjectUpdateBatchID]
+GO
+ALTER TABLE [dbo].[ProjectLocationUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationUpdate_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[ProjectLocationUpdate] CHECK CONSTRAINT [FK_ProjectLocationUpdate_Tenant_TenantID]

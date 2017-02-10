@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectAssessmentQuestion]")]
-    public partial class ProjectAssessmentQuestion : IHavePrimaryKey
+    public partial class ProjectAssessmentQuestion : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectAssessmentQuestion(int projectAssessmentQuestionID, int projectID, int assessmentQuestionID, bool? answer) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectAssessmentQuestionID = projectAssessmentQuestionID;
             this.ProjectID = projectID;
             this.AssessmentQuestionID = assessmentQuestionID;
@@ -43,8 +45,9 @@ namespace ProjectFirma.Web.Models
         public ProjectAssessmentQuestion(int projectID, int assessmentQuestionID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectAssessmentQuestionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectAssessmentQuestionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.AssessmentQuestionID = assessmentQuestionID;
         }
@@ -56,6 +59,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectAssessmentQuestionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectAssessmentQuestions.Add(this);
@@ -91,10 +95,12 @@ namespace ProjectFirma.Web.Models
         public int ProjectID { get; set; }
         public int AssessmentQuestionID { get; set; }
         public bool? Answer { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectAssessmentQuestionID; } set { ProjectAssessmentQuestionID = value; } }
 
         public virtual Project Project { get; set; }
         public virtual AssessmentQuestion AssessmentQuestion { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

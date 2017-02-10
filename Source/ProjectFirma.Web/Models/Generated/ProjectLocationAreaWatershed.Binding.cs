@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectLocationAreaWatershed]")]
-    public partial class ProjectLocationAreaWatershed : IHavePrimaryKey
+    public partial class ProjectLocationAreaWatershed : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectLocationAreaWatershed(int projectLocationAreaWatershedID, int projectLocationAreaID, int watershedID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectLocationAreaWatershedID = projectLocationAreaWatershedID;
             this.ProjectLocationAreaID = projectLocationAreaID;
             this.WatershedID = watershedID;
@@ -42,8 +44,9 @@ namespace ProjectFirma.Web.Models
         public ProjectLocationAreaWatershed(int projectLocationAreaID, int watershedID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectLocationAreaWatershedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectLocationAreaWatershedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectLocationAreaID = projectLocationAreaID;
             this.WatershedID = watershedID;
         }
@@ -55,6 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationAreaWatershedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectLocationAreaID = projectLocationArea.ProjectLocationAreaID;
             this.ProjectLocationArea = projectLocationArea;
             projectLocationArea.ProjectLocationAreaWatersheds.Add(this);
@@ -89,10 +93,12 @@ namespace ProjectFirma.Web.Models
         public int ProjectLocationAreaWatershedID { get; set; }
         public int ProjectLocationAreaID { get; set; }
         public int WatershedID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectLocationAreaWatershedID; } set { ProjectLocationAreaWatershedID = value; } }
 
         public virtual ProjectLocationArea ProjectLocationArea { get; set; }
         public virtual Watershed Watershed { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

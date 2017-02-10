@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[MonitoringProgram]")]
-    public partial class MonitoringProgram : IHavePrimaryKey
+    public partial class MonitoringProgram : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -33,6 +33,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public MonitoringProgram(int monitoringProgramID, string monitoringProgramName, string monitoringApproach, string monitoringProgramUrl) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.MonitoringProgramID = monitoringProgramID;
             this.MonitoringProgramName = monitoringProgramName;
             this.MonitoringApproach = monitoringApproach;
@@ -45,8 +47,9 @@ namespace ProjectFirma.Web.Models
         public MonitoringProgram(string monitoringProgramName) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            MonitoringProgramID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.MonitoringProgramID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.MonitoringProgramName = monitoringProgramName;
         }
 
@@ -78,11 +81,13 @@ namespace ProjectFirma.Web.Models
         public string MonitoringProgramName { get; set; }
         public string MonitoringApproach { get; set; }
         public string MonitoringProgramUrl { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return MonitoringProgramID; } set { MonitoringProgramID = value; } }
 
         public virtual ICollection<MonitoringProgramDocument> MonitoringProgramDocuments { get; set; }
         public virtual ICollection<MonitoringProgramPartner> MonitoringProgramPartners { get; set; }
         public virtual ICollection<PerformanceMeasureMonitoringProgram> PerformanceMeasureMonitoringPrograms { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

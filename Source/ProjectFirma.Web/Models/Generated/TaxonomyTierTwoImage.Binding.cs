@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[TaxonomyTierTwoImage]")]
-    public partial class TaxonomyTierTwoImage : IHavePrimaryKey
+    public partial class TaxonomyTierTwoImage : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public TaxonomyTierTwoImage(int taxonomyTierTwoImageID, int taxonomyTierTwoID, int fileResourceID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.TaxonomyTierTwoImageID = taxonomyTierTwoImageID;
             this.TaxonomyTierTwoID = taxonomyTierTwoID;
             this.FileResourceID = fileResourceID;
@@ -42,8 +44,9 @@ namespace ProjectFirma.Web.Models
         public TaxonomyTierTwoImage(int taxonomyTierTwoID, int fileResourceID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            TaxonomyTierTwoImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.TaxonomyTierTwoImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.TaxonomyTierTwoID = taxonomyTierTwoID;
             this.FileResourceID = fileResourceID;
         }
@@ -55,6 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyTierTwoImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.TaxonomyTierTwoID = taxonomyTierTwo.TaxonomyTierTwoID;
             this.TaxonomyTierTwo = taxonomyTierTwo;
             taxonomyTierTwo.TaxonomyTierTwoImages.Add(this);
@@ -89,10 +93,12 @@ namespace ProjectFirma.Web.Models
         public int TaxonomyTierTwoImageID { get; set; }
         public int TaxonomyTierTwoID { get; set; }
         public int FileResourceID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return TaxonomyTierTwoImageID; } set { TaxonomyTierTwoImageID = value; } }
 
         public virtual TaxonomyTierTwo TaxonomyTierTwo { get; set; }
         public virtual FileResource FileResource { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

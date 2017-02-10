@@ -5,7 +5,6 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectWatershed;
-using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 
@@ -35,7 +34,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var currentProjectWatersheds = project.ProjectWatersheds.ToList();
             HttpRequestStorage.DatabaseEntities.ProjectWatersheds.Load();
-            var allProjectWatersheds = HttpRequestStorage.DatabaseEntities.ProjectWatersheds.Local;
+            var allProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.Local;
             viewModel.UpdateModel(currentProjectWatersheds, allProjectWatersheds);
             return new ModalDialogFormJsonResult();
         }

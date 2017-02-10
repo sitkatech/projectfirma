@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Models
             var projectSummaryUrl = project == null
                 ? string.Empty
                 : string.Format("    <strong>Project:</strong> <a href=\"{0}\">{1}</a><br />",
-                    SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(project), SitkaWebConfiguration.CanonicalHostName),
+                    SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(project)),
                     project.DisplayName);
             var message = string.Format(@"
 <div style='font-size: 12px; font-family: Arial'>

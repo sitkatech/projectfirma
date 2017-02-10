@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
@@ -17,10 +15,10 @@ namespace ProjectFirma.Web.Views.Classification
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage, false)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, List<Models.Classification> classifications) : base(currentPerson, firmaPage, false)
         {
             PageTitle = MultiTenantHelpers.GetClassificationDisplayNamePluralized();
-            Classifications = HttpRequestStorage.DatabaseEntities.Classifications.ToList();
+            Classifications = classifications;
 
             GridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson))
             {

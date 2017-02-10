@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[CostParameterSet]")]
-    public partial class CostParameterSet : IHavePrimaryKey
+    public partial class CostParameterSet : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public CostParameterSet(int costParameterSetID, decimal inflationRate, int currentYearForPVCalculations, string comment, DateTime createDate) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.CostParameterSetID = costParameterSetID;
             this.InflationRate = inflationRate;
             this.CurrentYearForPVCalculations = currentYearForPVCalculations;
@@ -44,8 +46,9 @@ namespace ProjectFirma.Web.Models
         public CostParameterSet(decimal inflationRate, int currentYearForPVCalculations, DateTime createDate) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            CostParameterSetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.CostParameterSetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.InflationRate = inflationRate;
             this.CurrentYearForPVCalculations = currentYearForPVCalculations;
             this.CreateDate = createDate;
@@ -80,9 +83,10 @@ namespace ProjectFirma.Web.Models
         public int CurrentYearForPVCalculations { get; set; }
         public string Comment { get; set; }
         public DateTime CreateDate { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return CostParameterSetID; } set { CostParameterSetID = value; } }
 
-
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectNoteUpdate]")]
-    public partial class ProjectNoteUpdate : IHavePrimaryKey
+    public partial class ProjectNoteUpdate : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectNoteUpdate(int projectNoteUpdateID, int projectUpdateBatchID, string note, int? createPersonID, DateTime createDate, int? updatePersonID, DateTime? updateDate) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectNoteUpdateID = projectNoteUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.Note = note;
@@ -46,8 +48,9 @@ namespace ProjectFirma.Web.Models
         public ProjectNoteUpdate(int projectUpdateBatchID, string note, DateTime createDate) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectNoteUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectNoteUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.Note = note;
             this.CreateDate = createDate;
@@ -60,6 +63,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectNoteUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectNoteUpdates.Add(this);
@@ -97,11 +101,13 @@ namespace ProjectFirma.Web.Models
         public DateTime CreateDate { get; set; }
         public int? UpdatePersonID { get; set; }
         public DateTime? UpdateDate { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectNoteUpdateID; } set { ProjectNoteUpdateID = value; } }
 
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public virtual Person CreatePerson { get; set; }
         public virtual Person UpdatePerson { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

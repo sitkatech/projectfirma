@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var costParameterSet = new CostParameterSet(viewModel.InflationRate, viewModel.CurrentYearForPVCalculations, DateTime.Now);
             viewModel.UpdateModel(costParameterSet, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.CostParameterSets.Add(costParameterSet);
+            HttpRequestStorage.DatabaseEntities.AllCostParameterSets.Add(costParameterSet);
             return new ModalDialogFormJsonResult();
         }
 

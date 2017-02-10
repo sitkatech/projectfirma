@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Models
             ProjectUpdateHistory latestProjectUpdateHistorySubmitted,
             Person returnerPerson)
         {
-            var instructionsUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(projectUpdateBatch.Project), SitkaWebConfiguration.CanonicalHostName);
+            var instructionsUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(projectUpdateBatch.Project));
             var message = string.Format(@"
 Dear {0},
 <p>
@@ -147,7 +147,7 @@ Thank you,<br />
         private static MailMessage GenerateProjectUpdateSubmittedMessage(ProjectUpdateBatch projectUpdateBatch, ProjectUpdateHistory latestProjectUpdateHistorySubmitted, Person submitterPerson)
         {
             var subject = String.Format("The update for project {0} was submitted", projectUpdateBatch.Project.DisplayName);
-            var instructionsUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(projectUpdateBatch.Project), SitkaWebConfiguration.CanonicalHostName);
+            var instructionsUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(projectUpdateBatch.Project));
             var message = String.Format(@"
 <p>The update for project {0} on {1} was just submitted by {2}.</p>
 <p>Please review and Approve or Return it at your earliest convenience.<br />
@@ -234,7 +234,7 @@ Thank you,<br />
             ProjectUpdateHistory latestProjectUpdateHistorySubmitted,
             Person approverPerson)
         {
-            var detailUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(projectUpdateBatch.Project), SitkaWebConfiguration.CanonicalHostName);
+            var detailUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(projectUpdateBatch.Project));
             var message = String.Format(@"
 Dear {0},
 <p>
@@ -271,7 +271,7 @@ Thank you for keeping your project information and accomplishments up to date!<b
         private static MailMessage GenerateProposedProjectSubmittedMessage(ProposedProject proposedProject, Person submitterPerson)
         {
             var subject = String.Format("A Project Proposal was submitted by {0}", submitterPerson.FullNameFirstLastAndOrg);
-            var instructionsUrl = SitkaRoute<ProposedProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(proposedProject.ProposedProjectID), SitkaWebConfiguration.CanonicalHostName);
+            var instructionsUrl = SitkaRoute<ProposedProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(proposedProject.ProposedProjectID));
             var message = String.Format(@"
 <p>A proposal was submitted for a new Project, “{0}”.</p>
 <p>The proposal was submitted on {1} by {2}.<br />

@@ -23,8 +23,8 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                var project = HttpRequestStorage.DatabaseEntities.Projects.Find(ProjectID);
-                var fundingSource = HttpRequestStorage.DatabaseEntities.FundingSources.Find(FundingSourceID);
+                var project = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
+                var fundingSource = HttpRequestStorage.DatabaseEntities.AllFundingSources.Find(FundingSourceID);
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var fundingSourceName = fundingSource != null ? fundingSource.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var expenditureAmount = ExpenditureAmountDisplay;

@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[MappedRegion]")]
-    public partial class MappedRegion : IHavePrimaryKey
+    public partial class MappedRegion : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public MappedRegion(int mappedRegionID, string regionName, string regionDisplayName, DbGeometry regionFeature) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.MappedRegionID = mappedRegionID;
             this.RegionName = regionName;
             this.RegionDisplayName = regionDisplayName;
@@ -43,8 +45,9 @@ namespace ProjectFirma.Web.Models
         public MappedRegion(string regionName, string regionDisplayName, DbGeometry regionFeature) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            MappedRegionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.MappedRegionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.RegionName = regionName;
             this.RegionDisplayName = regionDisplayName;
             this.RegionFeature = regionFeature;
@@ -78,9 +81,11 @@ namespace ProjectFirma.Web.Models
         public string RegionName { get; set; }
         public string RegionDisplayName { get; set; }
         public DbGeometry RegionFeature { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return MappedRegionID; } set { MappedRegionID = value; } }
 
         public virtual ICollection<ProjectLocationArea> ProjectLocationAreas { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

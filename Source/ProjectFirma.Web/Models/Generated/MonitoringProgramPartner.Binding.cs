@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[MonitoringProgramPartner]")]
-    public partial class MonitoringProgramPartner : IHavePrimaryKey
+    public partial class MonitoringProgramPartner : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public MonitoringProgramPartner(int monitoringProgramPartnerID, int monitoringProgramID, int organizationID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.MonitoringProgramPartnerID = monitoringProgramPartnerID;
             this.MonitoringProgramID = monitoringProgramID;
             this.OrganizationID = organizationID;
@@ -42,8 +44,9 @@ namespace ProjectFirma.Web.Models
         public MonitoringProgramPartner(int monitoringProgramID, int organizationID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            MonitoringProgramPartnerID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.MonitoringProgramPartnerID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.MonitoringProgramID = monitoringProgramID;
             this.OrganizationID = organizationID;
         }
@@ -55,6 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.MonitoringProgramPartnerID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.MonitoringProgramID = monitoringProgram.MonitoringProgramID;
             this.MonitoringProgram = monitoringProgram;
             monitoringProgram.MonitoringProgramPartners.Add(this);
@@ -89,10 +93,12 @@ namespace ProjectFirma.Web.Models
         public int MonitoringProgramPartnerID { get; set; }
         public int MonitoringProgramID { get; set; }
         public int OrganizationID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return MonitoringProgramPartnerID; } set { MonitoringProgramPartnerID = value; } }
 
         public virtual MonitoringProgram MonitoringProgram { get; set; }
         public virtual Organization Organization { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

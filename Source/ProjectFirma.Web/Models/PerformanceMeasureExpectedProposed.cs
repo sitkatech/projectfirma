@@ -22,8 +22,8 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                var project = HttpRequestStorage.DatabaseEntities.ProposedProjects.Find(ProposedProjectID);
-                var performanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Find(PerformanceMeasureID);
+                var project = HttpRequestStorage.DatabaseEntities.AllProposedProjects.Find(ProposedProjectID);
+                var performanceMeasure = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Find(PerformanceMeasureID);
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var performanceMeasureName = performanceMeasure != null ? performanceMeasure.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var expectedValue = GetExpectedValueDisplay(ExpectedValue, performanceMeasure);

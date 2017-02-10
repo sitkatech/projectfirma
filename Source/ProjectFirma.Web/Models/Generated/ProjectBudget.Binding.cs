@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectBudget]")]
-    public partial class ProjectBudget : IHavePrimaryKey
+    public partial class ProjectBudget : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectBudget(int projectBudgetID, int projectID, int fundingSourceID, int projectCostTypeID, int calendarYear, decimal budgetedAmount) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectBudgetID = projectBudgetID;
             this.ProjectID = projectID;
             this.FundingSourceID = fundingSourceID;
@@ -45,8 +47,9 @@ namespace ProjectFirma.Web.Models
         public ProjectBudget(int projectID, int fundingSourceID, int projectCostTypeID, int calendarYear, decimal budgetedAmount) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectBudgetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectBudgetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.FundingSourceID = fundingSourceID;
             this.ProjectCostTypeID = projectCostTypeID;
@@ -61,6 +64,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectBudgetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectBudgets.Add(this);
@@ -101,11 +105,13 @@ namespace ProjectFirma.Web.Models
         public int ProjectCostTypeID { get; set; }
         public int CalendarYear { get; set; }
         public decimal BudgetedAmount { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectBudgetID; } set { ProjectBudgetID = value; } }
 
         public virtual Project Project { get; set; }
         public virtual FundingSource FundingSource { get; set; }
         public ProjectCostType ProjectCostType { get { return ProjectCostType.AllLookupDictionary[ProjectCostTypeID]; } }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

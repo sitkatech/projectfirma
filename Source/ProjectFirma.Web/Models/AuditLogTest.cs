@@ -4,7 +4,6 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.UnitTestCommon;
 using LtInfo.Common.DesignByContract;
-using LtInfo.Common.Models;
 using NUnit.Framework;
 
 namespace ProjectFirma.Web.Models
@@ -40,7 +39,7 @@ namespace ProjectFirma.Web.Models
             var originalTaxonomyTierOneName = testProject.TaxonomyTierOne.TaxonomyTierOneName;
             // Act
             var newTaxonomyTierOne = TestFramework.TestTaxonomyTierOne.Create(dbContext);
-            HttpRequestStorage.DetectChangesAndSave();
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             testProject.TaxonomyTierOneID = newTaxonomyTierOne.TaxonomyTierOneID;
 
@@ -84,7 +83,7 @@ namespace ProjectFirma.Web.Models
             var objectContext = dbContext.GetObjectContext();
             var testProject = TestFramework.TestProject.Insert(dbContext);
             // Act
-            HttpRequestStorage.DatabaseEntities.Projects.Remove(testProject);
+            HttpRequestStorage.DatabaseEntities.Projects.DeleteProject(testProject);
 
             var changeTracker = dbContext.ChangeTracker;
             changeTracker.DetectChanges();
@@ -133,7 +132,7 @@ namespace ProjectFirma.Web.Models
             // Delete audit logging
             // --------------------
 
-            HttpRequestStorage.DatabaseEntities.FundingSources.Remove(testFundingSource);
+            HttpRequestStorage.DatabaseEntities.FundingSources.DeleteFundingSource(testFundingSource);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this FundingSource name as deleted
             Check.Assert(
@@ -172,7 +171,7 @@ namespace ProjectFirma.Web.Models
             // Delete audit logging
             // --------------------
 
-            HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.Remove(testTaxonomyTierOne);
+            HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.DeleteTaxonomyTierOne(testTaxonomyTierOne);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this TaxonomyTierOneName as deleted
             Check.Assert(
@@ -214,7 +213,7 @@ namespace ProjectFirma.Web.Models
             // Delete audit logging
             // --------------------
 
-            HttpRequestStorage.DatabaseEntities.Projects.Remove(testProject);
+            HttpRequestStorage.DatabaseEntities.Projects.DeleteProject(testProject);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this Project name as deleted
             Check.Assert(
@@ -256,7 +255,7 @@ namespace ProjectFirma.Web.Models
             // Delete audit logging
             // --------------------
 
-            HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.Remove(testTaxonomyTierThree);
+            HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.DeleteTaxonomyTierThree(testTaxonomyTierThree);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this TaxonomyTierThree name as deleted
             Check.Assert(
@@ -298,7 +297,7 @@ namespace ProjectFirma.Web.Models
             // Delete audit logging
             // --------------------
 
-            HttpRequestStorage.DatabaseEntities.Organizations.Remove(testOrganization);
+            HttpRequestStorage.DatabaseEntities.Organizations.DeleteOrganization(testOrganization);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this Organization name as deleted
             Check.Assert(
@@ -340,7 +339,7 @@ namespace ProjectFirma.Web.Models
             // Delete audit logging
             // --------------------
 
-            HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.Remove(testTaxonomyTierTwo);
+            HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.DeleteTaxonomyTierTwo(testTaxonomyTierTwo);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this TaxonomyTierTwo name as deleted
             Check.Assert(
@@ -382,7 +381,7 @@ namespace ProjectFirma.Web.Models
             // Delete audit logging
             // --------------------
 
-            HttpRequestStorage.DatabaseEntities.ProjectNotes.Remove(testProjectNote);
+            HttpRequestStorage.DatabaseEntities.ProjectNotes.DeleteProjectNote(testProjectNote);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this ProjectNote name as deleted
             Check.Assert(
@@ -432,7 +431,7 @@ namespace ProjectFirma.Web.Models
             // Delete audit logging
             // --------------------
 
-            HttpRequestStorage.DatabaseEntities.ProjectWatersheds.Remove(testProjectWatershed);
+            HttpRequestStorage.DatabaseEntities.ProjectWatersheds.DeleteProjectWatershed(testProjectWatershed);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this ProjectWatershed name as deleted
             Check.Assert(
@@ -475,7 +474,7 @@ namespace ProjectFirma.Web.Models
             // Delete audit logging
             // --------------------
 
-            HttpRequestStorage.DatabaseEntities.Watersheds.Remove(testWatershed);
+            HttpRequestStorage.DatabaseEntities.Watersheds.DeleteWatershed(testWatershed);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this Watershed name as deleted
             Check.Assert(
@@ -519,7 +518,7 @@ namespace ProjectFirma.Web.Models
             // Delete audit logging
             // --------------------
 
-            HttpRequestStorage.DatabaseEntities.Classifications.Remove(testClassification);
+            HttpRequestStorage.DatabaseEntities.Classifications.DeleteClassification(testClassification);
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
             // Check that the audit log mentions this Classification name as deleted
             Check.Assert(

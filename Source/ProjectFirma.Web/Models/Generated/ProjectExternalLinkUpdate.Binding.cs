@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectExternalLinkUpdate]")]
-    public partial class ProjectExternalLinkUpdate : IHavePrimaryKey
+    public partial class ProjectExternalLinkUpdate : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectExternalLinkUpdate(int projectExternalLinkUpdateID, int projectUpdateBatchID, string externalLinkLabel, string externalLinkUrl) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectExternalLinkUpdateID = projectExternalLinkUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ExternalLinkLabel = externalLinkLabel;
@@ -43,8 +45,9 @@ namespace ProjectFirma.Web.Models
         public ProjectExternalLinkUpdate(int projectUpdateBatchID, string externalLinkLabel, string externalLinkUrl) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectExternalLinkUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectExternalLinkUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ExternalLinkLabel = externalLinkLabel;
             this.ExternalLinkUrl = externalLinkUrl;
@@ -57,6 +60,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectExternalLinkUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectExternalLinkUpdates.Add(this);
@@ -91,9 +95,11 @@ namespace ProjectFirma.Web.Models
         public int ProjectUpdateBatchID { get; set; }
         public string ExternalLinkLabel { get; set; }
         public string ExternalLinkUrl { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectExternalLinkUpdateID; } set { ProjectExternalLinkUpdateID = value; } }
 
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

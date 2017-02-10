@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var currentPerformanceMeasureMonitoringPrograms = performanceMeasure.PerformanceMeasureMonitoringPrograms.ToList();
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureMonitoringPrograms.Load();
-            var allPerformanceMeasureMonitoringPrograms = HttpRequestStorage.DatabaseEntities.PerformanceMeasureMonitoringPrograms.Local;
+            var allPerformanceMeasureMonitoringPrograms = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureMonitoringPrograms.Local;
             viewModel.UpdateModel(currentPerformanceMeasureMonitoringPrograms, allPerformanceMeasureMonitoringPrograms);
             return new ModalDialogFormJsonResult();
         }

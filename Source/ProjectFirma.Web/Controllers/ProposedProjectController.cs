@@ -67,28 +67,16 @@ namespace ProjectFirma.Web.Controllers
         [ProposedProjectsViewListFeature]
         public GridJsonNetJObjectResult<ProposedProject> IndexGridJsonData()
         {
-            ProposedProjectGridSpec gridSpec;
-            var taxonomyTierTwos = GetIndexGridSpec(CurrentPerson, out gridSpec);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(taxonomyTierTwos, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-
-        private static List<ProposedProject> GetIndexGridSpec(Person currentPerson, out ProposedProjectGridSpec gridSpec)
-        {
-            gridSpec = new ProposedProjectGridSpec(currentPerson);
-            return GetProposedProjectsForGrid(x => x.IsEditableToThisPerson(currentPerson));
-        }
-
-        public static List<ProposedProject> GetProposedProjectsForGrid(Func<ProposedProject, bool> filterFunction)
-        {
+            var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
             var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
             var jurisdictions = HttpRequestStorage.DatabaseEntities.Jurisdictions.GetJurisdictionsWithGeospatialFeatures();
             var stateProvinces = HttpRequestStorage.DatabaseEntities.StateProvinces.ToList();
-            return
-                HttpRequestStorage.DatabaseEntities.ProposedProjects.GetProposedProjectsWithGeoSpatialProperties(watersheds,
-                    jurisdictions,
-                    stateProvinces,
-                    filterFunction).Where(x => x.ProposedProjectState != ProposedProjectState.Approved && x.ProposedProjectState != ProposedProjectState.Rejected).ToList();
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.ProposedProjects.GetProposedProjectsWithGeoSpatialProperties(watersheds,
+                jurisdictions,
+                stateProvinces,
+                x => x.IsEditableToThisPerson(CurrentPerson)).Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved && x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(taxonomyTierTwos, gridSpec);
+            return gridJsonNetJObjectResult;
         }
 
         [ProposedProjectCreateNewFeature]
@@ -186,7 +174,7 @@ namespace ProjectFirma.Web.Controllers
 
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(proposedProject.PrimaryKey))
             {
-                HttpRequestStorage.DatabaseEntities.ProposedProjects.Add(proposedProject);
+                HttpRequestStorage.DatabaseEntities.AllProposedProjects.Add(proposedProject);
             }
 
             viewModel.UpdateModel(proposedProject, CurrentPerson);
@@ -203,7 +191,7 @@ namespace ProjectFirma.Web.Controllers
                 ProposedProjectID = proposedProject.ProposedProjectID,
                 AuditDescription = string.Format("ProposedProject: created {0}", proposedProject.DisplayName)
             };
-            HttpRequestStorage.DatabaseEntities.AuditLogs.Add(auditLog);
+            HttpRequestStorage.DatabaseEntities.AllAuditLogs.Add(auditLog);
             SetMessageForDisplay("Proposed Project succesfully saved.");
 
             return RedirectToAction(new SitkaRoute<ProposedProjectController>(x => x.EditBasics(proposedProject.PrimaryKey)));
@@ -243,10 +231,10 @@ namespace ProjectFirma.Web.Controllers
             var currentPerformanceMeasureExpectedProposeds = proposedProject.PerformanceMeasureExpectedProposeds.ToList();
 
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedProposeds.Load();
-            var allPerformanceMeasureExpectedProposeds = HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedProposeds.Local;
+            var allPerformanceMeasureExpectedProposeds = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpectedProposeds.Local;
 
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptionProposeds.Load();
-            var allPerformanceMeasureExpectedSubcategoryOptionProposeds = HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptionProposeds.Local;
+            var allPerformanceMeasureExpectedSubcategoryOptionProposeds = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpectedSubcategoryOptionProposeds.Local;
 
             viewModel.UpdateModel(currentPerformanceMeasureExpectedProposeds, allPerformanceMeasureExpectedProposeds, allPerformanceMeasureExpectedSubcategoryOptionProposeds, proposedProject);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -327,7 +315,7 @@ namespace ProjectFirma.Web.Controllers
         public static List<ProposedProjectAssessmentQuestionSimple> GetProposedProjectAssessmentQuestionSimples(ProposedProject proposedProject)
         {           
             var allQuestionsAsSimples =
-                HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Where(x=> !x.ArchiveDate.HasValue).ToList().Select(x => new ProposedProjectAssessmentQuestionSimple(x, proposedProject)).ToList();
+                HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Where(x => !x.ArchiveDate.HasValue).ToList().Select(x => new ProposedProjectAssessmentQuestionSimple(x, proposedProject)).ToList();
 
             var answeredQuestions = proposedProject.ProposedProjectAssessmentQuestions.ToList();
 
@@ -491,7 +479,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 var gdbFile = disposableTempFile.FileInfo;
                 httpPostedFileBase.SaveAs(gdbFile.FullName);
-                HttpRequestStorage.DatabaseEntities.ProposedProjectLocationStagings.RemoveRange(proposedProject.ProposedProjectLocationStagings.ToList());
+                HttpRequestStorage.DatabaseEntities.ProposedProjectLocationStagings.DeleteProposedProjectLocationStaging(proposedProject.ProposedProjectLocationStagings.ToList());
                 proposedProject.ProposedProjectLocationStagings.Clear();
                 ProposedProjectLocationStaging.CreateProposedProjectLocationStagingListFromGdb(gdbFile, proposedProject, CurrentPerson);
             }
@@ -547,7 +535,7 @@ namespace ProjectFirma.Web.Controllers
         private static void SaveDetailedLocations(ProjectLocationDetailViewModel viewModel, ProposedProject proposedProject)
         {
             var proposedProjectLocations = proposedProject.ProposedProjectLocations.ToList();
-            HttpRequestStorage.DatabaseEntities.ProposedProjectLocations.RemoveRange(proposedProjectLocations);
+            HttpRequestStorage.DatabaseEntities.ProposedProjectLocations.DeleteProposedProjectLocation(proposedProjectLocations);
             proposedProject.ProposedProjectLocations.Clear();
             if (viewModel.WktAndAnnotations != null)
             {
@@ -598,7 +586,7 @@ namespace ProjectFirma.Web.Controllers
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             var proposedProjectNote = ProposedProjectNote.CreateNewBlank(proposedProject);
             viewModel.UpdateModel(proposedProjectNote, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.ProposedProjectNotes.Add(proposedProjectNote);
+            HttpRequestStorage.DatabaseEntities.AllProposedProjectNotes.Add(proposedProjectNote);
             return new ModalDialogFormJsonResult();
         }
 
@@ -662,7 +650,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteNote(proposedProjectNote, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.ProposedProjectNotes.Remove(proposedProjectNote);
+            HttpRequestStorage.DatabaseEntities.ProposedProjectNotes.DeleteProposedProjectNote(proposedProjectNote);
             return new ModalDialogFormJsonResult();
         }
 
@@ -725,19 +713,18 @@ namespace ProjectFirma.Web.Controllers
 
         private static void DeleteProposedProject(ProposedProject proposedProject)
         {
-            HttpRequestStorage.DatabaseEntities.ProposedProjectNotes.RemoveRange(proposedProject.ProposedProjectNotes);
-            HttpRequestStorage.DatabaseEntities.ProposedProjectClassifications.RemoveRange(proposedProject.ProposedProjectClassifications);
+            HttpRequestStorage.DatabaseEntities.ProposedProjectNotes.DeleteProposedProjectNote(proposedProject.ProposedProjectNotes);
+            HttpRequestStorage.DatabaseEntities.ProposedProjectClassifications.DeleteProposedProjectClassification(proposedProject.ProposedProjectClassifications);
 
             var proposedProjectPerformanceMeasureExpecteds = proposedProject.PerformanceMeasureExpectedProposeds.ToList();
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptionProposeds.RemoveRange(
-                proposedProjectPerformanceMeasureExpecteds.SelectMany(x => x.PerformanceMeasureExpectedSubcategoryOptionProposeds));
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedProposeds.RemoveRange(proposedProjectPerformanceMeasureExpecteds);
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptionProposeds.DeletePerformanceMeasureExpectedSubcategoryOptionProposed(
+                proposedProjectPerformanceMeasureExpecteds.SelectMany(x => x.PerformanceMeasureExpectedSubcategoryOptionProposeds).ToList());
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedProposeds.DeletePerformanceMeasureExpectedProposed(proposedProjectPerformanceMeasureExpecteds);
 
             var notifications = proposedProject.NotificationProposedProjects.Select(x => x.Notification).ToList();
-            HttpRequestStorage.DatabaseEntities.NotificationProposedProjects.RemoveRange(proposedProject.NotificationProposedProjects);
-            HttpRequestStorage.DatabaseEntities.Notifications.RemoveRange(notifications);
-
-            HttpRequestStorage.DatabaseEntities.ProposedProjects.Remove(proposedProject);
+            HttpRequestStorage.DatabaseEntities.NotificationProposedProjects.DeleteNotificationProposedProject(proposedProject.NotificationProposedProjects);
+            HttpRequestStorage.DatabaseEntities.Notifications.DeleteNotification(notifications);
+            HttpRequestStorage.DatabaseEntities.ProposedProjects.DeleteProposedProject(proposedProject);
         }
 
         [HttpGet]
@@ -791,7 +778,7 @@ namespace ProjectFirma.Web.Controllers
             Check.Assert(new ProposalSectionsStatus(proposedProject).AreAllSectionsValid, "Proposal is not ready for submittal.");
 
             var project = proposedProject.PromoteToProject(proposedProject);
-            HttpRequestStorage.DatabaseEntities.Projects.Add(project);
+            HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Approved;
             proposedProject.ProjectID = project.ProjectID;
@@ -812,7 +799,7 @@ namespace ProjectFirma.Web.Controllers
                 ProjectID = project.ProjectID,
                 AuditDescription = string.Format("Project: created via approval of Proposed Project {0}", proposedProject.DisplayName)
             };
-            HttpRequestStorage.DatabaseEntities.AuditLogs.Add(auditLog);
+            HttpRequestStorage.DatabaseEntities.AllAuditLogs.Add(auditLog);
         }
 
         private PartialViewResult ViewApprove(ConfirmDialogFormViewModel viewModel)
@@ -889,17 +876,11 @@ namespace ProjectFirma.Web.Controllers
         [ProposedProjectViewFeature]
         public GridJsonNetJObjectResult<AuditLog> AuditLogsGridJsonData(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
         {
-            AuditLogsGridSpec gridSpec;
-            var auditLogs = GetAuditLogsAndGridSpec(out gridSpec, proposedProjectPrimaryKey.EntityObject);
+            var gridSpec = new AuditLogsGridSpec();
+            var auditLogs1 = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProposedProject(proposedProjectPrimaryKey.EntityObject);
+            var auditLogs = auditLogs1;
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AuditLog>(auditLogs, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private static List<AuditLog> GetAuditLogsAndGridSpec(out AuditLogsGridSpec gridSpec, ProposedProject proposedProject)
-        {
-            gridSpec = new AuditLogsGridSpec();
-            var auditLogs = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProposedProject(proposedProject);
-            return auditLogs;
         }
 
         private void ShowValidationErrors(List<ValidationResult> validationResults)

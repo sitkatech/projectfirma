@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProposedProjectClassification]")]
-    public partial class ProposedProjectClassification : IHavePrimaryKey
+    public partial class ProposedProjectClassification : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProposedProjectClassification(int proposedProjectClassificationID, int proposedProjectID, int classificationID, string proposedProjectClassificationNotes) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProposedProjectClassificationID = proposedProjectClassificationID;
             this.ProposedProjectID = proposedProjectID;
             this.ClassificationID = classificationID;
@@ -43,8 +45,9 @@ namespace ProjectFirma.Web.Models
         public ProposedProjectClassification(int proposedProjectID, int classificationID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProposedProjectClassificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProposedProjectClassificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProposedProjectID = proposedProjectID;
             this.ClassificationID = classificationID;
         }
@@ -56,6 +59,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectClassificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProposedProjectID = proposedProject.ProposedProjectID;
             this.ProposedProject = proposedProject;
             proposedProject.ProposedProjectClassifications.Add(this);
@@ -91,10 +95,12 @@ namespace ProjectFirma.Web.Models
         public int ProposedProjectID { get; set; }
         public int ClassificationID { get; set; }
         public string ProposedProjectClassificationNotes { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProposedProjectClassificationID; } set { ProposedProjectClassificationID = value; } }
 
         public virtual ProposedProject ProposedProject { get; set; }
         public virtual Classification Classification { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

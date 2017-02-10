@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             public static Watershed Create(DatabaseEntities dbContext)
             {
                 var watershed = Create();
-                dbContext.Watersheds.Add(watershed);
+                dbContext.AllWatersheds.Add(watershed);
                 return watershed;
             }
 

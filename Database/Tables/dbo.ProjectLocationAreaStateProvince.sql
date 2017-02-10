@@ -6,6 +6,7 @@ CREATE TABLE [dbo].[ProjectLocationAreaStateProvince](
 	[ProjectLocationAreaStateProvinceID] [int] IDENTITY(1,1) NOT NULL,
 	[ProjectLocationAreaID] [int] NOT NULL,
 	[StateProvinceID] [int] NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectLocationAreaStateProvince_ProjectLocationAreaStateProvinceID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectLocationAreaStateProvinceID] ASC
@@ -27,3 +28,8 @@ ALTER TABLE [dbo].[ProjectLocationAreaStateProvince]  WITH CHECK ADD  CONSTRAINT
 REFERENCES [dbo].[StateProvince] ([StateProvinceID])
 GO
 ALTER TABLE [dbo].[ProjectLocationAreaStateProvince] CHECK CONSTRAINT [FK_ProjectLocationAreaStateProvince_StateProvince_StateProvinceID]
+GO
+ALTER TABLE [dbo].[ProjectLocationAreaStateProvince]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationAreaStateProvince_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[ProjectLocationAreaStateProvince] CHECK CONSTRAINT [FK_ProjectLocationAreaStateProvince_Tenant_TenantID]

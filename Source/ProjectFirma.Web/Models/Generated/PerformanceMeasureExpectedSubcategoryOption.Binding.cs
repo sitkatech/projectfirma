@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[PerformanceMeasureExpectedSubcategoryOption]")]
-    public partial class PerformanceMeasureExpectedSubcategoryOption : IHavePrimaryKey
+    public partial class PerformanceMeasureExpectedSubcategoryOption : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public PerformanceMeasureExpectedSubcategoryOption(int performanceMeasureExpectedSubcategoryOptionID, int performanceMeasureExpectedID, int performanceMeasureSubcategoryOptionID, int performanceMeasureID, int performanceMeasureSubcategoryID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.PerformanceMeasureExpectedSubcategoryOptionID = performanceMeasureExpectedSubcategoryOptionID;
             this.PerformanceMeasureExpectedID = performanceMeasureExpectedID;
             this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
@@ -44,8 +46,9 @@ namespace ProjectFirma.Web.Models
         public PerformanceMeasureExpectedSubcategoryOption(int performanceMeasureExpectedID, int performanceMeasureSubcategoryOptionID, int performanceMeasureID, int performanceMeasureSubcategoryID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            PerformanceMeasureExpectedSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PerformanceMeasureExpectedSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PerformanceMeasureExpectedID = performanceMeasureExpectedID;
             this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
             this.PerformanceMeasureID = performanceMeasureID;
@@ -59,6 +62,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureExpectedSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.PerformanceMeasureExpectedID = performanceMeasureExpected.PerformanceMeasureExpectedID;
             this.PerformanceMeasureExpected = performanceMeasureExpected;
             performanceMeasureExpected.PerformanceMeasureExpectedSubcategoryOptions.Add(this);
@@ -101,12 +105,14 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureSubcategoryOptionID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int PerformanceMeasureSubcategoryID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return PerformanceMeasureExpectedSubcategoryOptionID; } set { PerformanceMeasureExpectedSubcategoryOptionID = value; } }
 
         public virtual PerformanceMeasureExpected PerformanceMeasureExpected { get; set; }
         public virtual PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
         public virtual PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

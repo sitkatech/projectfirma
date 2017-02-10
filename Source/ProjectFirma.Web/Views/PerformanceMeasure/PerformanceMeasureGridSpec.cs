@@ -1,5 +1,4 @@
-﻿using System.Web;
-using ProjectFirma.Web.Models;
+﻿using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
@@ -16,7 +15,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30);
             }
-            Add("#", a => a.PerformanceMeasureID, 30);
             Add(Models.FieldDefinition.PerformanceMeasure.ToGridHeaderString(MultiTenantHelpers.GetPerformanceMeasureName()),
                 a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.PerformanceMeasureDisplayName),
                 300,

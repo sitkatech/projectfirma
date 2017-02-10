@@ -11,6 +11,7 @@ CREATE TABLE [dbo].[ProjectImage](
 	[Credit] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[IsKeyPhoto] [bit] NOT NULL,
 	[ExcludeFromFactSheet] [bit] NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectImage_ProjectImageID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectImageID] ASC
@@ -37,3 +38,8 @@ ALTER TABLE [dbo].[ProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImage_Pr
 REFERENCES [dbo].[ProjectImageTiming] ([ProjectImageTimingID])
 GO
 ALTER TABLE [dbo].[ProjectImage] CHECK CONSTRAINT [FK_ProjectImage_ProjectImageTiming_ProjectImageTimingID]
+GO
+ALTER TABLE [dbo].[ProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImage_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[ProjectImage] CHECK CONSTRAINT [FK_ProjectImage_Tenant_TenantID]

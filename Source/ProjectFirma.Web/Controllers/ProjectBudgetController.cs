@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Controllers
             List<ProjectFundingOrganization> currentProjectFundingOrganizations)
         {
             HttpRequestStorage.DatabaseEntities.ProjectBudgets.Load();
-            var allProjectBudgets = HttpRequestStorage.DatabaseEntities.ProjectBudgets.Local;
+            var allProjectBudgets = HttpRequestStorage.DatabaseEntities.AllProjectBudgets.Local;
             viewModel.UpdateModel(currentProjectBudgets, allProjectBudgets);
 
             var distinctProjectIDs = currentProjectBudgets.Select(x => x.ProjectID).Distinct().ToList();

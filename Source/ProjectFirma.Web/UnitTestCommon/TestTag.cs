@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             public static Tag Create(DatabaseEntities dbContext)
             {
                 var tag = Create();
-                dbContext.Tags.Add(tag);
+                dbContext.AllTags.Add(tag);
                 return tag;
             }
 

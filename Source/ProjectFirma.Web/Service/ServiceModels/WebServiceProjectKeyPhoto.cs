@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
             KeyPhotoUrl = project.KeyPhoto != null
-                ? SitkaRoute<FileResourceController>.BuildAbsoluteUrlHttpsFromExpression(x => x.DisplayResource(project.KeyPhoto.FileResource.FileResourceGUIDAsString), SitkaWebConfiguration.CanonicalHostName)
+                ? SitkaRoute<FileResourceController>.BuildAbsoluteUrlHttpsFromExpression(x => x.DisplayResource(project.KeyPhoto.FileResource.FileResourceGUIDAsString))
                 : ViewUtilities.NoneString;
         }
 

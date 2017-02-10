@@ -37,17 +37,11 @@ namespace ProjectFirma.Web.Controllers
         [FundingSourceViewFeature]
         public GridJsonNetJObjectResult<FundingSource> IndexGridJsonData()
         {
-            IndexGridSpec gridSpec;
-            var fundingSources = GetFundingSourcesAndGridSpec(out gridSpec, CurrentPerson);
+            var hasDeleteFundingSourcePermission = new FundingSourceManageFeature().HasPermissionByPerson(CurrentPerson);
+            var gridSpec = new IndexGridSpec(hasDeleteFundingSourcePermission);
+            var fundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().OrderBy(ht => ht.FundingSourceName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<FundingSource>(fundingSources, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private static List<FundingSource> GetFundingSourcesAndGridSpec(out IndexGridSpec gridSpec, Person currentPerson)
-        {
-            var hasDeleteFundingSourcePermission = new FundingSourceManageFeature().HasPermissionByPerson(currentPerson);
-            gridSpec = new IndexGridSpec(hasDeleteFundingSourcePermission);
-            return FundingSources.List();
         }
 
         [HttpGet]
@@ -71,7 +65,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var fundingSource = new FundingSource(viewModel.OrganizationID, string.Empty, true);
             viewModel.UpdateModel(fundingSource, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.FundingSources.Add(fundingSource);
+            HttpRequestStorage.DatabaseEntities.AllFundingSources.Add(fundingSource);
             return new ModalDialogFormJsonResult();
         }
 
@@ -160,7 +154,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteFundingSource(fundingSource, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.FundingSources.Remove(fundingSource);
+            HttpRequestStorage.DatabaseEntities.FundingSources.DeleteFundingSource(fundingSource);
             return new ModalDialogFormJsonResult();
         }
 

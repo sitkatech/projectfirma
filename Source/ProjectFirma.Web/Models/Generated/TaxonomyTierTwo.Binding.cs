@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[TaxonomyTierTwo]")]
-    public partial class TaxonomyTierTwo : IHavePrimaryKey
+    public partial class TaxonomyTierTwo : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -33,6 +33,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public TaxonomyTierTwo(int taxonomyTierTwoID, int taxonomyTierThreeID, string taxonomyTierTwoName, string taxonomyTierTwoDescription, string themeColor, string taxonomyTierTwoCode) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.TaxonomyTierTwoID = taxonomyTierTwoID;
             this.TaxonomyTierThreeID = taxonomyTierThreeID;
             this.TaxonomyTierTwoName = taxonomyTierTwoName;
@@ -47,8 +49,9 @@ namespace ProjectFirma.Web.Models
         public TaxonomyTierTwo(int taxonomyTierThreeID, string taxonomyTierTwoName) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            TaxonomyTierTwoID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.TaxonomyTierTwoID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.TaxonomyTierThreeID = taxonomyTierThreeID;
             this.TaxonomyTierTwoName = taxonomyTierTwoName;
         }
@@ -60,6 +63,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyTierTwoID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.TaxonomyTierThreeID = taxonomyTierThree.TaxonomyTierThreeID;
             this.TaxonomyTierThree = taxonomyTierThree;
             taxonomyTierThree.TaxonomyTierTwos.Add(this);
@@ -101,12 +105,14 @@ namespace ProjectFirma.Web.Models
         }
         public string ThemeColor { get; set; }
         public string TaxonomyTierTwoCode { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return TaxonomyTierTwoID; } set { TaxonomyTierTwoID = value; } }
 
         public virtual ICollection<TaxonomyTierOne> TaxonomyTierOnes { get; set; }
         public virtual ICollection<TaxonomyTierTwoImage> TaxonomyTierTwoImages { get; set; }
         public virtual ICollection<TaxonomyTierTwoPerformanceMeasure> TaxonomyTierTwoPerformanceMeasures { get; set; }
         public virtual TaxonomyTierThree TaxonomyTierThree { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

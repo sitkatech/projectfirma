@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProposedProjectImage]")]
-    public partial class ProposedProjectImage : IHavePrimaryKey
+    public partial class ProposedProjectImage : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProposedProjectImage(int proposedProjectImageID, int fileResourceID, int proposedProjectID, string caption, string credit) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProposedProjectImageID = proposedProjectImageID;
             this.FileResourceID = fileResourceID;
             this.ProposedProjectID = proposedProjectID;
@@ -44,8 +46,9 @@ namespace ProjectFirma.Web.Models
         public ProposedProjectImage(int fileResourceID, int proposedProjectID, string caption, string credit) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProposedProjectImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProposedProjectImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FileResourceID = fileResourceID;
             this.ProposedProjectID = proposedProjectID;
             this.Caption = caption;
@@ -59,6 +62,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.FileResourceID = fileResource.FileResourceID;
             this.FileResource = fileResource;
             fileResource.ProposedProjectImages.Add(this);
@@ -97,10 +101,12 @@ namespace ProjectFirma.Web.Models
         public int ProposedProjectID { get; set; }
         public string Caption { get; set; }
         public string Credit { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProposedProjectImageID; } set { ProposedProjectImageID = value; } }
 
         public virtual FileResource FileResource { get; set; }
         public virtual ProposedProject ProposedProject { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

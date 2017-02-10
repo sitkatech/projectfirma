@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -14,8 +13,8 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                var project = HttpRequestStorage.DatabaseEntities.Projects.Find(ProjectID);
-                var organization = HttpRequestStorage.DatabaseEntities.Organizations.Find(OrganizationID);
+                var project = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
+                var organization = HttpRequestStorage.DatabaseEntities.AllOrganizations.Find(OrganizationID);
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var organizationName = organization != null ? organization.AuditDescriptionString : ViewUtilities.NotFoundString;
                 return string.Format("Project: {0}, Organization: {1}", projectName, organizationName);
@@ -30,7 +29,7 @@ namespace ProjectFirma.Web.Models
             var distinctOrganizationIDs =
                 HttpRequestStorage.DatabaseEntities.FundingSources.Where(x => distinctFundingSourceIDs.Contains(x.FundingSourceID)).Select(x => x.OrganizationID).Distinct().ToList();
             var currentProjectFundingOrganizationsDerivedFromExpenditures = distinctProjectIDs.SelectMany(x => distinctOrganizationIDs.Select(y => new ProjectFundingOrganization(x, y))).ToList();
-            var allProjectFundingOrganizations = HttpRequestStorage.DatabaseEntities.ProjectFundingOrganizations.Local;
+            var allProjectFundingOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectFundingOrganizations.Local;
             HttpRequestStorage.DatabaseEntities.ProjectFundingOrganizations.Load();
             currentProjectFundingOrganizations.MergeNew(currentProjectFundingOrganizationsDerivedFromExpenditures,
                 (x, y) => x.ProjectID == y.ProjectID && x.OrganizationID == y.OrganizationID,

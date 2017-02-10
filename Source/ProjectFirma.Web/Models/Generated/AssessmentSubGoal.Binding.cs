@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[AssessmentSubGoal]")]
-    public partial class AssessmentSubGoal : IHavePrimaryKey
+    public partial class AssessmentSubGoal : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public AssessmentSubGoal(int assessmentSubGoalID, int assessmentGoalID, int assessmentSubGoalNumber, string assessmentSubGoalTitle, string assessmentSubGoalDescription) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.AssessmentSubGoalID = assessmentSubGoalID;
             this.AssessmentGoalID = assessmentGoalID;
             this.AssessmentSubGoalNumber = assessmentSubGoalNumber;
@@ -44,8 +46,9 @@ namespace ProjectFirma.Web.Models
         public AssessmentSubGoal(int assessmentGoalID, int assessmentSubGoalNumber) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            AssessmentSubGoalID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.AssessmentSubGoalID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.AssessmentGoalID = assessmentGoalID;
             this.AssessmentSubGoalNumber = assessmentSubGoalNumber;
         }
@@ -57,6 +60,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.AssessmentSubGoalID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.AssessmentGoalID = assessmentGoal.AssessmentGoalID;
             this.AssessmentGoal = assessmentGoal;
             assessmentGoal.AssessmentSubGoals.Add(this);
@@ -91,10 +95,12 @@ namespace ProjectFirma.Web.Models
         public int AssessmentSubGoalNumber { get; set; }
         public string AssessmentSubGoalTitle { get; set; }
         public string AssessmentSubGoalDescription { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return AssessmentSubGoalID; } set { AssessmentSubGoalID = value; } }
 
         public virtual ICollection<AssessmentQuestion> AssessmentQuestions { get; set; }
         public virtual AssessmentGoal AssessmentGoal { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

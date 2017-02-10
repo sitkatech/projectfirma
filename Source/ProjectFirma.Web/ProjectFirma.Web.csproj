@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -74,9 +74,6 @@
     <Compile Include="Models\Generated\County.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\CountyPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\DatabaseEntities.Context.Binding.cs" />
-    <Compile Include="Models\Generated\DatabaseMigration.Binding.cs" />
-    <Compile Include="Models\Generated\DatabaseMigration.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\DatabaseMigrationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinition.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinitionData.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinitionData.DatabaseContextExtensions.cs" />
@@ -367,6 +364,9 @@
     <Compile Include="Models\Generated\TaxonomyTierTwoPerformanceMeasure.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\TaxonomyTierTwoPerformanceMeasurePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\TaxonomyTierTwoPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\Tenant.Binding.cs" />
+    <Compile Include="Models\Generated\Tenant.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\TenantPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
@@ -1330,7 +1330,6 @@
     <Compile Include="Models\FileResourceMimeType.cs" />
     <Compile Include="Models\FileResourceTest.cs" />
     <Compile Include="Models\FundingSource.cs" />
-    <Compile Include="Models\FundingSources.cs" />
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\OrganizationSimple.cs" />
     <Compile Include="Models\PerformanceMeasure.cs" />
@@ -1386,7 +1385,6 @@
     <Compile Include="Models\PerformanceMeasureSubcategoryOption.cs" />
     <Compile Include="Models\SupportRequestLog.cs" />
     <Compile Include="Models\Classification.cs" />
-    <Compile Include="Models\Classifications.cs" />
     <Compile Include="Models\Watershed.cs" />
     <Compile Include="Models\WatershedSimple.cs" />
     <Compile Include="Security\FirmaFeatureTest.cs" />

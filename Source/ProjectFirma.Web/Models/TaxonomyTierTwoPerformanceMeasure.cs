@@ -9,8 +9,8 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                var program = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.Find(TaxonomyTierTwoID);
-                var performanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Find(PerformanceMeasureID);
+                var program = HttpRequestStorage.DatabaseEntities.AllTaxonomyTierTwos.Find(TaxonomyTierTwoID);
+                var performanceMeasure = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Find(PerformanceMeasureID);
                 var projectName = program != null ? program.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var performanceMeasureName = performanceMeasure != null ? performanceMeasure.AuditDescriptionString : ViewUtilities.NotFoundString;
                 return string.Format("TaxonomyTierTwo: {0}, Performance Measure: {1}", projectName, performanceMeasureName);

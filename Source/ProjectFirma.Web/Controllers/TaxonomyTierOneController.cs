@@ -49,17 +49,11 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public GridJsonNetJObjectResult<TaxonomyTierOne> IndexGridJsonData()
         {
-            IndexGridSpec gridSpec;
-            var taxonomyTierOnes = GetTaxonomyTierOnesAndGridSpec(out gridSpec, CurrentPerson);
+            var hasDeletePermission = new TaxonomyTierOneManageFeature().HasPermissionByPerson(CurrentPerson);
+            var gridSpec = new IndexGridSpec(hasDeletePermission);
+            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().OrderBy(x => x.TaxonomyTierOneName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyTierOne>(taxonomyTierOnes, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private static List<TaxonomyTierOne> GetTaxonomyTierOnesAndGridSpec(out IndexGridSpec gridSpec, Person currentPerson)
-        {
-            var hasDeletePermission = new TaxonomyTierOneManageFeature().HasPermissionByPerson(currentPerson);
-            gridSpec = new IndexGridSpec(hasDeletePermission);
-            return HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().OrderBy(x => x.TaxonomyTierOneName).ToList();
         }
 
         [AnonymousUnclassifiedFeature]
@@ -75,7 +69,7 @@ namespace ProjectFirma.Web.Controllers
             var namedAreasAsPointsLayerGeoJson = new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, namedAreasAsPointsLayerGeoJson, projectMapCustomization, "TaxonomyTierOneProjectMap");
 
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName);
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList());
 
             var viewData = new DetailViewData(CurrentPerson, taxonomyTierOne, projectLocationsMapInitJson, projectLocationsMapViewData);
 
@@ -101,7 +95,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var taxonomyTierOne = new TaxonomyTierOne(viewModel.TaxonomyTierTwoID, string.Empty);
             viewModel.UpdateModel(taxonomyTierOne, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.Add(taxonomyTierOne);
+            HttpRequestStorage.DatabaseEntities.AllTaxonomyTierOnes.Add(taxonomyTierOne);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay(string.Format("New {0} {1} successfully created!", MultiTenantHelpers.GetTaxonomyTierOneDisplayName(), taxonomyTierOne.GetDisplayNameAsUrl()));
@@ -173,7 +167,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteTaxonomyTierOne(taxonomyTierOne, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.Remove(taxonomyTierOne);
+            HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.DeleteTaxonomyTierOne(taxonomyTierOne);
             return new ModalDialogFormJsonResult();
         }
 

@@ -63,15 +63,7 @@ namespace LtInfo.Common
             {
                 namespaces = new[] {routeEntry.Namespace};
             }
-            if (!String.IsNullOrEmpty(routeEntry.AreaAsSubdomainName))
-            {
-                var route = new DomainRoute(routeEntry, namespaces);
-                _routes.Add(route);
-            }
-            else
-            {
-                _routes.MapRoute(routeEntry.RouteName, routeEntry.RouteUrl, new { controller = routeEntry.Controller, action = routeEntry.Action }, routeEntry, namespaces);
-            }
+            _routes.MapRoute(routeEntry.RouteName, routeEntry.RouteUrl, new { controller = routeEntry.Controller, action = routeEntry.Action }, routeEntry, namespaces);
         }
 
         public static List<SitkaRouteTableEntry> SetupRouteTableImpl(IEnumerable<MethodInfo> actionMethods)
@@ -146,9 +138,9 @@ namespace LtInfo.Common
                     {
                         var allGetRoutes = String.Join("\r\n", getMethodsDict[controllerAndAction]);
                         throw new ApplicationException(string.Format("The POST route {0} must have a corresponding GET route with the same parameters\r\nPOST route: {1}\r\nGET routes: {2}",
-                                                                     controllerAndAction,
-                                                                     actionControllerNameWithParameters,
-                                                                     allGetRoutes));
+                            controllerAndAction,
+                            actionControllerNameWithParameters,
+                            allGetRoutes));
                     }
                 }
             }
@@ -158,62 +150,49 @@ namespace LtInfo.Common
 
             // Now add in all the variants of the route based on parameter overloading
             // /Foo.mvc/Action/1 => FooController.Action(1)
-            var prependParameters = allParameters.Where(p => p.CustomAttributes.Any(ca => ca.AttributeType.IsAssignableFrom(typeof(PlaceUrlParameterBeforeControllerAndActionName)))).OrderBy(p => p.Position).ToList();
-            var appendParameters = allParameters.Except(prependParameters).OrderBy(p => p.Position).ToList();
-            if (!prependParameters.Any())
+            var appendParameters = allParameters.OrderBy(p => p.Position).ToList();
+            var crossAreaRouteAttribute = controllerActionMethod.GetCustomAttributes<CrossAreaRouteAttribute>(false).SingleOrDefault();
+            var isCrossAreaRoute = crossAreaRouteAttribute != null;
+            if (areasDictionary == null || !areasDictionary.Any())
             {
-                var crossAreaRouteAttribute = controllerActionMethod.GetCustomAttributes<CrossAreaRouteAttribute>(false).SingleOrDefault();
-                var isCrossAreaRoute = crossAreaRouteAttribute != null;
-                if (areasDictionary == null || !areasDictionary.Any())
-                {
-                    CreateSitkaTableRouteEntry(controllerActionMethod, appendParameters, routeAttribute, action, controller, routeName, sitkaRouteEntries, controllerPartForUrl, null, null, false);
-                }
-                else
-                {
-                    if (isCrossAreaRoute)
-                    {
-                        foreach (var areaKey in areasDictionary.Keys)
-                        {
-                            CreateSitkaTableRouteEntry(controllerActionMethod, appendParameters, routeAttribute, action, controller, routeName, sitkaRouteEntries, controllerPartForUrl, areaKey, areasDictionary[areaKey], true);
-                        }
-                    }
-                    else
-                    {
-                        var area = SitkaController.ControllerTypeToAreaName(controllerActionMethod.ReflectedType);
-                        Check.Require(areasDictionary.ContainsKey(area), string.Format("Area \"{0}\" not found in Areas Dictionary!", area));
-                        var areaAsSubdomainName = areasDictionary[area];
-                        CreateSitkaTableRouteEntry(controllerActionMethod, appendParameters, routeAttribute, action, controller, routeName, sitkaRouteEntries, controllerPartForUrl, area, areaAsSubdomainName, false);
-                    }
-                }
+                CreateSitkaTableRouteEntry(controllerActionMethod, appendParameters, routeAttribute, action, controller, routeName, sitkaRouteEntries, controllerPartForUrl, null, null, false);
             }
             else
             {
-                // this is the Armstrong prepend the program identifier in the route path; as for now, we do not support Areas for it.
-                var routeAppendVariants = CalculateRouteParameterPermutationsAppend(appendParameters);
-                var routePrependVariants = CalculateRouteParameterPermutationsPrepend(prependParameters);
-                for (var appendIndex = 0; appendIndex < routeAppendVariants.Count; appendIndex++)
+                if (isCrossAreaRoute)
                 {
-                    sitkaRouteEntries.AddRange(
-                        routePrependVariants.Select(
-                            (t, prependIndex) =>
-                            {
-                                string routeUrl;
-                                int? routeOrder;
-                                var calculatedRouteName = String.Format("{0}__{1:0000}__{2:0000}", routeName, prependIndex, appendIndex);
-                                if (routeAttribute != null)
-                                {
-                                    routeUrl = routeAttribute.Template;
-                                    routeOrder = routeAttribute.Order;
-                                }
-                                else
-                                {
-                                    routeUrl = string.Format("{0}{1}/{2}{3}", t, controllerPartForUrl, action, routeAppendVariants[appendIndex]);
-                                    routeOrder = null;
-                                }
-
-                                return CreateSitkaTableRouteEntry(controllerActionMethod, action, controller, null, null, routeUrl, calculatedRouteName, routeOrder, false);
-                            }));
-                }                
+                    foreach (var areaKey in areasDictionary.Keys)
+                    {
+                        CreateSitkaTableRouteEntry(controllerActionMethod,
+                            appendParameters,
+                            routeAttribute,
+                            action,
+                            controller,
+                            routeName,
+                            sitkaRouteEntries,
+                            controllerPartForUrl,
+                            areaKey,
+                            areasDictionary[areaKey],
+                            true);
+                    }
+                }
+                else
+                {
+                    var area = SitkaController.ControllerTypeToAreaName(controllerActionMethod.ReflectedType);
+                    Check.Require(areasDictionary.ContainsKey(area), string.Format("Area \"{0}\" not found in Areas Dictionary!", area));
+                    var areaAsSubdomainName = areasDictionary[area];
+                    CreateSitkaTableRouteEntry(controllerActionMethod,
+                        appendParameters,
+                        routeAttribute,
+                        action,
+                        controller,
+                        routeName,
+                        sitkaRouteEntries,
+                        controllerPartForUrl,
+                        area,
+                        areaAsSubdomainName,
+                        false);
+                }
             }
             return sitkaRouteEntries;
         }

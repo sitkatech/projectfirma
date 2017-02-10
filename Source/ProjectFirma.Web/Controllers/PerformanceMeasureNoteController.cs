@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             var performanceMeasureNote = PerformanceMeasureNote.CreateNewBlank(performanceMeasure);
             viewModel.UpdateModel(performanceMeasureNote, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureNotes.Add(performanceMeasureNote);
+            HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureNotes.Add(performanceMeasureNote);
             return new ModalDialogFormJsonResult();
         }
 
@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeletePerformanceMeasureNote(performanceMeasureNote, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureNotes.Remove(performanceMeasureNote);
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureNotes.DeletePerformanceMeasureNote(performanceMeasureNote);
             return new ModalDialogFormJsonResult();
         }
     }

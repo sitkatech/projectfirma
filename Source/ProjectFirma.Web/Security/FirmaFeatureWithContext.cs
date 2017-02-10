@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Security
 {

@@ -25,9 +25,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public void UpdateModel(Models.PerformanceMeasure performanceMeasure)
         {
-            var databaseEntities = HttpRequestStorage.DatabaseEntities;
-            var performanceMeasureSubcategoriesFromDatabase = databaseEntities.PerformanceMeasureSubcategories.Local;
-            var performanceMeasureSubcategoryOptionsFromDatabase = databaseEntities.PerformanceMeasureSubcategoryOptions.Local;
+            var performanceMeasureSubcategoriesFromDatabase = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureSubcategories.Local;
+            var performanceMeasureSubcategoryOptionsFromDatabase = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureSubcategoryOptions.Local;
 
             var performanceMeasureSubcategoriesToUpdate = PerformanceMeasureSubcategorySimples.Select(x =>
             {

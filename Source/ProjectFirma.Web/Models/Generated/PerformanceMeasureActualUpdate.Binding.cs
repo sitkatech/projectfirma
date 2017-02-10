@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[PerformanceMeasureActualUpdate]")]
-    public partial class PerformanceMeasureActualUpdate : IHavePrimaryKey
+    public partial class PerformanceMeasureActualUpdate : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public PerformanceMeasureActualUpdate(int performanceMeasureActualUpdateID, int projectUpdateBatchID, int performanceMeasureID, int calendarYear, double? actualValue) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.PerformanceMeasureActualUpdateID = performanceMeasureActualUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.PerformanceMeasureID = performanceMeasureID;
@@ -44,8 +46,9 @@ namespace ProjectFirma.Web.Models
         public PerformanceMeasureActualUpdate(int projectUpdateBatchID, int performanceMeasureID, int calendarYear) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            PerformanceMeasureActualUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PerformanceMeasureActualUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.CalendarYear = calendarYear;
@@ -58,6 +61,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureActualUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.PerformanceMeasureActualUpdates.Add(this);
@@ -95,11 +99,13 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureID { get; set; }
         public int CalendarYear { get; set; }
         public double? ActualValue { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return PerformanceMeasureActualUpdateID; } set { PerformanceMeasureActualUpdateID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualSubcategoryOptionUpdate> PerformanceMeasureActualSubcategoryOptionUpdates { get; set; }
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

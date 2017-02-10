@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[PerformanceMeasureSubcategory]")]
-    public partial class PerformanceMeasureSubcategory : IHavePrimaryKey
+    public partial class PerformanceMeasureSubcategory : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -36,6 +36,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public PerformanceMeasureSubcategory(int performanceMeasureSubcategoryID, int performanceMeasureID, string performanceMeasureSubcategoryDisplayName, string chartConfigurationJson, string chartType, bool? swapChartAxes) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.PerformanceMeasureSubcategoryDisplayName = performanceMeasureSubcategoryDisplayName;
@@ -50,8 +52,9 @@ namespace ProjectFirma.Web.Models
         public PerformanceMeasureSubcategory(int performanceMeasureID, string performanceMeasureSubcategoryDisplayName) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            PerformanceMeasureSubcategoryID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PerformanceMeasureSubcategoryID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.PerformanceMeasureSubcategoryDisplayName = performanceMeasureSubcategoryDisplayName;
         }
@@ -63,6 +66,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureSubcategoryID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
             performanceMeasure.PerformanceMeasureSubcategories.Add(this);
@@ -98,6 +102,7 @@ namespace ProjectFirma.Web.Models
         public string ChartConfigurationJson { get; set; }
         public string ChartType { get; set; }
         public bool? SwapChartAxes { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return PerformanceMeasureSubcategoryID; } set { PerformanceMeasureSubcategoryID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
@@ -107,6 +112,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<PerformanceMeasureSubcategoryOption> PerformanceMeasureSubcategoryOptions { get; set; }
         public virtual ICollection<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

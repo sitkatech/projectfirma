@@ -27,7 +27,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             IEnumerable<FundingType> fundingTypes,
             IEnumerable<Models.Organization> organizations,
             decimal? totalExpenditures,
-            bool hasExistingProjectBudgetUpdates)
+            bool hasExistingProjectBudgetUpdates,
+            List<Models.TaxonomyTierOne> taxonomyTierOnes)
         {
             EditProjectType = editProjectType;
             TaxonomyTierOneDisplayName = taxonomyTierOneDisplayName;
@@ -35,7 +36,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             ProjectStages = projectStages.OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
             FundingTypes = fundingTypes.OrderBy(x => x.SortOrder).ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             Organizations = organizations.ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), y => y.DisplayName);
-            TaxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().OrderBy(ap => ap.DisplayName).ToList().ToGroupedSelectList();
+            TaxonomyTierOnes = taxonomyTierOnes.ToGroupedSelectList();
             StartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             HasExistingProjectBudgetUpdates = hasExistingProjectBudgetUpdates;

@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[FirmaPageImage]")]
-    public partial class FirmaPageImage : IHavePrimaryKey
+    public partial class FirmaPageImage : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public FirmaPageImage(int firmaPageImageID, int firmaPageID, int fileResourceID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.FirmaPageImageID = firmaPageImageID;
             this.FirmaPageID = firmaPageID;
             this.FileResourceID = fileResourceID;
@@ -42,8 +44,9 @@ namespace ProjectFirma.Web.Models
         public FirmaPageImage(int firmaPageID, int fileResourceID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            FirmaPageImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.FirmaPageImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FirmaPageID = firmaPageID;
             this.FileResourceID = fileResourceID;
         }
@@ -55,6 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.FirmaPageImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.FirmaPageID = firmaPage.FirmaPageID;
             this.FirmaPage = firmaPage;
             firmaPage.FirmaPageImages.Add(this);
@@ -89,10 +93,12 @@ namespace ProjectFirma.Web.Models
         public int FirmaPageImageID { get; set; }
         public int FirmaPageID { get; set; }
         public int FileResourceID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return FirmaPageImageID; } set { FirmaPageImageID = value; } }
 
         public virtual FirmaPage FirmaPage { get; set; }
         public virtual FileResource FileResource { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

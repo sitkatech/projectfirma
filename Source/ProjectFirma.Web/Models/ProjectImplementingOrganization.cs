@@ -10,8 +10,8 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                var project = HttpRequestStorage.DatabaseEntities.Projects.Find(ProjectID);
-                var organization = HttpRequestStorage.DatabaseEntities.Organizations.Find(OrganizationID);
+                var project = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
+                var organization = HttpRequestStorage.DatabaseEntities.AllOrganizations.Find(OrganizationID);
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var organizationName = organization != null ? organization.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var isLeadOrganization = IsLeadOrganization.ToYesNo();

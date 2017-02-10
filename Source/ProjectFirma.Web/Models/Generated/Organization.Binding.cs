@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[Organization]")]
-    public partial class Organization : IHavePrimaryKey
+    public partial class Organization : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -37,6 +37,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationAbbreviation, int sectorID, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.OrganizationID = organizationID;
             this.OrganizationGuid = organizationGuid;
             this.OrganizationName = organizationName;
@@ -54,8 +56,9 @@ namespace ProjectFirma.Web.Models
         public Organization(string organizationName, int sectorID, bool isActive) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            OrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.OrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.OrganizationName = organizationName;
             this.SectorID = sectorID;
             this.IsActive = isActive;
@@ -68,6 +71,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.OrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.OrganizationName = organizationName;
             this.SectorID = sector.SectorID;
             this.IsActive = isActive;
@@ -105,6 +109,7 @@ namespace ProjectFirma.Web.Models
         public bool IsActive { get; set; }
         public string OrganizationUrl { get; set; }
         public int? LogoFileResourceID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return OrganizationID; } set { OrganizationID = value; } }
 
         public virtual ICollection<FundingSource> FundingSources { get; set; }
@@ -118,6 +123,7 @@ namespace ProjectFirma.Web.Models
         public Sector Sector { get { return Sector.AllLookupDictionary[SectorID]; } }
         public virtual Person PrimaryContactPerson { get; set; }
         public virtual FileResource LogoFileResource { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

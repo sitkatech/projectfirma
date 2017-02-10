@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
@@ -35,7 +34,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, performanceMeasure);
             }
             HttpRequestStorage.DatabaseEntities.TaxonomyTierTwoPerformanceMeasures.Load();
-            viewModel.UpdateModel(performanceMeasure.TaxonomyTierTwoPerformanceMeasures.ToList(), HttpRequestStorage.DatabaseEntities.TaxonomyTierTwoPerformanceMeasures.Local);
+            viewModel.UpdateModel(performanceMeasure.TaxonomyTierTwoPerformanceMeasures.ToList(), HttpRequestStorage.DatabaseEntities.AllTaxonomyTierTwoPerformanceMeasures.Local);
             return new ModalDialogFormJsonResult();
         }
 

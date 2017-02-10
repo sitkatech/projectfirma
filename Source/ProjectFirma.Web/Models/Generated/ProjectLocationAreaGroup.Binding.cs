@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectLocationAreaGroup]")]
-    public partial class ProjectLocationAreaGroup : IHavePrimaryKey
+    public partial class ProjectLocationAreaGroup : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectLocationAreaGroup(int projectLocationAreaGroupID, int projectLocationAreaGroupTypeID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectLocationAreaGroupID = projectLocationAreaGroupID;
             this.ProjectLocationAreaGroupTypeID = projectLocationAreaGroupTypeID;
         }
@@ -41,8 +43,9 @@ namespace ProjectFirma.Web.Models
         public ProjectLocationAreaGroup(int projectLocationAreaGroupTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectLocationAreaGroupID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectLocationAreaGroupID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectLocationAreaGroupTypeID = projectLocationAreaGroupTypeID;
         }
 
@@ -53,6 +56,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationAreaGroupID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectLocationAreaGroupTypeID = projectLocationAreaGroupType.ProjectLocationAreaGroupTypeID;
         }
 
@@ -81,10 +85,12 @@ namespace ProjectFirma.Web.Models
         [Key]
         public int ProjectLocationAreaGroupID { get; set; }
         public int ProjectLocationAreaGroupTypeID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectLocationAreaGroupID; } set { ProjectLocationAreaGroupID = value; } }
 
         public virtual ICollection<ProjectLocationArea> ProjectLocationAreas { get; set; }
         public ProjectLocationAreaGroupType ProjectLocationAreaGroupType { get { return ProjectLocationAreaGroupType.AllLookupDictionary[ProjectLocationAreaGroupTypeID]; } }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

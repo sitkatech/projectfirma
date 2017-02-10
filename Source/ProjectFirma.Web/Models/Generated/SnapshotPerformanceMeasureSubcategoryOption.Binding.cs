@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[SnapshotPerformanceMeasureSubcategoryOption]")]
-    public partial class SnapshotPerformanceMeasureSubcategoryOption : IHavePrimaryKey
+    public partial class SnapshotPerformanceMeasureSubcategoryOption : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public SnapshotPerformanceMeasureSubcategoryOption(int snapshotPerformanceMeasureSubcategoryOptionID, int snapshotPerformanceMeasureID, int performanceMeasureSubcategoryOptionID, int performanceMeasureID, int performanceMeasureSubcategoryID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.SnapshotPerformanceMeasureSubcategoryOptionID = snapshotPerformanceMeasureSubcategoryOptionID;
             this.SnapshotPerformanceMeasureID = snapshotPerformanceMeasureID;
             this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
@@ -44,8 +46,9 @@ namespace ProjectFirma.Web.Models
         public SnapshotPerformanceMeasureSubcategoryOption(int snapshotPerformanceMeasureID, int performanceMeasureSubcategoryOptionID, int performanceMeasureID, int performanceMeasureSubcategoryID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            SnapshotPerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.SnapshotPerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.SnapshotPerformanceMeasureID = snapshotPerformanceMeasureID;
             this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
             this.PerformanceMeasureID = performanceMeasureID;
@@ -59,6 +62,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.SnapshotPerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.SnapshotPerformanceMeasureID = snapshotPerformanceMeasure.SnapshotPerformanceMeasureID;
             this.SnapshotPerformanceMeasure = snapshotPerformanceMeasure;
             snapshotPerformanceMeasure.SnapshotPerformanceMeasureSubcategoryOptions.Add(this);
@@ -101,12 +105,14 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureSubcategoryOptionID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int PerformanceMeasureSubcategoryID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return SnapshotPerformanceMeasureSubcategoryOptionID; } set { SnapshotPerformanceMeasureSubcategoryOptionID = value; } }
 
         public virtual SnapshotPerformanceMeasure SnapshotPerformanceMeasure { get; set; }
         public virtual PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
         public virtual PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

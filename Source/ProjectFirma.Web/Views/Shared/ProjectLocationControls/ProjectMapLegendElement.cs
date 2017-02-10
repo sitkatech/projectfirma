@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
@@ -18,9 +17,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             LegendText = legendText;
         }
 
-        public static Dictionary<string, List<ProjectMapLegendElement>> BuildLegendFormatDictionary()
+        public static Dictionary<string, List<ProjectMapLegendElement>> BuildLegendFormatDictionary(List<Models.TaxonomyTierThree> taxonomyTierThrees)
         {
-            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList(); //TODO: May not be best practice to hit database here?
             var legendFormats = new Dictionary<string, List<ProjectMapLegendElement>>
             {
                 {

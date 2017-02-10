@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[AssessmentGoal]")]
-    public partial class AssessmentGoal : IHavePrimaryKey
+    public partial class AssessmentGoal : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public AssessmentGoal(int assessmentGoalID, int assessmentGoalNumber, string assessmentGoalTitle, string assessmentGoalDescription) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.AssessmentGoalID = assessmentGoalID;
             this.AssessmentGoalNumber = assessmentGoalNumber;
             this.AssessmentGoalTitle = assessmentGoalTitle;
@@ -43,8 +45,9 @@ namespace ProjectFirma.Web.Models
         public AssessmentGoal(int assessmentGoalNumber) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            AssessmentGoalID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.AssessmentGoalID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.AssessmentGoalNumber = assessmentGoalNumber;
         }
 
@@ -76,9 +79,11 @@ namespace ProjectFirma.Web.Models
         public int AssessmentGoalNumber { get; set; }
         public string AssessmentGoalTitle { get; set; }
         public string AssessmentGoalDescription { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return AssessmentGoalID; } set { AssessmentGoalID = value; } }
 
         public virtual ICollection<AssessmentSubGoal> AssessmentSubGoals { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

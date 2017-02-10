@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Index()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ClassificationsList);
-            var viewData = new IndexViewData(CurrentPerson, firmaPage);
+            var viewData = new IndexViewData(CurrentPerson, firmaPage, HttpRequestStorage.DatabaseEntities.Classifications.ToList());
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var classification = new Classification(viewModel.DisplayName, string.Empty, "#BBBBBB", string.Empty);
             viewModel.UpdateModel(classification, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.Classifications.Add(classification);
+            HttpRequestStorage.DatabaseEntities.AllClassifications.Add(classification);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay(string.Format("New {0} {1} successfully created!", MultiTenantHelpers.GetClassificationDisplayName(), classification.GetDisplayNameAsUrl()));
@@ -121,7 +121,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteClassification(classification, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.Classifications.Remove(classification);
+            HttpRequestStorage.DatabaseEntities.Classifications.DeleteClassification(classification);
             return new ModalDialogFormJsonResult();
         }
 

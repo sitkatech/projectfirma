@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[AssessmentQuestion]")]
-    public partial class AssessmentQuestion : IHavePrimaryKey
+    public partial class AssessmentQuestion : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -32,6 +32,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public AssessmentQuestion(int assessmentQuestionID, int assessmentSubGoalID, string assessmentQuestionText, DateTime? archiveDate) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.AssessmentQuestionID = assessmentQuestionID;
             this.AssessmentSubGoalID = assessmentSubGoalID;
             this.AssessmentQuestionText = assessmentQuestionText;
@@ -44,8 +46,9 @@ namespace ProjectFirma.Web.Models
         public AssessmentQuestion(int assessmentSubGoalID, string assessmentQuestionText) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            AssessmentQuestionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.AssessmentQuestionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.AssessmentSubGoalID = assessmentSubGoalID;
             this.AssessmentQuestionText = assessmentQuestionText;
         }
@@ -57,6 +60,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.AssessmentQuestionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.AssessmentSubGoalID = assessmentSubGoal.AssessmentSubGoalID;
             this.AssessmentSubGoal = assessmentSubGoal;
             assessmentSubGoal.AssessmentQuestions.Add(this);
@@ -90,11 +94,13 @@ namespace ProjectFirma.Web.Models
         public int AssessmentSubGoalID { get; set; }
         public string AssessmentQuestionText { get; set; }
         public DateTime? ArchiveDate { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return AssessmentQuestionID; } set { AssessmentQuestionID = value; } }
 
         public virtual ICollection<ProjectAssessmentQuestion> ProjectAssessmentQuestions { get; set; }
         public virtual ICollection<ProposedProjectAssessmentQuestion> ProposedProjectAssessmentQuestions { get; set; }
         public virtual AssessmentSubGoal AssessmentSubGoal { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

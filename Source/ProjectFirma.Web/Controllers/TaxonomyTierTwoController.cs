@@ -49,17 +49,11 @@ namespace ProjectFirma.Web.Controllers
         [TaxonomyTierTwoViewFeature]
         public GridJsonNetJObjectResult<TaxonomyTierTwo> IndexGridJsonData()
         {
-            IndexGridSpec gridSpec;
-            var taxonomyTierTwos = GetTaxonomyTierTwosAndGridSpec(out gridSpec, CurrentPerson);
+            var hasDeletePermission = new TaxonomyTierTwoManageFeature().HasPermissionByPerson(CurrentPerson);
+            var gridSpec = new IndexGridSpec(hasDeletePermission);
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList().OrderBy(x => x.TaxonomyTierTwoName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyTierTwo>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private static List<TaxonomyTierTwo> GetTaxonomyTierTwosAndGridSpec(out IndexGridSpec gridSpec, Person currentPerson)
-        {
-            var hasDeletePermission = new TaxonomyTierTwoManageFeature().HasPermissionByPerson(currentPerson);
-            gridSpec = new IndexGridSpec(hasDeletePermission);
-            return HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList().OrderBy(x => x.TaxonomyTierTwoName).ToList();
         }
 
         [TaxonomyTierTwoViewFeature]
@@ -74,7 +68,7 @@ namespace ProjectFirma.Web.Controllers
             var namedAreasAsPointsLayerGeoJson = new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, namedAreasAsPointsLayerGeoJson, projectMapCustomization, "TaxonomyTierTwoProjectMap");
 
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName);
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList());
 
             var viewData = new DetailViewData(CurrentPerson,
                 taxonomyTierTwo,
@@ -102,7 +96,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var taxonomyTierTwo = new TaxonomyTierTwo(viewModel.TaxonomyTierThreeID, string.Empty);
             viewModel.UpdateModel(taxonomyTierTwo, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.Add(taxonomyTierTwo);
+            HttpRequestStorage.DatabaseEntities.AllTaxonomyTierTwos.Add(taxonomyTierTwo);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay(string.Format("New {0} {1} successfully created!", MultiTenantHelpers.GetTaxonomyTierOneDisplayName(), taxonomyTierTwo.GetDisplayNameAsUrl()));
@@ -157,7 +151,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteTaxonomyTierTwo(TaxonomyTierTwo taxonomyTierTwo, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !taxonomyTierTwo.HasDependentObjects() && HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.Count() > 1; ;
+            var canDelete = !taxonomyTierTwo.HasDependentObjects() && HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.Count() > 1;
             var confirmMessage = canDelete
                 ? string.Format("Are you sure you want to delete this {0} '{1}'?", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName(), taxonomyTierTwo.DisplayName)
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(MultiTenantHelpers.GetTaxonomyTierTwoDisplayName(), SitkaRoute<TaxonomyTierTwoController>.BuildLinkFromExpression(x => x.Detail(taxonomyTierTwo), "here"));
@@ -176,7 +170,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteTaxonomyTierTwo(taxonomyTierTwo, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.Remove(taxonomyTierTwo);
+            HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.DeleteTaxonomyTierTwo(taxonomyTierTwo);
             return new ModalDialogFormJsonResult();
         }
 

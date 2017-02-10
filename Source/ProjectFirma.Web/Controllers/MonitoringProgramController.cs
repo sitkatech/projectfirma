@@ -1,13 +1,12 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.MonitoringProgram;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
 using Index = ProjectFirma.Web.Views.MonitoringProgram.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.MonitoringProgram.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.MonitoringProgram.IndexViewData;
@@ -38,16 +37,10 @@ namespace ProjectFirma.Web.Controllers
         [MonitoringProgramViewFeature]
         public GridJsonNetJObjectResult<MonitoringProgram> IndexGridJsonData()
         {
-            IndexGridSpec gridSpec;
-            var monitoringPrograms = GetMonitoringProgramsAndGridSpec(out gridSpec, CurrentPerson);
+            var gridSpec = new IndexGridSpec(new MonitoringProgramManageFeature().HasPermissionByPerson(CurrentPerson));
+            var monitoringPrograms = HttpRequestStorage.DatabaseEntities.MonitoringPrograms.OrderBy(x => x.MonitoringProgramName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<MonitoringProgram>(monitoringPrograms, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private static List<MonitoringProgram> GetMonitoringProgramsAndGridSpec(out IndexGridSpec gridSpec, Person currentPerson)
-        {
-            gridSpec = new IndexGridSpec(new MonitoringProgramManageFeature().HasPermissionByPerson(currentPerson));
-            return HttpRequestStorage.DatabaseEntities.MonitoringPrograms.OrderBy(x => x.MonitoringProgramName).ToList();
         }
 
         [HttpGet]
@@ -69,7 +62,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var monitoringProgram = new MonitoringProgram(string.Empty);
             viewModel.UpdateModel(monitoringProgram, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.MonitoringPrograms.Add(monitoringProgram);
+            HttpRequestStorage.DatabaseEntities.AllMonitoringPrograms.Add(monitoringProgram);
             return new ModalDialogFormJsonResult();
         }
 
@@ -133,7 +126,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteMonitoringProgram(monitoringProgram, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.MonitoringPrograms.Remove(monitoringProgram);
+            HttpRequestStorage.DatabaseEntities.MonitoringPrograms.DeleteMonitoringProgram(monitoringProgram);
             return new ModalDialogFormJsonResult();
         }
 
@@ -165,7 +158,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var monitoringProgramDocument = new MonitoringProgramDocument(monitoringProgram);
             viewModel.UpdateModel(monitoringProgramDocument, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.MonitoringProgramDocuments.Add(monitoringProgramDocument);
+            HttpRequestStorage.DatabaseEntities.AllMonitoringProgramDocuments.Add(monitoringProgramDocument);
             return new ModalDialogFormJsonResult();
 
         }
@@ -207,7 +200,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteMonitoringProgramDocument(monitoringProgramDocument, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.MonitoringProgramDocuments.Remove(monitoringProgramDocument);
+            HttpRequestStorage.DatabaseEntities.MonitoringProgramDocuments.DeleteMonitoringProgramDocument(monitoringProgramDocument);
             return new ModalDialogFormJsonResult();
         }
 

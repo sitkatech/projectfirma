@@ -8,6 +8,7 @@ CREATE TABLE [dbo].[ProjectUpdateHistory](
 	[ProjectUpdateStateID] [int] NOT NULL,
 	[UpdatePersonID] [int] NOT NULL,
 	[TransitionDate] [datetime] NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectUpdateHistory_ProjectUpdateHistoryID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateHistoryID] ASC
@@ -29,3 +30,8 @@ ALTER TABLE [dbo].[ProjectUpdateHistory]  WITH CHECK ADD  CONSTRAINT [FK_Project
 REFERENCES [dbo].[ProjectUpdateState] ([ProjectUpdateStateID])
 GO
 ALTER TABLE [dbo].[ProjectUpdateHistory] CHECK CONSTRAINT [FK_ProjectUpdateHistory_ProjectUpdateState_ProjectUpdateStateID]
+GO
+ALTER TABLE [dbo].[ProjectUpdateHistory]  WITH CHECK ADD  CONSTRAINT [FK_ProjectUpdateHistory_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[ProjectUpdateHistory] CHECK CONSTRAINT [FK_ProjectUpdateHistory_Tenant_TenantID]

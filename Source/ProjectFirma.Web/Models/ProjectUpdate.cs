@@ -130,13 +130,13 @@ namespace ProjectFirma.Web.Models
         public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
         {
             var projectUpdate = new ProjectUpdate(projectUpdateBatch);
-            HttpRequestStorage.DatabaseEntities.ProjectUpdates.Add(projectUpdate);
+            HttpRequestStorage.DatabaseEntities.AllProjectUpdates.Add(projectUpdate);
         }
 
         public static void CommitToProject(ProjectUpdateBatch projectUpdateBatch)
         {
             var projectUpdate = new ProjectUpdate(projectUpdateBatch);
-            HttpRequestStorage.DatabaseEntities.ProjectUpdates.Add(projectUpdate);
+            HttpRequestStorage.DatabaseEntities.AllProjectUpdates.Add(projectUpdate);
         }
     }
 }

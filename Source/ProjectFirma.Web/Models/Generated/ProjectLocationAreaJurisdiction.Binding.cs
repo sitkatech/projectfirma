@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectLocationAreaJurisdiction]")]
-    public partial class ProjectLocationAreaJurisdiction : IHavePrimaryKey
+    public partial class ProjectLocationAreaJurisdiction : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectLocationAreaJurisdiction(int projectLocationAreaJurisdictionID, int projectLocationAreaID, int jurisdictionID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectLocationAreaJurisdictionID = projectLocationAreaJurisdictionID;
             this.ProjectLocationAreaID = projectLocationAreaID;
             this.JurisdictionID = jurisdictionID;
@@ -42,8 +44,9 @@ namespace ProjectFirma.Web.Models
         public ProjectLocationAreaJurisdiction(int projectLocationAreaID, int jurisdictionID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectLocationAreaJurisdictionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectLocationAreaJurisdictionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectLocationAreaID = projectLocationAreaID;
             this.JurisdictionID = jurisdictionID;
         }
@@ -55,6 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationAreaJurisdictionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectLocationAreaID = projectLocationArea.ProjectLocationAreaID;
             this.ProjectLocationArea = projectLocationArea;
             projectLocationArea.ProjectLocationAreaJurisdictions.Add(this);
@@ -89,10 +93,12 @@ namespace ProjectFirma.Web.Models
         public int ProjectLocationAreaJurisdictionID { get; set; }
         public int ProjectLocationAreaID { get; set; }
         public int JurisdictionID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectLocationAreaJurisdictionID; } set { ProjectLocationAreaJurisdictionID = value; } }
 
         public virtual ProjectLocationArea ProjectLocationArea { get; set; }
         public virtual Jurisdiction Jurisdiction { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

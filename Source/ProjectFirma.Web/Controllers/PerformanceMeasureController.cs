@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ApprovalUtilities.Utilities;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -44,17 +43,11 @@ namespace ProjectFirma.Web.Controllers
         [PerformanceMeasureViewFeature]
         public GridJsonNetJObjectResult<PerformanceMeasure> PerformanceMeasureGridJsonData()
         {
-            PerformanceMeasureGridSpec gridSpec;
             var hasDeletePermission = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson);
-            var performanceMeasures = GetPerformanceMeasuresAndGridSpec(out gridSpec, hasDeletePermission);
+            var gridSpec = new PerformanceMeasureGridSpec(hasDeletePermission);
+            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.OrderBy(x => x.PerformanceMeasureID).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PerformanceMeasure>(performanceMeasures, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private static List<PerformanceMeasure> GetPerformanceMeasuresAndGridSpec(out PerformanceMeasureGridSpec gridSpec, bool hasDeletePermission)
-        {
-            gridSpec = new PerformanceMeasureGridSpec(hasDeletePermission);
-            return HttpRequestStorage.DatabaseEntities.PerformanceMeasures.OrderBy(x => x.PerformanceMeasureID).ToList();
         }
 
         [PerformanceMeasureViewFeature]
@@ -296,7 +289,7 @@ namespace ProjectFirma.Web.Controllers
             var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default");
             new PerformanceMeasureSubcategoryOption(defaultSubcategory, "Default");
 
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Add(performanceMeasure);
+            HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Add(performanceMeasure);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay(string.Format("New {0} {1} successfully created!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.GetDisplayNameAsUrl()));
@@ -356,13 +349,13 @@ namespace ProjectFirma.Web.Controllers
             // Delete dependent associated items, then delete Performance Measure
             performanceMeasure.PerformanceMeasureActuals.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions)
                 .ToList()
-                .ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Remove(x));
-            performanceMeasure.PerformanceMeasureActuals.ToList().ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Remove(x));
+                .ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.DeletePerformanceMeasureActualSubcategoryOption(x));
+            performanceMeasure.PerformanceMeasureActuals.ToList().ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.DeletePerformanceMeasureActual(x));
             performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions)
                 .ToList()
-                .ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureSubcategoryOptions.Remove(x));
-            performanceMeasure.PerformanceMeasureSubcategories.ToList().ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureSubcategories.Remove(x));
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Remove(performanceMeasure);
+                .ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureSubcategoryOptions.DeletePerformanceMeasureSubcategoryOption(x));
+            performanceMeasure.PerformanceMeasureSubcategories.ToList().ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureSubcategories.DeletePerformanceMeasureSubcategory(x));
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasures.DeletePerformanceMeasure(performanceMeasure);
 
             SetMessageForDisplay(String.Format("Successfully deleted {0} \"{1}\"!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName));
             return new ModalDialogFormJsonResult();

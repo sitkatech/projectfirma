@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[AuditLog]")]
-    public partial class AuditLog : IHavePrimaryKey
+    public partial class AuditLog : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public AuditLog(int auditLogID, int personID, DateTime auditLogDate, int auditLogEventTypeID, string tableName, int recordID, string columnName, string originalValue, string newValue, string auditDescription, int? projectID, int? proposedProjectID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.AuditLogID = auditLogID;
             this.PersonID = personID;
             this.AuditLogDate = auditLogDate;
@@ -51,8 +53,9 @@ namespace ProjectFirma.Web.Models
         public AuditLog(int personID, DateTime auditLogDate, int auditLogEventTypeID, string tableName, int recordID, string columnName, string newValue) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            AuditLogID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.AuditLogID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PersonID = personID;
             this.AuditLogDate = auditLogDate;
             this.AuditLogEventTypeID = auditLogEventTypeID;
@@ -69,6 +72,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.AuditLogID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.PersonID = person.PersonID;
             this.Person = person;
             person.AuditLogs.Add(this);
@@ -115,10 +119,12 @@ namespace ProjectFirma.Web.Models
         public string AuditDescription { get; set; }
         public int? ProjectID { get; set; }
         public int? ProposedProjectID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return AuditLogID; } set { AuditLogID = value; } }
 
         public virtual Person Person { get; set; }
         public AuditLogEventType AuditLogEventType { get { return AuditLogEventType.AllLookupDictionary[AuditLogEventTypeID]; } }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

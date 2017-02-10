@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
@@ -11,6 +9,7 @@ using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -26,16 +25,10 @@ namespace ProjectFirma.Web.Controllers
         [UserEditFeature]
         public GridJsonNetJObjectResult<Person> IndexGridJsonData()
         {
-            IndexGridSpec gridSpec;
-            var persons = GetPersonsAndGridSpec(out gridSpec);
+            var gridSpec = new IndexGridSpec();
+            var persons = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(x => x.FullNameLastFirst).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(persons, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private static List<Person> GetPersonsAndGridSpec(out IndexGridSpec gridSpec)
-        {
-            gridSpec = new IndexGridSpec();
-            return HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(x => x.FullNameLastFirst).ToList();
         }
 
         [HttpGet]

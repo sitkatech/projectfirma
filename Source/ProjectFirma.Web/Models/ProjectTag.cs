@@ -9,8 +9,8 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                var project = HttpRequestStorage.DatabaseEntities.Projects.Find(ProjectID);
-                var tag = HttpRequestStorage.DatabaseEntities.Watersheds.Find(TagID);
+                var project = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
+                var tag = HttpRequestStorage.DatabaseEntities.AllWatersheds.Find(TagID);
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var tagName = tag != null ? tag.AuditDescriptionString : ViewUtilities.NotFoundString;
                 return string.Format("Project: {0}, Tag: {1}", projectName, tagName); 

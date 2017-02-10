@@ -136,10 +136,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
                 errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear, m => m.CompletionYear));
             }
 
-
             return errors;
         }
-
-
     }
 }

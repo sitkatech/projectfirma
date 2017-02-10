@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var supportRequestLog = SupportRequestLog.Create(CurrentPerson);
             viewModel.UpdateModel(supportRequestLog, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.SupportRequestLogs.Add(supportRequestLog);
+            HttpRequestStorage.DatabaseEntities.AllSupportRequestLogs.Add(supportRequestLog);
             supportRequestLog.SendMessage(Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType);               
             SetMessageForDisplay("Support request sent.");
             return new ModalDialogFormJsonResult();

@@ -9,8 +9,8 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                var project = HttpRequestStorage.DatabaseEntities.Projects.Find(ProjectID);
-                var watershed = HttpRequestStorage.DatabaseEntities.Watersheds.Find(WatershedID);
+                var project = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
+                var watershed = HttpRequestStorage.DatabaseEntities.AllWatersheds.Find(WatershedID);
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var watershedName = watershed != null ? watershed.AuditDescriptionString : ViewUtilities.NotFoundString;
                 return string.Format("Project: {0}, Watershed: {1}", projectName, watershedName);

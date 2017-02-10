@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectUpdateBatch]")]
-    public partial class ProjectUpdateBatch : IHavePrimaryKey
+    public partial class ProjectUpdateBatch : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -41,6 +41,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectUpdateBatch(int projectUpdateBatchID, int projectID, DateTime lastUpdateDate, string performanceMeasureActualYearsExemptionExplanation, bool showBasicsValidationWarnings, bool showPerformanceMeasuresValidationWarnings, bool showExpendituresValidationWarnings, bool showBudgetsValidationWarnings, bool showLocationSimpleValidationWarnings, int lastUpdatePersonID, string basicsComment, string expendituresComment, string performanceMeasuresComment, string locationSimpleComment, string locationDetailedComment, string budgetsComment, int projectUpdateStateID, bool isPhotosUpdated, string basicsDiffLog, string performanceMeasureDiffLog, string expendituresDiffLog, string budgetsDiffLog, string externalLinksDiffLog, string notesDiffLog) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectID = projectID;
             this.LastUpdateDate = lastUpdateDate;
@@ -73,8 +75,9 @@ namespace ProjectFirma.Web.Models
         public ProjectUpdateBatch(int projectID, DateTime lastUpdateDate, bool showBasicsValidationWarnings, bool showPerformanceMeasuresValidationWarnings, bool showExpendituresValidationWarnings, bool showBudgetsValidationWarnings, bool showLocationSimpleValidationWarnings, int lastUpdatePersonID, int projectUpdateStateID, bool isPhotosUpdated) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectUpdateBatchID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectUpdateBatchID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.LastUpdateDate = lastUpdateDate;
             this.ShowBasicsValidationWarnings = showBasicsValidationWarnings;
@@ -94,6 +97,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectUpdateBatchID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectUpdateBatches.Add(this);
@@ -193,6 +197,7 @@ namespace ProjectFirma.Web.Models
             get { return NotesDiffLog == null ? null : new HtmlString(NotesDiffLog); }
             set { NotesDiffLog = value == null ? null : value.ToString(); }
         }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectUpdateBatchID; } set { ProjectUpdateBatchID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualUpdate> PerformanceMeasureActualUpdates { get; set; }
@@ -210,6 +215,7 @@ namespace ProjectFirma.Web.Models
         public virtual Project Project { get; set; }
         public virtual Person LastUpdatePerson { get; set; }
         public ProjectUpdateState ProjectUpdateState { get { return ProjectUpdateState.AllLookupDictionary[ProjectUpdateStateID]; } }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

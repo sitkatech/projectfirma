@@ -1,7 +1,7 @@
-﻿using ProjectFirma.Web;
-using ProjectFirma.Web.Controllers;
+﻿using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using NUnit.Framework;
+using ProjectFirma.Web;
 
 /// <summary>
 /// Sets up the global logger for the project

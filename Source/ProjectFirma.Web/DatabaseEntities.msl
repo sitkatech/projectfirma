@@ -8,6 +8,7 @@
           <ScalarProperty Name="AssessmentGoalNumber" ColumnName="AssessmentGoalNumber" />
           <ScalarProperty Name="AssessmentGoalTitle" ColumnName="AssessmentGoalTitle" />
           <ScalarProperty Name="AssessmentGoalDescription" ColumnName="AssessmentGoalDescription" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -18,6 +19,7 @@
           <ScalarProperty Name="AssessmentSubGoalID" ColumnName="AssessmentSubGoalID" />
           <ScalarProperty Name="AssessmentQuestionText" ColumnName="AssessmentQuestionText" />
           <ScalarProperty Name="ArchiveDate" ColumnName="ArchiveDate" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -29,6 +31,7 @@
           <ScalarProperty Name="AssessmentSubGoalNumber" ColumnName="AssessmentSubGoalNumber" />
           <ScalarProperty Name="AssessmentSubGoalTitle" ColumnName="AssessmentSubGoalTitle" />
           <ScalarProperty Name="AssessmentSubGoalDescription" ColumnName="AssessmentSubGoalDescription" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -47,6 +50,7 @@
           <ScalarProperty Name="AuditDescription" ColumnName="AuditDescription" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -61,6 +65,7 @@
           <ScalarProperty Name="GoalStatement" ColumnName="GoalStatement" />
           <ScalarProperty Name="Narrative" ColumnName="Narrative" />
           <ScalarProperty Name="KeyImageFileResourceID" ColumnName="KeyImageFileResourceID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -70,6 +75,7 @@
           <ScalarProperty Name="ClassificationImageID" ColumnName="ClassificationImageID" />
           <ScalarProperty Name="ClassificationID" ColumnName="ClassificationID" />
           <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -80,6 +86,7 @@
           <ScalarProperty Name="ClassificationID" ColumnName="ClassificationID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="IsPrimaryChart" ColumnName="IsPrimaryChart" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -91,6 +98,7 @@
           <ScalarProperty Name="CurrentYearForPVCalculations" ColumnName="CurrentYearForPVCalculations" />
           <ScalarProperty Name="Comment" ColumnName="Comment" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -101,13 +109,7 @@
           <ScalarProperty Name="CountyName" ColumnName="CountyName" />
           <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
           <ScalarProperty Name="CountyFeature" ColumnName="CountyFeature" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="DatabaseMigration">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.DatabaseMigration">
-        <MappingFragment StoreEntitySet="DatabaseMigration">
-          <ScalarProperty Name="DatabaseMigrationNumber" ColumnName="DatabaseMigrationNumber" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -117,6 +119,7 @@
           <ScalarProperty Name="FieldDefinitionDataID" ColumnName="FieldDefinitionDataID" />
           <ScalarProperty Name="FieldDefinitionID" ColumnName="FieldDefinitionID" />
           <ScalarProperty Name="FieldDefinitionDataValue" ColumnName="FieldDefinitionDataValue" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -126,6 +129,7 @@
           <ScalarProperty Name="FieldDefinitionImageID" ColumnName="FieldDefinitionImageID" />
           <ScalarProperty Name="FieldDefinitionID" ColumnName="FieldDefinitionID" />
           <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -140,6 +144,7 @@
           <ScalarProperty Name="FileResourceData" ColumnName="FileResourceData" />
           <ScalarProperty Name="CreatePersonID" ColumnName="CreatePersonID" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -149,6 +154,7 @@
           <ScalarProperty Name="FirmaPageID" ColumnName="FirmaPageID" />
           <ScalarProperty Name="FirmaPageTypeID" ColumnName="FirmaPageTypeID" />
           <ScalarProperty Name="FirmaPageContent" ColumnName="FirmaPageContent" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -158,6 +164,7 @@
           <ScalarProperty Name="FirmaPageImageID" ColumnName="FirmaPageImageID" />
           <ScalarProperty Name="FirmaPageID" ColumnName="FirmaPageID" />
           <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -169,6 +176,7 @@
           <ScalarProperty Name="FundingSourceName" ColumnName="FundingSourceName" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="FundingSourceDescription" ColumnName="FundingSourceDescription" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -179,6 +187,7 @@
           <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
           <ScalarProperty Name="JurisdictionFeature" ColumnName="JurisdictionFeature" />
           <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -189,6 +198,7 @@
           <ScalarProperty Name="RegionName" ColumnName="RegionName" />
           <ScalarProperty Name="RegionDisplayName" ColumnName="RegionDisplayName" />
           <ScalarProperty Name="RegionFeature" ColumnName="RegionFeature" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -199,6 +209,7 @@
           <ScalarProperty Name="MonitoringProgramName" ColumnName="MonitoringProgramName" />
           <ScalarProperty Name="MonitoringApproach" ColumnName="MonitoringApproach" />
           <ScalarProperty Name="MonitoringProgramUrl" ColumnName="MonitoringProgramUrl" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -210,6 +221,7 @@
           <ScalarProperty Name="MonitoringProgramID" ColumnName="MonitoringProgramID" />
           <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
           <ScalarProperty Name="UploadDate" ColumnName="UploadDate" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -219,6 +231,7 @@
           <ScalarProperty Name="MonitoringProgramPartnerID" ColumnName="MonitoringProgramPartnerID" />
           <ScalarProperty Name="MonitoringProgramID" ColumnName="MonitoringProgramID" />
           <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -229,6 +242,7 @@
           <ScalarProperty Name="NotificationTypeID" ColumnName="NotificationTypeID" />
           <ScalarProperty Name="PersonID" ColumnName="PersonID" />
           <ScalarProperty Name="NotificationDate" ColumnName="NotificationDate" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -238,6 +252,7 @@
           <ScalarProperty Name="NotificationProjectID" ColumnName="NotificationProjectID" />
           <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -247,6 +262,7 @@
           <ScalarProperty Name="NotificationProposedProjectID" ColumnName="NotificationProposedProjectID" />
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
           <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -262,6 +278,7 @@
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="OrganizationUrl" ColumnName="OrganizationUrl" />
           <ScalarProperty Name="LogoFileResourceID" ColumnName="LogoFileResourceID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -279,6 +296,7 @@
           <ScalarProperty Name="ExternalDataSourceUrl" ColumnName="ExternalDataSourceUrl" />
           <ScalarProperty Name="ChartTitle" ColumnName="ChartTitle" />
           <ScalarProperty Name="ChartCaption" ColumnName="ChartCaption" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -290,6 +308,7 @@
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="ActualValue" ColumnName="ActualValue" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -301,6 +320,7 @@
           <ScalarProperty Name="PerformanceMeasureSubcategoryOptionID" ColumnName="PerformanceMeasureSubcategoryOptionID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryID" ColumnName="PerformanceMeasureSubcategoryID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -312,6 +332,7 @@
           <ScalarProperty Name="PerformanceMeasureSubcategoryOptionID" ColumnName="PerformanceMeasureSubcategoryOptionID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryID" ColumnName="PerformanceMeasureSubcategoryID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -323,6 +344,7 @@
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="ActualValue" ColumnName="ActualValue" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -333,6 +355,7 @@
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="ExpectedValue" ColumnName="ExpectedValue" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -343,6 +366,7 @@
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="ExpectedValue" ColumnName="ExpectedValue" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -354,6 +378,7 @@
           <ScalarProperty Name="PerformanceMeasureSubcategoryOptionID" ColumnName="PerformanceMeasureSubcategoryOptionID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryID" ColumnName="PerformanceMeasureSubcategoryID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -365,6 +390,7 @@
           <ScalarProperty Name="PerformanceMeasureSubcategoryOptionID" ColumnName="PerformanceMeasureSubcategoryOptionID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryID" ColumnName="PerformanceMeasureSubcategoryID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -374,6 +400,7 @@
           <ScalarProperty Name="PerformanceMeasureMonitoringProgramID" ColumnName="PerformanceMeasureMonitoringProgramID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="MonitoringProgramID" ColumnName="MonitoringProgramID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -387,6 +414,7 @@
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -399,6 +427,7 @@
           <ScalarProperty Name="ChartConfigurationJson" ColumnName="ChartConfigurationJson" />
           <ScalarProperty Name="ChartType" ColumnName="ChartType" />
           <ScalarProperty Name="SwapChartAxes" ColumnName="SwapChartAxes" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -410,6 +439,7 @@
           <ScalarProperty Name="PerformanceMeasureSubcategoryOptionName" ColumnName="PerformanceMeasureSubcategoryOptionName" />
           <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
           <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -432,6 +462,7 @@
           <ScalarProperty Name="ReceiveSupportEmails" ColumnName="ReceiveSupportEmails" />
           <ScalarProperty Name="WebServiceAccessToken" ColumnName="WebServiceAccessToken" />
           <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -456,6 +487,7 @@
           <ScalarProperty Name="ProjectLocationSimpleTypeID" ColumnName="ProjectLocationSimpleTypeID" />
           <ScalarProperty Name="EstimatedAnnualOperatingCost" ColumnName="EstimatedAnnualOperatingCost" />
           <ScalarProperty Name="FundingTypeID" ColumnName="FundingTypeID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -466,6 +498,7 @@
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="AssessmentQuestionID" ColumnName="AssessmentQuestionID" />
           <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -478,6 +511,7 @@
           <ScalarProperty Name="ProjectCostTypeID" ColumnName="ProjectCostTypeID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="BudgetedAmount" ColumnName="BudgetedAmount" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -490,6 +524,7 @@
           <ScalarProperty Name="ProjectCostTypeID" ColumnName="ProjectCostTypeID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="BudgetedAmount" ColumnName="BudgetedAmount" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -500,6 +535,7 @@
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="ClassificationID" ColumnName="ClassificationID" />
           <ScalarProperty Name="ProjectClassificationNotes" ColumnName="ProjectClassificationNotes" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -509,6 +545,7 @@
           <ScalarProperty Name="ProjectExemptReportingYearID" ColumnName="ProjectExemptReportingYearID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -518,6 +555,7 @@
           <ScalarProperty Name="ProjectExemptReportingYearUpdateID" ColumnName="ProjectExemptReportingYearUpdateID" />
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -528,6 +566,7 @@
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="ExternalLinkLabel" ColumnName="ExternalLinkLabel" />
           <ScalarProperty Name="ExternalLinkUrl" ColumnName="ExternalLinkUrl" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -538,6 +577,7 @@
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="ExternalLinkLabel" ColumnName="ExternalLinkLabel" />
           <ScalarProperty Name="ExternalLinkUrl" ColumnName="ExternalLinkUrl" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -547,6 +587,7 @@
           <ScalarProperty Name="ProjectFundingOrganizationID" ColumnName="ProjectFundingOrganizationID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -558,6 +599,7 @@
           <ScalarProperty Name="FundingSourceID" ColumnName="FundingSourceID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="ExpenditureAmount" ColumnName="ExpenditureAmount" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -569,6 +611,7 @@
           <ScalarProperty Name="FundingSourceID" ColumnName="FundingSourceID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="ExpenditureAmount" ColumnName="ExpenditureAmount" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -583,6 +626,7 @@
           <ScalarProperty Name="Credit" ColumnName="Credit" />
           <ScalarProperty Name="IsKeyPhoto" ColumnName="IsKeyPhoto" />
           <ScalarProperty Name="ExcludeFromFactSheet" ColumnName="ExcludeFromFactSheet" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -598,6 +642,7 @@
           <ScalarProperty Name="IsKeyPhoto" ColumnName="IsKeyPhoto" />
           <ScalarProperty Name="ExcludeFromFactSheet" ColumnName="ExcludeFromFactSheet" />
           <ScalarProperty Name="ProjectImageID" ColumnName="ProjectImageID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -608,6 +653,7 @@
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
           <ScalarProperty Name="IsLeadOrganization" ColumnName="IsLeadOrganization" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -618,6 +664,7 @@
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="ProjectLocationGeometry" ColumnName="ProjectLocationGeometry" />
           <ScalarProperty Name="Annotation" ColumnName="Annotation" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -630,6 +677,7 @@
           <ScalarProperty Name="MappedRegionID" ColumnName="MappedRegionID" />
           <ScalarProperty Name="JurisdictionID" ColumnName="JurisdictionID" />
           <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -638,6 +686,7 @@
         <MappingFragment StoreEntitySet="ProjectLocationAreaGroup">
           <ScalarProperty Name="ProjectLocationAreaGroupID" ColumnName="ProjectLocationAreaGroupID" />
           <ScalarProperty Name="ProjectLocationAreaGroupTypeID" ColumnName="ProjectLocationAreaGroupTypeID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -647,6 +696,7 @@
           <ScalarProperty Name="ProjectLocationAreaJurisdictionID" ColumnName="ProjectLocationAreaJurisdictionID" />
           <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
           <ScalarProperty Name="JurisdictionID" ColumnName="JurisdictionID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -656,6 +706,7 @@
           <ScalarProperty Name="ProjectLocationAreaStateProvinceID" ColumnName="ProjectLocationAreaStateProvinceID" />
           <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
           <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -665,6 +716,7 @@
           <ScalarProperty Name="ProjectLocationAreaWatershedID" ColumnName="ProjectLocationAreaWatershedID" />
           <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
           <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -678,6 +730,7 @@
           <ScalarProperty Name="GeoJson" ColumnName="GeoJson" />
           <ScalarProperty Name="SelectedProperty" ColumnName="SelectedProperty" />
           <ScalarProperty Name="ShouldImport" ColumnName="ShouldImport" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -691,6 +744,7 @@
           <ScalarProperty Name="GeoJson" ColumnName="GeoJson" />
           <ScalarProperty Name="SelectedProperty" ColumnName="SelectedProperty" />
           <ScalarProperty Name="ShouldImport" ColumnName="ShouldImport" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -701,6 +755,7 @@
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="ProjectLocationUpdateGeometry" ColumnName="ProjectLocationUpdateGeometry" />
           <ScalarProperty Name="Annotation" ColumnName="Annotation" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -714,6 +769,7 @@
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -727,6 +783,7 @@
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -736,6 +793,7 @@
           <ScalarProperty Name="ProjectTagID" ColumnName="ProjectTagID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="TagID" ColumnName="TagID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -756,6 +814,7 @@
           <ScalarProperty Name="PlanningDesignStartYear" ColumnName="PlanningDesignStartYear" />
           <ScalarProperty Name="ProjectLocationSimpleTypeID" ColumnName="ProjectLocationSimpleTypeID" />
           <ScalarProperty Name="EstimatedAnnualOperatingCost" ColumnName="EstimatedAnnualOperatingCost" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -786,6 +845,7 @@
           <ScalarProperty Name="BudgetsDiffLog" ColumnName="BudgetsDiffLog" />
           <ScalarProperty Name="ExternalLinksDiffLog" ColumnName="ExternalLinksDiffLog" />
           <ScalarProperty Name="NotesDiffLog" ColumnName="NotesDiffLog" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -797,6 +857,7 @@
           <ScalarProperty Name="ProjectUpdateStateID" ColumnName="ProjectUpdateStateID" />
           <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
           <ScalarProperty Name="TransitionDate" ColumnName="TransitionDate" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -806,6 +867,7 @@
           <ScalarProperty Name="ProjectWatershedID" ColumnName="ProjectWatershedID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -836,6 +898,7 @@
           <ScalarProperty Name="SubmissionDate" ColumnName="SubmissionDate" />
           <ScalarProperty Name="ApprovalDate" ColumnName="ApprovalDate" />
           <ScalarProperty Name="ReviewedByPersonID" ColumnName="ReviewedByPersonID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -846,6 +909,7 @@
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
           <ScalarProperty Name="AssessmentQuestionID" ColumnName="AssessmentQuestionID" />
           <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -856,6 +920,7 @@
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
           <ScalarProperty Name="ClassificationID" ColumnName="ClassificationID" />
           <ScalarProperty Name="ProposedProjectClassificationNotes" ColumnName="ProposedProjectClassificationNotes" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -867,6 +932,7 @@
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
           <ScalarProperty Name="Caption" ColumnName="Caption" />
           <ScalarProperty Name="Credit" ColumnName="Credit" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -877,6 +943,7 @@
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
           <ScalarProperty Name="ProjectLocationGeometry" ColumnName="ProjectLocationGeometry" />
           <ScalarProperty Name="Annotation" ColumnName="Annotation" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -890,6 +957,7 @@
           <ScalarProperty Name="GeoJson" ColumnName="GeoJson" />
           <ScalarProperty Name="SelectedProperty" ColumnName="SelectedProperty" />
           <ScalarProperty Name="ShouldImport" ColumnName="ShouldImport" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -903,6 +971,7 @@
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -913,6 +982,7 @@
           <ScalarProperty Name="SnapshotDate" ColumnName="SnapshotDate" />
           <ScalarProperty Name="SnapshotNote" ColumnName="SnapshotNote" />
           <ScalarProperty Name="ProjectCount" ColumnName="ProjectCount" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -924,6 +994,7 @@
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="ActualValue" ColumnName="ActualValue" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -935,6 +1006,7 @@
           <ScalarProperty Name="PerformanceMeasureSubcategoryOptionID" ColumnName="PerformanceMeasureSubcategoryOptionID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryID" ColumnName="PerformanceMeasureSubcategoryID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -945,6 +1017,7 @@
           <ScalarProperty Name="SnapshotID" ColumnName="SnapshotID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="SnapshotProjectTypeID" ColumnName="SnapshotProjectTypeID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -956,6 +1029,7 @@
           <ScalarProperty Name="SectorID" ColumnName="SectorID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="ExpenditureAmount" ColumnName="ExpenditureAmount" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -967,6 +1041,7 @@
           <ScalarProperty Name="StateProvinceAbbreviation" ColumnName="StateProvinceAbbreviation" />
           <ScalarProperty Name="StateProvinceFeature" ColumnName="StateProvinceFeature" />
           <ScalarProperty Name="StateProvinceFeatureForAnalysis" ColumnName="StateProvinceFeatureForAnalysis" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -982,6 +1057,7 @@
           <ScalarProperty Name="RequestDescription" ColumnName="RequestDescription" />
           <ScalarProperty Name="RequestPersonOrganization" ColumnName="RequestPersonOrganization" />
           <ScalarProperty Name="RequestPersonPhone" ColumnName="RequestPersonPhone" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -991,6 +1067,7 @@
           <ScalarProperty Name="TagID" ColumnName="TagID" />
           <ScalarProperty Name="TagName" ColumnName="TagName" />
           <ScalarProperty Name="TagDescription" ColumnName="TagDescription" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1002,6 +1079,7 @@
           <ScalarProperty Name="TaxonomyTierOneName" ColumnName="TaxonomyTierOneName" />
           <ScalarProperty Name="TaxonomyTierOneDescription" ColumnName="TaxonomyTierOneDescription" />
           <ScalarProperty Name="TaxonomyTierOneCode" ColumnName="TaxonomyTierOneCode" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1011,6 +1089,7 @@
           <ScalarProperty Name="TaxonomyTierOneImageID" ColumnName="TaxonomyTierOneImageID" />
           <ScalarProperty Name="TaxonomyTierOneID" ColumnName="TaxonomyTierOneID" />
           <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1022,6 +1101,7 @@
           <ScalarProperty Name="TaxonomyTierThreeDescription" ColumnName="TaxonomyTierThreeDescription" />
           <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
           <ScalarProperty Name="TaxonomyTierThreeCode" ColumnName="TaxonomyTierThreeCode" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1031,6 +1111,7 @@
           <ScalarProperty Name="TaxonomyTierThreeImageID" ColumnName="TaxonomyTierThreeImageID" />
           <ScalarProperty Name="TaxonomyTierThreeID" ColumnName="TaxonomyTierThreeID" />
           <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1043,6 +1124,7 @@
           <ScalarProperty Name="TaxonomyTierTwoDescription" ColumnName="TaxonomyTierTwoDescription" />
           <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
           <ScalarProperty Name="TaxonomyTierTwoCode" ColumnName="TaxonomyTierTwoCode" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1052,6 +1134,7 @@
           <ScalarProperty Name="TaxonomyTierTwoImageID" ColumnName="TaxonomyTierTwoImageID" />
           <ScalarProperty Name="TaxonomyTierTwoID" ColumnName="TaxonomyTierTwoID" />
           <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1062,6 +1145,16 @@
           <ScalarProperty Name="TaxonomyTierTwoID" ColumnName="TaxonomyTierTwoID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="IsPrimaryTaxonomyTierTwo" ColumnName="IsPrimaryTaxonomyTierTwo" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tenant">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Tenant">
+        <MappingFragment StoreEntitySet="Tenant">
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="TenantName" ColumnName="TenantName" />
+          <ScalarProperty Name="TenantDomain" ColumnName="TenantDomain" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1071,6 +1164,7 @@
           <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
           <ScalarProperty Name="WatershedName" ColumnName="WatershedName" />
           <ScalarProperty Name="WatershedFeature" ColumnName="WatershedFeature" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

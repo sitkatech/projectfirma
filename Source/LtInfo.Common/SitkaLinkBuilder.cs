@@ -46,29 +46,6 @@ namespace LtInfo.Common
             }
             
             var routeUrl = vpd.VirtualPath;
-    
-            // Check if we are using DomainRoutes; really, Armstrong is the only one that does not use this.  
-            // Corral/LTInfo should be going this route
-            if (routeCollection.Any(x => x is DomainRoute))
-            {                
-                var route =
-                    routeCollection.Where(x => x is DomainRoute).Cast<DomainRoute>()
-                        .FirstOrDefault(
-                            entry =>
-                                entry.SitkaRouteTableEntry.Namespace == controllerType.Namespace && entry.SitkaRouteTableEntry.Controller == controllerName &&
-                                entry.SitkaRouteTableEntry.Action == actionName);
-
-                Check.Require(route != null,
-                    string.Format("Could not build a Url for Namespace \"{0}\", Controller \"{1}\", Action \"{2}\" because no matching route was found",
-                        controllerType.Namespace,
-                        controllerName,
-                        actionName));
-
-                if (!route.SitkaRouteTableEntry.IsCrossAreaRoute && !string.IsNullOrWhiteSpace(route.Domain))
-                {
-                    return string.Format("https://{0}{1}", route.Domain, routeUrl);
-                }
-            }
             return routeUrl;
         }
 

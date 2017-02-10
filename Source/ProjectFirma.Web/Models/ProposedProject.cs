@@ -184,11 +184,6 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        private Jurisdiction GetJurisdiction(IEnumerable<Jurisdiction> jurisdictions)
-        {
-            return jurisdictions.FirstOrDefault(x => x.JurisdictionFeature.Intersects(ProjectLocationPoint));
-        }
-
         public bool IsMyProposedProject(Person person)
         {
             return IsPersonThePrimaryContact(person) || DoesPersonBelongToProposedProjectLeadImplementingOranization(person) || person.PersonID == ProposingPersonID;
@@ -267,7 +262,6 @@ namespace ProjectFirma.Web.Models
 
         public Project PromoteToProject(ProposedProject proposedProject)
         {
-            var taxonomyTierOne = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.GetTaxonomyTierOne(proposedProject.TaxonomyTierOneID.Value);
             var projectName = proposedProject.ProjectName;
 
             var project = new Project(proposedProject.TaxonomyTierOneID.Value,

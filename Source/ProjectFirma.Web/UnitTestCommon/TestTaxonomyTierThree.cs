@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             public static TaxonomyTierThree Create(DatabaseEntities dbContext)
             {
                 var taxonomyTierThree = new TaxonomyTierThree(MakeTestName("Taxonomy Tier Three", TaxonomyTierThree.FieldLengths.TaxonomyTierThreeName));
-                dbContext.TaxonomyTierThrees.Add(taxonomyTierThree);
+                dbContext.AllTaxonomyTierThrees.Add(taxonomyTierThree);
                 return taxonomyTierThree;
             }
         }

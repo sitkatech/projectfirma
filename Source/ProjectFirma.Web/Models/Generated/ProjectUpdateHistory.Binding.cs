@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectUpdateHistory]")]
-    public partial class ProjectUpdateHistory : IHavePrimaryKey
+    public partial class ProjectUpdateHistory : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectUpdateHistory(int projectUpdateHistoryID, int projectUpdateBatchID, int projectUpdateStateID, int updatePersonID, DateTime transitionDate) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectUpdateHistoryID = projectUpdateHistoryID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectUpdateStateID = projectUpdateStateID;
@@ -44,8 +46,9 @@ namespace ProjectFirma.Web.Models
         public ProjectUpdateHistory(int projectUpdateBatchID, int projectUpdateStateID, int updatePersonID, DateTime transitionDate) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectUpdateHistoryID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectUpdateHistoryID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectUpdateStateID = projectUpdateStateID;
             this.UpdatePersonID = updatePersonID;
@@ -59,6 +62,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectUpdateHistoryID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectUpdateHistories.Add(this);
@@ -97,11 +101,13 @@ namespace ProjectFirma.Web.Models
         public int ProjectUpdateStateID { get; set; }
         public int UpdatePersonID { get; set; }
         public DateTime TransitionDate { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectUpdateHistoryID; } set { ProjectUpdateHistoryID = value; } }
 
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public ProjectUpdateState ProjectUpdateState { get { return ProjectUpdateState.AllLookupDictionary[ProjectUpdateStateID]; } }
         public virtual Person UpdatePerson { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

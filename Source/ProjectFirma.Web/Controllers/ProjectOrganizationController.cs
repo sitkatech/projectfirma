@@ -32,10 +32,10 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditOrganizations(viewModel);
             }
             HttpRequestStorage.DatabaseEntities.ProjectFundingOrganizations.Load();
-            var projectFundingOrganizations = HttpRequestStorage.DatabaseEntities.ProjectFundingOrganizations.Local;
+            var projectFundingOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectFundingOrganizations.Local;
 
             HttpRequestStorage.DatabaseEntities.ProjectImplementingOrganizations.Load();
-            var projectImplementingOrganizations = HttpRequestStorage.DatabaseEntities.ProjectImplementingOrganizations.Local;
+            var projectImplementingOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectImplementingOrganizations.Local;
 
             viewModel.UpdateModel(project, projectFundingOrganizations, projectImplementingOrganizations);
             return new ModalDialogFormJsonResult();

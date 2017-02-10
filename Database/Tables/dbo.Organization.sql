@@ -12,16 +12,26 @@ CREATE TABLE [dbo].[Organization](
 	[IsActive] [bit] NOT NULL,
 	[OrganizationUrl] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[LogoFileResourceID] [int] NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_Organization_OrganizationID] PRIMARY KEY CLUSTERED 
 (
 	[OrganizationID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_Organization_OrganizationName] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_Organization_OrganizationName_TenantID] UNIQUE NONCLUSTERED 
 (
-	[OrganizationName] ASC
+	[OrganizationName] ASC,
+	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK_Organization_OrganizationGuid_TenantID] ON [dbo].[Organization]
+(
+	[OrganizationGuid] ASC,
+	[TenantID] ASC
+)
+WHERE ([OrganizationGuid] IS NOT NULL)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_FileResource_LogoFileResourceID_FileResourceID] FOREIGN KEY([LogoFileResourceID])
 REFERENCES [dbo].[FileResource] ([FileResourceID])
@@ -37,3 +47,8 @@ ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_Se
 REFERENCES [dbo].[Sector] ([SectorID])
 GO
 ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_Sector_SectorID]
+GO
+ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_Tenant_TenantID]

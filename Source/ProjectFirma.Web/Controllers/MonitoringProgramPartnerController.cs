@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var currentMonitoringProgramPartners = project.MonitoringProgramPartners.ToList();
             HttpRequestStorage.DatabaseEntities.MonitoringProgramPartners.Load();
-            var allMonitoringProgramPartners = HttpRequestStorage.DatabaseEntities.MonitoringProgramPartners.Local;
+            var allMonitoringProgramPartners = HttpRequestStorage.DatabaseEntities.AllMonitoringProgramPartners.Local;
             viewModel.UpdateModel(currentMonitoringProgramPartners, allMonitoringProgramPartners);
             return new ModalDialogFormJsonResult();
         }

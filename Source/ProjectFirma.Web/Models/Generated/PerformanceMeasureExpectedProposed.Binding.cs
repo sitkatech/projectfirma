@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[PerformanceMeasureExpectedProposed]")]
-    public partial class PerformanceMeasureExpectedProposed : IHavePrimaryKey
+    public partial class PerformanceMeasureExpectedProposed : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public PerformanceMeasureExpectedProposed(int performanceMeasureExpectedProposedID, int proposedProjectID, int performanceMeasureID, double? expectedValue) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.PerformanceMeasureExpectedProposedID = performanceMeasureExpectedProposedID;
             this.ProposedProjectID = proposedProjectID;
             this.PerformanceMeasureID = performanceMeasureID;
@@ -43,8 +45,9 @@ namespace ProjectFirma.Web.Models
         public PerformanceMeasureExpectedProposed(int proposedProjectID, int performanceMeasureID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            PerformanceMeasureExpectedProposedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PerformanceMeasureExpectedProposedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProposedProjectID = proposedProjectID;
             this.PerformanceMeasureID = performanceMeasureID;
         }
@@ -56,6 +59,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureExpectedProposedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProposedProjectID = proposedProject.ProposedProjectID;
             this.ProposedProject = proposedProject;
             proposedProject.PerformanceMeasureExpectedProposeds.Add(this);
@@ -91,11 +95,13 @@ namespace ProjectFirma.Web.Models
         public int ProposedProjectID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public double? ExpectedValue { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return PerformanceMeasureExpectedProposedID; } set { PerformanceMeasureExpectedProposedID = value; } }
 
         public virtual ICollection<PerformanceMeasureExpectedSubcategoryOptionProposed> PerformanceMeasureExpectedSubcategoryOptionProposeds { get; set; }
         public virtual ProposedProject ProposedProject { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

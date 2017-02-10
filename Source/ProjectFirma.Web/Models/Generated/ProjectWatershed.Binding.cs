@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectWatershed]")]
-    public partial class ProjectWatershed : IHavePrimaryKey
+    public partial class ProjectWatershed : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectWatershed(int projectWatershedID, int projectID, int watershedID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectWatershedID = projectWatershedID;
             this.ProjectID = projectID;
             this.WatershedID = watershedID;
@@ -42,8 +44,9 @@ namespace ProjectFirma.Web.Models
         public ProjectWatershed(int projectID, int watershedID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectWatershedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectWatershedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.WatershedID = watershedID;
         }
@@ -55,6 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectWatershedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectWatersheds.Add(this);
@@ -89,10 +93,12 @@ namespace ProjectFirma.Web.Models
         public int ProjectWatershedID { get; set; }
         public int ProjectID { get; set; }
         public int WatershedID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectWatershedID; } set { ProjectWatershedID = value; } }
 
         public virtual Project Project { get; set; }
         public virtual Watershed Watershed { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

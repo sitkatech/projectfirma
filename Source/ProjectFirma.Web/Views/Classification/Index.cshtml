@@ -220,10 +220,13 @@
                 <div class="col-md-4 col-sm-6 col-centered">
                     <ul>
                         <li class="bubble classification @classification.ThemeColor">
-                            <div class="thumb">
-                                <img src="@classification.KeyImageFileResource.FileResourceUrlScaledThumbnail" alt="" width="287" height="180">
-                                <a class="dark-overlay" href="@classification.GetDetailUrl()"></a>
-                            </div>
+                            @if (classification.KeyImageFileResource != null)
+                            {
+                                <div class="thumb">
+                                    <img src="@classification.KeyImageFileResource.FileResourceUrlScaledThumbnail" alt="" width="287" height="180">
+                                    <a class="dark-overlay" href="@classification.GetDetailUrl()"></a>
+                                </div>
+                            }
                             <ul class="menu">
                                 <li>
                                     <a class="parent" href="@classification.GetDetailUrl()">@classification.DisplayName</a>

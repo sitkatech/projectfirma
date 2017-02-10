@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[FieldDefinitionImage]")]
-    public partial class FieldDefinitionImage : IHavePrimaryKey
+    public partial class FieldDefinitionImage : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public FieldDefinitionImage(int fieldDefinitionImageID, int fieldDefinitionID, int fileResourceID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.FieldDefinitionImageID = fieldDefinitionImageID;
             this.FieldDefinitionID = fieldDefinitionID;
             this.FileResourceID = fileResourceID;
@@ -42,8 +44,9 @@ namespace ProjectFirma.Web.Models
         public FieldDefinitionImage(int fieldDefinitionID, int fileResourceID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            FieldDefinitionImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.FieldDefinitionImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FieldDefinitionID = fieldDefinitionID;
             this.FileResourceID = fileResourceID;
         }
@@ -55,6 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.FieldDefinitionImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.FieldDefinitionID = fieldDefinition.FieldDefinitionID;
             this.FileResourceID = fileResource.FileResourceID;
             this.FileResource = fileResource;
@@ -87,10 +91,12 @@ namespace ProjectFirma.Web.Models
         public int FieldDefinitionImageID { get; set; }
         public int FieldDefinitionID { get; set; }
         public int FileResourceID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return FieldDefinitionImageID; } set { FieldDefinitionImageID = value; } }
 
         public FieldDefinition FieldDefinition { get { return FieldDefinition.AllLookupDictionary[FieldDefinitionID]; } }
         public virtual FileResource FileResource { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

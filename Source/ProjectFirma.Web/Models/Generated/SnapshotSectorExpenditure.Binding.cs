@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[SnapshotSectorExpenditure]")]
-    public partial class SnapshotSectorExpenditure : IHavePrimaryKey
+    public partial class SnapshotSectorExpenditure : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public SnapshotSectorExpenditure(int snapshotSectorExpenditureID, int snapshotID, int sectorID, int calendarYear, decimal expenditureAmount) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.SnapshotSectorExpenditureID = snapshotSectorExpenditureID;
             this.SnapshotID = snapshotID;
             this.SectorID = sectorID;
@@ -44,8 +46,9 @@ namespace ProjectFirma.Web.Models
         public SnapshotSectorExpenditure(int snapshotID, int sectorID, int calendarYear, decimal expenditureAmount) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            SnapshotSectorExpenditureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.SnapshotSectorExpenditureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.SnapshotID = snapshotID;
             this.SectorID = sectorID;
             this.CalendarYear = calendarYear;
@@ -59,6 +62,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.SnapshotSectorExpenditureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.SnapshotID = snapshot.SnapshotID;
             this.Snapshot = snapshot;
             snapshot.SnapshotSectorExpenditures.Add(this);
@@ -95,10 +99,12 @@ namespace ProjectFirma.Web.Models
         public int SectorID { get; set; }
         public int CalendarYear { get; set; }
         public decimal ExpenditureAmount { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return SnapshotSectorExpenditureID; } set { SnapshotSectorExpenditureID = value; } }
 
         public virtual Snapshot Snapshot { get; set; }
         public Sector Sector { get { return Sector.AllLookupDictionary[SectorID]; } }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

@@ -33,14 +33,14 @@ namespace ProjectFirma.Web.UnitTestCommon
                 string testFundingSourceName = TestFramework.MakeTestName("Test Funding Source");
                 var fundingSource = new FundingSource(organization, testFundingSourceName, true);
 
-                dbContext.FundingSources.Add(fundingSource);
+                dbContext.AllFundingSources.Add(fundingSource);
                 return fundingSource;
             }
 
             public static FundingSource Insert(DatabaseEntities dbContext)
             {
                 var fundingSource = Create(dbContext);
-                HttpRequestStorage.DetectChangesAndSave();
+                HttpRequestStorage.DatabaseEntities.SaveChanges();
                 return fundingSource;
             }
         }

@@ -8,6 +8,7 @@ CREATE TABLE [dbo].[ProposedProjectImage](
 	[ProposedProjectID] [int] NOT NULL,
 	[Caption] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[Credit] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProposedProjectImage_ProposedProjectImageID] PRIMARY KEY CLUSTERED 
 (
 	[ProposedProjectImageID] ASC
@@ -24,3 +25,8 @@ ALTER TABLE [dbo].[ProposedProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_Propose
 REFERENCES [dbo].[ProposedProject] ([ProposedProjectID])
 GO
 ALTER TABLE [dbo].[ProposedProjectImage] CHECK CONSTRAINT [FK_ProposedProjectImage_ProposedProject_ProposedProjectID]
+GO
+ALTER TABLE [dbo].[ProposedProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectImage_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[ProposedProjectImage] CHECK CONSTRAINT [FK_ProposedProjectImage_Tenant_TenantID]

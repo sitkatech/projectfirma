@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[SnapshotProject]")]
-    public partial class SnapshotProject : IHavePrimaryKey
+    public partial class SnapshotProject : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public SnapshotProject(int snapshotProjectID, int snapshotID, int projectID, int snapshotProjectTypeID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.SnapshotProjectID = snapshotProjectID;
             this.SnapshotID = snapshotID;
             this.ProjectID = projectID;
@@ -43,8 +45,9 @@ namespace ProjectFirma.Web.Models
         public SnapshotProject(int snapshotID, int projectID, int snapshotProjectTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            SnapshotProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.SnapshotProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.SnapshotID = snapshotID;
             this.ProjectID = projectID;
             this.SnapshotProjectTypeID = snapshotProjectTypeID;
@@ -57,6 +60,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.SnapshotProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.SnapshotID = snapshot.SnapshotID;
             this.Snapshot = snapshot;
             snapshot.SnapshotProjects.Add(this);
@@ -93,11 +97,13 @@ namespace ProjectFirma.Web.Models
         public int SnapshotID { get; set; }
         public int ProjectID { get; set; }
         public int SnapshotProjectTypeID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return SnapshotProjectID; } set { SnapshotProjectID = value; } }
 
         public virtual Snapshot Snapshot { get; set; }
         public virtual Project Project { get; set; }
         public SnapshotProjectType SnapshotProjectType { get { return SnapshotProjectType.AllLookupDictionary[SnapshotProjectTypeID]; } }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

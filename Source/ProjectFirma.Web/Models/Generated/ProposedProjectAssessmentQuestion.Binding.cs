@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProposedProjectAssessmentQuestion]")]
-    public partial class ProposedProjectAssessmentQuestion : IHavePrimaryKey
+    public partial class ProposedProjectAssessmentQuestion : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProposedProjectAssessmentQuestion(int proposedProjectAssessmentQuestionID, int proposedProjectID, int assessmentQuestionID, bool? answer) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProposedProjectAssessmentQuestionID = proposedProjectAssessmentQuestionID;
             this.ProposedProjectID = proposedProjectID;
             this.AssessmentQuestionID = assessmentQuestionID;
@@ -43,8 +45,9 @@ namespace ProjectFirma.Web.Models
         public ProposedProjectAssessmentQuestion(int proposedProjectID, int assessmentQuestionID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProposedProjectAssessmentQuestionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProposedProjectAssessmentQuestionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProposedProjectID = proposedProjectID;
             this.AssessmentQuestionID = assessmentQuestionID;
         }
@@ -56,6 +59,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectAssessmentQuestionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProposedProjectID = proposedProject.ProposedProjectID;
             this.ProposedProject = proposedProject;
             proposedProject.ProposedProjectAssessmentQuestions.Add(this);
@@ -91,10 +95,12 @@ namespace ProjectFirma.Web.Models
         public int ProposedProjectID { get; set; }
         public int AssessmentQuestionID { get; set; }
         public bool? Answer { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProposedProjectAssessmentQuestionID; } set { ProposedProjectAssessmentQuestionID = value; } }
 
         public virtual ProposedProject ProposedProject { get; set; }
         public virtual AssessmentQuestion AssessmentQuestion { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

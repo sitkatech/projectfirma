@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[ProposedProjectClassification](
 	[ProposedProjectID] [int] NOT NULL,
 	[ClassificationID] [int] NOT NULL,
 	[ProposedProjectClassificationNotes] [varchar](600) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProposedProjectClassification_ProposedProjectClassificationID] PRIMARY KEY CLUSTERED 
 (
 	[ProposedProjectClassificationID] ASC
@@ -28,3 +29,8 @@ ALTER TABLE [dbo].[ProposedProjectClassification]  WITH CHECK ADD  CONSTRAINT [F
 REFERENCES [dbo].[ProposedProject] ([ProposedProjectID])
 GO
 ALTER TABLE [dbo].[ProposedProjectClassification] CHECK CONSTRAINT [FK_ProposedProjectClassification_ProposedProject_ProposedProjectID]
+GO
+ALTER TABLE [dbo].[ProposedProjectClassification]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectClassification_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[ProposedProjectClassification] CHECK CONSTRAINT [FK_ProposedProjectClassification_Tenant_TenantID]

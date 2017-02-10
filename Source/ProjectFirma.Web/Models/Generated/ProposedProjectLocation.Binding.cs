@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProposedProjectLocation]")]
-    public partial class ProposedProjectLocation : IHavePrimaryKey
+    public partial class ProposedProjectLocation : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProposedProjectLocation(int proposedProjectLocationID, int proposedProjectID, DbGeometry projectLocationGeometry, string annotation) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProposedProjectLocationID = proposedProjectLocationID;
             this.ProposedProjectID = proposedProjectID;
             this.ProjectLocationGeometry = projectLocationGeometry;
@@ -43,8 +45,9 @@ namespace ProjectFirma.Web.Models
         public ProposedProjectLocation(int proposedProjectID, DbGeometry projectLocationGeometry) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProposedProjectLocationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProposedProjectLocationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProposedProjectID = proposedProjectID;
             this.ProjectLocationGeometry = projectLocationGeometry;
         }
@@ -56,6 +59,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectLocationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProposedProjectID = proposedProject.ProposedProjectID;
             this.ProposedProject = proposedProject;
             proposedProject.ProposedProjectLocations.Add(this);
@@ -89,9 +93,11 @@ namespace ProjectFirma.Web.Models
         public int ProposedProjectID { get; set; }
         public DbGeometry ProjectLocationGeometry { get; set; }
         public string Annotation { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProposedProjectLocationID; } set { ProposedProjectLocationID = value; } }
 
         public virtual ProposedProject ProposedProject { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

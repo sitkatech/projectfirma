@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectLocationAreaStateProvince]")]
-    public partial class ProjectLocationAreaStateProvince : IHavePrimaryKey
+    public partial class ProjectLocationAreaStateProvince : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectLocationAreaStateProvince(int projectLocationAreaStateProvinceID, int projectLocationAreaID, int stateProvinceID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectLocationAreaStateProvinceID = projectLocationAreaStateProvinceID;
             this.ProjectLocationAreaID = projectLocationAreaID;
             this.StateProvinceID = stateProvinceID;
@@ -42,8 +44,9 @@ namespace ProjectFirma.Web.Models
         public ProjectLocationAreaStateProvince(int projectLocationAreaID, int stateProvinceID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectLocationAreaStateProvinceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectLocationAreaStateProvinceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectLocationAreaID = projectLocationAreaID;
             this.StateProvinceID = stateProvinceID;
         }
@@ -55,6 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationAreaStateProvinceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectLocationAreaID = projectLocationArea.ProjectLocationAreaID;
             this.ProjectLocationArea = projectLocationArea;
             projectLocationArea.ProjectLocationAreaStateProvinces.Add(this);
@@ -89,10 +93,12 @@ namespace ProjectFirma.Web.Models
         public int ProjectLocationAreaStateProvinceID { get; set; }
         public int ProjectLocationAreaID { get; set; }
         public int StateProvinceID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectLocationAreaStateProvinceID; } set { ProjectLocationAreaStateProvinceID = value; } }
 
         public virtual ProjectLocationArea ProjectLocationArea { get; set; }
         public virtual StateProvince StateProvince { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

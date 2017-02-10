@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectLocationStaging]")]
-    public partial class ProjectLocationStaging : IHavePrimaryKey
+    public partial class ProjectLocationStaging : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectLocationStaging(int projectLocationStagingID, int projectID, int personID, string featureClassName, string geoJson, string selectedProperty, bool shouldImport) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectLocationStagingID = projectLocationStagingID;
             this.ProjectID = projectID;
             this.PersonID = personID;
@@ -46,8 +48,9 @@ namespace ProjectFirma.Web.Models
         public ProjectLocationStaging(int projectID, int personID, string featureClassName, string geoJson, bool shouldImport) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectLocationStagingID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectLocationStagingID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.PersonID = personID;
             this.FeatureClassName = featureClassName;
@@ -62,6 +65,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationStagingID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectLocationStagings.Add(this);
@@ -101,9 +105,11 @@ namespace ProjectFirma.Web.Models
         public string GeoJson { get; set; }
         public string SelectedProperty { get; set; }
         public bool ShouldImport { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectLocationStagingID; } set { ProjectLocationStagingID = value; } }
 
         public virtual Project Project { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

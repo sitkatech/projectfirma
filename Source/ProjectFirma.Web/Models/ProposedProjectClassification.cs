@@ -11,7 +11,7 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                var project = HttpRequestStorage.DatabaseEntities.ProposedProjects.Find(ProposedProjectID);
+                var project = HttpRequestStorage.DatabaseEntities.AllProposedProjects.Find(ProposedProjectID);
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
                 return string.Format("Proposed Project: {0}", projectName);
             }

@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectBudgetUpdate]")]
-    public partial class ProjectBudgetUpdate : IHavePrimaryKey
+    public partial class ProjectBudgetUpdate : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectBudgetUpdate(int projectBudgetUpdateID, int projectUpdateBatchID, int fundingSourceID, int projectCostTypeID, int calendarYear, decimal? budgetedAmount) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectBudgetUpdateID = projectBudgetUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.FundingSourceID = fundingSourceID;
@@ -45,8 +47,9 @@ namespace ProjectFirma.Web.Models
         public ProjectBudgetUpdate(int projectUpdateBatchID, int fundingSourceID, int projectCostTypeID, int calendarYear) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectBudgetUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectBudgetUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.FundingSourceID = fundingSourceID;
             this.ProjectCostTypeID = projectCostTypeID;
@@ -60,6 +63,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectBudgetUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectBudgetUpdates.Add(this);
@@ -99,11 +103,13 @@ namespace ProjectFirma.Web.Models
         public int ProjectCostTypeID { get; set; }
         public int CalendarYear { get; set; }
         public decimal? BudgetedAmount { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectBudgetUpdateID; } set { ProjectBudgetUpdateID = value; } }
 
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public virtual FundingSource FundingSource { get; set; }
         public ProjectCostType ProjectCostType { get { return ProjectCostType.AllLookupDictionary[ProjectCostTypeID]; } }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

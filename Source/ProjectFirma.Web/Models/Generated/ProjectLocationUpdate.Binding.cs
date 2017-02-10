@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectLocationUpdate]")]
-    public partial class ProjectLocationUpdate : IHavePrimaryKey
+    public partial class ProjectLocationUpdate : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectLocationUpdate(int projectLocationUpdateID, int projectUpdateBatchID, DbGeometry projectLocationUpdateGeometry, string annotation) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectLocationUpdateID = projectLocationUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectLocationUpdateGeometry = projectLocationUpdateGeometry;
@@ -43,8 +45,9 @@ namespace ProjectFirma.Web.Models
         public ProjectLocationUpdate(int projectUpdateBatchID, DbGeometry projectLocationUpdateGeometry) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectLocationUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectLocationUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectLocationUpdateGeometry = projectLocationUpdateGeometry;
         }
@@ -56,6 +59,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectLocationUpdates.Add(this);
@@ -89,9 +93,11 @@ namespace ProjectFirma.Web.Models
         public int ProjectUpdateBatchID { get; set; }
         public DbGeometry ProjectLocationUpdateGeometry { get; set; }
         public string Annotation { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectLocationUpdateID; } set { ProjectLocationUpdateID = value; } }
 
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

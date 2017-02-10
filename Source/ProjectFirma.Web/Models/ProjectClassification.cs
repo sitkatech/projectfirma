@@ -9,8 +9,8 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                var projectDeleted = HttpRequestStorage.DatabaseEntities.Projects.Find(ProjectID);
-                var classificationDeleted = HttpRequestStorage.DatabaseEntities.Classifications.Find(ClassificationID);
+                var projectDeleted = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
+                var classificationDeleted = HttpRequestStorage.DatabaseEntities.AllClassifications.Find(ClassificationID);
                 var projectName = projectDeleted != null ? projectDeleted.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var classificationName = classificationDeleted != null ? classificationDeleted.AuditDescriptionString : ViewUtilities.NotFoundString;
                 return string.Format("Project: {0}, Classification: {1}", projectName, classificationName);

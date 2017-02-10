@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[PerformanceMeasureActual]")]
-    public partial class PerformanceMeasureActual : IHavePrimaryKey
+    public partial class PerformanceMeasureActual : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public PerformanceMeasureActual(int performanceMeasureActualID, int projectID, int performanceMeasureID, int calendarYear, double actualValue) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.PerformanceMeasureActualID = performanceMeasureActualID;
             this.ProjectID = projectID;
             this.PerformanceMeasureID = performanceMeasureID;
@@ -44,8 +46,9 @@ namespace ProjectFirma.Web.Models
         public PerformanceMeasureActual(int projectID, int performanceMeasureID, int calendarYear, double actualValue) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            PerformanceMeasureActualID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PerformanceMeasureActualID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.CalendarYear = calendarYear;
@@ -59,6 +62,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureActualID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.PerformanceMeasureActuals.Add(this);
@@ -97,11 +101,13 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureID { get; set; }
         public int CalendarYear { get; set; }
         public double ActualValue { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return PerformanceMeasureActualID; } set { PerformanceMeasureActualID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
         public virtual Project Project { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Views.ProjectAssessmentQuestion
 
         public void UpdateModel(Models.Project project)
         {
-            HttpRequestStorage.DatabaseEntities.ProjectAssessmentQuestions.RemoveRange(project.ProjectAssessmentQuestions);
+            HttpRequestStorage.DatabaseEntities.ProjectAssessmentQuestions.DeleteProjectAssessmentQuestion(project.ProjectAssessmentQuestions);
             foreach (var simple in ProjectAssessmentQuestionSimples)
             {
                 project.ProjectAssessmentQuestions.Add(new Models.ProjectAssessmentQuestion(simple));

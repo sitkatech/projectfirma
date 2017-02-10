@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectExemptReportingYear]")]
-    public partial class ProjectExemptReportingYear : IHavePrimaryKey
+    public partial class ProjectExemptReportingYear : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectExemptReportingYear(int projectExemptReportingYearID, int projectID, int calendarYear) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectExemptReportingYearID = projectExemptReportingYearID;
             this.ProjectID = projectID;
             this.CalendarYear = calendarYear;
@@ -42,8 +44,9 @@ namespace ProjectFirma.Web.Models
         public ProjectExemptReportingYear(int projectID, int calendarYear) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectExemptReportingYearID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectExemptReportingYearID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.CalendarYear = calendarYear;
         }
@@ -55,6 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectExemptReportingYearID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectExemptReportingYears.Add(this);
@@ -87,9 +91,11 @@ namespace ProjectFirma.Web.Models
         public int ProjectExemptReportingYearID { get; set; }
         public int ProjectID { get; set; }
         public int CalendarYear { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectExemptReportingYearID; } set { ProjectExemptReportingYearID = value; } }
 
         public virtual Project Project { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

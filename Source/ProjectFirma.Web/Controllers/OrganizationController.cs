@@ -33,17 +33,11 @@ namespace ProjectFirma.Web.Controllers
         [OrganizationViewFeature]
         public GridJsonNetJObjectResult<Organization> IndexGridJsonData()
         {
-            IndexGridSpec gridSpec;
-            var organizations = GetOrganizationsAndGridSpec(out gridSpec, CurrentPerson);
+            var hasDeleteOrganizationPermission = new OrganizationManageFeature().HasPermissionByPerson(CurrentPerson);
+            var gridSpec = new IndexGridSpec(CurrentPerson, hasDeleteOrganizationPermission);
+            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().OrderBy(x => x.DisplayName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Organization>(organizations, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private static List<Organization> GetOrganizationsAndGridSpec(out IndexGridSpec gridSpec, Person currentPerson)
-        {
-            var hasDeleteOrganizationPermission = new OrganizationManageFeature().HasPermissionByPerson(currentPerson);
-            gridSpec = new IndexGridSpec(currentPerson, hasDeleteOrganizationPermission);
-            return HttpRequestStorage.DatabaseEntities.Organizations.ToList().OrderBy(x => x.DisplayName).ToList();
         }
 
         [HttpGet]
@@ -65,7 +59,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var organization = new Organization(String.Empty, viewModel.SectorID, true);
             viewModel.UpdateModel(organization, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.Organizations.Add(organization);
+            HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
             return new ModalDialogFormJsonResult();
         }
 
@@ -230,7 +224,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteOrganization(organization, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.Organizations.Remove(organization);
+            HttpRequestStorage.DatabaseEntities.Organizations.DeleteOrganization(organization);
             return new ModalDialogFormJsonResult();
         }
 

@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[Classification]")]
-    public partial class Classification : IHavePrimaryKey
+    public partial class Classification : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -34,6 +34,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public Classification(int classificationID, string classificationName, string classificationDescription, string themeColor, string displayName, string goalStatement, string narrative, int? keyImageFileResourceID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ClassificationID = classificationID;
             this.ClassificationName = classificationName;
             this.ClassificationDescription = classificationDescription;
@@ -50,8 +52,9 @@ namespace ProjectFirma.Web.Models
         public Classification(string classificationName, string classificationDescription, string themeColor, string displayName) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ClassificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ClassificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ClassificationName = classificationName;
             this.ClassificationDescription = classificationDescription;
             this.ThemeColor = themeColor;
@@ -96,6 +99,7 @@ namespace ProjectFirma.Web.Models
             set { Narrative = value == null ? null : value.ToString(); }
         }
         public int? KeyImageFileResourceID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ClassificationID; } set { ClassificationID = value; } }
 
         public virtual ICollection<ClassificationImage> ClassificationImages { get; set; }
@@ -103,6 +107,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectClassification> ProjectClassifications { get; set; }
         public virtual ICollection<ProposedProjectClassification> ProposedProjectClassifications { get; set; }
         public virtual FileResource KeyImageFileResource { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

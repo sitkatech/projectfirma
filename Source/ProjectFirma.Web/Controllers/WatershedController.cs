@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Controllers
             layerGeoJsons.Add(new LayerGeoJson("County/City", geoJsonForJurisdictions, "#FF6C2D", 0.6m, LayerInitialVisibility.Hide));
 
             var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
-            var geoJsonForWatersheds = Models.Watershed.ToGeoJsonFeatureCollection(watersheds);
+            var geoJsonForWatersheds = Watershed.ToGeoJsonFeatureCollection(watersheds);
             layerGeoJsons.Add(new LayerGeoJson("Watershed", geoJsonForWatersheds, "#59ACFF", 0.6m, LayerInitialVisibility.Show));
 
             var mapInitJson = new MapInitJson("watershedIndex", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox());
@@ -53,16 +53,10 @@ namespace ProjectFirma.Web.Controllers
         [WatershedViewFeature]
         public GridJsonNetJObjectResult<Watershed> IndexGridJsonData()
         {
-            IndexGridSpec gridSpec;
-            var watersheds = GetWatershedsAndGridSpec(out gridSpec, CurrentPerson);
+            var gridSpec = new IndexGridSpec();
+            var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.OrderBy(x => x.WatershedName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Watershed>(watersheds, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private static List<Watershed> GetWatershedsAndGridSpec(out IndexGridSpec gridSpec, Person currentPerson)
-        {
-            gridSpec = new IndexGridSpec();
-            return HttpRequestStorage.DatabaseEntities.Watersheds.OrderBy(x => x.WatershedName).ToList();
         }
 
         [HttpGet]
@@ -84,7 +78,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var watershed = new Watershed(string.Empty);
             viewModel.UpdateModel(watershed, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.Watersheds.Add(watershed);
+            HttpRequestStorage.DatabaseEntities.AllWatersheds.Add(watershed);
             return new ModalDialogFormJsonResult();
         }
 
@@ -171,7 +165,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteWatershed(watershed, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.Watersheds.Remove(watershed);
+            HttpRequestStorage.DatabaseEntities.Watersheds.DeleteWatershed(watershed);
             return new ModalDialogFormJsonResult();
         }
 

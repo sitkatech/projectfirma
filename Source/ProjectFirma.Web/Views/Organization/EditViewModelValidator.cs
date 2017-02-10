@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Views.Organization
         public Func<IList<Models.Organization>> Organizations = () =>
         {
             HttpRequestStorage.DatabaseEntities.Organizations.Load();
-            return HttpRequestStorage.DatabaseEntities.Organizations.Local;
+            return HttpRequestStorage.DatabaseEntities.AllOrganizations.Local;
         };
 
         public EditViewModelValidator(IList<Models.Organization> organizations) : this()

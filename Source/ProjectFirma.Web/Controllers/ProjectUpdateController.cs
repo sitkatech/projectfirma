@@ -89,27 +89,19 @@ namespace ProjectFirma.Web.Controllers
         [ProjectUpdateViewFeature]
         public GridJsonNetJObjectResult<Project> IndexGridJsonData(ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterType)
         {
-            ProjectUpdateStatusGridSpec gridSpec;
-            var projects = GetProjectUpdateStatusGridSpec(out gridSpec, CurrentPerson, projectUpdateStatusFilterType);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-
-        private static List<Project> GetProjectUpdateStatusGridSpec(out ProjectUpdateStatusGridSpec gridSpec, Person currentPerson, ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterTypeEnum)
-        {
-            gridSpec = new ProjectUpdateStatusGridSpec(projectUpdateStatusFilterTypeEnum, currentPerson.IsApprover());
+            var gridSpec = new ProjectUpdateStatusGridSpec(projectUpdateStatusFilterType, CurrentPerson.IsApprover());
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(p => p.IsUpdatableViaProjectUpdateProcess);
 
-            switch (projectUpdateStatusFilterTypeEnum)
+            switch (projectUpdateStatusFilterType)
             {
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllMyProjects:
-                    projects = projects.Where(p => p.IsMyProject(currentPerson));
+                    projects = projects.Where(p => p.IsMyProject(CurrentPerson));
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MyProjectsRequiringAnUpdate:
-                    projects = projects.Where(p => p.IsMyProject(currentPerson) && p.IsUpdateMandatory && p.GetLatestUpdateState() != ProjectUpdateState.Submitted);
+                    projects = projects.Where(p => p.IsMyProject(CurrentPerson) && p.IsUpdateMandatory && p.GetLatestUpdateState() != ProjectUpdateState.Submitted);
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects:
-                    projects = projects.Where(p => p.IsMyProject(currentPerson) && (!p.IsUpdateMandatory || p.GetLatestUpdateState() == ProjectUpdateState.Submitted));
+                    projects = projects.Where(p => p.IsMyProject(CurrentPerson) && (!p.IsUpdateMandatory || p.GetLatestUpdateState() == ProjectUpdateState.Submitted));
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.SubmittedProjects:
                     projects = projects.Where(p =>
@@ -121,7 +113,8 @@ namespace ProjectFirma.Web.Controllers
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects:
                     break;
             }
-            return projects.OrderBy(x => x.DisplayName).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects.OrderBy(x => x.DisplayName).ToList(), gridSpec);
+            return gridJsonNetJObjectResult;
         }
 
         [ProjectUpdateManageFeature]
@@ -158,7 +151,7 @@ namespace ProjectFirma.Web.Controllers
             }
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdate.ProjectUpdateID))
             {
-                HttpRequestStorage.DatabaseEntities.ProjectUpdates.Add(projectUpdate);
+                HttpRequestStorage.DatabaseEntities.AllProjectUpdates.Add(projectUpdate);
             }
             viewModel.UpdateModel(projectUpdate.ProjectUpdateBatch);
             if (projectUpdate.ProjectUpdateBatch.IsSubmitted)
@@ -254,9 +247,9 @@ namespace ProjectFirma.Web.Controllers
             }
             var currentPerformanceMeasureActualUpdates = projectUpdateBatch.PerformanceMeasureActualUpdates.ToList();
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualUpdates.Load();
-            var allPerformanceMeasureActualUpdates = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualUpdates.Local;
+            var allPerformanceMeasureActualUpdates = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualUpdates.Local;
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptionUpdates.Load();
-            var allPerformanceMeasureActualSubcategoryOptionUpdates = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptionUpdates.Local;
+            var allPerformanceMeasureActualSubcategoryOptionUpdates = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptionUpdates.Local;
             viewModel.UpdateModel(currentPerformanceMeasureActualUpdates, allPerformanceMeasureActualUpdates, allPerformanceMeasureActualSubcategoryOptionUpdates, projectUpdateBatch);
             if (projectUpdateBatch.IsSubmitted)
             {
@@ -367,7 +360,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewExpenditures(projectUpdateBatch, calendarYearRange, viewModel);
             }
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditureUpdates.Load();
-            var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditureUpdates.Local;
+            var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditureUpdates.Local;
             viewModel.UpdateModel(projectUpdateBatch, projectFundingSourceExpenditureUpdates, allProjectFundingSourceExpenditures);
             if (projectUpdateBatch.IsSubmitted)
             {
@@ -461,7 +454,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewBudgets(projectUpdateBatch, calendarYearRange, viewModel);
             }
             HttpRequestStorage.DatabaseEntities.ProjectBudgetUpdates.Load();
-            var allProjectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.ProjectBudgetUpdates.Local;
+            var allProjectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.AllProjectBudgetUpdates.Local;
             viewModel.UpdateModel(projectUpdateBatch, projectFundingSourceBudgetUpdates, allProjectFundingSourceBudgets);
             if (projectUpdateBatch.IsSubmitted)
             {
@@ -795,7 +788,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 var gdbFile = disposableTempFile.FileInfo;
                 httpPostedFileBase.SaveAs(gdbFile.FullName);
-                HttpRequestStorage.DatabaseEntities.ProjectLocationStagingUpdates.RemoveRange(projectUpdateBatch.ProjectLocationStagingUpdates.ToList());
+                HttpRequestStorage.DatabaseEntities.ProjectLocationStagingUpdates.DeleteProjectLocationStagingUpdate(projectUpdateBatch.ProjectLocationStagingUpdates.ToList());
                 projectUpdateBatch.ProjectLocationStagingUpdates.Clear();
                 ProjectLocationStagingUpdate.CreateProjectLocationStagingUpdateListFromGdb(gdbFile, projectUpdateBatch, CurrentPerson);
             }
@@ -852,7 +845,7 @@ namespace ProjectFirma.Web.Controllers
         private static void SaveProjectLocationUpdates(ProjectLocationDetailViewModel viewModel, ProjectUpdateBatch projectUpdateBatch)
         {
             var projectLocationUpdates = projectUpdateBatch.ProjectLocationUpdates.ToList();
-            HttpRequestStorage.DatabaseEntities.ProjectLocationUpdates.RemoveRange(projectLocationUpdates);
+            HttpRequestStorage.DatabaseEntities.ProjectLocationUpdates.DeleteProjectLocationUpdate(projectLocationUpdates);
             projectUpdateBatch.ProjectLocationUpdates.Clear();
             if (viewModel.WktAndAnnotations != null)
             {
@@ -895,6 +888,7 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectNoteUpdates();
             // finally create a new project update record, refreshing with the current project data at this point in time
             ProjectNoteUpdate.CreateFromProject(projectUpdateBatch);
+            projectUpdateBatch.TenantID = 1;
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
@@ -933,7 +927,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var currentProjectExternalLinkUpdates = projectUpdateBatch.ProjectExternalLinkUpdates.ToList();
             HttpRequestStorage.DatabaseEntities.ProjectExternalLinkUpdates.Load();
-            var allProjectExternalLinkUpdates = HttpRequestStorage.DatabaseEntities.ProjectExternalLinkUpdates.Local;
+            var allProjectExternalLinkUpdates = HttpRequestStorage.DatabaseEntities.AllProjectExternalLinkUpdates.Local;
             viewModel.UpdateModel(currentProjectExternalLinkUpdates, allProjectExternalLinkUpdates);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.ExternalLinks(project)));
@@ -1015,23 +1009,23 @@ namespace ProjectFirma.Web.Controllers
             WriteHtmlDiffLogs(projectPrimaryKey, projectUpdateBatch);
 
             HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Load();
-            var allProjectExemptReportingYears = HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Local;
+            var allProjectExemptReportingYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYears.Local;
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Load();
-            var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Local;
+            var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
             HttpRequestStorage.DatabaseEntities.ProjectBudgets.Load();
-            var allProjectBudgets = HttpRequestStorage.DatabaseEntities.ProjectBudgets.Local;
+            var allProjectBudgets = HttpRequestStorage.DatabaseEntities.AllProjectBudgets.Local;
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Load();
-            var allPerformanceMeasureActuals = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Local;
+            var allPerformanceMeasureActuals = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActuals.Local;
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Load();
-            var allPerformanceMeasureActualSubcategoryOptions = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Local;
+            var allPerformanceMeasureActualSubcategoryOptions = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptions.Local;
             HttpRequestStorage.DatabaseEntities.ProjectExternalLinks.Load();
-            var allProjectExternalLinks = HttpRequestStorage.DatabaseEntities.ProjectExternalLinks.Local;
+            var allProjectExternalLinks = HttpRequestStorage.DatabaseEntities.AllProjectExternalLinks.Local;
             HttpRequestStorage.DatabaseEntities.ProjectNotes.Load();
-            var allProjectNotes = HttpRequestStorage.DatabaseEntities.ProjectNotes.Local;
+            var allProjectNotes = HttpRequestStorage.DatabaseEntities.AllProjectNotes.Local;
             HttpRequestStorage.DatabaseEntities.ProjectImages.Load();
-            var allProjectImages = HttpRequestStorage.DatabaseEntities.ProjectImages.Local;
+            var allProjectImages = HttpRequestStorage.DatabaseEntities.AllProjectImages.Local;
             HttpRequestStorage.DatabaseEntities.ProjectLocations.Load();
-            var allProjectLocations = HttpRequestStorage.DatabaseEntities.ProjectLocations.Local;
+            var allProjectLocations = HttpRequestStorage.DatabaseEntities.AllProjectLocations.Local;
 
             projectUpdateBatch.Approve(CurrentPerson,
                 DateTime.Now,

@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
 using Keystone.Common;
+using LtInfo.Common;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -47,7 +48,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                var writeQueryString = KeystoneUtilities.GetSignInRedirectUrlWithReturnUrl(requestContext, HttpContext.Current.Request.Url.ToString());
+                var writeQueryString = KeystoneUtilities.GetSignInRedirectUrlWithReturnUrl(requestContext, SitkaRoute<AccountController>.BuildUrlFromExpression(x => x.LogOn()), HttpContext.Current.Request.Url.ToString());
                 filterContext.Result = new RedirectResult(writeQueryString);                
             }
         }

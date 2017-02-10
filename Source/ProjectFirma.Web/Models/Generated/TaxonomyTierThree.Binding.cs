@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[TaxonomyTierThree]")]
-    public partial class TaxonomyTierThree : IHavePrimaryKey
+    public partial class TaxonomyTierThree : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -32,6 +32,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public TaxonomyTierThree(int taxonomyTierThreeID, string taxonomyTierThreeName, string taxonomyTierThreeDescription, string themeColor, string taxonomyTierThreeCode) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.TaxonomyTierThreeID = taxonomyTierThreeID;
             this.TaxonomyTierThreeName = taxonomyTierThreeName;
             this.TaxonomyTierThreeDescription = taxonomyTierThreeDescription;
@@ -45,8 +47,9 @@ namespace ProjectFirma.Web.Models
         public TaxonomyTierThree(string taxonomyTierThreeName) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            TaxonomyTierThreeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.TaxonomyTierThreeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.TaxonomyTierThreeName = taxonomyTierThreeName;
         }
 
@@ -85,10 +88,12 @@ namespace ProjectFirma.Web.Models
         }
         public string ThemeColor { get; set; }
         public string TaxonomyTierThreeCode { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return TaxonomyTierThreeID; } set { TaxonomyTierThreeID = value; } }
 
         public virtual ICollection<TaxonomyTierThreeImage> TaxonomyTierThreeImages { get; set; }
         public virtual ICollection<TaxonomyTierTwo> TaxonomyTierTwos { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

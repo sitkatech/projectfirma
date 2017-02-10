@@ -30,6 +30,7 @@ namespace LtInfo.Common
         public Expression<Action<T>> RouteExpression { get; private set; }
 
         // ReSharper disable StaticFieldInGenericType
+        [Obsolete("This needs to be re-written to take into account multiple canonical hosts.  For example, Champmonitoring.org, AEMonitoring.org")]
         private static readonly Lazy<RequestContext> GenericRequestContextLazy = new Lazy<RequestContext>(() =>
         // ReSharper restore StaticFieldInGenericType
         {
@@ -42,6 +43,7 @@ namespace LtInfo.Common
 
         public SitkaRouteSecurity RouteSecurity { get; set; }
 
+        [Obsolete("This needs to be re-written to take into account multiple canonical hosts.  For example, Champmonitoring.org, AEMonitoring.org")]
         public static RequestContext GenericRequestContext
         {
             get
@@ -71,10 +73,20 @@ namespace LtInfo.Common
 
             ActionName = actionName;
         }
-        
+
         public string BuildUrlFromExpression()
         {
             return BuildUrlFromExpression(RouteExpression);
+        }
+
+        public string BuildAbsoluteUrlFromExpression()
+        {
+            return BuildAbsoluteUrlFromExpression(RouteExpression);
+        }
+
+        public string BuildAbsoluteUrlHttpsFromExpression()
+        {
+            return BuildAbsoluteUrlHttpsFromExpression(RouteExpression);
         }
 
         public static string BuildUrlFromExpression(Expression<Action<T>> routeExpression)
@@ -82,31 +94,53 @@ namespace LtInfo.Common
             return LinkBuilderBuildUrlFromExpressionImpl(routeExpression);
         }
 
-        public static string BuildAbsoluteUrlHttpsFromExpression(Expression<Action<T>> routeExpression, string canonicalHostName)
+        public static string BuildSaltedUrlFromExpression(Expression<Action<T>> routeExpression)
         {
-            var relativeUrl = LinkBuilderBuildUrlFromExpressionImpl(routeExpression);
-            if (relativeUrl.Contains("https://"))
-            {
-                return relativeUrl;
-            }
-
-            //Log that RelativeUrl didn't contain HTTPS like expected
-            try
-            {
-                SitkaLogger.Instance.LogDetailedErrorMessage(string.Format("Got a relative URL from routeExpression, but expected an absolute URL. RouteExpression = " + routeExpression));
-            }
-            catch (NullReferenceException)
-            {
-                //MB: Ignoring NullReferenceException is needed when running as a unit test, since those don't call SitkaLogger.RegisterInstance first...
-            }
-            return String.Format("https://{0}{1}", canonicalHostName, relativeUrl);
+            return LinkBuilderBuildUrlFromExpressionImpl(routeExpression) + "?r=" +
+                   SitkaRouteRandomizer.RandomGenerator.Next();
         }
 
+        public static string BuildAbsoluteUrlHttpsFromExpression(Expression<Action<T>> routeExpression)
+        {
+            return BuildAbsoluteUrlFromExpressionImpl(routeExpression, "https");
+        }
+
+        public static string BuildAbsoluteUrlFromExpression(Expression<Action<T>> routeExpression)
+        {
+            return BuildAbsoluteUrlFromExpressionImpl(routeExpression, "http");
+        }
+
+
+        private static string BuildAbsoluteUrlFromExpressionImpl(Expression<Action<T>> routeExpression, string protocol)
+        {
+            var relativeUrl = LinkBuilderBuildUrlFromExpressionImpl(routeExpression);
+            return BuildAbsoluteUrlFromRelativeUrl(protocol, relativeUrl);
+        }
+
+        public static string BuildAbsoluteUrlFromRelativeUrl(string relativeUrl)
+        {
+            return BuildAbsoluteUrlFromRelativeUrl("http", relativeUrl);
+        }
+
+        public static string BuildAbsoluteUrlFromRelativeUrl(string protocol, string relativeUrl)
+        {
+
+            var currentContext = HttpContext.Current;
+            var hostName = SitkaWebConfiguration.CanonicalHostName;
+            if (currentContext != null)
+            {
+                hostName = SitkaWebConfiguration.GetCanonicalHost(currentContext.Request.Url.Host, true) ?? SitkaWebConfiguration.CanonicalHostName;
+            }
+
+            return String.Format("{0}://{1}{2}", protocol, hostName, relativeUrl);
+        }
+        
         private static string LinkBuilderBuildUrlFromExpressionImpl(Expression<Action<T>> routeExpression)
         {
             Check.Require(RouteTable.Routes.Any(), "RouteTable is empty and therefore no urls can be constructed. Is this being called before the route table is built? Consider using Lazy<T> or some other way to delay the call.");
-            var route = SitkaLinkBuilder.BuildUrlFromExpression(GenericRequestContext, RouteTable.Routes, routeExpression);
-            Check.RequireNotNullNotEmptyNotWhitespace(route, string.Format("Could not find a route entry for route expression \"{0}.{1}\"", routeExpression.Type.Name, routeExpression));
+            var currentContext = HttpContext.Current;
+            var route = SitkaLinkBuilder.BuildUrlFromExpression(currentContext.Request.RequestContext, RouteTable.Routes, routeExpression);
+            Check.RequireNotNullNotEmptyNotWhitespace(route, string.Format("Could not found a route entry for route expression \"{0}.{1}\"", routeExpression.Type.Name, routeExpression));
             Check.Require(!route.Contains("?"), string.Format("Route expression \"{0}.{1}\" resulted in url \"{2}\" which contains a UrlParameter converted to a QueryStringParameter, most likely due to an optional blank/null parameter preceeding another non-blank/non-null parameter. We want only url parameters for routing - no query strings - to keep more fine grained control over url appearance", routeExpression.Type.Name, routeExpression.Body, route));
             return route;
         }

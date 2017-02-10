@@ -1,7 +1,5 @@
 ﻿using System.Linq;
-using System.Web;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {

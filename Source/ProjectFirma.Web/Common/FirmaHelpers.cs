@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Common
 
         public static string GenerateLogOutUrlWithReturnUrl()
         {
-            var logOutUrl = SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOff(), LtInfo.Common.SitkaWebConfiguration.CanonicalHostName);
+            var logOutUrl = SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOff());
             
             var returnUrl = HttpContext.Current.Request.Url.AbsoluteUri;
 
@@ -50,8 +50,8 @@ namespace ProjectFirma.Web.Common
         private static bool OnErrorOrNotFoundPage(string url)
         {
             var returnUrlPathAndQuery = new Uri(url).PathAndQuery;
-            var notFoundUrlPathAndQuery = new Uri(SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.NotFound())).PathAndQuery;
-            var errorUrlPathAndQuery = new Uri(SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Error())).PathAndQuery;
+            var notFoundUrlPathAndQuery = new Uri(SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.NotFound())).PathAndQuery;
+            var errorUrlPathAndQuery = new Uri(SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Error())).PathAndQuery;
 
             var onErrorOrNotFoundPage = returnUrlPathAndQuery.StartsWith(notFoundUrlPathAndQuery, StringComparison.InvariantCultureIgnoreCase) ||
                                         returnUrlPathAndQuery.StartsWith(errorUrlPathAndQuery, StringComparison.InvariantCultureIgnoreCase);

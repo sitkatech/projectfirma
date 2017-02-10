@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectLocation]")]
-    public partial class ProjectLocation : IHavePrimaryKey
+    public partial class ProjectLocation : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectLocation(int projectLocationID, int projectID, DbGeometry projectLocationGeometry, string annotation) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectLocationID = projectLocationID;
             this.ProjectID = projectID;
             this.ProjectLocationGeometry = projectLocationGeometry;
@@ -43,8 +45,9 @@ namespace ProjectFirma.Web.Models
         public ProjectLocation(int projectID, DbGeometry projectLocationGeometry) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectLocationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectLocationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.ProjectLocationGeometry = projectLocationGeometry;
         }
@@ -56,6 +59,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectLocations.Add(this);
@@ -89,9 +93,11 @@ namespace ProjectFirma.Web.Models
         public int ProjectID { get; set; }
         public DbGeometry ProjectLocationGeometry { get; set; }
         public string Annotation { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectLocationID; } set { ProjectLocationID = value; } }
 
         public virtual Project Project { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

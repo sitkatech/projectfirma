@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                 {
                     var existingProjectClassification = project.ProjectClassifications.First(x => x.ClassificationID == projectClassificationSimple.ClassificationID);
 
-                    HttpRequestStorage.DatabaseEntities.ProjectClassifications.Remove(existingProjectClassification);
+                    HttpRequestStorage.DatabaseEntities.ProjectClassifications.DeleteProjectClassification(existingProjectClassification);
                 }
             }
         }

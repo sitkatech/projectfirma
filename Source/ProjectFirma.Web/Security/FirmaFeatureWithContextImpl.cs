@@ -48,9 +48,16 @@ namespace ProjectFirma.Web.Security
                 _firmaFeatureWithContext.FeatureName);
 
             Check.Require(ltInfoEntityPrimaryKeys.Any(), genericMessage + " Change code to add that parameter.");
-            Check.Require(ltInfoEntityPrimaryKeys.Count() == 1, genericMessage + " Change code so that there's only one of those parameters.");
+            Check.Require(ltInfoEntityPrimaryKeys.Count == 1, genericMessage + " Change code so that there's only one of those parameters.");
 
             var primaryKeyForObject = ltInfoEntityPrimaryKeys.Single();
+            var hasTenantIDEntity = primaryKeyForObject.EntityObject as IHaveATenantID;
+            if (hasTenantIDEntity != null)
+            {
+                var tenant = HttpRequestStorage.Tenant;
+                Check.RequireThrowNotAuthorized(hasTenantIDEntity.TenantID == tenant.TenantID, string.Format("TenantID mismatch (Expected {0}, Was {1})!", tenant.TenantID, hasTenantIDEntity.TenantID));
+            }
+
             DemandPermission(person, primaryKeyForObject.EntityObject);
         }
     }

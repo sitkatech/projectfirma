@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectExternalLink]")]
-    public partial class ProjectExternalLink : IHavePrimaryKey
+    public partial class ProjectExternalLink : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectExternalLink(int projectExternalLinkID, int projectID, string externalLinkLabel, string externalLinkUrl) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectExternalLinkID = projectExternalLinkID;
             this.ProjectID = projectID;
             this.ExternalLinkLabel = externalLinkLabel;
@@ -43,8 +45,9 @@ namespace ProjectFirma.Web.Models
         public ProjectExternalLink(int projectID, string externalLinkLabel, string externalLinkUrl) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectExternalLinkID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectExternalLinkID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.ExternalLinkLabel = externalLinkLabel;
             this.ExternalLinkUrl = externalLinkUrl;
@@ -57,6 +60,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectExternalLinkID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectExternalLinks.Add(this);
@@ -91,9 +95,11 @@ namespace ProjectFirma.Web.Models
         public int ProjectID { get; set; }
         public string ExternalLinkLabel { get; set; }
         public string ExternalLinkUrl { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectExternalLinkID; } set { ProjectExternalLinkID = value; } }
 
         public virtual Project Project { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Controllers
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
                 FundingType.Capital.FundingTypeID);
-            HttpRequestStorage.DatabaseEntities.Projects.Add(project);
+            HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
             viewModel.UpdateModel(project);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
@@ -97,9 +97,10 @@ namespace ProjectFirma.Web.Controllers
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var hasExistingProjectUpdate = projectUpdateBatch != null;
             var hasExistingProjectBudgetUpdates = hasExistingProjectUpdate && projectUpdateBatch.ProjectBudgetUpdates.Any();
+            var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().OrderBy(ap => ap.DisplayName).ToList();
             var viewData = new EditProjectViewData(editProjectType,
                 taxonomyTierOneDisplayName,
-                ProjectStage.All, FundingType.All, organizations, totalExpenditures, hasExistingProjectBudgetUpdates);
+                ProjectStage.All, FundingType.All, organizations, totalExpenditures, hasExistingProjectBudgetUpdates, taxonomyTierOnes);
             return RazorPartialView<EditProject, EditProjectViewData, EditProjectViewModel>(viewData, viewModel);
         }
 
@@ -416,19 +417,19 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProject(project, viewModel);
             }
             // since we do not check for these in the CanDelete call, we need to remove them manually; this is because we are requiring a lead organization for each project, so the editor no longer supports deletion of all organizations per Mingle story #209.
-            HttpRequestStorage.DatabaseEntities.ProjectImplementingOrganizations.RemoveRange(project.ProjectImplementingOrganizations);
-            HttpRequestStorage.DatabaseEntities.ProjectFundingOrganizations.RemoveRange(project.ProjectFundingOrganizations);
-            HttpRequestStorage.DatabaseEntities.ProjectClassifications.RemoveRange(project.ProjectClassifications);
-            HttpRequestStorage.DatabaseEntities.SnapshotProjects.RemoveRange(project.SnapshotProjects);
-            HttpRequestStorage.DatabaseEntities.ProjectTags.RemoveRange(project.ProjectTags);
-            HttpRequestStorage.DatabaseEntities.NotificationProjects.RemoveRange(project.NotificationProjects);
+            HttpRequestStorage.DatabaseEntities.ProjectImplementingOrganizations.DeleteProjectImplementingOrganization(project.ProjectImplementingOrganizations);
+            HttpRequestStorage.DatabaseEntities.ProjectFundingOrganizations.DeleteProjectFundingOrganization(project.ProjectFundingOrganizations);
+            HttpRequestStorage.DatabaseEntities.ProjectClassifications.DeleteProjectClassification(project.ProjectClassifications);
+            HttpRequestStorage.DatabaseEntities.SnapshotProjects.DeleteSnapshotProject(project.SnapshotProjects);
+            HttpRequestStorage.DatabaseEntities.ProjectTags.DeleteProjectTag(project.ProjectTags);
+            HttpRequestStorage.DatabaseEntities.NotificationProjects.DeleteNotificationProject(project.NotificationProjects);
             if (project.ProposedProject != null)
             {
                 project.ProposedProject.ProposedProjectStateID = ProposedProjectState.Rejected.ProposedProjectStateID;
                 project.ProposedProject.Project = null;
             }
 
-            HttpRequestStorage.DatabaseEntities.Projects.Remove(project);
+            HttpRequestStorage.DatabaseEntities.Projects.DeleteProject(project);
             return new ModalDialogFormJsonResult();
         }
 
@@ -458,17 +459,10 @@ namespace ProjectFirma.Web.Controllers
         [AdminFeature]
         public GridJsonNetJObjectResult<AuditLog> AuditLogsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
-            AuditLogsGridSpec gridSpec;
-            var auditLogs = GetAuditLogsAndGridSpec(out gridSpec, projectPrimaryKey.EntityObject);
+            var gridSpec = new AuditLogsGridSpec();
+            var auditLogs = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProject(projectPrimaryKey.EntityObject).OrderByDescending(x => x.AuditLogDate).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AuditLog>(auditLogs, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private static List<AuditLog> GetAuditLogsAndGridSpec(out AuditLogsGridSpec gridSpec, Project project)
-        {
-            gridSpec = new AuditLogsGridSpec();
-            var auditLogs = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProject(project).OrderByDescending(x => x.AuditLogDate).ToList();
-            return auditLogs;
         }
 
         [AnonymousUnclassifiedFeature]
@@ -721,7 +715,6 @@ Continue with a new project update?
         public ViewResult MyOrganizationsProjects()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.MyOrganizationsProjects);
-
             var viewData = new MyOrganizationsProjectsViewData(CurrentPerson, firmaPage);
             return RazorView<MyOrganizationsProjects, MyOrganizationsProjectsViewData>(viewData);
         }
@@ -729,40 +722,22 @@ Continue with a new project update?
         [ProjectsViewMyOrganizationsProjectListFeature]
         public GridJsonNetJObjectResult<Project> MyOrganizationsProjectsGridJsonData()
         {
-            BasicProjectInfoGridSpec gridSpec;
-            var taxonomyTierTwos = GetMyOrganizationsProjectsGridSpec(CurrentPerson, out gridSpec);
+            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(p => p.DoesPersonBelongToProjectLeadImplementingOranization(CurrentPerson)).OrderBy(x => x.DisplayName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private static List<Project> GetMyOrganizationsProjectsGridSpec(Person currentPerson, out BasicProjectInfoGridSpec gridSpec)
-        {
-            gridSpec = new BasicProjectInfoGridSpec(currentPerson, true);
-            return HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(p => p.DoesPersonBelongToProjectLeadImplementingOranization(currentPerson)).OrderBy(x => x.DisplayName).ToList();
         }
 
         [ProposedProjectsViewListFeature]
         public GridJsonNetJObjectResult<ProposedProject> MyOrganizationsProposedProjectsGridJsonData()
         {
-            ProposedProjectGridSpec gridSpec;
-            var taxonomyTierTwos = GetMyOrganizationsProposedProjectsGridSpec(CurrentPerson, out gridSpec);
+            var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.ProposedProjects.GetProposedProjectsWithGeoSpatialProperties(HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures(),
+                HttpRequestStorage.DatabaseEntities.Jurisdictions.GetJurisdictionsWithGeospatialFeatures(),
+                HttpRequestStorage.DatabaseEntities.StateProvinces.ToList(),
+                x => x.IsEditableToThisPerson(CurrentPerson) && x.DoesPersonBelongToProposedProjectLeadImplementingOranization(CurrentPerson)).Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved && x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private static List<ProposedProject> GetMyOrganizationsProposedProjectsGridSpec(Person currentPerson, out ProposedProjectGridSpec gridSpec)
-        {
-            gridSpec = new ProposedProjectGridSpec(currentPerson);
-            return GetMyOrganizationsProposedProjectsForGrid(x => x.IsEditableToThisPerson(currentPerson) && x.DoesPersonBelongToProposedProjectLeadImplementingOranization(currentPerson));
-        }
-
-        public static List<ProposedProject> GetMyOrganizationsProposedProjectsForGrid(Func<ProposedProject, bool> filterFunction)
-        {
-            return
-                HttpRequestStorage.DatabaseEntities.ProposedProjects.GetProposedProjectsWithGeoSpatialProperties(HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures(),
-                    HttpRequestStorage.DatabaseEntities.Jurisdictions.GetJurisdictionsWithGeospatialFeatures(),
-                    HttpRequestStorage.DatabaseEntities.StateProvinces.ToList(),
-                    filterFunction).Where(x => x.ProposedProjectState != ProposedProjectState.Approved && x.ProposedProjectState != ProposedProjectState.Rejected).ToList();
         }
     }
 }

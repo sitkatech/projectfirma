@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ClassificationImage]")]
-    public partial class ClassificationImage : IHavePrimaryKey
+    public partial class ClassificationImage : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ClassificationImage(int classificationImageID, int classificationID, int fileResourceID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ClassificationImageID = classificationImageID;
             this.ClassificationID = classificationID;
             this.FileResourceID = fileResourceID;
@@ -42,8 +44,9 @@ namespace ProjectFirma.Web.Models
         public ClassificationImage(int classificationID, int fileResourceID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ClassificationImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ClassificationImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ClassificationID = classificationID;
             this.FileResourceID = fileResourceID;
         }
@@ -55,6 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ClassificationImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ClassificationID = classification.ClassificationID;
             this.Classification = classification;
             classification.ClassificationImages.Add(this);
@@ -89,10 +93,12 @@ namespace ProjectFirma.Web.Models
         public int ClassificationImageID { get; set; }
         public int ClassificationID { get; set; }
         public int FileResourceID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ClassificationImageID; } set { ClassificationImageID = value; } }
 
         public virtual Classification Classification { get; set; }
         public virtual FileResource FileResource { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

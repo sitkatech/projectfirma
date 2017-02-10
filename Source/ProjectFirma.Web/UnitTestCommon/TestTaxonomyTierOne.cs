@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.UnitTestCommon
                 var taxonomyTierTwo = TestTaxonomyTierTwo.Create(dbContext);
                 var taxonomyTierOne = new TaxonomyTierOne(taxonomyTierTwo, MakeTestName("Test Taxonomy Tier One", TaxonomyTierOne.FieldLengths.TaxonomyTierOneName));
                 var newTaxonomyTierOne = taxonomyTierOne;
-                dbContext.TaxonomyTierOnes.Add(newTaxonomyTierOne);
+                dbContext.AllTaxonomyTierOnes.Add(newTaxonomyTierOne);
                 return newTaxonomyTierOne;
             }
         }

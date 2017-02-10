@@ -55,7 +55,6 @@ namespace ProjectFirma.Web
                     "~/Views/Shared/ProjectUpdateDiffControls/{0}.cshtml"
                 }, defaultRoutes, AreasDictionary);
 
-            Logger.InfoFormat("Latest Database Migration: {0}", Common.FirmaWebConfiguration.LatestDatabaseMigration.Value);
             RegisterGlobalFilters(GlobalFilters.Filters);
             FluentValidationModelValidatorProvider.Configure();
 
@@ -119,12 +118,12 @@ namespace ProjectFirma.Web
 
         public override string ErrorUrl
         {
-            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Error(), SitkaWebConfiguration.CanonicalHostName); }
+            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Error()); }
         }
 
         public override string NotFoundUrl
         {
-            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.NotFound(), SitkaWebConfiguration.CanonicalHostName); }
+            get { return SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.NotFound()); }
         }
 
         public override string ErrorHtml

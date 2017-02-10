@@ -3,10 +3,10 @@ using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectAssessmentQuestion;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -25,8 +25,7 @@ namespace ProjectFirma.Web.Controllers
 
         public static List<ProjectAssessmentQuestionSimple> GetProjectAssessmentQuestionSimples(Project project)
         {
-            var allQuestionsAsSimples =
-                HttpRequestStorage.DatabaseEntities.AssessmentQuestions.ToList().Select(x => new ProjectAssessmentQuestionSimple(x, project)).ToList();
+            var allQuestionsAsSimples = HttpRequestStorage.DatabaseEntities.AssessmentQuestions.ToList().Select(x => new ProjectAssessmentQuestionSimple(x, project)).ToList();
 
             var answeredQuestions = project.ProjectAssessmentQuestions.ToList();
 
@@ -57,8 +56,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditAssessment(Project project, EditAssessmentViewModel viewModel)
         {
-            var Goals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
-            var viewData = new EditAssessmentViewData(CurrentPerson, project, Goals);
+            var assessmentGoals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
+            var viewData = new EditAssessmentViewData(CurrentPerson, project, assessmentGoals);
             return RazorPartialView<EditAssessment, EditAssessmentViewData, EditAssessmentViewModel>(viewData, viewModel);
         }
         

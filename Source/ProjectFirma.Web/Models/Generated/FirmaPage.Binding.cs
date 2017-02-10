@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[FirmaPage]")]
-    public partial class FirmaPage : IHavePrimaryKey
+    public partial class FirmaPage : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public FirmaPage(int firmaPageID, int firmaPageTypeID, string firmaPageContent) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.FirmaPageID = firmaPageID;
             this.FirmaPageTypeID = firmaPageTypeID;
             this.FirmaPageContent = firmaPageContent;
@@ -42,8 +44,9 @@ namespace ProjectFirma.Web.Models
         public FirmaPage(int firmaPageTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            FirmaPageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.FirmaPageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FirmaPageTypeID = firmaPageTypeID;
         }
 
@@ -54,6 +57,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.FirmaPageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.FirmaPageTypeID = firmaPageType.FirmaPageTypeID;
         }
 
@@ -89,10 +93,12 @@ namespace ProjectFirma.Web.Models
             get { return FirmaPageContent == null ? null : new HtmlString(FirmaPageContent); }
             set { FirmaPageContent = value == null ? null : value.ToString(); }
         }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return FirmaPageID; } set { FirmaPageID = value; } }
 
         public virtual ICollection<FirmaPageImage> FirmaPageImages { get; set; }
         public FirmaPageType FirmaPageType { get { return FirmaPageType.AllLookupDictionary[FirmaPageTypeID]; } }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

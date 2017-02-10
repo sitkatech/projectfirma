@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectTag]")]
-    public partial class ProjectTag : IHavePrimaryKey
+    public partial class ProjectTag : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectTag(int projectTagID, int projectID, int tagID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectTagID = projectTagID;
             this.ProjectID = projectID;
             this.TagID = tagID;
@@ -42,8 +44,9 @@ namespace ProjectFirma.Web.Models
         public ProjectTag(int projectID, int tagID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectTagID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectTagID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.TagID = tagID;
         }
@@ -55,6 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectTagID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectTags.Add(this);
@@ -89,10 +93,12 @@ namespace ProjectFirma.Web.Models
         public int ProjectTagID { get; set; }
         public int ProjectID { get; set; }
         public int TagID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectTagID; } set { ProjectTagID = value; } }
 
         public virtual Project Project { get; set; }
         public virtual Tag Tag { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

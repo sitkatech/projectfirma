@@ -11,6 +11,7 @@ CREATE TABLE [dbo].[Classification](
 	[GoalStatement] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Narrative] [dbo].[html] NULL,
 	[KeyImageFileResourceID] [int] NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_Classification_ClassificationID] PRIMARY KEY CLUSTERED 
 (
 	[ClassificationID] ASC
@@ -30,3 +31,8 @@ ALTER TABLE [dbo].[Classification]  WITH CHECK ADD  CONSTRAINT [FK_Classificatio
 REFERENCES [dbo].[FileResource] ([FileResourceID])
 GO
 ALTER TABLE [dbo].[Classification] CHECK CONSTRAINT [FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID]
+GO
+ALTER TABLE [dbo].[Classification]  WITH CHECK ADD  CONSTRAINT [FK_Classification_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[Classification] CHECK CONSTRAINT [FK_Classification_Tenant_TenantID]

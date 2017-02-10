@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[FileResource]")]
-    public partial class FileResource : IHavePrimaryKey
+    public partial class FileResource : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -42,6 +42,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public FileResource(int fileResourceID, int fileResourceMimeTypeID, string originalBaseFilename, string originalFileExtension, Guid fileResourceGUID, byte[] fileResourceData, int createPersonID, DateTime createDate) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.FileResourceID = fileResourceID;
             this.FileResourceMimeTypeID = fileResourceMimeTypeID;
             this.OriginalBaseFilename = originalBaseFilename;
@@ -58,8 +60,9 @@ namespace ProjectFirma.Web.Models
         public FileResource(int fileResourceMimeTypeID, string originalBaseFilename, string originalFileExtension, Guid fileResourceGUID, byte[] fileResourceData, int createPersonID, DateTime createDate) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            FileResourceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.FileResourceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FileResourceMimeTypeID = fileResourceMimeTypeID;
             this.OriginalBaseFilename = originalBaseFilename;
             this.OriginalFileExtension = originalFileExtension;
@@ -76,6 +79,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.FileResourceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.FileResourceMimeTypeID = fileResourceMimeType.FileResourceMimeTypeID;
             this.OriginalBaseFilename = originalBaseFilename;
             this.OriginalFileExtension = originalFileExtension;
@@ -118,6 +122,7 @@ namespace ProjectFirma.Web.Models
         public byte[] FileResourceData { get; set; }
         public int CreatePersonID { get; set; }
         public DateTime CreateDate { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return FileResourceID; } set { FileResourceID = value; } }
 
         public virtual ICollection<Classification> ClassificationsWhereYouAreTheKeyImageFileResource { get; set; }
@@ -134,6 +139,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<TaxonomyTierTwoImage> TaxonomyTierTwoImages { get; set; }
         public FileResourceMimeType FileResourceMimeType { get { return FileResourceMimeType.AllLookupDictionary[FileResourceMimeTypeID]; } }
         public virtual Person CreatePerson { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

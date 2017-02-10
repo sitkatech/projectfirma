@@ -214,10 +214,10 @@ namespace ProjectFirma.Web.Controllers
 
             var projectStages = (ProjectStage.All.Where(x => x.ShouldShowOnMap())).OrderBy(x => x.SortOrder).ToList();
             var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList();
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.DisplayName);
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.DisplayName, HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList());
 
             var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(taxonomyTierThrees, projects, projectStages);
-            var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap(), SitkaWebConfiguration.CanonicalHostName);
+            var projectLocationsUrl = SitkaRoute<ResultsController>.BuildAbsoluteUrlHttpsFromExpression(x => x.ProjectMap());
             var filteredProjectsWithLocationAreasUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));
 
             var viewData = new ProjectMapViewData(CurrentPerson,
@@ -237,12 +237,9 @@ namespace ProjectFirma.Web.Controllers
 
             var taxonomyTierThreesAsSelectListItems = taxonomyTierThrees.ToSelectList(x => x.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
 
-            var taxonomyTierTwosAsSelectListItems = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToSelectList(x => x.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture),
-                x => x.DisplayName);
-            var taxonomyTierOnesAsSelectListItems = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToSelectList(x => x.TaxonomyTierOneID.ToString(CultureInfo.InvariantCulture),
-                x => x.DisplayName);
-            var classificationsAsSelectListItems =
-                HttpRequestStorage.DatabaseEntities.Classifications.ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+            var taxonomyTierTwosAsSelectListItems = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToSelectList(x => x.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+            var taxonomyTierOnesAsSelectListItems = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToSelectList(x => x.TaxonomyTierOneID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+            var classificationsAsSelectListItems = HttpRequestStorage.DatabaseEntities.Classifications.ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
             var implementingOrganizationsAsSelectListItems =
                 projects.SelectMany(x => x.ProjectImplementingOrganizations)
                     .Select(x => x.Organization)
@@ -289,8 +286,7 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationFilterTypeFromFilterPropertyName = projectMapCustomization.GetProjectLocationFilterTypeFromFilterPropertyName();
             var filterFunction = projectLocationFilterTypeFromFilterPropertyName.GetFilterFunction(projectMapCustomization.FilterPropertyValues);
             var filteredProjects =
-                HttpRequestStorage.DatabaseEntities.Projects.Where(
-                    filterFunction).ToList();
+                HttpRequestStorage.DatabaseEntities.Projects.Where(filterFunction.Compile()).ToList();
 
             var projects = IsCurrentUserAnonymous() ? filteredProjects.Where(p => p.IsVisibleToEveryone()).ToList() : filteredProjects;
             var filteredProjectsWithLocationAreas = projects.Where(x => !x.HasProjectLocationPoint && x.ProjectLocationAreaID.HasValue).ToList();

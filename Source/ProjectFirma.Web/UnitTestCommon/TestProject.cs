@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.UnitTestCommon
                     ProjectLocationSimpleType.None,
                     FundingType.Capital);
 
-                dbContext.Projects.Add(project);
+                dbContext.AllProjects.Add(project);
                 return project;
             }
 
@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             public static Project Insert(DatabaseEntities dbContext)
             {
                 var project = Create(dbContext);
-                HttpRequestStorage.DetectChangesAndSave();
+                HttpRequestStorage.DatabaseEntities.SaveChanges();
                 return project;
             }
         }

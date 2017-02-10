@@ -146,7 +146,7 @@ namespace ProjectFirma.Web.Controllers
             var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
             var firmaPage = firmaPagePrimaryKey.EntityObject;
             var ppImage = new FirmaPageImage(firmaPage, fileResource);
-            HttpRequestStorage.DatabaseEntities.FirmaPageImages.Add(ppImage);
+            HttpRequestStorage.DatabaseEntities.AllFirmaPageImages.Add(ppImage);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
 
@@ -172,7 +172,7 @@ namespace ProjectFirma.Web.Controllers
             var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
             var firmaPage = firmaPagePrimaryKey.EntityObject;
             var ppImage = new FirmaPageImage(firmaPage, fileResource);
-            HttpRequestStorage.DatabaseEntities.FirmaPageImages.Add(ppImage);
+            HttpRequestStorage.DatabaseEntities.AllFirmaPageImages.Add(ppImage);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
 
@@ -197,7 +197,7 @@ namespace ProjectFirma.Web.Controllers
             var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
             var taxonomyTierThree = taxonomyTierThreePrimaryKey.EntityObject;
             var image = new TaxonomyTierThreeImage(taxonomyTierThree, fileResource);
-            HttpRequestStorage.DatabaseEntities.TaxonomyTierThreeImages.Add(image);
+            HttpRequestStorage.DatabaseEntities.AllTaxonomyTierThreeImages.Add(image);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
 
@@ -222,7 +222,7 @@ namespace ProjectFirma.Web.Controllers
             var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
             var taxonomyTierTwo = taxonomyTierTwoPrimaryKey.EntityObject;
             var image = new TaxonomyTierTwoImage(taxonomyTierTwo, fileResource);
-            HttpRequestStorage.DatabaseEntities.TaxonomyTierTwoImages.Add(image);
+            HttpRequestStorage.DatabaseEntities.AllTaxonomyTierTwoImages.Add(image);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
 
@@ -247,7 +247,7 @@ namespace ProjectFirma.Web.Controllers
             var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
             var taxonomyTierOne = taxonomyTierOnePrimaryKey.EntityObject;
             var image = new TaxonomyTierOneImage(taxonomyTierOne, fileResource);
-            HttpRequestStorage.DatabaseEntities.TaxonomyTierOneImages.Add(image);
+            HttpRequestStorage.DatabaseEntities.AllTaxonomyTierOneImages.Add(image);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
 
@@ -272,7 +272,7 @@ namespace ProjectFirma.Web.Controllers
             var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
             var classification = classificationPrimary.EntityObject;
             var image = new ClassificationImage(classification, fileResource);
-            HttpRequestStorage.DatabaseEntities.ClassificationImages.Add(image);
+            HttpRequestStorage.DatabaseEntities.AllClassificationImages.Add(image);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
 
@@ -297,7 +297,7 @@ namespace ProjectFirma.Web.Controllers
             var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
             var fieldDefinition = fieldDefinitionPrimaryKey.EntityObject;
             var image = new FieldDefinitionImage(fieldDefinition, fileResource);
-            HttpRequestStorage.DatabaseEntities.FieldDefinitionImages.Add(image);
+            HttpRequestStorage.DatabaseEntities.AllFieldDefinitionImages.Add(image);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
 

@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectLocationArea]")]
-    public partial class ProjectLocationArea : IHavePrimaryKey
+    public partial class ProjectLocationArea : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -36,6 +36,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectLocationArea(int projectLocationAreaID, int? stateProvinceID, int? projectLocationAreaGroupID, int? mappedRegionID, int? jurisdictionID, int? watershedID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectLocationAreaID = projectLocationAreaID;
             this.StateProvinceID = stateProvinceID;
             this.ProjectLocationAreaGroupID = projectLocationAreaGroupID;
@@ -75,6 +77,7 @@ namespace ProjectFirma.Web.Models
         public int? MappedRegionID { get; set; }
         public int? JurisdictionID { get; set; }
         public int? WatershedID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectLocationAreaID; } set { ProjectLocationAreaID = value; } }
 
         public virtual ICollection<Project> Projects { get; set; }
@@ -88,6 +91,7 @@ namespace ProjectFirma.Web.Models
         public virtual MappedRegion MappedRegion { get; set; }
         public virtual Jurisdiction Jurisdiction { get; set; }
         public virtual Watershed Watershed { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

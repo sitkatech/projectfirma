@@ -19,6 +19,7 @@ namespace ProjectFirma.Web.Controllers
                 ? taxonomyTierThrees.Select(x => x.ToFancyTreeNode()).ToList()
                 : taxonomyTierTwos.Select(x => x.ToFancyTreeNode()).ToList();
             var viewData = new TaxonomyViewData(CurrentPerson, firmaPage, topLevelTaxonomyTierAsFancyTreeNodes);
-            return RazorView<Taxonomy, TaxonomyViewData>(viewData);        }
+            return RazorView<Taxonomy, TaxonomyViewData>(viewData);
+        }
     }
 }

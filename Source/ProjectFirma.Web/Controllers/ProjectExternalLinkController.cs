@@ -5,7 +5,6 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectExternalLink;
-using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 
@@ -35,7 +34,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var currentProjectExternalLinks = project.ProjectExternalLinks.ToList();
             HttpRequestStorage.DatabaseEntities.ProjectExternalLinks.Load();
-            var allProjectExternalLinks = HttpRequestStorage.DatabaseEntities.ProjectExternalLinks.Local;
+            var allProjectExternalLinks = HttpRequestStorage.DatabaseEntities.AllProjectExternalLinks.Local;
             viewModel.UpdateModel(currentProjectExternalLinks, allProjectExternalLinks);
             return new ModalDialogFormJsonResult();
         }

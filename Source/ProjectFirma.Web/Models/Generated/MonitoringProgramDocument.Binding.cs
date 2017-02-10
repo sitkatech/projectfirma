@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[MonitoringProgramDocument]")]
-    public partial class MonitoringProgramDocument : IHavePrimaryKey
+    public partial class MonitoringProgramDocument : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public MonitoringProgramDocument(int monitoringProgramDocumentID, int fileResourceID, int monitoringProgramID, string displayName, DateTime uploadDate) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.MonitoringProgramDocumentID = monitoringProgramDocumentID;
             this.FileResourceID = fileResourceID;
             this.MonitoringProgramID = monitoringProgramID;
@@ -44,8 +46,9 @@ namespace ProjectFirma.Web.Models
         public MonitoringProgramDocument(int fileResourceID, int monitoringProgramID, string displayName, DateTime uploadDate) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            MonitoringProgramDocumentID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.MonitoringProgramDocumentID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FileResourceID = fileResourceID;
             this.MonitoringProgramID = monitoringProgramID;
             this.DisplayName = displayName;
@@ -59,6 +62,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.MonitoringProgramDocumentID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.FileResourceID = fileResource.FileResourceID;
             this.FileResource = fileResource;
             fileResource.MonitoringProgramDocuments.Add(this);
@@ -97,10 +101,12 @@ namespace ProjectFirma.Web.Models
         public int MonitoringProgramID { get; set; }
         public string DisplayName { get; set; }
         public DateTime UploadDate { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return MonitoringProgramDocumentID; } set { MonitoringProgramDocumentID = value; } }
 
         public virtual FileResource FileResource { get; set; }
         public virtual MonitoringProgram MonitoringProgram { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

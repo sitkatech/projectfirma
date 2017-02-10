@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Assessment;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -129,7 +129,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var question = new AssessmentQuestion(viewModel.AssessmentSubGoalID, viewModel.AssessmentQuestionText);
             viewModel.UpdateModel(question, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Add(question);
+            HttpRequestStorage.DatabaseEntities.AllAssessmentQuestions.Add(question);
             return new ModalDialogFormJsonResult();
         }
 
@@ -140,20 +140,15 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<NewQuestion, NewQuestionViewData, NewQuestionViewModel>(viewData, viewModel);
         }
 
-        public static List<IProject> GetProjectsForGrid(Func<Project, bool> filterFunction)
-        {
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.Select(x => (IProject) x);
-            var proposedProjects = HttpRequestStorage.DatabaseEntities.ProposedProjects.Select(x => (IProject) x);
-            return projects.Union(proposedProjects).ToList();
-        }
-
         [ProjectsViewFullListFeature]
         public ExcelResult IndexExcelDownload()
         {
-            var projects = GetProjectsForGrid(null);
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.Select(x => (IProject) x);
+            var proposedProjects = HttpRequestStorage.DatabaseEntities.ProposedProjects.Select(x => (IProject) x);
+            var projectsAndProposedProjects = projects.Union(proposedProjects).ToList();
 
             var projectsSpec = new ProjectAssessmentExcelSpec();
-            var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Projects", projectsSpec, projects);
+            var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Projects", projectsSpec, projectsAndProposedProjects);
 
             var questionsSpec = new QuestionsExcelSpec();
             var wsQuestions = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Questions", questionsSpec, HttpRequestStorage.DatabaseEntities.AssessmentQuestions.ToList());

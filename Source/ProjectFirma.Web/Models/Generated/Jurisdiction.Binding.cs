@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[Jurisdiction]")]
-    public partial class Jurisdiction : IHavePrimaryKey
+    public partial class Jurisdiction : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -32,6 +32,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public Jurisdiction(int jurisdictionID, int organizationID, DbGeometry jurisdictionFeature, int? stateProvinceID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.JurisdictionID = jurisdictionID;
             this.OrganizationID = organizationID;
             this.JurisdictionFeature = jurisdictionFeature;
@@ -44,8 +46,9 @@ namespace ProjectFirma.Web.Models
         public Jurisdiction(int organizationID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            JurisdictionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.JurisdictionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.OrganizationID = organizationID;
         }
 
@@ -56,6 +59,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.JurisdictionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.OrganizationID = organization.OrganizationID;
             this.Organization = organization;
         }
@@ -87,12 +91,14 @@ namespace ProjectFirma.Web.Models
         public int OrganizationID { get; set; }
         public DbGeometry JurisdictionFeature { get; set; }
         public int? StateProvinceID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return JurisdictionID; } set { JurisdictionID = value; } }
 
         public virtual ICollection<ProjectLocationArea> ProjectLocationAreas { get; set; }
         public virtual ICollection<ProjectLocationAreaJurisdiction> ProjectLocationAreaJurisdictions { get; set; }
         public virtual Organization Organization { get; set; }
         public virtual StateProvince StateProvince { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

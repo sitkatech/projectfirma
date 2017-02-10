@@ -4,10 +4,10 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Snapshot;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using Detail = ProjectFirma.Web.Views.Snapshot.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Snapshot.DetailViewData;
@@ -29,16 +29,10 @@ namespace ProjectFirma.Web.Controllers
         [AdminFeature]
         public GridJsonNetJObjectResult<Snapshot> IndexGridJsonData()
         {
-            IndexGridSpec gridSpec;
-            var snapshots = GetSnapshotAndGridSpec(out gridSpec);
+            var gridSpec = new IndexGridSpec();
+            var snapshots = HttpRequestStorage.DatabaseEntities.Snapshots.ToList().OrderByDescending(snapshot => snapshot.SnapshotDate).ToList();
             var gridJsonNetObjectResult = new GridJsonNetJObjectResult<Snapshot>(snapshots, gridSpec);
             return gridJsonNetObjectResult;
-        }
-
-        private static List<Snapshot> GetSnapshotAndGridSpec(out IndexGridSpec gridSpec)
-        {
-            gridSpec = new IndexGridSpec();
-            return HttpRequestStorage.DatabaseEntities.Snapshots.ToList().OrderByDescending(snapshot => snapshot.SnapshotDate).ToList();
         }
 
         [AdminFeature]

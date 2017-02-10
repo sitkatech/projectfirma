@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProposedProjectLocationStaging]")]
-    public partial class ProposedProjectLocationStaging : IHavePrimaryKey
+    public partial class ProposedProjectLocationStaging : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProposedProjectLocationStaging(int proposedProjectLocationStagingID, int proposedProjectID, int personID, string featureClassName, string geoJson, string selectedProperty, bool shouldImport) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProposedProjectLocationStagingID = proposedProjectLocationStagingID;
             this.ProposedProjectID = proposedProjectID;
             this.PersonID = personID;
@@ -46,8 +48,9 @@ namespace ProjectFirma.Web.Models
         public ProposedProjectLocationStaging(int proposedProjectID, int personID, string featureClassName, string geoJson, bool shouldImport) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProposedProjectLocationStagingID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProposedProjectLocationStagingID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProposedProjectID = proposedProjectID;
             this.PersonID = personID;
             this.FeatureClassName = featureClassName;
@@ -62,6 +65,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectLocationStagingID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProposedProjectID = proposedProject.ProposedProjectID;
             this.ProposedProject = proposedProject;
             proposedProject.ProposedProjectLocationStagings.Add(this);
@@ -101,9 +105,11 @@ namespace ProjectFirma.Web.Models
         public string GeoJson { get; set; }
         public string SelectedProperty { get; set; }
         public bool ShouldImport { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProposedProjectLocationStagingID; } set { ProposedProjectLocationStagingID = value; } }
 
         public virtual ProposedProject ProposedProject { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

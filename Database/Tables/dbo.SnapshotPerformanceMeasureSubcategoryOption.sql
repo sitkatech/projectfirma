@@ -8,6 +8,7 @@ CREATE TABLE [dbo].[SnapshotPerformanceMeasureSubcategoryOption](
 	[PerformanceMeasureSubcategoryOptionID] [int] NOT NULL,
 	[PerformanceMeasureID] [int] NOT NULL,
 	[PerformanceMeasureSubcategoryID] [int] NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasureSubcategoryOptionID] PRIMARY KEY CLUSTERED 
 (
 	[SnapshotPerformanceMeasureSubcategoryOptionID] ASC
@@ -39,3 +40,8 @@ ALTER TABLE [dbo].[SnapshotPerformanceMeasureSubcategoryOption]  WITH CHECK ADD 
 REFERENCES [dbo].[SnapshotPerformanceMeasure] ([SnapshotPerformanceMeasureID], [PerformanceMeasureID])
 GO
 ALTER TABLE [dbo].[SnapshotPerformanceMeasureSubcategoryOption] CHECK CONSTRAINT [FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID_PerformanceMeasureID]
+GO
+ALTER TABLE [dbo].[SnapshotPerformanceMeasureSubcategoryOption]  WITH CHECK ADD  CONSTRAINT [FK_SnapshotPerformanceMeasureSubcategoryOption_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[SnapshotPerformanceMeasureSubcategoryOption] CHECK CONSTRAINT [FK_SnapshotPerformanceMeasureSubcategoryOption_Tenant_TenantID]

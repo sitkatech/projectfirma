@@ -39,21 +39,21 @@ namespace ProjectFirma.Web.Models
             layerGeoJsons.Add(new LayerGeoJson("County/City", geoJsonForJurisdictions, "#FF6C2D", 0.6m, LayerInitialVisibility.Hide));
 
             var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
-            var geoJsonForWatersheds = Models.Watershed.ToGeoJsonFeatureCollection(watersheds);
+            var geoJsonForWatersheds = Watershed.ToGeoJsonFeatureCollection(watersheds);
             layerGeoJsons.Add(new LayerGeoJson("Watershed", geoJsonForWatersheds, "#90C3D4", 0.1m, LayerInitialVisibility.Show));
             return layerGeoJsons;
         }
 
-        public static List<LayerGeoJson> GetWatershedLayers(Watershed watershed, List<Models.Project> projects)
+        public static List<LayerGeoJson> GetWatershedLayers(Watershed watershed, List<Project> projects)
         {
             var layerGeoJsons = new List<LayerGeoJson>
             {
-                new LayerGeoJson(watershed.DisplayName, Models.Watershed.ToGeoJsonFeatureCollection(new List<Models.Watershed> {watershed}), "red", 1, LayerInitialVisibility.Show),
+                new LayerGeoJson(watershed.DisplayName, Watershed.ToGeoJsonFeatureCollection(new List<Watershed> {watershed}), "red", 1, LayerInitialVisibility.Show),
                 new LayerGeoJson("Watersheds",
                     Watershed.ToGeoJsonFeatureCollection(HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures().Where(x => x.WatershedID != watershed.WatershedID).ToList()), "#59ACFF", 0.6m, LayerInitialVisibility.Show),
                 new LayerGeoJson("County/City", Jurisdiction.ToGeoJsonFeatureCollection(HttpRequestStorage.DatabaseEntities.Jurisdictions.GetJurisdictionsWithGeospatialFeatures()), "#FF6C2D", 0.6m, LayerInitialVisibility.Hide),
-                new LayerGeoJson("Project Location - Simple", Models.Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show),
-                new LayerGeoJson("Named Areas", Models.Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show)
+                new LayerGeoJson("Project Location - Simple", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show),
+                new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show)
             };
             return layerGeoJsons;
         }

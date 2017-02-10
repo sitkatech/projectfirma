@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.UnitTestCommon
                     new byte[2000],
                     LoginConstants.PersonID,
                     DateTime.Now);
-                dbContext.FileResources.Add(fileResource);
+                dbContext.AllFileResources.Add(fileResource);
                 return fileResource;
             }
 

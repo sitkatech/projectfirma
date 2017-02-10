@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             public static PerformanceMeasureSubcategoryOption Create(DatabaseEntities dbContext, int performanceMeasureSubcategoryOptionID, PerformanceMeasureSubcategory performanceMeasureSubcategory, string performanceMeasureSubcategoryOptionName)
             {
                 var performanceMeasureSubcategoryOption = Create(performanceMeasureSubcategoryOptionID, performanceMeasureSubcategory, performanceMeasureSubcategoryOptionName);
-                dbContext.PerformanceMeasureSubcategoryOptions.Add(performanceMeasureSubcategoryOption);
+                dbContext.AllPerformanceMeasureSubcategoryOptions.Add(performanceMeasureSubcategoryOption);
                 return performanceMeasureSubcategoryOption;
             }
         }

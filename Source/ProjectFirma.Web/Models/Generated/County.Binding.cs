@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[County]")]
-    public partial class County : IHavePrimaryKey
+    public partial class County : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public County(int countyID, string countyName, int stateProvinceID, DbGeometry countyFeature) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.CountyID = countyID;
             this.CountyName = countyName;
             this.StateProvinceID = stateProvinceID;
@@ -43,8 +45,9 @@ namespace ProjectFirma.Web.Models
         public County(string countyName, int stateProvinceID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            CountyID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.CountyID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.CountyName = countyName;
             this.StateProvinceID = stateProvinceID;
         }
@@ -56,6 +59,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.CountyID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.CountyName = countyName;
             this.StateProvinceID = stateProvince.StateProvinceID;
             this.StateProvince = stateProvince;
@@ -89,9 +93,11 @@ namespace ProjectFirma.Web.Models
         public string CountyName { get; set; }
         public int StateProvinceID { get; set; }
         public DbGeometry CountyFeature { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return CountyID; } set { CountyID = value; } }
 
         public virtual StateProvince StateProvince { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

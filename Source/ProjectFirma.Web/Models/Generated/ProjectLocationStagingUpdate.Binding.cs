@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectLocationStagingUpdate]")]
-    public partial class ProjectLocationStagingUpdate : IHavePrimaryKey
+    public partial class ProjectLocationStagingUpdate : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectLocationStagingUpdate(int projectLocationStagingUpdateID, int projectUpdateBatchID, int personID, string featureClassName, string geoJson, string selectedProperty, bool shouldImport) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectLocationStagingUpdateID = projectLocationStagingUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.PersonID = personID;
@@ -46,8 +48,9 @@ namespace ProjectFirma.Web.Models
         public ProjectLocationStagingUpdate(int projectUpdateBatchID, int personID, string featureClassName, string geoJson, bool shouldImport) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectLocationStagingUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectLocationStagingUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.PersonID = personID;
             this.FeatureClassName = featureClassName;
@@ -62,6 +65,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationStagingUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectLocationStagingUpdates.Add(this);
@@ -101,9 +105,11 @@ namespace ProjectFirma.Web.Models
         public string GeoJson { get; set; }
         public string SelectedProperty { get; set; }
         public bool ShouldImport { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectLocationStagingUpdateID; } set { ProjectLocationStagingUpdateID = value; } }
 
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

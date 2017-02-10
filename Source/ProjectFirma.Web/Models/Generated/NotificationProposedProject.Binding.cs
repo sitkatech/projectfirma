@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[NotificationProposedProject]")]
-    public partial class NotificationProposedProject : IHavePrimaryKey
+    public partial class NotificationProposedProject : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public NotificationProposedProject(int notificationProposedProjectID, int proposedProjectID, int notificationID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.NotificationProposedProjectID = notificationProposedProjectID;
             this.ProposedProjectID = proposedProjectID;
             this.NotificationID = notificationID;
@@ -42,8 +44,9 @@ namespace ProjectFirma.Web.Models
         public NotificationProposedProject(int proposedProjectID, int notificationID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            NotificationProposedProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.NotificationProposedProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProposedProjectID = proposedProjectID;
             this.NotificationID = notificationID;
         }
@@ -55,6 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.NotificationProposedProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProposedProjectID = proposedProject.ProposedProjectID;
             this.ProposedProject = proposedProject;
             proposedProject.NotificationProposedProjects.Add(this);
@@ -89,10 +93,12 @@ namespace ProjectFirma.Web.Models
         public int NotificationProposedProjectID { get; set; }
         public int ProposedProjectID { get; set; }
         public int NotificationID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return NotificationProposedProjectID; } set { NotificationProposedProjectID = value; } }
 
         public virtual ProposedProject ProposedProject { get; set; }
         public virtual Notification Notification { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

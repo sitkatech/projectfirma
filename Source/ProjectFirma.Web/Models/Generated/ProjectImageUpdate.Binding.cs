@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectImageUpdate]")]
-    public partial class ProjectImageUpdate : IHavePrimaryKey
+    public partial class ProjectImageUpdate : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectImageUpdate(int projectImageUpdateID, int? fileResourceID, int projectUpdateBatchID, int projectImageTimingID, string caption, string credit, bool isKeyPhoto, bool excludeFromFactSheet, int? projectImageID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectImageUpdateID = projectImageUpdateID;
             this.FileResourceID = fileResourceID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
@@ -48,8 +50,9 @@ namespace ProjectFirma.Web.Models
         public ProjectImageUpdate(int projectUpdateBatchID, int projectImageTimingID, string caption, string credit, bool isKeyPhoto, bool excludeFromFactSheet) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectImageUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectImageUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectImageTimingID = projectImageTimingID;
             this.Caption = caption;
@@ -65,6 +68,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectImageUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectImageUpdates.Add(this);
@@ -107,12 +111,14 @@ namespace ProjectFirma.Web.Models
         public bool IsKeyPhoto { get; set; }
         public bool ExcludeFromFactSheet { get; set; }
         public int? ProjectImageID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectImageUpdateID; } set { ProjectImageUpdateID = value; } }
 
         public virtual FileResource FileResource { get; set; }
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public ProjectImageTiming ProjectImageTiming { get { return ProjectImageTiming.AllLookupDictionary[ProjectImageTimingID]; } }
         public virtual ProjectImage ProjectImage { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

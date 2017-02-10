@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[PerformanceMeasureMonitoringProgram]")]
-    public partial class PerformanceMeasureMonitoringProgram : IHavePrimaryKey
+    public partial class PerformanceMeasureMonitoringProgram : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public PerformanceMeasureMonitoringProgram(int performanceMeasureMonitoringProgramID, int performanceMeasureID, int monitoringProgramID) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.PerformanceMeasureMonitoringProgramID = performanceMeasureMonitoringProgramID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.MonitoringProgramID = monitoringProgramID;
@@ -42,8 +44,9 @@ namespace ProjectFirma.Web.Models
         public PerformanceMeasureMonitoringProgram(int performanceMeasureID, int monitoringProgramID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            PerformanceMeasureMonitoringProgramID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PerformanceMeasureMonitoringProgramID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.MonitoringProgramID = monitoringProgramID;
         }
@@ -55,6 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureMonitoringProgramID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
             performanceMeasure.PerformanceMeasureMonitoringPrograms.Add(this);
@@ -89,10 +93,12 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureMonitoringProgramID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int MonitoringProgramID { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return PerformanceMeasureMonitoringProgramID; } set { PerformanceMeasureMonitoringProgramID = value; } }
 
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
         public virtual MonitoringProgram MonitoringProgram { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

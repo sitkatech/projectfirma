@@ -1,5 +1,4 @@
-﻿using System;
-using ProjectFirma.Web.Common;
+﻿using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.UnitTestCommon
@@ -37,7 +36,7 @@ namespace ProjectFirma.Web.UnitTestCommon
                 //testPersonPrimaryContact.Organization = testOrganization;
                 //HttpRequestStorage.DatabaseEntities.People.Add(testPersonPrimaryContact);
 
-                dbContext.Organizations.Add(testOrganization);
+                dbContext.AllOrganizations.Add(testOrganization);
                 return testOrganization;
             }
 

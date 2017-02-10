@@ -35,17 +35,11 @@ namespace ProjectFirma.Web.Controllers
         [TagViewFeature]
         public GridJsonNetJObjectResult<Tag> IndexGridJsonData()
         {
-            IndexGridSpec gridSpec;
-            var tags = GetTagsAndGridSpec(out gridSpec, CurrentPerson);
+            var hasTagDeletePermission = new TagManageFeature().HasPermissionByPerson(CurrentPerson);
+            var gridSpec = new IndexGridSpec(hasTagDeletePermission);
+            var tags = HttpRequestStorage.DatabaseEntities.Tags.OrderBy(x => x.TagName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Tag>(tags, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private static List<Tag> GetTagsAndGridSpec(out IndexGridSpec gridSpec, Person currentPerson)
-        {
-            var hasTagDeletePermission = new TagManageFeature().HasPermissionByPerson(currentPerson);
-            gridSpec = new IndexGridSpec(hasTagDeletePermission);
-            return HttpRequestStorage.DatabaseEntities.Tags.OrderBy(x => x.TagName).ToList();
         }
 
         [HttpGet]
@@ -67,7 +61,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var tag = new Tag(string.Empty);
             viewModel.UpdateModel(tag, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.Tags.Add(tag);
+            HttpRequestStorage.DatabaseEntities.AllTags.Add(tag);
             return new ModalDialogFormJsonResult();
         }
 
@@ -135,8 +129,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteTag(tag, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.ProjectTags.RemoveRange(tag.ProjectTags);
-            HttpRequestStorage.DatabaseEntities.Tags.Remove(tag);
+            HttpRequestStorage.DatabaseEntities.ProjectTags.DeleteProjectTag(tag.ProjectTags);
+            HttpRequestStorage.DatabaseEntities.Tags.DeleteTag(tag);
             return new ModalDialogFormJsonResult();
         }
 
@@ -164,7 +158,7 @@ namespace ProjectFirma.Web.Controllers
             if (existingTag != null)
             {
                 var projectTags = existingTag.ProjectTags.Where(x => viewModel.ProjectIDList.Contains(x.ProjectID)).ToList();
-                HttpRequestStorage.DatabaseEntities.ProjectTags.RemoveRange(projectTags);
+                HttpRequestStorage.DatabaseEntities.ProjectTags.DeleteProjectTag(projectTags);
             }
             return new ModalDialogFormJsonResult();
         }
@@ -221,7 +215,7 @@ namespace ProjectFirma.Web.Controllers
             if (existingTag == null)
             {
                 existingTag = new Tag(viewModel.TagName);
-                HttpRequestStorage.DatabaseEntities.Tags.Add(existingTag);
+                HttpRequestStorage.DatabaseEntities.AllTags.Add(existingTag);
             }
 
             var newProjectTags =
@@ -229,7 +223,7 @@ namespace ProjectFirma.Web.Controllers
                     .ToList();
 
             HttpRequestStorage.DatabaseEntities.ProjectTags.Load();
-            var allProjectTags = HttpRequestStorage.DatabaseEntities.ProjectTags.Local;
+            var allProjectTags = HttpRequestStorage.DatabaseEntities.AllProjectTags.Local;
             existingTag.ProjectTags.MergeNew(newProjectTags, (x, y) => x.ProjectID == y.ProjectID && x.TagID == y.TagID, allProjectTags);
             return existingTag;
         }

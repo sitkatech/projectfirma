@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ClassificationPerformanceMeasure]")]
-    public partial class ClassificationPerformanceMeasure : IHavePrimaryKey
+    public partial class ClassificationPerformanceMeasure : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ClassificationPerformanceMeasure(int classificationPerformanceMeasureID, int classificationID, int performanceMeasureID, bool isPrimaryChart) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ClassificationPerformanceMeasureID = classificationPerformanceMeasureID;
             this.ClassificationID = classificationID;
             this.PerformanceMeasureID = performanceMeasureID;
@@ -43,8 +45,9 @@ namespace ProjectFirma.Web.Models
         public ClassificationPerformanceMeasure(int classificationID, int performanceMeasureID, bool isPrimaryChart) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ClassificationPerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ClassificationPerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ClassificationID = classificationID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.IsPrimaryChart = isPrimaryChart;
@@ -57,6 +60,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ClassificationPerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ClassificationID = classification.ClassificationID;
             this.Classification = classification;
             classification.ClassificationPerformanceMeasures.Add(this);
@@ -93,10 +97,12 @@ namespace ProjectFirma.Web.Models
         public int ClassificationID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public bool IsPrimaryChart { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ClassificationPerformanceMeasureID; } set { ClassificationPerformanceMeasureID = value; } }
 
         public virtual Classification Classification { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

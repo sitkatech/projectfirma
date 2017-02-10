@@ -112,15 +112,7 @@ namespace ProjectFirma.Web.Models
 
         public void SetKeystoneUserClaims(IKeystoneUserClaims keystoneUserClaims)
         {
-            var organization = HttpRequestStorage.DatabaseEntities.Organizations.Where(x => x.OrganizationGuid.HasValue).SingleOrDefault(x => x.OrganizationGuid == keystoneUserClaims.OrganizationGuid);
-            if (organization != null)
-            {
-                Organization = organization;
-            }
-            else
-            {
-                Organization = null;
-            }
+            Organization = HttpRequestStorage.DatabaseEntities.Organizations.Where(x => x.OrganizationGuid.HasValue).SingleOrDefault(x => x.OrganizationGuid == keystoneUserClaims.OrganizationGuid);
             Phone = keystoneUserClaims.PrimaryPhone.ToPhoneNumberString();
             Email = keystoneUserClaims.Email;
         }

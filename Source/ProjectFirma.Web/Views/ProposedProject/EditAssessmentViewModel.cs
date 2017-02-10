@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using ApprovalUtilities.Utilities;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common.Models;
@@ -30,7 +27,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public void UpdateModel(Models.ProposedProject proposedProject)
         {
 
-            HttpRequestStorage.DatabaseEntities.ProposedProjectAssessmentQuestions.RemoveRange(proposedProject.ProposedProjectAssessmentQuestions);
+            HttpRequestStorage.DatabaseEntities.ProposedProjectAssessmentQuestions.DeleteProposedProjectAssessmentQuestion(proposedProject.ProposedProjectAssessmentQuestions);
 
             foreach (var simple in ProposedProjectAssessmentQuestionSimples)
             {

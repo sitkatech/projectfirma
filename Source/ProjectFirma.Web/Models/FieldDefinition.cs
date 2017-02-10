@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                var fieldDefinitionData = HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.GetFieldDefinitionDataByFieldDefinition(this); ;
+                var fieldDefinitionData = HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.GetFieldDefinitionDataByFieldDefinition(this);
                 return fieldDefinitionData != null ? fieldDefinitionData.FieldDefinitionDataValueHtmlString : new HtmlString(string.Empty);
             }
         }

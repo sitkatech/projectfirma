@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Validation;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Web;
 using LtInfo.Common;
 using ProjectFirma.Web.Models;
 using Keystone.Common;
+using LtInfo.Common.DesignByContract;
 using Person = ProjectFirma.Web.Models.Person;
 
 namespace ProjectFirma.Web.Common
@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Common
     {
         static HttpRequestStorage()
         {
-            LtInfoEntityTypeLoaderFactoryFunction = (() => MakeNewContext(false));
+            LtInfoEntityTypeLoaderFactoryFunction = () => MakeNewContext(false);
         }
 
         protected override List<string> BackingStoreKeys
@@ -25,7 +25,23 @@ namespace ProjectFirma.Web.Common
         public static Person Person
         {
             get { return GetValueOrDefault(PersonKey, () => KeystoneClaimsHelpers.GetUserFromPrincipal(Thread.CurrentPrincipal, Person.GetAnonymousSitkaUser(), DatabaseEntities.People.GetPersonByPersonGuid)); }
-            set { BackingStore[PersonKey] = value; }
+            set { SetValue(PersonKey, value); }
+        }
+
+        public static Tenant Tenant
+        {
+            get
+            {
+                return GetValueOrDefault(TenantKey,
+                    () =>
+                    {
+                        var urlHost = HttpContext.Current.Request.Url.Host;
+                        var tenant = DatabaseEntities.AllTenants.SingleOrDefault(x => urlHost.Contains(x.TenantDomain));
+                        Check.RequireNotNull(tenant, string.Format("Could not determine tenant from host {0}", urlHost));
+                        return tenant;
+                    });
+            }
+            set { SetValue(TenantKey, value); }
         }
 
 
@@ -60,23 +76,6 @@ namespace ProjectFirma.Web.Common
                 BackingStore[DatabaseContextKey] = null;
             }
             BackingStore.Remove(DatabaseContextKey);
-        }
-
-        public static void DetectChangesAndSave()
-        {
-            DatabaseEntities.ChangeTracker.DetectChanges();
-            try
-            {
-                DatabaseEntities.SaveChanges();
-            }
-            catch (DbEntityValidationException e)
-            {
-                var errors =
-                    e.EntityValidationErrors.SelectMany(
-                        x => x.ValidationErrors.Select(ve => String.Format("ObjectProperty: {0}.{1}, Error: {2}", x.Entry.Entity.GetType().Name, ve.PropertyName, ve.ErrorMessage)));
-                var message = String.Join("\r\n", errors);
-                throw new ApplicationException(message, e);
-            }
         }
     }
 }

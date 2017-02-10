@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
@@ -24,20 +23,13 @@ namespace ProjectFirma.Web.Controllers
         [FirmaPageViewListFeature]
         public GridJsonNetJObjectResult<FirmaPage> IndexGridJsonData()
         {
-            FirmaPageGridSpec gridSpec;
-            var firmaPages = GetFirmaPagesAndGridSpec(out gridSpec, CurrentPerson);
+            var gridSpec = new FirmaPageGridSpec(new FirmaPageViewListFeature().HasPermissionByPerson(CurrentPerson));
+            var firmaPages = HttpRequestStorage.DatabaseEntities.FirmaPages.ToList()
+                .Where(x => new FirmaPageManageFeature().HasPermission(CurrentPerson, x).HasPermission)
+                .OrderBy(x => x.FirmaPageType.FirmaPageTypeDisplayName)
+                .ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<FirmaPage>(firmaPages, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private static List<FirmaPage> GetFirmaPagesAndGridSpec(out FirmaPageGridSpec gridSpec, Person currentPerson)
-        {
-            gridSpec = new FirmaPageGridSpec(new FirmaPageViewListFeature().HasPermissionByPerson(currentPerson));
-            return
-                HttpRequestStorage.DatabaseEntities.FirmaPages.ToList()
-                    .Where(x => new FirmaPageManageFeature().HasPermission(currentPerson, x).HasPermission)
-                    .OrderBy(x => x.FirmaPageType.FirmaPageTypeDisplayName)
-                    .ToList();
         }
 
         [HttpGet]

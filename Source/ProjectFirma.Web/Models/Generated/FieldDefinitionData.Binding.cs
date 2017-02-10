@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[FieldDefinitionData]")]
-    public partial class FieldDefinitionData : IHavePrimaryKey
+    public partial class FieldDefinitionData : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public FieldDefinitionData(int fieldDefinitionDataID, int fieldDefinitionID, string fieldDefinitionDataValue) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.FieldDefinitionDataID = fieldDefinitionDataID;
             this.FieldDefinitionID = fieldDefinitionID;
             this.FieldDefinitionDataValue = fieldDefinitionDataValue;
@@ -42,8 +44,9 @@ namespace ProjectFirma.Web.Models
         public FieldDefinitionData(int fieldDefinitionID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            FieldDefinitionDataID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.FieldDefinitionDataID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FieldDefinitionID = fieldDefinitionID;
         }
 
@@ -54,6 +57,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.FieldDefinitionDataID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.FieldDefinitionID = fieldDefinition.FieldDefinitionID;
         }
 
@@ -89,9 +93,11 @@ namespace ProjectFirma.Web.Models
             get { return FieldDefinitionDataValue == null ? null : new HtmlString(FieldDefinitionDataValue); }
             set { FieldDefinitionDataValue = value == null ? null : value.ToString(); }
         }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return FieldDefinitionDataID; } set { FieldDefinitionDataID = value; } }
 
         public FieldDefinition FieldDefinition { get { return FieldDefinition.AllLookupDictionary[FieldDefinitionID]; } }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

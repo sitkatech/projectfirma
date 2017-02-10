@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[Notification]")]
-    public partial class Notification : IHavePrimaryKey
+    public partial class Notification : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -32,6 +32,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public Notification(int notificationID, int notificationTypeID, int personID, DateTime notificationDate) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.NotificationID = notificationID;
             this.NotificationTypeID = notificationTypeID;
             this.PersonID = personID;
@@ -44,8 +46,9 @@ namespace ProjectFirma.Web.Models
         public Notification(int notificationTypeID, int personID, DateTime notificationDate) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            NotificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.NotificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.NotificationTypeID = notificationTypeID;
             this.PersonID = personID;
             this.NotificationDate = notificationDate;
@@ -58,6 +61,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.NotificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.NotificationTypeID = notificationType.NotificationTypeID;
             this.PersonID = person.PersonID;
             this.Person = person;
@@ -92,12 +96,14 @@ namespace ProjectFirma.Web.Models
         public int NotificationTypeID { get; set; }
         public int PersonID { get; set; }
         public DateTime NotificationDate { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return NotificationID; } set { NotificationID = value; } }
 
         public virtual ICollection<NotificationProject> NotificationProjects { get; set; }
         public virtual ICollection<NotificationProposedProject> NotificationProposedProjects { get; set; }
         public NotificationType NotificationType { get { return NotificationType.AllLookupDictionary[NotificationTypeID]; } }
         public virtual Person Person { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

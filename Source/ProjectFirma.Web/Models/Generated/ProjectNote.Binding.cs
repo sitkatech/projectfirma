@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectNote]")]
-    public partial class ProjectNote : IHavePrimaryKey
+    public partial class ProjectNote : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectNote(int projectNoteID, int projectID, string note, int? createPersonID, DateTime createDate, int? updatePersonID, DateTime? updateDate) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectNoteID = projectNoteID;
             this.ProjectID = projectID;
             this.Note = note;
@@ -46,8 +48,9 @@ namespace ProjectFirma.Web.Models
         public ProjectNote(int projectID, string note, DateTime createDate) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectNoteID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectNoteID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.Note = note;
             this.CreateDate = createDate;
@@ -60,6 +63,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectNoteID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectNotes.Add(this);
@@ -97,11 +101,13 @@ namespace ProjectFirma.Web.Models
         public DateTime CreateDate { get; set; }
         public int? UpdatePersonID { get; set; }
         public DateTime? UpdateDate { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectNoteID; } set { ProjectNoteID = value; } }
 
         public virtual Project Project { get; set; }
         public virtual Person CreatePerson { get; set; }
         public virtual Person UpdatePerson { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

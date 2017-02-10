@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Web.Mvc;
@@ -13,8 +12,6 @@ namespace ProjectFirma.Web.Controllers
     [ValidateInput(false)]
     public abstract class FirmaBaseController : SitkaController
     {
-        private static readonly List<int> PersonIDsToIgnore = new List<int> { 1170, 1171 };
-
         public static ControllerContext ControllerContextStatic = null;
 
         protected ILog Logger = LogManager.GetLogger(typeof(FirmaBaseController));
@@ -23,12 +20,9 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!IsCurrentUserAnonymous())
             {
-                if (!PersonIDsToIgnore.Contains(CurrentPerson.PersonID)) // TODO: temporary hack to ignore the temps usings the same logins
-                {
-                    CurrentPerson.LastActivityDate = DateTime.Now;
-                    SitkaDbContext.GetDbContext().ChangeTracker.DetectChanges();
-                    SitkaDbContext.GetDbContext().SaveChanges();
-                }
+                CurrentPerson.LastActivityDate = DateTime.Now;
+                HttpRequestStorage.DatabaseEntities.ChangeTracker.DetectChanges();
+                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing();
             }
             base.OnAuthorization(filterContext);
         }
@@ -67,6 +61,11 @@ namespace ProjectFirma.Web.Controllers
         protected Person CurrentPerson
         {
             get { return HttpRequestStorage.Person; }
+        }
+
+        protected Tenant CurrentTenant
+        {
+            get { return HttpRequestStorage.Tenant; }
         }
     }
 }

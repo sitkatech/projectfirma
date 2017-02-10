@@ -11,6 +11,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security.Shared;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
+using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
@@ -30,7 +31,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var layerGeoJsons = MapInitJson.GetWatershedAndJurisdictionMapLayers();
             var mapInitJson = new MapInitJson(string.Format("project_{0}_EditMap", project.ProjectID), 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false};
-            var projectLocationAreas = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.ToSelectList();
+            var projectLocationAreas = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.ToSelectList(x => x.ProjectLocationAreaID.ToString(), x => x.ProjectLocationAreaDisplayName);
             var mapPostUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(x => x.EditProjectLocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
             var viewData = new EditProjectLocationSimpleViewData(CurrentPerson, mapInitJson, projectLocationAreas, mapPostUrl, mapFormID);
@@ -132,7 +133,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 var gdbFile = disposableTempFile.FileInfo;
                 httpPostedFileBase.SaveAs(gdbFile.FullName);
-                HttpRequestStorage.DatabaseEntities.ProjectLocationStagings.RemoveRange(project.ProjectLocationStagings.ToList());
+                HttpRequestStorage.DatabaseEntities.ProjectLocationStagings.DeleteProjectLocationStaging(project.ProjectLocationStagings.ToList());
                 project.ProjectLocationStagings.Clear();
                 ProjectLocationStaging.CreateProjectLocationStagingListFromGdb(gdbFile, project, CurrentPerson);
             }
@@ -188,7 +189,7 @@ namespace ProjectFirma.Web.Controllers
         private static void SaveProjectDetailedLocations(ProjectLocationDetailViewModel viewModel, Project project)
         {
             var projectLocations = project.ProjectLocations.ToList();
-            HttpRequestStorage.DatabaseEntities.ProjectLocations.RemoveRange(projectLocations);
+            HttpRequestStorage.DatabaseEntities.ProjectLocations.DeleteProjectLocation(projectLocations);
             project.ProjectLocations.Clear();
             if (viewModel.WktAndAnnotations != null)
             {

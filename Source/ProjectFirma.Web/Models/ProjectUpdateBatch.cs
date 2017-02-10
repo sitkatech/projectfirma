@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Models
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, currentPerson);
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID))
             {
-                HttpRequestStorage.DetectChangesAndSave();
+                HttpRequestStorage.DatabaseEntities.SaveChanges();
             }
             return projectUpdateBatch;
         }
@@ -574,7 +574,7 @@ namespace ProjectFirma.Web.Models
         private static void CreateNewTransitionRecord(ProjectUpdateBatch projectUpdateBatch, ProjectUpdateState projectUpdateState, Person currentPerson, DateTime transitionDate)
         {
             var projectUpdateHistory = new ProjectUpdateHistory(projectUpdateBatch, projectUpdateState, currentPerson, transitionDate);
-            HttpRequestStorage.DatabaseEntities.ProjectUpdateHistories.Add(projectUpdateHistory);
+            HttpRequestStorage.DatabaseEntities.AllProjectUpdateHistories.Add(projectUpdateHistory);
             projectUpdateBatch.ProjectUpdateStateID = projectUpdateState.ProjectUpdateStateID;
             projectUpdateBatch.TickleLastUpdateDate(transitionDate, currentPerson);
         }

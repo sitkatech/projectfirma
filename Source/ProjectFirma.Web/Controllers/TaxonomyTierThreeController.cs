@@ -44,17 +44,11 @@ namespace ProjectFirma.Web.Controllers
         [TaxonomyTierThreeViewFeature]
         public GridJsonNetJObjectResult<TaxonomyTierThree> IndexGridJsonData()
         {
-            IndexGridSpec gridSpec;
-            var taxonomyTierThrees = GetTaxonomyTierThreesAndGridSpec(out gridSpec, CurrentPerson);
+            var hasDeletePermission = new TaxonomyTierThreeManageFeature().HasPermissionByPerson(CurrentPerson);
+            var gridSpec = new IndexGridSpec(hasDeletePermission);
+            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList().OrderBy(x => x.TaxonomyTierThreeName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyTierThree>(taxonomyTierThrees, gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private static List<TaxonomyTierThree> GetTaxonomyTierThreesAndGridSpec(out IndexGridSpec gridSpec, Person currentPerson)
-        {
-            var hasDeletePermission = new TaxonomyTierThreeManageFeature().HasPermissionByPerson(currentPerson);
-            gridSpec = new IndexGridSpec(hasDeletePermission);
-            return HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList().OrderBy(x => x.TaxonomyTierThreeName).ToList();
         }
 
         [TaxonomyTierThreeViewFeature]
@@ -70,7 +64,7 @@ namespace ProjectFirma.Web.Controllers
             var namedAreasAsPointsLayerGeoJson = new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, namedAreasAsPointsLayerGeoJson, projectMapCustomization, "TaxonomyTierThreeProjectMap");
 
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName);
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList());
 
             var viewData = new DetailViewData(CurrentPerson, taxonomyTierThree, projectLocationsMapInitJson, projectLocationsMapViewData);
             return RazorView<Detail, DetailViewData>(viewData);
@@ -95,7 +89,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var taxonomyTierThree = new TaxonomyTierThree(string.Empty);
             viewModel.UpdateModel(taxonomyTierThree, CurrentPerson);
-            HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.Add(taxonomyTierThree);
+            HttpRequestStorage.DatabaseEntities.AllTaxonomyTierThrees.Add(taxonomyTierThree);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay(string.Format("New {0} {1} successfully created!", MultiTenantHelpers.GetTaxonomyTierOneDisplayName(), taxonomyTierThree.GetDisplayNameAsUrl()));
@@ -143,7 +137,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteTaxonomyTierThree(TaxonomyTierThree taxonomyTierThree, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !taxonomyTierThree.HasDependentObjects() && HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.Count() > 1; ;
+            var canDelete = !taxonomyTierThree.HasDependentObjects() && HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.Count() > 1;
             var confirmMessage = canDelete
                 ? string.Format("Are you sure you want to delete this {0} '{1}'?", MultiTenantHelpers.GetTaxonomyTierThreeDisplayName(), taxonomyTierThree.DisplayName)
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(MultiTenantHelpers.GetTaxonomyTierThreeDisplayName(), SitkaRoute<TaxonomyTierThreeController>.BuildLinkFromExpression(x => x.Detail(taxonomyTierThree), "here"));
@@ -162,7 +156,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteTaxonomyTierThree(taxonomyTierThree, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.Remove(taxonomyTierThree);
+            HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.DeleteTaxonomyTierThree(taxonomyTierThree);
             return new ModalDialogFormJsonResult();
         }
 

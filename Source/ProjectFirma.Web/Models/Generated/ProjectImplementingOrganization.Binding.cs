@@ -16,7 +16,7 @@ using ProjectFirma.Web.Common;
 namespace ProjectFirma.Web.Models
 {
     [Table("[dbo].[ProjectImplementingOrganization]")]
-    public partial class ProjectImplementingOrganization : IHavePrimaryKey
+    public partial class ProjectImplementingOrganization : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectImplementingOrganization(int projectImplementingOrganizationID, int projectID, int organizationID, bool isLeadOrganization) : this()
         {
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
+            
             this.ProjectImplementingOrganizationID = projectImplementingOrganizationID;
             this.ProjectID = projectID;
             this.OrganizationID = organizationID;
@@ -43,8 +45,9 @@ namespace ProjectFirma.Web.Models
         public ProjectImplementingOrganization(int projectID, int organizationID, bool isLeadOrganization) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            ProjectImplementingOrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectImplementingOrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.OrganizationID = organizationID;
             this.IsLeadOrganization = isLeadOrganization;
@@ -57,6 +60,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectImplementingOrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.Tenant = HttpRequestStorage.Tenant;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectImplementingOrganizations.Add(this);
@@ -93,10 +97,12 @@ namespace ProjectFirma.Web.Models
         public int ProjectID { get; set; }
         public int OrganizationID { get; set; }
         public bool IsLeadOrganization { get; set; }
+        public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectImplementingOrganizationID; } set { ProjectImplementingOrganizationID = value; } }
 
         public virtual Project Project { get; set; }
         public virtual Organization Organization { get; set; }
+        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {
