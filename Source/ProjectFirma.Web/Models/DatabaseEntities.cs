@@ -8,6 +8,7 @@ using System.Text;
 using System.Transactions;
 using ProjectFirma.Web.Common;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Models
@@ -43,25 +44,27 @@ namespace ProjectFirma.Web.Models
         {
             ChangeTracker.DetectChanges();
 
-            var addedEntries = ChangeTracker.Entries().Where(e => e.State == EntityState.Added).ToList();
-            var modifiedEntries = ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted || e.State == EntityState.Modified).ToList();
+            var dbEntityEntries = ChangeTracker.Entries().ToList();
+            var addedEntries = dbEntityEntries.Where(e => e.State == EntityState.Added).ToList();
+            var modifiedEntries = dbEntityEntries.Where(e => e.State == EntityState.Deleted || e.State == EntityState.Modified).ToList();
             var objectContext = GetObjectContext();
 
             var tenantID = tenant.TenantID;
-            addedEntries.ForEach(entry =>
-            {
-                var haveATenantID = entry.Entity as IHaveATenantID;
-                if (haveATenantID != null)
+            Check.Require(dbEntityEntries.Where(entry =>
                 {
-                    haveATenantID.TenantID = tenantID;
-                }
-            });
+                    var haveATenantID = entry.Entity as IHaveATenantID;
+                    return haveATenantID != null;
+                }).All(x =>
+                {
+                    var haveATenantID = x.Entity as IHaveATenantID;
+                    return haveATenantID != null && haveATenantID.TenantID == tenantID;
+                }), "Editing an entity that is not the same tenant");
+                
 
             foreach (var entry in modifiedEntries)
             {
                 // For each changed record, get the audit record entries and add them
                 var auditRecordsForChange = AuditLog.GetAuditLogRecordsForModifiedOrDeleted(entry, person, objectContext);
-                auditRecordsForChange.ForEach(x => x.TenantID = tenantID);
                 AllAuditLogs.AddRange(auditRecordsForChange);
             }
 
@@ -94,7 +97,6 @@ namespace ProjectFirma.Web.Models
             {
                 // For each added record, get the audit record entries and add them
                 var auditRecordsForChange = AuditLog.GetAuditLogRecordsForAdded(entry, person, objectContext);
-                auditRecordsForChange.ForEach(x => x.TenantID = tenantID);
                 AllAuditLogs.AddRange(auditRecordsForChange);
             }
             // we need to save the audit log entries now
