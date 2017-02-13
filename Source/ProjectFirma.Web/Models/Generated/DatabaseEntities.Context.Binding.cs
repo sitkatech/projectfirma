@@ -183,8 +183,7 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<Snapshot> Snapshots { get { return AllSnapshots.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<SnapshotSectorExpenditure> AllSnapshotSectorExpenditures { get; set; }
         public virtual IQueryable<SnapshotSectorExpenditure> SnapshotSectorExpenditures { get { return AllSnapshotSectorExpenditures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
-        public virtual IQueryable<StateProvince> StateProvinces { get { return AllStateProvinces.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<StateProvince> StateProvinces { get; set; }
         public virtual DbSet<SupportRequestLog> AllSupportRequestLogs { get; set; }
         public virtual IQueryable<SupportRequestLog> SupportRequestLogs { get { return AllSupportRequestLogs.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Tag> AllTags { get; set; }

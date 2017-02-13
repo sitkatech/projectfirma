@@ -95,16 +95,16 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SnapshotSectorExpenditureID { get; set; }
+        public int TenantID { get; set; }
         public int SnapshotID { get; set; }
         public int SectorID { get; set; }
         public int CalendarYear { get; set; }
         public decimal ExpenditureAmount { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return SnapshotSectorExpenditureID; } set { SnapshotSectorExpenditureID = value; } }
 
+        public virtual Tenant Tenant { get; set; }
         public virtual Snapshot Snapshot { get; set; }
         public Sector Sector { get { return Sector.AllLookupDictionary[SectorID]; } }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

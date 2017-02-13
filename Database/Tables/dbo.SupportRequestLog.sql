@@ -4,6 +4,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[SupportRequestLog](
 	[SupportRequestLogID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[RequestDate] [datetime] NOT NULL,
 	[RequestPersonName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[RequestPersonEmail] [varchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -12,7 +13,6 @@ CREATE TABLE [dbo].[SupportRequestLog](
 	[RequestDescription] [varchar](2000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[RequestPersonOrganization] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[RequestPersonPhone] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_SupportRequestLog_SupportRequestLogID] PRIMARY KEY CLUSTERED 
 (
 	[SupportRequestLogID] ASC
@@ -24,6 +24,11 @@ ALTER TABLE [dbo].[SupportRequestLog]  WITH CHECK ADD  CONSTRAINT [FK_SupportReq
 REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[SupportRequestLog] CHECK CONSTRAINT [FK_SupportRequestLog_Person_RequestPersonID_PersonID]
+GO
+ALTER TABLE [dbo].[SupportRequestLog]  WITH CHECK ADD  CONSTRAINT [FK_SupportRequestLog_Person_RequestPersonID_TenantID_PersonID_TenantID] FOREIGN KEY([RequestPersonID], [TenantID])
+REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+ALTER TABLE [dbo].[SupportRequestLog] CHECK CONSTRAINT [FK_SupportRequestLog_Person_RequestPersonID_TenantID_PersonID_TenantID]
 GO
 ALTER TABLE [dbo].[SupportRequestLog]  WITH CHECK ADD  CONSTRAINT [FK_SupportRequestLog_SupportRequestType_SupportRequestTypeID] FOREIGN KEY([SupportRequestTypeID])
 REFERENCES [dbo].[SupportRequestType] ([SupportRequestTypeID])

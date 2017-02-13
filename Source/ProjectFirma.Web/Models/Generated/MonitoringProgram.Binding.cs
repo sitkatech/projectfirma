@@ -78,10 +78,10 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int MonitoringProgramID { get; set; }
+        public int TenantID { get; set; }
         public string MonitoringProgramName { get; set; }
         public string MonitoringApproach { get; set; }
         public string MonitoringProgramUrl { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return MonitoringProgramID; } set { MonitoringProgramID = value; } }
 
         public virtual ICollection<MonitoringProgramDocument> MonitoringProgramDocuments { get; set; }

@@ -101,18 +101,18 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SnapshotPerformanceMeasureSubcategoryOptionID { get; set; }
+        public int TenantID { get; set; }
         public int SnapshotPerformanceMeasureID { get; set; }
         public int PerformanceMeasureSubcategoryOptionID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int PerformanceMeasureSubcategoryID { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return SnapshotPerformanceMeasureSubcategoryOptionID; } set { SnapshotPerformanceMeasureSubcategoryOptionID = value; } }
 
+        public virtual Tenant Tenant { get; set; }
         public virtual SnapshotPerformanceMeasure SnapshotPerformanceMeasure { get; set; }
         public virtual PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
         public virtual PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

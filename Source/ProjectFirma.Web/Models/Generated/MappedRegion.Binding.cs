@@ -78,10 +78,10 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int MappedRegionID { get; set; }
+        public int TenantID { get; set; }
         public string RegionName { get; set; }
         public string RegionDisplayName { get; set; }
         public DbGeometry RegionFeature { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return MappedRegionID; } set { MappedRegionID = value; } }
 
         public virtual ICollection<ProjectLocationArea> ProjectLocationAreas { get; set; }

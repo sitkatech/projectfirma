@@ -91,14 +91,14 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int NotificationProjectID { get; set; }
+        public int TenantID { get; set; }
         public int NotificationID { get; set; }
         public int ProjectID { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return NotificationProjectID; } set { NotificationProjectID = value; } }
 
+        public virtual Tenant Tenant { get; set; }
         public virtual Notification Notification { get; set; }
         public virtual Project Project { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

@@ -79,10 +79,10 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SnapshotID { get; set; }
+        public int TenantID { get; set; }
         public DateTime SnapshotDate { get; set; }
         public string SnapshotNote { get; set; }
         public int ProjectCount { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return SnapshotID; } set { SnapshotID = value; } }
 
         public virtual ICollection<SnapshotPerformanceMeasure> SnapshotPerformanceMeasures { get; set; }

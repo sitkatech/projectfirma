@@ -4,11 +4,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[SnapshotSectorExpenditure](
 	[SnapshotSectorExpenditureID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[SnapshotID] [int] NOT NULL,
 	[SectorID] [int] NOT NULL,
 	[CalendarYear] [int] NOT NULL,
 	[ExpenditureAmount] [money] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_SnapshotSectorExpenditure_SnapshotSectorExpenditureID] PRIMARY KEY CLUSTERED 
 (
 	[SnapshotSectorExpenditureID] ASC
@@ -31,6 +31,11 @@ ALTER TABLE [dbo].[SnapshotSectorExpenditure]  WITH CHECK ADD  CONSTRAINT [FK_Sn
 REFERENCES [dbo].[Snapshot] ([SnapshotID])
 GO
 ALTER TABLE [dbo].[SnapshotSectorExpenditure] CHECK CONSTRAINT [FK_SnapshotSectorExpenditure_Snapshot_SnapshotID]
+GO
+ALTER TABLE [dbo].[SnapshotSectorExpenditure]  WITH CHECK ADD  CONSTRAINT [FK_SnapshotSectorExpenditure_Snapshot_SnapshotID_TenantID] FOREIGN KEY([SnapshotID], [TenantID])
+REFERENCES [dbo].[Snapshot] ([SnapshotID], [TenantID])
+GO
+ALTER TABLE [dbo].[SnapshotSectorExpenditure] CHECK CONSTRAINT [FK_SnapshotSectorExpenditure_Snapshot_SnapshotID_TenantID]
 GO
 ALTER TABLE [dbo].[SnapshotSectorExpenditure]  WITH CHECK ADD  CONSTRAINT [FK_SnapshotSectorExpenditure_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

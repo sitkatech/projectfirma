@@ -4,10 +4,10 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[MappedRegion](
 	[MappedRegionID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[RegionName] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[RegionDisplayName] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[RegionFeature] [geometry] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_MappedRegion_MappedRegionID] PRIMARY KEY CLUSTERED 
 (
 	[MappedRegionID] ASC

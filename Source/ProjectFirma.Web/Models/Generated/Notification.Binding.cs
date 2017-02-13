@@ -93,17 +93,17 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int NotificationID { get; set; }
+        public int TenantID { get; set; }
         public int NotificationTypeID { get; set; }
         public int PersonID { get; set; }
         public DateTime NotificationDate { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return NotificationID; } set { NotificationID = value; } }
 
         public virtual ICollection<NotificationProject> NotificationProjects { get; set; }
         public virtual ICollection<NotificationProposedProject> NotificationProposedProjects { get; set; }
+        public virtual Tenant Tenant { get; set; }
         public NotificationType NotificationType { get { return NotificationType.AllLookupDictionary[NotificationTypeID]; } }
         public virtual Person Person { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

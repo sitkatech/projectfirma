@@ -97,17 +97,17 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SnapshotPerformanceMeasureID { get; set; }
+        public int TenantID { get; set; }
         public int SnapshotID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int CalendarYear { get; set; }
         public double ActualValue { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return SnapshotPerformanceMeasureID; } set { SnapshotPerformanceMeasureID = value; } }
 
         public virtual ICollection<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get; set; }
+        public virtual Tenant Tenant { get; set; }
         public virtual Snapshot Snapshot { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

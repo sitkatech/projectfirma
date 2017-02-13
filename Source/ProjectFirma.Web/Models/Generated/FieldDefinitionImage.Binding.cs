@@ -89,14 +89,14 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int FieldDefinitionImageID { get; set; }
+        public int TenantID { get; set; }
         public int FieldDefinitionID { get; set; }
         public int FileResourceID { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return FieldDefinitionImageID; } set { FieldDefinitionImageID = value; } }
 
+        public virtual Tenant Tenant { get; set; }
         public FieldDefinition FieldDefinition { get { return FieldDefinition.AllLookupDictionary[FieldDefinitionID]; } }
         public virtual FileResource FileResource { get; set; }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

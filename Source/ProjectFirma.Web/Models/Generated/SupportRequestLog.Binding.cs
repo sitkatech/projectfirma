@@ -99,6 +99,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SupportRequestLogID { get; set; }
+        public int TenantID { get; set; }
         public DateTime RequestDate { get; set; }
         public string RequestPersonName { get; set; }
         public string RequestPersonEmail { get; set; }
@@ -107,12 +108,11 @@ namespace ProjectFirma.Web.Models
         public string RequestDescription { get; set; }
         public string RequestPersonOrganization { get; set; }
         public string RequestPersonPhone { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return SupportRequestLogID; } set { SupportRequestLogID = value; } }
 
+        public virtual Tenant Tenant { get; set; }
         public virtual Person RequestPerson { get; set; }
         public SupportRequestType SupportRequestType { get { return SupportRequestType.AllLookupDictionary[SupportRequestTypeID]; } }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {

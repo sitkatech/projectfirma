@@ -4,11 +4,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[CostParameterSet](
 	[CostParameterSetID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[InflationRate] [decimal](9, 6) NOT NULL,
 	[CurrentYearForPVCalculations] [int] NOT NULL,
 	[Comment] [varchar](2000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[CreateDate] [datetime] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_CostParameterSet_CostParameterSetID] PRIMARY KEY CLUSTERED 
 (
 	[CostParameterSetID] ASC

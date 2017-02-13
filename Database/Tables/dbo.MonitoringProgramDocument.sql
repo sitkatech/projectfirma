@@ -4,11 +4,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[MonitoringProgramDocument](
 	[MonitoringProgramDocumentID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[FileResourceID] [int] NOT NULL,
 	[MonitoringProgramID] [int] NOT NULL,
 	[DisplayName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[UploadDate] [date] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_MonitoringProgramDocument_MonitoringProgramDocumentID] PRIMARY KEY CLUSTERED 
 (
 	[MonitoringProgramDocumentID] ASC
@@ -26,10 +26,20 @@ REFERENCES [dbo].[FileResource] ([FileResourceID])
 GO
 ALTER TABLE [dbo].[MonitoringProgramDocument] CHECK CONSTRAINT [FK_MonitoringProgramDocument_FileResource_FileResourceID]
 GO
+ALTER TABLE [dbo].[MonitoringProgramDocument]  WITH CHECK ADD  CONSTRAINT [FK_MonitoringProgramDocument_FileResource_FileResourceID_TenantID] FOREIGN KEY([FileResourceID], [TenantID])
+REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+GO
+ALTER TABLE [dbo].[MonitoringProgramDocument] CHECK CONSTRAINT [FK_MonitoringProgramDocument_FileResource_FileResourceID_TenantID]
+GO
 ALTER TABLE [dbo].[MonitoringProgramDocument]  WITH CHECK ADD  CONSTRAINT [FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID] FOREIGN KEY([MonitoringProgramID])
 REFERENCES [dbo].[MonitoringProgram] ([MonitoringProgramID])
 GO
 ALTER TABLE [dbo].[MonitoringProgramDocument] CHECK CONSTRAINT [FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID]
+GO
+ALTER TABLE [dbo].[MonitoringProgramDocument]  WITH CHECK ADD  CONSTRAINT [FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID_TenantID] FOREIGN KEY([MonitoringProgramID], [TenantID])
+REFERENCES [dbo].[MonitoringProgram] ([MonitoringProgramID], [TenantID])
+GO
+ALTER TABLE [dbo].[MonitoringProgramDocument] CHECK CONSTRAINT [FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID_TenantID]
 GO
 ALTER TABLE [dbo].[MonitoringProgramDocument]  WITH CHECK ADD  CONSTRAINT [FK_MonitoringProgramDocument_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

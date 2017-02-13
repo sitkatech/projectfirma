@@ -79,11 +79,11 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int CostParameterSetID { get; set; }
+        public int TenantID { get; set; }
         public decimal InflationRate { get; set; }
         public int CurrentYearForPVCalculations { get; set; }
         public string Comment { get; set; }
         public DateTime CreateDate { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return CostParameterSetID; } set { CostParameterSetID = value; } }
 
         public virtual Tenant Tenant { get; set; }

@@ -963,10 +963,6 @@
       <End Role="Tenant" EntitySet="Tenant" />
       <End Role="SnapshotSectorExpenditures" EntitySet="SnapshotSectorExpenditure" />
     </AssociationSet>
-    <AssociationSet Name="FK_StateProvince_Tenant_TenantID" Association="ProjectFirma.Web.Models.FK_StateProvince_Tenant_TenantID">
-      <End Role="Tenant" EntitySet="Tenant" />
-      <End Role="StateProvinces" EntitySet="StateProvince" />
-    </AssociationSet>
     <AssociationSet Name="FK_SupportRequestLog_Tenant_TenantID" Association="ProjectFirma.Web.Models.FK_SupportRequestLog_Tenant_TenantID">
       <End Role="Tenant" EntitySet="Tenant" />
       <End Role="SupportRequestLogs" EntitySet="SupportRequestLog" />
@@ -1037,10 +1033,10 @@
       <PropertyRef Name="AssessmentGoalID" />
     </Key>
     <Property Name="AssessmentGoalID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="AssessmentGoalNumber" Type="Int32" Nullable="false" />
     <Property Name="AssessmentGoalTitle" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="AssessmentGoalDescription" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_AssessmentGoal_Tenant_TenantID" FromRole="AssessmentGoals" ToRole="Tenant" />
     <NavigationProperty Name="AssessmentSubGoals" Relationship="ProjectFirma.Web.Models.FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID" FromRole="AssessmentGoal" ToRole="AssessmentSubGoals" />
   </EntityType>
@@ -1049,10 +1045,10 @@
       <PropertyRef Name="AssessmentQuestionID" />
     </Key>
     <Property Name="AssessmentQuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="AssessmentSubGoalID" Type="Int32" Nullable="false" />
     <Property Name="AssessmentQuestionText" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
     <Property Name="ArchiveDate" Type="DateTime" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="AssessmentSubGoal" Relationship="ProjectFirma.Web.Models.FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID" FromRole="AssessmentQuestions" ToRole="AssessmentSubGoal" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_AssessmentQuestion_Tenant_TenantID" FromRole="AssessmentQuestions" ToRole="Tenant" />
     <NavigationProperty Name="ProjectAssessmentQuestions" Relationship="ProjectFirma.Web.Models.FK_ProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" FromRole="AssessmentQuestion" ToRole="ProjectAssessmentQuestions" />
@@ -1063,11 +1059,11 @@
       <PropertyRef Name="AssessmentSubGoalID" />
     </Key>
     <Property Name="AssessmentSubGoalID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="AssessmentGoalID" Type="Int32" Nullable="false" />
     <Property Name="AssessmentSubGoalNumber" Type="Int32" Nullable="false" />
     <Property Name="AssessmentSubGoalTitle" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="AssessmentSubGoalDescription" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="AssessmentGoal" Relationship="ProjectFirma.Web.Models.FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID" FromRole="AssessmentSubGoals" ToRole="AssessmentGoal" />
     <NavigationProperty Name="AssessmentQuestions" Relationship="ProjectFirma.Web.Models.FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID" FromRole="AssessmentSubGoal" ToRole="AssessmentQuestions" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_AssessmentSubGoal_Tenant_TenantID" FromRole="AssessmentSubGoals" ToRole="Tenant" />
@@ -1128,11 +1124,11 @@
       <PropertyRef Name="CostParameterSetID" />
     </Key>
     <Property Name="CostParameterSetID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="InflationRate" Type="Decimal" Nullable="false" Precision="9" Scale="6" />
     <Property Name="CurrentYearForPVCalculations" Type="Int32" Nullable="false" />
     <Property Name="Comment" Type="String" MaxLength="2000" Unicode="false" FixedLength="false" />
     <Property Name="CreateDate" Type="DateTime" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_CostParameterSet_Tenant_TenantID" FromRole="CostParameterSets" ToRole="Tenant" />
   </EntityType>
   <EntityType Name="County">
@@ -1160,9 +1156,9 @@
       <PropertyRef Name="FieldDefinitionImageID" />
     </Key>
     <Property Name="FieldDefinitionImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="FieldDefinitionID" Type="Int32" Nullable="false" />
     <Property Name="FileResourceID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionImage_FileResource_FileResourceID" FromRole="FieldDefinitionImages" ToRole="FileResource" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionImage_Tenant_TenantID" FromRole="FieldDefinitionImages" ToRole="Tenant" />
   </EntityType>
@@ -1238,10 +1234,10 @@
       <PropertyRef Name="MappedRegionID" />
     </Key>
     <Property Name="MappedRegionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="RegionName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="RegionDisplayName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="RegionFeature" Type="Geometry" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_MappedRegion_Tenant_TenantID" FromRole="MappedRegions" ToRole="Tenant" />
     <NavigationProperty Name="ProjectLocationAreas" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationArea_MappedRegion_MappedRegionID" FromRole="MappedRegion" ToRole="ProjectLocationAreas" />
   </EntityType>
@@ -1250,10 +1246,10 @@
       <PropertyRef Name="MonitoringProgramID" />
     </Key>
     <Property Name="MonitoringProgramID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="MonitoringProgramName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="MonitoringApproach" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
     <Property Name="MonitoringProgramUrl" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgram_Tenant_TenantID" FromRole="MonitoringPrograms" ToRole="Tenant" />
     <NavigationProperty Name="MonitoringProgramDocuments" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID" FromRole="MonitoringProgram" ToRole="MonitoringProgramDocuments" />
     <NavigationProperty Name="MonitoringProgramPartners" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_MonitoringProgram_MonitoringProgramID" FromRole="MonitoringProgram" ToRole="MonitoringProgramPartners" />
@@ -1264,11 +1260,11 @@
       <PropertyRef Name="MonitoringProgramDocumentID" />
     </Key>
     <Property Name="MonitoringProgramDocumentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="FileResourceID" Type="Int32" Nullable="false" />
     <Property Name="MonitoringProgramID" Type="Int32" Nullable="false" />
     <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="UploadDate" Type="DateTime" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_FileResource_FileResourceID" FromRole="MonitoringProgramDocuments" ToRole="FileResource" />
     <NavigationProperty Name="MonitoringProgram" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_MonitoringProgram_MonitoringProgramID" FromRole="MonitoringProgramDocuments" ToRole="MonitoringProgram" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_Tenant_TenantID" FromRole="MonitoringProgramDocuments" ToRole="Tenant" />
@@ -1278,9 +1274,9 @@
       <PropertyRef Name="MonitoringProgramPartnerID" />
     </Key>
     <Property Name="MonitoringProgramPartnerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="MonitoringProgramID" Type="Int32" Nullable="false" />
     <Property Name="OrganizationID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="MonitoringProgram" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_MonitoringProgram_MonitoringProgramID" FromRole="MonitoringProgramPartners" ToRole="MonitoringProgram" />
     <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_Organization_OrganizationID" FromRole="MonitoringProgramPartners" ToRole="Organization" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_Tenant_TenantID" FromRole="MonitoringProgramPartners" ToRole="Tenant" />
@@ -1290,10 +1286,10 @@
       <PropertyRef Name="NotificationID" />
     </Key>
     <Property Name="NotificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="NotificationTypeID" Type="Int32" Nullable="false" />
     <Property Name="PersonID" Type="Int32" Nullable="false" />
     <Property Name="NotificationDate" Type="DateTime" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Person" Relationship="ProjectFirma.Web.Models.FK_Notification_Person_PersonID" FromRole="Notifications" ToRole="Person" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_Notification_Tenant_TenantID" FromRole="Notifications" ToRole="Tenant" />
     <NavigationProperty Name="NotificationProjects" Relationship="ProjectFirma.Web.Models.FK_NotificationProject_Notification_NotificationID" FromRole="Notification" ToRole="NotificationProjects" />
@@ -1304,9 +1300,9 @@
       <PropertyRef Name="NotificationProjectID" />
     </Key>
     <Property Name="NotificationProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="NotificationID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Notification" Relationship="ProjectFirma.Web.Models.FK_NotificationProject_Notification_NotificationID" FromRole="NotificationProjects" ToRole="Notification" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_NotificationProject_Project_ProjectID" FromRole="NotificationProjects" ToRole="Project" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_NotificationProject_Tenant_TenantID" FromRole="NotificationProjects" ToRole="Tenant" />
@@ -1316,9 +1312,9 @@
       <PropertyRef Name="NotificationProposedProjectID" />
     </Key>
     <Property Name="NotificationProposedProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
-    <Property Name="NotificationID" Type="Int32" Nullable="false" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="NotificationID" Type="Int32" Nullable="false" />
+    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Notification" Relationship="ProjectFirma.Web.Models.FK_NotificationProposedProject_Notification_NotificationID" FromRole="NotificationProposedProjects" ToRole="Notification" />
     <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_NotificationProposedProject_ProposedProject_ProposedProjectID" FromRole="NotificationProposedProjects" ToRole="ProposedProject" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_NotificationProposedProject_Tenant_TenantID" FromRole="NotificationProposedProjects" ToRole="Tenant" />
@@ -1507,9 +1503,9 @@
       <PropertyRef Name="PerformanceMeasureMonitoringProgramID" />
     </Key>
     <Property Name="PerformanceMeasureMonitoringProgramID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="MonitoringProgramID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="MonitoringProgram" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_MonitoringProgram_MonitoringProgramID" FromRole="PerformanceMeasureMonitoringPrograms" ToRole="MonitoringProgram" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureMonitoringPrograms" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureMonitoringProgram_Tenant_TenantID" FromRole="PerformanceMeasureMonitoringPrograms" ToRole="Tenant" />
@@ -1997,9 +1993,9 @@
       <PropertyRef Name="ProjectTagID" />
     </Key>
     <Property Name="ProjectTagID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="TagID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectTag_Project_ProjectID" FromRole="ProjectTags" ToRole="Project" />
     <NavigationProperty Name="Tag" Relationship="ProjectFirma.Web.Models.FK_ProjectTag_Tag_TagID" FromRole="ProjectTags" ToRole="Tag" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_ProjectTag_Tenant_TenantID" FromRole="ProjectTags" ToRole="Tenant" />
@@ -2231,10 +2227,10 @@
       <PropertyRef Name="SnapshotID" />
     </Key>
     <Property Name="SnapshotID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="SnapshotDate" Type="DateTime" Nullable="false" />
     <Property Name="SnapshotNote" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="ProjectCount" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_Snapshot_Tenant_TenantID" FromRole="Snapshots" ToRole="Tenant" />
     <NavigationProperty Name="SnapshotPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID" FromRole="Snapshot" ToRole="SnapshotPerformanceMeasures" />
     <NavigationProperty Name="SnapshotProjects" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Snapshot_SnapshotID" FromRole="Snapshot" ToRole="SnapshotProjects" />
@@ -2245,11 +2241,11 @@
       <PropertyRef Name="SnapshotPerformanceMeasureID" />
     </Key>
     <Property Name="SnapshotPerformanceMeasureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="SnapshotID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="CalendarYear" Type="Int32" Nullable="false" />
     <Property Name="ActualValue" Type="Double" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="SnapshotPerformanceMeasures" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="Snapshot" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID" FromRole="SnapshotPerformanceMeasures" ToRole="Snapshot" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_Tenant_TenantID" FromRole="SnapshotPerformanceMeasures" ToRole="Tenant" />
@@ -2260,11 +2256,11 @@
       <PropertyRef Name="SnapshotPerformanceMeasureSubcategoryOptionID" />
     </Key>
     <Property Name="SnapshotPerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="SnapshotPerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="SnapshotPerformanceMeasureSubcategoryOptions" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="SnapshotPerformanceMeasureSubcategoryOptions" ToRole="PerformanceMeasureSubcategory" />
     <NavigationProperty Name="PerformanceMeasureSubcategoryOption" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="SnapshotPerformanceMeasureSubcategoryOptions" ToRole="PerformanceMeasureSubcategoryOption" />
@@ -2276,10 +2272,10 @@
       <PropertyRef Name="SnapshotProjectID" />
     </Key>
     <Property Name="SnapshotProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="SnapshotID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="SnapshotProjectTypeID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Project_ProjectID" FromRole="SnapshotProjects" ToRole="Project" />
     <NavigationProperty Name="Snapshot" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Snapshot_SnapshotID" FromRole="SnapshotProjects" ToRole="Snapshot" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Tenant_TenantID" FromRole="SnapshotProjects" ToRole="Tenant" />
@@ -2289,11 +2285,11 @@
       <PropertyRef Name="SnapshotSectorExpenditureID" />
     </Key>
     <Property Name="SnapshotSectorExpenditureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="SnapshotID" Type="Int32" Nullable="false" />
     <Property Name="SectorID" Type="Int32" Nullable="false" />
     <Property Name="CalendarYear" Type="Int32" Nullable="false" />
     <Property Name="ExpenditureAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Snapshot" Relationship="ProjectFirma.Web.Models.FK_SnapshotSectorExpenditure_Snapshot_SnapshotID" FromRole="SnapshotSectorExpenditures" ToRole="Snapshot" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_SnapshotSectorExpenditure_Tenant_TenantID" FromRole="SnapshotSectorExpenditures" ToRole="Tenant" />
   </EntityType>
@@ -2306,17 +2302,16 @@
     <Property Name="StateProvinceAbbreviation" Type="String" Nullable="false" MaxLength="2" Unicode="false" FixedLength="true" />
     <Property Name="StateProvinceFeature" Type="Geometry" />
     <Property Name="StateProvinceFeatureForAnalysis" Type="Geometry" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Counties" Relationship="ProjectFirma.Web.Models.FK_County_StateProvince_StateProvinceID" FromRole="StateProvince" ToRole="Counties" />
     <NavigationProperty Name="ProjectLocationAreas" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationArea_StateProvince_StateProvinceID" FromRole="StateProvince" ToRole="ProjectLocationAreas" />
     <NavigationProperty Name="ProjectLocationAreaStateProvinces" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaStateProvince_StateProvince_StateProvinceID" FromRole="StateProvince" ToRole="ProjectLocationAreaStateProvinces" />
-    <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_StateProvince_Tenant_TenantID" FromRole="StateProvinces" ToRole="Tenant" />
   </EntityType>
   <EntityType Name="SupportRequestLog">
     <Key>
       <PropertyRef Name="SupportRequestLogID" />
     </Key>
     <Property Name="SupportRequestLogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="RequestDate" Type="DateTime" Nullable="false" />
     <Property Name="RequestPersonName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="RequestPersonEmail" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
@@ -2325,7 +2320,6 @@
     <Property Name="RequestDescription" Type="String" Nullable="false" MaxLength="2000" Unicode="false" FixedLength="false" />
     <Property Name="RequestPersonOrganization" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
     <Property Name="RequestPersonPhone" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="RequestPerson" Relationship="ProjectFirma.Web.Models.FK_SupportRequestLog_Person_RequestPersonID_PersonID" FromRole="SupportRequestLogsWhereYouAreTheRequestPerson" ToRole="RequestPerson" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_SupportRequestLog_Tenant_TenantID" FromRole="SupportRequestLogs" ToRole="Tenant" />
   </EntityType>
@@ -2334,9 +2328,9 @@
       <PropertyRef Name="TagID" />
     </Key>
     <Property Name="TagID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="TagName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="TagDescription" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ProjectTags" Relationship="ProjectFirma.Web.Models.FK_ProjectTag_Tag_TagID" FromRole="Tag" ToRole="ProjectTags" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_Tag_Tenant_TenantID" FromRole="Tags" ToRole="Tenant" />
   </EntityType>
@@ -2520,7 +2514,6 @@
     <NavigationProperty Name="SnapshotPerformanceMeasureSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_Tenant_TenantID" FromRole="Tenant" ToRole="SnapshotPerformanceMeasureSubcategoryOptions" />
     <NavigationProperty Name="SnapshotProjects" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Tenant_TenantID" FromRole="Tenant" ToRole="SnapshotProjects" />
     <NavigationProperty Name="SnapshotSectorExpenditures" Relationship="ProjectFirma.Web.Models.FK_SnapshotSectorExpenditure_Tenant_TenantID" FromRole="Tenant" ToRole="SnapshotSectorExpenditures" />
-    <NavigationProperty Name="StateProvinces" Relationship="ProjectFirma.Web.Models.FK_StateProvince_Tenant_TenantID" FromRole="Tenant" ToRole="StateProvinces" />
     <NavigationProperty Name="SupportRequestLogs" Relationship="ProjectFirma.Web.Models.FK_SupportRequestLog_Tenant_TenantID" FromRole="Tenant" ToRole="SupportRequestLogs" />
     <NavigationProperty Name="Tags" Relationship="ProjectFirma.Web.Models.FK_Tag_Tenant_TenantID" FromRole="Tenant" ToRole="Tags" />
     <NavigationProperty Name="TaxonomyTierOnes" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOne_Tenant_TenantID" FromRole="Tenant" ToRole="TaxonomyTierOnes" />
@@ -5157,18 +5150,6 @@
         <PropertyRef Name="TenantID" />
       </Principal>
       <Dependent Role="SnapshotSectorExpenditures">
-        <PropertyRef Name="TenantID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_StateProvince_Tenant_TenantID">
-    <End Role="Tenant" Type="ProjectFirma.Web.Models.Tenant" Multiplicity="1" />
-    <End Role="StateProvinces" Type="ProjectFirma.Web.Models.StateProvince" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Tenant">
-        <PropertyRef Name="TenantID" />
-      </Principal>
-      <Dependent Role="StateProvinces">
         <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>

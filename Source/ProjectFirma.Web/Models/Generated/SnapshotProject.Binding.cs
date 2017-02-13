@@ -94,16 +94,16 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SnapshotProjectID { get; set; }
+        public int TenantID { get; set; }
         public int SnapshotID { get; set; }
         public int ProjectID { get; set; }
         public int SnapshotProjectTypeID { get; set; }
-        public int TenantID { get; set; }
         public int PrimaryKey { get { return SnapshotProjectID; } set { SnapshotProjectID = value; } }
 
+        public virtual Tenant Tenant { get; set; }
         public virtual Snapshot Snapshot { get; set; }
         public virtual Project Project { get; set; }
         public SnapshotProjectType SnapshotProjectType { get { return SnapshotProjectType.AllLookupDictionary[SnapshotProjectTypeID]; } }
-        public virtual Tenant Tenant { get; set; }
 
         public static class FieldLengths
         {
