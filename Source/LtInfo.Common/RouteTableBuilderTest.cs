@@ -70,49 +70,6 @@ namespace LtInfo.Common
         }
 
         [Test]
-        public void TestRouteBuilderWorksWithParamFirst()
-        {
-            // Arrange
-            // ------
-            // definition of RouteTableBuilderTestControllerForParamFirst
-
-            var methods = SitkaController.FindControllerActions(typeof(RouteTableBuilderTestForParamFirstController));
-            var controllerName = SitkaController.ControllerTypeToControllerName(typeof(RouteTableBuilderTestForParamFirstController));
-            Assert.That(methods.Count, Is.EqualTo(2), "Test precondition - expected 1 method that is like a Controller.Action");
-
-            // Act
-            // ---
-            var routeEntries = RouteTableBuilder.SetupRouteTableImpl(methods);
-            
-            // Assert
-            // ------
-            var ourRouteEntries = routeEntries.Where(re => re.Controller == controllerName).ToList();
-
-            var simpleNormal = ourRouteEntries.Single(re => re.Action == "SimpleNormal");
-            Assert.That(simpleNormal.RouteUrl, Is.EqualTo("RouteTableBuilderTestForParamFirst/SimpleNormal/{myParamThatWillNotBeMoved}"));
-
-            var simpleWithAttribute = ourRouteEntries.Single(re => re.Action == "SimpleWithAttribute");
-            Assert.That(simpleWithAttribute.RouteUrl, Is.EqualTo("{myParamToBeMoved}/RouteTableBuilderTestForParamFirst/SimpleWithAttribute"));
-        }
-
-        private class RouteTableBuilderTestForParamFirstController
-        {
-            // ReSharper disable UnusedMember.Local
-            // ReSharper disable UnusedParameter.Local
-            public ActionResult SimpleWithAttribute([PlaceUrlParameterBeforeControllerAndActionName] int myParamToBeMoved)
-            {
-                return null;
-            }
-
-            public ActionResult SimpleNormal(int myParamThatWillNotBeMoved)
-            {
-                return null;
-            }
-            // ReSharper restore UnusedMember.Local
-            // ReSharper restore UnusedParameter.Local
-        }
-
-        [Test]
         public void RoutesShouldNotCollide()
         {
             List<MethodInfo> allTestControllerActions = SitkaController.FindControllerActions(typeof(MyAbstractBaseController));
