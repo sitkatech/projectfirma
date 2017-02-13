@@ -35,13 +35,20 @@ namespace ProjectFirma.Web.Common
                 return GetValueOrDefault(TenantKey,
                     () =>
                     {
-                        var urlHost = HttpContext.Current.Request.Url.Host;
-                        var tenant = DatabaseEntities.Tenants.SingleOrDefault(x => urlHost.Contains(x.TenantDomain));
-                        Check.RequireNotNull(tenant, string.Format("Could not determine tenant from host {0}", urlHost));
-                        return tenant;
+                        var httpContext = HttpContext.Current;
+                        if (httpContext != null)
+                        {
+                            var urlHost = httpContext.Request.Url.Host;
+                            var tenant = Tenant.All.SingleOrDefault(x => urlHost.Contains(x.TenantDomain));
+                            Check.RequireNotNull(tenant, string.Format("Could not determine tenant from host {0}", urlHost));
+                            return tenant;
+                        }
+                        else
+                        {
+                            return Tenant.SitkaTechnologyGroup;
+                        }
                     });
             }
-            set { SetValue(TenantKey, value); }
         }
 
 
@@ -61,6 +68,7 @@ namespace ProjectFirma.Web.Common
         {
             var context = MakeNewContext(true);
             SetValue(DatabaseContextKey, context);
+            SetValue(TenantKey, Tenant.SitkaTechnologyGroup);
         }
 
         public static void EndContextForTest()
