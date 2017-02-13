@@ -888,7 +888,6 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectNoteUpdates();
             // finally create a new project update record, refreshing with the current project data at this point in time
             ProjectNoteUpdate.CreateFromProject(projectUpdateBatch);
-            projectUpdateBatch.TenantID = 1;
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
