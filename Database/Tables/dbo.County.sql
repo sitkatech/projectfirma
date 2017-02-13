@@ -7,14 +7,14 @@ CREATE TABLE [dbo].[County](
 	[CountyName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[StateProvinceID] [int] NOT NULL,
 	[CountyFeature] [geometry] NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_County_CountyID] PRIMARY KEY CLUSTERED 
 (
 	[CountyID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_County_CountyName] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_County_CountyName_StateProvinceID] UNIQUE NONCLUSTERED 
 (
-	[CountyName] ASC
+	[CountyName] ASC,
+	[StateProvinceID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
@@ -23,8 +23,3 @@ ALTER TABLE [dbo].[County]  WITH CHECK ADD  CONSTRAINT [FK_County_StateProvince_
 REFERENCES [dbo].[StateProvince] ([StateProvinceID])
 GO
 ALTER TABLE [dbo].[County] CHECK CONSTRAINT [FK_County_StateProvince_StateProvinceID]
-GO
-ALTER TABLE [dbo].[County]  WITH CHECK ADD  CONSTRAINT [FK_County_Tenant_TenantID] FOREIGN KEY([TenantID])
-REFERENCES [dbo].[Tenant] ([TenantID])
-GO
-ALTER TABLE [dbo].[County] CHECK CONSTRAINT [FK_County_Tenant_TenantID]

@@ -23,7 +23,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Classification()
         {
-            this.ClassificationImages = new HashSet<ClassificationImage>();
             this.ClassificationPerformanceMeasures = new HashSet<ClassificationPerformanceMeasure>();
             this.ProjectClassifications = new HashSet<ProjectClassification>();
             this.ProposedProjectClassifications = new HashSet<ProposedProjectClassification>();
@@ -32,7 +31,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Classification(int classificationID, string classificationName, string classificationDescription, string themeColor, string displayName, string goalStatement, string narrative, int? keyImageFileResourceID) : this()
+        public Classification(int classificationID, string classificationName, string classificationDescription, string themeColor, string displayName, string goalStatement, int? keyImageFileResourceID) : this()
         {
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
             
@@ -42,7 +41,6 @@ namespace ProjectFirma.Web.Models
             this.ThemeColor = themeColor;
             this.DisplayName = displayName;
             this.GoalStatement = goalStatement;
-            this.Narrative = narrative;
             this.KeyImageFileResourceID = keyImageFileResourceID;
         }
 
@@ -76,13 +74,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ClassificationImages.Any() || ClassificationPerformanceMeasures.Any() || ProjectClassifications.Any() || ProposedProjectClassifications.Any();
+            return ClassificationPerformanceMeasures.Any() || ProjectClassifications.Any() || ProposedProjectClassifications.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Classification).Name, typeof(ClassificationImage).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(ProjectClassification).Name, typeof(ProposedProjectClassification).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Classification).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(ProjectClassification).Name, typeof(ProposedProjectClassification).Name};
 
         [Key]
         public int ClassificationID { get; set; }
@@ -91,18 +89,10 @@ namespace ProjectFirma.Web.Models
         public string ThemeColor { get; set; }
         public string DisplayName { get; set; }
         public string GoalStatement { get; set; }
-        [NotMapped]
-        private string Narrative { get; set; }
-        public HtmlString NarrativeHtmlString
-        { 
-            get { return Narrative == null ? null : new HtmlString(Narrative); }
-            set { Narrative = value == null ? null : value.ToString(); }
-        }
         public int? KeyImageFileResourceID { get; set; }
         public int TenantID { get; set; }
         public int PrimaryKey { get { return ClassificationID; } set { ClassificationID = value; } }
 
-        public virtual ICollection<ClassificationImage> ClassificationImages { get; set; }
         public virtual ICollection<ClassificationPerformanceMeasure> ClassificationPerformanceMeasures { get; set; }
         public virtual ICollection<ProjectClassification> ProjectClassifications { get; set; }
         public virtual ICollection<ProposedProjectClassification> ProposedProjectClassifications { get; set; }

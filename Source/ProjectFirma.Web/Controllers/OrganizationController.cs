@@ -119,7 +119,6 @@ namespace ProjectFirma.Web.Controllers
                 hasSpatialData = true;
                 layers.Add(projectsLayerGeoJson);
             }
-            
 
             var projectDetails = organization.ProjectFundingOrganizations.SelectMany(x => x.Project.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
             if (projectDetails.Features.Any())
@@ -128,19 +127,9 @@ namespace ProjectFirma.Web.Controllers
                 layers.Add(new LayerGeoJson("Project Detailed Mapping", projectDetails, "blue", 1, LayerInitialVisibility.Hide));
             }
 
-            layers.AddRange(MapInitJson.GetWatershedAndJurisdictionMapLayers());
+            layers.AddRange(MapInitJson.GetWatershedMapLayers());
 
-            BoundingBox boundingBox;
-            if (organization.Jurisdiction != null && organization.Jurisdiction.JurisdictionFeature != null)
-            {
-                hasSpatialData = true;
-                layers.Add(new LayerGeoJson("Jurisdiction Boundary", Jurisdiction.ToGeoJsonFeatureCollection(new List<Jurisdiction>() { organization.Jurisdiction }), "#800000", 1, LayerInitialVisibility.Show));
-                boundingBox = new BoundingBox(organization.Jurisdiction.JurisdictionFeature);
-            }
-            else
-            {
-                boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
-            }
+            var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
 
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, boundingBox);
             return mapInitJson;

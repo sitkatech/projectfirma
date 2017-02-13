@@ -313,10 +313,8 @@ namespace ProjectFirma.Web.Controllers
         public static List<Project> GetProjectsForGrid(Func<Project, bool> filterFunction)
         {
             var watershedsWithGeospatialFeatures = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
-            var jurisdictionsWithGeospatialFeatures = HttpRequestStorage.DatabaseEntities.Jurisdictions.GetJurisdictionsWithGeospatialFeatures();
             return
                 HttpRequestStorage.DatabaseEntities.Projects.GetProjectsWithGeoSpatialProperties(watershedsWithGeospatialFeatures,
-                    jurisdictionsWithGeospatialFeatures,
                     filterFunction, HttpRequestStorage.DatabaseEntities.StateProvinces.ToList()).ToList();
         }
 
@@ -733,7 +731,6 @@ Continue with a new project update?
         {
             var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
             var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.ProposedProjects.GetProposedProjectsWithGeoSpatialProperties(HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures(),
-                HttpRequestStorage.DatabaseEntities.Jurisdictions.GetJurisdictionsWithGeospatialFeatures(),
                 HttpRequestStorage.DatabaseEntities.StateProvinces.ToList(),
                 x => x.IsEditableToThisPerson(CurrentPerson) && x.DoesPersonBelongToProposedProjectLeadImplementingOranization(CurrentPerson)).Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved && x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(taxonomyTierTwos, gridSpec);

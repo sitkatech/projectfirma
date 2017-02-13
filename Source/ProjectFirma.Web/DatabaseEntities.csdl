@@ -6,7 +6,6 @@
     <EntitySet Name="AssessmentSubGoal" EntityType="ProjectFirma.Web.Models.AssessmentSubGoal" />
     <EntitySet Name="AuditLog" EntityType="ProjectFirma.Web.Models.AuditLog" />
     <EntitySet Name="Classification" EntityType="ProjectFirma.Web.Models.Classification" />
-    <EntitySet Name="ClassificationImage" EntityType="ProjectFirma.Web.Models.ClassificationImage" />
     <EntitySet Name="ClassificationPerformanceMeasure" EntityType="ProjectFirma.Web.Models.ClassificationPerformanceMeasure" />
     <EntitySet Name="CostParameterSet" EntityType="ProjectFirma.Web.Models.CostParameterSet" />
     <EntitySet Name="County" EntityType="ProjectFirma.Web.Models.County" />
@@ -16,7 +15,6 @@
     <EntitySet Name="FirmaPage" EntityType="ProjectFirma.Web.Models.FirmaPage" />
     <EntitySet Name="FirmaPageImage" EntityType="ProjectFirma.Web.Models.FirmaPageImage" />
     <EntitySet Name="FundingSource" EntityType="ProjectFirma.Web.Models.FundingSource" />
-    <EntitySet Name="Jurisdiction" EntityType="ProjectFirma.Web.Models.Jurisdiction" />
     <EntitySet Name="MappedRegion" EntityType="ProjectFirma.Web.Models.MappedRegion" />
     <EntitySet Name="MonitoringProgram" EntityType="ProjectFirma.Web.Models.MonitoringProgram" />
     <EntitySet Name="MonitoringProgramDocument" EntityType="ProjectFirma.Web.Models.MonitoringProgramDocument" />
@@ -57,7 +55,6 @@
     <EntitySet Name="ProjectLocation" EntityType="ProjectFirma.Web.Models.ProjectLocation" />
     <EntitySet Name="ProjectLocationArea" EntityType="ProjectFirma.Web.Models.ProjectLocationArea" />
     <EntitySet Name="ProjectLocationAreaGroup" EntityType="ProjectFirma.Web.Models.ProjectLocationAreaGroup" />
-    <EntitySet Name="ProjectLocationAreaJurisdiction" EntityType="ProjectFirma.Web.Models.ProjectLocationAreaJurisdiction" />
     <EntitySet Name="ProjectLocationAreaStateProvince" EntityType="ProjectFirma.Web.Models.ProjectLocationAreaStateProvince" />
     <EntitySet Name="ProjectLocationAreaWatershed" EntityType="ProjectFirma.Web.Models.ProjectLocationAreaWatershed" />
     <EntitySet Name="ProjectLocationStaging" EntityType="ProjectFirma.Web.Models.ProjectLocationStaging" />
@@ -138,10 +135,6 @@
       <End Role="Tenant" EntitySet="Tenant" />
       <End Role="Classifications" EntitySet="Classification" />
     </AssociationSet>
-    <AssociationSet Name="FK_ClassificationImage_Classification_ClassificationID" Association="ProjectFirma.Web.Models.FK_ClassificationImage_Classification_ClassificationID">
-      <End Role="Classification" EntitySet="Classification" />
-      <End Role="ClassificationImages" EntitySet="ClassificationImage" />
-    </AssociationSet>
     <AssociationSet Name="FK_ClassificationPerformanceMeasure_Classification_ClassificationID" Association="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_Classification_ClassificationID">
       <End Role="Classification" EntitySet="Classification" />
       <End Role="ClassificationPerformanceMeasures" EntitySet="ClassificationPerformanceMeasure" />
@@ -153,14 +146,6 @@
     <AssociationSet Name="FK_ProposedProjectClassification_Classification_ClassificationID" Association="ProjectFirma.Web.Models.FK_ProposedProjectClassification_Classification_ClassificationID">
       <End Role="Classification" EntitySet="Classification" />
       <End Role="ProposedProjectClassifications" EntitySet="ProposedProjectClassification" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ClassificationImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ClassificationImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="ClassificationImages" EntitySet="ClassificationImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ClassificationImage_Tenant_TenantID" Association="ProjectFirma.Web.Models.FK_ClassificationImage_Tenant_TenantID">
-      <End Role="Tenant" EntitySet="Tenant" />
-      <End Role="ClassificationImages" EntitySet="ClassificationImage" />
     </AssociationSet>
     <AssociationSet Name="FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
@@ -176,10 +161,6 @@
     </AssociationSet>
     <AssociationSet Name="FK_County_StateProvince_StateProvinceID" Association="ProjectFirma.Web.Models.FK_County_StateProvince_StateProvinceID">
       <End Role="StateProvince" EntitySet="StateProvince" />
-      <End Role="Counties" EntitySet="County" />
-    </AssociationSet>
-    <AssociationSet Name="FK_County_Tenant_TenantID" Association="ProjectFirma.Web.Models.FK_County_Tenant_TenantID">
-      <End Role="Tenant" EntitySet="Tenant" />
       <End Role="Counties" EntitySet="County" />
     </AssociationSet>
     <AssociationSet Name="FK_FieldDefinitionData_Tenant_TenantID" Association="ProjectFirma.Web.Models.FK_FieldDefinitionData_Tenant_TenantID">
@@ -273,26 +254,6 @@
     <AssociationSet Name="FK_ProjectFundingSourceExpenditureUpdate_FundingSource_FundingSourceID" Association="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditureUpdate_FundingSource_FundingSourceID">
       <End Role="FundingSource" EntitySet="FundingSource" />
       <End Role="ProjectFundingSourceExpenditureUpdates" EntitySet="ProjectFundingSourceExpenditureUpdate" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Jurisdiction_Organization_OrganizationID" Association="ProjectFirma.Web.Models.FK_Jurisdiction_Organization_OrganizationID">
-      <End Role="Organization" EntitySet="Organization" />
-      <End Role="Jurisdictions" EntitySet="Jurisdiction" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Jurisdiction_StateProvince_StateProvinceID" Association="ProjectFirma.Web.Models.FK_Jurisdiction_StateProvince_StateProvinceID">
-      <End Role="StateProvince" EntitySet="StateProvince" />
-      <End Role="Jurisdictions" EntitySet="Jurisdiction" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Jurisdiction_Tenant_TenantID" Association="ProjectFirma.Web.Models.FK_Jurisdiction_Tenant_TenantID">
-      <End Role="Tenant" EntitySet="Tenant" />
-      <End Role="Jurisdictions" EntitySet="Jurisdiction" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectLocationArea_Jurisdiction_JurisdictionID" Association="ProjectFirma.Web.Models.FK_ProjectLocationArea_Jurisdiction_JurisdictionID">
-      <End Role="Jurisdiction" EntitySet="Jurisdiction" />
-      <End Role="ProjectLocationAreas" EntitySet="ProjectLocationArea" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectLocationAreaJurisdiction_Jurisdiction_JurisdictionID" Association="ProjectFirma.Web.Models.FK_ProjectLocationAreaJurisdiction_Jurisdiction_JurisdictionID">
-      <End Role="Jurisdiction" EntitySet="Jurisdiction" />
-      <End Role="ProjectLocationAreaJurisdictions" EntitySet="ProjectLocationAreaJurisdiction" />
     </AssociationSet>
     <AssociationSet Name="FK_MappedRegion_Tenant_TenantID" Association="ProjectFirma.Web.Models.FK_MappedRegion_Tenant_TenantID">
       <End Role="Tenant" EntitySet="Tenant" />
@@ -806,10 +767,6 @@
       <End Role="Watershed" EntitySet="Watershed" />
       <End Role="ProjectLocationAreas" EntitySet="ProjectLocationArea" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProjectLocationAreaJurisdiction_ProjectLocationArea_ProjectLocationAreaID" Association="ProjectFirma.Web.Models.FK_ProjectLocationAreaJurisdiction_ProjectLocationArea_ProjectLocationAreaID">
-      <End Role="ProjectLocationArea" EntitySet="ProjectLocationArea" />
-      <End Role="ProjectLocationAreaJurisdictions" EntitySet="ProjectLocationAreaJurisdiction" />
-    </AssociationSet>
     <AssociationSet Name="FK_ProjectLocationAreaStateProvince_ProjectLocationArea_ProjectLocationAreaID" Association="ProjectFirma.Web.Models.FK_ProjectLocationAreaStateProvince_ProjectLocationArea_ProjectLocationAreaID">
       <End Role="ProjectLocationArea" EntitySet="ProjectLocationArea" />
       <End Role="ProjectLocationAreaStateProvinces" EntitySet="ProjectLocationAreaStateProvince" />
@@ -829,10 +786,6 @@
     <AssociationSet Name="FK_ProjectLocationAreaGroup_Tenant_TenantID" Association="ProjectFirma.Web.Models.FK_ProjectLocationAreaGroup_Tenant_TenantID">
       <End Role="Tenant" EntitySet="Tenant" />
       <End Role="ProjectLocationAreaGroups" EntitySet="ProjectLocationAreaGroup" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectLocationAreaJurisdiction_Tenant_TenantID" Association="ProjectFirma.Web.Models.FK_ProjectLocationAreaJurisdiction_Tenant_TenantID">
-      <End Role="Tenant" EntitySet="Tenant" />
-      <End Role="ProjectLocationAreaJurisdictions" EntitySet="ProjectLocationAreaJurisdiction" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectLocationAreaStateProvince_StateProvince_StateProvinceID" Association="ProjectFirma.Web.Models.FK_ProjectLocationAreaStateProvince_StateProvince_StateProvinceID">
       <End Role="StateProvince" EntitySet="StateProvince" />
@@ -1149,27 +1102,13 @@
     <Property Name="ThemeColor" Type="String" Nullable="false" MaxLength="7" Unicode="false" FixedLength="false" />
     <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
     <Property Name="GoalStatement" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="Narrative" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="KeyImageFileResourceID" Type="Int32" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="KeyImageFileResource" Relationship="ProjectFirma.Web.Models.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" FromRole="ClassificationsWhereYouAreTheKeyImageFileResource" ToRole="KeyImageFileResource" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_Classification_Tenant_TenantID" FromRole="Classifications" ToRole="Tenant" />
-    <NavigationProperty Name="ClassificationImages" Relationship="ProjectFirma.Web.Models.FK_ClassificationImage_Classification_ClassificationID" FromRole="Classification" ToRole="ClassificationImages" />
     <NavigationProperty Name="ClassificationPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_Classification_ClassificationID" FromRole="Classification" ToRole="ClassificationPerformanceMeasures" />
     <NavigationProperty Name="ProjectClassifications" Relationship="ProjectFirma.Web.Models.FK_ProjectClassification_Classification_ClassificationID" FromRole="Classification" ToRole="ProjectClassifications" />
     <NavigationProperty Name="ProposedProjectClassifications" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectClassification_Classification_ClassificationID" FromRole="Classification" ToRole="ProposedProjectClassifications" />
-  </EntityType>
-  <EntityType Name="ClassificationImage">
-    <Key>
-      <PropertyRef Name="ClassificationImageID" />
-    </Key>
-    <Property Name="ClassificationImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ClassificationID" Type="Int32" Nullable="false" />
-    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Classification" Relationship="ProjectFirma.Web.Models.FK_ClassificationImage_Classification_ClassificationID" FromRole="ClassificationImages" ToRole="Classification" />
-    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ClassificationImage_FileResource_FileResourceID" FromRole="ClassificationImages" ToRole="FileResource" />
-    <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_ClassificationImage_Tenant_TenantID" FromRole="ClassificationImages" ToRole="Tenant" />
   </EntityType>
   <EntityType Name="ClassificationPerformanceMeasure">
     <Key>
@@ -1204,9 +1143,7 @@
     <Property Name="CountyName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="StateProvinceID" Type="Int32" Nullable="false" />
     <Property Name="CountyFeature" Type="Geometry" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="StateProvince" Relationship="ProjectFirma.Web.Models.FK_County_StateProvince_StateProvinceID" FromRole="Counties" ToRole="StateProvince" />
-    <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_County_Tenant_TenantID" FromRole="Counties" ToRole="Tenant" />
   </EntityType>
   <EntityType Name="FieldDefinitionData">
     <Key>
@@ -1243,7 +1180,6 @@
     <Property Name="CreateDate" Type="DateTime" Nullable="false" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ClassificationsWhereYouAreTheKeyImageFileResource" Relationship="ProjectFirma.Web.Models.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" FromRole="KeyImageFileResource" ToRole="ClassificationsWhereYouAreTheKeyImageFileResource" />
-    <NavigationProperty Name="ClassificationImages" Relationship="ProjectFirma.Web.Models.FK_ClassificationImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ClassificationImages" />
     <NavigationProperty Name="FieldDefinitionImages" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FieldDefinitionImages" />
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_FileResource_Person_CreatePersonID_PersonID" FromRole="FileResourcesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_FileResource_Tenant_TenantID" FromRole="FileResources" ToRole="Tenant" />
@@ -1296,21 +1232,6 @@
     <NavigationProperty Name="ProjectBudgetUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectBudgetUpdate_FundingSource_FundingSourceID" FromRole="FundingSource" ToRole="ProjectBudgetUpdates" />
     <NavigationProperty Name="ProjectFundingSourceExpenditures" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditure_FundingSource_FundingSourceID" FromRole="FundingSource" ToRole="ProjectFundingSourceExpenditures" />
     <NavigationProperty Name="ProjectFundingSourceExpenditureUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditureUpdate_FundingSource_FundingSourceID" FromRole="FundingSource" ToRole="ProjectFundingSourceExpenditureUpdates" />
-  </EntityType>
-  <EntityType Name="Jurisdiction">
-    <Key>
-      <PropertyRef Name="JurisdictionID" />
-    </Key>
-    <Property Name="JurisdictionID" Type="Int32" Nullable="false" />
-    <Property Name="OrganizationID" Type="Int32" Nullable="false" />
-    <Property Name="JurisdictionFeature" Type="Geometry" />
-    <Property Name="StateProvinceID" Type="Int32" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_Jurisdiction_Organization_OrganizationID" FromRole="Jurisdictions" ToRole="Organization" />
-    <NavigationProperty Name="StateProvince" Relationship="ProjectFirma.Web.Models.FK_Jurisdiction_StateProvince_StateProvinceID" FromRole="Jurisdictions" ToRole="StateProvince" />
-    <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_Jurisdiction_Tenant_TenantID" FromRole="Jurisdictions" ToRole="Tenant" />
-    <NavigationProperty Name="ProjectLocationAreas" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationArea_Jurisdiction_JurisdictionID" FromRole="Jurisdiction" ToRole="ProjectLocationAreas" />
-    <NavigationProperty Name="ProjectLocationAreaJurisdictions" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaJurisdiction_Jurisdiction_JurisdictionID" FromRole="Jurisdiction" ToRole="ProjectLocationAreaJurisdictions" />
   </EntityType>
   <EntityType Name="MappedRegion">
     <Key>
@@ -1418,7 +1339,6 @@
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="LogoFileResource" Relationship="ProjectFirma.Web.Models.FK_Organization_FileResource_LogoFileResourceID_FileResourceID" FromRole="OrganizationsWhereYouAreTheLogoFileResource" ToRole="LogoFileResource" />
     <NavigationProperty Name="FundingSources" Relationship="ProjectFirma.Web.Models.FK_FundingSource_Organization_OrganizationID" FromRole="Organization" ToRole="FundingSources" />
-    <NavigationProperty Name="Jurisdictions" Relationship="ProjectFirma.Web.Models.FK_Jurisdiction_Organization_OrganizationID" FromRole="Organization" ToRole="Jurisdictions" />
     <NavigationProperty Name="MonitoringProgramPartners" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_Organization_OrganizationID" FromRole="Organization" ToRole="MonitoringProgramPartners" />
     <NavigationProperty Name="PrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_Organization_Person_PrimaryContactPersonID_PersonID" FromRole="OrganizationsWhereYouAreThePrimaryContactPerson" ToRole="PrimaryContactPerson" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_Organization_Tenant_TenantID" FromRole="Organizations" ToRole="Tenant" />
@@ -1949,17 +1869,14 @@
     <Property Name="StateProvinceID" Type="Int32" />
     <Property Name="ProjectLocationAreaGroupID" Type="Int32" />
     <Property Name="MappedRegionID" Type="Int32" />
-    <Property Name="JurisdictionID" Type="Int32" />
     <Property Name="WatershedID" Type="Int32" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Jurisdiction" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationArea_Jurisdiction_JurisdictionID" FromRole="ProjectLocationAreas" ToRole="Jurisdiction" />
     <NavigationProperty Name="MappedRegion" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationArea_MappedRegion_MappedRegionID" FromRole="ProjectLocationAreas" ToRole="MappedRegion" />
     <NavigationProperty Name="Projects" Relationship="ProjectFirma.Web.Models.FK_Project_ProjectLocationArea_ProjectLocationAreaID" FromRole="ProjectLocationArea" ToRole="Projects" />
     <NavigationProperty Name="ProjectLocationAreaGroup" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationArea_ProjectLocationAreaGroup_ProjectLocationAreaGroupID" FromRole="ProjectLocationAreas" ToRole="ProjectLocationAreaGroup" />
     <NavigationProperty Name="StateProvince" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationArea_StateProvince_StateProvinceID" FromRole="ProjectLocationAreas" ToRole="StateProvince" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationArea_Tenant_TenantID" FromRole="ProjectLocationAreas" ToRole="Tenant" />
     <NavigationProperty Name="Watershed" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationArea_Watershed_WatershedID" FromRole="ProjectLocationAreas" ToRole="Watershed" />
-    <NavigationProperty Name="ProjectLocationAreaJurisdictions" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaJurisdiction_ProjectLocationArea_ProjectLocationAreaID" FromRole="ProjectLocationArea" ToRole="ProjectLocationAreaJurisdictions" />
     <NavigationProperty Name="ProjectLocationAreaStateProvinces" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaStateProvince_ProjectLocationArea_ProjectLocationAreaID" FromRole="ProjectLocationArea" ToRole="ProjectLocationAreaStateProvinces" />
     <NavigationProperty Name="ProjectLocationAreaWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaWatershed_ProjectLocationArea_ProjectLocationAreaID" FromRole="ProjectLocationArea" ToRole="ProjectLocationAreaWatersheds" />
     <NavigationProperty Name="ProjectUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_ProjectLocationArea_ProjectLocationAreaID" FromRole="ProjectLocationArea" ToRole="ProjectUpdates" />
@@ -1974,18 +1891,6 @@
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ProjectLocationAreas" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationArea_ProjectLocationAreaGroup_ProjectLocationAreaGroupID" FromRole="ProjectLocationAreaGroup" ToRole="ProjectLocationAreas" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaGroup_Tenant_TenantID" FromRole="ProjectLocationAreaGroups" ToRole="Tenant" />
-  </EntityType>
-  <EntityType Name="ProjectLocationAreaJurisdiction">
-    <Key>
-      <PropertyRef Name="ProjectLocationAreaJurisdictionID" />
-    </Key>
-    <Property Name="ProjectLocationAreaJurisdictionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProjectLocationAreaID" Type="Int32" Nullable="false" />
-    <Property Name="JurisdictionID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Jurisdiction" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaJurisdiction_Jurisdiction_JurisdictionID" FromRole="ProjectLocationAreaJurisdictions" ToRole="Jurisdiction" />
-    <NavigationProperty Name="ProjectLocationArea" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaJurisdiction_ProjectLocationArea_ProjectLocationAreaID" FromRole="ProjectLocationAreaJurisdictions" ToRole="ProjectLocationArea" />
-    <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaJurisdiction_Tenant_TenantID" FromRole="ProjectLocationAreaJurisdictions" ToRole="Tenant" />
   </EntityType>
   <EntityType Name="ProjectLocationAreaStateProvince">
     <Key>
@@ -2403,7 +2308,6 @@
     <Property Name="StateProvinceFeatureForAnalysis" Type="Geometry" Nullable="false" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Counties" Relationship="ProjectFirma.Web.Models.FK_County_StateProvince_StateProvinceID" FromRole="StateProvince" ToRole="Counties" />
-    <NavigationProperty Name="Jurisdictions" Relationship="ProjectFirma.Web.Models.FK_Jurisdiction_StateProvince_StateProvinceID" FromRole="StateProvince" ToRole="Jurisdictions" />
     <NavigationProperty Name="ProjectLocationAreas" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationArea_StateProvince_StateProvinceID" FromRole="StateProvince" ToRole="ProjectLocationAreas" />
     <NavigationProperty Name="ProjectLocationAreaStateProvinces" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaStateProvince_StateProvince_StateProvinceID" FromRole="StateProvince" ToRole="ProjectLocationAreaStateProvinces" />
     <NavigationProperty Name="Tenant" Relationship="ProjectFirma.Web.Models.FK_StateProvince_Tenant_TenantID" FromRole="StateProvinces" ToRole="Tenant" />
@@ -2544,17 +2448,14 @@
     <NavigationProperty Name="AssessmentSubGoals" Relationship="ProjectFirma.Web.Models.FK_AssessmentSubGoal_Tenant_TenantID" FromRole="Tenant" ToRole="AssessmentSubGoals" />
     <NavigationProperty Name="AuditLogs" Relationship="ProjectFirma.Web.Models.FK_AuditLog_Tenant_TenantID" FromRole="Tenant" ToRole="AuditLogs" />
     <NavigationProperty Name="Classifications" Relationship="ProjectFirma.Web.Models.FK_Classification_Tenant_TenantID" FromRole="Tenant" ToRole="Classifications" />
-    <NavigationProperty Name="ClassificationImages" Relationship="ProjectFirma.Web.Models.FK_ClassificationImage_Tenant_TenantID" FromRole="Tenant" ToRole="ClassificationImages" />
     <NavigationProperty Name="ClassificationPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_Tenant_TenantID" FromRole="Tenant" ToRole="ClassificationPerformanceMeasures" />
     <NavigationProperty Name="CostParameterSets" Relationship="ProjectFirma.Web.Models.FK_CostParameterSet_Tenant_TenantID" FromRole="Tenant" ToRole="CostParameterSets" />
-    <NavigationProperty Name="Counties" Relationship="ProjectFirma.Web.Models.FK_County_Tenant_TenantID" FromRole="Tenant" ToRole="Counties" />
     <NavigationProperty Name="FieldDefinitionDatas" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionData_Tenant_TenantID" FromRole="Tenant" ToRole="FieldDefinitionDatas" />
     <NavigationProperty Name="FieldDefinitionImages" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionImage_Tenant_TenantID" FromRole="Tenant" ToRole="FieldDefinitionImages" />
     <NavigationProperty Name="FileResources" Relationship="ProjectFirma.Web.Models.FK_FileResource_Tenant_TenantID" FromRole="Tenant" ToRole="FileResources" />
     <NavigationProperty Name="FirmaPages" Relationship="ProjectFirma.Web.Models.FK_FirmaPage_Tenant_TenantID" FromRole="Tenant" ToRole="FirmaPages" />
     <NavigationProperty Name="FirmaPageImages" Relationship="ProjectFirma.Web.Models.FK_FirmaPageImage_Tenant_TenantID" FromRole="Tenant" ToRole="FirmaPageImages" />
     <NavigationProperty Name="FundingSources" Relationship="ProjectFirma.Web.Models.FK_FundingSource_Tenant_TenantID" FromRole="Tenant" ToRole="FundingSources" />
-    <NavigationProperty Name="Jurisdictions" Relationship="ProjectFirma.Web.Models.FK_Jurisdiction_Tenant_TenantID" FromRole="Tenant" ToRole="Jurisdictions" />
     <NavigationProperty Name="MappedRegions" Relationship="ProjectFirma.Web.Models.FK_MappedRegion_Tenant_TenantID" FromRole="Tenant" ToRole="MappedRegions" />
     <NavigationProperty Name="MonitoringPrograms" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgram_Tenant_TenantID" FromRole="Tenant" ToRole="MonitoringPrograms" />
     <NavigationProperty Name="MonitoringProgramDocuments" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_Tenant_TenantID" FromRole="Tenant" ToRole="MonitoringProgramDocuments" />
@@ -2595,7 +2496,6 @@
     <NavigationProperty Name="ProjectLocations" Relationship="ProjectFirma.Web.Models.FK_ProjectLocation_Tenant_TenantID" FromRole="Tenant" ToRole="ProjectLocations" />
     <NavigationProperty Name="ProjectLocationAreas" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationArea_Tenant_TenantID" FromRole="Tenant" ToRole="ProjectLocationAreas" />
     <NavigationProperty Name="ProjectLocationAreaGroups" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaGroup_Tenant_TenantID" FromRole="Tenant" ToRole="ProjectLocationAreaGroups" />
-    <NavigationProperty Name="ProjectLocationAreaJurisdictions" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaJurisdiction_Tenant_TenantID" FromRole="Tenant" ToRole="ProjectLocationAreaJurisdictions" />
     <NavigationProperty Name="ProjectLocationAreaStateProvinces" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaStateProvince_Tenant_TenantID" FromRole="Tenant" ToRole="ProjectLocationAreaStateProvinces" />
     <NavigationProperty Name="ProjectLocationAreaWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaWatershed_Tenant_TenantID" FromRole="Tenant" ToRole="ProjectLocationAreaWatersheds" />
     <NavigationProperty Name="ProjectLocationStagings" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationStaging_Tenant_TenantID" FromRole="Tenant" ToRole="ProjectLocationStagings" />
@@ -2777,18 +2677,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ClassificationImage_Classification_ClassificationID">
-    <End Role="Classification" Type="ProjectFirma.Web.Models.Classification" Multiplicity="1" />
-    <End Role="ClassificationImages" Type="ProjectFirma.Web.Models.ClassificationImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Classification">
-        <PropertyRef Name="ClassificationID" />
-      </Principal>
-      <Dependent Role="ClassificationImages">
-        <PropertyRef Name="ClassificationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ClassificationPerformanceMeasure_Classification_ClassificationID">
     <End Role="Classification" Type="ProjectFirma.Web.Models.Classification" Multiplicity="1" />
     <End Role="ClassificationPerformanceMeasures" Type="ProjectFirma.Web.Models.ClassificationPerformanceMeasure" Multiplicity="*" />
@@ -2822,30 +2710,6 @@
       </Principal>
       <Dependent Role="ProposedProjectClassifications">
         <PropertyRef Name="ClassificationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ClassificationImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
-    <End Role="ClassificationImages" Type="ProjectFirma.Web.Models.ClassificationImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="ClassificationImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ClassificationImage_Tenant_TenantID">
-    <End Role="Tenant" Type="ProjectFirma.Web.Models.Tenant" Multiplicity="1" />
-    <End Role="ClassificationImages" Type="ProjectFirma.Web.Models.ClassificationImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Tenant">
-        <PropertyRef Name="TenantID" />
-      </Principal>
-      <Dependent Role="ClassificationImages">
-        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2894,18 +2758,6 @@
       </Principal>
       <Dependent Role="Counties">
         <PropertyRef Name="StateProvinceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_County_Tenant_TenantID">
-    <End Role="Tenant" Type="ProjectFirma.Web.Models.Tenant" Multiplicity="1" />
-    <End Role="Counties" Type="ProjectFirma.Web.Models.County" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Tenant">
-        <PropertyRef Name="TenantID" />
-      </Principal>
-      <Dependent Role="Counties">
-        <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3182,66 +3034,6 @@
       </Principal>
       <Dependent Role="ProjectFundingSourceExpenditureUpdates">
         <PropertyRef Name="FundingSourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Jurisdiction_Organization_OrganizationID">
-    <End Role="Organization" Type="ProjectFirma.Web.Models.Organization" Multiplicity="1" />
-    <End Role="Jurisdictions" Type="ProjectFirma.Web.Models.Jurisdiction" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Organization">
-        <PropertyRef Name="OrganizationID" />
-      </Principal>
-      <Dependent Role="Jurisdictions">
-        <PropertyRef Name="OrganizationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Jurisdiction_StateProvince_StateProvinceID">
-    <End Role="StateProvince" Type="ProjectFirma.Web.Models.StateProvince" Multiplicity="0..1" />
-    <End Role="Jurisdictions" Type="ProjectFirma.Web.Models.Jurisdiction" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="StateProvince">
-        <PropertyRef Name="StateProvinceID" />
-      </Principal>
-      <Dependent Role="Jurisdictions">
-        <PropertyRef Name="StateProvinceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Jurisdiction_Tenant_TenantID">
-    <End Role="Tenant" Type="ProjectFirma.Web.Models.Tenant" Multiplicity="1" />
-    <End Role="Jurisdictions" Type="ProjectFirma.Web.Models.Jurisdiction" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Tenant">
-        <PropertyRef Name="TenantID" />
-      </Principal>
-      <Dependent Role="Jurisdictions">
-        <PropertyRef Name="TenantID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectLocationArea_Jurisdiction_JurisdictionID">
-    <End Role="Jurisdiction" Type="ProjectFirma.Web.Models.Jurisdiction" Multiplicity="0..1" />
-    <End Role="ProjectLocationAreas" Type="ProjectFirma.Web.Models.ProjectLocationArea" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Jurisdiction">
-        <PropertyRef Name="JurisdictionID" />
-      </Principal>
-      <Dependent Role="ProjectLocationAreas">
-        <PropertyRef Name="JurisdictionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectLocationAreaJurisdiction_Jurisdiction_JurisdictionID">
-    <End Role="Jurisdiction" Type="ProjectFirma.Web.Models.Jurisdiction" Multiplicity="1" />
-    <End Role="ProjectLocationAreaJurisdictions" Type="ProjectFirma.Web.Models.ProjectLocationAreaJurisdiction" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Jurisdiction">
-        <PropertyRef Name="JurisdictionID" />
-      </Principal>
-      <Dependent Role="ProjectLocationAreaJurisdictions">
-        <PropertyRef Name="JurisdictionID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -4781,18 +4573,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProjectLocationAreaJurisdiction_ProjectLocationArea_ProjectLocationAreaID">
-    <End Role="ProjectLocationArea" Type="ProjectFirma.Web.Models.ProjectLocationArea" Multiplicity="1" />
-    <End Role="ProjectLocationAreaJurisdictions" Type="ProjectFirma.Web.Models.ProjectLocationAreaJurisdiction" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProjectLocationArea">
-        <PropertyRef Name="ProjectLocationAreaID" />
-      </Principal>
-      <Dependent Role="ProjectLocationAreaJurisdictions">
-        <PropertyRef Name="ProjectLocationAreaID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ProjectLocationAreaStateProvince_ProjectLocationArea_ProjectLocationAreaID">
     <End Role="ProjectLocationArea" Type="ProjectFirma.Web.Models.ProjectLocationArea" Multiplicity="1" />
     <End Role="ProjectLocationAreaStateProvinces" Type="ProjectFirma.Web.Models.ProjectLocationAreaStateProvince" Multiplicity="*" />
@@ -4849,18 +4629,6 @@
         <PropertyRef Name="TenantID" />
       </Principal>
       <Dependent Role="ProjectLocationAreaGroups">
-        <PropertyRef Name="TenantID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectLocationAreaJurisdiction_Tenant_TenantID">
-    <End Role="Tenant" Type="ProjectFirma.Web.Models.Tenant" Multiplicity="1" />
-    <End Role="ProjectLocationAreaJurisdictions" Type="ProjectFirma.Web.Models.ProjectLocationAreaJurisdiction" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Tenant">
-        <PropertyRef Name="TenantID" />
-      </Principal>
-      <Dependent Role="ProjectLocationAreaJurisdictions">
         <PropertyRef Name="TenantID" />
       </Dependent>
     </ReferentialConstraint>

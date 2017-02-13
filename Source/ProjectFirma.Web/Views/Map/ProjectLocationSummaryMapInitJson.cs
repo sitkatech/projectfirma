@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Views.Map
         public bool HasDetailedLocation;
 
         public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID) 
-            : base(mapDivID, DefaultZoomLevel, GetWatershedAndJurisdictionMapLayers(), BoundingBox.MakeNewDefaultBoundingBox())
+            : base(mapDivID, DefaultZoomLevel, GetWatershedMapLayers(), BoundingBox.MakeNewDefaultBoundingBox())
         {
             ProjectLocationSimpleTypeID = project.ProjectLocationSimpleType.ProjectLocationSimpleTypeID;            
             switch (project.ProjectLocationSimpleType.ToEnum)

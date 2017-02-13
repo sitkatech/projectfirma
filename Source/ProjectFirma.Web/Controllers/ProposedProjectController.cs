@@ -69,10 +69,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var gridSpec = new ProposedProjectGridSpec(CurrentPerson);
             var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
-            var jurisdictions = HttpRequestStorage.DatabaseEntities.Jurisdictions.GetJurisdictionsWithGeospatialFeatures();
             var stateProvinces = HttpRequestStorage.DatabaseEntities.StateProvinces.ToList();
             var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.ProposedProjects.GetProposedProjectsWithGeoSpatialProperties(watersheds,
-                jurisdictions,
                 stateProvinces,
                 x => x.IsEditableToThisPerson(CurrentPerson)).Where(x1 => x1.ProposedProjectState != ProposedProjectState.Approved && x1.ProposedProjectState != ProposedProjectState.Rejected).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProposedProject>(taxonomyTierTwos, gridSpec);
@@ -365,7 +363,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewEditLocationSimple(ProposedProject proposedProject, LocationSimpleViewModel viewModel)
         {
-            var layerGeoJsons = MapInitJson.GetWatershedAndJurisdictionMapLayers();
+            var layerGeoJsons = MapInitJson.GetWatershedMapLayers();
             var mapInitJson = new MapInitJson(string.Format("proposedProject_{0}_EditMap", proposedProject.ProposedProjectID), 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false};
             var proposedProjectLocationAreas = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.ToSelectList();
 
@@ -418,7 +416,7 @@ namespace ProjectFirma.Web.Controllers
             var editableLayerGeoJson = new LayerGeoJson("Proposed Project Location Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
 
             var boundingBox = new BoundingBox(proposedProject.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry));
-            var mapInitJson = new MapInitJson(mapDivID, 10, MapInitJson.GetWatershedAndJurisdictionMapLayers(), boundingBox) { AllowFullScreen = false };
+            var mapInitJson = new MapInitJson(mapDivID, 10, MapInitJson.GetWatershedMapLayers(), boundingBox) { AllowFullScreen = false };
 
             var mapFormID = GenerateEditProposedProjectLocationFormID(proposedProject.ProposedProjectID);
             var uploadGisFileUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(c => c.ImportGdbFile(proposedProject.EntityID));

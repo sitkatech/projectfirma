@@ -31,13 +31,9 @@ namespace ProjectFirma.Web.Models
         {
         }
 
-        public static List<LayerGeoJson> GetWatershedAndJurisdictionMapLayers()
+        public static List<LayerGeoJson> GetWatershedMapLayers()
         {
             var layerGeoJsons = new List<LayerGeoJson>();
-            var jurisdictions = HttpRequestStorage.DatabaseEntities.Jurisdictions.GetJurisdictionsWithGeospatialFeatures();
-            var geoJsonForJurisdictions = Jurisdiction.ToGeoJsonFeatureCollection(jurisdictions);
-            layerGeoJsons.Add(new LayerGeoJson("County/City", geoJsonForJurisdictions, "#FF6C2D", 0.6m, LayerInitialVisibility.Hide));
-
             var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
             var geoJsonForWatersheds = Watershed.ToGeoJsonFeatureCollection(watersheds);
             layerGeoJsons.Add(new LayerGeoJson("Watershed", geoJsonForWatersheds, "#90C3D4", 0.1m, LayerInitialVisibility.Show));
@@ -51,7 +47,6 @@ namespace ProjectFirma.Web.Models
                 new LayerGeoJson(watershed.DisplayName, Watershed.ToGeoJsonFeatureCollection(new List<Watershed> {watershed}), "red", 1, LayerInitialVisibility.Show),
                 new LayerGeoJson("Watersheds",
                     Watershed.ToGeoJsonFeatureCollection(HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures().Where(x => x.WatershedID != watershed.WatershedID).ToList()), "#59ACFF", 0.6m, LayerInitialVisibility.Show),
-                new LayerGeoJson("County/City", Jurisdiction.ToGeoJsonFeatureCollection(HttpRequestStorage.DatabaseEntities.Jurisdictions.GetJurisdictionsWithGeospatialFeatures()), "#FF6C2D", 0.6m, LayerInitialVisibility.Hide),
                 new LayerGeoJson("Project Location - Simple", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show),
                 new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show)
             };

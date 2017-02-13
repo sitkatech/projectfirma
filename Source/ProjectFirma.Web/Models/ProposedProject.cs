@@ -72,43 +72,6 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        private string _projectLocationJurisdiction;
-        private bool _hasSetProjectLocationJurisdiction;
-        public string ProjectLocationJurisdiction
-        {
-            get
-            {
-                if (_hasSetProjectLocationJurisdiction)
-                {
-                    return _projectLocationJurisdiction;
-                }
-                SetProjectLocationJurisdiction(HttpRequestStorage.DatabaseEntities.Jurisdictions.GetJurisdictionsWithGeospatialFeatures());
-                return _projectLocationJurisdiction;
-            }
-            set
-            {
-                _projectLocationJurisdiction = value;
-                _hasSetProjectLocationJurisdiction = true;
-            }
-        }
-
-        public void SetProjectLocationJurisdiction(IEnumerable<Jurisdiction> jurisdictions)
-        {
-            if (HasProjectLocationPoint)
-            {
-                var jurisdiction = jurisdictions.FirstOrDefault(x => x.JurisdictionFeature.Intersects(ProjectLocationPoint));
-                ProjectLocationJurisdiction = jurisdiction != null ? jurisdiction.Organization.OrganizationName : ViewUtilities.NaString;
-            }
-            else if (ProjectLocationAreaID.HasValue)
-            {
-                ProjectLocationJurisdiction = string.Join(", ", ProjectLocationArea.ProjectLocationAreaJurisdictions.Select(x => x.Jurisdiction.Organization.OrganizationName));
-            }
-            else
-            {
-                ProjectLocationJurisdiction = ViewUtilities.NaString;
-            }
-        }
-
         private string _projectLocationStateProvince;
         private bool _hasSetProjectLocationStateProvince;
         public string ProjectLocationStateProvince

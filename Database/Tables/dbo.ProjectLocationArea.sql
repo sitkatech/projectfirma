@@ -7,7 +7,6 @@ CREATE TABLE [dbo].[ProjectLocationArea](
 	[StateProvinceID] [int] NULL,
 	[ProjectLocationAreaGroupID] [int] NULL,
 	[MappedRegionID] [int] NULL,
-	[JurisdictionID] [int] NULL,
 	[WatershedID] [int] NULL,
 	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectLocationArea_ProjectLocationAreaID] PRIMARY KEY CLUSTERED 
@@ -16,11 +15,6 @@ CREATE TABLE [dbo].[ProjectLocationArea](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-GO
-ALTER TABLE [dbo].[ProjectLocationArea]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationArea_Jurisdiction_JurisdictionID] FOREIGN KEY([JurisdictionID])
-REFERENCES [dbo].[Jurisdiction] ([JurisdictionID])
-GO
-ALTER TABLE [dbo].[ProjectLocationArea] CHECK CONSTRAINT [FK_ProjectLocationArea_Jurisdiction_JurisdictionID]
 GO
 ALTER TABLE [dbo].[ProjectLocationArea]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationArea_MappedRegion_MappedRegionID] FOREIGN KEY([MappedRegionID])
 REFERENCES [dbo].[MappedRegion] ([MappedRegionID])
@@ -47,6 +41,6 @@ REFERENCES [dbo].[Watershed] ([WatershedID])
 GO
 ALTER TABLE [dbo].[ProjectLocationArea] CHECK CONSTRAINT [FK_ProjectLocationArea_Watershed_WatershedID]
 GO
-ALTER TABLE [dbo].[ProjectLocationArea]  WITH CHECK ADD  CONSTRAINT [CK_Only_One_Geometry_Foreign_Key_Relationship] CHECK  (([StateProvinceID] IS NOT NULL AND [MappedRegionID] IS NULL AND [JurisdictionID] IS NULL AND [WatershedID] IS NULL OR [StateProvinceID] IS NULL AND [MappedRegionID] IS NOT NULL AND [JurisdictionID] IS NULL AND [WatershedID] IS NULL OR [StateProvinceID] IS NULL AND [MappedRegionID] IS NULL AND [JurisdictionID] IS NOT NULL AND [WatershedID] IS NULL OR [StateProvinceID] IS NULL AND [MappedRegionID] IS NULL AND [JurisdictionID] IS NULL AND [WatershedID] IS NOT NULL))
+ALTER TABLE [dbo].[ProjectLocationArea]  WITH CHECK ADD  CONSTRAINT [CK_Only_One_Geometry_Foreign_Key_Relationship] CHECK  (([StateProvinceID] IS NOT NULL AND [MappedRegionID] IS NULL AND [WatershedID] IS NULL OR [StateProvinceID] IS NULL AND [MappedRegionID] IS NOT NULL AND [WatershedID] IS NULL OR [StateProvinceID] IS NULL AND [MappedRegionID] IS NULL AND [WatershedID] IS NOT NULL))
 GO
 ALTER TABLE [dbo].[ProjectLocationArea] CHECK CONSTRAINT [CK_Only_One_Geometry_Foreign_Key_Relationship]

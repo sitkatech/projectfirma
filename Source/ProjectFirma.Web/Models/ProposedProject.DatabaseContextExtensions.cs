@@ -8,7 +8,6 @@ namespace ProjectFirma.Web.Models
     {
         public static List<ProposedProject> GetProposedProjectsWithGeoSpatialProperties(this IQueryable<ProposedProject> proposedProjects,
             List<Watershed> watersheds,
-            List<Jurisdiction> jurisdictions,
             List<StateProvince> stateProvinces,
             Func<ProposedProject, bool> filterFunction)
         {
@@ -19,7 +18,6 @@ namespace ProjectFirma.Web.Models
             }
             projectsList.ForEach(x =>
             {
-                x.SetProjectLocationJurisdiction(jurisdictions);
                 x.SetProjectLocationStateProvince(stateProvinces);
                 x.SetProjectLocationWatershed(watersheds);
             });

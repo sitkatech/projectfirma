@@ -37,9 +37,6 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.WatershedsList);
             var layerGeoJsons = new List<LayerGeoJson>();
-            var jurisdictions = HttpRequestStorage.DatabaseEntities.Jurisdictions.GetJurisdictionsWithGeospatialFeatures();
-            var geoJsonForJurisdictions = Jurisdiction.ToGeoJsonFeatureCollection(jurisdictions);
-            layerGeoJsons.Add(new LayerGeoJson("County/City", geoJsonForJurisdictions, "#FF6C2D", 0.6m, LayerInitialVisibility.Hide));
 
             var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
             var geoJsonForWatersheds = Watershed.ToGeoJsonFeatureCollection(watersheds);

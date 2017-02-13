@@ -33,7 +33,6 @@ namespace ProjectFirma.Web.Service.ServiceModels
             
             ProjectRegion = project.ProjectLocationTypeDisplay;
             ProjectState = project.ProjectLocationStateProvince;
-            ProjectJurisdiction = project.ProjectLocationJurisdiction;
             ProjectWatershed = project.ProjectLocationWatershed;
 
             ProjectDetailUrl = project.GetDetailUrl();
@@ -58,7 +57,6 @@ namespace ProjectFirma.Web.Service.ServiceModels
         [DataMember] public string Datum { get; set; }
         [DataMember] public string ProjectRegion { get; set; }
         [DataMember] public string ProjectState { get; set; }
-        [DataMember] public string ProjectJurisdiction { get; set; }
         [DataMember] public string ProjectWatershed { get; set; }
 
         [DataMember] public string ProjectDetailUrl { get; set; }
@@ -118,7 +116,6 @@ namespace ProjectFirma.Web.Service.ServiceModels
             Add("Datum", x => x.Datum, 0);
             Add("ProjectRegion", x => x.ProjectRegion, 0);
             Add("ProjectState", x => x.ProjectState, 0);
-            Add("ProjectJurisdiction", x => x.ProjectJurisdiction, 0);
             Add("ProjectWatershed", x => x.ProjectWatershed, 0);
             Add("ProjectDetailUrl", x => x.ProjectDetailUrl, 0);
             Add("ProjectFactSheetUrl", x => x.ProjectFactSheetUrl, 0);

@@ -1,5 +1,4 @@
 using System.Data.Entity.Spatial;
-using ProjectFirma.Web.Views.Map;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
 
@@ -65,28 +64,6 @@ namespace ProjectFirma.Web.Models
         public override DbGeometry GetGeometry(ProjectLocationArea projectLocationArea)
         {
             return projectLocationArea.StateProvince.StateProvinceFeature;
-        }
-    }
-    public partial class ProjectLocationAreaGroupTypeJurisdiction
-    {
-        public override string GetProjectLocationAreaName(ProjectLocationArea projectLocationArea)
-        {
-            return projectLocationArea.Jurisdiction.Organization.OrganizationName;
-        }
-
-        public override string GetProjectLocationAreaDisplayName(ProjectLocationArea projectLocationArea)
-        {
-            return projectLocationArea.Jurisdiction.Organization.OrganizationName;
-        }
-
-        public override LayerGeoJson GetLayerGeoJson(ProjectLocationArea projectLocationArea)
-        {
-            return GetGeoJsonImpl(projectLocationArea.Jurisdiction.JurisdictionFeature, projectLocationArea.ProjectLocationAreaDisplayName);
-        }
-
-        public override DbGeometry GetGeometry(ProjectLocationArea projectLocationArea)
-        {
-            return projectLocationArea.Jurisdiction.JurisdictionFeature;
         }
     }
     public partial class ProjectLocationAreaGroupTypeWatershed

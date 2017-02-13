@@ -60,9 +60,6 @@
     <Compile Include="Models\Generated\AuditLogPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Classification.Binding.cs" />
     <Compile Include="Models\Generated\Classification.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ClassificationImage.Binding.cs" />
-    <Compile Include="Models\Generated\ClassificationImage.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ClassificationImagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ClassificationPerformanceMeasure.Binding.cs" />
     <Compile Include="Models\Generated\ClassificationPerformanceMeasure.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ClassificationPerformanceMeasurePrimaryKey.Binding.cs" />
@@ -102,9 +99,6 @@
     <Compile Include="Models\Generated\FundingSourcePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FundingType.Binding.cs" />
     <Compile Include="Models\Generated\FundingTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\Jurisdiction.Binding.cs" />
-    <Compile Include="Models\Generated\Jurisdiction.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\JurisdictionPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\MappedRegion.Binding.cs" />
     <Compile Include="Models\Generated\MappedRegion.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\MappedRegionPrimaryKey.Binding.cs" />
@@ -238,9 +232,6 @@
     <Compile Include="Models\Generated\ProjectLocationAreaGroupPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectLocationAreaGroupType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectLocationAreaGroupTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectLocationAreaJurisdiction.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectLocationAreaJurisdiction.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectLocationAreaJurisdictionPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectLocationAreaPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectLocationAreaStateProvince.Binding.cs" />
     <Compile Include="Models\Generated\ProjectLocationAreaStateProvince.DatabaseContextExtensions.cs" />
@@ -639,7 +630,6 @@
     <Compile Include="Models\SupportRequestType.cs" />
     <Compile Include="Models\ProjectCostTypeSimple.cs" />
     <Compile Include="Models\Watershed.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Jurisdiction.DatabaseContextExtensions.cs" />
     <Compile Include="Models\SupportRequestLogTest.cs" />
     <Compile Include="Models\PerformanceMeasureTest.cs" />
     <Compile Include="Controllers\PersonOrganizationController.cs" />
@@ -674,7 +664,6 @@
     <Compile Include="Service\ServiceModels\WebServiceProject.cs" />
     <Compile Include="Service\WebServices.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureActualUpdate.cs" />
-    <Compile Include="UnitTestCommon\TestJurisdiction.cs" />
     <Compile Include="Views\PerformanceMeasure\DefinitionAndGuidance.cs" />
     <Compile Include="Views\PerformanceMeasure\DefinitionAndGuidanceViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\EditAccomplishmentsMetadata.cs" />
@@ -1297,7 +1286,6 @@
     <Compile Include="Models\CostTest.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditure.DatabaseContextExtensions.cs" />
     <Compile Include="Models\ICalendarYearMonetaryAmount.cs" />
-    <Compile Include="Models\Jurisdiction.cs" />
     <Compile Include="Models\AuditLog.cs" />
     <Compile Include="Models\AuditLogEventType.cs" />
     <Compile Include="Models\CalendarYearReportedValue.cs" />

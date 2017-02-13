@@ -36,16 +36,13 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<AssessmentSubGoal> AssessmentSubGoals { get { return AllAssessmentSubGoals.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<AuditLog> AllAuditLogs { get; set; }
         public virtual IQueryable<AuditLog> AuditLogs { get { return AllAuditLogs.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ClassificationImage> AllClassificationImages { get; set; }
-        public virtual IQueryable<ClassificationImage> ClassificationImages { get { return AllClassificationImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ClassificationPerformanceMeasure> AllClassificationPerformanceMeasures { get; set; }
         public virtual IQueryable<ClassificationPerformanceMeasure> ClassificationPerformanceMeasures { get { return AllClassificationPerformanceMeasures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Classification> AllClassifications { get; set; }
         public virtual IQueryable<Classification> Classifications { get { return AllClassifications.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<CostParameterSet> AllCostParameterSets { get; set; }
         public virtual IQueryable<CostParameterSet> CostParameterSets { get { return AllCostParameterSets.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<County> AllCounties { get; set; }
-        public virtual IQueryable<County> Counties { get { return AllCounties.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<County> Counties { get; set; }
         public virtual DbSet<FieldDefinitionData> AllFieldDefinitionDatas { get; set; }
         public virtual IQueryable<FieldDefinitionData> FieldDefinitionDatas { get { return AllFieldDefinitionDatas.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<FieldDefinitionImage> AllFieldDefinitionImages { get; set; }
@@ -58,8 +55,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<FirmaPage> FirmaPages { get { return AllFirmaPages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<FundingSource> AllFundingSources { get; set; }
         public virtual IQueryable<FundingSource> FundingSources { get { return AllFundingSources.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<Jurisdiction> AllJurisdictions { get; set; }
-        public virtual IQueryable<Jurisdiction> Jurisdictions { get { return AllJurisdictions.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<MappedRegion> AllMappedRegions { get; set; }
         public virtual IQueryable<MappedRegion> MappedRegions { get { return AllMappedRegions.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<MonitoringProgramDocument> AllMonitoringProgramDocuments { get; set; }
@@ -134,8 +129,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectImplementingOrganization> ProjectImplementingOrganizations { get { return AllProjectImplementingOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectLocationAreaGroup> AllProjectLocationAreaGroups { get; set; }
         public virtual IQueryable<ProjectLocationAreaGroup> ProjectLocationAreaGroups { get { return AllProjectLocationAreaGroups.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectLocationAreaJurisdiction> AllProjectLocationAreaJurisdictions { get; set; }
-        public virtual IQueryable<ProjectLocationAreaJurisdiction> ProjectLocationAreaJurisdictions { get { return AllProjectLocationAreaJurisdictions.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectLocationArea> AllProjectLocationAreas { get; set; }
         public virtual IQueryable<ProjectLocationArea> ProjectLocationAreas { get { return AllProjectLocationAreas.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectLocationAreaStateProvince> AllProjectLocationAreaStateProvinces { get; set; }
@@ -210,8 +203,7 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<TaxonomyTierTwoPerformanceMeasure> TaxonomyTierTwoPerformanceMeasures { get { return AllTaxonomyTierTwoPerformanceMeasures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyTierTwo> AllTaxonomyTierTwos { get; set; }
         public virtual IQueryable<TaxonomyTierTwo> TaxonomyTierTwos { get { return AllTaxonomyTierTwos.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<Tenant> AllTenants { get; set; }
-        public virtual IQueryable<Tenant> Tenants { get { return AllTenants.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<Tenant> Tenants { get; set; }
         public virtual DbSet<Watershed> AllWatersheds { get; set; }
         public virtual IQueryable<Watershed> Watersheds { get { return AllWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
 
@@ -235,9 +227,6 @@ namespace ProjectFirma.Web.Models
 
                 case "AuditLog":
                     return AuditLogs.GetAuditLog(primaryKey);
-
-                case "ClassificationImage":
-                    return ClassificationImages.GetClassificationImage(primaryKey);
 
                 case "ClassificationPerformanceMeasure":
                     return ClassificationPerformanceMeasures.GetClassificationPerformanceMeasure(primaryKey);
@@ -293,9 +282,6 @@ namespace ProjectFirma.Web.Models
                     var fundingType = FundingType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(fundingType, "FundingType", primaryKey);
                     return fundingType;
-
-                case "Jurisdiction":
-                    return Jurisdictions.GetJurisdiction(primaryKey);
 
                 case "MappedRegion":
                     return MappedRegions.GetMappedRegion(primaryKey);
@@ -447,9 +433,6 @@ namespace ProjectFirma.Web.Models
                     var projectLocationAreaGroupType = ProjectLocationAreaGroupType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectLocationAreaGroupType, "ProjectLocationAreaGroupType", primaryKey);
                     return projectLocationAreaGroupType;
-
-                case "ProjectLocationAreaJurisdiction":
-                    return ProjectLocationAreaJurisdictions.GetProjectLocationAreaJurisdiction(primaryKey);
 
                 case "ProjectLocationArea":
                     return ProjectLocationAreas.GetProjectLocationArea(primaryKey);

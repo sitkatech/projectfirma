@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Common
                     () =>
                     {
                         var urlHost = HttpContext.Current.Request.Url.Host;
-                        var tenant = DatabaseEntities.AllTenants.SingleOrDefault(x => urlHost.Contains(x.TenantDomain));
+                        var tenant = DatabaseEntities.Tenants.SingleOrDefault(x => urlHost.Contains(x.TenantDomain));
                         Check.RequireNotNull(tenant, string.Format("Could not determine tenant from host {0}", urlHost));
                         return tenant;
                     });

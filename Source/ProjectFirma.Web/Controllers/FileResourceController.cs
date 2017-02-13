@@ -252,31 +252,6 @@ namespace ProjectFirma.Web.Controllers
         }
 
         /// <summary>
-        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResourceForTaxonomyTierOne(TaxonomyTierOnePrimaryKey, CkEditorImageUploadViewModel)"/>
-        /// </summary>
-        /// <returns></returns>
-        [CrossAreaRoute]
-        [HttpGet]
-        [PerformanceMeasureManageFeature]
-        public ContentResult CkEditorUploadFileResourceForClassification(ClassificationPrimaryKey classificationPrimary)
-        {
-            return Content(String.Empty);
-        }
-
-        [CrossAreaRoute]
-        [HttpPost]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        [PerformanceMeasureManageFeature]
-        public ContentResult CkEditorUploadFileResourceForClassification(ClassificationPrimaryKey classificationPrimary, CkEditorImageUploadViewModel viewModel)
-        {
-            var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
-            var classification = classificationPrimary.EntityObject;
-            var image = new ClassificationImage(classification, fileResource);
-            HttpRequestStorage.DatabaseEntities.AllClassificationImages.Add(image);
-            return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
-        }
-
-        /// <summary>
         /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResourceForFieldDefinition(FieldDefinitionPrimaryKey, CkEditorImageUploadViewModel)"/>
         /// </summary>
         /// <returns></returns>

@@ -27,7 +27,6 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(Models.FieldDefinition.UnfundedNeed.FieldDefinitionDisplayName, x => x.UnfundedNeed);
             AddColumn(Models.FieldDefinition.Region.FieldDefinitionDisplayName, a => a.ProjectLocationTypeDisplay);
             AddColumn("State", a => a.ProjectLocationStateProvince);
-            AddColumn("Jurisdiction", a => a.ProjectLocationJurisdiction);
             AddColumn("Watershed", a => a.ProjectLocationWatershed);
             AddColumn("Project Location Notes", a => a.ProjectLocationNotes);
         }

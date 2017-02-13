@@ -18,7 +18,6 @@ namespace ProjectFirma.Web.Models
     {
         public static readonly ProjectLocationAreaGroupTypeMappedRegion MappedRegion = ProjectLocationAreaGroupTypeMappedRegion.Instance;
         public static readonly ProjectLocationAreaGroupTypeState State = ProjectLocationAreaGroupTypeState.Instance;
-        public static readonly ProjectLocationAreaGroupTypeJurisdiction Jurisdiction = ProjectLocationAreaGroupTypeJurisdiction.Instance;
         public static readonly ProjectLocationAreaGroupTypeWatershed Watershed = ProjectLocationAreaGroupTypeWatershed.Instance;
 
         public static readonly List<ProjectLocationAreaGroupType> All;
@@ -29,7 +28,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectLocationAreaGroupType()
         {
-            All = new List<ProjectLocationAreaGroupType> { MappedRegion, State, Jurisdiction, Watershed };
+            All = new List<ProjectLocationAreaGroupType> { MappedRegion, State, Watershed };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectLocationAreaGroupType>(All.ToDictionary(x => x.ProjectLocationAreaGroupTypeID));
         }
 
@@ -100,8 +99,6 @@ namespace ProjectFirma.Web.Models
         {
             switch (enumValue)
             {
-                case ProjectLocationAreaGroupTypeEnum.Jurisdiction:
-                    return Jurisdiction;
                 case ProjectLocationAreaGroupTypeEnum.MappedRegion:
                     return MappedRegion;
                 case ProjectLocationAreaGroupTypeEnum.State:
@@ -118,7 +115,6 @@ namespace ProjectFirma.Web.Models
     {
         MappedRegion = 1,
         State = 2,
-        Jurisdiction = 3,
         Watershed = 4
     }
 
@@ -132,12 +128,6 @@ namespace ProjectFirma.Web.Models
     {
         private ProjectLocationAreaGroupTypeState(int projectLocationAreaGroupTypeID, string projectLocationAreaGroupTypeName, string projectLocationAreaGroupTypeDisplayName, int displayOrder) : base(projectLocationAreaGroupTypeID, projectLocationAreaGroupTypeName, projectLocationAreaGroupTypeDisplayName, displayOrder) {}
         public static readonly ProjectLocationAreaGroupTypeState Instance = new ProjectLocationAreaGroupTypeState(2, @"State", @"State", 2);
-    }
-
-    public partial class ProjectLocationAreaGroupTypeJurisdiction : ProjectLocationAreaGroupType
-    {
-        private ProjectLocationAreaGroupTypeJurisdiction(int projectLocationAreaGroupTypeID, string projectLocationAreaGroupTypeName, string projectLocationAreaGroupTypeDisplayName, int displayOrder) : base(projectLocationAreaGroupTypeID, projectLocationAreaGroupTypeName, projectLocationAreaGroupTypeDisplayName, displayOrder) {}
-        public static readonly ProjectLocationAreaGroupTypeJurisdiction Instance = new ProjectLocationAreaGroupTypeJurisdiction(3, @"Jurisdiction", @"Jurisdiction", 3);
     }
 
     public partial class ProjectLocationAreaGroupTypeWatershed : ProjectLocationAreaGroupType

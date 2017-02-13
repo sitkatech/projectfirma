@@ -63,18 +63,7 @@
           <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
           <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
           <ScalarProperty Name="GoalStatement" ColumnName="GoalStatement" />
-          <ScalarProperty Name="Narrative" ColumnName="Narrative" />
           <ScalarProperty Name="KeyImageFileResourceID" ColumnName="KeyImageFileResourceID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ClassificationImage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ClassificationImage">
-        <MappingFragment StoreEntitySet="ClassificationImage">
-          <ScalarProperty Name="ClassificationImageID" ColumnName="ClassificationImageID" />
-          <ScalarProperty Name="ClassificationID" ColumnName="ClassificationID" />
-          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -109,7 +98,6 @@
           <ScalarProperty Name="CountyName" ColumnName="CountyName" />
           <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
           <ScalarProperty Name="CountyFeature" ColumnName="CountyFeature" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -176,17 +164,6 @@
           <ScalarProperty Name="FundingSourceName" ColumnName="FundingSourceName" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="FundingSourceDescription" ColumnName="FundingSourceDescription" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Jurisdiction">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Jurisdiction">
-        <MappingFragment StoreEntitySet="Jurisdiction">
-          <ScalarProperty Name="JurisdictionID" ColumnName="JurisdictionID" />
-          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
-          <ScalarProperty Name="JurisdictionFeature" ColumnName="JurisdictionFeature" />
-          <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -675,7 +652,6 @@
           <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
           <ScalarProperty Name="ProjectLocationAreaGroupID" ColumnName="ProjectLocationAreaGroupID" />
           <ScalarProperty Name="MappedRegionID" ColumnName="MappedRegionID" />
-          <ScalarProperty Name="JurisdictionID" ColumnName="JurisdictionID" />
           <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
@@ -686,16 +662,6 @@
         <MappingFragment StoreEntitySet="ProjectLocationAreaGroup">
           <ScalarProperty Name="ProjectLocationAreaGroupID" ColumnName="ProjectLocationAreaGroupID" />
           <ScalarProperty Name="ProjectLocationAreaGroupTypeID" ColumnName="ProjectLocationAreaGroupTypeID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProjectLocationAreaJurisdiction">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationAreaJurisdiction">
-        <MappingFragment StoreEntitySet="ProjectLocationAreaJurisdiction">
-          <ScalarProperty Name="ProjectLocationAreaJurisdictionID" ColumnName="ProjectLocationAreaJurisdictionID" />
-          <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
-          <ScalarProperty Name="JurisdictionID" ColumnName="JurisdictionID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>

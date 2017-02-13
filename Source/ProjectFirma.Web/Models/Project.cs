@@ -219,43 +219,6 @@ namespace ProjectFirma.Web.Models
             return notNullSubmittalDates.Any() ? notNullSubmittalDates.Max() : null;
         }
 
-        private string _projectLocationJurisdiction;
-        private bool _hasSetProjectLocationJurisdiction;
-        public string ProjectLocationJurisdiction
-        {
-            get
-            {
-                if (_hasSetProjectLocationJurisdiction)
-                {
-                    return _projectLocationJurisdiction;
-                }
-                SetProjectJurisdiction(HttpRequestStorage.DatabaseEntities.Jurisdictions.GetJurisdictionsWithGeospatialFeatures(), HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.ToDictionary(x => x.ProjectLocationAreaID));
-                return _projectLocationJurisdiction;
-            }
-            set
-            {
-                _projectLocationJurisdiction = value;
-                _hasSetProjectLocationJurisdiction = true;
-            }
-        }
-
-        public void SetProjectJurisdiction(IEnumerable<Jurisdiction> jurisdictions, Dictionary<int, ProjectLocationArea> projectLocationAreas)
-        {
-            if (HasProjectLocationPoint)
-            {
-                var countyOrCity = jurisdictions.FirstOrDefault(x => x.JurisdictionFeature.Intersects(ProjectLocationPoint));
-                ProjectLocationJurisdiction = countyOrCity != null ? countyOrCity.Organization.OrganizationName : ViewUtilities.NaString;
-            }
-            else if (ProjectLocationAreaID.HasValue)
-            {
-                ProjectLocationJurisdiction = String.Join(", ", projectLocationAreas[ProjectLocationAreaID.Value].ProjectLocationAreaJurisdictions.Select(x => x.Jurisdiction.Organization.OrganizationName));
-            }
-            else
-            {
-                ProjectLocationJurisdiction = ViewUtilities.NaString;
-            }
-        }
-
         private string _projectLocationStateProvince;
         private bool _hasSetProjectLocationStateProvince;
         public string ProjectLocationStateProvince

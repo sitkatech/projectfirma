@@ -24,7 +24,6 @@ namespace ProjectFirma.Web.Models
         protected ProjectLocationArea()
         {
             this.Projects = new HashSet<Project>();
-            this.ProjectLocationAreaJurisdictions = new HashSet<ProjectLocationAreaJurisdiction>();
             this.ProjectLocationAreaStateProvinces = new HashSet<ProjectLocationAreaStateProvince>();
             this.ProjectLocationAreaWatersheds = new HashSet<ProjectLocationAreaWatershed>();
             this.ProjectUpdates = new HashSet<ProjectUpdate>();
@@ -34,7 +33,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectLocationArea(int projectLocationAreaID, int? stateProvinceID, int? projectLocationAreaGroupID, int? mappedRegionID, int? jurisdictionID, int? watershedID) : this()
+        public ProjectLocationArea(int projectLocationAreaID, int? stateProvinceID, int? projectLocationAreaGroupID, int? mappedRegionID, int? watershedID) : this()
         {
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
             
@@ -42,7 +41,6 @@ namespace ProjectFirma.Web.Models
             this.StateProvinceID = stateProvinceID;
             this.ProjectLocationAreaGroupID = projectLocationAreaGroupID;
             this.MappedRegionID = mappedRegionID;
-            this.JurisdictionID = jurisdictionID;
             this.WatershedID = watershedID;
         }
 
@@ -62,26 +60,24 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return Projects.Any() || ProjectLocationAreaJurisdictions.Any() || ProjectLocationAreaStateProvinces.Any() || ProjectLocationAreaWatersheds.Any() || ProjectUpdates.Any() || ProposedProjects.Any();
+            return Projects.Any() || ProjectLocationAreaStateProvinces.Any() || ProjectLocationAreaWatersheds.Any() || ProjectUpdates.Any() || ProposedProjects.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectLocationArea).Name, typeof(Project).Name, typeof(ProjectLocationAreaJurisdiction).Name, typeof(ProjectLocationAreaStateProvince).Name, typeof(ProjectLocationAreaWatershed).Name, typeof(ProjectUpdate).Name, typeof(ProposedProject).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectLocationArea).Name, typeof(Project).Name, typeof(ProjectLocationAreaStateProvince).Name, typeof(ProjectLocationAreaWatershed).Name, typeof(ProjectUpdate).Name, typeof(ProposedProject).Name};
 
         [Key]
         public int ProjectLocationAreaID { get; set; }
         public int? StateProvinceID { get; set; }
         public int? ProjectLocationAreaGroupID { get; set; }
         public int? MappedRegionID { get; set; }
-        public int? JurisdictionID { get; set; }
         public int? WatershedID { get; set; }
         public int TenantID { get; set; }
         public int PrimaryKey { get { return ProjectLocationAreaID; } set { ProjectLocationAreaID = value; } }
 
         public virtual ICollection<Project> Projects { get; set; }
-        public virtual ICollection<ProjectLocationAreaJurisdiction> ProjectLocationAreaJurisdictions { get; set; }
         public virtual ICollection<ProjectLocationAreaStateProvince> ProjectLocationAreaStateProvinces { get; set; }
         public virtual ICollection<ProjectLocationAreaWatershed> ProjectLocationAreaWatersheds { get; set; }
         public virtual ICollection<ProjectUpdate> ProjectUpdates { get; set; }
@@ -89,7 +85,6 @@ namespace ProjectFirma.Web.Models
         public virtual StateProvince StateProvince { get; set; }
         public virtual ProjectLocationAreaGroup ProjectLocationAreaGroup { get; set; }
         public virtual MappedRegion MappedRegion { get; set; }
-        public virtual Jurisdiction Jurisdiction { get; set; }
         public virtual Watershed Watershed { get; set; }
         public virtual Tenant Tenant { get; set; }
 
