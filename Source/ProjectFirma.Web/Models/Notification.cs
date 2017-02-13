@@ -291,7 +291,7 @@ Thank you for keeping your project information and accomplishments up to date!<b
             foreach (var notificationPerson in notificationPeople)
             {
                 var notification = new Notification(notificationType, notificationPerson, notificationDate);
-                notification.NotificationProposedProjects = notificationProposedProjects.Select(p => new NotificationProposedProject(p, notification)).ToList();
+                notification.NotificationProposedProjects = notificationProposedProjects.Select(p => new NotificationProposedProject(notification, p)).ToList();
                 notifications.Add(notification);
             }
             return notifications;
