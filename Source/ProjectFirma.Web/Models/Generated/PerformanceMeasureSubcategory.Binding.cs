@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureSubcategoryID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
             performanceMeasure.PerformanceMeasureSubcategories.Add(this);
@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Models
         public string ChartConfigurationJson { get; set; }
         public string ChartType { get; set; }
         public bool? SwapChartAxes { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int PrimaryKey { get { return PerformanceMeasureSubcategoryID; } set { PerformanceMeasureSubcategoryID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
@@ -112,7 +112,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<PerformanceMeasureSubcategoryOption> PerformanceMeasureSubcategoryOptions { get; set; }
         public virtual ICollection<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

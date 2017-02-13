@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectClassificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProposedProjectID = proposedProject.ProposedProjectID;
             this.ProposedProject = proposedProject;
             proposedProject.ProposedProjectClassifications.Add(this);
@@ -95,12 +95,12 @@ namespace ProjectFirma.Web.Models
         public int ProposedProjectID { get; set; }
         public int ClassificationID { get; set; }
         public string ProposedProjectClassificationNotes { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProposedProjectClassificationID; } set { ProposedProjectClassificationID = value; } }
 
         public virtual ProposedProject ProposedProject { get; set; }
         public virtual Classification Classification { get; set; }
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

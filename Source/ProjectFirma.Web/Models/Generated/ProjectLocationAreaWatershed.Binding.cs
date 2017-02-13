@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationAreaWatershedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectLocationAreaID = projectLocationArea.ProjectLocationAreaID;
             this.ProjectLocationArea = projectLocationArea;
             projectLocationArea.ProjectLocationAreaWatersheds.Add(this);
@@ -93,12 +93,12 @@ namespace ProjectFirma.Web.Models
         public int ProjectLocationAreaWatershedID { get; set; }
         public int ProjectLocationAreaID { get; set; }
         public int WatershedID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProjectLocationAreaWatershedID; } set { ProjectLocationAreaWatershedID = value; } }
 
         public virtual ProjectLocationArea ProjectLocationArea { get; set; }
         public virtual Watershed Watershed { get; set; }
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

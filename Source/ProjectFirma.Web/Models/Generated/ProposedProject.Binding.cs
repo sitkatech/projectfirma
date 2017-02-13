@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
             this.LeadImplementerOrganizationID = leadImplementerOrganization.OrganizationID;
@@ -154,7 +154,7 @@ namespace ProjectFirma.Web.Models
         public DateTime? SubmissionDate { get; set; }
         public DateTime? ApprovalDate { get; set; }
         public int? ReviewedByPersonID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProposedProjectID; } set { ProposedProjectID = value; } }
 
         public virtual ICollection<NotificationProposedProject> NotificationProposedProjects { get; set; }
@@ -174,7 +174,7 @@ namespace ProjectFirma.Web.Models
         public ProposedProjectState ProposedProjectState { get { return ProposedProjectState.AllLookupDictionary[ProposedProjectStateID]; } }
         public virtual TaxonomyTierOne TaxonomyTierOne { get; set; }
         public virtual Project Project { get; set; }
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

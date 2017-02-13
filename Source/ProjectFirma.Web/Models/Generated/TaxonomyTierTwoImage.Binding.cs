@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyTierTwoImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.TaxonomyTierTwoID = taxonomyTierTwo.TaxonomyTierTwoID;
             this.TaxonomyTierTwo = taxonomyTierTwo;
             taxonomyTierTwo.TaxonomyTierTwoImages.Add(this);
@@ -93,12 +93,12 @@ namespace ProjectFirma.Web.Models
         public int TaxonomyTierTwoImageID { get; set; }
         public int TaxonomyTierTwoID { get; set; }
         public int FileResourceID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int PrimaryKey { get { return TaxonomyTierTwoImageID; } set { TaxonomyTierTwoImageID = value; } }
 
         public virtual TaxonomyTierTwo TaxonomyTierTwo { get; set; }
         public virtual FileResource FileResource { get; set; }
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

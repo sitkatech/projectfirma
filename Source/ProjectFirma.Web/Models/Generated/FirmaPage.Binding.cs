@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.FirmaPageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FirmaPageTypeID = firmaPageType.FirmaPageTypeID;
         }
 
@@ -93,12 +93,12 @@ namespace ProjectFirma.Web.Models
             get { return FirmaPageContent == null ? null : new HtmlString(FirmaPageContent); }
             set { FirmaPageContent = value == null ? null : value.ToString(); }
         }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int PrimaryKey { get { return FirmaPageID; } set { FirmaPageID = value; } }
 
         public virtual ICollection<FirmaPageImage> FirmaPageImages { get; set; }
         public FirmaPageType FirmaPageType { get { return FirmaPageType.AllLookupDictionary[FirmaPageTypeID]; } }
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

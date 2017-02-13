@@ -88,12 +88,12 @@ namespace ProjectFirma.Web.Models
         }
         public string ThemeColor { get; set; }
         public string TaxonomyTierThreeCode { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int PrimaryKey { get { return TaxonomyTierThreeID; } set { TaxonomyTierThreeID = value; } }
 
         public virtual ICollection<TaxonomyTierThreeImage> TaxonomyTierThreeImages { get; set; }
         public virtual ICollection<TaxonomyTierTwo> TaxonomyTierTwos { get; set; }
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

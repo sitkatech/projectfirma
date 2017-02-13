@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.SupportRequestLogID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.RequestDate = requestDate;
             this.RequestPersonName = requestPersonName;
             this.RequestPersonEmail = requestPersonEmail;
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SupportRequestLogID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public DateTime RequestDate { get; set; }
         public string RequestPersonName { get; set; }
         public string RequestPersonEmail { get; set; }
@@ -110,7 +110,7 @@ namespace ProjectFirma.Web.Models
         public string RequestPersonPhone { get; set; }
         public int PrimaryKey { get { return SupportRequestLogID; } set { SupportRequestLogID = value; } }
 
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Person RequestPerson { get; set; }
         public SupportRequestType SupportRequestType { get { return SupportRequestType.AllLookupDictionary[SupportRequestTypeID]; } }
 

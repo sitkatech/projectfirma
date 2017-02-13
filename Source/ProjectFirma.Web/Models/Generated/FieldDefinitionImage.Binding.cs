@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.FieldDefinitionImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FieldDefinitionID = fieldDefinition.FieldDefinitionID;
             this.FileResourceID = fileResource.FileResourceID;
             this.FileResource = fileResource;
@@ -89,12 +89,12 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int FieldDefinitionImageID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int FieldDefinitionID { get; set; }
         public int FileResourceID { get; set; }
         public int PrimaryKey { get { return FieldDefinitionImageID; } set { FieldDefinitionImageID = value; } }
 
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public FieldDefinition FieldDefinition { get { return FieldDefinition.AllLookupDictionary[FieldDefinitionID]; } }
         public virtual FileResource FileResource { get; set; }
 

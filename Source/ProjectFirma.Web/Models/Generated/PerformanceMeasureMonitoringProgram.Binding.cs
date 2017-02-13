@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureMonitoringProgramID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
             performanceMeasure.PerformanceMeasureMonitoringPrograms.Add(this);
@@ -91,12 +91,12 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PerformanceMeasureMonitoringProgramID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int PerformanceMeasureID { get; set; }
         public int MonitoringProgramID { get; set; }
         public int PrimaryKey { get { return PerformanceMeasureMonitoringProgramID; } set { PerformanceMeasureMonitoringProgramID = value; } }
 
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
         public virtual MonitoringProgram MonitoringProgram { get; set; }
 

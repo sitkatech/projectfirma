@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int MonitoringProgramID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public string MonitoringProgramName { get; set; }
         public string MonitoringApproach { get; set; }
         public string MonitoringProgramUrl { get; set; }
@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<MonitoringProgramDocument> MonitoringProgramDocuments { get; set; }
         public virtual ICollection<MonitoringProgramPartner> MonitoringProgramPartners { get; set; }
         public virtual ICollection<PerformanceMeasureMonitoringProgram> PerformanceMeasureMonitoringPrograms { get; set; }
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

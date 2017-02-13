@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SnapshotID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public DateTime SnapshotDate { get; set; }
         public string SnapshotNote { get; set; }
         public int ProjectCount { get; set; }
@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<SnapshotPerformanceMeasure> SnapshotPerformanceMeasures { get; set; }
         public virtual ICollection<SnapshotProject> SnapshotProjects { get; set; }
         public virtual ICollection<SnapshotSectorExpenditure> SnapshotSectorExpenditures { get; set; }
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

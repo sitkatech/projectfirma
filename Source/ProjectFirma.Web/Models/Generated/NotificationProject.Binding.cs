@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.NotificationProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.NotificationID = notification.NotificationID;
             this.Notification = notification;
             notification.NotificationProjects.Add(this);
@@ -91,12 +91,12 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int NotificationProjectID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int NotificationID { get; set; }
         public int ProjectID { get; set; }
         public int PrimaryKey { get { return NotificationProjectID; } set { NotificationProjectID = value; } }
 
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Notification Notification { get; set; }
         public virtual Project Project { get; set; }
 

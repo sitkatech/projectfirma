@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectBudgetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectBudgets.Add(this);
@@ -105,13 +105,13 @@ namespace ProjectFirma.Web.Models
         public int ProjectCostTypeID { get; set; }
         public int CalendarYear { get; set; }
         public decimal BudgetedAmount { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProjectBudgetID; } set { ProjectBudgetID = value; } }
 
         public virtual Project Project { get; set; }
         public virtual FundingSource FundingSource { get; set; }
         public ProjectCostType ProjectCostType { get { return ProjectCostType.AllLookupDictionary[ProjectCostTypeID]; } }
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

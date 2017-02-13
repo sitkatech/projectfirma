@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.MonitoringProgramPartnerID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.MonitoringProgramID = monitoringProgram.MonitoringProgramID;
             this.MonitoringProgram = monitoringProgram;
             monitoringProgram.MonitoringProgramPartners.Add(this);
@@ -91,12 +91,12 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int MonitoringProgramPartnerID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int MonitoringProgramID { get; set; }
         public int OrganizationID { get; set; }
         public int PrimaryKey { get { return MonitoringProgramPartnerID; } set { MonitoringProgramPartnerID = value; } }
 
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual MonitoringProgram MonitoringProgram { get; set; }
         public virtual Organization Organization { get; set; }
 

@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.SnapshotSectorExpenditureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.SnapshotID = snapshot.SnapshotID;
             this.Snapshot = snapshot;
             snapshot.SnapshotSectorExpenditures.Add(this);
@@ -95,14 +95,14 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SnapshotSectorExpenditureID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int SnapshotID { get; set; }
         public int SectorID { get; set; }
         public int CalendarYear { get; set; }
         public decimal ExpenditureAmount { get; set; }
         public int PrimaryKey { get { return SnapshotSectorExpenditureID; } set { SnapshotSectorExpenditureID = value; } }
 
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Snapshot Snapshot { get; set; }
         public Sector Sector { get { return Sector.AllLookupDictionary[SectorID]; } }
 

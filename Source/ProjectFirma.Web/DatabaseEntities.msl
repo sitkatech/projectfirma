@@ -1114,15 +1114,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Tenant">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Tenant">
-        <MappingFragment StoreEntitySet="Tenant">
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="TenantName" ColumnName="TenantName" />
-          <ScalarProperty Name="TenantDomain" ColumnName="TenantDomain" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Watershed">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Watershed">
         <MappingFragment StoreEntitySet="Watershed">

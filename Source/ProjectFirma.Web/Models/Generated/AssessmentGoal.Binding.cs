@@ -76,14 +76,14 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int AssessmentGoalID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int AssessmentGoalNumber { get; set; }
         public string AssessmentGoalTitle { get; set; }
         public string AssessmentGoalDescription { get; set; }
         public int PrimaryKey { get { return AssessmentGoalID; } set { AssessmentGoalID = value; } }
 
         public virtual ICollection<AssessmentSubGoal> AssessmentSubGoals { get; set; }
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

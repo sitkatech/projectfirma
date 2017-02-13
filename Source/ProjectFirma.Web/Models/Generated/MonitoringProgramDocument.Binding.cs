@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.MonitoringProgramDocumentID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FileResourceID = fileResource.FileResourceID;
             this.FileResource = fileResource;
             fileResource.MonitoringProgramDocuments.Add(this);
@@ -97,14 +97,14 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int MonitoringProgramDocumentID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int FileResourceID { get; set; }
         public int MonitoringProgramID { get; set; }
         public string DisplayName { get; set; }
         public DateTime UploadDate { get; set; }
         public int PrimaryKey { get { return MonitoringProgramDocumentID; } set { MonitoringProgramDocumentID = value; } }
 
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual FileResource FileResource { get; set; }
         public virtual MonitoringProgram MonitoringProgram { get; set; }
 

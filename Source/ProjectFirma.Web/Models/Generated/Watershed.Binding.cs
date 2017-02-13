@@ -79,13 +79,13 @@ namespace ProjectFirma.Web.Models
         public int WatershedID { get; set; }
         public string WatershedName { get; set; }
         public DbGeometry WatershedFeature { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int PrimaryKey { get { return WatershedID; } set { WatershedID = value; } }
 
         public virtual ICollection<ProjectLocationArea> ProjectLocationAreas { get; set; }
         public virtual ICollection<ProjectLocationAreaWatershed> ProjectLocationAreaWatersheds { get; set; }
         public virtual ICollection<ProjectWatershed> ProjectWatersheds { get; set; }
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

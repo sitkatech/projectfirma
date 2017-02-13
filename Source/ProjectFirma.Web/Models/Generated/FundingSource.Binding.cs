@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.FundingSourceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.OrganizationID = organization.OrganizationID;
             this.Organization = organization;
             organization.FundingSources.Add(this);
@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Models
         public string FundingSourceName { get; set; }
         public bool IsActive { get; set; }
         public string FundingSourceDescription { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int PrimaryKey { get { return FundingSourceID; } set { FundingSourceID = value; } }
 
         public virtual ICollection<ProjectBudget> ProjectBudgets { get; set; }
@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get; set; }
         public virtual Organization Organization { get; set; }
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

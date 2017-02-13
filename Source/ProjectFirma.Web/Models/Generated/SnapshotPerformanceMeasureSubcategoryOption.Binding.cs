@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.SnapshotPerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.SnapshotPerformanceMeasureID = snapshotPerformanceMeasure.SnapshotPerformanceMeasureID;
             this.SnapshotPerformanceMeasure = snapshotPerformanceMeasure;
             snapshotPerformanceMeasure.SnapshotPerformanceMeasureSubcategoryOptions.Add(this);
@@ -101,14 +101,14 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SnapshotPerformanceMeasureSubcategoryOptionID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int SnapshotPerformanceMeasureID { get; set; }
         public int PerformanceMeasureSubcategoryOptionID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int PerformanceMeasureSubcategoryID { get; set; }
         public int PrimaryKey { get { return SnapshotPerformanceMeasureSubcategoryOptionID; } set { SnapshotPerformanceMeasureSubcategoryOptionID = value; } }
 
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual SnapshotPerformanceMeasure SnapshotPerformanceMeasure { get; set; }
         public virtual PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }

@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.AssessmentSubGoalID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.AssessmentGoalID = assessmentGoal.AssessmentGoalID;
             this.AssessmentGoal = assessmentGoal;
             assessmentGoal.AssessmentSubGoals.Add(this);
@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int AssessmentSubGoalID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int AssessmentGoalID { get; set; }
         public int AssessmentSubGoalNumber { get; set; }
         public string AssessmentSubGoalTitle { get; set; }
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Models
         public int PrimaryKey { get { return AssessmentSubGoalID; } set { AssessmentSubGoalID = value; } }
 
         public virtual ICollection<AssessmentQuestion> AssessmentQuestions { get; set; }
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual AssessmentGoal AssessmentGoal { get; set; }
 
         public static class FieldLengths

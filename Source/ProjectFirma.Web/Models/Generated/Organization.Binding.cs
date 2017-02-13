@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.OrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.OrganizationName = organizationName;
             this.SectorID = sector.SectorID;
             this.IsActive = isActive;
@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Models
         public bool IsActive { get; set; }
         public string OrganizationUrl { get; set; }
         public int? LogoFileResourceID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int PrimaryKey { get { return OrganizationID; } set { OrganizationID = value; } }
 
         public virtual ICollection<FundingSource> FundingSources { get; set; }
@@ -120,7 +120,7 @@ namespace ProjectFirma.Web.Models
         public Sector Sector { get { return Sector.AllLookupDictionary[SectorID]; } }
         public virtual Person PrimaryContactPerson { get; set; }
         public virtual FileResource LogoFileResource { get; set; }
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

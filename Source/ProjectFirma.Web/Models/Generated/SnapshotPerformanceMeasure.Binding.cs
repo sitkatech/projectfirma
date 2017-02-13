@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.SnapshotPerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.Tenant = HttpRequestStorage.Tenant;
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.SnapshotID = snapshot.SnapshotID;
             this.Snapshot = snapshot;
             snapshot.SnapshotPerformanceMeasures.Add(this);
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int SnapshotPerformanceMeasureID { get; set; }
-        public int TenantID { get; set; }
+        public int TenantID { get; private set; }
         public int SnapshotID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int CalendarYear { get; set; }
@@ -105,7 +105,7 @@ namespace ProjectFirma.Web.Models
         public int PrimaryKey { get { return SnapshotPerformanceMeasureID; } set { SnapshotPerformanceMeasureID = value; } }
 
         public virtual ICollection<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get; set; }
-        public virtual Tenant Tenant { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Snapshot Snapshot { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
 
