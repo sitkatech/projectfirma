@@ -29,8 +29,6 @@ namespace LtInfo.Common
 
         public Expression<Action<T>> RouteExpression { get; private set; }
 
-        // ReSharper disable StaticFieldInGenericType
-        [Obsolete("This needs to be re-written to take into account multiple canonical hosts.  For example, Champmonitoring.org, AEMonitoring.org")]
         private static readonly Lazy<RequestContext> GenericRequestContextLazy = new Lazy<RequestContext>(() =>
         // ReSharper restore StaticFieldInGenericType
         {
@@ -43,7 +41,6 @@ namespace LtInfo.Common
 
         public SitkaRouteSecurity RouteSecurity { get; set; }
 
-        [Obsolete("This needs to be re-written to take into account multiple canonical hosts.  For example, Champmonitoring.org, AEMonitoring.org")]
         public static RequestContext GenericRequestContext
         {
             get
@@ -139,8 +136,9 @@ namespace LtInfo.Common
         {
             Check.Require(RouteTable.Routes.Any(), "RouteTable is empty and therefore no urls can be constructed. Is this being called before the route table is built? Consider using Lazy<T> or some other way to delay the call.");
             var currentContext = HttpContext.Current;
-            var route = SitkaLinkBuilder.BuildUrlFromExpression(currentContext.Request.RequestContext, RouteTable.Routes, routeExpression);
-            Check.RequireNotNullNotEmptyNotWhitespace(route, string.Format("Could not found a route entry for route expression \"{0}.{1}\"", routeExpression.Type.Name, routeExpression));
+            var requestRequestContext = currentContext != null ? currentContext.Request.RequestContext : GenericRequestContext; // for unit testing, we need a request
+            var route = SitkaLinkBuilder.BuildUrlFromExpression(requestRequestContext, RouteTable.Routes, routeExpression);
+            Check.RequireNotNullNotEmptyNotWhitespace(route, string.Format("Could not find a route entry for route expression \"{0}.{1}\"", routeExpression.Type.Name, routeExpression));
             Check.Require(!route.Contains("?"), string.Format("Route expression \"{0}.{1}\" resulted in url \"{2}\" which contains a UrlParameter converted to a QueryStringParameter, most likely due to an optional blank/null parameter preceeding another non-blank/non-null parameter. We want only url parameters for routing - no query strings - to keep more fine grained control over url appearance", routeExpression.Type.Name, routeExpression.Body, route));
             return route;
         }
