@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[Snapshot]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return snapshot;
         }
 
-        public static void DeleteSnapshot(this IQueryable<Snapshot> snapshots, List<int> snapshotIDList)
+        public static void DeleteSnapshot(this List<int> snapshotIDList)
         {
             if(snapshotIDList.Any())
             {
-                snapshots.Where(x => snapshotIDList.Contains(x.SnapshotID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllSnapshots.RemoveRange(HttpRequestStorage.DatabaseEntities.Snapshots.Where(x => snapshotIDList.Contains(x.SnapshotID)));
             }
         }
 
-        public static void DeleteSnapshot(this IQueryable<Snapshot> snapshots, ICollection<Snapshot> snapshotsToDelete)
+        public static void DeleteSnapshot(this ICollection<Snapshot> snapshotsToDelete)
         {
             if(snapshotsToDelete.Any())
             {
-                var snapshotIDList = snapshotsToDelete.Select(x => x.SnapshotID).ToList();
-                snapshots.Where(x => snapshotIDList.Contains(x.SnapshotID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllSnapshots.RemoveRange(snapshotsToDelete);
             }
         }
 
-        public static void DeleteSnapshot(this IQueryable<Snapshot> snapshots, int snapshotID)
+        public static void DeleteSnapshot(this int snapshotID)
         {
-            DeleteSnapshot(snapshots, new List<int> { snapshotID });
+            DeleteSnapshot(new List<int> { snapshotID });
         }
 
-        public static void DeleteSnapshot(this IQueryable<Snapshot> snapshots, Snapshot snapshotToDelete)
+        public static void DeleteSnapshot(this Snapshot snapshotToDelete)
         {
-            DeleteSnapshot(snapshots, new List<Snapshot> { snapshotToDelete });
+            DeleteSnapshot(new List<Snapshot> { snapshotToDelete });
         }
     }
 }

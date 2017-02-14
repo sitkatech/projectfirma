@@ -788,7 +788,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 var gdbFile = disposableTempFile.FileInfo;
                 httpPostedFileBase.SaveAs(gdbFile.FullName);
-                HttpRequestStorage.DatabaseEntities.ProjectLocationStagingUpdates.DeleteProjectLocationStagingUpdate(projectUpdateBatch.ProjectLocationStagingUpdates.ToList());
+                projectUpdateBatch.ProjectLocationStagingUpdates.ToList().DeleteProjectLocationStagingUpdate();
                 projectUpdateBatch.ProjectLocationStagingUpdates.Clear();
                 ProjectLocationStagingUpdate.CreateProjectLocationStagingUpdateListFromGdb(gdbFile, projectUpdateBatch, CurrentPerson);
             }
@@ -845,7 +845,7 @@ namespace ProjectFirma.Web.Controllers
         private static void SaveProjectLocationUpdates(ProjectLocationDetailViewModel viewModel, ProjectUpdateBatch projectUpdateBatch)
         {
             var projectLocationUpdates = projectUpdateBatch.ProjectLocationUpdates.ToList();
-            HttpRequestStorage.DatabaseEntities.ProjectLocationUpdates.DeleteProjectLocationUpdate(projectLocationUpdates);
+            projectLocationUpdates.DeleteProjectLocationUpdate();
             projectUpdateBatch.ProjectLocationUpdates.Clear();
             if (viewModel.WktAndAnnotations != null)
             {

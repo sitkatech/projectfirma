@@ -126,7 +126,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteMonitoringProgram(monitoringProgram, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.MonitoringPrograms.DeleteMonitoringProgram(monitoringProgram);
+            monitoringProgram.DeleteMonitoringProgram();
             return new ModalDialogFormJsonResult();
         }
 
@@ -200,7 +200,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteMonitoringProgramDocument(monitoringProgramDocument, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.MonitoringProgramDocuments.DeleteMonitoringProgramDocument(monitoringProgramDocument);
+            monitoringProgramDocument.DeleteMonitoringProgramDocument();
             return new ModalDialogFormJsonResult();
         }
 

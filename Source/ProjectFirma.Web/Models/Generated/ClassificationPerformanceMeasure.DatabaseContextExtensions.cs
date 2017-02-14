@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[ClassificationPerformanceMeasure]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return classificationPerformanceMeasure;
         }
 
-        public static void DeleteClassificationPerformanceMeasure(this IQueryable<ClassificationPerformanceMeasure> classificationPerformanceMeasures, List<int> classificationPerformanceMeasureIDList)
+        public static void DeleteClassificationPerformanceMeasure(this List<int> classificationPerformanceMeasureIDList)
         {
             if(classificationPerformanceMeasureIDList.Any())
             {
-                classificationPerformanceMeasures.Where(x => classificationPerformanceMeasureIDList.Contains(x.ClassificationPerformanceMeasureID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllClassificationPerformanceMeasures.RemoveRange(HttpRequestStorage.DatabaseEntities.ClassificationPerformanceMeasures.Where(x => classificationPerformanceMeasureIDList.Contains(x.ClassificationPerformanceMeasureID)));
             }
         }
 
-        public static void DeleteClassificationPerformanceMeasure(this IQueryable<ClassificationPerformanceMeasure> classificationPerformanceMeasures, ICollection<ClassificationPerformanceMeasure> classificationPerformanceMeasuresToDelete)
+        public static void DeleteClassificationPerformanceMeasure(this ICollection<ClassificationPerformanceMeasure> classificationPerformanceMeasuresToDelete)
         {
             if(classificationPerformanceMeasuresToDelete.Any())
             {
-                var classificationPerformanceMeasureIDList = classificationPerformanceMeasuresToDelete.Select(x => x.ClassificationPerformanceMeasureID).ToList();
-                classificationPerformanceMeasures.Where(x => classificationPerformanceMeasureIDList.Contains(x.ClassificationPerformanceMeasureID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllClassificationPerformanceMeasures.RemoveRange(classificationPerformanceMeasuresToDelete);
             }
         }
 
-        public static void DeleteClassificationPerformanceMeasure(this IQueryable<ClassificationPerformanceMeasure> classificationPerformanceMeasures, int classificationPerformanceMeasureID)
+        public static void DeleteClassificationPerformanceMeasure(this int classificationPerformanceMeasureID)
         {
-            DeleteClassificationPerformanceMeasure(classificationPerformanceMeasures, new List<int> { classificationPerformanceMeasureID });
+            DeleteClassificationPerformanceMeasure(new List<int> { classificationPerformanceMeasureID });
         }
 
-        public static void DeleteClassificationPerformanceMeasure(this IQueryable<ClassificationPerformanceMeasure> classificationPerformanceMeasures, ClassificationPerformanceMeasure classificationPerformanceMeasureToDelete)
+        public static void DeleteClassificationPerformanceMeasure(this ClassificationPerformanceMeasure classificationPerformanceMeasureToDelete)
         {
-            DeleteClassificationPerformanceMeasure(classificationPerformanceMeasures, new List<ClassificationPerformanceMeasure> { classificationPerformanceMeasureToDelete });
+            DeleteClassificationPerformanceMeasure(new List<ClassificationPerformanceMeasure> { classificationPerformanceMeasureToDelete });
         }
     }
 }

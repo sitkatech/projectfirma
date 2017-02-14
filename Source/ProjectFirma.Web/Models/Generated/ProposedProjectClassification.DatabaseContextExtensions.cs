@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[ProposedProjectClassification]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return proposedProjectClassification;
         }
 
-        public static void DeleteProposedProjectClassification(this IQueryable<ProposedProjectClassification> proposedProjectClassifications, List<int> proposedProjectClassificationIDList)
+        public static void DeleteProposedProjectClassification(this List<int> proposedProjectClassificationIDList)
         {
             if(proposedProjectClassificationIDList.Any())
             {
-                proposedProjectClassifications.Where(x => proposedProjectClassificationIDList.Contains(x.ProposedProjectClassificationID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProposedProjectClassifications.RemoveRange(HttpRequestStorage.DatabaseEntities.ProposedProjectClassifications.Where(x => proposedProjectClassificationIDList.Contains(x.ProposedProjectClassificationID)));
             }
         }
 
-        public static void DeleteProposedProjectClassification(this IQueryable<ProposedProjectClassification> proposedProjectClassifications, ICollection<ProposedProjectClassification> proposedProjectClassificationsToDelete)
+        public static void DeleteProposedProjectClassification(this ICollection<ProposedProjectClassification> proposedProjectClassificationsToDelete)
         {
             if(proposedProjectClassificationsToDelete.Any())
             {
-                var proposedProjectClassificationIDList = proposedProjectClassificationsToDelete.Select(x => x.ProposedProjectClassificationID).ToList();
-                proposedProjectClassifications.Where(x => proposedProjectClassificationIDList.Contains(x.ProposedProjectClassificationID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProposedProjectClassifications.RemoveRange(proposedProjectClassificationsToDelete);
             }
         }
 
-        public static void DeleteProposedProjectClassification(this IQueryable<ProposedProjectClassification> proposedProjectClassifications, int proposedProjectClassificationID)
+        public static void DeleteProposedProjectClassification(this int proposedProjectClassificationID)
         {
-            DeleteProposedProjectClassification(proposedProjectClassifications, new List<int> { proposedProjectClassificationID });
+            DeleteProposedProjectClassification(new List<int> { proposedProjectClassificationID });
         }
 
-        public static void DeleteProposedProjectClassification(this IQueryable<ProposedProjectClassification> proposedProjectClassifications, ProposedProjectClassification proposedProjectClassificationToDelete)
+        public static void DeleteProposedProjectClassification(this ProposedProjectClassification proposedProjectClassificationToDelete)
         {
-            DeleteProposedProjectClassification(proposedProjectClassifications, new List<ProposedProjectClassification> { proposedProjectClassificationToDelete });
+            DeleteProposedProjectClassification(new List<ProposedProjectClassification> { proposedProjectClassificationToDelete });
         }
     }
 }

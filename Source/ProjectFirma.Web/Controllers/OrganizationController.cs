@@ -213,7 +213,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteOrganization(organization, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.Organizations.DeleteOrganization(organization);
+            organization.DeleteOrganization();
             return new ModalDialogFormJsonResult();
         }
 

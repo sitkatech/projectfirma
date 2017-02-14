@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[FirmaPage]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return firmaPage;
         }
 
-        public static void DeleteFirmaPage(this IQueryable<FirmaPage> firmaPages, List<int> firmaPageIDList)
+        public static void DeleteFirmaPage(this List<int> firmaPageIDList)
         {
             if(firmaPageIDList.Any())
             {
-                firmaPages.Where(x => firmaPageIDList.Contains(x.FirmaPageID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllFirmaPages.RemoveRange(HttpRequestStorage.DatabaseEntities.FirmaPages.Where(x => firmaPageIDList.Contains(x.FirmaPageID)));
             }
         }
 
-        public static void DeleteFirmaPage(this IQueryable<FirmaPage> firmaPages, ICollection<FirmaPage> firmaPagesToDelete)
+        public static void DeleteFirmaPage(this ICollection<FirmaPage> firmaPagesToDelete)
         {
             if(firmaPagesToDelete.Any())
             {
-                var firmaPageIDList = firmaPagesToDelete.Select(x => x.FirmaPageID).ToList();
-                firmaPages.Where(x => firmaPageIDList.Contains(x.FirmaPageID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllFirmaPages.RemoveRange(firmaPagesToDelete);
             }
         }
 
-        public static void DeleteFirmaPage(this IQueryable<FirmaPage> firmaPages, int firmaPageID)
+        public static void DeleteFirmaPage(this int firmaPageID)
         {
-            DeleteFirmaPage(firmaPages, new List<int> { firmaPageID });
+            DeleteFirmaPage(new List<int> { firmaPageID });
         }
 
-        public static void DeleteFirmaPage(this IQueryable<FirmaPage> firmaPages, FirmaPage firmaPageToDelete)
+        public static void DeleteFirmaPage(this FirmaPage firmaPageToDelete)
         {
-            DeleteFirmaPage(firmaPages, new List<FirmaPage> { firmaPageToDelete });
+            DeleteFirmaPage(new List<FirmaPage> { firmaPageToDelete });
         }
     }
 }

@@ -477,7 +477,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 var gdbFile = disposableTempFile.FileInfo;
                 httpPostedFileBase.SaveAs(gdbFile.FullName);
-                HttpRequestStorage.DatabaseEntities.ProposedProjectLocationStagings.DeleteProposedProjectLocationStaging(proposedProject.ProposedProjectLocationStagings.ToList());
+                proposedProject.ProposedProjectLocationStagings.ToList().DeleteProposedProjectLocationStaging();
                 proposedProject.ProposedProjectLocationStagings.Clear();
                 ProposedProjectLocationStaging.CreateProposedProjectLocationStagingListFromGdb(gdbFile, proposedProject, CurrentPerson);
             }
@@ -533,7 +533,7 @@ namespace ProjectFirma.Web.Controllers
         private static void SaveDetailedLocations(ProjectLocationDetailViewModel viewModel, ProposedProject proposedProject)
         {
             var proposedProjectLocations = proposedProject.ProposedProjectLocations.ToList();
-            HttpRequestStorage.DatabaseEntities.ProposedProjectLocations.DeleteProposedProjectLocation(proposedProjectLocations);
+            proposedProjectLocations.DeleteProposedProjectLocation();
             proposedProject.ProposedProjectLocations.Clear();
             if (viewModel.WktAndAnnotations != null)
             {
@@ -648,7 +648,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteNote(proposedProjectNote, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.ProposedProjectNotes.DeleteProposedProjectNote(proposedProjectNote);
+            proposedProjectNote.DeleteProposedProjectNote();
             return new ModalDialogFormJsonResult();
         }
 
@@ -711,18 +711,17 @@ namespace ProjectFirma.Web.Controllers
 
         private static void DeleteProposedProject(ProposedProject proposedProject)
         {
-            HttpRequestStorage.DatabaseEntities.ProposedProjectNotes.DeleteProposedProjectNote(proposedProject.ProposedProjectNotes);
-            HttpRequestStorage.DatabaseEntities.ProposedProjectClassifications.DeleteProposedProjectClassification(proposedProject.ProposedProjectClassifications);
+            proposedProject.ProposedProjectNotes.DeleteProposedProjectNote();
+            proposedProject.ProposedProjectClassifications.DeleteProposedProjectClassification();
 
             var proposedProjectPerformanceMeasureExpecteds = proposedProject.PerformanceMeasureExpectedProposeds.ToList();
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptionProposeds.DeletePerformanceMeasureExpectedSubcategoryOptionProposed(
-                proposedProjectPerformanceMeasureExpecteds.SelectMany(x => x.PerformanceMeasureExpectedSubcategoryOptionProposeds).ToList());
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedProposeds.DeletePerformanceMeasureExpectedProposed(proposedProjectPerformanceMeasureExpecteds);
+            proposedProjectPerformanceMeasureExpecteds.SelectMany(x => x.PerformanceMeasureExpectedSubcategoryOptionProposeds).ToList().DeletePerformanceMeasureExpectedSubcategoryOptionProposed();
+            proposedProjectPerformanceMeasureExpecteds.DeletePerformanceMeasureExpectedProposed();
 
             var notifications = proposedProject.NotificationProposedProjects.Select(x => x.Notification).ToList();
-            HttpRequestStorage.DatabaseEntities.NotificationProposedProjects.DeleteNotificationProposedProject(proposedProject.NotificationProposedProjects);
-            HttpRequestStorage.DatabaseEntities.Notifications.DeleteNotification(notifications);
-            HttpRequestStorage.DatabaseEntities.ProposedProjects.DeleteProposedProject(proposedProject);
+            proposedProject.NotificationProposedProjects.DeleteNotificationProposedProject();
+            notifications.DeleteNotification();
+            proposedProject.DeleteProposedProject();
         }
 
         [HttpGet]

@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[ProjectImplementingOrganization]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return projectImplementingOrganization;
         }
 
-        public static void DeleteProjectImplementingOrganization(this IQueryable<ProjectImplementingOrganization> projectImplementingOrganizations, List<int> projectImplementingOrganizationIDList)
+        public static void DeleteProjectImplementingOrganization(this List<int> projectImplementingOrganizationIDList)
         {
             if(projectImplementingOrganizationIDList.Any())
             {
-                projectImplementingOrganizations.Where(x => projectImplementingOrganizationIDList.Contains(x.ProjectImplementingOrganizationID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectImplementingOrganizations.RemoveRange(HttpRequestStorage.DatabaseEntities.ProjectImplementingOrganizations.Where(x => projectImplementingOrganizationIDList.Contains(x.ProjectImplementingOrganizationID)));
             }
         }
 
-        public static void DeleteProjectImplementingOrganization(this IQueryable<ProjectImplementingOrganization> projectImplementingOrganizations, ICollection<ProjectImplementingOrganization> projectImplementingOrganizationsToDelete)
+        public static void DeleteProjectImplementingOrganization(this ICollection<ProjectImplementingOrganization> projectImplementingOrganizationsToDelete)
         {
             if(projectImplementingOrganizationsToDelete.Any())
             {
-                var projectImplementingOrganizationIDList = projectImplementingOrganizationsToDelete.Select(x => x.ProjectImplementingOrganizationID).ToList();
-                projectImplementingOrganizations.Where(x => projectImplementingOrganizationIDList.Contains(x.ProjectImplementingOrganizationID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectImplementingOrganizations.RemoveRange(projectImplementingOrganizationsToDelete);
             }
         }
 
-        public static void DeleteProjectImplementingOrganization(this IQueryable<ProjectImplementingOrganization> projectImplementingOrganizations, int projectImplementingOrganizationID)
+        public static void DeleteProjectImplementingOrganization(this int projectImplementingOrganizationID)
         {
-            DeleteProjectImplementingOrganization(projectImplementingOrganizations, new List<int> { projectImplementingOrganizationID });
+            DeleteProjectImplementingOrganization(new List<int> { projectImplementingOrganizationID });
         }
 
-        public static void DeleteProjectImplementingOrganization(this IQueryable<ProjectImplementingOrganization> projectImplementingOrganizations, ProjectImplementingOrganization projectImplementingOrganizationToDelete)
+        public static void DeleteProjectImplementingOrganization(this ProjectImplementingOrganization projectImplementingOrganizationToDelete)
         {
-            DeleteProjectImplementingOrganization(projectImplementingOrganizations, new List<ProjectImplementingOrganization> { projectImplementingOrganizationToDelete });
+            DeleteProjectImplementingOrganization(new List<ProjectImplementingOrganization> { projectImplementingOrganizationToDelete });
         }
     }
 }

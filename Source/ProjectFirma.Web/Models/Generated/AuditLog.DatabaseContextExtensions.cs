@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[AuditLog]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return auditLog;
         }
 
-        public static void DeleteAuditLog(this IQueryable<AuditLog> auditLogs, List<int> auditLogIDList)
+        public static void DeleteAuditLog(this List<int> auditLogIDList)
         {
             if(auditLogIDList.Any())
             {
-                auditLogs.Where(x => auditLogIDList.Contains(x.AuditLogID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllAuditLogs.RemoveRange(HttpRequestStorage.DatabaseEntities.AuditLogs.Where(x => auditLogIDList.Contains(x.AuditLogID)));
             }
         }
 
-        public static void DeleteAuditLog(this IQueryable<AuditLog> auditLogs, ICollection<AuditLog> auditLogsToDelete)
+        public static void DeleteAuditLog(this ICollection<AuditLog> auditLogsToDelete)
         {
             if(auditLogsToDelete.Any())
             {
-                var auditLogIDList = auditLogsToDelete.Select(x => x.AuditLogID).ToList();
-                auditLogs.Where(x => auditLogIDList.Contains(x.AuditLogID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllAuditLogs.RemoveRange(auditLogsToDelete);
             }
         }
 
-        public static void DeleteAuditLog(this IQueryable<AuditLog> auditLogs, int auditLogID)
+        public static void DeleteAuditLog(this int auditLogID)
         {
-            DeleteAuditLog(auditLogs, new List<int> { auditLogID });
+            DeleteAuditLog(new List<int> { auditLogID });
         }
 
-        public static void DeleteAuditLog(this IQueryable<AuditLog> auditLogs, AuditLog auditLogToDelete)
+        public static void DeleteAuditLog(this AuditLog auditLogToDelete)
         {
-            DeleteAuditLog(auditLogs, new List<AuditLog> { auditLogToDelete });
+            DeleteAuditLog(new List<AuditLog> { auditLogToDelete });
         }
     }
 }

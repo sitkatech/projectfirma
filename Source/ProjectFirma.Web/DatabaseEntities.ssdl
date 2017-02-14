@@ -773,6 +773,7 @@ warning 6035: The relationship 'FK_AssessmentQuestion_AssessmentSubGoal_Assessme
       <PropertyRef Name="CountyID" />
     </Key>
     <Property Name="CountyID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="CountyName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="StateProvinceID" Type="int" Nullable="false" />
     <Property Name="CountyFeature" Type="geometry" />
@@ -1663,11 +1664,17 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="CalendarYear" Type="int" Nullable="false" />
     <Property Name="ExpenditureAmount" Type="money" Nullable="false" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_County_StateProvince_StateProvinceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectLocationArea_StateProvince_StateProvinceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectLocationAreaStateProvince_StateProvince_StateProvinceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+-->
   <EntityType Name="StateProvince">
     <Key>
       <PropertyRef Name="StateProvinceID" />
     </Key>
     <Property Name="StateProvinceID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="StateProvinceName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="StateProvinceAbbreviation" Type="char" Nullable="false" MaxLength="2" />
     <Property Name="StateProvinceFeature" Type="geometry" />

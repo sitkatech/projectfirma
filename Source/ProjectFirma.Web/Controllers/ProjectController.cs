@@ -415,19 +415,19 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProject(project, viewModel);
             }
             // since we do not check for these in the CanDelete call, we need to remove them manually; this is because we are requiring a lead organization for each project, so the editor no longer supports deletion of all organizations per Mingle story #209.
-            HttpRequestStorage.DatabaseEntities.ProjectImplementingOrganizations.DeleteProjectImplementingOrganization(project.ProjectImplementingOrganizations);
-            HttpRequestStorage.DatabaseEntities.ProjectFundingOrganizations.DeleteProjectFundingOrganization(project.ProjectFundingOrganizations);
-            HttpRequestStorage.DatabaseEntities.ProjectClassifications.DeleteProjectClassification(project.ProjectClassifications);
-            HttpRequestStorage.DatabaseEntities.SnapshotProjects.DeleteSnapshotProject(project.SnapshotProjects);
-            HttpRequestStorage.DatabaseEntities.ProjectTags.DeleteProjectTag(project.ProjectTags);
-            HttpRequestStorage.DatabaseEntities.NotificationProjects.DeleteNotificationProject(project.NotificationProjects);
+            project.ProjectImplementingOrganizations.DeleteProjectImplementingOrganization();
+            project.ProjectFundingOrganizations.DeleteProjectFundingOrganization();
+            project.ProjectClassifications.DeleteProjectClassification();
+            project.SnapshotProjects.DeleteSnapshotProject();
+            project.ProjectTags.DeleteProjectTag();
+            project.NotificationProjects.DeleteNotificationProject();
             if (project.ProposedProject != null)
             {
                 project.ProposedProject.ProposedProjectStateID = ProposedProjectState.Rejected.ProposedProjectStateID;
                 project.ProposedProject.Project = null;
             }
 
-            HttpRequestStorage.DatabaseEntities.Projects.DeleteProject(project);
+            project.DeleteProject();
             return new ModalDialogFormJsonResult();
         }
 

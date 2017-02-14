@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[FundingSource]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return fundingSource;
         }
 
-        public static void DeleteFundingSource(this IQueryable<FundingSource> fundingSources, List<int> fundingSourceIDList)
+        public static void DeleteFundingSource(this List<int> fundingSourceIDList)
         {
             if(fundingSourceIDList.Any())
             {
-                fundingSources.Where(x => fundingSourceIDList.Contains(x.FundingSourceID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllFundingSources.RemoveRange(HttpRequestStorage.DatabaseEntities.FundingSources.Where(x => fundingSourceIDList.Contains(x.FundingSourceID)));
             }
         }
 
-        public static void DeleteFundingSource(this IQueryable<FundingSource> fundingSources, ICollection<FundingSource> fundingSourcesToDelete)
+        public static void DeleteFundingSource(this ICollection<FundingSource> fundingSourcesToDelete)
         {
             if(fundingSourcesToDelete.Any())
             {
-                var fundingSourceIDList = fundingSourcesToDelete.Select(x => x.FundingSourceID).ToList();
-                fundingSources.Where(x => fundingSourceIDList.Contains(x.FundingSourceID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllFundingSources.RemoveRange(fundingSourcesToDelete);
             }
         }
 
-        public static void DeleteFundingSource(this IQueryable<FundingSource> fundingSources, int fundingSourceID)
+        public static void DeleteFundingSource(this int fundingSourceID)
         {
-            DeleteFundingSource(fundingSources, new List<int> { fundingSourceID });
+            DeleteFundingSource(new List<int> { fundingSourceID });
         }
 
-        public static void DeleteFundingSource(this IQueryable<FundingSource> fundingSources, FundingSource fundingSourceToDelete)
+        public static void DeleteFundingSource(this FundingSource fundingSourceToDelete)
         {
-            DeleteFundingSource(fundingSources, new List<FundingSource> { fundingSourceToDelete });
+            DeleteFundingSource(new List<FundingSource> { fundingSourceToDelete });
         }
     }
 }

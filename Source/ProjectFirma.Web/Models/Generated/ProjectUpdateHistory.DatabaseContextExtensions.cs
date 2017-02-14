@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[ProjectUpdateHistory]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return projectUpdateHistory;
         }
 
-        public static void DeleteProjectUpdateHistory(this IQueryable<ProjectUpdateHistory> projectUpdateHistories, List<int> projectUpdateHistoryIDList)
+        public static void DeleteProjectUpdateHistory(this List<int> projectUpdateHistoryIDList)
         {
             if(projectUpdateHistoryIDList.Any())
             {
-                projectUpdateHistories.Where(x => projectUpdateHistoryIDList.Contains(x.ProjectUpdateHistoryID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectUpdateHistories.RemoveRange(HttpRequestStorage.DatabaseEntities.ProjectUpdateHistories.Where(x => projectUpdateHistoryIDList.Contains(x.ProjectUpdateHistoryID)));
             }
         }
 
-        public static void DeleteProjectUpdateHistory(this IQueryable<ProjectUpdateHistory> projectUpdateHistories, ICollection<ProjectUpdateHistory> projectUpdateHistoriesToDelete)
+        public static void DeleteProjectUpdateHistory(this ICollection<ProjectUpdateHistory> projectUpdateHistoriesToDelete)
         {
             if(projectUpdateHistoriesToDelete.Any())
             {
-                var projectUpdateHistoryIDList = projectUpdateHistoriesToDelete.Select(x => x.ProjectUpdateHistoryID).ToList();
-                projectUpdateHistories.Where(x => projectUpdateHistoryIDList.Contains(x.ProjectUpdateHistoryID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectUpdateHistories.RemoveRange(projectUpdateHistoriesToDelete);
             }
         }
 
-        public static void DeleteProjectUpdateHistory(this IQueryable<ProjectUpdateHistory> projectUpdateHistories, int projectUpdateHistoryID)
+        public static void DeleteProjectUpdateHistory(this int projectUpdateHistoryID)
         {
-            DeleteProjectUpdateHistory(projectUpdateHistories, new List<int> { projectUpdateHistoryID });
+            DeleteProjectUpdateHistory(new List<int> { projectUpdateHistoryID });
         }
 
-        public static void DeleteProjectUpdateHistory(this IQueryable<ProjectUpdateHistory> projectUpdateHistories, ProjectUpdateHistory projectUpdateHistoryToDelete)
+        public static void DeleteProjectUpdateHistory(this ProjectUpdateHistory projectUpdateHistoryToDelete)
         {
-            DeleteProjectUpdateHistory(projectUpdateHistories, new List<ProjectUpdateHistory> { projectUpdateHistoryToDelete });
+            DeleteProjectUpdateHistory(new List<ProjectUpdateHistory> { projectUpdateHistoryToDelete });
         }
     }
 }

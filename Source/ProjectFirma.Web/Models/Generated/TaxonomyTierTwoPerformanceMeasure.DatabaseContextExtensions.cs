@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[TaxonomyTierTwoPerformanceMeasure]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return taxonomyTierTwoPerformanceMeasure;
         }
 
-        public static void DeleteTaxonomyTierTwoPerformanceMeasure(this IQueryable<TaxonomyTierTwoPerformanceMeasure> taxonomyTierTwoPerformanceMeasures, List<int> taxonomyTierTwoPerformanceMeasureIDList)
+        public static void DeleteTaxonomyTierTwoPerformanceMeasure(this List<int> taxonomyTierTwoPerformanceMeasureIDList)
         {
             if(taxonomyTierTwoPerformanceMeasureIDList.Any())
             {
-                taxonomyTierTwoPerformanceMeasures.Where(x => taxonomyTierTwoPerformanceMeasureIDList.Contains(x.TaxonomyTierTwoPerformanceMeasureID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllTaxonomyTierTwoPerformanceMeasures.RemoveRange(HttpRequestStorage.DatabaseEntities.TaxonomyTierTwoPerformanceMeasures.Where(x => taxonomyTierTwoPerformanceMeasureIDList.Contains(x.TaxonomyTierTwoPerformanceMeasureID)));
             }
         }
 
-        public static void DeleteTaxonomyTierTwoPerformanceMeasure(this IQueryable<TaxonomyTierTwoPerformanceMeasure> taxonomyTierTwoPerformanceMeasures, ICollection<TaxonomyTierTwoPerformanceMeasure> taxonomyTierTwoPerformanceMeasuresToDelete)
+        public static void DeleteTaxonomyTierTwoPerformanceMeasure(this ICollection<TaxonomyTierTwoPerformanceMeasure> taxonomyTierTwoPerformanceMeasuresToDelete)
         {
             if(taxonomyTierTwoPerformanceMeasuresToDelete.Any())
             {
-                var taxonomyTierTwoPerformanceMeasureIDList = taxonomyTierTwoPerformanceMeasuresToDelete.Select(x => x.TaxonomyTierTwoPerformanceMeasureID).ToList();
-                taxonomyTierTwoPerformanceMeasures.Where(x => taxonomyTierTwoPerformanceMeasureIDList.Contains(x.TaxonomyTierTwoPerformanceMeasureID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllTaxonomyTierTwoPerformanceMeasures.RemoveRange(taxonomyTierTwoPerformanceMeasuresToDelete);
             }
         }
 
-        public static void DeleteTaxonomyTierTwoPerformanceMeasure(this IQueryable<TaxonomyTierTwoPerformanceMeasure> taxonomyTierTwoPerformanceMeasures, int taxonomyTierTwoPerformanceMeasureID)
+        public static void DeleteTaxonomyTierTwoPerformanceMeasure(this int taxonomyTierTwoPerformanceMeasureID)
         {
-            DeleteTaxonomyTierTwoPerformanceMeasure(taxonomyTierTwoPerformanceMeasures, new List<int> { taxonomyTierTwoPerformanceMeasureID });
+            DeleteTaxonomyTierTwoPerformanceMeasure(new List<int> { taxonomyTierTwoPerformanceMeasureID });
         }
 
-        public static void DeleteTaxonomyTierTwoPerformanceMeasure(this IQueryable<TaxonomyTierTwoPerformanceMeasure> taxonomyTierTwoPerformanceMeasures, TaxonomyTierTwoPerformanceMeasure taxonomyTierTwoPerformanceMeasureToDelete)
+        public static void DeleteTaxonomyTierTwoPerformanceMeasure(this TaxonomyTierTwoPerformanceMeasure taxonomyTierTwoPerformanceMeasureToDelete)
         {
-            DeleteTaxonomyTierTwoPerformanceMeasure(taxonomyTierTwoPerformanceMeasures, new List<TaxonomyTierTwoPerformanceMeasure> { taxonomyTierTwoPerformanceMeasureToDelete });
+            DeleteTaxonomyTierTwoPerformanceMeasure(new List<TaxonomyTierTwoPerformanceMeasure> { taxonomyTierTwoPerformanceMeasureToDelete });
         }
     }
 }

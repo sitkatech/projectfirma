@@ -129,8 +129,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteTag(tag, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.ProjectTags.DeleteProjectTag(tag.ProjectTags);
-            HttpRequestStorage.DatabaseEntities.Tags.DeleteTag(tag);
+            tag.ProjectTags.DeleteProjectTag();
+            tag.DeleteTag();
             return new ModalDialogFormJsonResult();
         }
 
@@ -157,8 +157,7 @@ namespace ProjectFirma.Web.Controllers
             var existingTag = HttpRequestStorage.DatabaseEntities.Tags.GetTag(viewModel.TagName);
             if (existingTag != null)
             {
-                var projectTags = existingTag.ProjectTags.Where(x => viewModel.ProjectIDList.Contains(x.ProjectID)).ToList();
-                HttpRequestStorage.DatabaseEntities.ProjectTags.DeleteProjectTag(projectTags);
+                existingTag.ProjectTags.Where(x => viewModel.ProjectIDList.Contains(x.ProjectID)).ToList().DeleteProjectTag();
             }
             return new ModalDialogFormJsonResult();
         }

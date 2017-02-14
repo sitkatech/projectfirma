@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[ProjectBudget]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return projectBudget;
         }
 
-        public static void DeleteProjectBudget(this IQueryable<ProjectBudget> projectBudgets, List<int> projectBudgetIDList)
+        public static void DeleteProjectBudget(this List<int> projectBudgetIDList)
         {
             if(projectBudgetIDList.Any())
             {
-                projectBudgets.Where(x => projectBudgetIDList.Contains(x.ProjectBudgetID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectBudgets.RemoveRange(HttpRequestStorage.DatabaseEntities.ProjectBudgets.Where(x => projectBudgetIDList.Contains(x.ProjectBudgetID)));
             }
         }
 
-        public static void DeleteProjectBudget(this IQueryable<ProjectBudget> projectBudgets, ICollection<ProjectBudget> projectBudgetsToDelete)
+        public static void DeleteProjectBudget(this ICollection<ProjectBudget> projectBudgetsToDelete)
         {
             if(projectBudgetsToDelete.Any())
             {
-                var projectBudgetIDList = projectBudgetsToDelete.Select(x => x.ProjectBudgetID).ToList();
-                projectBudgets.Where(x => projectBudgetIDList.Contains(x.ProjectBudgetID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectBudgets.RemoveRange(projectBudgetsToDelete);
             }
         }
 
-        public static void DeleteProjectBudget(this IQueryable<ProjectBudget> projectBudgets, int projectBudgetID)
+        public static void DeleteProjectBudget(this int projectBudgetID)
         {
-            DeleteProjectBudget(projectBudgets, new List<int> { projectBudgetID });
+            DeleteProjectBudget(new List<int> { projectBudgetID });
         }
 
-        public static void DeleteProjectBudget(this IQueryable<ProjectBudget> projectBudgets, ProjectBudget projectBudgetToDelete)
+        public static void DeleteProjectBudget(this ProjectBudget projectBudgetToDelete)
         {
-            DeleteProjectBudget(projectBudgets, new List<ProjectBudget> { projectBudgetToDelete });
+            DeleteProjectBudget(new List<ProjectBudget> { projectBudgetToDelete });
         }
     }
 }

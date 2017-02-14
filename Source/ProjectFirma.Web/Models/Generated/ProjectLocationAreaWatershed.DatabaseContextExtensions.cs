@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[ProjectLocationAreaWatershed]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return projectLocationAreaWatershed;
         }
 
-        public static void DeleteProjectLocationAreaWatershed(this IQueryable<ProjectLocationAreaWatershed> projectLocationAreaWatersheds, List<int> projectLocationAreaWatershedIDList)
+        public static void DeleteProjectLocationAreaWatershed(this List<int> projectLocationAreaWatershedIDList)
         {
             if(projectLocationAreaWatershedIDList.Any())
             {
-                projectLocationAreaWatersheds.Where(x => projectLocationAreaWatershedIDList.Contains(x.ProjectLocationAreaWatershedID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectLocationAreaWatersheds.RemoveRange(HttpRequestStorage.DatabaseEntities.ProjectLocationAreaWatersheds.Where(x => projectLocationAreaWatershedIDList.Contains(x.ProjectLocationAreaWatershedID)));
             }
         }
 
-        public static void DeleteProjectLocationAreaWatershed(this IQueryable<ProjectLocationAreaWatershed> projectLocationAreaWatersheds, ICollection<ProjectLocationAreaWatershed> projectLocationAreaWatershedsToDelete)
+        public static void DeleteProjectLocationAreaWatershed(this ICollection<ProjectLocationAreaWatershed> projectLocationAreaWatershedsToDelete)
         {
             if(projectLocationAreaWatershedsToDelete.Any())
             {
-                var projectLocationAreaWatershedIDList = projectLocationAreaWatershedsToDelete.Select(x => x.ProjectLocationAreaWatershedID).ToList();
-                projectLocationAreaWatersheds.Where(x => projectLocationAreaWatershedIDList.Contains(x.ProjectLocationAreaWatershedID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectLocationAreaWatersheds.RemoveRange(projectLocationAreaWatershedsToDelete);
             }
         }
 
-        public static void DeleteProjectLocationAreaWatershed(this IQueryable<ProjectLocationAreaWatershed> projectLocationAreaWatersheds, int projectLocationAreaWatershedID)
+        public static void DeleteProjectLocationAreaWatershed(this int projectLocationAreaWatershedID)
         {
-            DeleteProjectLocationAreaWatershed(projectLocationAreaWatersheds, new List<int> { projectLocationAreaWatershedID });
+            DeleteProjectLocationAreaWatershed(new List<int> { projectLocationAreaWatershedID });
         }
 
-        public static void DeleteProjectLocationAreaWatershed(this IQueryable<ProjectLocationAreaWatershed> projectLocationAreaWatersheds, ProjectLocationAreaWatershed projectLocationAreaWatershedToDelete)
+        public static void DeleteProjectLocationAreaWatershed(this ProjectLocationAreaWatershed projectLocationAreaWatershedToDelete)
         {
-            DeleteProjectLocationAreaWatershed(projectLocationAreaWatersheds, new List<ProjectLocationAreaWatershed> { projectLocationAreaWatershedToDelete });
+            DeleteProjectLocationAreaWatershed(new List<ProjectLocationAreaWatershed> { projectLocationAreaWatershedToDelete });
         }
     }
 }

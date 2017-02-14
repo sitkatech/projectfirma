@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common.Models;
 
@@ -26,9 +25,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
         public void UpdateModel(Models.ProposedProject proposedProject)
         {
-
-            HttpRequestStorage.DatabaseEntities.ProposedProjectAssessmentQuestions.DeleteProposedProjectAssessmentQuestion(proposedProject.ProposedProjectAssessmentQuestions);
-
+            proposedProject.ProposedProjectAssessmentQuestions.DeleteProposedProjectAssessmentQuestion();
             foreach (var simple in ProposedProjectAssessmentQuestionSimples)
             {
                 proposedProject.ProposedProjectAssessmentQuestions.Add(new ProposedProjectAssessmentQuestion(simple));

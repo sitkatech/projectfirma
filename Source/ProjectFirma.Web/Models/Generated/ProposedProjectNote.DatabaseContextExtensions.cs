@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[ProposedProjectNote]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return proposedProjectNote;
         }
 
-        public static void DeleteProposedProjectNote(this IQueryable<ProposedProjectNote> proposedProjectNotes, List<int> proposedProjectNoteIDList)
+        public static void DeleteProposedProjectNote(this List<int> proposedProjectNoteIDList)
         {
             if(proposedProjectNoteIDList.Any())
             {
-                proposedProjectNotes.Where(x => proposedProjectNoteIDList.Contains(x.ProposedProjectNoteID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProposedProjectNotes.RemoveRange(HttpRequestStorage.DatabaseEntities.ProposedProjectNotes.Where(x => proposedProjectNoteIDList.Contains(x.ProposedProjectNoteID)));
             }
         }
 
-        public static void DeleteProposedProjectNote(this IQueryable<ProposedProjectNote> proposedProjectNotes, ICollection<ProposedProjectNote> proposedProjectNotesToDelete)
+        public static void DeleteProposedProjectNote(this ICollection<ProposedProjectNote> proposedProjectNotesToDelete)
         {
             if(proposedProjectNotesToDelete.Any())
             {
-                var proposedProjectNoteIDList = proposedProjectNotesToDelete.Select(x => x.ProposedProjectNoteID).ToList();
-                proposedProjectNotes.Where(x => proposedProjectNoteIDList.Contains(x.ProposedProjectNoteID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProposedProjectNotes.RemoveRange(proposedProjectNotesToDelete);
             }
         }
 
-        public static void DeleteProposedProjectNote(this IQueryable<ProposedProjectNote> proposedProjectNotes, int proposedProjectNoteID)
+        public static void DeleteProposedProjectNote(this int proposedProjectNoteID)
         {
-            DeleteProposedProjectNote(proposedProjectNotes, new List<int> { proposedProjectNoteID });
+            DeleteProposedProjectNote(new List<int> { proposedProjectNoteID });
         }
 
-        public static void DeleteProposedProjectNote(this IQueryable<ProposedProjectNote> proposedProjectNotes, ProposedProjectNote proposedProjectNoteToDelete)
+        public static void DeleteProposedProjectNote(this ProposedProjectNote proposedProjectNoteToDelete)
         {
-            DeleteProposedProjectNote(proposedProjectNotes, new List<ProposedProjectNote> { proposedProjectNoteToDelete });
+            DeleteProposedProjectNote(new List<ProposedProjectNote> { proposedProjectNoteToDelete });
         }
     }
 }

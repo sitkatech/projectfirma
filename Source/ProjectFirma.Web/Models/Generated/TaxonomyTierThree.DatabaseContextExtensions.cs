@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[TaxonomyTierThree]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return taxonomyTierThree;
         }
 
-        public static void DeleteTaxonomyTierThree(this IQueryable<TaxonomyTierThree> taxonomyTierThrees, List<int> taxonomyTierThreeIDList)
+        public static void DeleteTaxonomyTierThree(this List<int> taxonomyTierThreeIDList)
         {
             if(taxonomyTierThreeIDList.Any())
             {
-                taxonomyTierThrees.Where(x => taxonomyTierThreeIDList.Contains(x.TaxonomyTierThreeID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllTaxonomyTierThrees.RemoveRange(HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.Where(x => taxonomyTierThreeIDList.Contains(x.TaxonomyTierThreeID)));
             }
         }
 
-        public static void DeleteTaxonomyTierThree(this IQueryable<TaxonomyTierThree> taxonomyTierThrees, ICollection<TaxonomyTierThree> taxonomyTierThreesToDelete)
+        public static void DeleteTaxonomyTierThree(this ICollection<TaxonomyTierThree> taxonomyTierThreesToDelete)
         {
             if(taxonomyTierThreesToDelete.Any())
             {
-                var taxonomyTierThreeIDList = taxonomyTierThreesToDelete.Select(x => x.TaxonomyTierThreeID).ToList();
-                taxonomyTierThrees.Where(x => taxonomyTierThreeIDList.Contains(x.TaxonomyTierThreeID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllTaxonomyTierThrees.RemoveRange(taxonomyTierThreesToDelete);
             }
         }
 
-        public static void DeleteTaxonomyTierThree(this IQueryable<TaxonomyTierThree> taxonomyTierThrees, int taxonomyTierThreeID)
+        public static void DeleteTaxonomyTierThree(this int taxonomyTierThreeID)
         {
-            DeleteTaxonomyTierThree(taxonomyTierThrees, new List<int> { taxonomyTierThreeID });
+            DeleteTaxonomyTierThree(new List<int> { taxonomyTierThreeID });
         }
 
-        public static void DeleteTaxonomyTierThree(this IQueryable<TaxonomyTierThree> taxonomyTierThrees, TaxonomyTierThree taxonomyTierThreeToDelete)
+        public static void DeleteTaxonomyTierThree(this TaxonomyTierThree taxonomyTierThreeToDelete)
         {
-            DeleteTaxonomyTierThree(taxonomyTierThrees, new List<TaxonomyTierThree> { taxonomyTierThreeToDelete });
+            DeleteTaxonomyTierThree(new List<TaxonomyTierThree> { taxonomyTierThreeToDelete });
         }
     }
 }

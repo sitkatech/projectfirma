@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Threading;
 using System.Web;
@@ -67,8 +69,8 @@ namespace ProjectFirma.Web.Common
         public static void StartContextForTest()
         {
             var context = MakeNewContext(true);
-            SetValue(DatabaseContextKey, context);
             SetValue(TenantKey, Tenant.SitkaTechnologyGroup);
+            SetValue(DatabaseContextKey, context);
         }
 
         public static void EndContextForTest()
@@ -84,6 +86,28 @@ namespace ProjectFirma.Web.Common
                 BackingStore[DatabaseContextKey] = null;
             }
             BackingStore.Remove(DatabaseContextKey);
+
+            if (!BackingStore.Contains(TenantKey))
+            {
+                return;
+            }
+            var tenant = BackingStore[TenantKey] as Tenant;
+            if (tenant != null)
+            {
+                BackingStore[TenantKey] = null;
+            }
+            BackingStore.Remove(TenantKey);
+
+            if (!BackingStore.Contains(PersonKey))
+            {
+                return;
+            }
+            var person = BackingStore[PersonKey] as Person;
+            if (person != null)
+            {
+                BackingStore[PersonKey] = null;
+            }
+            BackingStore.Remove(PersonKey);
         }
     }
 }

@@ -4,6 +4,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[County](
 	[CountyID] [int] NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[CountyName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[StateProvinceID] [int] NOT NULL,
 	[CountyFeature] [geometry] NULL,
@@ -23,3 +24,13 @@ ALTER TABLE [dbo].[County]  WITH CHECK ADD  CONSTRAINT [FK_County_StateProvince_
 REFERENCES [dbo].[StateProvince] ([StateProvinceID])
 GO
 ALTER TABLE [dbo].[County] CHECK CONSTRAINT [FK_County_StateProvince_StateProvinceID]
+GO
+ALTER TABLE [dbo].[County]  WITH CHECK ADD  CONSTRAINT [FK_County_StateProvince_StateProvinceID_TenantID] FOREIGN KEY([StateProvinceID], [TenantID])
+REFERENCES [dbo].[StateProvince] ([StateProvinceID], [TenantID])
+GO
+ALTER TABLE [dbo].[County] CHECK CONSTRAINT [FK_County_StateProvince_StateProvinceID_TenantID]
+GO
+ALTER TABLE [dbo].[County]  WITH CHECK ADD  CONSTRAINT [FK_County_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[County] CHECK CONSTRAINT [FK_County_Tenant_TenantID]

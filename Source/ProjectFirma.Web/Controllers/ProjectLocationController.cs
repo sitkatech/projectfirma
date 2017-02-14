@@ -7,7 +7,6 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security.Shared;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
@@ -133,7 +132,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 var gdbFile = disposableTempFile.FileInfo;
                 httpPostedFileBase.SaveAs(gdbFile.FullName);
-                HttpRequestStorage.DatabaseEntities.ProjectLocationStagings.DeleteProjectLocationStaging(project.ProjectLocationStagings.ToList());
+                project.ProjectLocationStagings.ToList().DeleteProjectLocationStaging();
                 project.ProjectLocationStagings.Clear();
                 ProjectLocationStaging.CreateProjectLocationStagingListFromGdb(gdbFile, project, CurrentPerson);
             }
@@ -189,7 +188,7 @@ namespace ProjectFirma.Web.Controllers
         private static void SaveProjectDetailedLocations(ProjectLocationDetailViewModel viewModel, Project project)
         {
             var projectLocations = project.ProjectLocations.ToList();
-            HttpRequestStorage.DatabaseEntities.ProjectLocations.DeleteProjectLocation(projectLocations);
+            projectLocations.DeleteProjectLocation();
             project.ProjectLocations.Clear();
             if (viewModel.WktAndAnnotations != null)
             {

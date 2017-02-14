@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[PerformanceMeasureMonitoringProgram]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return performanceMeasureMonitoringProgram;
         }
 
-        public static void DeletePerformanceMeasureMonitoringProgram(this IQueryable<PerformanceMeasureMonitoringProgram> performanceMeasureMonitoringPrograms, List<int> performanceMeasureMonitoringProgramIDList)
+        public static void DeletePerformanceMeasureMonitoringProgram(this List<int> performanceMeasureMonitoringProgramIDList)
         {
             if(performanceMeasureMonitoringProgramIDList.Any())
             {
-                performanceMeasureMonitoringPrograms.Where(x => performanceMeasureMonitoringProgramIDList.Contains(x.PerformanceMeasureMonitoringProgramID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureMonitoringPrograms.RemoveRange(HttpRequestStorage.DatabaseEntities.PerformanceMeasureMonitoringPrograms.Where(x => performanceMeasureMonitoringProgramIDList.Contains(x.PerformanceMeasureMonitoringProgramID)));
             }
         }
 
-        public static void DeletePerformanceMeasureMonitoringProgram(this IQueryable<PerformanceMeasureMonitoringProgram> performanceMeasureMonitoringPrograms, ICollection<PerformanceMeasureMonitoringProgram> performanceMeasureMonitoringProgramsToDelete)
+        public static void DeletePerformanceMeasureMonitoringProgram(this ICollection<PerformanceMeasureMonitoringProgram> performanceMeasureMonitoringProgramsToDelete)
         {
             if(performanceMeasureMonitoringProgramsToDelete.Any())
             {
-                var performanceMeasureMonitoringProgramIDList = performanceMeasureMonitoringProgramsToDelete.Select(x => x.PerformanceMeasureMonitoringProgramID).ToList();
-                performanceMeasureMonitoringPrograms.Where(x => performanceMeasureMonitoringProgramIDList.Contains(x.PerformanceMeasureMonitoringProgramID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureMonitoringPrograms.RemoveRange(performanceMeasureMonitoringProgramsToDelete);
             }
         }
 
-        public static void DeletePerformanceMeasureMonitoringProgram(this IQueryable<PerformanceMeasureMonitoringProgram> performanceMeasureMonitoringPrograms, int performanceMeasureMonitoringProgramID)
+        public static void DeletePerformanceMeasureMonitoringProgram(this int performanceMeasureMonitoringProgramID)
         {
-            DeletePerformanceMeasureMonitoringProgram(performanceMeasureMonitoringPrograms, new List<int> { performanceMeasureMonitoringProgramID });
+            DeletePerformanceMeasureMonitoringProgram(new List<int> { performanceMeasureMonitoringProgramID });
         }
 
-        public static void DeletePerformanceMeasureMonitoringProgram(this IQueryable<PerformanceMeasureMonitoringProgram> performanceMeasureMonitoringPrograms, PerformanceMeasureMonitoringProgram performanceMeasureMonitoringProgramToDelete)
+        public static void DeletePerformanceMeasureMonitoringProgram(this PerformanceMeasureMonitoringProgram performanceMeasureMonitoringProgramToDelete)
         {
-            DeletePerformanceMeasureMonitoringProgram(performanceMeasureMonitoringPrograms, new List<PerformanceMeasureMonitoringProgram> { performanceMeasureMonitoringProgramToDelete });
+            DeletePerformanceMeasureMonitoringProgram(new List<PerformanceMeasureMonitoringProgram> { performanceMeasureMonitoringProgramToDelete });
         }
     }
 }

@@ -4,7 +4,6 @@ using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
 using System.Web;
-using EntityFramework.Extensions;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared;
@@ -529,9 +528,9 @@ namespace ProjectFirma.Web.Models
         {
             var projectImageFileResourceIDsToDelete = projectImages.Select(x => x.FileResourceID).ToList();
             var projectImageIDsToDelete = projectImages.Select(x => x.ProjectImageID).ToList();
-            HttpRequestStorage.DatabaseEntities.ProjectImageUpdates.Where(x => x.ProjectImageID.HasValue && projectImageIDsToDelete.Contains(x.ProjectImageID.Value)).Delete();
-            HttpRequestStorage.DatabaseEntities.ProjectImages.DeleteProjectImage(projectImageIDsToDelete);
-            HttpRequestStorage.DatabaseEntities.FileResources.DeleteFileResource(projectImageFileResourceIDsToDelete);
+            HttpRequestStorage.DatabaseEntities.ProjectImageUpdates.Where(x => x.ProjectImageID.HasValue && projectImageIDsToDelete.Contains(x.ProjectImageID.Value)).ToList().DeleteProjectImageUpdate();
+            projectImages.DeleteProjectImage();
+            projectImageFileResourceIDsToDelete.DeleteFileResource();
         }
         }
 }

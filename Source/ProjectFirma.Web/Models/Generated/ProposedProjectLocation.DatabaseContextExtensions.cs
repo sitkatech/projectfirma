@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[ProposedProjectLocation]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return proposedProjectLocation;
         }
 
-        public static void DeleteProposedProjectLocation(this IQueryable<ProposedProjectLocation> proposedProjectLocations, List<int> proposedProjectLocationIDList)
+        public static void DeleteProposedProjectLocation(this List<int> proposedProjectLocationIDList)
         {
             if(proposedProjectLocationIDList.Any())
             {
-                proposedProjectLocations.Where(x => proposedProjectLocationIDList.Contains(x.ProposedProjectLocationID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProposedProjectLocations.RemoveRange(HttpRequestStorage.DatabaseEntities.ProposedProjectLocations.Where(x => proposedProjectLocationIDList.Contains(x.ProposedProjectLocationID)));
             }
         }
 
-        public static void DeleteProposedProjectLocation(this IQueryable<ProposedProjectLocation> proposedProjectLocations, ICollection<ProposedProjectLocation> proposedProjectLocationsToDelete)
+        public static void DeleteProposedProjectLocation(this ICollection<ProposedProjectLocation> proposedProjectLocationsToDelete)
         {
             if(proposedProjectLocationsToDelete.Any())
             {
-                var proposedProjectLocationIDList = proposedProjectLocationsToDelete.Select(x => x.ProposedProjectLocationID).ToList();
-                proposedProjectLocations.Where(x => proposedProjectLocationIDList.Contains(x.ProposedProjectLocationID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProposedProjectLocations.RemoveRange(proposedProjectLocationsToDelete);
             }
         }
 
-        public static void DeleteProposedProjectLocation(this IQueryable<ProposedProjectLocation> proposedProjectLocations, int proposedProjectLocationID)
+        public static void DeleteProposedProjectLocation(this int proposedProjectLocationID)
         {
-            DeleteProposedProjectLocation(proposedProjectLocations, new List<int> { proposedProjectLocationID });
+            DeleteProposedProjectLocation(new List<int> { proposedProjectLocationID });
         }
 
-        public static void DeleteProposedProjectLocation(this IQueryable<ProposedProjectLocation> proposedProjectLocations, ProposedProjectLocation proposedProjectLocationToDelete)
+        public static void DeleteProposedProjectLocation(this ProposedProjectLocation proposedProjectLocationToDelete)
         {
-            DeleteProposedProjectLocation(proposedProjectLocations, new List<ProposedProjectLocation> { proposedProjectLocationToDelete });
+            DeleteProposedProjectLocation(new List<ProposedProjectLocation> { proposedProjectLocationToDelete });
         }
     }
 }

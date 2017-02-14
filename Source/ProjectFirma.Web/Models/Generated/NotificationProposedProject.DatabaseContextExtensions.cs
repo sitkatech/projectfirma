@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[NotificationProposedProject]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return notificationProposedProject;
         }
 
-        public static void DeleteNotificationProposedProject(this IQueryable<NotificationProposedProject> notificationProposedProjects, List<int> notificationProposedProjectIDList)
+        public static void DeleteNotificationProposedProject(this List<int> notificationProposedProjectIDList)
         {
             if(notificationProposedProjectIDList.Any())
             {
-                notificationProposedProjects.Where(x => notificationProposedProjectIDList.Contains(x.NotificationProposedProjectID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllNotificationProposedProjects.RemoveRange(HttpRequestStorage.DatabaseEntities.NotificationProposedProjects.Where(x => notificationProposedProjectIDList.Contains(x.NotificationProposedProjectID)));
             }
         }
 
-        public static void DeleteNotificationProposedProject(this IQueryable<NotificationProposedProject> notificationProposedProjects, ICollection<NotificationProposedProject> notificationProposedProjectsToDelete)
+        public static void DeleteNotificationProposedProject(this ICollection<NotificationProposedProject> notificationProposedProjectsToDelete)
         {
             if(notificationProposedProjectsToDelete.Any())
             {
-                var notificationProposedProjectIDList = notificationProposedProjectsToDelete.Select(x => x.NotificationProposedProjectID).ToList();
-                notificationProposedProjects.Where(x => notificationProposedProjectIDList.Contains(x.NotificationProposedProjectID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllNotificationProposedProjects.RemoveRange(notificationProposedProjectsToDelete);
             }
         }
 
-        public static void DeleteNotificationProposedProject(this IQueryable<NotificationProposedProject> notificationProposedProjects, int notificationProposedProjectID)
+        public static void DeleteNotificationProposedProject(this int notificationProposedProjectID)
         {
-            DeleteNotificationProposedProject(notificationProposedProjects, new List<int> { notificationProposedProjectID });
+            DeleteNotificationProposedProject(new List<int> { notificationProposedProjectID });
         }
 
-        public static void DeleteNotificationProposedProject(this IQueryable<NotificationProposedProject> notificationProposedProjects, NotificationProposedProject notificationProposedProjectToDelete)
+        public static void DeleteNotificationProposedProject(this NotificationProposedProject notificationProposedProjectToDelete)
         {
-            DeleteNotificationProposedProject(notificationProposedProjects, new List<NotificationProposedProject> { notificationProposedProjectToDelete });
+            DeleteNotificationProposedProject(new List<NotificationProposedProject> { notificationProposedProjectToDelete });
         }
     }
 }

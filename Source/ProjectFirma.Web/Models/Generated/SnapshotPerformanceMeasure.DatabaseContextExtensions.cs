@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[SnapshotPerformanceMeasure]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return snapshotPerformanceMeasure;
         }
 
-        public static void DeleteSnapshotPerformanceMeasure(this IQueryable<SnapshotPerformanceMeasure> snapshotPerformanceMeasures, List<int> snapshotPerformanceMeasureIDList)
+        public static void DeleteSnapshotPerformanceMeasure(this List<int> snapshotPerformanceMeasureIDList)
         {
             if(snapshotPerformanceMeasureIDList.Any())
             {
-                snapshotPerformanceMeasures.Where(x => snapshotPerformanceMeasureIDList.Contains(x.SnapshotPerformanceMeasureID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllSnapshotPerformanceMeasures.RemoveRange(HttpRequestStorage.DatabaseEntities.SnapshotPerformanceMeasures.Where(x => snapshotPerformanceMeasureIDList.Contains(x.SnapshotPerformanceMeasureID)));
             }
         }
 
-        public static void DeleteSnapshotPerformanceMeasure(this IQueryable<SnapshotPerformanceMeasure> snapshotPerformanceMeasures, ICollection<SnapshotPerformanceMeasure> snapshotPerformanceMeasuresToDelete)
+        public static void DeleteSnapshotPerformanceMeasure(this ICollection<SnapshotPerformanceMeasure> snapshotPerformanceMeasuresToDelete)
         {
             if(snapshotPerformanceMeasuresToDelete.Any())
             {
-                var snapshotPerformanceMeasureIDList = snapshotPerformanceMeasuresToDelete.Select(x => x.SnapshotPerformanceMeasureID).ToList();
-                snapshotPerformanceMeasures.Where(x => snapshotPerformanceMeasureIDList.Contains(x.SnapshotPerformanceMeasureID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllSnapshotPerformanceMeasures.RemoveRange(snapshotPerformanceMeasuresToDelete);
             }
         }
 
-        public static void DeleteSnapshotPerformanceMeasure(this IQueryable<SnapshotPerformanceMeasure> snapshotPerformanceMeasures, int snapshotPerformanceMeasureID)
+        public static void DeleteSnapshotPerformanceMeasure(this int snapshotPerformanceMeasureID)
         {
-            DeleteSnapshotPerformanceMeasure(snapshotPerformanceMeasures, new List<int> { snapshotPerformanceMeasureID });
+            DeleteSnapshotPerformanceMeasure(new List<int> { snapshotPerformanceMeasureID });
         }
 
-        public static void DeleteSnapshotPerformanceMeasure(this IQueryable<SnapshotPerformanceMeasure> snapshotPerformanceMeasures, SnapshotPerformanceMeasure snapshotPerformanceMeasureToDelete)
+        public static void DeleteSnapshotPerformanceMeasure(this SnapshotPerformanceMeasure snapshotPerformanceMeasureToDelete)
         {
-            DeleteSnapshotPerformanceMeasure(snapshotPerformanceMeasures, new List<SnapshotPerformanceMeasure> { snapshotPerformanceMeasureToDelete });
+            DeleteSnapshotPerformanceMeasure(new List<SnapshotPerformanceMeasure> { snapshotPerformanceMeasureToDelete });
         }
     }
 }

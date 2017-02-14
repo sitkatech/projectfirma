@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[ProjectClassification]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return projectClassification;
         }
 
-        public static void DeleteProjectClassification(this IQueryable<ProjectClassification> projectClassifications, List<int> projectClassificationIDList)
+        public static void DeleteProjectClassification(this List<int> projectClassificationIDList)
         {
             if(projectClassificationIDList.Any())
             {
-                projectClassifications.Where(x => projectClassificationIDList.Contains(x.ProjectClassificationID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectClassifications.RemoveRange(HttpRequestStorage.DatabaseEntities.ProjectClassifications.Where(x => projectClassificationIDList.Contains(x.ProjectClassificationID)));
             }
         }
 
-        public static void DeleteProjectClassification(this IQueryable<ProjectClassification> projectClassifications, ICollection<ProjectClassification> projectClassificationsToDelete)
+        public static void DeleteProjectClassification(this ICollection<ProjectClassification> projectClassificationsToDelete)
         {
             if(projectClassificationsToDelete.Any())
             {
-                var projectClassificationIDList = projectClassificationsToDelete.Select(x => x.ProjectClassificationID).ToList();
-                projectClassifications.Where(x => projectClassificationIDList.Contains(x.ProjectClassificationID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectClassifications.RemoveRange(projectClassificationsToDelete);
             }
         }
 
-        public static void DeleteProjectClassification(this IQueryable<ProjectClassification> projectClassifications, int projectClassificationID)
+        public static void DeleteProjectClassification(this int projectClassificationID)
         {
-            DeleteProjectClassification(projectClassifications, new List<int> { projectClassificationID });
+            DeleteProjectClassification(new List<int> { projectClassificationID });
         }
 
-        public static void DeleteProjectClassification(this IQueryable<ProjectClassification> projectClassifications, ProjectClassification projectClassificationToDelete)
+        public static void DeleteProjectClassification(this ProjectClassification projectClassificationToDelete)
         {
-            DeleteProjectClassification(projectClassifications, new List<ProjectClassification> { projectClassificationToDelete });
+            DeleteProjectClassification(new List<ProjectClassification> { projectClassificationToDelete });
         }
     }
 }

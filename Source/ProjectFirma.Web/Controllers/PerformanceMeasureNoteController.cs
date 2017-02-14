@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeletePerformanceMeasureNote(performanceMeasureNote, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureNotes.DeletePerformanceMeasureNote(performanceMeasureNote);
+            performanceMeasureNote.DeletePerformanceMeasureNote();
             return new ModalDialogFormJsonResult();
         }
     }

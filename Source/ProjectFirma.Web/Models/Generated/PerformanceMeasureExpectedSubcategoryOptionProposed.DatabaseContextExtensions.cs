@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[PerformanceMeasureExpectedSubcategoryOptionProposed]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return performanceMeasureExpectedSubcategoryOptionProposed;
         }
 
-        public static void DeletePerformanceMeasureExpectedSubcategoryOptionProposed(this IQueryable<PerformanceMeasureExpectedSubcategoryOptionProposed> performanceMeasureExpectedSubcategoryOptionProposeds, List<int> performanceMeasureExpectedSubcategoryOptionProposedIDList)
+        public static void DeletePerformanceMeasureExpectedSubcategoryOptionProposed(this List<int> performanceMeasureExpectedSubcategoryOptionProposedIDList)
         {
             if(performanceMeasureExpectedSubcategoryOptionProposedIDList.Any())
             {
-                performanceMeasureExpectedSubcategoryOptionProposeds.Where(x => performanceMeasureExpectedSubcategoryOptionProposedIDList.Contains(x.PerformanceMeasureExpectedSubcategoryOptionProposedID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpectedSubcategoryOptionProposeds.RemoveRange(HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptionProposeds.Where(x => performanceMeasureExpectedSubcategoryOptionProposedIDList.Contains(x.PerformanceMeasureExpectedSubcategoryOptionProposedID)));
             }
         }
 
-        public static void DeletePerformanceMeasureExpectedSubcategoryOptionProposed(this IQueryable<PerformanceMeasureExpectedSubcategoryOptionProposed> performanceMeasureExpectedSubcategoryOptionProposeds, ICollection<PerformanceMeasureExpectedSubcategoryOptionProposed> performanceMeasureExpectedSubcategoryOptionProposedsToDelete)
+        public static void DeletePerformanceMeasureExpectedSubcategoryOptionProposed(this ICollection<PerformanceMeasureExpectedSubcategoryOptionProposed> performanceMeasureExpectedSubcategoryOptionProposedsToDelete)
         {
             if(performanceMeasureExpectedSubcategoryOptionProposedsToDelete.Any())
             {
-                var performanceMeasureExpectedSubcategoryOptionProposedIDList = performanceMeasureExpectedSubcategoryOptionProposedsToDelete.Select(x => x.PerformanceMeasureExpectedSubcategoryOptionProposedID).ToList();
-                performanceMeasureExpectedSubcategoryOptionProposeds.Where(x => performanceMeasureExpectedSubcategoryOptionProposedIDList.Contains(x.PerformanceMeasureExpectedSubcategoryOptionProposedID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpectedSubcategoryOptionProposeds.RemoveRange(performanceMeasureExpectedSubcategoryOptionProposedsToDelete);
             }
         }
 
-        public static void DeletePerformanceMeasureExpectedSubcategoryOptionProposed(this IQueryable<PerformanceMeasureExpectedSubcategoryOptionProposed> performanceMeasureExpectedSubcategoryOptionProposeds, int performanceMeasureExpectedSubcategoryOptionProposedID)
+        public static void DeletePerformanceMeasureExpectedSubcategoryOptionProposed(this int performanceMeasureExpectedSubcategoryOptionProposedID)
         {
-            DeletePerformanceMeasureExpectedSubcategoryOptionProposed(performanceMeasureExpectedSubcategoryOptionProposeds, new List<int> { performanceMeasureExpectedSubcategoryOptionProposedID });
+            DeletePerformanceMeasureExpectedSubcategoryOptionProposed(new List<int> { performanceMeasureExpectedSubcategoryOptionProposedID });
         }
 
-        public static void DeletePerformanceMeasureExpectedSubcategoryOptionProposed(this IQueryable<PerformanceMeasureExpectedSubcategoryOptionProposed> performanceMeasureExpectedSubcategoryOptionProposeds, PerformanceMeasureExpectedSubcategoryOptionProposed performanceMeasureExpectedSubcategoryOptionProposedToDelete)
+        public static void DeletePerformanceMeasureExpectedSubcategoryOptionProposed(this PerformanceMeasureExpectedSubcategoryOptionProposed performanceMeasureExpectedSubcategoryOptionProposedToDelete)
         {
-            DeletePerformanceMeasureExpectedSubcategoryOptionProposed(performanceMeasureExpectedSubcategoryOptionProposeds, new List<PerformanceMeasureExpectedSubcategoryOptionProposed> { performanceMeasureExpectedSubcategoryOptionProposedToDelete });
+            DeletePerformanceMeasureExpectedSubcategoryOptionProposed(new List<PerformanceMeasureExpectedSubcategoryOptionProposed> { performanceMeasureExpectedSubcategoryOptionProposedToDelete });
         }
     }
 }

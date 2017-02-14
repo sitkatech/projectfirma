@@ -31,6 +31,11 @@ REFERENCES [dbo].[StateProvince] ([StateProvinceID])
 GO
 ALTER TABLE [dbo].[ProjectLocationArea] CHECK CONSTRAINT [FK_ProjectLocationArea_StateProvince_StateProvinceID]
 GO
+ALTER TABLE [dbo].[ProjectLocationArea]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationArea_StateProvince_StateProvinceID_TenantID] FOREIGN KEY([StateProvinceID], [TenantID])
+REFERENCES [dbo].[StateProvince] ([StateProvinceID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectLocationArea] CHECK CONSTRAINT [FK_ProjectLocationArea_StateProvince_StateProvinceID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectLocationArea]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationArea_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

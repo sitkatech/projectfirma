@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[Person]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return person;
         }
 
-        public static void DeletePerson(this IQueryable<Person> people, List<int> personIDList)
+        public static void DeletePerson(this List<int> personIDList)
         {
             if(personIDList.Any())
             {
-                people.Where(x => personIDList.Contains(x.PersonID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllPeople.RemoveRange(HttpRequestStorage.DatabaseEntities.People.Where(x => personIDList.Contains(x.PersonID)));
             }
         }
 
-        public static void DeletePerson(this IQueryable<Person> people, ICollection<Person> peopleToDelete)
+        public static void DeletePerson(this ICollection<Person> peopleToDelete)
         {
             if(peopleToDelete.Any())
             {
-                var personIDList = peopleToDelete.Select(x => x.PersonID).ToList();
-                people.Where(x => personIDList.Contains(x.PersonID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllPeople.RemoveRange(peopleToDelete);
             }
         }
 
-        public static void DeletePerson(this IQueryable<Person> people, int personID)
+        public static void DeletePerson(this int personID)
         {
-            DeletePerson(people, new List<int> { personID });
+            DeletePerson(new List<int> { personID });
         }
 
-        public static void DeletePerson(this IQueryable<Person> people, Person personToDelete)
+        public static void DeletePerson(this Person personToDelete)
         {
-            DeletePerson(people, new List<Person> { personToDelete });
+            DeletePerson(new List<Person> { personToDelete });
         }
     }
 }

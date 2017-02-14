@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[CostParameterSet]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return costParameterSet;
         }
 
-        public static void DeleteCostParameterSet(this IQueryable<CostParameterSet> costParameterSets, List<int> costParameterSetIDList)
+        public static void DeleteCostParameterSet(this List<int> costParameterSetIDList)
         {
             if(costParameterSetIDList.Any())
             {
-                costParameterSets.Where(x => costParameterSetIDList.Contains(x.CostParameterSetID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllCostParameterSets.RemoveRange(HttpRequestStorage.DatabaseEntities.CostParameterSets.Where(x => costParameterSetIDList.Contains(x.CostParameterSetID)));
             }
         }
 
-        public static void DeleteCostParameterSet(this IQueryable<CostParameterSet> costParameterSets, ICollection<CostParameterSet> costParameterSetsToDelete)
+        public static void DeleteCostParameterSet(this ICollection<CostParameterSet> costParameterSetsToDelete)
         {
             if(costParameterSetsToDelete.Any())
             {
-                var costParameterSetIDList = costParameterSetsToDelete.Select(x => x.CostParameterSetID).ToList();
-                costParameterSets.Where(x => costParameterSetIDList.Contains(x.CostParameterSetID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllCostParameterSets.RemoveRange(costParameterSetsToDelete);
             }
         }
 
-        public static void DeleteCostParameterSet(this IQueryable<CostParameterSet> costParameterSets, int costParameterSetID)
+        public static void DeleteCostParameterSet(this int costParameterSetID)
         {
-            DeleteCostParameterSet(costParameterSets, new List<int> { costParameterSetID });
+            DeleteCostParameterSet(new List<int> { costParameterSetID });
         }
 
-        public static void DeleteCostParameterSet(this IQueryable<CostParameterSet> costParameterSets, CostParameterSet costParameterSetToDelete)
+        public static void DeleteCostParameterSet(this CostParameterSet costParameterSetToDelete)
         {
-            DeleteCostParameterSet(costParameterSets, new List<CostParameterSet> { costParameterSetToDelete });
+            DeleteCostParameterSet(new List<CostParameterSet> { costParameterSetToDelete });
         }
     }
 }

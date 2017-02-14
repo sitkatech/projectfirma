@@ -162,7 +162,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteWatershed(watershed, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.Watersheds.DeleteWatershed(watershed);
+            watershed.DeleteWatershed();
             return new ModalDialogFormJsonResult();
         }
 

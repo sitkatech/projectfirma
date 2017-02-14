@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[SnapshotProject]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return snapshotProject;
         }
 
-        public static void DeleteSnapshotProject(this IQueryable<SnapshotProject> snapshotProjects, List<int> snapshotProjectIDList)
+        public static void DeleteSnapshotProject(this List<int> snapshotProjectIDList)
         {
             if(snapshotProjectIDList.Any())
             {
-                snapshotProjects.Where(x => snapshotProjectIDList.Contains(x.SnapshotProjectID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllSnapshotProjects.RemoveRange(HttpRequestStorage.DatabaseEntities.SnapshotProjects.Where(x => snapshotProjectIDList.Contains(x.SnapshotProjectID)));
             }
         }
 
-        public static void DeleteSnapshotProject(this IQueryable<SnapshotProject> snapshotProjects, ICollection<SnapshotProject> snapshotProjectsToDelete)
+        public static void DeleteSnapshotProject(this ICollection<SnapshotProject> snapshotProjectsToDelete)
         {
             if(snapshotProjectsToDelete.Any())
             {
-                var snapshotProjectIDList = snapshotProjectsToDelete.Select(x => x.SnapshotProjectID).ToList();
-                snapshotProjects.Where(x => snapshotProjectIDList.Contains(x.SnapshotProjectID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllSnapshotProjects.RemoveRange(snapshotProjectsToDelete);
             }
         }
 
-        public static void DeleteSnapshotProject(this IQueryable<SnapshotProject> snapshotProjects, int snapshotProjectID)
+        public static void DeleteSnapshotProject(this int snapshotProjectID)
         {
-            DeleteSnapshotProject(snapshotProjects, new List<int> { snapshotProjectID });
+            DeleteSnapshotProject(new List<int> { snapshotProjectID });
         }
 
-        public static void DeleteSnapshotProject(this IQueryable<SnapshotProject> snapshotProjects, SnapshotProject snapshotProjectToDelete)
+        public static void DeleteSnapshotProject(this SnapshotProject snapshotProjectToDelete)
         {
-            DeleteSnapshotProject(snapshotProjects, new List<SnapshotProject> { snapshotProjectToDelete });
+            DeleteSnapshotProject(new List<SnapshotProject> { snapshotProjectToDelete });
         }
     }
 }

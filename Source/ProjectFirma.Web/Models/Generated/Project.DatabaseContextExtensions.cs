@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[Project]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return project;
         }
 
-        public static void DeleteProject(this IQueryable<Project> projects, List<int> projectIDList)
+        public static void DeleteProject(this List<int> projectIDList)
         {
             if(projectIDList.Any())
             {
-                projects.Where(x => projectIDList.Contains(x.ProjectID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjects.RemoveRange(HttpRequestStorage.DatabaseEntities.Projects.Where(x => projectIDList.Contains(x.ProjectID)));
             }
         }
 
-        public static void DeleteProject(this IQueryable<Project> projects, ICollection<Project> projectsToDelete)
+        public static void DeleteProject(this ICollection<Project> projectsToDelete)
         {
             if(projectsToDelete.Any())
             {
-                var projectIDList = projectsToDelete.Select(x => x.ProjectID).ToList();
-                projects.Where(x => projectIDList.Contains(x.ProjectID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjects.RemoveRange(projectsToDelete);
             }
         }
 
-        public static void DeleteProject(this IQueryable<Project> projects, int projectID)
+        public static void DeleteProject(this int projectID)
         {
-            DeleteProject(projects, new List<int> { projectID });
+            DeleteProject(new List<int> { projectID });
         }
 
-        public static void DeleteProject(this IQueryable<Project> projects, Project projectToDelete)
+        public static void DeleteProject(this Project projectToDelete)
         {
-            DeleteProject(projects, new List<Project> { projectToDelete });
+            DeleteProject(new List<Project> { projectToDelete });
         }
     }
 }

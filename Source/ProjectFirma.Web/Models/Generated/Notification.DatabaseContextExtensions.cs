@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[Notification]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return notification;
         }
 
-        public static void DeleteNotification(this IQueryable<Notification> notifications, List<int> notificationIDList)
+        public static void DeleteNotification(this List<int> notificationIDList)
         {
             if(notificationIDList.Any())
             {
-                notifications.Where(x => notificationIDList.Contains(x.NotificationID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllNotifications.RemoveRange(HttpRequestStorage.DatabaseEntities.Notifications.Where(x => notificationIDList.Contains(x.NotificationID)));
             }
         }
 
-        public static void DeleteNotification(this IQueryable<Notification> notifications, ICollection<Notification> notificationsToDelete)
+        public static void DeleteNotification(this ICollection<Notification> notificationsToDelete)
         {
             if(notificationsToDelete.Any())
             {
-                var notificationIDList = notificationsToDelete.Select(x => x.NotificationID).ToList();
-                notifications.Where(x => notificationIDList.Contains(x.NotificationID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllNotifications.RemoveRange(notificationsToDelete);
             }
         }
 
-        public static void DeleteNotification(this IQueryable<Notification> notifications, int notificationID)
+        public static void DeleteNotification(this int notificationID)
         {
-            DeleteNotification(notifications, new List<int> { notificationID });
+            DeleteNotification(new List<int> { notificationID });
         }
 
-        public static void DeleteNotification(this IQueryable<Notification> notifications, Notification notificationToDelete)
+        public static void DeleteNotification(this Notification notificationToDelete)
         {
-            DeleteNotification(notifications, new List<Notification> { notificationToDelete });
+            DeleteNotification(new List<Notification> { notificationToDelete });
         }
     }
 }

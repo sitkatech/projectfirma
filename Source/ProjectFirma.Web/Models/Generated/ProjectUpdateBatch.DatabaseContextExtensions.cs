@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[ProjectUpdateBatch]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch;
         }
 
-        public static void DeleteProjectUpdateBatch(this IQueryable<ProjectUpdateBatch> projectUpdateBatches, List<int> projectUpdateBatchIDList)
+        public static void DeleteProjectUpdateBatch(this List<int> projectUpdateBatchIDList)
         {
             if(projectUpdateBatchIDList.Any())
             {
-                projectUpdateBatches.Where(x => projectUpdateBatchIDList.Contains(x.ProjectUpdateBatchID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectUpdateBatches.RemoveRange(HttpRequestStorage.DatabaseEntities.ProjectUpdateBatches.Where(x => projectUpdateBatchIDList.Contains(x.ProjectUpdateBatchID)));
             }
         }
 
-        public static void DeleteProjectUpdateBatch(this IQueryable<ProjectUpdateBatch> projectUpdateBatches, ICollection<ProjectUpdateBatch> projectUpdateBatchesToDelete)
+        public static void DeleteProjectUpdateBatch(this ICollection<ProjectUpdateBatch> projectUpdateBatchesToDelete)
         {
             if(projectUpdateBatchesToDelete.Any())
             {
-                var projectUpdateBatchIDList = projectUpdateBatchesToDelete.Select(x => x.ProjectUpdateBatchID).ToList();
-                projectUpdateBatches.Where(x => projectUpdateBatchIDList.Contains(x.ProjectUpdateBatchID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectUpdateBatches.RemoveRange(projectUpdateBatchesToDelete);
             }
         }
 
-        public static void DeleteProjectUpdateBatch(this IQueryable<ProjectUpdateBatch> projectUpdateBatches, int projectUpdateBatchID)
+        public static void DeleteProjectUpdateBatch(this int projectUpdateBatchID)
         {
-            DeleteProjectUpdateBatch(projectUpdateBatches, new List<int> { projectUpdateBatchID });
+            DeleteProjectUpdateBatch(new List<int> { projectUpdateBatchID });
         }
 
-        public static void DeleteProjectUpdateBatch(this IQueryable<ProjectUpdateBatch> projectUpdateBatches, ProjectUpdateBatch projectUpdateBatchToDelete)
+        public static void DeleteProjectUpdateBatch(this ProjectUpdateBatch projectUpdateBatchToDelete)
         {
-            DeleteProjectUpdateBatch(projectUpdateBatches, new List<ProjectUpdateBatch> { projectUpdateBatchToDelete });
+            DeleteProjectUpdateBatch(new List<ProjectUpdateBatch> { projectUpdateBatchToDelete });
         }
     }
 }

@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[ProjectWatershed]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return projectWatershed;
         }
 
-        public static void DeleteProjectWatershed(this IQueryable<ProjectWatershed> projectWatersheds, List<int> projectWatershedIDList)
+        public static void DeleteProjectWatershed(this List<int> projectWatershedIDList)
         {
             if(projectWatershedIDList.Any())
             {
-                projectWatersheds.Where(x => projectWatershedIDList.Contains(x.ProjectWatershedID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.RemoveRange(HttpRequestStorage.DatabaseEntities.ProjectWatersheds.Where(x => projectWatershedIDList.Contains(x.ProjectWatershedID)));
             }
         }
 
-        public static void DeleteProjectWatershed(this IQueryable<ProjectWatershed> projectWatersheds, ICollection<ProjectWatershed> projectWatershedsToDelete)
+        public static void DeleteProjectWatershed(this ICollection<ProjectWatershed> projectWatershedsToDelete)
         {
             if(projectWatershedsToDelete.Any())
             {
-                var projectWatershedIDList = projectWatershedsToDelete.Select(x => x.ProjectWatershedID).ToList();
-                projectWatersheds.Where(x => projectWatershedIDList.Contains(x.ProjectWatershedID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.RemoveRange(projectWatershedsToDelete);
             }
         }
 
-        public static void DeleteProjectWatershed(this IQueryable<ProjectWatershed> projectWatersheds, int projectWatershedID)
+        public static void DeleteProjectWatershed(this int projectWatershedID)
         {
-            DeleteProjectWatershed(projectWatersheds, new List<int> { projectWatershedID });
+            DeleteProjectWatershed(new List<int> { projectWatershedID });
         }
 
-        public static void DeleteProjectWatershed(this IQueryable<ProjectWatershed> projectWatersheds, ProjectWatershed projectWatershedToDelete)
+        public static void DeleteProjectWatershed(this ProjectWatershed projectWatershedToDelete)
         {
-            DeleteProjectWatershed(projectWatersheds, new List<ProjectWatershed> { projectWatershedToDelete });
+            DeleteProjectWatershed(new List<ProjectWatershed> { projectWatershedToDelete });
         }
     }
 }

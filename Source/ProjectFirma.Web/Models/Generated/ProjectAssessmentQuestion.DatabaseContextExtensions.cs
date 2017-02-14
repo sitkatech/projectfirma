@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[ProjectAssessmentQuestion]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return projectAssessmentQuestion;
         }
 
-        public static void DeleteProjectAssessmentQuestion(this IQueryable<ProjectAssessmentQuestion> projectAssessmentQuestions, List<int> projectAssessmentQuestionIDList)
+        public static void DeleteProjectAssessmentQuestion(this List<int> projectAssessmentQuestionIDList)
         {
             if(projectAssessmentQuestionIDList.Any())
             {
-                projectAssessmentQuestions.Where(x => projectAssessmentQuestionIDList.Contains(x.ProjectAssessmentQuestionID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectAssessmentQuestions.RemoveRange(HttpRequestStorage.DatabaseEntities.ProjectAssessmentQuestions.Where(x => projectAssessmentQuestionIDList.Contains(x.ProjectAssessmentQuestionID)));
             }
         }
 
-        public static void DeleteProjectAssessmentQuestion(this IQueryable<ProjectAssessmentQuestion> projectAssessmentQuestions, ICollection<ProjectAssessmentQuestion> projectAssessmentQuestionsToDelete)
+        public static void DeleteProjectAssessmentQuestion(this ICollection<ProjectAssessmentQuestion> projectAssessmentQuestionsToDelete)
         {
             if(projectAssessmentQuestionsToDelete.Any())
             {
-                var projectAssessmentQuestionIDList = projectAssessmentQuestionsToDelete.Select(x => x.ProjectAssessmentQuestionID).ToList();
-                projectAssessmentQuestions.Where(x => projectAssessmentQuestionIDList.Contains(x.ProjectAssessmentQuestionID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectAssessmentQuestions.RemoveRange(projectAssessmentQuestionsToDelete);
             }
         }
 
-        public static void DeleteProjectAssessmentQuestion(this IQueryable<ProjectAssessmentQuestion> projectAssessmentQuestions, int projectAssessmentQuestionID)
+        public static void DeleteProjectAssessmentQuestion(this int projectAssessmentQuestionID)
         {
-            DeleteProjectAssessmentQuestion(projectAssessmentQuestions, new List<int> { projectAssessmentQuestionID });
+            DeleteProjectAssessmentQuestion(new List<int> { projectAssessmentQuestionID });
         }
 
-        public static void DeleteProjectAssessmentQuestion(this IQueryable<ProjectAssessmentQuestion> projectAssessmentQuestions, ProjectAssessmentQuestion projectAssessmentQuestionToDelete)
+        public static void DeleteProjectAssessmentQuestion(this ProjectAssessmentQuestion projectAssessmentQuestionToDelete)
         {
-            DeleteProjectAssessmentQuestion(projectAssessmentQuestions, new List<ProjectAssessmentQuestion> { projectAssessmentQuestionToDelete });
+            DeleteProjectAssessmentQuestion(new List<ProjectAssessmentQuestion> { projectAssessmentQuestionToDelete });
         }
     }
 }

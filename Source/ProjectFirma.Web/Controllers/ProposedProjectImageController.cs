@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProposedProjectImage;
-using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
@@ -112,9 +110,8 @@ namespace ProjectFirma.Web.Controllers
         public static void DeleteProposedProjectImages(ICollection<ProposedProjectImage> proposedProjectImages)
         {
             var proposedProjectImageFileResourceIDsToDelete = proposedProjectImages.Select(x => x.FileResourceID).ToList();
-            var proposedProjectImageIDsToDelete = proposedProjectImages.Select(x => x.ProposedProjectImageID).ToList();
-            HttpRequestStorage.DatabaseEntities.ProposedProjectImages.DeleteProposedProjectImage(proposedProjectImageIDsToDelete);
-            HttpRequestStorage.DatabaseEntities.FileResources.DeleteFileResource(proposedProjectImageFileResourceIDsToDelete);
+            proposedProjectImages.DeleteProposedProjectImage();
+            proposedProjectImageFileResourceIDsToDelete.DeleteFileResource();
         }
     }
 }

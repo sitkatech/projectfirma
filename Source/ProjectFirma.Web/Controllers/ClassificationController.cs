@@ -121,7 +121,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteClassification(classification, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.Classifications.DeleteClassification(classification);
+            classification.DeleteClassification();
             return new ModalDialogFormJsonResult();
         }
 

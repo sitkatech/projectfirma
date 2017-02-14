@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[Watershed]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return watershed;
         }
 
-        public static void DeleteWatershed(this IQueryable<Watershed> watersheds, List<int> watershedIDList)
+        public static void DeleteWatershed(this List<int> watershedIDList)
         {
             if(watershedIDList.Any())
             {
-                watersheds.Where(x => watershedIDList.Contains(x.WatershedID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllWatersheds.RemoveRange(HttpRequestStorage.DatabaseEntities.Watersheds.Where(x => watershedIDList.Contains(x.WatershedID)));
             }
         }
 
-        public static void DeleteWatershed(this IQueryable<Watershed> watersheds, ICollection<Watershed> watershedsToDelete)
+        public static void DeleteWatershed(this ICollection<Watershed> watershedsToDelete)
         {
             if(watershedsToDelete.Any())
             {
-                var watershedIDList = watershedsToDelete.Select(x => x.WatershedID).ToList();
-                watersheds.Where(x => watershedIDList.Contains(x.WatershedID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllWatersheds.RemoveRange(watershedsToDelete);
             }
         }
 
-        public static void DeleteWatershed(this IQueryable<Watershed> watersheds, int watershedID)
+        public static void DeleteWatershed(this int watershedID)
         {
-            DeleteWatershed(watersheds, new List<int> { watershedID });
+            DeleteWatershed(new List<int> { watershedID });
         }
 
-        public static void DeleteWatershed(this IQueryable<Watershed> watersheds, Watershed watershedToDelete)
+        public static void DeleteWatershed(this Watershed watershedToDelete)
         {
-            DeleteWatershed(watersheds, new List<Watershed> { watershedToDelete });
+            DeleteWatershed(new List<Watershed> { watershedToDelete });
         }
     }
 }

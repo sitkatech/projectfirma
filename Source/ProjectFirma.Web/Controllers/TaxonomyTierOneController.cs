@@ -167,7 +167,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteTaxonomyTierOne(taxonomyTierOne, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.DeleteTaxonomyTierOne(taxonomyTierOne);
+            taxonomyTierOne.DeleteTaxonomyTierOne();
             return new ModalDialogFormJsonResult();
         }
 

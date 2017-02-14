@@ -49,8 +49,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
                 else if (!proposedProjectClassificationSimple.Selected && alreadySelected)
                 {
                     var existingProposedProjectClassification = proposedProject.ProposedProjectClassifications.First(x => x.ClassificationID == proposedProjectClassificationSimple.ClassificationID);
-
-                    HttpRequestStorage.DatabaseEntities.ProposedProjectClassifications.DeleteProposedProjectClassification(existingProposedProjectClassification);
+                    existingProposedProjectClassification.DeleteProposedProjectClassification();
                 }
             }
         }

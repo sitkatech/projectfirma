@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[FileResource]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return fileResource;
         }
 
-        public static void DeleteFileResource(this IQueryable<FileResource> fileResources, List<int> fileResourceIDList)
+        public static void DeleteFileResource(this List<int> fileResourceIDList)
         {
             if(fileResourceIDList.Any())
             {
-                fileResources.Where(x => fileResourceIDList.Contains(x.FileResourceID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllFileResources.RemoveRange(HttpRequestStorage.DatabaseEntities.FileResources.Where(x => fileResourceIDList.Contains(x.FileResourceID)));
             }
         }
 
-        public static void DeleteFileResource(this IQueryable<FileResource> fileResources, ICollection<FileResource> fileResourcesToDelete)
+        public static void DeleteFileResource(this ICollection<FileResource> fileResourcesToDelete)
         {
             if(fileResourcesToDelete.Any())
             {
-                var fileResourceIDList = fileResourcesToDelete.Select(x => x.FileResourceID).ToList();
-                fileResources.Where(x => fileResourceIDList.Contains(x.FileResourceID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllFileResources.RemoveRange(fileResourcesToDelete);
             }
         }
 
-        public static void DeleteFileResource(this IQueryable<FileResource> fileResources, int fileResourceID)
+        public static void DeleteFileResource(this int fileResourceID)
         {
-            DeleteFileResource(fileResources, new List<int> { fileResourceID });
+            DeleteFileResource(new List<int> { fileResourceID });
         }
 
-        public static void DeleteFileResource(this IQueryable<FileResource> fileResources, FileResource fileResourceToDelete)
+        public static void DeleteFileResource(this FileResource fileResourceToDelete)
         {
-            DeleteFileResource(fileResources, new List<FileResource> { fileResourceToDelete });
+            DeleteFileResource(new List<FileResource> { fileResourceToDelete });
         }
     }
 }

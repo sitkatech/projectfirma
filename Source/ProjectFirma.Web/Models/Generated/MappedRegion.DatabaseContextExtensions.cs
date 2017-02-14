@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[MappedRegion]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return mappedRegion;
         }
 
-        public static void DeleteMappedRegion(this IQueryable<MappedRegion> mappedRegions, List<int> mappedRegionIDList)
+        public static void DeleteMappedRegion(this List<int> mappedRegionIDList)
         {
             if(mappedRegionIDList.Any())
             {
-                mappedRegions.Where(x => mappedRegionIDList.Contains(x.MappedRegionID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllMappedRegions.RemoveRange(HttpRequestStorage.DatabaseEntities.MappedRegions.Where(x => mappedRegionIDList.Contains(x.MappedRegionID)));
             }
         }
 
-        public static void DeleteMappedRegion(this IQueryable<MappedRegion> mappedRegions, ICollection<MappedRegion> mappedRegionsToDelete)
+        public static void DeleteMappedRegion(this ICollection<MappedRegion> mappedRegionsToDelete)
         {
             if(mappedRegionsToDelete.Any())
             {
-                var mappedRegionIDList = mappedRegionsToDelete.Select(x => x.MappedRegionID).ToList();
-                mappedRegions.Where(x => mappedRegionIDList.Contains(x.MappedRegionID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllMappedRegions.RemoveRange(mappedRegionsToDelete);
             }
         }
 
-        public static void DeleteMappedRegion(this IQueryable<MappedRegion> mappedRegions, int mappedRegionID)
+        public static void DeleteMappedRegion(this int mappedRegionID)
         {
-            DeleteMappedRegion(mappedRegions, new List<int> { mappedRegionID });
+            DeleteMappedRegion(new List<int> { mappedRegionID });
         }
 
-        public static void DeleteMappedRegion(this IQueryable<MappedRegion> mappedRegions, MappedRegion mappedRegionToDelete)
+        public static void DeleteMappedRegion(this MappedRegion mappedRegionToDelete)
         {
-            DeleteMappedRegion(mappedRegions, new List<MappedRegion> { mappedRegionToDelete });
+            DeleteMappedRegion(new List<MappedRegion> { mappedRegionToDelete });
         }
     }
 }

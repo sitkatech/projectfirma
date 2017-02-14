@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[MonitoringProgramDocument]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return monitoringProgramDocument;
         }
 
-        public static void DeleteMonitoringProgramDocument(this IQueryable<MonitoringProgramDocument> monitoringProgramDocuments, List<int> monitoringProgramDocumentIDList)
+        public static void DeleteMonitoringProgramDocument(this List<int> monitoringProgramDocumentIDList)
         {
             if(monitoringProgramDocumentIDList.Any())
             {
-                monitoringProgramDocuments.Where(x => monitoringProgramDocumentIDList.Contains(x.MonitoringProgramDocumentID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllMonitoringProgramDocuments.RemoveRange(HttpRequestStorage.DatabaseEntities.MonitoringProgramDocuments.Where(x => monitoringProgramDocumentIDList.Contains(x.MonitoringProgramDocumentID)));
             }
         }
 
-        public static void DeleteMonitoringProgramDocument(this IQueryable<MonitoringProgramDocument> monitoringProgramDocuments, ICollection<MonitoringProgramDocument> monitoringProgramDocumentsToDelete)
+        public static void DeleteMonitoringProgramDocument(this ICollection<MonitoringProgramDocument> monitoringProgramDocumentsToDelete)
         {
             if(monitoringProgramDocumentsToDelete.Any())
             {
-                var monitoringProgramDocumentIDList = monitoringProgramDocumentsToDelete.Select(x => x.MonitoringProgramDocumentID).ToList();
-                monitoringProgramDocuments.Where(x => monitoringProgramDocumentIDList.Contains(x.MonitoringProgramDocumentID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllMonitoringProgramDocuments.RemoveRange(monitoringProgramDocumentsToDelete);
             }
         }
 
-        public static void DeleteMonitoringProgramDocument(this IQueryable<MonitoringProgramDocument> monitoringProgramDocuments, int monitoringProgramDocumentID)
+        public static void DeleteMonitoringProgramDocument(this int monitoringProgramDocumentID)
         {
-            DeleteMonitoringProgramDocument(monitoringProgramDocuments, new List<int> { monitoringProgramDocumentID });
+            DeleteMonitoringProgramDocument(new List<int> { monitoringProgramDocumentID });
         }
 
-        public static void DeleteMonitoringProgramDocument(this IQueryable<MonitoringProgramDocument> monitoringProgramDocuments, MonitoringProgramDocument monitoringProgramDocumentToDelete)
+        public static void DeleteMonitoringProgramDocument(this MonitoringProgramDocument monitoringProgramDocumentToDelete)
         {
-            DeleteMonitoringProgramDocument(monitoringProgramDocuments, new List<MonitoringProgramDocument> { monitoringProgramDocumentToDelete });
+            DeleteMonitoringProgramDocument(new List<MonitoringProgramDocument> { monitoringProgramDocumentToDelete });
         }
     }
 }

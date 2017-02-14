@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[MonitoringProgramPartner]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return monitoringProgramPartner;
         }
 
-        public static void DeleteMonitoringProgramPartner(this IQueryable<MonitoringProgramPartner> monitoringProgramPartners, List<int> monitoringProgramPartnerIDList)
+        public static void DeleteMonitoringProgramPartner(this List<int> monitoringProgramPartnerIDList)
         {
             if(monitoringProgramPartnerIDList.Any())
             {
-                monitoringProgramPartners.Where(x => monitoringProgramPartnerIDList.Contains(x.MonitoringProgramPartnerID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllMonitoringProgramPartners.RemoveRange(HttpRequestStorage.DatabaseEntities.MonitoringProgramPartners.Where(x => monitoringProgramPartnerIDList.Contains(x.MonitoringProgramPartnerID)));
             }
         }
 
-        public static void DeleteMonitoringProgramPartner(this IQueryable<MonitoringProgramPartner> monitoringProgramPartners, ICollection<MonitoringProgramPartner> monitoringProgramPartnersToDelete)
+        public static void DeleteMonitoringProgramPartner(this ICollection<MonitoringProgramPartner> monitoringProgramPartnersToDelete)
         {
             if(monitoringProgramPartnersToDelete.Any())
             {
-                var monitoringProgramPartnerIDList = monitoringProgramPartnersToDelete.Select(x => x.MonitoringProgramPartnerID).ToList();
-                monitoringProgramPartners.Where(x => monitoringProgramPartnerIDList.Contains(x.MonitoringProgramPartnerID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllMonitoringProgramPartners.RemoveRange(monitoringProgramPartnersToDelete);
             }
         }
 
-        public static void DeleteMonitoringProgramPartner(this IQueryable<MonitoringProgramPartner> monitoringProgramPartners, int monitoringProgramPartnerID)
+        public static void DeleteMonitoringProgramPartner(this int monitoringProgramPartnerID)
         {
-            DeleteMonitoringProgramPartner(monitoringProgramPartners, new List<int> { monitoringProgramPartnerID });
+            DeleteMonitoringProgramPartner(new List<int> { monitoringProgramPartnerID });
         }
 
-        public static void DeleteMonitoringProgramPartner(this IQueryable<MonitoringProgramPartner> monitoringProgramPartners, MonitoringProgramPartner monitoringProgramPartnerToDelete)
+        public static void DeleteMonitoringProgramPartner(this MonitoringProgramPartner monitoringProgramPartnerToDelete)
         {
-            DeleteMonitoringProgramPartner(monitoringProgramPartners, new List<MonitoringProgramPartner> { monitoringProgramPartnerToDelete });
+            DeleteMonitoringProgramPartner(new List<MonitoringProgramPartner> { monitoringProgramPartnerToDelete });
         }
     }
 }

@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[County]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return county;
         }
 
-        public static void DeleteCounty(this IQueryable<County> counties, List<int> countyIDList)
+        public static void DeleteCounty(this List<int> countyIDList)
         {
             if(countyIDList.Any())
             {
-                counties.Where(x => countyIDList.Contains(x.CountyID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllCounties.RemoveRange(HttpRequestStorage.DatabaseEntities.Counties.Where(x => countyIDList.Contains(x.CountyID)));
             }
         }
 
-        public static void DeleteCounty(this IQueryable<County> counties, ICollection<County> countiesToDelete)
+        public static void DeleteCounty(this ICollection<County> countiesToDelete)
         {
             if(countiesToDelete.Any())
             {
-                var countyIDList = countiesToDelete.Select(x => x.CountyID).ToList();
-                counties.Where(x => countyIDList.Contains(x.CountyID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllCounties.RemoveRange(countiesToDelete);
             }
         }
 
-        public static void DeleteCounty(this IQueryable<County> counties, int countyID)
+        public static void DeleteCounty(this int countyID)
         {
-            DeleteCounty(counties, new List<int> { countyID });
+            DeleteCounty(new List<int> { countyID });
         }
 
-        public static void DeleteCounty(this IQueryable<County> counties, County countyToDelete)
+        public static void DeleteCounty(this County countyToDelete)
         {
-            DeleteCounty(counties, new List<County> { countyToDelete });
+            DeleteCounty(new List<County> { countyToDelete });
         }
     }
 }

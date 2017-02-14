@@ -780,6 +780,7 @@
       <PropertyRef Name="CountyID" />
     </Key>
     <Property Name="CountyID" Type="Int32" Nullable="false" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="CountyName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="StateProvinceID" Type="Int32" Nullable="false" />
     <Property Name="CountyFeature" Type="Geometry" />
@@ -1872,6 +1873,7 @@
       <PropertyRef Name="StateProvinceID" />
     </Key>
     <Property Name="StateProvinceID" Type="Int32" Nullable="false" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="StateProvinceName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="StateProvinceAbbreviation" Type="String" Nullable="false" MaxLength="2" Unicode="false" FixedLength="true" />
     <Property Name="StateProvinceFeature" Type="Geometry" />

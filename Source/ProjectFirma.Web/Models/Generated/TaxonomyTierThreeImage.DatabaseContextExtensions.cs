@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[TaxonomyTierThreeImage]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return taxonomyTierThreeImage;
         }
 
-        public static void DeleteTaxonomyTierThreeImage(this IQueryable<TaxonomyTierThreeImage> taxonomyTierThreeImages, List<int> taxonomyTierThreeImageIDList)
+        public static void DeleteTaxonomyTierThreeImage(this List<int> taxonomyTierThreeImageIDList)
         {
             if(taxonomyTierThreeImageIDList.Any())
             {
-                taxonomyTierThreeImages.Where(x => taxonomyTierThreeImageIDList.Contains(x.TaxonomyTierThreeImageID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllTaxonomyTierThreeImages.RemoveRange(HttpRequestStorage.DatabaseEntities.TaxonomyTierThreeImages.Where(x => taxonomyTierThreeImageIDList.Contains(x.TaxonomyTierThreeImageID)));
             }
         }
 
-        public static void DeleteTaxonomyTierThreeImage(this IQueryable<TaxonomyTierThreeImage> taxonomyTierThreeImages, ICollection<TaxonomyTierThreeImage> taxonomyTierThreeImagesToDelete)
+        public static void DeleteTaxonomyTierThreeImage(this ICollection<TaxonomyTierThreeImage> taxonomyTierThreeImagesToDelete)
         {
             if(taxonomyTierThreeImagesToDelete.Any())
             {
-                var taxonomyTierThreeImageIDList = taxonomyTierThreeImagesToDelete.Select(x => x.TaxonomyTierThreeImageID).ToList();
-                taxonomyTierThreeImages.Where(x => taxonomyTierThreeImageIDList.Contains(x.TaxonomyTierThreeImageID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllTaxonomyTierThreeImages.RemoveRange(taxonomyTierThreeImagesToDelete);
             }
         }
 
-        public static void DeleteTaxonomyTierThreeImage(this IQueryable<TaxonomyTierThreeImage> taxonomyTierThreeImages, int taxonomyTierThreeImageID)
+        public static void DeleteTaxonomyTierThreeImage(this int taxonomyTierThreeImageID)
         {
-            DeleteTaxonomyTierThreeImage(taxonomyTierThreeImages, new List<int> { taxonomyTierThreeImageID });
+            DeleteTaxonomyTierThreeImage(new List<int> { taxonomyTierThreeImageID });
         }
 
-        public static void DeleteTaxonomyTierThreeImage(this IQueryable<TaxonomyTierThreeImage> taxonomyTierThreeImages, TaxonomyTierThreeImage taxonomyTierThreeImageToDelete)
+        public static void DeleteTaxonomyTierThreeImage(this TaxonomyTierThreeImage taxonomyTierThreeImageToDelete)
         {
-            DeleteTaxonomyTierThreeImage(taxonomyTierThreeImages, new List<TaxonomyTierThreeImage> { taxonomyTierThreeImageToDelete });
+            DeleteTaxonomyTierThreeImage(new List<TaxonomyTierThreeImage> { taxonomyTierThreeImageToDelete });
         }
     }
 }

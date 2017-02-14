@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[PerformanceMeasureActualSubcategoryOptionUpdate]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return performanceMeasureActualSubcategoryOptionUpdate;
         }
 
-        public static void DeletePerformanceMeasureActualSubcategoryOptionUpdate(this IQueryable<PerformanceMeasureActualSubcategoryOptionUpdate> performanceMeasureActualSubcategoryOptionUpdates, List<int> performanceMeasureActualSubcategoryOptionUpdateIDList)
+        public static void DeletePerformanceMeasureActualSubcategoryOptionUpdate(this List<int> performanceMeasureActualSubcategoryOptionUpdateIDList)
         {
             if(performanceMeasureActualSubcategoryOptionUpdateIDList.Any())
             {
-                performanceMeasureActualSubcategoryOptionUpdates.Where(x => performanceMeasureActualSubcategoryOptionUpdateIDList.Contains(x.PerformanceMeasureActualSubcategoryOptionUpdateID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptionUpdates.RemoveRange(HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptionUpdates.Where(x => performanceMeasureActualSubcategoryOptionUpdateIDList.Contains(x.PerformanceMeasureActualSubcategoryOptionUpdateID)));
             }
         }
 
-        public static void DeletePerformanceMeasureActualSubcategoryOptionUpdate(this IQueryable<PerformanceMeasureActualSubcategoryOptionUpdate> performanceMeasureActualSubcategoryOptionUpdates, ICollection<PerformanceMeasureActualSubcategoryOptionUpdate> performanceMeasureActualSubcategoryOptionUpdatesToDelete)
+        public static void DeletePerformanceMeasureActualSubcategoryOptionUpdate(this ICollection<PerformanceMeasureActualSubcategoryOptionUpdate> performanceMeasureActualSubcategoryOptionUpdatesToDelete)
         {
             if(performanceMeasureActualSubcategoryOptionUpdatesToDelete.Any())
             {
-                var performanceMeasureActualSubcategoryOptionUpdateIDList = performanceMeasureActualSubcategoryOptionUpdatesToDelete.Select(x => x.PerformanceMeasureActualSubcategoryOptionUpdateID).ToList();
-                performanceMeasureActualSubcategoryOptionUpdates.Where(x => performanceMeasureActualSubcategoryOptionUpdateIDList.Contains(x.PerformanceMeasureActualSubcategoryOptionUpdateID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptionUpdates.RemoveRange(performanceMeasureActualSubcategoryOptionUpdatesToDelete);
             }
         }
 
-        public static void DeletePerformanceMeasureActualSubcategoryOptionUpdate(this IQueryable<PerformanceMeasureActualSubcategoryOptionUpdate> performanceMeasureActualSubcategoryOptionUpdates, int performanceMeasureActualSubcategoryOptionUpdateID)
+        public static void DeletePerformanceMeasureActualSubcategoryOptionUpdate(this int performanceMeasureActualSubcategoryOptionUpdateID)
         {
-            DeletePerformanceMeasureActualSubcategoryOptionUpdate(performanceMeasureActualSubcategoryOptionUpdates, new List<int> { performanceMeasureActualSubcategoryOptionUpdateID });
+            DeletePerformanceMeasureActualSubcategoryOptionUpdate(new List<int> { performanceMeasureActualSubcategoryOptionUpdateID });
         }
 
-        public static void DeletePerformanceMeasureActualSubcategoryOptionUpdate(this IQueryable<PerformanceMeasureActualSubcategoryOptionUpdate> performanceMeasureActualSubcategoryOptionUpdates, PerformanceMeasureActualSubcategoryOptionUpdate performanceMeasureActualSubcategoryOptionUpdateToDelete)
+        public static void DeletePerformanceMeasureActualSubcategoryOptionUpdate(this PerformanceMeasureActualSubcategoryOptionUpdate performanceMeasureActualSubcategoryOptionUpdateToDelete)
         {
-            DeletePerformanceMeasureActualSubcategoryOptionUpdate(performanceMeasureActualSubcategoryOptionUpdates, new List<PerformanceMeasureActualSubcategoryOptionUpdate> { performanceMeasureActualSubcategoryOptionUpdateToDelete });
+            DeletePerformanceMeasureActualSubcategoryOptionUpdate(new List<PerformanceMeasureActualSubcategoryOptionUpdate> { performanceMeasureActualSubcategoryOptionUpdateToDelete });
         }
     }
 }

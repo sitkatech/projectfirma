@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[TaxonomyTierOne]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return taxonomyTierOne;
         }
 
-        public static void DeleteTaxonomyTierOne(this IQueryable<TaxonomyTierOne> taxonomyTierOnes, List<int> taxonomyTierOneIDList)
+        public static void DeleteTaxonomyTierOne(this List<int> taxonomyTierOneIDList)
         {
             if(taxonomyTierOneIDList.Any())
             {
-                taxonomyTierOnes.Where(x => taxonomyTierOneIDList.Contains(x.TaxonomyTierOneID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllTaxonomyTierOnes.RemoveRange(HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.Where(x => taxonomyTierOneIDList.Contains(x.TaxonomyTierOneID)));
             }
         }
 
-        public static void DeleteTaxonomyTierOne(this IQueryable<TaxonomyTierOne> taxonomyTierOnes, ICollection<TaxonomyTierOne> taxonomyTierOnesToDelete)
+        public static void DeleteTaxonomyTierOne(this ICollection<TaxonomyTierOne> taxonomyTierOnesToDelete)
         {
             if(taxonomyTierOnesToDelete.Any())
             {
-                var taxonomyTierOneIDList = taxonomyTierOnesToDelete.Select(x => x.TaxonomyTierOneID).ToList();
-                taxonomyTierOnes.Where(x => taxonomyTierOneIDList.Contains(x.TaxonomyTierOneID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllTaxonomyTierOnes.RemoveRange(taxonomyTierOnesToDelete);
             }
         }
 
-        public static void DeleteTaxonomyTierOne(this IQueryable<TaxonomyTierOne> taxonomyTierOnes, int taxonomyTierOneID)
+        public static void DeleteTaxonomyTierOne(this int taxonomyTierOneID)
         {
-            DeleteTaxonomyTierOne(taxonomyTierOnes, new List<int> { taxonomyTierOneID });
+            DeleteTaxonomyTierOne(new List<int> { taxonomyTierOneID });
         }
 
-        public static void DeleteTaxonomyTierOne(this IQueryable<TaxonomyTierOne> taxonomyTierOnes, TaxonomyTierOne taxonomyTierOneToDelete)
+        public static void DeleteTaxonomyTierOne(this TaxonomyTierOne taxonomyTierOneToDelete)
         {
-            DeleteTaxonomyTierOne(taxonomyTierOnes, new List<TaxonomyTierOne> { taxonomyTierOneToDelete });
+            DeleteTaxonomyTierOne(new List<TaxonomyTierOne> { taxonomyTierOneToDelete });
         }
     }
 }

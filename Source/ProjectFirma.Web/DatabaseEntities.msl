@@ -95,6 +95,7 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.County">
         <MappingFragment StoreEntitySet="County">
           <ScalarProperty Name="CountyID" ColumnName="CountyID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="CountyName" ColumnName="CountyName" />
           <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
           <ScalarProperty Name="CountyFeature" ColumnName="CountyFeature" />
@@ -1003,6 +1004,7 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.StateProvince">
         <MappingFragment StoreEntitySet="StateProvince">
           <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="StateProvinceName" ColumnName="StateProvinceName" />
           <ScalarProperty Name="StateProvinceAbbreviation" ColumnName="StateProvinceAbbreviation" />
           <ScalarProperty Name="StateProvinceFeature" ColumnName="StateProvinceFeature" />

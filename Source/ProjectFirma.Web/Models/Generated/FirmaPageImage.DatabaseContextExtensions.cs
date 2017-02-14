@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[FirmaPageImage]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return firmaPageImage;
         }
 
-        public static void DeleteFirmaPageImage(this IQueryable<FirmaPageImage> firmaPageImages, List<int> firmaPageImageIDList)
+        public static void DeleteFirmaPageImage(this List<int> firmaPageImageIDList)
         {
             if(firmaPageImageIDList.Any())
             {
-                firmaPageImages.Where(x => firmaPageImageIDList.Contains(x.FirmaPageImageID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllFirmaPageImages.RemoveRange(HttpRequestStorage.DatabaseEntities.FirmaPageImages.Where(x => firmaPageImageIDList.Contains(x.FirmaPageImageID)));
             }
         }
 
-        public static void DeleteFirmaPageImage(this IQueryable<FirmaPageImage> firmaPageImages, ICollection<FirmaPageImage> firmaPageImagesToDelete)
+        public static void DeleteFirmaPageImage(this ICollection<FirmaPageImage> firmaPageImagesToDelete)
         {
             if(firmaPageImagesToDelete.Any())
             {
-                var firmaPageImageIDList = firmaPageImagesToDelete.Select(x => x.FirmaPageImageID).ToList();
-                firmaPageImages.Where(x => firmaPageImageIDList.Contains(x.FirmaPageImageID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllFirmaPageImages.RemoveRange(firmaPageImagesToDelete);
             }
         }
 
-        public static void DeleteFirmaPageImage(this IQueryable<FirmaPageImage> firmaPageImages, int firmaPageImageID)
+        public static void DeleteFirmaPageImage(this int firmaPageImageID)
         {
-            DeleteFirmaPageImage(firmaPageImages, new List<int> { firmaPageImageID });
+            DeleteFirmaPageImage(new List<int> { firmaPageImageID });
         }
 
-        public static void DeleteFirmaPageImage(this IQueryable<FirmaPageImage> firmaPageImages, FirmaPageImage firmaPageImageToDelete)
+        public static void DeleteFirmaPageImage(this FirmaPageImage firmaPageImageToDelete)
         {
-            DeleteFirmaPageImage(firmaPageImages, new List<FirmaPageImage> { firmaPageImageToDelete });
+            DeleteFirmaPageImage(new List<FirmaPageImage> { firmaPageImageToDelete });
         }
     }
 }

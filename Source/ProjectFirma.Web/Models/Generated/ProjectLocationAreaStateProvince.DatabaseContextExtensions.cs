@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[ProjectLocationAreaStateProvince]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return projectLocationAreaStateProvince;
         }
 
-        public static void DeleteProjectLocationAreaStateProvince(this IQueryable<ProjectLocationAreaStateProvince> projectLocationAreaStateProvinces, List<int> projectLocationAreaStateProvinceIDList)
+        public static void DeleteProjectLocationAreaStateProvince(this List<int> projectLocationAreaStateProvinceIDList)
         {
             if(projectLocationAreaStateProvinceIDList.Any())
             {
-                projectLocationAreaStateProvinces.Where(x => projectLocationAreaStateProvinceIDList.Contains(x.ProjectLocationAreaStateProvinceID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectLocationAreaStateProvinces.RemoveRange(HttpRequestStorage.DatabaseEntities.ProjectLocationAreaStateProvinces.Where(x => projectLocationAreaStateProvinceIDList.Contains(x.ProjectLocationAreaStateProvinceID)));
             }
         }
 
-        public static void DeleteProjectLocationAreaStateProvince(this IQueryable<ProjectLocationAreaStateProvince> projectLocationAreaStateProvinces, ICollection<ProjectLocationAreaStateProvince> projectLocationAreaStateProvincesToDelete)
+        public static void DeleteProjectLocationAreaStateProvince(this ICollection<ProjectLocationAreaStateProvince> projectLocationAreaStateProvincesToDelete)
         {
             if(projectLocationAreaStateProvincesToDelete.Any())
             {
-                var projectLocationAreaStateProvinceIDList = projectLocationAreaStateProvincesToDelete.Select(x => x.ProjectLocationAreaStateProvinceID).ToList();
-                projectLocationAreaStateProvinces.Where(x => projectLocationAreaStateProvinceIDList.Contains(x.ProjectLocationAreaStateProvinceID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectLocationAreaStateProvinces.RemoveRange(projectLocationAreaStateProvincesToDelete);
             }
         }
 
-        public static void DeleteProjectLocationAreaStateProvince(this IQueryable<ProjectLocationAreaStateProvince> projectLocationAreaStateProvinces, int projectLocationAreaStateProvinceID)
+        public static void DeleteProjectLocationAreaStateProvince(this int projectLocationAreaStateProvinceID)
         {
-            DeleteProjectLocationAreaStateProvince(projectLocationAreaStateProvinces, new List<int> { projectLocationAreaStateProvinceID });
+            DeleteProjectLocationAreaStateProvince(new List<int> { projectLocationAreaStateProvinceID });
         }
 
-        public static void DeleteProjectLocationAreaStateProvince(this IQueryable<ProjectLocationAreaStateProvince> projectLocationAreaStateProvinces, ProjectLocationAreaStateProvince projectLocationAreaStateProvinceToDelete)
+        public static void DeleteProjectLocationAreaStateProvince(this ProjectLocationAreaStateProvince projectLocationAreaStateProvinceToDelete)
         {
-            DeleteProjectLocationAreaStateProvince(projectLocationAreaStateProvinces, new List<ProjectLocationAreaStateProvince> { projectLocationAreaStateProvinceToDelete });
+            DeleteProjectLocationAreaStateProvince(new List<ProjectLocationAreaStateProvince> { projectLocationAreaStateProvinceToDelete });
         }
     }
 }

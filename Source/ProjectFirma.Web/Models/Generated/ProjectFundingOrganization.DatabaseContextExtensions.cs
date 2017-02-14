@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[ProjectFundingOrganization]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return projectFundingOrganization;
         }
 
-        public static void DeleteProjectFundingOrganization(this IQueryable<ProjectFundingOrganization> projectFundingOrganizations, List<int> projectFundingOrganizationIDList)
+        public static void DeleteProjectFundingOrganization(this List<int> projectFundingOrganizationIDList)
         {
             if(projectFundingOrganizationIDList.Any())
             {
-                projectFundingOrganizations.Where(x => projectFundingOrganizationIDList.Contains(x.ProjectFundingOrganizationID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectFundingOrganizations.RemoveRange(HttpRequestStorage.DatabaseEntities.ProjectFundingOrganizations.Where(x => projectFundingOrganizationIDList.Contains(x.ProjectFundingOrganizationID)));
             }
         }
 
-        public static void DeleteProjectFundingOrganization(this IQueryable<ProjectFundingOrganization> projectFundingOrganizations, ICollection<ProjectFundingOrganization> projectFundingOrganizationsToDelete)
+        public static void DeleteProjectFundingOrganization(this ICollection<ProjectFundingOrganization> projectFundingOrganizationsToDelete)
         {
             if(projectFundingOrganizationsToDelete.Any())
             {
-                var projectFundingOrganizationIDList = projectFundingOrganizationsToDelete.Select(x => x.ProjectFundingOrganizationID).ToList();
-                projectFundingOrganizations.Where(x => projectFundingOrganizationIDList.Contains(x.ProjectFundingOrganizationID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllProjectFundingOrganizations.RemoveRange(projectFundingOrganizationsToDelete);
             }
         }
 
-        public static void DeleteProjectFundingOrganization(this IQueryable<ProjectFundingOrganization> projectFundingOrganizations, int projectFundingOrganizationID)
+        public static void DeleteProjectFundingOrganization(this int projectFundingOrganizationID)
         {
-            DeleteProjectFundingOrganization(projectFundingOrganizations, new List<int> { projectFundingOrganizationID });
+            DeleteProjectFundingOrganization(new List<int> { projectFundingOrganizationID });
         }
 
-        public static void DeleteProjectFundingOrganization(this IQueryable<ProjectFundingOrganization> projectFundingOrganizations, ProjectFundingOrganization projectFundingOrganizationToDelete)
+        public static void DeleteProjectFundingOrganization(this ProjectFundingOrganization projectFundingOrganizationToDelete)
         {
-            DeleteProjectFundingOrganization(projectFundingOrganizations, new List<ProjectFundingOrganization> { projectFundingOrganizationToDelete });
+            DeleteProjectFundingOrganization(new List<ProjectFundingOrganization> { projectFundingOrganizationToDelete });
         }
     }
 }

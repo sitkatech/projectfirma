@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[PerformanceMeasure]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return performanceMeasure;
         }
 
-        public static void DeletePerformanceMeasure(this IQueryable<PerformanceMeasure> performanceMeasures, List<int> performanceMeasureIDList)
+        public static void DeletePerformanceMeasure(this List<int> performanceMeasureIDList)
         {
             if(performanceMeasureIDList.Any())
             {
-                performanceMeasures.Where(x => performanceMeasureIDList.Contains(x.PerformanceMeasureID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.RemoveRange(HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Where(x => performanceMeasureIDList.Contains(x.PerformanceMeasureID)));
             }
         }
 
-        public static void DeletePerformanceMeasure(this IQueryable<PerformanceMeasure> performanceMeasures, ICollection<PerformanceMeasure> performanceMeasuresToDelete)
+        public static void DeletePerformanceMeasure(this ICollection<PerformanceMeasure> performanceMeasuresToDelete)
         {
             if(performanceMeasuresToDelete.Any())
             {
-                var performanceMeasureIDList = performanceMeasuresToDelete.Select(x => x.PerformanceMeasureID).ToList();
-                performanceMeasures.Where(x => performanceMeasureIDList.Contains(x.PerformanceMeasureID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.RemoveRange(performanceMeasuresToDelete);
             }
         }
 
-        public static void DeletePerformanceMeasure(this IQueryable<PerformanceMeasure> performanceMeasures, int performanceMeasureID)
+        public static void DeletePerformanceMeasure(this int performanceMeasureID)
         {
-            DeletePerformanceMeasure(performanceMeasures, new List<int> { performanceMeasureID });
+            DeletePerformanceMeasure(new List<int> { performanceMeasureID });
         }
 
-        public static void DeletePerformanceMeasure(this IQueryable<PerformanceMeasure> performanceMeasures, PerformanceMeasure performanceMeasureToDelete)
+        public static void DeletePerformanceMeasure(this PerformanceMeasure performanceMeasureToDelete)
         {
-            DeletePerformanceMeasure(performanceMeasures, new List<PerformanceMeasure> { performanceMeasureToDelete });
+            DeletePerformanceMeasure(new List<PerformanceMeasure> { performanceMeasureToDelete });
         }
     }
 }

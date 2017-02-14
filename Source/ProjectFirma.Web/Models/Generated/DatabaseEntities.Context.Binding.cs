@@ -42,7 +42,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<Classification> Classifications { get { return AllClassifications.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<CostParameterSet> AllCostParameterSets { get; set; }
         public virtual IQueryable<CostParameterSet> CostParameterSets { get { return AllCostParameterSets.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<County> Counties { get; set; }
+        public virtual DbSet<County> AllCounties { get; set; }
+        public virtual IQueryable<County> Counties { get { return AllCounties.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<FieldDefinitionData> AllFieldDefinitionDatas { get; set; }
         public virtual IQueryable<FieldDefinitionData> FieldDefinitionDatas { get { return AllFieldDefinitionDatas.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<FieldDefinitionImage> AllFieldDefinitionImages { get; set; }
@@ -183,7 +184,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<Snapshot> Snapshots { get { return AllSnapshots.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<SnapshotSectorExpenditure> AllSnapshotSectorExpenditures { get; set; }
         public virtual IQueryable<SnapshotSectorExpenditure> SnapshotSectorExpenditures { get { return AllSnapshotSectorExpenditures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<StateProvince> StateProvinces { get; set; }
+        public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
+        public virtual IQueryable<StateProvince> StateProvinces { get { return AllStateProvinces.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<SupportRequestLog> AllSupportRequestLogs { get; set; }
         public virtual IQueryable<SupportRequestLog> SupportRequestLogs { get { return AllSupportRequestLogs.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Tag> AllTags { get; set; }

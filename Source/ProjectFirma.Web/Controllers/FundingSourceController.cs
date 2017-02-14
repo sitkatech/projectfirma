@@ -154,7 +154,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteFundingSource(fundingSource, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.FundingSources.DeleteFundingSource(fundingSource);
+            fundingSource.DeleteFundingSource();
             return new ModalDialogFormJsonResult();
         }
 

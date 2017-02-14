@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[SnapshotPerformanceMeasureSubcategoryOption]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return snapshotPerformanceMeasureSubcategoryOption;
         }
 
-        public static void DeleteSnapshotPerformanceMeasureSubcategoryOption(this IQueryable<SnapshotPerformanceMeasureSubcategoryOption> snapshotPerformanceMeasureSubcategoryOptions, List<int> snapshotPerformanceMeasureSubcategoryOptionIDList)
+        public static void DeleteSnapshotPerformanceMeasureSubcategoryOption(this List<int> snapshotPerformanceMeasureSubcategoryOptionIDList)
         {
             if(snapshotPerformanceMeasureSubcategoryOptionIDList.Any())
             {
-                snapshotPerformanceMeasureSubcategoryOptions.Where(x => snapshotPerformanceMeasureSubcategoryOptionIDList.Contains(x.SnapshotPerformanceMeasureSubcategoryOptionID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllSnapshotPerformanceMeasureSubcategoryOptions.RemoveRange(HttpRequestStorage.DatabaseEntities.SnapshotPerformanceMeasureSubcategoryOptions.Where(x => snapshotPerformanceMeasureSubcategoryOptionIDList.Contains(x.SnapshotPerformanceMeasureSubcategoryOptionID)));
             }
         }
 
-        public static void DeleteSnapshotPerformanceMeasureSubcategoryOption(this IQueryable<SnapshotPerformanceMeasureSubcategoryOption> snapshotPerformanceMeasureSubcategoryOptions, ICollection<SnapshotPerformanceMeasureSubcategoryOption> snapshotPerformanceMeasureSubcategoryOptionsToDelete)
+        public static void DeleteSnapshotPerformanceMeasureSubcategoryOption(this ICollection<SnapshotPerformanceMeasureSubcategoryOption> snapshotPerformanceMeasureSubcategoryOptionsToDelete)
         {
             if(snapshotPerformanceMeasureSubcategoryOptionsToDelete.Any())
             {
-                var snapshotPerformanceMeasureSubcategoryOptionIDList = snapshotPerformanceMeasureSubcategoryOptionsToDelete.Select(x => x.SnapshotPerformanceMeasureSubcategoryOptionID).ToList();
-                snapshotPerformanceMeasureSubcategoryOptions.Where(x => snapshotPerformanceMeasureSubcategoryOptionIDList.Contains(x.SnapshotPerformanceMeasureSubcategoryOptionID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllSnapshotPerformanceMeasureSubcategoryOptions.RemoveRange(snapshotPerformanceMeasureSubcategoryOptionsToDelete);
             }
         }
 
-        public static void DeleteSnapshotPerformanceMeasureSubcategoryOption(this IQueryable<SnapshotPerformanceMeasureSubcategoryOption> snapshotPerformanceMeasureSubcategoryOptions, int snapshotPerformanceMeasureSubcategoryOptionID)
+        public static void DeleteSnapshotPerformanceMeasureSubcategoryOption(this int snapshotPerformanceMeasureSubcategoryOptionID)
         {
-            DeleteSnapshotPerformanceMeasureSubcategoryOption(snapshotPerformanceMeasureSubcategoryOptions, new List<int> { snapshotPerformanceMeasureSubcategoryOptionID });
+            DeleteSnapshotPerformanceMeasureSubcategoryOption(new List<int> { snapshotPerformanceMeasureSubcategoryOptionID });
         }
 
-        public static void DeleteSnapshotPerformanceMeasureSubcategoryOption(this IQueryable<SnapshotPerformanceMeasureSubcategoryOption> snapshotPerformanceMeasureSubcategoryOptions, SnapshotPerformanceMeasureSubcategoryOption snapshotPerformanceMeasureSubcategoryOptionToDelete)
+        public static void DeleteSnapshotPerformanceMeasureSubcategoryOption(this SnapshotPerformanceMeasureSubcategoryOption snapshotPerformanceMeasureSubcategoryOptionToDelete)
         {
-            DeleteSnapshotPerformanceMeasureSubcategoryOption(snapshotPerformanceMeasureSubcategoryOptions, new List<SnapshotPerformanceMeasureSubcategoryOption> { snapshotPerformanceMeasureSubcategoryOptionToDelete });
+            DeleteSnapshotPerformanceMeasureSubcategoryOption(new List<SnapshotPerformanceMeasureSubcategoryOption> { snapshotPerformanceMeasureSubcategoryOptionToDelete });
         }
     }
 }

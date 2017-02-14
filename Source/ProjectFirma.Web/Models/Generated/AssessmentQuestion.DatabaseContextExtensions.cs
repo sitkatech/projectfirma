@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[AssessmentQuestion]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return assessmentQuestion;
         }
 
-        public static void DeleteAssessmentQuestion(this IQueryable<AssessmentQuestion> assessmentQuestions, List<int> assessmentQuestionIDList)
+        public static void DeleteAssessmentQuestion(this List<int> assessmentQuestionIDList)
         {
             if(assessmentQuestionIDList.Any())
             {
-                assessmentQuestions.Where(x => assessmentQuestionIDList.Contains(x.AssessmentQuestionID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllAssessmentQuestions.RemoveRange(HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Where(x => assessmentQuestionIDList.Contains(x.AssessmentQuestionID)));
             }
         }
 
-        public static void DeleteAssessmentQuestion(this IQueryable<AssessmentQuestion> assessmentQuestions, ICollection<AssessmentQuestion> assessmentQuestionsToDelete)
+        public static void DeleteAssessmentQuestion(this ICollection<AssessmentQuestion> assessmentQuestionsToDelete)
         {
             if(assessmentQuestionsToDelete.Any())
             {
-                var assessmentQuestionIDList = assessmentQuestionsToDelete.Select(x => x.AssessmentQuestionID).ToList();
-                assessmentQuestions.Where(x => assessmentQuestionIDList.Contains(x.AssessmentQuestionID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllAssessmentQuestions.RemoveRange(assessmentQuestionsToDelete);
             }
         }
 
-        public static void DeleteAssessmentQuestion(this IQueryable<AssessmentQuestion> assessmentQuestions, int assessmentQuestionID)
+        public static void DeleteAssessmentQuestion(this int assessmentQuestionID)
         {
-            DeleteAssessmentQuestion(assessmentQuestions, new List<int> { assessmentQuestionID });
+            DeleteAssessmentQuestion(new List<int> { assessmentQuestionID });
         }
 
-        public static void DeleteAssessmentQuestion(this IQueryable<AssessmentQuestion> assessmentQuestions, AssessmentQuestion assessmentQuestionToDelete)
+        public static void DeleteAssessmentQuestion(this AssessmentQuestion assessmentQuestionToDelete)
         {
-            DeleteAssessmentQuestion(assessmentQuestions, new List<AssessmentQuestion> { assessmentQuestionToDelete });
+            DeleteAssessmentQuestion(new List<AssessmentQuestion> { assessmentQuestionToDelete });
         }
     }
 }

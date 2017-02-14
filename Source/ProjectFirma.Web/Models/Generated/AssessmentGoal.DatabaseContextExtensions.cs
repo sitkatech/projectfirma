@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[AssessmentGoal]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return assessmentGoal;
         }
 
-        public static void DeleteAssessmentGoal(this IQueryable<AssessmentGoal> assessmentGoals, List<int> assessmentGoalIDList)
+        public static void DeleteAssessmentGoal(this List<int> assessmentGoalIDList)
         {
             if(assessmentGoalIDList.Any())
             {
-                assessmentGoals.Where(x => assessmentGoalIDList.Contains(x.AssessmentGoalID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllAssessmentGoals.RemoveRange(HttpRequestStorage.DatabaseEntities.AssessmentGoals.Where(x => assessmentGoalIDList.Contains(x.AssessmentGoalID)));
             }
         }
 
-        public static void DeleteAssessmentGoal(this IQueryable<AssessmentGoal> assessmentGoals, ICollection<AssessmentGoal> assessmentGoalsToDelete)
+        public static void DeleteAssessmentGoal(this ICollection<AssessmentGoal> assessmentGoalsToDelete)
         {
             if(assessmentGoalsToDelete.Any())
             {
-                var assessmentGoalIDList = assessmentGoalsToDelete.Select(x => x.AssessmentGoalID).ToList();
-                assessmentGoals.Where(x => assessmentGoalIDList.Contains(x.AssessmentGoalID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllAssessmentGoals.RemoveRange(assessmentGoalsToDelete);
             }
         }
 
-        public static void DeleteAssessmentGoal(this IQueryable<AssessmentGoal> assessmentGoals, int assessmentGoalID)
+        public static void DeleteAssessmentGoal(this int assessmentGoalID)
         {
-            DeleteAssessmentGoal(assessmentGoals, new List<int> { assessmentGoalID });
+            DeleteAssessmentGoal(new List<int> { assessmentGoalID });
         }
 
-        public static void DeleteAssessmentGoal(this IQueryable<AssessmentGoal> assessmentGoals, AssessmentGoal assessmentGoalToDelete)
+        public static void DeleteAssessmentGoal(this AssessmentGoal assessmentGoalToDelete)
         {
-            DeleteAssessmentGoal(assessmentGoals, new List<AssessmentGoal> { assessmentGoalToDelete });
+            DeleteAssessmentGoal(new List<AssessmentGoal> { assessmentGoalToDelete });
         }
     }
 }

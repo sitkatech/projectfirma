@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[SnapshotSectorExpenditure]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return snapshotSectorExpenditure;
         }
 
-        public static void DeleteSnapshotSectorExpenditure(this IQueryable<SnapshotSectorExpenditure> snapshotSectorExpenditures, List<int> snapshotSectorExpenditureIDList)
+        public static void DeleteSnapshotSectorExpenditure(this List<int> snapshotSectorExpenditureIDList)
         {
             if(snapshotSectorExpenditureIDList.Any())
             {
-                snapshotSectorExpenditures.Where(x => snapshotSectorExpenditureIDList.Contains(x.SnapshotSectorExpenditureID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllSnapshotSectorExpenditures.RemoveRange(HttpRequestStorage.DatabaseEntities.SnapshotSectorExpenditures.Where(x => snapshotSectorExpenditureIDList.Contains(x.SnapshotSectorExpenditureID)));
             }
         }
 
-        public static void DeleteSnapshotSectorExpenditure(this IQueryable<SnapshotSectorExpenditure> snapshotSectorExpenditures, ICollection<SnapshotSectorExpenditure> snapshotSectorExpendituresToDelete)
+        public static void DeleteSnapshotSectorExpenditure(this ICollection<SnapshotSectorExpenditure> snapshotSectorExpendituresToDelete)
         {
             if(snapshotSectorExpendituresToDelete.Any())
             {
-                var snapshotSectorExpenditureIDList = snapshotSectorExpendituresToDelete.Select(x => x.SnapshotSectorExpenditureID).ToList();
-                snapshotSectorExpenditures.Where(x => snapshotSectorExpenditureIDList.Contains(x.SnapshotSectorExpenditureID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllSnapshotSectorExpenditures.RemoveRange(snapshotSectorExpendituresToDelete);
             }
         }
 
-        public static void DeleteSnapshotSectorExpenditure(this IQueryable<SnapshotSectorExpenditure> snapshotSectorExpenditures, int snapshotSectorExpenditureID)
+        public static void DeleteSnapshotSectorExpenditure(this int snapshotSectorExpenditureID)
         {
-            DeleteSnapshotSectorExpenditure(snapshotSectorExpenditures, new List<int> { snapshotSectorExpenditureID });
+            DeleteSnapshotSectorExpenditure(new List<int> { snapshotSectorExpenditureID });
         }
 
-        public static void DeleteSnapshotSectorExpenditure(this IQueryable<SnapshotSectorExpenditure> snapshotSectorExpenditures, SnapshotSectorExpenditure snapshotSectorExpenditureToDelete)
+        public static void DeleteSnapshotSectorExpenditure(this SnapshotSectorExpenditure snapshotSectorExpenditureToDelete)
         {
-            DeleteSnapshotSectorExpenditure(snapshotSectorExpenditures, new List<SnapshotSectorExpenditure> { snapshotSectorExpenditureToDelete });
+            DeleteSnapshotSectorExpenditure(new List<SnapshotSectorExpenditure> { snapshotSectorExpenditureToDelete });
         }
     }
 }

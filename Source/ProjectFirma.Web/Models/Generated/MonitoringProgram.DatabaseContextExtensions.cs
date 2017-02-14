@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[MonitoringProgram]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return monitoringProgram;
         }
 
-        public static void DeleteMonitoringProgram(this IQueryable<MonitoringProgram> monitoringPrograms, List<int> monitoringProgramIDList)
+        public static void DeleteMonitoringProgram(this List<int> monitoringProgramIDList)
         {
             if(monitoringProgramIDList.Any())
             {
-                monitoringPrograms.Where(x => monitoringProgramIDList.Contains(x.MonitoringProgramID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllMonitoringPrograms.RemoveRange(HttpRequestStorage.DatabaseEntities.MonitoringPrograms.Where(x => monitoringProgramIDList.Contains(x.MonitoringProgramID)));
             }
         }
 
-        public static void DeleteMonitoringProgram(this IQueryable<MonitoringProgram> monitoringPrograms, ICollection<MonitoringProgram> monitoringProgramsToDelete)
+        public static void DeleteMonitoringProgram(this ICollection<MonitoringProgram> monitoringProgramsToDelete)
         {
             if(monitoringProgramsToDelete.Any())
             {
-                var monitoringProgramIDList = monitoringProgramsToDelete.Select(x => x.MonitoringProgramID).ToList();
-                monitoringPrograms.Where(x => monitoringProgramIDList.Contains(x.MonitoringProgramID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllMonitoringPrograms.RemoveRange(monitoringProgramsToDelete);
             }
         }
 
-        public static void DeleteMonitoringProgram(this IQueryable<MonitoringProgram> monitoringPrograms, int monitoringProgramID)
+        public static void DeleteMonitoringProgram(this int monitoringProgramID)
         {
-            DeleteMonitoringProgram(monitoringPrograms, new List<int> { monitoringProgramID });
+            DeleteMonitoringProgram(new List<int> { monitoringProgramID });
         }
 
-        public static void DeleteMonitoringProgram(this IQueryable<MonitoringProgram> monitoringPrograms, MonitoringProgram monitoringProgramToDelete)
+        public static void DeleteMonitoringProgram(this MonitoringProgram monitoringProgramToDelete)
         {
-            DeleteMonitoringProgram(monitoringPrograms, new List<MonitoringProgram> { monitoringProgramToDelete });
+            DeleteMonitoringProgram(new List<MonitoringProgram> { monitoringProgramToDelete });
         }
     }
 }

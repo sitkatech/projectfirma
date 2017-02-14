@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteProjectNote(projectNote, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.ProjectNotes.DeleteProjectNote(projectNote);
+            projectNote.DeleteProjectNote();
             return new ModalDialogFormJsonResult();
         }
     }

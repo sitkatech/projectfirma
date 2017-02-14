@@ -349,13 +349,13 @@ namespace ProjectFirma.Web.Controllers
             // Delete dependent associated items, then delete Performance Measure
             performanceMeasure.PerformanceMeasureActuals.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions)
                 .ToList()
-                .ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.DeletePerformanceMeasureActualSubcategoryOption(x));
-            performanceMeasure.PerformanceMeasureActuals.ToList().ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.DeletePerformanceMeasureActual(x));
+                .ForEach(x => x.DeletePerformanceMeasureActualSubcategoryOption());
+            performanceMeasure.PerformanceMeasureActuals.ToList().ForEach(x => x.DeletePerformanceMeasureActual());
             performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions)
                 .ToList()
-                .ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureSubcategoryOptions.DeletePerformanceMeasureSubcategoryOption(x));
-            performanceMeasure.PerformanceMeasureSubcategories.ToList().ForEach(x => HttpRequestStorage.DatabaseEntities.PerformanceMeasureSubcategories.DeletePerformanceMeasureSubcategory(x));
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasures.DeletePerformanceMeasure(performanceMeasure);
+                .ForEach(x => x.DeletePerformanceMeasureSubcategoryOption());
+            performanceMeasure.PerformanceMeasureSubcategories.ToList().ForEach(x => x.DeletePerformanceMeasureSubcategory());
+            performanceMeasure.DeletePerformanceMeasure();
 
             SetMessageForDisplay(String.Format("Successfully deleted {0} \"{1}\"!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName));
             return new ModalDialogFormJsonResult();

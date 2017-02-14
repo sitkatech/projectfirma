@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[Organization]
 using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Extensions;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -20,31 +19,30 @@ namespace ProjectFirma.Web.Models
             return organization;
         }
 
-        public static void DeleteOrganization(this IQueryable<Organization> organizations, List<int> organizationIDList)
+        public static void DeleteOrganization(this List<int> organizationIDList)
         {
             if(organizationIDList.Any())
             {
-                organizations.Where(x => organizationIDList.Contains(x.OrganizationID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllOrganizations.RemoveRange(HttpRequestStorage.DatabaseEntities.Organizations.Where(x => organizationIDList.Contains(x.OrganizationID)));
             }
         }
 
-        public static void DeleteOrganization(this IQueryable<Organization> organizations, ICollection<Organization> organizationsToDelete)
+        public static void DeleteOrganization(this ICollection<Organization> organizationsToDelete)
         {
             if(organizationsToDelete.Any())
             {
-                var organizationIDList = organizationsToDelete.Select(x => x.OrganizationID).ToList();
-                organizations.Where(x => organizationIDList.Contains(x.OrganizationID)).Delete();
+                HttpRequestStorage.DatabaseEntities.AllOrganizations.RemoveRange(organizationsToDelete);
             }
         }
 
-        public static void DeleteOrganization(this IQueryable<Organization> organizations, int organizationID)
+        public static void DeleteOrganization(this int organizationID)
         {
-            DeleteOrganization(organizations, new List<int> { organizationID });
+            DeleteOrganization(new List<int> { organizationID });
         }
 
-        public static void DeleteOrganization(this IQueryable<Organization> organizations, Organization organizationToDelete)
+        public static void DeleteOrganization(this Organization organizationToDelete)
         {
-            DeleteOrganization(organizations, new List<Organization> { organizationToDelete });
+            DeleteOrganization(new List<Organization> { organizationToDelete });
         }
     }
 }
