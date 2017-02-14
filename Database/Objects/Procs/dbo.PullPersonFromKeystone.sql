@@ -21,7 +21,7 @@ BEGIN
 	from Keystone.dbo.[User] keystoneUser
 	join ProjectFirma.dbo.Person firmaPerson
 	on keystoneUser.UserGuid = firmaPerson.PersonGuid
-	where keystoneUser.LoginName = @UserName
+	where keystoneUser.LoginName = @UserName and firmaPerson.TenantID = @TenantID
 
 	
 	if @FirmaPersonID is null and @KeystoneUserID is not null
@@ -42,7 +42,7 @@ BEGIN
 		on keystoneUser.OrganizationID = keystoneOrganization.OrganizationID
 		join ProjectFirma.dbo.Organization firmaOrganization
 		on keystoneOrganization.OrganizationGuid = firmaOrganization.OrganizationGuid
-		where keystoneUser.UserID = @KeystoneUserID
+		where keystoneUser.UserID = @KeystoneUserID and firmaOrganization.TenantID = @TenantID
 		
 		if @FirmaOrganizationID is null
 		begin			
@@ -59,7 +59,7 @@ BEGIN
 		on keystoneUser.OrganizationID = keystoneOrganization.OrganizationID
 		left join ProjectFirma.dbo.Organization firmaOrganization
 		on keystoneOrganization.OrganizationGuid = firmaOrganization.OrganizationGuid
-		where keystoneUser.LoginName = @userName 
+		where keystoneUser.LoginName = @userName and firmaOrganization.TenantID = @TenantID
 	end
 END
 GO

@@ -135,7 +135,7 @@ namespace ProjectFirma.Web.Controllers
     <strong>Phone:</strong> {3}<br />
     <br />
     <p>
-        You may want to <a href=""{4}"">assign this user roles</a> to allow them to work with specific areas of the site. Or you can leave the user with Unassigned roles if they don't need special privileges.
+        You may want to <a href=""{4}"">assign this user roles</a> to allow them to work with specific areas of the site. Or you can leave the user with an unassigned role if they don't need special privileges.
     </p>
     <br />
     <br />
