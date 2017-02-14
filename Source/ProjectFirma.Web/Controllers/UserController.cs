@@ -163,7 +163,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [SitkaAdminFeature]
-        public PartialViewResult PullUserFromSitka()
+        public PartialViewResult PullUserFromKeystone()
         {
             var viewModel = new PullUserFromKeystoneViewModel();
 
@@ -173,7 +173,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [SitkaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult PullUserFromSitka(PullUserFromKeystoneViewModel viewModel)
+        public ActionResult PullUserFromKeystone(PullUserFromKeystoneViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {

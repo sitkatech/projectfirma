@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Views.User
             KeystoneUrl = FirmaWebConfiguration.KeystoneUrl;
             KeystoneRegisterUserUrl = FirmaWebConfiguration.KeystoneRegisterUserUrl;
 
-            PullUserFromKeystoneUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.PullUserFromSitka());
+            PullUserFromKeystoneUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.PullUserFromKeystone());
             UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(currentPerson);
         }
     }
