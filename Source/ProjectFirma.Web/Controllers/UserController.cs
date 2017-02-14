@@ -187,15 +187,17 @@ namespace ProjectFirma.Web.Controllers
             catch (Exception ex)
             {
                 SetErrorForDisplay("Error pulling user from Keystone: " + ex.Message);
+                return new ModalDialogFormJsonResult();
             }
 
             var addedPerson = HttpRequestStorage.DatabaseEntities.People.ToList().SingleOrDefault(x => x.LoginName == viewModel.LoginName);
             if (addedPerson == null)
             {
                 SetErrorForDisplay("Person not added. The User Name was probably not found in Keystone");
+                return new ModalDialogFormJsonResult();
             }
             
-
+            SetMessageForDisplay(string.Format("{0} successfully added. You may want to <a href=\"{1}\">assign them a role</a>.", addedPerson.GetFullNameFirstLastAndOrgAsUrl(), addedPerson.GetDetailUrl()));
 
             return new ModalDialogFormJsonResult();
         }
