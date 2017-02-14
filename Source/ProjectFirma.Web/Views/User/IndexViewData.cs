@@ -2,6 +2,7 @@
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.User
 {
@@ -12,6 +13,9 @@ namespace ProjectFirma.Web.Views.User
         public readonly string GridDataUrl;
         public readonly string KeystoneUrl;
         public readonly string KeystoneRegisterUserUrl;
+        
+        public readonly string PullUserFromKeystoneUrl;
+        public readonly bool UserIsSitkaAdmin;
 
         public IndexViewData(Person currentPerson) : base(currentPerson)
         {
@@ -21,6 +25,9 @@ namespace ProjectFirma.Web.Views.User
             GridDataUrl = SitkaRoute<UserController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
             KeystoneUrl = FirmaWebConfiguration.KeystoneUrl;
             KeystoneRegisterUserUrl = FirmaWebConfiguration.KeystoneRegisterUserUrl;
+
+            PullUserFromKeystoneUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.PullUserFromSitka());
+            UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(currentPerson);
         }
     }
 }

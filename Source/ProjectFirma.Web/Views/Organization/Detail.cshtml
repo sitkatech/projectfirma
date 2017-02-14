@@ -66,12 +66,25 @@
                     </div>
 
                     <div class="col-md-6">
-                        <div style="width: 100%; text-align: center;">
-                            @if (ViewDataTyped.Organization.LogoFileResource != null)
-                            {
-                                <img src="@ViewDataTyped.Organization.LogoFileResource.FileResourceUrl" style="max-width: 200px; max-height: 200px; margin-left: auto; margin-right: auto;" />
-                            }
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationUrl, string.Format("Edit Basics - {0}", ViewDataTyped.Organization.DisplayName), ViewDataTyped.UserHasOrganizationManagePermissions) Logo
+                            </div>
+                            <div class="panel-body">
+                                @if (ViewDataTyped.Organization.LogoFileResource != null)
+                                {
+                                    <div style="width: 100%; text-align: center;">
+                                        <img src="@ViewDataTyped.Organization.LogoFileResource.FileResourceUrl" style="max-width: 200px; max-height: 200px; margin-left: auto; margin-right: auto;" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <p>No logo uploaded for this organization</p>
+                                }
+
+                            </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="row">
@@ -163,7 +176,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-12">
+                    @*<div class="col-md-4 col-sm-12">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h2>Monitoring Programs</h2>
@@ -188,7 +201,7 @@
                                 }
                             </div>
                         </div>
-                    </div>
+                    </div>*@
 
                 </div>
             </div>

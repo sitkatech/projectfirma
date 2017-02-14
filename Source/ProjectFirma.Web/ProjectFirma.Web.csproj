@@ -362,6 +362,7 @@
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
     <Content Include="Views\Home\FeaturedProjects.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
+    <Compile Include="Security\SitkaAdminFeature.cs" />
     <Compile Include="Views\Home\FeaturedProjects.cs" />
     <Compile Include="Views\Home\FeaturedProjectsViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cs" />
@@ -1033,6 +1034,9 @@
     <Compile Include="Views\CostParameterSet\NewViewModelTest.cs" />
     <Compile Include="Views\CostParameterSet\Detail.cs" />
     <Compile Include="Views\CostParameterSet\DetailViewData.cs" />
+    <Compile Include="Views\User\PullUserFromKeystone.cs" />
+    <Compile Include="Views\User\PullUserFromKeystoneViewData.cs" />
+    <Compile Include="Views\User\PullUserFromKeystoneViewModel.cs" />
     <Compile Include="Views\WebServices\ViewAccessToken.cs" />
     <Compile Include="Views\WebServices\Index.cs" />
     <Compile Include="Views\WebServices\ViewAccessTokenViewData.cs" />
@@ -1079,6 +1083,7 @@
     <Compile Include="Views\Watershed\IndexViewData.cs" />
     <Compile Include="Views\Watershed\Detail.cs" />
     <Compile Include="Views\Watershed\DetailViewData.cs" />
+    <Content Include="Views\User\PullUserFromKeystone.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

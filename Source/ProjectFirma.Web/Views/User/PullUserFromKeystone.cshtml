@@ -1,0 +1,17 @@
+﻿@inherits ProjectFirma.Web.Views.User.PullUserFromKeystone
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-2 control-label">
+                @Html.LabelFor(x => x.LoginName)
+            </div>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(x => x.LoginName, new { style = "width:100%" })
+                @Html.ValidationMessageFor(x => x.LoginName)
+            </div>
+        </div>
+    </div>
+
+
+}

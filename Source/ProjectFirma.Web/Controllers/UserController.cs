@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Models;
@@ -158,6 +159,51 @@ namespace ProjectFirma.Web.Controllers
             }
             person.IsActive = !person.IsActive;
             return new ModalDialogFormJsonResult();
+        }
+
+        [HttpGet]
+        [SitkaAdminFeature]
+        public PartialViewResult PullUserFromSitka()
+        {
+            var viewModel = new PullUserFromKeystoneViewModel();
+
+            return ViewPullUserFromSitka(viewModel);
+        }      
+
+        [HttpPost]
+        [SitkaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult PullUserFromSitka(PullUserFromKeystoneViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewPullUserFromSitka(viewModel);
+            }
+
+            try
+            {
+                HttpRequestStorage.DatabaseEntities.Database.ExecuteSqlCommand("execute dbo.PullPersonFromKeystone {0}, {1}, {2}", viewModel.LoginName, Role.Unassigned.RoleID, CurrentTenant.TenantID);
+            }
+            catch (Exception ex)
+            {
+                SetErrorForDisplay("Error pulling user from Keystone: " + ex.Message);
+            }
+
+            var addedPerson = HttpRequestStorage.DatabaseEntities.People.ToList().SingleOrDefault(x => x.LoginName == viewModel.LoginName);
+            if (addedPerson == null)
+            {
+                SetErrorForDisplay("Person not added. The User Name was probably not found in Keystone");
+            }
+            
+
+
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewPullUserFromSitka(PullUserFromKeystoneViewModel viewModel)
+        {
+            var viewData = new PullUserFromKeystoneViewData();
+            return RazorPartialView<PullUserFromKeystone, PullUserFromKeystoneViewData, PullUserFromKeystoneViewModel>(viewData, viewModel);
         }
     }
 }
