@@ -30,6 +30,11 @@ REFERENCES [dbo].[TaxonomyTierTwo] ([TaxonomyTierTwoID])
 GO
 ALTER TABLE [dbo].[TaxonomyTierTwoPerformanceMeasure] CHECK CONSTRAINT [FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID]
 GO
+ALTER TABLE [dbo].[TaxonomyTierTwoPerformanceMeasure]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID] FOREIGN KEY([TaxonomyTierTwoID], [TenantID])
+REFERENCES [dbo].[TaxonomyTierTwo] ([TaxonomyTierTwoID], [TenantID])
+GO
+ALTER TABLE [dbo].[TaxonomyTierTwoPerformanceMeasure] CHECK CONSTRAINT [FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID]
+GO
 ALTER TABLE [dbo].[TaxonomyTierTwoPerformanceMeasure]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierTwoPerformanceMeasure_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

@@ -29,6 +29,11 @@ REFERENCES [dbo].[FundingSource] ([FundingSourceID])
 GO
 ALTER TABLE [dbo].[ProjectBudget] CHECK CONSTRAINT [FK_ProjectBudget_FundingSource_FundingSourceID]
 GO
+ALTER TABLE [dbo].[ProjectBudget]  WITH CHECK ADD  CONSTRAINT [FK_ProjectBudget_FundingSource_FundingSourceID_TenantID] FOREIGN KEY([FundingSourceID], [TenantID])
+REFERENCES [dbo].[FundingSource] ([FundingSourceID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectBudget] CHECK CONSTRAINT [FK_ProjectBudget_FundingSource_FundingSourceID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectBudget]  WITH CHECK ADD  CONSTRAINT [FK_ProjectBudget_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])
 GO

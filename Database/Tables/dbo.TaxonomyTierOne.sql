@@ -13,6 +13,11 @@ CREATE TABLE [dbo].[TaxonomyTierOne](
 (
 	[TaxonomyTierOneID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_TaxonomyTierOne_TaxonomyTierOneID_TenantID] UNIQUE NONCLUSTERED 
+(
+	[TaxonomyTierOneID] ASC,
+	[TenantID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
  CONSTRAINT [AK_TaxonomyTierOne_TaxonomyTierOneName] UNIQUE NONCLUSTERED 
 (
 	[TaxonomyTierOneName] ASC
@@ -24,6 +29,11 @@ ALTER TABLE [dbo].[TaxonomyTierOne]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTier
 REFERENCES [dbo].[TaxonomyTierTwo] ([TaxonomyTierTwoID])
 GO
 ALTER TABLE [dbo].[TaxonomyTierOne] CHECK CONSTRAINT [FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID]
+GO
+ALTER TABLE [dbo].[TaxonomyTierOne]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID] FOREIGN KEY([TaxonomyTierTwoID], [TenantID])
+REFERENCES [dbo].[TaxonomyTierTwo] ([TaxonomyTierTwoID], [TenantID])
+GO
+ALTER TABLE [dbo].[TaxonomyTierOne] CHECK CONSTRAINT [FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID]
 GO
 ALTER TABLE [dbo].[TaxonomyTierOne]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierOne_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

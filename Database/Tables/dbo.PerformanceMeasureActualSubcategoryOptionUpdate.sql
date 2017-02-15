@@ -31,6 +31,11 @@ REFERENCES [dbo].[PerformanceMeasureActualUpdate] ([PerformanceMeasureActualUpda
 GO
 ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOptionUpdate] CHECK CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID_PerformanceMe]
 GO
+ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOptionUpdate]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID_TenantID] FOREIGN KEY([PerformanceMeasureActualUpdateID], [TenantID])
+REFERENCES [dbo].[PerformanceMeasureActualUpdate] ([PerformanceMeasureActualUpdateID], [TenantID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOptionUpdate] CHECK CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID_TenantID]
+GO
 ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOptionUpdate]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID] FOREIGN KEY([PerformanceMeasureSubcategoryID])
 REFERENCES [dbo].[PerformanceMeasureSubcategory] ([PerformanceMeasureSubcategoryID])
 GO

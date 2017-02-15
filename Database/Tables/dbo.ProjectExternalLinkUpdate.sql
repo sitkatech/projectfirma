@@ -20,6 +20,11 @@ REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID])
 GO
 ALTER TABLE [dbo].[ProjectExternalLinkUpdate] CHECK CONSTRAINT [FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID]
 GO
+ALTER TABLE [dbo].[ProjectExternalLinkUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID] FOREIGN KEY([ProjectUpdateBatchID], [TenantID])
+REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectExternalLinkUpdate] CHECK CONSTRAINT [FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectExternalLinkUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectExternalLinkUpdate_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

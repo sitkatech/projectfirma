@@ -29,6 +29,11 @@ REFERENCES [dbo].[TaxonomyTierTwo] ([TaxonomyTierTwoID])
 GO
 ALTER TABLE [dbo].[TaxonomyTierTwoImage] CHECK CONSTRAINT [FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID]
 GO
+ALTER TABLE [dbo].[TaxonomyTierTwoImage]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID] FOREIGN KEY([TaxonomyTierTwoID], [TenantID])
+REFERENCES [dbo].[TaxonomyTierTwo] ([TaxonomyTierTwoID], [TenantID])
+GO
+ALTER TABLE [dbo].[TaxonomyTierTwoImage] CHECK CONSTRAINT [FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID]
+GO
 ALTER TABLE [dbo].[TaxonomyTierTwoImage]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierTwoImage_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

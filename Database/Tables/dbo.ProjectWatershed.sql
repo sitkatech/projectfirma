@@ -33,3 +33,8 @@ ALTER TABLE [dbo].[ProjectWatershed]  WITH CHECK ADD  CONSTRAINT [FK_ProjectWate
 REFERENCES [dbo].[Watershed] ([WatershedID])
 GO
 ALTER TABLE [dbo].[ProjectWatershed] CHECK CONSTRAINT [FK_ProjectWatershed_Watershed_WatershedID]
+GO
+ALTER TABLE [dbo].[ProjectWatershed]  WITH CHECK ADD  CONSTRAINT [FK_ProjectWatershed_Watershed_WatershedID_TenantID] FOREIGN KEY([WatershedID], [TenantID])
+REFERENCES [dbo].[Watershed] ([WatershedID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectWatershed] CHECK CONSTRAINT [FK_ProjectWatershed_Watershed_WatershedID_TenantID]

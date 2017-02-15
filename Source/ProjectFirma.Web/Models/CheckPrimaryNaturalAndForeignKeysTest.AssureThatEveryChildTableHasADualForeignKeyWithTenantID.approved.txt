@@ -1,0 +1,1 @@
+﻿table_schema	table_name	column_name	IsNullable	Data_type	foreign_table_schema	foreign_table_name	foreign_column_name	KeyName

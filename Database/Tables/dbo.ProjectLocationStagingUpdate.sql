@@ -29,6 +29,11 @@ REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID])
 GO
 ALTER TABLE [dbo].[ProjectLocationStagingUpdate] CHECK CONSTRAINT [FK_ProjectLocationStagingUpdate_ProjectUpdateBatch_ProjectUpdateBatchID]
 GO
+ALTER TABLE [dbo].[ProjectLocationStagingUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationStagingUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID] FOREIGN KEY([ProjectUpdateBatchID], [TenantID])
+REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectLocationStagingUpdate] CHECK CONSTRAINT [FK_ProjectLocationStagingUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectLocationStagingUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationStagingUpdate_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

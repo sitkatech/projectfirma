@@ -24,6 +24,11 @@ REFERENCES [dbo].[ProjectLocationArea] ([ProjectLocationAreaID])
 GO
 ALTER TABLE [dbo].[ProjectLocationAreaWatershed] CHECK CONSTRAINT [FK_ProjectLocationAreaWatershed_ProjectLocationArea_ProjectLocationAreaID]
 GO
+ALTER TABLE [dbo].[ProjectLocationAreaWatershed]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationAreaWatershed_ProjectLocationArea_ProjectLocationAreaID_TenantID] FOREIGN KEY([ProjectLocationAreaID], [TenantID])
+REFERENCES [dbo].[ProjectLocationArea] ([ProjectLocationAreaID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectLocationAreaWatershed] CHECK CONSTRAINT [FK_ProjectLocationAreaWatershed_ProjectLocationArea_ProjectLocationAreaID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectLocationAreaWatershed]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationAreaWatershed_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
@@ -33,3 +38,8 @@ ALTER TABLE [dbo].[ProjectLocationAreaWatershed]  WITH CHECK ADD  CONSTRAINT [FK
 REFERENCES [dbo].[Watershed] ([WatershedID])
 GO
 ALTER TABLE [dbo].[ProjectLocationAreaWatershed] CHECK CONSTRAINT [FK_ProjectLocationAreaWatershed_Watershed_WatershedID]
+GO
+ALTER TABLE [dbo].[ProjectLocationAreaWatershed]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationAreaWatershed_Watershed_WatershedID_TenantID] FOREIGN KEY([WatershedID], [TenantID])
+REFERENCES [dbo].[Watershed] ([WatershedID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectLocationAreaWatershed] CHECK CONSTRAINT [FK_ProjectLocationAreaWatershed_Watershed_WatershedID_TenantID]

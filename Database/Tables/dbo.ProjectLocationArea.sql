@@ -12,6 +12,11 @@ CREATE TABLE [dbo].[ProjectLocationArea](
  CONSTRAINT [PK_ProjectLocationArea_ProjectLocationAreaID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectLocationAreaID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_ProjectLocationArea_ProjectLocationAreaID_TenantID] UNIQUE NONCLUSTERED 
+(
+	[ProjectLocationAreaID] ASC,
+	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -21,10 +26,20 @@ REFERENCES [dbo].[MappedRegion] ([MappedRegionID])
 GO
 ALTER TABLE [dbo].[ProjectLocationArea] CHECK CONSTRAINT [FK_ProjectLocationArea_MappedRegion_MappedRegionID]
 GO
+ALTER TABLE [dbo].[ProjectLocationArea]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationArea_MappedRegion_MappedRegionID_TenantID] FOREIGN KEY([MappedRegionID], [TenantID])
+REFERENCES [dbo].[MappedRegion] ([MappedRegionID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectLocationArea] CHECK CONSTRAINT [FK_ProjectLocationArea_MappedRegion_MappedRegionID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectLocationArea]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationArea_ProjectLocationAreaGroup_ProjectLocationAreaGroupID] FOREIGN KEY([ProjectLocationAreaGroupID])
 REFERENCES [dbo].[ProjectLocationAreaGroup] ([ProjectLocationAreaGroupID])
 GO
 ALTER TABLE [dbo].[ProjectLocationArea] CHECK CONSTRAINT [FK_ProjectLocationArea_ProjectLocationAreaGroup_ProjectLocationAreaGroupID]
+GO
+ALTER TABLE [dbo].[ProjectLocationArea]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationArea_ProjectLocationAreaGroup_ProjectLocationAreaGroupID_TenantID] FOREIGN KEY([ProjectLocationAreaGroupID], [TenantID])
+REFERENCES [dbo].[ProjectLocationAreaGroup] ([ProjectLocationAreaGroupID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectLocationArea] CHECK CONSTRAINT [FK_ProjectLocationArea_ProjectLocationAreaGroup_ProjectLocationAreaGroupID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectLocationArea]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationArea_StateProvince_StateProvinceID] FOREIGN KEY([StateProvinceID])
 REFERENCES [dbo].[StateProvince] ([StateProvinceID])
@@ -45,6 +60,11 @@ ALTER TABLE [dbo].[ProjectLocationArea]  WITH CHECK ADD  CONSTRAINT [FK_ProjectL
 REFERENCES [dbo].[Watershed] ([WatershedID])
 GO
 ALTER TABLE [dbo].[ProjectLocationArea] CHECK CONSTRAINT [FK_ProjectLocationArea_Watershed_WatershedID]
+GO
+ALTER TABLE [dbo].[ProjectLocationArea]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocationArea_Watershed_WatershedID_TenantID] FOREIGN KEY([WatershedID], [TenantID])
+REFERENCES [dbo].[Watershed] ([WatershedID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectLocationArea] CHECK CONSTRAINT [FK_ProjectLocationArea_Watershed_WatershedID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectLocationArea]  WITH CHECK ADD  CONSTRAINT [CK_Only_One_Geometry_Foreign_Key_Relationship] CHECK  (([StateProvinceID] IS NOT NULL AND [MappedRegionID] IS NULL AND [WatershedID] IS NULL OR [StateProvinceID] IS NULL AND [MappedRegionID] IS NOT NULL AND [WatershedID] IS NULL OR [StateProvinceID] IS NULL AND [MappedRegionID] IS NULL AND [WatershedID] IS NOT NULL))
 GO

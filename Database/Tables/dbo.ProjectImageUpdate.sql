@@ -30,6 +30,11 @@ REFERENCES [dbo].[ProjectImage] ([ProjectImageID])
 GO
 ALTER TABLE [dbo].[ProjectImageUpdate] CHECK CONSTRAINT [FK_ProjectImageUpdate_ProjectImage_ProjectImageID]
 GO
+ALTER TABLE [dbo].[ProjectImageUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImageUpdate_ProjectImage_ProjectImageID_TenantID] FOREIGN KEY([ProjectImageID], [TenantID])
+REFERENCES [dbo].[ProjectImage] ([ProjectImageID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectImageUpdate] CHECK CONSTRAINT [FK_ProjectImageUpdate_ProjectImage_ProjectImageID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectImageUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImageUpdate_ProjectImageTiming_ProjectImageTimingID] FOREIGN KEY([ProjectImageTimingID])
 REFERENCES [dbo].[ProjectImageTiming] ([ProjectImageTimingID])
 GO
@@ -39,6 +44,11 @@ ALTER TABLE [dbo].[ProjectImageUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectIm
 REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID])
 GO
 ALTER TABLE [dbo].[ProjectImageUpdate] CHECK CONSTRAINT [FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID]
+GO
+ALTER TABLE [dbo].[ProjectImageUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID] FOREIGN KEY([ProjectUpdateBatchID], [TenantID])
+REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectImageUpdate] CHECK CONSTRAINT [FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectImageUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImageUpdate_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

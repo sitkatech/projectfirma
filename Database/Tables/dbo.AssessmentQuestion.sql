@@ -12,6 +12,11 @@ CREATE TABLE [dbo].[AssessmentQuestion](
 (
 	[AssessmentQuestionID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_AssessmentQuestion_AssessmentQuestionID_TenantID] UNIQUE NONCLUSTERED 
+(
+	[AssessmentQuestionID] ASC,
+	[TenantID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
  CONSTRAINT [AK_AssessmentQuestion_AssessmentQuestionText_TenantID] UNIQUE NONCLUSTERED 
 (
 	[AssessmentQuestionText] ASC,

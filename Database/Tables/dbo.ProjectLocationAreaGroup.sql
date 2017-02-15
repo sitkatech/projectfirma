@@ -10,6 +10,11 @@ CREATE TABLE [dbo].[ProjectLocationAreaGroup](
 (
 	[ProjectLocationAreaGroupID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_ProjectLocationAreaGroup_ProjectLocationAreaGroupID_TenantID] UNIQUE NONCLUSTERED 
+(
+	[ProjectLocationAreaGroupID] ASC,
+	[TenantID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
  CONSTRAINT [AK_ProjectLocationAreaGroup_ProjectLocationAreaGroupTypeID] UNIQUE NONCLUSTERED 
 (
 	[ProjectLocationAreaGroupTypeID] ASC

@@ -48,6 +48,11 @@ REFERENCES [dbo].[ProjectLocationArea] ([ProjectLocationAreaID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_ProjectLocationArea_ProjectLocationAreaID]
 GO
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_ProjectLocationArea_ProjectLocationAreaID_TenantID] FOREIGN KEY([ProjectLocationAreaID], [TenantID])
+REFERENCES [dbo].[ProjectLocationArea] ([ProjectLocationAreaID], [TenantID])
+GO
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_ProjectLocationArea_ProjectLocationAreaID_TenantID]
+GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_ProjectLocationSimpleType_ProjectLocationSimpleTypeID] FOREIGN KEY([ProjectLocationSimpleTypeID])
 REFERENCES [dbo].[ProjectLocationSimpleType] ([ProjectLocationSimpleTypeID])
 GO
@@ -62,6 +67,11 @@ ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_TaxonomyTier
 REFERENCES [dbo].[TaxonomyTierOne] ([TaxonomyTierOneID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_TaxonomyTierOne_TaxonomyTierOneID]
+GO
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_TaxonomyTierOne_TaxonomyTierOneID_TenantID] FOREIGN KEY([TaxonomyTierOneID], [TenantID])
+REFERENCES [dbo].[TaxonomyTierOne] ([TaxonomyTierOneID], [TenantID])
+GO
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_TaxonomyTierOne_TaxonomyTierOneID_TenantID]
 GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

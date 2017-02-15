@@ -29,6 +29,11 @@ REFERENCES [dbo].[FirmaPage] ([FirmaPageID])
 GO
 ALTER TABLE [dbo].[FirmaPageImage] CHECK CONSTRAINT [FK_FirmaPageImage_FirmaPage_FirmaPageID]
 GO
+ALTER TABLE [dbo].[FirmaPageImage]  WITH CHECK ADD  CONSTRAINT [FK_FirmaPageImage_FirmaPage_FirmaPageID_TenantID] FOREIGN KEY([FirmaPageID], [TenantID])
+REFERENCES [dbo].[FirmaPage] ([FirmaPageID], [TenantID])
+GO
+ALTER TABLE [dbo].[FirmaPageImage] CHECK CONSTRAINT [FK_FirmaPageImage_FirmaPage_FirmaPageID_TenantID]
+GO
 ALTER TABLE [dbo].[FirmaPageImage]  WITH CHECK ADD  CONSTRAINT [FK_FirmaPageImage_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
