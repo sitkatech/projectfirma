@@ -22,7 +22,6 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
         public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
         public readonly string BasicProjectInfoGridName;
         public readonly string BasicProjectInfoGridDataUrl;
-        public readonly string EditDescriptionUrl;
 
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
@@ -61,7 +60,6 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
 
             BasicProjectInfoGridDataUrl = SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyTierThree));
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyTierThree);
-            EditDescriptionUrl = SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(tc => tc.EditDescription(taxonomyTierThree));
         }
     }
 }

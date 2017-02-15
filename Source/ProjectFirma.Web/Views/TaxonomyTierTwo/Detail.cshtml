@@ -54,20 +54,16 @@
                         @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }
                     </div>
                 </div>
-
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h2>
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditDescriptionUrl, string.Format("Edit Description - {0}", ViewDataTyped.TaxonomyTierTwo.DisplayName), ViewDataTyped.UserHasTaxonomyTierTwoManagePermissions) Description
-                        </h2>
+                        <h2>Description</h2>
                     </div>
                     <div class="panel-body">
                         <div>
-                            @ViewDataTyped.TaxonomyTierTwo.TaxonomyTierTwoDescriptionHtmlString
+                            @ViewDataTyped.TaxonomyTierTwo.TaxonomyTierTwoDescription
                         </div>
                     </div>
-                </div>
-            </div>
+                </div>            </div>
             <div class="col-md-6">
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">

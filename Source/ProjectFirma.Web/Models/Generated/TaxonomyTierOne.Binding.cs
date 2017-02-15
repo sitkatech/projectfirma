@@ -25,7 +25,6 @@ namespace ProjectFirma.Web.Models
         {
             this.Projects = new HashSet<Project>();
             this.ProposedProjects = new HashSet<ProposedProject>();
-            this.TaxonomyTierOneImages = new HashSet<TaxonomyTierOneImage>();
         }
 
         /// <summary>
@@ -83,38 +82,32 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return Projects.Any() || ProposedProjects.Any() || TaxonomyTierOneImages.Any();
+            return Projects.Any() || ProposedProjects.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTierOne).Name, typeof(Project).Name, typeof(ProposedProject).Name, typeof(TaxonomyTierOneImage).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTierOne).Name, typeof(Project).Name, typeof(ProposedProject).Name};
 
         [Key]
         public int TaxonomyTierOneID { get; set; }
         public int TaxonomyTierTwoID { get; set; }
         public string TaxonomyTierOneName { get; set; }
-        [NotMapped]
-        private string TaxonomyTierOneDescription { get; set; }
-        public HtmlString TaxonomyTierOneDescriptionHtmlString
-        { 
-            get { return TaxonomyTierOneDescription == null ? null : new HtmlString(TaxonomyTierOneDescription); }
-            set { TaxonomyTierOneDescription = value == null ? null : value.ToString(); }
-        }
+        public string TaxonomyTierOneDescription { get; set; }
         public string TaxonomyTierOneCode { get; set; }
         public int TenantID { get; private set; }
         public int PrimaryKey { get { return TaxonomyTierOneID; } set { TaxonomyTierOneID = value; } }
 
         public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<ProposedProject> ProposedProjects { get; set; }
-        public virtual ICollection<TaxonomyTierOneImage> TaxonomyTierOneImages { get; set; }
         public virtual TaxonomyTierTwo TaxonomyTierTwo { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {
             public const int TaxonomyTierOneName = 100;
+            public const int TaxonomyTierOneDescription = 4000;
             public const int TaxonomyTierOneCode = 10;
         }
     }

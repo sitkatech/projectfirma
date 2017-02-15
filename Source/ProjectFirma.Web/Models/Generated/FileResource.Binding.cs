@@ -31,9 +31,6 @@ namespace ProjectFirma.Web.Models
             this.ProjectImages = new HashSet<ProjectImage>();
             this.ProjectImageUpdates = new HashSet<ProjectImageUpdate>();
             this.ProposedProjectImages = new HashSet<ProposedProjectImage>();
-            this.TaxonomyTierOneImages = new HashSet<TaxonomyTierOneImage>();
-            this.TaxonomyTierThreeImages = new HashSet<TaxonomyTierThreeImage>();
-            this.TaxonomyTierTwoImages = new HashSet<TaxonomyTierTwoImage>();
         }
 
         /// <summary>
@@ -104,13 +101,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ClassificationsWhereYouAreTheKeyImageFileResource.Any() || FieldDefinitionImages.Any() || FirmaPageImages.Any() || MonitoringProgramDocuments.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ProposedProjectImages.Any() || TaxonomyTierOneImages.Any() || TaxonomyTierThreeImages.Any() || TaxonomyTierTwoImages.Any();
+            return ClassificationsWhereYouAreTheKeyImageFileResource.Any() || FieldDefinitionImages.Any() || FirmaPageImages.Any() || MonitoringProgramDocuments.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ProposedProjectImages.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(Classification).Name, typeof(FieldDefinitionImage).Name, typeof(FirmaPageImage).Name, typeof(MonitoringProgramDocument).Name, typeof(Organization).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ProposedProjectImage).Name, typeof(TaxonomyTierOneImage).Name, typeof(TaxonomyTierThreeImage).Name, typeof(TaxonomyTierTwoImage).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(Classification).Name, typeof(FieldDefinitionImage).Name, typeof(FirmaPageImage).Name, typeof(MonitoringProgramDocument).Name, typeof(Organization).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ProposedProjectImage).Name};
 
         [Key]
         public int FileResourceID { get; set; }
@@ -132,9 +129,6 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectImage> ProjectImages { get; set; }
         public virtual ICollection<ProjectImageUpdate> ProjectImageUpdates { get; set; }
         public virtual ICollection<ProposedProjectImage> ProposedProjectImages { get; set; }
-        public virtual ICollection<TaxonomyTierOneImage> TaxonomyTierOneImages { get; set; }
-        public virtual ICollection<TaxonomyTierThreeImage> TaxonomyTierThreeImages { get; set; }
-        public virtual ICollection<TaxonomyTierTwoImage> TaxonomyTierTwoImages { get; set; }
         public FileResourceMimeType FileResourceMimeType { get { return FileResourceMimeType.AllLookupDictionary[FileResourceMimeTypeID]; } }
         public virtual Person CreatePerson { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

@@ -10,7 +10,6 @@ using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
@@ -184,36 +183,6 @@ namespace ProjectFirma.Web.Controllers
         {
             gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
             return taxonomyTierOne.Projects.OrderBy(x => x.DisplayName).ToList();
-        }
-
-        [HttpGet]
-        [TaxonomyTierOneManageFeature]
-        public PartialViewResult EditDescription(TaxonomyTierOnePrimaryKey taxonomyTierOnePrimaryKey)
-        {
-            var taxonomyTierOne = taxonomyTierOnePrimaryKey.EntityObject;
-            var viewModel = new EditRtfContentViewModel(taxonomyTierOne.TaxonomyTierOneDescriptionHtmlString);
-            return ViewEditDescription(taxonomyTierOne, viewModel);
-        }
-
-        [HttpPost]
-        [TaxonomyTierOneManageFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditDescription(TaxonomyTierOnePrimaryKey taxonomyTierOnePrimaryKey, EditRtfContentViewModel viewModel)
-        {
-            var taxonomyTierOne = taxonomyTierOnePrimaryKey.EntityObject;
-            if (!ModelState.IsValid)
-            {
-                return ViewEditDescription(taxonomyTierOne, viewModel);
-            }
-            viewModel.UpdateModel(taxonomyTierOne);
-            return new ModalDialogFormJsonResult();
-        }
-
-        private PartialViewResult ViewEditDescription(TaxonomyTierOne taxonomyTierOne, EditRtfContentViewModel viewModel)
-        {
-            var viewData = new EditRtfContentViewData(CkEditorExtension.CkEditorToolbar.AllOnOneRowNoMaximize,
-                SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.CkEditorUploadFileResourceForTaxonomyTierOne(taxonomyTierOne, null)));
-            return RazorPartialView<EditRtfContent, EditRtfContentViewData, EditRtfContentViewModel>(viewData, viewModel);
         }
     }
 }

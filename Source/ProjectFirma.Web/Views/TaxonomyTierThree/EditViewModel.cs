@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Common;
@@ -18,6 +19,10 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierThreeName)]
         public string TaxonomyTierThreeName { get; set; }
 
+        [StringLength(Models.TaxonomyTierThree.FieldLengths.TaxonomyTierThreeDescription)]
+        [DisplayName("Description")]
+        public string TaxonomyTierThreeDescription { get; set; }
+
         [Required]
         public string ThemeColor { get; set; }
 
@@ -32,12 +37,14 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
         {
             TaxonomyTierThreeID = taxonomyTierThree.TaxonomyTierThreeID;
             TaxonomyTierThreeName = taxonomyTierThree.TaxonomyTierThreeName;
+            TaxonomyTierThreeDescription = taxonomyTierThree.TaxonomyTierThreeDescription;
             ThemeColor = taxonomyTierThree.ThemeColor;
         }
 
         public void UpdateModel(Models.TaxonomyTierThree taxonomyTierThree, Person currentPerson)
         {
             taxonomyTierThree.TaxonomyTierThreeName = TaxonomyTierThreeName;
+            taxonomyTierThree.TaxonomyTierThreeDescription = TaxonomyTierThreeDescription;
             taxonomyTierThree.ThemeColor = ThemeColor;
         }
 

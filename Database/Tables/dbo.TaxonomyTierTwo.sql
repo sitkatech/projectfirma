@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[TaxonomyTierTwo](
 	[TaxonomyTierTwoID] [int] IDENTITY(1,1) NOT NULL,
 	[TaxonomyTierThreeID] [int] NOT NULL,
 	[TaxonomyTierTwoName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[TaxonomyTierTwoDescription] [dbo].[html] NULL,
+	[TaxonomyTierTwoDescription] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ThemeColor] [varchar](7) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[TaxonomyTierTwoCode] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[TenantID] [int] NOT NULL,

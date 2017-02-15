@@ -83,11 +83,8 @@
     <EntitySet Name="SupportRequestLog" EntityType="ProjectFirma.Web.Models.Store.SupportRequestLog" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Tag" EntityType="ProjectFirma.Web.Models.Store.Tag" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyTierOne" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierOne" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TaxonomyTierOneImage" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierOneImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyTierThree" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierThree" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TaxonomyTierThreeImage" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierThreeImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyTierTwo" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierTwo" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TaxonomyTierTwoImage" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierTwoImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyTierTwoPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierTwoPerformanceMeasure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Store.Watershed" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID" Association="ProjectFirma.Web.Models.Store.FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID">
@@ -642,33 +639,9 @@
       <End Role="TaxonomyTierTwo" EntitySet="TaxonomyTierTwo" />
       <End Role="TaxonomyTierOnes" EntitySet="TaxonomyTierOne" />
     </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierOneImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierOneImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="TaxonomyTierOneImages" EntitySet="TaxonomyTierOneImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierOneImage_TaxonomyTierOne_TaxonomyTierOneID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierOneImage_TaxonomyTierOne_TaxonomyTierOneID">
-      <End Role="TaxonomyTierOne" EntitySet="TaxonomyTierOne" />
-      <End Role="TaxonomyTierOneImages" EntitySet="TaxonomyTierOneImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierThreeImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierThreeImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="TaxonomyTierThreeImages" EntitySet="TaxonomyTierThreeImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierThreeImage_TaxonomyTierThree_TaxonomyTierThreeID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierThreeImage_TaxonomyTierThree_TaxonomyTierThreeID">
-      <End Role="TaxonomyTierThree" EntitySet="TaxonomyTierThree" />
-      <End Role="TaxonomyTierThreeImages" EntitySet="TaxonomyTierThreeImage" />
-    </AssociationSet>
     <AssociationSet Name="FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID">
       <End Role="TaxonomyTierThree" EntitySet="TaxonomyTierThree" />
       <End Role="TaxonomyTierTwos" EntitySet="TaxonomyTierTwo" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierTwoImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierTwoImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="TaxonomyTierTwoImages" EntitySet="TaxonomyTierTwoImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID">
-      <End Role="TaxonomyTierTwo" EntitySet="TaxonomyTierTwo" />
-      <End Role="TaxonomyTierTwoImages" EntitySet="TaxonomyTierTwoImage" />
     </AssociationSet>
     <AssociationSet Name="FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
@@ -814,9 +787,6 @@ warning 6035: The relationship 'FK_Organization_FileResource_LogoFileResourceID_
 warning 6035: The relationship 'FK_ProjectImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectImageUpdate_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProposedProjectImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_TaxonomyTierOneImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_TaxonomyTierThreeImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_TaxonomyTierTwoImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="FileResource">
     <Key>
@@ -1262,10 +1232,10 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
       <PropertyRef Name="ProjectAssessmentQuestionID" />
     </Key>
     <Property Name="ProjectAssessmentQuestionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="AssessmentQuestionID" Type="int" Nullable="false" />
     <Property Name="Answer" Type="bit" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectBudget">
     <Key>
@@ -1668,20 +1638,20 @@ warning 6035: The relationship 'FK_ProposedProjectNote_ProposedProject_ProposedP
       <PropertyRef Name="ProposedProjectAssessmentQuestionID" />
     </Key>
     <Property Name="ProposedProjectAssessmentQuestionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProposedProjectID" Type="int" Nullable="false" />
     <Property Name="AssessmentQuestionID" Type="int" Nullable="false" />
     <Property Name="Answer" Type="bit" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProposedProjectClassification">
     <Key>
       <PropertyRef Name="ProposedProjectClassificationID" />
     </Key>
     <Property Name="ProposedProjectClassificationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProposedProjectID" Type="int" Nullable="false" />
     <Property Name="ClassificationID" Type="int" Nullable="false" />
     <Property Name="ProposedProjectClassificationNotes" Type="varchar" MaxLength="600" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProposedProjectImage">
     <Key>
@@ -1838,7 +1808,6 @@ warning 6035: The relationship 'FK_ProjectTag_Tag_TagID_TenantID' has columns th
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_Project_TaxonomyTierOne_TaxonomyTierOneID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_TaxonomyTierOneImage_TaxonomyTierOne_TaxonomyTierOneID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="TaxonomyTierOne">
     <Key>
@@ -1847,21 +1816,11 @@ warning 6035: The relationship 'FK_TaxonomyTierOneImage_TaxonomyTierOne_Taxonomy
     <Property Name="TaxonomyTierOneID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TaxonomyTierTwoID" Type="int" Nullable="false" />
     <Property Name="TaxonomyTierOneName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TaxonomyTierOneDescription" Type="varchar(max)" />
+    <Property Name="TaxonomyTierOneDescription" Type="varchar" MaxLength="4000" />
     <Property Name="TaxonomyTierOneCode" Type="varchar" MaxLength="10" />
     <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="TaxonomyTierOneImage">
-    <Key>
-      <PropertyRef Name="TaxonomyTierOneImageID" />
-    </Key>
-    <Property Name="TaxonomyTierOneImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TaxonomyTierOneID" Type="int" Nullable="false" />
-    <Property Name="FileResourceID" Type="int" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-  </EntityType>
   <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_TaxonomyTierThreeImage_TaxonomyTierThree_TaxonomyTierThreeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="TaxonomyTierThree">
@@ -1870,23 +1829,13 @@ warning 6035: The relationship 'FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTie
     </Key>
     <Property Name="TaxonomyTierThreeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TaxonomyTierThreeName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TaxonomyTierThreeDescription" Type="varchar(max)" />
+    <Property Name="TaxonomyTierThreeDescription" Type="varchar" MaxLength="4000" />
     <Property Name="ThemeColor" Type="varchar" MaxLength="20" />
     <Property Name="TaxonomyTierThreeCode" Type="varchar" MaxLength="10" />
     <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="TaxonomyTierThreeImage">
-    <Key>
-      <PropertyRef Name="TaxonomyTierThreeImageID" />
-    </Key>
-    <Property Name="TaxonomyTierThreeImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TaxonomyTierThreeID" Type="int" Nullable="false" />
-    <Property Name="FileResourceID" Type="int" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-  </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="TaxonomyTierTwo">
@@ -1896,18 +1845,9 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
     <Property Name="TaxonomyTierTwoID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TaxonomyTierThreeID" Type="int" Nullable="false" />
     <Property Name="TaxonomyTierTwoName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TaxonomyTierTwoDescription" Type="varchar(max)" />
+    <Property Name="TaxonomyTierTwoDescription" Type="varchar" MaxLength="4000" />
     <Property Name="ThemeColor" Type="varchar" MaxLength="7" />
     <Property Name="TaxonomyTierTwoCode" Type="varchar" MaxLength="10" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="TaxonomyTierTwoImage">
-    <Key>
-      <PropertyRef Name="TaxonomyTierTwoImageID" />
-    </Key>
-    <Property Name="TaxonomyTierTwoImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TaxonomyTierTwoID" Type="int" Nullable="false" />
-    <Property Name="FileResourceID" Type="int" Nullable="false" />
     <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="TaxonomyTierTwoPerformanceMeasure">
@@ -1915,10 +1855,10 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
       <PropertyRef Name="TaxonomyTierTwoPerformanceMeasureID" />
     </Key>
     <Property Name="TaxonomyTierTwoPerformanceMeasureID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="TaxonomyTierTwoID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="IsPrimaryTaxonomyTierTwo" Type="bit" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectLocationArea_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -3590,54 +3530,6 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TaxonomyTierOneImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
-    <End Role="TaxonomyTierOneImages" Type="ProjectFirma.Web.Models.Store.TaxonomyTierOneImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="TaxonomyTierOneImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TaxonomyTierOneImage_TaxonomyTierOne_TaxonomyTierOneID">
-    <End Role="TaxonomyTierOne" Type="ProjectFirma.Web.Models.Store.TaxonomyTierOne" Multiplicity="1" />
-    <End Role="TaxonomyTierOneImages" Type="ProjectFirma.Web.Models.Store.TaxonomyTierOneImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TaxonomyTierOne">
-        <PropertyRef Name="TaxonomyTierOneID" />
-      </Principal>
-      <Dependent Role="TaxonomyTierOneImages">
-        <PropertyRef Name="TaxonomyTierOneID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TaxonomyTierThreeImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
-    <End Role="TaxonomyTierThreeImages" Type="ProjectFirma.Web.Models.Store.TaxonomyTierThreeImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="TaxonomyTierThreeImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TaxonomyTierThreeImage_TaxonomyTierThree_TaxonomyTierThreeID">
-    <End Role="TaxonomyTierThree" Type="ProjectFirma.Web.Models.Store.TaxonomyTierThree" Multiplicity="1" />
-    <End Role="TaxonomyTierThreeImages" Type="ProjectFirma.Web.Models.Store.TaxonomyTierThreeImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TaxonomyTierThree">
-        <PropertyRef Name="TaxonomyTierThreeID" />
-      </Principal>
-      <Dependent Role="TaxonomyTierThreeImages">
-        <PropertyRef Name="TaxonomyTierThreeID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID">
     <End Role="TaxonomyTierThree" Type="ProjectFirma.Web.Models.Store.TaxonomyTierThree" Multiplicity="1" />
     <End Role="TaxonomyTierTwos" Type="ProjectFirma.Web.Models.Store.TaxonomyTierTwo" Multiplicity="*" />
@@ -3647,30 +3539,6 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Principal>
       <Dependent Role="TaxonomyTierTwos">
         <PropertyRef Name="TaxonomyTierThreeID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TaxonomyTierTwoImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
-    <End Role="TaxonomyTierTwoImages" Type="ProjectFirma.Web.Models.Store.TaxonomyTierTwoImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="TaxonomyTierTwoImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID">
-    <End Role="TaxonomyTierTwo" Type="ProjectFirma.Web.Models.Store.TaxonomyTierTwo" Multiplicity="1" />
-    <End Role="TaxonomyTierTwoImages" Type="ProjectFirma.Web.Models.Store.TaxonomyTierTwoImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TaxonomyTierTwo">
-        <PropertyRef Name="TaxonomyTierTwoID" />
-      </Principal>
-      <Dependent Role="TaxonomyTierTwoImages">
-        <PropertyRef Name="TaxonomyTierTwoID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

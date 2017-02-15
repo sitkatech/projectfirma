@@ -9,7 +9,6 @@ using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using Detail = ProjectFirma.Web.Views.TaxonomyTierThree.Detail;
@@ -173,36 +172,6 @@ namespace ProjectFirma.Web.Controllers
         {
             gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
             return taxonomyTierThree.Projects.OrderBy(x => x.DisplayName).ToList();
-        }
-
-        [HttpGet]
-        [TaxonomyTierThreeManageFeature]
-        public PartialViewResult EditDescription(TaxonomyTierThreePrimaryKey taxonomyTierThreePrimaryKey)
-        {
-            var taxonomyTierThree = taxonomyTierThreePrimaryKey.EntityObject;
-            var viewModel = new EditRtfContentViewModel(taxonomyTierThree.TaxonomyTierThreeDescriptionHtmlString);
-            return ViewEditDescription(taxonomyTierThree, viewModel);
-        }
-
-        [HttpPost]
-        [TaxonomyTierThreeManageFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditDescription(TaxonomyTierThreePrimaryKey taxonomyTierThreePrimaryKey, EditRtfContentViewModel viewModel)
-        {
-            var taxonomyTierThree = taxonomyTierThreePrimaryKey.EntityObject;
-            if (!ModelState.IsValid)
-            {
-                return ViewEditDescription(taxonomyTierThree, viewModel);
-            }
-            viewModel.UpdateModel(taxonomyTierThree);
-            return new ModalDialogFormJsonResult();
-        }
-
-        private PartialViewResult ViewEditDescription(TaxonomyTierThree taxonomyTierThree, EditRtfContentViewModel viewModel)
-        {
-            var viewData = new EditRtfContentViewData(CkEditorExtension.CkEditorToolbar.AllOnOneRowNoMaximize,
-                SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.CkEditorUploadFileResourceForTaxonomyTierThree(taxonomyTierThree, null)));
-            return RazorPartialView<EditRtfContent, EditRtfContentViewData, EditRtfContentViewModel>(viewData, viewModel);
         }
     }
 }

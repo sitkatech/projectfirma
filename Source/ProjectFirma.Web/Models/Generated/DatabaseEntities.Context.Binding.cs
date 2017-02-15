@@ -190,16 +190,10 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<SupportRequestLog> SupportRequestLogs { get { return AllSupportRequestLogs.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Tag> AllTags { get; set; }
         public virtual IQueryable<Tag> Tags { get { return AllTags.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<TaxonomyTierOneImage> AllTaxonomyTierOneImages { get; set; }
-        public virtual IQueryable<TaxonomyTierOneImage> TaxonomyTierOneImages { get { return AllTaxonomyTierOneImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyTierOne> AllTaxonomyTierOnes { get; set; }
         public virtual IQueryable<TaxonomyTierOne> TaxonomyTierOnes { get { return AllTaxonomyTierOnes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<TaxonomyTierThreeImage> AllTaxonomyTierThreeImages { get; set; }
-        public virtual IQueryable<TaxonomyTierThreeImage> TaxonomyTierThreeImages { get { return AllTaxonomyTierThreeImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyTierThree> AllTaxonomyTierThrees { get; set; }
         public virtual IQueryable<TaxonomyTierThree> TaxonomyTierThrees { get { return AllTaxonomyTierThrees.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<TaxonomyTierTwoImage> AllTaxonomyTierTwoImages { get; set; }
-        public virtual IQueryable<TaxonomyTierTwoImage> TaxonomyTierTwoImages { get { return AllTaxonomyTierTwoImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyTierTwoPerformanceMeasure> AllTaxonomyTierTwoPerformanceMeasures { get; set; }
         public virtual IQueryable<TaxonomyTierTwoPerformanceMeasure> TaxonomyTierTwoPerformanceMeasures { get { return AllTaxonomyTierTwoPerformanceMeasures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyTierTwo> AllTaxonomyTierTwos { get; set; }
@@ -569,20 +563,11 @@ namespace ProjectFirma.Web.Models
                 case "Tag":
                     return Tags.GetTag(primaryKey);
 
-                case "TaxonomyTierOneImage":
-                    return TaxonomyTierOneImages.GetTaxonomyTierOneImage(primaryKey);
-
                 case "TaxonomyTierOne":
                     return TaxonomyTierOnes.GetTaxonomyTierOne(primaryKey);
 
-                case "TaxonomyTierThreeImage":
-                    return TaxonomyTierThreeImages.GetTaxonomyTierThreeImage(primaryKey);
-
                 case "TaxonomyTierThree":
                     return TaxonomyTierThrees.GetTaxonomyTierThree(primaryKey);
-
-                case "TaxonomyTierTwoImage":
-                    return TaxonomyTierTwoImages.GetTaxonomyTierTwoImage(primaryKey);
 
                 case "TaxonomyTierTwoPerformanceMeasure":
                     return TaxonomyTierTwoPerformanceMeasures.GetTaxonomyTierTwoPerformanceMeasure(primaryKey);

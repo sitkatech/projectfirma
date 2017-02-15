@@ -92,15 +92,15 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectAssessmentQuestionID { get; set; }
+        public int TenantID { get; private set; }
         public int ProjectID { get; set; }
         public int AssessmentQuestionID { get; set; }
         public bool? Answer { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProjectAssessmentQuestionID; } set { ProjectAssessmentQuestionID = value; } }
 
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual AssessmentQuestion AssessmentQuestion { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

@@ -10,7 +10,6 @@ using ProjectFirma.Web.Views.TaxonomyTierTwo;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
@@ -187,44 +186,6 @@ namespace ProjectFirma.Web.Controllers
         {
             gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
             return taxonomyTierTwo.Projects.OrderBy(x => x.DisplayName).ToList();
-        }
-
-        [HttpGet]
-        [TaxonomyTierTwoManageFeature]
-        public PartialViewResult EditDescription(TaxonomyTierTwoPrimaryKey taxonomyTierTwoPrimaryKey)
-        {
-            var taxonomyTierTwo = taxonomyTierTwoPrimaryKey.EntityObject;
-            var viewModel = new EditRtfContentViewModel(taxonomyTierTwo.TaxonomyTierTwoDescriptionHtmlString);
-            return ViewEditDescription(taxonomyTierTwo, viewModel);
-        }
-
-        [HttpPost]
-        [TaxonomyTierTwoManageFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditDescription(TaxonomyTierTwoPrimaryKey taxonomyTierTwoPrimaryKey, EditRtfContentViewModel viewModel)
-        {
-            var taxonomyTierTwo = taxonomyTierTwoPrimaryKey.EntityObject;
-            if (!ModelState.IsValid)
-            {
-                return ViewEditDescription(taxonomyTierTwo, viewModel);
-            }
-            viewModel.UpdateModel(taxonomyTierTwo);
-            return new ModalDialogFormJsonResult();
-        }
-
-        private PartialViewResult ViewEditDescription(TaxonomyTierTwo taxonomyTierTwo, EditRtfContentViewModel viewModel)
-        {
-            var viewData = new EditRtfContentViewData(CkEditorExtension.CkEditorToolbar.AllOnOneRowNoMaximize,
-                SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.CkEditorUploadFileResourceForTaxonomyTierTwo(taxonomyTierTwo, null)));
-            return RazorPartialView<EditRtfContent, EditRtfContentViewData, EditRtfContentViewModel>(viewData, viewModel);
-        }
-
-        [TaxonomyTierTwoViewFeature]
-        public PartialViewResult DefinitionAndGuidance(TaxonomyTierTwoPrimaryKey taxonomyTierTwoPrimaryKey)
-        {
-            var taxonomyTierTwo = taxonomyTierTwoPrimaryKey.EntityObject;
-            var viewData = new DefinitionAndGuidanceViewData(taxonomyTierTwo);
-            return RazorPartialView<DefinitionAndGuidance, DefinitionAndGuidanceViewData>(viewData);
         }
     }
 }

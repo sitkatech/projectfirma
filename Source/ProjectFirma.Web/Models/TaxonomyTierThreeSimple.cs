@@ -29,7 +29,7 @@
         {
             TaxonomyTierThreeID = taxonomyTierThree.TaxonomyTierThreeID;
             TaxonomyTierThreeName = taxonomyTierThree.TaxonomyTierThreeName;
-            TaxonomyTierThreeDescription = taxonomyTierThree.TaxonomyTierThreeDescriptionHtmlString == null ? null : taxonomyTierThree.TaxonomyTierThreeDescriptionHtmlString.ToString();
+            TaxonomyTierThreeDescription = taxonomyTierThree.TaxonomyTierThreeDescription;
             TaxonomyTierThreeColor = taxonomyTierThree.ThemeColor;
             DisplayName = taxonomyTierThree.DisplayName;
         }

@@ -30,6 +30,13 @@
                 }
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-sm-4 control-label">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierTwoDescription)</div>
+            <div class="col-sm-8">
+                @Html.TextAreaWithMaxLengthFor(m => m.TaxonomyTierTwoDescription, new TextAreaForExtensions.TextAreaDimensions(null, 4), null)
+                @Html.ValidationMessageFor(m => m.TaxonomyTierTwoDescription)
+            </div>
+        </div>
         
         <div class="form-group">
             <div class="col-sm-4 control-label">

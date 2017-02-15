@@ -36,16 +36,17 @@
                     <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierOneUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetTaxonomyTierOneDisplayName(), ViewDataTyped.TaxonomyTierOne.DisplayName), ViewDataTyped.UserHasTaxonomyTierOneManagePermissions) Basics</h2>
                 </div>
                 <div class="panel-body">
-                    @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }                </div>
+                    @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }
+                </div>
             </div>
 
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
-                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditDescriptionUrl, string.Format("Edit Description - {0}", ViewDataTyped.TaxonomyTierOne.DisplayName), ViewDataTyped.UserHasTaxonomyTierOneManagePermissions) Description</h2>
+                    <h2>Description</h2>
                 </div>
                 <div class="panel-body">
                     <div>
-                        @ViewDataTyped.TaxonomyTierOne.TaxonomyTierOneDescriptionHtmlString
+                        @ViewDataTyped.TaxonomyTierOne.TaxonomyTierOneDescription
                     </div>
                 </div>
             </div>

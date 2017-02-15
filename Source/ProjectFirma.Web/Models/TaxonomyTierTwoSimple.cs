@@ -30,7 +30,7 @@
             TaxonomyTierTwoID = taxonomyTierTwo.TaxonomyTierTwoID;
             TaxonomyTierThreeID = taxonomyTierTwo.TaxonomyTierThreeID;
             TaxonomyTierTwoName = taxonomyTierTwo.TaxonomyTierTwoName;
-            TaxonomyTierTwoDescription = taxonomyTierTwo.TaxonomyTierTwoDescriptionHtmlString == null ? null : taxonomyTierTwo.TaxonomyTierTwoDescriptionHtmlString.ToString();
+            TaxonomyTierTwoDescription = taxonomyTierTwo.TaxonomyTierTwoDescription;
             DisplayName = taxonomyTierTwo.DisplayName;
         }
 

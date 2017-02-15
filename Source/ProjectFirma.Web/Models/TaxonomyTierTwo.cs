@@ -41,11 +41,6 @@ namespace ProjectFirma.Web.Models
         }
 
 
-        public string DefinitionAndGuidanceUrl
-        {
-            get { return SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(x => x.DefinitionAndGuidance(this)); }
-        }
-
         public static bool IsTaxonomyTierTwoNameUnique(IEnumerable<TaxonomyTierTwo> taxonomyTierTwos, string taxonomyTierTwoName, int currentTaxonomyTierTwoID)
         {
             var taxonomyTierTwo = taxonomyTierTwos.SingleOrDefault(x => x.TaxonomyTierTwoID != currentTaxonomyTierTwoID && String.Equals(x.TaxonomyTierTwoName, taxonomyTierTwoName, StringComparison.InvariantCultureIgnoreCase));

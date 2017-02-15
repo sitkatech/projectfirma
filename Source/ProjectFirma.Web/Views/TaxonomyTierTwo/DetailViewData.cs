@@ -27,7 +27,6 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
         public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
         public readonly string BasicProjectInfoProjectGridName;
         public readonly string BasicProjectInfoProjectGridDataUrl;
-        public readonly string EditDescriptionUrl;
 
         public readonly ProjectTaxonomyViewData ProjectTaxonomyViewData;
 
@@ -77,7 +76,6 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             };
             BasicProjectInfoProjectGridDataUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyTierTwo));
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyTierTwo);
-            EditDescriptionUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(tc => tc.EditDescription(taxonomyTierTwo));
 
             TaxonomyTierTwoPerformanceMeasures = taxonomyTierTwo.GetPerformanceMeasures().OrderBy(x => x.PerformanceMeasureID).ToList();
         }

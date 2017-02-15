@@ -37,29 +37,5 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
                     throw new ArgumentOutOfRangeException(string.Format("Invalid GuidanceType {0}", performanceMeasureRichTextType));
             }
         }
-
-        /// <summary>
-        /// Used by TaxonomyTierThree Description
-        /// </summary>
-        public void UpdateModel(Models.TaxonomyTierThree taxonomyTierThree)
-        {
-            taxonomyTierThree.TaxonomyTierThreeDescriptionHtmlString = RtfContent;
-        }
-
-        /// <summary>
-        /// Used by TaxonomyTierTwo Description
-        /// </summary>
-        public void UpdateModel(Models.TaxonomyTierTwo taxonomyTierTwo)
-        {
-            taxonomyTierTwo.TaxonomyTierTwoDescriptionHtmlString = RtfContent;
-        }
-
-        /// <summary>
-        /// Used by TaxonomyTierOne Description
-        /// </summary>
-        public void UpdateModel(Models.TaxonomyTierOne taxonomyTierOne)
-        {
-            taxonomyTierOne.TaxonomyTierOneDescriptionHtmlString = RtfContent;
-        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Common;
@@ -18,6 +19,10 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierTwoName)]
         public string TaxonomyTierTwoName { get; set; }
 
+        [StringLength(Models.TaxonomyTierTwo.FieldLengths.TaxonomyTierTwoDescription)]
+        [DisplayName("Description")]
+        public string TaxonomyTierTwoDescription { get; set; }
+
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierThree)]
         public int TaxonomyTierThreeID { get; set; }
@@ -36,6 +41,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
         {
             TaxonomyTierTwoID = taxonomyTierTwo.TaxonomyTierTwoID;
             TaxonomyTierTwoName = taxonomyTierTwo.TaxonomyTierTwoName;
+            TaxonomyTierTwoDescription = taxonomyTierTwo.TaxonomyTierTwoDescription;
             TaxonomyTierThreeID = taxonomyTierTwo.TaxonomyTierThreeID;
             ThemeColor = taxonomyTierTwo.ThemeColor;
         }
@@ -43,6 +49,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
         public void UpdateModel(Models.TaxonomyTierTwo taxonomyTierTwo, Person currentPerson)
         {
             taxonomyTierTwo.TaxonomyTierTwoName = TaxonomyTierTwoName;
+            taxonomyTierTwo.TaxonomyTierTwoDescription = TaxonomyTierTwoDescription;
             taxonomyTierTwo.TaxonomyTierThreeID = TaxonomyTierThreeID;
             taxonomyTierTwo.ThemeColor = ThemeColor;
         }

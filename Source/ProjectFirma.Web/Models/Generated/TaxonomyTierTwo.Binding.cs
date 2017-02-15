@@ -24,7 +24,6 @@ namespace ProjectFirma.Web.Models
         protected TaxonomyTierTwo()
         {
             this.TaxonomyTierOnes = new HashSet<TaxonomyTierOne>();
-            this.TaxonomyTierTwoImages = new HashSet<TaxonomyTierTwoImage>();
             this.TaxonomyTierTwoPerformanceMeasures = new HashSet<TaxonomyTierTwoPerformanceMeasure>();
         }
 
@@ -84,32 +83,25 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return TaxonomyTierOnes.Any() || TaxonomyTierTwoImages.Any() || TaxonomyTierTwoPerformanceMeasures.Any();
+            return TaxonomyTierOnes.Any() || TaxonomyTierTwoPerformanceMeasures.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTierTwo).Name, typeof(TaxonomyTierOne).Name, typeof(TaxonomyTierTwoImage).Name, typeof(TaxonomyTierTwoPerformanceMeasure).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTierTwo).Name, typeof(TaxonomyTierOne).Name, typeof(TaxonomyTierTwoPerformanceMeasure).Name};
 
         [Key]
         public int TaxonomyTierTwoID { get; set; }
         public int TaxonomyTierThreeID { get; set; }
         public string TaxonomyTierTwoName { get; set; }
-        [NotMapped]
-        private string TaxonomyTierTwoDescription { get; set; }
-        public HtmlString TaxonomyTierTwoDescriptionHtmlString
-        { 
-            get { return TaxonomyTierTwoDescription == null ? null : new HtmlString(TaxonomyTierTwoDescription); }
-            set { TaxonomyTierTwoDescription = value == null ? null : value.ToString(); }
-        }
+        public string TaxonomyTierTwoDescription { get; set; }
         public string ThemeColor { get; set; }
         public string TaxonomyTierTwoCode { get; set; }
         public int TenantID { get; private set; }
         public int PrimaryKey { get { return TaxonomyTierTwoID; } set { TaxonomyTierTwoID = value; } }
 
         public virtual ICollection<TaxonomyTierOne> TaxonomyTierOnes { get; set; }
-        public virtual ICollection<TaxonomyTierTwoImage> TaxonomyTierTwoImages { get; set; }
         public virtual ICollection<TaxonomyTierTwoPerformanceMeasure> TaxonomyTierTwoPerformanceMeasures { get; set; }
         public virtual TaxonomyTierThree TaxonomyTierThree { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
@@ -117,6 +109,7 @@ namespace ProjectFirma.Web.Models
         public static class FieldLengths
         {
             public const int TaxonomyTierTwoName = 100;
+            public const int TaxonomyTierTwoDescription = 4000;
             public const int ThemeColor = 7;
             public const int TaxonomyTierTwoCode = 10;
         }

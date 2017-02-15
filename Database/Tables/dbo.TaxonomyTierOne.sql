@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[TaxonomyTierOne](
 	[TaxonomyTierOneID] [int] IDENTITY(1,1) NOT NULL,
 	[TaxonomyTierTwoID] [int] NOT NULL,
 	[TaxonomyTierOneName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[TaxonomyTierOneDescription] [dbo].[html] NULL,
+	[TaxonomyTierOneDescription] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[TaxonomyTierOneCode] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_TaxonomyTierOne_TaxonomyTierOneID] PRIMARY KEY CLUSTERED 

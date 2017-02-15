@@ -83,11 +83,8 @@
     <EntitySet Name="SupportRequestLog" EntityType="ProjectFirma.Web.Models.SupportRequestLog" />
     <EntitySet Name="Tag" EntityType="ProjectFirma.Web.Models.Tag" />
     <EntitySet Name="TaxonomyTierOne" EntityType="ProjectFirma.Web.Models.TaxonomyTierOne" />
-    <EntitySet Name="TaxonomyTierOneImage" EntityType="ProjectFirma.Web.Models.TaxonomyTierOneImage" />
     <EntitySet Name="TaxonomyTierThree" EntityType="ProjectFirma.Web.Models.TaxonomyTierThree" />
-    <EntitySet Name="TaxonomyTierThreeImage" EntityType="ProjectFirma.Web.Models.TaxonomyTierThreeImage" />
     <EntitySet Name="TaxonomyTierTwo" EntityType="ProjectFirma.Web.Models.TaxonomyTierTwo" />
-    <EntitySet Name="TaxonomyTierTwoImage" EntityType="ProjectFirma.Web.Models.TaxonomyTierTwoImage" />
     <EntitySet Name="TaxonomyTierTwoPerformanceMeasure" EntityType="ProjectFirma.Web.Models.TaxonomyTierTwoPerformanceMeasure" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Watershed" />
     <AssociationSet Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID" Association="ProjectFirma.Web.Models.FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
@@ -165,18 +162,6 @@
     <AssociationSet Name="FK_ProposedProjectImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_ProposedProjectImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
       <End Role="ProposedProjectImages" EntitySet="ProposedProjectImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierOneImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierOneImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="TaxonomyTierOneImages" EntitySet="TaxonomyTierOneImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierThreeImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierThreeImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="TaxonomyTierThreeImages" EntitySet="TaxonomyTierThreeImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierTwoImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierTwoImage_FileResource_FileResourceID">
-      <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="TaxonomyTierTwoImages" EntitySet="TaxonomyTierTwoImage" />
     </AssociationSet>
     <AssociationSet Name="FK_FirmaPageImage_FirmaPage_FirmaPageID" Association="ProjectFirma.Web.Models.FK_FirmaPageImage_FirmaPage_FirmaPageID">
       <End Role="FirmaPage" EntitySet="FirmaPage" />
@@ -658,21 +643,9 @@
       <End Role="TaxonomyTierTwo" EntitySet="TaxonomyTierTwo" />
       <End Role="TaxonomyTierOnes" EntitySet="TaxonomyTierOne" />
     </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierOneImage_TaxonomyTierOne_TaxonomyTierOneID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierOneImage_TaxonomyTierOne_TaxonomyTierOneID">
-      <End Role="TaxonomyTierOne" EntitySet="TaxonomyTierOne" />
-      <End Role="TaxonomyTierOneImages" EntitySet="TaxonomyTierOneImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierThreeImage_TaxonomyTierThree_TaxonomyTierThreeID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierThreeImage_TaxonomyTierThree_TaxonomyTierThreeID">
-      <End Role="TaxonomyTierThree" EntitySet="TaxonomyTierThree" />
-      <End Role="TaxonomyTierThreeImages" EntitySet="TaxonomyTierThreeImage" />
-    </AssociationSet>
     <AssociationSet Name="FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID">
       <End Role="TaxonomyTierThree" EntitySet="TaxonomyTierThree" />
       <End Role="TaxonomyTierTwos" EntitySet="TaxonomyTierTwo" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID">
-      <End Role="TaxonomyTierTwo" EntitySet="TaxonomyTierTwo" />
-      <End Role="TaxonomyTierTwoImages" EntitySet="TaxonomyTierTwoImage" />
     </AssociationSet>
     <AssociationSet Name="FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID" Association="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID">
       <End Role="TaxonomyTierTwo" EntitySet="TaxonomyTierTwo" />
@@ -827,9 +800,6 @@
     <NavigationProperty Name="ProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProjectImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectImages" />
     <NavigationProperty Name="ProjectImageUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProjectImageUpdates" />
     <NavigationProperty Name="ProposedProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="ProposedProjectImages" />
-    <NavigationProperty Name="TaxonomyTierOneImages" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOneImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="TaxonomyTierOneImages" />
-    <NavigationProperty Name="TaxonomyTierThreeImages" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierThreeImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="TaxonomyTierThreeImages" />
-    <NavigationProperty Name="TaxonomyTierTwoImages" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="TaxonomyTierTwoImages" />
   </EntityType>
   <EntityType Name="FirmaPage">
     <Key>
@@ -1274,10 +1244,10 @@
       <PropertyRef Name="ProjectAssessmentQuestionID" />
     </Key>
     <Property Name="ProjectAssessmentQuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="AssessmentQuestionID" Type="Int32" Nullable="false" />
     <Property Name="Answer" Type="Boolean" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="AssessmentQuestion" Relationship="ProjectFirma.Web.Models.FK_ProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" FromRole="ProjectAssessmentQuestions" ToRole="AssessmentQuestion" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectAssessmentQuestion_Project_ProjectID" FromRole="ProjectAssessmentQuestions" ToRole="Project" />
   </EntityType>
@@ -1729,10 +1699,10 @@
       <PropertyRef Name="ProposedProjectAssessmentQuestionID" />
     </Key>
     <Property Name="ProposedProjectAssessmentQuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
     <Property Name="AssessmentQuestionID" Type="Int32" Nullable="false" />
     <Property Name="Answer" Type="Boolean" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="AssessmentQuestion" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_AssessmentQuestion_AssessmentQuestionID" FromRole="ProposedProjectAssessmentQuestions" ToRole="AssessmentQuestion" />
     <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID" FromRole="ProposedProjectAssessmentQuestions" ToRole="ProposedProject" />
   </EntityType>
@@ -1741,10 +1711,10 @@
       <PropertyRef Name="ProposedProjectClassificationID" />
     </Key>
     <Property Name="ProposedProjectClassificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
     <Property Name="ClassificationID" Type="Int32" Nullable="false" />
     <Property Name="ProposedProjectClassificationNotes" Type="String" MaxLength="600" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Classification" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectClassification_Classification_ClassificationID" FromRole="ProposedProjectClassifications" ToRole="Classification" />
     <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectClassification_ProposedProject_ProposedProjectID" FromRole="ProposedProjectClassifications" ToRole="ProposedProject" />
   </EntityType>
@@ -1915,24 +1885,12 @@
     <Property Name="TaxonomyTierOneID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TaxonomyTierTwoID" Type="Int32" Nullable="false" />
     <Property Name="TaxonomyTierOneName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="TaxonomyTierOneDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyTierOneDescription" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyTierOneCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Projects" Relationship="ProjectFirma.Web.Models.FK_Project_TaxonomyTierOne_TaxonomyTierOneID" FromRole="TaxonomyTierOne" ToRole="Projects" />
     <NavigationProperty Name="ProposedProjects" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID" FromRole="TaxonomyTierOne" ToRole="ProposedProjects" />
     <NavigationProperty Name="TaxonomyTierTwo" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierOnes" ToRole="TaxonomyTierTwo" />
-    <NavigationProperty Name="TaxonomyTierOneImages" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOneImage_TaxonomyTierOne_TaxonomyTierOneID" FromRole="TaxonomyTierOne" ToRole="TaxonomyTierOneImages" />
-  </EntityType>
-  <EntityType Name="TaxonomyTierOneImage">
-    <Key>
-      <PropertyRef Name="TaxonomyTierOneImageID" />
-    </Key>
-    <Property Name="TaxonomyTierOneImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TaxonomyTierOneID" Type="Int32" Nullable="false" />
-    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOneImage_FileResource_FileResourceID" FromRole="TaxonomyTierOneImages" ToRole="FileResource" />
-    <NavigationProperty Name="TaxonomyTierOne" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOneImage_TaxonomyTierOne_TaxonomyTierOneID" FromRole="TaxonomyTierOneImages" ToRole="TaxonomyTierOne" />
   </EntityType>
   <EntityType Name="TaxonomyTierThree">
     <Key>
@@ -1940,23 +1898,11 @@
     </Key>
     <Property Name="TaxonomyTierThreeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TaxonomyTierThreeName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="TaxonomyTierThreeDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyTierThreeDescription" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="ThemeColor" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyTierThreeCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="TaxonomyTierThreeImages" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierThreeImage_TaxonomyTierThree_TaxonomyTierThreeID" FromRole="TaxonomyTierThree" ToRole="TaxonomyTierThreeImages" />
     <NavigationProperty Name="TaxonomyTierTwos" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID" FromRole="TaxonomyTierThree" ToRole="TaxonomyTierTwos" />
-  </EntityType>
-  <EntityType Name="TaxonomyTierThreeImage">
-    <Key>
-      <PropertyRef Name="TaxonomyTierThreeImageID" />
-    </Key>
-    <Property Name="TaxonomyTierThreeImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TaxonomyTierThreeID" Type="Int32" Nullable="false" />
-    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierThreeImage_FileResource_FileResourceID" FromRole="TaxonomyTierThreeImages" ToRole="FileResource" />
-    <NavigationProperty Name="TaxonomyTierThree" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierThreeImage_TaxonomyTierThree_TaxonomyTierThreeID" FromRole="TaxonomyTierThreeImages" ToRole="TaxonomyTierThree" />
   </EntityType>
   <EntityType Name="TaxonomyTierTwo">
     <Key>
@@ -1965,35 +1911,23 @@
     <Property Name="TaxonomyTierTwoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TaxonomyTierThreeID" Type="Int32" Nullable="false" />
     <Property Name="TaxonomyTierTwoName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="TaxonomyTierTwoDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyTierTwoDescription" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="ThemeColor" Type="String" MaxLength="7" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyTierTwoCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="TaxonomyTierOnes" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierTwo" ToRole="TaxonomyTierOnes" />
     <NavigationProperty Name="TaxonomyTierThree" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID" FromRole="TaxonomyTierTwos" ToRole="TaxonomyTierThree" />
-    <NavigationProperty Name="TaxonomyTierTwoImages" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierTwo" ToRole="TaxonomyTierTwoImages" />
     <NavigationProperty Name="TaxonomyTierTwoPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierTwo" ToRole="TaxonomyTierTwoPerformanceMeasures" />
-  </EntityType>
-  <EntityType Name="TaxonomyTierTwoImage">
-    <Key>
-      <PropertyRef Name="TaxonomyTierTwoImageID" />
-    </Key>
-    <Property Name="TaxonomyTierTwoImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TaxonomyTierTwoID" Type="Int32" Nullable="false" />
-    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoImage_FileResource_FileResourceID" FromRole="TaxonomyTierTwoImages" ToRole="FileResource" />
-    <NavigationProperty Name="TaxonomyTierTwo" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierTwoImages" ToRole="TaxonomyTierTwo" />
   </EntityType>
   <EntityType Name="TaxonomyTierTwoPerformanceMeasure">
     <Key>
       <PropertyRef Name="TaxonomyTierTwoPerformanceMeasureID" />
     </Key>
     <Property Name="TaxonomyTierTwoPerformanceMeasureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="TaxonomyTierTwoID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="IsPrimaryTaxonomyTierTwo" Type="Boolean" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="TaxonomyTierTwoPerformanceMeasures" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="TaxonomyTierTwo" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierTwoPerformanceMeasures" ToRole="TaxonomyTierTwo" />
   </EntityType>
@@ -2233,42 +2167,6 @@
         <PropertyRef Name="FileResourceID" />
       </Principal>
       <Dependent Role="ProposedProjectImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TaxonomyTierOneImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
-    <End Role="TaxonomyTierOneImages" Type="ProjectFirma.Web.Models.TaxonomyTierOneImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="TaxonomyTierOneImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TaxonomyTierThreeImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
-    <End Role="TaxonomyTierThreeImages" Type="ProjectFirma.Web.Models.TaxonomyTierThreeImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="TaxonomyTierThreeImages">
-        <PropertyRef Name="FileResourceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TaxonomyTierTwoImage_FileResource_FileResourceID">
-    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
-    <End Role="TaxonomyTierTwoImages" Type="ProjectFirma.Web.Models.TaxonomyTierTwoImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FileResource">
-        <PropertyRef Name="FileResourceID" />
-      </Principal>
-      <Dependent Role="TaxonomyTierTwoImages">
         <PropertyRef Name="FileResourceID" />
       </Dependent>
     </ReferentialConstraint>
@@ -3713,30 +3611,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TaxonomyTierOneImage_TaxonomyTierOne_TaxonomyTierOneID">
-    <End Role="TaxonomyTierOne" Type="ProjectFirma.Web.Models.TaxonomyTierOne" Multiplicity="1" />
-    <End Role="TaxonomyTierOneImages" Type="ProjectFirma.Web.Models.TaxonomyTierOneImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TaxonomyTierOne">
-        <PropertyRef Name="TaxonomyTierOneID" />
-      </Principal>
-      <Dependent Role="TaxonomyTierOneImages">
-        <PropertyRef Name="TaxonomyTierOneID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TaxonomyTierThreeImage_TaxonomyTierThree_TaxonomyTierThreeID">
-    <End Role="TaxonomyTierThree" Type="ProjectFirma.Web.Models.TaxonomyTierThree" Multiplicity="1" />
-    <End Role="TaxonomyTierThreeImages" Type="ProjectFirma.Web.Models.TaxonomyTierThreeImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TaxonomyTierThree">
-        <PropertyRef Name="TaxonomyTierThreeID" />
-      </Principal>
-      <Dependent Role="TaxonomyTierThreeImages">
-        <PropertyRef Name="TaxonomyTierThreeID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID">
     <End Role="TaxonomyTierThree" Type="ProjectFirma.Web.Models.TaxonomyTierThree" Multiplicity="1" />
     <End Role="TaxonomyTierTwos" Type="ProjectFirma.Web.Models.TaxonomyTierTwo" Multiplicity="*" />
@@ -3746,18 +3620,6 @@
       </Principal>
       <Dependent Role="TaxonomyTierTwos">
         <PropertyRef Name="TaxonomyTierThreeID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TaxonomyTierTwoImage_TaxonomyTierTwo_TaxonomyTierTwoID">
-    <End Role="TaxonomyTierTwo" Type="ProjectFirma.Web.Models.TaxonomyTierTwo" Multiplicity="1" />
-    <End Role="TaxonomyTierTwoImages" Type="ProjectFirma.Web.Models.TaxonomyTierTwoImage" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TaxonomyTierTwo">
-        <PropertyRef Name="TaxonomyTierTwoID" />
-      </Principal>
-      <Dependent Role="TaxonomyTierTwoImages">
-        <PropertyRef Name="TaxonomyTierTwoID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

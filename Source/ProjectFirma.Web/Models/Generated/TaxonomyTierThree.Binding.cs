@@ -23,7 +23,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected TaxonomyTierThree()
         {
-            this.TaxonomyTierThreeImages = new HashSet<TaxonomyTierThreeImage>();
             this.TaxonomyTierTwos = new HashSet<TaxonomyTierTwo>();
         }
 
@@ -68,36 +67,30 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return TaxonomyTierThreeImages.Any() || TaxonomyTierTwos.Any();
+            return TaxonomyTierTwos.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTierThree).Name, typeof(TaxonomyTierThreeImage).Name, typeof(TaxonomyTierTwo).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTierThree).Name, typeof(TaxonomyTierTwo).Name};
 
         [Key]
         public int TaxonomyTierThreeID { get; set; }
         public string TaxonomyTierThreeName { get; set; }
-        [NotMapped]
-        private string TaxonomyTierThreeDescription { get; set; }
-        public HtmlString TaxonomyTierThreeDescriptionHtmlString
-        { 
-            get { return TaxonomyTierThreeDescription == null ? null : new HtmlString(TaxonomyTierThreeDescription); }
-            set { TaxonomyTierThreeDescription = value == null ? null : value.ToString(); }
-        }
+        public string TaxonomyTierThreeDescription { get; set; }
         public string ThemeColor { get; set; }
         public string TaxonomyTierThreeCode { get; set; }
         public int TenantID { get; private set; }
         public int PrimaryKey { get { return TaxonomyTierThreeID; } set { TaxonomyTierThreeID = value; } }
 
-        public virtual ICollection<TaxonomyTierThreeImage> TaxonomyTierThreeImages { get; set; }
         public virtual ICollection<TaxonomyTierTwo> TaxonomyTierTwos { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {
             public const int TaxonomyTierThreeName = 100;
+            public const int TaxonomyTierThreeDescription = 4000;
             public const int ThemeColor = 20;
             public const int TaxonomyTierThreeCode = 10;
         }

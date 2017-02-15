@@ -473,10 +473,10 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectAssessmentQuestion">
         <MappingFragment StoreEntitySet="ProjectAssessmentQuestion">
           <ScalarProperty Name="ProjectAssessmentQuestionID" ColumnName="ProjectAssessmentQuestionID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="AssessmentQuestionID" ColumnName="AssessmentQuestionID" />
           <ScalarProperty Name="Answer" ColumnName="Answer" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -873,10 +873,10 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProjectAssessmentQuestion">
         <MappingFragment StoreEntitySet="ProposedProjectAssessmentQuestion">
           <ScalarProperty Name="ProposedProjectAssessmentQuestionID" ColumnName="ProposedProjectAssessmentQuestionID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
           <ScalarProperty Name="AssessmentQuestionID" ColumnName="AssessmentQuestionID" />
           <ScalarProperty Name="Answer" ColumnName="Answer" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -884,10 +884,10 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProjectClassification">
         <MappingFragment StoreEntitySet="ProposedProjectClassification">
           <ScalarProperty Name="ProposedProjectClassificationID" ColumnName="ProposedProjectClassificationID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
           <ScalarProperty Name="ClassificationID" ColumnName="ClassificationID" />
           <ScalarProperty Name="ProposedProjectClassificationNotes" ColumnName="ProposedProjectClassificationNotes" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1050,16 +1050,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TaxonomyTierOneImage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyTierOneImage">
-        <MappingFragment StoreEntitySet="TaxonomyTierOneImage">
-          <ScalarProperty Name="TaxonomyTierOneImageID" ColumnName="TaxonomyTierOneImageID" />
-          <ScalarProperty Name="TaxonomyTierOneID" ColumnName="TaxonomyTierOneID" />
-          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="TaxonomyTierThree">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyTierThree">
         <MappingFragment StoreEntitySet="TaxonomyTierThree">
@@ -1068,16 +1058,6 @@
           <ScalarProperty Name="TaxonomyTierThreeDescription" ColumnName="TaxonomyTierThreeDescription" />
           <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
           <ScalarProperty Name="TaxonomyTierThreeCode" ColumnName="TaxonomyTierThreeCode" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TaxonomyTierThreeImage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyTierThreeImage">
-        <MappingFragment StoreEntitySet="TaxonomyTierThreeImage">
-          <ScalarProperty Name="TaxonomyTierThreeImageID" ColumnName="TaxonomyTierThreeImageID" />
-          <ScalarProperty Name="TaxonomyTierThreeID" ColumnName="TaxonomyTierThreeID" />
-          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -1095,24 +1075,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TaxonomyTierTwoImage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyTierTwoImage">
-        <MappingFragment StoreEntitySet="TaxonomyTierTwoImage">
-          <ScalarProperty Name="TaxonomyTierTwoImageID" ColumnName="TaxonomyTierTwoImageID" />
-          <ScalarProperty Name="TaxonomyTierTwoID" ColumnName="TaxonomyTierTwoID" />
-          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="TaxonomyTierTwoPerformanceMeasure">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TaxonomyTierTwoPerformanceMeasure">
         <MappingFragment StoreEntitySet="TaxonomyTierTwoPerformanceMeasure">
           <ScalarProperty Name="TaxonomyTierTwoPerformanceMeasureID" ColumnName="TaxonomyTierTwoPerformanceMeasureID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="TaxonomyTierTwoID" ColumnName="TaxonomyTierTwoID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="IsPrimaryTaxonomyTierTwo" ColumnName="IsPrimaryTaxonomyTierTwo" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

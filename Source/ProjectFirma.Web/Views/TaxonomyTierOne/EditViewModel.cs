@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Common;
@@ -18,6 +19,10 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierOneName)]
         public string TaxonomyTierOneName { get; set; }
 
+        [StringLength(Models.TaxonomyTierOne.FieldLengths.TaxonomyTierOneDescription)]
+        [DisplayName("Description")]
+        public string TaxonomyTierOneDescription { get; set; }
+
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierTwo)]
         public int TaxonomyTierTwoID { get; set; }
@@ -33,12 +38,14 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
         {
             TaxonomyTierOneID = taxonomyTierOne.TaxonomyTierOneID;
             TaxonomyTierOneName = taxonomyTierOne.TaxonomyTierOneName;
+            TaxonomyTierOneDescription = taxonomyTierOne.TaxonomyTierOneDescription;
             TaxonomyTierTwoID = taxonomyTierOne.TaxonomyTierTwoID;
         }
 
         public void UpdateModel(Models.TaxonomyTierOne taxonomyTierOne, Person currentPerson)
         {
             taxonomyTierOne.TaxonomyTierOneName = TaxonomyTierOneName;
+            taxonomyTierOne.TaxonomyTierOneDescription = TaxonomyTierOneDescription;
             taxonomyTierOne.TaxonomyTierTwoID = TaxonomyTierTwoID;
         }
 

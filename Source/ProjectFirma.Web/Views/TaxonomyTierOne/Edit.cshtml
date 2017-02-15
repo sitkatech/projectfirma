@@ -29,6 +29,13 @@
                 }
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-sm-4 control-label">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneDescription)</div>
+            <div class="col-sm-8">
+                @Html.TextAreaWithMaxLengthFor(m => m.TaxonomyTierOneDescription, new TextAreaForExtensions.TextAreaDimensions(null, 4), null)
+                @Html.ValidationMessageFor(m => m.TaxonomyTierOneDescription)
+            </div>
+        </div>
     </div>
     @Html.HiddenFor(m => m.TaxonomyTierOneID)
 }
