@@ -21,6 +21,11 @@ REFERENCES [dbo].[PerformanceMeasure] ([PerformanceMeasureID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasureExpectedSubcategoryOptionProposed] CHECK CONSTRAINT [FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID]
 GO
+ALTER TABLE [dbo].[PerformanceMeasureExpectedSubcategoryOptionProposed]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID_TenantID] FOREIGN KEY([PerformanceMeasureID], [TenantID])
+REFERENCES [dbo].[PerformanceMeasure] ([PerformanceMeasureID], [TenantID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasureExpectedSubcategoryOptionProposed] CHECK CONSTRAINT [FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID_TenantID]
+GO
 ALTER TABLE [dbo].[PerformanceMeasureExpectedSubcategoryOptionProposed]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID] FOREIGN KEY([PerformanceMeasureExpectedProposedID])
 REFERENCES [dbo].[PerformanceMeasureExpectedProposed] ([PerformanceMeasureExpectedProposedID])
 GO
@@ -36,10 +41,20 @@ REFERENCES [dbo].[PerformanceMeasureSubcategory] ([PerformanceMeasureSubcategory
 GO
 ALTER TABLE [dbo].[PerformanceMeasureExpectedSubcategoryOptionProposed] CHECK CONSTRAINT [FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID]
 GO
+ALTER TABLE [dbo].[PerformanceMeasureExpectedSubcategoryOptionProposed]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_TenantID] FOREIGN KEY([PerformanceMeasureSubcategoryID], [TenantID])
+REFERENCES [dbo].[PerformanceMeasureSubcategory] ([PerformanceMeasureSubcategoryID], [TenantID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasureExpectedSubcategoryOptionProposed] CHECK CONSTRAINT [FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_TenantID]
+GO
 ALTER TABLE [dbo].[PerformanceMeasureExpectedSubcategoryOptionProposed]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID] FOREIGN KEY([PerformanceMeasureSubcategoryOptionID])
 REFERENCES [dbo].[PerformanceMeasureSubcategoryOption] ([PerformanceMeasureSubcategoryOptionID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasureExpectedSubcategoryOptionProposed] CHECK CONSTRAINT [FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID]
+GO
+ALTER TABLE [dbo].[PerformanceMeasureExpectedSubcategoryOptionProposed]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PMSubcategoryOptionID_TenantID] FOREIGN KEY([PerformanceMeasureSubcategoryOptionID], [TenantID])
+REFERENCES [dbo].[PerformanceMeasureSubcategoryOption] ([PerformanceMeasureSubcategoryOptionID], [TenantID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasureExpectedSubcategoryOptionProposed] CHECK CONSTRAINT [FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PMSubcategoryOptionID_TenantID]
 GO
 ALTER TABLE [dbo].[PerformanceMeasureExpectedSubcategoryOptionProposed]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureExpectedSubcategoryOptionProposed_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

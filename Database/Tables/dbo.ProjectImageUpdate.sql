@@ -25,6 +25,11 @@ REFERENCES [dbo].[FileResource] ([FileResourceID])
 GO
 ALTER TABLE [dbo].[ProjectImageUpdate] CHECK CONSTRAINT [FK_ProjectImageUpdate_FileResource_FileResourceID]
 GO
+ALTER TABLE [dbo].[ProjectImageUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImageUpdate_FileResource_FileResourceID_TenantID] FOREIGN KEY([FileResourceID], [TenantID])
+REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectImageUpdate] CHECK CONSTRAINT [FK_ProjectImageUpdate_FileResource_FileResourceID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectImageUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImageUpdate_ProjectImage_ProjectImageID] FOREIGN KEY([ProjectImageID])
 REFERENCES [dbo].[ProjectImage] ([ProjectImageID])
 GO

@@ -28,15 +28,30 @@ REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[ProposedProjectNote] CHECK CONSTRAINT [FK_ProposedProjectNote_Person_CreatePersonID_PersonID]
 GO
+ALTER TABLE [dbo].[ProposedProjectNote]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectNote_Person_CreatePersonID_TenantID_PersonID_TenantID] FOREIGN KEY([CreatePersonID], [TenantID])
+REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProposedProjectNote] CHECK CONSTRAINT [FK_ProposedProjectNote_Person_CreatePersonID_TenantID_PersonID_TenantID]
+GO
 ALTER TABLE [dbo].[ProposedProjectNote]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectNote_Person_UpdatePersonID_PersonID] FOREIGN KEY([UpdatePersonID])
 REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[ProposedProjectNote] CHECK CONSTRAINT [FK_ProposedProjectNote_Person_UpdatePersonID_PersonID]
 GO
+ALTER TABLE [dbo].[ProposedProjectNote]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectNote_Person_UpdatePersonID_TenantID_PersonID_TenantID] FOREIGN KEY([UpdatePersonID], [TenantID])
+REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProposedProjectNote] CHECK CONSTRAINT [FK_ProposedProjectNote_Person_UpdatePersonID_TenantID_PersonID_TenantID]
+GO
 ALTER TABLE [dbo].[ProposedProjectNote]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectNote_ProposedProject_ProposedProjectID] FOREIGN KEY([ProposedProjectID])
 REFERENCES [dbo].[ProposedProject] ([ProposedProjectID])
 GO
 ALTER TABLE [dbo].[ProposedProjectNote] CHECK CONSTRAINT [FK_ProposedProjectNote_ProposedProject_ProposedProjectID]
+GO
+ALTER TABLE [dbo].[ProposedProjectNote]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectNote_ProposedProject_ProposedProjectID_TenantID] FOREIGN KEY([ProposedProjectID], [TenantID])
+REFERENCES [dbo].[ProposedProject] ([ProposedProjectID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProposedProjectNote] CHECK CONSTRAINT [FK_ProposedProjectNote_ProposedProject_ProposedProjectID_TenantID]
 GO
 ALTER TABLE [dbo].[ProposedProjectNote]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectNote_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

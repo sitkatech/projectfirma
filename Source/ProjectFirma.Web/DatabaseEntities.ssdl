@@ -761,10 +761,10 @@ warning 6035: The relationship 'FK_ProposedProjectClassification_Classification_
       <PropertyRef Name="ClassificationPerformanceMeasureID" />
     </Key>
     <Property Name="ClassificationPerformanceMeasureID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ClassificationID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="IsPrimaryChart" Type="bit" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CostParameterSet">
     <Key>
@@ -806,7 +806,17 @@ warning 6035: The relationship 'FK_ProposedProjectClassification_Classification_
     <Property Name="FileResourceID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_Classification_FileResource_KeyImageFileResourceID_TenantID_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_FieldDefinitionImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_FirmaPageImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_MonitoringProgramDocument_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_Organization_FileResource_LogoFileResourceID_TenantID_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectImageUpdate_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProjectImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_TaxonomyTierOneImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_TaxonomyTierThreeImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_TaxonomyTierTwoImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="FileResource">
     <Key>
@@ -941,7 +951,12 @@ warning 6035: The relationship 'FK_NotificationProposedProject_Notification_Noti
     <Property Name="ProposedProjectID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_FundingSource_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_MonitoringProgramPartner_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_Person_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectFundingOrganization_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectImplementingOrganization_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProject_Organization_LeadImplementerOrganizationID_TenantID_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="Organization">
     <Key>
@@ -959,9 +974,21 @@ warning 6035: The relationship 'FK_MonitoringProgramPartner_Organization_Organiz
     <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureActualUpdate_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureExpected_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PerformanceMeasureMonitoringProgram_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="PerformanceMeasure">
     <Key>
@@ -1105,6 +1132,11 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionPr
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="PerformanceMeasureSubcategory">
@@ -1121,6 +1153,10 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_P
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID_Performan' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID_Ten' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID_TenantI' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategoryOption_PMSubcategoryOptionID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID_TenantI' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="PerformanceMeasureSubcategoryOption">
@@ -1135,7 +1171,22 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_P
     <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_AuditLog_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_FileResource_Person_CreatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_Notification_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_Organization_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureNote_Person_CreatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureNote_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectNote_Person_CreatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectNote_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectNoteUpdate_Person_CreatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectNoteUpdate_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectUpdateBatch_Person_LastUpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectUpdateHistory_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProject_Person_ProposingPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProject_Person_ReviewedByPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProjectNote_Person_CreatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProjectNote_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SupportRequestLog_Person_RequestPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="Person">
@@ -1162,7 +1213,24 @@ warning 6035: The relationship 'FK_SupportRequestLog_Person_RequestPersonID_Tena
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_NotificationProject_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureActual_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureExpected_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectAssessmentQuestion_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectBudget_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectClassification_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectExemptReportingYear_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectExternalLink_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectFundingOrganization_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectFundingSourceExpenditure_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectImage_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectImplementingOrganization_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectLocation_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectLocationStaging_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectNote_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectTag_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectUpdateBatch_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectWatershed_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProject_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="Project">
@@ -1557,6 +1625,13 @@ warning 6035: The relationship 'FK_ProjectUpdateHistory_ProjectUpdateBatch_Proje
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_NotificationProposedProject_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProjectClassification_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProjectImage_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProjectLocation_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProjectNote_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="ProposedProject">
     <Key>

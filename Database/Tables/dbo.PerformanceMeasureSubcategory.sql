@@ -32,6 +32,11 @@ REFERENCES [dbo].[PerformanceMeasure] ([PerformanceMeasureID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasureSubcategory] CHECK CONSTRAINT [FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID]
 GO
+ALTER TABLE [dbo].[PerformanceMeasureSubcategory]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID_TenantID] FOREIGN KEY([PerformanceMeasureID], [TenantID])
+REFERENCES [dbo].[PerformanceMeasure] ([PerformanceMeasureID], [TenantID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasureSubcategory] CHECK CONSTRAINT [FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID_TenantID]
+GO
 ALTER TABLE [dbo].[PerformanceMeasureSubcategory]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureSubcategory_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

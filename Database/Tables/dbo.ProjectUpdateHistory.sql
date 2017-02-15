@@ -21,6 +21,11 @@ REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[ProjectUpdateHistory] CHECK CONSTRAINT [FK_ProjectUpdateHistory_Person_UpdatePersonID_PersonID]
 GO
+ALTER TABLE [dbo].[ProjectUpdateHistory]  WITH CHECK ADD  CONSTRAINT [FK_ProjectUpdateHistory_Person_UpdatePersonID_TenantID_PersonID_TenantID] FOREIGN KEY([UpdatePersonID], [TenantID])
+REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectUpdateHistory] CHECK CONSTRAINT [FK_ProjectUpdateHistory_Person_UpdatePersonID_TenantID_PersonID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectUpdateHistory]  WITH CHECK ADD  CONSTRAINT [FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID] FOREIGN KEY([ProjectUpdateBatchID])
 REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID])
 GO

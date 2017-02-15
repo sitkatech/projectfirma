@@ -34,10 +34,20 @@ REFERENCES [dbo].[FileResource] ([FileResourceID])
 GO
 ALTER TABLE [dbo].[ProjectImage] CHECK CONSTRAINT [FK_ProjectImage_FileResource_FileResourceID]
 GO
+ALTER TABLE [dbo].[ProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImage_FileResource_FileResourceID_TenantID] FOREIGN KEY([FileResourceID], [TenantID])
+REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectImage] CHECK CONSTRAINT [FK_ProjectImage_FileResource_FileResourceID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImage_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])
 GO
 ALTER TABLE [dbo].[ProjectImage] CHECK CONSTRAINT [FK_ProjectImage_Project_ProjectID]
+GO
+ALTER TABLE [dbo].[ProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImage_Project_ProjectID_TenantID] FOREIGN KEY([ProjectID], [TenantID])
+REFERENCES [dbo].[Project] ([ProjectID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectImage] CHECK CONSTRAINT [FK_ProjectImage_Project_ProjectID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImage_ProjectImageTiming_ProjectImageTimingID] FOREIGN KEY([ProjectImageTimingID])
 REFERENCES [dbo].[ProjectImageTiming] ([ProjectImageTimingID])

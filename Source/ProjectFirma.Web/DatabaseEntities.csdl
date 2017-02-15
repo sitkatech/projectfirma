@@ -757,10 +757,10 @@
       <PropertyRef Name="ClassificationPerformanceMeasureID" />
     </Key>
     <Property Name="ClassificationPerformanceMeasureID" Type="Int32" Nullable="false" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ClassificationID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="IsPrimaryChart" Type="Boolean" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Classification" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_Classification_ClassificationID" FromRole="ClassificationPerformanceMeasures" ToRole="Classification" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="ClassificationPerformanceMeasures" ToRole="PerformanceMeasure" />
   </EntityType>

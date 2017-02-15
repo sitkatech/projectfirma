@@ -38,6 +38,11 @@ REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[FileResource] CHECK CONSTRAINT [FK_FileResource_Person_CreatePersonID_PersonID]
 GO
+ALTER TABLE [dbo].[FileResource]  WITH CHECK ADD  CONSTRAINT [FK_FileResource_Person_CreatePersonID_TenantID_PersonID_TenantID] FOREIGN KEY([CreatePersonID], [TenantID])
+REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+ALTER TABLE [dbo].[FileResource] CHECK CONSTRAINT [FK_FileResource_Person_CreatePersonID_TenantID_PersonID_TenantID]
+GO
 ALTER TABLE [dbo].[FileResource]  WITH CHECK ADD  CONSTRAINT [FK_FileResource_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

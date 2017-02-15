@@ -24,6 +24,11 @@ REFERENCES [dbo].[FileResource] ([FileResourceID])
 GO
 ALTER TABLE [dbo].[TaxonomyTierThreeImage] CHECK CONSTRAINT [FK_TaxonomyTierThreeImage_FileResource_FileResourceID]
 GO
+ALTER TABLE [dbo].[TaxonomyTierThreeImage]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierThreeImage_FileResource_FileResourceID_TenantID] FOREIGN KEY([FileResourceID], [TenantID])
+REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+GO
+ALTER TABLE [dbo].[TaxonomyTierThreeImage] CHECK CONSTRAINT [FK_TaxonomyTierThreeImage_FileResource_FileResourceID_TenantID]
+GO
 ALTER TABLE [dbo].[TaxonomyTierThreeImage]  WITH CHECK ADD  CONSTRAINT [FK_TaxonomyTierThreeImage_TaxonomyTierThree_TaxonomyTierThreeID] FOREIGN KEY([TaxonomyTierThreeID])
 REFERENCES [dbo].[TaxonomyTierThree] ([TaxonomyTierThreeID])
 GO

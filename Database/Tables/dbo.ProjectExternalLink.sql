@@ -20,6 +20,11 @@ REFERENCES [dbo].[Project] ([ProjectID])
 GO
 ALTER TABLE [dbo].[ProjectExternalLink] CHECK CONSTRAINT [FK_ProjectExternalLink_Project_ProjectID]
 GO
+ALTER TABLE [dbo].[ProjectExternalLink]  WITH CHECK ADD  CONSTRAINT [FK_ProjectExternalLink_Project_ProjectID_TenantID] FOREIGN KEY([ProjectID], [TenantID])
+REFERENCES [dbo].[Project] ([ProjectID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectExternalLink] CHECK CONSTRAINT [FK_ProjectExternalLink_Project_ProjectID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectExternalLink]  WITH CHECK ADD  CONSTRAINT [FK_ProjectExternalLink_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

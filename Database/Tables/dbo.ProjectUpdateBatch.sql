@@ -45,10 +45,20 @@ REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[ProjectUpdateBatch] CHECK CONSTRAINT [FK_ProjectUpdateBatch_Person_LastUpdatePersonID_PersonID]
 GO
+ALTER TABLE [dbo].[ProjectUpdateBatch]  WITH CHECK ADD  CONSTRAINT [FK_ProjectUpdateBatch_Person_LastUpdatePersonID_TenantID_PersonID_TenantID] FOREIGN KEY([LastUpdatePersonID], [TenantID])
+REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectUpdateBatch] CHECK CONSTRAINT [FK_ProjectUpdateBatch_Person_LastUpdatePersonID_TenantID_PersonID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectUpdateBatch]  WITH CHECK ADD  CONSTRAINT [FK_ProjectUpdateBatch_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])
 GO
 ALTER TABLE [dbo].[ProjectUpdateBatch] CHECK CONSTRAINT [FK_ProjectUpdateBatch_Project_ProjectID]
+GO
+ALTER TABLE [dbo].[ProjectUpdateBatch]  WITH CHECK ADD  CONSTRAINT [FK_ProjectUpdateBatch_Project_ProjectID_TenantID] FOREIGN KEY([ProjectID], [TenantID])
+REFERENCES [dbo].[Project] ([ProjectID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectUpdateBatch] CHECK CONSTRAINT [FK_ProjectUpdateBatch_Project_ProjectID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectUpdateBatch]  WITH CHECK ADD  CONSTRAINT [FK_ProjectUpdateBatch_ProjectUpdateState_ProjectUpdateStateID] FOREIGN KEY([ProjectUpdateStateID])
 REFERENCES [dbo].[ProjectUpdateState] ([ProjectUpdateStateID])

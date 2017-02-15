@@ -31,6 +31,11 @@ REFERENCES [dbo].[PerformanceMeasure] ([PerformanceMeasureID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasureActualUpdate] CHECK CONSTRAINT [FK_PerformanceMeasureActualUpdate_PerformanceMeasure_PerformanceMeasureID]
 GO
+ALTER TABLE [dbo].[PerformanceMeasureActualUpdate]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActualUpdate_PerformanceMeasure_PerformanceMeasureID_TenantID] FOREIGN KEY([PerformanceMeasureID], [TenantID])
+REFERENCES [dbo].[PerformanceMeasure] ([PerformanceMeasureID], [TenantID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasureActualUpdate] CHECK CONSTRAINT [FK_PerformanceMeasureActualUpdate_PerformanceMeasure_PerformanceMeasureID_TenantID]
+GO
 ALTER TABLE [dbo].[PerformanceMeasureActualUpdate]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActualUpdate_ProjectUpdateBatch_ProjectUpdateBatchID] FOREIGN KEY([ProjectUpdateBatchID])
 REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID])
 GO

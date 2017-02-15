@@ -33,6 +33,11 @@ REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[AuditLog] CHECK CONSTRAINT [FK_AuditLog_Person_PersonID]
 GO
+ALTER TABLE [dbo].[AuditLog]  WITH CHECK ADD  CONSTRAINT [FK_AuditLog_Person_PersonID_TenantID] FOREIGN KEY([PersonID], [TenantID])
+REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+ALTER TABLE [dbo].[AuditLog] CHECK CONSTRAINT [FK_AuditLog_Person_PersonID_TenantID]
+GO
 ALTER TABLE [dbo].[AuditLog]  WITH CHECK ADD  CONSTRAINT [FK_AuditLog_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

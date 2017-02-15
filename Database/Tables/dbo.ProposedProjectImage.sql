@@ -21,10 +21,20 @@ REFERENCES [dbo].[FileResource] ([FileResourceID])
 GO
 ALTER TABLE [dbo].[ProposedProjectImage] CHECK CONSTRAINT [FK_ProposedProjectImage_FileResource_FileResourceID]
 GO
+ALTER TABLE [dbo].[ProposedProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectImage_FileResource_FileResourceID_TenantID] FOREIGN KEY([FileResourceID], [TenantID])
+REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProposedProjectImage] CHECK CONSTRAINT [FK_ProposedProjectImage_FileResource_FileResourceID_TenantID]
+GO
 ALTER TABLE [dbo].[ProposedProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectImage_ProposedProject_ProposedProjectID] FOREIGN KEY([ProposedProjectID])
 REFERENCES [dbo].[ProposedProject] ([ProposedProjectID])
 GO
 ALTER TABLE [dbo].[ProposedProjectImage] CHECK CONSTRAINT [FK_ProposedProjectImage_ProposedProject_ProposedProjectID]
+GO
+ALTER TABLE [dbo].[ProposedProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectImage_ProposedProject_ProposedProjectID_TenantID] FOREIGN KEY([ProposedProjectID], [TenantID])
+REFERENCES [dbo].[ProposedProject] ([ProposedProjectID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProposedProjectImage] CHECK CONSTRAINT [FK_ProposedProjectImage_ProposedProject_ProposedProjectID_TenantID]
 GO
 ALTER TABLE [dbo].[ProposedProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectImage_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

@@ -43,10 +43,20 @@ REFERENCES [dbo].[FileResource] ([FileResourceID])
 GO
 ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_FileResource_LogoFileResourceID_FileResourceID]
 GO
+ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_FileResource_LogoFileResourceID_TenantID_FileResourceID_TenantID] FOREIGN KEY([LogoFileResourceID], [TenantID])
+REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+GO
+ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_FileResource_LogoFileResourceID_TenantID_FileResourceID_TenantID]
+GO
 ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_Person_PrimaryContactPersonID_PersonID] FOREIGN KEY([PrimaryContactPersonID])
 REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_Person_PrimaryContactPersonID_PersonID]
+GO
+ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID] FOREIGN KEY([PrimaryContactPersonID], [TenantID])
+REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID]
 GO
 ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_Sector_SectorID] FOREIGN KEY([SectorID])
 REFERENCES [dbo].[Sector] ([SectorID])

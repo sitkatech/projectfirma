@@ -94,15 +94,15 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ClassificationPerformanceMeasureID { get; set; }
+        public int TenantID { get; private set; }
         public int ClassificationID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public bool IsPrimaryChart { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ClassificationPerformanceMeasureID; } set { ClassificationPerformanceMeasureID = value; } }
 
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Classification Classification { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

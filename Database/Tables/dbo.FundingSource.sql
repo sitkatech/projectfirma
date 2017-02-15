@@ -31,6 +31,11 @@ REFERENCES [dbo].[Organization] ([OrganizationID])
 GO
 ALTER TABLE [dbo].[FundingSource] CHECK CONSTRAINT [FK_FundingSource_Organization_OrganizationID]
 GO
+ALTER TABLE [dbo].[FundingSource]  WITH CHECK ADD  CONSTRAINT [FK_FundingSource_Organization_OrganizationID_TenantID] FOREIGN KEY([OrganizationID], [TenantID])
+REFERENCES [dbo].[Organization] ([OrganizationID], [TenantID])
+GO
+ALTER TABLE [dbo].[FundingSource] CHECK CONSTRAINT [FK_FundingSource_Organization_OrganizationID_TenantID]
+GO
 ALTER TABLE [dbo].[FundingSource]  WITH CHECK ADD  CONSTRAINT [FK_FundingSource_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

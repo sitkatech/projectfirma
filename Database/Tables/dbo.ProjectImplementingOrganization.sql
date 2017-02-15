@@ -25,10 +25,20 @@ REFERENCES [dbo].[Organization] ([OrganizationID])
 GO
 ALTER TABLE [dbo].[ProjectImplementingOrganization] CHECK CONSTRAINT [FK_ProjectImplementingOrganization_Organization_OrganizationID]
 GO
+ALTER TABLE [dbo].[ProjectImplementingOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImplementingOrganization_Organization_OrganizationID_TenantID] FOREIGN KEY([OrganizationID], [TenantID])
+REFERENCES [dbo].[Organization] ([OrganizationID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectImplementingOrganization] CHECK CONSTRAINT [FK_ProjectImplementingOrganization_Organization_OrganizationID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectImplementingOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImplementingOrganization_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])
 GO
 ALTER TABLE [dbo].[ProjectImplementingOrganization] CHECK CONSTRAINT [FK_ProjectImplementingOrganization_Project_ProjectID]
+GO
+ALTER TABLE [dbo].[ProjectImplementingOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImplementingOrganization_Project_ProjectID_TenantID] FOREIGN KEY([ProjectID], [TenantID])
+REFERENCES [dbo].[Project] ([ProjectID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectImplementingOrganization] CHECK CONSTRAINT [FK_ProjectImplementingOrganization_Project_ProjectID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectImplementingOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImplementingOrganization_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

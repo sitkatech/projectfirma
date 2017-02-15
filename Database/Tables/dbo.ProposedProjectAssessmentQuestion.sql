@@ -35,6 +35,11 @@ REFERENCES [dbo].[ProposedProject] ([ProposedProjectID])
 GO
 ALTER TABLE [dbo].[ProposedProjectAssessmentQuestion] CHECK CONSTRAINT [FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID]
 GO
+ALTER TABLE [dbo].[ProposedProjectAssessmentQuestion]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID_TenantID] FOREIGN KEY([ProposedProjectID], [TenantID])
+REFERENCES [dbo].[ProposedProject] ([ProposedProjectID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProposedProjectAssessmentQuestion] CHECK CONSTRAINT [FK_ProposedProjectAssessmentQuestion_ProposedProject_ProposedProjectID_TenantID]
+GO
 ALTER TABLE [dbo].[ProposedProjectAssessmentQuestion]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectAssessmentQuestion_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

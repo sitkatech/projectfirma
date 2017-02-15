@@ -242,15 +242,6 @@ from information_schema.key_column_usage kcu
 group by tc.table_schema, tc.table_name, tc.constraint_schema, tc.constraint_name, tc.constraint_type
 having count(*) = 1
 
-
-if object_id('tempdb.dbo.#pk') is not null drop table #pk;
-select  kcu.table_schema, kcu.table_name, kcu.column_name
-into #pk
-from information_schema.key_column_usage kcu
-     join #SingleColumnKeyConstraints pk on kcu.constraint_schema = pk.constraint_schema and kcu.constraint_name = pk.constraint_name
-where pk.CONSTRAINT_TYPE = 'PRIMARY KEY'
-
-
 if object_id('tempdb.dbo.#fk') is not null drop table #fk;
 select  kcu.table_schema, kcu.table_name, kcu.column_name,  ftc.constraint_schema as foreign_table_schema, ftc.table_name as foreign_table_name, fccu.COLUMN_NAME as foreign_column_name
 into #fk
@@ -269,15 +260,12 @@ select t.table_schema,
 into #tenantIDTables
 from information_schema.columns c
      join information_schema.tables t on c.table_schema = t.table_schema and c.table_name = t.table_name
-     join #pk on c.table_schema = #pk.table_schema and c.table_name = #pk.table_name and c.column_name = #pk.column_name
-     left join #fk on c.table_schema = #fk.table_schema and c.table_name = #fk.table_name and #fk.COLUMN_NAME = 'TenantID'
+     join #fk on c.table_schema = #fk.table_schema and c.table_name = #fk.table_name and #fk.COLUMN_NAME = 'TenantID'
 where t.table_type = 'BASE TABLE'
 AND OBJECTPROPERTY(OBJECT_ID( QUOTENAME(t.TABLE_SCHEMA) + N'.' + QUOTENAME(t.TABLE_NAME)), 'IsMSShipped') = 0 --Filter out Microsoft tables like sysdiagrams
 and t.table_name not in ('geometry_columns', 'spatial_ref_sys', 'sysdiagrams')
-and #fk.COLUMN_NAME is not null
 order by t.table_schema, t.table_name, c.ordinal_position
 
-if object_id('tempdb.dbo.#tablesWithDualKeyWithTenantID') is not null drop table #tablesWithDualKeyWithTenantID;
 select 
     rts.name as ParentTableSchemaName,
     rt.name as ParentTableName,
@@ -286,8 +274,8 @@ select
     pt.Name ChildTableName,
     pc.Name ChildKeyColumnName,
     pc.is_nullable as ChildKeyColumnIsNullable,
-    fk.name as KeyName
-into #tablesWithDualKeyWithTenantID
+    ttdk.KeyName,
+    concat('alter table ', pts.name, '.', pt.name, ' add constraint FK_', pt.name, '_', rt.name, '_', pc.name + '_TenantID foreign key (', pc.name, ', TenantID) references ', rts.name, '.', rt.name, '(', rc.name, ', TenantID)') as ForeignKeySql
 from sys.foreign_keys		 fk
 join sys.tables				 pt		on pt.object_id = fk.parent_object_id
 join sys.schemas             pts    on pt.schema_id = pts.schema_id
@@ -295,30 +283,76 @@ join sys.tables				 rt		on rt.object_id = fk.referenced_object_id
 join sys.schemas             rts    on rt.schema_id = rts.schema_id
 join sys.foreign_key_columns fkc	on fkc.constraint_object_id = fk.object_id
 join sys.columns			 rc		on rc.object_id = fkc.referenced_object_id and rc.column_id = fkc.referenced_column_id
-join sys.columns			 pc		on pc.object_id = fkc.parent_object_id and pc.column_id = fkc.parent_column_id
-where rc.Name = 'TenantID' and rt.name != 'Tenant'
-order by pt.Name, pc.column_id, pc.Name, rt.name, rc.name
+join sys.columns			 pc		on pc.object_id = fkc.parent_object_id and pc.column_id = fkc.parent_column_id--
+join
+(	
+    -- Only do this for single-column foreign keys
+    select constraint_object_id
+    from sys.foreign_key_columns
+    group by constraint_object_id
+    having COUNT(*) = 1
+) SingleColumnKey on SingleColumnKey.constraint_object_id = fk.object_id
+join #tenantIDTables tt on rts.name = tt.TABLE_SCHEMA and rt.name = tt.TABLE_NAME and rc.name = tt.COLUMN_NAME
+left join
+(
+    select 
+        rts.name as ParentTableSchemaName,
+        rt.name as ParentTableName,
+        rc.Name ParentKeyColumnName,
+        pts.name as ChildTableSchemaName,
+        pt.Name ChildTableName,
+        pc.Name ChildKeyColumnName,
+        pc.is_nullable as ChildKeyColumnIsNullable,
+        fk.name as KeyName
+    from sys.foreign_keys		 fk
+    join sys.tables				 pt		on pt.object_id = fk.parent_object_id
+    join sys.schemas             pts    on pt.schema_id = pts.schema_id
+    join sys.tables				 rt		on rt.object_id = fk.referenced_object_id
+    join sys.schemas             rts    on rt.schema_id = rts.schema_id
+    join sys.foreign_key_columns fkc on fkc.constraint_object_id = fk.object_id
+    join sys.columns			 rc		on rc.object_id = fkc.referenced_object_id and rc.column_id = fkc.referenced_column_id
+    join sys.columns			 pc		on pc.object_id = fkc.parent_object_id and pc.column_id = fkc.parent_column_id
+    join
+    (
+        select fkc.constraint_object_id
+        from sys.foreign_key_columns fkc
+        join sys.columns			 rc		on rc.object_id = fkc.referenced_object_id and rc.column_id = fkc.referenced_column_id
+        join
+        (
+            select fkc.constraint_object_id
+            from sys.foreign_key_columns fkc
+            join sys.columns			 rc		on rc.object_id = fkc.referenced_object_id and rc.column_id = fkc.referenced_column_id
+            join sys.columns			 pc		on pc.object_id = fkc.parent_object_id and pc.column_id = fkc.parent_column_id
+            group by constraint_object_id
+            having COUNT(*) = 2
+        ) doublefks on fkc.constraint_object_id = doublefks.constraint_object_id
+        where rc.name = 'TenantID'
+    ) fkswithTenantID on fkc.constraint_object_id = fkswithTenantID.constraint_object_id
+    where rc.name != 'TenantID'
+) ttdk on pts.name = ttdk.ChildTableSchemaName and pt.name = ttdk.ChildTableName and pc.name = ttdk.ChildKeyColumnName
 
---select * from #tenantIDTables
---select * from #tablesWithDualKeyWithTenantID
+where rt.name != 'Tenant' and ttdk.KeyName is null
+order by pt.Name, rt.name";
+            Approvals.Verify(ExecAdHocSql(sql).TableToHumanReadableString());
+        }
 
+        [Test]
+        [Ignore]
+        [UseReporter(typeof(DiffReporter))]
+        public void AssureThatTenantIDIsAlwaysTheSecondColumn()
+        {
+            const string sql = @"
 select t.table_schema,
     t.table_name,
     c.column_name,
-    cast(case when c.Is_Nullable = 'YES' then 1 else 0 end as bit) as IsNullable,
     c.Data_type,
-    #fk.foreign_table_schema,
-    #fk.foreign_table_name,
-	#fk.foreign_column_name,
-    ttdk.KeyName
+    c.ORDINAL_POSITION
 from information_schema.columns c
      join information_schema.tables t on c.table_schema = t.table_schema and c.table_name = t.table_name
-     join #fk on c.table_schema = #fk.table_schema and c.table_name = #fk.table_name and c.column_name = #fk.column_name
-     join #tenantIDTables tt on #fk.foreign_table_schema = tt.TABLE_SCHEMA and #fk.foreign_table_name = tt.TABLE_NAME and #fk.foreign_column_name = tt.COLUMN_NAME
-     left join #tablesWithDualKeyWithTenantID ttdk on tt.TABLE_NAME = ttdk.ParentTableName
-where t.table_type = 'BASE TABLE' and ttdk.KeyName is null
+where t.table_type = 'BASE TABLE' and c.COLUMN_NAME = 'TenantID'
 AND OBJECTPROPERTY(OBJECT_ID( QUOTENAME(t.TABLE_SCHEMA) + N'.' + QUOTENAME(t.TABLE_NAME)), 'IsMSShipped') = 0 --Filter out Microsoft tables like sysdiagrams
-and t.table_name not in ('geometry_columns', 'spatial_ref_sys', 'sysdiagrams')
+and t.table_name not in ('geometry_columns', 'spatial_ref_sys', 'sysdiagrams', 'Tenant')
+and c.ORDINAL_POSITION != 2
 order by t.table_schema, t.table_name, c.ordinal_position";
             Approvals.Verify(ExecAdHocSql(sql).TableToHumanReadableString());
         }

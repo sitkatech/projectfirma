@@ -72,10 +72,10 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ClassificationPerformanceMeasure">
         <MappingFragment StoreEntitySet="ClassificationPerformanceMeasure">
           <ScalarProperty Name="ClassificationPerformanceMeasureID" ColumnName="ClassificationPerformanceMeasureID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ClassificationID" ColumnName="ClassificationID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="IsPrimaryChart" ColumnName="IsPrimaryChart" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

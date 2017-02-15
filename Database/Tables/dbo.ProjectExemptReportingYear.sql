@@ -24,6 +24,11 @@ REFERENCES [dbo].[Project] ([ProjectID])
 GO
 ALTER TABLE [dbo].[ProjectExemptReportingYear] CHECK CONSTRAINT [FK_ProjectExemptReportingYear_Project_ProjectID]
 GO
+ALTER TABLE [dbo].[ProjectExemptReportingYear]  WITH CHECK ADD  CONSTRAINT [FK_ProjectExemptReportingYear_Project_ProjectID_TenantID] FOREIGN KEY([ProjectID], [TenantID])
+REFERENCES [dbo].[Project] ([ProjectID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectExemptReportingYear] CHECK CONSTRAINT [FK_ProjectExemptReportingYear_Project_ProjectID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectExemptReportingYear]  WITH CHECK ADD  CONSTRAINT [FK_ProjectExemptReportingYear_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

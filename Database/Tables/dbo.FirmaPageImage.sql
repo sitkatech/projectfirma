@@ -24,6 +24,11 @@ REFERENCES [dbo].[FileResource] ([FileResourceID])
 GO
 ALTER TABLE [dbo].[FirmaPageImage] CHECK CONSTRAINT [FK_FirmaPageImage_FileResource_FileResourceID]
 GO
+ALTER TABLE [dbo].[FirmaPageImage]  WITH CHECK ADD  CONSTRAINT [FK_FirmaPageImage_FileResource_FileResourceID_TenantID] FOREIGN KEY([FileResourceID], [TenantID])
+REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+GO
+ALTER TABLE [dbo].[FirmaPageImage] CHECK CONSTRAINT [FK_FirmaPageImage_FileResource_FileResourceID_TenantID]
+GO
 ALTER TABLE [dbo].[FirmaPageImage]  WITH CHECK ADD  CONSTRAINT [FK_FirmaPageImage_FirmaPage_FirmaPageID] FOREIGN KEY([FirmaPageID])
 REFERENCES [dbo].[FirmaPage] ([FirmaPageID])
 GO

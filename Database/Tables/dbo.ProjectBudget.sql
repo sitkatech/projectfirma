@@ -39,6 +39,11 @@ REFERENCES [dbo].[Project] ([ProjectID])
 GO
 ALTER TABLE [dbo].[ProjectBudget] CHECK CONSTRAINT [FK_ProjectBudget_Project_ProjectID]
 GO
+ALTER TABLE [dbo].[ProjectBudget]  WITH CHECK ADD  CONSTRAINT [FK_ProjectBudget_Project_ProjectID_TenantID] FOREIGN KEY([ProjectID], [TenantID])
+REFERENCES [dbo].[Project] ([ProjectID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectBudget] CHECK CONSTRAINT [FK_ProjectBudget_Project_ProjectID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectBudget]  WITH CHECK ADD  CONSTRAINT [FK_ProjectBudget_ProjectCostType_ProjectCostTypeID] FOREIGN KEY([ProjectCostTypeID])
 REFERENCES [dbo].[ProjectCostType] ([ProjectCostTypeID])
 GO

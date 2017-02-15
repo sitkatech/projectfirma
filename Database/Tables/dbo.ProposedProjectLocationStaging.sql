@@ -29,6 +29,11 @@ REFERENCES [dbo].[ProposedProject] ([ProposedProjectID])
 GO
 ALTER TABLE [dbo].[ProposedProjectLocationStaging] CHECK CONSTRAINT [FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID]
 GO
+ALTER TABLE [dbo].[ProposedProjectLocationStaging]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID_TenantID] FOREIGN KEY([ProposedProjectID], [TenantID])
+REFERENCES [dbo].[ProposedProject] ([ProposedProjectID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProposedProjectLocationStaging] CHECK CONSTRAINT [FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID_TenantID]
+GO
 ALTER TABLE [dbo].[ProposedProjectLocationStaging]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProjectLocationStaging_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

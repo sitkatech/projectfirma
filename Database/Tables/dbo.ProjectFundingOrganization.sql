@@ -24,10 +24,20 @@ REFERENCES [dbo].[Organization] ([OrganizationID])
 GO
 ALTER TABLE [dbo].[ProjectFundingOrganization] CHECK CONSTRAINT [FK_ProjectFundingOrganization_Organization_OrganizationID]
 GO
+ALTER TABLE [dbo].[ProjectFundingOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingOrganization_Organization_OrganizationID_TenantID] FOREIGN KEY([OrganizationID], [TenantID])
+REFERENCES [dbo].[Organization] ([OrganizationID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectFundingOrganization] CHECK CONSTRAINT [FK_ProjectFundingOrganization_Organization_OrganizationID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectFundingOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingOrganization_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])
 GO
 ALTER TABLE [dbo].[ProjectFundingOrganization] CHECK CONSTRAINT [FK_ProjectFundingOrganization_Project_ProjectID]
+GO
+ALTER TABLE [dbo].[ProjectFundingOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingOrganization_Project_ProjectID_TenantID] FOREIGN KEY([ProjectID], [TenantID])
+REFERENCES [dbo].[Project] ([ProjectID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectFundingOrganization] CHECK CONSTRAINT [FK_ProjectFundingOrganization_Project_ProjectID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectFundingOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingOrganization_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

@@ -30,10 +30,20 @@ REFERENCES [dbo].[PerformanceMeasure] ([PerformanceMeasureID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasureExpectedProposed] CHECK CONSTRAINT [FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID]
 GO
+ALTER TABLE [dbo].[PerformanceMeasureExpectedProposed]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID_TenantID] FOREIGN KEY([PerformanceMeasureID], [TenantID])
+REFERENCES [dbo].[PerformanceMeasure] ([PerformanceMeasureID], [TenantID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasureExpectedProposed] CHECK CONSTRAINT [FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID_TenantID]
+GO
 ALTER TABLE [dbo].[PerformanceMeasureExpectedProposed]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID] FOREIGN KEY([ProposedProjectID])
 REFERENCES [dbo].[ProposedProject] ([ProposedProjectID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasureExpectedProposed] CHECK CONSTRAINT [FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID]
+GO
+ALTER TABLE [dbo].[PerformanceMeasureExpectedProposed]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID_TenantID] FOREIGN KEY([ProposedProjectID], [TenantID])
+REFERENCES [dbo].[ProposedProject] ([ProposedProjectID], [TenantID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasureExpectedProposed] CHECK CONSTRAINT [FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID_TenantID]
 GO
 ALTER TABLE [dbo].[PerformanceMeasureExpectedProposed]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureExpectedProposed_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
