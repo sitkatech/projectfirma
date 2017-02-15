@@ -89,13 +89,13 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectExemptReportingYearUpdateID { get; set; }
+        public int TenantID { get; private set; }
         public int ProjectUpdateBatchID { get; set; }
         public int CalendarYear { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProjectExemptReportingYearUpdateID; } set { ProjectExemptReportingYearUpdateID = value; } }
 
-        public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
 
         public static class FieldLengths
         {

@@ -91,14 +91,14 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectFundingOrganizationID { get; set; }
+        public int TenantID { get; private set; }
         public int ProjectID { get; set; }
         public int OrganizationID { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProjectFundingOrganizationID; } set { ProjectFundingOrganizationID = value; } }
 
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual Organization Organization { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

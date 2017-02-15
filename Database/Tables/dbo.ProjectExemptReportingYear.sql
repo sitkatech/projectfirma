@@ -4,9 +4,9 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ProjectExemptReportingYear](
 	[ProjectExemptReportingYearID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[ProjectID] [int] NOT NULL,
 	[CalendarYear] [int] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectExemptReportingYear_ProjectExemptReportingYearID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectExemptReportingYearID] ASC

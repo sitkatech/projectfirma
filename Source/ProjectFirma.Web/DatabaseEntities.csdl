@@ -1314,10 +1314,10 @@
       <PropertyRef Name="ProjectClassificationID" />
     </Key>
     <Property Name="ProjectClassificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="ClassificationID" Type="Int32" Nullable="false" />
     <Property Name="ProjectClassificationNotes" Type="String" MaxLength="600" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Classification" Relationship="ProjectFirma.Web.Models.FK_ProjectClassification_Classification_ClassificationID" FromRole="ProjectClassifications" ToRole="Classification" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectClassification_Project_ProjectID" FromRole="ProjectClassifications" ToRole="Project" />
   </EntityType>
@@ -1326,9 +1326,9 @@
       <PropertyRef Name="ProjectExemptReportingYearID" />
     </Key>
     <Property Name="ProjectExemptReportingYearID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="CalendarYear" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectExemptReportingYear_Project_ProjectID" FromRole="ProjectExemptReportingYears" ToRole="Project" />
   </EntityType>
   <EntityType Name="ProjectExemptReportingYearUpdate">
@@ -1336,9 +1336,9 @@
       <PropertyRef Name="ProjectExemptReportingYearUpdateID" />
     </Key>
     <Property Name="ProjectExemptReportingYearUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
     <Property Name="CalendarYear" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectExemptReportingYearUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectExemptReportingYearUpdates" ToRole="ProjectUpdateBatch" />
   </EntityType>
   <EntityType Name="ProjectExternalLink">
@@ -1368,9 +1368,9 @@
       <PropertyRef Name="ProjectFundingOrganizationID" />
     </Key>
     <Property Name="ProjectFundingOrganizationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="OrganizationID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingOrganization_Organization_OrganizationID" FromRole="ProjectFundingOrganizations" ToRole="Organization" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingOrganization_Project_ProjectID" FromRole="ProjectFundingOrganizations" ToRole="Project" />
   </EntityType>
@@ -1440,10 +1440,10 @@
       <PropertyRef Name="ProjectImplementingOrganizationID" />
     </Key>
     <Property Name="ProjectImplementingOrganizationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="OrganizationID" Type="Int32" Nullable="false" />
     <Property Name="IsLeadOrganization" Type="Boolean" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_ProjectImplementingOrganization_Organization_OrganizationID" FromRole="ProjectImplementingOrganizations" ToRole="Organization" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectImplementingOrganization_Project_ProjectID" FromRole="ProjectImplementingOrganizations" ToRole="Project" />
   </EntityType>
@@ -1674,9 +1674,9 @@
       <PropertyRef Name="ProjectWatershedID" />
     </Key>
     <Property Name="ProjectWatershedID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="WatershedID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Project_ProjectID" FromRole="ProjectWatersheds" ToRole="Project" />
     <NavigationProperty Name="Watershed" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Watershed_WatershedID" FromRole="ProjectWatersheds" ToRole="Watershed" />
   </EntityType>

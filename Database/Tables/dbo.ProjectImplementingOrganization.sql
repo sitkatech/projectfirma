@@ -4,10 +4,10 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ProjectImplementingOrganization](
 	[ProjectImplementingOrganizationID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[ProjectID] [int] NOT NULL,
 	[OrganizationID] [int] NOT NULL,
 	[IsLeadOrganization] [bit] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectImplementingOrganization_ProjectImplementingOrganizationID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectImplementingOrganizationID] ASC

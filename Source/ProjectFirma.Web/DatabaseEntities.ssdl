@@ -1296,28 +1296,28 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
       <PropertyRef Name="ProjectClassificationID" />
     </Key>
     <Property Name="ProjectClassificationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="ClassificationID" Type="int" Nullable="false" />
     <Property Name="ProjectClassificationNotes" Type="varchar" MaxLength="600" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectExemptReportingYear">
     <Key>
       <PropertyRef Name="ProjectExemptReportingYearID" />
     </Key>
     <Property Name="ProjectExemptReportingYearID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectExemptReportingYearUpdate">
     <Key>
       <PropertyRef Name="ProjectExemptReportingYearUpdateID" />
     </Key>
     <Property Name="ProjectExemptReportingYearUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectExternalLink">
     <Key>
@@ -1344,9 +1344,9 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
       <PropertyRef Name="ProjectFundingOrganizationID" />
     </Key>
     <Property Name="ProjectFundingOrganizationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="OrganizationID" Type="int" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectFundingSourceExpenditure">
     <Key>
@@ -1407,10 +1407,10 @@ warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageI
       <PropertyRef Name="ProjectImplementingOrganizationID" />
     </Key>
     <Property Name="ProjectImplementingOrganizationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="OrganizationID" Type="int" Nullable="false" />
     <Property Name="IsLeadOrganization" Type="bit" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocation">
     <Key>
@@ -1619,9 +1619,9 @@ warning 6035: The relationship 'FK_ProjectUpdateHistory_ProjectUpdateBatch_Proje
       <PropertyRef Name="ProjectWatershedID" />
     </Key>
     <Property Name="ProjectWatershedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="WatershedID" Type="int" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_NotificationProposedProject_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
