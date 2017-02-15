@@ -1432,10 +1432,10 @@
       <PropertyRef Name="ProjectLocationID" />
     </Key>
     <Property Name="ProjectLocationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="ProjectLocationGeometry" Type="Geometry" Nullable="false" />
     <Property Name="Annotation" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectLocation_Project_ProjectID" FromRole="ProjectLocations" ToRole="Project" />
   </EntityType>
   <EntityType Name="ProjectLocationArea">
@@ -1524,10 +1524,10 @@
       <PropertyRef Name="ProjectLocationUpdateID" />
     </Key>
     <Property Name="ProjectLocationUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
     <Property Name="ProjectLocationUpdateGeometry" Type="Geometry" Nullable="false" />
     <Property Name="Annotation" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectLocationUpdates" ToRole="ProjectUpdateBatch" />
   </EntityType>
   <EntityType Name="ProjectNote">
@@ -1748,10 +1748,10 @@
       <PropertyRef Name="ProposedProjectLocationID" />
     </Key>
     <Property Name="ProposedProjectLocationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
     <Property Name="ProjectLocationGeometry" Type="Geometry" Nullable="false" />
     <Property Name="Annotation" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocation_ProposedProject_ProposedProjectID" FromRole="ProposedProjectLocations" ToRole="ProposedProject" />
   </EntityType>
   <EntityType Name="ProposedProjectLocationStaging">

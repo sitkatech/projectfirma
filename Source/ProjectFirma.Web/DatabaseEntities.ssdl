@@ -1397,10 +1397,10 @@ warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageI
       <PropertyRef Name="ProjectLocationID" />
     </Key>
     <Property Name="ProjectLocationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="ProjectLocationGeometry" Type="geometry" Nullable="false" />
     <Property Name="Annotation" Type="varchar" MaxLength="255" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_Project_ProjectLocationArea_ProjectLocationAreaID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1480,10 +1480,10 @@ warning 6035: The relationship 'FK_ProjectLocationArea_ProjectLocationAreaGroup_
       <PropertyRef Name="ProjectLocationUpdateID" />
     </Key>
     <Property Name="ProjectLocationUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="ProjectLocationUpdateGeometry" Type="geometry" Nullable="false" />
     <Property Name="Annotation" Type="varchar" MaxLength="255" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectNote">
     <Key>
@@ -1679,10 +1679,10 @@ warning 6035: The relationship 'FK_ProposedProjectNote_ProposedProject_ProposedP
       <PropertyRef Name="ProposedProjectLocationID" />
     </Key>
     <Property Name="ProposedProjectLocationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProposedProjectID" Type="int" Nullable="false" />
     <Property Name="ProjectLocationGeometry" Type="geometry" Nullable="false" />
     <Property Name="Annotation" Type="varchar" MaxLength="255" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProposedProjectLocationStaging">
     <Key>

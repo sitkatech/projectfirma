@@ -639,10 +639,10 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocation">
         <MappingFragment StoreEntitySet="ProjectLocation">
           <ScalarProperty Name="ProjectLocationID" ColumnName="ProjectLocationID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="ProjectLocationGeometry" ColumnName="ProjectLocationGeometry" />
           <ScalarProperty Name="Annotation" ColumnName="Annotation" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -719,10 +719,10 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationUpdate">
         <MappingFragment StoreEntitySet="ProjectLocationUpdate">
           <ScalarProperty Name="ProjectLocationUpdateID" ColumnName="ProjectLocationUpdateID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="ProjectLocationUpdateGeometry" ColumnName="ProjectLocationUpdateGeometry" />
           <ScalarProperty Name="Annotation" ColumnName="Annotation" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -907,10 +907,10 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProjectLocation">
         <MappingFragment StoreEntitySet="ProposedProjectLocation">
           <ScalarProperty Name="ProposedProjectLocationID" ColumnName="ProposedProjectLocationID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
           <ScalarProperty Name="ProjectLocationGeometry" ColumnName="ProjectLocationGeometry" />
           <ScalarProperty Name="Annotation" ColumnName="Annotation" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

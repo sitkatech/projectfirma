@@ -4,10 +4,10 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ProposedProjectLocation](
 	[ProposedProjectLocationID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[ProposedProjectID] [int] NOT NULL,
 	[ProjectLocationGeometry] [geometry] NOT NULL,
 	[Annotation] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProposedProjectLocation_ProposedProjectLocationID] PRIMARY KEY CLUSTERED 
 (
 	[ProposedProjectLocationID] ASC

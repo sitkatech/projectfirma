@@ -90,14 +90,14 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectLocationID { get; set; }
+        public int TenantID { get; private set; }
         public int ProjectID { get; set; }
         public DbGeometry ProjectLocationGeometry { get; set; }
         public string Annotation { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProjectLocationID; } set { ProjectLocationID = value; } }
 
-        public virtual Project Project { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual Project Project { get; set; }
 
         public static class FieldLengths
         {
