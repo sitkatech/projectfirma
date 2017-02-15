@@ -691,13 +691,13 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationStaging">
         <MappingFragment StoreEntitySet="ProjectLocationStaging">
           <ScalarProperty Name="ProjectLocationStagingID" ColumnName="ProjectLocationStagingID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="PersonID" ColumnName="PersonID" />
           <ScalarProperty Name="FeatureClassName" ColumnName="FeatureClassName" />
           <ScalarProperty Name="GeoJson" ColumnName="GeoJson" />
           <ScalarProperty Name="SelectedProperty" ColumnName="SelectedProperty" />
           <ScalarProperty Name="ShouldImport" ColumnName="ShouldImport" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -705,13 +705,13 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationStagingUpdate">
         <MappingFragment StoreEntitySet="ProjectLocationStagingUpdate">
           <ScalarProperty Name="ProjectLocationStagingUpdateID" ColumnName="ProjectLocationStagingUpdateID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="PersonID" ColumnName="PersonID" />
           <ScalarProperty Name="FeatureClassName" ColumnName="FeatureClassName" />
           <ScalarProperty Name="GeoJson" ColumnName="GeoJson" />
           <ScalarProperty Name="SelectedProperty" ColumnName="SelectedProperty" />
           <ScalarProperty Name="ShouldImport" ColumnName="ShouldImport" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

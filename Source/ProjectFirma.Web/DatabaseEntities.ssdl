@@ -451,9 +451,17 @@
       <End Role="Watershed" EntitySet="Watershed" />
       <End Role="ProjectLocationAreaWatersheds" EntitySet="ProjectLocationAreaWatershed" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectLocationStaging_Person_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationStaging_Person_PersonID">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="ProjectLocationStagings" EntitySet="ProjectLocationStaging" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectLocationStaging_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationStaging_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectLocationStagings" EntitySet="ProjectLocationStaging" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectLocationStagingUpdate_Person_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationStagingUpdate_Person_PersonID">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="ProjectLocationStagingUpdates" EntitySet="ProjectLocationStagingUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectLocationStagingUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationStagingUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
@@ -1147,6 +1155,8 @@ warning 6035: The relationship 'FK_Notification_Person_PersonID_TenantID' has co
 warning 6035: The relationship 'FK_Organization_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PerformanceMeasureNote_Person_CreatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_PerformanceMeasureNote_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectLocationStaging_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectLocationStagingUpdate_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectNote_Person_CreatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectNote_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectNoteUpdate_Person_CreatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1444,26 +1454,26 @@ warning 6035: The relationship 'FK_ProjectLocationArea_ProjectLocationAreaGroup_
       <PropertyRef Name="ProjectLocationStagingID" />
     </Key>
     <Property Name="ProjectLocationStagingID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="PersonID" Type="int" Nullable="false" />
     <Property Name="FeatureClassName" Type="varchar" Nullable="false" MaxLength="255" />
     <Property Name="GeoJson" Type="varchar(max)" Nullable="false" />
     <Property Name="SelectedProperty" Type="varchar" MaxLength="255" />
     <Property Name="ShouldImport" Type="bit" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocationStagingUpdate">
     <Key>
       <PropertyRef Name="ProjectLocationStagingUpdateID" />
     </Key>
     <Property Name="ProjectLocationStagingUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="PersonID" Type="int" Nullable="false" />
     <Property Name="FeatureClassName" Type="varchar" Nullable="false" MaxLength="255" />
     <Property Name="GeoJson" Type="varchar(max)" Nullable="false" />
     <Property Name="SelectedProperty" Type="varchar" MaxLength="255" />
     <Property Name="ShouldImport" Type="bit" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocationUpdate">
     <Key>
@@ -2966,6 +2976,18 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectLocationStaging_Person_PersonID">
+    <End Role="Person" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
+    <End Role="ProjectLocationStagings" Type="ProjectFirma.Web.Models.Store.ProjectLocationStaging" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProjectLocationStagings">
+        <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectLocationStaging_Project_ProjectID">
     <End Role="Project" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="1" />
     <End Role="ProjectLocationStagings" Type="ProjectFirma.Web.Models.Store.ProjectLocationStaging" Multiplicity="*" />
@@ -2975,6 +2997,18 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Principal>
       <Dependent Role="ProjectLocationStagings">
         <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectLocationStagingUpdate_Person_PersonID">
+    <End Role="Person" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
+    <End Role="ProjectLocationStagingUpdates" Type="ProjectFirma.Web.Models.Store.ProjectLocationStagingUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProjectLocationStagingUpdates">
+        <PropertyRef Name="PersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

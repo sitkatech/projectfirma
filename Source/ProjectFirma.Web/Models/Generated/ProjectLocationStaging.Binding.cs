@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectLocationStaging(Project project, int personID, string featureClassName, string geoJson, bool shouldImport) : this()
+        public ProjectLocationStaging(Project project, Person person, string featureClassName, string geoJson, bool shouldImport) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationStagingID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -69,7 +69,9 @@ namespace ProjectFirma.Web.Models
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectLocationStagings.Add(this);
-            this.PersonID = personID;
+            this.PersonID = person.PersonID;
+            this.Person = person;
+            person.ProjectLocationStagings.Add(this);
             this.FeatureClassName = featureClassName;
             this.GeoJson = geoJson;
             this.ShouldImport = shouldImport;
@@ -78,9 +80,9 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectLocationStaging CreateNewBlank(Project project)
+        public static ProjectLocationStaging CreateNewBlank(Project project, Person person)
         {
-            return new ProjectLocationStaging(project, default(int), default(string), default(string), default(bool));
+            return new ProjectLocationStaging(project, person, default(string), default(string), default(bool));
         }
 
         /// <summary>
@@ -99,17 +101,18 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectLocationStagingID { get; set; }
+        public int TenantID { get; private set; }
         public int ProjectID { get; set; }
         public int PersonID { get; set; }
         public string FeatureClassName { get; set; }
         public string GeoJson { get; set; }
         public string SelectedProperty { get; set; }
         public bool ShouldImport { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProjectLocationStagingID; } set { ProjectLocationStagingID = value; } }
 
-        public virtual Project Project { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual Project Project { get; set; }
+        public virtual Person Person { get; set; }
 
         public static class FieldLengths
         {

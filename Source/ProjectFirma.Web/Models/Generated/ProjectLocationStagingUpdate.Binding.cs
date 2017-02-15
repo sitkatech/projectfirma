@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectLocationStagingUpdate(ProjectUpdateBatch projectUpdateBatch, int personID, string featureClassName, string geoJson, bool shouldImport) : this()
+        public ProjectLocationStagingUpdate(ProjectUpdateBatch projectUpdateBatch, Person person, string featureClassName, string geoJson, bool shouldImport) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationStagingUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -69,7 +69,9 @@ namespace ProjectFirma.Web.Models
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectLocationStagingUpdates.Add(this);
-            this.PersonID = personID;
+            this.PersonID = person.PersonID;
+            this.Person = person;
+            person.ProjectLocationStagingUpdates.Add(this);
             this.FeatureClassName = featureClassName;
             this.GeoJson = geoJson;
             this.ShouldImport = shouldImport;
@@ -78,9 +80,9 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectLocationStagingUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch)
+        public static ProjectLocationStagingUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch, Person person)
         {
-            return new ProjectLocationStagingUpdate(projectUpdateBatch, default(int), default(string), default(string), default(bool));
+            return new ProjectLocationStagingUpdate(projectUpdateBatch, person, default(string), default(string), default(bool));
         }
 
         /// <summary>
@@ -99,17 +101,18 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectLocationStagingUpdateID { get; set; }
+        public int TenantID { get; private set; }
         public int ProjectUpdateBatchID { get; set; }
         public int PersonID { get; set; }
         public string FeatureClassName { get; set; }
         public string GeoJson { get; set; }
         public string SelectedProperty { get; set; }
         public bool ShouldImport { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProjectLocationStagingUpdateID; } set { ProjectLocationStagingUpdateID = value; } }
 
-        public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
+        public virtual Person Person { get; set; }
 
         public static class FieldLengths
         {

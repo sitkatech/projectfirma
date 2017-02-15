@@ -387,6 +387,14 @@
       <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
       <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectLocationStaging_Person_PersonID" Association="ProjectFirma.Web.Models.FK_ProjectLocationStaging_Person_PersonID">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="ProjectLocationStagings" EntitySet="ProjectLocationStaging" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectLocationStagingUpdate_Person_PersonID" Association="ProjectFirma.Web.Models.FK_ProjectLocationStagingUpdate_Person_PersonID">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="ProjectLocationStagingUpdates" EntitySet="ProjectLocationStagingUpdate" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectNote_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ProjectNote_Person_CreatePersonID_PersonID">
       <End Role="CreatePerson" EntitySet="Person" />
       <End Role="ProjectNotesWhereYouAreTheCreatePerson" EntitySet="ProjectNote" />
@@ -1181,6 +1189,8 @@
     <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_Person_Organization_OrganizationID" FromRole="People" ToRole="Organization" />
     <NavigationProperty Name="PerformanceMeasureNotesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="PerformanceMeasureNotesWhereYouAreTheCreatePerson" />
     <NavigationProperty Name="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" />
+    <NavigationProperty Name="ProjectLocationStagings" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationStaging_Person_PersonID" FromRole="Person" ToRole="ProjectLocationStagings" />
+    <NavigationProperty Name="ProjectLocationStagingUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationStagingUpdate_Person_PersonID" FromRole="Person" ToRole="ProjectLocationStagingUpdates" />
     <NavigationProperty Name="ProjectNotesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNote_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="ProjectNotesWhereYouAreTheCreatePerson" />
     <NavigationProperty Name="ProjectNotesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNote_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProjectNotesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="ProjectNoteUpdatesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNoteUpdate_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="ProjectNoteUpdatesWhereYouAreTheCreatePerson" />
@@ -1484,13 +1494,14 @@
       <PropertyRef Name="ProjectLocationStagingID" />
     </Key>
     <Property Name="ProjectLocationStagingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="PersonID" Type="Int32" Nullable="false" />
     <Property Name="FeatureClassName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="GeoJson" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="SelectedProperty" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="ShouldImport" Type="Boolean" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Person" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationStaging_Person_PersonID" FromRole="ProjectLocationStagings" ToRole="Person" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationStaging_Project_ProjectID" FromRole="ProjectLocationStagings" ToRole="Project" />
   </EntityType>
   <EntityType Name="ProjectLocationStagingUpdate">
@@ -1498,13 +1509,14 @@
       <PropertyRef Name="ProjectLocationStagingUpdateID" />
     </Key>
     <Property Name="ProjectLocationStagingUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
     <Property Name="PersonID" Type="Int32" Nullable="false" />
     <Property Name="FeatureClassName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="GeoJson" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="SelectedProperty" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="ShouldImport" Type="Boolean" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Person" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationStagingUpdate_Person_PersonID" FromRole="ProjectLocationStagingUpdates" ToRole="Person" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationStagingUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectLocationStagingUpdates" ToRole="ProjectUpdateBatch" />
   </EntityType>
   <EntityType Name="ProjectLocationUpdate">
@@ -2840,6 +2852,30 @@
       </Principal>
       <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
         <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectLocationStaging_Person_PersonID">
+    <End Role="Person" Type="ProjectFirma.Web.Models.Person" Multiplicity="1" />
+    <End Role="ProjectLocationStagings" Type="ProjectFirma.Web.Models.ProjectLocationStaging" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProjectLocationStagings">
+        <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectLocationStagingUpdate_Person_PersonID">
+    <End Role="Person" Type="ProjectFirma.Web.Models.Person" Multiplicity="1" />
+    <End Role="ProjectLocationStagingUpdates" Type="ProjectFirma.Web.Models.ProjectLocationStagingUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProjectLocationStagingUpdates">
+        <PropertyRef Name="PersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
