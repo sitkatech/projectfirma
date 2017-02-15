@@ -23,6 +23,12 @@ namespace ProjectFirma.Web.Security
         {
             var userHasEditPermission = new UserEditFeature().HasPermissionByPerson(person);
             var userViewingOwnPage = person.PersonID == contextModelObject.PersonID;
+
+            //Only SitkaAdmin users should be able to see other SitkaAdmin users
+            if (person.Role != Role.SitkaAdmin && contextModelObject.Role == Role.SitkaAdmin)
+            {
+                return new PermissionCheckResult("You don\'t have permission to view this user.");
+            }
             
             if (userViewingOwnPage || userHasEditPermission)
             {

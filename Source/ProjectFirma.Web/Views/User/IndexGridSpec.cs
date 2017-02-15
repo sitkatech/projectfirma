@@ -2,13 +2,21 @@
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.User
 {
     public class IndexGridSpec : GridSpec<Person>
     {
-        public IndexGridSpec()
+        public IndexGridSpec(Person currentPerson)
         {
+            var hasDeletePermission = new UserEditFeature().HasPermissionByPerson(currentPerson);
+            if (hasDeletePermission)
+            {
+                Add(string.Empty,
+                    x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), !x.HasDependentObjects(), !x.HasDependentObjects()),
+                    30, DhtmlxGridColumnFilterType.None);
+            }
             Add("Last Name", a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.LastName), 100, DhtmlxGridColumnFilterType.Html);
             Add("First Name", a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.FirstName), 100, DhtmlxGridColumnFilterType.Html);
             Add("Email", a => a.Email, 200);

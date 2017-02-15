@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Models
 
         public string AuditDescriptionString
         {
-            get { return FullNameFirstLastAndOrg; }
+            get { return FullNameFirstLast; }
         }
 
         public Notification GetMostRecentReminder()

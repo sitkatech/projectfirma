@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Models
     /// </summary>
     public static class PersonModelExtensions
     {
-        public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<UserController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
+        
 
         public static HtmlString GetFullNameFirstLastAsUrl(this Person person)
         {
@@ -38,6 +38,13 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<UserController>.BuildUrlFromExpression(t => t.EditRoles(person));
         }
 
+        public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(SitkaRoute<UserController>.BuildUrlFromExpression(t => t.Delete(UrlTemplate.Parameter1Int)));
+        public static string GetDeleteUrl(this Person person)
+        {
+            return DeleteUrlTemplate.ParameterReplace(person.PersonID);
+        }
+
+        public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<UserController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
         public static string GetDetailUrl(this Person person)
         {
             return DetailUrlTemplate.ParameterReplace(person.PersonID);

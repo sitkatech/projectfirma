@@ -25,9 +25,9 @@ namespace ProjectFirma.Web.Controllers
 
         [UserEditFeature]
         public GridJsonNetJObjectResult<Person> IndexGridJsonData()
-        {
-            var gridSpec = new IndexGridSpec();
-            var persons = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(x => x.FullNameLastFirst).ToList();
+        {            
+            var gridSpec = new IndexGridSpec(CurrentPerson);
+            var persons = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => new UserViewFeature().HasPermission(CurrentPerson, x).HasPermission).OrderBy(x => x.FullNameLastFirst).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(persons, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -60,6 +60,40 @@ namespace ProjectFirma.Web.Controllers
             var rolesAsSelectListItems = Role.All.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture), x => x.RoleDisplayName);
             var viewData = new EditRolesViewData(rolesAsSelectListItems);
             return RazorPartialView<EditRoles, EditRolesViewData, EditRolesViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [UserEditFeature]
+        public PartialViewResult Delete(PersonPrimaryKey personPrimaryKey)
+        {
+            var person = personPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(person.PersonID);
+            return ViewDelete(person, viewModel);
+        }
+
+        private PartialViewResult ViewDelete(Person person, ConfirmDialogFormViewModel viewModel)
+        {
+            var canDelete = !person.HasDependentObjects() && person != CurrentPerson;
+            var confirmMessage = canDelete
+                ? string.Format("Are you sure you want to delete {0}?", person.FullNameFirstLastAndOrg)
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Person", SitkaRoute<UserController>.BuildLinkFromExpression(x => x.Detail(person), "here"));
+
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [UserEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Delete(PersonPrimaryKey personPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var person = personPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewDelete(person, viewModel);
+            }
+            person.DeletePerson();
+            return new ModalDialogFormJsonResult();
         }
 
         [UserViewFeature]
