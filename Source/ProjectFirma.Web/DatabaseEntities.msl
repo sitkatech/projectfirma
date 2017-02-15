@@ -541,10 +541,10 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectExternalLink">
         <MappingFragment StoreEntitySet="ProjectExternalLink">
           <ScalarProperty Name="ProjectExternalLinkID" ColumnName="ProjectExternalLinkID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="ExternalLinkLabel" ColumnName="ExternalLinkLabel" />
           <ScalarProperty Name="ExternalLinkUrl" ColumnName="ExternalLinkUrl" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -552,10 +552,10 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectExternalLinkUpdate">
         <MappingFragment StoreEntitySet="ProjectExternalLinkUpdate">
           <ScalarProperty Name="ProjectExternalLinkUpdateID" ColumnName="ProjectExternalLinkUpdateID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="ExternalLinkLabel" ColumnName="ExternalLinkLabel" />
           <ScalarProperty Name="ExternalLinkUrl" ColumnName="ExternalLinkUrl" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -730,13 +730,13 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectNote">
         <MappingFragment StoreEntitySet="ProjectNote">
           <ScalarProperty Name="ProjectNoteID" ColumnName="ProjectNoteID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="Note" ColumnName="Note" />
           <ScalarProperty Name="CreatePersonID" ColumnName="CreatePersonID" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -744,13 +744,13 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectNoteUpdate">
         <MappingFragment StoreEntitySet="ProjectNoteUpdate">
           <ScalarProperty Name="ProjectNoteUpdateID" ColumnName="ProjectNoteUpdateID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="Note" ColumnName="Note" />
           <ScalarProperty Name="CreatePersonID" ColumnName="CreatePersonID" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

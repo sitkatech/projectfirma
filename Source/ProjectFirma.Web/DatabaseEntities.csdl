@@ -1326,10 +1326,10 @@
       <PropertyRef Name="ProjectExternalLinkID" />
     </Key>
     <Property Name="ProjectExternalLinkID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="ExternalLinkLabel" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
     <Property Name="ExternalLinkUrl" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectExternalLink_Project_ProjectID" FromRole="ProjectExternalLinks" ToRole="Project" />
   </EntityType>
   <EntityType Name="ProjectExternalLinkUpdate">
@@ -1337,10 +1337,10 @@
       <PropertyRef Name="ProjectExternalLinkUpdateID" />
     </Key>
     <Property Name="ProjectExternalLinkUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
     <Property Name="ExternalLinkLabel" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
     <Property Name="ExternalLinkUrl" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectExternalLinkUpdates" ToRole="ProjectUpdateBatch" />
   </EntityType>
   <EntityType Name="ProjectFundingOrganization">
@@ -1535,13 +1535,13 @@
       <PropertyRef Name="ProjectNoteID" />
     </Key>
     <Property Name="ProjectNoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="Note" Type="String" Nullable="false" MaxLength="8000" Unicode="false" FixedLength="false" />
     <Property Name="CreatePersonID" Type="Int32" />
     <Property Name="CreateDate" Type="DateTime" Nullable="false" />
     <Property Name="UpdatePersonID" Type="Int32" />
     <Property Name="UpdateDate" Type="DateTime" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNote_Person_CreatePersonID_PersonID" FromRole="ProjectNotesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
     <NavigationProperty Name="UpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNote_Person_UpdatePersonID_PersonID" FromRole="ProjectNotesWhereYouAreTheUpdatePerson" ToRole="UpdatePerson" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectNote_Project_ProjectID" FromRole="ProjectNotes" ToRole="Project" />
@@ -1551,13 +1551,13 @@
       <PropertyRef Name="ProjectNoteUpdateID" />
     </Key>
     <Property Name="ProjectNoteUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
     <Property Name="Note" Type="String" Nullable="false" MaxLength="8000" Unicode="false" FixedLength="false" />
     <Property Name="CreatePersonID" Type="Int32" />
     <Property Name="CreateDate" Type="DateTime" Nullable="false" />
     <Property Name="UpdatePersonID" Type="Int32" />
     <Property Name="UpdateDate" Type="DateTime" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNoteUpdate_Person_CreatePersonID_PersonID" FromRole="ProjectNoteUpdatesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
     <NavigationProperty Name="UpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNoteUpdate_Person_UpdatePersonID_PersonID" FromRole="ProjectNoteUpdatesWhereYouAreTheUpdatePerson" ToRole="UpdatePerson" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectNoteUpdates" ToRole="ProjectUpdateBatch" />

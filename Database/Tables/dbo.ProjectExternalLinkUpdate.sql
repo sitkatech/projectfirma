@@ -4,10 +4,10 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ProjectExternalLinkUpdate](
 	[ProjectExternalLinkUpdateID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[ProjectUpdateBatchID] [int] NOT NULL,
 	[ExternalLinkLabel] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ExternalLinkUrl] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectExternalLinkUpdate_ProjectExternalLinkUpdateID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectExternalLinkUpdateID] ASC

@@ -95,19 +95,19 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectNoteUpdateID { get; set; }
+        public int TenantID { get; private set; }
         public int ProjectUpdateBatchID { get; set; }
         public string Note { get; set; }
         public int? CreatePersonID { get; set; }
         public DateTime CreateDate { get; set; }
         public int? UpdatePersonID { get; set; }
         public DateTime? UpdateDate { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProjectNoteUpdateID; } set { ProjectNoteUpdateID = value; } }
 
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public virtual Person CreatePerson { get; set; }
         public virtual Person UpdatePerson { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

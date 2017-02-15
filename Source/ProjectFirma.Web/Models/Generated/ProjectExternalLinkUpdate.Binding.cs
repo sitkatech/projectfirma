@@ -92,14 +92,14 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectExternalLinkUpdateID { get; set; }
+        public int TenantID { get; private set; }
         public int ProjectUpdateBatchID { get; set; }
         public string ExternalLinkLabel { get; set; }
         public string ExternalLinkUrl { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProjectExternalLinkUpdateID; } set { ProjectExternalLinkUpdateID = value; } }
 
-        public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
 
         public static class FieldLengths
         {
