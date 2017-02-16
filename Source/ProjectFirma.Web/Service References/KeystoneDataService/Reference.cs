@@ -606,26 +606,14 @@ namespace ProjectFirma.Web.KeystoneDataService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IKeystoneData/GetOrganizations", ReplyAction="http://tempuri.org/IKeystoneData/GetOrganizationsResponse")]
         ProjectFirma.Web.KeystoneDataService.Organization[] GetOrganizations(System.Guid applicationGuid);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IKeystoneData/GetOrganizations", ReplyAction="http://tempuri.org/IKeystoneData/GetOrganizationsResponse")]
-        System.Threading.Tasks.Task<ProjectFirma.Web.KeystoneDataService.Organization[]> GetOrganizationsAsync(System.Guid applicationGuid);
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IKeystoneData/GetOrganization", ReplyAction="http://tempuri.org/IKeystoneData/GetOrganizationResponse")]
         ProjectFirma.Web.KeystoneDataService.Organization GetOrganization(System.Guid organizationIdentifier);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IKeystoneData/GetOrganization", ReplyAction="http://tempuri.org/IKeystoneData/GetOrganizationResponse")]
-        System.Threading.Tasks.Task<ProjectFirma.Web.KeystoneDataService.Organization> GetOrganizationAsync(System.Guid organizationIdentifier);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IKeystoneData/GetUserProfile", ReplyAction="http://tempuri.org/IKeystoneData/GetUserProfileResponse")]
         ProjectFirma.Web.KeystoneDataService.UserProfile GetUserProfile(System.Guid userIdentifier);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IKeystoneData/GetUserProfile", ReplyAction="http://tempuri.org/IKeystoneData/GetUserProfileResponse")]
-        System.Threading.Tasks.Task<ProjectFirma.Web.KeystoneDataService.UserProfile> GetUserProfileAsync(System.Guid userIdentifier);
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IKeystoneData/GetUserProfileByUsername", ReplyAction="http://tempuri.org/IKeystoneData/GetUserProfileByUsernameResponse")]
         ProjectFirma.Web.KeystoneDataService.UserProfile GetUserProfileByUsername(System.Guid applicationGuid, string username);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IKeystoneData/GetUserProfileByUsername", ReplyAction="http://tempuri.org/IKeystoneData/GetUserProfileByUsernameResponse")]
-        System.Threading.Tasks.Task<ProjectFirma.Web.KeystoneDataService.UserProfile> GetUserProfileByUsernameAsync(System.Guid applicationGuid, string username);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -659,32 +647,16 @@ namespace ProjectFirma.Web.KeystoneDataService {
             return base.Channel.GetOrganizations(applicationGuid);
         }
         
-        public System.Threading.Tasks.Task<ProjectFirma.Web.KeystoneDataService.Organization[]> GetOrganizationsAsync(System.Guid applicationGuid) {
-            return base.Channel.GetOrganizationsAsync(applicationGuid);
-        }
-        
         public ProjectFirma.Web.KeystoneDataService.Organization GetOrganization(System.Guid organizationIdentifier) {
             return base.Channel.GetOrganization(organizationIdentifier);
-        }
-        
-        public System.Threading.Tasks.Task<ProjectFirma.Web.KeystoneDataService.Organization> GetOrganizationAsync(System.Guid organizationIdentifier) {
-            return base.Channel.GetOrganizationAsync(organizationIdentifier);
         }
         
         public ProjectFirma.Web.KeystoneDataService.UserProfile GetUserProfile(System.Guid userIdentifier) {
             return base.Channel.GetUserProfile(userIdentifier);
         }
         
-        public System.Threading.Tasks.Task<ProjectFirma.Web.KeystoneDataService.UserProfile> GetUserProfileAsync(System.Guid userIdentifier) {
-            return base.Channel.GetUserProfileAsync(userIdentifier);
-        }
-        
         public ProjectFirma.Web.KeystoneDataService.UserProfile GetUserProfileByUsername(System.Guid applicationGuid, string username) {
             return base.Channel.GetUserProfileByUsername(applicationGuid, username);
-        }
-        
-        public System.Threading.Tasks.Task<ProjectFirma.Web.KeystoneDataService.UserProfile> GetUserProfileByUsernameAsync(System.Guid applicationGuid, string username) {
-            return base.Channel.GetUserProfileByUsernameAsync(applicationGuid, username);
         }
     }
 }

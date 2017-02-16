@@ -226,15 +226,11 @@ namespace ProjectFirma.Web.Controllers
 
             var keystoneClient = new KeystoneDataClient("WSHttpBinding_IKeystoneData");
 
-            UserProfile keystoneUser = null;
-            try
-            {
-                keystoneUser = keystoneClient.GetUserProfileByUsername(FirmaWebConfiguration.KeystoneWebServiceApplicationGuid, viewModel.LoginName);
-            }
-            catch (Exception)
+            UserProfile keystoneUser = keystoneClient.GetUserProfileByUsername(FirmaWebConfiguration.KeystoneWebServiceApplicationGuid, viewModel.LoginName);
+            if (keystoneUser == null)
             {
                 SetErrorForDisplay("Person not added. The User Name was not found in Keystone");
-                return new ModalDialogFormJsonResult();
+                return new ModalDialogFormJsonResult();    
             }
             
             if (!keystoneUser.OrganizationGuid.HasValue)
