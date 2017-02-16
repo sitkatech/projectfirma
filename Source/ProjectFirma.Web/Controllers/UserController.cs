@@ -11,6 +11,8 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Service.KeystoneDataService;
+using Organization = ProjectFirma.Web.Models.Organization;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -25,7 +27,7 @@ namespace ProjectFirma.Web.Controllers
 
         [UserEditFeature]
         public GridJsonNetJObjectResult<Person> IndexGridJsonData()
-        {            
+        {
             var gridSpec = new IndexGridSpec(CurrentPerson);
             var persons = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => new UserViewFeature().HasPermission(CurrentPerson, x).HasPermission).OrderBy(x => x.FullNameLastFirst).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(persons, gridSpec);
@@ -56,7 +58,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         private PartialViewResult ViewEdit(EditRolesViewModel viewModel)
-        { 
+        {
             var rolesAsSelectListItems = Role.All.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture), x => x.RoleDisplayName);
             var viewData = new EditRolesViewData(rolesAsSelectListItems);
             return RazorPartialView<EditRoles, EditRolesViewData, EditRolesViewModel>(viewData, viewModel);
@@ -111,7 +113,15 @@ namespace ProjectFirma.Web.Controllers
             const string basicProjectInfoGridName = "userProjectListGrid";
             var basicProjectInfoGridDataUrl = SitkaRoute<UserController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(person));
             var activateInactivateUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.ActivateInactivatePerson(person));
-            var viewData = new DetailViewData(CurrentPerson, person, basicProjectInfoGridSpec, basicProjectInfoGridName, basicProjectInfoGridDataUrl, userNotificationGridSpec, "userNotifications", userNotificationGridDataUrl, activateInactivateUrl);
+            var viewData = new DetailViewData(CurrentPerson,
+                person,
+                basicProjectInfoGridSpec,
+                basicProjectInfoGridName,
+                basicProjectInfoGridDataUrl,
+                userNotificationGridSpec,
+                "userNotifications",
+                userNotificationGridDataUrl,
+                activateInactivateUrl);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -202,7 +212,7 @@ namespace ProjectFirma.Web.Controllers
             var viewModel = new PullUserFromKeystoneViewModel();
 
             return ViewPullUserFromSitka(viewModel);
-        }      
+        }
 
         [HttpPost]
         [SitkaAdminFeature]
@@ -214,26 +224,61 @@ namespace ProjectFirma.Web.Controllers
                 return ViewPullUserFromSitka(viewModel);
             }
 
+            var keystoneClient = new KeystoneDataClient("WSHttpBinding_IKeystoneData");
+
+            Service.KeystoneDataService.UserProfile keystoneUser = null;
             try
             {
-                HttpRequestStorage.DatabaseEntities.Database.ExecuteSqlCommand("execute dbo.PullPersonFromKeystone {0}, {1}, {2}", viewModel.LoginName, Role.Unassigned.RoleID, CurrentTenant.TenantID);
+                keystoneUser = keystoneClient.GetUserProfileByUsername(FirmaWebConfiguration.KeystoneWebServiceApplicationGuid, viewModel.LoginName);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                SetErrorForDisplay("Error pulling user from Keystone: " + ex.Message);
-                return new ModalDialogFormJsonResult();
-            }
-
-            var addedPerson = HttpRequestStorage.DatabaseEntities.People.ToList().SingleOrDefault(x => x.LoginName == viewModel.LoginName);
-            if (addedPerson == null)
-            {
-                SetErrorForDisplay("Person not added. The User Name was probably not found in Keystone");
+                SetErrorForDisplay("Person not added. The User Name was not found in Keystone");
                 return new ModalDialogFormJsonResult();
             }
             
-            SetMessageForDisplay(string.Format("{0} successfully added. You may want to <a href=\"{1}\">assign them a role</a>.", addedPerson.GetFullNameFirstLastAndOrgAsUrl(), addedPerson.GetDetailUrl()));
+            if (!keystoneUser.OrganizationGuid.HasValue)
+            {
+                SetErrorForDisplay("Person not added. They do not have an Organization in Keystone");
+            }
+
+            Service.KeystoneDataService.Organization keystoneOrganization = null;
+            try
+            {
+                keystoneOrganization = keystoneClient.GetOrganization(keystoneUser.OrganizationGuid.Value);
+            }
+            catch (Exception)
+            {
+                SetErrorForDisplay("Person not added. Could not find their Organization in Keystone");
+            }
+                        
+            var firmaPerson = HttpRequestStorage.DatabaseEntities.People.SingleOrDefault(x => x.PersonGuid == keystoneUser.UserGuid);
+            if (firmaPerson != null)
+            {
+                SetErrorForDisplay("Person already exists in ProjectFirma");
+                return new ModalDialogFormJsonResult();
+            }
+
+            var firmaOrganization = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(x => x.OrganizationGuid == keystoneUser.OrganizationGuid);
+            if (firmaOrganization == null)
+            {
+                firmaOrganization = new Organization(keystoneOrganization.FullName, Sector.Private, true)
+                {
+                    OrganizationGuid = keystoneOrganization.OrganizationGuid,
+                    OrganizationAbbreviation = keystoneOrganization.ShortName,
+                    OrganizationUrl = keystoneOrganization.URL
+                };
+                HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(firmaOrganization);
+            }
+
+            firmaPerson = new Person(keystoneUser.UserGuid, keystoneUser.FirstName, keystoneUser.LastName, keystoneUser.Email, Role.Unassigned, DateTime.Now, true, firmaOrganization, false, keystoneUser.LoginName);
+            HttpRequestStorage.DatabaseEntities.AllPeople.Add(firmaPerson);
+
+            SetMessageForDisplay(string.Format("{0} successfully added. You may want to <a href=\"{1}\">assign them a role</a>.", firmaPerson.GetFullNameFirstLastAndOrgAsUrl(), firmaPerson.GetDetailUrl()));
 
             return new ModalDialogFormJsonResult();
+
+            
         }
 
         private PartialViewResult ViewPullUserFromSitka(PullUserFromKeystoneViewModel viewModel)
@@ -242,4 +287,5 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<PullUserFromKeystone, PullUserFromKeystoneViewData, PullUserFromKeystoneViewModel>(viewData, viewModel);
         }
     }
+
 }

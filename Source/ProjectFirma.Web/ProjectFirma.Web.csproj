@@ -354,6 +354,7 @@
     <Content Include="Views\Home\FeaturedProjects.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
     <Compile Include="Security\SitkaAdminFeature.cs" />
+    <Compile Include="Service\KeystoneDataService\References.cs" />
     <Compile Include="Views\Home\FeaturedProjects.cs" />
     <Compile Include="Views\Home\FeaturedProjectsViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cs" />
