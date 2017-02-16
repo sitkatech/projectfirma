@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="3f6f7e22-3a3d-4e11-9045-c06c5201eb0d" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost.keystone.sitkatech.com/KeystoneData.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="KeystoneData.xsd" MetadataType="Schema" ID="8c2d1718-6607-4ebe-ac59-2f202aa227f3" SourceId="1" SourceUrl="http://localhost.keystone.sitkatech.com/KeystoneData.svc?xsd=xsd2" />
+    <MetadataFile FileName="KeystoneData1.xsd" MetadataType="Schema" ID="7be8d2c0-155b-4aad-b877-2e44bfe91b42" SourceId="1" SourceUrl="http://localhost.keystone.sitkatech.com/KeystoneData.svc?xsd=xsd0" />
+    <MetadataFile FileName="KeystoneData.wsdl" MetadataType="Wsdl" ID="c2b60e02-14b5-4819-a53e-f0c68be3d27e" SourceId="1" SourceUrl="http://localhost.keystone.sitkatech.com/KeystoneData.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="KeystoneData2.xsd" MetadataType="Schema" ID="e05d3418-bca1-4be5-9cee-6e553a225f07" SourceId="1" SourceUrl="http://localhost.keystone.sitkatech.com/KeystoneData.svc?xsd=xsd1" />
+    <MetadataFile FileName="KeystoneData1.wsdl" MetadataType="Wsdl" ID="98d57947-bb3c-4477-925c-25fa8fd61520" SourceId="1" SourceUrl="http://localhost.keystone.sitkatech.com/KeystoneData.svc?wsdl" />
+    <MetadataFile FileName="KeystoneData.disco" MetadataType="Disco" ID="72aa6d81-bb5e-4565-a486-7f698ed842ac" SourceId="1" SourceUrl="http://localhost.keystone.sitkatech.com/KeystoneData.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

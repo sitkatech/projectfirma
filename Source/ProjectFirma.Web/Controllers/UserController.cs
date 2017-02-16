@@ -11,7 +11,7 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Service.KeystoneDataService;
+using ProjectFirma.Web.KeystoneDataService;
 using Organization = ProjectFirma.Web.Models.Organization;
 
 namespace ProjectFirma.Web.Controllers
@@ -226,7 +226,7 @@ namespace ProjectFirma.Web.Controllers
 
             var keystoneClient = new KeystoneDataClient("WSHttpBinding_IKeystoneData");
 
-            Service.KeystoneDataService.UserProfile keystoneUser = null;
+            UserProfile keystoneUser = null;
             try
             {
                 keystoneUser = keystoneClient.GetUserProfileByUsername(FirmaWebConfiguration.KeystoneWebServiceApplicationGuid, viewModel.LoginName);
@@ -242,7 +242,7 @@ namespace ProjectFirma.Web.Controllers
                 SetErrorForDisplay("Person not added. They do not have an Organization in Keystone");
             }
 
-            Service.KeystoneDataService.Organization keystoneOrganization = null;
+            KeystoneDataService.Organization keystoneOrganization = null;
             try
             {
                 keystoneOrganization = keystoneClient.GetOrganization(keystoneUser.OrganizationGuid.Value);

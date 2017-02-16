@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:i0="http://keystone.sitkatech.com" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="KeystoneData" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:import namespace="http://keystone.sitkatech.com" location="http://localhost.keystone.sitkatech.com/KeystoneData.svc?wsdl=wsdl0" />
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost.keystone.sitkatech.com/KeystoneData.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost.keystone.sitkatech.com/KeystoneData.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost.keystone.sitkatech.com/KeystoneData.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Keystone.Web.DataService" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IKeystoneData_GetOrganizations_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOrganizations" />
+  </wsdl:message>
+  <wsdl:message name="IKeystoneData_GetOrganizations_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOrganizationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IKeystoneData_GetOrganization_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOrganization" />
+  </wsdl:message>
+  <wsdl:message name="IKeystoneData_GetOrganization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOrganizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IKeystoneData_GetUserProfile_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserProfile" />
+  </wsdl:message>
+  <wsdl:message name="IKeystoneData_GetUserProfile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserProfileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IKeystoneData_GetUserProfileByUsername_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserProfileByUsername" />
+  </wsdl:message>
+  <wsdl:message name="IKeystoneData_GetUserProfileByUsername_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserProfileByUsernameResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IKeystoneData">
+    <wsdl:operation name="GetOrganizations">
+      <wsdl:input wsaw:Action="http://tempuri.org/IKeystoneData/GetOrganizations" message="tns:IKeystoneData_GetOrganizations_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IKeystoneData/GetOrganizationsResponse" message="tns:IKeystoneData_GetOrganizations_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOrganization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IKeystoneData/GetOrganization" message="tns:IKeystoneData_GetOrganization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IKeystoneData/GetOrganizationResponse" message="tns:IKeystoneData_GetOrganization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProfile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IKeystoneData/GetUserProfile" message="tns:IKeystoneData_GetUserProfile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IKeystoneData/GetUserProfileResponse" message="tns:IKeystoneData_GetUserProfile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProfileByUsername">
+      <wsdl:input wsaw:Action="http://tempuri.org/IKeystoneData/GetUserProfileByUsername" message="tns:IKeystoneData_GetUserProfileByUsername_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IKeystoneData/GetUserProfileByUsernameResponse" message="tns:IKeystoneData_GetUserProfileByUsername_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:service name="KeystoneData">
+    <wsdl:port name="WSHttpBinding_IKeystoneData" binding="i0:WSHttpBinding_IKeystoneData">
+      <soap12:address location="http://localhost.keystone.sitkatech.com/KeystoneData.svc/wsHttpEndpoint" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://localhost.keystone.sitkatech.com/KeystoneData.svc/wsHttpEndpoint</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>KeystoneWebLocal@sitka.local</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

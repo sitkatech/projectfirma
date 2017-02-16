@@ -351,10 +351,38 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <None Include="Service References\KeystoneDataService\KeystoneData.disco" />
+    <None Include="Service References\KeystoneDataService\configuration91.svcinfo" />
+    <None Include="Service References\KeystoneDataService\configuration.svcinfo" />
+    <Content Include="Service References\KeystoneDataService\ProjectFirma.Web.KeystoneDataService.Organization.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\KeystoneDataService\ProjectFirma.Web.KeystoneDataService.UserProfile.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\KeystoneDataService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Views\Home\FeaturedProjects.cshtml" />
+    <None Include="Service References\KeystoneDataService\KeystoneData.wsdl" />
+    <None Include="Service References\KeystoneDataService\KeystoneData.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\KeystoneDataService\KeystoneData1.wsdl" />
+    <None Include="Service References\KeystoneDataService\KeystoneData1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\KeystoneDataService\KeystoneData2.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
     <Compile Include="Security\SitkaAdminFeature.cs" />
-    <Compile Include="Service\KeystoneDataService\References.cs" />
+    <Compile Include="Service References\KeystoneDataService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Views\Home\FeaturedProjects.cs" />
     <Compile Include="Views\Home\FeaturedProjectsViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cs" />
@@ -3163,6 +3191,12 @@
       <Project>{c6586ad8-9357-4fa3-92ae-a2ed5eacdacc}</Project>
       <Name>LtInfo.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\KeystoneDataService\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
