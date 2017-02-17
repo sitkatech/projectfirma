@@ -224,7 +224,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewPullUserFromSitka(viewModel);
             }
 
-            var keystoneClient = new KeystoneDataClient("WSHttpBinding_IKeystoneData");
+            var keystoneClient = new KeystoneDataClient();
 
             UserProfile keystoneUser = keystoneClient.GetUserProfileByUsername(FirmaWebConfiguration.KeystoneWebServiceApplicationGuid, viewModel.LoginName);
             if (keystoneUser == null)
@@ -269,6 +269,8 @@ namespace ProjectFirma.Web.Controllers
 
             firmaPerson = new Person(keystoneUser.UserGuid, keystoneUser.FirstName, keystoneUser.LastName, keystoneUser.Email, Role.Unassigned, DateTime.Now, true, firmaOrganization, false, keystoneUser.LoginName);
             HttpRequestStorage.DatabaseEntities.AllPeople.Add(firmaPerson);
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             SetMessageForDisplay(string.Format("{0} successfully added. You may want to <a href=\"{1}\">assign them a role</a>.", firmaPerson.GetFullNameFirstLastAndOrgAsUrl(), firmaPerson.GetDetailUrl()));
 
