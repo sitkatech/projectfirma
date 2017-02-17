@@ -2,6 +2,3 @@
 AuditLog	ProjectID					
 AuditLog	ProposedProjectID					
 AuditLog	RecordID					
-ProjectLocationStaging	PersonID					
-ProjectLocationStagingUpdate	PersonID					
-ProposedProjectLocationStaging	PersonID					

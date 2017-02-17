@@ -918,13 +918,13 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProjectLocationStaging">
         <MappingFragment StoreEntitySet="ProposedProjectLocationStaging">
           <ScalarProperty Name="ProposedProjectLocationStagingID" ColumnName="ProposedProjectLocationStagingID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
           <ScalarProperty Name="PersonID" ColumnName="PersonID" />
           <ScalarProperty Name="FeatureClassName" ColumnName="FeatureClassName" />
           <ScalarProperty Name="GeoJson" ColumnName="GeoJson" />
           <ScalarProperty Name="SelectedProperty" ColumnName="SelectedProperty" />
           <ScalarProperty Name="ShouldImport" ColumnName="ShouldImport" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

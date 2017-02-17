@@ -427,6 +427,10 @@
       <End Role="ReviewedByPerson" EntitySet="Person" />
       <End Role="ProposedProjectsWhereYouAreTheReviewedByPerson" EntitySet="ProposedProject" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectLocationStaging_Person_PersonID" Association="ProjectFirma.Web.Models.FK_ProposedProjectLocationStaging_Person_PersonID">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="ProposedProjectLocationStagings" EntitySet="ProposedProjectLocationStaging" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProposedProjectNote_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_CreatePersonID_PersonID">
       <End Role="CreatePerson" EntitySet="Person" />
       <End Role="ProposedProjectNotesWhereYouAreTheCreatePerson" EntitySet="ProposedProjectNote" />
@@ -1199,6 +1203,7 @@
     <NavigationProperty Name="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="ProposedProjectsWhereYouAreTheProposingPerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Person_ProposingPersonID_PersonID" FromRole="ProposingPerson" ToRole="ProposedProjectsWhereYouAreTheProposingPerson" />
     <NavigationProperty Name="ProposedProjectsWhereYouAreTheReviewedByPerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Person_ReviewedByPersonID_PersonID" FromRole="ReviewedByPerson" ToRole="ProposedProjectsWhereYouAreTheReviewedByPerson" />
+    <NavigationProperty Name="ProposedProjectLocationStagings" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocationStaging_Person_PersonID" FromRole="Person" ToRole="ProposedProjectLocationStagings" />
     <NavigationProperty Name="ProposedProjectNotesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="ProposedProjectNotesWhereYouAreTheCreatePerson" />
     <NavigationProperty Name="ProposedProjectNotesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProposedProjectNotesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="SupportRequestLogsWhereYouAreTheRequestPerson" Relationship="ProjectFirma.Web.Models.FK_SupportRequestLog_Person_RequestPersonID_PersonID" FromRole="RequestPerson" ToRole="SupportRequestLogsWhereYouAreTheRequestPerson" />
@@ -1759,13 +1764,14 @@
       <PropertyRef Name="ProposedProjectLocationStagingID" />
     </Key>
     <Property Name="ProposedProjectLocationStagingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
     <Property Name="PersonID" Type="Int32" Nullable="false" />
     <Property Name="FeatureClassName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="GeoJson" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="SelectedProperty" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="ShouldImport" Type="Boolean" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Person" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocationStaging_Person_PersonID" FromRole="ProposedProjectLocationStagings" ToRole="Person" />
     <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID" FromRole="ProposedProjectLocationStagings" ToRole="ProposedProject" />
   </EntityType>
   <EntityType Name="ProposedProjectNote">
@@ -2972,6 +2978,18 @@
       </Principal>
       <Dependent Role="ProposedProjectsWhereYouAreTheReviewedByPerson">
         <PropertyRef Name="ReviewedByPersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProposedProjectLocationStaging_Person_PersonID">
+    <End Role="Person" Type="ProjectFirma.Web.Models.Person" Multiplicity="1" />
+    <End Role="ProposedProjectLocationStagings" Type="ProjectFirma.Web.Models.ProposedProjectLocationStaging" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProposedProjectLocationStagings">
+        <PropertyRef Name="PersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

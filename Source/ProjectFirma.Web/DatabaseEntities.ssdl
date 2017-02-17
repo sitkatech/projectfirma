@@ -587,6 +587,10 @@
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectLocations" EntitySet="ProposedProjectLocation" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectLocationStaging_Person_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectLocationStaging_Person_PersonID">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="ProposedProjectLocationStagings" EntitySet="ProposedProjectLocationStaging" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID">
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectLocationStagings" EntitySet="ProposedProjectLocationStaging" />
@@ -1165,6 +1169,7 @@ warning 6035: The relationship 'FK_ProjectUpdateBatch_Person_LastUpdatePersonID_
 warning 6035: The relationship 'FK_ProjectUpdateHistory_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProposedProject_Person_ProposingPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProposedProject_Person_ReviewedByPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProjectLocationStaging_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProposedProjectNote_Person_CreatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProposedProjectNote_Person_UpdatePersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SupportRequestLog_Person_RequestPersonID_TenantID_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1689,13 +1694,13 @@ warning 6035: The relationship 'FK_ProposedProjectNote_ProposedProject_ProposedP
       <PropertyRef Name="ProposedProjectLocationStagingID" />
     </Key>
     <Property Name="ProposedProjectLocationStagingID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProposedProjectID" Type="int" Nullable="false" />
     <Property Name="PersonID" Type="int" Nullable="false" />
     <Property Name="FeatureClassName" Type="varchar" Nullable="false" MaxLength="255" />
     <Property Name="GeoJson" Type="varchar(max)" Nullable="false" />
     <Property Name="SelectedProperty" Type="varchar" MaxLength="255" />
     <Property Name="ShouldImport" Type="bit" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProposedProjectNote">
     <Key>
@@ -3381,6 +3386,18 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Principal>
       <Dependent Role="ProposedProjectLocations">
         <PropertyRef Name="ProposedProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProposedProjectLocationStaging_Person_PersonID">
+    <End Role="Person" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
+    <End Role="ProposedProjectLocationStagings" Type="ProjectFirma.Web.Models.Store.ProposedProjectLocationStaging" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProposedProjectLocationStagings">
+        <PropertyRef Name="PersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
