@@ -1468,8 +1468,8 @@
       <PropertyRef Name="ProjectLocationAreaGroupID" />
     </Key>
     <Property Name="ProjectLocationAreaGroupID" Type="Int32" Nullable="false" />
-    <Property Name="ProjectLocationAreaGroupTypeID" Type="Int32" Nullable="false" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectLocationAreaGroupTypeID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ProjectLocationAreas" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationArea_ProjectLocationAreaGroup_ProjectLocationAreaGroupID" FromRole="ProjectLocationAreaGroup" ToRole="ProjectLocationAreas" />
   </EntityType>
   <EntityType Name="ProjectLocationAreaStateProvince">
@@ -1477,9 +1477,9 @@
       <PropertyRef Name="ProjectLocationAreaStateProvinceID" />
     </Key>
     <Property Name="ProjectLocationAreaStateProvinceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectLocationAreaID" Type="Int32" Nullable="false" />
     <Property Name="StateProvinceID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ProjectLocationArea" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaStateProvince_ProjectLocationArea_ProjectLocationAreaID" FromRole="ProjectLocationAreaStateProvinces" ToRole="ProjectLocationArea" />
     <NavigationProperty Name="StateProvince" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaStateProvince_StateProvince_StateProvinceID" FromRole="ProjectLocationAreaStateProvinces" ToRole="StateProvince" />
   </EntityType>
@@ -1488,9 +1488,9 @@
       <PropertyRef Name="ProjectLocationAreaWatershedID" />
     </Key>
     <Property Name="ProjectLocationAreaWatershedID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectLocationAreaID" Type="Int32" Nullable="false" />
     <Property Name="WatershedID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ProjectLocationArea" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaWatershed_ProjectLocationArea_ProjectLocationAreaID" FromRole="ProjectLocationAreaWatersheds" ToRole="ProjectLocationArea" />
     <NavigationProperty Name="Watershed" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaWatershed_Watershed_WatershedID" FromRole="ProjectLocationAreaWatersheds" ToRole="Watershed" />
   </EntityType>

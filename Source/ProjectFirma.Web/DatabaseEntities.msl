@@ -662,8 +662,8 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationAreaGroup">
         <MappingFragment StoreEntitySet="ProjectLocationAreaGroup">
           <ScalarProperty Name="ProjectLocationAreaGroupID" ColumnName="ProjectLocationAreaGroupID" />
-          <ScalarProperty Name="ProjectLocationAreaGroupTypeID" ColumnName="ProjectLocationAreaGroupTypeID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectLocationAreaGroupTypeID" ColumnName="ProjectLocationAreaGroupTypeID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -671,9 +671,9 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationAreaStateProvince">
         <MappingFragment StoreEntitySet="ProjectLocationAreaStateProvince">
           <ScalarProperty Name="ProjectLocationAreaStateProvinceID" ColumnName="ProjectLocationAreaStateProvinceID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
           <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -681,9 +681,9 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationAreaWatershed">
         <MappingFragment StoreEntitySet="ProjectLocationAreaWatershed">
           <ScalarProperty Name="ProjectLocationAreaWatershedID" ColumnName="ProjectLocationAreaWatershedID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
           <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -4,8 +4,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ProjectLocationAreaGroup](
 	[ProjectLocationAreaGroupID] [int] NOT NULL,
-	[ProjectLocationAreaGroupTypeID] [int] NOT NULL,
 	[TenantID] [int] NOT NULL,
+	[ProjectLocationAreaGroupTypeID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectLocationAreaGroup_ProjectLocationAreaGroupID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectLocationAreaGroupID] ASC
@@ -15,9 +15,10 @@ CREATE TABLE [dbo].[ProjectLocationAreaGroup](
 	[ProjectLocationAreaGroupID] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_ProjectLocationAreaGroup_ProjectLocationAreaGroupTypeID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_ProjectLocationAreaGroup_ProjectLocationAreaGroupTypeID_TenantID] UNIQUE NONCLUSTERED 
 (
-	[ProjectLocationAreaGroupTypeID] ASC
+	[ProjectLocationAreaGroupTypeID] ASC,
+	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 

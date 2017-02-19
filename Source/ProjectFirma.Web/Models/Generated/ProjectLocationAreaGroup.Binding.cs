@@ -84,13 +84,13 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectLocationAreaGroupID { get; set; }
-        public int ProjectLocationAreaGroupTypeID { get; set; }
         public int TenantID { get; private set; }
+        public int ProjectLocationAreaGroupTypeID { get; set; }
         public int PrimaryKey { get { return ProjectLocationAreaGroupID; } set { ProjectLocationAreaGroupID = value; } }
 
         public virtual ICollection<ProjectLocationArea> ProjectLocationAreas { get; set; }
-        public ProjectLocationAreaGroupType ProjectLocationAreaGroupType { get { return ProjectLocationAreaGroupType.AllLookupDictionary[ProjectLocationAreaGroupTypeID]; } }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public ProjectLocationAreaGroupType ProjectLocationAreaGroupType { get { return ProjectLocationAreaGroupType.AllLookupDictionary[ProjectLocationAreaGroupTypeID]; } }
 
         public static class FieldLengths
         {

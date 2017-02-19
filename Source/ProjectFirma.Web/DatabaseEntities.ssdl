@@ -1433,26 +1433,26 @@ warning 6035: The relationship 'FK_ProjectLocationArea_ProjectLocationAreaGroup_
       <PropertyRef Name="ProjectLocationAreaGroupID" />
     </Key>
     <Property Name="ProjectLocationAreaGroupID" Type="int" Nullable="false" />
-    <Property Name="ProjectLocationAreaGroupTypeID" Type="int" Nullable="false" />
     <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="ProjectLocationAreaGroupTypeID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocationAreaStateProvince">
     <Key>
       <PropertyRef Name="ProjectLocationAreaStateProvinceID" />
     </Key>
     <Property Name="ProjectLocationAreaStateProvinceID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectLocationAreaID" Type="int" Nullable="false" />
     <Property Name="StateProvinceID" Type="int" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocationAreaWatershed">
     <Key>
       <PropertyRef Name="ProjectLocationAreaWatershedID" />
     </Key>
     <Property Name="ProjectLocationAreaWatershedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectLocationAreaID" Type="int" Nullable="false" />
     <Property Name="WatershedID" Type="int" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocationStaging">
     <Key>
