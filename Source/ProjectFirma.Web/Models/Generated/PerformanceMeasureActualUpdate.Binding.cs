@@ -95,17 +95,17 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PerformanceMeasureActualUpdateID { get; set; }
+        public int TenantID { get; private set; }
         public int ProjectUpdateBatchID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int CalendarYear { get; set; }
         public double? ActualValue { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return PerformanceMeasureActualUpdateID; } set { PerformanceMeasureActualUpdateID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualSubcategoryOptionUpdate> PerformanceMeasureActualSubcategoryOptionUpdates { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

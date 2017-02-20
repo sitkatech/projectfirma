@@ -4,6 +4,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ProjectUpdateBatch](
 	[ProjectUpdateBatchID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[ProjectID] [int] NOT NULL,
 	[LastUpdateDate] [datetime] NOT NULL,
 	[PerformanceMeasureActualYearsExemptionExplanation] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -27,7 +28,6 @@ CREATE TABLE [dbo].[ProjectUpdateBatch](
 	[BudgetsDiffLog] [dbo].[html] NULL,
 	[ExternalLinksDiffLog] [dbo].[html] NULL,
 	[NotesDiffLog] [dbo].[html] NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectUpdateBatch_ProjectUpdateBatchID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateBatchID] ASC

@@ -138,6 +138,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectUpdateBatchID { get; set; }
+        public int TenantID { get; private set; }
         public int ProjectID { get; set; }
         public DateTime LastUpdateDate { get; set; }
         public string PerformanceMeasureActualYearsExemptionExplanation { get; set; }
@@ -197,7 +198,6 @@ namespace ProjectFirma.Web.Models
             get { return NotesDiffLog == null ? null : new HtmlString(NotesDiffLog); }
             set { NotesDiffLog = value == null ? null : value.ToString(); }
         }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProjectUpdateBatchID; } set { ProjectUpdateBatchID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualUpdate> PerformanceMeasureActualUpdates { get; set; }
@@ -212,10 +212,10 @@ namespace ProjectFirma.Web.Models
         protected virtual ICollection<ProjectUpdate> ProjectUpdates { get; set; }
         public ProjectUpdate ProjectUpdate { get { return ProjectUpdates.SingleOrDefault(); } set { ProjectUpdates = new List<ProjectUpdate>{value};} }
         public virtual ICollection<ProjectUpdateHistory> ProjectUpdateHistories { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual Person LastUpdatePerson { get; set; }
         public ProjectUpdateState ProjectUpdateState { get { return ProjectUpdateState.AllLookupDictionary[ProjectUpdateStateID]; } }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

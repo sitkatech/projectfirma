@@ -103,6 +103,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectUpdateID { get; set; }
+        public int TenantID { get; private set; }
         public int ProjectUpdateBatchID { get; set; }
         public int ProjectStageID { get; set; }
         public string ProjectDescription { get; set; }
@@ -116,14 +117,13 @@ namespace ProjectFirma.Web.Models
         public int? PlanningDesignStartYear { get; set; }
         public int ProjectLocationSimpleTypeID { get; set; }
         public decimal? EstimatedAnnualOperatingCost { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProjectUpdateID; } set { ProjectUpdateID = value; } }
 
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public ProjectStage ProjectStage { get { return ProjectStage.AllLookupDictionary[ProjectStageID]; } }
         public virtual ProjectLocationArea ProjectLocationArea { get; set; }
         public ProjectLocationSimpleType ProjectLocationSimpleType { get { return ProjectLocationSimpleType.AllLookupDictionary[ProjectLocationSimpleTypeID]; } }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

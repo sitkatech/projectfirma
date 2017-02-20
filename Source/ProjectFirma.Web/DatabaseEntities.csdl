@@ -1022,11 +1022,11 @@
       <PropertyRef Name="PerformanceMeasureActualSubcategoryOptionUpdateID" />
     </Key>
     <Property Name="PerformanceMeasureActualSubcategoryOptionUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureActualUpdateID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureActualSubcategoryOptionUpdates" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="PerformanceMeasureActualUpdate" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID" FromRole="PerformanceMeasureActualSubcategoryOptionUpdates" ToRole="PerformanceMeasureActualUpdate" />
     <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureActualSubcategoryOptionUpdates" ToRole="PerformanceMeasureSubcategory" />
@@ -1037,11 +1037,11 @@
       <PropertyRef Name="PerformanceMeasureActualUpdateID" />
     </Key>
     <Property Name="PerformanceMeasureActualUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="CalendarYear" Type="Int32" Nullable="false" />
     <Property Name="ActualValue" Type="Double" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualUpdate_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureActualUpdates" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptionUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID" FromRole="PerformanceMeasureActualUpdate" ToRole="PerformanceMeasureActualSubcategoryOptionUpdates" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="PerformanceMeasureActualUpdates" ToRole="ProjectUpdateBatch" />
@@ -1118,13 +1118,13 @@
       <PropertyRef Name="PerformanceMeasureNoteID" />
     </Key>
     <Property Name="PerformanceMeasureNoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="Note" Type="String" Nullable="false" MaxLength="8000" Unicode="false" FixedLength="false" />
     <Property Name="CreatePersonID" Type="Int32" />
     <Property Name="CreateDate" Type="DateTime" Nullable="false" />
     <Property Name="UpdatePersonID" Type="Int32" />
     <Property Name="UpdateDate" Type="DateTime" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureNotes" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_CreatePersonID_PersonID" FromRole="PerformanceMeasureNotesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
     <NavigationProperty Name="UpdatePerson" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_UpdatePersonID_PersonID" FromRole="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" ToRole="UpdatePerson" />
@@ -1285,12 +1285,12 @@
       <PropertyRef Name="ProjectBudgetUpdateID" />
     </Key>
     <Property Name="ProjectBudgetUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
     <Property Name="FundingSourceID" Type="Int32" Nullable="false" />
     <Property Name="ProjectCostTypeID" Type="Int32" Nullable="false" />
     <Property Name="CalendarYear" Type="Int32" Nullable="false" />
     <Property Name="BudgetedAmount" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FundingSource" Relationship="ProjectFirma.Web.Models.FK_ProjectBudgetUpdate_FundingSource_FundingSourceID" FromRole="ProjectBudgetUpdates" ToRole="FundingSource" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectBudgetUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectBudgetUpdates" ToRole="ProjectUpdateBatch" />
   </EntityType>
@@ -1377,11 +1377,11 @@
       <PropertyRef Name="ProjectFundingSourceExpenditureUpdateID" />
     </Key>
     <Property Name="ProjectFundingSourceExpenditureUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
     <Property Name="FundingSourceID" Type="Int32" Nullable="false" />
     <Property Name="CalendarYear" Type="Int32" Nullable="false" />
     <Property Name="ExpenditureAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FundingSource" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditureUpdate_FundingSource_FundingSourceID" FromRole="ProjectFundingSourceExpenditureUpdates" ToRole="FundingSource" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditureUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectFundingSourceExpenditureUpdates" ToRole="ProjectUpdateBatch" />
   </EntityType>
@@ -1407,6 +1407,7 @@
       <PropertyRef Name="ProjectImageUpdateID" />
     </Key>
     <Property Name="ProjectImageUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="FileResourceID" Type="Int32" />
     <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
     <Property Name="ProjectImageTimingID" Type="Int32" Nullable="false" />
@@ -1415,7 +1416,6 @@
     <Property Name="IsKeyPhoto" Type="Boolean" Nullable="false" />
     <Property Name="ExcludeFromFactSheet" Type="Boolean" Nullable="false" />
     <Property Name="ProjectImageID" Type="Int32" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_FileResource_FileResourceID" FromRole="ProjectImageUpdates" ToRole="FileResource" />
     <NavigationProperty Name="ProjectImage" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_ProjectImage_ProjectImageID" FromRole="ProjectImageUpdates" ToRole="ProjectImage" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectImageUpdates" ToRole="ProjectUpdateBatch" />
@@ -1583,6 +1583,7 @@
       <PropertyRef Name="ProjectUpdateID" />
     </Key>
     <Property Name="ProjectUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
     <Property Name="ProjectStageID" Type="Int32" Nullable="false" />
     <Property Name="ProjectDescription" Type="String" Nullable="false" MaxLength="4000" Unicode="false" FixedLength="false" />
@@ -1596,7 +1597,6 @@
     <Property Name="PlanningDesignStartYear" Type="Int32" />
     <Property Name="ProjectLocationSimpleTypeID" Type="Int32" Nullable="false" />
     <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ProjectLocationArea" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_ProjectLocationArea_ProjectLocationAreaID" FromRole="ProjectUpdates" ToRole="ProjectLocationArea" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdates" ToRole="ProjectUpdateBatch" />
   </EntityType>
@@ -1605,6 +1605,7 @@
       <PropertyRef Name="ProjectUpdateBatchID" />
     </Key>
     <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="LastUpdateDate" Type="DateTime" Nullable="false" />
     <Property Name="PerformanceMeasureActualYearsExemptionExplanation" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
@@ -1628,7 +1629,6 @@
     <Property Name="BudgetsDiffLog" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="ExternalLinksDiffLog" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="NotesDiffLog" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasureActualUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateBatch" ToRole="PerformanceMeasureActualUpdates" />
     <NavigationProperty Name="LastUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Person_LastUpdatePersonID_PersonID" FromRole="ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson" ToRole="LastUpdatePerson" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Project_ProjectID" FromRole="ProjectUpdateBatches" ToRole="Project" />
@@ -1648,11 +1648,11 @@
       <PropertyRef Name="ProjectUpdateHistoryID" />
     </Key>
     <Property Name="ProjectUpdateHistoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="Int32" Nullable="false" />
     <Property Name="ProjectUpdateStateID" Type="Int32" Nullable="false" />
     <Property Name="UpdatePersonID" Type="Int32" Nullable="false" />
     <Property Name="TransitionDate" Type="DateTime" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="UpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_Person_UpdatePersonID_PersonID" FromRole="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson" ToRole="UpdatePerson" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdateHistories" ToRole="ProjectUpdateBatch" />
   </EntityType>
@@ -1779,13 +1779,13 @@
       <PropertyRef Name="ProposedProjectNoteID" />
     </Key>
     <Property Name="ProposedProjectNoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
     <Property Name="Note" Type="String" Nullable="false" MaxLength="8000" Unicode="false" FixedLength="false" />
     <Property Name="CreatePersonID" Type="Int32" />
     <Property Name="CreateDate" Type="DateTime" Nullable="false" />
     <Property Name="UpdatePersonID" Type="Int32" />
     <Property Name="UpdateDate" Type="DateTime" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_CreatePersonID_PersonID" FromRole="ProposedProjectNotesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
     <NavigationProperty Name="UpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_UpdatePersonID_PersonID" FromRole="ProposedProjectNotesWhereYouAreTheUpdatePerson" ToRole="UpdatePerson" />
     <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_ProposedProject_ProposedProjectID" FromRole="ProposedProjectNotes" ToRole="ProposedProject" />

@@ -306,11 +306,11 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureActualSubcategoryOptionUpdate">
         <MappingFragment StoreEntitySet="PerformanceMeasureActualSubcategoryOptionUpdate">
           <ScalarProperty Name="PerformanceMeasureActualSubcategoryOptionUpdateID" ColumnName="PerformanceMeasureActualSubcategoryOptionUpdateID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="PerformanceMeasureActualUpdateID" ColumnName="PerformanceMeasureActualUpdateID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryOptionID" ColumnName="PerformanceMeasureSubcategoryOptionID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryID" ColumnName="PerformanceMeasureSubcategoryID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -318,11 +318,11 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureActualUpdate">
         <MappingFragment StoreEntitySet="PerformanceMeasureActualUpdate">
           <ScalarProperty Name="PerformanceMeasureActualUpdateID" ColumnName="PerformanceMeasureActualUpdateID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="ActualValue" ColumnName="ActualValue" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -386,13 +386,13 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureNote">
         <MappingFragment StoreEntitySet="PerformanceMeasureNote">
           <ScalarProperty Name="PerformanceMeasureNoteID" ColumnName="PerformanceMeasureNoteID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="Note" ColumnName="Note" />
           <ScalarProperty Name="CreatePersonID" ColumnName="CreatePersonID" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -497,12 +497,12 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectBudgetUpdate">
         <MappingFragment StoreEntitySet="ProjectBudgetUpdate">
           <ScalarProperty Name="ProjectBudgetUpdateID" ColumnName="ProjectBudgetUpdateID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="FundingSourceID" ColumnName="FundingSourceID" />
           <ScalarProperty Name="ProjectCostTypeID" ColumnName="ProjectCostTypeID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="BudgetedAmount" ColumnName="BudgetedAmount" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -585,11 +585,11 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectFundingSourceExpenditureUpdate">
         <MappingFragment StoreEntitySet="ProjectFundingSourceExpenditureUpdate">
           <ScalarProperty Name="ProjectFundingSourceExpenditureUpdateID" ColumnName="ProjectFundingSourceExpenditureUpdateID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="FundingSourceID" ColumnName="FundingSourceID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="ExpenditureAmount" ColumnName="ExpenditureAmount" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -612,6 +612,7 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectImageUpdate">
         <MappingFragment StoreEntitySet="ProjectImageUpdate">
           <ScalarProperty Name="ProjectImageUpdateID" ColumnName="ProjectImageUpdateID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="ProjectImageTimingID" ColumnName="ProjectImageTimingID" />
@@ -620,7 +621,6 @@
           <ScalarProperty Name="IsKeyPhoto" ColumnName="IsKeyPhoto" />
           <ScalarProperty Name="ExcludeFromFactSheet" ColumnName="ExcludeFromFactSheet" />
           <ScalarProperty Name="ProjectImageID" ColumnName="ProjectImageID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -768,6 +768,7 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectUpdate">
         <MappingFragment StoreEntitySet="ProjectUpdate">
           <ScalarProperty Name="ProjectUpdateID" ColumnName="ProjectUpdateID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="ProjectStageID" ColumnName="ProjectStageID" />
           <ScalarProperty Name="ProjectDescription" ColumnName="ProjectDescription" />
@@ -781,7 +782,6 @@
           <ScalarProperty Name="PlanningDesignStartYear" ColumnName="PlanningDesignStartYear" />
           <ScalarProperty Name="ProjectLocationSimpleTypeID" ColumnName="ProjectLocationSimpleTypeID" />
           <ScalarProperty Name="EstimatedAnnualOperatingCost" ColumnName="EstimatedAnnualOperatingCost" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -789,6 +789,7 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectUpdateBatch">
         <MappingFragment StoreEntitySet="ProjectUpdateBatch">
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
           <ScalarProperty Name="PerformanceMeasureActualYearsExemptionExplanation" ColumnName="PerformanceMeasureActualYearsExemptionExplanation" />
@@ -812,7 +813,6 @@
           <ScalarProperty Name="BudgetsDiffLog" ColumnName="BudgetsDiffLog" />
           <ScalarProperty Name="ExternalLinksDiffLog" ColumnName="ExternalLinksDiffLog" />
           <ScalarProperty Name="NotesDiffLog" ColumnName="NotesDiffLog" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -820,11 +820,11 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectUpdateHistory">
         <MappingFragment StoreEntitySet="ProjectUpdateHistory">
           <ScalarProperty Name="ProjectUpdateHistoryID" ColumnName="ProjectUpdateHistoryID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectUpdateBatchID" ColumnName="ProjectUpdateBatchID" />
           <ScalarProperty Name="ProjectUpdateStateID" ColumnName="ProjectUpdateStateID" />
           <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
           <ScalarProperty Name="TransitionDate" ColumnName="TransitionDate" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -932,13 +932,13 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProjectNote">
         <MappingFragment StoreEntitySet="ProposedProjectNote">
           <ScalarProperty Name="ProposedProjectNoteID" ColumnName="ProposedProjectNoteID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
           <ScalarProperty Name="Note" ColumnName="Note" />
           <ScalarProperty Name="CreatePersonID" ColumnName="CreatePersonID" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

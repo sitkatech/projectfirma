@@ -4,11 +4,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ProjectUpdateHistory](
 	[ProjectUpdateHistoryID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[ProjectUpdateBatchID] [int] NOT NULL,
 	[ProjectUpdateStateID] [int] NOT NULL,
 	[UpdatePersonID] [int] NOT NULL,
 	[TransitionDate] [datetime] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectUpdateHistory_ProjectUpdateHistoryID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateHistoryID] ASC

@@ -1020,11 +1020,11 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
       <PropertyRef Name="PerformanceMeasureActualSubcategoryOptionUpdateID" />
     </Key>
     <Property Name="PerformanceMeasureActualSubcategoryOptionUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureActualUpdateID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID_PerformanceMe' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1035,11 +1035,11 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOptionUpda
       <PropertyRef Name="PerformanceMeasureActualUpdateID" />
     </Key>
     <Property Name="PerformanceMeasureActualUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
     <Property Name="ActualValue" Type="float" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureExpected_PerformanceMeasureExpectedID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1104,13 +1104,13 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionPr
       <PropertyRef Name="PerformanceMeasureNoteID" />
     </Key>
     <Property Name="PerformanceMeasureNoteID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="Note" Type="varchar" Nullable="false" />
     <Property Name="CreatePersonID" Type="int" />
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
     <Property Name="UpdatePersonID" Type="int" />
     <Property Name="UpdateDate" Type="datetime" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1269,12 +1269,12 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
       <PropertyRef Name="ProjectBudgetUpdateID" />
     </Key>
     <Property Name="ProjectBudgetUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="FundingSourceID" Type="int" Nullable="false" />
     <Property Name="ProjectCostTypeID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
     <Property Name="BudgetedAmount" Type="money" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectClassification">
     <Key>
@@ -1349,11 +1349,11 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
       <PropertyRef Name="ProjectFundingSourceExpenditureUpdateID" />
     </Key>
     <Property Name="ProjectFundingSourceExpenditureUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="FundingSourceID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
     <Property Name="ExpenditureAmount" Type="money" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1377,6 +1377,7 @@ warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageI
       <PropertyRef Name="ProjectImageUpdateID" />
     </Key>
     <Property Name="ProjectImageUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="FileResourceID" Type="int" />
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="ProjectImageTimingID" Type="int" Nullable="false" />
@@ -1385,7 +1386,6 @@ warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageI
     <Property Name="IsKeyPhoto" Type="bit" Nullable="false" />
     <Property Name="ExcludeFromFactSheet" Type="bit" Nullable="false" />
     <Property Name="ProjectImageID" Type="int" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectImplementingOrganization">
     <Key>
@@ -1530,6 +1530,7 @@ warning 6035: The relationship 'FK_ProjectLocationArea_ProjectLocationAreaGroup_
       <PropertyRef Name="ProjectUpdateID" />
     </Key>
     <Property Name="ProjectUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="ProjectStageID" Type="int" Nullable="false" />
     <Property Name="ProjectDescription" Type="varchar" Nullable="false" MaxLength="4000" />
@@ -1543,7 +1544,6 @@ warning 6035: The relationship 'FK_ProjectLocationArea_ProjectLocationAreaGroup_
     <Property Name="PlanningDesignStartYear" Type="int" />
     <Property Name="ProjectLocationSimpleTypeID" Type="int" Nullable="false" />
     <Property Name="EstimatedAnnualOperatingCost" Type="decimal" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1563,6 +1563,7 @@ warning 6035: The relationship 'FK_ProjectUpdateHistory_ProjectUpdateBatch_Proje
       <PropertyRef Name="ProjectUpdateBatchID" />
     </Key>
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="LastUpdateDate" Type="datetime" Nullable="false" />
     <Property Name="PerformanceMeasureActualYearsExemptionExplanation" Type="varchar" MaxLength="4000" />
@@ -1586,18 +1587,17 @@ warning 6035: The relationship 'FK_ProjectUpdateHistory_ProjectUpdateBatch_Proje
     <Property Name="BudgetsDiffLog" Type="varchar(max)" />
     <Property Name="ExternalLinksDiffLog" Type="varchar(max)" />
     <Property Name="NotesDiffLog" Type="varchar(max)" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectUpdateHistory">
     <Key>
       <PropertyRef Name="ProjectUpdateHistoryID" />
     </Key>
     <Property Name="ProjectUpdateHistoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="ProjectUpdateStateID" Type="int" Nullable="false" />
     <Property Name="UpdatePersonID" Type="int" Nullable="false" />
     <Property Name="TransitionDate" Type="datetime" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectWatershed">
     <Key>
@@ -1707,13 +1707,13 @@ warning 6035: The relationship 'FK_ProposedProjectNote_ProposedProject_ProposedP
       <PropertyRef Name="ProposedProjectNoteID" />
     </Key>
     <Property Name="ProposedProjectNoteID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProposedProjectID" Type="int" Nullable="false" />
     <Property Name="Note" Type="varchar" Nullable="false" />
     <Property Name="CreatePersonID" Type="int" />
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
     <Property Name="UpdatePersonID" Type="int" />
     <Property Name="UpdateDate" Type="datetime" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.

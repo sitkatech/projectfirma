@@ -4,21 +4,16 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ProposedProjectNote](
 	[ProposedProjectNoteID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[ProposedProjectID] [int] NOT NULL,
 	[Note] [varchar](8000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[CreatePersonID] [int] NULL,
 	[CreateDate] [datetime] NOT NULL,
 	[UpdatePersonID] [int] NULL,
 	[UpdateDate] [datetime] NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProposedProjectNote_ProposedProjectNoteID] PRIMARY KEY CLUSTERED 
 (
 	[ProposedProjectNoteID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_ProposedProjectNote_ProposedProjectNoteID_ProposedProjectID] UNIQUE NONCLUSTERED 
-(
-	[ProposedProjectNoteID] ASC,
-	[ProposedProjectID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 

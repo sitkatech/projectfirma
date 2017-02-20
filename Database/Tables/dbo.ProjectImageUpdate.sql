@@ -4,6 +4,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ProjectImageUpdate](
 	[ProjectImageUpdateID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[FileResourceID] [int] NULL,
 	[ProjectUpdateBatchID] [int] NOT NULL,
 	[ProjectImageTimingID] [int] NOT NULL,
@@ -12,7 +13,6 @@ CREATE TABLE [dbo].[ProjectImageUpdate](
 	[IsKeyPhoto] [bit] NOT NULL,
 	[ExcludeFromFactSheet] [bit] NOT NULL,
 	[ProjectImageID] [int] NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectImageUpdate_ProjectImageUpdateID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectImageUpdateID] ASC
