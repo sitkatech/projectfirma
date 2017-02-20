@@ -50,16 +50,13 @@ namespace ProjectFirma.Web.Models
             var objectContext = GetObjectContext();
 
             var tenantID = tenant.TenantID;
-            Check.Require(dbEntityEntries.Where(entry =>
-                {
-                    var haveATenantID = entry.Entity as IHaveATenantID;
-                    return haveATenantID != null;
-                }).All(x =>
-                {
-                    var haveATenantID = x.Entity as IHaveATenantID;
-                    return haveATenantID != null && haveATenantID.TenantID == tenantID;
-                }), "Editing an entity that is not the same tenant");
-                
+
+            foreach (var entry in dbEntityEntries.Where(entry => entry.Entity is IHaveATenantID))
+            {
+                var haveATenantID = entry.Entity as IHaveATenantID;
+                var editingCurrentTenant = haveATenantID != null && haveATenantID.TenantID == tenantID;   
+                Check.Assert(editingCurrentTenant, "Editing an entity that is not the same tenant: " + entry.Entity);
+            }               
 
             foreach (var entry in modifiedEntries)
             {
