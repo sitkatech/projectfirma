@@ -4,6 +4,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[AuditLog](
 	[AuditLogID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[PersonID] [int] NOT NULL,
 	[AuditLogDate] [datetime] NOT NULL,
 	[AuditLogEventTypeID] [int] NOT NULL,
@@ -15,7 +16,6 @@ CREATE TABLE [dbo].[AuditLog](
 	[AuditDescription] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ProjectID] [int] NULL,
 	[ProposedProjectID] [int] NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_AuditLog_AuditLogID] PRIMARY KEY CLUSTERED 
 (
 	[AuditLogID] ASC

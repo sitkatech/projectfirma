@@ -70,11 +70,11 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectLocationAreaID { get; set; }
+        public int TenantID { get; private set; }
         public int? StateProvinceID { get; set; }
         public int? ProjectLocationAreaGroupID { get; set; }
         public int? MappedRegionID { get; set; }
         public int? WatershedID { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProjectLocationAreaID; } set { ProjectLocationAreaID = value; } }
 
         public virtual ICollection<Project> Projects { get; set; }
@@ -82,11 +82,11 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectLocationAreaWatershed> ProjectLocationAreaWatersheds { get; set; }
         public virtual ICollection<ProjectUpdate> ProjectUpdates { get; set; }
         public virtual ICollection<ProposedProject> ProposedProjects { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual StateProvince StateProvince { get; set; }
         public virtual ProjectLocationAreaGroup ProjectLocationAreaGroup { get; set; }
         public virtual MappedRegion MappedRegion { get; set; }
         public virtual Watershed Watershed { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

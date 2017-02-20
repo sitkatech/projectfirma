@@ -108,6 +108,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int AuditLogID { get; set; }
+        public int TenantID { get; private set; }
         public int PersonID { get; set; }
         public DateTime AuditLogDate { get; set; }
         public int AuditLogEventTypeID { get; set; }
@@ -119,12 +120,11 @@ namespace ProjectFirma.Web.Models
         public string AuditDescription { get; set; }
         public int? ProjectID { get; set; }
         public int? ProposedProjectID { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return AuditLogID; } set { AuditLogID = value; } }
 
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Person Person { get; set; }
         public AuditLogEventType AuditLogEventType { get { return AuditLogEventType.AllLookupDictionary[AuditLogEventTypeID]; } }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

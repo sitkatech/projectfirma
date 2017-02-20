@@ -106,6 +106,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectImageID { get; set; }
+        public int TenantID { get; private set; }
         public int FileResourceID { get; set; }
         public int ProjectID { get; set; }
         public int ProjectImageTimingID { get; set; }
@@ -113,14 +114,13 @@ namespace ProjectFirma.Web.Models
         public string Credit { get; set; }
         public bool IsKeyPhoto { get; set; }
         public bool ExcludeFromFactSheet { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProjectImageID; } set { ProjectImageID = value; } }
 
         public virtual ICollection<ProjectImageUpdate> ProjectImageUpdates { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual FileResource FileResource { get; set; }
         public virtual Project Project { get; set; }
         public ProjectImageTiming ProjectImageTiming { get { return ProjectImageTiming.AllLookupDictionary[ProjectImageTimingID]; } }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

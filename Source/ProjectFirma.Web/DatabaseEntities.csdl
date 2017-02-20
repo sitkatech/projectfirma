@@ -706,6 +706,7 @@
       <PropertyRef Name="AuditLogID" />
     </Key>
     <Property Name="AuditLogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="PersonID" Type="Int32" Nullable="false" />
     <Property Name="AuditLogDate" Type="DateTime" Nullable="false" />
     <Property Name="AuditLogEventTypeID" Type="Int32" Nullable="false" />
@@ -717,7 +718,6 @@
     <Property Name="AuditDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="ProjectID" Type="Int32" />
     <Property Name="ProposedProjectID" Type="Int32" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Person" Relationship="ProjectFirma.Web.Models.FK_AuditLog_Person_PersonID" FromRole="AuditLogs" ToRole="Person" />
   </EntityType>
   <EntityType Name="Classification">
@@ -776,9 +776,9 @@
       <PropertyRef Name="FieldDefinitionDataID" />
     </Key>
     <Property Name="FieldDefinitionDataID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="FieldDefinitionID" Type="Int32" Nullable="false" />
     <Property Name="FieldDefinitionDataValue" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="FieldDefinitionImage">
     <Key>
@@ -1390,6 +1390,7 @@
       <PropertyRef Name="ProjectImageID" />
     </Key>
     <Property Name="ProjectImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="FileResourceID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="ProjectImageTimingID" Type="Int32" Nullable="false" />
@@ -1397,7 +1398,6 @@
     <Property Name="Credit" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="IsKeyPhoto" Type="Boolean" Nullable="false" />
     <Property Name="ExcludeFromFactSheet" Type="Boolean" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ProjectImage_FileResource_FileResourceID" FromRole="ProjectImages" ToRole="FileResource" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectImage_Project_ProjectID" FromRole="ProjectImages" ToRole="Project" />
     <NavigationProperty Name="ProjectImageUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_ProjectImage_ProjectImageID" FromRole="ProjectImage" ToRole="ProjectImageUpdates" />
@@ -1448,11 +1448,11 @@
       <PropertyRef Name="ProjectLocationAreaID" />
     </Key>
     <Property Name="ProjectLocationAreaID" Type="Int32" Nullable="false" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="StateProvinceID" Type="Int32" />
     <Property Name="ProjectLocationAreaGroupID" Type="Int32" />
     <Property Name="MappedRegionID" Type="Int32" />
     <Property Name="WatershedID" Type="Int32" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="MappedRegion" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationArea_MappedRegion_MappedRegionID" FromRole="ProjectLocationAreas" ToRole="MappedRegion" />
     <NavigationProperty Name="Projects" Relationship="ProjectFirma.Web.Models.FK_Project_ProjectLocationArea_ProjectLocationAreaID" FromRole="ProjectLocationArea" ToRole="Projects" />
     <NavigationProperty Name="ProjectLocationAreaGroup" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationArea_ProjectLocationAreaGroup_ProjectLocationAreaGroupID" FromRole="ProjectLocationAreas" ToRole="ProjectLocationAreaGroup" />

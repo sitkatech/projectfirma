@@ -39,6 +39,7 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.AuditLog">
         <MappingFragment StoreEntitySet="AuditLog">
           <ScalarProperty Name="AuditLogID" ColumnName="AuditLogID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="PersonID" ColumnName="PersonID" />
           <ScalarProperty Name="AuditLogDate" ColumnName="AuditLogDate" />
           <ScalarProperty Name="AuditLogEventTypeID" ColumnName="AuditLogEventTypeID" />
@@ -50,7 +51,6 @@
           <ScalarProperty Name="AuditDescription" ColumnName="AuditDescription" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -106,9 +106,9 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FieldDefinitionData">
         <MappingFragment StoreEntitySet="FieldDefinitionData">
           <ScalarProperty Name="FieldDefinitionDataID" ColumnName="FieldDefinitionDataID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="FieldDefinitionID" ColumnName="FieldDefinitionID" />
           <ScalarProperty Name="FieldDefinitionDataValue" ColumnName="FieldDefinitionDataValue" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -597,6 +597,7 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectImage">
         <MappingFragment StoreEntitySet="ProjectImage">
           <ScalarProperty Name="ProjectImageID" ColumnName="ProjectImageID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="ProjectImageTimingID" ColumnName="ProjectImageTimingID" />
@@ -604,7 +605,6 @@
           <ScalarProperty Name="Credit" ColumnName="Credit" />
           <ScalarProperty Name="IsKeyPhoto" ColumnName="IsKeyPhoto" />
           <ScalarProperty Name="ExcludeFromFactSheet" ColumnName="ExcludeFromFactSheet" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -650,11 +650,11 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationArea">
         <MappingFragment StoreEntitySet="ProjectLocationArea">
           <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
           <ScalarProperty Name="ProjectLocationAreaGroupID" ColumnName="ProjectLocationAreaGroupID" />
           <ScalarProperty Name="MappedRegionID" ColumnName="MappedRegionID" />
           <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

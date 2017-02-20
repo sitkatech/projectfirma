@@ -710,6 +710,7 @@ warning 6035: The relationship 'FK_AssessmentQuestion_AssessmentSubGoal_Assessme
       <PropertyRef Name="AuditLogID" />
     </Key>
     <Property Name="AuditLogID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="PersonID" Type="int" Nullable="false" />
     <Property Name="AuditLogDate" Type="datetime" Nullable="false" />
     <Property Name="AuditLogEventTypeID" Type="int" Nullable="false" />
@@ -721,7 +722,6 @@ warning 6035: The relationship 'FK_AssessmentQuestion_AssessmentSubGoal_Assessme
     <Property Name="AuditDescription" Type="varchar(max)" />
     <Property Name="ProjectID" Type="int" />
     <Property Name="ProposedProjectID" Type="int" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ClassificationPerformanceMeasure_Classification_ClassificationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -777,9 +777,9 @@ warning 6035: The relationship 'FK_ProposedProjectClassification_Classification_
       <PropertyRef Name="FieldDefinitionDataID" />
     </Key>
     <Property Name="FieldDefinitionDataID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="FieldDefinitionID" Type="int" Nullable="false" />
     <Property Name="FieldDefinitionDataValue" Type="varchar(max)" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="FieldDefinitionImage">
     <Key>
@@ -1363,6 +1363,7 @@ warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageI
       <PropertyRef Name="ProjectImageID" />
     </Key>
     <Property Name="ProjectImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="FileResourceID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="ProjectImageTimingID" Type="int" Nullable="false" />
@@ -1370,7 +1371,6 @@ warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageI
     <Property Name="Credit" Type="varchar" Nullable="false" MaxLength="200" />
     <Property Name="IsKeyPhoto" Type="bit" Nullable="false" />
     <Property Name="ExcludeFromFactSheet" Type="bit" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectImageUpdate">
     <Key>
@@ -1419,11 +1419,11 @@ warning 6035: The relationship 'FK_ProposedProject_ProjectLocationArea_ProjectLo
       <PropertyRef Name="ProjectLocationAreaID" />
     </Key>
     <Property Name="ProjectLocationAreaID" Type="int" Nullable="false" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="StateProvinceID" Type="int" />
     <Property Name="ProjectLocationAreaGroupID" Type="int" />
     <Property Name="MappedRegionID" Type="int" />
     <Property Name="WatershedID" Type="int" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectLocationArea_ProjectLocationAreaGroup_ProjectLocationAreaGroupID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.

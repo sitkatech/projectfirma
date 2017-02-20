@@ -4,9 +4,9 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[FieldDefinitionData](
 	[FieldDefinitionDataID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[FieldDefinitionID] [int] NOT NULL,
 	[FieldDefinitionDataValue] [dbo].[html] NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_FieldDefinitionData_FieldDefinitionDataID] PRIMARY KEY CLUSTERED 
 (
 	[FieldDefinitionDataID] ASC

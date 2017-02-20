@@ -85,6 +85,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int FieldDefinitionDataID { get; set; }
+        public int TenantID { get; private set; }
         public int FieldDefinitionID { get; set; }
         [NotMapped]
         private string FieldDefinitionDataValue { get; set; }
@@ -93,11 +94,10 @@ namespace ProjectFirma.Web.Models
             get { return FieldDefinitionDataValue == null ? null : new HtmlString(FieldDefinitionDataValue); }
             set { FieldDefinitionDataValue = value == null ? null : value.ToString(); }
         }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return FieldDefinitionDataID; } set { FieldDefinitionDataID = value; } }
 
-        public FieldDefinition FieldDefinition { get { return FieldDefinition.AllLookupDictionary[FieldDefinitionID]; } }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public FieldDefinition FieldDefinition { get { return FieldDefinition.AllLookupDictionary[FieldDefinitionID]; } }
 
         public static class FieldLengths
         {
