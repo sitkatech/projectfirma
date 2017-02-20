@@ -113,6 +113,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PerformanceMeasureID { get; set; }
+        public int TenantID { get; private set; }
         [NotMapped]
         private string CriticalDefinitions { get; set; }
         public HtmlString CriticalDefinitionsHtmlString
@@ -135,7 +136,6 @@ namespace ProjectFirma.Web.Models
         public string ExternalDataSourceUrl { get; set; }
         public string ChartTitle { get; set; }
         public string ChartCaption { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return PerformanceMeasureID; } set { PerformanceMeasureID = value; } }
 
         public virtual ICollection<ClassificationPerformanceMeasure> ClassificationPerformanceMeasures { get; set; }
@@ -153,9 +153,9 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<SnapshotPerformanceMeasure> SnapshotPerformanceMeasures { get; set; }
         public virtual ICollection<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual ICollection<TaxonomyTierTwoPerformanceMeasure> TaxonomyTierTwoPerformanceMeasures { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public MeasurementUnitType MeasurementUnitType { get { return MeasurementUnitType.AllLookupDictionary[MeasurementUnitTypeID]; } }
         public PerformanceMeasureType PerformanceMeasureType { get { return PerformanceMeasureType.AllLookupDictionary[PerformanceMeasureTypeID]; } }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

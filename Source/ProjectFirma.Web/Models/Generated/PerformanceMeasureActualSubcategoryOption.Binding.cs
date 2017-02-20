@@ -101,18 +101,18 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PerformanceMeasureActualSubcategoryOptionID { get; set; }
+        public int TenantID { get; private set; }
         public int PerformanceMeasureActualID { get; set; }
         public int PerformanceMeasureSubcategoryOptionID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int PerformanceMeasureSubcategoryID { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return PerformanceMeasureActualSubcategoryOptionID; } set { PerformanceMeasureActualSubcategoryOptionID = value; } }
 
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual PerformanceMeasureActual PerformanceMeasureActual { get; set; }
         public virtual PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
         public virtual PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

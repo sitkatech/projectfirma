@@ -4,11 +4,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[PerformanceMeasureSubcategoryOption](
 	[PerformanceMeasureSubcategoryOptionID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[PerformanceMeasureSubcategoryID] [int] NOT NULL,
 	[PerformanceMeasureSubcategoryOptionName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[SortOrder] [int] NULL,
 	[ShortName] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureSubcategoryOptionID] ASC

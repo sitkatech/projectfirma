@@ -961,6 +961,7 @@
       <PropertyRef Name="PerformanceMeasureID" />
     </Key>
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="CriticalDefinitions" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="ProjectReporting" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="PerformanceMeasureDisplayName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
@@ -971,7 +972,6 @@
     <Property Name="ExternalDataSourceUrl" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="ChartTitle" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
     <Property Name="ChartCaption" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ClassificationPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="ClassificationPerformanceMeasures" />
     <NavigationProperty Name="PerformanceMeasureActuals" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureActuals" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasure" ToRole="PerformanceMeasureActualSubcategoryOptions" />
@@ -993,11 +993,11 @@
       <PropertyRef Name="PerformanceMeasureActualID" />
     </Key>
     <Property Name="PerformanceMeasureActualID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="CalendarYear" Type="Int32" Nullable="false" />
     <Property Name="ActualValue" Type="Double" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureActuals" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_Project_ProjectID" FromRole="PerformanceMeasureActuals" ToRole="Project" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActual_PerformanceMeasureActualID" FromRole="PerformanceMeasureActual" ToRole="PerformanceMeasureActualSubcategoryOptions" />
@@ -1007,11 +1007,11 @@
       <PropertyRef Name="PerformanceMeasureActualSubcategoryOptionID" />
     </Key>
     <Property Name="PerformanceMeasureActualSubcategoryOptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureActualID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureActualSubcategoryOptions" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="PerformanceMeasureActual" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActual_PerformanceMeasureActualID" FromRole="PerformanceMeasureActualSubcategoryOptions" ToRole="PerformanceMeasureActual" />
     <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureActualSubcategoryOptions" ToRole="PerformanceMeasureSubcategory" />
@@ -1051,10 +1051,10 @@
       <PropertyRef Name="PerformanceMeasureExpectedID" />
     </Key>
     <Property Name="PerformanceMeasureExpectedID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="ExpectedValue" Type="Double" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpected_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureExpecteds" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpected_Project_ProjectID" FromRole="PerformanceMeasureExpecteds" ToRole="Project" />
     <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureExpected_PerformanceMeasureExpectedID" FromRole="PerformanceMeasureExpected" ToRole="PerformanceMeasureExpectedSubcategoryOptions" />
@@ -1077,11 +1077,11 @@
       <PropertyRef Name="PerformanceMeasureExpectedSubcategoryOptionID" />
     </Key>
     <Property Name="PerformanceMeasureExpectedSubcategoryOptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureExpectedID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureExpectedSubcategoryOptions" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="PerformanceMeasureExpected" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureExpected_PerformanceMeasureExpectedID" FromRole="PerformanceMeasureExpectedSubcategoryOptions" ToRole="PerformanceMeasureExpected" />
     <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureExpectedSubcategoryOptions" ToRole="PerformanceMeasureSubcategory" />
@@ -1134,12 +1134,12 @@
       <PropertyRef Name="PerformanceMeasureSubcategoryID" />
     </Key>
     <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryDisplayName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="ChartConfigurationJson" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="ChartType" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="SwapChartAxes" Type="Boolean" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureSubcategories" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="PerformanceMeasureActualSubcategoryOptions" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptionUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureSubcategory" ToRole="PerformanceMeasureActualSubcategoryOptionUpdates" />
@@ -1153,11 +1153,11 @@
       <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
     </Key>
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryOptionName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="SortOrder" Type="Int32" />
     <Property Name="ShortName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="PerformanceMeasureActualSubcategoryOptions" />
     <NavigationProperty Name="PerformanceMeasureActualSubcategoryOptionUpdates" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActualSubcategoryOptionUpdate_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="PerformanceMeasureActualSubcategoryOptionUpdates" />
     <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptions" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID" FromRole="PerformanceMeasureSubcategoryOption" ToRole="PerformanceMeasureExpectedSubcategoryOptions" />

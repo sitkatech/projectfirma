@@ -92,16 +92,16 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PerformanceMeasureExpectedID { get; set; }
+        public int TenantID { get; private set; }
         public int ProjectID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public double? ExpectedValue { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return PerformanceMeasureExpectedID; } set { PerformanceMeasureExpectedID = value; } }
 
         public virtual ICollection<PerformanceMeasureExpectedSubcategoryOption> PerformanceMeasureExpectedSubcategoryOptions { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

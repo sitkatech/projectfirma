@@ -4,11 +4,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[PerformanceMeasureExpectedSubcategoryOption](
 	[PerformanceMeasureExpectedSubcategoryOptionID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[PerformanceMeasureExpectedID] [int] NOT NULL,
 	[PerformanceMeasureSubcategoryOptionID] [int] NOT NULL,
 	[PerformanceMeasureID] [int] NOT NULL,
 	[PerformanceMeasureSubcategoryID] [int] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_PerformanceMeasureExpectedSubcategoryOption_PerformanceMeasureExpectedSubcategoryOptionID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureExpectedSubcategoryOptionID] ASC

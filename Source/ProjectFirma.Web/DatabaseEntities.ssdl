@@ -977,6 +977,7 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_Performance
       <PropertyRef Name="PerformanceMeasureID" />
     </Key>
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="CriticalDefinitions" Type="varchar(max)" />
     <Property Name="ProjectReporting" Type="varchar(max)" />
     <Property Name="PerformanceMeasureDisplayName" Type="varchar" Nullable="false" MaxLength="200" />
@@ -987,7 +988,6 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_Performance
     <Property Name="ExternalDataSourceUrl" Type="varchar" MaxLength="200" />
     <Property Name="ChartTitle" Type="varchar" Nullable="false" MaxLength="500" />
     <Property Name="ChartCaption" Type="varchar" MaxLength="1000" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActual_PerformanceMeasureActualID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -998,22 +998,22 @@ warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_Per
       <PropertyRef Name="PerformanceMeasureActualID" />
     </Key>
     <Property Name="PerformanceMeasureActualID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
     <Property Name="ActualValue" Type="float" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PerformanceMeasureActualSubcategoryOption">
     <Key>
       <PropertyRef Name="PerformanceMeasureActualSubcategoryOptionID" />
     </Key>
     <Property Name="PerformanceMeasureActualSubcategoryOptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureActualID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PerformanceMeasureActualSubcategoryOptionUpdate">
     <Key>
@@ -1050,10 +1050,10 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOption_P
       <PropertyRef Name="PerformanceMeasureExpectedID" />
     </Key>
     <Property Name="PerformanceMeasureExpectedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="ExpectedValue" Type="float" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID_T' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1073,11 +1073,11 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionPr
       <PropertyRef Name="PerformanceMeasureExpectedSubcategoryOptionID" />
     </Key>
     <Property Name="PerformanceMeasureExpectedSubcategoryOptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureExpectedID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PerformanceMeasureExpectedSubcategoryOptionProposed">
     <Key>
@@ -1126,12 +1126,12 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_P
       <PropertyRef Name="PerformanceMeasureSubcategoryID" />
     </Key>
     <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryDisplayName" Type="varchar" Nullable="false" MaxLength="200" />
     <Property Name="ChartConfigurationJson" Type="varchar(max)" />
     <Property Name="ChartType" Type="varchar" MaxLength="100" />
     <Property Name="SwapChartAxes" Type="bit" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID_Performan' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1146,11 +1146,11 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_P
       <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
     </Key>
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryOptionName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="SortOrder" Type="int" />
     <Property Name="ShortName" Type="varchar" MaxLength="50" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_AuditLog_Person_PersonID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.

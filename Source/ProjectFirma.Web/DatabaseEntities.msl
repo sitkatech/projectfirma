@@ -264,6 +264,7 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasure">
         <MappingFragment StoreEntitySet="PerformanceMeasure">
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="CriticalDefinitions" ColumnName="CriticalDefinitions" />
           <ScalarProperty Name="ProjectReporting" ColumnName="ProjectReporting" />
           <ScalarProperty Name="PerformanceMeasureDisplayName" ColumnName="PerformanceMeasureDisplayName" />
@@ -274,7 +275,6 @@
           <ScalarProperty Name="ExternalDataSourceUrl" ColumnName="ExternalDataSourceUrl" />
           <ScalarProperty Name="ChartTitle" ColumnName="ChartTitle" />
           <ScalarProperty Name="ChartCaption" ColumnName="ChartCaption" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -282,11 +282,11 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureActual">
         <MappingFragment StoreEntitySet="PerformanceMeasureActual">
           <ScalarProperty Name="PerformanceMeasureActualID" ColumnName="PerformanceMeasureActualID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="ActualValue" ColumnName="ActualValue" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -294,11 +294,11 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureActualSubcategoryOption">
         <MappingFragment StoreEntitySet="PerformanceMeasureActualSubcategoryOption">
           <ScalarProperty Name="PerformanceMeasureActualSubcategoryOptionID" ColumnName="PerformanceMeasureActualSubcategoryOptionID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="PerformanceMeasureActualID" ColumnName="PerformanceMeasureActualID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryOptionID" ColumnName="PerformanceMeasureSubcategoryOptionID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryID" ColumnName="PerformanceMeasureSubcategoryID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -330,10 +330,10 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureExpected">
         <MappingFragment StoreEntitySet="PerformanceMeasureExpected">
           <ScalarProperty Name="PerformanceMeasureExpectedID" ColumnName="PerformanceMeasureExpectedID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="ExpectedValue" ColumnName="ExpectedValue" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -352,11 +352,11 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOption">
         <MappingFragment StoreEntitySet="PerformanceMeasureExpectedSubcategoryOption">
           <ScalarProperty Name="PerformanceMeasureExpectedSubcategoryOptionID" ColumnName="PerformanceMeasureExpectedSubcategoryOptionID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="PerformanceMeasureExpectedID" ColumnName="PerformanceMeasureExpectedID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryOptionID" ColumnName="PerformanceMeasureSubcategoryOptionID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryID" ColumnName="PerformanceMeasureSubcategoryID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -400,12 +400,12 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureSubcategory">
         <MappingFragment StoreEntitySet="PerformanceMeasureSubcategory">
           <ScalarProperty Name="PerformanceMeasureSubcategoryID" ColumnName="PerformanceMeasureSubcategoryID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryDisplayName" ColumnName="PerformanceMeasureSubcategoryDisplayName" />
           <ScalarProperty Name="ChartConfigurationJson" ColumnName="ChartConfigurationJson" />
           <ScalarProperty Name="ChartType" ColumnName="ChartType" />
           <ScalarProperty Name="SwapChartAxes" ColumnName="SwapChartAxes" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -413,11 +413,11 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOption">
         <MappingFragment StoreEntitySet="PerformanceMeasureSubcategoryOption">
           <ScalarProperty Name="PerformanceMeasureSubcategoryOptionID" ColumnName="PerformanceMeasureSubcategoryOptionID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryID" ColumnName="PerformanceMeasureSubcategoryID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryOptionName" ColumnName="PerformanceMeasureSubcategoryOptionName" />
           <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
           <ScalarProperty Name="ShortName" ColumnName="ShortName" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -97,17 +97,17 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PerformanceMeasureActualID { get; set; }
+        public int TenantID { get; private set; }
         public int ProjectID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int CalendarYear { get; set; }
         public double ActualValue { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return PerformanceMeasureActualID; } set { PerformanceMeasureActualID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

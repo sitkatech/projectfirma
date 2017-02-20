@@ -4,11 +4,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[PerformanceMeasureActual](
 	[PerformanceMeasureActualID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[ProjectID] [int] NOT NULL,
 	[PerformanceMeasureID] [int] NOT NULL,
 	[CalendarYear] [int] NOT NULL,
 	[ActualValue] [float] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_PerformanceMeasureActual_PerformanceMeasureActualID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureActualID] ASC

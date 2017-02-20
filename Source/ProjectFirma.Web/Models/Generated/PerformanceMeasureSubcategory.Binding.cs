@@ -97,12 +97,12 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PerformanceMeasureSubcategoryID { get; set; }
+        public int TenantID { get; private set; }
         public int PerformanceMeasureID { get; set; }
         public string PerformanceMeasureSubcategoryDisplayName { get; set; }
         public string ChartConfigurationJson { get; set; }
         public string ChartType { get; set; }
         public bool? SwapChartAxes { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return PerformanceMeasureSubcategoryID; } set { PerformanceMeasureSubcategoryID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
@@ -111,8 +111,8 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<PerformanceMeasureExpectedSubcategoryOptionProposed> PerformanceMeasureExpectedSubcategoryOptionProposeds { get; set; }
         public virtual ICollection<PerformanceMeasureSubcategoryOption> PerformanceMeasureSubcategoryOptions { get; set; }
         public virtual ICollection<SnapshotPerformanceMeasureSubcategoryOption> SnapshotPerformanceMeasureSubcategoryOptions { get; set; }
-        public virtual PerformanceMeasure PerformanceMeasure { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual PerformanceMeasure PerformanceMeasure { get; set; }
 
         public static class FieldLengths
         {
