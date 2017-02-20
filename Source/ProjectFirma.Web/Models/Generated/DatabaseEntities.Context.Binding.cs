@@ -198,6 +198,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<TaxonomyTierTwoPerformanceMeasure> TaxonomyTierTwoPerformanceMeasures { get { return AllTaxonomyTierTwoPerformanceMeasures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<TaxonomyTierTwo> AllTaxonomyTierTwos { get; set; }
         public virtual IQueryable<TaxonomyTierTwo> TaxonomyTierTwos { get { return AllTaxonomyTierTwos.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<TenantAttribute> AllTenantAttributes { get; set; }
+        public virtual IQueryable<TenantAttribute> TenantAttributes { get { return AllTenantAttributes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Watershed> AllWatersheds { get; set; }
         public virtual IQueryable<Watershed> Watersheds { get { return AllWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
 
@@ -574,6 +576,9 @@ namespace ProjectFirma.Web.Models
 
                 case "TaxonomyTierTwo":
                     return TaxonomyTierTwos.GetTaxonomyTierTwo(primaryKey);
+
+                case "TenantAttribute":
+                    return TenantAttributes.GetTenantAttribute(primaryKey);
 
                 case "Tenant":
                     var tenant = Tenant.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

@@ -49,10 +49,16 @@ namespace ProjectFirma.Web.Models
 
                 MakeFromPoint(sw, ne);
             }
-            var southwest = !pointList.Any() ? MultiTenantHelpers.GetDefaultSouthWestPoint() : new Point(pointList.Min(point => point.Latitude), pointList.Min(point => point.Longitude));
-            var northeast = !pointList.Any() ? MultiTenantHelpers.GetDefaultNorthEastPoint() : new Point(pointList.Max(point => point.Latitude), pointList.Max(point => point.Longitude));
-
-            MakeFromPoint(southwest, northeast);
+            if (pointList.Any())
+            {
+                var southwest = new Point(pointList.Min(point => point.Latitude), pointList.Min(point => point.Longitude));
+                var northeast = new Point(pointList.Max(point => point.Latitude), pointList.Max(point => point.Longitude));
+                MakeFromPoint(southwest, northeast);
+            }
+            else
+            {
+                MakeBoundingBoxFromDbGeometryImpl(MultiTenantHelpers.GetDefaultBoundingBox());
+            }
         }
 
         public BoundingBox(List<BoundingBox> boundingBoxes)
@@ -112,7 +118,7 @@ namespace ProjectFirma.Web.Models
 
         public static BoundingBox MakeNewDefaultBoundingBox()
         {
-            return new BoundingBox(MultiTenantHelpers.GetDefaultSouthWestPoint(), MultiTenantHelpers.GetDefaultNorthEastPoint());
+            return new BoundingBox(MultiTenantHelpers.GetDefaultBoundingBox());
         }
 
         private static List<Point> MakeBoundingBoxFromDbGeometry(DbGeometry geometry)
@@ -122,6 +128,11 @@ namespace ProjectFirma.Web.Models
                 return new List<Point> { MultiTenantHelpers.GetDefaultSouthWestPoint(), MultiTenantHelpers.GetDefaultNorthEastPoint() };
             }
 
+            return MakeBoundingBoxFromDbGeometryImpl(geometry);
+        }
+
+        private static List<Point> MakeBoundingBoxFromDbGeometryImpl(DbGeometry geometry)
+        {
             var pointCount = geometry.Envelope.ElementAt(1).PointCount.Value;
             var envelope = geometry.Envelope.ElementAt(1);
             var pointList = new List<Point>();

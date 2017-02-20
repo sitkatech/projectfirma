@@ -86,6 +86,7 @@
     <EntitySet Name="TaxonomyTierThree" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierThree" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyTierTwo" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierTwo" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxonomyTierTwoPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierTwoPerformanceMeasure" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TenantAttribute" EntityType="ProjectFirma.Web.Models.Store.TenantAttribute" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Store.Watershed" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID" Association="ProjectFirma.Web.Models.Store.FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID">
       <End Role="AssessmentSubGoal" EntitySet="AssessmentSubGoal" />
@@ -1874,6 +1875,23 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
     <Property Name="TaxonomyTierTwoID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="IsPrimaryTaxonomyTierTwo" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TenantAttribute">
+    <Key>
+      <PropertyRef Name="TenantAttributeID" />
+    </Key>
+    <Property Name="TenantAttributeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="TaxonomySystemName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="TaxonomyTierThreeDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="TaxonomyTierTwoDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="TaxonomyTierOneDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="TaxonomyTierOneDisplayNameForProject" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="PerformanceMeasureDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="ClassificationDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="TenantSquareLogoUrl" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="TenantBannerLogoUrl" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="DefaultBoundingBox" Type="geometry" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectLocationArea_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.

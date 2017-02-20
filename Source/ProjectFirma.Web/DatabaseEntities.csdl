@@ -86,6 +86,7 @@
     <EntitySet Name="TaxonomyTierThree" EntityType="ProjectFirma.Web.Models.TaxonomyTierThree" />
     <EntitySet Name="TaxonomyTierTwo" EntityType="ProjectFirma.Web.Models.TaxonomyTierTwo" />
     <EntitySet Name="TaxonomyTierTwoPerformanceMeasure" EntityType="ProjectFirma.Web.Models.TaxonomyTierTwoPerformanceMeasure" />
+    <EntitySet Name="TenantAttribute" EntityType="ProjectFirma.Web.Models.TenantAttribute" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Watershed" />
     <AssociationSet Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID" Association="ProjectFirma.Web.Models.FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
       <End Role="AssessmentGoal" EntitySet="AssessmentGoal" />
@@ -1948,6 +1949,23 @@
     <Property Name="IsPrimaryTaxonomyTierTwo" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" FromRole="TaxonomyTierTwoPerformanceMeasures" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="TaxonomyTierTwo" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierTwoPerformanceMeasures" ToRole="TaxonomyTierTwo" />
+  </EntityType>
+  <EntityType Name="TenantAttribute">
+    <Key>
+      <PropertyRef Name="TenantAttributeID" />
+    </Key>
+    <Property Name="TenantAttributeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="TaxonomySystemName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyTierThreeDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyTierTwoDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyTierOneDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="TaxonomyTierOneDisplayNameForProject" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="PerformanceMeasureDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="ClassificationDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="TenantSquareLogoUrl" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="TenantBannerLogoUrl" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="DefaultBoundingBox" Type="Geometry" Nullable="false" />
   </EntityType>
   <EntityType Name="Watershed">
     <Key>

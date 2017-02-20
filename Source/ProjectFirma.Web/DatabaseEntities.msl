@@ -1086,6 +1086,24 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="TenantAttribute">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.TenantAttribute">
+        <MappingFragment StoreEntitySet="TenantAttribute">
+          <ScalarProperty Name="TenantAttributeID" ColumnName="TenantAttributeID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="TaxonomySystemName" ColumnName="TaxonomySystemName" />
+          <ScalarProperty Name="TaxonomyTierThreeDisplayName" ColumnName="TaxonomyTierThreeDisplayName" />
+          <ScalarProperty Name="TaxonomyTierTwoDisplayName" ColumnName="TaxonomyTierTwoDisplayName" />
+          <ScalarProperty Name="TaxonomyTierOneDisplayName" ColumnName="TaxonomyTierOneDisplayName" />
+          <ScalarProperty Name="TaxonomyTierOneDisplayNameForProject" ColumnName="TaxonomyTierOneDisplayNameForProject" />
+          <ScalarProperty Name="PerformanceMeasureDisplayName" ColumnName="PerformanceMeasureDisplayName" />
+          <ScalarProperty Name="ClassificationDisplayName" ColumnName="ClassificationDisplayName" />
+          <ScalarProperty Name="TenantSquareLogoUrl" ColumnName="TenantSquareLogoUrl" />
+          <ScalarProperty Name="TenantBannerLogoUrl" ColumnName="TenantBannerLogoUrl" />
+          <ScalarProperty Name="DefaultBoundingBox" ColumnName="DefaultBoundingBox" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Watershed">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Watershed">
         <MappingFragment StoreEntitySet="Watershed">

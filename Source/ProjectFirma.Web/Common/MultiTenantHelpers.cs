@@ -1,82 +1,92 @@
-﻿using ProjectFirma.Web.Models;
+﻿using System.Data.Entity.Infrastructure.Pluralization;
+using System.Data.Entity.Spatial;
+using System.Linq;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Common
 {
     public static class MultiTenantHelpers
     {
+        private static readonly EnglishPluralizationService PluralizationService = new EnglishPluralizationService();
+
+        private static TenantAttribute GetCurrentTenantAttributes()
+        {
+            return HttpRequestStorage.DatabaseEntities.TenantAttributes.Single(x => x.TenantID == HttpRequestStorage.Tenant.TenantID);
+        }
+
         public static string GetTaxonomySystemName()
         {
-            return "Limiting Factors";
+            return GetCurrentTenantAttributes().TaxonomySystemName;
         }
+
         public static string GetTaxonomyTierThreeDisplayName()
         {
-            return "Ecological Concern";
+            return GetCurrentTenantAttributes().TaxonomyTierThreeDisplayName;
         }
 
         public static string GetTaxonomyTierThreeDisplayNamePluralized()
         {
-            return "Ecological Concerns";
+            return PluralizationService.Pluralize(GetTaxonomyTierThreeDisplayName());
         }
-        
+
         public static string GetTaxonomyTierTwoDisplayName()
         {
-            return "Ecological Sub-Concern";
+            return GetCurrentTenantAttributes().TaxonomyTierTwoDisplayName;
         }
 
         public static string GetTaxonomyTierTwoDisplayNamePluralized()
         {
-            return "Ecological Sub-Concerns";
+            return PluralizationService.Pluralize(GetTaxonomyTierTwoDisplayName());
         }
 
         public static string GetTaxonomyTierOneDisplayName()
         {
-            return "Limiting Factor";
+            return GetCurrentTenantAttributes().TaxonomyTierOneDisplayName;
         }
 
         public static string GetTaxonomyTierOneDisplayNamePluralized()
         {
-            return "Limiting Factors";
+            return PluralizationService.Pluralize(GetTaxonomyTierOneDisplayName());
         }
 
         public static string GetTaxonomyTierOneDisplayNameForProject()
         {
-            return "Primary Limiting Factor";
+            return GetCurrentTenantAttributes().TaxonomyTierOneDisplayNameForProject;
         }
-
 
         public static string GetPerformanceMeasureName()
         {
-            return "Performance Measure";
+            return GetCurrentTenantAttributes().PerformanceMeasureDisplayName;
         }
 
         public static string GetPerformanceMeasureNamePluralized()
         {
-            return "Performance Measures";
+            return PluralizationService.Pluralize(GetPerformanceMeasureName());
         }
 
         public static string GetClassificationDisplayName()
         {
-            return "Focal Species";
+            return GetCurrentTenantAttributes().ClassificationDisplayName;
         }
 
         public static string GetClassificationDisplayNamePluralized()
         {
-            return "Focal Species";
+            return PluralizationService.Pluralize(GetClassificationDisplayName());
         }
 
         public static string GetTenantDisplayName()
         {
-            return "Clackamas Partnership";
+            return HttpRequestStorage.Tenant.TenantName;
         }
 
         public static string GetTenantSquareLogoUrl()
         {
-            return "/Content/img/ProjectFirma_Logo_Square.png";
+            return GetCurrentTenantAttributes().TenantSquareLogoUrl;
         }
 
         public static string GetTenantBannerLogoUrl()
         {
-            return "/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png";
+            return GetCurrentTenantAttributes().TenantBannerLogoUrl;
         }
 
         public static Point GetDefaultSouthWestPoint()
@@ -87,6 +97,11 @@ namespace ProjectFirma.Web.Common
         public static Point GetDefaultNorthEastPoint()
         {
             return new Point(45.5725, -121.796389);
+        }
+
+        public static DbGeometry GetDefaultBoundingBox()
+        {
+            return GetCurrentTenantAttributes().DefaultBoundingBox;
         }
     }
 }
