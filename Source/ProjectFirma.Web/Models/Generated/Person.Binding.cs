@@ -137,6 +137,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int PersonID { get; set; }
+        public int TenantID { get; private set; }
         public Guid PersonGuid { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -152,7 +153,6 @@ namespace ProjectFirma.Web.Models
         public bool ReceiveSupportEmails { get; set; }
         public Guid? WebServiceAccessToken { get; set; }
         public string LoginName { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return PersonID; } set { PersonID = value; } }
 
         public virtual ICollection<AuditLog> AuditLogs { get; set; }
@@ -175,9 +175,9 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProposedProjectNote> ProposedProjectNotesWhereYouAreTheCreatePerson { get; set; }
         public virtual ICollection<ProposedProjectNote> ProposedProjectNotesWhereYouAreTheUpdatePerson { get; set; }
         public virtual ICollection<SupportRequestLog> SupportRequestLogsWhereYouAreTheRequestPerson { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public Role Role { get { return Role.AllLookupDictionary[RoleID]; } }
         public virtual Organization Organization { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

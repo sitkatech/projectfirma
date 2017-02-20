@@ -337,7 +337,6 @@ order by pt.Name, rt.name";
         }
 
         [Test]
-        [Ignore]
         [UseReporter(typeof(DiffReporter))]
         public void AssureThatTenantIDIsAlwaysTheSecondColumn()
         {
