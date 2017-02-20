@@ -17,18 +17,18 @@ namespace ProjectFirma.Web.Models
                 projectUpdateBatch.Project.ProjectBudgets.Select(tpb => CloneProjectBudget(projectUpdateBatch, tpb, tpb.CalendarYear, tpb.MonetaryAmount)).ToList();
         }
 
-        public static ProjectBudgetUpdate CloneProjectBudget(ProjectUpdateBatch projectUpdateBatch, IProjectBudgetAmount ProjectBudgetAmount, int calendarYear, decimal? budgetedAmount)
+        public static ProjectBudgetUpdate CloneProjectBudget(ProjectUpdateBatch projectUpdateBatch, IProjectBudgetAmount projectBudgetAmount, int calendarYear, decimal? budgetedAmount)
         {
-            return new ProjectBudgetUpdate(projectUpdateBatch, ProjectBudgetAmount.FundingSource, ProjectBudgetAmount.ProjectCostType, calendarYear) {BudgetedAmount = budgetedAmount};
+            return new ProjectBudgetUpdate(projectUpdateBatch, projectBudgetAmount.FundingSource, projectBudgetAmount.ProjectCostType, calendarYear) {BudgetedAmount = budgetedAmount};
         }
 
         public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<ProjectBudget> allProjectBudgets)
         {
             var project = projectUpdateBatch.Project;
-            var ProjectBudgetsFromProjectUpdate =
+            var projectBudgetsFromProjectUpdate =
                 projectUpdateBatch.ProjectBudgetUpdates.Select(
                     x => new ProjectBudget(project.ProjectID, x.FundingSource.FundingSourceID, x.ProjectCostTypeID, x.CalendarYear, x.MonetaryAmount ?? 0)).ToList();
-            project.ProjectBudgets.Merge(ProjectBudgetsFromProjectUpdate,
+            project.ProjectBudgets.Merge(projectBudgetsFromProjectUpdate,
                 allProjectBudgets,
                 (x, y) =>
                     x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.FundingSourceID == y.FundingSourceID && x.ProjectCostTypeID == y.ProjectCostTypeID,
