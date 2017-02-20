@@ -85,6 +85,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int FirmaPageID { get; set; }
+        public int TenantID { get; private set; }
         public int FirmaPageTypeID { get; set; }
         [NotMapped]
         private string FirmaPageContent { get; set; }
@@ -93,12 +94,11 @@ namespace ProjectFirma.Web.Models
             get { return FirmaPageContent == null ? null : new HtmlString(FirmaPageContent); }
             set { FirmaPageContent = value == null ? null : value.ToString(); }
         }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return FirmaPageID; } set { FirmaPageID = value; } }
 
         public virtual ICollection<FirmaPageImage> FirmaPageImages { get; set; }
-        public FirmaPageType FirmaPageType { get { return FirmaPageType.AllLookupDictionary[FirmaPageTypeID]; } }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public FirmaPageType FirmaPageType { get { return FirmaPageType.AllLookupDictionary[FirmaPageTypeID]; } }
 
         public static class FieldLengths
         {

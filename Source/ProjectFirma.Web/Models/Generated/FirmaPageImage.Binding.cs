@@ -91,14 +91,14 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int FirmaPageImageID { get; set; }
+        public int TenantID { get; private set; }
         public int FirmaPageID { get; set; }
         public int FileResourceID { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return FirmaPageImageID; } set { FirmaPageImageID = value; } }
 
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual FirmaPage FirmaPage { get; set; }
         public virtual FileResource FileResource { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

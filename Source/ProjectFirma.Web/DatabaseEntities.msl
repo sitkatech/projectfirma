@@ -141,9 +141,9 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FirmaPage">
         <MappingFragment StoreEntitySet="FirmaPage">
           <ScalarProperty Name="FirmaPageID" ColumnName="FirmaPageID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="FirmaPageTypeID" ColumnName="FirmaPageTypeID" />
           <ScalarProperty Name="FirmaPageContent" ColumnName="FirmaPageContent" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -151,9 +151,9 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FirmaPageImage">
         <MappingFragment StoreEntitySet="FirmaPageImage">
           <ScalarProperty Name="FirmaPageImageID" ColumnName="FirmaPageImageID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="FirmaPageID" ColumnName="FirmaPageID" />
           <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

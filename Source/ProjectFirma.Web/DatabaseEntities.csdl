@@ -818,9 +818,9 @@
       <PropertyRef Name="FirmaPageID" />
     </Key>
     <Property Name="FirmaPageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="FirmaPageTypeID" Type="Int32" Nullable="false" />
     <Property Name="FirmaPageContent" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FirmaPageImages" Relationship="ProjectFirma.Web.Models.FK_FirmaPageImage_FirmaPage_FirmaPageID" FromRole="FirmaPage" ToRole="FirmaPageImages" />
   </EntityType>
   <EntityType Name="FirmaPageImage">
@@ -828,9 +828,9 @@
       <PropertyRef Name="FirmaPageImageID" />
     </Key>
     <Property Name="FirmaPageImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="FirmaPageID" Type="Int32" Nullable="false" />
     <Property Name="FileResourceID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_FirmaPageImage_FileResource_FileResourceID" FromRole="FirmaPageImages" ToRole="FileResource" />
     <NavigationProperty Name="FirmaPage" Relationship="ProjectFirma.Web.Models.FK_FirmaPageImage_FirmaPage_FirmaPageID" FromRole="FirmaPageImages" ToRole="FirmaPage" />
   </EntityType>

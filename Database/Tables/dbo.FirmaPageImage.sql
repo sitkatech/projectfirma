@@ -4,9 +4,9 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[FirmaPageImage](
 	[FirmaPageImageID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[FirmaPageID] [int] NOT NULL,
 	[FileResourceID] [int] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_FirmaPageImage_FirmaPageImageID] PRIMARY KEY CLUSTERED 
 (
 	[FirmaPageImageID] ASC

@@ -822,18 +822,18 @@ warning 6035: The relationship 'FK_FirmaPageImage_FirmaPage_FirmaPageID_TenantID
       <PropertyRef Name="FirmaPageID" />
     </Key>
     <Property Name="FirmaPageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="FirmaPageTypeID" Type="int" Nullable="false" />
     <Property Name="FirmaPageContent" Type="varchar(max)" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="FirmaPageImage">
     <Key>
       <PropertyRef Name="FirmaPageImageID" />
     </Key>
     <Property Name="FirmaPageImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="FirmaPageID" Type="int" Nullable="false" />
     <Property Name="FileResourceID" Type="int" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectBudget_FundingSource_FundingSourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
