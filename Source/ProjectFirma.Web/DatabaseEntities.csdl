@@ -1901,11 +1901,11 @@
       <PropertyRef Name="TaxonomyTierOneID" />
     </Key>
     <Property Name="TaxonomyTierOneID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="TaxonomyTierTwoID" Type="Int32" Nullable="false" />
     <Property Name="TaxonomyTierOneName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyTierOneDescription" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyTierOneCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Projects" Relationship="ProjectFirma.Web.Models.FK_Project_TaxonomyTierOne_TaxonomyTierOneID" FromRole="TaxonomyTierOne" ToRole="Projects" />
     <NavigationProperty Name="ProposedProjects" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID" FromRole="TaxonomyTierOne" ToRole="ProposedProjects" />
     <NavigationProperty Name="TaxonomyTierTwo" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierOnes" ToRole="TaxonomyTierTwo" />
@@ -1915,11 +1915,11 @@
       <PropertyRef Name="TaxonomyTierThreeID" />
     </Key>
     <Property Name="TaxonomyTierThreeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="TaxonomyTierThreeName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyTierThreeDescription" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="ThemeColor" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyTierThreeCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="TaxonomyTierTwos" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID" FromRole="TaxonomyTierThree" ToRole="TaxonomyTierTwos" />
   </EntityType>
   <EntityType Name="TaxonomyTierTwo">
@@ -1927,12 +1927,12 @@
       <PropertyRef Name="TaxonomyTierTwoID" />
     </Key>
     <Property Name="TaxonomyTierTwoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="TaxonomyTierThreeID" Type="Int32" Nullable="false" />
     <Property Name="TaxonomyTierTwoName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyTierTwoDescription" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="ThemeColor" Type="String" MaxLength="7" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyTierTwoCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="TaxonomyTierOnes" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierTwo" ToRole="TaxonomyTierOnes" />
     <NavigationProperty Name="TaxonomyTierThree" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID" FromRole="TaxonomyTierTwos" ToRole="TaxonomyTierThree" />
     <NavigationProperty Name="TaxonomyTierTwoPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTierTwo_TaxonomyTierTwoID" FromRole="TaxonomyTierTwo" ToRole="TaxonomyTierTwoPerformanceMeasures" />

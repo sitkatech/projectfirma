@@ -92,17 +92,17 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int TaxonomyTierOneID { get; set; }
+        public int TenantID { get; private set; }
         public int TaxonomyTierTwoID { get; set; }
         public string TaxonomyTierOneName { get; set; }
         public string TaxonomyTierOneDescription { get; set; }
         public string TaxonomyTierOneCode { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return TaxonomyTierOneID; } set { TaxonomyTierOneID = value; } }
 
         public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<ProposedProject> ProposedProjects { get; set; }
-        public virtual TaxonomyTierTwo TaxonomyTierTwo { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual TaxonomyTierTwo TaxonomyTierTwo { get; set; }
 
         public static class FieldLengths
         {

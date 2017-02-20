@@ -1829,11 +1829,11 @@ warning 6035: The relationship 'FK_ProposedProject_TaxonomyTierOne_TaxonomyTierO
       <PropertyRef Name="TaxonomyTierOneID" />
     </Key>
     <Property Name="TaxonomyTierOneID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="TaxonomyTierTwoID" Type="int" Nullable="false" />
     <Property Name="TaxonomyTierOneName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="TaxonomyTierOneDescription" Type="varchar" MaxLength="4000" />
     <Property Name="TaxonomyTierOneCode" Type="varchar" MaxLength="10" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTierThreeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1843,11 +1843,11 @@ warning 6035: The relationship 'FK_TaxonomyTierTwo_TaxonomyTierThree_TaxonomyTie
       <PropertyRef Name="TaxonomyTierThreeID" />
     </Key>
     <Property Name="TaxonomyTierThreeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="TaxonomyTierThreeName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="TaxonomyTierThreeDescription" Type="varchar" MaxLength="4000" />
     <Property Name="ThemeColor" Type="varchar" MaxLength="20" />
     <Property Name="TaxonomyTierThreeCode" Type="varchar" MaxLength="10" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_TaxonomyTierOne_TaxonomyTierTwo_TaxonomyTierTwoID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1858,12 +1858,12 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
       <PropertyRef Name="TaxonomyTierTwoID" />
     </Key>
     <Property Name="TaxonomyTierTwoID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="TaxonomyTierThreeID" Type="int" Nullable="false" />
     <Property Name="TaxonomyTierTwoName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="TaxonomyTierTwoDescription" Type="varchar" MaxLength="4000" />
     <Property Name="ThemeColor" Type="varchar" MaxLength="7" />
     <Property Name="TaxonomyTierTwoCode" Type="varchar" MaxLength="10" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="TaxonomyTierTwoPerformanceMeasure">
     <Key>

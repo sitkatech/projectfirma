@@ -77,11 +77,11 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int TaxonomyTierThreeID { get; set; }
+        public int TenantID { get; private set; }
         public string TaxonomyTierThreeName { get; set; }
         public string TaxonomyTierThreeDescription { get; set; }
         public string ThemeColor { get; set; }
         public string TaxonomyTierThreeCode { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return TaxonomyTierThreeID; } set { TaxonomyTierThreeID = value; } }
 
         public virtual ICollection<TaxonomyTierTwo> TaxonomyTierTwos { get; set; }

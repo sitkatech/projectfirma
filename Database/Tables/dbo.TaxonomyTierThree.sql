@@ -4,11 +4,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[TaxonomyTierThree](
 	[TaxonomyTierThreeID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[TaxonomyTierThreeName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[TaxonomyTierThreeDescription] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ThemeColor] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[TaxonomyTierThreeCode] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_TaxonomyTierThree_TaxonomyTierThreeID] PRIMARY KEY CLUSTERED 
 (
 	[TaxonomyTierThreeID] ASC

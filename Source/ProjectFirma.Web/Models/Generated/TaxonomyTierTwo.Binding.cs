@@ -93,18 +93,18 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int TaxonomyTierTwoID { get; set; }
+        public int TenantID { get; private set; }
         public int TaxonomyTierThreeID { get; set; }
         public string TaxonomyTierTwoName { get; set; }
         public string TaxonomyTierTwoDescription { get; set; }
         public string ThemeColor { get; set; }
         public string TaxonomyTierTwoCode { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return TaxonomyTierTwoID; } set { TaxonomyTierTwoID = value; } }
 
         public virtual ICollection<TaxonomyTierOne> TaxonomyTierOnes { get; set; }
         public virtual ICollection<TaxonomyTierTwoPerformanceMeasure> TaxonomyTierTwoPerformanceMeasures { get; set; }
-        public virtual TaxonomyTierThree TaxonomyTierThree { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual TaxonomyTierThree TaxonomyTierThree { get; set; }
 
         public static class FieldLengths
         {
