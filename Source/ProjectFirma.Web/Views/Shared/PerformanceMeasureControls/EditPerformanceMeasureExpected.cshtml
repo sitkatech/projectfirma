@@ -44,6 +44,7 @@
     @MultiTenantHelpers.GetPerformanceMeasureName() to Add:
     <select ng-model="PerformanceMeasureToAdd" ng-options="performanceMeasure.DisplayName for performanceMeasure in filteredPerformanceMeasures()" style="width: 700px"></select>
     <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>
+    <hr/>
     <table class="dialogFormLayout" ng-show="AngularModel.PerformanceMeasureExpecteds.length > 0">
         <tr>
             <th></th>
@@ -51,7 +52,7 @@
             <th ng-show="hasAnySubcategories()">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureSubcategory)</th>
             <th colspan="2" style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ExpectedValue)</th>
         </tr>
-        <tr ng-repeat="performanceMeasureExpected in AngularModel.PerformanceMeasureExpecteds | orderBy:['PerformanceMeasureID', 'CalendarYear', getProjectName]">
+        <tr ng-repeat="performanceMeasureExpected in AngularModel.PerformanceMeasureExpecteds | orderBy:['DisplayName', 'CalendarYear', getProjectName]">
             <td>
                 <span class="glyphicon glyphicon-trash blue" title="Remove row'" alt="Remove row" ng-click="deleteRow(performanceMeasureExpected)" style="cursor: pointer"></span>
             </td>
@@ -69,9 +70,8 @@
                 </span>
             </td>
             <td>
-                <input type="number" class="sitkaNumber" ng-model="performanceMeasureExpected.ExpectedValue" step="any"/>
-            </td>
-            <td style="white-space: nowrap" ng-bind="getMeasurementUnitTypeDisplayName(performanceMeasureExpected)"></td>
+                <input type="number" class="sitkaNumber" ng-model="performanceMeasureExpected.ExpectedValue" step="any"/> {{getMeasurementUnitTypeDisplayName(performanceMeasureExpected)}}
+            </td>            
         </tr>
     </table>
     @using (Html.BeginForm())

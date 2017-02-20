@@ -22,7 +22,7 @@
 @{ Html.RenderRazorSitkaPartial<EditPerformanceMeasureExpected, EditPerformanceMeasureExpectedViewData, EditPerformanceMeasureExpectedViewModel>(ViewDataTyped.EditPerformanceMeasureExpectedViewData, Model); }
 
 <div id="ExplanationForNoMeasuresDiv" style="margin-top: 20px">
-    <p>If no Project Measures are included, please explain why:</p>
+    <p>If no @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are included, please explain why:</p>
     <div style="width: 600px">
         @Html.TextAreaWithMaxLengthFor(m => m.PerformanceMeasureNotes, new TextAreaForExtensions.TextAreaDimensions(null, 2), null)
     </div>
