@@ -141,7 +141,7 @@ ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [CK_ProposedProj
 GO
 ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [CK_ProposedProject_ImplementationStartYearLessThanEqualToCompletionYear]
 GO
-ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [CK_ProposedProject_MustHaveProjectIDIfStateIsApproved] CHECK  (([ProposedProject].[ProjectID] IS NOT NULL OR [ProposedProject].[ProposedProjectStateID]<>(3)))
+ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [CK_ProposedProject_MustHaveProjectIDIfStateIsApproved] CHECK  (([ProjectID] IS NOT NULL OR [ProposedProjectStateID]<>(3)))
 GO
 ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [CK_ProposedProject_MustHaveProjectIDIfStateIsApproved]
 GO
