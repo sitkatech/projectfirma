@@ -1223,6 +1223,7 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
       <PropertyRef Name="ProjectID" />
     </Key>
     <Property Name="ProjectID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="TaxonomyTierOneID" Type="int" Nullable="false" />
     <Property Name="ProjectStageID" Type="int" Nullable="false" />
     <Property Name="ProjectName" Type="varchar" Nullable="false" MaxLength="140" />
@@ -1240,7 +1241,6 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="ProjectLocationSimpleTypeID" Type="int" Nullable="false" />
     <Property Name="EstimatedAnnualOperatingCost" Type="decimal" />
     <Property Name="FundingTypeID" Type="int" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectAssessmentQuestion">
     <Key>

@@ -133,6 +133,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectID { get; set; }
+        public int TenantID { get; private set; }
         public int TaxonomyTierOneID { get; set; }
         public int ProjectStageID { get; set; }
         public string ProjectName { get; set; }
@@ -150,7 +151,6 @@ namespace ProjectFirma.Web.Models
         public int ProjectLocationSimpleTypeID { get; set; }
         public decimal? EstimatedAnnualOperatingCost { get; set; }
         public int FundingTypeID { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProjectID; } set { ProjectID = value; } }
 
         public virtual ICollection<NotificationProject> NotificationProjects { get; set; }
@@ -174,12 +174,12 @@ namespace ProjectFirma.Web.Models
         protected virtual ICollection<ProposedProject> ProposedProjects { get; set; }
         public ProposedProject ProposedProject { get { return ProposedProjects.SingleOrDefault(); } set { ProposedProjects = new List<ProposedProject>{value};} }
         public virtual ICollection<SnapshotProject> SnapshotProjects { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual TaxonomyTierOne TaxonomyTierOne { get; set; }
         public ProjectStage ProjectStage { get { return ProjectStage.AllLookupDictionary[ProjectStageID]; } }
         public virtual ProjectLocationArea ProjectLocationArea { get; set; }
         public ProjectLocationSimpleType ProjectLocationSimpleType { get { return ProjectLocationSimpleType.AllLookupDictionary[ProjectLocationSimpleTypeID]; } }
         public FundingType FundingType { get { return FundingType.AllLookupDictionary[FundingTypeID]; } }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

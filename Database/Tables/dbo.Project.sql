@@ -4,6 +4,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Project](
 	[ProjectID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[TaxonomyTierOneID] [int] NOT NULL,
 	[ProjectStageID] [int] NOT NULL,
 	[ProjectName] [varchar](140) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -21,7 +22,6 @@ CREATE TABLE [dbo].[Project](
 	[ProjectLocationSimpleTypeID] [int] NOT NULL,
 	[EstimatedAnnualOperatingCost] [decimal](18, 0) NULL,
 	[FundingTypeID] [int] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_Project_ProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectID] ASC
@@ -31,9 +31,10 @@ CREATE TABLE [dbo].[Project](
 	[ProjectID] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_Project_ProjectName] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_Project_ProjectName_TenantID] UNIQUE NONCLUSTERED 
 (
-	[ProjectName] ASC
+	[ProjectName] ASC,
+	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 

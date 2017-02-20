@@ -448,6 +448,7 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Project">
         <MappingFragment StoreEntitySet="Project">
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="TaxonomyTierOneID" ColumnName="TaxonomyTierOneID" />
           <ScalarProperty Name="ProjectStageID" ColumnName="ProjectStageID" />
           <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
@@ -465,7 +466,6 @@
           <ScalarProperty Name="ProjectLocationSimpleTypeID" ColumnName="ProjectLocationSimpleTypeID" />
           <ScalarProperty Name="EstimatedAnnualOperatingCost" ColumnName="EstimatedAnnualOperatingCost" />
           <ScalarProperty Name="FundingTypeID" ColumnName="FundingTypeID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
