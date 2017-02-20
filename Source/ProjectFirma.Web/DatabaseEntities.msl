@@ -484,12 +484,12 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectBudget">
         <MappingFragment StoreEntitySet="ProjectBudget">
           <ScalarProperty Name="ProjectBudgetID" ColumnName="ProjectBudgetID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="FundingSourceID" ColumnName="FundingSourceID" />
           <ScalarProperty Name="ProjectCostTypeID" ColumnName="ProjectCostTypeID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="BudgetedAmount" ColumnName="BudgetedAmount" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -573,11 +573,11 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectFundingSourceExpenditure">
         <MappingFragment StoreEntitySet="ProjectFundingSourceExpenditure">
           <ScalarProperty Name="ProjectFundingSourceExpenditureID" ColumnName="ProjectFundingSourceExpenditureID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="FundingSourceID" ColumnName="FundingSourceID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="ExpenditureAmount" ColumnName="ExpenditureAmount" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

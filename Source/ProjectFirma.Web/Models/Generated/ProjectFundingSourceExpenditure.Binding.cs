@@ -97,16 +97,16 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProjectFundingSourceExpenditureID { get; set; }
+        public int TenantID { get; private set; }
         public int ProjectID { get; set; }
         public int FundingSourceID { get; set; }
         public int CalendarYear { get; set; }
         public decimal ExpenditureAmount { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProjectFundingSourceExpenditureID; } set { ProjectFundingSourceExpenditureID = value; } }
 
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual FundingSource FundingSource { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

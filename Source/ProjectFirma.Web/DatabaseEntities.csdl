@@ -1271,12 +1271,12 @@
       <PropertyRef Name="ProjectBudgetID" />
     </Key>
     <Property Name="ProjectBudgetID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="FundingSourceID" Type="Int32" Nullable="false" />
     <Property Name="ProjectCostTypeID" Type="Int32" Nullable="false" />
     <Property Name="CalendarYear" Type="Int32" Nullable="false" />
     <Property Name="BudgetedAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FundingSource" Relationship="ProjectFirma.Web.Models.FK_ProjectBudget_FundingSource_FundingSourceID" FromRole="ProjectBudgets" ToRole="FundingSource" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectBudget_Project_ProjectID" FromRole="ProjectBudgets" ToRole="Project" />
   </EntityType>
@@ -1364,11 +1364,11 @@
       <PropertyRef Name="ProjectFundingSourceExpenditureID" />
     </Key>
     <Property Name="ProjectFundingSourceExpenditureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="FundingSourceID" Type="Int32" Nullable="false" />
     <Property Name="CalendarYear" Type="Int32" Nullable="false" />
     <Property Name="ExpenditureAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FundingSource" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditure_FundingSource_FundingSourceID" FromRole="ProjectFundingSourceExpenditures" ToRole="FundingSource" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditure_Project_ProjectID" FromRole="ProjectFundingSourceExpenditures" ToRole="Project" />
   </EntityType>

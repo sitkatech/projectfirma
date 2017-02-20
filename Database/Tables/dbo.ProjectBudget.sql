@@ -4,12 +4,12 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ProjectBudget](
 	[ProjectBudgetID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[ProjectID] [int] NOT NULL,
 	[FundingSourceID] [int] NOT NULL,
 	[ProjectCostTypeID] [int] NOT NULL,
 	[CalendarYear] [int] NOT NULL,
 	[BudgetedAmount] [money] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectBudget_ProjectBudgetID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectBudgetID] ASC

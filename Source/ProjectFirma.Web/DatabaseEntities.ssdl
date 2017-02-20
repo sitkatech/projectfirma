@@ -1257,12 +1257,12 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
       <PropertyRef Name="ProjectBudgetID" />
     </Key>
     <Property Name="ProjectBudgetID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="FundingSourceID" Type="int" Nullable="false" />
     <Property Name="ProjectCostTypeID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
     <Property Name="BudgetedAmount" Type="money" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectBudgetUpdate">
     <Key>
@@ -1338,11 +1338,11 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
       <PropertyRef Name="ProjectFundingSourceExpenditureID" />
     </Key>
     <Property Name="ProjectFundingSourceExpenditureID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="FundingSourceID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
     <Property Name="ExpenditureAmount" Type="money" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectFundingSourceExpenditureUpdate">
     <Key>
