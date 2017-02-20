@@ -74,7 +74,7 @@ To enter your project's annual expenditures, add the appropriate Funding Sources
 }
 else if (!ViewDataTyped.AreProjectBasicsValid)
 {
-    <div class="validationWarning">
+    <div class="alert alert-danger">
         @FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection
     </div>
 }
@@ -163,19 +163,21 @@ else
                     <td>
                         @if (ViewDataTyped.ViewDataForAngular.ValidationWarnings.Any())
                         {
-                            <table data-ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'validationWarning' : 'hidden'">
-                                <tr data-ng-repeat="warning in AngularViewData.ValidationWarnings">
-                                    <td>@Html.Raw(ProjectWizardComponents.RequiredInfoNotProvidedIcon)</td>
-                                    <td data-ng-bind="warning"></td>
-                                </tr>
-                            </table>
+                            <div data-ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'alert alert-danger' : 'hidden'">
+                                <ul>
+                                    <li data-ng-repeat="warning in AngularViewData.ValidationWarnings">
+                                        <span data-ng-bind="warning"></span>
+                                    </li>
+                                </ul>
+                            </div>
                         }
                         else
                         {
-                            <div ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'greenLight' : 'hidden'">
+                            <div ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'alert alert-success' : 'hidden'">
                                 <span>This page is all set!  Nice work.  You should take the rest of the day off.</span>
                             </div>
                         }
+
                     </td>
                     <td style="text-align: right; white-space: nowrap">
                         @Html.CheckBoxFor(x => x.ShowValidationWarnings, new { data_ng_model = "AngularModel.ShowValidationWarnings", @class = "ignoreSerialization" })
