@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProjectExternalLink()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectExternalLink(int projectExternalLinkID, int projectID, string externalLinkLabel, string externalLinkUrl) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectExternalLinkID = projectExternalLinkID;
             this.ProjectID = projectID;
             this.ExternalLinkLabel = externalLinkLabel;
@@ -47,7 +46,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectExternalLinkID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.ExternalLinkLabel = externalLinkLabel;
             this.ExternalLinkUrl = externalLinkUrl;
@@ -60,7 +58,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectExternalLinkID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectExternalLinks.Add(this);

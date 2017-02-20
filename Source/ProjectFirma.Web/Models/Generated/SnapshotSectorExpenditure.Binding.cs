@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected SnapshotSectorExpenditure()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public SnapshotSectorExpenditure(int snapshotSectorExpenditureID, int snapshotID, int sectorID, int calendarYear, decimal expenditureAmount) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.SnapshotSectorExpenditureID = snapshotSectorExpenditureID;
             this.SnapshotID = snapshotID;
             this.SectorID = sectorID;
@@ -48,7 +47,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.SnapshotSectorExpenditureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.SnapshotID = snapshotID;
             this.SectorID = sectorID;
             this.CalendarYear = calendarYear;
@@ -62,7 +60,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.SnapshotSectorExpenditureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.SnapshotID = snapshot.SnapshotID;
             this.Snapshot = snapshot;
             snapshot.SnapshotSectorExpenditures.Add(this);

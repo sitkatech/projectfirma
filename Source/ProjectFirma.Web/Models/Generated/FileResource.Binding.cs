@@ -31,6 +31,7 @@ namespace ProjectFirma.Web.Models
             this.ProjectImages = new HashSet<ProjectImage>();
             this.ProjectImageUpdates = new HashSet<ProjectImageUpdate>();
             this.ProposedProjectImages = new HashSet<ProposedProjectImage>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -38,8 +39,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public FileResource(int fileResourceID, int fileResourceMimeTypeID, string originalBaseFilename, string originalFileExtension, Guid fileResourceGUID, byte[] fileResourceData, int createPersonID, DateTime createDate) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.FileResourceID = fileResourceID;
             this.FileResourceMimeTypeID = fileResourceMimeTypeID;
             this.OriginalBaseFilename = originalBaseFilename;
@@ -58,7 +57,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.FileResourceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FileResourceMimeTypeID = fileResourceMimeTypeID;
             this.OriginalBaseFilename = originalBaseFilename;
             this.OriginalFileExtension = originalFileExtension;
@@ -75,7 +73,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.FileResourceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FileResourceMimeTypeID = fileResourceMimeType.FileResourceMimeTypeID;
             this.OriginalBaseFilename = originalBaseFilename;
             this.OriginalFileExtension = originalFileExtension;

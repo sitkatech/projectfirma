@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProjectLocationAreaStateProvince()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectLocationAreaStateProvince(int projectLocationAreaStateProvinceID, int projectLocationAreaID, int stateProvinceID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectLocationAreaStateProvinceID = projectLocationAreaStateProvinceID;
             this.ProjectLocationAreaID = projectLocationAreaID;
             this.StateProvinceID = stateProvinceID;
@@ -46,7 +45,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationAreaStateProvinceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectLocationAreaID = projectLocationAreaID;
             this.StateProvinceID = stateProvinceID;
         }
@@ -58,7 +56,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationAreaStateProvinceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectLocationAreaID = projectLocationArea.ProjectLocationAreaID;
             this.ProjectLocationArea = projectLocationArea;
             projectLocationArea.ProjectLocationAreaStateProvinces.Add(this);

@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected PerformanceMeasureExpectedSubcategoryOptionProposed()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public PerformanceMeasureExpectedSubcategoryOptionProposed(int performanceMeasureExpectedSubcategoryOptionProposedID, int performanceMeasureExpectedProposedID, int performanceMeasureSubcategoryOptionID, int performanceMeasureID, int performanceMeasureSubcategoryID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.PerformanceMeasureExpectedSubcategoryOptionProposedID = performanceMeasureExpectedSubcategoryOptionProposedID;
             this.PerformanceMeasureExpectedProposedID = performanceMeasureExpectedProposedID;
             this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
@@ -48,7 +47,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureExpectedSubcategoryOptionProposedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PerformanceMeasureExpectedProposedID = performanceMeasureExpectedProposedID;
             this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
             this.PerformanceMeasureID = performanceMeasureID;
@@ -62,7 +60,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureExpectedSubcategoryOptionProposedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PerformanceMeasureExpectedProposedID = performanceMeasureExpectedProposed.PerformanceMeasureExpectedProposedID;
             this.PerformanceMeasureExpectedProposed = performanceMeasureExpectedProposed;
             performanceMeasureExpectedProposed.PerformanceMeasureExpectedSubcategoryOptionProposeds.Add(this);

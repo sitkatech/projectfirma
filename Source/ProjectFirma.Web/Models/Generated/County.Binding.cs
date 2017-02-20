@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected County()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public County(int countyID, string countyName, int stateProvinceID, DbGeometry countyFeature) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.CountyID = countyID;
             this.CountyName = countyName;
             this.StateProvinceID = stateProvinceID;
@@ -47,7 +46,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.CountyID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.CountyName = countyName;
             this.StateProvinceID = stateProvinceID;
         }
@@ -59,7 +57,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.CountyID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.CountyName = countyName;
             this.StateProvinceID = stateProvince.StateProvinceID;
             this.StateProvince = stateProvince;

@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected FirmaPageImage()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public FirmaPageImage(int firmaPageImageID, int firmaPageID, int fileResourceID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.FirmaPageImageID = firmaPageImageID;
             this.FirmaPageID = firmaPageID;
             this.FileResourceID = fileResourceID;
@@ -46,7 +45,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.FirmaPageImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FirmaPageID = firmaPageID;
             this.FileResourceID = fileResourceID;
         }
@@ -58,7 +56,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.FirmaPageImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FirmaPageID = firmaPage.FirmaPageID;
             this.FirmaPage = firmaPage;
             firmaPage.FirmaPageImages.Add(this);

@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected PerformanceMeasureActual()
         {
             this.PerformanceMeasureActualSubcategoryOptions = new HashSet<PerformanceMeasureActualSubcategoryOption>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public PerformanceMeasureActual(int performanceMeasureActualID, int projectID, int performanceMeasureID, int calendarYear, double actualValue) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.PerformanceMeasureActualID = performanceMeasureActualID;
             this.ProjectID = projectID;
             this.PerformanceMeasureID = performanceMeasureID;
@@ -48,7 +47,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureActualID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.CalendarYear = calendarYear;
@@ -62,7 +60,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureActualID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.PerformanceMeasureActuals.Add(this);

@@ -25,6 +25,7 @@ namespace ProjectFirma.Web.Models
         {
             this.TaxonomyTierOnes = new HashSet<TaxonomyTierOne>();
             this.TaxonomyTierTwoPerformanceMeasures = new HashSet<TaxonomyTierTwoPerformanceMeasure>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -32,8 +33,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public TaxonomyTierTwo(int taxonomyTierTwoID, int taxonomyTierThreeID, string taxonomyTierTwoName, string taxonomyTierTwoDescription, string themeColor, string taxonomyTierTwoCode) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.TaxonomyTierTwoID = taxonomyTierTwoID;
             this.TaxonomyTierThreeID = taxonomyTierThreeID;
             this.TaxonomyTierTwoName = taxonomyTierTwoName;
@@ -50,7 +49,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyTierTwoID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.TaxonomyTierThreeID = taxonomyTierThreeID;
             this.TaxonomyTierTwoName = taxonomyTierTwoName;
         }
@@ -62,7 +60,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyTierTwoID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.TaxonomyTierThreeID = taxonomyTierThree.TaxonomyTierThreeID;
             this.TaxonomyTierThree = taxonomyTierThree;
             taxonomyTierThree.TaxonomyTierTwos.Add(this);

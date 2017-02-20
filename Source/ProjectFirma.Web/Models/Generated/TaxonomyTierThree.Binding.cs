@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected TaxonomyTierThree()
         {
             this.TaxonomyTierTwos = new HashSet<TaxonomyTierTwo>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public TaxonomyTierThree(int taxonomyTierThreeID, string taxonomyTierThreeName, string taxonomyTierThreeDescription, string themeColor, string taxonomyTierThreeCode) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.TaxonomyTierThreeID = taxonomyTierThreeID;
             this.TaxonomyTierThreeName = taxonomyTierThreeName;
             this.TaxonomyTierThreeDescription = taxonomyTierThreeDescription;
@@ -48,7 +47,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyTierThreeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.TaxonomyTierThreeName = taxonomyTierThreeName;
         }
 

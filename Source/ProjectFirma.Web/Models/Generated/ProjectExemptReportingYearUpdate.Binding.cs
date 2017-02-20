@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProjectExemptReportingYearUpdate()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectExemptReportingYearUpdate(int projectExemptReportingYearUpdateID, int projectUpdateBatchID, int calendarYear) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectExemptReportingYearUpdateID = projectExemptReportingYearUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.CalendarYear = calendarYear;
@@ -46,7 +45,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectExemptReportingYearUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.CalendarYear = calendarYear;
         }
@@ -58,7 +56,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectExemptReportingYearUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectExemptReportingYearUpdates.Add(this);

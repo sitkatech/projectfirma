@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProjectLocationUpdate()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectLocationUpdate(int projectLocationUpdateID, int projectUpdateBatchID, DbGeometry projectLocationUpdateGeometry, string annotation) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectLocationUpdateID = projectLocationUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectLocationUpdateGeometry = projectLocationUpdateGeometry;
@@ -47,7 +46,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectLocationUpdateGeometry = projectLocationUpdateGeometry;
         }
@@ -59,7 +57,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectLocationUpdates.Add(this);

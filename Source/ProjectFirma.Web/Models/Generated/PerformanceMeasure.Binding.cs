@@ -38,6 +38,7 @@ namespace ProjectFirma.Web.Models
             this.SnapshotPerformanceMeasures = new HashSet<SnapshotPerformanceMeasure>();
             this.SnapshotPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotPerformanceMeasureSubcategoryOption>();
             this.TaxonomyTierTwoPerformanceMeasures = new HashSet<TaxonomyTierTwoPerformanceMeasure>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -45,8 +46,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartTitle, string chartCaption) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.PerformanceMeasureID = performanceMeasureID;
             this.CriticalDefinitions = criticalDefinitions;
             this.ProjectReporting = projectReporting;
@@ -68,7 +67,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PerformanceMeasureDisplayName = performanceMeasureDisplayName;
             this.MeasurementUnitTypeID = measurementUnitTypeID;
             this.PerformanceMeasureTypeID = performanceMeasureTypeID;
@@ -82,7 +80,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PerformanceMeasureDisplayName = performanceMeasureDisplayName;
             this.MeasurementUnitTypeID = measurementUnitType.MeasurementUnitTypeID;
             this.PerformanceMeasureTypeID = performanceMeasureType.PerformanceMeasureTypeID;

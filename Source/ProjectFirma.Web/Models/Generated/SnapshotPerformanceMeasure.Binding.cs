@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected SnapshotPerformanceMeasure()
         {
             this.SnapshotPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotPerformanceMeasureSubcategoryOption>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public SnapshotPerformanceMeasure(int snapshotPerformanceMeasureID, int snapshotID, int performanceMeasureID, int calendarYear, double actualValue) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.SnapshotPerformanceMeasureID = snapshotPerformanceMeasureID;
             this.SnapshotID = snapshotID;
             this.PerformanceMeasureID = performanceMeasureID;
@@ -48,7 +47,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.SnapshotPerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.SnapshotID = snapshotID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.CalendarYear = calendarYear;
@@ -62,7 +60,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.SnapshotPerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.SnapshotID = snapshot.SnapshotID;
             this.Snapshot = snapshot;
             snapshot.SnapshotPerformanceMeasures.Add(this);

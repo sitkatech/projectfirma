@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProjectLocation()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectLocation(int projectLocationID, int projectID, DbGeometry projectLocationGeometry, string annotation) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectLocationID = projectLocationID;
             this.ProjectID = projectID;
             this.ProjectLocationGeometry = projectLocationGeometry;
@@ -47,7 +46,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.ProjectLocationGeometry = projectLocationGeometry;
         }
@@ -59,7 +57,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectLocations.Add(this);

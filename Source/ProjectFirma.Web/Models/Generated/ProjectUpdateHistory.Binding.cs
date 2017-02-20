@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProjectUpdateHistory()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectUpdateHistory(int projectUpdateHistoryID, int projectUpdateBatchID, int projectUpdateStateID, int updatePersonID, DateTime transitionDate) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectUpdateHistoryID = projectUpdateHistoryID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectUpdateStateID = projectUpdateStateID;
@@ -48,7 +47,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectUpdateHistoryID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectUpdateStateID = projectUpdateStateID;
             this.UpdatePersonID = updatePersonID;
@@ -62,7 +60,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectUpdateHistoryID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectUpdateHistories.Add(this);

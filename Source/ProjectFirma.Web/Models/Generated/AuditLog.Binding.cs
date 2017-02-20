@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected AuditLog()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public AuditLog(int auditLogID, int personID, DateTime auditLogDate, int auditLogEventTypeID, string tableName, int recordID, string columnName, string originalValue, string newValue, string auditDescription, int? projectID, int? proposedProjectID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.AuditLogID = auditLogID;
             this.PersonID = personID;
             this.AuditLogDate = auditLogDate;
@@ -55,7 +54,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.AuditLogID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PersonID = personID;
             this.AuditLogDate = auditLogDate;
             this.AuditLogEventTypeID = auditLogEventTypeID;
@@ -72,7 +70,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.AuditLogID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PersonID = person.PersonID;
             this.Person = person;
             person.AuditLogs.Add(this);

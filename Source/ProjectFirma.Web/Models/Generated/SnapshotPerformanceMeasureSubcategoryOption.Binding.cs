@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected SnapshotPerformanceMeasureSubcategoryOption()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public SnapshotPerformanceMeasureSubcategoryOption(int snapshotPerformanceMeasureSubcategoryOptionID, int snapshotPerformanceMeasureID, int performanceMeasureSubcategoryOptionID, int performanceMeasureID, int performanceMeasureSubcategoryID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.SnapshotPerformanceMeasureSubcategoryOptionID = snapshotPerformanceMeasureSubcategoryOptionID;
             this.SnapshotPerformanceMeasureID = snapshotPerformanceMeasureID;
             this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
@@ -48,7 +47,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.SnapshotPerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.SnapshotPerformanceMeasureID = snapshotPerformanceMeasureID;
             this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
             this.PerformanceMeasureID = performanceMeasureID;
@@ -62,7 +60,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.SnapshotPerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.SnapshotPerformanceMeasureID = snapshotPerformanceMeasure.SnapshotPerformanceMeasureID;
             this.SnapshotPerformanceMeasure = snapshotPerformanceMeasure;
             snapshotPerformanceMeasure.SnapshotPerformanceMeasureSubcategoryOptions.Add(this);

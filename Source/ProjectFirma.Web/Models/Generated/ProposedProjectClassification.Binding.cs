@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProposedProjectClassification()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProposedProjectClassification(int proposedProjectClassificationID, int proposedProjectID, int classificationID, string proposedProjectClassificationNotes) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProposedProjectClassificationID = proposedProjectClassificationID;
             this.ProposedProjectID = proposedProjectID;
             this.ClassificationID = classificationID;
@@ -47,7 +46,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectClassificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProposedProjectID = proposedProjectID;
             this.ClassificationID = classificationID;
         }
@@ -59,7 +57,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectClassificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProposedProjectID = proposedProject.ProposedProjectID;
             this.ProposedProject = proposedProject;
             proposedProject.ProposedProjectClassifications.Add(this);

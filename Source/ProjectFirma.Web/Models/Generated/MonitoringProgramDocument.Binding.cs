@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected MonitoringProgramDocument()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public MonitoringProgramDocument(int monitoringProgramDocumentID, int fileResourceID, int monitoringProgramID, string displayName, DateTime uploadDate) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.MonitoringProgramDocumentID = monitoringProgramDocumentID;
             this.FileResourceID = fileResourceID;
             this.MonitoringProgramID = monitoringProgramID;
@@ -48,7 +47,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.MonitoringProgramDocumentID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FileResourceID = fileResourceID;
             this.MonitoringProgramID = monitoringProgramID;
             this.DisplayName = displayName;
@@ -62,7 +60,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.MonitoringProgramDocumentID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FileResourceID = fileResource.FileResourceID;
             this.FileResource = fileResource;
             fileResource.MonitoringProgramDocuments.Add(this);

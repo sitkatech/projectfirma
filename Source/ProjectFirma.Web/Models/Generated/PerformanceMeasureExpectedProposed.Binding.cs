@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected PerformanceMeasureExpectedProposed()
         {
             this.PerformanceMeasureExpectedSubcategoryOptionProposeds = new HashSet<PerformanceMeasureExpectedSubcategoryOptionProposed>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public PerformanceMeasureExpectedProposed(int performanceMeasureExpectedProposedID, int proposedProjectID, int performanceMeasureID, double? expectedValue) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.PerformanceMeasureExpectedProposedID = performanceMeasureExpectedProposedID;
             this.ProposedProjectID = proposedProjectID;
             this.PerformanceMeasureID = performanceMeasureID;
@@ -47,7 +46,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureExpectedProposedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProposedProjectID = proposedProjectID;
             this.PerformanceMeasureID = performanceMeasureID;
         }
@@ -59,7 +57,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureExpectedProposedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProposedProjectID = proposedProject.ProposedProjectID;
             this.ProposedProject = proposedProject;
             proposedProject.PerformanceMeasureExpectedProposeds.Add(this);

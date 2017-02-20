@@ -28,6 +28,7 @@ namespace ProjectFirma.Web.Models
             this.ProjectLocationAreaWatersheds = new HashSet<ProjectLocationAreaWatershed>();
             this.ProjectUpdates = new HashSet<ProjectUpdate>();
             this.ProposedProjects = new HashSet<ProposedProject>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -35,8 +36,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectLocationArea(int projectLocationAreaID, int? stateProvinceID, int? projectLocationAreaGroupID, int? mappedRegionID, int? watershedID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectLocationAreaID = projectLocationAreaID;
             this.StateProvinceID = stateProvinceID;
             this.ProjectLocationAreaGroupID = projectLocationAreaGroupID;

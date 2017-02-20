@@ -29,6 +29,7 @@ namespace ProjectFirma.Web.Models
             this.ProjectFundingOrganizations = new HashSet<ProjectFundingOrganization>();
             this.ProjectImplementingOrganizations = new HashSet<ProjectImplementingOrganization>();
             this.ProposedProjectsWhereYouAreTheLeadImplementerOrganization = new HashSet<ProposedProject>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -36,8 +37,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationAbbreviation, int sectorID, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.OrganizationID = organizationID;
             this.OrganizationGuid = organizationGuid;
             this.OrganizationName = organizationName;
@@ -57,7 +56,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.OrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.OrganizationName = organizationName;
             this.SectorID = sectorID;
             this.IsActive = isActive;
@@ -70,7 +68,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.OrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.OrganizationName = organizationName;
             this.SectorID = sector.SectorID;
             this.IsActive = isActive;

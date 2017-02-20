@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected Tag()
         {
             this.ProjectTags = new HashSet<ProjectTag>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public Tag(int tagID, string tagName, string tagDescription) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.TagID = tagID;
             this.TagName = tagName;
             this.TagDescription = tagDescription;
@@ -46,7 +45,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.TagID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.TagName = tagName;
         }
 

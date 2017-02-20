@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected MappedRegion()
         {
             this.ProjectLocationAreas = new HashSet<ProjectLocationArea>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public MappedRegion(int mappedRegionID, string regionName, string regionDisplayName, DbGeometry regionFeature) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.MappedRegionID = mappedRegionID;
             this.RegionName = regionName;
             this.RegionDisplayName = regionDisplayName;
@@ -47,7 +46,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.MappedRegionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.RegionName = regionName;
             this.RegionDisplayName = regionDisplayName;
             this.RegionFeature = regionFeature;

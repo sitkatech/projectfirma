@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProposedProjectImage()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProposedProjectImage(int proposedProjectImageID, int fileResourceID, int proposedProjectID, string caption, string credit) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProposedProjectImageID = proposedProjectImageID;
             this.FileResourceID = fileResourceID;
             this.ProposedProjectID = proposedProjectID;
@@ -48,7 +47,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FileResourceID = fileResourceID;
             this.ProposedProjectID = proposedProjectID;
             this.Caption = caption;
@@ -62,7 +60,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FileResourceID = fileResource.FileResourceID;
             this.FileResource = fileResource;
             fileResource.ProposedProjectImages.Add(this);

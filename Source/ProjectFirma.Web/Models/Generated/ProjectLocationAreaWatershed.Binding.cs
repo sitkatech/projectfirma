@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProjectLocationAreaWatershed()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectLocationAreaWatershed(int projectLocationAreaWatershedID, int projectLocationAreaID, int watershedID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectLocationAreaWatershedID = projectLocationAreaWatershedID;
             this.ProjectLocationAreaID = projectLocationAreaID;
             this.WatershedID = watershedID;
@@ -46,7 +45,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationAreaWatershedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectLocationAreaID = projectLocationAreaID;
             this.WatershedID = watershedID;
         }
@@ -58,7 +56,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationAreaWatershedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectLocationAreaID = projectLocationArea.ProjectLocationAreaID;
             this.ProjectLocationArea = projectLocationArea;
             projectLocationArea.ProjectLocationAreaWatersheds.Add(this);

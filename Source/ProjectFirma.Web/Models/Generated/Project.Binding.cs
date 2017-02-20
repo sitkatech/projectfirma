@@ -43,6 +43,7 @@ namespace ProjectFirma.Web.Models
             this.ProjectWatersheds = new HashSet<ProjectWatershed>();
             this.ProposedProjects = new HashSet<ProposedProject>();
             this.SnapshotProjects = new HashSet<SnapshotProject>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -50,8 +51,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public Project(int projectID, int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectID = projectID;
             this.TaxonomyTierOneID = taxonomyTierOneID;
             this.ProjectStageID = projectStageID;
@@ -80,7 +79,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.TaxonomyTierOneID = taxonomyTierOneID;
             this.ProjectStageID = projectStageID;
             this.ProjectName = projectName;
@@ -97,7 +95,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.TaxonomyTierOneID = taxonomyTierOne.TaxonomyTierOneID;
             this.TaxonomyTierOne = taxonomyTierOne;
             taxonomyTierOne.Projects.Add(this);

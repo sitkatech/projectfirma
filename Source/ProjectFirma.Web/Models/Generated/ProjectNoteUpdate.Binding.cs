@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProjectNoteUpdate()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectNoteUpdate(int projectNoteUpdateID, int projectUpdateBatchID, string note, int? createPersonID, DateTime createDate, int? updatePersonID, DateTime? updateDate) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectNoteUpdateID = projectNoteUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.Note = note;
@@ -50,7 +49,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectNoteUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.Note = note;
             this.CreateDate = createDate;
@@ -63,7 +61,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectNoteUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectNoteUpdates.Add(this);

@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected PerformanceMeasureMonitoringProgram()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public PerformanceMeasureMonitoringProgram(int performanceMeasureMonitoringProgramID, int performanceMeasureID, int monitoringProgramID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.PerformanceMeasureMonitoringProgramID = performanceMeasureMonitoringProgramID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.MonitoringProgramID = monitoringProgramID;
@@ -46,7 +45,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureMonitoringProgramID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.MonitoringProgramID = monitoringProgramID;
         }
@@ -58,7 +56,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureMonitoringProgramID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
             performanceMeasure.PerformanceMeasureMonitoringPrograms.Add(this);

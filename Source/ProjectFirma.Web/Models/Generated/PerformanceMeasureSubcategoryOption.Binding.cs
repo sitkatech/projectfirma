@@ -28,6 +28,7 @@ namespace ProjectFirma.Web.Models
             this.PerformanceMeasureExpectedSubcategoryOptions = new HashSet<PerformanceMeasureExpectedSubcategoryOption>();
             this.PerformanceMeasureExpectedSubcategoryOptionProposeds = new HashSet<PerformanceMeasureExpectedSubcategoryOptionProposed>();
             this.SnapshotPerformanceMeasureSubcategoryOptions = new HashSet<SnapshotPerformanceMeasureSubcategoryOption>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -35,8 +36,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public PerformanceMeasureSubcategoryOption(int performanceMeasureSubcategoryOptionID, int performanceMeasureSubcategoryID, string performanceMeasureSubcategoryOptionName, int? sortOrder, string shortName) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
             this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
             this.PerformanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOptionName;
@@ -52,7 +51,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
             this.PerformanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOptionName;
         }
@@ -64,7 +62,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategory.PerformanceMeasureSubcategoryID;
             this.PerformanceMeasureSubcategory = performanceMeasureSubcategory;
             performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Add(this);

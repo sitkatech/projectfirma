@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected FieldDefinitionImage()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public FieldDefinitionImage(int fieldDefinitionImageID, int fieldDefinitionID, int fileResourceID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.FieldDefinitionImageID = fieldDefinitionImageID;
             this.FieldDefinitionID = fieldDefinitionID;
             this.FileResourceID = fileResourceID;
@@ -46,7 +45,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.FieldDefinitionImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FieldDefinitionID = fieldDefinitionID;
             this.FileResourceID = fileResourceID;
         }
@@ -58,7 +56,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.FieldDefinitionImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FieldDefinitionID = fieldDefinition.FieldDefinitionID;
             this.FileResourceID = fileResource.FileResourceID;
             this.FileResource = fileResource;

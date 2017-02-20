@@ -27,6 +27,7 @@ namespace ProjectFirma.Web.Models
             this.ProjectBudgetUpdates = new HashSet<ProjectBudgetUpdate>();
             this.ProjectFundingSourceExpenditures = new HashSet<ProjectFundingSourceExpenditure>();
             this.ProjectFundingSourceExpenditureUpdates = new HashSet<ProjectFundingSourceExpenditureUpdate>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -34,8 +35,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public FundingSource(int fundingSourceID, int organizationID, string fundingSourceName, bool isActive, string fundingSourceDescription) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.FundingSourceID = fundingSourceID;
             this.OrganizationID = organizationID;
             this.FundingSourceName = fundingSourceName;
@@ -51,7 +50,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.FundingSourceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.OrganizationID = organizationID;
             this.FundingSourceName = fundingSourceName;
             this.IsActive = isActive;
@@ -64,7 +62,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.FundingSourceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.OrganizationID = organization.OrganizationID;
             this.Organization = organization;
             organization.FundingSources.Add(this);

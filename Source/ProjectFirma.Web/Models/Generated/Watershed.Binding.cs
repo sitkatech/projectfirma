@@ -26,6 +26,7 @@ namespace ProjectFirma.Web.Models
             this.ProjectLocationAreas = new HashSet<ProjectLocationArea>();
             this.ProjectLocationAreaWatersheds = new HashSet<ProjectLocationAreaWatershed>();
             this.ProjectWatersheds = new HashSet<ProjectWatershed>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -33,8 +34,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public Watershed(int watershedID, string watershedName, DbGeometry watershedFeature) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.WatershedID = watershedID;
             this.WatershedName = watershedName;
             this.WatershedFeature = watershedFeature;
@@ -48,7 +47,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.WatershedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.WatershedName = watershedName;
         }
 

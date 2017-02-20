@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProposedProjectLocationStaging()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProposedProjectLocationStaging(int proposedProjectLocationStagingID, int proposedProjectID, int personID, string featureClassName, string geoJson, string selectedProperty, bool shouldImport) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProposedProjectLocationStagingID = proposedProjectLocationStagingID;
             this.ProposedProjectID = proposedProjectID;
             this.PersonID = personID;
@@ -50,7 +49,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectLocationStagingID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProposedProjectID = proposedProjectID;
             this.PersonID = personID;
             this.FeatureClassName = featureClassName;
@@ -65,7 +63,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectLocationStagingID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProposedProjectID = proposedProject.ProposedProjectID;
             this.ProposedProject = proposedProject;
             proposedProject.ProposedProjectLocationStagings.Add(this);

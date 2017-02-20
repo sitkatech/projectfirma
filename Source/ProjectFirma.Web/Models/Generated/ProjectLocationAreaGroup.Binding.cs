@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProjectLocationAreaGroup()
         {
             this.ProjectLocationAreas = new HashSet<ProjectLocationArea>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectLocationAreaGroup(int projectLocationAreaGroupID, int projectLocationAreaGroupTypeID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectLocationAreaGroupID = projectLocationAreaGroupID;
             this.ProjectLocationAreaGroupTypeID = projectLocationAreaGroupTypeID;
         }
@@ -45,7 +44,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationAreaGroupID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectLocationAreaGroupTypeID = projectLocationAreaGroupTypeID;
         }
 
@@ -56,7 +54,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectLocationAreaGroupID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectLocationAreaGroupTypeID = projectLocationAreaGroupType.ProjectLocationAreaGroupTypeID;
         }
 

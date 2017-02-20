@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected CostParameterSet()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public CostParameterSet(int costParameterSetID, decimal inflationRate, int currentYearForPVCalculations, string comment, DateTime createDate) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.CostParameterSetID = costParameterSetID;
             this.InflationRate = inflationRate;
             this.CurrentYearForPVCalculations = currentYearForPVCalculations;
@@ -48,7 +47,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.CostParameterSetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.InflationRate = inflationRate;
             this.CurrentYearForPVCalculations = currentYearForPVCalculations;
             this.CreateDate = createDate;

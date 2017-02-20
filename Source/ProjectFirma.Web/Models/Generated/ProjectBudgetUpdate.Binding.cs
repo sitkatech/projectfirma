@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProjectBudgetUpdate()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectBudgetUpdate(int projectBudgetUpdateID, int projectUpdateBatchID, int fundingSourceID, int projectCostTypeID, int calendarYear, decimal? budgetedAmount) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectBudgetUpdateID = projectBudgetUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.FundingSourceID = fundingSourceID;
@@ -49,7 +48,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectBudgetUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.FundingSourceID = fundingSourceID;
             this.ProjectCostTypeID = projectCostTypeID;
@@ -63,7 +61,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectBudgetUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectBudgetUpdates.Add(this);

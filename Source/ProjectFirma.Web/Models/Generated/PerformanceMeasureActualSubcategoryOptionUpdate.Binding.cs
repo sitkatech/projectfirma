@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected PerformanceMeasureActualSubcategoryOptionUpdate()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public PerformanceMeasureActualSubcategoryOptionUpdate(int performanceMeasureActualSubcategoryOptionUpdateID, int performanceMeasureActualUpdateID, int performanceMeasureSubcategoryOptionID, int performanceMeasureID, int performanceMeasureSubcategoryID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.PerformanceMeasureActualSubcategoryOptionUpdateID = performanceMeasureActualSubcategoryOptionUpdateID;
             this.PerformanceMeasureActualUpdateID = performanceMeasureActualUpdateID;
             this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
@@ -48,7 +47,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureActualSubcategoryOptionUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PerformanceMeasureActualUpdateID = performanceMeasureActualUpdateID;
             this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
             this.PerformanceMeasureID = performanceMeasureID;
@@ -62,7 +60,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureActualSubcategoryOptionUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PerformanceMeasureActualUpdateID = performanceMeasureActualUpdate.PerformanceMeasureActualUpdateID;
             this.PerformanceMeasureActualUpdate = performanceMeasureActualUpdate;
             performanceMeasureActualUpdate.PerformanceMeasureActualSubcategoryOptionUpdates.Add(this);

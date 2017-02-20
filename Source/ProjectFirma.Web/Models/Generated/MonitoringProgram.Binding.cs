@@ -26,6 +26,7 @@ namespace ProjectFirma.Web.Models
             this.MonitoringProgramDocuments = new HashSet<MonitoringProgramDocument>();
             this.MonitoringProgramPartners = new HashSet<MonitoringProgramPartner>();
             this.PerformanceMeasureMonitoringPrograms = new HashSet<PerformanceMeasureMonitoringProgram>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -33,8 +34,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public MonitoringProgram(int monitoringProgramID, string monitoringProgramName, string monitoringApproach, string monitoringProgramUrl) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.MonitoringProgramID = monitoringProgramID;
             this.MonitoringProgramName = monitoringProgramName;
             this.MonitoringApproach = monitoringApproach;
@@ -49,7 +48,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.MonitoringProgramID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.MonitoringProgramName = monitoringProgramName;
         }
 

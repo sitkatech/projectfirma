@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProjectAssessmentQuestion()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectAssessmentQuestion(int projectAssessmentQuestionID, int projectID, int assessmentQuestionID, bool? answer) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectAssessmentQuestionID = projectAssessmentQuestionID;
             this.ProjectID = projectID;
             this.AssessmentQuestionID = assessmentQuestionID;
@@ -47,7 +46,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectAssessmentQuestionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.AssessmentQuestionID = assessmentQuestionID;
         }
@@ -59,7 +57,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectAssessmentQuestionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectAssessmentQuestions.Add(this);

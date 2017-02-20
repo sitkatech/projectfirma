@@ -26,6 +26,7 @@ namespace ProjectFirma.Web.Models
             this.SnapshotPerformanceMeasures = new HashSet<SnapshotPerformanceMeasure>();
             this.SnapshotProjects = new HashSet<SnapshotProject>();
             this.SnapshotSectorExpenditures = new HashSet<SnapshotSectorExpenditure>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -33,8 +34,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public Snapshot(int snapshotID, DateTime snapshotDate, string snapshotNote, int projectCount) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.SnapshotID = snapshotID;
             this.SnapshotDate = snapshotDate;
             this.SnapshotNote = snapshotNote;
@@ -49,7 +48,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.SnapshotID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.SnapshotDate = snapshotDate;
             this.ProjectCount = projectCount;
         }

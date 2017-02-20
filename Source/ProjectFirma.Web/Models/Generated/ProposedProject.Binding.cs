@@ -31,6 +31,7 @@ namespace ProjectFirma.Web.Models
             this.ProposedProjectLocations = new HashSet<ProposedProjectLocation>();
             this.ProposedProjectLocationStagings = new HashSet<ProposedProjectLocationStaging>();
             this.ProposedProjectNotes = new HashSet<ProposedProjectNote>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -38,8 +39,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? taxonomyTierOneID, string performanceMeasureNotes, int? projectID, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProposedProjectID = proposedProjectID;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
@@ -74,7 +73,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
             this.LeadImplementerOrganizationID = leadImplementerOrganizationID;
@@ -92,7 +90,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProposedProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
             this.LeadImplementerOrganizationID = leadImplementerOrganization.OrganizationID;

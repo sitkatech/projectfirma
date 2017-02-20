@@ -26,6 +26,7 @@ namespace ProjectFirma.Web.Models
             this.ClassificationPerformanceMeasures = new HashSet<ClassificationPerformanceMeasure>();
             this.ProjectClassifications = new HashSet<ProjectClassification>();
             this.ProposedProjectClassifications = new HashSet<ProposedProjectClassification>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -33,8 +34,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public Classification(int classificationID, string classificationName, string classificationDescription, string themeColor, string displayName, string goalStatement, int? keyImageFileResourceID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ClassificationID = classificationID;
             this.ClassificationName = classificationName;
             this.ClassificationDescription = classificationDescription;
@@ -52,7 +51,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ClassificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ClassificationName = classificationName;
             this.ClassificationDescription = classificationDescription;
             this.ThemeColor = themeColor;

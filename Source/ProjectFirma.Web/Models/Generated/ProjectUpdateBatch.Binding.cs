@@ -34,6 +34,7 @@ namespace ProjectFirma.Web.Models
             this.ProjectNoteUpdates = new HashSet<ProjectNoteUpdate>();
             this.ProjectUpdates = new HashSet<ProjectUpdate>();
             this.ProjectUpdateHistories = new HashSet<ProjectUpdateHistory>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -41,8 +42,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectUpdateBatch(int projectUpdateBatchID, int projectID, DateTime lastUpdateDate, string performanceMeasureActualYearsExemptionExplanation, bool showBasicsValidationWarnings, bool showPerformanceMeasuresValidationWarnings, bool showExpendituresValidationWarnings, bool showBudgetsValidationWarnings, bool showLocationSimpleValidationWarnings, int lastUpdatePersonID, string basicsComment, string expendituresComment, string performanceMeasuresComment, string locationSimpleComment, string locationDetailedComment, string budgetsComment, int projectUpdateStateID, bool isPhotosUpdated, string basicsDiffLog, string performanceMeasureDiffLog, string expendituresDiffLog, string budgetsDiffLog, string externalLinksDiffLog, string notesDiffLog) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectID = projectID;
             this.LastUpdateDate = lastUpdateDate;
@@ -77,7 +76,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectUpdateBatchID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.LastUpdateDate = lastUpdateDate;
             this.ShowBasicsValidationWarnings = showBasicsValidationWarnings;
@@ -97,7 +95,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectUpdateBatchID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectUpdateBatches.Add(this);

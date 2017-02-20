@@ -26,6 +26,7 @@ namespace ProjectFirma.Web.Models
             this.Counties = new HashSet<County>();
             this.ProjectLocationAreas = new HashSet<ProjectLocationArea>();
             this.ProjectLocationAreaStateProvinces = new HashSet<ProjectLocationAreaStateProvince>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -33,8 +34,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public StateProvince(int stateProvinceID, string stateProvinceName, string stateProvinceAbbreviation, DbGeometry stateProvinceFeature, DbGeometry stateProvinceFeatureForAnalysis) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.StateProvinceID = stateProvinceID;
             this.StateProvinceName = stateProvinceName;
             this.StateProvinceAbbreviation = stateProvinceAbbreviation;
@@ -50,7 +49,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.StateProvinceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.StateProvinceName = stateProvinceName;
             this.StateProvinceAbbreviation = stateProvinceAbbreviation;
             this.StateProvinceFeatureForAnalysis = stateProvinceFeatureForAnalysis;

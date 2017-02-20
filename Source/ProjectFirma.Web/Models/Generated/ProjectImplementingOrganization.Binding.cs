@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProjectImplementingOrganization()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectImplementingOrganization(int projectImplementingOrganizationID, int projectID, int organizationID, bool isLeadOrganization) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectImplementingOrganizationID = projectImplementingOrganizationID;
             this.ProjectID = projectID;
             this.OrganizationID = organizationID;
@@ -47,7 +46,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectImplementingOrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.OrganizationID = organizationID;
             this.IsLeadOrganization = isLeadOrganization;
@@ -60,7 +58,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectImplementingOrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectImplementingOrganizations.Add(this);

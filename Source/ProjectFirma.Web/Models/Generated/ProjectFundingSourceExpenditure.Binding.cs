@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProjectFundingSourceExpenditure()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectFundingSourceExpenditure(int projectFundingSourceExpenditureID, int projectID, int fundingSourceID, int calendarYear, decimal expenditureAmount) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectFundingSourceExpenditureID = projectFundingSourceExpenditureID;
             this.ProjectID = projectID;
             this.FundingSourceID = fundingSourceID;
@@ -48,7 +47,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectFundingSourceExpenditureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = projectID;
             this.FundingSourceID = fundingSourceID;
             this.CalendarYear = calendarYear;
@@ -62,7 +60,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectFundingSourceExpenditureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectFundingSourceExpenditures.Add(this);

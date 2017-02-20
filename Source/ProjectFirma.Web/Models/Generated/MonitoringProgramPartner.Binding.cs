@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected MonitoringProgramPartner()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public MonitoringProgramPartner(int monitoringProgramPartnerID, int monitoringProgramID, int organizationID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.MonitoringProgramPartnerID = monitoringProgramPartnerID;
             this.MonitoringProgramID = monitoringProgramID;
             this.OrganizationID = organizationID;
@@ -46,7 +45,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.MonitoringProgramPartnerID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.MonitoringProgramID = monitoringProgramID;
             this.OrganizationID = organizationID;
         }
@@ -58,7 +56,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.MonitoringProgramPartnerID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.MonitoringProgramID = monitoringProgram.MonitoringProgramID;
             this.MonitoringProgram = monitoringProgram;
             monitoringProgram.MonitoringProgramPartners.Add(this);

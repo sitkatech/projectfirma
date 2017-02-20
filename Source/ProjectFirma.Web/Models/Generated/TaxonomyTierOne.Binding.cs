@@ -25,6 +25,7 @@ namespace ProjectFirma.Web.Models
         {
             this.Projects = new HashSet<Project>();
             this.ProposedProjects = new HashSet<ProposedProject>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -32,8 +33,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public TaxonomyTierOne(int taxonomyTierOneID, int taxonomyTierTwoID, string taxonomyTierOneName, string taxonomyTierOneDescription, string taxonomyTierOneCode) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.TaxonomyTierOneID = taxonomyTierOneID;
             this.TaxonomyTierTwoID = taxonomyTierTwoID;
             this.TaxonomyTierOneName = taxonomyTierOneName;
@@ -49,7 +48,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyTierOneID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.TaxonomyTierTwoID = taxonomyTierTwoID;
             this.TaxonomyTierOneName = taxonomyTierOneName;
         }
@@ -61,7 +59,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyTierOneID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.TaxonomyTierTwoID = taxonomyTierTwo.TaxonomyTierTwoID;
             this.TaxonomyTierTwo = taxonomyTierTwo;
             taxonomyTierTwo.TaxonomyTierOnes.Add(this);

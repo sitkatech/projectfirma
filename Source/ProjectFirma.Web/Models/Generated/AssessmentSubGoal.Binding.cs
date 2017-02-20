@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected AssessmentSubGoal()
         {
             this.AssessmentQuestions = new HashSet<AssessmentQuestion>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public AssessmentSubGoal(int assessmentSubGoalID, int assessmentGoalID, int assessmentSubGoalNumber, string assessmentSubGoalTitle, string assessmentSubGoalDescription) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.AssessmentSubGoalID = assessmentSubGoalID;
             this.AssessmentGoalID = assessmentGoalID;
             this.AssessmentSubGoalNumber = assessmentSubGoalNumber;
@@ -48,7 +47,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.AssessmentSubGoalID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.AssessmentGoalID = assessmentGoalID;
             this.AssessmentSubGoalNumber = assessmentSubGoalNumber;
         }
@@ -60,7 +58,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.AssessmentSubGoalID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.AssessmentGoalID = assessmentGoal.AssessmentGoalID;
             this.AssessmentGoal = assessmentGoal;
             assessmentGoal.AssessmentSubGoals.Add(this);

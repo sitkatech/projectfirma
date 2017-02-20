@@ -25,6 +25,7 @@ namespace ProjectFirma.Web.Models
         {
             this.NotificationProjects = new HashSet<NotificationProject>();
             this.NotificationProposedProjects = new HashSet<NotificationProposedProject>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -32,8 +33,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public Notification(int notificationID, int notificationTypeID, int personID, DateTime notificationDate) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.NotificationID = notificationID;
             this.NotificationTypeID = notificationTypeID;
             this.PersonID = personID;
@@ -48,7 +47,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.NotificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.NotificationTypeID = notificationTypeID;
             this.PersonID = personID;
             this.NotificationDate = notificationDate;
@@ -61,7 +59,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.NotificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.NotificationTypeID = notificationType.NotificationTypeID;
             this.PersonID = person.PersonID;
             this.Person = person;

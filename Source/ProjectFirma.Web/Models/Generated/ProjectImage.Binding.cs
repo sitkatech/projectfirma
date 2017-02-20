@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProjectImage()
         {
             this.ProjectImageUpdates = new HashSet<ProjectImageUpdate>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectImage(int projectImageID, int fileResourceID, int projectID, int projectImageTimingID, string caption, string credit, bool isKeyPhoto, bool excludeFromFactSheet) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectImageID = projectImageID;
             this.FileResourceID = fileResourceID;
             this.ProjectID = projectID;
@@ -51,7 +50,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FileResourceID = fileResourceID;
             this.ProjectID = projectID;
             this.ProjectImageTimingID = projectImageTimingID;
@@ -68,7 +66,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FileResourceID = fileResource.FileResourceID;
             this.FileResource = fileResource;
             fileResource.ProjectImages.Add(this);

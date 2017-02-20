@@ -43,6 +43,7 @@ namespace ProjectFirma.Web.Models
             this.ProposedProjectNotesWhereYouAreTheCreatePerson = new HashSet<ProposedProjectNote>();
             this.ProposedProjectNotesWhereYouAreTheUpdatePerson = new HashSet<ProposedProjectNote>();
             this.SupportRequestLogsWhereYouAreTheRequestPerson = new HashSet<SupportRequestLog>();
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -50,8 +51,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public Person(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int roleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, bool receiveSupportEmails, Guid? webServiceAccessToken, string loginName) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.PersonID = personID;
             this.PersonGuid = personGuid;
             this.FirstName = firstName;
@@ -78,7 +77,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PersonGuid = personGuid;
             this.FirstName = firstName;
             this.LastName = lastName;
@@ -98,7 +96,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.PersonGuid = personGuid;
             this.FirstName = firstName;
             this.LastName = lastName;

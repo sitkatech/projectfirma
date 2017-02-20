@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected TaxonomyTierTwoPerformanceMeasure()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public TaxonomyTierTwoPerformanceMeasure(int taxonomyTierTwoPerformanceMeasureID, int taxonomyTierTwoID, int performanceMeasureID, bool isPrimaryTaxonomyTierTwo) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.TaxonomyTierTwoPerformanceMeasureID = taxonomyTierTwoPerformanceMeasureID;
             this.TaxonomyTierTwoID = taxonomyTierTwoID;
             this.PerformanceMeasureID = performanceMeasureID;
@@ -47,7 +46,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyTierTwoPerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.TaxonomyTierTwoID = taxonomyTierTwoID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.IsPrimaryTaxonomyTierTwo = isPrimaryTaxonomyTierTwo;
@@ -60,7 +58,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyTierTwoPerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.TaxonomyTierTwoID = taxonomyTierTwo.TaxonomyTierTwoID;
             this.TaxonomyTierTwo = taxonomyTierTwo;
             taxonomyTierTwo.TaxonomyTierTwoPerformanceMeasures.Add(this);

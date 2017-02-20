@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected SnapshotProject()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public SnapshotProject(int snapshotProjectID, int snapshotID, int projectID, int snapshotProjectTypeID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.SnapshotProjectID = snapshotProjectID;
             this.SnapshotID = snapshotID;
             this.ProjectID = projectID;
@@ -47,7 +46,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.SnapshotProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.SnapshotID = snapshotID;
             this.ProjectID = projectID;
             this.SnapshotProjectTypeID = snapshotProjectTypeID;
@@ -60,7 +58,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.SnapshotProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.SnapshotID = snapshot.SnapshotID;
             this.Snapshot = snapshot;
             snapshot.SnapshotProjects.Add(this);

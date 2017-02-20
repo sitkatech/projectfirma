@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected FieldDefinitionData()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public FieldDefinitionData(int fieldDefinitionDataID, int fieldDefinitionID, string fieldDefinitionDataValue) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.FieldDefinitionDataID = fieldDefinitionDataID;
             this.FieldDefinitionID = fieldDefinitionID;
             this.FieldDefinitionDataValue = fieldDefinitionDataValue;
@@ -46,7 +45,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.FieldDefinitionDataID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FieldDefinitionID = fieldDefinitionID;
         }
 
@@ -57,7 +55,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.FieldDefinitionDataID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.FieldDefinitionID = fieldDefinition.FieldDefinitionID;
         }
 

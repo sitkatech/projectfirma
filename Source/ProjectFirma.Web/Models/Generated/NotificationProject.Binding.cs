@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected NotificationProject()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public NotificationProject(int notificationProjectID, int notificationID, int projectID) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.NotificationProjectID = notificationProjectID;
             this.NotificationID = notificationID;
             this.ProjectID = projectID;
@@ -46,7 +45,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.NotificationProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.NotificationID = notificationID;
             this.ProjectID = projectID;
         }
@@ -58,7 +56,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.NotificationProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.NotificationID = notification.NotificationID;
             this.Notification = notification;
             notification.NotificationProjects.Add(this);

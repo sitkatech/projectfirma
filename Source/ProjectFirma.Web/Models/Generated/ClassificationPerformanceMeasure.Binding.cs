@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ClassificationPerformanceMeasure()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ClassificationPerformanceMeasure(int classificationPerformanceMeasureID, int classificationID, int performanceMeasureID, bool isPrimaryChart) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ClassificationPerformanceMeasureID = classificationPerformanceMeasureID;
             this.ClassificationID = classificationID;
             this.PerformanceMeasureID = performanceMeasureID;
@@ -47,7 +46,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ClassificationPerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ClassificationID = classificationID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.IsPrimaryChart = isPrimaryChart;
@@ -60,7 +58,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ClassificationPerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ClassificationID = classification.ClassificationID;
             this.Classification = classification;
             classification.ClassificationPerformanceMeasures.Add(this);

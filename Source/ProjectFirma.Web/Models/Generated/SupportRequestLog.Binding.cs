@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected SupportRequestLog()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public SupportRequestLog(int supportRequestLogID, DateTime requestDate, string requestPersonName, string requestPersonEmail, int? requestPersonID, int supportRequestTypeID, string requestDescription, string requestPersonOrganization, string requestPersonPhone) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.SupportRequestLogID = supportRequestLogID;
             this.RequestDate = requestDate;
             this.RequestPersonName = requestPersonName;
@@ -52,7 +51,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.SupportRequestLogID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.RequestDate = requestDate;
             this.RequestPersonName = requestPersonName;
             this.RequestPersonEmail = requestPersonEmail;
@@ -67,7 +65,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.SupportRequestLogID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.RequestDate = requestDate;
             this.RequestPersonName = requestPersonName;
             this.RequestPersonEmail = requestPersonEmail;

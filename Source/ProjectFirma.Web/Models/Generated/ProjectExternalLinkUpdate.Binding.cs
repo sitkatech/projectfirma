@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected ProjectExternalLinkUpdate()
         {
 
+            this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public ProjectExternalLinkUpdate(int projectExternalLinkUpdateID, int projectUpdateBatchID, string externalLinkLabel, string externalLinkUrl) : this()
         {
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
-            
             this.ProjectExternalLinkUpdateID = projectExternalLinkUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ExternalLinkLabel = externalLinkLabel;
@@ -47,7 +46,6 @@ namespace ProjectFirma.Web.Models
             // Mark this as a new object by setting primary key with special value
             this.ProjectExternalLinkUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ExternalLinkLabel = externalLinkLabel;
             this.ExternalLinkUrl = externalLinkUrl;
@@ -60,7 +58,6 @@ namespace ProjectFirma.Web.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectExternalLinkUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TenantID = HttpRequestStorage.Tenant.TenantID;
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectExternalLinkUpdates.Add(this);
