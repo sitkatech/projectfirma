@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
         public static List<WebServicePerformanceMeasure> GetPerformanceMeasures()
         {
             var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
-            return performanceMeasures.Select(x => new WebServicePerformanceMeasure(x)).OrderBy(x => x.PerformanceMeasureID).ToList();
+            return performanceMeasures.Select(x => new WebServicePerformanceMeasure(x)).OrderBy(x => x.PerformanceMeasureName).ToList();
         }
     }
 

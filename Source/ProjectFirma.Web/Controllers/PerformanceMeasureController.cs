@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var hasDeletePermission = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson);
             var gridSpec = new PerformanceMeasureGridSpec(hasDeletePermission);
-            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.OrderBy(x => x.PerformanceMeasureID).ToList();
+            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PerformanceMeasure>(performanceMeasures, gridSpec);
             return gridJsonNetJObjectResult;
         }

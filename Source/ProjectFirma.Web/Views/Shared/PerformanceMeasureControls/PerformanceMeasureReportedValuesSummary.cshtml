@@ -40,7 +40,7 @@
             <th style="text-align: right">Total</th>
             <th></th>
         </tr>
-        @foreach (var performanceMeasureCalendarYearReportedValue in ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues.OrderBy(x => x.PerformanceMeasureID))
+        @foreach (var performanceMeasureCalendarYearReportedValue in ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues.OrderBy(x => x.PerformanceMeasureDisplayName))
         {
             foreach (var subcategoriesReportedValue in performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.OrderBy(x => x.PerformanceMeasureSubcategories))
             {

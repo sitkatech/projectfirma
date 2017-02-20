@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
         public static List<WebServiceProjectAccomplishments> GetProjectAccomplishments(int projectID)
         {
             var project = HttpRequestStorage.DatabaseEntities.Projects.GetProject(projectID);
-            return project.PerformanceMeasureActuals.Select(x => new WebServiceProjectAccomplishments(x)).OrderBy(x => x.PerformanceMeasureID).ToList();
+            return project.PerformanceMeasureActuals.Select(x => new WebServiceProjectAccomplishments(x)).OrderBy(x => x.PerformanceMeasureName).ToList();
         }       
     }
 

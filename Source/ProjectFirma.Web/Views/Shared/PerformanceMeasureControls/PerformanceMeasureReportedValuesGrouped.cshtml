@@ -8,7 +8,7 @@
 {
     var maxSubcategoryCount = ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues.Max(p => p.SubcategoriesReportedValues.First().SubcategoryNames.Count());
 
-    foreach (var performanceMeasureCalendarYearReportedValue in ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues.OrderBy(x => x.PerformanceMeasureID))
+    foreach (var performanceMeasureCalendarYearReportedValue in ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues.OrderBy(x => x.PerformanceMeasureDisplayName))
     {
         <table id="performanceMeasureTable_@(performanceMeasureCalendarYearReportedValue.PerformanceMeasureID)" class="summaryLayout performanceMeasureTable" style="margin-bottom: 20px; @ViewDataTyped.HideByDefaultStyle()">
             @{

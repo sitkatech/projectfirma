@@ -20,6 +20,10 @@ namespace ProjectFirma.Web.Views.Project
         {
             get { return _performanceMeasure.GetDisplayNameAsUrl(); }
         }
+        public string PerformanceMeasureDisplayName
+        {
+            get { return _performanceMeasure.PerformanceMeasureDisplayName; }
+        }
         public MeasurementUnitType MeasurementUnitType
         {
             get { return _performanceMeasure.MeasurementUnitType; }

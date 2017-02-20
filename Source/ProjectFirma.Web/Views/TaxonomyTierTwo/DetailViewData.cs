@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             BasicProjectInfoProjectGridDataUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyTierTwo));
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyTierTwo);
 
-            TaxonomyTierTwoPerformanceMeasures = taxonomyTierTwo.GetPerformanceMeasures().OrderBy(x => x.PerformanceMeasureID).ToList();
+            TaxonomyTierTwoPerformanceMeasures = taxonomyTierTwo.GetPerformanceMeasures().OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
         }
     }
 }

@@ -126,7 +126,7 @@
                                 <tr>
                                     <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure)</th>
                                 </tr>
-                                @foreach (var performanceMeasure in ViewDataTyped.TaxonomyTierTwoPerformanceMeasures.OrderBy(x => x.PerformanceMeasureID))
+                                @foreach (var performanceMeasure in ViewDataTyped.TaxonomyTierTwoPerformanceMeasures.OrderBy(x => x.PerformanceMeasureDisplayName))
                                 {
                                     <tr>
                                         <td>
