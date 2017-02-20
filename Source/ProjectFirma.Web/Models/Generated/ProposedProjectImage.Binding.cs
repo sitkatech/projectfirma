@@ -97,16 +97,16 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProposedProjectImageID { get; set; }
+        public int TenantID { get; private set; }
         public int FileResourceID { get; set; }
         public int ProposedProjectID { get; set; }
         public string Caption { get; set; }
         public string Credit { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProposedProjectImageID; } set { ProposedProjectImageID = value; } }
 
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual FileResource FileResource { get; set; }
         public virtual ProposedProject ProposedProject { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

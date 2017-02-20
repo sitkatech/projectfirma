@@ -131,6 +131,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ProposedProjectID { get; set; }
+        public int TenantID { get; private set; }
         public string ProjectName { get; set; }
         public string ProjectDescription { get; set; }
         public int LeadImplementerOrganizationID { get; set; }
@@ -154,7 +155,6 @@ namespace ProjectFirma.Web.Models
         public DateTime? SubmissionDate { get; set; }
         public DateTime? ApprovalDate { get; set; }
         public int? ReviewedByPersonID { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ProposedProjectID; } set { ProposedProjectID = value; } }
 
         public virtual ICollection<NotificationProposedProject> NotificationProposedProjects { get; set; }
@@ -165,6 +165,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProposedProjectLocation> ProposedProjectLocations { get; set; }
         public virtual ICollection<ProposedProjectLocationStaging> ProposedProjectLocationStagings { get; set; }
         public virtual ICollection<ProposedProjectNote> ProposedProjectNotes { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Organization LeadImplementerOrganization { get; set; }
         public virtual Person ProposingPerson { get; set; }
         public virtual Person ReviewedByPerson { get; set; }
@@ -174,7 +175,6 @@ namespace ProjectFirma.Web.Models
         public ProposedProjectState ProposedProjectState { get { return ProposedProjectState.AllLookupDictionary[ProposedProjectStateID]; } }
         public virtual TaxonomyTierOne TaxonomyTierOne { get; set; }
         public virtual Project Project { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

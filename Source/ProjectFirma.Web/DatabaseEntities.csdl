@@ -1064,10 +1064,10 @@
       <PropertyRef Name="PerformanceMeasureExpectedProposedID" />
     </Key>
     <Property Name="PerformanceMeasureExpectedProposedID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="ExpectedValue" Type="Double" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedProposed_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureExpectedProposeds" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID" FromRole="PerformanceMeasureExpectedProposeds" ToRole="ProposedProject" />
     <NavigationProperty Name="PerformanceMeasureExpectedSubcategoryOptionProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID" FromRole="PerformanceMeasureExpectedProposed" ToRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" />
@@ -1092,11 +1092,11 @@
       <PropertyRef Name="PerformanceMeasureExpectedSubcategoryOptionProposedID" />
     </Key>
     <Property Name="PerformanceMeasureExpectedSubcategoryOptionProposedID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureExpectedProposedID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="Int32" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="Int32" Nullable="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="PerformanceMeasure" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasure_PerformanceMeasureID" FromRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" ToRole="PerformanceMeasure" />
     <NavigationProperty Name="PerformanceMeasureExpectedProposed" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureExpectedProposed_PerformanceMeasureExpectedProposedID" FromRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" ToRole="PerformanceMeasureExpectedProposed" />
     <NavigationProperty Name="PerformanceMeasureSubcategory" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedSubcategoryOptionProposed_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID" FromRole="PerformanceMeasureExpectedSubcategoryOptionProposeds" ToRole="PerformanceMeasureSubcategory" />
@@ -1672,6 +1672,7 @@
       <PropertyRef Name="ProposedProjectID" />
     </Key>
     <Property Name="ProposedProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="140" Unicode="false" FixedLength="false" />
     <Property Name="ProjectDescription" Type="String" Nullable="false" MaxLength="4000" Unicode="false" FixedLength="false" />
     <Property Name="LeadImplementerOrganizationID" Type="Int32" Nullable="false" />
@@ -1695,7 +1696,6 @@
     <Property Name="SubmissionDate" Type="DateTime" />
     <Property Name="ApprovalDate" Type="DateTime" />
     <Property Name="ReviewedByPersonID" Type="Int32" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="NotificationProposedProjects" Relationship="ProjectFirma.Web.Models.FK_NotificationProposedProject_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="NotificationProposedProjects" />
     <NavigationProperty Name="LeadImplementerOrganization" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID" FromRole="ProposedProjectsWhereYouAreTheLeadImplementerOrganization" ToRole="LeadImplementerOrganization" />
     <NavigationProperty Name="PerformanceMeasureExpectedProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="PerformanceMeasureExpectedProposeds" />
@@ -1740,11 +1740,11 @@
       <PropertyRef Name="ProposedProjectImageID" />
     </Key>
     <Property Name="ProposedProjectImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="FileResourceID" Type="Int32" Nullable="false" />
     <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
     <Property Name="Caption" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="Credit" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectImage_FileResource_FileResourceID" FromRole="ProposedProjectImages" ToRole="FileResource" />
     <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectImage_ProposedProject_ProposedProjectID" FromRole="ProposedProjectImages" ToRole="ProposedProject" />
   </EntityType>

@@ -1063,10 +1063,10 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionPr
       <PropertyRef Name="PerformanceMeasureExpectedProposedID" />
     </Key>
     <Property Name="PerformanceMeasureExpectedProposedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProposedProjectID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="ExpectedValue" Type="float" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PerformanceMeasureExpectedSubcategoryOption">
     <Key>
@@ -1084,11 +1084,11 @@ warning 6035: The relationship 'FK_PerformanceMeasureExpectedSubcategoryOptionPr
       <PropertyRef Name="PerformanceMeasureExpectedSubcategoryOptionProposedID" />
     </Key>
     <Property Name="PerformanceMeasureExpectedSubcategoryOptionProposedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureExpectedProposedID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryOptionID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureID" Type="int" Nullable="false" />
     <Property Name="PerformanceMeasureSubcategoryID" Type="int" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PerformanceMeasureMonitoringProgram">
     <Key>
@@ -1623,6 +1623,7 @@ warning 6035: The relationship 'FK_ProposedProjectNote_ProposedProject_ProposedP
       <PropertyRef Name="ProposedProjectID" />
     </Key>
     <Property Name="ProposedProjectID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ProjectName" Type="varchar" Nullable="false" MaxLength="140" />
     <Property Name="ProjectDescription" Type="varchar" Nullable="false" MaxLength="4000" />
     <Property Name="LeadImplementerOrganizationID" Type="int" Nullable="false" />
@@ -1646,7 +1647,6 @@ warning 6035: The relationship 'FK_ProposedProjectNote_ProposedProject_ProposedP
     <Property Name="SubmissionDate" Type="datetime" />
     <Property Name="ApprovalDate" Type="datetime" />
     <Property Name="ReviewedByPersonID" Type="int" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProposedProjectAssessmentQuestion">
     <Key>
@@ -1673,11 +1673,11 @@ warning 6035: The relationship 'FK_ProposedProjectNote_ProposedProject_ProposedP
       <PropertyRef Name="ProposedProjectImageID" />
     </Key>
     <Property Name="ProposedProjectImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="FileResourceID" Type="int" Nullable="false" />
     <Property Name="ProposedProjectID" Type="int" Nullable="false" />
     <Property Name="Caption" Type="varchar" Nullable="false" MaxLength="200" />
     <Property Name="Credit" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProposedProjectLocation">
     <Key>

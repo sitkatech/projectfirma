@@ -341,10 +341,10 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureExpectedProposed">
         <MappingFragment StoreEntitySet="PerformanceMeasureExpectedProposed">
           <ScalarProperty Name="PerformanceMeasureExpectedProposedID" ColumnName="PerformanceMeasureExpectedProposedID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="ExpectedValue" ColumnName="ExpectedValue" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -364,11 +364,11 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasureExpectedSubcategoryOptionProposed">
         <MappingFragment StoreEntitySet="PerformanceMeasureExpectedSubcategoryOptionProposed">
           <ScalarProperty Name="PerformanceMeasureExpectedSubcategoryOptionProposedID" ColumnName="PerformanceMeasureExpectedSubcategoryOptionProposedID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="PerformanceMeasureExpectedProposedID" ColumnName="PerformanceMeasureExpectedProposedID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryOptionID" ColumnName="PerformanceMeasureSubcategoryOptionID" />
           <ScalarProperty Name="PerformanceMeasureID" ColumnName="PerformanceMeasureID" />
           <ScalarProperty Name="PerformanceMeasureSubcategoryID" ColumnName="PerformanceMeasureSubcategoryID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -842,6 +842,7 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProject">
         <MappingFragment StoreEntitySet="ProposedProject">
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
           <ScalarProperty Name="ProjectDescription" ColumnName="ProjectDescription" />
           <ScalarProperty Name="LeadImplementerOrganizationID" ColumnName="LeadImplementerOrganizationID" />
@@ -865,7 +866,6 @@
           <ScalarProperty Name="SubmissionDate" ColumnName="SubmissionDate" />
           <ScalarProperty Name="ApprovalDate" ColumnName="ApprovalDate" />
           <ScalarProperty Name="ReviewedByPersonID" ColumnName="ReviewedByPersonID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -895,11 +895,11 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProjectImage">
         <MappingFragment StoreEntitySet="ProposedProjectImage">
           <ScalarProperty Name="ProposedProjectImageID" ColumnName="ProposedProjectImageID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
           <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
           <ScalarProperty Name="Caption" ColumnName="Caption" />
           <ScalarProperty Name="Credit" ColumnName="Credit" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
