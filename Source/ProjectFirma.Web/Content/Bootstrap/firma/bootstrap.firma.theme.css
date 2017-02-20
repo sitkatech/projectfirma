@@ -40,9 +40,6 @@ input[disabled] {
   float: right;
   padding: 20px;
 }
-.backButton {
-  padding: 0 0 20px 0;
-}
 form .form-group {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -328,6 +325,11 @@ table.summaryLayout td {
   padding: 2px 6px;
   vertical-align: top;
 }
+.table td.fit,
+.table th.fit {
+  white-space: nowrap;
+  width: 1%;
+}
 .panelFirma {
   border-color: #ddd;
 }
@@ -460,7 +462,6 @@ span.keyPhotoButton label {
   display: inline-block;
   vertical-align: top;
   color: #007CB9;
-  text-decoration: underline;
   cursor: pointer;
 }
 ul.filmStrip {

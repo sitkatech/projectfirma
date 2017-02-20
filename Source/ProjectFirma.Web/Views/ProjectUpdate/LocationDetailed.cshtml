@@ -22,20 +22,18 @@ else
 
     ProjectLocationDetail.RenderPartialView(Html, ViewDataTyped.ProjectLocationDetailViewData, Model);
 
-    <hr/>
     if (ViewDataTyped.ShowApproveAndReturnButton)
     {
-        <table class="formLayout">
-            <tr>
-                <th>Comments:</th>
-                <td>
-                    @Html.TextAreaFor(x => x.Comments, new {@class = "sectionComments"})
-                    @Html.Hidden("Section", ViewDataTyped.SelectedProjectUpdateSection)
-                </td>
-            </tr>
-        </table>
-        <hr/>
+    <hr />
+    <div class="row form-group">
+        <div class="col-md-3 col-header">@Html.LabelFor(x => x.Comments)</div>
+        <div class="col-md-9">
+            @Html.TextAreaFor(x => x.Comments, new { @class = "sectionComments" })
+            @Html.Hidden("Section", ViewDataTyped.SelectedProjectUpdateSection)
+        </div>
+    </div>
     }
+<hr />
     SectionComments.RenderPartialView(Html, ViewDataTyped.SectionCommentsViewData);
     <table style="width: 100%">
         <tr>
@@ -53,14 +51,12 @@ else
         // <![CDATA[
         jQuery(document).ready(function () { HookupCheckIfFormIsDirty("#@ViewDataTyped.ProjectLocationDetailViewData.MapFormID", ".submitProject"); });
 
-        function saveForm()
-        {
+        function saveForm() {
             var form = jQuery("#@ViewDataTyped.ProjectLocationDetailViewData.MapFormID");
             // Do not submit if the form
             // does not pass client side validation
 
-            if (!form.valid())
-            {
+            if (!form.valid()) {
                 return false;
             }
             // we need to inject the comments field if we are in "Submitted" state
@@ -69,7 +65,7 @@ else
                 <text>
             var comments = jQuery("#@Html.IdFor(x => x.Comments)").val();
             form.append('<input type="hidden" name="@Html.NameFor(x => x.Comments)" value="' + comments + '" />');
-                </text>
+            </text>
             }
             form.submit();
         }

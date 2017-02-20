@@ -3,30 +3,30 @@
 @using LtInfo.Common.HtmlHelperExtensions
 @inherits ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.ProjectExpendituresDetail
 
-<table class="summaryLayout">
-    <tr>
-        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.FundingSource)</th>
-        @foreach (var calendarYear in ViewDataTyped.CalendarYears)
-        {
-            <th style="text-align: right">
-                @calendarYear
-            </th>
-        }
-        <th style="text-align: right">Total</th>
-    </tr>
-    @foreach (var fundingSourceExpenditure in ViewDataTyped.FundingSourceExpenditures.OrderBy(x => x.FundingSourceName))
-    {
+@if (ViewDataTyped.FundingSourceExpenditures.Any())
+{
+    <table class="summaryLayout">
         <tr>
-            <td>@Html.Raw(fundingSourceExpenditure.FundingSourceNameAsUrl)</td>
-            @foreach (var x in fundingSourceExpenditure.CalendarYearExpenditure.Keys)
+            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.FundingSource)</th>
+            @foreach (var calendarYear in ViewDataTyped.CalendarYears)
             {
-                <td style="text-align: right">@fundingSourceExpenditure.CalendarYearExpenditure[x].ToStringCurrency()</td>
+                <th style="text-align: right">
+                    @calendarYear
+                </th>
             }
-            <th style="text-align: right">@fundingSourceExpenditure.CalendarYearExpenditure.Sum(x => x.Value).ToStringCurrency()</th>
+            <th style="text-align: right">Total</th>
         </tr>
-    }
-    @if (ViewDataTyped.FundingSourceExpenditures.Any())
-    {
+        @foreach (var fundingSourceExpenditure in ViewDataTyped.FundingSourceExpenditures.OrderBy(x => x.FundingSourceName))
+        {
+            <tr>
+                <td>@Html.Raw(fundingSourceExpenditure.FundingSourceNameAsUrl)</td>
+                @foreach (var x in fundingSourceExpenditure.CalendarYearExpenditure.Keys)
+                {
+                    <td style="text-align: right">@fundingSourceExpenditure.CalendarYearExpenditure[x].ToStringCurrency()</td>
+                }
+                <th style="text-align: right">@fundingSourceExpenditure.CalendarYearExpenditure.Sum(x => x.Value).ToStringCurrency()</th>
+            </tr>
+        }
         <tr>
             <th>Total:</th>
             @foreach (var calendarYear in ViewDataTyped.CalendarYears)
@@ -35,8 +35,8 @@
             }
             <th style="text-align: right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Sum(x => x.Value).ToStringCurrency()</th>
         </tr>
-    }
-</table>
+    </table>
+}
 @if (!ViewDataTyped.FundingSourceExpenditures.Any())
 {
     <p class="alert">No expenditures have been reported for this project.</p>

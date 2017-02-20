@@ -272,7 +272,7 @@ namespace ProjectFirma.Web.Controllers
                                               x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
 
             var performanceMeasureSubcategories = performanceMeasures.SelectMany(x => x.PerformanceMeasureSubcategories).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureSubcategory>()).ToList();
-            var performanceMeasureSimples = performanceMeasures.Select(x => new PerformanceMeasureSimple(x)).OrderBy(p => p.PerformanceMeasureID).ToList();
+            var performanceMeasureSimples = performanceMeasures.Select(x => new PerformanceMeasureSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var performanceMeasureSubcategorySimples = performanceMeasureSubcategories.Select(y => new PerformanceMeasureSubcategorySimple(y)).ToList();
 
             var performanceMeasureSubcategoryOptionSimples = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();
@@ -989,7 +989,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
 
-            Check.RequireNotNull(projectUpdateBatch, string.Format("There is no current Project Update to approve for Project {0}", project.DisplayName));
+            Check.RequireNotNull(projectUpdateBatch, string.Format("There is no current Project Update to approve for Project {0}!", project.DisplayName));
             Check.Require(projectUpdateBatch.IsSubmitted, "The project is not in a state to be ready to be approved!");
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
             return ViewApprove(projectUpdateBatch, viewModel);
@@ -1002,7 +1002,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            Check.RequireNotNull(projectUpdateBatch, string.Format("There is no current Project Update to approve for Project {0}", project.DisplayName));
+            Check.RequireNotNull(projectUpdateBatch, string.Format("There is no current Project Update to approve for Project {0}.", project.DisplayName));
             Check.Require(projectUpdateBatch.IsSubmitted, "The project is not in a state to be ready to be approved!");
 
             WriteHtmlDiffLogs(projectPrimaryKey, projectUpdateBatch);
@@ -1046,7 +1046,7 @@ namespace ProjectFirma.Web.Controllers
             var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
             Notification.SendApprovalMessage(peopleToCc, projectUpdateBatch);
 
-            SetMessageForDisplay(string.Format("The update for project {0} was approved", projectUpdateBatch.Project.DisplayName));
+            SetMessageForDisplay(string.Format("The update for project {0} was approved!", projectUpdateBatch.Project.DisplayName));
             return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project)));
         }
 
@@ -1124,13 +1124,14 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.SubmitToReviewer(CurrentPerson, DateTime.Now);
             var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
             Notification.SendSubmittedMessage(peopleToCc, projectUpdateBatch);
-            SetMessageForDisplay(string.Format("The update for project {0} has been submitted.", projectUpdateBatch.Project.DisplayName));
-            return new ModalDialogFormJsonResult();
+            SetMessageForDisplay(string.Format("The update for project '{0}' was submitted.", projectUpdateBatch.Project.DisplayName));
+            return new ModalDialogFormJsonResult(project.GetDetailUrl());
+
         }
 
         private PartialViewResult ViewSubmit(ProjectUpdateBatch projectUpdate, ConfirmDialogFormViewModel viewModel)
         {
-            //TODO: Change "for review" to specific reviewer as determined by tentant review 
+            //TODO: Change "for review" to specific reviewer as determined by tenant review 
             var viewData = new ConfirmDialogFormViewData(string.Format("Are you sure you want to submit Project {0} for review?", projectUpdate.Project.DisplayName));
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }

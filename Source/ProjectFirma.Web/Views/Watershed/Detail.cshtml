@@ -31,7 +31,7 @@
                     </div>
                     <p style="font-size: 10px">To zoom, hold down Shift and drag a rectangle.</p>
 
-                    <p class="alert">Projects can be associated with multiple watersheds, but are currently mapped in a single location. Therefore some projects may appear outside of the watershed boundary.</p>
+                    <p>Projects can be associated with multiple watersheds, but are mapped in a single location. Therefore some projects may appear outside of the watershed boundary.</p>
                 </div>
             </div>
         </div>
@@ -55,21 +55,20 @@
                 </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panelFirma">
-                    <div class="panel-heading panelTitle">
-                        <h2>Projects</h2>
-                    </div>
-                    <div class="panel-body">
-                        @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                    </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    <h2>Projects</h2>
+                </div>
+                <div class="panel-body">
+                    @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                 </div>
             </div>
         </div>
-
     </div>
+
 </div>
 
 <script type="text/javascript">

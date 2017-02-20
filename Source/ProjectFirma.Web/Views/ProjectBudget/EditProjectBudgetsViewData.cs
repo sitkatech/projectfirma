@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using LtInfo.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.ProjectBudget
 {
@@ -11,6 +12,7 @@ namespace ProjectFirma.Web.Views.ProjectBudget
         public readonly List<FundingSourceSimple> AllFundingSources;
         public readonly int ProjectID;
         public readonly IEnumerable<int> ProjectFundingOrganizationFundingSourceIDs;
+        public readonly string FundingSourceUrl;
 
         public EditProjectBudgetsViewData(Models.Project project, List<FundingSourceSimple> allFundingSources, List<ProjectCostTypeSimple> allProjectCostTypes, IEnumerable<int> projectFundingOrganizationFundingSourceIDs, List<int> calendarYearRange)
         {
@@ -19,6 +21,9 @@ namespace ProjectFirma.Web.Views.ProjectBudget
             ProjectID = project.ProjectID;
             AllProjectCostTypes = allProjectCostTypes;
             ProjectFundingOrganizationFundingSourceIDs = projectFundingOrganizationFundingSourceIDs;
+            FundingSourceUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(x => x.Index());
         }
+
+        
     }
 }

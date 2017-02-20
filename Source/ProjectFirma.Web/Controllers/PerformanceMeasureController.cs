@@ -292,7 +292,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Add(performanceMeasure);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay(string.Format("New {0} {1} successfully created!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.GetDisplayNameAsUrl()));
+            SetMessageForDisplay(string.Format("New {0} '{1}' successfully created!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.GetDisplayNameAsUrl()));
             return new ModalDialogFormJsonResult();
         }
 
@@ -317,7 +317,7 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             viewModel.UpdateModel(performanceMeasure);
 
-            SetMessageForDisplay(string.Format("Successfully updated {0} {1}!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName));
+            SetMessageForDisplay(string.Format("Successfully updated {0} '{1}'!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName));
             return new ModalDialogFormJsonResult();
         }
 
@@ -357,7 +357,7 @@ namespace ProjectFirma.Web.Controllers
             performanceMeasure.PerformanceMeasureSubcategories.ToList().ForEach(x => x.DeletePerformanceMeasureSubcategory());
             performanceMeasure.DeletePerformanceMeasure();
 
-            SetMessageForDisplay(String.Format("Successfully deleted {0} \"{1}\"!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName));
+            SetMessageForDisplay(String.Format("Successfully deleted {0} '{1}'!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName));
             return new ModalDialogFormJsonResult();
         }
 

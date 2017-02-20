@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class LocationDetailedViewModel : ProjectLocationDetailViewModel
     {
-        [DisplayName("Comments")]
+        [DisplayName("Review Comments")]
         [StringLength(ProjectUpdateBatch.FieldLengths.LocationDetailedComment)]
         public string Comments { get; set; }
 

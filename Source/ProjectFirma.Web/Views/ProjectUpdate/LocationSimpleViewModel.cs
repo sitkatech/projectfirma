@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Spatial;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common.DbSpatial;
 
@@ -15,7 +14,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         [DisplayName("Show Validation Warnings?")]
         public bool ShowValidationWarnings { get; set; }
 
-        [DisplayName("Comments")]
+        [DisplayName("Review Comments")]
         [StringLength(ProjectUpdateBatch.FieldLengths.LocationSimpleComment)]
         public string Comments { get; set; }
 

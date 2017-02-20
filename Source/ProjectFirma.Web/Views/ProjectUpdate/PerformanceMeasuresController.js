@@ -5,7 +5,7 @@
 
     $scope.resetProjectToAdd = function() { $scope.ProjectToAdd = { ProjectUpdateBatchID: angularModelAndViewData.AngularViewData.ProjectUpdateBatchID }; };
 
-    $scope.filteredPerformanceMeasures = function() { return _($scope.AngularViewData.AllPerformanceMeasures).sortBy(["PerformanceMeasureID"]).value(); };
+    $scope.filteredPerformanceMeasures = function () { return _($scope.AngularViewData.AllPerformanceMeasures).sortBy(["DisplayName"]).value(); };
 
     $scope.getPerformanceMeasureName = function(performanceMeasureActualUpdate)
     {

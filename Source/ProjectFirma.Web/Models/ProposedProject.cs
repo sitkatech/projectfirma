@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Models
 
         public HtmlString DisplayNameAsUrl
         {
-            get { return UrlTemplate.MakeHrefString(this.GetSummaryUrl(), DisplayName); }
+            get { return UrlTemplate.MakeHrefString(this.GetDetailUrl(), DisplayName); }
         }
 
         public static bool IsProjectNameUnique(IEnumerable<ProposedProject> projects, string projectName, int currentProposedProjectID)

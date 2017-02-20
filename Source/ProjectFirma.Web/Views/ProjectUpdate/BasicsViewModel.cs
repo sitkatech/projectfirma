@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         [FieldDefinitionDisplay(FieldDefinitionEnum.SecuredFunding)]
         public Money? SecuredFunding { get; set; }
 
-        [DisplayName("Comments")]
+        [DisplayName("Reviewer Comments")]
         [StringLength(ProjectUpdateBatch.FieldLengths.BasicsComment)]
         public string Comments { get; set; }
 

@@ -18,10 +18,8 @@ namespace ProjectFirma.Web.Models
         }
 
         public ProjectClassification(int projectID, int classificationID, string projectClassificationNotes)
-            : this()
-        {            
-            ProjectID = projectID;
-            ClassificationID = classificationID;
+            : this(projectID, classificationID)
+        {                        
             ProjectClassificationNotes = projectClassificationNotes;
         }
         

@@ -29,17 +29,6 @@
     margin-left: 0;
 }
 
-
-.greenLight, .validationWarning { 
-    font-size: 14px;
-}
-
-.greenLight ul, .validationWarning ul {
-    margin-bottom: 0;
-    font-weight: bold;
-    font-size: 14px;
-}
-
 #tab-container
 { 
     margin: 0;

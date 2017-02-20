@@ -747,7 +747,7 @@ namespace ProjectFirma.Web.Controllers
             Notification.SendProposedProjectSubmittedMessage(peopleToNotify, proposedProject);
             //TODO: Change "reviewer" to specific reviewer as determined by tentant review 
             SetMessageForDisplay("Proposed Project succesfully submitted for review.");
-            return new ModalDialogFormJsonResult(proposedProject.GetSummaryUrl());
+            return new ModalDialogFormJsonResult(proposedProject.GetDetailUrl());
         }
 
         [HttpGet]
@@ -825,7 +825,7 @@ namespace ProjectFirma.Web.Controllers
             proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Draft;
             //TODO: Change "reviewer" to specific reviewer as determined by tentant review 
             SetMessageForDisplay("Proposed Project withdrawn from review.");
-            return new ModalDialogFormJsonResult(proposedProject.GetSummaryUrl());
+            return new ModalDialogFormJsonResult(proposedProject.GetDetailUrl());
         }
 
         [HttpGet]
@@ -846,7 +846,7 @@ namespace ProjectFirma.Web.Controllers
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Draft;
             SetMessageForDisplay("Proposed Project returned to Submitter for additional clarifactions/corrections.");
-            return new ModalDialogFormJsonResult(proposedProject.GetSummaryUrl());
+            return new ModalDialogFormJsonResult(proposedProject.GetDetailUrl());
         }
 
         [HttpGet]
@@ -867,7 +867,7 @@ namespace ProjectFirma.Web.Controllers
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Rejected;
             SetMessageForDisplay("Proposed Project was rejected.");
-            return new ModalDialogFormJsonResult(proposedProject.GetSummaryUrl());
+            return new ModalDialogFormJsonResult(proposedProject.GetDetailUrl());
         }
 
         [ProposedProjectViewFeature]

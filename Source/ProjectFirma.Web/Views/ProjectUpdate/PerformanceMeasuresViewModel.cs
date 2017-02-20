@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         [DisplayName("Show Validation Warnings?")]
         public bool ShowValidationWarnings { get; set; }
 
-        [DisplayName("Comments")]
+        [DisplayName("Review Comments")]
         [StringLength(ProjectUpdateBatch.FieldLengths.PerformanceMeasuresComment)]
         public string Comments { get; set; }
 

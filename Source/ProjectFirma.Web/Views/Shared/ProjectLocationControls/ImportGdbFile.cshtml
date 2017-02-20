@@ -2,22 +2,6 @@
 @using LtInfo.Common.Mvc
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ImportGdbFile
 
-<style>
-    /*Mimics style .validationWarning*/
-    .gisUploadError {
-        margin-top: 10px;
-        padding: 10px;
-        border: 2px solid;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-        border-bottom-right-radius: 3px;
-        background-color: #eb9d9e;
-        border-color: #800000;
-    }
-</style>
-
-
 <table style="width: 100%" class="summaryLayout">
     <tr>
         <td style="width: 350px">
@@ -84,7 +68,7 @@
                     //SitkaAjax.errorHandler(xhr, statusText);
                     jQuery(".progress").hide();
                     saveButton.prop("disabled", true);
-                    gisUploadResults.html("<div class='gisUploadError' style='position: fixed; top: 50%; width:500px'>There was a problem uploading your file geodatabase. Verify it meets the requirements and is not corrupt.</div>");
+                    gisUploadResults.html("<div class='alert alert-danger' style='position: fixed; top: 50%; width:500px'>There was a problem uploading your file geodatabase. Verify it meets the requirements and is not corrupt.</div>");
                 }
             });
             form.submit();

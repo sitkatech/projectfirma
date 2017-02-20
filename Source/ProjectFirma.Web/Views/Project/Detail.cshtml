@@ -98,7 +98,7 @@
 
 @if (ViewDataTyped.LatestUpdateState == ProjectUpdateState.Submitted || ViewDataTyped.LatestUpdateState == ProjectUpdateState.Returned)
 {
-    <div class="warning" style="margin-bottom: 10px">
+    <div class="alert alert-warning" style="margin-bottom: 10px">
         <span>
             Updates to this project have been submitted but not yet approved. Check back later for more current information on this project.
             @if (ViewDataTyped.UserHasProjectUpdatePermissions)

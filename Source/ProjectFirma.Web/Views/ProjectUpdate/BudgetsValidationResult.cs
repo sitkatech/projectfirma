@@ -7,6 +7,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     {
         private readonly List<string> _warningMessages;
 
+        public BudgetsValidationResult()
+        {
+            _warningMessages = new List<string>();
+        }
+
         public BudgetsValidationResult(Dictionary<Models.FundingSource, HashSet<int>> missingFundingSourceYears)
             : this(missingFundingSourceYears, new List<int>())
         {
@@ -17,9 +22,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public BudgetsValidationResult(Dictionary<Models.FundingSource, HashSet<int>> missingFundingSourceYears, List<int> missingYears)
+        public BudgetsValidationResult(Dictionary<Models.FundingSource, HashSet<int>> missingFundingSourceYears, List<int> missingYears) :this()
         {
-            _warningMessages = new List<string>();
             if (missingYears.Any())
             {
                 _warningMessages.Add(string.Format("Missing Budget Amounts for {0}", string.Join(", ", missingYears)));

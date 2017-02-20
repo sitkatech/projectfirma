@@ -127,7 +127,7 @@
         @if (ViewDataTyped.SelectedProjectUpdateSection != ProjectUpdateSectionEnum.Instructions)
         {
             <span><sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup> Required Field</span>
-        }       
+        }
     </div>
 </div>
 
@@ -166,6 +166,10 @@
             {
                 <span>Returned by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.UpdatePerson.FullNameFirstLastAndOrg on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.TransitionDate.ToStringDateTime()</span>
             }
+            <div>
+                <a href="@ViewDataTyped.Project.GetDetailUrl()" target="_blank">Back to  Project Details</a> 
+            </div>
+
         </div>
     </div>
 </div>

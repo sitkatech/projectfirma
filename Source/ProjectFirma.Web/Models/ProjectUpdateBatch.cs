@@ -424,6 +424,12 @@ namespace ProjectFirma.Web.Models
 
             // get distinct Funding Sources
             var fundingSources = ProjectBudgetUpdates.Select(x => x.FundingSource).Distinct().ToList();
+
+            if (!fundingSources.Any())
+            {
+                return new BudgetsValidationResult();
+            }
+
             // validation 1: ensure that we have budget values from ProjectUpdate start year to min(endyear, currentyear)
             var yearsExpected = FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), ProjectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
             if (!fundingSources.Any())

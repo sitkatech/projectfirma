@@ -54,20 +54,18 @@ else
 
     EditProjectLocationSimple.RenderPartialView(Html, ViewDataTyped.EditProjectLocationSimpleViewData, Model);
 
-    <hr/>
     if (ViewDataTyped.ShowApproveAndReturnButton)
     {
-        <table class="formLayout">
-            <tr>
-                <th>Comments:</th>
-                <td>
-                    @Html.TextAreaFor(x => x.Comments, new {@class = "sectionComments"})
-                    @Html.Hidden("Section", ViewDataTyped.SelectedProjectUpdateSection)
-                </td>
-            </tr>
-        </table>
-        <hr/>
+        <hr />
+        <div class="row form-group">
+            <div class="col-md-3 col-header">@Html.LabelFor(x => x.Comments)</div>
+            <div class="col-md-9">
+                @Html.TextAreaFor(x => x.Comments, new { @class = "sectionComments" })
+                @Html.Hidden("Section", ViewDataTyped.SelectedProjectUpdateSection)
+            </div>
+        </div>
     }
+    <hr />
     SectionComments.RenderPartialView(Html, ViewDataTyped.SectionCommentsViewData);
     <div ng-app="ProjectFirmaApp" ng-controller="LocationSimpleController">
         <table class="summaryLayout" style="width: 100%">
@@ -78,16 +76,17 @@ else
                 <td>
                     @if (ViewDataTyped.ViewDataForAngular.ValidationWarnings.Any())
                     {
-                        <table data-ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'validationWarning' : 'hidden'">
-                            <tr data-ng-repeat="warning in AngularViewData.ValidationWarnings">
-                                <td>@Html.Raw(ProjectWizardComponents.RequiredInfoNotProvidedIcon)</td>
-                                <td data-ng-bind="warning"></td>
-                            </tr>
-                        </table>
+                        <div data-ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'alert alert-danger' : 'hidden'">
+                            <ul>
+                                <li data-ng-repeat="warning in AngularViewData.ValidationWarnings">
+                                    <span data-ng-bind="warning"></span>
+                                </li>
+                            </ul>
+                        </div>
                     }
                     else
                     {
-                        <div ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'greenLight' : 'hidden'">
+                        <div ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'alert alert-success' : 'hidden'">
                             <span>This page is all set!  Nice work.  You should take the rest of the day off.</span>
                         </div>
                     }
