@@ -111,6 +111,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int FileResourceID { get; set; }
+        public int TenantID { get; private set; }
         public int FileResourceMimeTypeID { get; set; }
         public string OriginalBaseFilename { get; set; }
         public string OriginalFileExtension { get; set; }
@@ -118,7 +119,6 @@ namespace ProjectFirma.Web.Models
         public byte[] FileResourceData { get; set; }
         public int CreatePersonID { get; set; }
         public DateTime CreateDate { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return FileResourceID; } set { FileResourceID = value; } }
 
         public virtual ICollection<Classification> ClassificationsWhereYouAreTheKeyImageFileResource { get; set; }
@@ -129,9 +129,9 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectImage> ProjectImages { get; set; }
         public virtual ICollection<ProjectImageUpdate> ProjectImageUpdates { get; set; }
         public virtual ICollection<ProposedProjectImage> ProposedProjectImages { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public FileResourceMimeType FileResourceMimeType { get { return FileResourceMimeType.AllLookupDictionary[FileResourceMimeTypeID]; } }
         public virtual Person CreatePerson { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

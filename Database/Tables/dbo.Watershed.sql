@@ -4,9 +4,9 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Watershed](
 	[WatershedID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[WatershedName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[WatershedFeature] [geometry] NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_Watershed_WatershedID] PRIMARY KEY CLUSTERED 
 (
 	[WatershedID] ASC

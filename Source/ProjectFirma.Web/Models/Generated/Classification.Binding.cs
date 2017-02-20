@@ -84,20 +84,20 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int ClassificationID { get; set; }
+        public int TenantID { get; private set; }
         public string ClassificationName { get; set; }
         public string ClassificationDescription { get; set; }
         public string ThemeColor { get; set; }
         public string DisplayName { get; set; }
         public string GoalStatement { get; set; }
         public int? KeyImageFileResourceID { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return ClassificationID; } set { ClassificationID = value; } }
 
         public virtual ICollection<ClassificationPerformanceMeasure> ClassificationPerformanceMeasures { get; set; }
         public virtual ICollection<ProjectClassification> ProjectClassifications { get; set; }
         public virtual ICollection<ProposedProjectClassification> ProposedProjectClassifications { get; set; }
-        public virtual FileResource KeyImageFileResource { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual FileResource KeyImageFileResource { get; set; }
 
         public static class FieldLengths
         {

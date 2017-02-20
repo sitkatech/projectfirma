@@ -733,13 +733,13 @@ warning 6035: The relationship 'FK_ProposedProjectClassification_Classification_
       <PropertyRef Name="ClassificationID" />
     </Key>
     <Property Name="ClassificationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="ClassificationName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="ClassificationDescription" Type="varchar" Nullable="false" MaxLength="300" />
     <Property Name="ThemeColor" Type="varchar" Nullable="false" MaxLength="7" />
     <Property Name="DisplayName" Type="varchar" Nullable="false" MaxLength="50" />
     <Property Name="GoalStatement" Type="varchar" MaxLength="200" />
     <Property Name="KeyImageFileResourceID" Type="int" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ClassificationPerformanceMeasure">
     <Key>
@@ -805,6 +805,7 @@ warning 6035: The relationship 'FK_ProposedProjectImage_FileResource_FileResourc
       <PropertyRef Name="FileResourceID" />
     </Key>
     <Property Name="FileResourceID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="FileResourceMimeTypeID" Type="int" Nullable="false" />
     <Property Name="OriginalBaseFilename" Type="varchar" Nullable="false" MaxLength="255" />
     <Property Name="OriginalFileExtension" Type="varchar" Nullable="false" MaxLength="255" />
@@ -812,7 +813,6 @@ warning 6035: The relationship 'FK_ProposedProjectImage_FileResource_FileResourc
     <Property Name="FileResourceData" Type="varbinary(max)" Nullable="false" />
     <Property Name="CreatePersonID" Type="int" Nullable="false" />
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_FirmaPageImage_FirmaPage_FirmaPageID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -846,11 +846,11 @@ warning 6035: The relationship 'FK_ProjectFundingSourceExpenditureUpdate_Funding
       <PropertyRef Name="FundingSourceID" />
     </Key>
     <Property Name="FundingSourceID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="OrganizationID" Type="int" Nullable="false" />
     <Property Name="FundingSourceName" Type="varchar" Nullable="false" MaxLength="200" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="FundingSourceDescription" Type="varchar" MaxLength="500" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectLocationArea_MappedRegion_MappedRegionID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -945,6 +945,7 @@ warning 6035: The relationship 'FK_ProposedProject_Organization_LeadImplementerO
       <PropertyRef Name="OrganizationID" />
     </Key>
     <Property Name="OrganizationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="OrganizationGuid" Type="uniqueidentifier" />
     <Property Name="OrganizationName" Type="varchar" Nullable="false" MaxLength="200" />
     <Property Name="OrganizationAbbreviation" Type="varchar" MaxLength="20" />
@@ -953,7 +954,6 @@ warning 6035: The relationship 'FK_ProposedProject_Organization_LeadImplementerO
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="OrganizationUrl" Type="varchar" MaxLength="200" />
     <Property Name="LogoFileResourceID" Type="int" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1885,9 +1885,9 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       <PropertyRef Name="WatershedID" />
     </Key>
     <Property Name="WatershedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="WatershedName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="WatershedFeature" Type="geometry" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID">
     <End Role="AssessmentSubGoal" Type="ProjectFirma.Web.Models.Store.AssessmentSubGoal" Multiplicity="1" />

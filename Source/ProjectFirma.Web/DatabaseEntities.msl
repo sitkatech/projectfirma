@@ -58,13 +58,13 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Classification">
         <MappingFragment StoreEntitySet="Classification">
           <ScalarProperty Name="ClassificationID" ColumnName="ClassificationID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="ClassificationName" ColumnName="ClassificationName" />
           <ScalarProperty Name="ClassificationDescription" ColumnName="ClassificationDescription" />
           <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
           <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
           <ScalarProperty Name="GoalStatement" ColumnName="GoalStatement" />
           <ScalarProperty Name="KeyImageFileResourceID" ColumnName="KeyImageFileResourceID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -126,6 +126,7 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FileResource">
         <MappingFragment StoreEntitySet="FileResource">
           <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="FileResourceMimeTypeID" ColumnName="FileResourceMimeTypeID" />
           <ScalarProperty Name="OriginalBaseFilename" ColumnName="OriginalBaseFilename" />
           <ScalarProperty Name="OriginalFileExtension" ColumnName="OriginalFileExtension" />
@@ -133,7 +134,6 @@
           <ScalarProperty Name="FileResourceData" ColumnName="FileResourceData" />
           <ScalarProperty Name="CreatePersonID" ColumnName="CreatePersonID" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -161,11 +161,11 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FundingSource">
         <MappingFragment StoreEntitySet="FundingSource">
           <ScalarProperty Name="FundingSourceID" ColumnName="FundingSourceID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
           <ScalarProperty Name="FundingSourceName" ColumnName="FundingSourceName" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="FundingSourceDescription" ColumnName="FundingSourceDescription" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -248,6 +248,7 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Organization">
         <MappingFragment StoreEntitySet="Organization">
           <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="OrganizationGuid" ColumnName="OrganizationGuid" />
           <ScalarProperty Name="OrganizationName" ColumnName="OrganizationName" />
           <ScalarProperty Name="OrganizationAbbreviation" ColumnName="OrganizationAbbreviation" />
@@ -256,7 +257,6 @@
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="OrganizationUrl" ColumnName="OrganizationUrl" />
           <ScalarProperty Name="LogoFileResourceID" ColumnName="LogoFileResourceID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1090,9 +1090,9 @@
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Watershed">
         <MappingFragment StoreEntitySet="Watershed">
           <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="WatershedName" ColumnName="WatershedName" />
           <ScalarProperty Name="WatershedFeature" ColumnName="WatershedFeature" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

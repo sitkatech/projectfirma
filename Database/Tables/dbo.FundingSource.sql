@@ -4,11 +4,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[FundingSource](
 	[FundingSourceID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[OrganizationID] [int] NOT NULL,
 	[FundingSourceName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[IsActive] [bit] NOT NULL,
 	[FundingSourceDescription] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_FundingSource_FundingSourceID] PRIMARY KEY CLUSTERED 
 (
 	[FundingSourceID] ASC

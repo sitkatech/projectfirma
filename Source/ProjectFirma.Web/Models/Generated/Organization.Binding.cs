@@ -100,6 +100,7 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int OrganizationID { get; set; }
+        public int TenantID { get; private set; }
         public Guid? OrganizationGuid { get; set; }
         public string OrganizationName { get; set; }
         public string OrganizationAbbreviation { get; set; }
@@ -108,7 +109,6 @@ namespace ProjectFirma.Web.Models
         public bool IsActive { get; set; }
         public string OrganizationUrl { get; set; }
         public int? LogoFileResourceID { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return OrganizationID; } set { OrganizationID = value; } }
 
         public virtual ICollection<FundingSource> FundingSources { get; set; }
@@ -117,10 +117,10 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectFundingOrganization> ProjectFundingOrganizations { get; set; }
         public virtual ICollection<ProjectImplementingOrganization> ProjectImplementingOrganizations { get; set; }
         public virtual ICollection<ProposedProject> ProposedProjectsWhereYouAreTheLeadImplementerOrganization { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public Sector Sector { get { return Sector.AllLookupDictionary[SectorID]; } }
         public virtual Person PrimaryContactPerson { get; set; }
         public virtual FileResource LogoFileResource { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

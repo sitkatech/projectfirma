@@ -96,19 +96,19 @@ namespace ProjectFirma.Web.Models
 
         [Key]
         public int FundingSourceID { get; set; }
+        public int TenantID { get; private set; }
         public int OrganizationID { get; set; }
         public string FundingSourceName { get; set; }
         public bool IsActive { get; set; }
         public string FundingSourceDescription { get; set; }
-        public int TenantID { get; private set; }
         public int PrimaryKey { get { return FundingSourceID; } set { FundingSourceID = value; } }
 
         public virtual ICollection<ProjectBudget> ProjectBudgets { get; set; }
         public virtual ICollection<ProjectBudgetUpdate> ProjectBudgetUpdates { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get; set; }
-        public virtual Organization Organization { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual Organization Organization { get; set; }
 
         public static class FieldLengths
         {

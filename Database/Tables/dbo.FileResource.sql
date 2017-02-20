@@ -4,6 +4,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[FileResource](
 	[FileResourceID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[FileResourceMimeTypeID] [int] NOT NULL,
 	[OriginalBaseFilename] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[OriginalFileExtension] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -11,7 +12,6 @@ CREATE TABLE [dbo].[FileResource](
 	[FileResourceData] [varbinary](max) NOT NULL,
 	[CreatePersonID] [int] NOT NULL,
 	[CreateDate] [datetime] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_FileResource_FileResourceID] PRIMARY KEY CLUSTERED 
 (
 	[FileResourceID] ASC
