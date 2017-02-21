@@ -114,7 +114,7 @@ namespace LtInfo.Common.HtmlHelperExtensions
         }
     }
 
-    public static class LabelForExtensions
+    public static class LabelWithSugarForExtensions
     {
         public enum DisplayStyle
         {
@@ -129,17 +129,17 @@ namespace LtInfo.Common.HtmlHelperExtensions
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
         /// </summary>
-        public static MvcHtmlString LabelWithFieldDefinitionFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression)
+        public static MvcHtmlString LabelWithSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression)
         {
-            return LabelWithFieldDefinitionFor(html, expression, DefaultPopupWidth);
+            return LabelWithSugarFor(html, expression, DefaultPopupWidth);
         }
 
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
         /// </summary>
-        public static MvcHtmlString LabelWithFieldDefinitionFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, string labelText)
+        public static MvcHtmlString LabelWithSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, string labelText)
         {
-            return LabelWithFieldDefinitionFor(html, expression, DefaultPopupWidth, labelText);
+            return LabelWithSugarFor(html, expression, DefaultPopupWidth, labelText);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace LtInfo.Common.HtmlHelperExtensions
         /// </summary>
         public static MvcHtmlString LabelWithFieldDefinitionWiderFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression)
         {
-            return LabelWithFieldDefinitionFor(html, expression, DefaultPopupWidthWider);
+            return LabelWithSugarFor(html, expression, DefaultPopupWidthWider);
         }
 
         /// <summary>
@@ -155,55 +155,55 @@ namespace LtInfo.Common.HtmlHelperExtensions
         /// </summary>
         public static MvcHtmlString LabelWithFieldDefinitionWiderFor(this HtmlHelper html, IFieldDefinition fieldDefinition)
         {
-            return LabelWithFieldDefinitionFor(html, fieldDefinition, DefaultPopupWidthWider);
+            return LabelWithSugarFor(html, fieldDefinition, DefaultPopupWidthWider);
         }
 
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
         /// </summary>
-        public static MvcHtmlString LabelWithFieldDefinitionFor(this HtmlHelper html, IFieldDefinition fieldDefinition)
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, IFieldDefinition fieldDefinition)
         {
-            return LabelWithFieldDefinitionFor(html, fieldDefinition, DefaultPopupWidth);
+            return LabelWithSugarFor(html, fieldDefinition, DefaultPopupWidth);
         }
 
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon and with custom label text
         /// </summary>
-        public static MvcHtmlString LabelWithFieldDefinitionFor(this HtmlHelper html, IFieldDefinition fieldDefinition, string labelText)
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, IFieldDefinition fieldDefinition, string labelText)
         {
-            return LabelWithFieldDefinitionFor(fieldDefinition, DefaultPopupWidth, DisplayStyle.HelpIconWithLabel, labelText);
+            return LabelWithSugarFor(fieldDefinition, DefaultPopupWidth, DisplayStyle.HelpIconWithLabel, labelText);
         }
 
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
         /// </summary>
-        public static MvcHtmlString LabelWithFieldDefinitionFor(this HtmlHelper html, IFieldDefinition fieldDefinition, int popupWidth)
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, IFieldDefinition fieldDefinition, int popupWidth)
         {
-            return LabelWithFieldDefinitionFor(html, fieldDefinition, popupWidth, DisplayStyle.HelpIconWithLabel);
+            return LabelWithSugarFor(html, fieldDefinition, popupWidth, DisplayStyle.HelpIconWithLabel);
         }
 
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
         /// </summary>
-        public static MvcHtmlString LabelWithFieldDefinitionFor(this HtmlHelper html, IFieldDefinition fieldDefinition, DisplayStyle displayStyle)
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, IFieldDefinition fieldDefinition, DisplayStyle displayStyle)
         {
-            return LabelWithFieldDefinitionFor(html, fieldDefinition, DefaultPopupWidth, displayStyle);
+            return LabelWithSugarFor(html, fieldDefinition, DefaultPopupWidth, displayStyle);
         }
 
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
         /// </summary>
-        public static MvcHtmlString LabelWithFieldDefinitionFor(this HtmlHelper html, IFieldDefinition fieldDefinition, DisplayStyle displayStyle, string labelText)
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, IFieldDefinition fieldDefinition, DisplayStyle displayStyle, string labelText)
         {
-            return LabelWithFieldDefinitionFor(fieldDefinition, DefaultPopupWidth, displayStyle, labelText);
+            return LabelWithSugarFor(fieldDefinition, DefaultPopupWidth, displayStyle, labelText);
         }
 
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
         /// </summary>
-        public static MvcHtmlString LabelWithFieldDefinitionFor(this HtmlHelper html, IFieldDefinition fieldDefinition, int popupWidth, DisplayStyle displayStyle)
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, IFieldDefinition fieldDefinition, int popupWidth, DisplayStyle displayStyle)
         {
-            return LabelWithFieldDefinitionFor(fieldDefinition, popupWidth, displayStyle, fieldDefinition.FieldDefinitionDisplayName);
+            return LabelWithSugarFor(fieldDefinition, popupWidth, displayStyle, fieldDefinition.FieldDefinitionDisplayName);
         }
 
         public static MvcHtmlString LinkWithFieldDefinitionFor(this HtmlHelper html, IFieldDefinition fieldDefinition, string linkText, List<string> cssClasses)
@@ -227,45 +227,74 @@ namespace LtInfo.Common.HtmlHelperExtensions
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
         /// </summary>
-        public static MvcHtmlString LabelWithFieldDefinitionFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, int popupWidth)
+        public static MvcHtmlString LabelWithSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, int popupWidth)
         {
-            return LabelWithFieldDefinitionFor(html, expression, popupWidth, null);
+            return LabelWithSugarFor(html, expression, popupWidth, null);
         }
 
-        public static MvcHtmlString LabelWithFieldDefinitionFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, int popupWidth, string labelText)
+        public static MvcHtmlString LabelWithSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, int popupWidth, string labelText)
         {
             var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
             var memberExpression = (expression.Body as MemberExpression);
-            if (memberExpression != null)
+            if (memberExpression == null)
             {
-                var fieldDefinitionDisplayAttributeType = typeof(IFieldDefinitionDisplayAttribute);
-                var fieldDefinitionDisplayAttribute = memberExpression.Member.GetCustomAttributes(fieldDefinitionDisplayAttributeType, true).Cast<IFieldDefinitionDisplayAttribute>().SingleOrDefault();
-                Check.RequireNotNull(fieldDefinitionDisplayAttribute,
-                    string.Format("Property \"{0}\" needs to be decorated with the {1}!", metadata.PropertyName, fieldDefinitionDisplayAttributeType.Name));
-                var requiredAttributeType = typeof(RequiredAttribute);
-                var hasRequiredAttribute = memberExpression.Member.GetCustomAttributes(requiredAttributeType, true).Cast<RequiredAttribute>().Any();
-                var htmlFieldName = ExpressionHelper.GetExpressionText(expression);
-                // ReSharper disable once PossibleNullReferenceException
+                return new MvcHtmlString(string.Empty);
+            }
+            var fieldDefinitionDisplayAttributeType = typeof(IFieldDefinitionDisplayAttribute);
+            var fieldDefinitionDisplayAttribute = memberExpression.Member.GetCustomAttributes(fieldDefinitionDisplayAttributeType, true).Cast<IFieldDefinitionDisplayAttribute>().SingleOrDefault();
+
+            var requiredAttributeType = typeof(RequiredAttribute);
+            var hasRequiredAttribute = memberExpression.Member.GetCustomAttributes(requiredAttributeType, true).Cast<RequiredAttribute>().Any();
+            var htmlFieldName = ExpressionHelper.GetExpressionText(expression);
+
+            if (fieldDefinitionDisplayAttribute == null)
+            {
+                return LabelWithRequiredTagForImpl(html, metadata, htmlFieldName, hasRequiredAttribute, labelText, null);
+            }
+            else
+            {
                 var fieldDefinition = fieldDefinitionDisplayAttribute.FieldDefinition;
                 var fullHtmlFieldID = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldId(htmlFieldName);
                 var fieldDefinitionDisplayName = string.IsNullOrWhiteSpace(labelText) ? fieldDefinition.FieldDefinitionDisplayName : labelText;
-                return LabelWithFieldDefinitionForFieldDefinition(fieldDefinition, fullHtmlFieldID, popupWidth, DisplayStyle.HelpIconWithLabel, hasRequiredAttribute, fieldDefinitionDisplayName);
+                return LabelWithSugarFor(fieldDefinition, fullHtmlFieldID, popupWidth, DisplayStyle.HelpIconWithLabel, hasRequiredAttribute, fieldDefinitionDisplayName);
             }
-            return new MvcHtmlString(string.Empty);
         }
 
-        public static MvcHtmlString LabelWithFieldDefinitionFor(IFieldDefinition fieldDefinition, int popupWidth, DisplayStyle displayStyle, string labelText)
+        public static MvcHtmlString LabelWithSugarFor(IFieldDefinition fieldDefinition, int popupWidth, DisplayStyle displayStyle, string labelText)
         {
             var fullHtmlFieldID = labelText.Replace(" ", "");
             // in this case, we are not trying to tie it to an actual viewmodel; we only want it to be safe as an id to find by jquery
-            return LabelWithFieldDefinitionForFieldDefinition(fieldDefinition, fullHtmlFieldID, popupWidth, displayStyle, false, labelText);
+            return LabelWithSugarFor(fieldDefinition, fullHtmlFieldID, popupWidth, displayStyle, false, labelText);
         }
 
-        private static MvcHtmlString LabelWithFieldDefinitionForFieldDefinition(IFieldDefinition fieldDefinition, string fullHtmlFieldID, int popupWidth, DisplayStyle displayStyle, bool hasRequiredAttribute, string labelText)
+        private static MvcHtmlString LabelWithSugarFor(IFieldDefinition fieldDefinition, string fullHtmlFieldID, int popupWidth, DisplayStyle displayStyle, bool hasRequiredAttribute, string labelText)
         {
+
             var fieldDefinitionData = fieldDefinition.FieldDefinitionData;
             var urlToContent = fieldDefinition.GetContentUrl();
             return LabelWithFieldDefinitionForImpl(labelText, fullHtmlFieldID, fieldDefinitionData, urlToContent, popupWidth, displayStyle, hasRequiredAttribute);
+        }
+
+        private static MvcHtmlString LabelWithRequiredTagForImpl(HtmlHelper html, ModelMetadata metadata, string htmlFieldName, bool hasRequiredAttribute, string labelText = null, IDictionary<string, object> htmlAttributes = null)
+        {
+            string resolvedLabelText = labelText ?? metadata.DisplayName ?? metadata.PropertyName ?? htmlFieldName.Split('.').Last();
+            if (String.IsNullOrEmpty(resolvedLabelText))
+            {
+                return MvcHtmlString.Empty;
+            }
+
+            TagBuilder tag = new TagBuilder("label");
+            tag.Attributes.Add("for", TagBuilder.CreateSanitizedId(html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(htmlFieldName)));
+
+            var requiredAsterisk = hasRequiredAttribute ? string.Format("<sup>{0}</sup>", BootstrapHtmlHelpers.RequiredIcon) : string.Empty;
+
+
+            tag.InnerHtml = string.Format("{0} {1}", resolvedLabelText, requiredAsterisk);
+            tag.MergeAttributes(htmlAttributes, true);
+
+
+
+            return new MvcHtmlString(tag.ToString(TagRenderMode.Normal));
         }
 
         /// <summary>
@@ -291,11 +320,11 @@ namespace LtInfo.Common.HtmlHelperExtensions
             var helpIconImgTag = GenerateHelpIconImgTag(labelText, fieldDefinitionDefinition, urlToContent, popupWidth, displayStyle);
             var labelTag = new TagBuilder("label");
             labelTag.Attributes.Add("for", fullHtmlFieldID);
-            
+            labelTag.SetInnerText(labelText);
+
             switch (displayStyle)
             {
                 case DisplayStyle.AsGridHeader:
-                    labelTag.SetInnerText(labelText);
                     var divTag = new TagBuilder("div");
                     divTag.Attributes.Add("style", "display:table; vertical-align: top");
                     labelTag.Attributes.Add("style", "display:table-cell");
@@ -304,10 +333,9 @@ namespace LtInfo.Common.HtmlHelperExtensions
                 case DisplayStyle.HelpIconOnly:
                     return MvcHtmlString.Create(helpIconImgTag);
                 case DisplayStyle.HelpIconWithLabel:
-                    
-                    var requiredAsterisk = hasRequiredAttribute ? "<sup>" + BootstrapHtmlHelpers.RequiredIcon + "</sup>" : string.Empty;
-                    labelTag.InnerHtml = string.Format("{0} {1} {2}", helpIconImgTag, labelText, requiredAsterisk);
-                    return MvcHtmlString.Create(string.Format("{0}", labelTag.ToString(TagRenderMode.Normal)));
+                    var requiredAsterisk = hasRequiredAttribute ? " <sup>" + BootstrapHtmlHelpers.RequiredIcon + "</sup>" : string.Empty;
+                    labelTag.InnerHtml = string.Format("{0}{1}{2}", helpIconImgTag, labelText, requiredAsterisk);
+                    return MvcHtmlString.Create(labelTag.ToString(TagRenderMode.Normal));
                 default:
                     throw new ArgumentOutOfRangeException("displayStyle");
             }

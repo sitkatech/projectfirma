@@ -91,5 +91,37 @@ namespace ProjectFirma.Web.Controllers
 
             return RedirectToAction((new SitkaRoute<HomeController>(c => c.ViewPageContent(firmaPageTypeEnum))));
         }
+
+        [HttpGet]
+        [AnonymousUnclassifiedFeature]
+        public ActionResult About()
+        {
+            var con = new HomeController { ControllerContext = ControllerContext };
+            return con.ViewPageContent(FirmaPageTypeEnum.About);
+        }
+
+        [HttpGet]
+        [AnonymousUnclassifiedFeature]
+        public ActionResult Meetings()
+        {
+            var con = new HomeController { ControllerContext = ControllerContext };
+            return con.ViewPageContent(FirmaPageTypeEnum.FirmaCustomPage1);
+        }
+
+        [HttpGet]
+        [AnonymousUnclassifiedFeature]
+        public ActionResult FirmaCustomPage2()
+        {
+            var con = new HomeController { ControllerContext = ControllerContext };
+            return con.ViewPageContent(FirmaPageTypeEnum.FirmaCustomPage2);
+        }
+
+        [HttpGet]
+        [AnonymousUnclassifiedFeature]
+        public ActionResult FirmaCustomPage3()
+        {
+            var con = new HomeController { ControllerContext = ControllerContext };
+            return con.ViewPageContent(FirmaPageTypeEnum.FirmaCustomPage3);
+        }
     }
 }

@@ -8,15 +8,15 @@
 
     <div class="form-horizontal">
         <div class="form-group">
-            <div class="col-sm-3 control-label">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierThreeName, MultiTenantHelpers.GetTaxonomyTierThreeDisplayName())</div>
+            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTierThreeName, MultiTenantHelpers.GetTaxonomyTierThreeDisplayName())</div>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.TaxonomyTierThreeName, new { style = "width:522px" })
                 @Html.ValidationMessageFor(m => m.TaxonomyTierThreeName)
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-4 control-label">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierThreeDescription)</div>
-            <div class="col-sm-8">
+            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTierThreeDescription)</div>
+            <div class="col-sm-9">
                 @Html.TextAreaWithMaxLengthFor(m => m.TaxonomyTierThreeDescription, new TextAreaForExtensions.TextAreaDimensions(null, 4), null)
                 @Html.ValidationMessageFor(m => m.TaxonomyTierThreeDescription)
             </div>
@@ -24,7 +24,7 @@
 
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelFor(x => x.ThemeColor, "Theme Color"):
+                @Html.LabelWithSugarFor(x => x.ThemeColor, "Theme Color")
             </div>
             <div class="col-sm-9">
                 <div id="themeColorPicker" class="input-group colorpicker-component">

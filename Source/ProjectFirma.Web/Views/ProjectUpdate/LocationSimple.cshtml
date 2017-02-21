@@ -1,4 +1,5 @@
-﻿@using ProjectFirma.Web.Models
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.ProjectUpdate
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 @using ProjectFirma.Web.Views.Shared
@@ -58,7 +59,7 @@ else
     {
         <hr />
         <div class="row form-group">
-            <div class="col-md-3 col-header">@Html.LabelFor(x => x.Comments)</div>
+            <div class="col-md-3 col-header">@Html.LabelWithSugarFor(x => x.Comments)</div>
             <div class="col-md-9">
                 @Html.TextAreaFor(x => x.Comments, new { @class = "sectionComments" })
                 @Html.Hidden("Section", ViewDataTyped.SelectedProjectUpdateSection)
@@ -93,7 +94,7 @@ else
                 </td>
                 <td style="text-align: right; white-space: nowrap">
                     @Html.CheckBoxFor(x => x.ShowValidationWarnings, new {data_ng_model = "AngularModel.ShowValidationWarnings", @class = "ignoreSerialization"})
-                    @Html.LabelFor(x => x.ShowValidationWarnings)
+                    @Html.LabelWithSugarFor(x => x.ShowValidationWarnings)
                     <button class="btn btn-xs btn-firma" type="button" style="margin-left: 10px" onclick="saveForm()">Save</button>
                 </td>
             </tr>

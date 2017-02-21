@@ -22,7 +22,11 @@ namespace ProjectFirma.Web.Models
 
         public string DisplayName
         {
-            get { return string.Format("{0}: {1}", TaxonomyTierTwoCode, TaxonomyTierTwoName); }
+            get
+            {
+                var taxonomyPrefix = string.IsNullOrWhiteSpace(TaxonomyTierTwoCode) ? string.Empty : string.Format("{0}: ", TaxonomyTierTwoCode);
+                return string.Format("{0}{1}", taxonomyPrefix, TaxonomyTierTwoName);
+            }
         }
 
         public HtmlString GetDisplayNameAsUrl()

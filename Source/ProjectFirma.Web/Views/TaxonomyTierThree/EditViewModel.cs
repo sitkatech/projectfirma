@@ -21,6 +21,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
 
         [StringLength(Models.TaxonomyTierThree.FieldLengths.TaxonomyTierThreeDescription)]
         [DisplayName("Description")]
+        [Required]
         public string TaxonomyTierThreeDescription { get; set; }
 
         [Required]

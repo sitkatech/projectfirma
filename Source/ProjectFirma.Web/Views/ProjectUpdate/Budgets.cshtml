@@ -115,7 +115,7 @@ else
         <table class="table" style="overflow: scroll" ng-show="AngularModel.ProjectBudgets.length > 0 && !IsGroupedByProjectCostType">
             <thead>
                 <tr>
-                    <th colspan="3" style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.FundingSource)</th>
+                    <th colspan="3" style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.FundingSource)</th>
                     <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right; vertical-align: top">
                         <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$first" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
                         <span ng-bind="calendarYear"></span>
@@ -160,7 +160,7 @@ else
         <table class="table" style="overflow: scroll" ng-show="AngularModel.ProjectBudgets.length > 0 && IsGroupedByProjectCostType">
             <thead>
                 <tr>
-                    <th colspan="3" class="fit">@Html.LabelWithFieldDefinitionFor(FieldDefinition.FundingSource)</th>
+                    <th colspan="3" class="fit">@Html.LabelWithSugarFor(FieldDefinition.FundingSource)</th>
                     <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right; vertical-align: top">
                         <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$first" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
                         <span ng-bind="calendarYear"></span>
@@ -223,7 +223,7 @@ else
             {
                 <hr />
                 <div class="row form-group">
-                    <div class="col-md-3 col-header">@Html.LabelFor(x => x.Comments)</div>
+                    <div class="col-md-3 col-header">@Html.LabelWithSugarFor(x => x.Comments)</div>
                     <div class="col-md-9">
                         @Html.TextAreaFor(x => x.Comments, new { @class = "sectionComments" })
                         @Html.Hidden("Section", ViewDataTyped.SelectedProjectUpdateSection)
@@ -262,7 +262,7 @@ else
                     </td>
                     <td style="text-align: right; white-space: nowrap">
                         @Html.CheckBoxFor(x => x.ShowValidationWarnings, new { data_ng_model = "AngularModel.ShowValidationWarnings", @class = "ignoreSerialization" })
-                        @Html.LabelFor(x => x.ShowValidationWarnings)
+                        @Html.LabelWithSugarFor(x => x.ShowValidationWarnings)
                         <button class="btn btn-xs btn-firma" type="submit" ng-disabled="pmForm.$invalid" style="margin-left: 10px">Save</button>
                     </td>
                 </tr>

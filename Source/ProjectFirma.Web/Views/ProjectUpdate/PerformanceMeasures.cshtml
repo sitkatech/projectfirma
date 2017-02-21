@@ -105,10 +105,10 @@ else
             <table class="table" ng-show="AngularModel.PerformanceMeasureActualUpdates.length > 0">
                 <tr>
                     <th class="fit"></th>
-                    <th class="fit">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure)</th>
+                    <th class="fit">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure)</th>
                     <th class="fit">Year</th>
-                    <th class="fit" colspan="@ViewDataTyped.ViewDataForAngular.MaxSubcategoryOptions">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureSubcategory, "Subcategory")</th>
-                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.ReportedValue)</th>
+                    <th class="fit" colspan="@ViewDataTyped.ViewDataForAngular.MaxSubcategoryOptions">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory, "Subcategory")</th>
+                    <th>@Html.LabelWithSugarFor(FieldDefinition.ReportedValue)</th>
                 </tr>
                 <tr ng-repeat="performanceMeasureActualUpdate in AngularModel.PerformanceMeasureActualUpdates" ng-form="pmActualValuesForm">
                     <td class="fit" style="text-align: right">
@@ -158,7 +158,7 @@ else
             {
                 <hr />
                 <div class="row form-group">
-                    <div class="col-md-3 col-header">@Html.LabelFor(x => x.Comments)</div>
+                    <div class="col-md-3 col-header">@Html.LabelWithSugarFor(x => x.Comments)</div>
                     <div class="col-md-9">
                         @Html.TextAreaFor(x => x.Comments, new { @class = "sectionComments" })
                         @Html.Hidden("Section", ViewDataTyped.SelectedProjectUpdateSection)
@@ -196,7 +196,7 @@ else
                     </td>
                     <td style="text-align: right">
                         @Html.CheckBoxFor(x => x.ShowValidationWarnings, new { data_ng_model = "AngularModel.ShowValidationWarnings", @class = "ignoreSerialization" })
-                        @Html.LabelFor(x => x.ShowValidationWarnings)
+                        @Html.LabelWithSugarFor(x => x.ShowValidationWarnings)
                         <button class="btn btn-xs btn-firma" type="submit" ng-disabled="pmForm.$invalid" style="margin-left: 10px">Save</button>
                     </td>
                 </tr>

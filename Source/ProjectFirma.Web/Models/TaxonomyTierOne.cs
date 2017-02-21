@@ -10,7 +10,11 @@ namespace ProjectFirma.Web.Models
     {
         public string DisplayName
         {
-            get { return string.Format("{0}: {1}", TaxonomyTierOneCode, TaxonomyTierOneName); }
+            get
+            {
+                var taxonomyPrefix = string.IsNullOrWhiteSpace(TaxonomyTierOneCode) ? string.Empty : string.Format("{0}: ", TaxonomyTierOneCode);
+                return string.Format("{0}{1}", taxonomyPrefix, TaxonomyTierOneName);
+            }
         }
 
         public string CustomizedMapUrl

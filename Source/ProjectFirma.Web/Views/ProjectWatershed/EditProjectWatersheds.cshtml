@@ -26,7 +26,7 @@
     <table class="dialogFormLayout">
         <tr>
             <th></th>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Watershed)</th>
+            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Watershed)</th>
         </tr>
         <tr ng-repeat="projectWatershed in AngularModel.ProjectWatersheds | orderBy:[getWatershedName, getProjectName]">
             <td>

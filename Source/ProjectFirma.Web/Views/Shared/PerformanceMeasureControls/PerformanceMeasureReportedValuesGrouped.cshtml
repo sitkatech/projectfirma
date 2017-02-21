@@ -21,12 +21,12 @@
             }
             <tr style="border-bottom: 1px solid black">
                 <th colspan="@(maxSubcategoryCount + ViewDataTyped.CalendarYearsForPerformanceMeasures.Count + 2)">
-                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure): @performanceMeasureCalendarYearReportedValue.PerformanceMeasureDisplayNameAsUrl
+                    @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure): @performanceMeasureCalendarYearReportedValue.PerformanceMeasureDisplayNameAsUrl
                 </th>
             </tr>
             <tr>
                 <th colspan="@maxSubcategoryCount">
-                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureSubcategory)
+                    @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory)
                 </th>
                 @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(cy => cy))
                 {

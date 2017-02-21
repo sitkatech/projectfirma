@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<AboutController>.BuildUrlFromExpression(x => x.AboutClackamasPartnership());
+            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.About());
         }
     }
 
@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<AboutController>.BuildUrlFromExpression(x => x.Meetings());
+            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Meetings());
         }
     }
 
@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<AboutController>.BuildUrlFromExpression(x => x.FirmaCustomPage2());
+            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.FirmaCustomPage2());
         }
     }
 
@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<AboutController>.BuildUrlFromExpression(x => x.FirmaCustomPage3());
+            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.FirmaCustomPage3());
         }
     }
 

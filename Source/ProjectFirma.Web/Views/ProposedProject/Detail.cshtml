@@ -102,7 +102,7 @@
                                         <col style="width: auto" />
                                     </colgroup>
                                     <tr>
-                                        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectDescription)</th>
+                                        <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ProjectDescription)</th>
                                         <td>
                                             @Html.Raw(ViewDataTyped.ProposedProject.ProjectDescription.HtmlEncodeWithBreaks())
                                         </td>
@@ -111,19 +111,19 @@
                                     {
                                         case FundingTypeEnum.Capital:
                                     <tr>
-                                        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedTotalCost)</th>
+                                        <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.EstimatedTotalCost)</th>
                                         <td>
                                             @ViewDataTyped.ProposedProject.EstimatedTotalCost.ToStringCurrency()
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.SecuredFunding)</th>
+                                        <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)</th>
                                         <td>
                                             @ViewDataTyped.ProposedProject.SecuredFunding.ToStringCurrency()
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.UnfundedNeed)</th>
+                                        <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.UnfundedNeed)</th>
                                         <td>
                                             @ViewDataTyped.ProposedProject.UnfundedNeed.ToStringCurrency()
                                         </td>
@@ -131,7 +131,7 @@
                                             break;
                                         case FundingTypeEnum.OperationsAndMaintenance:
                                     <tr>
-                                        <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedAnnualOperatingCost)</th>
+                                        <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.EstimatedAnnualOperatingCost)</th>
                                         <td>
                                             @ViewDataTyped.ProposedProject.EstimatedAnnualOperatingCost.ToStringCurrency()
                                         </td>
@@ -139,19 +139,19 @@
                                             break;
                                     }
                                     <tr>
-                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PlanningDesignStartYear)</th>
+                                        <th>@Html.LabelWithSugarFor(FieldDefinition.PlanningDesignStartYear)</th>
                                         <td>
                                             @ViewDataTyped.ProposedProject.PlanningDesignStartYear
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.ImplementationStartYear)</th>
+                                        <th>@Html.LabelWithSugarFor(FieldDefinition.ImplementationStartYear)</th>
                                         <td>
                                             @ViewDataTyped.ProposedProject.ImplementationStartYear
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.CompletionYear)</th>
+                                        <th>@Html.LabelWithSugarFor(FieldDefinition.CompletionYear)</th>
                                         <td>
                                             @ViewDataTyped.ProposedProject.CompletionYear
                                         </td>

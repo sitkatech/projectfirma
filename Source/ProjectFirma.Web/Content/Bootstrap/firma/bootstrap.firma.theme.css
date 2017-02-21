@@ -360,8 +360,9 @@ a.excelbutton {
   display: none;
 }
 .helpicon {
-  font-size: 10px;
+  font-size: 12px;
   cursor: pointer;
+  margin-right: 2px;
 }
 .helpiconGridBlue {
   color: #70a1cc;

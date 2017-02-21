@@ -1,6 +1,7 @@
 ﻿@using ProjectFirma.Web.Views.Shared
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
 @using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.Results.InvestmentByFundingSector
 @section JavascriptAndStylesContent
@@ -69,7 +70,7 @@
 }
 
 <div style="margin-top: 10px">
-    @Html.LabelFor(x => x.CalendarYear):
+    @Html.LabelWithSugarFor(x => x.CalendarYear):
     @Html.DropDownListFor(x => x.CalendarYear, ViewDataTyped.CalendarYears, new { onchange = "reloadWithNewCalendarYear()" })
 </div>
 

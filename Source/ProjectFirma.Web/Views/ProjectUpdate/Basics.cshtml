@@ -42,7 +42,7 @@
     <div class="form-horizontal">
         <div class="row form-group-condensed">
             <div class="col-md-3 col-header">
-                @Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierOne, 600)
+                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, 600)
             </div>
             <div class="col-md-9">
                 @ViewDataTyped.TaxonomyTierOneDisplayName
@@ -50,7 +50,7 @@
         </div>
         <div class="row form-group-condensed">
             <div class="col-md-3 col-header">
-                @Html.LabelWithFieldDefinitionFor(m => m.ProjectDescription)
+                @Html.LabelWithSugarFor(m => m.ProjectDescription)
             </div>
             <div class="col-md-9">
                 @if (ViewDataTyped.IsEditable)
@@ -87,7 +87,7 @@
             case FundingTypeEnum.Capital:
                 <div class="row form-group-condensed">
                     <div class="col-md-3 col-header">
-                        @Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedTotalCost)
+                        @Html.LabelWithSugarFor(FieldDefinition.EstimatedTotalCost)
                     </div>
                     <div class="col-md-3">
                         @if (ViewDataTyped.IsEditable)
@@ -103,7 +103,7 @@
                     @if (CostParameterSet.CanCalculateCapitalCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
                     {
                         <div class="col-md-3 col-header">
-                            <span>@Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectCostInYearOfExpenditure)</span>
+                            <span>@Html.LabelWithSugarFor(FieldDefinition.ProjectCostInYearOfExpenditure)</span>
                         </div>
                             <div class="col-md-3">
                                 <span>@ViewDataTyped.CapitalCostInYearOfExpenditure.ToStringCurrency()</span>
@@ -115,7 +115,7 @@
                 </div>
                 <div class="row form-group-condensed">
                     <div class="col-md-3 col-header">
-                        @Html.LabelWithFieldDefinitionFor(FieldDefinition.SecuredFunding)
+                        @Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)
                     </div>
                     <div class="col-md-3">
                         @if (ViewDataTyped.IsEditable)
@@ -129,7 +129,7 @@
                         }
                     </div>
                     <div class="col-md-3">
-                        @Html.LabelWithFieldDefinitionFor(FieldDefinition.UnfundedNeed)
+                        @Html.LabelWithSugarFor(FieldDefinition.UnfundedNeed)
                     </div>
                     <div class="col-md-3">
                         @ViewDataTyped.Project.UnfundedNeed.ToStringCurrency()
@@ -139,7 +139,7 @@
             case FundingTypeEnum.OperationsAndMaintenance:
             <div class="row form-group-condensed">
                 <div class="col-md-3 col-header">
-                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedAnnualOperatingCost)
+                    @Html.LabelWithSugarFor(FieldDefinition.EstimatedAnnualOperatingCost)
                 </div>
                 <div class="col-md-3">
                     @if (ViewDataTyped.IsEditable)
@@ -153,7 +153,7 @@
                     }
                 </div>
                 <div class="col-md-3">
-                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.LifecycleOperatingCost)
+                    @Html.LabelWithSugarFor(FieldDefinition.LifecycleOperatingCost)
                 </div>
                 <div class="col-md-3">
                     @if (CostParameterSet.CanCalculateLifecycleOperatingCost(ViewDataTyped.ProjectUpdate))
@@ -167,7 +167,7 @@
                         <div class="row form-group-condensed">
                             <div class="col-md-3 col-header">
 
-                                @Html.LabelWithFieldDefinitionFor(FieldDefinition.CalculatedTotalRemainingOperatingCost)
+                                @Html.LabelWithSugarFor(FieldDefinition.CalculatedTotalRemainingOperatingCost)
                             </div>
                             <div class="col-md-9">
                                 <span>@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span>
@@ -179,7 +179,7 @@
         }
         <div class="row form-group-condensed">
             <div class="col-md-3 col-header">
-                @Html.LabelWithFieldDefinitionFor(m => m.PlanningDesignStartYear)
+                @Html.LabelWithSugarFor(m => m.PlanningDesignStartYear)
             </div>
             <div class="col-md-9">
                 @if (ViewDataTyped.IsEditable)
@@ -196,7 +196,7 @@
 
         <div class="row form-group-condensed">
             <div class="col-md-3 col-header">
-                @Html.LabelWithFieldDefinitionFor(m => m.ImplementationStartYear)
+                @Html.LabelWithSugarFor(m => m.ImplementationStartYear)
             </div>
             <div class="col-md-3">
                 @if (ViewDataTyped.IsEditable)
@@ -210,7 +210,7 @@
                 }
             </div>
             <div class="col-md-3 col-header">
-                @Html.LabelWithFieldDefinitionFor(m => m.CompletionYear)
+                @Html.LabelWithSugarFor(m => m.CompletionYear)
             </div>
 
             <div class="col-md-3">
@@ -227,7 +227,7 @@
         </div>
         <div class="row form-group-condensed">
             <div class="col-md-3 col-header">
-                @Html.LabelWithFieldDefinitionFor(FieldDefinition.LeadImplementer)
+                @Html.LabelWithSugarFor(FieldDefinition.LeadImplementer)
             </div>
             <div class="col-md-9">
                 @if (ViewDataTyped.Project.LeadImplementer != null)
@@ -239,7 +239,7 @@
         </div>
         <div class="row form-group-condensed">
             <div class="col-md-3 col-header">
-                @Html.LabelWithFieldDefinitionFor(FieldDefinition.PrimaryContact)
+                @Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)
             </div>
             <div class="col-md-9">
                 @if (ViewDataTyped.Project.PrimaryContactPerson != null)
@@ -262,7 +262,7 @@
         {
             <hr />
             <div class="row form-group">
-                <div class="col-md-3 col-header">@Html.LabelFor(x => x.Comments)</div>
+                <div class="col-md-3 col-header">@Html.LabelWithSugarFor(x => x.Comments)</div>
                 <div class="col-md-9">
                     @Html.TextAreaFor(x => x.Comments, new { @class = "sectionComments" })
                     @Html.Hidden("Section", ViewDataTyped.SelectedProjectUpdateSection)
@@ -300,7 +300,7 @@
                     </td>
                     <td style="text-align: right; white-space: nowrap">
                         @Html.CheckBoxFor(x => x.ShowValidationWarnings, new { data_ng_model = "AngularModel.ShowValidationWarnings", @class = "ignoreSerialization" })
-                        @Html.LabelFor(x => x.ShowValidationWarnings)
+                        @Html.LabelWithSugarFor(x => x.ShowValidationWarnings)
                         <button class="btn btn-xs btn-firma" type="submit" style="margin-left: 10px">Save</button>
                     </td>
                 </tr>

@@ -29,7 +29,7 @@
             <col>
         </colgroup>
         <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.FundingSource)</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinition.FundingSource)</th>
             @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
             {
                 <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYear</th>

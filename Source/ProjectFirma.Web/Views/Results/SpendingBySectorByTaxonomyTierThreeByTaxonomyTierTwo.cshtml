@@ -1,5 +1,6 @@
 ﻿@using ProjectFirma.Web.Views.Results
 @using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Common
 @inherits SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo
 
@@ -17,7 +18,7 @@
 }
 
 <div style="margin-top: 10px">
-    @Html.LabelFor(x => x.CalendarYear):
+    @Html.LabelWithSugarFor(x => x.CalendarYear):
     @Html.DropDownListFor(x => x.CalendarYear, ViewDataTyped.CalendarYears, new { onchange = "reloadWithNewCalendarYear()" })
 </div>
 

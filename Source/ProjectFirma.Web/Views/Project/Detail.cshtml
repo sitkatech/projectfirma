@@ -86,7 +86,7 @@
         }
         else
         {
-            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Update Project", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.ConfirmNonMandatoryUpdateUrl, "Update this project?", 400, "Continue", "Cancel", null, null, null)
+            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Update Project", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.ConfirmNonMandatoryUpdateUrl, "Update this project?", 400, "Continue", "Cancel", new List<string>{"btn", "btn-firma"}, null, null)
         }
     }
     <a class="btn btn-firma" href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Fact Sheet</a>
@@ -210,11 +210,11 @@
                         {
                             <table class="summaryLayout">
                                 <tr>
-                                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Organization)</th>
-                                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.LeadImplementer)</th>
-                                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Implementer)</th>
-                                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Funder)</th>
-                                    <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PrimaryContact)</th>
+                                    <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
+                                    <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.LeadImplementer)</th>
+                                    <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Implementer)</th>
+                                    <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Funder)</th>
+                                    <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)</th>
                                 </tr>
                                 @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations)
                                 {
@@ -285,7 +285,7 @@
                 <h2 data-toc-skip class="sectionHeader">Project Classification</h2>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationsUrl, string.Format("Edit {0}", MultiTenantHelpers.GetClassificationDisplayNamePluralized()), ViewDataTyped.UserHasProjectClassificationManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.Classification, MultiTenantHelpers.GetClassificationDisplayNamePluralized())</h2>
+                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationsUrl, string.Format("Edit {0}", MultiTenantHelpers.GetClassificationDisplayNamePluralized()), ViewDataTyped.UserHasProjectClassificationManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.Classification, MultiTenantHelpers.GetClassificationDisplayNamePluralized())</h2>
                     </div>
                     <div class="panel-body">
                         @if (ViewDataTyped.Project.ProjectClassifications.Any())
@@ -325,7 +325,7 @@
                 }
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditWatershedsUrl, "Edit Watersheds", ViewDataTyped.UserHasProjectWatershedManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.Watershed, "Watersheds")</h3>
+                        <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditWatershedsUrl, "Edit Watersheds", ViewDataTyped.UserHasProjectWatershedManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.Watershed, "Watersheds")</h3>
                     </div>
                     <div class="panel-body">
                         @if (ViewDataTyped.Project.ProjectWatersheds.Any())
@@ -347,7 +347,7 @@
                 </div>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, "Edit External Links", ViewDataTyped.UserHasProjectExternalLinkManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.ExternalLinks)</h3>
+                        <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, "Edit External Links", ViewDataTyped.UserHasProjectExternalLinkManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.ExternalLinks)</h3>
                     </div>
                     <div class="panel-body">
                         @{ EntityExternalLinks.RenderPartialView(Html, ViewDataTyped.EntityExternalLinksViewData); }

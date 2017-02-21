@@ -50,11 +50,11 @@
                                     <div class="col-xs-7">@ViewDataTyped.Organization.OrganizationAbbreviation</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Sector)</div>
+                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.Sector)</div>
                                     <div class="col-xs-7">@ViewDataTyped.Organization.Sector.SectorDisplayName</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PrimaryContact)</div>
+                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)</div>
                                     <div class="col-xs-7">@(new UserViewFeature().HasPermissionByPerson(ViewDataTyped.CurrentPerson) ? ViewDataTyped.Organization.PrimaryContactPersonWithOrgAsUrl : ViewDataTyped.Organization.PrimaryContactPersonAsStringAndOrgAsUrl)</div>
                                 </div>
                                 <div class="row">
@@ -210,7 +210,7 @@
                     <div class="col-md-4">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @Html.LabelWithFieldDefinitionFor(FieldDefinition.FundingSource, LabelForExtensions.DisplayStyle.HelpIconOnly) <a href="@ViewDataTyped.ManageFundingSourcesUrl">Funding Sources</a>
+                                @Html.LabelWithSugarFor(FieldDefinition.FundingSource, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) <a href="@ViewDataTyped.ManageFundingSourcesUrl">Funding Sources</a>
                             </div>
                             <div class="panel-body">
                                 @if (ViewDataTyped.Organization.FundingSources.Any())

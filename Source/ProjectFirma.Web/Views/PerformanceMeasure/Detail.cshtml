@@ -81,7 +81,7 @@
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureType.PerformanceMeasureTypeDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithFieldDefinitionFor(FieldDefinition.MeasurementUnit, "Measurement Unit")</div>
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.MeasurementUnit, "Measurement Unit")</div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.SingularDisplayName (@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName)</div>
                 </div>
                 <div class="row">
@@ -147,14 +147,14 @@
                         @if (ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                         {
                             <tr>
-                                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureChartTitle, "Chart Title")</th>
+                                <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureChartTitle, "Chart Title")</th>
                                 <td>
                                     @ViewDataTyped.PerformanceMeasure.ChartTitle
                                 </td>
                             </tr>
 
                             <tr>
-                                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureChartCaption, "Chart Caption")</th>
+                                <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureChartCaption, "Chart Caption")</th>
                                 <td>
                                     @ViewDataTyped.PerformanceMeasure.ChartCaption.ToHTMLFormattedString()
                                 </td>
@@ -175,7 +175,7 @@
             <div class="panel-heading panelTitle">
                 <h2>
                     @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0} Subcategories And Subcategory Options for {1}", MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureSubcategory, "Subcategories")
+                    @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory, "Subcategories")
                 </h2>
             </div>
             <div class="panel-body">
@@ -224,8 +224,8 @@
                 {
                     <table class="summaryLayout">
                         <tr>
-                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</th>
-                            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryTaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()))</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.IsPrimaryTaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()))</th>
                         </tr>
                         @foreach (var taxonomyTierTwoPerformanceMeasure in ViewDataTyped.TaxonomyTierTwoPerformanceMeasures)
                         {
@@ -248,7 +248,7 @@
 
 @*<div class="panel panelFirma">
         <div class="panel-heading panelTitle">
-            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditMonitoringProgramsUrl, string.Format("Edit Monitoring Programs: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgram)</h2>
+            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditMonitoringProgramsUrl, string.Format("Edit Monitoring Programs: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.MonitoringProgram)</h2>
         </div>
         <div class="panel-body">
             @if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Any())

@@ -6,7 +6,7 @@
 {
     <table class="dialogFormLayout">
         <tr>
-            <td>@Html.LabelWithFieldDefinitionFor(x => x.Caption): </td>
+            <td>@Html.LabelWithSugarFor(x => x.Caption): </td>
             <td>
                 @Html.TextBoxFor(x => x.Caption, new {style = "width:450px"})
                 <div class="smallExplanationText">Be concise yet still descriptive. Thumbnails above will display alphabetically by caption.</div>
@@ -16,20 +16,20 @@
             <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
-            <td>@Html.LabelWithFieldDefinitionFor(x => x.Credit): </td>
+            <td>@Html.LabelWithSugarFor(x => x.Credit): </td>
             <td>
                 @Html.TextBoxFor(x => x.Credit, new {style = "width:450px"})
             </td>
         </tr>
         <tr>
-            <td>@Html.LabelWithFieldDefinitionFor(x => x.ProjectImageTimingID): </td>
+            <td>@Html.LabelWithSugarFor(x => x.ProjectImageTimingID): </td>
             <td>
                 @Html.DropDownListFor(x => x.ProjectImageTimingID, ViewDataTyped.ProjectImageTimings)
                 @Html.ValidationMessageFor(x => x.ProjectImageTimingID)
             </td>
         </tr>
         <tr>
-            <td>@Html.LabelWithFieldDefinitionFor(x => x.ExcludeFromFactSheet): </td>
+            <td>@Html.LabelWithSugarFor(x => x.ExcludeFromFactSheet): </td>
             <td>
                 @Html.CheckBoxFor(x => x.ExcludeFromFactSheet)
             </td>

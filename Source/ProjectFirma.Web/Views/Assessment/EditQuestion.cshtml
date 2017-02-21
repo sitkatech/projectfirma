@@ -4,14 +4,14 @@
 {
     <table class="dialogFormLayout">        
     <tr>
-        <th>@Html.LabelFor(x => x.AssessmentQuestionText)</th>
+        <th>@Html.LabelWithSugarFor(x => x.AssessmentQuestionText)</th>
         <td>
             @Html.TextBoxFor(m => m.AssessmentQuestionText, new { style = "width:522px" })
             @Html.ValidationMessageFor(m => m.AssessmentQuestionText)
         </td>
     </tr>
     <tr>
-            <th>@Html.LabelFor(x => x.Archive)</th>
+            <th>@Html.LabelWithSugarFor(x => x.Archive)</th>
             <td>
                @Html.CheckBoxFor(x => x.Archive)
             </td>

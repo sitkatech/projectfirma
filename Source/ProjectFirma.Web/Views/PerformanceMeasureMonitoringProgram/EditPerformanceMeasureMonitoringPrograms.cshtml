@@ -26,7 +26,7 @@
     <table class="dialogFormLayout">
         <tr>
             <th></th>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgram)</th>
+            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.MonitoringProgram)</th>
         </tr>
         <tr ng-repeat="PerformanceMeasureMonitoringProgram in AngularModel.PerformanceMeasureMonitoringPrograms | orderBy:[getMonitoringProgramName]">
             <td>

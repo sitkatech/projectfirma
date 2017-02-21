@@ -7,7 +7,7 @@
 @using (Html.BeginForm())
 {
     <div>
-        Click the checkboxes below to associate this project with one or more @Html.LabelWithFieldDefinitionFor(FieldDefinition.Classification, MultiTenantHelpers.GetClassificationDisplayNamePluralized()).
+        Click the checkboxes below to associate this project with one or more @Html.LabelWithSugarFor(FieldDefinition.Classification, MultiTenantHelpers.GetClassificationDisplayNamePluralized()).
     </div>
     <table>
         @{var i = 0;}

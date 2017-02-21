@@ -6,60 +6,60 @@ using NUnit.Framework;
 namespace LtInfo.Common.HtmlHelperExtensions
 {
     [TestFixture]
-    public class LabelForExtensionsTest
+    public class LabelWithSugarForExtensionsTest
     {
         [Test]
         [UseReporter(typeof(DiffReporter))]
-        public void GenerateLabelWithFieldDefinitionForNotYetDefinedFieldDefinitionTest()
+        public void GenerateLabelWithSugarForNotYetDefinedFieldDefinitionTest()
         {
-            var result = LabelForExtensions.LabelWithFieldDefinitionForImpl("My Field",
+            var result = LabelWithSugarForExtensions.LabelWithFieldDefinitionForImpl("My Field",
                 "myField",
                 null,
                 "/FieldDefinition/FieldDefinitionDetails/1",
                 300,
-                LabelForExtensions.DisplayStyle.HelpIconWithLabel, false);
+                LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, false);
             Approvals.Verify(result);
         }
 
         [Test]
         [UseReporter(typeof(DiffReporter))]
-        public void GenerateLabelWithFieldDefinitionForDefinedFieldDefinitionTest()
+        public void GenerateLabelWithSugarForDefinedFieldDefinitionTest()
         {
             var fieldDefinitionData = new TestFieldDefinitionData(-1, "My field's definition");
-            var result = LabelForExtensions.LabelWithFieldDefinitionForImpl("My Field",
+            var result = LabelWithSugarForExtensions.LabelWithFieldDefinitionForImpl("My Field",
                 "myField",
                 fieldDefinitionData,
                 "/FieldDefinition/FieldDefinitionDetails/1",
                 300,
-                LabelForExtensions.DisplayStyle.HelpIconWithLabel, false);
+                LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, false);
             Approvals.Verify(result);
         }
 
         [Test]
         [UseReporter(typeof(DiffReporter))]
-        public void GenerateLabelWithFieldDefinitionForDefinedFieldDefinitionForGridHeaderTest()
+        public void GenerateLabelWithSugarForDefinedFieldDefinitionForGridHeaderTest()
         {
             var fieldDefinitionData = new TestFieldDefinitionData(-1, "My field's definition");
-            var result = LabelForExtensions.LabelWithFieldDefinitionForImpl("My Field",
+            var result = LabelWithSugarForExtensions.LabelWithFieldDefinitionForImpl("My Field",
                 "myField",
                 fieldDefinitionData,
                 "/FieldDefinition/FieldDefinitionDetails/1",
                 300,
-                LabelForExtensions.DisplayStyle.AsGridHeader, false);
+                LabelWithSugarForExtensions.DisplayStyle.AsGridHeader, false);
             Approvals.Verify(result);
         }
 
         [Test]
         [UseReporter(typeof(DiffReporter))]
-        public void GenerateLabelWithFieldDefinitionForDefinedFieldDefinitionForHelpIconOnlyTest()
+        public void GenerateLabelWithSugarForDefinedFieldDefinitionForHelpIconOnlyTest()
         {
             var fieldDefinitionData = new TestFieldDefinitionData(-1, "My field's definition");
-            var result = LabelForExtensions.LabelWithFieldDefinitionForImpl("My Field",
+            var result = LabelWithSugarForExtensions.LabelWithFieldDefinitionForImpl("My Field",
                 "myField",
                 fieldDefinitionData,
                 "/FieldDefinition/FieldDefinitionDetails/1",
                 300,
-                LabelForExtensions.DisplayStyle.HelpIconOnly, false);
+                LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly, false);
             Approvals.Verify(result);
         }
     }

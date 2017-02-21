@@ -29,106 +29,103 @@
     <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @MultiTenantHelpers.GetTaxonomyTierThreeDisplayNamePluralized().</a>
 </div>
 
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h2>
-                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierThreeUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetTaxonomyTierThreeDisplayName(), ViewDataTyped.TaxonomyTierThree.DisplayName), ViewDataTyped.UserHasTaxonomyTierThreeManagePermissions) Basics
-                    </h2>
-                </div>
-                <div class="panel-body">
-                    <div>
-                        @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }
-                    </div>
-                </div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierThreeUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetTaxonomyTierThreeDisplayName(), ViewDataTyped.TaxonomyTierThree.DisplayName), ViewDataTyped.UserHasTaxonomyTierThreeManagePermissions) Basics
+                </h2>
             </div>
-
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h2>Description</h2>
-                </div>
-                <div class="panel-body">
-                    <div>
-                        @ViewDataTyped.TaxonomyTierThree.TaxonomyTierThreeDescription
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h2>
-                        <a href="@ViewDataTyped.TaxonomyTierTwoIndexUrl">@MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</a>
-                    </h2>
-                </div>
-                <div class="panel-body">
-                    @if (ViewDataTyped.TaxonomyTierThree.TaxonomyTierTwos.Any())
-                    {
-                        <table class="summaryLayout">
-                            <tr>
-                                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()):</th>
-                            </tr>
-                            @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierThree.TaxonomyTierTwos.OrderBy(x => x.DisplayName))
-                            {
-                                <tr>
-                                    <td>
-                                        @taxonomyTierTwo.GetDisplayNameAsUrl()
-                                    </td>
-                                </tr>
-                            }
-                        </table>
-                    }
-                    else
-                    {
-                        <p>No @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() set for this @MultiTenantHelpers.GetTaxonomyTierThreeDisplayName().</p>
-                    }
-                </div>
-            </div>
-
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h2>
-                        <a href="@ViewDataTyped.IndexUrl">@MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized()</a>
-                    </h2>
-                </div>
-                <div class="panel-body">
-                    @if (ViewDataTyped.TaxonomyTierThree.TaxonomyTierOnes.Any())
-                    {
-                        <table class="summaryLayout">
-                            <tr>
-                                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierOne, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierOneDisplayName()):</th>
-                            </tr>
-                            @foreach (var taxonomyTierOne in ViewDataTyped.TaxonomyTierThree.TaxonomyTierOnes)
-                            {
-                                <tr>
-                                    <td>
-                                        @taxonomyTierOne.GetDisplayNameAsUrl()
-                                    </td>
-                                </tr>
-                            }
-                        </table>
-                    }
-                    else
-                    {
-                        <p>No @MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized() set for this @MultiTenantHelpers.GetTaxonomyTierThreeDisplayName().</p>
-                    }
+            <div class="panel-body">
+                <div>
+                    @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h2>@MultiTenantHelpers.GetTaxonomyTierThreeDisplayName() Projects Map</h2>
+
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>Description</h2>
+            </div>
+            <div class="panel-body">
+                <div>
+                    @ViewDataTyped.TaxonomyTierThree.TaxonomyTierThreeDescription
                 </div>
-                <div style="padding: 10px">
-                    To zoom, hold down Shift and drag a rectangle.
-                    <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
-                        @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
-                    </div>
-                    Some projects operate over larger areas and are not represented on the map, but are listed in the project grid below. A <a href="@ViewDataTyped.ProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.
+            </div>
+        </div>
+
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    <a href="@ViewDataTyped.TaxonomyTierTwoIndexUrl">@MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</a>
+                </h2>
+            </div>
+            <div class="panel-body">
+                @if (ViewDataTyped.TaxonomyTierThree.TaxonomyTierTwos.Any())
+                {
+                    <table class="summaryLayout">
+                        <tr>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</th>
+                        </tr>
+                        @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierThree.TaxonomyTierTwos.OrderBy(x => x.DisplayName))
+                        {
+                            <tr>
+                                <td>
+                                    @taxonomyTierTwo.GetDisplayNameAsUrl()
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <p>No @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() set for this @MultiTenantHelpers.GetTaxonomyTierThreeDisplayName().</p>
+                }
+            </div>
+        </div>
+
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    <a href="@ViewDataTyped.IndexUrl">@MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized()</a>
+                </h2>
+            </div>
+            <div class="panel-body">
+                @if (ViewDataTyped.TaxonomyTierThree.TaxonomyTierOnes.Any())
+                {
+                    <table class="summaryLayout">
+                        <tr>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierOneDisplayName())</th>
+                        </tr>
+                        @foreach (var taxonomyTierOne in ViewDataTyped.TaxonomyTierThree.TaxonomyTierOnes)
+                        {
+                            <tr>
+                                <td>
+                                    @taxonomyTierOne.GetDisplayNameAsUrl()
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <p>No @MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized() set for this @MultiTenantHelpers.GetTaxonomyTierThreeDisplayName().</p>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>@MultiTenantHelpers.GetTaxonomyTierThreeDisplayName() Projects Map</h2>
+            </div>
+            <div style="padding: 10px">
+                To zoom, hold down Shift and drag a rectangle.
+                <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
+                    @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
                 </div>
+                Some projects operate over larger areas and are not represented on the map, but are listed in the project grid below. A <a href="@ViewDataTyped.ProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.
             </div>
         </div>
     </div>

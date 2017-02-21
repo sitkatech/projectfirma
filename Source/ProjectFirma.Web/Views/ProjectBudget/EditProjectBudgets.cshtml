@@ -53,7 +53,7 @@ else
         </div>
         <table class="dialogFormLayout" style="overflow: scroll" ng-show="AngularModel.ProjectBudgets.length > 0">
             <tr>
-                <th colspan="3" style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.FundingSource)</th>
+                <th colspan="3" style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.FundingSource)</th>
                 <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right; vertical-align: top">
                     <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$first" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
                     <span ng-bind="calendarYear"></span>

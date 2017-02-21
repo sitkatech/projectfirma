@@ -17,7 +17,11 @@ namespace ProjectFirma.Web.Models
 
         public string DisplayName
         {
-            get { return string.Format("{0}: {1}", TaxonomyTierThreeCode, TaxonomyTierThreeName); }
+            get
+            {
+                var taxonomyPrefix = string.IsNullOrWhiteSpace(TaxonomyTierThreeCode) ? string.Empty : string.Format("{0}: ", TaxonomyTierThreeCode);
+                return string.Format("{0}{1}", taxonomyPrefix, TaxonomyTierThreeName);
+            }
         }
 
         public HtmlString GetDisplayNameAsUrl()

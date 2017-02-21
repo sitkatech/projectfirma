@@ -1,4 +1,5 @@
-﻿@inherits ProjectFirma.Web.Views.Assessment.NewQuestion
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@inherits ProjectFirma.Web.Views.Assessment.NewQuestion
               
 <style>
     .bootstrap-select .disabled a, .bootstrap-select li.dropdown-header {
@@ -50,7 +51,7 @@
 {
     <div style="min-height: 400px">
         <div class="row">
-            <div class="col-md-3"><strong>@Html.LabelFor(x => x.AssessmentQuestionText)</strong></div>
+            <div class="col-md-3"><strong>@Html.LabelWithSugarFor(x => x.AssessmentQuestionText)</strong></div>
             <div class="col-md-9">
                 @Html.TextBoxFor(m => m.AssessmentQuestionText, new { style = "width:503px" })
                 @Html.ValidationMessageFor(m => m.AssessmentQuestionText)

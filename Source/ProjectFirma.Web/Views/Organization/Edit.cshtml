@@ -37,7 +37,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-               @Html.LabelWithFieldDefinitionFor(m => m.SectorID):
+               @Html.LabelWithSugarFor(m => m.SectorID):
             </div>
             <div class="col-sm-9">
                 @Html.DropDownListFor(m => m.SectorID, ViewDataTyped.Sectors, new { style = "width:100%" })
@@ -46,7 +46,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithFieldDefinitionFor(m => m.PrimaryContactPersonID):
+                @Html.LabelWithSugarFor(m => m.PrimaryContactPersonID):
             </div>
             <div class="col-sm-9">
                 @Html.DropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.People, new { style = "width:100%" })
@@ -64,7 +64,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelFor(x => x.LogoFileResourceData): 
+                @Html.LabelWithSugarFor(x => x.LogoFileResourceData): 
             </div>
             <div class="col-sm-9">
                 @Html.EditorFor(x => x.LogoFileResourceData)
@@ -76,7 +76,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelFor(m => m.IsActive):
+                @Html.LabelWithSugarFor(m => m.IsActive):
             </div>
             <div class="col-sm-9">
                 @Html.CheckBoxFor(m => m.IsActive)

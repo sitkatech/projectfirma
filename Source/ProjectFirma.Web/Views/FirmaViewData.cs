@@ -78,8 +78,8 @@ namespace ProjectFirma.Web.Views
         private static LtInfoMenuItem BuildAboutMenu(Person currentPerson)
         {
             var aboutMenu = new LtInfoMenuItem("About");
-            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AboutController>(c => c.AboutClackamasPartnership()), currentPerson, "About the Partnership"));
-            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AboutController>(c => c.Meetings()), currentPerson, "Meetings and Documents"));
+            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.About()), currentPerson, "About " + MultiTenantHelpers.GetTenantDisplayName()));
+            aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.Meetings()), currentPerson, "Meetings and Documents"));
             return aboutMenu;
         }
 

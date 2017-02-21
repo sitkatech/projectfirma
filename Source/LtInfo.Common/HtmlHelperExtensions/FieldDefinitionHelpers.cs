@@ -6,12 +6,12 @@ namespace LtInfo.Common.HtmlHelperExtensions
     {
         public static string ToGridHeaderString(this IFieldDefinition fieldDefinition)
         {
-            return fieldDefinition.ToGridHeaderString(LabelForExtensions.DefaultPopupWidth, fieldDefinition.FieldDefinitionDisplayName);
+            return fieldDefinition.ToGridHeaderString(LabelWithSugarForExtensions.DefaultPopupWidth, fieldDefinition.FieldDefinitionDisplayName);
         }
 
         public static string ToGridHeaderString(this IFieldDefinition fieldDefinition, string linkText)
         {
-            return fieldDefinition.ToGridHeaderString(LabelForExtensions.DefaultPopupWidth, linkText);
+            return fieldDefinition.ToGridHeaderString(LabelWithSugarForExtensions.DefaultPopupWidth, linkText);
         }
 
         public static string ToGridHeaderString(this IFieldDefinition fieldDefinition, int popupWidth)
@@ -22,13 +22,13 @@ namespace LtInfo.Common.HtmlHelperExtensions
         private static string ToGridHeaderString(this IFieldDefinition fieldDefinition, int popupWidth, string fieldDefinitionDisplayName)
         {
             return
-                LabelForExtensions.LabelWithFieldDefinitionFor(fieldDefinition, popupWidth,
-                    LabelForExtensions.DisplayStyle.AsGridHeader, fieldDefinitionDisplayName).ToString();
+                LabelWithSugarForExtensions.LabelWithSugarFor(fieldDefinition, popupWidth,
+                    LabelWithSugarForExtensions.DisplayStyle.AsGridHeader, fieldDefinitionDisplayName).ToString();
         }
 
         public static string ToGridHeaderStringWider(this IFieldDefinition fieldDefinition)
         {
-            return fieldDefinition.ToGridHeaderString(LabelForExtensions.DefaultPopupWidthWider, fieldDefinition.FieldDefinitionDisplayName);
+            return fieldDefinition.ToGridHeaderString(LabelWithSugarForExtensions.DefaultPopupWidthWider, fieldDefinition.FieldDefinitionDisplayName);
         }
     }
 }

@@ -105,11 +105,11 @@
     <table class="dialogFormLayout">
         <tr>
             <th></th>
-            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.Organization)</th>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.LeadImplementer)</th>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Implementer)</th>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Funder)</th>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PrimaryContact)</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
+            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.LeadImplementer)</th>
+            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Implementer)</th>
+            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Funder)</th>
+            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)</th>
         </tr>
         <tr ng-repeat="projectOrganization in AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations">
             <td>

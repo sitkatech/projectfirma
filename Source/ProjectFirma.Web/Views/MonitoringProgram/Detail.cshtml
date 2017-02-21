@@ -17,19 +17,19 @@
     <div class="panel-body">
         <table class="summaryLayout">
             <tr>
-                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgram)</th>
+                <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.MonitoringProgram)</th>
                 <td>
                     @ViewDataTyped.MonitoringProgram.MonitoringProgramName
                 </td>
             </tr>
             <tr>
-                <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringApproach)</th>
+                <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.MonitoringApproach)</th>
                 <td>
                     @ViewDataTyped.MonitoringProgram.MonitoringApproach
                 </td>
             </tr>
             <tr>
-                <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgramUrl, "Home Page")</th>
+                <th>@Html.LabelWithSugarFor(FieldDefinition.MonitoringProgramUrl, "Home Page")</th>
                 <td>
                     <a href="@ViewDataTyped.MonitoringProgram.MonitoringProgramUrl">@ViewDataTyped.MonitoringProgram.MonitoringProgramUrl</a>
                 </td>
@@ -40,7 +40,7 @@
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditMonitoringProgramPartnersUrl, "Edit Monitoring Program Partners", ViewDataTyped.UserHasMonitoringProgramManagePermissions) @Html.LabelWithFieldDefinitionFor(FieldDefinition.MonitoringProgramPartner, "Partners")</h2>
+        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditMonitoringProgramPartnersUrl, "Edit Monitoring Program Partners", ViewDataTyped.UserHasMonitoringProgramManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.MonitoringProgramPartner, "Partners")</h2>
     </div>
     <div class="panel-body">
         @if (ViewDataTyped.MonitoringProgram.MonitoringProgramPartners.Any())

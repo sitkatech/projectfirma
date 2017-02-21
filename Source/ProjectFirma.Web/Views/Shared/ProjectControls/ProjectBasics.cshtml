@@ -48,7 +48,7 @@
     </div>
     <div class="row">
         <div class="col-xs-5 col-header">
-            @Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectDescription)
+            @Html.LabelWithSugarFor(FieldDefinition.ProjectDescription)
         </div>
         <div class="col-xs-7">
             @Html.Raw(ViewDataTyped.Project.ProjectDescription.HtmlEncodeWithBreaks())
@@ -61,14 +61,14 @@
     {
         case FundingTypeEnum.Capital:
             <div class="row">
-                <div class="col-xs-5 col-header">@Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedTotalCost)</div>
+                <div class="col-xs-5 col-header">@Html.LabelWithSugarFor(FieldDefinition.EstimatedTotalCost)</div>
                 <div class="col-xs-7">
                     @ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-5 col-header">
-                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.ProjectCostInYearOfExpenditure)
+                    @Html.LabelWithSugarFor(FieldDefinition.ProjectCostInYearOfExpenditure)
                 </div>
                 <div class="col-xs-7">
                     @if (CostParameterSet.CanCalculateCapitalCostInYearOfExpenditure(ViewDataTyped.Project))
@@ -87,14 +87,14 @@
             </div>
             <div class="row">
                 <div class="col-xs-5 col-header">
-                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.SecuredFunding)
+                    @Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)
                 </div>
                 <div class="col-xs-7">
                     @ViewDataTyped.Project.SecuredFunding.ToStringCurrency()
                 </div><div class="row">
                 </div>
                 <div class="col-xs-5 col-header">
-                    @Html.LabelWithFieldDefinitionFor(FieldDefinition.UnfundedNeed)
+                    @Html.LabelWithSugarFor(FieldDefinition.UnfundedNeed)
                 </div>
                 <div class="col-xs-7">
                     @ViewDataTyped.Project.UnfundedNeed.ToStringCurrency()
@@ -104,7 +104,7 @@
         case FundingTypeEnum.OperationsAndMaintenance:
         <div class="row">
             <div class="col-xs-5 col-header">
-                @Html.LabelWithFieldDefinitionFor(FieldDefinition.EstimatedAnnualOperatingCost)
+                @Html.LabelWithSugarFor(FieldDefinition.EstimatedAnnualOperatingCost)
             </div>
             <div class="col-xs-7">
                 @ViewDataTyped.Project.EstimatedAnnualOperatingCost.ToStringCurrency()
@@ -112,7 +112,7 @@
         </div>
         <div class="row">
             <div class="col-xs-5 col-header">
-                @Html.LabelWithFieldDefinitionFor(FieldDefinition.CalculatedTotalRemainingOperatingCost)
+                @Html.LabelWithSugarFor(FieldDefinition.CalculatedTotalRemainingOperatingCost)
             </div>
             @if (CostParameterSet.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(ViewDataTyped.Project))
             {
@@ -136,7 +136,7 @@
 
     <div class="row">
         <div class="col-xs-5 col-header">
-            @Html.LabelWithFieldDefinitionFor(FieldDefinition.PlanningDesignStartYear)
+            @Html.LabelWithSugarFor(FieldDefinition.PlanningDesignStartYear)
         </div>
         <div class="col-xs-7">
             @ViewDataTyped.Project.PlanningDesignStartYear
@@ -144,7 +144,7 @@
     </div>
     <div class="row">
         <div class="col-xs-5 col-header">
-            @Html.LabelWithFieldDefinitionFor(FieldDefinition.ImplementationStartYear)
+            @Html.LabelWithSugarFor(FieldDefinition.ImplementationStartYear)
         </div>
         <div class="col-xs-7">
             @ViewDataTyped.Project.ImplementationStartYear
@@ -152,7 +152,7 @@
     </div>
     <div class="row">
         <div class="col-xs-5 col-header">
-            @Html.LabelWithFieldDefinitionFor(FieldDefinition.CompletionYear)
+            @Html.LabelWithSugarFor(FieldDefinition.CompletionYear)
         </div>
         <div class="col-xs-7">
             @ViewDataTyped.Project.CompletionYear
@@ -162,7 +162,7 @@
     <hr />
     <div class="row">
         <div class="col-xs-5 col-header">
-            @Html.LabelWithFieldDefinitionFor(FieldDefinition.PrimaryContact)
+            @Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)
         </div>
 
         <div class="col-xs-7">

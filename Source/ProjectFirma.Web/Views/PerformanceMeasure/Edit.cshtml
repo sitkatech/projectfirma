@@ -15,7 +15,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.Label("PerformanceMeasure Type")
+                @Html.Label("Performance Measure Type")
             </div>
             <div class="col-sm-9">
                 @Html.DropDownListFor(m => m.PerformanceMeasureTypeID, ViewDataTyped.PerformanceMeasureTypes, new {@class = "form-control"})
@@ -24,7 +24,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithFieldDefinitionFor(FieldDefinition.MeasurementUnit, "Measurement Unit")
+                @Html.LabelWithSugarFor(FieldDefinition.MeasurementUnit, "Measurement Unit")
             </div>
             <div class="col-sm-9">
                 @Html.DropDownListFor(m => m.MeasurementUnitTypeID, ViewDataTyped.MeasurementUnitTypes, new {@class = "form-control"})

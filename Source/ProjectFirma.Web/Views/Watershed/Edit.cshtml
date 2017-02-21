@@ -4,7 +4,7 @@
 {
     <table class="dialogFormLayout">
         <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(m => m.WatershedName)</th>
+            <th>@Html.LabelWithSugarFor(m => m.WatershedName)</th>
             <td>
                 @Html.TextBoxFor(m => m.WatershedName, new {style = "width:522px"})
                 @Html.ValidationMessageFor(m => m.WatershedName)

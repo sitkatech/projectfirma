@@ -54,6 +54,6 @@ namespace LtInfo.Common.BootstrapWrappers
                     linkText.ToHTMLFormattedString()));
         }
 
-        public static string RequiredIcon = "<span class=\"glyphicon glyphicon-flash\" style=\"color: #800020; font-size: 8px; \"></span>";
+        public static string RequiredIcon = "<span class=\"requiredFieldIcon glyphicon glyphicon-flash\" style=\"color: #800020; font-size: 8px; \"></span>";
     }
 }

@@ -28,60 +28,57 @@
 </div>
 
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierOneUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetTaxonomyTierOneDisplayName(), ViewDataTyped.TaxonomyTierOne.DisplayName), ViewDataTyped.UserHasTaxonomyTierOneManagePermissions) Basics</h2>
-                </div>
-                <div class="panel-body">
-                    @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }
-                </div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierOneUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetTaxonomyTierOneDisplayName(), ViewDataTyped.TaxonomyTierOne.DisplayName), ViewDataTyped.UserHasTaxonomyTierOneManagePermissions) Basics</h2>
             </div>
-
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h2>Description</h2>
-                </div>
-                <div class="panel-body">
-                    <div>
-                        @ViewDataTyped.TaxonomyTierOne.TaxonomyTierOneDescription
-                    </div>
-                </div>
+            <div class="panel-body">
+                @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="panel panelFirma" style="height: auto">
-                <div class="panel-heading panelTitle">
-                    <h2>@MultiTenantHelpers.GetTaxonomyTierOneDisplayName() Projects Map</h2>
-                </div>
-                <div style="padding: 10px">
-                    To zoom, hold down Shift and drag a rectangle.
-                    <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
-                        @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
-                    </div>
-                    Some projects operate over larger areas and are not represented on the map, but are listed in the project grid below. A <a href="@ViewDataTyped.ProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.
-                </div>
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>Description</h2>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h2>
-                        <a href="@ViewDataTyped.FullProjectListUrl">Projects</a>
-                    </h2>
-                </div>
-                <div class="panel-body">
-                    @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+            <div class="panel-body">
+                <div>
+                    @ViewDataTyped.TaxonomyTierOne.TaxonomyTierOneDescription
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="col-md-6">
+        <div class="panel panelFirma" style="height: auto">
+            <div class="panel-heading panelTitle">
+                <h2>@MultiTenantHelpers.GetTaxonomyTierOneDisplayName() Projects Map</h2>
+            </div>
+            <div style="padding: 10px">
+                To zoom, hold down Shift and drag a rectangle.
+                <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
+                    @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
+                </div>
+                Some projects operate over larger areas and are not represented on the map, but are listed in the project grid below. A <a href="@ViewDataTyped.ProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    <a href="@ViewDataTyped.FullProjectListUrl">Projects</a>
+                </h2>
+            </div>
+            <div class="panel-body">
+                @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">

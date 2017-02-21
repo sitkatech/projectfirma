@@ -77,8 +77,8 @@
     <table class="dialogFormLayout">
         <tr>
             <th></th>
-            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</th>
-            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.IsPrimaryTaxonomyTierTwo, LabelForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()))</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinition.IsPrimaryTaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()))</th>
         </tr>
         <tr ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyTierTwoPerformanceMeasures | orderBy:getTaxonomyTierTwoName">
             <td>

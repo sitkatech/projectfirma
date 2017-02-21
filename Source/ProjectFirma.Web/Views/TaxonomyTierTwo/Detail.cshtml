@@ -50,7 +50,6 @@
                         </h2>
                     </div>
                     <div class="panel-body">
-                        <span>Category</span>
                         @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }
                     </div>
                 </div>
@@ -92,7 +91,7 @@
                         {
                             <table class="summaryLayout">
                                 <tr>
-                                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.TaxonomyTierOne, LabelForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierOneDisplayName())</th>
+                                    <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierOneDisplayName())</th>
                                 </tr>
                                 @foreach (var taxonomyTierOne in ViewDataTyped.TaxonomyTierTwo.TaxonomyTierOnes)
                                 {
@@ -124,7 +123,7 @@
                         {
                             <table class="summaryLayout">
                                 <tr>
-                                    <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure)</th>
+                                    <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure)</th>
                                 </tr>
                                 @foreach (var performanceMeasure in ViewDataTyped.TaxonomyTierTwoPerformanceMeasures.OrderBy(x => x.PerformanceMeasureDisplayName))
                                 {

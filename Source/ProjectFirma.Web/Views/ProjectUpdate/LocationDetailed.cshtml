@@ -1,4 +1,5 @@
-﻿@using ProjectFirma.Web.Views.ProjectUpdate
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Views.ProjectUpdate
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.ModalDialog
@@ -26,7 +27,7 @@ else
     {
     <hr />
     <div class="row form-group">
-        <div class="col-md-3 col-header">@Html.LabelFor(x => x.Comments)</div>
+        <div class="col-md-3 col-header">@Html.LabelWithSugarFor(x => x.Comments)</div>
         <div class="col-md-9">
             @Html.TextAreaFor(x => x.Comments, new { @class = "sectionComments" })
             @Html.Hidden("Section", ViewDataTyped.SelectedProjectUpdateSection)

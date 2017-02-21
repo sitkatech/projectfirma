@@ -9,15 +9,15 @@
 {
     <div class="form-horizontal">
         <div class="form-group">
-            <div class="col-sm-4 control-label">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierTwoName, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</div>
-            <div class="col-sm-8">
+            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTierTwoName, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</div>
+            <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.TaxonomyTierTwoName)
                 @Html.ValidationMessageFor(m => m.TaxonomyTierTwoName)
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-4 control-label">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierThreeID, MultiTenantHelpers.GetTaxonomyTierThreeDisplayName())</div>
-            <div class="col-sm-8">
+            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTierThreeID, MultiTenantHelpers.GetTaxonomyTierThreeDisplayName())</div>
+            <div class="col-sm-9">
                 @if (ViewDataTyped.HasProjects)
                 {
                     @ViewDataTyped.TaxonomyTierThreeDisplayName
@@ -31,18 +31,18 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-4 control-label">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierTwoDescription)</div>
-            <div class="col-sm-8">
+            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTierTwoDescription)</div>
+            <div class="col-sm-9">
                 @Html.TextAreaWithMaxLengthFor(m => m.TaxonomyTierTwoDescription, new TextAreaForExtensions.TextAreaDimensions(null, 4), null)
                 @Html.ValidationMessageFor(m => m.TaxonomyTierTwoDescription)
             </div>
         </div>
         
         <div class="form-group">
-            <div class="col-sm-4 control-label">
-                @Html.LabelFor(x => x.ThemeColor, "Theme Color")
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(x => x.ThemeColor, "Theme Color")
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-9">
                 <div id="themeColorPicker" class="input-group colorpicker-component">
                     @Html.TextBoxFor(x => x.ThemeColor, new { @class = "form-control" })
                     <span class="input-group-addon"><i></i></span>

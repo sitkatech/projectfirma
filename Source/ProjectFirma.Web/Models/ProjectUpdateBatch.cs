@@ -432,28 +432,21 @@ namespace ProjectFirma.Web.Models
 
             // validation 1: ensure that we have budget values from ProjectUpdate start year to min(endyear, currentyear)
             var yearsExpected = FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), ProjectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
-            if (!fundingSources.Any())
+
+            var missingFundingSourceYears = new Dictionary<FundingSource, HashSet<int>>();
+            foreach (var fundingSource in fundingSources)
             {
-                // we need to at least check for the missing years
-                var budgetsValidationResult = new BudgetsValidationResult(yearsExpected);
-                return budgetsValidationResult;
-            }
-            else
-            {
-                var missingFundingSourceYears = new Dictionary<FundingSource, HashSet<int>>();
-                foreach (var fundingSource in fundingSources)
+                var currentFundingSource = fundingSource;
+                var missingYears =
+                    yearsExpected.GetMissingYears(ProjectBudgetUpdates.Where(x => x.FundingSourceID == currentFundingSource.FundingSourceID).Select(x => x.CalendarYear));
+                if (missingYears.Any())
                 {
-                    var currentFundingSource = fundingSource;
-                    var missingYears =
-                        yearsExpected.GetMissingYears(ProjectBudgetUpdates.Where(x => x.FundingSourceID == currentFundingSource.FundingSourceID).Select(x => x.CalendarYear));
-                    if (missingYears.Any())
-                    {
-                        missingFundingSourceYears.Add(currentFundingSource, missingYears);
-                    }
+                    missingFundingSourceYears.Add(currentFundingSource, missingYears);
                 }
-                var budgetsValidationResult = new BudgetsValidationResult(missingFundingSourceYears);
-                return budgetsValidationResult;
             }
+            var budgetsValidationResult = new BudgetsValidationResult(missingFundingSourceYears);
+            return budgetsValidationResult;
+
         }
 
         public bool AreBudgetsValid()

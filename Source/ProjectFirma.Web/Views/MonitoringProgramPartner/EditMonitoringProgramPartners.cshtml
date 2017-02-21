@@ -26,7 +26,7 @@
     <table class="dialogFormLayout">
         <tr>
             <th></th>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.Organization)</th>
+            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
         </tr>
         <tr ng-repeat="monitoringProgramPartner in AngularModel.MonitoringProgramPartners | orderBy:[getOrganizationName]">
             <td>

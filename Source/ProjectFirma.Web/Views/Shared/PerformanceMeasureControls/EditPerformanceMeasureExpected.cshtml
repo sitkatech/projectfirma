@@ -48,9 +48,9 @@
     <table class="dialogFormLayout" ng-show="AngularModel.PerformanceMeasureExpecteds.length > 0">
         <tr>
             <th></th>
-            <th style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure)</th>
-            <th ng-show="hasAnySubcategories()">@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureSubcategory)</th>
-            <th colspan="2" style="white-space: nowrap">@Html.LabelWithFieldDefinitionFor(FieldDefinition.ExpectedValue)</th>
+            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure)</th>
+            <th ng-show="hasAnySubcategories()">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory)</th>
+            <th colspan="2" style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ExpectedValue)</th>
         </tr>
         <tr ng-repeat="performanceMeasureExpected in AngularModel.PerformanceMeasureExpecteds | orderBy:['DisplayName', 'CalendarYear', getProjectName]">
             <td>

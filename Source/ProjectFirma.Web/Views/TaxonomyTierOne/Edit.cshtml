@@ -5,7 +5,7 @@
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneName)
+                @Html.LabelWithSugarFor(m => m.TaxonomyTierOneName)
             </div>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.TaxonomyTierOneName, new { style = "width:522px" })
@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierTwoID)
+                @Html.LabelWithSugarFor(m => m.TaxonomyTierTwoID)
             </div>
             <div class="col-sm-9">
                 @if (ViewDataTyped.HasProjects)
@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-4 control-label">@Html.LabelWithFieldDefinitionFor(m => m.TaxonomyTierOneDescription)</div>
+            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTierOneDescription)</div>
             <div class="col-sm-8">
                 @Html.TextAreaWithMaxLengthFor(m => m.TaxonomyTierOneDescription, new TextAreaForExtensions.TextAreaDimensions(null, 4), null)
                 @Html.ValidationMessageFor(m => m.TaxonomyTierOneDescription)

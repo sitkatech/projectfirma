@@ -31,8 +31,8 @@
             <col>
         </colgroup>
         <tr>
-            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasure)</th>
-            <th>@Html.LabelWithFieldDefinitionFor(FieldDefinition.PerformanceMeasureSubcategory)</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure)</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory)</th>
             @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures.OrderBy(cy => cy.CalendarYear))
             {
                 <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYear</th>
