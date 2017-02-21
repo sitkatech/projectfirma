@@ -16,14 +16,13 @@ namespace ProjectFirma.Web.Models
 {
     public abstract partial class SupportRequestType : IHavePrimaryKey
     {
-        public static readonly SupportRequestTypeQuestionAboutPolicies QuestionAboutPolicies = SupportRequestTypeQuestionAboutPolicies.Instance;
         public static readonly SupportRequestTypeReportBug ReportBug = SupportRequestTypeReportBug.Instance;
         public static readonly SupportRequestTypeHelpWithProjectUpdate HelpWithProjectUpdate = SupportRequestTypeHelpWithProjectUpdate.Instance;
         public static readonly SupportRequestTypeForgotLoginInfo ForgotLoginInfo = SupportRequestTypeForgotLoginInfo.Instance;
         public static readonly SupportRequestTypeNewOrganizationOrFundingSource NewOrganizationOrFundingSource = SupportRequestTypeNewOrganizationOrFundingSource.Instance;
-        public static readonly SupportRequestTypeOther Other = SupportRequestTypeOther.Instance;
         public static readonly SupportRequestTypeProvideFeedback ProvideFeedback = SupportRequestTypeProvideFeedback.Instance;
         public static readonly SupportRequestTypeRequestOrganizationNameChange RequestOrganizationNameChange = SupportRequestTypeRequestOrganizationNameChange.Instance;
+        public static readonly SupportRequestTypeOther Other = SupportRequestTypeOther.Instance;
 
         public static readonly List<SupportRequestType> All;
         public static readonly ReadOnlyDictionary<int, SupportRequestType> AllLookupDictionary;
@@ -33,7 +32,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static SupportRequestType()
         {
-            All = new List<SupportRequestType> { QuestionAboutPolicies, ReportBug, HelpWithProjectUpdate, ForgotLoginInfo, NewOrganizationOrFundingSource, Other, ProvideFeedback, RequestOrganizationNameChange };
+            All = new List<SupportRequestType> { ReportBug, HelpWithProjectUpdate, ForgotLoginInfo, NewOrganizationOrFundingSource, ProvideFeedback, RequestOrganizationNameChange, Other };
             AllLookupDictionary = new ReadOnlyDictionary<int, SupportRequestType>(All.ToDictionary(x => x.SupportRequestTypeID));
         }
 
@@ -114,8 +113,6 @@ namespace ProjectFirma.Web.Models
                     return Other;
                 case SupportRequestTypeEnum.ProvideFeedback:
                     return ProvideFeedback;
-                case SupportRequestTypeEnum.QuestionAboutPolicies:
-                    return QuestionAboutPolicies;
                 case SupportRequestTypeEnum.ReportBug:
                     return ReportBug;
                 case SupportRequestTypeEnum.RequestOrganizationNameChange:
@@ -128,61 +125,54 @@ namespace ProjectFirma.Web.Models
 
     public enum SupportRequestTypeEnum
     {
-        QuestionAboutPolicies = 1,
-        ReportBug = 2,
-        HelpWithProjectUpdate = 3,
-        ForgotLoginInfo = 4,
-        NewOrganizationOrFundingSource = 5,
-        Other = 6,
-        ProvideFeedback = 9,
-        RequestOrganizationNameChange = 10
-    }
-
-    public partial class SupportRequestTypeQuestionAboutPolicies : SupportRequestType
-    {
-        private SupportRequestTypeQuestionAboutPolicies(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder) {}
-        public static readonly SupportRequestTypeQuestionAboutPolicies Instance = new SupportRequestTypeQuestionAboutPolicies(1, @"QuestionAboutPolicies", @"Have question about Clackamas Partnership (policies, reporting process, etc.)", 3);
+        ReportBug = 1,
+        HelpWithProjectUpdate = 2,
+        ForgotLoginInfo = 3,
+        NewOrganizationOrFundingSource = 4,
+        ProvideFeedback = 5,
+        RequestOrganizationNameChange = 6,
+        Other = 7
     }
 
     public partial class SupportRequestTypeReportBug : SupportRequestType
     {
         private SupportRequestTypeReportBug(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder) {}
-        public static readonly SupportRequestTypeReportBug Instance = new SupportRequestTypeReportBug(2, @"ReportBug", @"Ran into a bug or problem with this system", 7);
+        public static readonly SupportRequestTypeReportBug Instance = new SupportRequestTypeReportBug(1, @"ReportBug", @"Ran into a bug or problem with this system", 7);
     }
 
     public partial class SupportRequestTypeHelpWithProjectUpdate : SupportRequestType
     {
         private SupportRequestTypeHelpWithProjectUpdate(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder) {}
-        public static readonly SupportRequestTypeHelpWithProjectUpdate Instance = new SupportRequestTypeHelpWithProjectUpdate(3, @"HelpWithProjectUpdate", @"Can't figure out how to update my project", 1);
+        public static readonly SupportRequestTypeHelpWithProjectUpdate Instance = new SupportRequestTypeHelpWithProjectUpdate(2, @"HelpWithProjectUpdate", @"Can't figure out how to update my project", 1);
     }
 
     public partial class SupportRequestTypeForgotLoginInfo : SupportRequestType
     {
         private SupportRequestTypeForgotLoginInfo(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder) {}
-        public static readonly SupportRequestTypeForgotLoginInfo Instance = new SupportRequestTypeForgotLoginInfo(4, @"ForgotLoginInfo", @"Can't log in (forgot my username or password, account is locked, etc.)", 2);
+        public static readonly SupportRequestTypeForgotLoginInfo Instance = new SupportRequestTypeForgotLoginInfo(3, @"ForgotLoginInfo", @"Can't log in (forgot my username or password, account is locked, etc.)", 2);
     }
 
     public partial class SupportRequestTypeNewOrganizationOrFundingSource : SupportRequestType
     {
         private SupportRequestTypeNewOrganizationOrFundingSource(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder) {}
-        public static readonly SupportRequestTypeNewOrganizationOrFundingSource Instance = new SupportRequestTypeNewOrganizationOrFundingSource(5, @"NewOrganizationOrFundingSource", @"Need an Organization or Funding Source added to the list", 4);
-    }
-
-    public partial class SupportRequestTypeOther : SupportRequestType
-    {
-        private SupportRequestTypeOther(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder) {}
-        public static readonly SupportRequestTypeOther Instance = new SupportRequestTypeOther(6, @"Other", @"Other", 100);
+        public static readonly SupportRequestTypeNewOrganizationOrFundingSource Instance = new SupportRequestTypeNewOrganizationOrFundingSource(4, @"NewOrganizationOrFundingSource", @"Need an Organization or Funding Source added to the list", 4);
     }
 
     public partial class SupportRequestTypeProvideFeedback : SupportRequestType
     {
         private SupportRequestTypeProvideFeedback(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder) {}
-        public static readonly SupportRequestTypeProvideFeedback Instance = new SupportRequestTypeProvideFeedback(9, @"ProvideFeedback", @"Provide Feedback on the site", 6);
+        public static readonly SupportRequestTypeProvideFeedback Instance = new SupportRequestTypeProvideFeedback(5, @"ProvideFeedback", @"Provide Feedback on the site", 6);
     }
 
     public partial class SupportRequestTypeRequestOrganizationNameChange : SupportRequestType
     {
         private SupportRequestTypeRequestOrganizationNameChange(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder) {}
-        public static readonly SupportRequestTypeRequestOrganizationNameChange Instance = new SupportRequestTypeRequestOrganizationNameChange(10, @"RequestOrganizationNameChange", @"Request a change to an Organization's name", 9);
+        public static readonly SupportRequestTypeRequestOrganizationNameChange Instance = new SupportRequestTypeRequestOrganizationNameChange(6, @"RequestOrganizationNameChange", @"Request a change to an Organization's name", 9);
+    }
+
+    public partial class SupportRequestTypeOther : SupportRequestType
+    {
+        private SupportRequestTypeOther(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder) {}
+        public static readonly SupportRequestTypeOther Instance = new SupportRequestTypeOther(7, @"Other", @"Other", 100);
     }
 }

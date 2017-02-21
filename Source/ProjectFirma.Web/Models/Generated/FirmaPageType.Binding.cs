@@ -247,7 +247,7 @@ namespace ProjectFirma.Web.Models
     public partial class FirmaPageTypeAbout : FirmaPageType
     {
         private FirmaPageTypeAbout(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
-        public static readonly FirmaPageTypeAbout Instance = new FirmaPageTypeAbout(2, @"About", @"About Clackamas Partnership", 2);
+        public static readonly FirmaPageTypeAbout Instance = new FirmaPageTypeAbout(2, @"About", @"About", 2);
     }
 
     public partial class FirmaPageTypeFirmaCustomPage1 : FirmaPageType
