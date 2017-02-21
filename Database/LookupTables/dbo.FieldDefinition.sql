@@ -17,6 +17,7 @@ values
 (14, 'Organization', 'Organization'),
 (17, 'Password', 'Password'),
 (18, 'Performance Measure', 'PerformanceMeasure'),
+(19, 'Performance Measure Type', 'PerformanceMeasureType'),
 (21, 'Measurement Unit', 'MeasurementUnit'),
 (22, 'Photo Caption', 'PhotoCaption'),
 (23, 'Photo Credit', 'PhotoCredit'),

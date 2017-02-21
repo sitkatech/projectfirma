@@ -22,9 +22,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public int MeasurementUnitTypeID { get; set; }
 
         [Required]
-        public string IndicationDefinition { get; set; }
+        public string PerformanceMeasureDefinition { get; set; }
 
         [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.PerformanceMeasureType)]
         public int? PerformanceMeasureTypeID { get; set; }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             PerformanceMeasureDisplayName = performanceMeasure.PerformanceMeasureDisplayName;
             PerformanceMeasureTypeID = performanceMeasure.PerformanceMeasureTypeID;
             MeasurementUnitTypeID = performanceMeasure.MeasurementUnitTypeID;
-            IndicationDefinition = performanceMeasure.PerformanceMeasureDefinition;
+            PerformanceMeasureDefinition = performanceMeasure.PerformanceMeasureDefinition;
         }
 
         public void UpdateModel(Models.PerformanceMeasure performanceMeasure, Person currentPerson)
@@ -48,7 +49,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             performanceMeasure.PerformanceMeasureDisplayName = PerformanceMeasureDisplayName;
             performanceMeasure.PerformanceMeasureTypeID = PerformanceMeasureTypeID.Value;
             performanceMeasure.MeasurementUnitTypeID = MeasurementUnitTypeID;
-            performanceMeasure.PerformanceMeasureDefinition = IndicationDefinition;
+            performanceMeasure.PerformanceMeasureDefinition = PerformanceMeasureDefinition;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

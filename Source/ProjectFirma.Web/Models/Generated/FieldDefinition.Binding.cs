@@ -30,6 +30,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionOrganization Organization = FieldDefinitionOrganization.Instance;
         public static readonly FieldDefinitionPassword Password = FieldDefinitionPassword.Instance;
         public static readonly FieldDefinitionPerformanceMeasure PerformanceMeasure = FieldDefinitionPerformanceMeasure.Instance;
+        public static readonly FieldDefinitionPerformanceMeasureType PerformanceMeasureType = FieldDefinitionPerformanceMeasureType.Instance;
         public static readonly FieldDefinitionMeasurementUnit MeasurementUnit = FieldDefinitionMeasurementUnit.Instance;
         public static readonly FieldDefinitionPhotoCaption PhotoCaption = FieldDefinitionPhotoCaption.Instance;
         public static readonly FieldDefinitionPhotoCredit PhotoCredit = FieldDefinitionPhotoCredit.Instance;
@@ -96,7 +97,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { TaxonomyTierOne, TaxonomyTierOneName, ExpectedValue, TaxonomyTierThree, TaxonomyTierThreeName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, Organization, Password, PerformanceMeasure, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, TaxonomyTierTwo, TaxonomyTierTwoName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, ProposedProject, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative };
+            All = new List<FieldDefinition> { TaxonomyTierOne, TaxonomyTierOneName, ExpectedValue, TaxonomyTierThree, TaxonomyTierThreeName, Funder, FundingSource, FundingSourceDescription, FundingSourceName, Implementer, LeadImplementer, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, TaxonomyTierTwo, TaxonomyTierTwoName, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, WatershedName, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, ProposedProject, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -241,6 +242,8 @@ namespace ProjectFirma.Web.Models
                     return PerformanceMeasureSubcategory;
                 case FieldDefinitionEnum.PerformanceMeasureSubcategoryOption:
                     return PerformanceMeasureSubcategoryOption;
+                case FieldDefinitionEnum.PerformanceMeasureType:
+                    return PerformanceMeasureType;
                 case FieldDefinitionEnum.PhotoCaption:
                     return PhotoCaption;
                 case FieldDefinitionEnum.PhotoCredit:
@@ -329,6 +332,7 @@ namespace ProjectFirma.Web.Models
         Organization = 14,
         Password = 17,
         PerformanceMeasure = 18,
+        PerformanceMeasureType = 19,
         MeasurementUnit = 21,
         PhotoCaption = 22,
         PhotoCredit = 23,
@@ -470,6 +474,12 @@ namespace ProjectFirma.Web.Models
     {
         private FieldDefinitionPerformanceMeasure(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
         public static readonly FieldDefinitionPerformanceMeasure Instance = new FieldDefinitionPerformanceMeasure(18, @"PerformanceMeasure", @"Performance Measure");
+    }
+
+    public partial class FieldDefinitionPerformanceMeasureType : FieldDefinition
+    {
+        private FieldDefinitionPerformanceMeasureType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName) {}
+        public static readonly FieldDefinitionPerformanceMeasureType Instance = new FieldDefinitionPerformanceMeasureType(19, @"PerformanceMeasureType", @"Performance Measure Type");
     }
 
     public partial class FieldDefinitionMeasurementUnit : FieldDefinition

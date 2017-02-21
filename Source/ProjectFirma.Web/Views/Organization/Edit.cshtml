@@ -11,7 +11,7 @@
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.Label("Organization Name")
+                @Html.LabelWithSugarFor(m => m.OrganizationName)
             </div>
             <div class="col-sm-9">
                 @if (ViewDataTyped.IsInKeystone)
@@ -28,7 +28,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.Label("Abbreviation"):
+                @Html.LabelWithSugarFor(m => m.OrganizationAbbreviation):
             </div>
             <div class="col-sm-9">
                @Html.TextBoxFor(m => m.OrganizationAbbreviation, new { style = "width:100%" })

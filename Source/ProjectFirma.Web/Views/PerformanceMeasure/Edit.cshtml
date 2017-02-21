@@ -6,7 +6,7 @@
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.Label("Display Name")
+                @Html.LabelWithSugarFor(m => m.PerformanceMeasureDisplayName)
             </div>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.PerformanceMeasureDisplayName, new {@class = "form-control"})
@@ -15,7 +15,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.Label("Performance Measure Type")
+                @Html.LabelWithSugarFor(m => m.PerformanceMeasureTypeID)
             </div>
             <div class="col-sm-9">
                 @Html.DropDownListFor(m => m.PerformanceMeasureTypeID, ViewDataTyped.PerformanceMeasureTypes, new {@class = "form-control"})
@@ -37,7 +37,7 @@
             </div>
             <div class="col-sm-9">
                 <div style="max-height: 600px; overflow-y: auto">
-                    @Html.TextAreaFor(x => x.IndicationDefinition, 6, 0, new {style = "resize:none;", @class = "form-control"})
+                    @Html.TextAreaFor(x => x.PerformanceMeasureDefinition, 6, 0, new {style = "resize:none;", @class = "form-control"})
                 </div>
             </div>
         </div>

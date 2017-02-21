@@ -18,7 +18,6 @@ namespace ProjectFirma.Web.Models
     {
         public static readonly PerformanceMeasureTypeAction Action = PerformanceMeasureTypeAction.Instance;
         public static readonly PerformanceMeasureTypeOutcome Outcome = PerformanceMeasureTypeOutcome.Instance;
-        public static readonly PerformanceMeasureTypeIntermediateResult IntermediateResult = PerformanceMeasureTypeIntermediateResult.Instance;
 
         public static readonly List<PerformanceMeasureType> All;
         public static readonly ReadOnlyDictionary<int, PerformanceMeasureType> AllLookupDictionary;
@@ -28,7 +27,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static PerformanceMeasureType()
         {
-            All = new List<PerformanceMeasureType> { Action, Outcome, IntermediateResult };
+            All = new List<PerformanceMeasureType> { Action, Outcome };
             AllLookupDictionary = new ReadOnlyDictionary<int, PerformanceMeasureType>(All.ToDictionary(x => x.PerformanceMeasureTypeID));
         }
 
@@ -99,8 +98,6 @@ namespace ProjectFirma.Web.Models
             {
                 case PerformanceMeasureTypeEnum.Action:
                     return Action;
-                case PerformanceMeasureTypeEnum.IntermediateResult:
-                    return IntermediateResult;
                 case PerformanceMeasureTypeEnum.Outcome:
                     return Outcome;
                 default:
@@ -112,8 +109,7 @@ namespace ProjectFirma.Web.Models
     public enum PerformanceMeasureTypeEnum
     {
         Action = 1,
-        Outcome = 2,
-        IntermediateResult = 3
+        Outcome = 2
     }
 
     public partial class PerformanceMeasureTypeAction : PerformanceMeasureType
@@ -126,11 +122,5 @@ namespace ProjectFirma.Web.Models
     {
         private PerformanceMeasureTypeOutcome(int performanceMeasureTypeID, string performanceMeasureTypeName, string performanceMeasureTypeDisplayName) : base(performanceMeasureTypeID, performanceMeasureTypeName, performanceMeasureTypeDisplayName) {}
         public static readonly PerformanceMeasureTypeOutcome Instance = new PerformanceMeasureTypeOutcome(2, @"Outcome", @"Outcome");
-    }
-
-    public partial class PerformanceMeasureTypeIntermediateResult : PerformanceMeasureType
-    {
-        private PerformanceMeasureTypeIntermediateResult(int performanceMeasureTypeID, string performanceMeasureTypeName, string performanceMeasureTypeDisplayName) : base(performanceMeasureTypeID, performanceMeasureTypeName, performanceMeasureTypeDisplayName) {}
-        public static readonly PerformanceMeasureTypeIntermediateResult Instance = new PerformanceMeasureTypeIntermediateResult(3, @"IntermediateResult", @"Intermediate Result");
     }
 }
