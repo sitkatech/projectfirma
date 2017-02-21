@@ -461,10 +461,10 @@
     <Content Include="Copyright.txt" />
     <Content Include="DhtmlWrappers\DhtmlxGridHtmlHelpersTest.BuildGridColumnsTest.approved.txt" />
     <Content Include="DhtmlWrappers\DhtmlxGridHtmlHelpersTest.VerifyJavascriptForDhtmlxGrid.approved.txt" />
-    <Content Include="HtmlHelperExtensions\LabelForExtensionsTest.GenerateLabelWithFieldDefinitionForDefinedFieldDefinitionForGridHeaderTest.approved.txt" />
-    <Content Include="HtmlHelperExtensions\LabelForExtensionsTest.GenerateLabelWithFieldDefinitionForDefinedFieldDefinitionForHelpIconOnlyTest.approved.txt" />
-    <Content Include="HtmlHelperExtensions\LabelForExtensionsTest.GenerateLabelWithFieldDefinitionForDefinedFieldDefinitionTest.approved.txt" />
-    <Content Include="HtmlHelperExtensions\LabelForExtensionsTest.GenerateLabelWithFieldDefinitionForNotYetDefinedFieldDefinitionTest.approved.txt" />
+    <Content Include="HtmlHelperExtensions\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForDefinedFieldDefinitionForGridHeaderTest.approved.txt" />
+    <Content Include="HtmlHelperExtensions\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForDefinedFieldDefinitionForHelpIconOnlyTest.approved.txt" />
+    <Content Include="HtmlHelperExtensions\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForDefinedFieldDefinitionTest.approved.txt" />
+    <Content Include="HtmlHelperExtensions\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForNotYetDefinedFieldDefinitionTest.approved.txt" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

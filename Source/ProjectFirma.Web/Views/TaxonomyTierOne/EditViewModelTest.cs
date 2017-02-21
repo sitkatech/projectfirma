@@ -53,12 +53,13 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
             DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
 
             // Assert
-            Assert.That(validationResults.Count, Is.EqualTo(1), "Expecting certain number of errors");
+            Assert.That(validationResults.Count, Is.EqualTo(2), "Expecting certain number of errors");
             TestFramework.AssertFieldRequired(validationResults, nameOfTaxonomyTierOneName);
 
             // Act
             // Set string fields to string longer than their max lengths
             viewModel.TaxonomyTierOneName = TestFramework.MakeTestNameLongerThan(nameOfTaxonomyTierOneName, Models.TaxonomyTierOne.FieldLengths.TaxonomyTierOneName);
+            viewModel.TaxonomyTierOneDescription = "Test Description";
             DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
 
             // Assert
