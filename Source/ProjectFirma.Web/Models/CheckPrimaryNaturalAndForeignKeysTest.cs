@@ -1,6 +1,6 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="CheckPrimaryNaturalAndForeignKeysTest.cs" company="Sitka Technology Group">
-Copyright (c) Sitka Technology Group. All rights reserved.
+<copyright file="CheckPrimaryNaturalAndForeignKeysTest.cs" company="Tahoe Regional Planning Agency">
+Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 <date>Wednesday, February 22, 2017</date>
 </copyright>

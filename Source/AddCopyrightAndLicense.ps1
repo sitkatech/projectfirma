@@ -1,4 +1,4 @@
-param($companyname = "Sitka Technology Group")
+param($companyname = "Tahoe Regional Planning Agency")
 
 [System.Globalization.CultureInfo] $ci = [System.Globalization.CultureInfo]::GetCurrentCulture
 
