@@ -2,7 +2,7 @@
 <copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.TaxonomyTierOne.Edit
 @using (Html.BeginForm())
 {
@@ -33,23 +34,18 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.TaxonomyTierOneName)
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.TaxonomyTierTwoID)
-            </div>
-            <div class="col-sm-9">
-                @if (ViewDataTyped.HasProjects)
-                {
-                    @ViewDataTyped.TaxonomyTierTwoDisplayName
-                    @Html.HiddenFor(x => x.TaxonomyTierTwoID)
-                }
-                else
-                {
+        @if (MultiTenantHelpers.NumberOfTaxonomyTiers >= 2)
+        {
+            <div class="form-group">
+                <div class="col-sm-3 control-label">
+                    @Html.LabelWithSugarFor(m => m.TaxonomyTierTwoID)
+                </div>
+                <div class="col-sm-9">
                     @Html.DropDownListFor(m => m.TaxonomyTierTwoID, ViewDataTyped.TaxonomyTierTwos)
                     @Html.ValidationMessageFor(m => m.TaxonomyTierTwoID)
-                }
+                </div>
             </div>
-        </div>
+        }
         <div class="form-group">
             <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTierOneDescription)</div>
             <div class="col-sm-8">

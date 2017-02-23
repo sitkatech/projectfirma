@@ -2,7 +2,7 @@
 <copyright file="ProgramInfoController.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -19,6 +19,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
@@ -34,11 +36,26 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Taxonomy()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.Taxonomy);
-            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList();
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList();
-            var topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTierThrees.Count > 1
-                ? taxonomyTierThrees.Select(x => x.ToFancyTreeNode()).ToList()
-                : taxonomyTierTwos.Select(x => x.ToFancyTreeNode()).ToList();
+            
+            
+            List<FancyTreeNode> topLevelTaxonomyTierAsFancyTreeNodes;
+            switch (MultiTenantHelpers.NumberOfTaxonomyTiers)
+            {
+                case 3:
+                    var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList();
+                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTierThrees.Select(x => x.ToFancyTreeNode()).ToList();
+                    break;
+                case 2:
+                    var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList();
+                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTierTwos.Select(x => x.ToFancyTreeNode()).ToList();
+                    break;
+                case 1:
+                    var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList();
+                    topLevelTaxonomyTierAsFancyTreeNodes = taxonomyTierOnes.Select(x => x.ToFancyTreeNode()).ToList();
+                    break;
+                default:
+                    throw new NotImplementedException("Only one, two, or three taxonomy tiers are supported.");
+            }
             var viewData = new TaxonomyViewData(CurrentPerson, firmaPage, topLevelTaxonomyTierAsFancyTreeNodes);
             return RazorView<Taxonomy, TaxonomyViewData>(viewData);
         }

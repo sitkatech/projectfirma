@@ -2,7 +2,7 @@
 <copyright file="TaxonomyTierTwoController.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -129,7 +129,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyTierTwo = taxonomyTierTwoPrimaryKey.EntityObject;
             var viewModel = new EditViewModel(taxonomyTierTwo);
-            return ViewEdit(viewModel, taxonomyTierTwo.Projects.Any(), taxonomyTierTwo.TaxonomyTierThree.DisplayName);
+            return ViewEdit(viewModel, taxonomyTierTwo.TaxonomyTierThree.DisplayName);
         }
 
         [HttpPost]
@@ -140,7 +140,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierTwo = taxonomyTierTwoPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, taxonomyTierTwo.Projects.Any(), taxonomyTierTwo.TaxonomyTierThree.DisplayName);
+                return ViewEdit(viewModel, taxonomyTierTwo.TaxonomyTierThree.DisplayName);
             }
             viewModel.UpdateModel(taxonomyTierTwo, CurrentPerson);
             return new ModalDialogFormJsonResult();
@@ -148,15 +148,15 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewNew(EditViewModel viewModel)
         {
-            return ViewEdit(viewModel, false, string.Empty);
+            return ViewEdit(viewModel, string.Empty);
         }
 
-        private PartialViewResult ViewEdit(EditViewModel viewModel, bool hasProjects, string taxonomyTierThreeDisplayName)
+        private PartialViewResult ViewEdit(EditViewModel viewModel, string taxonomyTierThreeDisplayName)
         {
             var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList()
                 .OrderBy(x => x.DisplayName)
                 .ToSelectList(x => x.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-            var viewData = new EditViewData(taxonomyTierThrees, taxonomyTierThreeDisplayName, hasProjects);
+            var viewData = new EditViewData(taxonomyTierThrees, taxonomyTierThreeDisplayName);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 

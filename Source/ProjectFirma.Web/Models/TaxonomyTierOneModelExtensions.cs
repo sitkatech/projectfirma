@@ -2,7 +2,7 @@
 <copyright file="TaxonomyTierOneModelExtensions.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -25,6 +25,8 @@ using System.Web;
 using System.Web.Mvc;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -49,28 +51,55 @@ namespace ProjectFirma.Web.Models
         {
             var selectListItems = new List<SelectListItem>();
             var groups = new Dictionary<string, SelectListGroup>();
+
+            if (MultiTenantHelpers.NumberOfTaxonomyTiers == 3)
+            {
+                BuildThreeTierSelectList(taxonomyTierOnes, groups, selectListItems);    
+            }
+            else if (MultiTenantHelpers.NumberOfTaxonomyTiers == 2)
+            {
+                foreach (var taxonomyTierTwoGrouping in taxonomyTierOnes.GroupBy(x => x.TaxonomyTierTwo).OrderBy(x => x.Key.DisplayName))
+                {
+                    var taxonomyTierTwo = taxonomyTierTwoGrouping.Key;
+                    var selectListGroup = new SelectListGroup() { Name = taxonomyTierTwo.DisplayName };
+                    groups.Add(taxonomyTierTwo.DisplayName, selectListGroup);
+
+                    foreach (var taxonomyTierOne in taxonomyTierTwoGrouping.OrderBy(x => x.DisplayName))
+                    {
+                        selectListItems.Add(new SelectListItem() { Value = taxonomyTierOne.TaxonomyTierOneID.ToString(), Text = taxonomyTierOne.DisplayName, Group = selectListGroup });
+                    }
+                }
+            }
+            else
+            {
+                return taxonomyTierOnes.ToSelectListWithEmptyFirstRow(m=> m.TaxonomyTierOneID.ToString(), m=> m.DisplayName, "Select the " + MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject());
+            }
+            
+            return selectListItems;
+        }
+
+        private static void BuildThreeTierSelectList(List<TaxonomyTierOne> taxonomyTierOnes, Dictionary<string, SelectListGroup> groups, List<SelectListItem> selectListItems)
+        {
             foreach (var taxonomyTierThreeGrouping in taxonomyTierOnes.GroupBy(x => x.TaxonomyTierTwo.TaxonomyTierThree).OrderBy(x => x.Key.DisplayName))
             {
                 var taxonomyTierThree = taxonomyTierThreeGrouping.Key;
                 var topLevelGroup = new SelectListGroup() {Name = taxonomyTierThree.DisplayName};
                 groups.Add(taxonomyTierThree.DisplayName, topLevelGroup);
-                
+
                 foreach (var taxonomyTierTwoGrouping in taxonomyTierThreeGrouping.GroupBy(x => x.TaxonomyTierTwo).OrderBy(x => x.Key.DisplayName))
                 {
                     var taxonomyTierTwo = taxonomyTierTwoGrouping.Key;
                     var selectListGroup = new SelectListGroup() {Name = taxonomyTierTwo.DisplayName};
                     groups.Add(taxonomyTierTwo.DisplayName, selectListGroup);
 
-                    selectListItems.Add(new SelectListItem(){Text = taxonomyTierTwo.DisplayName, Group = topLevelGroup, Disabled = true});
+                    selectListItems.Add(new SelectListItem() {Text = taxonomyTierTwo.DisplayName, Group = topLevelGroup, Disabled = true});
 
                     foreach (var taxonomyTierOne in taxonomyTierTwoGrouping.OrderBy(x => x.DisplayName))
                     {
-                        selectListItems.Add(new SelectListItem() { Value = taxonomyTierOne.TaxonomyTierOneID.ToString(), Text = taxonomyTierOne.DisplayName, Group = topLevelGroup });
+                        selectListItems.Add(new SelectListItem() {Value = taxonomyTierOne.TaxonomyTierOneID.ToString(), Text = taxonomyTierOne.DisplayName, Group = topLevelGroup});
                     }
                 }
-
             }
-            return selectListItems;
         }
     }
 }

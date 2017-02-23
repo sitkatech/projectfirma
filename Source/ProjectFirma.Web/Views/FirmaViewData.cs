@@ -2,7 +2,7 @@
 <copyright file="FirmaViewData.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -138,8 +138,14 @@ namespace ProjectFirma.Web.Views
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Manage()), currentPerson, MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), "Group1"));
             //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.SpendingByPerformanceMeasureByProject(null)), currentPerson, "Spending by Performance Measures", "Group1"));
 
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierThreeController>(c => c.Manage()), currentPerson, MultiTenantHelpers.GetTaxonomyTierThreeDisplayNamePluralized(), "Group2"));
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierTwoController>(c => c.Manage()), currentPerson, MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized(), "Group2"));
+            if (MultiTenantHelpers.NumberOfTaxonomyTiers == 3)
+            {
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierThreeController>(c => c.Manage()), currentPerson, MultiTenantHelpers.GetTaxonomyTierThreeDisplayNamePluralized(), "Group2"));    
+            }
+            if (MultiTenantHelpers.NumberOfTaxonomyTiers >= 2)
+            {
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierTwoController>(c => c.Manage()), currentPerson, MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized(), "Group2"));    
+            }            
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierOneController>(c => c.Manage()), currentPerson, MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized(), "Group2"));
 
             //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AssessmentController>(c => c.Manage()), currentPerson, "Project Assessment Questions", "Group1"));

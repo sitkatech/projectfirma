@@ -1966,6 +1966,7 @@
     <Property Name="TenantSquareLogoUrl" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="TenantBannerLogoUrl" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="DefaultBoundingBox" Type="Geometry" Nullable="false" />
+    <Property Name="NumberOfTaxonomyTiersToUse" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="Watershed">
     <Key>

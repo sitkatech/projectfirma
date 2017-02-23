@@ -2,7 +2,7 @@
 <copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -29,13 +29,11 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
     {
         public readonly IEnumerable<SelectListItem> TaxonomyTierTwos;
         public readonly string TaxonomyTierTwoDisplayName;
-        public readonly bool HasProjects;
 
-        public EditViewData(IEnumerable<SelectListItem> taxonomyTierTwos, string taxonomyTierTwoDisplayName, bool hasProjects)
+        public EditViewData(IEnumerable<SelectListItem> taxonomyTierTwos, string taxonomyTierTwoDisplayName)
         {
             TaxonomyTierTwos = taxonomyTierTwos;
             TaxonomyTierTwoDisplayName = taxonomyTierTwoDisplayName;
-            HasProjects = hasProjects;
         }
     }
 }

@@ -2,7 +2,7 @@
 <copyright file="MultiTenantHelpers.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -123,6 +123,11 @@ namespace ProjectFirma.Web.Common
         public static DbGeometry GetDefaultBoundingBox()
         {
             return GetCurrentTenantAttributes().DefaultBoundingBox;
+        }
+
+        public static int NumberOfTaxonomyTiers
+        {
+            get { return GetCurrentTenantAttributes().NumberOfTaxonomyTiersToUse; }
         }
     }
 }

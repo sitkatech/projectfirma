@@ -2,7 +2,7 @@
 <copyright file="ResultsController.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -256,31 +256,41 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectLocationFilterTypesAndValues = new Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>>();
 
-            var taxonomyTierThreesAsSelectListItems = taxonomyTierThrees.ToSelectList(x => x.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+            if (MultiTenantHelpers.NumberOfTaxonomyTiers == 3)
+            {
+                var taxonomyTierThreesAsSelectListItems = taxonomyTierThrees.ToSelectList(x => x.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+                projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierThree, taxonomyTierThreesAsSelectListItems);    
+            }
 
-            var taxonomyTierTwosAsSelectListItems = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToSelectList(x => x.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+            if (MultiTenantHelpers.NumberOfTaxonomyTiers >= 2)
+            {
+                var taxonomyTierTwosAsSelectListItems = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToSelectList(x => x.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+                projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierTwo, taxonomyTierTwosAsSelectListItems);    
+            }           
+
             var taxonomyTierOnesAsSelectListItems = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToSelectList(x => x.TaxonomyTierOneID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierOne, taxonomyTierOnesAsSelectListItems);
+
             var classificationsAsSelectListItems = HttpRequestStorage.DatabaseEntities.Classifications.ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.Classification, classificationsAsSelectListItems);
+
             var implementingOrganizationsAsSelectListItems =
                 projects.SelectMany(x => x.ProjectImplementingOrganizations)
                     .Select(x => x.Organization)
                     .Distinct(new HavePrimaryKeyComparer<Organization>())
                     .OrderBy(x => x.DisplayName)
                     .ToSelectList(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ImplementingOrganization, implementingOrganizationsAsSelectListItems);
+
             var fundingOrganizationsAsSelectListItems =
                 projects.SelectMany(x => x.ProjectFundingOrganizations)
                     .Select(x => x.Organization)
                     .Distinct(new HavePrimaryKeyComparer<Organization>())
                     .OrderBy(x => x.DisplayName)
                     .ToSelectList(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-            var projectStagesAsSelectListItems = projectStages.ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
-
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierThree, taxonomyTierThreesAsSelectListItems);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierTwo, taxonomyTierTwosAsSelectListItems);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierOne, taxonomyTierOnesAsSelectListItems);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.Classification, classificationsAsSelectListItems);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ImplementingOrganization, implementingOrganizationsAsSelectListItems);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.FundingOrganization, fundingOrganizationsAsSelectListItems);
+
+            var projectStagesAsSelectListItems = projectStages.ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ProjectStage, projectStagesAsSelectListItems);
 
             return projectLocationFilterTypesAndValues;

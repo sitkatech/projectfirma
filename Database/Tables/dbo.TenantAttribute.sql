@@ -15,6 +15,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[TenantSquareLogoUrl] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[TenantBannerLogoUrl] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[DefaultBoundingBox] [geometry] NOT NULL,
+	[NumberOfTaxonomyTiersToUse] [int] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC
@@ -30,3 +31,7 @@ ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttrib
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_Tenant_TenantID]
+GO
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [CK_TenantAttribute_NumberOfTaxonomyTiersToUseBetweenOneAndThree] CHECK  (([NumberOfTaxonomyTiersToUse]<(4) AND [NumberOfTaxonomyTiersToUse]>(0)))
+GO
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [CK_TenantAttribute_NumberOfTaxonomyTiersToUseBetweenOneAndThree]

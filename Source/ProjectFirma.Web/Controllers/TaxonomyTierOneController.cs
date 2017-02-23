@@ -2,7 +2,7 @@
 <copyright file="TaxonomyTierOneController.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -128,7 +128,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyTierOne = taxonomyTierOnePrimaryKey.EntityObject;
             var viewModel = new EditViewModel(taxonomyTierOne);
-            return ViewEdit(viewModel, taxonomyTierOne.Projects.Any(), taxonomyTierOne.TaxonomyTierTwo.DisplayName);
+            return ViewEdit(viewModel, taxonomyTierOne.TaxonomyTierTwo.DisplayName);
         }
 
         [HttpPost]
@@ -139,7 +139,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierOne = taxonomyTierOnePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, taxonomyTierOne.Projects.Any(), taxonomyTierOne.TaxonomyTierTwo.DisplayName);
+                return ViewEdit(viewModel, taxonomyTierOne.TaxonomyTierTwo.DisplayName);
             }
             viewModel.UpdateModel(taxonomyTierOne, CurrentPerson);
             return new ModalDialogFormJsonResult();
@@ -147,13 +147,13 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewNew(EditViewModel viewModel)
         {
-            return ViewEdit(viewModel, false, string.Empty);
+            return ViewEdit(viewModel, string.Empty);
         }
 
-        private PartialViewResult ViewEdit(EditViewModel viewModel, bool hasProjects, string taxonomyTierTwoDisplayName)
+        private PartialViewResult ViewEdit(EditViewModel viewModel, string taxonomyTierTwoDisplayName)
         {
             var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToList().OrderBy(x => x.DisplayName).ToSelectList(x => x.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-            var viewData = new EditViewData(taxonomyTierTwos, taxonomyTierTwoDisplayName, hasProjects);
+            var viewData = new EditViewData(taxonomyTierTwos, taxonomyTierTwoDisplayName);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 

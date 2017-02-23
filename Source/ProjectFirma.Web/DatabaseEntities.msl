@@ -1101,6 +1101,7 @@
           <ScalarProperty Name="TenantSquareLogoUrl" ColumnName="TenantSquareLogoUrl" />
           <ScalarProperty Name="TenantBannerLogoUrl" ColumnName="TenantBannerLogoUrl" />
           <ScalarProperty Name="DefaultBoundingBox" ColumnName="DefaultBoundingBox" />
+          <ScalarProperty Name="NumberOfTaxonomyTiersToUse" ColumnName="NumberOfTaxonomyTiersToUse" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

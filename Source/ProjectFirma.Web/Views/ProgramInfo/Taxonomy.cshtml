@@ -2,7 +2,7 @@
 <copyright file="Taxonomy.cshtml" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -96,8 +96,14 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div style="padding: 0 15px;">
         <div class="pull-left" style="font-weight: bold">
+            @if (MultiTenantHelpers.NumberOfTaxonomyTiers == 3)
+            {
             @MultiTenantHelpers.GetTaxonomyTierThreeDisplayName() <span class='glyphicon glyphicon-chevron-right'></span>
+            }
+            @if (MultiTenantHelpers.NumberOfTaxonomyTiers >= 2)
+            {
             @MultiTenantHelpers.GetTaxonomyTierTwoDisplayName() <span class='glyphicon glyphicon-chevron-right'></span>
+            }            
             @MultiTenantHelpers.GetTaxonomyTierOneDisplayName() <span class='glyphicon glyphicon-chevron-right'></span>
             Project
         </div>

@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(int tenantAttributeID, string taxonomySystemName, string taxonomyTierThreeDisplayName, string taxonomyTierTwoDisplayName, string taxonomyTierOneDisplayName, string taxonomyTierOneDisplayNameForProject, string performanceMeasureDisplayName, string classificationDisplayName, string tenantSquareLogoUrl, string tenantBannerLogoUrl, DbGeometry defaultBoundingBox) : this()
+        public TenantAttribute(int tenantAttributeID, string taxonomySystemName, string taxonomyTierThreeDisplayName, string taxonomyTierTwoDisplayName, string taxonomyTierOneDisplayName, string taxonomyTierOneDisplayNameForProject, string performanceMeasureDisplayName, string classificationDisplayName, string tenantSquareLogoUrl, string tenantBannerLogoUrl, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse) : this()
         {
             this.TenantAttributeID = tenantAttributeID;
             this.TaxonomySystemName = taxonomySystemName;
@@ -43,12 +43,13 @@ namespace ProjectFirma.Web.Models
             this.TenantSquareLogoUrl = tenantSquareLogoUrl;
             this.TenantBannerLogoUrl = tenantBannerLogoUrl;
             this.DefaultBoundingBox = defaultBoundingBox;
+            this.NumberOfTaxonomyTiersToUse = numberOfTaxonomyTiersToUse;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(string taxonomySystemName, string taxonomyTierThreeDisplayName, string taxonomyTierTwoDisplayName, string taxonomyTierOneDisplayName, string taxonomyTierOneDisplayNameForProject, string performanceMeasureDisplayName, string classificationDisplayName, string tenantSquareLogoUrl, string tenantBannerLogoUrl, DbGeometry defaultBoundingBox) : this()
+        public TenantAttribute(string taxonomySystemName, string taxonomyTierThreeDisplayName, string taxonomyTierTwoDisplayName, string taxonomyTierOneDisplayName, string taxonomyTierOneDisplayNameForProject, string performanceMeasureDisplayName, string classificationDisplayName, string tenantSquareLogoUrl, string tenantBannerLogoUrl, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TenantAttributeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -63,6 +64,7 @@ namespace ProjectFirma.Web.Models
             this.TenantSquareLogoUrl = tenantSquareLogoUrl;
             this.TenantBannerLogoUrl = tenantBannerLogoUrl;
             this.DefaultBoundingBox = defaultBoundingBox;
+            this.NumberOfTaxonomyTiersToUse = numberOfTaxonomyTiersToUse;
         }
 
 
@@ -71,7 +73,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static TenantAttribute CreateNewBlank()
         {
-            return new TenantAttribute(default(string), default(string), default(string), default(string), default(string), default(string), default(string), default(string), default(string), default(DbGeometry));
+            return new TenantAttribute(default(string), default(string), default(string), default(string), default(string), default(string), default(string), default(string), default(string), default(DbGeometry), default(int));
         }
 
         /// <summary>
@@ -101,6 +103,7 @@ namespace ProjectFirma.Web.Models
         public string TenantSquareLogoUrl { get; set; }
         public string TenantBannerLogoUrl { get; set; }
         public DbGeometry DefaultBoundingBox { get; set; }
+        public int NumberOfTaxonomyTiersToUse { get; set; }
         public int PrimaryKey { get { return TenantAttributeID; } set { TenantAttributeID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

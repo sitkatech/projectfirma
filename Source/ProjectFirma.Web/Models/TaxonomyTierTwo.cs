@@ -2,7 +2,7 @@
 <copyright file="TaxonomyTierTwo.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Models
 
         public FancyTreeNode ToFancyTreeNode()
         {
-            var fancyTreeNode = new FancyTreeNode(string.Format("{0}", UrlTemplate.MakeHrefString(SummaryUrl, DisplayName)), TaxonomyTierThreeID.ToString(), false)
+            var fancyTreeNode = new FancyTreeNode(string.Format("{0}", UrlTemplate.MakeHrefString(SummaryUrl, DisplayName)), TaxonomyTierTwoID.ToString(), false)
             {
                 ThemeColor = string.IsNullOrWhiteSpace(ThemeColor) ? TaxonomyTierThree.ThemeColor : ThemeColor,
                 MapUrl = CustomizedMapUrl,

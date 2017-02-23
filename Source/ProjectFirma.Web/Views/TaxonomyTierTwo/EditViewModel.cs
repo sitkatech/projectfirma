@@ -2,7 +2,7 @@
 <copyright file="EditViewModel.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -71,7 +71,9 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
         {
             taxonomyTierTwo.TaxonomyTierTwoName = TaxonomyTierTwoName;
             taxonomyTierTwo.TaxonomyTierTwoDescription = TaxonomyTierTwoDescription;
-            taxonomyTierTwo.TaxonomyTierThreeID = TaxonomyTierThreeID;
+            taxonomyTierTwo.TaxonomyTierThreeID = MultiTenantHelpers.NumberOfTaxonomyTiers == 3
+                ? TaxonomyTierThreeID
+                : HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.Single().TaxonomyTierThreeID;
             taxonomyTierTwo.ThemeColor = ThemeColor;
         }
 
