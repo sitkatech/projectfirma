@@ -354,9 +354,57 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js.map" />
+    <Content Include="ScriptsCustom\BootstrapModalAlert.min.js.map" />
+    <Content Include="ScriptsCustom\CkEditorReady.min.js.map" />
+    <Content Include="ScriptsCustom\DatePickerReady.min.js.map" />
+    <Content Include="ScriptsCustom\FancyboxReady.min.js.map" />
+    <Content Include="ScriptsCustom\GoogleAnalytics.min.js.map" />
+    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.GeoServerMap.min.js.map" />
+    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.min.js.map" />
+    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.ProjectLocationSummary.min.js.map" />
+    <Content Include="ScriptsCustom\ModalDialogForm.min.js.map" />
+    <Content Include="ScriptsCustom\qtippopuphelper.min.js.map" />
+    <Content Include="ScriptsCustom\sitka.grid.min.js.map" />
+    <Content Include="ScriptsCustom\sitka.min.js.map" />
+    <Content Include="ScriptsCustom\sitkaAjax.min.js.map" />
+    <Content Include="ScriptsCustom\SitkaFileExtensionsValidation.min.js.map" />
+    <Content Include="ScriptsCustom\unsavedChanges.min.js.map" />
     <None Include="Service References\KeystoneDataService\KeystoneData.disco" />
     <None Include="Service References\KeystoneDataService\configuration91.svcinfo" />
     <None Include="Service References\KeystoneDataService\configuration.svcinfo" />
+    <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.js" />
+    <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js" />
+    <Content Include="ScriptsCustom\BootstrapModalAlert.js" />
+    <Content Include="ScriptsCustom\BootstrapModalAlert.min.js" />
+    <Content Include="ScriptsCustom\CkEditorReady.js" />
+    <Content Include="ScriptsCustom\CkEditorReady.min.js" />
+    <Content Include="ScriptsCustom\DatePickerReady.js" />
+    <Content Include="ScriptsCustom\DatePickerReady.min.js" />
+    <Content Include="ScriptsCustom\FancyboxReady.js" />
+    <Content Include="ScriptsCustom\FancyboxReady.min.js" />
+    <Content Include="ScriptsCustom\GoogleAnalytics.js" />
+    <Content Include="ScriptsCustom\GoogleAnalytics.min.js" />
+    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.GeoServerMap.js" />
+    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.GeoServerMap.min.js" />
+    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.js" />
+    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.min.js" />
+    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.ProjectLocationSummary.js" />
+    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.ProjectLocationSummary.min.js" />
+    <Content Include="ScriptsCustom\ModalDialogForm.js" />
+    <Content Include="ScriptsCustom\ModalDialogForm.min.js" />
+    <Content Include="ScriptsCustom\qtippopuphelper.js" />
+    <Content Include="ScriptsCustom\qtippopuphelper.min.js" />
+    <Content Include="ScriptsCustom\sitka.grid.js" />
+    <Content Include="ScriptsCustom\sitka.grid.min.js" />
+    <Content Include="ScriptsCustom\sitka.js" />
+    <Content Include="ScriptsCustom\sitka.min.js" />
+    <Content Include="ScriptsCustom\sitkaAjax.js" />
+    <Content Include="ScriptsCustom\sitkaAjax.min.js" />
+    <Content Include="ScriptsCustom\SitkaFileExtensionsValidation.js" />
+    <Content Include="ScriptsCustom\SitkaFileExtensionsValidation.min.js" />
+    <Content Include="ScriptsCustom\unsavedChanges.js" />
+    <Content Include="ScriptsCustom\unsavedChanges.min.js" />
     <Content Include="Service References\KeystoneDataService\ProjectFirma.Web.KeystoneDataService.Organization.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
@@ -1590,10 +1638,6 @@
     <Content Include="Content\leaflet\leaflet.pip\leaflet-pip.min.js">
       <DependentUpon>leaflet-pip.js</DependentUpon>
     </Content>
-    <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.GeoServerMap.js" />
-    <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.GeoServerMap.min.js">
-      <DependentUpon>ProjectFirmaMaps.GeoServerMap.js</DependentUpon>
-    </Content>
     <Content Include="Content\css\google-chart-config-overrides.css" />
     <Content Include="Views\MonitoringProgramPartner\MonitoringProgramPartnerController.js" />
     <Content Include="Content\css\dhtmlxgrid_ltinfo_skin.min.css">
@@ -1608,31 +1652,6 @@
     <Content Include="Content\qtip\jquery.qtip.firma.css" />
     <Content Include="Content\qtip\jquery.qtip.validation.min.js">
       <DependentUpon>jquery.qtip.validation.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\bootstrap-ckeditor-fix.min.js">
-      <DependentUpon>bootstrap-ckeditor-fix.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\BootstrapModalAlert.min.js">
-      <DependentUpon>BootstrapModalAlert.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\CkEditorReady.min.js">
-      <DependentUpon>CkEditorReady.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\DatePickerReady.min.js">
-      <DependentUpon>DatePickerReady.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\FancyboxReady.min.js">
-      <DependentUpon>FancyboxReady.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\GoogleAnalytics.min.js">
-      <DependentUpon>GoogleAnalytics.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\ModalDialogForm.min.js">
-      <DependentUpon>ModalDialogForm.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\qtippopuphelper.js" />
-    <Content Include="Scripts\CustomScripts\qtippopuphelper.min.js">
-      <DependentUpon>qtippopuphelper.js</DependentUpon>
     </Content>
     <Compile Include="Views\FirmaPage\FirmaPageDetails.cs" />
     <Compile Include="Views\FirmaPage\FirmaPageDetailsViewData.cs" />
@@ -1867,16 +1886,6 @@
     <Content Include="Models\CheckPrimaryNaturalAndForeignKeysTest.AssureThatThereAreNoIndexesAlreadyDefinedByPrimaryOrAlternateKey.approved.txt" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Scripts\CustomScripts\bootstrap-ckeditor-fix.js" />
-    <Content Include="Scripts\CustomScripts\BootstrapModalAlert.js" />
-    <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.ProjectLocationSummary.js" />
-    <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.js" />
-    <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.min.js">
-      <DependentUpon>ProjectFirmaMaps.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.ProjectLocationSummary.min.js">
-      <DependentUpon>ProjectFirmaMaps.ProjectLocationSummary.js</DependentUpon>
     </Content>
     <Content Include="Content\css\ProjectFirmaPrint.css" />
     <Content Include="Content\dhtmlx\dhtmlxCalendar\codebase\dhtmlxcalendar.css" />
@@ -2152,22 +2161,6 @@
     <Content Include="Content\qtip\imagesloaded.pkg.min.js" />
     <Content Include="Content\qtip\jquery.qtip.min.css" />
     <Content Include="Content\qtip\jquery.qtip.min.js" />
-    <Content Include="Scripts\CustomScripts\sitka.grid.min.js">
-      <DependentUpon>sitka.grid.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\sitka.min.js">
-      <DependentUpon>sitka.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\sitkaAjax.min.js">
-      <DependentUpon>sitkaAjax.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\SitkaFileExtensionsValidation.min.js">
-      <DependentUpon>SitkaFileExtensionsValidation.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\unsavedChanges.js" />
-    <Content Include="Scripts\CustomScripts\unsavedChanges.min.js">
-      <DependentUpon>unsavedChanges.js</DependentUpon>
-    </Content>
     <Content Include="Content\terraformer\terraformer-wkt-parser.js" />
     <Content Include="Content\terraformer\terraformer-wkt-parser.min.js" />
     <Content Include="Content\terraformer\terraformer.js" />
@@ -2277,21 +2270,6 @@
     <Content Include="Content\Bootstrap\bootstrap-3.3.5\less\utilities.less" />
     <Content Include="Content\Bootstrap\bootstrap-3.3.5\less\variables.less" />
     <Content Include="Content\Bootstrap\bootstrap-3.3.5\less\wells.less" />
-    <Content Include="Scripts\CustomScripts\sitka.grid.min.js.map">
-      <DependentUpon>sitka.grid.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\sitka.min.js.map">
-      <DependentUpon>sitka.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\sitkaAjax.min.js.map">
-      <DependentUpon>sitkaAjax.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\unsavedChanges.min.js.map">
-      <DependentUpon>unsavedChanges.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.min.js.map">
-      <DependentUpon>ProjectFirmaMaps.min.js</DependentUpon>
-    </Content>
     <Content Include="Content\leaflet\leaflet.MakiMarkers\Leaflet.MakiMarkers.min.js.map">
       <DependentUpon>Leaflet.MakiMarkers.min.js</DependentUpon>
     </Content>
@@ -2310,9 +2288,6 @@
     </Content>
     <Content Include="Content\bootstrap-typeahead\bootstrap3-typeahead.min.js.map">
       <DependentUpon>bootstrap3-typeahead.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.ProjectLocationSummary.min.js.map">
-      <DependentUpon>ProjectFirmaMaps.ProjectLocationSummary.min.js</DependentUpon>
     </Content>
     <Content Include="Scripts\jquery-1.11.0.min.js.map" />
     <Content Include="Scripts\jquery.form.min.js">
@@ -2333,38 +2308,11 @@
     <Content Include="Scripts\jquery.form.min.js.map">
       <DependentUpon>jquery.form.min.js</DependentUpon>
     </Content>
-    <Content Include="Scripts\CustomScripts\qtippopuphelper.min.js.map">
-      <DependentUpon>qtippopuphelper.min.js</DependentUpon>
-    </Content>
     <Content Include="Views\LtInfoMenuItemTest.CanRenderMenuWithGroupsTest.approved.txt" />
     <Content Include="Views\LtInfoMenuItemTest.CanRenderMultipleNestedMenuTest.approved.txt" />
     <Content Include="Views\LtInfoMenuItemTest.CanRenderNestedMenuTest.approved.txt" />
     <Content Include="Views\LtInfoMenuItemTest.CanRenderSimpleMenuTest.approved.txt" />
     <Content Include="Views\FirmaPage\Edit.cshtml" />
-    <Content Include="Scripts\CustomScripts\ModalDialogForm.min.js.map">
-      <DependentUpon>ModalDialogForm.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\CkEditorReady.min.js.map">
-      <DependentUpon>CkEditorReady.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\DatePickerReady.min.js.map">
-      <DependentUpon>DatePickerReady.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\FancyboxReady.min.js.map">
-      <DependentUpon>FancyboxReady.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\GoogleAnalytics.min.js.map">
-      <DependentUpon>GoogleAnalytics.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\SitkaFileExtensionsValidation.min.js.map">
-      <DependentUpon>SitkaFileExtensionsValidation.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\BootstrapModalAlert.min.js.map">
-      <DependentUpon>BootstrapModalAlert.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CustomScripts\bootstrap-ckeditor-fix.min.js.map">
-      <DependentUpon>bootstrap-ckeditor-fix.min.js</DependentUpon>
-    </Content>
     <Content Include="Content\qtip\jquery.qtip.validation.min.js.map">
       <DependentUpon>jquery.qtip.validation.min.js</DependentUpon>
     </Content>
@@ -2378,9 +2326,6 @@
       <DependentUpon>leaflet-pip.min.js</DependentUpon>
     </Content>
     <Content Include="Views\PerformanceMeasureMonitoringProgram\EditPerformanceMeasureMonitoringPrograms.cshtml" />
-    <Content Include="Scripts\CustomScripts\Maps\ProjectFirmaMaps.GeoServerMap.min.js.map">
-      <DependentUpon>ProjectFirmaMaps.GeoServerMap.min.js</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap-toc\bootstrap-toc.min.js.map">
       <DependentUpon>bootstrap-toc.min.js</DependentUpon>
     </Content>
@@ -2708,9 +2653,6 @@
     <Content Include="Content\qtip\jquery.qtip.css" />
     <Content Include="Content\qtip\jquery.qtip.js" />
     <Content Include="Content\qtip\jquery.qtip.validation.js" />
-    <Content Include="Scripts\CustomScripts\sitka.grid.js" />
-    <Content Include="Scripts\CustomScripts\sitka.js" />
-    <Content Include="Scripts\CustomScripts\sitkaAjax.js" />
     <Content Include="Global.asax" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
@@ -2934,14 +2876,9 @@
     <Content Include="Scripts\ckeditor\skins\moono\images\lock.png" />
     <Content Include="Scripts\ckeditor\skins\moono\images\refresh.png" />
     <Content Include="Scripts\ckeditor\styles.js" />
-    <Content Include="Scripts\CustomScripts\CkEditorReady.js" />
-    <Content Include="Scripts\CustomScripts\GoogleAnalytics.js" />
     <Content Include="Scripts\jssor.core.js" />
     <Content Include="Scripts\jssor.slider.js" />
     <Content Include="Scripts\jssor.utils.js" />
-    <Content Include="Scripts\CustomScripts\SitkaFileExtensionsValidation.js" />
-    <Content Include="Scripts\CustomScripts\FancyboxReady.js" />
-    <Content Include="Scripts\CustomScripts\DatePickerReady.js" />
     <Content Include="Scripts\jquery.fancybox-buttons.js" />
     <Content Include="Scripts\jquery.fancybox-media.js" />
     <Content Include="Scripts\jquery.fancybox-thumbs.js" />
@@ -2949,7 +2886,6 @@
     <Content Include="Scripts\jquery.fancybox.pack.js" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.mousewheel-3.0.6.pack.js" />
-    <Content Include="Scripts\CustomScripts\ModalDialogForm.js" />
     <EmbeddedResource Include="DatabaseEntities.csdl" />
     <EmbeddedResource Include="DatabaseEntities.msl" />
     <EmbeddedResource Include="DatabaseEntities.ssdl" />
