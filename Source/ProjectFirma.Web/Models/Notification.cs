@@ -1,3 +1,24 @@
+Ôªø/*-----------------------------------------------------------------------
+<copyright file="Notification.cs" company="Sitka Technology Group">
+Copyright (c) Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+<date>Wednesday, February 22, 2017</date>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -273,7 +294,7 @@ Thank you for keeping your project information and accomplishments up to date!<b
             var subject = String.Format("A Project Proposal was submitted by {0}", submitterPerson.FullNameFirstLastAndOrg);
             var instructionsUrl = SitkaRoute<ProposedProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(proposedProject.ProposedProjectID));
             var message = String.Format(@"
-<p>A proposal was submitted for a new Project, ì{0}î.</p>
+<p>A proposal was submitted for a new Project, ‚Äú{0}‚Äù.</p>
 <p>The proposal was submitted on {1} by {2}.<br />
 <p>Please review and Approve or Return it at your earliest convenience.</p>
 <a href=""{3}"">View this proposal</a></p>
