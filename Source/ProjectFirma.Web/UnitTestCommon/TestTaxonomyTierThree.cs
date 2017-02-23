@@ -2,7 +2,7 @@
 <copyright file="TestTaxonomyTierThree.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -19,6 +19,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.UnitTestCommon
@@ -30,6 +31,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             public static TaxonomyTierThree Create()
             {
                 var taxonomyTierThree = TaxonomyTierThree.CreateNewBlank();
+                MultiTenantHelpers.NumberOfTaxonomyTiers = 3; //Tests on TaxonomyTierThree expect a three-tier taxonomy, but the Sitka tenant is configured as a two-tier
                 taxonomyTierThree.ThemeColor = "#FFFFFF";
                 return taxonomyTierThree;
             }

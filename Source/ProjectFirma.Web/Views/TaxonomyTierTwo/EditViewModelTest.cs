@@ -2,7 +2,7 @@
 <copyright file="EditViewModelTest.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -25,6 +25,7 @@ using ProjectFirma.Web.UnitTestCommon;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using NUnit.Framework;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.TaxonomyTierTwo
 {
@@ -51,7 +52,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             // Arrange
             var taxonomyTierTwo = TestFramework.TestTaxonomyTierTwo.Create();
             var viewModel = new EditViewModel(taxonomyTierTwo);
-            viewModel.TaxonomyTierTwoName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.TaxonomyTierTwoName), Models.TaxonomyTierTwo.FieldLengths.TaxonomyTierTwoName);
+            viewModel.TaxonomyTierTwoName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.TaxonomyTierTwoName), Models.TaxonomyTierTwo.FieldLengths.TaxonomyTierTwoName);            
 
             // Act
             viewModel.UpdateModel(taxonomyTierTwo, TestFramework.TestPerson.Create());

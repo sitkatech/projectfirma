@@ -128,6 +128,7 @@ namespace ProjectFirma.Web.Common
         public static int NumberOfTaxonomyTiers
         {
             get { return GetCurrentTenantAttributes().NumberOfTaxonomyTiersToUse; }
+            set { GetCurrentTenantAttributes().NumberOfTaxonomyTiersToUse = value; }
         }
     }
 }
