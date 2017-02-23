@@ -16,6 +16,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[TenantBannerLogoUrl] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[DefaultBoundingBox] [geometry] NOT NULL,
 	[NumberOfTaxonomyTiersToUse] [int] NOT NULL,
+	[MinimumYear] [int] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC

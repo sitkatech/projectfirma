@@ -130,5 +130,6 @@ namespace ProjectFirma.Web.Common
             get { return GetCurrentTenantAttributes().NumberOfTaxonomyTiersToUse; }
             set { GetCurrentTenantAttributes().NumberOfTaxonomyTiersToUse = value; }
         }
+        public static int MinimumYear { get { return GetCurrentTenantAttributes().MinimumYear;  } }
     }
 }

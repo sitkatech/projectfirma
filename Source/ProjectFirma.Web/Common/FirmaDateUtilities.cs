@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Common
 {
     public class FirmaDateUtilities
     {
-        public const int MinimumYear = 1999;
+        public static int MinimumYear {get { return MultiTenantHelpers.MinimumYear; }} 
         public const int YearsBeyondPresentForMaximumYearForUserInput = 30;
 
         /// <summary>

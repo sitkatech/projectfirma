@@ -2,7 +2,7 @@
 <copyright file="FirmaWebConfiguration.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -42,7 +42,6 @@ namespace ProjectFirma.Web.Common
         public static readonly int ReportingPeriodStartDay = Int32.Parse(SitkaConfiguration.GetRequiredAppSetting("ReportingPeriodStartDay"));
         public static readonly int DefaultSupportPersonID = Int32.Parse(SitkaConfiguration.GetRequiredAppSetting("DefaultSupportPersonID"));
         public static readonly int AnnualReportingContactPersonID = Int32.Parse(SitkaConfiguration.GetRequiredAppSetting("AnnualReportingContactPersonID"));
-        public static readonly int MinimumYearForReportingExpenditures = Int32.Parse(SitkaConfiguration.GetRequiredAppSetting("MinimumYearForReportingExpenditures"));
 
         public static readonly TimeSpan HttpRuntimeExecutionTimeout = ((HttpRuntimeSection)WebConfigurationManager.GetSection("system.web/httpRuntime")).ExecutionTimeout;       
         public static readonly string KeystoneUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneUrl");
