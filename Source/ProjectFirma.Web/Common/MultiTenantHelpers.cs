@@ -2,7 +2,7 @@
 <copyright file="MultiTenantHelpers.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Thursday, February 23, 2017</date>
+<date>Friday, February 24, 2017</date>
 </copyright>
 
 <license>
@@ -109,17 +109,7 @@ namespace ProjectFirma.Web.Common
         {
             return GetCurrentTenantAttributes().TenantBannerLogoUrl;
         }
-
-        public static Point GetDefaultSouthWestPoint()
-        {
-            return new Point(44.821389, -122.608611);
-        }
-
-        public static Point GetDefaultNorthEastPoint()
-        {
-            return new Point(45.5725, -121.796389);
-        }
-
+        
         public static DbGeometry GetDefaultBoundingBox()
         {
             return GetCurrentTenantAttributes().DefaultBoundingBox;

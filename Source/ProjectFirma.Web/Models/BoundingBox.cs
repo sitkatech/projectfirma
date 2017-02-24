@@ -2,7 +2,7 @@
 <copyright file="BoundingBox.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Friday, February 24, 2017</date>
 </copyright>
 
 <license>
@@ -62,24 +62,44 @@ namespace ProjectFirma.Web.Models
         /// <param name="pointList"></param>
         public BoundingBox(List<Point> pointList)
         {
+            Point southwest;
+            Point northeast;
             if (pointList.Count == 1)
             {
                 var point = pointList.Single();
-                var sw = new Point(point.Latitude - DefaultPadding / 2, point.Longitude - DefaultPadding / 2);
-                var ne = new Point(point.Latitude + DefaultPadding / 2, point.Longitude + DefaultPadding / 2);
-
-                MakeFromPoint(sw, ne);
+                southwest= new Point(point.Latitude - DefaultPadding / 2, point.Longitude - DefaultPadding / 2);
+                northeast= new Point(point.Latitude + DefaultPadding / 2, point.Longitude + DefaultPadding / 2);
             }
-            if (pointList.Any())
+            else if (pointList.Any())
             {
-                var southwest = new Point(pointList.Min(point => point.Latitude), pointList.Min(point => point.Longitude));
-                var northeast = new Point(pointList.Max(point => point.Latitude), pointList.Max(point => point.Longitude));
-                MakeFromPoint(southwest, northeast);
+                southwest = new Point(pointList.Min(point => point.Latitude), pointList.Min(point => point.Longitude));
+                northeast = new Point(pointList.Max(point => point.Latitude), pointList.Max(point => point.Longitude));
+                
             }
             else
             {
-                MakeBoundingBoxFromDbGeometryImpl(MultiTenantHelpers.GetDefaultBoundingBox());
+                DbGeometry geometry = MultiTenantHelpers.GetDefaultBoundingBox();
+                var pointCount = geometry.Envelope.ElementAt(1).PointCount.Value;
+                var envelope = geometry.Envelope.ElementAt(1);
+                var pointList1 = new List<Point>();
+
+                for (var i = 1; i <= pointCount; i++)
+                {
+                    var dbGeometryPoint = envelope.PointAt(i);
+
+                    if (!dbGeometryPoint.XCoordinate.HasValue || !dbGeometryPoint.YCoordinate.HasValue)
+                    {
+                        continue;
+                    }
+
+                    pointList1.Add(new Point(envelope.PointAt(i).YCoordinate.Value, envelope.PointAt(i).XCoordinate.Value));
+                }
+                var defaultBoundingBoxPoints = pointList1;
+                southwest = new Point(defaultBoundingBoxPoints.Min(point => point.Latitude), defaultBoundingBoxPoints.Min(point => point.Longitude));
+                northeast = new Point(defaultBoundingBoxPoints.Max(point => point.Latitude), defaultBoundingBoxPoints.Max(point => point.Longitude));
+
             }
+            MakeFromPoint(southwest, northeast);
         }
 
         public BoundingBox(List<BoundingBox> boundingBoxes)
@@ -112,12 +132,12 @@ namespace ProjectFirma.Web.Models
             MakeFromPoint(southwest, northeast);
         }
 
-        public BoundingBox (DbGeometry geometry) : this(MakeBoundingBoxFromDbGeometry(geometry))
+        public BoundingBox (DbGeometry geometry) : this(GetPointsFromDbGeometry(geometry))
         {
         }
 
         public BoundingBox(IEnumerable<DbGeometry> geometries)
-            : this(geometries.SelectMany(MakeBoundingBoxFromDbGeometry).ToList())
+            : this(geometries.SelectMany(GetPointsFromDbGeometry).ToList())
         {
         }
 
@@ -142,21 +162,17 @@ namespace ProjectFirma.Web.Models
             return new BoundingBox(MultiTenantHelpers.GetDefaultBoundingBox());
         }
 
-        private static List<Point> MakeBoundingBoxFromDbGeometry(DbGeometry geometry)
+        private static List<Point> GetPointsFromDbGeometry(DbGeometry geometry)
         {
+            var pointList = new List<Point>();
             if (!DbGeometryToGeoJsonHelper.CanParseGeometry(geometry))
             {
-                return new List<Point> { MultiTenantHelpers.GetDefaultSouthWestPoint(), MultiTenantHelpers.GetDefaultNorthEastPoint() };
+                return pointList;
             }
 
-            return MakeBoundingBoxFromDbGeometryImpl(geometry);
-        }
-
-        private static List<Point> MakeBoundingBoxFromDbGeometryImpl(DbGeometry geometry)
-        {
             var pointCount = geometry.Envelope.ElementAt(1).PointCount.Value;
             var envelope = geometry.Envelope.ElementAt(1);
-            var pointList = new List<Point>();
+            
 
             for (var i = 1; i <= pointCount; i++)
             {
