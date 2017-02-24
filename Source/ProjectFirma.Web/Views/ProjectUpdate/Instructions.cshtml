@@ -2,7 +2,7 @@
 <copyright file="Instructions.cshtml" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Friday, February 24, 2017</date>
 </copyright>
 
 <license>
@@ -77,3 +77,9 @@ Use the navigation to the left to view and enter your project updates. Be sure t
 <p>
     If you have questions or run into problems, please @(ModalDialogFormHelper.ModalDialogFormLink("Request Support", ViewDataTyped.RequestSupportUrl, "request support", 800, "Submit Request", "Cancel", new List<string>(), null, null)).
 </p>
+@using (Html.BeginForm())
+{
+    <div class="text-right">
+        <button class="btn btn-xs btn-firma" type="submit" style="margin-left: 10px">Begin Update</button>
+    </div>
+}

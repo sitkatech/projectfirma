@@ -2,7 +2,7 @@
 <copyright file="ProjectUpdateController.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Friday, February 24, 2017</date>
 </copyright>
 
 <license>
@@ -138,6 +138,7 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
+        [HttpGet]
         [ProjectUpdateManageFeature]
         public ViewResult Instructions(ProjectPrimaryKey projectPrimaryKey)
         {
@@ -148,14 +149,28 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Instructions, InstructionsViewData>(viewData);
         }
 
-        [HttpGet]
+        [HttpPost]
         [ProjectUpdateManageFeature]
-        public ViewResult Basics(ProjectPrimaryKey projectPrimaryKey)
+        public RedirectResult Instructions(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdate = ProjectUpdate.GetCurrentProjectUpdateForProject(project, CurrentPerson);
-            var showValidationWarnings = projectUpdate.ProjectUpdateBatch.ShowBasicsValidationWarnings;
-            var viewModel = new BasicsViewModel(projectUpdate, showValidationWarnings, projectUpdate.ProjectUpdateBatch.BasicsComment);
+            ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(project, CurrentPerson);
+            return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Basics(project)));
+        }
+
+        [HttpGet]
+        [ProjectUpdateManageFeature]
+        public ActionResult Basics(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));                
+            }
+            var projectUpdate = projectUpdateBatch.ProjectUpdate;
+            var showValidationWarnings = projectUpdateBatch.ShowBasicsValidationWarnings;
+            var viewModel = new BasicsViewModel(projectUpdate, showValidationWarnings, projectUpdateBatch.BasicsComment);
             return ViewBasics(projectUpdate, viewModel);
         }
 
@@ -165,7 +180,12 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Basics(ProjectPrimaryKey projectPrimaryKey, BasicsViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdate = ProjectUpdate.GetCurrentProjectUpdateForProject(project, CurrentPerson);
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+            var projectUpdate = projectUpdateBatch.ProjectUpdate;
             if (!ModelState.IsValid)
             {
                 return ViewBasics(projectUpdate, viewModel);
@@ -174,12 +194,12 @@ namespace ProjectFirma.Web.Controllers
             {
                 HttpRequestStorage.DatabaseEntities.AllProjectUpdates.Add(projectUpdate);
             }
-            viewModel.UpdateModel(projectUpdate.ProjectUpdateBatch);
-            if (projectUpdate.ProjectUpdateBatch.IsSubmitted)
+            viewModel.UpdateModel(projectUpdateBatch);
+            if (projectUpdateBatch.IsSubmitted)
             {
-                projectUpdate.ProjectUpdateBatch.BasicsComment = viewModel.Comments;
+                projectUpdateBatch.BasicsComment = viewModel.Comments;
             }
-            projectUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Basics(project)));
         }
 
@@ -199,7 +219,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult RefreshBasics(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
             return ViewRefreshBasics(viewModel);
         }
@@ -210,8 +230,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult RefreshBasics(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            Check.RequireNotNull(projectUpdateBatch, string.Format("We should have a project update batch when refreshing; didn't find one for Project {0}", project.DisplayName));
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
             if (projectUpdate != null)
             {
@@ -231,10 +250,14 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateManageFeature]
-        public ViewResult PerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult PerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
             var performanceMeasureActualUpdateSimples =
                 projectUpdateBatch.PerformanceMeasureActualUpdates.OrderBy(pam => pam.PerformanceMeasureID)
                     .ThenByDescending(x => x.CalendarYear)
@@ -261,7 +284,11 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult PerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, PerformanceMeasuresViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
             if (!ModelState.IsValid)
             {
                 return ViewPerformanceMeasures(projectUpdateBatch, viewModel);
@@ -318,9 +345,21 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult RefreshPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
             return ViewRefreshPerformanceMeasures(viewModel);
+        }
+
+        private static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(Project project)
+        {
+            return GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("We should have a project update batch when refreshing; didn't find one for Project {0}", project.DisplayName));
+        }
+
+        private static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(Project project, string message)
+        {
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            Check.RequireNotNull(projectUpdateBatch, message);
+            return projectUpdateBatch;
         }
 
         [HttpPost]
@@ -329,8 +368,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult RefreshPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            Check.RequireNotNull(projectUpdateBatch, string.Format("We should have a project update batch when refreshing; didn't find one for Project {0}", project.DisplayName));
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             projectUpdateBatch.DeleteProjectExemptReportingYearUpdates();
             projectUpdateBatch.DeletePerformanceMeasureActualUpdates();
 
@@ -354,10 +392,14 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateManageFeature]
-        public ViewResult Expenditures(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
             var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
             var calendarYearRange = projectFundingSourceExpenditureUpdates.CalculateCalendarYearRangeForExpenditures(projectUpdateBatch.ProjectUpdate);
             var viewModel = new ExpendituresViewModel(projectFundingSourceExpenditureUpdates,
@@ -373,7 +415,11 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey, ExpendituresViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
             var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
             var calendarYearRange = projectFundingSourceExpenditureUpdates.CalculateCalendarYearRangeForExpenditures(projectUpdateBatch.ProjectUpdate);
             if (!ModelState.IsValid)
@@ -418,7 +464,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult RefreshExpenditures(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
             return ViewRefreshExpenditures(viewModel);
         }
@@ -429,8 +475,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult RefreshExpenditures(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            Check.RequireNotNull(projectUpdateBatch, string.Format("We should have a project update batch when refreshing; didn't find one for Project {0}", project.DisplayName));
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             projectUpdateBatch.DeleteProjectFundingSourceExpenditureUpdates();
             // refresh data
             ProjectFundingSourceExpenditureUpdate.CreateFromProject(projectUpdateBatch);
@@ -448,10 +493,14 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateManageFeature]
-        public ViewResult Budgets(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult Budgets(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
             var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectBudgetUpdates.ToList();
             var calendarYearRange = projectFundingSourceBudgetUpdates.CalculateCalendarYearRangeForBudgets(projectUpdateBatch.ProjectUpdate);
             var viewModel = new BudgetsViewModel(projectFundingSourceBudgetUpdates,
@@ -467,7 +516,11 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Budgets(ProjectPrimaryKey projectPrimaryKey, BudgetsViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
             var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectBudgetUpdates.ToList();
             var calendarYearRange = projectFundingSourceBudgetUpdates.CalculateCalendarYearRangeForBudgets(projectUpdateBatch.ProjectUpdate);
             if (!ModelState.IsValid)
@@ -513,7 +566,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult RefreshBudgets(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
             return ViewRefreshBudgets(viewModel);
         }
@@ -524,8 +577,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult RefreshBudgets(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            Check.RequireNotNull(projectUpdateBatch, string.Format("We should have a project update batch when refreshing; didn't find one for Project {0}", project.DisplayName));
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             projectUpdateBatch.DeleteProjectBudgetUpdates();
             // refresh data
             ProjectBudgetUpdate.CreateFromProject(projectUpdateBatch);
@@ -542,10 +594,14 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProjectUpdateManageFeature]
-        public ViewResult Photos(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult Photos(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(project, CurrentPerson);
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new PhotosViewData(CurrentPerson, projectUpdateBatch, updateStatus);
             return RazorView<Photos, PhotosViewData>(viewData);
@@ -556,7 +612,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult RefreshPhotos(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
             return ViewRefreshPhotos(viewModel);
         }
@@ -567,9 +623,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult RefreshPhotos(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-
-            Check.RequireNotNull(projectUpdateBatch, string.Format("We should have a project update batch when refreshing; didn't find one for Project {0}", project.DisplayName));
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             projectUpdateBatch.DeleteProjectImageUpdates();
             // finally create a new project update record, refreshing with the current project data at this point in time
             ProjectImageUpdate.CreateFromProject(projectUpdateBatch);
@@ -588,17 +642,22 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateManageFeature]
-        public ViewResult LocationSimple(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult LocationSimple(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdate = ProjectUpdate.GetCurrentProjectUpdateForProject(project, CurrentPerson);
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+            var projectUpdate = projectUpdateBatch.ProjectUpdate;
             var viewModel = new LocationSimpleViewModel(projectUpdate.ProjectLocationPoint,
                 projectUpdate.ProjectLocationAreaID,
                 projectUpdate.ProjectLocationSimpleType.ToEnum,
                 projectUpdate.ProjectLocationNotes,
-                projectUpdate.ProjectUpdateBatch.LocationSimpleComment,
-                projectUpdate.ProjectUpdateBatch.ShowLocationSimpleValidationWarnings);
-            return ViewLocationSimple(project, projectUpdate, viewModel);
+                projectUpdateBatch.LocationSimpleComment,
+                projectUpdateBatch.ShowLocationSimpleValidationWarnings);
+            return ViewLocationSimple(project, projectUpdateBatch, viewModel);
         }
 
         [HttpPost]
@@ -607,12 +666,15 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult LocationSimple(ProjectPrimaryKey projectPrimaryKey, LocationSimpleViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdate = ProjectUpdate.GetCurrentProjectUpdateForProject(project, CurrentPerson);
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
             if (!ModelState.IsValid)
             {
-                return ViewLocationSimple(project, projectUpdate, viewModel);
+                return ViewLocationSimple(project, projectUpdateBatch, viewModel);
             }
-            var projectUpdateBatch = projectUpdate.ProjectUpdateBatch;
             viewModel.UpdateModelBatch(projectUpdateBatch);
             if (projectUpdateBatch.IsSubmitted)
             {
@@ -622,14 +684,15 @@ namespace ProjectFirma.Web.Controllers
             return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.LocationSimple(project)));
         }
 
-        private ViewResult ViewLocationSimple(Project project, ProjectUpdate projectUpdate, LocationSimpleViewModel viewModel)
+        private ViewResult ViewLocationSimple(Project project, ProjectUpdateBatch projectUpdateBatch, LocationSimpleViewModel viewModel)
         {
+            var projectUpdate = projectUpdateBatch.ProjectUpdate;
             var mapInitJsonForEdit = new MapInitJson(string.Format("project_{0}_EditMap", project.ProjectID),
                 10,
                 MapInitJson.GetWatershedMapLayers(),
                 BoundingBox.MakeNewDefaultBoundingBox(),
                 false);
-            var locationSimpleValidationResult = projectUpdate.ProjectUpdateBatch.ValidateProjectLocationSimple();
+            var locationSimpleValidationResult = projectUpdateBatch.ValidateProjectLocationSimple();
 
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate, string.Format("project_{0}_EditMap", project.ProjectID));
             var projectLocationAreas = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.ToSelectList();
@@ -638,7 +701,7 @@ namespace ProjectFirma.Web.Controllers
             var editProjectLocationViewData = new EditProjectLocationSimpleViewData(CurrentPerson, mapInitJsonForEdit, projectLocationAreas, mapPostUrl, mapFormID);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson);
             var viewDataForAngularClass = new LocationSimpleViewData.ViewDataForAngularClass(locationSimpleValidationResult.GetWarningMessages());
-            var updateStatus = GetUpdateStatus(projectUpdate.ProjectUpdateBatch);
+            var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new LocationSimpleViewData(CurrentPerson, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, viewDataForAngularClass, updateStatus);
             return RazorView<LocationSimple, LocationSimpleViewData, LocationSimpleViewModel>(viewData, viewModel);
         }
@@ -648,7 +711,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult RefreshProjectLocationSimple(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
             return ViewRefreshProjectLocationSimple(viewModel);
         }
@@ -659,8 +722,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult RefreshProjectLocationSimple(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            Check.RequireNotNull(projectUpdateBatch, string.Format("We should have a project update batch when refreshing; didn't find one for Project {0}", project.DisplayName));
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
             if (projectUpdate == null)
             {
@@ -681,12 +743,16 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateManageFeature]
-        public ViewResult LocationDetailed(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult LocationDetailed(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdate = ProjectUpdate.GetCurrentProjectUpdateForProject(project, CurrentPerson);
-            var viewModel = new LocationDetailedViewModel(projectUpdate.ProjectUpdateBatch.LocationDetailedComment);
-            return ViewLocationDetailed(projectUpdate, viewModel);
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+            var viewModel = new LocationDetailedViewModel(projectUpdateBatch.LocationDetailedComment);
+            return ViewLocationDetailed(projectUpdateBatch, viewModel);
         }
 
         [HttpPost]
@@ -695,25 +761,28 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult LocationDetailed(ProjectPrimaryKey projectPrimaryKey, LocationDetailedViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdate = ProjectUpdate.GetCurrentProjectUpdateForProject(project, CurrentPerson);
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
             if (!ModelState.IsValid)
             {
-                return ViewLocationDetailed(projectUpdate, viewModel);
+                return ViewLocationDetailed(projectUpdateBatch, viewModel);
             }
-            var projectUpdateBatch = projectUpdate.ProjectUpdateBatch;
             SaveProjectLocationUpdates(viewModel, projectUpdateBatch);
 
-            if (projectUpdate.ProjectUpdateBatch.IsSubmitted)
+            if (projectUpdateBatch.IsSubmitted)
             {
-                projectUpdate.ProjectUpdateBatch.LocationDetailedComment = viewModel.Comments;
+                projectUpdateBatch.LocationDetailedComment = viewModel.Comments;
             }
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.LocationDetailed(project)));
         }
 
-        private ViewResult ViewLocationDetailed(ProjectUpdate projectUpdate, LocationDetailedViewModel viewModel)
+        private ViewResult ViewLocationDetailed(ProjectUpdateBatch projectUpdateBatch, LocationDetailedViewModel viewModel)
         {
-            var projectUpdateBatch = projectUpdate.ProjectUpdateBatch;
+            var projectUpdate = projectUpdateBatch.ProjectUpdate;
             var project = projectUpdateBatch.Project;
 
             var mapDivID = string.Format("project_{0}_EditDetailedMap", project.ProjectID);
@@ -742,7 +811,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult RefreshProjectLocationDetailed(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
             return ViewRefreshProjectLocationDetailed(viewModel);
         }
@@ -753,8 +822,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult RefreshProjectLocationDetailed(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            Check.RequireNotNull(projectUpdateBatch, string.Format("We should have a project update batch when refreshing; didn't find one for Project {0}", project.DisplayName));
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             projectUpdateBatch.DeleteProjectLocationStagingUpdates();
             projectUpdateBatch.DeleteProjectLocationUpdates();
 
@@ -797,12 +865,16 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult ImportGdbFile(ProjectPrimaryKey projectPrimaryKey, ImportGdbFileViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
             if (!ModelState.IsValid)
             {
                 return ViewImportGdbFile(project, viewModel);
             }
 
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             var httpPostedFileBase = viewModel.FileResourceData;
             var fileEnding = ".gdb.zip";
             using (var disposableTempFile = DisposableTempFile.MakeDisposableTempFileEndingIn(fileEnding))
@@ -821,7 +893,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult ApproveGisUpload(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var viewModel = new ProjectLocationDetailViewModel();
             return ViewApproveGisUpload(projectUpdateBatch, viewModel);
         }
@@ -853,7 +925,8 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult ApproveGisUpload(ProjectPrimaryKey projectPrimaryKey, ProjectLocationDetailViewModel viewModel)
         {
-            var projectUpdateBatch = projectPrimaryKey.EntityObject.GetLatestNotApprovedUpdateBatch();
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             if (!ModelState.IsValid)
             {
                 return ViewApproveGisUpload(projectUpdateBatch, viewModel);
@@ -878,10 +951,14 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProjectUpdateManageFeature]
-        public ViewResult Notes(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult Notes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(project, CurrentPerson);
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var diffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffNotes(projectPrimaryKey));
             var viewData = new NotesViewData(CurrentPerson, projectUpdateBatch, updateStatus, diffUrl);
@@ -893,7 +970,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult RefreshNotes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
             return ViewRefreshNotes(viewModel);
         }
@@ -904,8 +981,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult RefreshNotes(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            Check.RequireNotNull(projectUpdateBatch, string.Format("We should have a project update batch when refreshing; didn't find one for Project {0}", project.DisplayName));
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             projectUpdateBatch.DeleteProjectNoteUpdates();
             // finally create a new project update record, refreshing with the current project data at this point in time
             ProjectNoteUpdate.CreateFromProject(projectUpdateBatch);
@@ -923,10 +999,14 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateManageFeature]
-        public ViewResult ExternalLinks(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult ExternalLinks(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
             var viewModel =
                 new EditProjectExternalLinksViewModel(
                     projectUpdateBatch.ProjectExternalLinkUpdates.Select(
@@ -940,7 +1020,11 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult ExternalLinks(ProjectPrimaryKey projectPrimaryKey, EditProjectExternalLinksViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
             if (!ModelState.IsValid)
             {
                 return ViewExternalLinks(projectUpdateBatch, viewModel);
@@ -975,7 +1059,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult RefreshExternalLinks(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
             return ViewRefreshExternalLinks(viewModel);
         }
@@ -986,8 +1070,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult RefreshExternalLinks(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            Check.RequireNotNull(projectUpdateBatch, string.Format("We should have a project update batch when refreshing; didn't find one for Project {0}", project.DisplayName));
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             projectUpdateBatch.DeleteProjectExternalLinkUpdates();
             // finally create a new project update record, refreshing with the current project data at this point in time
             ProjectExternalLinkUpdate.CreateFromProject(projectUpdateBatch);
@@ -1008,9 +1091,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult Approve(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
-
-            Check.RequireNotNull(projectUpdateBatch, string.Format("There is no current Project Update to approve for Project {0}!", project.DisplayName));
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("There is no current Project Update to approve for Project {0}!", project.DisplayName));
             Check.Require(projectUpdateBatch.IsSubmitted, "The project is not in a state to be ready to be approved!");
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
             return ViewApprove(projectUpdateBatch, viewModel);
@@ -1022,10 +1103,8 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Approve(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            Check.RequireNotNull(projectUpdateBatch, string.Format("There is no current Project Update to approve for Project {0}.", project.DisplayName));
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("There is no current Project Update to approve for Project {0}!", project.DisplayName));
             Check.Require(projectUpdateBatch.IsSubmitted, "The project is not in a state to be ready to be approved!");
-
             WriteHtmlDiffLogs(projectPrimaryKey, projectUpdateBatch);
 
             HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Load();
@@ -1128,8 +1207,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult Submit(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
-            Check.RequireNotNull(projectUpdateBatch, string.Format("There is no current Project Update to submit for Project {0}", project.DisplayName));
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("There is no current Project Update to submit for Project {0}", project.DisplayName));
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
             return ViewSubmit(projectUpdateBatch, viewModel);
         }
@@ -1140,8 +1218,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Submit(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            Check.RequireNotNull(projectUpdateBatch, string.Format("There is no current Project Update to submit for Project {0}", project.DisplayName));
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("There is no current Project Update to submit for Project {0}", project.DisplayName));
             projectUpdateBatch.SubmitToReviewer(CurrentPerson, DateTime.Now);
             var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
             Notification.SendSubmittedMessage(peopleToCc, projectUpdateBatch);
@@ -1196,8 +1273,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult Return(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
-            Check.RequireNotNull(projectUpdateBatch, string.Format("There is no current Project Update to return for Project {0}", project.DisplayName));
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("There is no current Project Update to return for Project {0}", project.DisplayName));
             Check.Require(projectUpdateBatch.IsSubmitted, "You cannot return a project update that has not been submitted!");
             var viewModel = new ReturnDialogFormViewModel();
             return ViewReturn(projectUpdateBatch, viewModel);
@@ -1209,8 +1285,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Return(ProjectPrimaryKey projectPrimaryKey, ReturnDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            Check.RequireNotNull(projectUpdateBatch, string.Format("There is no current Project Update to return for Project {0}", project.DisplayName));
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("There is no current Project Update to return for Project {0}", project.DisplayName));
             Check.Require(projectUpdateBatch.IsSubmitted, "You cannot return a project update that has not been submitted!");
             viewModel.UpdateModel(projectUpdateBatch);
             projectUpdateBatch.Return(CurrentPerson, DateTime.Now);
@@ -1231,7 +1306,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult DeleteProjectUpdate(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("There is no current Project Update to delete for Project {0}", project.DisplayName));
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
             return ViewDeleteProjectUpdate(viewModel, projectUpdateBatch);
         }
@@ -1242,7 +1317,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteProjectUpdate(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("There is no current Project Update to delete for Project {0}", project.DisplayName));
             projectUpdateBatch.DeleteAll();
             return new ModalDialogFormJsonResult(SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate()));
         }
@@ -1254,10 +1329,14 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProjectUpdateManageFeature]
-        public ViewResult History(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult History(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new HistoryViewData(CurrentPerson, projectUpdateBatch, updateStatus);
             return RazorView<History, HistoryViewData>(viewData);
@@ -1294,7 +1373,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Manage, ManageViewData>(viewData);
         }
 
-        private List<Project> GetProjectsWithNoContact()
+        private static List<Project> GetProjectsWithNoContact()
         {
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
             var projectsRequiringUpdate = projects.Where(x => x.IsUpdatableViaProjectUpdateProcess).ToList();
@@ -1427,9 +1506,9 @@ namespace ProjectFirma.Web.Controllers
         private HtmlDiffContainer DiffBasicsImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdate = ProjectUpdate.GetCurrentProjectUpdateForProject(project, CurrentPerson);
-            var originalHtml = GeneratePartialViewForProjectBasics(project);
-            
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdate = projectUpdateBatch.ProjectUpdate;
+            var originalHtml = GeneratePartialViewForProjectBasics(project);            
             projectUpdate.CommitChangesToProject(project);
             var updatedHtml = GeneratePartialViewForProjectBasics(project);
 
@@ -1456,7 +1535,7 @@ namespace ProjectFirma.Web.Controllers
         private HtmlDiffContainer DiffPerformanceMeasuresImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("There is no current Project Update for Project {0}", project.DisplayName));
             var performanceMeasureReportedValuesOriginal = new List<IPerformanceMeasureReportedValue>(project.GetReportedPerformanceMeasures());
             var performanceMeasureReportedValuesUpdated = new List<IPerformanceMeasureReportedValue>(projectUpdateBatch.PerformanceMeasureActualUpdates);
             var calendarYearsForPerformanceMeasuresOriginal = performanceMeasureReportedValuesOriginal.Select(x => x.CalendarYear).Distinct().ToList();
@@ -1577,7 +1656,7 @@ namespace ProjectFirma.Web.Controllers
         private HtmlDiffContainer DiffExpendituresImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("There is no current Project Update for Project {0}", project.DisplayName));
 
             var projectFundingSourceExpendituresOriginal = project.ProjectFundingSourceExpenditures.ToList();
             var calendarYearsOriginal = projectFundingSourceExpendituresOriginal.CalculateCalendarYearRangeForExpenditures(project);
@@ -1682,7 +1761,7 @@ namespace ProjectFirma.Web.Controllers
         private HtmlDiffContainer DiffBudgetsImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("There is no current Project Update for Project {0}", project.DisplayName));
 
             var projectBudgetsOriginal = project.ProjectBudgets.ToList();
             var calendarYearsOriginal = projectBudgetsOriginal.CalculateCalendarYearRangeForBudgets(project);
@@ -1785,7 +1864,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult DiffPhotos(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("There is no current Project Update for Project {0}", project.DisplayName));
             var htmlDiffContainer = DiffPhotosImpl(projectUpdateBatch);
             var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
             return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
@@ -1861,10 +1940,10 @@ namespace ProjectFirma.Web.Controllers
             return partialViewAsString;
         }
 
-        private bool IsLocationSimpleUpdated(ProjectPrimaryKey projectPrimaryKey)
+        private static bool IsLocationSimpleUpdated(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("There is no current Project Update for Project {0}", project.DisplayName));
 
             if (project.ProjectLocationSimpleTypeID != projectUpdateBatch.ProjectUpdate.ProjectLocationSimpleTypeID)
                 return true;
@@ -1889,10 +1968,10 @@ namespace ProjectFirma.Web.Controllers
             return false;
         }
 
-        private bool IsLocationDetailedUpdated(ProjectPrimaryKey projectPrimaryKey)
+        private static bool IsLocationDetailedUpdated(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("There is no current Project Update for Project {0}", project.DisplayName));
 
             var originalLocationDetailed = project.GetProjectLocationDetails().ToList();
             var updatedLocationDetailed = projectUpdateBatch.ProjectLocationUpdates;
@@ -1922,7 +2001,7 @@ namespace ProjectFirma.Web.Controllers
         private HtmlDiffContainer DiffExternalLinksImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("There is no current Project Update for Project {0}", project.DisplayName));
             var entityExternalLinksOriginal = new List<IEntityExternalLink>(project.ProjectExternalLinks);
             var entityExternalLinksUpdated = new List<IEntityExternalLink>(projectUpdateBatch.ProjectExternalLinkUpdates);
 
@@ -1986,7 +2065,7 @@ namespace ProjectFirma.Web.Controllers
         private HtmlDiffContainer DiffNotesImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, string.Format("There is no current Project Update for Project {0}", project.DisplayName));
             var entityNotesOriginal = new List<IEntityNote>(project.ProjectNotes);
             var entityNotesUpdated = new List<IEntityNote>(projectUpdateBatch.ProjectNoteUpdates);
 

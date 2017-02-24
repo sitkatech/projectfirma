@@ -23,6 +23,7 @@
 @firma-light-gray: #f8f8f8;
 @globalFontToUse: "Open Sans",sans-serif;
 @defaultFontSize: 13px;
+@disabled-color: LightGray;
 
 
 // Global
@@ -666,3 +667,14 @@ ul.filmStrip li a div.caption {
     margin-top: 4px;
     color: #888888;
 }
+
+.disabled {
+    color: @disabled-color;
+}
+
+    a.disabled {
+      cursor: not-allowed;
+      font-style: italic;
+      color: #999;
+      background-color: transparent;
+      }

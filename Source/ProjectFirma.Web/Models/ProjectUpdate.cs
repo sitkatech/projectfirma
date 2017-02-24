@@ -2,7 +2,7 @@
 <copyright file="ProjectUpdate.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Friday, February 24, 2017</date>
 </copyright>
 
 <license>
@@ -142,12 +142,6 @@ namespace ProjectFirma.Web.Models
             return featureCollection;
         }
         
-        public static ProjectUpdate GetCurrentProjectUpdateForProject(Project project, Person currentPerson)
-        {
-            var projectUpdateBatch = ProjectUpdateBatch.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, currentPerson);
-            return projectUpdateBatch.ProjectUpdate;
-        }
-
         public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
         {
             var projectUpdate = new ProjectUpdate(projectUpdateBatch);

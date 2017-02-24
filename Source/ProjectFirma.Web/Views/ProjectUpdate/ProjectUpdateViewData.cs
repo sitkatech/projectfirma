@@ -2,7 +2,7 @@
 <copyright file="ProjectUpdateViewData.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Friday, February 24, 2017</date>
 </copyright>
 
 <license>
@@ -24,6 +24,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
+using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -69,6 +70,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly bool ShowApproveAndReturnButton;
         public readonly bool AreProjectBasicsValid;
         public readonly UpdateStatus UpdateStatus;
+        public readonly bool HasUpdateStarted;
 
         public ProjectUpdateViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSectionEnum selectedProjectUpdateSection, UpdateStatus updateStatus) : base(currentPerson, null, true)
         {
@@ -102,7 +104,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             //Neuter UpdateStatus for non-approver users until we go live with "Show Changes" for all users.
             UpdateStatus = CurrentPerson.IsApprover() ? updateStatus : new UpdateStatus(false, false, false, false, false, false, false, false, false);
-
+            HasUpdateStarted = ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID);
         }
     }
 }
