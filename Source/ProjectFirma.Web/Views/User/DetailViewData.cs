@@ -2,7 +2,7 @@
 <copyright file="DetailViewData.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Friday, February 24, 2017</date>
 </copyright>
 
 <license>
@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.User
             EditPersonOrganizationPrimaryContactUrl = SitkaRoute<PersonOrganizationController>.BuildUrlFromExpression(c => c.EditPersonOrganizationPrimaryContacts(personToView));
             Index = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Index());
 
-            UserHasPersonViewPermissions = new UserViewFeature().HasPermissionByPerson(currentPerson);
+            UserHasPersonViewPermissions = new UserViewFeature().HasPermission(currentPerson, personToView).HasPermission;
             UserHasPersonManagePermissions = new UserEditFeature().HasPermissionByPerson(currentPerson);
             UserHasViewEverythingPermissions = new AdminFeature().HasPermissionByPerson(currentPerson);
             IsViewingSelf = currentPerson != null && currentPerson.PersonID == personToView.PersonID;

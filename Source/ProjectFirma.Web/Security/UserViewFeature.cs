@@ -2,7 +2,7 @@
 <copyright file="UserViewFeature.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Friday, February 24, 2017</date>
 </copyright>
 
 <license>
@@ -19,6 +19,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
@@ -28,7 +29,8 @@ namespace ProjectFirma.Web.Security
     {
         private readonly FirmaFeatureWithContextImpl<Person> _firmaFeatureWithContextImpl;
 
-        public UserViewFeature() : base(Role.All)
+        public UserViewFeature()
+            : base(Role.All)
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Person>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -42,22 +44,40 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, Person contextModelObject)
         {
+            if (contextModelObject == null)
+            {
+                return new PermissionCheckResult("The Person whose details you are requesting to see doesn't exist.");
+            }
             var userHasEditPermission = new UserEditFeature().HasPermissionByPerson(person);
             var userViewingOwnPage = person.PersonID == contextModelObject.PersonID;
+
+            #pragma warning disable 612
+            var userHasAppropriateRole = HasPermissionByPerson(person);
+            #pragma warning restore 612
+            if (!userHasAppropriateRole)
+            {
+                return new PermissionCheckResult("You don't permissions to view user details. If you aren't logged in, do that and try again.");
+            }
 
             //Only SitkaAdmin users should be able to see other SitkaAdmin users
             if (person.Role != Role.SitkaAdmin && contextModelObject.Role == Role.SitkaAdmin)
             {
                 return new PermissionCheckResult("You don\'t have permission to view this user.");
             }
-            
+
             if (userViewingOwnPage || userHasEditPermission)
             {
-                return new PermissionCheckResult();    
+                return new PermissionCheckResult();
             }
 
             return new PermissionCheckResult("You don\'t have permission to view this user.");
         }
 
+        //This should only ever be called by HasPermission
+        [Obsolete]
+        public new bool HasPermissionByPerson(Person person)
+        {
+            return base.HasPermissionByPerson(person);
+        }
     }
 }

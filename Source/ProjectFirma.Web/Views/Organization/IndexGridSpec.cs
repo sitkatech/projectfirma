@@ -2,7 +2,7 @@
 <copyright file="IndexGridSpec.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Friday, February 24, 2017</date>
 </copyright>
 
 <license>
@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.Organization
             Add(Models.FieldDefinition.Organization.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.OrganizationName), 400, DhtmlxGridColumnFilterType.Html);
             Add("Abbreviation", a => a.OrganizationAbbreviation, 100);
             Add(Models.FieldDefinition.Sector.ToGridHeaderString(), a => a.Sector.SectorDisplayName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.PrimaryContact.ToGridHeaderString(), a => userViewFeature.HasPermissionByPerson(currentPerson) ? a.PrimaryContactPersonAsUrl : new HtmlString(a.PrimaryContactPersonAsString), 120);
+            Add(Models.FieldDefinition.PrimaryContact.ToGridHeaderString(), a => userViewFeature.HasPermission(currentPerson, a.PrimaryContactPerson).HasPermission ? a.PrimaryContactPersonAsUrl : new HtmlString(a.PrimaryContactPersonAsString), 120);
             Add("# of Projects", a => a.GetAllProjectOrganizations().Count, 90);
             Add("# of Funding Sources", a => a.FundingSources.Count, 150);
             Add("# of Users", a => a.People.Count, 90);
