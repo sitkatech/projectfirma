@@ -2,7 +2,7 @@
 <copyright file="Detail.cshtml" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Friday, February 24, 2017</date>
 </copyright>
 
 <license>
@@ -79,7 +79,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <div class="col-xs-7">@(new UserViewFeature().HasPermissionByPerson(ViewDataTyped.CurrentPerson) ? ViewDataTyped.Organization.PrimaryContactPersonWithOrgAsUrl : ViewDataTyped.Organization.PrimaryContactPersonAsStringAndOrgAsUrl)</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-5 fieldLabel text-right">@Html.Label("Home Page URL")</div>
+                                    <div class="col-xs-5 fieldLabel text-right">@Html.Label("Home Page")</div>
                                     <div class="col-xs-7"><a href="@ViewDataTyped.Organization.OrganizationUrl">@ViewDataTyped.Organization.OrganizationUrl</a></div>
                                 </div>
                             </div>

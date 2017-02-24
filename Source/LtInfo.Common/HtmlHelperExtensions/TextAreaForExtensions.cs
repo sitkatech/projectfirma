@@ -2,7 +2,7 @@
 <copyright file="TextAreaForExtensions.cs" company="Sitka Technology Group">
 Copyright (c) Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Friday, February 24, 2017</date>
 </copyright>
 
 <license>
@@ -165,6 +165,7 @@ namespace LtInfo.Common.HtmlHelperExtensions
             var charactersRemaining = maxLength - valueLength;
             var charLimitStyle = (charactersRemaining <= lowCharacterCountWarning) ? "color:red;" : "color:#666666;";
             maxCharsDivTag.Attributes.Add("style", string.Format("text-align:right;{0}", charLimitStyle));
+            maxCharsDivTag.Attributes.Add("class", "charactersRemainingText");
             maxCharsDivTag.InnerHtml = string.Format("{0}{1}", charactersRemainingString, charactersRemaining);
 
             textAreaDivTag.InnerHtml = textAreaTag.ToString(TagRenderMode.Normal) + maxCharsDivTag.ToString(TagRenderMode.Normal);

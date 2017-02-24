@@ -2,7 +2,7 @@
 <copyright file="Detail.cshtml" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Friday, February 24, 2017</date>
 </copyright>
 
 <license>
@@ -107,7 +107,7 @@ Source code is available upon request via <support@sitkatech.com>.
         }
         else
         {
-            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Update Project", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.ConfirmNonMandatoryUpdateUrl, "Update this project?", 400, "Continue", "Cancel", new List<string>{"btn", "btn-firma"}, null, null)
+            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Update Project", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.ConfirmNonMandatoryUpdateUrl, "Update this project?", 400, "Continue", "Cancel", new List<string> { "btn", "btn-firma" }, null, null)
         }
     }
     <a class="btn btn-firma" href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Fact Sheet</a>
@@ -311,19 +311,20 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="panel-body">
                         @if (ViewDataTyped.Project.ProjectClassifications.Any())
                         {
-                            <div class="row">
-                                @foreach (var classificationsBatch in ViewDataTyped.Project.ProjectClassifications.OrderBy(x => x.Classification.DisplayName).Batch(3))
-                                {
-                                    <div class="col-md-4">
-                                        <ul class="noListStyle">
-                                            @foreach (var classification in classificationsBatch.OrderBy(x => x.Classification.DisplayName))
-                                            {
-                                                <li>@classification.Classification.GetDisplayNameAsUrl(): @classification.ProjectClassificationNotes</li>
-                                            }
-                                        </ul>
-                                    </div>
-                                }
-                            </div>
+                            foreach (var projectClassificationBatch in ViewDataTyped.Project.ProjectClassifications.OrderBy(x => x.Classification.DisplayName).Batch(3))
+                            {
+                                <div class="row" style="padding-top: 10px;">
+                                    @foreach (var projectClassification in projectClassificationBatch)
+                                    {
+                                        <div class="col-md-4">
+                                            <label>@projectClassification.Classification.GetDisplayNameAsUrl()</label>
+                                        
+                                            <div>@projectClassification.ProjectClassificationNotes</div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+
                         }
                         else
                         {

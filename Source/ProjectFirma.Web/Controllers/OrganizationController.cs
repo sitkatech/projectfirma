@@ -2,7 +2,7 @@
 <copyright file="OrganizationController.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Thursday, February 23, 2017</date>
+<date>Friday, February 24, 2017</date>
 </copyright>
 
 <license>
@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult New()
         {
             var viewModel = new EditViewModel() {IsActive = true};
-            return ViewEdit(viewModel, false);
+            return ViewEdit(viewModel, false, null);
         }
 
         [HttpPost]
@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, true);
+                return ViewEdit(viewModel, true, null);
             }
             var organization = new Organization(String.Empty, viewModel.SectorID, true);
             viewModel.UpdateModel(organization, CurrentPerson);
@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var organization = organizationPrimaryKey.EntityObject;
             var viewModel = new EditViewModel(organization);
-            return ViewEdit(viewModel, organization.IsInKeystone);
+            return ViewEdit(viewModel, organization.IsInKeystone, organization.PrimaryContactPerson);
         }
 
         [HttpPost]
@@ -101,19 +101,19 @@ namespace ProjectFirma.Web.Controllers
             var organization = organizationPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, organization.IsInKeystone);
+                return ViewEdit(viewModel, organization.IsInKeystone, organization.PrimaryContactPerson);
             }
             viewModel.UpdateModel(organization, CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(EditViewModel viewModel, bool isInKeystone)
+        private PartialViewResult ViewEdit(EditViewModel viewModel, bool isInKeystone, Person currentPrimaryContactPerson)
         {
             var sectorsAsSelectListItems = Sector.All.ToSelectList(x => x.SectorID.ToString(CultureInfo.InvariantCulture), x => x.SectorDisplayName);
             var activePeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
-            if (!activePeople.Contains(CurrentPerson))
+            if (currentPrimaryContactPerson != null && !activePeople.Contains(currentPrimaryContactPerson))
             {
-                activePeople.Add(CurrentPerson);
+                activePeople.Add(currentPrimaryContactPerson);
             }
             var peopleAsSelectListItems = activePeople.ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.FullNameFirstLastAndOrg, "<None>").ToList();
             var viewData = new EditViewData(sectorsAsSelectListItems, peopleAsSelectListItems, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()));

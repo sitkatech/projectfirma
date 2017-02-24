@@ -2,7 +2,7 @@
 <copyright file="EditViewModel.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Friday, February 24, 2017</date>
 </copyright>
 
 <license>
@@ -38,19 +38,24 @@ namespace ProjectFirma.Web.Views.Organization
 
         [Required]
         [StringLength(Models.Organization.FieldLengths.OrganizationName)]
+        [DisplayName("Name")]
         public string OrganizationName { get; set; }
 
         [Required]
         [StringLength(Models.Organization.FieldLengths.OrganizationAbbreviation)]
+        [DisplayName("Abbreviation")]
         public string OrganizationAbbreviation { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.Sector)]
+        [DisplayName("Sector")]
         public int SectorID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.PrimaryContact)]
+        [DisplayName("Primary Contact")]
         public int? PrimaryContactPersonID { get; set; }
 
         [Url]
+        [DisplayName("Home Page")]
         public string OrganizationUrl { get; set; }
 
         [DisplayName("Is Active")]
@@ -76,7 +81,7 @@ namespace ProjectFirma.Web.Views.Organization
             PrimaryContactPersonID = organization.PrimaryContactPerson != null ? organization.PrimaryContactPerson.PersonID : (int?) null;
             OrganizationUrl = organization.OrganizationUrl;
 
-            IsActive = organization.IsActive;            
+            IsActive = organization.IsActive;
         }
 
         public void UpdateModel(Models.Organization organization, Person currentPerson)
@@ -122,6 +127,6 @@ namespace ProjectFirma.Web.Views.Organization
             return validationResults;
         }
 
-        public const int MaxLogoSizeInBytes = 1024 * 100;
+        public const int MaxLogoSizeInBytes = 1024 * 200;
     }
 }
