@@ -2,7 +2,7 @@
 <copyright file="ProjectOrganizationController.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -66,6 +66,10 @@ namespace ProjectFirma.Web.Controllers
         {
             var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.FullNameFirstLastAndOrg).ToList();
+            if (!allPeople.Contains(CurrentPerson))
+            {
+                allPeople.Add(CurrentPerson);
+            }
             var viewData = new EditOrganizationsViewData(allOrganizations, allPeople);
             return RazorPartialView<EditOrganizations, EditOrganizationsViewData, EditOrganizationsViewModel>(viewData, viewModel);
         }

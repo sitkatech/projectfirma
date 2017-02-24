@@ -2,7 +2,7 @@
 <copyright file="OrganizationController.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -110,7 +110,12 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditViewModel viewModel, bool isInKeystone)
         {
             var sectorsAsSelectListItems = Sector.All.ToSelectList(x => x.SectorID.ToString(CultureInfo.InvariantCulture), x => x.SectorDisplayName);
-            var peopleAsSelectListItems = HttpRequestStorage.DatabaseEntities.People.GetActivePeople().ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.FullNameFirstLastAndOrg, "<None>").ToList();
+            var activePeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
+            if (!activePeople.Contains(CurrentPerson))
+            {
+                activePeople.Add(CurrentPerson);
+            }
+            var peopleAsSelectListItems = activePeople.ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.FullNameFirstLastAndOrg, "<None>").ToList();
             var viewData = new EditViewData(sectorsAsSelectListItems, peopleAsSelectListItems, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()));
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }

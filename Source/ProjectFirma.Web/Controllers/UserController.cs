@@ -2,7 +2,7 @@
 <copyright file="UserController.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Person> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var persons = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => new UserViewFeature().HasPermission(CurrentPerson, x).HasPermission).OrderBy(x => x.FullNameLastFirst).ToList();
+            var persons = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => !x.IsSitkaUser && new UserViewFeature().HasPermission(CurrentPerson, x).HasPermission).OrderBy(x => x.FullNameLastFirst).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(persons, gridSpec);
             return gridJsonNetJObjectResult;
         }

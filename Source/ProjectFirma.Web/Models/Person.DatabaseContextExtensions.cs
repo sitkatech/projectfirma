@@ -2,7 +2,7 @@
 <copyright file="Person.DatabaseContextExtensions.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -66,7 +67,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<Person> GetActivePeople(this IQueryable<Person> people)
         {
-            return people.Where(x => x.IsActive).ToList().OrderBy(ht => ht.FullNameLastFirst).ToList();
+            return people.Where(x => x.IsActive).ToList().Where(x => !x.IsSitkaUser).OrderBy(ht => ht.FullNameLastFirst).ToList();
         }
 
         public static List<Person> GetPeopleWhoReceiveNotifications(this IQueryable<Person> people)

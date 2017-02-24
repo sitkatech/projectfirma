@@ -2,7 +2,7 @@
 <copyright file="Person.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Thursday, February 23, 2017</date>
 </copyright>
 
 <license>
@@ -50,6 +50,14 @@ namespace ProjectFirma.Web.Models
         public bool IsAnonymousUser
         {
             get { return PersonID == AnonymousPersonID; }
+        }
+
+        public bool IsSitkaUser
+        {
+            get
+            {
+                return Email.Contains("@sitkatech.com") && HttpRequestStorage.Tenant != Tenant.SitkaTechnologyGroup;
+            }
         }
 
         public string FullNameFirstLast
