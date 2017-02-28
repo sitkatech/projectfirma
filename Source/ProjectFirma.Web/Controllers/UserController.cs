@@ -269,13 +269,6 @@ namespace ProjectFirma.Web.Controllers
                 SetErrorForDisplay("Person not added. Could not find their Organization in Keystone");
             }
                         
-            var firmaPerson = HttpRequestStorage.DatabaseEntities.People.SingleOrDefault(x => x.PersonGuid == keystoneUser.UserGuid);
-            if (firmaPerson != null)
-            {
-                SetErrorForDisplay("Person already exists in ProjectFirma");
-                return new ModalDialogFormJsonResult();
-            }
-
             var firmaOrganization = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(x => x.OrganizationGuid == keystoneUser.OrganizationGuid);
             if (firmaOrganization == null)
             {
@@ -288,8 +281,16 @@ namespace ProjectFirma.Web.Controllers
                 HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(firmaOrganization);
             }
 
-            firmaPerson = new Person(keystoneUser.UserGuid, keystoneUser.FirstName, keystoneUser.LastName, keystoneUser.Email, Role.Unassigned, DateTime.Now, true, firmaOrganization, false, keystoneUser.LoginName);
-            HttpRequestStorage.DatabaseEntities.AllPeople.Add(firmaPerson);
+            var firmaPerson = HttpRequestStorage.DatabaseEntities.People.SingleOrDefault(x => x.PersonGuid == keystoneUser.UserGuid);
+            if (firmaPerson != null)
+            {
+                firmaPerson.OrganizationID = firmaOrganization.OrganizationID;
+            }
+            else
+            {
+                firmaPerson = new Person(keystoneUser.UserGuid, keystoneUser.FirstName, keystoneUser.LastName, keystoneUser.Email, Role.Unassigned, DateTime.Now, true, firmaOrganization, false, keystoneUser.LoginName);
+                HttpRequestStorage.DatabaseEntities.AllPeople.Add(firmaPerson);
+            }
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 

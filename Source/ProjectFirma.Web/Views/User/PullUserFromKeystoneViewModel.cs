@@ -2,7 +2,7 @@
 <copyright file="PullUserFromKeystoneViewModel.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Tuesday, February 28, 2017</date>
 </copyright>
 
 <license>
@@ -62,12 +62,6 @@ namespace ProjectFirma.Web.Views.User
         {
             var errors = new List<ValidationResult>();
 
-            var person = HttpRequestStorage.DatabaseEntities.People.ToList().SingleOrDefault(x => x.LoginName == LoginName);
-            if (person != null)
-            {
-                errors.Add(new SitkaValidationResult<PullUserFromKeystoneViewModel, string>("User already exists", m => m.LoginName));
-            }
-            
             return errors;
         }
     }
