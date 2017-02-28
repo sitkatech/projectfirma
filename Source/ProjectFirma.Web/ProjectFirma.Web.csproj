@@ -427,6 +427,7 @@
     <None Include="Service References\KeystoneDataService\KeystoneData2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Views\Organization\PullOrganizationFromKeystone.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
     <Compile Include="Security\SitkaAdminFeature.cs" />
     <Compile Include="Service References\KeystoneDataService\Reference.cs">
@@ -436,6 +437,9 @@
     </Compile>
     <Compile Include="Views\Home\FeaturedProjects.cs" />
     <Compile Include="Views\Home\FeaturedProjectsViewData.cs" />
+    <Compile Include="Views\Organization\PullOrganizationFromKeystone.cs" />
+    <Compile Include="Views\Organization\PullOrganizationFromKeystoneViewData.cs" />
+    <Compile Include="Views\Organization\PullOrganizationFromKeystoneViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cs" />
     <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptionsViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptionsViewModel.cs" />
@@ -3201,7 +3205,7 @@ copy /y "$(ProjectDir)web.config" "$(TargetPath).config"
       <ScriptLocation Condition=" '$(ScriptLocation)'=='' ">.\..\AddCopyrightAndLicense.ps1</ScriptLocation>
       <CopyrightHolder>Tahoe Regional Planning Agency</CopyrightHolder>
     </PropertyGroup>
-    <Exec Command="$(PowerShellExe) -NonInteractive -executionpolicy Unrestricted -command &quot;&amp; {&amp;&apos;$(ScriptLocation)&apos; &apos;$(CopyrightHolder)&apos; } &quot;" />
+    <Exec Command="$(PowerShellExe) -NonInteractive -executionpolicy Unrestricted -command &quot;&amp; {&amp;'$(ScriptLocation)' '$(CopyrightHolder)' } &quot;" />
   </Target>
   <Import Project="..\NuGetPackages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\NuGetPackages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

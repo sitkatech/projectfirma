@@ -23,12 +23,15 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.KeystoneDataService;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Organization
 {
@@ -65,6 +68,9 @@ namespace ProjectFirma.Web.Views.Organization
         [SitkaFileExtensions("jpg|jpeg|gif|png")]
         public HttpPostedFileBase LogoFileResourceData { get; set; }
 
+        [DisplayName("Keystone Organization Guid")]
+        public Guid? OrganizationGuid { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -82,6 +88,7 @@ namespace ProjectFirma.Web.Views.Organization
             OrganizationUrl = organization.OrganizationUrl;
 
             IsActive = organization.IsActive;
+            OrganizationGuid = organization.OrganizationGuid;
         }
 
         public void UpdateModel(Models.Organization organization, Person currentPerson)
@@ -96,12 +103,18 @@ namespace ProjectFirma.Web.Views.Organization
             {
                 organization.LogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(LogoFileResourceData, currentPerson);    
             }
+
+            var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(currentPerson);
+            if (isSitkaAdmin)
+            {
+                organization.OrganizationGuid = OrganizationGuid;
+            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();
-            
+
             // If we are updating an existing object, make sure we have a Primary Contact
             var primaryContactNotSet = (PrimaryContactPersonID == null);
             if (primaryContactNotSet && ModelObjectHelpers.IsRealPrimaryKeyValue(OrganizationID))
@@ -121,9 +134,32 @@ namespace ProjectFirma.Web.Views.Organization
                 var errorMessage = String.Format("Logo is too large - must be less than {0}. Your logo was {1}.",
                     FileUtility.FormatBytes(MaxLogoSizeInBytes),
                     FileUtility.FormatBytes(LogoFileResourceData.ContentLength));
-                validationResults.Add(
-                    new SitkaValidationResult<EditViewModel, HttpPostedFileBase>(errorMessage, x => x.LogoFileResourceData));
+                validationResults.Add(new SitkaValidationResult<EditViewModel, HttpPostedFileBase>(errorMessage, x => x.LogoFileResourceData));
             }
+
+            var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(HttpRequestStorage.Person);
+            if (OrganizationGuid.HasValue && isSitkaAdmin)
+            {
+                var organization = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(x => x.OrganizationGuid == OrganizationGuid);
+                if (organization != null && organization.OrganizationID != OrganizationID)
+                {
+                    validationResults.Add(new SitkaValidationResult<EditViewModel, Guid?>("This Guid is already associated with an Organization", x => x.OrganizationGuid));
+                }
+                else
+                {
+                    try
+                    {
+                        var keystoneClient = new KeystoneDataClient();
+                        var keystoneOrganization = keystoneClient.GetOrganization(OrganizationGuid.Value);
+                    }
+                    catch (Exception)
+                    {
+                        validationResults.Add(new SitkaValidationResult<EditViewModel, Guid?>("Organization Guid not found in Keystone", x => x.OrganizationGuid));
+                    }
+                    
+                }
+            }
+
             return validationResults;
         }
 

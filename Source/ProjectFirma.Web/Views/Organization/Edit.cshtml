@@ -104,6 +104,21 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.IsActive)
             </div>
         </div>
+        @if (ViewDataTyped.IsSitkaAdmin)
+        {
+            <hr/>
+            <h3>Sitka Admin Only</h3>
+            <div class="form-group">
+                <div class="col-sm-3 control-label">
+                    @Html.LabelWithSugarFor(m => m.OrganizationGuid)
+                </div>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.OrganizationGuid, new {style="width:100%"})
+                    @Html.ValidationMessageFor(m => m.OrganizationGuid)
+                </div>
+            </div>
+
+        }
         
     </div>
     @Html.HiddenFor(m => m.OrganizationID)

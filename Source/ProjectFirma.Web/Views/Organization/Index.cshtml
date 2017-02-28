@@ -2,7 +2,7 @@
 <copyright file="Index.cshtml" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Tuesday, February 28, 2017</date>
 </copyright>
 
 <license>
@@ -22,10 +22,20 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
 @inherits ProjectFirma.Web.Views.Organization.Index
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+@section RightOfPageTitle
+{
+    @if (ViewDataTyped.UserIsSitkaAdmin)
+    {
+        @ModalDialogFormHelper.ModalDialogFormLink("Pull Organization from Keystone", ViewDataTyped.PullOrganizationFromKeystoneUrl, "Pull Organization from Keystone", new List<string> { "btn", "btn-firma", "btn-sm" })
+    }
+
 }
 
 <div class="hidden-xs">

@@ -2,7 +2,7 @@
 <copyright file="IndexViewData.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Tuesday, February 28, 2017</date>
 </copyright>
 
 <license>
@@ -33,6 +33,9 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly string GridName;
         public readonly string GridDataUrl;
 
+        public readonly string PullOrganizationFromKeystoneUrl;
+        public readonly bool UserIsSitkaAdmin;
+
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage)
             : base(currentPerson, firmaPage, false)
         {
@@ -54,6 +57,9 @@ namespace ProjectFirma.Web.Views.Organization
 
             GridName = "organizationsGrid";
             GridDataUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+
+            PullOrganizationFromKeystoneUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.PullOrganizationFromKeystone());
+            UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(currentPerson);
         }
     }
 }

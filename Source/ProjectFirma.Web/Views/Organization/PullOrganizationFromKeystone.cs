@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency">
+<copyright file="PullOrganizationFromKeystone.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 <date>Tuesday, February 28, 2017</date>
@@ -19,26 +19,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.Web.Mvc;
-
 namespace ProjectFirma.Web.Views.Organization
 {
-    public class EditViewData : FirmaUserControlViewData
+    public abstract class PullOrganizationFromKeystone : LtInfo.Common.Mvc.TypedWebPartialViewPage<PullOrganizationFromKeystoneViewData, PullOrganizationFromKeystoneViewModel>
     {
-        public readonly IEnumerable<SelectListItem> Sectors;
-        public readonly IEnumerable<SelectListItem> People;
-        public readonly bool IsInKeystone;
-        public readonly string RequestOrganizationChangeUrl;
-        public readonly bool IsSitkaAdmin;
-
-        public EditViewData(IEnumerable<SelectListItem> sectors, IEnumerable<SelectListItem> people, bool isInKeystone, string requestOrganizationChangeUrl, bool isSitkaAdmin)
-        {
-            Sectors = sectors;
-            People = people;
-            IsInKeystone = isInKeystone;
-            RequestOrganizationChangeUrl = requestOrganizationChangeUrl;
-            IsSitkaAdmin = isSitkaAdmin;
-        }
     }
 }

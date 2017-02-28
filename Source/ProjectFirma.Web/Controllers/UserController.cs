@@ -2,7 +2,7 @@
 <copyright file="UserController.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Thursday, February 23, 2017</date>
+<date>Tuesday, February 28, 2017</date>
 </copyright>
 
 <license>
@@ -232,7 +232,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var viewModel = new PullUserFromKeystoneViewModel();
 
-            return ViewPullUserFromSitka(viewModel);
+            return ViewPullUserFromKeystone(viewModel);
         }
 
         [HttpPost]
@@ -242,7 +242,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewPullUserFromSitka(viewModel);
+                return ViewPullUserFromKeystone(viewModel);
             }
 
             var keystoneClient = new KeystoneDataClient();
@@ -300,7 +300,7 @@ namespace ProjectFirma.Web.Controllers
             
         }
 
-        private PartialViewResult ViewPullUserFromSitka(PullUserFromKeystoneViewModel viewModel)
+        private PartialViewResult ViewPullUserFromKeystone(PullUserFromKeystoneViewModel viewModel)
         {
             var viewData = new PullUserFromKeystoneViewData();
             return RazorPartialView<PullUserFromKeystone, PullUserFromKeystoneViewData, PullUserFromKeystoneViewModel>(viewData, viewModel);

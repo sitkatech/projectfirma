@@ -2,7 +2,7 @@
 <copyright file="OrganizationController.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Friday, February 24, 2017</date>
+<date>Tuesday, February 28, 2017</date>
 </copyright>
 
 <license>
@@ -35,9 +35,14 @@ using GeoJSON.Net.Feature;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.KeystoneDataService;
+using ProjectFirma.Web.Views.User;
+using Detail = ProjectFirma.Web.Views.Organization.Detail;
+using DetailViewData = ProjectFirma.Web.Views.Organization.DetailViewData;
 using Index = ProjectFirma.Web.Views.Organization.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Organization.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Organization.IndexViewData;
+using Organization = ProjectFirma.Web.Models.Organization;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -116,7 +121,8 @@ namespace ProjectFirma.Web.Controllers
                 activePeople.Add(currentPrimaryContactPerson);
             }
             var peopleAsSelectListItems = activePeople.ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.FullNameFirstLastAndOrg, "<None>").ToList();
-            var viewData = new EditViewData(sectorsAsSelectListItems, peopleAsSelectListItems, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()));
+            var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            var viewData = new EditViewData(sectorsAsSelectListItems, peopleAsSelectListItems, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -277,5 +283,69 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new GoogleChartPopupViewData(googleChart);
             return RazorPartialView<GoogleChartPopup, GoogleChartPopupViewData>(viewData);
         }
+
+        [HttpGet]
+        [SitkaAdminFeature]
+        public PartialViewResult PullOrganizationFromKeystone()
+        {
+            var viewModel = new PullOrganizationFromKeystoneViewModel();
+
+            return ViewPullOrganizationFromKeystone(viewModel);
+        }
+
+        [HttpPost]
+        [SitkaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult PullOrganizationFromKeystone(PullOrganizationFromKeystoneViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewPullOrganizationFromKeystone(viewModel);
+            }
+
+            var keystoneClient = new KeystoneDataClient();
+
+
+            var organizationGuid = viewModel.OrganizationGuid.Value;
+            KeystoneDataService.Organization keystoneOrganization = null;
+            try
+            {
+                
+                keystoneOrganization = keystoneClient.GetOrganization(organizationGuid);
+            }
+            catch (Exception)
+            {
+                SetErrorForDisplay("Organization not added. Guid not found in Keystone or unable to connect to Keystone");
+                return new ModalDialogFormJsonResult();
+            }
+
+            var firmaOrganization = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(x => x.OrganizationGuid == organizationGuid);
+            if (firmaOrganization != null)
+            {
+                SetErrorForDisplay("Organization not added - it already exists in ProjectFirma");
+                return new ModalDialogFormJsonResult();
+            }
+
+            firmaOrganization = new Organization(keystoneOrganization.FullName, Sector.Private, true)
+            {
+                OrganizationGuid = keystoneOrganization.OrganizationGuid,
+                OrganizationAbbreviation = keystoneOrganization.ShortName,
+                OrganizationUrl = keystoneOrganization.URL
+            };
+            HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(firmaOrganization);
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            SetMessageForDisplay(string.Format("Organization {0} successfully added.", firmaOrganization.GetDisplayNameAsUrl()));
+
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewPullOrganizationFromKeystone(PullOrganizationFromKeystoneViewModel viewModel)
+        {
+            var viewData = new PullOrganizationFromKeystoneViewData();
+            return RazorPartialView<PullOrganizationFromKeystone, PullOrganizationFromKeystoneViewData, PullOrganizationFromKeystoneViewModel>(viewData, viewModel);
+        }
+
     }
 }
