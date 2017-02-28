@@ -2,7 +2,7 @@
 <copyright file="ProjectController.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Tuesday, February 28, 2017</date>
 </copyright>
 
 <license>
@@ -701,7 +701,7 @@ Continue with a new project update?
             var chartName = string.Format("ProjectFactSheet{0}PieChart", projectPrimaryKey.PrimaryKeyValue);
 
             var project = projectPrimaryKey.EntityObject;
-            var fundingSourceExpenditures = project.ProjectFundingSourceExpenditures.GroupBy(x => x.FundingSource.DisplayName).ToDictionary(x => x.Key, x => x.Sum(y => y.ExpenditureAmount));
+            var fundingSourceExpenditures = project.GetExpendituresDictionary();
             var googleChartDataTable = GetProjectFactSheetGoogleChartDataTable(fundingSourceExpenditures);
             var googleChartTitle = string.Format("Investment by Funding Sector for: {0}", project.ProjectName);
             var googleChartConfiguration = new GooglePieChartConfiguration(googleChartTitle, MeasurementUnitType.Dollars, chartSize, chartSize)

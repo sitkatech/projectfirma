@@ -2,7 +2,7 @@
 <copyright file="Project.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Tuesday, February 28, 2017</date>
 </copyright>
 
 <license>
@@ -380,7 +380,7 @@ namespace ProjectFirma.Web.Models
             return featureCollection;
         }
 
-        public ProjectType ProjectType { get { return ProjectType.Project;} }
+        public ProjectType ProjectType { get { return ProjectType.Project; } }
 
         public IEnumerable<IQuestionAnswer> GetQuestionAnswers()
         {
@@ -419,7 +419,7 @@ namespace ProjectFirma.Web.Models
             {
                 feature.Properties.Add("ProjectID", ProjectID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ProjectName", DisplayName);
-                    feature.Properties.Add("TaxonomyTierTwoID", TaxonomyTierOne.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture));
+                feature.Properties.Add("TaxonomyTierTwoID", TaxonomyTierOne.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("TaxonomyTierOneID", TaxonomyTierOneID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ClassificationID", String.Join(",", ProjectClassifications.Select(x => x.ClassificationID)));
                 feature.Properties.Add("ImplementingOrganizationID", String.Join(",", ProjectImplementingOrganizations.Select(x => x.OrganizationID)));
@@ -553,5 +553,12 @@ namespace ProjectFirma.Web.Models
             projectImages.DeleteProjectImage();
             projectImageFileResourceIDsToDelete.DeleteFileResource();
         }
+
+        public Dictionary<string, decimal> GetExpendituresDictionary()
+        {
+            return ProjectFundingSourceExpenditures.Where(x => x.ExpenditureAmount > 0)
+                .GroupBy(x => x.FundingSource.FixedLengthDisplayName)
+                .ToDictionary(x => x.Key, x => x.Sum(y => y.ExpenditureAmount));
         }
+    }
 }
