@@ -2,7 +2,7 @@
 <copyright file="Index.cshtml" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Tuesday, February 28, 2017</date>
 </copyright>
 
 <license>
@@ -62,7 +62,9 @@ Source code is available upon request via <support@sitkatech.com>.
             This map shows approximate project locations. For more detail, <a href="@ViewDataTyped.FullMapUrl">view the comprehensive map page</a>.
         </p>
         <div>
-            @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
+            <a href="@ViewDataTyped.FullMapUrl">
+                @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
+            </a>
         </div>
 
     </div>
@@ -85,5 +87,7 @@ Source code is available upon request via <support@sitkatech.com>.
         var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
         var map = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
         map.initializeProjectLocations(projectLocationsMapInitJson);
+        map.disableUserInteraction();
+        jQuery('.leaflet-container').css('cursor','pointer');
     })
 </script>
