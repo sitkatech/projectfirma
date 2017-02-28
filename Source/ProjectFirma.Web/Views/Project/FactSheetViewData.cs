@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
 
             ChartID = string.Format("fundingChartForProject{0}", project.ProjectID);
-            FundingSourceExpenditures = project.ProjectFundingSourceExpenditures.GroupBy(x => x.FundingSource.DisplayName).ToDictionary(x => x.Key, x => x.Sum(y => y.ExpenditureAmount));
+            FundingSourceExpenditures = project.GetExpendituresDictionary();
             KeyPhoto = project.KeyPhoto;
             ProjectImagesExceptKeyPhotoGroupedByTiming =
                 project.ProjectImages.Where(x => !x.IsKeyPhoto && x.ProjectImageTiming != ProjectImageTiming.Unknown && !x.ExcludeFromFactSheet)

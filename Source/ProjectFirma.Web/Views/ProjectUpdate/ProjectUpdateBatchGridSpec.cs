@@ -2,7 +2,7 @@
 <copyright file="ProjectUpdateBatchGridSpec.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Tuesday, February 28, 2017</date>
 </copyright>
 
 <license>
@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                             string.Empty,
                             "diff-close-button",
                             "Close",
-                            new List<string>() {"gridButton"},
+                            new List<string> { "btn", "btn-xs", "btn-firma" },
                             null,
                             null,
                             null,

@@ -352,6 +352,57 @@ table.summaryLayout td {
   padding-left: 15px;
   padding-right: 15px;
 }
+a.gridButton {
+  margin: 0 7px 0 0;
+  background-color: #007cb9;
+  border: 1px solid #2d5e71;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  box-shadow: 2px 2px 4px #000;
+  -webkit-box-shadow: 2px 2px 4px #000;
+  -moz-box-shadow: 2px 2px 4px #000;
+  font-family: "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+  font-size: 10px;
+  line-height: 130%;
+  text-decoration: none;
+  font-weight: bold;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 1px 5px 1px 3px;
+  /* Links */
+}
+a.gridButton:visited,
+a.gridButton:active,
+a.button:visited,
+a.button:active {
+  color: #ffffff;
+}
+a.gridButtonDisabled {
+  background-color: #ADB0A8;
+  border: 1px solid #c2e1ef;
+  color: #efefef;
+  margin: 0 7px 0 0;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  box-shadow: 2px 2px 4px #000;
+  -webkit-box-shadow: 2px 2px 4px #000;
+  -moz-box-shadow: 2px 2px 4px #000;
+  font-family: "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+  font-size: 10px;
+  line-height: 130%;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 1px 5px 1px 3px;
+  /* Links */
+}
+/* STANDARD */
+a.gridButton:hover {
+  background-color: #265d87;
+  color: #ffffff;
+}
 a.excelbutton {
   background: url(/Content/img/button_icon_excel.png) no-repeat scroll 0 0 transparent;
   padding: 0 0 0 15px;

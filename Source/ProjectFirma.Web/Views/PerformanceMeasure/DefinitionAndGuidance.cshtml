@@ -2,7 +2,7 @@
 <copyright file="DefinitionAndGuidance.cshtml" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Tuesday, February 28, 2017</date>
 </copyright>
 
 <license>
@@ -20,10 +20,15 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common
+@using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.PerformanceMeasure.DefinitionAndGuidance
 
+<style>
+    h3 { font-weight: bold; font-size: 12px;}
+</style>
 <div class="fieldDefinition" style="font-size: 13px">
-    <h3>PerformanceMeasure Definition</h3>
+    <h3>@MultiTenantHelpers.GetPerformanceMeasureName() Definition</h3>
     <div style="margin-left: 20px">
         <p>
             @ViewDataTyped.PerformanceMeasure.PerformanceMeasureDefinition.ToHTMLFormattedString()
@@ -32,6 +37,14 @@ Source code is available upon request via <support@sitkatech.com>.
     <hr/>
     <h3>Critical Definitions</h3>
     <div style="margin-left: 20px">
-        @ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString
+        @if (ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString == null || string.IsNullOrWhiteSpace(ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString.ToString()))
+        {
+            <span>@ViewUtilities.NotProvidedString</span>
+        }
+        else
+        {
+            <span>ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString</span>
+        }
+        
     </div>
 </div>

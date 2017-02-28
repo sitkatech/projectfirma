@@ -2,7 +2,7 @@
 <copyright file="IndexGridSpec.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Tuesday, February 28, 2017</date>
 </copyright>
 
 <license>
@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.Snapshot
         public IndexGridSpec()
         {
             Add(string.Empty,
-                snapshot => UrlTemplate.MakeHrefString(snapshot.GetSummaryUrl(), "View", new Dictionary<string, string>() {{"class", "gridButton"}}),
+                snapshot => UrlTemplate.MakeHrefString(snapshot.GetSummaryUrl(), "View", new Dictionary<string, string>() {{"class", "btn btn-xs btn-firma"}}),
                 50,
                 DhtmlxGridColumnFilterType.None);
             

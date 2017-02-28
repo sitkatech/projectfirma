@@ -51,6 +51,18 @@ namespace ProjectFirma.Web.Models
             get { return string.Format("{0} ({1}){2}", FundingSourceName, Organization.AbbreviationIfAvailable, !IsActive ? " (Inactive)" : string.Empty); }
         }
 
+        public string FixedLengthDisplayName
+        {
+            get
+            {
+                var organizationAbbreviationIfAvailable = string.Format("({0})", Organization.AbbreviationIfAvailable);
+                var a = organizationAbbreviationIfAvailable.Length;
+
+                return string.Format("{0} {1}", FundingSourceName.ToEllipsifiedString(60 - a), organizationAbbreviationIfAvailable);
+            }
+        }
+
+
         public string SummaryUrl
         {
             get { return SitkaRoute<FundingSourceController>.BuildUrlFromExpression(x => x.Detail(FundingSourceID)); }

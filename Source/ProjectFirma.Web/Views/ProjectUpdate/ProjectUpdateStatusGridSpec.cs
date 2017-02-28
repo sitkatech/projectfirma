@@ -2,7 +2,7 @@
 <copyright file="ProjectUpdateStatusGridSpec.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Tuesday, February 28, 2017</date>
 </copyright>
 
 <license>
@@ -105,7 +105,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                                 true,
                                 "Continue",
                                 "Cancel",
-                                new List<string> {"gridButton"},
+                                new List<string> { "btn", "btn-xs", "btn-firma" },
                                 null,
                                 null);
                             return submitLink;
@@ -156,7 +156,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                         return MakeAlertButton("Unable to View", String.Format("The Update for Project {0} cannot not be displayed because the Update has been returned for correction. Go to the All My Projects list to fix the returned Update.", x.DisplayName), "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: The Update has been returned</span>");
                     }
 
-                    return UrlTemplate.MakeHrefString(x.GetProjectUpdateUrl(), _canApprove ? "Review" : "View", new Dictionary<string, string> {{"class", "gridButton"}});
+                    return UrlTemplate.MakeHrefString(x.GetProjectUpdateUrl(), _canApprove ? "Review" : "View", new Dictionary<string, string> {{"class", "btn btn-xs btn-firma"}});
                 },
                 60);
         }
@@ -178,7 +178,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                                 400,
                                 "Continue",
                                 "Cancel",
-                                new List<string> {"gridButton"},
+                                new List<string> { "btn", "btn-xs", "btn-firma" },
                                 null,
                                 null);
                     }
@@ -197,14 +197,14 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                         linkText = _canApprove ? "Review" : "View";
                     }
 
-                    return UrlTemplate.MakeHrefString(x.GetProjectUpdateUrl(), linkText, new Dictionary<string, string> {{"class", "gridButton"}});
+                    return UrlTemplate.MakeHrefString(x.GetProjectUpdateUrl(), linkText, new Dictionary<string, string> {{"class", "btn btn-xs btn-firma"}});
                 },
                 60);
         }
 
         private static HtmlString MakeAlertButton(string alertDialogTitle, string alertDialogText, string alertDialogButtonText, string gridButtonHtml)
         {
-            var cssClasses = new List<string> { "gridButtonDisabled" };
+            var cssClasses = new List<string> { "btn", "btn-xs", "btn-firma" };
             return BootstrapHtmlHelpers.MakeModalDialogAlertButton(alertDialogText, alertDialogTitle, alertDialogButtonText, gridButtonHtml, cssClasses);
         }
 

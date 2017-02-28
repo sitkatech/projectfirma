@@ -446,6 +446,35 @@ table.summaryLayout td {
 
 
 // Grids
+a.gridButton {
+    margin: 0 7px 0 0;
+    background-color: @firma-med-blue
+    border: 1px solid @firma-dark-blue
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    font-size: 10px;
+    line-height: 130%;
+    text-decoration: none;
+    font-weight: bold;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 1px 5px 1px 3px; /* Links */
+}
+
+a.gridButton:visited, a.gridButton:active, a.button:visited, a.button:active {
+    color: #ffffff;
+}
+
+a.gridButton.disabled {
+    background-color: #ADB0A8;    
+}
+
+/* STANDARD */
+a.gridButton:hover {
+    background-color: #265d87;
+    color: #ffffff;
+}
 
 a.excelbutton {
     background: url(/Content/img/button_icon_excel.png) no-repeat scroll 0 0 transparent;    
