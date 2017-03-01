@@ -2,7 +2,7 @@
 <copyright file="ProjectClassificationController.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
+<date>Tuesday, February 28, 2017</date>
 </copyright>
 
 <license>
@@ -49,8 +49,9 @@ namespace ProjectFirma.Web.Controllers
         {
             var selectedProjectClassifications = project.ProjectClassifications;
 
+            //JHB 2/28/17: This is really brittle. The ViewModel relies on the ViewData also being ordered by DisplayName. 
             var projectClassificationSimples =
-                HttpRequestStorage.DatabaseEntities.Classifications.Select(x => new ProjectClassificationSimple { ClassificationID = x.ClassificationID }).ToList();
+                HttpRequestStorage.DatabaseEntities.Classifications.OrderBy(x => x.DisplayName).Select(x => new ProjectClassificationSimple {ClassificationID = x.ClassificationID}).ToList();
 
             foreach (var selectedClassification in selectedProjectClassifications)
             {
