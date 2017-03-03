@@ -253,7 +253,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="col-md-9">
                 @if (ViewDataTyped.Project.LeadImplementer != null)
                 {
-                    <a href="@ViewDataTyped.Project.LeadImplementer.GetSummaryUrl()" target="_blank">@ViewDataTyped.Project.LeadImplementer.DisplayName</a>
+                    <a href="@ViewDataTyped.Project.LeadImplementer.GetDetailUrl()" target="_blank">@ViewDataTyped.Project.LeadImplementer.DisplayName</a>
                 }
             </div>
 
@@ -269,7 +269,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     if (ViewDataTyped.Project.PrimaryContactPerson.Organization != null)
                     {
                         <span>-</span>
-                        <a href="@ViewDataTyped.Project.PrimaryContactPerson.Organization.GetSummaryUrl()" target="_blank">@ViewDataTyped.Project.PrimaryContactPerson.Organization.DisplayName</a>
+                        <a href="@ViewDataTyped.Project.PrimaryContactPerson.Organization.GetDetailUrl()" target="_blank">@ViewDataTyped.Project.PrimaryContactPerson.Organization.DisplayName</a>
                     }
                 }
             </div>

@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.Organization
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30);
             }
-            Add(Models.FieldDefinition.Organization.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.OrganizationName), 400, DhtmlxGridColumnFilterType.Html);
+            Add(Models.FieldDefinition.Organization.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.OrganizationName), 400, DhtmlxGridColumnFilterType.Html);
             Add("Abbreviation", a => a.OrganizationAbbreviation, 100);
             Add(Models.FieldDefinition.Sector.ToGridHeaderString(), a => a.Sector.SectorDisplayName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.PrimaryContact.ToGridHeaderString(), a => userViewFeature.HasPermission(currentPerson, a.PrimaryContactPerson).HasPermission ? a.PrimaryContactPersonAsUrl : new HtmlString(a.PrimaryContactPersonAsString), 120);

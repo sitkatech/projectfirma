@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             ProjectCount = organization.GetAllProjectOrganizations().Count;
             FundingSourceCount = organization.FundingSources.Count;
             UserCount = organization.People.Count;
-            OrganizationSummaryUrl = organization.GetSummaryUrl();
+            OrganizationSummaryUrl = organization.GetDetailUrl();
         }    
 
         [DataMember] public int OrganizationID { get; set; }

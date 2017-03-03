@@ -70,7 +70,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @foreach (var monitoringProgramPartner in ViewDataTyped.MonitoringProgram.MonitoringProgramPartners.OrderBy(x => x.Organization.DisplayName))
                 {
                     <li>
-                        <a href="@monitoringProgramPartner.Organization.GetSummaryUrl()">@monitoringProgramPartner.Organization.DisplayName</a>
+                        <a href="@monitoringProgramPartner.Organization.GetDetailUrl()">@monitoringProgramPartner.Organization.DisplayName</a>
                     </li>
                 }
             </ul>
