@@ -2,7 +2,6 @@
 <copyright file="EditProjectExternalLinksViewModel.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
 </copyright>
 
 <license>

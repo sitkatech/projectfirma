@@ -7,7 +7,6 @@ $header = "---------------------------------------------------------------------
 <copyright file=""{0}"" company=""{1}"">
 Copyright (c) {1}. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>{2}</date>
 </copyright>
 
 <license>
@@ -25,7 +24,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------"
 
-function Write-Header ($file, $lastWriteDate)
+function Write-Header ($file)
 {
     # Get the file content as as Array object that contains the file lines
     $content = Get-Content $file
@@ -59,12 +58,12 @@ function Write-Header ($file, $lastWriteDate)
        Let's Skip the first 21 lines of the copyright notice template... #>
     if($contentAsString.StartsWith($commentStart))
     {
-       $content = $content | Select-Object -skip 21
+       $content = $content | Select-Object -skip 20
     }
     
     # $fileheader is assigned the value of $header with dynamic values passed as parameters after -f
     $headerWithCommentDelimiter = $commentStart + $header + $commentEnd
-    $fileheader = $headerWithCommentDelimiter -f $filename, $companyname, $lastWriteDate
+    $fileheader = $headerWithCommentDelimiter -f $filename, $companyname
 
     # Writing the header to the file
     Set-Content $file $fileheader -encoding UTF8
@@ -81,6 +80,6 @@ svn status | % {
     if (($fileInfo.Extension -match "\.(cs|cshtml|js)$") -and ($fileInfo.FullName -notmatch "\\(bin|obj|Content|Generated|Scripts|_Annotations.cs|NuGetPackages)(\\|$)"))
     {
         Write-Host Updating license and copyright header: $fileInfo.FullName
-        Write-Header  $fileInfo.FullName $fileInfo.LastWriteTime.ToLongDateString();
+        Write-Header  $fileInfo.FullName;
     } 
 }

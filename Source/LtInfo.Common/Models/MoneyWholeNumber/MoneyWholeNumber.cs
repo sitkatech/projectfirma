@@ -2,7 +2,6 @@
 <copyright file="MoneyWholeNumber.cs" company="Sitka Technology Group">
 Copyright (c) Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Wednesday, February 22, 2017</date>
 </copyright>
 
 <license>

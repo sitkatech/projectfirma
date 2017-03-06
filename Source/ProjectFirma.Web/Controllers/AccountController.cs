@@ -2,7 +2,6 @@
 <copyright file="AccountController.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
-<date>Friday, March 03, 2017</date>
 </copyright>
 
 <license>
