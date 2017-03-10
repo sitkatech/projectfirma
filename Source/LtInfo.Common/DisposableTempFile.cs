@@ -42,7 +42,9 @@ namespace LtInfo.Common
 
         public static DisposableTempFile MakeDisposableTempFileEndingIn(string fileEnding)
         {
-            var tempPath = Path.GetTempFileName() + fileEnding;
+            var tempFileName = Path.GetTempFileName();
+            File.Delete(tempFileName); // we need to delete this right away once we get the path; Path.GetTempFileName() creates a zero byte file on disk
+            var tempPath = tempFileName + fileEnding;
             return new DisposableTempFile(tempPath);
         }
 
