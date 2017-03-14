@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Linq;
 using System.Net.Mail;
 using System.Threading;
 using System.Web.Mvc;
@@ -64,7 +65,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 // new user - provision with limited role
                 SitkaHttpApplication.Logger.DebugFormat("In SyncLocalAccountStore - creating local profile for User '{0}'", keystoneUserClaims.UserGuid);
-
+                var unknownOrganization = HttpRequestStorage.DatabaseEntities.Organizations.Single(x => x.OrganizationName == Organization.OrganizationUnknown);
                 person = new Person(keystoneUserClaims.UserGuid,
                     keystoneUserClaims.FirstName,
                     keystoneUserClaims.LastName,
@@ -72,7 +73,7 @@ namespace ProjectFirma.Web.Controllers
                     Role.Unassigned.RoleID,
                     DateTime.Now,
                     true,
-                    Organization.OrganizationIDUnknown,
+                    unknownOrganization.OrganizationID,
                     false,
                     keystoneUserClaims.LoginName);
                 HttpRequestStorage.DatabaseEntities.AllPeople.Add(person);
@@ -115,7 +116,8 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                person.OrganizationID = Organization.OrganizationIDUnknown;
+                var unknownOrganization = HttpRequestStorage.DatabaseEntities.Organizations.Single(x => x.OrganizationName == Organization.OrganizationUnknown);
+                person.OrganizationID = unknownOrganization.OrganizationID;
                 //Assign user to magic Unkown Organization ID
             }
 

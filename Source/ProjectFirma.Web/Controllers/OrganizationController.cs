@@ -225,7 +225,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteOrganization(Organization organization, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !organization.HasDependentObjects() && organization.OrganizationID != Organization.OrganizationIDUnknown;
+            var canDelete = !organization.HasDependentObjects() && !organization.IsUnknown;
             var confirmMessage = canDelete
                 ? String.Format("Are you sure you want to delete this Organization '{0}'?", organization.OrganizationName)
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Organization", SitkaRoute<OrganizationController>.BuildLinkFromExpression(x => x.Detail(organization), "here"));

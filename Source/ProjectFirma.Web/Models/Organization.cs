@@ -28,18 +28,14 @@ namespace ProjectFirma.Web.Models
 {
     public partial class Organization : IAuditableEntity
     {
-        public const int OrganizationIDSitka = 1;
-        public const int OrganizationIDUnknown = 2;
+        public const string OrganizationSitka = "Sitka Technology Group";
+        public const string OrganizationUnknown = "(Unknown or Unspecified Organization)";
 
         public string DisplayName
         {
             get
             {
-                if (OrganizationID == OrganizationIDUnknown)
-                {
-                    return "(Unknown Organization)";
-                }
-                return string.Format("{0}{1}{2}", OrganizationName, !string.IsNullOrWhiteSpace(OrganizationAbbreviation) ? string.Format(" ({0})", OrganizationAbbreviation) : string.Empty, !IsActive ? " (Inactive)" : string.Empty);
+                return IsUnknown ? OrganizationName : string.Format("{0}{1}{2}", OrganizationName, !string.IsNullOrWhiteSpace(OrganizationAbbreviation) ? string.Format(" ({0})", OrganizationAbbreviation) : string.Empty, !IsActive ? " (Inactive)" : string.Empty);
             }
         }
 
@@ -47,11 +43,11 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                if (OrganizationID == OrganizationIDUnknown)
+                if (IsUnknown)
                 {
-                    return DisplayName;
+                    return OrganizationName;
                 }
-                string postFix = OrganizationName.EndsWith("s") ? "'" : "'s";
+                var postFix = OrganizationName.EndsWith("s") ? "'" : "'s";
                 return string.Format("{0}{1}", OrganizationName, postFix);
             }
         }
@@ -135,6 +131,10 @@ namespace ProjectFirma.Web.Models
         public bool IsInKeystone
         {
             get { return OrganizationGuid.HasValue; }
+        }
+        public bool IsUnknown
+        {
+            get { return OrganizationName.Equals(Organization.OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase); }
         }
 
         public IEnumerable<CalendarYearReportedValue> GetAllCalendarYearExpenditures()
