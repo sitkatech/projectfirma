@@ -26,7 +26,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.PerformanceMeasureDisplayName)
+                @Html.LabelWithSugarFor(m => m.PerformanceMeasureDisplayName, "Name")
             </div>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.PerformanceMeasureDisplayName, new {@class = "form-control"})
@@ -44,7 +44,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(FieldDefinition.MeasurementUnit, "Measurement Unit")
+                @Html.LabelWithSugarFor(m => m.MeasurementUnitTypeID, "Measurement Unit")
             </div>
             <div class="col-sm-9">
                 @Html.DropDownListFor(m => m.MeasurementUnitTypeID, ViewDataTyped.MeasurementUnitTypes, new {@class = "form-control"})
@@ -53,7 +53,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.Label("Definition")
+                @Html.LabelWithSugarFor(m => m.PerformanceMeasureDefinition, "Definition")
             </div>
             <div class="col-sm-9">
                 <div style="max-height: 600px; overflow-y: auto">

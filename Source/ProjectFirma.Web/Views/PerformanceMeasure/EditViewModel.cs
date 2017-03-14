@@ -35,6 +35,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         [Required]
         [StringLength(Models.PerformanceMeasure.FieldLengths.PerformanceMeasureDisplayName)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.PerformanceMeasure)]
         public string PerformanceMeasureDisplayName { get; set; }
 
         [Required]
