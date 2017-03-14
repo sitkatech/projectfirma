@@ -243,7 +243,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <td style="text-align: center">@projectOrganization.IsLeadOrganization.ToCheckboxImageOrEmpty()</td>
                                         <td style="text-align: center">@((projectOrganization.IsImplementingOrganization && !projectOrganization.IsLeadOrganization).ToCheckboxImageOrEmpty())</td>
                                         <td style="text-align: center">@projectOrganization.IsFundingOrganization.ToCheckboxImageOrEmpty()</td>
-                                        @if (new UserViewFeature().HasPermissionByPerson(ViewDataTyped.CurrentPerson))
+                                        @if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, projectOrganization.Organization.PrimaryContactPerson).HasPermission)
                                         {
                                             <td>@projectOrganization.Organization.PrimaryContactPersonWithOrgAsUrl</td>
                                         }

@@ -75,7 +75,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)</div>
-                                    <div class="col-xs-7">@(new UserViewFeature().HasPermissionByPerson(ViewDataTyped.CurrentPerson) ? ViewDataTyped.Organization.PrimaryContactPersonWithOrgAsUrl : ViewDataTyped.Organization.PrimaryContactPersonAsStringAndOrgAsUrl)</div>
+                                    <div class="col-xs-7">@(new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, ViewDataTyped.Organization.PrimaryContactPerson).HasPermission ? ViewDataTyped.Organization.PrimaryContactPersonWithOrgAsUrl : ViewDataTyped.Organization.PrimaryContactPersonAsStringAndOrgAsUrl)</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-5 fieldLabel text-right">@Html.Label("Home Page")</div>
@@ -174,7 +174,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <ul>
                                         @foreach (var person in ViewDataTyped.Organization.People.Where(x => x.IsActive).OrderBy(x => x.FullNameLastFirst))
                                         {
-                                            if (new UserViewFeature().HasPermissionByPerson(ViewDataTyped.CurrentPerson))
+                                            if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, person).HasPermission)
                                             {
                                                 <li>
                                                     @person.GetFullNameFirstLastAsUrl()
