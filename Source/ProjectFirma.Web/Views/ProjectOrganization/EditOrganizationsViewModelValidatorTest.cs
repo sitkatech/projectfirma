@@ -37,13 +37,13 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
 
             var primaryContact = TestFramework.TestPerson.Create();
 
-            var organization1 = TestFramework.TestOrganization.Create();
+            var organization1 = TestFramework.TestOrganization.Create("SomeOrg1");
             organization1.PrimaryContactPerson = primaryContact;
             organization1.PrimaryContactPersonID = primaryContact.PersonID;
-            var organization2 = TestFramework.TestOrganization.Create();
+            var organization2 = TestFramework.TestOrganization.Create("SomeOrg2");
             organization2.PrimaryContactPerson = primaryContact;
             organization2.PrimaryContactPersonID = primaryContact.PersonID;
-            var organization3 = TestFramework.TestOrganization.Create();
+            var organization3 = TestFramework.TestOrganization.Create("SomeOrg3");
             organization3.PrimaryContactPerson = primaryContact;
             organization3.PrimaryContactPersonID = primaryContact.PersonID;
 

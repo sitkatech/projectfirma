@@ -134,7 +134,7 @@ namespace ProjectFirma.Web.Models
         }
         public bool IsUnknown
         {
-            get { return OrganizationName.Equals(Organization.OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase); }
+            get { return !string.IsNullOrWhiteSpace(OrganizationName) && OrganizationName.Equals(OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase); }
         }
 
         public IEnumerable<CalendarYearReportedValue> GetAllCalendarYearExpenditures()
