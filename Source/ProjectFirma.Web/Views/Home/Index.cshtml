@@ -50,13 +50,13 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="row">
     <div class="col-md-8">
-        <div class="introPageContent">
+        <div>
             @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
         </div>
     </div>
 
     <div class="col-md-4">
-        <h4 class="homePage" style="margin-bottom: 5px;">Project Map</h4>
+        <h4 style="margin-bottom: 5px;">Project Map</h4>
         <p style="margin-bottom: 5px">
             This map shows approximate project locations. For more detail, <a href="@ViewDataTyped.FullMapUrl">view the comprehensive map page</a>.
         </p>
@@ -73,7 +73,7 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <div class="row">
         <div class="col-md-12">
-            <h4 class="homePage">Featured Projects</h4>
+            <h4>Featured Projects</h4>
             @{ FeaturedProjects.RenderPartialView(Html, ViewDataTyped.FeaturedProjectsViewData); }
 
         </div>

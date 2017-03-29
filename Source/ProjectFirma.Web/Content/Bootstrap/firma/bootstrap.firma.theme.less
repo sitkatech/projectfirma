@@ -1,4 +1,4 @@
-// This file is for any custom Gemini theming of Bootstrap
+// This file is for any custom theming of Bootstrap
 //
 // Core variables and mixins - allows reuse of any Bootstrap or custom variables
 @import "../bootstrap-3.3.5/less/variables.less";
@@ -11,7 +11,29 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
 
+// Customizable Variables
+@firma-menu-font: "Open Sans",sans-serif;
+@firma-header-font: "Open Sans",sans-serif;
+@firma-text-font: "Open Sans",sans-serif;
 
+@firma-background-color: #f5f8fa;
+
+@firma-panel-headerBackground-color: #f5f5f5;
+@firma-panel-headerText-color: #333;
+@firma-panel-border-color: #ddd;
+
+@firma-pageTitle-color: #337ab7;
+@firma-header-color: #1e3948;
+
+@firma-helpIconActive-color: #70A1CC;
+@firma-helpIconInactive-color: #DDDDDD;
+
+@firma-buttonBackground-color: #337ab7;
+@firma-buttonBorder-color: #2e6da4;
+@firma-buttonText-color: #fff;
+@firma-buttonBackground-color-hover: #286090;
+@firma-buttonBorder-color-hover: #204d74;
+@firma-buttonText-color-hover: #fff;
 
 @firma-light-blue: #f5f8fa;
 @firma-med-blue: #70A1CC;
@@ -26,6 +48,8 @@
 @disabled-color: LightGray;
 
 
+
+
 // Global
 
 html, body {
@@ -33,18 +57,22 @@ html, body {
 }
 
 body {
-    font-family: @globalFontToUse;
-    background-color: @firma-light-blue;
+    font-family: @firma-text-font;
+    background-color: @firma-background-color;
     color: @firma-dark;
     margin: 5px;
 }
 
 input[disabled] {
-    background-color: gray;
+    background-color: @disabled-color;
 }
 
 .alert {
     margin-top: 10px;
+}
+
+a:hover {
+   text-decoration: none;
 }
 
 .container {
@@ -54,9 +82,9 @@ input[disabled] {
     margin-left: auto;
 }
 
-.pageTitle, .entityTitle {
+.pageTitle {
     font-weight: 600;
-    color: @firma-blue;
+    color: @firma-pageTitle-color;
 }
 
 #mainnavandcontent {
@@ -144,7 +172,7 @@ footer {
     right: 0;
     width: 100%;
     height: 65px;
-    background-color: @firma-light-blue;
+    background-color: @firma-background-color;
 
     p {
         margin: 10px 0;
@@ -286,28 +314,28 @@ footer {
 
 // buttons
 .btn-firma, .form-dialog .ui-widget-content .btn-firma, .firma-modal-dialog .btn-firma {
-    font-size: 14px;
-    color: #fff;
-  background-color: #337ab7;
-  border-color: #2e6da4;
+  font-size: 14px;
+  color: @firma-buttonText-color;
+  background-color: @firma-buttonBackground-color;
+  border-color: @firma-buttonBorder-color;
 }
 
 .btn-primary:hover {
-  color: #fff;
-  background-color: #286090;
-  border-color: #204d74;
+  color: @firma-buttonText-color-hover;
+  background-color: @firma-buttonBackground-color-hover;
+  border-color: @firma-buttonBorder-color-hover;
 }
 
 .btn-firma:hover, .btn-primary:focus, .btn-primary.focus {
-      color: #fff;
-  background-color: #286090;
-  border-color: #122b40;
+  color: @firma-buttonText-color-hover;
+  background-color: @firma-buttonBackground-color-hover;
+  border-color: @firma-buttonBorder-color-hover;
 }
 
 a.btn-firma {
-      color: #fff;
-  background-color: #337ab7;
-  border-color: #2e6da4;
+  color: @firma-buttonText-color;
+  background-color: @firma-buttonBackground-color;
+  border-color: @firma-buttonBorder-color;
 }
 
 // tagging / tags
@@ -421,12 +449,12 @@ table.summaryLayout td {
 // Panels
 
 .panelFirma {
-    border-color: #ddd;
+    border-color: @firma-panel-border-color;
 
 .panelTitle, .panelTitle h2, .panelTitle h3 {
-    color: #333;
-    background-color: #f5f5f5;
-    border-color: #ddd;
+    color: @firma-panel-headerText-color;
+    background-color: @firma-panel-headerBackground-color;
+    border-color: @firma-panel-border-color;
     font-weight: bold;
     font-size: 14px;
     margin-bottom: 0;
@@ -448,8 +476,8 @@ table.summaryLayout td {
 // Grids
 a.gridButton {
     margin: 0 7px 0 0;
-    background-color: @firma-med-blue
-    border: 1px solid @firma-dark-blue
+    background-color: @firma-buttonBackground-color;
+    border: 1px solid @firma-buttonBorder-color;
     border-radius: 4px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -457,13 +485,13 @@ a.gridButton {
     line-height: 130%;
     text-decoration: none;
     font-weight: bold;
-    color: #ffffff;
+    color: @firma-buttonText-color;
     cursor: pointer;
     padding: 1px 5px 1px 3px; /* Links */
 }
 
 a.gridButton:visited, a.gridButton:active, a.button:visited, a.button:active {
-    color: #ffffff;
+    color: @firma-buttonText-color;
 }
 
 a.gridButton.disabled {
@@ -472,8 +500,8 @@ a.gridButton.disabled {
 
 /* STANDARD */
 a.gridButton:hover {
-    background-color: #265d87;
-    color: #ffffff;
+    background-color: @firma-buttonBackground-color-hover;
+    color: @firma-buttonText-color;
 }
 
 a.excelbutton {
@@ -493,11 +521,11 @@ a.excelbutton {
 }
 
 .helpiconGridBlue {
-    color: @firma-med-blue;
+    color: @firma-helpIconActive-color;
 }
 
 .helpiconGridGray {
-    color: #DDDDDD;
+    color: @firma-helpIconInactive-color;
     cursor: default !important;
 }
 
@@ -607,7 +635,8 @@ span.keyPhotoButton img {
 span.keyPhotoButton label {
     display: inline-block;
     vertical-align: top;
-    color: #007CB9;
+    color: #23527c;
+    font-weight: 400;
     cursor: pointer;
 }
 

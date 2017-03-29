@@ -12,10 +12,13 @@ body {
   margin: 5px;
 }
 input[disabled] {
-  background-color: gray;
+  background-color: LightGray;
 }
 .alert {
   margin-top: 10px;
+}
+a:hover {
+  text-decoration: none;
 }
 .container {
   padding-right: 15px;
@@ -23,8 +26,7 @@ input[disabled] {
   margin-right: auto;
   margin-left: auto;
 }
-.pageTitle,
-.entityTitle {
+.pageTitle {
   font-weight: 600;
   color: #337ab7;
 }
@@ -207,24 +209,24 @@ footer p {
 .form-dialog .ui-widget-content .btn-firma,
 .firma-modal-dialog .btn-firma {
   font-size: 14px;
-  color: #fff;
+  color: #ffffff;
   background-color: #337ab7;
   border-color: #2e6da4;
 }
 .btn-primary:hover {
-  color: #fff;
+  color: #ffffff;
   background-color: #286090;
   border-color: #204d74;
 }
 .btn-firma:hover,
 .btn-primary:focus,
 .btn-primary.focus {
-  color: #fff;
+  color: #ffffff;
   background-color: #286090;
-  border-color: #122b40;
+  border-color: #204d74;
 }
 a.btn-firma {
-  color: #fff;
+  color: #ffffff;
   background-color: #337ab7;
   border-color: #2e6da4;
 }
@@ -331,14 +333,14 @@ table.summaryLayout td {
   width: 1%;
 }
 .panelFirma {
-  border-color: #ddd;
+  border-color: #dddddd;
 }
 .panelFirma .panelTitle,
 .panelFirma .panelTitle h2,
 .panelFirma .panelTitle h3 {
-  color: #333;
+  color: #333333;
   background-color: #f5f5f5;
-  border-color: #ddd;
+  border-color: #dddddd;
   font-weight: bold;
   font-size: 14px;
   margin-bottom: 0;
@@ -354,15 +356,11 @@ table.summaryLayout td {
 }
 a.gridButton {
   margin: 0 7px 0 0;
-  background-color: #007cb9;
-  border: 1px solid #2d5e71;
+  background-color: #337ab7;
+  border: 1px solid #2e6da4;
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
-  box-shadow: 2px 2px 4px #000;
-  -webkit-box-shadow: 2px 2px 4px #000;
-  -moz-box-shadow: 2px 2px 4px #000;
-  font-family: "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
   font-size: 10px;
   line-height: 130%;
   text-decoration: none;
@@ -378,29 +376,12 @@ a.button:visited,
 a.button:active {
   color: #ffffff;
 }
-a.gridButtonDisabled {
+a.gridButton.disabled {
   background-color: #ADB0A8;
-  border: 1px solid #c2e1ef;
-  color: #efefef;
-  margin: 0 7px 0 0;
-  border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  box-shadow: 2px 2px 4px #000;
-  -webkit-box-shadow: 2px 2px 4px #000;
-  -moz-box-shadow: 2px 2px 4px #000;
-  font-family: "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
-  font-size: 10px;
-  line-height: 130%;
-  text-decoration: none;
-  font-weight: bold;
-  cursor: pointer;
-  padding: 1px 5px 1px 3px;
-  /* Links */
 }
 /* STANDARD */
 a.gridButton:hover {
-  background-color: #265d87;
+  background-color: #286090;
   color: #ffffff;
 }
 a.excelbutton {
@@ -419,7 +400,7 @@ a.excelbutton {
   color: #70a1cc;
 }
 .helpiconGridGray {
-  color: #DDDDDD;
+  color: #dddddd;
   cursor: default !important;
 }
 .red {
@@ -513,7 +494,8 @@ span.keyPhotoButton img {
 span.keyPhotoButton label {
   display: inline-block;
   vertical-align: top;
-  color: #007CB9;
+  color: #23527c;
+  font-weight: 400;
   cursor: pointer;
 }
 ul.filmStrip {
