@@ -3,55 +3,55 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
 @import url(https://fonts.googleapis.com/css?family=EB+Garamond:400,700);
-/*@firma-menu-font: "Open Sans", sans-serif;
-@firma-header-font: "Open Sans", sans-serif;
-@firma-text-font: "Open Sans",sans-serif;
-@firma-text-fontSize: 14px;
+/*@firma-menu-font: "Roboto", Helvetica, sans-serif;
+@firma-header-font: "Roboto",  Helvetica, sans-serif;
+@firma-text-font: "EB Garamond", Georgia, serif;
+@firma-text-fontSize: 16px;
 
-@firma-text-color: #193D5B;
-@firma-headerText-color: #193D5B;
+@firma-text-color: #4d4c4c;
+@firma-headerText-color: #4d4c4c;
 
-@firma-background-color: #f5f8fa;
+@firma-background-color: #fff;
 @firma-contentBackground-color: #fff;
-@firma-contentBorder-color: #e7e7e7;
+@firma-contentBorder-color: #fff;
 
-@firma-logoHeaderBackground-color: #f8f8f8;
-@firma-navBackground-color: #f8f8f8;
-@firma-navBorder-color: #e7e7e7;
-@firma-navText-color: #777;
-@firma-navHover-color: #eee;
+@firma-logoHeaderBackground-color: #fff;
+@firma-navBackground-color: #fff;
+@firma-navBorder-color: #fff;
+@firma-navText-color: #4d4c4c;
+@firma-navHover-color: #b3b2b2;
 
-@firma-panel-headerBackground-color: #f5f5f5;
-@firma-panel-headerText-color: #333;
+@firma-panel-headerBackground-color: #63B245;
+@firma-panel-headerText-color: #fff;
 @firma-panel-border-color: #ddd;
 
-@firma-pageTitle-color: #337ab7;
+@firma-pageTitle-color: #354F25;
 @firma-header-color: #1e3948;
 
-@firma-helpIconActive-color: #70A1CC;
+@firma-helpIconActive-color: #63B245;
 @firma-helpIconInactive-color: #DDDDDD;
 
-@firma-buttonBackground-color: #337ab7;
-@firma-buttonBorder-color: #2e6da4;
+@firma-buttonBackground-color: #63B245;
+@firma-buttonBorder-color: #59A03E;
 @firma-buttonText-color: #fff;
-@firma-buttonBackground-color-hover: #286090;
-@firma-buttonBorder-color-hover: #204d74;
+@firma-buttonBackground-color-hover: #354F25;
+@firma-buttonBorder-color-hover: #354F25;
 @firma-buttonText-color-hover: #fff;
 
-@firma-scrollSpyText-color: #777;
+@firma-scrollSpyText-color: #4d4c4c;
 @firma-scrollSpyBackground-color: transparent;
-@firma-scrollSpy-color-active: #337ab7;
-@firma-scrollSpyText-color-hover: #337ab7;
+@firma-scrollSpy-color-active: #63B245;
+@firma-scrollSpyText-color-hover: #63B245;
 @firma-scrollSpyBackground-color-hover: transparent;*/
 html,
 body {
   height: 100%;
 }
 body {
-  font-family: "EB Garamond", Georgia, serif;
-  font-size: 16px;
-  background-color: #ffffff;
-  color: #4d4c4c;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  background-color: #f5f8fa;
+  color: #193d5b;
 }
 input[disabled] {
   background-color: LightGray;
@@ -68,8 +68,8 @@ h3,
 h4,
 h5,
 h6 {
-  color: #4d4c4c;
-  font-family: "Roboto", Helvetica, sans-serif;
+  color: #193d5b;
+  font-family: "Open Sans", sans-serif;
   font-weight: 600;
 }
 .container {
@@ -80,14 +80,14 @@ h6 {
 }
 .pageTitle {
   font-weight: 600;
-  color: #354f25;
+  color: #337ab7;
 }
 #mainnavandcontent {
   margin-bottom: 20px;
 }
 .firmaContent {
   background-color: #ffffff;
-  border: 1px solid #ffffff;
+  border: 1px solid #e7e7e7;
   padding-bottom: 20px;
 }
 .rightFloatingInfo {
@@ -103,7 +103,7 @@ form .form-group-condensed {
   margin-bottom: 5px;
 }
 .header {
-  background-color: #ffffff;
+  background-color: #f8f8f8;
 }
 .header img {
   margin: 5px;
@@ -113,21 +113,21 @@ form .form-group-condensed {
   display: inline-block;
   font-size: 30px;
   font-weight: 600;
-  font-family: "Roboto", Helvetica, sans-serif;
-  color: #354f25;
+  font-family: "Open Sans", sans-serif;
+  color: #337ab7;
   vertical-align: bottom;
   margin-bottom: 6px;
 }
 .header .headerText a {
-  color: #354f25;
+  color: #337ab7;
 }
 .header .headerText a:hover,
 .header .headerText a:active {
   text-decoration: none;
 }
 .navbar {
-  background-color: #ffffff;
-  border-bottom-color: #ffffff;
+  background-color: #f8f8f8;
+  border-bottom-color: #e7e7e7;
   border-radius: 0;
 }
 .nav li p {
@@ -137,19 +137,19 @@ form .form-group-condensed {
   font-weight: 600;
 }
 .nav li a {
-  color: #4d4c4c;
-  font-family: "Roboto", Helvetica, sans-serif;
+  color: #777777;
+  font-family: "Open Sans", sans-serif;
 }
 .nav li a:hover {
-  background-color: #b3b2b2;
+  background-color: #eeeeee;
   text-decoration: none;
 }
 .nav li p a:hover {
   background-color: transparent;
 }
 .nav li .navbar-text {
-  color: #4d4c4c;
-  font-family: "Roboto", Helvetica, sans-serif;
+  color: #777777;
+  font-family: "Open Sans", sans-serif;
 }
 .navbar-right {
   padding-right: 15px;
@@ -158,17 +158,17 @@ form .form-group-condensed {
   z-index: 16000;
 }
 ul.dropdown-menu {
-  background-color: #ffffff;
+  background-color: #f8f8f8;
 }
 ul.dropdown-menu li a {
   font-weight: 600;
-  font-family: "Roboto", Helvetica, sans-serif;
-  color: #4d4c4c;
-  background-color: #ffffff;
+  font-family: "Open Sans", sans-serif;
+  color: #777777;
+  background-color: #f8f8f8;
 }
 ul.dropdown-menu li a:hover {
-  background-color: #b3b2b2;
-  color: #4d4c4c;
+  background-color: #eeeeee;
+  color: #777777;
   text-decoration: none;
 }
 footer {
@@ -178,7 +178,7 @@ footer {
   right: 0;
   width: 100%;
   height: 65px;
-  background-color: #ffffff;
+  background-color: #f5f8fa;
 }
 footer p {
   margin: 10px 0;
@@ -291,50 +291,50 @@ footer p {
 .firma-modal-dialog .btn-firma {
   font-size: 14px;
   color: #ffffff;
-  background-color: #63b245;
-  border-color: #59a03e;
+  background-color: #337ab7;
+  border-color: #2e6da4;
 }
 .btn-primary:hover {
   color: #ffffff;
-  background-color: #354f25;
-  border-color: #354f25;
+  background-color: #286090;
+  border-color: #204d74;
 }
 .btn-firma:hover,
 .btn-primary:focus,
 .btn-primary.focus {
   color: #ffffff;
-  background-color: #354f25;
-  border-color: #354f25;
+  background-color: #286090;
+  border-color: #204d74;
 }
 a.btn-firma {
   color: #ffffff;
-  background-color: #63b245;
-  border-color: #59a03e;
+  background-color: #337ab7;
+  border-color: #2e6da4;
 }
 .btn-tag {
   color: black;
-  background-color: #279bdc;
-  border-color: #0b3a6a;
+  background-color: #ddd;
+  border-color: #ccc;
   font-size: 13px;
   padding: 3px 8px;
 }
 .btn-tag:focus,
 .btn-tag.focus {
   color: black;
-  background-color: #1d7db3;
-  border-color: #000000;
+  background-color: #bbb;
+  border-color: #bbb;
 }
 .btn-tag:hover {
   color: black;
-  background-color: #1d7db3;
-  border-color: #051c33;
+  background-color: #bbb;
+  border-color: #bbb;
 }
 .btn-tag:active,
 .btn-tag.active,
 .open > .dropdown-toggle.btn-tag {
   color: black;
-  background-color: #1d7db3;
-  border-color: #051c33;
+  background-color: #bbb;
+  border-color: #bbb;
 }
 .btn-tag:active:hover,
 .btn-tag.active:hover,
@@ -346,8 +346,8 @@ a.btn-firma {
 .btn-tag.active.focus,
 .open > .dropdown-toggle.btn-tag.focus {
   color: black;
-  background-color: #186894;
-  border-color: #000000;
+  background-color: #bbb;
+  border-color: #bbb;
 }
 .btn-tag:active,
 .btn-tag.active,
@@ -380,7 +380,7 @@ fieldset[disabled] .btn-tag.active {
   background-color: black;
 }
 .btn-tag:hover {
-  background-color: #6c91a4;
+  background-color: #bbb;
 }
 .btn-tag a {
   text-decoration: none;
@@ -419,12 +419,12 @@ table.summaryLayout td {
 .panelFirma .panelTitle,
 .panelFirma .panelTitle h2,
 .panelFirma .panelTitle h3 {
-  color: #ffffff;
-  background-color: #63b245;
+  color: #333333;
+  background-color: #f5f5f5;
   border-color: #dddddd;
   font-weight: bold;
   font-size: 14px;
-  font-family: "Roboto", Helvetica, sans-serif;
+  font-family: "Open Sans", sans-serif;
   margin-bottom: 0;
   margin-top: 0;
 }
@@ -438,8 +438,8 @@ table.summaryLayout td {
 }
 a.gridButton {
   margin: 0 7px 0 0;
-  background-color: #63b245;
-  border: 1px solid #59a03e;
+  background-color: #337ab7;
+  border: 1px solid #2e6da4;
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -463,7 +463,7 @@ a.gridButton.disabled {
 }
 /* STANDARD */
 a.gridButton:hover {
-  background-color: #354f25;
+  background-color: #286090;
   color: #ffffff;
 }
 a.excelbutton {
@@ -479,7 +479,7 @@ a.excelbutton {
   margin-right: 2px;
 }
 .helpiconGridBlue {
-  color: #63b245;
+  color: #70a1cc;
 }
 .helpiconGridGray {
   color: #dddddd;
@@ -497,7 +497,7 @@ a.excelbutton {
 /* ScrollSpy / Table of Contents */
 nav#tableOfContents ul.nav li a {
   border: none;
-  color: #4d4c4c;
+  color: #777777;
   background-color: transparent;
   text-decoration: none;
   font-weight: bold;
@@ -529,29 +529,29 @@ nav#tableOfContents ul.nav li.active ul.nav {
   max-height: 200px;
 }
 nav#tableOfContents ul.nav li.active a {
-  color: #63b245;
-  border-left: 4px solid #63b245;
+  color: #337ab7;
+  border-left: 4px solid #337ab7;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li.active a {
-  color: #63b245;
-  border-left: 2px solid #63b245;
+  color: #337ab7;
+  border-left: 2px solid #337ab7;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li a {
   cursor: pointer;
   text-decoration: none;
   border: none;
-  color: #4d4c4c;
+  color: #777777;
 }
 nav#tableOfContents ul.nav li a:hover {
-  color: #63b245;
+  color: #337ab7;
   background-color: transparent;
   cursor: pointer;
   text-decoration: none;
 }
 nav#tableOfContents ul.nav li ul.nav li a:hover {
-  color: #63b245;
+  color: #337ab7;
   background-color: transparent;
   cursor: pointer;
   text-decoration: none;
@@ -664,5 +664,134 @@ a.disabled {
   font-style: italic;
   color: LightGray;
   background-color: transparent;
+}
+#projectWizardContent {
+  padding-bottom: 10px;
+  margin-right: 5px;
+}
+#projectWizardContent .firmaContent {
+  background-color: #eee;
+}
+#projectWizardContent textarea,
+#projectWizardContent input,
+#projectWizardContent select,
+#projectWizardContent .dropdown-toggle,
+#projectWizardContent .dropdown-menu {
+  background-color: #fff;
+}
+#projectWizardContent textarea[disabled],
+#projectWizardContent input[disabled],
+#projectWizardContent select[disabled],
+#projectWizardContent .dropdown-toggle[disabled],
+#projectWizardContent .dropdown-menu[disabled] {
+  background-color: LightGray;
+}
+#projectWizardContent .dropdown-menu.open,
+#projectWizardContent .dropdown-menu.inner {
+  z-index: 16000;
+}
+#projectWizardContent .row {
+  margin-right: 0;
+  margin-left: 0;
+}
+#tab-container {
+  margin: 0;
+  padding-right: 0;
+}
+#tab-container ol,
+#tab-container ul {
+  list-style-position: inside;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+#tab-container ol li,
+#tab-container ul li {
+  color: #666;
+  background-color: transparent;
+  padding-left: 5px;
+}
+#tab-container ol li.selectable:hover,
+#tab-container ul li.selectable:hover {
+  background-color: #bbb;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+#tab-container ul li .statusIcon,
+#tab-container ol li .statusIcon {
+  padding: 5px 5px 5px 0;
+}
+#tab-container ol li a,
+#tab-container ol li a:visited,
+#tab-container ul li a,
+#tab-container ul li a:visited {
+  text-decoration: none;
+  color: #666;
+  display: inline-block;
+  padding: 5px 0 5px 0;
+}
+#tab-container ol li.selected,
+#tab-container ul li.selected {
+  border-right: none;
+  background-color: #fff;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+#projectWizardContent .glyphicon-flag {
+  color: green;
+}
+#main-container {
+  min-height: 300px;
+  padding: 10px;
+  background-color: #fff;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-color: #333;
+  border-width: 10px;
+}
+.sectionComments {
+  width: 550px;
+  background-color: #fff;
+}
+hr.navMenu {
+  width: 90%;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+#hidden-save-button {
+  display: none;
+}
+.disabledSection {
+  color: #9C9C9C !important;
+  font-style: italic;
+  cursor: not-allowed;
+}
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  background-color: #fff;
+  background-image: none;
+  color: #000000;
+}
+.stage h3 {
+  font-size: 16px;
+  margin-bottom: 0;
+  margin-top: 5px;
+}
+td.stage {
+  vertical-align: top;
+}
+.stagebody {
+  padding: 2px;
+  padding-left: 7px;
+}
+.stage.default {
+  color: #ffffff;
+  background-color: #767676;
+}
+.stage.current {
+  color: #ffffff;
+  background-color: #2b6991;
 }
 /*# sourceMappingURL=bootstrap.firma.theme.css.map */

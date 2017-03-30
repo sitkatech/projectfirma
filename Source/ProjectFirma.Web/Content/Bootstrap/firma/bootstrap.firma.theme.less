@@ -14,7 +14,7 @@
 @import url(https://fonts.googleapis.com/css?family=EB+Garamond:400,700);
 
 // Customizable Variables
-/*@firma-menu-font: "Open Sans", sans-serif;
+@firma-menu-font: "Open Sans", sans-serif;
 @firma-header-font: "Open Sans", sans-serif;
 @firma-text-font: "Open Sans",sans-serif;
 @firma-text-fontSize: 14px;
@@ -53,9 +53,14 @@
 @firma-scrollSpyBackground-color: transparent;
 @firma-scrollSpy-color-active: #337ab7;
 @firma-scrollSpyText-color-hover: #337ab7;
-@firma-scrollSpyBackground-color-hover: transparent;*/
+@firma-scrollSpyBackground-color-hover: transparent;
 
-@firma-menu-font: "Roboto", Helvetica, sans-serif;
+@firma-projectStageDefault-color: #fff;
+@firma-projectStageDefaultBackground-color: #767676;
+@firma-projectStageCurrent-color: #fff;
+@firma-projectStageCurrentBackground-color:  #2B6991;
+
+/*@firma-menu-font: "Roboto", Helvetica, sans-serif;
 @firma-header-font: "Roboto",  Helvetica, sans-serif;
 @firma-text-font: "EB Garamond", Georgia, serif;
 @firma-text-fontSize: 16px;
@@ -94,7 +99,7 @@
 @firma-scrollSpyBackground-color: transparent;
 @firma-scrollSpy-color-active: #63B245;
 @firma-scrollSpyText-color-hover: #63B245;
-@firma-scrollSpyBackground-color-hover: transparent;
+@firma-scrollSpyBackground-color-hover: transparent;*/
 
 @disabled-color: LightGray;
 
@@ -435,28 +440,28 @@ a.btn-firma {
 // tagging / tags
 .btn-tag {
   color: black;
-  background-color: #279bdc;
-  border-color: #0b3a6a;
+  background-color: #ddd;
+  border-color: #ccc;
   font-size: 13px;
   padding: 3px 8px;
 }
 .btn-tag:focus,
 .btn-tag.focus {
   color: black;
-  background-color: #1d7db3;
-  border-color: #000000;
+  background-color: #bbb;
+  border-color: #bbb;
 }
 .btn-tag:hover {
   color: black;
-  background-color: #1d7db3;
-  border-color: #051c33;
+  background-color: #bbb;
+  border-color: #bbb;
 }
 .btn-tag:active,
 .btn-tag.active,
 .open > .dropdown-toggle.btn-tag {
   color: black;
-  background-color: #1d7db3;
-  border-color: #051c33;
+  background-color: #bbb;
+  border-color: #bbb;
 }
 .btn-tag:active:hover,
 .btn-tag.active:hover,
@@ -468,8 +473,8 @@ a.btn-firma {
 .btn-tag.active.focus,
 .open > .dropdown-toggle.btn-tag.focus {
   color: black;
-  background-color: #186894;
-  border-color: #000000;
+  background-color: #bbb;
+  border-color: #bbb;
 }
 .btn-tag:active,
 .btn-tag.active,
@@ -502,7 +507,7 @@ fieldset[disabled] .btn-tag.active {
   background-color: black;
 }
 .btn-tag:hover {
-  background-color: #6c91a4;
+  background-color: #bbb;
 }
 .btn-tag a {
   text-decoration: none;
@@ -831,3 +836,157 @@ ul.filmStrip li a div.caption {
       color: @disabled-color;
       background-color: transparent;
       }
+
+//Project Wizard
+#projectWizardContent {
+    padding-bottom: 10px;
+    margin-right: 5px;
+
+
+    .firmaContent
+    {
+        background-color: #eee;
+    }
+}
+
+
+#projectWizardContent textarea, #projectWizardContent input, #projectWizardContent select, #projectWizardContent .dropdown-toggle, #projectWizardContent .dropdown-menu {
+    background-color: #fff;
+}
+
+#projectWizardContent textarea[disabled], #projectWizardContent input[disabled], #projectWizardContent select[disabled], #projectWizardContent .dropdown-toggle[disabled], #projectWizardContent .dropdown-menu[disabled] {
+    background-color: @disabled-color;
+}
+
+#projectWizardContent .dropdown-menu.open, #projectWizardContent .dropdown-menu.inner
+{
+    z-index: 16000;
+}
+
+#projectWizardContent .row
+{
+    margin-right: 0;
+    margin-left: 0;
+}
+
+#tab-container
+{ 
+    margin: 0;
+    padding-right: 0;
+
+}
+
+#tab-container ol, #tab-container ul
+{
+    list-style-position: inside;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+}
+
+
+#tab-container ol li, #tab-container ul li
+{
+    color: #666;
+    background-color: transparent;
+    padding-left: 5px;
+}
+
+#tab-container ol li.selectable:hover, #tab-container ul li.selectable:hover
+{
+    background-color: #bbb;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+#tab-container ul li .statusIcon, #tab-container ol li .statusIcon
+{
+    padding: 5px 5px 5px 0;
+}
+
+#tab-container ol li a, #tab-container ol li a:visited, #tab-container ul li a, #tab-container ul li a:visited
+{
+    text-decoration: none;
+    color: #666;
+    display: inline-block;
+    padding: 5px 0 5px 0;
+}
+
+#tab-container ol li.selected, #tab-container ul li.selected
+{
+    border-right: none;
+    background-color: #fff;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+#projectWizardContent .glyphicon-flag {
+    color: green;
+}
+
+#main-container
+{    
+    min-height: 300px;    
+    padding: 10px;
+    background-color: #fff;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-color: #333;
+    border-width: 10px;
+}
+
+.sectionComments {
+    width: 550px;
+    background-color: #fff;
+}
+
+hr.navMenu {
+    width: 90%;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#hidden-save-button {
+    display: none;
+}
+
+.disabledSection
+{
+    color: #9C9C9C !important;
+    font-style: italic;
+    cursor: not-allowed;
+}
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    background-color: #fff;
+    background-image: none;
+    color: rgb(0, 0, 0);
+}
+
+//Project stage
+.stage h3 {
+
+        font-size: 16px;
+        margin-bottom: 0;
+        margin-top: 5px;
+    }
+
+    td.stage {
+        vertical-align: top;
+    }
+
+    .stagebody {
+        padding: 2px;
+        padding-left: 7px;
+    }
+
+    .stage.default {
+        color:@firma-projectStageDefault-color;
+        background-color: @firma-projectStageDefaultBackground-color;
+    }
+
+    .stage.current {
+        color:@firma-projectStageCurrent-color;
+        background-color: @firma-projectStageCurrentBackground-color;
+    }
