@@ -1899,6 +1899,7 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
     <Property Name="DefaultBoundingBox" Type="geometry" Nullable="false" />
     <Property Name="NumberOfTaxonomyTiersToUse" Type="int" Nullable="false" />
     <Property Name="MinimumYear" Type="int" Nullable="false" />
+    <Property Name="TenantStyleSheetUrl" Type="varchar" Nullable="false" MaxLength="200" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectLocationArea_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.

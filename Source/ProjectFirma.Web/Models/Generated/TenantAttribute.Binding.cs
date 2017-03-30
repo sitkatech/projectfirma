@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(int tenantAttributeID, string taxonomySystemName, string taxonomyTierOneDisplayNameForProject, string performanceMeasureDisplayName, string classificationDisplayName, string tenantSquareLogoUrl, string tenantBannerLogoUrl, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear) : this()
+        public TenantAttribute(int tenantAttributeID, string taxonomySystemName, string taxonomyTierOneDisplayNameForProject, string performanceMeasureDisplayName, string classificationDisplayName, string tenantSquareLogoUrl, string tenantBannerLogoUrl, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, string tenantStyleSheetUrl) : this()
         {
             this.TenantAttributeID = tenantAttributeID;
             this.TaxonomySystemName = taxonomySystemName;
@@ -42,12 +42,13 @@ namespace ProjectFirma.Web.Models
             this.DefaultBoundingBox = defaultBoundingBox;
             this.NumberOfTaxonomyTiersToUse = numberOfTaxonomyTiersToUse;
             this.MinimumYear = minimumYear;
+            this.TenantStyleSheetUrl = tenantStyleSheetUrl;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(string taxonomySystemName, string taxonomyTierOneDisplayNameForProject, string performanceMeasureDisplayName, string classificationDisplayName, string tenantSquareLogoUrl, string tenantBannerLogoUrl, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear) : this()
+        public TenantAttribute(string taxonomySystemName, string taxonomyTierOneDisplayNameForProject, string performanceMeasureDisplayName, string classificationDisplayName, string tenantSquareLogoUrl, string tenantBannerLogoUrl, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, string tenantStyleSheetUrl) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TenantAttributeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -61,6 +62,7 @@ namespace ProjectFirma.Web.Models
             this.DefaultBoundingBox = defaultBoundingBox;
             this.NumberOfTaxonomyTiersToUse = numberOfTaxonomyTiersToUse;
             this.MinimumYear = minimumYear;
+            this.TenantStyleSheetUrl = tenantStyleSheetUrl;
         }
 
 
@@ -69,7 +71,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static TenantAttribute CreateNewBlank()
         {
-            return new TenantAttribute(default(string), default(string), default(string), default(string), default(string), default(string), default(DbGeometry), default(int), default(int));
+            return new TenantAttribute(default(string), default(string), default(string), default(string), default(string), default(string), default(DbGeometry), default(int), default(int), default(string));
         }
 
         /// <summary>
@@ -98,6 +100,7 @@ namespace ProjectFirma.Web.Models
         public DbGeometry DefaultBoundingBox { get; set; }
         public int NumberOfTaxonomyTiersToUse { get; set; }
         public int MinimumYear { get; set; }
+        public string TenantStyleSheetUrl { get; set; }
         public int PrimaryKey { get { return TenantAttributeID; } set { TenantAttributeID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
@@ -110,6 +113,7 @@ namespace ProjectFirma.Web.Models
             public const int ClassificationDisplayName = 100;
             public const int TenantSquareLogoUrl = 100;
             public const int TenantBannerLogoUrl = 100;
+            public const int TenantStyleSheetUrl = 200;
         }
     }
 }

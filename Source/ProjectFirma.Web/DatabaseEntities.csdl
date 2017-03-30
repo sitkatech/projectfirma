@@ -1972,6 +1972,7 @@
     <Property Name="DefaultBoundingBox" Type="Geometry" Nullable="false" />
     <Property Name="NumberOfTaxonomyTiersToUse" Type="Int32" Nullable="false" />
     <Property Name="MinimumYear" Type="Int32" Nullable="false" />
+    <Property Name="TenantStyleSheetUrl" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
   </EntityType>
   <EntityType Name="Watershed">
     <Key>

@@ -1101,6 +1101,7 @@
           <ScalarProperty Name="DefaultBoundingBox" ColumnName="DefaultBoundingBox" />
           <ScalarProperty Name="NumberOfTaxonomyTiersToUse" ColumnName="NumberOfTaxonomyTiersToUse" />
           <ScalarProperty Name="MinimumYear" ColumnName="MinimumYear" />
+          <ScalarProperty Name="TenantStyleSheetUrl" ColumnName="TenantStyleSheetUrl" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

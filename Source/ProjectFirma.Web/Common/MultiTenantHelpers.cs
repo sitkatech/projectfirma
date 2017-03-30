@@ -78,6 +78,11 @@ namespace ProjectFirma.Web.Common
         {
             return GetCurrentTenantAttributes().TenantBannerLogoUrl;
         }
+
+        public static string GetTenantStyleSheetUrl()
+        {
+            return GetCurrentTenantAttributes().TenantStyleSheetUrl;
+        }
         
         public static DbGeometry GetDefaultBoundingBox()
         {
