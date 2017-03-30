@@ -8,9 +8,9 @@ body {
   height: 100%;
 }
 body {
-  font-family: "Open Sans", sans-serif;
-  font-size: 14px;
-  background-color: #f5f8fa;
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 16px;
+  background-color: #f3eedf;
   color: #193d5b;
 }
 input[disabled] {
@@ -29,7 +29,7 @@ h4,
 h5,
 h6 {
   color: #1e3948;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 600;
 }
 .container {
@@ -40,14 +40,14 @@ h6 {
 }
 .pageTitle {
   font-weight: 600;
-  color: #337ab7;
+  color: #354f25;
 }
 #mainnavandcontent {
   margin-bottom: 20px;
 }
 .firmaContent {
-  background-color: #ffffff;
-  border: 1px solid #e7e7e7;
+  background-color: #f3eedf;
+  border: 1px solid transparent;
   padding-bottom: 20px;
 }
 .rightFloatingInfo {
@@ -63,7 +63,7 @@ form .form-group-condensed {
   margin-bottom: 5px;
 }
 .header {
-  background-color: #f8f8f8;
+  background-color: #354f25;
 }
 .header img {
   margin: 5px;
@@ -73,20 +73,20 @@ form .form-group-condensed {
   display: inline-block;
   font-size: 30px;
   font-weight: 600;
-  font-family: "Open Sans", sans-serif;
-  color: #337ab7;
+  font-family: "Roboto", sans-serif;
+  color: #f3eedf;
   vertical-align: bottom;
   margin-bottom: 6px;
 }
 .header .headerText a {
-  color: #337ab7;
+  color: #f3eedf;
 }
 .header .headerText a:hover,
 .header .headerText a:active {
   text-decoration: none;
 }
 .navbar {
-  background-color: #f8f8f8;
+  background-color: #354f25;
   border-bottom-color: #e7e7e7;
   border-radius: 0;
 }
@@ -97,25 +97,25 @@ form .form-group-condensed {
   font-weight: 600;
 }
 .nav li a {
-  color: #777777;
-  font-family: "Open Sans", sans-serif;
+  color: #fdfdfb;
+  font-family: "Roboto", sans-serif;
 }
 .nav li a:hover {
-  color: #777777;
-  background-color: #eeeeee;
+  color: #fdfdfb;
+  background-color: #63b245;
   text-decoration: none;
 }
 .nav li p a:hover {
   background-color: transparent;
 }
 .nav li .navbar-text {
-  color: #777777;
-  font-family: "Open Sans", sans-serif;
+  color: #fdfdfb;
+  font-family: "Roboto", sans-serif;
 }
 .nav .open > a,
 .nav .open > a:hover,
 .nav .open > a:focus {
-  background-color: #eeeeee;
+  background-color: #63b245;
   border-color: #e7e7e7;
 }
 .navbar-right {
@@ -125,18 +125,18 @@ form .form-group-condensed {
   z-index: 16000;
 }
 ul.dropdown-menu {
-  background-color: #f8f8f8;
+  background-color: #354f25;
   border: 1px solid #e7e7e7;
 }
 ul.dropdown-menu li a {
   font-weight: 600;
-  font-family: "Open Sans", sans-serif;
-  color: #777777;
-  background-color: #f8f8f8;
+  font-family: "Roboto", sans-serif;
+  color: #fdfdfb;
+  background-color: #354f25;
 }
 ul.dropdown-menu li a:hover {
-  background-color: #eeeeee;
-  color: #777777;
+  background-color: #63b245;
+  color: #fdfdfb;
   text-decoration: none;
 }
 ul.dropdown-menu .divider {
@@ -149,7 +149,7 @@ footer {
   right: 0;
   width: 100%;
   height: 65px;
-  background-color: #f5f8fa;
+  background-color: #f3eedf;
 }
 footer p {
   margin: 10px 0;
@@ -262,21 +262,21 @@ footer p {
 .firma-modal-dialog .btn-firma {
   font-size: 14px;
   color: #ffffff;
-  background-color: #337ab7;
+  background-color: #63b245;
 }
 .btn-primary:hover {
   color: #ffffff;
-  background-color: #286090;
+  background-color: #3b6a29;
 }
 .btn-firma:hover,
 .btn-primary:focus,
 .btn-primary.focus {
   color: #ffffff;
-  background-color: #286090;
+  background-color: #3b6a29;
 }
 a.btn-firma {
   color: #ffffff;
-  background-color: #337ab7;
+  background-color: #63b245;
 }
 .btn-tag {
   color: black;
@@ -381,17 +381,17 @@ table.summaryLayout td {
   width: 1%;
 }
 .panelFirma {
-  border-color: #dddddd;
+  border-color: #c2beb2;
 }
 .panelFirma .panelTitle,
 .panelFirma .panelTitle h2,
 .panelFirma .panelTitle h3 {
   color: #333333;
-  background-color: #f5f5f5;
-  border-color: #dddddd;
+  background-color: #c2beb2;
+  border-color: #c2beb2;
   font-weight: bold;
   font-size: 14px;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Roboto", sans-serif;
   margin-bottom: 0;
   margin-top: 0;
 }
@@ -405,7 +405,7 @@ table.summaryLayout td {
 }
 a.gridButton {
   margin: 0 7px 0 0;
-  background-color: #337ab7;
+  background-color: #63b245;
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -429,7 +429,7 @@ a.gridButton.disabled {
 }
 /* STANDARD */
 a.gridButton:hover {
-  background-color: #286090;
+  background-color: #3b6a29;
   color: #ffffff;
 }
 a.excelbutton {
@@ -445,7 +445,7 @@ a.excelbutton {
   margin-right: 2px;
 }
 .helpiconGridBlue {
-  color: #70a1cc;
+  color: #3b6a29;
 }
 .helpiconGridGray {
   color: #dddddd;
@@ -464,7 +464,7 @@ a.excelbutton {
 nav#tableOfContents ul.nav li a {
   border: none;
   color: #193d5b;
-  background-color: #ffffff;
+  background-color: #f3eedf;
   text-decoration: none;
   font-weight: bold;
   padding: 0 0 0 5px;
@@ -495,13 +495,13 @@ nav#tableOfContents ul.nav li.active ul.nav {
   max-height: 200px;
 }
 nav#tableOfContents ul.nav li.active a {
-  color: #337ab7;
-  border-left: 4px solid #337ab7;
+  color: #63b245;
+  border-left: 4px solid #63b245;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li.active a {
-  color: #337ab7;
-  border-left: 2px solid #337ab7;
+  color: #63b245;
+  border-left: 2px solid #63b245;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li a {
@@ -511,12 +511,12 @@ nav#tableOfContents ul.nav li.active ul.nav li a {
   color: #193d5b;
 }
 nav#tableOfContents ul.nav li a:hover {
-  color: #337ab7;
+  color: #63b245;
   cursor: pointer;
   text-decoration: none;
 }
 nav#tableOfContents ul.nav li ul.nav li a:hover {
-  color: #337ab7;
+  color: #63b245;
   cursor: pointer;
   text-decoration: none;
 }
@@ -757,4 +757,4 @@ td.stage {
 .stage.current {
   background-color: #2B6991;
 }
-/*# sourceMappingURL=bootstrap.firma.theme.css.map */
+/*# sourceMappingURL=projectfirma.theme.css.map */

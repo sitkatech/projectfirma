@@ -360,6 +360,18 @@
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.min.css">
       <DependentUpon>bootstrap.firma.theme.css</DependentUpon>
     </Content>
+    <Content Include="Content\Bootstrap\firma\clackamas.theme.css">
+      <DependentUpon>clackamas.theme.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\clackamas.theme.min.css">
+      <DependentUpon>clackamas.theme.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\projectfirma.theme.css">
+      <DependentUpon>projectfirma.theme.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\projectfirma.theme.min.css">
+      <DependentUpon>projectfirma.theme.css</DependentUpon>
+    </Content>
     <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js.map" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js.map" />
     <Content Include="ScriptsCustom\CkEditorReady.min.js.map" />
@@ -378,6 +390,14 @@
     <Content Include="ScriptsCustom\unsavedChanges.min.js.map" />
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.css.map">
       <DependentUpon>bootstrap.firma.theme.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\clackamas.theme.less" />
+    <Content Include="Content\Bootstrap\firma\clackamas.theme.css.map">
+      <DependentUpon>clackamas.theme.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\projectfirma.theme.less" />
+    <Content Include="Content\Bootstrap\firma\projectfirma.theme.css.map">
+      <DependentUpon>projectfirma.theme.css</DependentUpon>
     </Content>
     <None Include="Service References\KeystoneDataService\KeystoneData.disco" />
     <None Include="Service References\KeystoneDataService\configuration91.svcinfo" />
