@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Common;
@@ -35,7 +36,7 @@ namespace ProjectFirma.Web.Views.Watershed
 
         [Required]
         [StringLength(Models.Watershed.FieldLengths.WatershedName)]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.WatershedName)]
+        [DisplayName("Name")]
         public string WatershedName { get; set; }
 
         /// <summary>

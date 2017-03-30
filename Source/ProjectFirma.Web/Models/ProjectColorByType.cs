@@ -18,8 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Common;
-
 namespace ProjectFirma.Web.Models
 {
     public partial class ProjectColorByType
@@ -31,7 +29,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string DisplayName
         {
-            get { return MultiTenantHelpers.GetTaxonomyTierThreeDisplayName(); }
+            get { return FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel(); }
         }
     }
 

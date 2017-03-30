@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.TaxonomyTierThree.Edit
 @using (Html.BeginForm())
 {
@@ -28,7 +29,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
     <div class="form-horizontal">
         <div class="form-group">
-            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTierThreeName, MultiTenantHelpers.GetTaxonomyTierThreeDisplayName())</div>
+            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTierThreeName)</div>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.TaxonomyTierThreeName, new { style = "width:522px" })
                 @Html.ValidationMessageFor(m => m.TaxonomyTierThreeName)

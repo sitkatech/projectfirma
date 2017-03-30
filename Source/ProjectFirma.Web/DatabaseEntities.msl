@@ -109,15 +109,16 @@
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="FieldDefinitionID" ColumnName="FieldDefinitionID" />
           <ScalarProperty Name="FieldDefinitionDataValue" ColumnName="FieldDefinitionDataValue" />
+          <ScalarProperty Name="FieldDefinitionLabel" ColumnName="FieldDefinitionLabel" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="FieldDefinitionImage">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FieldDefinitionImage">
-        <MappingFragment StoreEntitySet="FieldDefinitionImage">
-          <ScalarProperty Name="FieldDefinitionImageID" ColumnName="FieldDefinitionImageID" />
+    <EntitySetMapping Name="FieldDefinitionDataImage">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FieldDefinitionDataImage">
+        <MappingFragment StoreEntitySet="FieldDefinitionDataImage">
+          <ScalarProperty Name="FieldDefinitionDataImageID" ColumnName="FieldDefinitionDataImageID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="FieldDefinitionID" ColumnName="FieldDefinitionID" />
+          <ScalarProperty Name="FieldDefinitionDataID" ColumnName="FieldDefinitionDataID" />
           <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -1092,9 +1093,6 @@
           <ScalarProperty Name="TenantAttributeID" ColumnName="TenantAttributeID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="TaxonomySystemName" ColumnName="TaxonomySystemName" />
-          <ScalarProperty Name="TaxonomyTierThreeDisplayName" ColumnName="TaxonomyTierThreeDisplayName" />
-          <ScalarProperty Name="TaxonomyTierTwoDisplayName" ColumnName="TaxonomyTierTwoDisplayName" />
-          <ScalarProperty Name="TaxonomyTierOneDisplayName" ColumnName="TaxonomyTierOneDisplayName" />
           <ScalarProperty Name="TaxonomyTierOneDisplayNameForProject" ColumnName="TaxonomyTierOneDisplayNameForProject" />
           <ScalarProperty Name="PerformanceMeasureDisplayName" ColumnName="PerformanceMeasureDisplayName" />
           <ScalarProperty Name="ClassificationDisplayName" ColumnName="ClassificationDisplayName" />

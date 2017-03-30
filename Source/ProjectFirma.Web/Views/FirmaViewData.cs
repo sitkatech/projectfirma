@@ -109,8 +109,8 @@ namespace ProjectFirma.Web.Views
             resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.InvestmentByFundingSector(null)), currentPerson, "Investment by Funding Sector"));
             resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo(null)),
                 currentPerson,
-                string.Format("Spending by Funding Sector by {0} by {1}", MultiTenantHelpers.GetTaxonomyTierThreeDisplayName(), MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())));
-            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ResultsByTaxonomyTierTwo(null)), currentPerson, string.Format("Results by {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())));
+                string.Format("Spending by Funding Sector by {0} by {1}", Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel(), Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel())));
+            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ResultsByTaxonomyTierTwo(null)), currentPerson, string.Format("Results by {0}", Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel())));
             resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentPerson, "Project Map"));
 
             resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<SnapshotController>(c => c.Index()), currentPerson, "System Snapshot", "Group2"));
@@ -139,13 +139,13 @@ namespace ProjectFirma.Web.Views
 
             if (MultiTenantHelpers.NumberOfTaxonomyTiers == 3)
             {
-                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierThreeController>(c => c.Manage()), currentPerson, MultiTenantHelpers.GetTaxonomyTierThreeDisplayNamePluralized(), "Group2"));    
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierThreeController>(c => c.Manage()), currentPerson, Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabelPluralized(), "Group2"));    
             }
             if (MultiTenantHelpers.NumberOfTaxonomyTiers >= 2)
             {
-                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierTwoController>(c => c.Manage()), currentPerson, MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized(), "Group2"));    
-            }            
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierOneController>(c => c.Manage()), currentPerson, MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized(), "Group2"));
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierTwoController>(c => c.Manage()), currentPerson, Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized(), "Group2"));    
+            }
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierOneController>(c => c.Manage()), currentPerson, Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabelPluralized(), "Group2"));
 
             //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AssessmentController>(c => c.Manage()), currentPerson, "Project Assessment Questions", "Group1"));
             

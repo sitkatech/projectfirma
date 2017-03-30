@@ -46,7 +46,7 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <div>
-    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @MultiTenantHelpers.GetTaxonomyTierThreeDisplayNamePluralized().</a>
+    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @ViewDataTyped.TaxonomyTierThreeDisplayNamePluralized.</a>
 </div>
 
 <div class="row">
@@ -54,7 +54,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierThreeUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetTaxonomyTierThreeDisplayName(), ViewDataTyped.TaxonomyTierThree.DisplayName), ViewDataTyped.UserHasTaxonomyTierThreeManagePermissions) Basics
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierThreeUrl, string.Format("Edit {0} - {1}", ViewDataTyped.TaxonomyTierThreeDisplayName, ViewDataTyped.TaxonomyTierThree.DisplayName), ViewDataTyped.UserHasTaxonomyTierThreeManagePermissions) Basics
                 </h2>
             </div>
             <div class="panel-body">
@@ -78,7 +78,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    <a href="@ViewDataTyped.TaxonomyTierTwoIndexUrl">@MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</a>
+                    <a href="@ViewDataTyped.TaxonomyTierTwoIndexUrl">@ViewDataTyped.TaxonomyTierTwoDisplayNamePluralized</a>
                 </h2>
             </div>
             <div class="panel-body">
@@ -86,7 +86,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 {
                     <table class="summaryLayout">
                         <tr>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
                         @foreach (var taxonomyTierTwo in ViewDataTyped.TaxonomyTierThree.TaxonomyTierTwos.OrderBy(x => x.DisplayName))
                         {
@@ -100,7 +100,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 else
                 {
-                    <p>No @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() set for this @MultiTenantHelpers.GetTaxonomyTierThreeDisplayName().</p>
+                    <p>No @ViewDataTyped.TaxonomyTierTwoDisplayNamePluralized set for this @ViewDataTyped.TaxonomyTierThreeDisplayName.</p>
                 }
             </div>
         </div>
@@ -108,7 +108,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    <a href="@ViewDataTyped.IndexUrl">@MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized()</a>
+                    <a href="@ViewDataTyped.IndexUrl">@ViewDataTyped.TaxonomyTierOneDisplayNamePluralized</a>
                 </h2>
             </div>
             <div class="panel-body">
@@ -116,7 +116,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 {
                     <table class="summaryLayout">
                         <tr>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierOneDisplayName())</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
                         @foreach (var taxonomyTierOne in ViewDataTyped.TaxonomyTierThree.TaxonomyTierOnes)
                         {
@@ -130,7 +130,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 else
                 {
-                    <p>No @MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized() set for this @MultiTenantHelpers.GetTaxonomyTierThreeDisplayName().</p>
+                    <p>No @ViewDataTyped.TaxonomyTierOneDisplayNamePluralized set for this @ViewDataTyped.TaxonomyTierThreeDisplayName.</p>
                 }
             </div>
         </div>
@@ -138,7 +138,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="col-md-6">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                <h2>@MultiTenantHelpers.GetTaxonomyTierThreeDisplayName() Projects Map</h2>
+                <h2>@ViewDataTyped.TaxonomyTierThreeDisplayName Projects Map</h2>
             </div>
             <div style="padding: 10px">
                 To zoom, hold down Shift and drag a rectangle.

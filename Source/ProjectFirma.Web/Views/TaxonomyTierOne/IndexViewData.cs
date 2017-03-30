@@ -23,7 +23,6 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.TaxonomyTierOne
 {
@@ -35,19 +34,21 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage, false)
         {
-            PageTitle = MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized();
+            var taxonomyTierOneDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabelPluralized();
+            PageTitle = taxonomyTierOneDisplayNamePluralized;
 
             var hasTaxonomyTierOneManagePermissions = new TaxonomyTierOneManageFeature().HasPermissionByPerson(currentPerson);
+            var taxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
             GridSpec = new IndexGridSpec(hasTaxonomyTierOneManagePermissions)
             {
-                ObjectNameSingular = MultiTenantHelpers.GetTaxonomyTierOneDisplayName(),
-                ObjectNamePlural = MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized(),
+                ObjectNameSingular = taxonomyTierOneDisplayName,
+                ObjectNamePlural = taxonomyTierOneDisplayNamePluralized,
                 SaveFiltersInCookie = true
             };
 
             if (hasTaxonomyTierOneManagePermissions)
             {
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<TaxonomyTierOneController>.BuildUrlFromExpression(t => t.New()), string.Format("Create a new {0}", MultiTenantHelpers.GetTaxonomyTierOneDisplayName()));
+                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<TaxonomyTierOneController>.BuildUrlFromExpression(t => t.New()), string.Format("Create a new {0}", taxonomyTierOneDisplayName));
             }
 
             GridName = "taxonomyTierOnesGrid";

@@ -216,8 +216,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var fileResource = FileResource.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
             var fieldDefinition = fieldDefinitionPrimaryKey.EntityObject;
-            var image = new FieldDefinitionImage(fieldDefinition, fileResource);
-            HttpRequestStorage.DatabaseEntities.AllFieldDefinitionImages.Add(image);
+            var image = new FieldDefinitionDataImage(fieldDefinition.GetFieldDefinitionData().FieldDefinitionDataID, fileResource.FileResourceID);
+            HttpRequestStorage.DatabaseEntities.AllFieldDefinitionDataImages.Add(image);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
 

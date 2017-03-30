@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProgramInfo.Taxonomy
 @section JavascriptAndStylesContent
 {
@@ -97,13 +98,13 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="pull-left" style="font-weight: bold">
             @if (MultiTenantHelpers.NumberOfTaxonomyTiers == 3)
             {
-            @MultiTenantHelpers.GetTaxonomyTierThreeDisplayName() <span class='glyphicon glyphicon-chevron-right'></span>
+            @ViewDataTyped.TaxonomyTierThreeDisplayName <span class='glyphicon glyphicon-chevron-right'></span>
             }
             @if (MultiTenantHelpers.NumberOfTaxonomyTiers >= 2)
             {
-            @MultiTenantHelpers.GetTaxonomyTierTwoDisplayName() <span class='glyphicon glyphicon-chevron-right'></span>
+            @ViewDataTyped.TaxonomyTierTwoDisplayName <span class='glyphicon glyphicon-chevron-right'></span>
             }            
-            @MultiTenantHelpers.GetTaxonomyTierOneDisplayName() <span class='glyphicon glyphicon-chevron-right'></span>
+            @ViewDataTyped.TaxonomyTierOneDisplayName <span class='glyphicon glyphicon-chevron-right'></span>
             Project
         </div>
         <div class="pull-right" style="font-weight: bold">

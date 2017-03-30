@@ -47,15 +47,18 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public readonly string EditMonitoringProgramsUrl;
 
-        public List<KeyValuePair<Models.TaxonomyTierTwo, bool>> TaxonomyTierTwoPerformanceMeasures { get; private set; }
-        public string EditTaxonomyTierTwosUrl { get; private set; }
-        public bool UserHasTaxonomyTierTwoPerformanceMeasureManagePermissions { get; private set; }
-        public PerformanceMeasureReportedValuesGridSpec PerformanceMeasureReportedValuesGridSpec { get; private set; }
-        public string PerformanceMeasureReportedValuesGridName { get; private set; }
-        public string PerformanceMeasureReportedValuesGridDataUrl { get; private set; }
-        public PerformanceMeasureExpectedGridSpec PerformanceMeasureExpectedGridSpec { get; private set; }
-        public string PerformanceMeasureExpectedsGridName { get; private set; }
-        public string PerformanceMeasureExpectedsGridDataUrl { get; private set; }
+        public readonly List<KeyValuePair<Models.TaxonomyTierTwo, bool>> TaxonomyTierTwoPerformanceMeasures;
+        public readonly string EditTaxonomyTierTwosUrl;
+        public readonly bool UserHasTaxonomyTierTwoPerformanceMeasureManagePermissions;
+        public readonly PerformanceMeasureReportedValuesGridSpec PerformanceMeasureReportedValuesGridSpec;
+        public readonly string PerformanceMeasureReportedValuesGridName;
+        public readonly string PerformanceMeasureReportedValuesGridDataUrl;
+        public readonly PerformanceMeasureExpectedGridSpec PerformanceMeasureExpectedGridSpec;
+        public readonly string PerformanceMeasureExpectedsGridName;
+        public readonly string PerformanceMeasureExpectedsGridDataUrl;
+
+        public readonly string TaxonomyTierTwoDisplayName;
+        public readonly string TaxonomyTierTwoDisplayNamePluralized;
 
         public DetailViewData(Person currentPerson,
             Models.PerformanceMeasure performanceMeasure,
@@ -106,6 +109,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             PerformanceMeasureExpectedsGridName = "performanceMeasuresExpectedValuesFromPerformanceMeasureGrid";
             PerformanceMeasureExpectedsGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.PerformanceMeasureExpectedsGridJsonData(performanceMeasure));
+            TaxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
+            TaxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized();
         }
     }
 }

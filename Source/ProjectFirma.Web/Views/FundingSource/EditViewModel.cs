@@ -36,6 +36,7 @@ namespace ProjectFirma.Web.Views.FundingSource
 
         [Required]
         [StringLength(Models.FundingSource.FieldLengths.FundingSourceName)]
+        [DisplayName("Name")]
         public string FundingSourceName { get; set; }
 
         [Required]
@@ -45,6 +46,7 @@ namespace ProjectFirma.Web.Views.FundingSource
         public bool IsActive { get; set; }
 
         [StringLength(Models.FundingSource.FieldLengths.FundingSourceDescription)]
+        [DisplayName("Description")]
         public string FundingSourceDescription { get; set; }
 
         /// <summary>

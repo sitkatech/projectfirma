@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[FieldDefinitionImage]
+//  Source Table: [dbo].[FieldDefinitionDataImage]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,13 +15,13 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    [Table("[dbo].[FieldDefinitionImage]")]
-    public partial class FieldDefinitionImage : IHavePrimaryKey, IHaveATenantID
+    [Table("[dbo].[FieldDefinitionDataImage]")]
+    public partial class FieldDefinitionDataImage : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected FieldDefinitionImage()
+        protected FieldDefinitionDataImage()
         {
 
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
@@ -30,44 +30,46 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FieldDefinitionImage(int fieldDefinitionImageID, int fieldDefinitionID, int fileResourceID) : this()
+        public FieldDefinitionDataImage(int fieldDefinitionDataImageID, int fieldDefinitionDataID, int fileResourceID) : this()
         {
-            this.FieldDefinitionImageID = fieldDefinitionImageID;
-            this.FieldDefinitionID = fieldDefinitionID;
+            this.FieldDefinitionDataImageID = fieldDefinitionDataImageID;
+            this.FieldDefinitionDataID = fieldDefinitionDataID;
             this.FileResourceID = fileResourceID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FieldDefinitionImage(int fieldDefinitionID, int fileResourceID) : this()
+        public FieldDefinitionDataImage(int fieldDefinitionDataID, int fileResourceID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.FieldDefinitionImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.FieldDefinitionDataImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.FieldDefinitionID = fieldDefinitionID;
+            this.FieldDefinitionDataID = fieldDefinitionDataID;
             this.FileResourceID = fileResourceID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public FieldDefinitionImage(FieldDefinition fieldDefinition, FileResource fileResource) : this()
+        public FieldDefinitionDataImage(FieldDefinitionData fieldDefinitionData, FileResource fileResource) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.FieldDefinitionImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.FieldDefinitionID = fieldDefinition.FieldDefinitionID;
+            this.FieldDefinitionDataImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.FieldDefinitionDataID = fieldDefinitionData.FieldDefinitionDataID;
+            this.FieldDefinitionData = fieldDefinitionData;
+            fieldDefinitionData.FieldDefinitionDataImages.Add(this);
             this.FileResourceID = fileResource.FileResourceID;
             this.FileResource = fileResource;
-            fileResource.FieldDefinitionImages.Add(this);
+            fileResource.FieldDefinitionDataImages.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static FieldDefinitionImage CreateNewBlank(FieldDefinition fieldDefinition, FileResource fileResource)
+        public static FieldDefinitionDataImage CreateNewBlank(FieldDefinitionData fieldDefinitionData, FileResource fileResource)
         {
-            return new FieldDefinitionImage(fieldDefinition, fileResource);
+            return new FieldDefinitionDataImage(fieldDefinitionData, fileResource);
         }
 
         /// <summary>
@@ -82,17 +84,17 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FieldDefinitionImage).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FieldDefinitionDataImage).Name};
 
         [Key]
-        public int FieldDefinitionImageID { get; set; }
+        public int FieldDefinitionDataImageID { get; set; }
         public int TenantID { get; private set; }
-        public int FieldDefinitionID { get; set; }
+        public int FieldDefinitionDataID { get; set; }
         public int FileResourceID { get; set; }
-        public int PrimaryKey { get { return FieldDefinitionImageID; } set { FieldDefinitionImageID = value; } }
+        public int PrimaryKey { get { return FieldDefinitionDataImageID; } set { FieldDefinitionDataImageID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public FieldDefinition FieldDefinition { get { return FieldDefinition.AllLookupDictionary[FieldDefinitionID]; } }
+        public virtual FieldDefinitionData FieldDefinitionData { get; set; }
         public virtual FileResource FileResource { get; set; }
 
         public static class FieldLengths

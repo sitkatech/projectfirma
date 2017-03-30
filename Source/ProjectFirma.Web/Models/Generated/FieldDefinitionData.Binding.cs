@@ -23,18 +23,19 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected FieldDefinitionData()
         {
-
+            this.FieldDefinitionDataImages = new HashSet<FieldDefinitionDataImage>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FieldDefinitionData(int fieldDefinitionDataID, int fieldDefinitionID, string fieldDefinitionDataValue) : this()
+        public FieldDefinitionData(int fieldDefinitionDataID, int fieldDefinitionID, string fieldDefinitionDataValue, string fieldDefinitionLabel) : this()
         {
             this.FieldDefinitionDataID = fieldDefinitionDataID;
             this.FieldDefinitionID = fieldDefinitionID;
             this.FieldDefinitionDataValue = fieldDefinitionDataValue;
+            this.FieldDefinitionLabel = fieldDefinitionLabel;
         }
 
         /// <summary>
@@ -72,13 +73,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return false;
+            return FieldDefinitionDataImages.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FieldDefinitionData).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FieldDefinitionData).Name, typeof(FieldDefinitionDataImage).Name};
 
         [Key]
         public int FieldDefinitionDataID { get; set; }
@@ -91,14 +92,16 @@ namespace ProjectFirma.Web.Models
             get { return FieldDefinitionDataValue == null ? null : new HtmlString(FieldDefinitionDataValue); }
             set { FieldDefinitionDataValue = value == null ? null : value.ToString(); }
         }
+        public string FieldDefinitionLabel { get; set; }
         public int PrimaryKey { get { return FieldDefinitionDataID; } set { FieldDefinitionDataID = value; } }
 
+        public virtual ICollection<FieldDefinitionDataImage> FieldDefinitionDataImages { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public FieldDefinition FieldDefinition { get { return FieldDefinition.AllLookupDictionary[FieldDefinitionID]; } }
 
         public static class FieldLengths
         {
-
+            public const int FieldDefinitionLabel = 300;
         }
     }
 }

@@ -48,6 +48,8 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string TaxonomyTierOneName;
         public readonly string TaxonomyTierTwoName;
 
+        public readonly string TaxonomyTierOneDisplayName;
+
         public FactSheetViewData(Person currentPerson, Models.Project project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, List<string> chartColorRange) : base(currentPerson, project)
         {
             ChartColorRange = chartColorRange;
@@ -91,9 +93,11 @@ namespace ProjectFirma.Web.Views.Project
             var chartHeight = 435 - (FundingSourceExpenditures.Count*19);
             GoogleChartJson.GoogleChartConfiguration.SetSize(chartHeight, 450);
 
-            TaxonomyColor = Project.TaxonomyTierOne == null ? "blue" : Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor;
-            TaxonomyTierOneName = Project.TaxonomyTierOne == null ? "Project Taxonomy Not Set" : Project.TaxonomyTierOne.DisplayName;
-            TaxonomyTierOneName = Project.TaxonomyTierOne == null ? "Project Taxonomy Not Set" : Project.TaxonomyTierOne.TaxonomyTierTwo.DisplayName;
+            TaxonomyColor = project.TaxonomyTierOne == null ? "blue" : project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor;
+            TaxonomyTierOneName = project.TaxonomyTierOne == null ? "Project Taxonomy Not Set" : project.TaxonomyTierOne.DisplayName;
+            TaxonomyTierTwoName = project.TaxonomyTierOne == null ? "Project Taxonomy Not Set" : project.TaxonomyTierOne.TaxonomyTierTwo.DisplayName;
+
+            TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
         }
 
         public HtmlString LegendHTML

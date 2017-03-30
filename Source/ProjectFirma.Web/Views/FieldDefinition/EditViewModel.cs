@@ -32,6 +32,10 @@ namespace ProjectFirma.Web.Views.FieldDefinition
         [DisplayName("Definition")]
         public HtmlString FieldDefinitionDataValue { get; set; }
 
+        [DisplayName("Label")]
+        [StringLength(FieldDefinitionData.FieldLengths.FieldDefinitionLabel)]
+        public string FieldDefinitionLabel { get; set; }
+
         /// <summary>
         /// Needed by model binder
         /// </summary>
@@ -42,11 +46,13 @@ namespace ProjectFirma.Web.Views.FieldDefinition
         public EditViewModel(FieldDefinitionData fieldDefinitionData)
         {
             FieldDefinitionDataValue = fieldDefinitionData != null ? fieldDefinitionData.FieldDefinitionDataValueHtmlString : null;
+            FieldDefinitionLabel = fieldDefinitionData != null ? fieldDefinitionData.FieldDefinitionLabel : null;
         }
 
         public void UpdateModel(FieldDefinitionData fieldDefinitionData)
         {
             fieldDefinitionData.FieldDefinitionDataValueHtmlString = FieldDefinitionDataValue;
+            fieldDefinitionData.FieldDefinitionLabel = string.IsNullOrWhiteSpace(FieldDefinitionLabel) ? null : FieldDefinitionLabel;
         }
     }
 }

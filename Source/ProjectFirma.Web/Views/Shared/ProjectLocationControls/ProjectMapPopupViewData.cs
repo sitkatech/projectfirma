@@ -18,17 +18,21 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Views;
-
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
     public class ProjectMapPopupViewData : FirmaUserControlViewData
     {
         public readonly Models.Project Project;
+        public readonly string TaxonomyTierThreeDisplayName;
+        public readonly string TaxonomyTierTwoDisplayName;
+        public readonly string TaxonomyTierOneDisplayName;
 
         public ProjectMapPopupViewData(Models.Project project)
         {
             Project = project;
+            TaxonomyTierThreeDisplayName = Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel();
+            TaxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
+            TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
         }
     }
 }

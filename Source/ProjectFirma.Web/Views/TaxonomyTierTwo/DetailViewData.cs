@@ -29,7 +29,6 @@ using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.TaxonomyTierTwo
 {
@@ -57,6 +56,9 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
         public readonly string ProjectMapFilteredUrl;
 
         public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
+        public readonly string TaxonomyTierTwoDisplayName;
+        public readonly string TaxonomyTierTwoDisplayNamePluralized;
+        public readonly string TaxonomyTierOneDisplayNamePluralized;
 
         public DetailViewData(Person currentPerson,
             Models.TaxonomyTierTwo taxonomyTierTwo,
@@ -67,7 +69,11 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             ProjectLocationsMapViewData = projectLocationsMapViewData;
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
             PageTitle = taxonomyTierTwo.DisplayName;
-            EntityName = MultiTenantHelpers.GetTaxonomyTierTwoDisplayName();
+            var taxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
+            TaxonomyTierTwoDisplayName = taxonomyTierTwoDisplayName;
+            TaxonomyTierTwoDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized();
+            TaxonomyTierOneDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabelPluralized();
+            EntityName = taxonomyTierTwoDisplayName;
             new TaxonomyTierTwoPerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
             PerformanceMeasures = taxonomyTierTwo.TaxonomyTierTwoPerformanceMeasures.Select(x => x.PerformanceMeasure).ToList();
             PerformanceMeasuresEndOfFirstHalf = GeneralUtility.CalculateIndexOfEndOfFirstHalf(PerformanceMeasures.Count);
@@ -90,8 +96,8 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             BasicProjectInfoProjectGridName = "taxonomyTierTwoProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
-                ObjectNameSingular = string.Format("Project with this {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()),
-                ObjectNamePlural = string.Format("Projects with this {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()),
+                ObjectNameSingular = string.Format("Project with this {0}", taxonomyTierTwoDisplayName),
+                ObjectNamePlural = string.Format("Projects with this {0}", taxonomyTierTwoDisplayName),
                 SaveFiltersInCookie = true
             };
             BasicProjectInfoProjectGridDataUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyTierTwo));

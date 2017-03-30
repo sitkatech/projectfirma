@@ -30,22 +30,22 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectExcelSpec()
         {
-            AddColumn(Models.FieldDefinition.ProjectName.FieldDefinitionDisplayName, x => x.ProjectName);
-            AddColumn(Models.FieldDefinition.LeadImplementer.FieldDefinitionDisplayName, x => x.LeadImplementerName);
-            AddColumn(Models.FieldDefinition.PrimaryContact.FieldDefinitionDisplayName, x => (x.LeadImplementer != null) ? x.LeadImplementer.PrimaryContactPersonWithOrgAsString : string.Empty);
+            AddColumn(Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel(), x => x.ProjectName);
+            AddColumn(Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel(), x => x.LeadImplementerName);
+            AddColumn(Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel(), x => (x.LeadImplementer != null) ? x.LeadImplementer.PrimaryContactPersonWithOrgAsString : string.Empty);
             AddColumn("Non-Lead Implementing Organizations",
                 x => string.Join(",", x.ProjectImplementingOrganizations.Where(pio => pio.OrganizationID != x.LeadImplementer.OrganizationID).Select(pio => pio.Organization.DisplayName)));
-            AddColumn(Models.FieldDefinition.ProjectStage.FieldDefinitionDisplayName, x => x.ProjectStage.ProjectStageDisplayName);
+            AddColumn(Models.FieldDefinition.ProjectStage.GetFieldDefinitionLabel(), x => x.ProjectStage.ProjectStageDisplayName);
             AddColumn(MultiTenantHelpers.GetClassificationDisplayNamePluralized(), x => string.Join(",", x.ProjectClassifications.Select(tc => tc.Classification.DisplayName)));
             AddColumn("Watersheds", x => string.Join(",", x.ProjectWatersheds.Select(pw => pw.Watershed.DisplayName)));
-            AddColumn(Models.FieldDefinition.ImplementationStartYear.FieldDefinitionDisplayName, x => x.ImplementationStartYear);
-            AddColumn(Models.FieldDefinition.CompletionYear.FieldDefinitionDisplayName, x => x.CompletionYear);
-            AddColumn(Models.FieldDefinition.ProjectDescription.FieldDefinitionDisplayName, x => x.ProjectDescription);
-            AddColumn(Models.FieldDefinition.FundingType.FieldDefinitionDisplayName, x => x.FundingType.FundingTypeShortName);
-            AddColumn(Models.FieldDefinition.EstimatedTotalCost.FieldDefinitionDisplayName, x => x.EstimatedTotalCost);
-            AddColumn(Models.FieldDefinition.SecuredFunding.FieldDefinitionDisplayName, x => x.SecuredFunding);
-            AddColumn(Models.FieldDefinition.UnfundedNeed.FieldDefinitionDisplayName, x => x.UnfundedNeed);
-            AddColumn(Models.FieldDefinition.Region.FieldDefinitionDisplayName, a => a.ProjectLocationTypeDisplay);
+            AddColumn(Models.FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel(), x => x.ImplementationStartYear);
+            AddColumn(Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel(), x => x.CompletionYear);
+            AddColumn(Models.FieldDefinition.ProjectDescription.GetFieldDefinitionLabel(), x => x.ProjectDescription);
+            AddColumn(Models.FieldDefinition.FundingType.GetFieldDefinitionLabel(), x => x.FundingType.FundingTypeShortName);
+            AddColumn(Models.FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel(), x => x.EstimatedTotalCost);
+            AddColumn(Models.FieldDefinition.SecuredFunding.GetFieldDefinitionLabel(), x => x.SecuredFunding);
+            AddColumn(Models.FieldDefinition.UnfundedNeed.GetFieldDefinitionLabel(), x => x.UnfundedNeed);
+            AddColumn(Models.FieldDefinition.Region.GetFieldDefinitionLabel(), a => a.ProjectLocationTypeDisplay);
             AddColumn("State", a => a.ProjectLocationStateProvince);
             AddColumn("Watershed", a => a.ProjectLocationWatershed);
             AddColumn("Project Location Notes", a => a.ProjectLocationNotes);

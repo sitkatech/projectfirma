@@ -10,7 +10,7 @@
     <EntitySet Name="CostParameterSet" EntityType="ProjectFirma.Web.Models.CostParameterSet" />
     <EntitySet Name="County" EntityType="ProjectFirma.Web.Models.County" />
     <EntitySet Name="FieldDefinitionData" EntityType="ProjectFirma.Web.Models.FieldDefinitionData" />
-    <EntitySet Name="FieldDefinitionImage" EntityType="ProjectFirma.Web.Models.FieldDefinitionImage" />
+    <EntitySet Name="FieldDefinitionDataImage" EntityType="ProjectFirma.Web.Models.FieldDefinitionDataImage" />
     <EntitySet Name="FileResource" EntityType="ProjectFirma.Web.Models.FileResource" />
     <EntitySet Name="FirmaPage" EntityType="ProjectFirma.Web.Models.FirmaPage" />
     <EntitySet Name="FirmaPageImage" EntityType="ProjectFirma.Web.Models.FirmaPageImage" />
@@ -132,9 +132,13 @@
       <End Role="StateProvince" EntitySet="StateProvince" />
       <End Role="Counties" EntitySet="County" />
     </AssociationSet>
-    <AssociationSet Name="FK_FieldDefinitionImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_FieldDefinitionImage_FileResource_FileResourceID">
+    <AssociationSet Name="FK_FieldDefinitionDataImage_FieldDefinitionData_FieldDefinitionDataID" Association="ProjectFirma.Web.Models.FK_FieldDefinitionDataImage_FieldDefinitionData_FieldDefinitionDataID">
+      <End Role="FieldDefinitionData" EntitySet="FieldDefinitionData" />
+      <End Role="FieldDefinitionDataImages" EntitySet="FieldDefinitionDataImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FieldDefinitionDataImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_FieldDefinitionDataImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="FieldDefinitionImages" EntitySet="FieldDefinitionImage" />
+      <End Role="FieldDefinitionDataImages" EntitySet="FieldDefinitionDataImage" />
     </AssociationSet>
     <AssociationSet Name="FK_FileResource_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_FileResource_Person_CreatePersonID_PersonID">
       <End Role="CreatePerson" EntitySet="Person" />
@@ -780,16 +784,19 @@
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="FieldDefinitionID" Type="Int32" Nullable="false" />
     <Property Name="FieldDefinitionDataValue" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="FieldDefinitionLabel" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="FieldDefinitionDataImages" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionDataImage_FieldDefinitionData_FieldDefinitionDataID" FromRole="FieldDefinitionData" ToRole="FieldDefinitionDataImages" />
   </EntityType>
-  <EntityType Name="FieldDefinitionImage">
+  <EntityType Name="FieldDefinitionDataImage">
     <Key>
-      <PropertyRef Name="FieldDefinitionImageID" />
+      <PropertyRef Name="FieldDefinitionDataImageID" />
     </Key>
-    <Property Name="FieldDefinitionImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FieldDefinitionDataImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="FieldDefinitionID" Type="Int32" Nullable="false" />
+    <Property Name="FieldDefinitionDataID" Type="Int32" Nullable="false" />
     <Property Name="FileResourceID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionImage_FileResource_FileResourceID" FromRole="FieldDefinitionImages" ToRole="FileResource" />
+    <NavigationProperty Name="FieldDefinitionData" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionDataImage_FieldDefinitionData_FieldDefinitionDataID" FromRole="FieldDefinitionDataImages" ToRole="FieldDefinitionData" />
+    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionDataImage_FileResource_FileResourceID" FromRole="FieldDefinitionDataImages" ToRole="FileResource" />
   </EntityType>
   <EntityType Name="FileResource">
     <Key>
@@ -805,7 +812,7 @@
     <Property Name="CreatePersonID" Type="Int32" Nullable="false" />
     <Property Name="CreateDate" Type="DateTime" Nullable="false" />
     <NavigationProperty Name="ClassificationsWhereYouAreTheKeyImageFileResource" Relationship="ProjectFirma.Web.Models.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" FromRole="KeyImageFileResource" ToRole="ClassificationsWhereYouAreTheKeyImageFileResource" />
-    <NavigationProperty Name="FieldDefinitionImages" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FieldDefinitionImages" />
+    <NavigationProperty Name="FieldDefinitionDataImages" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionDataImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FieldDefinitionDataImages" />
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_FileResource_Person_CreatePersonID_PersonID" FromRole="FileResourcesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
     <NavigationProperty Name="FirmaPageImages" Relationship="ProjectFirma.Web.Models.FK_FirmaPageImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FirmaPageImages" />
     <NavigationProperty Name="MonitoringProgramDocuments" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_FileResource_FileResourceID" FromRole="FileResource" ToRole="MonitoringProgramDocuments" />
@@ -1957,9 +1964,6 @@
     <Property Name="TenantAttributeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="TaxonomySystemName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="TaxonomyTierThreeDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="TaxonomyTierTwoDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="TaxonomyTierOneDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="TaxonomyTierOneDisplayNameForProject" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="PerformanceMeasureDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="ClassificationDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
@@ -2113,14 +2117,26 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_FieldDefinitionImage_FileResource_FileResourceID">
+  <Association Name="FK_FieldDefinitionDataImage_FieldDefinitionData_FieldDefinitionDataID">
+    <End Role="FieldDefinitionData" Type="ProjectFirma.Web.Models.FieldDefinitionData" Multiplicity="1" />
+    <End Role="FieldDefinitionDataImages" Type="ProjectFirma.Web.Models.FieldDefinitionDataImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FieldDefinitionData">
+        <PropertyRef Name="FieldDefinitionDataID" />
+      </Principal>
+      <Dependent Role="FieldDefinitionDataImages">
+        <PropertyRef Name="FieldDefinitionDataID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FieldDefinitionDataImage_FileResource_FileResourceID">
     <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
-    <End Role="FieldDefinitionImages" Type="ProjectFirma.Web.Models.FieldDefinitionImage" Multiplicity="*" />
+    <End Role="FieldDefinitionDataImages" Type="ProjectFirma.Web.Models.FieldDefinitionDataImage" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="FileResource">
         <PropertyRef Name="FileResourceID" />
       </Principal>
-      <Dependent Role="FieldDefinitionImages">
+      <Dependent Role="FieldDefinitionDataImages">
         <PropertyRef Name="FileResourceID" />
       </Dependent>
     </ReferentialConstraint>

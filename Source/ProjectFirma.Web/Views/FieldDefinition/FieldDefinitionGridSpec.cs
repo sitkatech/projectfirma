@@ -37,11 +37,12 @@ namespace ProjectFirma.Web.Views.FieldDefinition
                         DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(
                             new ModalDialogForm(
                                 SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(t => t.Edit(a)),
-                                string.Format("Edit Field Definition '{0}'", a.FieldDefinitionDisplayName))),
+                                string.Format("Edit Field Definition '{0}'", a.GetFieldDefinitionLabel()))),
                     30);
             }
-            Add("Field Name", a => a.FieldDefinitionDisplayName, 250);
-            Add("Defined?", a => a.HasDefinition.ToYesNo(), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Field Name", a => a.GetFieldDefinitionLabel(), 250);
+            Add("Defined?", a => a.HasDefinition().ToYesNo(), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Has Custom Field Name?", a => a.HasCustomFieldLabel().ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("FieldDefinitionID", a => a.FieldDefinitionID, 0);
         }
     }

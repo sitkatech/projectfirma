@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Controllers
         private static List<FieldDefinition> GetFieldDefinitionsAndGridSpec(out FieldDefinitionGridSpec gridSpec, Person currentPerson)
         {
             gridSpec = new FieldDefinitionGridSpec(new FieldDefinitionViewListFeature().HasPermissionByPerson(currentPerson));
-            return FieldDefinition.All.Where(x => new FieldDefinitionManageFeature().HasPermission(currentPerson, x).HasPermission).OrderBy(x => x.FieldDefinitionDisplayName).ToList();
+            return FieldDefinition.All.Where(x => new FieldDefinitionManageFeature().HasPermission(currentPerson, x).HasPermission).OrderBy(x => x.GetFieldDefinitionLabel()).ToList();
         }
 
         [HttpGet]
@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var fieldDefinition = FieldDefinition.AllLookupDictionary[fieldDefinitionID];
             var fieldDefinitionData = HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.SingleOrDefault(x => x.FieldDefinitionID == fieldDefinitionID);
-            var fieldDefinitionDataValue = new HtmlString(string.Format("{0} not yet defined.", fieldDefinition.FieldDefinitionDisplayName));
+            var fieldDefinitionDataValue = new HtmlString(string.Format("{0} not yet defined.", fieldDefinition.GetFieldDefinitionLabel()));
             if (fieldDefinitionData != null)
             {
                 fieldDefinitionDataValue = fieldDefinitionData.FieldDefinitionDataValueHtmlString;

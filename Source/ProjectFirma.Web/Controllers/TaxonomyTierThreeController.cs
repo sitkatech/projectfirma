@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllTaxonomyTierThrees.Add(taxonomyTierThree);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay(string.Format("New {0} {1} successfully created!", MultiTenantHelpers.GetTaxonomyTierOneDisplayName(), taxonomyTierThree.GetDisplayNameAsUrl()));
+            SetMessageForDisplay(string.Format("New {0} {1} successfully created!", FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel(), taxonomyTierThree.GetDisplayNameAsUrl()));
             return new ModalDialogFormJsonResult();
         }
 
@@ -157,9 +157,10 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewDeleteTaxonomyTierThree(TaxonomyTierThree taxonomyTierThree, ConfirmDialogFormViewModel viewModel)
         {
             var canDelete = !taxonomyTierThree.HasDependentObjects() && HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.Count() > 1;
+            var taxonomyTierThreeDisplayName = FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel();
             var confirmMessage = canDelete
-                ? string.Format("Are you sure you want to delete this {0} '{1}'?", MultiTenantHelpers.GetTaxonomyTierThreeDisplayName(), taxonomyTierThree.DisplayName)
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(MultiTenantHelpers.GetTaxonomyTierThreeDisplayName(), SitkaRoute<TaxonomyTierThreeController>.BuildLinkFromExpression(x => x.Detail(taxonomyTierThree), "here"));
+                ? string.Format("Are you sure you want to delete this {0} '{1}'?", taxonomyTierThreeDisplayName, taxonomyTierThree.DisplayName)
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(taxonomyTierThreeDisplayName, SitkaRoute<TaxonomyTierThreeController>.BuildLinkFromExpression(x => x.Detail(taxonomyTierThree), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);

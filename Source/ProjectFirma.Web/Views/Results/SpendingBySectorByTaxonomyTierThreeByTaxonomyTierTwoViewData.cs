@@ -23,7 +23,6 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Results
 {
@@ -34,6 +33,7 @@ namespace ProjectFirma.Web.Views.Results
         public readonly int? SelectedCalendarYear;
         public readonly IEnumerable<SelectListItem> CalendarYears;
         public readonly string SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoUrl;
+        public readonly string TaxonomyTierTwoDisplayNamePluralized;
 
         public SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewData(Person currentPerson,
             Models.FirmaPage firmaPage,
@@ -43,11 +43,12 @@ namespace ProjectFirma.Web.Views.Results
             IEnumerable<SelectListItem> calendarYears) : base(currentPerson, firmaPage, false)
         {
             TaxonomyTierTwoSectorExpenditures = taxonomyTierTwoSectorExpenditures;
-            PageTitle = string.Format("Spending by Sector by {0} by {1}", MultiTenantHelpers.GetTaxonomyTierThreeDisplayName(), MultiTenantHelpers.GetTaxonomyTierTwoDisplayName());
+            PageTitle = string.Format("Spending by Sector by {0} by {1}", Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel(), Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel());
             SelectedCalendarYear = selectedCalendarYear;
             CalendarYears = calendarYears;
             Sectors = sectors;
             SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo(UrlTemplate.Parameter1Int));
+            TaxonomyTierTwoDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized();
         }
     }
 }

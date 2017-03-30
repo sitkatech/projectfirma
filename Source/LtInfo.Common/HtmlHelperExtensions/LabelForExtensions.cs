@@ -223,7 +223,7 @@ namespace LtInfo.Common.HtmlHelperExtensions
         /// </summary>
         public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, IFieldDefinition fieldDefinition, int popupWidth, DisplayStyle displayStyle)
         {
-            return LabelWithSugarFor(fieldDefinition, popupWidth, displayStyle, fieldDefinition.FieldDefinitionDisplayName);
+            return LabelWithSugarFor(fieldDefinition, popupWidth, displayStyle, fieldDefinition.GetFieldDefinitionLabel());
         }
 
         public static MvcHtmlString LinkWithFieldDefinitionFor(this HtmlHelper html, IFieldDefinition fieldDefinition, string linkText, List<string> cssClasses)
@@ -236,7 +236,7 @@ namespace LtInfo.Common.HtmlHelperExtensions
             var fieldDefinitionLinkTag = new TagBuilder("a");
             fieldDefinitionLinkTag.Attributes.Add("href", "javascript:void(0)");
             fieldDefinitionLinkTag.Attributes.Add("class", string.Join(" ", cssClasses));
-            var labelText = fieldDefinition.FieldDefinitionDisplayName;
+            var labelText = fieldDefinition.GetFieldDefinitionLabel();
             fieldDefinitionLinkTag.Attributes.Add("title", string.Format("Click to get help on {0}", labelText));
             fieldDefinitionLinkTag.InnerHtml = linkText;
             var urlToContent = fieldDefinition.GetContentUrl();
@@ -274,9 +274,10 @@ namespace LtInfo.Common.HtmlHelperExtensions
             else
             {
                 var fieldDefinition = fieldDefinitionDisplayAttribute.FieldDefinition;
+                var fieldDefinitionData = fieldDefinition.GetFieldDefinitionData();
                 var fullHtmlFieldID = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldId(htmlFieldName);
-                var fieldDefinitionDisplayName = string.IsNullOrWhiteSpace(labelText) ? fieldDefinition.FieldDefinitionDisplayName : labelText;
-                return LabelWithSugarFor(fieldDefinition, fullHtmlFieldID, popupWidth, DisplayStyle.HelpIconWithLabel, hasRequiredAttribute, fieldDefinitionDisplayName);
+                var fieldDefinitionDisplayName = string.IsNullOrWhiteSpace(labelText) ? fieldDefinition.GetFieldDefinitionLabel() : labelText;
+                return LabelWithSugarFor(fieldDefinitionData, fullHtmlFieldID, popupWidth, DisplayStyle.HelpIconWithLabel, hasRequiredAttribute, fieldDefinitionDisplayName, fieldDefinition.GetContentUrl());
             }
         }
 
@@ -284,14 +285,11 @@ namespace LtInfo.Common.HtmlHelperExtensions
         {
             var fullHtmlFieldID = labelText.Replace(" ", "");
             // in this case, we are not trying to tie it to an actual viewmodel; we only want it to be safe as an id to find by jquery
-            return LabelWithSugarFor(fieldDefinition, fullHtmlFieldID, popupWidth, displayStyle, false, labelText);
+            return LabelWithSugarFor(fieldDefinition.GetFieldDefinitionData(), fullHtmlFieldID, popupWidth, displayStyle, false, labelText, fieldDefinition.GetContentUrl());
         }
 
-        private static MvcHtmlString LabelWithSugarFor(IFieldDefinition fieldDefinition, string fullHtmlFieldID, int popupWidth, DisplayStyle displayStyle, bool hasRequiredAttribute, string labelText)
+        private static MvcHtmlString LabelWithSugarFor(IFieldDefinitionData fieldDefinitionData, string fullHtmlFieldID, int popupWidth, DisplayStyle displayStyle, bool hasRequiredAttribute, string labelText, string urlToContent)
         {
-
-            var fieldDefinitionData = fieldDefinition.FieldDefinitionData;
-            var urlToContent = fieldDefinition.GetContentUrl();
             return LabelWithFieldDefinitionForImpl(labelText, fullHtmlFieldID, fieldDefinitionData, urlToContent, popupWidth, displayStyle, hasRequiredAttribute);
         }
 

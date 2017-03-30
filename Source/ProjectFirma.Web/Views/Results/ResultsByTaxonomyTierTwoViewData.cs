@@ -24,7 +24,6 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Results
 {
@@ -41,7 +40,7 @@ namespace ProjectFirma.Web.Views.Results
             Models.TaxonomyTierTwo selectedTaxonomyTierTwo) : base(currentPerson, firmaPage, false)
         {
             TaxonomyTierThrees = taxonomyTierThrees;
-            PageTitle = string.Format("Results by {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName());
+            PageTitle = string.Format("Results by {0}", Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel());
             SelectedTaxonomyTierTwo = selectedTaxonomyTierTwo;
             ResultsByTaxonomyTierTwoUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ResultsByTaxonomyTierTwo(UrlTemplate.Parameter1Int));
 

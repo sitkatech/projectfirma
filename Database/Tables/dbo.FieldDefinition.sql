@@ -6,6 +6,7 @@ CREATE TABLE [dbo].[FieldDefinition](
 	[FieldDefinitionID] [int] NOT NULL,
 	[FieldDefinitionName] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[FieldDefinitionDisplayName] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[DefaultDefinition] [dbo].[html] NULL,
  CONSTRAINT [PK_FieldDefinition_FieldDefinitionID] PRIMARY KEY CLUSTERED 
 (
 	[FieldDefinitionID] ASC

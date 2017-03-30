@@ -10,7 +10,7 @@
     <EntitySet Name="CostParameterSet" EntityType="ProjectFirma.Web.Models.Store.CostParameterSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="County" EntityType="ProjectFirma.Web.Models.Store.County" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FieldDefinitionData" EntityType="ProjectFirma.Web.Models.Store.FieldDefinitionData" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="FieldDefinitionImage" EntityType="ProjectFirma.Web.Models.Store.FieldDefinitionImage" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FieldDefinitionDataImage" EntityType="ProjectFirma.Web.Models.Store.FieldDefinitionDataImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FileResource" EntityType="ProjectFirma.Web.Models.Store.FileResource" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FirmaPage" EntityType="ProjectFirma.Web.Models.Store.FirmaPage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FirmaPageImage" EntityType="ProjectFirma.Web.Models.Store.FirmaPageImage" store:Type="Tables" Schema="dbo" />
@@ -116,9 +116,13 @@
       <End Role="StateProvince" EntitySet="StateProvince" />
       <End Role="Counties" EntitySet="County" />
     </AssociationSet>
-    <AssociationSet Name="FK_FieldDefinitionImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_FieldDefinitionImage_FileResource_FileResourceID">
+    <AssociationSet Name="FK_FieldDefinitionDataImage_FieldDefinitionData_FieldDefinitionDataID" Association="ProjectFirma.Web.Models.Store.FK_FieldDefinitionDataImage_FieldDefinitionData_FieldDefinitionDataID">
+      <End Role="FieldDefinitionData" EntitySet="FieldDefinitionData" />
+      <End Role="FieldDefinitionDataImages" EntitySet="FieldDefinitionDataImage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FieldDefinitionDataImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_FieldDefinitionDataImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
-      <End Role="FieldDefinitionImages" EntitySet="FieldDefinitionImage" />
+      <End Role="FieldDefinitionDataImages" EntitySet="FieldDefinitionDataImage" />
     </AssociationSet>
     <AssociationSet Name="FK_FileResource_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_FileResource_Person_CreatePersonID_PersonID">
       <End Role="CreatePerson" EntitySet="Person" />
@@ -773,6 +777,9 @@ warning 6035: The relationship 'FK_ProposedProjectClassification_Classification_
     <Property Name="StateProvinceID" Type="int" Nullable="false" />
     <Property Name="CountyFeature" Type="geometry" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_FieldDefinitionDataImage_FieldDefinitionData_FieldDefinitionDataID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+-->
   <EntityType Name="FieldDefinitionData">
     <Key>
       <PropertyRef Name="FieldDefinitionDataID" />
@@ -781,19 +788,20 @@ warning 6035: The relationship 'FK_ProposedProjectClassification_Classification_
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="FieldDefinitionID" Type="int" Nullable="false" />
     <Property Name="FieldDefinitionDataValue" Type="varchar(max)" />
+    <Property Name="FieldDefinitionLabel" Type="varchar" MaxLength="300" />
   </EntityType>
-  <EntityType Name="FieldDefinitionImage">
+  <EntityType Name="FieldDefinitionDataImage">
     <Key>
-      <PropertyRef Name="FieldDefinitionImageID" />
+      <PropertyRef Name="FieldDefinitionDataImageID" />
     </Key>
-    <Property Name="FieldDefinitionImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="FieldDefinitionDataImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="FieldDefinitionID" Type="int" Nullable="false" />
+    <Property Name="FieldDefinitionDataID" Type="int" Nullable="false" />
     <Property Name="FileResourceID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_Classification_FileResource_KeyImageFileResourceID_TenantID_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_FieldDefinitionImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_FieldDefinitionDataImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_FirmaPageImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_MonitoringProgramDocument_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_Organization_FileResource_LogoFileResourceID_TenantID_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1883,9 +1891,6 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
     <Property Name="TenantAttributeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="TaxonomySystemName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TaxonomyTierThreeDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TaxonomyTierTwoDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TaxonomyTierOneDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="TaxonomyTierOneDisplayNameForProject" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="PerformanceMeasureDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="ClassificationDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
@@ -1993,14 +1998,26 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_FieldDefinitionImage_FileResource_FileResourceID">
+  <Association Name="FK_FieldDefinitionDataImage_FieldDefinitionData_FieldDefinitionDataID">
+    <End Role="FieldDefinitionData" Type="ProjectFirma.Web.Models.Store.FieldDefinitionData" Multiplicity="1" />
+    <End Role="FieldDefinitionDataImages" Type="ProjectFirma.Web.Models.Store.FieldDefinitionDataImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FieldDefinitionData">
+        <PropertyRef Name="FieldDefinitionDataID" />
+      </Principal>
+      <Dependent Role="FieldDefinitionDataImages">
+        <PropertyRef Name="FieldDefinitionDataID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FieldDefinitionDataImage_FileResource_FileResourceID">
     <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
-    <End Role="FieldDefinitionImages" Type="ProjectFirma.Web.Models.Store.FieldDefinitionImage" Multiplicity="*" />
+    <End Role="FieldDefinitionDataImages" Type="ProjectFirma.Web.Models.Store.FieldDefinitionDataImage" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="FileResource">
         <PropertyRef Name="FileResourceID" />
       </Principal>
-      <Dependent Role="FieldDefinitionImages">
+      <Dependent Role="FieldDefinitionDataImages">
         <PropertyRef Name="FileResourceID" />
       </Dependent>
     </ReferentialConstraint>

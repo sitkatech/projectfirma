@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Security
             var hasPermissionByPerson = HasPermissionByPerson(person);
             if (!hasPermissionByPerson)
             {
-                return new PermissionCheckResult(String.Format("You don't have permission to Edit {0} for {1} {2}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized(), MultiTenantHelpers.GetPerformanceMeasureName(), contextModelObject.PerformanceMeasureDisplayName));
+                return new PermissionCheckResult(String.Format("You don't have permission to Edit {0} for {1} {2}", FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized(), MultiTenantHelpers.GetPerformanceMeasureName(), contextModelObject.PerformanceMeasureDisplayName));
             }
 
             return new PermissionCheckResult();

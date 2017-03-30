@@ -7,13 +7,20 @@ CREATE TABLE [dbo].[FieldDefinitionData](
 	[TenantID] [int] NOT NULL,
 	[FieldDefinitionID] [int] NOT NULL,
 	[FieldDefinitionDataValue] [dbo].[html] NULL,
+	[FieldDefinitionLabel] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_FieldDefinitionData_FieldDefinitionDataID] PRIMARY KEY CLUSTERED 
 (
 	[FieldDefinitionDataID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_FieldDefinitionData_FieldDefinitionID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_FieldDefinitionData_FieldDefinitionDataID_TenantID] UNIQUE NONCLUSTERED 
 (
-	[FieldDefinitionID] ASC
+	[FieldDefinitionDataID] ASC,
+	[TenantID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_FieldDefinitionData_FieldDefinitionID_TenantID] UNIQUE NONCLUSTERED 
+(
+	[FieldDefinitionID] ASC,
+	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 

@@ -26,7 +26,7 @@ namespace LtInfo.Common.HtmlHelperExtensions
     {
         public static string ToGridHeaderString(this IFieldDefinition fieldDefinition)
         {
-            return fieldDefinition.ToGridHeaderString(LabelWithSugarForExtensions.DefaultPopupWidth, fieldDefinition.FieldDefinitionDisplayName);
+            return fieldDefinition.ToGridHeaderString(LabelWithSugarForExtensions.DefaultPopupWidth, fieldDefinition.GetFieldDefinitionLabel());
         }
 
         public static string ToGridHeaderString(this IFieldDefinition fieldDefinition, string linkText)
@@ -36,7 +36,7 @@ namespace LtInfo.Common.HtmlHelperExtensions
 
         public static string ToGridHeaderString(this IFieldDefinition fieldDefinition, int popupWidth)
         {
-            return fieldDefinition.ToGridHeaderString(popupWidth, fieldDefinition.FieldDefinitionDisplayName);
+            return fieldDefinition.ToGridHeaderString(popupWidth, fieldDefinition.GetFieldDefinitionLabel());
         }
 
         private static string ToGridHeaderString(this IFieldDefinition fieldDefinition, int popupWidth, string fieldDefinitionDisplayName)
@@ -48,7 +48,7 @@ namespace LtInfo.Common.HtmlHelperExtensions
 
         public static string ToGridHeaderStringWider(this IFieldDefinition fieldDefinition)
         {
-            return fieldDefinition.ToGridHeaderString(LabelWithSugarForExtensions.DefaultPopupWidthWider, fieldDefinition.FieldDefinitionDisplayName);
+            return fieldDefinition.ToGridHeaderString(LabelWithSugarForExtensions.DefaultPopupWidthWider, fieldDefinition.GetFieldDefinitionLabel());
         }
     }
 }

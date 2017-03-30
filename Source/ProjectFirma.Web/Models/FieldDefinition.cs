@@ -18,8 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Linq;
-using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
@@ -29,24 +27,38 @@ namespace ProjectFirma.Web.Models
 {
     public partial class FieldDefinition : IFieldDefinition
     {
-        public bool HasDefinition
+        public bool HasDefinition()
         {
-            get { return HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.Any(x => x.FieldDefinitionID == FieldDefinitionID); }
+            var fieldDefinitionData = GetFieldDefinitionData();
+            return fieldDefinitionData != null && fieldDefinitionData.FieldDefinitionDataValueHtmlString != null;
         }
 
-        public HtmlString FieldDefinitionDataValue
+        public IFieldDefinitionData GetFieldDefinitionData()
         {
-            get
+            return HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.GetFieldDefinitionDataByFieldDefinition(this);
+        }
+
+        public string GetFieldDefinitionLabel()
+        {
+            var fieldDefinitionData = GetFieldDefinitionData();
+            if (fieldDefinitionData != null && !string.IsNullOrWhiteSpace(fieldDefinitionData.FieldDefinitionLabel))
             {
-                var fieldDefinitionData = HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.GetFieldDefinitionDataByFieldDefinition(this);
-                return fieldDefinitionData != null ? fieldDefinitionData.FieldDefinitionDataValueHtmlString : new HtmlString(string.Empty);
+                return fieldDefinitionData.FieldDefinitionLabel;
             }
+            return FieldDefinitionDisplayName;
         }
 
-        public IFieldDefinitionData FieldDefinitionData 
+        public bool HasCustomFieldLabel()
         {
-            get { return HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.GetFieldDefinitionDataByFieldDefinition(this); }
+            var fieldDefinitionData = GetFieldDefinitionData();
+            return fieldDefinitionData != null && !string.IsNullOrWhiteSpace(fieldDefinitionData.FieldDefinitionLabel);
         }
+
+        public string GetFieldDefinitionLabelPluralized()
+        {
+            return GetFieldDefinitionLabel() + "s"; //TODO: NEED TO ADD Plural version
+        }
+
         public string GetContentUrl()
         {
             return SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(x => x.FieldDefinitionDetails(FieldDefinitionID));

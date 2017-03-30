@@ -24,8 +24,15 @@ Source code is available upon request via <support@sitkatech.com>.
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary()
-    <div style="max-height: 300px; overflow-y: auto">
-        @Html.CkEditorFor(x => x.FieldDefinitionDataValue, CkEditorExtension.CkEditorToolbar.MinimalWithImages, true, false, ViewDataTyped.FileBrowserImageUploadUrl, 300)
+    
+    <div class="row">
+        <div class="col-md-4">Label:</div>
+        <div class="col-md-8">
+            @Html.TextBoxFor(x => x.FieldDefinitionLabel)
+        </div>
+    </div>
+    <div style="max-height: 300px; overflow-y: auto; margin-top: 20px">
+        @Html.CkEditorFor(x => x.FieldDefinitionDataValue, CkEditorExtension.CkEditorToolbar.MinimalWithImages, true, false, ViewDataTyped.FileBrowserImageUploadUrl, 200)
     </div>
 
     <script type="text/javascript" src="/ScriptsCustom/CkEditorReady.js"></script>

@@ -44,10 +44,10 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<CostParameterSet> CostParameterSets { get { return AllCostParameterSets.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<County> AllCounties { get; set; }
         public virtual IQueryable<County> Counties { get { return AllCounties.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<FieldDefinitionDataImage> AllFieldDefinitionDataImages { get; set; }
+        public virtual IQueryable<FieldDefinitionDataImage> FieldDefinitionDataImages { get { return AllFieldDefinitionDataImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<FieldDefinitionData> AllFieldDefinitionDatas { get; set; }
         public virtual IQueryable<FieldDefinitionData> FieldDefinitionDatas { get { return AllFieldDefinitionDatas.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<FieldDefinitionImage> AllFieldDefinitionImages { get; set; }
-        public virtual IQueryable<FieldDefinitionImage> FieldDefinitionImages { get { return AllFieldDefinitionImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<FileResource> AllFileResources { get; set; }
         public virtual IQueryable<FileResource> FileResources { get { return AllFileResources.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<FirmaPageImage> AllFirmaPageImages { get; set; }
@@ -236,11 +236,11 @@ namespace ProjectFirma.Web.Models
                 case "County":
                     return Counties.GetCounty(primaryKey);
 
+                case "FieldDefinitionDataImage":
+                    return FieldDefinitionDataImages.GetFieldDefinitionDataImage(primaryKey);
+
                 case "FieldDefinitionData":
                     return FieldDefinitionDatas.GetFieldDefinitionData(primaryKey);
-
-                case "FieldDefinitionImage":
-                    return FieldDefinitionImages.GetFieldDefinitionImage(primaryKey);
 
                 case "FieldDefinition":
                     var fieldDefinition = FieldDefinition.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

@@ -34,6 +34,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public readonly List<KeyValuePair<Models.TaxonomyTierTwo, bool>> PerformanceMeasureTaxonomyTierTwos;
         public readonly PerformanceMeasureChartViewData PerformanceMeasureChartViewData;
         public readonly string IndexUrl;
+        public readonly string TaxonomyTierTwoDisplayName;
+        public readonly string TaxonomyTierTwoDisplayNamePluralized;
         
         public InfoSheetViewData(Person currentPerson, Models.PerformanceMeasure performanceMeasure, PerformanceMeasureChartViewData performanceMeasureChartViewData)
             : base(currentPerson)
@@ -48,6 +50,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             PerformanceMeasureChartViewData = performanceMeasureChartViewData;
 
             IndexUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Index());
+            TaxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
+            TaxonomyTierTwoDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized();
         }
     }
 }

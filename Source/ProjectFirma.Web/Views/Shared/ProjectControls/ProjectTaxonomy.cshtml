@@ -43,7 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
      {
          <div class="row taxonomyRow">
              <div class="col-sm-5 col-header">
-                 @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierThree, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierThreeDisplayName())
+                 @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierThree, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
              </div>
              <div class="col-sm-7">
                  <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierThree ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierThree ? new HtmlString(ViewDataTyped.TaxonomyTierThree.DisplayName) : ViewDataTyped.TaxonomyTierThree.GetDisplayNameAsUrl())</span>
@@ -56,7 +56,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div class="row taxonomyRow">
             <div class="col-sm-5 col-sm-offset-@(i++) col-header">
-                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())
+                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
             </div>
             <div class="col-sm-6">
                 <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierTwo ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierTwo ? new HtmlString(ViewDataTyped.TaxonomyTierTwo.DisplayName) : ViewDataTyped.TaxonomyTierTwo.GetDisplayNameAsUrl())</span>
@@ -68,7 +68,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div class="row taxonomyRow">
             <div class="col-sm-5 col-sm-offset-@(i++) col-header">
-                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierOneDisplayName())
+                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
             </div>
             <div class="col-sm-5">
                 <span class="taxonomyLink@(ViewDataTyped.IsTaxonomyTierOne ? " selected" : string.Empty)">@(ViewDataTyped.IsTaxonomyTierOne ? new HtmlString(ViewDataTyped.TaxonomyTierOne.DisplayName) : ViewDataTyped.TaxonomyTierOne.GetDisplayNameAsUrl())</span>

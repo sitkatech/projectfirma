@@ -117,7 +117,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllTaxonomyTierOnes.Add(taxonomyTierOne);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay(string.Format("New {0} {1} successfully created!", MultiTenantHelpers.GetTaxonomyTierOneDisplayName(), taxonomyTierOne.GetDisplayNameAsUrl()));
+            SetMessageForDisplay(string.Format("New {0} {1} successfully created!", FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel(), taxonomyTierOne.GetDisplayNameAsUrl()));
             return new ModalDialogFormJsonResult();
         }
 
@@ -168,9 +168,10 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewDeleteTaxonomyTierOne(TaxonomyTierOne taxonomyTierOne, ConfirmDialogFormViewModel viewModel)
         {
             var canDelete = !taxonomyTierOne.HasDependentObjects() && HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.Count() > 1;
+            var taxonomyTierOneDisplayName = FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
             var confirmMessage = canDelete
-                ? string.Format("Are you sure you want to delete this {0} '{1}'?", MultiTenantHelpers.GetTaxonomyTierOneDisplayName(), taxonomyTierOne.DisplayName)
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(MultiTenantHelpers.GetTaxonomyTierOneDisplayName(), SitkaRoute<TaxonomyTierOneController>.BuildLinkFromExpression(x => x.Detail(taxonomyTierOne), "here"));
+                ? string.Format("Are you sure you want to delete this {0} '{1}'?", taxonomyTierOneDisplayName, taxonomyTierOne.DisplayName)
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(taxonomyTierOneDisplayName, SitkaRoute<TaxonomyTierOneController>.BuildLinkFromExpression(x => x.Detail(taxonomyTierOne), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);

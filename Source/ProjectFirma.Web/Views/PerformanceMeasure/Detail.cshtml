@@ -237,15 +237,15 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="col-md-6">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwosUrl, string.Format("Edit {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()), ViewDataTyped.UserHasTaxonomyTierTwoPerformanceMeasureManagePermissions) @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</h2>
+                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwosUrl, string.Format("Edit {0}", ViewDataTyped.TaxonomyTierTwoDisplayNamePluralized), ViewDataTyped.UserHasTaxonomyTierTwoPerformanceMeasureManagePermissions) @ViewDataTyped.TaxonomyTierTwoDisplayNamePluralized</h2>
             </div>
             <div class="panel-body">
                 @if (ViewDataTyped.TaxonomyTierTwoPerformanceMeasures.Any())
                 {
                     <table class="summaryLayout">
                         <tr>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</th>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.IsPrimaryTaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()))</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.IsPrimaryTaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", ViewDataTyped.TaxonomyTierTwoDisplayName))</th>
                         </tr>
                         @foreach (var taxonomyTierTwoPerformanceMeasure in ViewDataTyped.TaxonomyTierTwoPerformanceMeasures)
                         {
@@ -258,7 +258,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 else
                 {
-                    <p class="alert">No @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() set for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
+                    <p class="alert">No @ViewDataTyped.TaxonomyTierTwoDisplayNamePluralized set for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
                 }
             </div>
         </div>

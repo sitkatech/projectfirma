@@ -26,7 +26,6 @@ using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.TaxonomyTierOne
 {
@@ -45,6 +44,8 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
         public readonly string ProjectMapFilteredUrl;
+        public readonly string TaxonomyTierOneDisplayName;
+        public readonly string TaxonomyTierOneDisplayNamePluralized;
 
         public DetailViewData(Person currentPerson,
             Models.TaxonomyTierOne taxonomyTierOne,
@@ -53,7 +54,8 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
         {
             TaxonomyTierOne = taxonomyTierOne;
             PageTitle = taxonomyTierOne.DisplayName;
-            EntityName = MultiTenantHelpers.GetTaxonomyTierOneDisplayName();
+            var taxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
+            EntityName = taxonomyTierOneDisplayName;
 
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
@@ -66,13 +68,16 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
             BasicProjectInfoGridName = "taxonomyTierOneProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
-                ObjectNameSingular = string.Format("Project with this {0}", MultiTenantHelpers.GetTaxonomyTierOneDisplayName()),
-                ObjectNamePlural = string.Format("Projects with this {0}", MultiTenantHelpers.GetTaxonomyTierOneDisplayName()),
+                ObjectNameSingular = string.Format("Project with this {0}", taxonomyTierOneDisplayName),
+                ObjectNamePlural = string.Format("Projects with this {0}", taxonomyTierOneDisplayName),
                 SaveFiltersInCookie = true
             };
 
             BasicProjectInfoGridDataUrl = SitkaRoute<TaxonomyTierOneController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyTierOne));
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyTierOne);
+
+            TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
+            TaxonomyTierOneDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabelPluralized();
         }
     }
 }

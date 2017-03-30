@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             }
 
             Add(Models.FieldDefinition.ProjectName.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
-            Add(Models.FieldDefinition.TaxonomyTierOneName.ToGridHeaderString(), x => x.TaxonomyTierOne == null ? string.Empty : x.TaxonomyTierOne.DisplayName, 300, DhtmlxGridColumnFilterType.Html);
+            Add(Models.FieldDefinition.TaxonomyTierOne.ToGridHeaderString(), x => x.TaxonomyTierOne == null ? string.Empty : x.TaxonomyTierOne.DisplayName, 300, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.LeadImplementer.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.LeadImplementerOrganization.GetDetailUrl(), x.LeadImplementerOrganization.DisplayName), 175);
             Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.PlanningDesignStartYear, 90, DhtmlxGridColumnFormatType.None);
             Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => x.ImplementationStartYear, 115, DhtmlxGridColumnFormatType.None);

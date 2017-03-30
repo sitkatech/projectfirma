@@ -28,8 +28,8 @@ namespace ProjectFirma.Web.Views.Results
     {
         public FundingSourceCalendarYearExpenditureExcelSpec(Dictionary<int, string> calendarYears)
         {
-            AddColumn(Models.FieldDefinition.Organization.FieldDefinitionDisplayName, x => x.OrganizationName);
-            AddColumn(Models.FieldDefinition.FundingSource.FieldDefinitionDisplayName, x => x.FundingSourceName);
+            AddColumn(Models.FieldDefinition.Organization.GetFieldDefinitionLabel(), x => x.OrganizationName);
+            AddColumn(Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel(), x => x.FundingSourceName);
             foreach (var calendarYear in calendarYears)
             {
                 var currentCalendarYear = calendarYear;

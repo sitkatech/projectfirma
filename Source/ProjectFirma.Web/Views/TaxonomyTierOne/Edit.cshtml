@@ -26,7 +26,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.TaxonomyTierOneName, MultiTenantHelpers.GetTaxonomyTierOneDisplayName())
+                @Html.LabelWithSugarFor(m => m.TaxonomyTierOneName)
             </div>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.TaxonomyTierOneName, new { style = "width:522px" })
@@ -37,7 +37,7 @@ Source code is available upon request via <support@sitkatech.com>.
         {
             <div class="form-group">
                 <div class="col-sm-3 control-label">
-                    @Html.LabelWithSugarFor(m => m.TaxonomyTierTwoID, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())
+                    @Html.LabelWithSugarFor(m => m.TaxonomyTierTwoID)
                 </div>
                 <div class="col-sm-9">
                     @Html.DropDownListFor(m => m.TaxonomyTierTwoID, ViewDataTyped.TaxonomyTierTwos)

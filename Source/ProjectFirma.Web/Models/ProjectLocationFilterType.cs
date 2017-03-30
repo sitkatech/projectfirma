@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Models
 
         public override string DisplayName
         {
-            get { return MultiTenantHelpers.GetTaxonomyTierThreeDisplayName(); }
+            get { return FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel(); }
         }
     }
 
@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Models
 
         public override string DisplayName
         {
-            get { return MultiTenantHelpers.GetTaxonomyTierTwoDisplayName(); }
+            get { return FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel(); }
         }
     }
 
@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Models
 
         public override string DisplayName
         {
-            get { return MultiTenantHelpers.GetTaxonomyTierOneDisplayName(); }
+            get { return FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel(); }
         }
     }
 

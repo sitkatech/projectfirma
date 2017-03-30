@@ -55,7 +55,7 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <div>
-    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</a>
+    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @ViewDataTyped.TaxonomyTierTwoDisplayNamePluralized</a>
 </div>
 
 
@@ -66,7 +66,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h2>
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwoUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName(), ViewDataTyped.TaxonomyTierTwo.DisplayName), ViewDataTyped.UserHasTaxonomyTierTwoManagePermissions) Basics
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierTwoUrl, string.Format("Edit {0} - {1}", ViewDataTyped.TaxonomyTierTwoDisplayName, ViewDataTyped.TaxonomyTierTwo.DisplayName), ViewDataTyped.UserHasTaxonomyTierTwoManagePermissions) Basics
                         </h2>
                     </div>
                     <div class="panel-body">
@@ -86,7 +86,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="col-md-6">
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h2>@MultiTenantHelpers.GetTaxonomyTierTwoDisplayName() Projects Map</h2>
+                        <h2>@ViewDataTyped.TaxonomyTierTwoDisplayName Projects Map</h2>
                     </div>
                     <div style="padding: 10px">
                         <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
@@ -103,7 +103,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h2>
-                            <a href="@ViewDataTyped.IndexUrl">@MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized()</a>
+                            <a href="@ViewDataTyped.IndexUrl">@ViewDataTyped.TaxonomyTierOneDisplayNamePluralized</a>
                         </h2>
                     </div>
                     <div class="panel-body">
@@ -111,7 +111,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         {
                             <table class="summaryLayout">
                                 <tr>
-                                    <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierOneDisplayName())</th>
+                                    <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                                 </tr>
                                 @foreach (var taxonomyTierOne in ViewDataTyped.TaxonomyTierTwo.TaxonomyTierOnes)
                                 {
@@ -125,7 +125,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         }
                         else
                         {
-                            <p class="alert">No @MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized() set for this @MultiTenantHelpers.GetTaxonomyTierTwoDisplayName().</p>
+                            <p class="alert">No @ViewDataTyped.TaxonomyTierOneDisplayNamePluralized set for this @ViewDataTyped.TaxonomyTierTwoDisplayName.</p>
                         }
                     </div>
 
@@ -157,7 +157,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         }
                         else
                         {
-                            <p class="alert">No @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() set for this @MultiTenantHelpers.GetTaxonomyTierTwoDisplayName().</p>
+                            <p class="alert">No @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() set for this @ViewDataTyped.TaxonomyTierTwoDisplayName.</p>
                         }
                     </div>
                 </div>

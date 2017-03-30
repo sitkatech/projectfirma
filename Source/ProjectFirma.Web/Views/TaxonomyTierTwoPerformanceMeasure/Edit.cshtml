@@ -88,17 +88,17 @@ Source code is available upon request via <support@sitkatech.com>.
     @Html.ValidationSummary()
 </div>
 
-<div style="font-weight: bold; margin-bottom: 20px">@MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() Associated with @MultiTenantHelpers.GetPerformanceMeasureName()</div>
+<div style="font-weight: bold; margin-bottom: 20px">@ViewDataTyped.TaxonomyTierTwoDisplayNamePluralized Associated with @MultiTenantHelpers.GetPerformanceMeasureName()</div>
 <div id="EditTaxonomyTierTwosAngularApp" ng-controller="TaxonomyTierTwoPerformanceMeasureController">
-    @MultiTenantHelpers.GetTaxonomyTierTwoDisplayName() to Add: <select ng-model="TaxonomyTierTwoToAdd" ng-options="program.DisplayName for program in filteredTaxonomyTierTwos()">
+    @ViewDataTyped.TaxonomyTierTwoDisplayName to Add: <select ng-model="TaxonomyTierTwoToAdd" ng-options="program.DisplayName for program in filteredTaxonomyTierTwos()">
     <option value="">Choose One</option>
 </select>
     <button class="btn btn-xs btn-firma" type="button" ng-click="addTaxonomyTierTwo()">Add</button>
     <table class="dialogFormLayout">
         <tr>
             <th></th>
-            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</th>
-            <th>@Html.LabelWithSugarFor(FieldDefinition.IsPrimaryTaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()))</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinition.IsPrimaryTaxonomyTierTwo, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Is Primary {0}", ViewDataTyped.TaxonomyTierTwoDisplayName))</th>
         </tr>
         <tr ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyTierTwoPerformanceMeasures | orderBy:getTaxonomyTierTwoName">
             <td>

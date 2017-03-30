@@ -44,7 +44,7 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <div>
-    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @MultiTenantHelpers.GetTaxonomyTierOneDisplayNamePluralized()</a>
+    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @ViewDataTyped.TaxonomyTierOneDisplayNamePluralized</a>
 </div>
 
 
@@ -52,7 +52,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="col-md-6">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierOneUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetTaxonomyTierOneDisplayName(), ViewDataTyped.TaxonomyTierOne.DisplayName), ViewDataTyped.UserHasTaxonomyTierOneManagePermissions) Basics</h2>
+                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTierOneUrl, string.Format("Edit {0} - {1}", ViewDataTyped.TaxonomyTierOneDisplayName, ViewDataTyped.TaxonomyTierOne.DisplayName), ViewDataTyped.UserHasTaxonomyTierOneManagePermissions) Basics</h2>
             </div>
             <div class="panel-body">
                 @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }
@@ -74,7 +74,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="col-md-6">
         <div class="panel panelFirma" style="height: auto">
             <div class="panel-heading panelTitle">
-                <h2>@MultiTenantHelpers.GetTaxonomyTierOneDisplayName() Projects Map</h2>
+                <h2>@ViewDataTyped.TaxonomyTierOneDisplayName Projects Map</h2>
             </div>
             <div style="padding: 10px">
                 To zoom, hold down Shift and drag a rectangle.

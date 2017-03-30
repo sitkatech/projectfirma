@@ -86,10 +86,13 @@ namespace LtInfo.Common.HtmlHelperExtensions
 
     public class TestFieldDefinitionData : IFieldDefinitionData
     {
+        public int FieldDefinitionDataID { get; private set; }
+        public string FieldDefinitionLabel { get; set; }
         public HtmlString FieldDefinitionDataValueHtmlString { get; private set; }
 
-        public TestFieldDefinitionData(int id, string definition)
+        public TestFieldDefinitionData(int fieldDefinitionDataID, string definition)
         {
+            FieldDefinitionDataID = fieldDefinitionDataID;
             FieldDefinitionDataValueHtmlString = new HtmlString(definition);   
         }
     }

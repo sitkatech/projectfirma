@@ -39,36 +39,6 @@ namespace ProjectFirma.Web.Common
             return GetCurrentTenantAttributes().TaxonomySystemName;
         }
 
-        public static string GetTaxonomyTierThreeDisplayName()
-        {
-            return GetCurrentTenantAttributes().TaxonomyTierThreeDisplayName;
-        }
-
-        public static string GetTaxonomyTierThreeDisplayNamePluralized()
-        {
-            return PluralizationService.Pluralize(GetTaxonomyTierThreeDisplayName());
-        }
-
-        public static string GetTaxonomyTierTwoDisplayName()
-        {
-            return GetCurrentTenantAttributes().TaxonomyTierTwoDisplayName;
-        }
-
-        public static string GetTaxonomyTierTwoDisplayNamePluralized()
-        {
-            return PluralizationService.Pluralize(GetTaxonomyTierTwoDisplayName());
-        }
-
-        public static string GetTaxonomyTierOneDisplayName()
-        {
-            return GetCurrentTenantAttributes().TaxonomyTierOneDisplayName;
-        }
-
-        public static string GetTaxonomyTierOneDisplayNamePluralized()
-        {
-            return PluralizationService.Pluralize(GetTaxonomyTierOneDisplayName());
-        }
-
         public static string GetTaxonomyTierOneDisplayNameForProject()
         {
             return GetCurrentTenantAttributes().TaxonomyTierOneDisplayNameForProject;

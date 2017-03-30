@@ -172,7 +172,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     @if (ViewDataTyped.PerformanceMeasure.PrimaryTaxonomyTierTwo != null)
                     {
                         <tr>
-                            <th>Primary @MultiTenantHelpers.GetTaxonomyTierTwoDisplayName():</th>
+                            <th>Primary @ViewDataTyped.TaxonomyTierTwoDisplayName:</th>
                             <td>@ViewDataTyped.PerformanceMeasure.PrimaryTaxonomyTierTwo.TaxonomyTierTwoName</td>
                         </tr>
                     }
@@ -223,8 +223,8 @@ Source code is available upon request via <support@sitkatech.com>.
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>@FieldDefinition.PerformanceMeasureSubcategory.FieldDefinitionDisplayName</th>
-                        <th>@FieldDefinition.PerformanceMeasureSubcategoryOption.FieldDefinitionDisplayName</th>
+                        <th>@FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()</th>
+                        <th>@FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabel()</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -256,14 +256,14 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
     <div class="summarySection">
-        <span class="sectionTitle">@MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized()</span>
+        <span class="sectionTitle">@ViewDataTyped.TaxonomyTierTwoDisplayNamePluralized</span>
         <div class="contentWrapper">
             @if (ViewDataTyped.PerformanceMeasureTaxonomyTierTwos.Any())
             {
                 <table class="summaryLayout">
                     <tr>
-                        <th>@MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()</th>
-                        <th>Is Primary @MultiTenantHelpers.GetTaxonomyTierTwoDisplayName()</th>
+                        <th>@ViewDataTyped.TaxonomyTierTwoDisplayName</th>
+                        <th>Is Primary @ViewDataTyped.TaxonomyTierTwoDisplayName</th>
                     </tr>
                     @foreach (var taxonomyTierTwoPerformanceMeasure in ViewDataTyped.PerformanceMeasureTaxonomyTierTwos)
                     {
@@ -276,7 +276,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <p class="alert">No @MultiTenantHelpers.GetTaxonomyTierTwoDisplayNamePluralized() set for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
+                <p class="alert">No @ViewDataTyped.TaxonomyTierTwoDisplayNamePluralized set for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
             }
         </div>
     </div>

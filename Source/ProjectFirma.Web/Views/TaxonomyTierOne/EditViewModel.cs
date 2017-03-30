@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
 
         [Required]
         [StringLength(Models.TaxonomyTierOne.FieldLengths.TaxonomyTierOneName)]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierOneName)]
+        [DisplayName("Name")]
         public string TaxonomyTierOneName { get; set; }
 
         [StringLength(Models.TaxonomyTierOne.FieldLengths.TaxonomyTierOneDescription)]

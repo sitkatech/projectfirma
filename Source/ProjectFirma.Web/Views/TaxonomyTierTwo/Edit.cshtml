@@ -29,7 +29,7 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <div class="form-horizontal">
         <div class="form-group">
-            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTierTwoName, MultiTenantHelpers.GetTaxonomyTierTwoDisplayName())</div>
+            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTierTwoName)</div>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.TaxonomyTierTwoName)
                 @Html.ValidationMessageFor(m => m.TaxonomyTierTwoName)
@@ -38,7 +38,7 @@ Source code is available upon request via <support@sitkatech.com>.
         @if (MultiTenantHelpers.NumberOfTaxonomyTiers == 3)
         {
             <div class="form-group">
-                <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTierThreeID, MultiTenantHelpers.GetTaxonomyTierThreeDisplayName())</div>
+                <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTierThreeID)</div>
                 <div class="col-sm-9">
                     @Html.DropDownListFor(m => m.TaxonomyTierThreeID, ViewDataTyped.TaxonomyTierThrees)
                     @Html.ValidationMessageFor(m => m.TaxonomyTierThreeID)

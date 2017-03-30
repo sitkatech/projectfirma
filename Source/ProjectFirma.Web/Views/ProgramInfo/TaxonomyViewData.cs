@@ -27,12 +27,18 @@ namespace ProjectFirma.Web.Views.ProgramInfo
     public class TaxonomyViewData : FirmaViewData
     {
         public readonly List<FancyTreeNode> TopLevelTaxonomyTierAsFancyTreeNodes;
+        public readonly string TaxonomyTierThreeDisplayName;
+        public readonly string TaxonomyTierTwoDisplayName;
+        public readonly string TaxonomyTierOneDisplayName;
 
         public TaxonomyViewData(Person currentPerson, Models.FirmaPage firmaPage,
             List<FancyTreeNode> topLevelTaxonomyTierAsFancyTreeNodes) : base(currentPerson, firmaPage, false)
         {
             TopLevelTaxonomyTierAsFancyTreeNodes = topLevelTaxonomyTierAsFancyTreeNodes;
             PageTitle = MultiTenantHelpers.GetTaxonomySystemName();
+            TaxonomyTierThreeDisplayName = Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel();
+            TaxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
+            TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
         }
     }
 }

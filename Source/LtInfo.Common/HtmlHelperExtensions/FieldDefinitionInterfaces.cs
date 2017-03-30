@@ -24,13 +24,15 @@ namespace LtInfo.Common.HtmlHelperExtensions
 {    
     public interface IFieldDefinition
     {
-        string FieldDefinitionDisplayName { get; }
-        IFieldDefinitionData FieldDefinitionData { get; }
+        IFieldDefinitionData GetFieldDefinitionData();
+        string GetFieldDefinitionLabel();
         string GetContentUrl();
     }
 
     public interface IFieldDefinitionData
     {
+        int FieldDefinitionDataID { get; }
+        string FieldDefinitionLabel { get; }
         HtmlString FieldDefinitionDataValueHtmlString { get; }
     }
 
@@ -38,5 +40,4 @@ namespace LtInfo.Common.HtmlHelperExtensions
     {
         IFieldDefinition FieldDefinition { get; }
     }
-
 }

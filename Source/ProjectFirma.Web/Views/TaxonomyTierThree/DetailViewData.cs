@@ -26,7 +26,6 @@ using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.TaxonomyTierThree
 {
@@ -49,12 +48,21 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
 
         public readonly ProjectTaxonomyViewData ProjectTaxonomyViewData;
 
+        public readonly string TaxonomyTierThreeDisplayName;
+        public readonly string TaxonomyTierThreeDisplayNamePluralized;
+        public readonly string TaxonomyTierTwoDisplayNamePluralized;
+        public readonly string TaxonomyTierOneDisplayNamePluralized;
+
         public DetailViewData(Person currentPerson,
             Models.TaxonomyTierThree taxonomyTierThree,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
             ProjectLocationsMapViewData projectLocationsMapViewData) : base(currentPerson)
         {
             TaxonomyTierThree = taxonomyTierThree;
+            TaxonomyTierThreeDisplayName = Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel();
+            TaxonomyTierThreeDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabelPluralized();
+            TaxonomyTierTwoDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized();
+            TaxonomyTierOneDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabelPluralized();
 
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
@@ -62,7 +70,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
             ProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
 
             PageTitle = taxonomyTierThree.DisplayName;
-            EntityName = MultiTenantHelpers.GetTaxonomyTierThreeDisplayName();
+            EntityName = TaxonomyTierThreeDisplayName;
             IndexUrl = SitkaRoute<TaxonomyTierThreeController>.BuildUrlFromExpression(c => c.Index());
 
             UserHasTaxonomyTierThreeManagePermissions = new TaxonomyTierThreeManageFeature().HasPermissionByPerson(CurrentPerson);
@@ -73,8 +81,8 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
             BasicProjectInfoGridName = "taxonomyTierThreeProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
-                ObjectNameSingular = string.Format("Project with this {0}", MultiTenantHelpers.GetTaxonomyTierThreeDisplayName()),
-                ObjectNamePlural = string.Format("Projects with this {0}", MultiTenantHelpers.GetTaxonomyTierThreeDisplayName()),
+                ObjectNameSingular = string.Format("Project with this {0}", TaxonomyTierThreeDisplayName),
+                ObjectNamePlural = string.Format("Projects with this {0}", TaxonomyTierThreeDisplayName),
                 SaveFiltersInCookie = true
             };
 
