@@ -10,13 +10,27 @@
 @import url(https://fonts.googleapis.com/css?family=Basic);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
+@import url(https://fonts.googleapis.com/css?family=EB+Garamond:400,700);
 
 // Customizable Variables
-@firma-menu-font: "Open Sans",sans-serif;
-@firma-header-font: "Open Sans",sans-serif;
+/*@firma-menu-font: "Open Sans", sans-serif;
+@firma-header-font: "Open Sans", sans-serif;
 @firma-text-font: "Open Sans",sans-serif;
+@firma-text-fontSize: 14px;
+
+@firma-text-color: #193D5B;
+@firma-headerText-color: #193D5B;
 
 @firma-background-color: #f5f8fa;
+@firma-contentBackground-color: #fff;
+@firma-contentBorder-color: #e7e7e7;
+
+@firma-logoHeaderBackground-color: #f8f8f8;
+@firma-navBackground-color: #f8f8f8;
+@firma-navBorder-color: #e7e7e7;
+@firma-navText-color: #777;
+@firma-navHover-color: #eee;
 
 @firma-panel-headerBackground-color: #f5f5f5;
 @firma-panel-headerText-color: #333;
@@ -35,20 +49,54 @@
 @firma-buttonBorder-color-hover: #204d74;
 @firma-buttonText-color-hover: #fff;
 
-@firma-light-blue: #f5f8fa;
-@firma-med-blue: #70A1CC;
-@firma-dark: #1e3948;
-@firma-blue:  #337ab7;
-@firma-dark-blue: #193D5B;
-@firma-white: #fff;
-@firma-gray: #e7e7e7;
-@firma-light-gray: #f8f8f8;
-@globalFontToUse: "Open Sans",sans-serif;
-@defaultFontSize: 13px;
+@firma-scrollSpyText-color: #777;
+@firma-scrollSpyBackground-color: transparent;
+@firma-scrollSpy-color-active: #337ab7;
+@firma-scrollSpyText-color-hover: #337ab7;
+@firma-scrollSpyBackground-color-hover: transparent;*/
+
+@firma-menu-font: "Roboto", Helvetica, sans-serif;
+@firma-header-font: "Roboto",  Helvetica, sans-serif;
+@firma-text-font: "EB Garamond", Georgia, serif;
+@firma-text-fontSize: 16px;
+
+@firma-text-color: #4d4c4c;
+@firma-headerText-color: #4d4c4c;
+
+@firma-background-color: #fff;
+@firma-contentBackground-color: #fff;
+@firma-contentBorder-color: #fff;
+
+@firma-logoHeaderBackground-color: #fff;
+@firma-navBackground-color: #fff;
+@firma-navBorder-color: #fff;
+@firma-navText-color: #4d4c4c;
+@firma-navHover-color: #b3b2b2;
+
+@firma-panel-headerBackground-color: #63B245;
+@firma-panel-headerText-color: #fff;
+@firma-panel-border-color: #ddd;
+
+@firma-pageTitle-color: #354F25;
+@firma-header-color: #1e3948;
+
+@firma-helpIconActive-color: #63B245;
+@firma-helpIconInactive-color: #DDDDDD;
+
+@firma-buttonBackground-color: #63B245;
+@firma-buttonBorder-color: #59A03E;
+@firma-buttonText-color: #fff;
+@firma-buttonBackground-color-hover: #354F25;
+@firma-buttonBorder-color-hover: #354F25;
+@firma-buttonText-color-hover: #fff;
+
+@firma-scrollSpyText-color: #4d4c4c;
+@firma-scrollSpyBackground-color: transparent;
+@firma-scrollSpy-color-active: #63B245;
+@firma-scrollSpyText-color-hover: #63B245;
+@firma-scrollSpyBackground-color-hover: transparent;
+
 @disabled-color: LightGray;
-
-
-
 
 // Global
 
@@ -58,9 +106,9 @@ html, body {
 
 body {
     font-family: @firma-text-font;
+    font-size: @firma-text-fontSize;
     background-color: @firma-background-color;
-    color: @firma-dark;
-    margin: 5px;
+    color: @firma-text-color;
 }
 
 input[disabled] {
@@ -73,6 +121,12 @@ input[disabled] {
 
 a:hover {
    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: @firma-headerText-color;
+    font-family: @firma-header-font;
+    font-weight: 600;
 }
 
 .container {
@@ -92,8 +146,8 @@ a:hover {
 }
 
 .firmaContent {
-    background-color: @firma-white;
-    border: 1px solid @firma-gray;
+    background-color: @firma-contentBackground-color;
+    border: 1px solid @firma-contentBorder-color;
     padding-bottom: 20px;
 }
 
@@ -117,7 +171,7 @@ form {
 
 .header {
     
-    background-color: @firma-light-gray;
+    background-color: @firma-logoHeaderBackground-color;
 
     img {
         margin: 5px;
@@ -127,8 +181,14 @@ form {
         display: inline-block;
         font-size: 30px;
         font-weight: 600;
+        font-family: @firma-header-font;
+        color: @firma-pageTitle-color;
         vertical-align: bottom;
         margin-bottom: 6px;
+
+        a {
+            color: @firma-pageTitle-color;
+        }
 
         a:hover, a:active {
             text-decoration: none;
@@ -136,21 +196,40 @@ form {
     }
 }
 
+.navbar {
+    background-color: @firma-navBackground-color;
+    border-bottom-color: @firma-navBorder-color;
+    border-radius: 0;
+}
+
 .nav li p {
     padding:0 15px 0 15px;
+    
 }
 
 .nav li {
     font-weight: 600;
 
+    a {
+        color: @firma-navText-color;
+        font-family: @firma-menu-font;
+    }
+    
     a:hover {
+        background-color: @firma-navHover-color;
         text-decoration: none;
+    }
+
+    p a:hover {
+        background-color: transparent;
+    }
+
+    .navbar-text {
+        color: @firma-navText-color;
+        font-family: @firma-menu-font;
     }
 }
 
-.navbar {
-    border-top: none;
-}
 
 .navbar-right {
     padding-right: 15px;
@@ -159,10 +238,25 @@ form {
 .dropdown-menu {
     z-index: 16000;
 }
-ul.dropdown-menu li a {
-    font-weight: 600;
-    color: @firma-dark;
-}
+
+ul.dropdown-menu{
+    background-color: @firma-navBackground-color;
+
+    li {    
+        a {
+            font-weight: 600;
+            font-family: @firma-menu-font;
+            color: @firma-navText-color;
+            background-color: @firma-navBackground-color;
+        }
+
+        a:hover {
+            background-color: @firma-navHover-color;
+            color: @firma-navText-color;
+            text-decoration: none;
+        }
+    }
+} 
 
 // Footer
 footer {
@@ -259,7 +353,7 @@ footer {
 }
 
 .firma-modal-dialog .modal-header {
-    background-color: @firma-gray;
+    background-color: #e7e7e7;
     padding: .5em;
     cursor: move;
 }
@@ -457,6 +551,7 @@ table.summaryLayout td {
     border-color: @firma-panel-border-color;
     font-weight: bold;
     font-size: 14px;
+    font-family: @firma-header-font;
     margin-bottom: 0;
     margin-top: 0;
     }
@@ -495,7 +590,7 @@ a.gridButton:visited, a.gridButton:active, a.button:visited, a.button:active {
 }
 
 a.gridButton.disabled {
-    background-color: #ADB0A8;    
+    background-color: @disabled-color;    
 }
 
 /* STANDARD */
@@ -544,8 +639,8 @@ a.excelbutton {
 /* ScrollSpy / Table of Contents */
 nav#tableOfContents ul.nav li a {
   border: none;
-  background-color: transparent;
-  color: #555;
+  color: @firma-scrollSpyText-color;
+  background-color: @firma-scrollSpyBackground-color;
   text-decoration: none;
   font-weight: bold;
   padding: 0 0 0 5px;
@@ -554,7 +649,6 @@ nav#tableOfContents ul.nav li a {
 nav#tableOfContents ul.nav ul.nav {
   border: none;
   background-color: transparent;
-  color: #555;
   text-decoration: none;
   font-weight: bold;
   padding: 0 0 0 5px;
@@ -580,34 +674,35 @@ nav#tableOfContents ul.nav li.active ul.nav {
 
 nav#tableOfContents ul.nav li.active a
  {
-  color: #337ab7;
-  border-left: 4px solid #337ab7;
+  color: @firma-scrollSpy-color-active;
+  border-left: 4px solid @firma-scrollSpy-color-active;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li.active a
  {
-  color: #337ab7;
-  border-left: 2px solid #337ab7;
+  color: @firma-scrollSpy-color-active;
+  border-left: 2px solid @firma-scrollSpy-color-active;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li a {
   cursor: pointer;
   text-decoration: none;
   border: none;
-  color: #555;
+  color: @firma-scrollSpyText-color;
 }
 nav#tableOfContents ul.nav li a:hover
 {
-  color: #337ab7;
+  color: @firma-scrollSpyText-color-hover;
+  background-color:@firma-scrollSpyBackground-color-hover;
   cursor: pointer;
   text-decoration: none; 
 }
 nav#tableOfContents ul.nav li ul.nav li a:hover
 {
-    color: #337ab7;
-  cursor: pointer;
-  text-decoration: none;
-   
+    color: @firma-scrollSpyText-color-hover;
+    background-color:@firma-scrollSpyBackground-color-hover;
+    cursor: pointer;
+    text-decoration: none;   
 }
 
 
@@ -733,6 +828,6 @@ ul.filmStrip li a div.caption {
     a.disabled {
       cursor: not-allowed;
       font-style: italic;
-      color: #999;
+      color: @disabled-color;
       background-color: transparent;
       }

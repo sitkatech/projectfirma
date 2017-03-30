@@ -1,15 +1,57 @@
 ﻿@import url(https://fonts.googleapis.com/css?family=Basic);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
+@import url(https://fonts.googleapis.com/css?family=EB+Garamond:400,700);
+/*@firma-menu-font: "Open Sans", sans-serif;
+@firma-header-font: "Open Sans", sans-serif;
+@firma-text-font: "Open Sans",sans-serif;
+@firma-text-fontSize: 14px;
+
+@firma-text-color: #193D5B;
+@firma-headerText-color: #193D5B;
+
+@firma-background-color: #f5f8fa;
+@firma-contentBackground-color: #fff;
+@firma-contentBorder-color: #e7e7e7;
+
+@firma-logoHeaderBackground-color: #f8f8f8;
+@firma-navBackground-color: #f8f8f8;
+@firma-navBorder-color: #e7e7e7;
+@firma-navText-color: #777;
+@firma-navHover-color: #eee;
+
+@firma-panel-headerBackground-color: #f5f5f5;
+@firma-panel-headerText-color: #333;
+@firma-panel-border-color: #ddd;
+
+@firma-pageTitle-color: #337ab7;
+@firma-header-color: #1e3948;
+
+@firma-helpIconActive-color: #70A1CC;
+@firma-helpIconInactive-color: #DDDDDD;
+
+@firma-buttonBackground-color: #337ab7;
+@firma-buttonBorder-color: #2e6da4;
+@firma-buttonText-color: #fff;
+@firma-buttonBackground-color-hover: #286090;
+@firma-buttonBorder-color-hover: #204d74;
+@firma-buttonText-color-hover: #fff;
+
+@firma-scrollSpyText-color: #777;
+@firma-scrollSpyBackground-color: transparent;
+@firma-scrollSpy-color-active: #337ab7;
+@firma-scrollSpyText-color-hover: #337ab7;
+@firma-scrollSpyBackground-color-hover: transparent;*/
 html,
 body {
   height: 100%;
 }
 body {
-  font-family: "Open Sans", sans-serif;
-  background-color: #f5f8fa;
-  color: #1e3948;
-  margin: 5px;
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 16px;
+  background-color: #ffffff;
+  color: #4d4c4c;
 }
 input[disabled] {
   background-color: LightGray;
@@ -20,6 +62,16 @@ input[disabled] {
 a:hover {
   text-decoration: none;
 }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #4d4c4c;
+  font-family: "Roboto", Helvetica, sans-serif;
+  font-weight: 600;
+}
 .container {
   padding-right: 15px;
   padding-left: 15px;
@@ -28,14 +80,14 @@ a:hover {
 }
 .pageTitle {
   font-weight: 600;
-  color: #337ab7;
+  color: #354f25;
 }
 #mainnavandcontent {
   margin-bottom: 20px;
 }
 .firmaContent {
   background-color: #ffffff;
-  border: 1px solid #e7e7e7;
+  border: 1px solid #ffffff;
   padding-bottom: 20px;
 }
 .rightFloatingInfo {
@@ -51,7 +103,7 @@ form .form-group-condensed {
   margin-bottom: 5px;
 }
 .header {
-  background-color: #f8f8f8;
+  background-color: #ffffff;
 }
 .header img {
   margin: 5px;
@@ -61,12 +113,22 @@ form .form-group-condensed {
   display: inline-block;
   font-size: 30px;
   font-weight: 600;
+  font-family: "Roboto", Helvetica, sans-serif;
+  color: #354f25;
   vertical-align: bottom;
   margin-bottom: 6px;
+}
+.header .headerText a {
+  color: #354f25;
 }
 .header .headerText a:hover,
 .header .headerText a:active {
   text-decoration: none;
+}
+.navbar {
+  background-color: #ffffff;
+  border-bottom-color: #ffffff;
+  border-radius: 0;
 }
 .nav li p {
   padding: 0 15px 0 15px;
@@ -74,11 +136,20 @@ form .form-group-condensed {
 .nav li {
   font-weight: 600;
 }
+.nav li a {
+  color: #4d4c4c;
+  font-family: "Roboto", Helvetica, sans-serif;
+}
 .nav li a:hover {
+  background-color: #b3b2b2;
   text-decoration: none;
 }
-.navbar {
-  border-top: none;
+.nav li p a:hover {
+  background-color: transparent;
+}
+.nav li .navbar-text {
+  color: #4d4c4c;
+  font-family: "Roboto", Helvetica, sans-serif;
 }
 .navbar-right {
   padding-right: 15px;
@@ -86,9 +157,19 @@ form .form-group-condensed {
 .dropdown-menu {
   z-index: 16000;
 }
+ul.dropdown-menu {
+  background-color: #ffffff;
+}
 ul.dropdown-menu li a {
   font-weight: 600;
-  color: #1e3948;
+  font-family: "Roboto", Helvetica, sans-serif;
+  color: #4d4c4c;
+  background-color: #ffffff;
+}
+ul.dropdown-menu li a:hover {
+  background-color: #b3b2b2;
+  color: #4d4c4c;
+  text-decoration: none;
 }
 footer {
   position: relative;
@@ -97,7 +178,7 @@ footer {
   right: 0;
   width: 100%;
   height: 65px;
-  background-color: #f5f8fa;
+  background-color: #ffffff;
 }
 footer p {
   margin: 10px 0;
@@ -210,25 +291,25 @@ footer p {
 .firma-modal-dialog .btn-firma {
   font-size: 14px;
   color: #ffffff;
-  background-color: #337ab7;
-  border-color: #2e6da4;
+  background-color: #63b245;
+  border-color: #59a03e;
 }
 .btn-primary:hover {
   color: #ffffff;
-  background-color: #286090;
-  border-color: #204d74;
+  background-color: #354f25;
+  border-color: #354f25;
 }
 .btn-firma:hover,
 .btn-primary:focus,
 .btn-primary.focus {
   color: #ffffff;
-  background-color: #286090;
-  border-color: #204d74;
+  background-color: #354f25;
+  border-color: #354f25;
 }
 a.btn-firma {
   color: #ffffff;
-  background-color: #337ab7;
-  border-color: #2e6da4;
+  background-color: #63b245;
+  border-color: #59a03e;
 }
 .btn-tag {
   color: black;
@@ -338,11 +419,12 @@ table.summaryLayout td {
 .panelFirma .panelTitle,
 .panelFirma .panelTitle h2,
 .panelFirma .panelTitle h3 {
-  color: #333333;
-  background-color: #f5f5f5;
+  color: #ffffff;
+  background-color: #63b245;
   border-color: #dddddd;
   font-weight: bold;
   font-size: 14px;
+  font-family: "Roboto", Helvetica, sans-serif;
   margin-bottom: 0;
   margin-top: 0;
 }
@@ -356,8 +438,8 @@ table.summaryLayout td {
 }
 a.gridButton {
   margin: 0 7px 0 0;
-  background-color: #337ab7;
-  border: 1px solid #2e6da4;
+  background-color: #63b245;
+  border: 1px solid #59a03e;
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -377,11 +459,11 @@ a.button:active {
   color: #ffffff;
 }
 a.gridButton.disabled {
-  background-color: #ADB0A8;
+  background-color: LightGray;
 }
 /* STANDARD */
 a.gridButton:hover {
-  background-color: #286090;
+  background-color: #354f25;
   color: #ffffff;
 }
 a.excelbutton {
@@ -397,7 +479,7 @@ a.excelbutton {
   margin-right: 2px;
 }
 .helpiconGridBlue {
-  color: #70a1cc;
+  color: #63b245;
 }
 .helpiconGridGray {
   color: #dddddd;
@@ -415,8 +497,8 @@ a.excelbutton {
 /* ScrollSpy / Table of Contents */
 nav#tableOfContents ul.nav li a {
   border: none;
+  color: #4d4c4c;
   background-color: transparent;
-  color: #555;
   text-decoration: none;
   font-weight: bold;
   padding: 0 0 0 5px;
@@ -425,7 +507,6 @@ nav#tableOfContents ul.nav li a {
 nav#tableOfContents ul.nav ul.nav {
   border: none;
   background-color: transparent;
-  color: #555;
   text-decoration: none;
   font-weight: bold;
   padding: 0 0 0 5px;
@@ -448,28 +529,30 @@ nav#tableOfContents ul.nav li.active ul.nav {
   max-height: 200px;
 }
 nav#tableOfContents ul.nav li.active a {
-  color: #337ab7;
-  border-left: 4px solid #337ab7;
+  color: #63b245;
+  border-left: 4px solid #63b245;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li.active a {
-  color: #337ab7;
-  border-left: 2px solid #337ab7;
+  color: #63b245;
+  border-left: 2px solid #63b245;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li a {
   cursor: pointer;
   text-decoration: none;
   border: none;
-  color: #555;
+  color: #4d4c4c;
 }
 nav#tableOfContents ul.nav li a:hover {
-  color: #337ab7;
+  color: #63b245;
+  background-color: transparent;
   cursor: pointer;
   text-decoration: none;
 }
 nav#tableOfContents ul.nav li ul.nav li a:hover {
-  color: #337ab7;
+  color: #63b245;
+  background-color: transparent;
   cursor: pointer;
   text-decoration: none;
 }
@@ -579,7 +662,7 @@ ul.filmStrip li a div.caption {
 a.disabled {
   cursor: not-allowed;
   font-style: italic;
-  color: #999;
+  color: LightGray;
   background-color: transparent;
 }
 /*# sourceMappingURL=bootstrap.firma.theme.css.map */
