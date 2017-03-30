@@ -55,9 +55,8 @@
 @firma-scrollSpyText-color-hover: #337ab7;
 @firma-scrollSpyBackground-color-hover: transparent;
 
-@firma-projectStageDefault-color: #fff;
+@firma-projectStageText-color: #fff;
 @firma-projectStageDefaultBackground-color: #767676;
-@firma-projectStageCurrent-color: #fff;
 @firma-projectStageCurrentBackground-color:  #2B6991;
 
 /*@firma-menu-font: "Roboto", Helvetica, sans-serif;
@@ -966,7 +965,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 
 //Project stage
 .stage h3 {
-
+        color: @firma-projectStageText-color;
         font-size: 16px;
         margin-bottom: 0;
         margin-top: 5px;
@@ -981,12 +980,11 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
         padding-left: 7px;
     }
 
-    .stage.default {
-        color:@firma-projectStageDefault-color;
+    .stage.default {       
         background-color: @firma-projectStageDefaultBackground-color;
     }
 
-    .stage.current {
-        color:@firma-projectStageCurrent-color;
+    .stage.current {        
         background-color: @firma-projectStageCurrentBackground-color;
     }
+

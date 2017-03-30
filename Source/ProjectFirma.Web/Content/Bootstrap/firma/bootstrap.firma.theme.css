@@ -775,6 +775,7 @@ select:-webkit-autofill {
   color: #000000;
 }
 .stage h3 {
+  color: #ffffff;
   font-size: 16px;
   margin-bottom: 0;
   margin-top: 5px;
@@ -787,11 +788,9 @@ td.stage {
   padding-left: 7px;
 }
 .stage.default {
-  color: #ffffff;
   background-color: #767676;
 }
 .stage.current {
-  color: #ffffff;
   background-color: #2b6991;
 }
 /*# sourceMappingURL=bootstrap.firma.theme.css.map */
