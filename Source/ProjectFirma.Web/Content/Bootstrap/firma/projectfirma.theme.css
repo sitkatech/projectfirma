@@ -11,7 +11,7 @@ body {
   font-family: "EB Garamond", Georgia, serif;
   font-size: 16px;
   background-color: #f3eedf;
-  color: #193d5b;
+  color: #4b4b4b;
 }
 input[disabled] {
   background-color: LightGray;
@@ -87,7 +87,7 @@ form .form-group-condensed {
 }
 .navbar {
   background-color: #354f25;
-  border-bottom-color: #e7e7e7;
+  border-bottom-color: #fdfdfb;
   border-radius: 0;
 }
 .nav li p {
@@ -116,7 +116,7 @@ form .form-group-condensed {
 .nav .open > a:hover,
 .nav .open > a:focus {
   background-color: #63b245;
-  border-color: #e7e7e7;
+  border-color: #fdfdfb;
 }
 .navbar-right {
   padding-right: 15px;
@@ -126,7 +126,7 @@ form .form-group-condensed {
 }
 ul.dropdown-menu {
   background-color: #354f25;
-  border: 1px solid #e7e7e7;
+  border: 1px solid #fdfdfb;
 }
 ul.dropdown-menu li a {
   font-weight: 600;
@@ -140,7 +140,7 @@ ul.dropdown-menu li a:hover {
   text-decoration: none;
 }
 ul.dropdown-menu .divider {
-  background-color: #e7e7e7;
+  background-color: #fdfdfb;
 }
 footer {
   position: relative;
@@ -463,7 +463,7 @@ a.excelbutton {
 /* ScrollSpy / Table of Contents */
 nav#tableOfContents ul.nav li a {
   border: none;
-  color: #193d5b;
+  color: #4b4b4b;
   background-color: #f3eedf;
   text-decoration: none;
   font-weight: bold;
@@ -508,7 +508,7 @@ nav#tableOfContents ul.nav li.active ul.nav li a {
   cursor: pointer;
   text-decoration: none;
   border: none;
-  color: #193d5b;
+  color: #4b4b4b;
 }
 nav#tableOfContents ul.nav li a:hover {
   color: #63b245;
