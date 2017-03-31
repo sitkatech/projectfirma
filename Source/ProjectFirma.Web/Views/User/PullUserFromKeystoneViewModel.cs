@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.User
         }
 
 
-        public void UpdateModel(Tenant currentTenant)
+        public void UpdateModel(Models.Tenant currentTenant)
         {
             try
             {
