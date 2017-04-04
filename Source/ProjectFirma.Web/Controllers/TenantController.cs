@@ -18,10 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Tenant;
@@ -33,7 +34,15 @@ namespace ProjectFirma.Web.Controllers
         [SitkaAdminFeature]
         public ViewResult Index()
         {
-            var viewData = new IndexViewData(CurrentPerson);
+            var gridSpec = new IndexGridSpec
+            {
+                ObjectNameSingular = "Tenant",
+                ObjectNamePlural = "Tenants",
+                SaveFiltersInCookie = true
+            };
+            var gridName = "Tenants";
+            var gridDataUrl = new SitkaRoute<TenantController>(c => c.IndexGridJsonData()).BuildUrlFromExpression();
+            var viewData = new IndexViewData(CurrentPerson, gridSpec, gridName, gridDataUrl);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -41,7 +50,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Tenant> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec();
-            List<Tenant> tenants = new List<Tenant>();
+            var tenants = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.ToList().Select(a => a.Tenant).ToList();
             return new GridJsonNetJObjectResult<Tenant>(tenants, gridSpec);
         }
 
