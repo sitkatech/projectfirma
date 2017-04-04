@@ -1,4 +1,105 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="Detail.cshtml" company="Tahoe Regional Planning Agency">
+Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Views.Tenant
 @inherits Detail
 
-<h1>Tenant Detail Todo</h1>
+<div>
+    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">
+        @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left")
+        Back to all Tenants
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.Tenant.TenantName), 1000, ViewDataTyped.UserHasTenantManagePermissions)
+                Basics
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Tenant Name</div>
+                    <div class="col-xs-7">@ViewDataTyped.Tenant.TenantName</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Tenant</div>
+                    <div class="col-xs-7">@ViewDataTyped.Tenant.TenantDomain</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Primary Contact</div>
+                    <div class="col-xs-7">@ViewDataTyped.PrimaryContactLink</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                Attributes
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Taxonomy System Name</div>
+                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.TaxonomySystemName</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Taxonomy Tier One Display Name For Project</div>
+                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.TaxonomyTierOneDisplayNameForProject</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Performance Measure Display Name</div>
+                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.PerformanceMeasureDisplayName</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Classification Display Name</div>
+                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.ClassificationDisplayName</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Tenant Square Logo Url</div>
+                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.TenantSquareLogoUrl</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Tenant Banner Logo Url</div>
+                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.TenantBannerLogoUrl</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Default Bounding Box</div>
+                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.DefaultBoundingBox</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Number Of Taxonomy Tiers To Use</div>
+                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.NumberOfTaxonomyTiersToUse</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Minimum Year</div>
+                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.MinimumYear</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Tenant Style Sheet Url</div>
+                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.TenantStyleSheetUrl</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

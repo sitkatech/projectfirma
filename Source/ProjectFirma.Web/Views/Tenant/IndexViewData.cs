@@ -30,6 +30,7 @@ namespace ProjectFirma.Web.Views.Tenant
 
         public IndexViewData(Person currentPerson, IndexGridSpec gridSpec, string gridName, string gridDataUrl) : base(currentPerson)
         {
+            PageTitle = "Tenants";
             GridSpec = gridSpec;
             GridName = gridName;
             GridDataUrl = gridDataUrl;

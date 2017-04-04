@@ -58,14 +58,17 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(TenantPrimaryKey tenantPrimaryKey)
         {
             var tenant = tenantPrimaryKey.EntityObject;
-            var viewData = new DetailViewData(CurrentPerson, tenant);
-
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
+            var indexUrl = new SitkaRoute<TenantController>(c => c.Index()).BuildUrlFromExpression();
+            var editUrl = new SitkaRoute<TenantController>(c => c.Edit(tenantPrimaryKey)).BuildUrlFromExpression();
+            var primaryContactLink = "primary contact link"; // TODO: will add once edit is in place and I know how to access primary contact
+            var viewData = new DetailViewData(CurrentPerson, tenant, tenantAttribute, indexUrl, editUrl, primaryContactLink);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
         [HttpGet]
         [SitkaAdminFeature]
-        public ViewResult Edit(TenantPrimaryKey tenantPrimaryKey)
+        public PartialViewResult Edit(TenantPrimaryKey tenantPrimaryKey)
         {
             var tenant = tenantPrimaryKey.EntityObject;
             var viewModel = new EditViewModel(tenant);
@@ -86,10 +89,10 @@ namespace ProjectFirma.Web.Controllers
             return Redirect(new SitkaRoute<TenantController>(c => c.Detail(tenantPrimaryKey)).BuildUrlFromExpression());
         }
 
-        private ViewResult ViewEdit(EditViewModel viewModel, Tenant tenant)
+        private PartialViewResult ViewEdit(EditViewModel viewModel, Tenant tenant)
         {
             var viewData = new EditViewData(CurrentPerson);
-            return RazorView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
     }
 }
