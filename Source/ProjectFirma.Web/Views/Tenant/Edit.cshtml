@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common.Mvc
 @using ProjectFirma.Web.Views.Tenant
 @inherits Edit
 
@@ -26,19 +27,19 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="form-horizontal">
     @Html.HiddenFor(m => m.TenantID)
     <div class="form-group">
-        <div class="col-md-4 text-right">@Html.LabelFor(m => m.PrimaryContactID)</div>
+        <div class="col-md-4 text-right">@Html.LabelFor(m => m.PrimaryContactPersonID)</div>
         <div class="col-md-8">
-            <select id="@Html.IdFor(m => m.PrimaryContactID)" name="@Html.NameFor(m => m.PrimaryContactID)"
+            <select id="@Html.IdFor(m => m.PrimaryContactPersonID)" name="@Html.NameFor(m => m.PrimaryContactPersonID)"
                     class="selectpicker" title="Select person for primary contact."
-                    data-live-search="true" data-live-search-placeholder="First Last - Organization">
+                    data-live-search="true" data-live-search-placeholder="Firstname Lastname">
                 @foreach (var person in ViewDataTyped.TenantPeople)
                 {
-                    <option value="@person.PersonID" data-tokens="@person.FullNameFirstLast">
+                    <option value="@person.PersonID" data-tokens="@person.FullNameFirstLast" selected="@(Model.PrimaryContactPersonID == person.PersonID ? "selected" : null)">
                         @person.FullNameFirstLast
                     </option>
                 }
             </select>
-            @Html.ValidationMessageFor(x => x.PrimaryContactID)
+            @Html.ValidationMessageFor(x => x.PrimaryContactPersonID)
         </div>
     </div>
     <div class="form-group">
@@ -70,20 +71,6 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-4 text-right">@Html.LabelFor(m => m.TenantSquareLogoUrl)</div>
-        <div class="col-md-8">
-            @Html.TextBoxFor(m => m.TenantSquareLogoUrl, new Dictionary<string, object> {{"class", "form-control"}, {"style", "width:auto;"}})
-            @Html.ValidationMessageFor(m => m.TenantSquareLogoUrl)
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-4 text-right">@Html.LabelFor(m => m.TenantBannerLogoUrl)</div>
-        <div class="col-md-8">
-            @Html.TextBoxFor(m => m.TenantBannerLogoUrl, new Dictionary<string, object> {{"class", "form-control"}, {"style", "width:auto;"}})
-            @Html.ValidationMessageFor(m => m.TenantBannerLogoUrl)
-        </div>
-    </div>
-    <div class="form-group">
         <div class="col-md-4 text-right">@Html.LabelFor(m => m.NumberOfTaxonomyTiersToUse)</div>
         <div class="col-md-8">
             @Html.TextBoxFor(m => m.NumberOfTaxonomyTiersToUse, new Dictionary<string, object> {{"type", "number"}, {"class", "form-control"}, {"style", "width:auto;"}})
@@ -98,10 +85,33 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-4 text-right">@Html.LabelFor(m => m.TenantStyleSheetUrl)</div>
+        <div class="col-md-4 text-right">@Html.LabelFor(m => m.TenantStyleSheetFileResourceData)</div>
         <div class="col-md-8">
-            @Html.TextBoxFor(m => m.TenantStyleSheetUrl, new Dictionary<string, object> {{"class", "form-control"}, {"style", "width:auto;"}})
-            @Html.ValidationMessageFor(m => m.TenantStyleSheetUrl)
+            @Html.EditorFor(x => x.TenantStyleSheetFileResourceData)
+            <span class="smallExplanationText">
+                Allowed Extensions: @Model.GetFileExtensions(x => x.TenantStyleSheetFileResourceData)
+            </span>
+            @Html.ValidationMessageFor(x => x.TenantStyleSheetFileResourceData)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelFor(m => m.TenantSquareLogoFileResourceData)</div>
+        <div class="col-md-8">
+            @Html.EditorFor(x => x.TenantSquareLogoFileResourceData)
+            <span class="smallExplanationText">
+                Allowed Extensions: @Model.GetFileExtensions(x => x.TenantSquareLogoFileResourceData)
+            </span>
+            @Html.ValidationMessageFor(x => x.TenantSquareLogoFileResourceData)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelFor(m => m.TenantBannerLogoFileResourceData)</div>
+        <div class="col-md-8">
+            @Html.EditorFor(x => x.TenantBannerLogoFileResourceData)
+            <span class="smallExplanationText">
+                Allowed Extensions: @Model.GetFileExtensions(x => x.TenantBannerLogoFileResourceData)
+            </span>
+            @Html.ValidationMessageFor(x => x.TenantBannerLogoFileResourceData)
         </div>
     </div>
 </div>

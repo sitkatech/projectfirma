@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using LtInfo.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 
@@ -30,16 +32,18 @@ namespace ProjectFirma.Web.Views.Tenant
         public readonly string IndexUrl;
         public string EditUrl;
         public readonly bool UserHasTenantManagePermissions;
-        public readonly string PrimaryContactLink;
+        public readonly SitkaRoute<UserController> PrimaryContactRoute;
 
-        public DetailViewData(Person currentPerson, Models.Tenant tenant, TenantAttribute tenantAttribute, string indexUrl, string editUrl, string primaryContactLink) : base(currentPerson)
+        public DetailViewData(Person currentPerson, Models.Tenant tenant, TenantAttribute tenantAttribute, string indexUrl, string editUrl) : base(currentPerson)
         {
             PageTitle = tenant.TenantName;
             Tenant = tenant;
             TenantAttribute = tenantAttribute;
             IndexUrl = indexUrl;
             EditUrl = editUrl;
-            PrimaryContactLink = primaryContactLink;
+            PrimaryContactRoute = tenantAttribute.PrimaryContactPerson != null
+                ? new SitkaRoute<UserController>(c => c.Detail(tenantAttribute.PrimaryContactPersonID))
+                : null;
             UserHasTenantManagePermissions = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
         }
     }

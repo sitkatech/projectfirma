@@ -30,25 +30,26 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(int tenantAttributeID, string taxonomySystemName, string taxonomyTierOneDisplayNameForProject, string performanceMeasureDisplayName, string classificationDisplayName, string tenantSquareLogoUrl, string tenantBannerLogoUrl, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, string tenantStyleSheetUrl) : this()
+        public TenantAttribute(int tenantAttributeID, string taxonomySystemName, string taxonomyTierOneDisplayNameForProject, string performanceMeasureDisplayName, string classificationDisplayName, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID) : this()
         {
             this.TenantAttributeID = tenantAttributeID;
             this.TaxonomySystemName = taxonomySystemName;
             this.TaxonomyTierOneDisplayNameForProject = taxonomyTierOneDisplayNameForProject;
             this.PerformanceMeasureDisplayName = performanceMeasureDisplayName;
             this.ClassificationDisplayName = classificationDisplayName;
-            this.TenantSquareLogoUrl = tenantSquareLogoUrl;
-            this.TenantBannerLogoUrl = tenantBannerLogoUrl;
             this.DefaultBoundingBox = defaultBoundingBox;
             this.NumberOfTaxonomyTiersToUse = numberOfTaxonomyTiersToUse;
             this.MinimumYear = minimumYear;
-            this.TenantStyleSheetUrl = tenantStyleSheetUrl;
+            this.PrimaryContactPersonID = primaryContactPersonID;
+            this.TenantSquareLogoFileResourceID = tenantSquareLogoFileResourceID;
+            this.TenantBannerLogoFileResourceID = tenantBannerLogoFileResourceID;
+            this.TenantStyleSheetFileResourceID = tenantStyleSheetFileResourceID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(string taxonomySystemName, string taxonomyTierOneDisplayNameForProject, string performanceMeasureDisplayName, string classificationDisplayName, string tenantSquareLogoUrl, string tenantBannerLogoUrl, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, string tenantStyleSheetUrl) : this()
+        public TenantAttribute(string taxonomySystemName, string taxonomyTierOneDisplayNameForProject, string performanceMeasureDisplayName, string classificationDisplayName, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TenantAttributeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -57,12 +58,9 @@ namespace ProjectFirma.Web.Models
             this.TaxonomyTierOneDisplayNameForProject = taxonomyTierOneDisplayNameForProject;
             this.PerformanceMeasureDisplayName = performanceMeasureDisplayName;
             this.ClassificationDisplayName = classificationDisplayName;
-            this.TenantSquareLogoUrl = tenantSquareLogoUrl;
-            this.TenantBannerLogoUrl = tenantBannerLogoUrl;
             this.DefaultBoundingBox = defaultBoundingBox;
             this.NumberOfTaxonomyTiersToUse = numberOfTaxonomyTiersToUse;
             this.MinimumYear = minimumYear;
-            this.TenantStyleSheetUrl = tenantStyleSheetUrl;
         }
 
 
@@ -71,7 +69,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static TenantAttribute CreateNewBlank()
         {
-            return new TenantAttribute(default(string), default(string), default(string), default(string), default(string), default(string), default(DbGeometry), default(int), default(int), default(string));
+            return new TenantAttribute(default(string), default(string), default(string), default(string), default(DbGeometry), default(int), default(int));
         }
 
         /// <summary>
@@ -95,15 +93,20 @@ namespace ProjectFirma.Web.Models
         public string TaxonomyTierOneDisplayNameForProject { get; set; }
         public string PerformanceMeasureDisplayName { get; set; }
         public string ClassificationDisplayName { get; set; }
-        public string TenantSquareLogoUrl { get; set; }
-        public string TenantBannerLogoUrl { get; set; }
         public DbGeometry DefaultBoundingBox { get; set; }
         public int NumberOfTaxonomyTiersToUse { get; set; }
         public int MinimumYear { get; set; }
-        public string TenantStyleSheetUrl { get; set; }
+        public int? PrimaryContactPersonID { get; set; }
+        public int? TenantSquareLogoFileResourceID { get; set; }
+        public int? TenantBannerLogoFileResourceID { get; set; }
+        public int? TenantStyleSheetFileResourceID { get; set; }
         public int PrimaryKey { get { return TenantAttributeID; } set { TenantAttributeID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual Person PrimaryContactPerson { get; set; }
+        public virtual FileResource TenantBannerLogoFileResource { get; set; }
+        public virtual FileResource TenantSquareLogoFileResource { get; set; }
+        public virtual FileResource TenantStyleSheetFileResource { get; set; }
 
         public static class FieldLengths
         {
@@ -111,9 +114,6 @@ namespace ProjectFirma.Web.Models
             public const int TaxonomyTierOneDisplayNameForProject = 100;
             public const int PerformanceMeasureDisplayName = 100;
             public const int ClassificationDisplayName = 100;
-            public const int TenantSquareLogoUrl = 100;
-            public const int TenantBannerLogoUrl = 100;
-            public const int TenantStyleSheetUrl = 200;
         }
     }
 }

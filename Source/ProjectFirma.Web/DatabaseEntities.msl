@@ -1096,12 +1096,13 @@
           <ScalarProperty Name="TaxonomyTierOneDisplayNameForProject" ColumnName="TaxonomyTierOneDisplayNameForProject" />
           <ScalarProperty Name="PerformanceMeasureDisplayName" ColumnName="PerformanceMeasureDisplayName" />
           <ScalarProperty Name="ClassificationDisplayName" ColumnName="ClassificationDisplayName" />
-          <ScalarProperty Name="TenantSquareLogoUrl" ColumnName="TenantSquareLogoUrl" />
-          <ScalarProperty Name="TenantBannerLogoUrl" ColumnName="TenantBannerLogoUrl" />
           <ScalarProperty Name="DefaultBoundingBox" ColumnName="DefaultBoundingBox" />
           <ScalarProperty Name="NumberOfTaxonomyTiersToUse" ColumnName="NumberOfTaxonomyTiersToUse" />
           <ScalarProperty Name="MinimumYear" ColumnName="MinimumYear" />
-          <ScalarProperty Name="TenantStyleSheetUrl" ColumnName="TenantStyleSheetUrl" />
+          <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
+          <ScalarProperty Name="TenantSquareLogoFileResourceID" ColumnName="TenantSquareLogoFileResourceID" />
+          <ScalarProperty Name="TenantBannerLogoFileResourceID" ColumnName="TenantBannerLogoFileResourceID" />
+          <ScalarProperty Name="TenantStyleSheetFileResourceID" ColumnName="TenantStyleSheetFileResourceID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

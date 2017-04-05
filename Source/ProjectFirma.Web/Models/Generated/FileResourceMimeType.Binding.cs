@@ -31,6 +31,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FileResourceMimeTypeExcelXLS ExcelXLS = FileResourceMimeTypeExcelXLS.Instance;
         public static readonly FileResourceMimeTypeWordDOC WordDOC = FileResourceMimeTypeWordDOC.Instance;
         public static readonly FileResourceMimeTypexExcelXLSX xExcelXLSX = FileResourceMimeTypexExcelXLSX.Instance;
+        public static readonly FileResourceMimeTypeCSS CSS = FileResourceMimeTypeCSS.Instance;
 
         public static readonly List<FileResourceMimeType> All;
         public static readonly ReadOnlyDictionary<int, FileResourceMimeType> AllLookupDictionary;
@@ -40,7 +41,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FileResourceMimeType()
         {
-            All = new List<FileResourceMimeType> { PDF, WordDOCX, ExcelXLSX, XPNG, PNG, TIFF, BMP, GIF, JPEG, PJPEG, PowerpointPPTX, PowerpointPPT, ExcelXLS, WordDOC, xExcelXLSX };
+            All = new List<FileResourceMimeType> { PDF, WordDOCX, ExcelXLSX, XPNG, PNG, TIFF, BMP, GIF, JPEG, PJPEG, PowerpointPPTX, PowerpointPPT, ExcelXLS, WordDOC, xExcelXLSX, CSS };
             AllLookupDictionary = new ReadOnlyDictionary<int, FileResourceMimeType>(All.ToDictionary(x => x.FileResourceMimeTypeID));
         }
 
@@ -117,6 +118,8 @@ namespace ProjectFirma.Web.Models
             {
                 case FileResourceMimeTypeEnum.BMP:
                     return BMP;
+                case FileResourceMimeTypeEnum.CSS:
+                    return CSS;
                 case FileResourceMimeTypeEnum.ExcelXLS:
                     return ExcelXLS;
                 case FileResourceMimeTypeEnum.ExcelXLSX:
@@ -167,7 +170,8 @@ namespace ProjectFirma.Web.Models
         PowerpointPPT = 12,
         ExcelXLS = 13,
         WordDOC = 14,
-        xExcelXLSX = 15
+        xExcelXLSX = 15,
+        CSS = 16
     }
 
     public partial class FileResourceMimeTypePDF : FileResourceMimeType
@@ -258,5 +262,11 @@ namespace ProjectFirma.Web.Models
     {
         private FileResourceMimeTypexExcelXLSX(int fileResourceMimeTypeID, string fileResourceMimeTypeName, string fileResourceMimeTypeDisplayName, string fileResourceMimeTypeContentTypeName, string fileResourceMimeTypeIconSmallFilename, string fileResourceMimeTypeIconNormalFilename) : base(fileResourceMimeTypeID, fileResourceMimeTypeName, fileResourceMimeTypeDisplayName, fileResourceMimeTypeContentTypeName, fileResourceMimeTypeIconSmallFilename, fileResourceMimeTypeIconNormalFilename) {}
         public static readonly FileResourceMimeTypexExcelXLSX Instance = new FileResourceMimeTypexExcelXLSX(15, @"x-Excel (XLSX)", @"x-Excel (XLSX)", @"application/x-excel", @"/Content/img/MimeTypeIcons/excel_20x20.png", @"/Content/img/MimeTypeIcons/excel_48x48.png");
+    }
+
+    public partial class FileResourceMimeTypeCSS : FileResourceMimeType
+    {
+        private FileResourceMimeTypeCSS(int fileResourceMimeTypeID, string fileResourceMimeTypeName, string fileResourceMimeTypeDisplayName, string fileResourceMimeTypeContentTypeName, string fileResourceMimeTypeIconSmallFilename, string fileResourceMimeTypeIconNormalFilename) : base(fileResourceMimeTypeID, fileResourceMimeTypeName, fileResourceMimeTypeDisplayName, fileResourceMimeTypeContentTypeName, fileResourceMimeTypeIconSmallFilename, fileResourceMimeTypeIconNormalFilename) {}
+        public static readonly FileResourceMimeTypeCSS Instance = new FileResourceMimeTypeCSS(16, @"CSS", @"CSS", @"text/css", null, null);
     }
 }

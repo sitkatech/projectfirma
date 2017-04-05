@@ -72,6 +72,7 @@ namespace ProjectFirma.Web.Controllers
                 case FileResourceMimeTypeEnum.WordDOC:
                 case FileResourceMimeTypeEnum.PowerpointPPTX:
                 case FileResourceMimeTypeEnum.PowerpointPPT:
+                case FileResourceMimeTypeEnum.CSS:
                     return new FileResourceResult(fileResource.OriginalCompleteFileName, fileResource.FileResourceData, fileResource.FileResourceMimeType);
                 case FileResourceMimeTypeEnum.XPNG:
                 case FileResourceMimeTypeEnum.PNG:

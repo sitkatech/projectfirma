@@ -668,6 +668,22 @@
       <End Role="TaxonomyTierTwo" EntitySet="TaxonomyTierTwo" />
       <End Role="TaxonomyTierTwoPerformanceMeasures" EntitySet="TaxonomyTierTwoPerformanceMeasure" />
     </AssociationSet>
+    <AssociationSet Name="FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID">
+      <End Role="TenantBannerLogoFileResource" EntitySet="FileResource" />
+      <End Role="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" EntitySet="TenantAttribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID">
+      <End Role="TenantSquareLogoFileResource" EntitySet="FileResource" />
+      <End Role="TenantAttributesWhereYouAreTheTenantSquareLogoFileResource" EntitySet="TenantAttribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_FileResourceID">
+      <End Role="TenantStyleSheetFileResource" EntitySet="FileResource" />
+      <End Role="TenantAttributesWhereYouAreTheTenantStyleSheetFileResource" EntitySet="TenantAttribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID">
+      <End Role="PrimaryContactPerson" EntitySet="Person" />
+      <End Role="TenantAttributesWhereYouAreThePrimaryContactPerson" EntitySet="TenantAttribute" />
+    </AssociationSet>
   </EntityContainer>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1894,12 +1910,13 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
     <Property Name="TaxonomyTierOneDisplayNameForProject" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="PerformanceMeasureDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="ClassificationDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TenantSquareLogoUrl" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TenantBannerLogoUrl" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="DefaultBoundingBox" Type="geometry" Nullable="false" />
     <Property Name="NumberOfTaxonomyTiersToUse" Type="int" Nullable="false" />
     <Property Name="MinimumYear" Type="int" Nullable="false" />
-    <Property Name="TenantStyleSheetUrl" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="PrimaryContactPersonID" Type="int" />
+    <Property Name="TenantSquareLogoFileResourceID" Type="int" />
+    <Property Name="TenantBannerLogoFileResourceID" Type="int" />
+    <Property Name="TenantStyleSheetFileResourceID" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectLocationArea_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -3652,6 +3669,54 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Principal>
       <Dependent Role="TaxonomyTierTwoPerformanceMeasures">
         <PropertyRef Name="TaxonomyTierTwoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID">
+    <End Role="TenantBannerLogoFileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="0..1" />
+    <End Role="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" Type="ProjectFirma.Web.Models.Store.TenantAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TenantBannerLogoFileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource">
+        <PropertyRef Name="TenantBannerLogoFileResourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID">
+    <End Role="TenantSquareLogoFileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="0..1" />
+    <End Role="TenantAttributesWhereYouAreTheTenantSquareLogoFileResource" Type="ProjectFirma.Web.Models.Store.TenantAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TenantSquareLogoFileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="TenantAttributesWhereYouAreTheTenantSquareLogoFileResource">
+        <PropertyRef Name="TenantSquareLogoFileResourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_FileResourceID">
+    <End Role="TenantStyleSheetFileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="0..1" />
+    <End Role="TenantAttributesWhereYouAreTheTenantStyleSheetFileResource" Type="ProjectFirma.Web.Models.Store.TenantAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TenantStyleSheetFileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="TenantAttributesWhereYouAreTheTenantStyleSheetFileResource">
+        <PropertyRef Name="TenantStyleSheetFileResourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID">
+    <End Role="PrimaryContactPerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
+    <End Role="TenantAttributesWhereYouAreThePrimaryContactPerson" Type="ProjectFirma.Web.Models.Store.TenantAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PrimaryContactPerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="TenantAttributesWhereYouAreThePrimaryContactPerson">
+        <PropertyRef Name="PrimaryContactPersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

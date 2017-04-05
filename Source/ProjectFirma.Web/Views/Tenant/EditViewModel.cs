@@ -18,46 +18,37 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web;
+using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
-    public class EditViewModel : FormViewModel
+    public class EditViewModel : FormViewModel, IValidatableObject
     {
         [Required]
         public int? TenantID { get; set; }
 
         [DisplayName("Primary Contact")]
-        [Required(ErrorMessage = "Must specify a Primary Contact")]
-        public int? PrimaryContactID { get; set; }
-
-        [DisplayName("Tenant Style Sheet Url")]
-        [Required(ErrorMessage = "Must specify a Tenant Style Sheet Url")]
-        [StringLength(TenantAttribute.FieldLengths.TenantStyleSheetUrl)]
-        public string TenantStyleSheetUrl { get; set; }
+        public int? PrimaryContactPersonID { get; set; }
 
         [DisplayName("Minimum Year")]
         [Required(ErrorMessage = "Must specify a Minimum Year")]
-        public int MinimumYear { get; set; }
+        public int? MinimumYear { get; set; }
 
         [DisplayName("Number Of Taxonomy Tiers To Use")]
         [Required(ErrorMessage = "Must specify a Number Of Taxonomy Tiers To Use")]
-        public int NumberOfTaxonomyTiersToUse { get; set; }
-
-        [DisplayName("Tenant Banner Logo Url")]
-        [Required(ErrorMessage = "Must specify a Tenant Banner Logo Url")]
-        [StringLength(TenantAttribute.FieldLengths.TenantBannerLogoUrl)]
-        public string TenantBannerLogoUrl { get; set; }
-
-        [DisplayName("Tenant Square Logo Url")]
-        [Required(ErrorMessage = "Must specify a Tenant Square Logo Url")]
-        [StringLength(TenantAttribute.FieldLengths.TenantSquareLogoUrl)]
-        public string TenantSquareLogoUrl { get; set; }
+        [Range(1, 3, ErrorMessage = "Number Of Taxonomy Tiers To Use must be a number between 1 and 3.")]
+        public int? NumberOfTaxonomyTiersToUse { get; set; }
 
         [DisplayName("Classification Display Name")]
         [Required(ErrorMessage = "Must specify a Classification Display Name")]
@@ -79,6 +70,18 @@ namespace ProjectFirma.Web.Views.Tenant
         [StringLength(TenantAttribute.FieldLengths.TaxonomySystemName)]
         public string TaxonomySystemName { get; set; }
 
+        [DisplayName("Tenant Style Sheet")]
+        [SitkaFileExtensions("css")]
+        public HttpPostedFileBase TenantStyleSheetFileResourceData { get; set; }
+
+        [DisplayName("Tenant Banner Logo")]
+        [SitkaFileExtensions("jpg|jpeg|gif|png")]
+        public HttpPostedFileBase TenantBannerLogoFileResourceData { get; set; }
+
+        [DisplayName("Tenant Square Logo")]
+        [SitkaFileExtensions("jpg|jpeg|gif|png")]
+        public HttpPostedFileBase TenantSquareLogoFileResourceData { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -89,29 +92,83 @@ namespace ProjectFirma.Web.Views.Tenant
         public EditViewModel(Models.Tenant tenant, TenantAttribute tenantAttribute)
         {
             TenantID = tenant.TenantID;
+            PrimaryContactPersonID = tenantAttribute.PrimaryContactPersonID;
             TaxonomySystemName = tenantAttribute.TaxonomySystemName;
             TaxonomyTierOneDisplayNameForProject = tenantAttribute.TaxonomyTierOneDisplayNameForProject;
             PerformanceMeasureDisplayName = tenantAttribute.PerformanceMeasureDisplayName;
             ClassificationDisplayName = tenantAttribute.ClassificationDisplayName;
-            TenantSquareLogoUrl = tenantAttribute.TenantSquareLogoUrl;
-            TenantBannerLogoUrl = tenantAttribute.TenantBannerLogoUrl;
             NumberOfTaxonomyTiersToUse = tenantAttribute.NumberOfTaxonomyTiersToUse;
             MinimumYear = tenantAttribute.MinimumYear;
-            TenantStyleSheetUrl = tenantAttribute.TenantStyleSheetUrl;
         }
 
-        public void UpdateModel()
+        public void UpdateModel(Person currentPerson)
         {
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == TenantID);
+
+            Person primaryContactPerson = null;
+            if (PrimaryContactPersonID != null)
+            {
+                primaryContactPerson = HttpRequestStorage.DatabaseEntities.AllPeople.Single(p => p.PersonID == PrimaryContactPersonID);
+                Check.Assert(primaryContactPerson.TenantID == TenantID, "Primary contact must belong to the tenant being edited. This should have been ensured by validation.");
+                Check.Assert(new AdminFeature().HasPermissionByPerson(primaryContactPerson), "Primary contact must be an admin. This should have been ensured by validation.");
+            }
+            tenantAttribute.PrimaryContactPerson = primaryContactPerson;
+
             tenantAttribute.TaxonomySystemName = TaxonomySystemName;
             tenantAttribute.TaxonomyTierOneDisplayNameForProject = TaxonomyTierOneDisplayNameForProject;
             tenantAttribute.PerformanceMeasureDisplayName = PerformanceMeasureDisplayName;
             tenantAttribute.ClassificationDisplayName = ClassificationDisplayName;
-            tenantAttribute.TenantSquareLogoUrl = TenantSquareLogoUrl;
-            tenantAttribute.TenantBannerLogoUrl = TenantBannerLogoUrl;
-            tenantAttribute.NumberOfTaxonomyTiersToUse = NumberOfTaxonomyTiersToUse;
-            tenantAttribute.MinimumYear = MinimumYear;
-            tenantAttribute.TenantStyleSheetUrl = TenantStyleSheetUrl;
+
+            Check.Assert(NumberOfTaxonomyTiersToUse != null, "Number Of Taxonomy Tiers To Use must not be null. This should have been ensured by validation.");
+            tenantAttribute.NumberOfTaxonomyTiersToUse = NumberOfTaxonomyTiersToUse ?? 0;
+
+            Check.Assert(MinimumYear != null, "Minimum Year must not be null. This should have been ensured by validation.");
+            tenantAttribute.MinimumYear = MinimumYear ?? 0;
+
+            if (TenantStyleSheetFileResourceData != null)
+            {
+                if (tenantAttribute.TenantStyleSheetFileResource != null)
+                {
+                    tenantAttribute.TenantStyleSheetFileResource.DeleteFileResource();
+                }
+                tenantAttribute.TenantStyleSheetFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentPerson);
+            }
+            if (TenantSquareLogoFileResourceData != null)
+            {
+                if (tenantAttribute.TenantSquareLogoFileResource != null)
+                {
+                    tenantAttribute.TenantSquareLogoFileResource.DeleteFileResource();
+                }
+                tenantAttribute.TenantSquareLogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentPerson);
+            }
+            if (TenantBannerLogoFileResourceData != null)
+            {
+                if (tenantAttribute.TenantBannerLogoFileResource != null)
+                {
+                    tenantAttribute.TenantBannerLogoFileResource.DeleteFileResource();
+                }
+                tenantAttribute.TenantBannerLogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentPerson);
+            }
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var errors = new List<ValidationResult>();
+
+            if (PrimaryContactPersonID != null)
+            {
+                var primaryContact = HttpRequestStorage.DatabaseEntities.AllPeople.Single(p => p.PersonID == PrimaryContactPersonID);
+                if (primaryContact.TenantID != TenantID)
+                {
+                    errors.Add(new SitkaValidationResult<EditViewModel, int?>("Primary contact must belong to the tenant being edited.", m => m.PrimaryContactPersonID));
+                }
+                if (!new AdminFeature().HasPermissionByPerson(primaryContact))
+                {
+                    errors.Add(new SitkaValidationResult<EditViewModel, int?>("Primary contact must be an admin.", m => m.PrimaryContactPersonID));
+                }
+            }
+
+            return errors;
         }
     }
 }

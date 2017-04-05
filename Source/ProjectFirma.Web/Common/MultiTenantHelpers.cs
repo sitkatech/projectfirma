@@ -21,6 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Data.Entity.Infrastructure.Pluralization;
 using System.Data.Entity.Spatial;
 using System.Linq;
+using LtInfo.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Common
@@ -71,17 +73,23 @@ namespace ProjectFirma.Web.Common
 
         public static string GetTenantSquareLogoUrl()
         {
-            return GetCurrentTenantAttributes().TenantSquareLogoUrl;
+            return GetCurrentTenantAttributes().TenantSquareLogoFileResource != null
+                ? GetCurrentTenantAttributes().TenantSquareLogoFileResource.FileResourceUrl
+                : "/Content/img/ProjectFirma_Logo_Square.png";
         }
 
         public static string GetTenantBannerLogoUrl()
         {
-            return GetCurrentTenantAttributes().TenantBannerLogoUrl;
+            return GetCurrentTenantAttributes().TenantBannerLogoFileResource != null
+                ? GetCurrentTenantAttributes().TenantBannerLogoFileResource.FileResourceUrl
+                : "/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png";
         }
 
         public static string GetTenantStyleSheetUrl()
         {
-            return GetCurrentTenantAttributes().TenantStyleSheetUrl;
+            return GetCurrentTenantAttributes().TenantStyleSheetFileResource != null
+                ? new SitkaRoute<TenantController>(c => c.Style(GetCurrentTenantAttributes().Tenant.TenantName)).BuildUrlFromExpression()
+                : "~/Content/Bootstrap/firma/clackamas.theme.min.css";
         }
         
         public static DbGeometry GetDefaultBoundingBox()

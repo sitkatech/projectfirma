@@ -18,9 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Mvc;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -56,8 +61,7 @@ namespace ProjectFirma.Web.Controllers
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
             var indexUrl = new SitkaRoute<TenantController>(c => c.Index()).BuildUrlFromExpression();
             var editUrl = new SitkaRoute<TenantController>(c => c.Edit(tenantPrimaryKey)).BuildUrlFromExpression();
-            var primaryContactLink = "primary contact link"; // TODO: will add once edit is in place and I know how to access primary contact
-            var viewData = new DetailViewData(CurrentPerson, tenant, tenantAttribute, indexUrl, editUrl, primaryContactLink);
+            var viewData = new DetailViewData(CurrentPerson, tenant, tenantAttribute, indexUrl, editUrl);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -73,24 +77,43 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpPost]
         [SitkaAdminFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]//todo need to figure out if there's a way to bypass tenant safe check on saving
         public ActionResult Edit(TenantPrimaryKey tenantPrimaryKey, EditViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 var tenant = tenantPrimaryKey.EntityObject;
                 return ViewEdit(viewModel, tenant);
             }
 
-            viewModel.UpdateModel();
-            return Redirect(new SitkaRoute<TenantController>(c => c.Detail(tenantPrimaryKey)).BuildUrlFromExpression());
+            viewModel.UpdateModel(CurrentPerson);
+            return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail(tenantPrimaryKey)).BuildUrlFromExpression());
         }
 
         private PartialViewResult ViewEdit(EditViewModel viewModel, Tenant tenant)
         {
-            var tenantPeople = HttpRequestStorage.DatabaseEntities.AllPeople.Where(x => x.TenantID == tenant.TenantID).ToList();
+            var adminFeature = new AdminFeature();
+            var tenantPeople = HttpRequestStorage.DatabaseEntities.AllPeople.Where(x => x.TenantID == tenant.TenantID).ToList().Where(x => adminFeature.HasPermissionByPerson(x)).ToList();
             var viewData = new EditViewData(CurrentPerson, tenantPeople);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+        }
+
+        [Route("Content/style-{tenantName}.css")]
+        public ActionResult Style(string tenantName)
+        {
+            var tenant = Tenant.All.SingleOrDefault(t => t.TenantName == tenantName);
+            if (tenant == default(Tenant))
+            {
+                return HttpNotFound();
+            }
+
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes.Single(a => a.TenantID == HttpRequestStorage.Tenant.TenantID);
+            var fileResource = tenantAttribute.TenantStyleSheetFileResource;
+
+            Check.Assert(fileResource != null, "Tenant Attribute must have an associated Tenant Style Sheet File Resource.");
+
+            // ReSharper disable once PossibleNullReferenceException -- Check.Assert above covers us here
+            return new FileStreamResult(new MemoryStream(fileResource.FileResourceData), fileResource.FileResourceMimeType.FileResourceMimeTypeContentTypeName);
         }
     }
 }

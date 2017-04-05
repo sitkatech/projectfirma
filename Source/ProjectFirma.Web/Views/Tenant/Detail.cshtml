@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.ModalDialog
+@using Microsoft.Web.Mvc
 @using ProjectFirma.Web.Views.Tenant
 @inherits Detail
 
@@ -48,7 +49,16 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">Primary Contact</div>
-                    <div class="col-xs-7">@ViewDataTyped.PrimaryContactLink</div>
+                    <div class="col-xs-7">
+                        @if (ViewDataTyped.PrimaryContactRoute != null)
+                        {
+                            @(new HtmlString(ViewDataTyped.PrimaryContactRoute.BuildLinkFromExpression(ViewDataTyped.TenantAttribute.PrimaryContactPerson.FullNameFirstLast)))
+                        }
+                        else
+                        {
+                            <em>Primary Contact not set.</em>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
@@ -76,14 +86,6 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-xs-7">@ViewDataTyped.TenantAttribute.ClassificationDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Tenant Square Logo Url</div>
-                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.TenantSquareLogoUrl</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Tenant Banner Logo Url</div>
-                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.TenantBannerLogoUrl</div>
-                </div>
-                <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">Number Of Taxonomy Tiers To Use</div>
                     <div class="col-xs-7">@ViewDataTyped.TenantAttribute.NumberOfTaxonomyTiersToUse</div>
                 </div>
@@ -92,8 +94,45 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-xs-7">@ViewDataTyped.TenantAttribute.MinimumYear</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Tenant Style Sheet Url</div>
-                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.TenantStyleSheetUrl</div>
+                    <div class="col-xs-5 fieldLabel text-right">Tenant Style Sheet</div>
+                    <div class="col-xs-7">
+                        @if (@ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource != null)
+                        {
+                            <a href="@ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource.FileResourceUrl" target="_blank">
+                                @ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource.OriginalCompleteFileName
+                            </a>
+                        }
+                        else
+                        {
+                            <em>Tenant Style Sheet is set to the default.</em>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Tenant Square Logo</div>
+                    <div class="col-xs-7">
+                        @if (@ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource != null)
+                        {
+                            @Html.Image(@ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource.FileResourceUrl, new { style = "max-width: 100%;" })
+                        }
+                        else
+                        {
+                            <em>Tenant Square Logo is set to the default.</em>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Tenant Banner Logo</div>
+                    <div class="col-xs-7">
+                        @if (@ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource != null)
+                        {
+                            @Html.Image(@ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource.FileResourceUrl, new {style = "max-width: 100%;"})
+                        }
+                        else
+                        {
+                            <em>Tenant Banner Logo is set to the default.</em>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
