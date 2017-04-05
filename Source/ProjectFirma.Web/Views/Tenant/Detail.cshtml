@@ -34,7 +34,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="col-md-5">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.Tenant.TenantName), 1000, ViewDataTyped.UserHasTenantManagePermissions)
+                @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.Tenant.TenantName), 800, ViewDataTyped.UserHasTenantManagePermissions)
                 Basics
             </div>
             <div class="panel-body">
@@ -82,10 +82,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">Tenant Banner Logo Url</div>
                     <div class="col-xs-7">@ViewDataTyped.TenantAttribute.TenantBannerLogoUrl</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Default Bounding Box</div>
-                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.DefaultBoundingBox</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">Number Of Taxonomy Tiers To Use</div>

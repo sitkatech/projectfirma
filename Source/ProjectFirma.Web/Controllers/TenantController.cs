@@ -34,12 +34,7 @@ namespace ProjectFirma.Web.Controllers
         [SitkaAdminFeature]
         public ViewResult Index()
         {
-            var gridSpec = new IndexGridSpec
-            {
-                ObjectNameSingular = "Tenant",
-                ObjectNamePlural = "Tenants",
-                SaveFiltersInCookie = true
-            };
+            var gridSpec = new IndexGridSpec {ObjectNameSingular = "Tenant", ObjectNamePlural = "Tenants", SaveFiltersInCookie = true};
             var gridName = "Tenants";
             var gridDataUrl = new SitkaRoute<TenantController>(c => c.IndexGridJsonData()).BuildUrlFromExpression();
             var viewData = new IndexViewData(CurrentPerson, gridSpec, gridName, gridDataUrl);
@@ -50,7 +45,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Tenant> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec();
-            var tenants = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.ToList().Select(a => a.Tenant).ToList();
+            var tenants = Tenant.All.ToList();
             return new GridJsonNetJObjectResult<Tenant>(tenants, gridSpec);
         }
 
@@ -71,12 +66,14 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult Edit(TenantPrimaryKey tenantPrimaryKey)
         {
             var tenant = tenantPrimaryKey.EntityObject;
-            var viewModel = new EditViewModel(tenant);
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
+            var viewModel = new EditViewModel(tenant, tenantAttribute);
             return ViewEdit(viewModel, tenant);
         }
 
         [HttpPost]
         [SitkaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(TenantPrimaryKey tenantPrimaryKey, EditViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -91,7 +88,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditViewModel viewModel, Tenant tenant)
         {
-            var viewData = new EditViewData(CurrentPerson);
+            var tenantPeople = HttpRequestStorage.DatabaseEntities.AllPeople.Where(x => x.TenantID == tenant.TenantID).ToList();
+            var viewData = new EditViewData(CurrentPerson, tenantPeople);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
     }
