@@ -33,18 +33,29 @@ namespace ProjectFirma.Web.Views.Tenant
         public string EditUrl;
         public readonly bool UserHasTenantManagePermissions;
         public readonly SitkaRoute<UserController> PrimaryContactRoute;
+        public readonly string DeleteTenantStyleSheetFileResourceUrl;
+        public readonly string DeleteTenantSquareLogoFileResourceUrl;
+        public readonly string DeleteTenantBannerLogoFileResourceUrl;
 
-        public DetailViewData(Person currentPerson, Models.Tenant tenant, TenantAttribute tenantAttribute, string indexUrl, string editUrl) : base(currentPerson)
+        public DetailViewData(Person currentPerson,
+            Models.Tenant tenant,
+            TenantAttribute tenantAttribute,
+            string indexUrl,
+            string editUrl,
+            string deleteTenantStyleSheetFileResourceUrl,
+            string deleteTenantSquareLogoFileResourceUrl,
+            string deleteTenantBannerLogoFileResourceUrl) : base(currentPerson)
         {
             PageTitle = tenant.TenantName;
             Tenant = tenant;
             TenantAttribute = tenantAttribute;
             IndexUrl = indexUrl;
             EditUrl = editUrl;
-            PrimaryContactRoute = tenantAttribute.PrimaryContactPerson != null
-                ? new SitkaRoute<UserController>(c => c.Detail(tenantAttribute.PrimaryContactPersonID))
-                : null;
+            PrimaryContactRoute = tenantAttribute.PrimaryContactPerson != null ? new SitkaRoute<UserController>(c => c.Detail(tenantAttribute.PrimaryContactPersonID)) : null;
             UserHasTenantManagePermissions = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            DeleteTenantStyleSheetFileResourceUrl = deleteTenantStyleSheetFileResourceUrl;
+            DeleteTenantSquareLogoFileResourceUrl = deleteTenantSquareLogoFileResourceUrl;
+            DeleteTenantBannerLogoFileResourceUrl = deleteTenantBannerLogoFileResourceUrl;
         }
     }
 }
