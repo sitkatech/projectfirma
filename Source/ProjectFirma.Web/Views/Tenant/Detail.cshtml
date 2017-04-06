@@ -31,7 +31,8 @@ Source code is available upon request via <support@sitkatech.com>.
     @if (ViewDataTyped.IsCurrentTenant)
     {
         <div class="pull-right">
-            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Edit Tenant", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")), ViewDataTyped.EditUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.Tenant.TenantName), 800, "Save", "Cancel", new List<string> { "btn", "btn-firma" }, null, null)
+            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Edit Tenant Basics", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")), ViewDataTyped.EditBasicsUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.Tenant.TenantName), 800, "Save", "Cancel", new List<string> { "btn", "btn-firma" }, null, null)
+            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Edit Default Map Extent ", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-map-marker")), ViewDataTyped.EditBoundingBoxUrl, string.Format("Edit Default Map Extent: {0}", ViewDataTyped.Tenant.TenantName), 800, "Save", "Cancel", new List<string> { "btn", "btn-firma" }, null, null)
         </div>
     }
 </div>

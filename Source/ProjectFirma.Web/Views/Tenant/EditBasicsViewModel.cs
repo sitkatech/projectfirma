@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditViewModel.cs" company="Tahoe Regional Planning Agency">
+<copyright file="EditBasicsViewModel.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -33,7 +33,7 @@ using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
-    public class EditViewModel : FormViewModel, IValidatableObject
+    public class EditBasicsViewModel : FormViewModel, IValidatableObject
     {
         [Required]
         public int? TenantID { get; set; }
@@ -69,11 +69,11 @@ namespace ProjectFirma.Web.Views.Tenant
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
-        public EditViewModel()
+        public EditBasicsViewModel()
         {
         }
 
-        public EditViewModel(Models.Tenant tenant, TenantAttribute tenantAttribute)
+        public EditBasicsViewModel(Models.Tenant tenant, TenantAttribute tenantAttribute)
         {
             TenantID = tenant.TenantID;
             TenantDisplayName = tenantAttribute.TenantDisplayName;
@@ -138,11 +138,11 @@ namespace ProjectFirma.Web.Views.Tenant
                 var primaryContact = HttpRequestStorage.DatabaseEntities.AllPeople.Single(p => p.PersonID == PrimaryContactPersonID);
                 if (primaryContact.TenantID != TenantID)
                 {
-                    errors.Add(new SitkaValidationResult<EditViewModel, int?>("Primary contact must belong to the tenant being edited.", m => m.PrimaryContactPersonID));
+                    errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>("Primary contact must belong to the tenant being edited.", m => m.PrimaryContactPersonID));
                 }
                 if (!new AdminFeature().HasPermissionByPerson(primaryContact))
                 {
-                    errors.Add(new SitkaValidationResult<EditViewModel, int?>("Primary contact must be an admin.", m => m.PrimaryContactPersonID));
+                    errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>("Primary contact must be an admin.", m => m.PrimaryContactPersonID));
                 }
             }
 

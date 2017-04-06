@@ -1,5 +1,5 @@
-﻿/*-----------------------------------------------------------------------
-<copyright file="Edit.cs" company="Tahoe Regional Planning Agency">
+﻿@*-----------------------------------------------------------------------
+<copyright file="EditBoundingBox.cshtml" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -17,12 +17,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 
 Source code is available upon request via <support@sitkatech.com>.
 </license>
------------------------------------------------------------------------*/
-using LtInfo.Common.Mvc;
-
-namespace ProjectFirma.Web.Views.Tenant
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views.Tenant
+@inherits EditBoundingBox
+              
+@using (Html.BeginForm())
 {
-    public abstract class Edit : TypedWebPartialViewPage<EditViewData, EditViewModel>
-    {
-    }
+    @Html.HiddenFor(m => m.TenantID)
 }

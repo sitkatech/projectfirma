@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency">
+<copyright file="EditBoundingBoxViewData.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,18 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using ProjectFirma.Web.Models;
-
 namespace ProjectFirma.Web.Views.Tenant
 {
-    public class EditViewData : FirmaViewData
+    public class EditBoundingBoxViewData
     {
-        public readonly List<Person> TenantPeople;
-
-        public EditViewData(Person currentPerson, List<Person> tenantPeople) : base(currentPerson)
-        {
-            TenantPeople = tenantPeople;
-        }
     }
 }

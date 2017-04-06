@@ -59,7 +59,8 @@ namespace ProjectFirma.Web.Controllers
             var tenant = tenantPrimaryKey.EntityObject;
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
             var indexUrl = new SitkaRoute<TenantController>(c => c.Index()).BuildUrlFromExpression();
-            var editUrl = new SitkaRoute<TenantController>(c => c.Edit(tenantPrimaryKey)).BuildUrlFromExpression();
+            var editBasicsUrl = new SitkaRoute<TenantController>(c => c.EditBasics(tenantPrimaryKey)).BuildUrlFromExpression();
+            var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox(tenantPrimaryKey)).BuildUrlFromExpression();
             string deleteTenantStyleSheetFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantStyleSheetFileResource(tenant)).BuildUrlFromExpression();
             string deleteTenantSquareLogoFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantSquareLogoFileResource(tenant)).BuildUrlFromExpression();
             string deleteTenantBannerLogoFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantBannerLogoFileResource(tenant)).BuildUrlFromExpression();
@@ -68,7 +69,8 @@ namespace ProjectFirma.Web.Controllers
                 tenant,
                 tenantAttribute,
                 indexUrl,
-                editUrl,
+                editBasicsUrl,
+                editBoundingBoxUrl,
                 deleteTenantStyleSheetFileResourceUrl,
                 deleteTenantSquareLogoFileResourceUrl,
                 deleteTenantBannerLogoFileResourceUrl);
@@ -77,35 +79,66 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [SitkaAdminFeature]
-        public PartialViewResult Edit(TenantPrimaryKey tenantPrimaryKey)
+        public PartialViewResult EditBasics(TenantPrimaryKey tenantPrimaryKey)
         {
             var tenant = tenantPrimaryKey.EntityObject;
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
-            var viewModel = new EditViewModel(tenant, tenantAttribute);
-            return ViewEdit(viewModel, tenant);
+            var viewModel = new EditBasicsViewModel(tenant, tenantAttribute);
+            return ViewEditBasics(viewModel, tenant);
         }
 
         [HttpPost]
         [SitkaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]//todo need to figure out if there's a way to bypass tenant safe check on saving
-        public ActionResult Edit(TenantPrimaryKey tenantPrimaryKey, EditViewModel viewModel)
+        public ActionResult EditBasics(TenantPrimaryKey tenantPrimaryKey, EditBasicsViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
                 var tenant = tenantPrimaryKey.EntityObject;
-                return ViewEdit(viewModel, tenant);
+                return ViewEditBasics(viewModel, tenant);
             }
 
             viewModel.UpdateModel(CurrentPerson);
             return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail(tenantPrimaryKey)).BuildUrlFromExpression());
         }
 
-        private PartialViewResult ViewEdit(EditViewModel viewModel, Tenant tenant)
+        private PartialViewResult ViewEditBasics(EditBasicsViewModel viewModel, Tenant tenant)
         {
             var adminFeature = new AdminFeature();
             var tenantPeople = HttpRequestStorage.DatabaseEntities.AllPeople.Where(x => x.TenantID == tenant.TenantID).ToList().Where(x => adminFeature.HasPermissionByPerson(x)).ToList();
-            var viewData = new EditViewData(CurrentPerson, tenantPeople);
-            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+            var viewData = new EditBasicsViewData(CurrentPerson, tenantPeople);
+            return RazorPartialView<EditBasics, EditBasicsViewData, EditBasicsViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [SitkaAdminFeature]
+        public PartialViewResult EditBoundingBox(TenantPrimaryKey tenantPrimaryKey)
+        {
+            var tenant = tenantPrimaryKey.EntityObject;
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
+            var viewModel = new EditBoundingBoxViewModel(tenantAttribute);
+            return ViewEditBoundingBox(viewModel);
+        }
+
+        [HttpPost]
+        [SitkaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditBoundingBox(TenantPrimaryKey tenantPrimaryKey, EditBoundingBoxViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEditBoundingBox(viewModel);
+            }
+
+            viewModel.UpdateModel();
+
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditBoundingBox(EditBoundingBoxViewModel viewModel)
+        {
+            var viewData = new EditBoundingBoxViewData();
+            return RazorPartialView<EditBoundingBox, EditBoundingBoxViewData, EditBoundingBoxViewModel>(viewData, viewModel);
         }
 
         [Route("Content/style-{tenantName}.css")]

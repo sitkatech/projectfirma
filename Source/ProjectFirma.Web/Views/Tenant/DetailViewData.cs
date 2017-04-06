@@ -31,7 +31,8 @@ namespace ProjectFirma.Web.Views.Tenant
         public readonly Models.Tenant Tenant;
         public readonly TenantAttribute TenantAttribute;
         public readonly string IndexUrl;
-        public string EditUrl;
+        public readonly string EditBasicsUrl;
+        public readonly string EditBoundingBoxUrl;
         public readonly bool UserHasTenantManagePermissions;
         public readonly SitkaRoute<UserController> PrimaryContactRoute;
         public readonly string DeleteTenantStyleSheetFileResourceUrl;
@@ -43,7 +44,8 @@ namespace ProjectFirma.Web.Views.Tenant
             Models.Tenant tenant,
             TenantAttribute tenantAttribute,
             string indexUrl,
-            string editUrl,
+            string editBasicsUrl,
+            string editBoundingBoxUrl,
             string deleteTenantStyleSheetFileResourceUrl,
             string deleteTenantSquareLogoFileResourceUrl,
             string deleteTenantBannerLogoFileResourceUrl) : base(currentPerson)
@@ -52,7 +54,8 @@ namespace ProjectFirma.Web.Views.Tenant
             Tenant = tenant;
             TenantAttribute = tenantAttribute;
             IndexUrl = indexUrl;
-            EditUrl = editUrl;
+            EditBasicsUrl = editBasicsUrl;
+            EditBoundingBoxUrl = editBoundingBoxUrl;
             PrimaryContactRoute = tenantAttribute.PrimaryContactPerson != null ? new SitkaRoute<UserController>(c => c.Detail(tenantAttribute.PrimaryContactPersonID)) : null;
             UserHasTenantManagePermissions = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
             DeleteTenantStyleSheetFileResourceUrl = deleteTenantStyleSheetFileResourceUrl;

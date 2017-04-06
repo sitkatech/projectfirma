@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -1138,9 +1138,12 @@
     <Compile Include="Views\CostParameterSet\Detail.cs" />
     <Compile Include="Views\CostParameterSet\DetailViewData.cs" />
     <Compile Include="Views\Tenant\DetailViewData.cs" />
-    <Compile Include="Views\Tenant\Edit.cs" />
-    <Compile Include="Views\Tenant\EditViewData.cs" />
-    <Compile Include="Views\Tenant\EditViewModel.cs" />
+    <Compile Include="Views\Tenant\EditBasics.cs" />
+    <Compile Include="Views\Tenant\EditBoundingBox.cs" />
+    <Compile Include="Views\Tenant\EditBoundingBoxViewData.cs" />
+    <Compile Include="Views\Tenant\EditBoundingBoxViewModel.cs" />
+    <Compile Include="Views\Tenant\EditBasicsViewData.cs" />
+    <Compile Include="Views\Tenant\EditBasicsViewModel.cs" />
     <Compile Include="Views\Tenant\Index.cs" />
     <Compile Include="Views\Tenant\IndexGridSpec.cs" />
     <Compile Include="Views\Tenant\IndexViewData.cs" />
@@ -1195,8 +1198,9 @@
     <Compile Include="Views\Watershed\DetailViewData.cs" />
     <Content Include="Views\User\PullUserFromKeystone.cshtml" />
     <Content Include="Views\Tenant\Detail.cshtml" />
-    <Content Include="Views\Tenant\Edit.cshtml" />
+    <Content Include="Views\Tenant\EditBasics.cshtml" />
     <Content Include="Views\Tenant\Index.cshtml" />
+    <Content Include="Views\Tenant\EditBoundingBox.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
