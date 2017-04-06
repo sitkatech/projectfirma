@@ -1,41 +1,45 @@
 ﻿@*-----------------------------------------------------------------------
-    <copyright file="Detail.cshtml" company="Tahoe Regional Planning Agency">
-    Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
-    <author>Sitka Technology Group</author>
-    </copyright>
+<copyright file="Detail.cshtml" company="Tahoe Regional Planning Agency">
+Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
 
-    <license>
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-    Source code is available upon request via <support@sitkatech.com>.
-    </license>
-    -----------------------------------------------------------------------*@
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.ModalDialog
 @using Microsoft.Web.Mvc
-@using ProjectFirma.Web.Views.Tenant
-@inherits Detail
+@inherits ProjectFirma.Web.Views.Tenant.Detail
 
-<div>
+<div style="margin-bottom: 15px;">
     <a class="btn backButton" href="@ViewDataTyped.IndexUrl">
         @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left")
         Back to all Tenants
     </a>
+    @if (ViewDataTyped.IsCurrentTenant)
+    {
+        <div class="pull-right">
+            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Edit Tenant", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")), ViewDataTyped.EditUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.Tenant.TenantName), 800, "Save", "Cancel", new List<string> { "btn", "btn-firma" }, null, null)
+        </div>
+    }
 </div>
 
 <div class="row">
     <div class="col-md-5">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.Tenant.TenantName), 800, ViewDataTyped.UserHasTenantManagePermissions)
                 Basics
             </div>
             <div class="panel-body">
@@ -44,7 +48,11 @@
                     <div class="col-xs-7">@ViewDataTyped.Tenant.TenantName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Tenant</div>
+                    <div class="col-xs-5 fieldLabel text-right">Tenant Display Name</div>
+                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.TenantDisplayName</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Tenant Domain</div>
                     <div class="col-xs-7">@ViewDataTyped.Tenant.TenantDomain</div>
                 </div>
                 <div class="row">
@@ -70,22 +78,6 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Taxonomy System Name</div>
-                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.TaxonomySystemName</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Taxonomy Tier One Display Name For Project</div>
-                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.TaxonomyTierOneDisplayNameForProject</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Performance Measure Display Name</div>
-                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.PerformanceMeasureDisplayName</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Classification Display Name</div>
-                    <div class="col-xs-7">@ViewDataTyped.TenantAttribute.ClassificationDisplayName</div>
-                </div>
-                <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">Number Of Taxonomy Tiers To Use</div>
                     <div class="col-xs-7">@ViewDataTyped.TenantAttribute.NumberOfTaxonomyTiersToUse</div>
                 </div>
@@ -95,14 +87,14 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">
-                        @if (@ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource != null)
+                        @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource != null)
                         {
-                            @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), @ViewDataTyped.DeleteTenantStyleSheetFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
+                            @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantStyleSheetFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
                         }
                         Tenant Style Sheet
                     </div>
                     <div class="col-xs-7">
-                        @if (@ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource != null)
+                        @if (ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource != null)
                         {
                             <a href="@ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource.FileResourceUrl" target="_blank">
                                 @ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource.OriginalCompleteFileName
@@ -116,16 +108,16 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">
-                        @if (@ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource != null)
+                        @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource != null)
                         {
-                            @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), @ViewDataTyped.DeleteTenantSquareLogoFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
+                            @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantSquareLogoFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
                         }
                         Tenant Square Logo
                     </div>
                     <div class="col-xs-7">
-                        @if (@ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource != null)
+                        @if (ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource != null)
                         {
-                            @Html.Image(@ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource.FileResourceUrl, new {style = "max-width: 100%;"})
+                            @Html.Image(ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource.FileResourceUrl, new {style = "max-width: 100%;"})
                         }
                         else
                         {
@@ -135,16 +127,16 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">
-                        @if (@ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource != null)
+                        @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource != null)
                         {
-                            @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), @ViewDataTyped.DeleteTenantBannerLogoFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
+                            @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantBannerLogoFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
                         }
                         Tenant Banner Logo
                     </div>
                     <div class="col-xs-7">
-                        @if (@ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource != null)
+                        @if (ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource != null)
                         {
-                            @Html.Image(@ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource.FileResourceUrl, new {style = "max-width: 100%;"})
+                            @Html.Image(ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource.FileResourceUrl, new {style = "max-width: 100%;"})
                         }
                         else
                         {

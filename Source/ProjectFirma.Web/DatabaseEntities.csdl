@@ -1994,6 +1994,7 @@
     <Property Name="TenantSquareLogoFileResourceID" Type="Int32" />
     <Property Name="TenantBannerLogoFileResourceID" Type="Int32" />
     <Property Name="TenantStyleSheetFileResourceID" Type="Int32" />
+    <Property Name="TenantDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="TenantBannerLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" ToRole="TenantBannerLogoFileResource" />
     <NavigationProperty Name="TenantSquareLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantSquareLogoFileResource" ToRole="TenantSquareLogoFileResource" />
     <NavigationProperty Name="TenantStyleSheetFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantStyleSheetFileResource" ToRole="TenantStyleSheetFileResource" />

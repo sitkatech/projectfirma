@@ -115,12 +115,12 @@ namespace ProjectFirma.Web.Models
     public partial class TenantSitkaTechnologyGroup : Tenant
     {
         private TenantSitkaTechnologyGroup(int tenantID, string tenantName, string tenantDomain) : base(tenantID, tenantName, tenantDomain) {}
-        public static readonly TenantSitkaTechnologyGroup Instance = new TenantSitkaTechnologyGroup(1, @"Sitka Technology Group", @"projectfirma.com");
+        public static readonly TenantSitkaTechnologyGroup Instance = new TenantSitkaTechnologyGroup(1, @"SitkaTechnologyGroup", @"projectfirma.com");
     }
 
     public partial class TenantClackamasPartnership : Tenant
     {
         private TenantClackamasPartnership(int tenantID, string tenantName, string tenantDomain) : base(tenantID, tenantName, tenantDomain) {}
-        public static readonly TenantClackamasPartnership Instance = new TenantClackamasPartnership(2, @"Clackamas Partnership", @"clackamaspartnership.org");
+        public static readonly TenantClackamasPartnership Instance = new TenantClackamasPartnership(2, @"ClackamasPartnership", @"clackamaspartnership.org");
     }
 }

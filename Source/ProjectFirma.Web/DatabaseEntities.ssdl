@@ -1917,6 +1917,7 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
     <Property Name="TenantSquareLogoFileResourceID" Type="int" />
     <Property Name="TenantBannerLogoFileResourceID" Type="int" />
     <Property Name="TenantStyleSheetFileResourceID" Type="int" />
+    <Property Name="TenantDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectLocationArea_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.

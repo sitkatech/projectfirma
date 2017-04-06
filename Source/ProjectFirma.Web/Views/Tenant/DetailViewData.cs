@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using LtInfo.Common;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
@@ -36,6 +37,7 @@ namespace ProjectFirma.Web.Views.Tenant
         public readonly string DeleteTenantStyleSheetFileResourceUrl;
         public readonly string DeleteTenantSquareLogoFileResourceUrl;
         public readonly string DeleteTenantBannerLogoFileResourceUrl;
+        public readonly bool IsCurrentTenant;
 
         public DetailViewData(Person currentPerson,
             Models.Tenant tenant,
@@ -46,7 +48,7 @@ namespace ProjectFirma.Web.Views.Tenant
             string deleteTenantSquareLogoFileResourceUrl,
             string deleteTenantBannerLogoFileResourceUrl) : base(currentPerson)
         {
-            PageTitle = tenant.TenantName;
+            PageTitle = tenantAttribute.TenantDisplayName;
             Tenant = tenant;
             TenantAttribute = tenantAttribute;
             IndexUrl = indexUrl;
@@ -56,6 +58,7 @@ namespace ProjectFirma.Web.Views.Tenant
             DeleteTenantStyleSheetFileResourceUrl = deleteTenantStyleSheetFileResourceUrl;
             DeleteTenantSquareLogoFileResourceUrl = deleteTenantSquareLogoFileResourceUrl;
             DeleteTenantBannerLogoFileResourceUrl = deleteTenantBannerLogoFileResourceUrl;
+            IsCurrentTenant = HttpRequestStorage.Tenant == tenant;
         }
     }
 }

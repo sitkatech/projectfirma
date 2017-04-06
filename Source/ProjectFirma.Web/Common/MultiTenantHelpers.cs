@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Common
 
         public static string GetTenantDisplayName()
         {
-            return HttpRequestStorage.Tenant.TenantName;
+            return GetCurrentTenantAttributes().TenantDisplayName;
         }
 
         public static string GetTenantSquareLogoUrl()

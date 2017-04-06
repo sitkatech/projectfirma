@@ -38,6 +38,10 @@ namespace ProjectFirma.Web.Views.Tenant
         [Required]
         public int? TenantID { get; set; }
 
+        [Required]
+        [DisplayName("Tenant Display Name")]
+        public string TenantDisplayName { get; set; }
+
         [DisplayName("Primary Contact")]
         public int? PrimaryContactPersonID { get; set; }
 
@@ -49,26 +53,6 @@ namespace ProjectFirma.Web.Views.Tenant
         [Required(ErrorMessage = "Must specify a Number Of Taxonomy Tiers To Use")]
         [Range(1, 3, ErrorMessage = "Number Of Taxonomy Tiers To Use must be a number between 1 and 3.")]
         public int? NumberOfTaxonomyTiersToUse { get; set; }
-
-        [DisplayName("Classification Display Name")]
-        [Required(ErrorMessage = "Must specify a Classification Display Name")]
-        [StringLength(TenantAttribute.FieldLengths.ClassificationDisplayName)]
-        public string ClassificationDisplayName { get; set; }
-
-        [DisplayName("Performance Measure Display Name")]
-        [Required(ErrorMessage = "Must specify a Performance Measure Display Name")]
-        [StringLength(TenantAttribute.FieldLengths.PerformanceMeasureDisplayName)]
-        public string PerformanceMeasureDisplayName { get; set; }
-
-        [DisplayName("Taxonomy Tier One Display Name For Project")]
-        [Required(ErrorMessage = "Must specify a Taxonomy Tier One Display Name For Project")]
-        [StringLength(TenantAttribute.FieldLengths.TaxonomyTierOneDisplayNameForProject)]
-        public string TaxonomyTierOneDisplayNameForProject { get; set; }
-
-        [DisplayName("Taxonomy System Name")]
-        [Required(ErrorMessage = "Must specify a Taxonomy System Name")]
-        [StringLength(TenantAttribute.FieldLengths.TaxonomySystemName)]
-        public string TaxonomySystemName { get; set; }
 
         [DisplayName("Tenant Style Sheet")]
         [SitkaFileExtensions("css")]
@@ -92,11 +76,8 @@ namespace ProjectFirma.Web.Views.Tenant
         public EditViewModel(Models.Tenant tenant, TenantAttribute tenantAttribute)
         {
             TenantID = tenant.TenantID;
+            TenantDisplayName = tenantAttribute.TenantDisplayName;
             PrimaryContactPersonID = tenantAttribute.PrimaryContactPersonID;
-            TaxonomySystemName = tenantAttribute.TaxonomySystemName;
-            TaxonomyTierOneDisplayNameForProject = tenantAttribute.TaxonomyTierOneDisplayNameForProject;
-            PerformanceMeasureDisplayName = tenantAttribute.PerformanceMeasureDisplayName;
-            ClassificationDisplayName = tenantAttribute.ClassificationDisplayName;
             NumberOfTaxonomyTiersToUse = tenantAttribute.NumberOfTaxonomyTiersToUse;
             MinimumYear = tenantAttribute.MinimumYear;
         }
@@ -104,6 +85,8 @@ namespace ProjectFirma.Web.Views.Tenant
         public void UpdateModel(Person currentPerson)
         {
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == TenantID);
+
+            tenantAttribute.TenantDisplayName = TenantDisplayName;
 
             Person primaryContactPerson = null;
             if (PrimaryContactPersonID != null)
@@ -113,11 +96,6 @@ namespace ProjectFirma.Web.Views.Tenant
                 Check.Assert(new AdminFeature().HasPermissionByPerson(primaryContactPerson), "Primary contact must be an admin. This should have been ensured by validation.");
             }
             tenantAttribute.PrimaryContactPerson = primaryContactPerson;
-
-            tenantAttribute.TaxonomySystemName = TaxonomySystemName;
-            tenantAttribute.TaxonomyTierOneDisplayNameForProject = TaxonomyTierOneDisplayNameForProject;
-            tenantAttribute.PerformanceMeasureDisplayName = PerformanceMeasureDisplayName;
-            tenantAttribute.ClassificationDisplayName = ClassificationDisplayName;
 
             Check.Assert(NumberOfTaxonomyTiersToUse != null, "Number Of Taxonomy Tiers To Use must not be null. This should have been ensured by validation.");
             tenantAttribute.NumberOfTaxonomyTiersToUse = NumberOfTaxonomyTiersToUse ?? 0;

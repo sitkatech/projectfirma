@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
@@ -25,12 +26,25 @@ using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
-    public class IndexGridSpec : GridSpec<Models.Tenant>
+    public class IndexGridSpec : GridSpec<Models.TenantAttribute>
     {
         public IndexGridSpec()
         {
-            Add("Tenant Name", t => new SitkaRoute<TenantController>(c => c.Detail(t.PrimaryKey)).BuildLinkFromExpression(t.TenantName).ToHTMLFormattedString(), 150, DhtmlxGridColumnFilterType.Html);
-            Add("Tenant Domain", t => t.TenantDomain, 200);
+            Add("Tenant Display Name",
+                t => new SitkaRoute<TenantController>(c => c.Detail(t.PrimaryKey)).BuildLinkFromExpression(t.TenantDisplayName).ToHTMLFormattedString(),
+                150,
+                DhtmlxGridColumnFilterType.Html);
+
+            Add("Tenant Name", t => t.Tenant.TenantName, 150);
+            Add("Tenant Domain", t => t.Tenant.TenantDomain, 200);
+
+            Add("Primary Contact",
+                t =>
+                    t.PrimaryContactPerson != null
+                        ? new SitkaRoute<UserController>(c => c.Detail(t.PrimaryContactPerson)).BuildLinkFromExpression(t.PrimaryContactPerson.FullNameFirstLast).ToHTMLFormattedString()
+                        : new HtmlString(""),
+                200,
+                DhtmlxGridColumnFilterType.Html);
         }
     }
 }

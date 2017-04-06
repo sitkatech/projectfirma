@@ -21,9 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Web.Mvc;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
@@ -49,11 +46,11 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [SitkaAdminFeature]
-        public GridJsonNetJObjectResult<Tenant> IndexGridJsonData()
+        public GridJsonNetJObjectResult<TenantAttribute> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec();
-            var tenants = Tenant.All.ToList();
-            return new GridJsonNetJObjectResult<Tenant>(tenants, gridSpec);
+            var tenantAttributes = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.ToList();
+            return new GridJsonNetJObjectResult<TenantAttribute>(tenantAttributes, gridSpec);
         }
 
         [SitkaAdminFeature]
@@ -134,8 +131,9 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult DeleteTenantBannerLogoFileResource(TenantPrimaryKey tenantPrimaryKey)
         {
             var tenant = tenantPrimaryKey.EntityObject;
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
             var viewModel = new ConfirmDialogFormViewModel(tenant.TenantID);
-            return ViewDeleteTenantBannerLogoFileResource(viewModel, tenant);
+            return ViewDeleteTenantBannerLogoFileResource(viewModel, tenantAttribute);
         }
 
         [HttpPost]
@@ -144,18 +142,19 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteTenantBannerLogoFileResource(TenantPrimaryKey tenantPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var tenant = tenantPrimaryKey.EntityObject;
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
             if (!ModelState.IsValid)
             {
-                return ViewDeleteTenantBannerLogoFileResource(viewModel, tenant);
+                return ViewDeleteTenantBannerLogoFileResource(viewModel, tenantAttribute);
             }
             
             HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID).TenantBannerLogoFileResource.DeleteFileResource();
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewDeleteTenantBannerLogoFileResource(ConfirmDialogFormViewModel viewModel, Tenant tenant)
+        private PartialViewResult ViewDeleteTenantBannerLogoFileResource(ConfirmDialogFormViewModel viewModel, TenantAttribute tenantAttribute)
         {
-            var confirmMessage = String.Format("Are you sure you want to delete Tenant Banner Logo for {0}?", tenant.TenantName);
+            var confirmMessage = String.Format("Are you sure you want to delete Tenant Banner Logo for {0}?", tenantAttribute.TenantDisplayName);
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -165,8 +164,9 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult DeleteTenantSquareLogoFileResource(TenantPrimaryKey tenantPrimaryKey)
         {
             var tenant = tenantPrimaryKey.EntityObject;
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
             var viewModel = new ConfirmDialogFormViewModel(tenant.TenantID);
-            return ViewDeleteTenantSquareLogoFileResource(viewModel, tenant);
+            return ViewDeleteTenantSquareLogoFileResource(viewModel, tenantAttribute);
         }
 
         [HttpPost]
@@ -175,18 +175,19 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteTenantSquareLogoFileResource(TenantPrimaryKey tenantPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var tenant = tenantPrimaryKey.EntityObject;
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
             if (!ModelState.IsValid)
             {
-                return ViewDeleteTenantSquareLogoFileResource(viewModel, tenant);
+                return ViewDeleteTenantSquareLogoFileResource(viewModel, tenantAttribute);
             }
 
             HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID).TenantSquareLogoFileResource.DeleteFileResource();
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewDeleteTenantSquareLogoFileResource(ConfirmDialogFormViewModel viewModel, Tenant tenant)
+        private PartialViewResult ViewDeleteTenantSquareLogoFileResource(ConfirmDialogFormViewModel viewModel, TenantAttribute tenantAttribute)
         {
-            var confirmMessage = String.Format("Are you sure you want to delete Tenant Square Logo for {0}?", tenant.TenantName);
+            var confirmMessage = String.Format("Are you sure you want to delete Tenant Square Logo for {0}?", tenantAttribute.TenantDisplayName);
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -196,8 +197,9 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult DeleteTenantStyleSheetFileResource(TenantPrimaryKey tenantPrimaryKey)
         {
             var tenant = tenantPrimaryKey.EntityObject;
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
             var viewModel = new ConfirmDialogFormViewModel(tenant.TenantID);
-            return ViewDeleteTenantStyleSheetFileResource(viewModel, tenant);
+            return ViewDeleteTenantStyleSheetFileResource(viewModel, tenantAttribute);
         }
 
         [HttpPost]
@@ -206,18 +208,19 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteTenantStyleSheetFileResource(TenantPrimaryKey tenantPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var tenant = tenantPrimaryKey.EntityObject;
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
             if (!ModelState.IsValid)
             {
-                return ViewDeleteTenantStyleSheetFileResource(viewModel, tenant);
+                return ViewDeleteTenantStyleSheetFileResource(viewModel, tenantAttribute);
             }
 
             HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID).TenantStyleSheetFileResource.DeleteFileResource();
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewDeleteTenantStyleSheetFileResource(ConfirmDialogFormViewModel viewModel, Tenant tenant)
+        private PartialViewResult ViewDeleteTenantStyleSheetFileResource(ConfirmDialogFormViewModel viewModel, TenantAttribute tenantAttribute)
         {
-            var confirmMessage = String.Format("Are you sure you want to delete Tenant Style Sheet for {0}?", tenant.TenantName);
+            var confirmMessage = String.Format("Are you sure you want to delete Tenant Style Sheet for {0}?", tenantAttribute.TenantDisplayName);
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
