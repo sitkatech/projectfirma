@@ -19,11 +19,14 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using GeoJSON.Net.Feature;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.GeoJson;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -73,7 +76,8 @@ namespace ProjectFirma.Web.Controllers
                 editBoundingBoxUrl,
                 deleteTenantStyleSheetFileResourceUrl,
                 deleteTenantSquareLogoFileResourceUrl,
-                deleteTenantBannerLogoFileResourceUrl);
+                deleteTenantBannerLogoFileResourceUrl,
+                EditBoundingBoxFormID);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -117,7 +121,7 @@ namespace ProjectFirma.Web.Controllers
             var tenant = tenantPrimaryKey.EntityObject;
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
             var viewModel = new EditBoundingBoxViewModel(tenantAttribute);
-            return ViewEditBoundingBox(viewModel);
+            return ViewEditBoundingBox(viewModel ,tenantAttribute);
         }
 
         [HttpPost]
@@ -127,7 +131,9 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewEditBoundingBox(viewModel);
+                var tenant = tenantPrimaryKey.EntityObject;
+                var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
+                return ViewEditBoundingBox(viewModel, tenantAttribute);
             }
 
             viewModel.UpdateModel();
@@ -135,9 +141,17 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEditBoundingBox(EditBoundingBoxViewModel viewModel)
+        private PartialViewResult ViewEditBoundingBox(EditBoundingBoxViewModel viewModel, TenantAttribute tenantAttribute)
         {
-            var viewData = new EditBoundingBoxViewData();
+            var boundingBoxLayer = new LayerGeoJson("Bounding Box",
+                new FeatureCollection(new List<TenantAttribute> {tenantAttribute}.Select(x => DbGeometryToGeoJsonHelper.FromDbGeometry(x.DefaultBoundingBox)).ToList()),
+                FirmaHelpers.DefaultColorRange[0],
+                0.8m,
+                LayerInitialVisibility.Show);
+            var mapInitJson = new MapInitJson("TenantBoundingBoxMap", 10, new List<LayerGeoJson>(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
+            var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox(tenantAttribute.TenantID)).BuildUrlFromExpression();
+
+            var viewData = new EditBoundingBoxViewData(mapInitJson, editBoundingBoxUrl, EditBoundingBoxFormID);
             return RazorPartialView<EditBoundingBox, EditBoundingBoxViewData, EditBoundingBoxViewModel>(viewData, viewModel);
         }
 
@@ -256,6 +270,11 @@ namespace ProjectFirma.Web.Controllers
             var confirmMessage = String.Format("Are you sure you want to delete Tenant Style Sheet for {0}?", tenantAttribute.TenantDisplayName);
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        private string EditBoundingBoxFormID
+        {
+            get { return "EditBoundingBoxForm"; }
         }
     }
 }

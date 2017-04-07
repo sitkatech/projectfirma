@@ -18,9 +18,21 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using ProjectFirma.Web.Models;
+
 namespace ProjectFirma.Web.Views.Tenant
 {
     public class EditBoundingBoxViewData
     {
+        public readonly MapInitJson MapInitJson;
+        public readonly string EditBoundingBoxUrl;
+        public readonly string EditBoundingBoxFormID;
+
+        public EditBoundingBoxViewData(MapInitJson mapInitJson, string editBoundingBoxUrl, string editBoundingBoxFormID)
+        {
+            MapInitJson = mapInitJson;
+            EditBoundingBoxUrl = editBoundingBoxUrl;
+            EditBoundingBoxFormID = editBoundingBoxFormID;
+        }
     }
 }

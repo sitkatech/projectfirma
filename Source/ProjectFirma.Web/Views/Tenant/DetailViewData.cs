@@ -39,6 +39,7 @@ namespace ProjectFirma.Web.Views.Tenant
         public readonly string DeleteTenantSquareLogoFileResourceUrl;
         public readonly string DeleteTenantBannerLogoFileResourceUrl;
         public readonly bool IsCurrentTenant;
+        public readonly string EditBoundingBoxFormID;
 
         public DetailViewData(Person currentPerson,
             Models.Tenant tenant,
@@ -48,7 +49,9 @@ namespace ProjectFirma.Web.Views.Tenant
             string editBoundingBoxUrl,
             string deleteTenantStyleSheetFileResourceUrl,
             string deleteTenantSquareLogoFileResourceUrl,
-            string deleteTenantBannerLogoFileResourceUrl) : base(currentPerson)
+            string deleteTenantBannerLogoFileResourceUrl,
+            string editBoundingBoxFormID)
+            : base(currentPerson)
         {
             PageTitle = tenantAttribute.TenantDisplayName;
             Tenant = tenant;
@@ -62,6 +65,7 @@ namespace ProjectFirma.Web.Views.Tenant
             DeleteTenantSquareLogoFileResourceUrl = deleteTenantSquareLogoFileResourceUrl;
             DeleteTenantBannerLogoFileResourceUrl = deleteTenantBannerLogoFileResourceUrl;
             IsCurrentTenant = HttpRequestStorage.Tenant == tenant;
+            EditBoundingBoxFormID = editBoundingBoxFormID;
         }
     }
 }

@@ -21,7 +21,13 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.ModalDialog
 @using Microsoft.Web.Mvc
+@using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.Tenant.Detail
+              
+@section JavascriptAndStylesContent
+{
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+}
 
 <div style="margin-bottom: 15px;">
     <a class="btn backButton" href="@ViewDataTyped.IndexUrl">
@@ -31,9 +37,10 @@ Source code is available upon request via <support@sitkatech.com>.
     @if (ViewDataTyped.IsCurrentTenant)
     {
         <div class="pull-right">
-            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Edit Tenant Basics", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")), ViewDataTyped.EditBasicsUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.Tenant.TenantName), 800, "Save", "Cancel", new List<string> { "btn", "btn-firma" }, null, null)
-            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Edit Default Map Extent ", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-map-marker")), ViewDataTyped.EditBoundingBoxUrl, string.Format("Edit Default Map Extent: {0}", ViewDataTyped.Tenant.TenantName), 800, "Save", "Cancel", new List<string> { "btn", "btn-firma" }, null, null)
+            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Edit Tenant Basics", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")), ViewDataTyped.EditBasicsUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string> { "btn", "btn-firma" }, null, null)
+            @ModalDialogFormHelper.ModalDialogFormLink(null, string.Format("{0} Edit Default Map Extent ", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-map-marker")), ViewDataTyped.EditBoundingBoxUrl, string.Format("Edit Default Map Extent: {0}", ViewDataTyped.TenantAttribute.TenantDisplayName), 800, ModalDialogFormHelper.SaveButtonId, "Save", ModalDialogFormHelper.CancelButtonId, "Cancel", new List<string> { "btn", "btn-firma" }, null, null, ViewDataTyped.EditBoundingBoxFormID, null)
         </div>
+        
     }
 </div>
 
