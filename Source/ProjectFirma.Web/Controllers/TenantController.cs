@@ -67,6 +67,16 @@ namespace ProjectFirma.Web.Controllers
             string deleteTenantStyleSheetFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantStyleSheetFileResource(tenant)).BuildUrlFromExpression();
             string deleteTenantSquareLogoFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantSquareLogoFileResource(tenant)).BuildUrlFromExpression();
             string deleteTenantBannerLogoFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantBannerLogoFileResource(tenant)).BuildUrlFromExpression();
+            var boundingBoxLayer = new LayerGeoJson("Bounding Box",
+                new FeatureCollection(new List<TenantAttribute> {tenantAttribute}.Select(x => DbGeometryToGeoJsonHelper.FromDbGeometry(x.DefaultBoundingBox)).ToList()),
+                FirmaHelpers.DefaultColorRange[0],
+                0.8m,
+                LayerInitialVisibility.Show);
+            var layers = new List<LayerGeoJson> {boundingBoxLayer};
+            var mapInitJson = new MapInitJson("TenantDetailsBoundingBoxMap",
+                10,
+                layers,
+                BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers));
 
             var viewData = new DetailViewData(CurrentPerson,
                 tenant,
@@ -77,7 +87,8 @@ namespace ProjectFirma.Web.Controllers
                 deleteTenantStyleSheetFileResourceUrl,
                 deleteTenantSquareLogoFileResourceUrl,
                 deleteTenantBannerLogoFileResourceUrl,
-                EditBoundingBoxFormID);
+                EditBoundingBoxFormID,
+                mapInitJson);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -93,7 +104,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpPost]
         [SitkaAdminFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]//todo need to figure out if there's a way to bypass tenant safe check on saving
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid] //todo need to figure out if there's a way to bypass tenant safe check on saving
         public ActionResult EditBasics(TenantPrimaryKey tenantPrimaryKey, EditBasicsViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -121,7 +132,7 @@ namespace ProjectFirma.Web.Controllers
             var tenant = tenantPrimaryKey.EntityObject;
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
             var viewModel = new EditBoundingBoxViewModel(tenantAttribute);
-            return ViewEditBoundingBox(viewModel ,tenantAttribute);
+            return ViewEditBoundingBox(viewModel, tenantAttribute);
         }
 
         [HttpPost]
@@ -148,7 +159,7 @@ namespace ProjectFirma.Web.Controllers
                 FirmaHelpers.DefaultColorRange[0],
                 0.8m,
                 LayerInitialVisibility.Show);
-            var mapInitJson = new MapInitJson("TenantBoundingBoxMap", 10, new List<LayerGeoJson>(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
+            var mapInitJson = new MapInitJson("TenantEditBoundingBoxMap", 10, new List<LayerGeoJson>(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
             var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox(tenantAttribute.TenantID)).BuildUrlFromExpression();
 
             var viewData = new EditBoundingBoxViewData(mapInitJson, editBoundingBoxUrl, EditBoundingBoxFormID);
@@ -194,7 +205,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteTenantBannerLogoFileResource(viewModel, tenantAttribute);
             }
-            
+
             HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID).TenantBannerLogoFileResource.DeleteFileResource();
             return new ModalDialogFormJsonResult();
         }

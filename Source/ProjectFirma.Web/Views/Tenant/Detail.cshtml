@@ -21,12 +21,23 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.ModalDialog
 @using Microsoft.Web.Mvc
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.Tenant.Detail
-              
+
 @section JavascriptAndStylesContent
 {
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
+    <script type="text/javascript">
+        //<![CDATA[
+        jQuery(function()
+        {
+            var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None)),
+                firmaMap = new ProjectFirmaMaps.Map(mapInitJson);
+        });
+        //]]>
+    </script>
 }
 
 <div style="margin-bottom: 15px;">
@@ -34,20 +45,16 @@ Source code is available upon request via <support@sitkatech.com>.
         @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left")
         Back to all Tenants
     </a>
-    @if (ViewDataTyped.IsCurrentTenant)
-    {
-        <div class="pull-right">
-            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Edit Tenant Basics", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")), ViewDataTyped.EditBasicsUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string> { "btn", "btn-firma" }, null, null)
-            @ModalDialogFormHelper.ModalDialogFormLink(null, string.Format("{0} Edit Default Map Extent ", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-map-marker")), ViewDataTyped.EditBoundingBoxUrl, string.Format("Edit Default Map Extent: {0}", ViewDataTyped.TenantAttribute.TenantDisplayName), 800, ModalDialogFormHelper.SaveButtonId, "Save", ModalDialogFormHelper.CancelButtonId, "Cancel", new List<string> { "btn", "btn-firma" }, null, null, ViewDataTyped.EditBoundingBoxFormID, null)
-        </div>
-        
-    }
 </div>
 
 <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-6">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
+                @if (ViewDataTyped.IsCurrentTenant)
+                {
+                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditBasicsUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
+                }
                 Basics
             </div>
             <div class="panel-body">
@@ -76,15 +83,6 @@ Source code is available upon request via <support@sitkatech.com>.
                         }
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-7">
-        <div class="panel panelFirma">
-            <div class="panel-heading panelTitle">
-                Attributes
-            </div>
-            <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">Number Of Taxonomy Tiers To Use</div>
                     <div class="col-xs-7">@ViewDataTyped.TenantAttribute.NumberOfTaxonomyTiersToUse</div>
@@ -125,7 +123,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-xs-7">
                         @if (ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource != null)
                         {
-                            @Html.Image(ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource.FileResourceUrl, new {style = "max-width: 100%;"})
+                            @Html.Image(ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource.FileResourceUrl, new { style = "max-width: 100%;" })
                         }
                         else
                         {
@@ -144,7 +142,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-xs-7">
                         @if (ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource != null)
                         {
-                            @Html.Image(ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource.FileResourceUrl, new {style = "max-width: 100%;"})
+                            @Html.Image(ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource.FileResourceUrl, new { style = "max-width: 100%;" })
                         }
                         else
                         {
@@ -152,6 +150,19 @@ Source code is available upon request via <support@sitkatech.com>.
                         }
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                @if (ViewDataTyped.IsCurrentTenant)
+                {
+                    @ModalDialogFormHelper.ModalDialogFormLink(null, BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditBoundingBoxUrl, string.Format("Edit Default Map Extent: {0}", ViewDataTyped.TenantAttribute.TenantDisplayName), 800, ModalDialogFormHelper.SaveButtonId, "Save", ModalDialogFormHelper.CancelButtonId, "Cancel", new List<string>(), null, null, ViewDataTyped.EditBoundingBoxFormID, null)
+                }
+                Default Map Extent
+            </div>
+            <div class="panel-body" id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 400px;">
             </div>
         </div>
     </div>
