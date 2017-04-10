@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="IndexGridSpec.cs" company="Tahoe Regional Planning Agency">
+<copyright file="DetailGridSpec.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -26,17 +26,13 @@ using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
-    public class IndexGridSpec : GridSpec<Models.TenantAttribute>
+    public class DetailGridSpec : GridSpec<Models.TenantAttribute>
     {
-        public IndexGridSpec()
+        public DetailGridSpec()
         {
-            Add("Tenant Display Name",
-                t => new SitkaRoute<TenantController>(c => c.Detail(t.PrimaryKey)).BuildLinkFromExpression(t.TenantDisplayName).ToHTMLFormattedString(),
-                150,
-                DhtmlxGridColumnFilterType.Html);
-
+            Add("Tenant Display Name", t => t.TenantDisplayName, 150);
             Add("Tenant Name", t => t.Tenant.TenantName, 150);
-            Add("Tenant Domain", t => t.Tenant.TenantDomain, 200);
+            Add("Tenant Domain", t => string.Format("<a href=\"http://{0}\" target=\"_blank\">{0}</a>", t.Tenant.TenantDomain).ToHTMLFormattedString(), 200, DhtmlxGridColumnFilterType.Html);
 
             Add("Primary Contact",
                 t =>

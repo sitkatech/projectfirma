@@ -1144,9 +1144,7 @@
     <Compile Include="Views\Tenant\EditBoundingBoxViewModel.cs" />
     <Compile Include="Views\Tenant\EditBasicsViewData.cs" />
     <Compile Include="Views\Tenant\EditBasicsViewModel.cs" />
-    <Compile Include="Views\Tenant\Index.cs" />
-    <Compile Include="Views\Tenant\IndexGridSpec.cs" />
-    <Compile Include="Views\Tenant\IndexViewData.cs" />
+    <Compile Include="Views\Tenant\DetailGridSpec.cs" />
     <Compile Include="Views\User\PullUserFromKeystone.cs" />
     <Compile Include="Views\User\PullUserFromKeystoneViewData.cs" />
     <Compile Include="Views\User\PullUserFromKeystoneViewModel.cs" />
@@ -1199,7 +1197,6 @@
     <Content Include="Views\User\PullUserFromKeystone.cshtml" />
     <Content Include="Views\Tenant\Detail.cshtml" />
     <Content Include="Views\Tenant\EditBasics.cshtml" />
-    <Content Include="Views\Tenant\Index.cshtml" />
     <Content Include="Views\Tenant\EditBoundingBox.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>

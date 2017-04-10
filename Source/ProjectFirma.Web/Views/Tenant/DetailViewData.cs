@@ -30,7 +30,6 @@ namespace ProjectFirma.Web.Views.Tenant
     {
         public readonly Models.Tenant Tenant;
         public readonly TenantAttribute TenantAttribute;
-        public readonly string IndexUrl;
         public readonly string EditBasicsUrl;
         public readonly string EditBoundingBoxUrl;
         public readonly bool UserHasTenantManagePermissions;
@@ -41,14 +40,16 @@ namespace ProjectFirma.Web.Views.Tenant
         public readonly bool IsCurrentTenant;
         public readonly string EditBoundingBoxFormID;
         public readonly MapInitJson MapInitJson;
+        public readonly DetailGridSpec GridSpec;
+        public readonly string GridName;
+        public readonly string GridDataUrl;
 
-        public DetailViewData(Person currentPerson, Models.Tenant tenant, TenantAttribute tenantAttribute, string indexUrl, string editBasicsUrl, string editBoundingBoxUrl, string deleteTenantStyleSheetFileResourceUrl, string deleteTenantSquareLogoFileResourceUrl, string deleteTenantBannerLogoFileResourceUrl, string editBoundingBoxFormID, MapInitJson mapInitJson)
+        public DetailViewData(Person currentPerson, Models.Tenant tenant, TenantAttribute tenantAttribute, string editBasicsUrl, string editBoundingBoxUrl, string deleteTenantStyleSheetFileResourceUrl, string deleteTenantSquareLogoFileResourceUrl, string deleteTenantBannerLogoFileResourceUrl, string editBoundingBoxFormID, MapInitJson mapInitJson, DetailGridSpec gridSpec, string gridName, string gridDataUrl)
             : base(currentPerson)
         {
             PageTitle = tenantAttribute.TenantDisplayName;
             Tenant = tenant;
             TenantAttribute = tenantAttribute;
-            IndexUrl = indexUrl;
             EditBasicsUrl = editBasicsUrl;
             EditBoundingBoxUrl = editBoundingBoxUrl;
             PrimaryContactRoute = tenantAttribute.PrimaryContactPerson != null ? new SitkaRoute<UserController>(c => c.Detail(tenantAttribute.PrimaryContactPersonID)) : null;
@@ -59,6 +60,9 @@ namespace ProjectFirma.Web.Views.Tenant
             IsCurrentTenant = HttpRequestStorage.Tenant == tenant;
             EditBoundingBoxFormID = editBoundingBoxFormID;
             MapInitJson = mapInitJson;
+            GridSpec = gridSpec;
+            GridName = gridName;
+            GridDataUrl = gridDataUrl;
         }
     }
 }

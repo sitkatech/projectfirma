@@ -39,31 +39,12 @@ namespace ProjectFirma.Web.Controllers
     public class TenantController : FirmaBaseController
     {
         [SitkaAdminFeature]
-        public ViewResult Index()
+        public ViewResult Detail()
         {
-            var gridSpec = new IndexGridSpec {ObjectNameSingular = "Tenant", ObjectNamePlural = "Tenants", SaveFiltersInCookie = true};
-            var gridName = "Tenants";
-            var gridDataUrl = new SitkaRoute<TenantController>(c => c.IndexGridJsonData()).BuildUrlFromExpression();
-            var viewData = new IndexViewData(CurrentPerson, gridSpec, gridName, gridDataUrl);
-            return RazorView<Index, IndexViewData>(viewData);
-        }
-
-        [SitkaAdminFeature]
-        public GridJsonNetJObjectResult<TenantAttribute> IndexGridJsonData()
-        {
-            var gridSpec = new IndexGridSpec();
-            var tenantAttributes = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.ToList();
-            return new GridJsonNetJObjectResult<TenantAttribute>(tenantAttributes, gridSpec);
-        }
-
-        [SitkaAdminFeature]
-        public ViewResult Detail(TenantPrimaryKey tenantPrimaryKey)
-        {
-            var tenant = tenantPrimaryKey.EntityObject;
+            var tenant = HttpRequestStorage.Tenant;
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
-            var indexUrl = new SitkaRoute<TenantController>(c => c.Index()).BuildUrlFromExpression();
-            var editBasicsUrl = new SitkaRoute<TenantController>(c => c.EditBasics(tenantPrimaryKey)).BuildUrlFromExpression();
-            var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox(tenantPrimaryKey)).BuildUrlFromExpression();
+            var editBasicsUrl = new SitkaRoute<TenantController>(c => c.EditBasics(tenant)).BuildUrlFromExpression();
+            var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox(tenant)).BuildUrlFromExpression();
             string deleteTenantStyleSheetFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantStyleSheetFileResource(tenant)).BuildUrlFromExpression();
             string deleteTenantSquareLogoFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantSquareLogoFileResource(tenant)).BuildUrlFromExpression();
             string deleteTenantBannerLogoFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantBannerLogoFileResource(tenant)).BuildUrlFromExpression();
@@ -73,23 +54,36 @@ namespace ProjectFirma.Web.Controllers
                 0.8m,
                 LayerInitialVisibility.Show);
             var layers = new List<LayerGeoJson> {boundingBoxLayer};
-            var mapInitJson = new MapInitJson("TenantDetailsBoundingBoxMap",
+            var mapInitJson = new MapInitJson("TenantDetailBoundingBoxMap",
                 10,
                 layers,
                 BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers));
+            var gridSpec = new DetailGridSpec { ObjectNameSingular = "Tenant", ObjectNamePlural = "Tenants", SaveFiltersInCookie = true };
+            var gridName = "Tenants";
+            var gridDataUrl = new SitkaRoute<TenantController>(c => c.DetailGridJsonData()).BuildUrlFromExpression();
 
             var viewData = new DetailViewData(CurrentPerson,
                 tenant,
                 tenantAttribute,
-                indexUrl,
                 editBasicsUrl,
                 editBoundingBoxUrl,
                 deleteTenantStyleSheetFileResourceUrl,
                 deleteTenantSquareLogoFileResourceUrl,
                 deleteTenantBannerLogoFileResourceUrl,
                 EditBoundingBoxFormID,
-                mapInitJson);
+                mapInitJson,
+                gridSpec,
+                gridName,
+                gridDataUrl);
             return RazorView<Detail, DetailViewData>(viewData);
+        }
+
+        [SitkaAdminFeature]
+        public GridJsonNetJObjectResult<TenantAttribute> DetailGridJsonData()
+        {
+            var gridSpec = new DetailGridSpec();
+            var tenantAttributes = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.ToList();
+            return new GridJsonNetJObjectResult<TenantAttribute>(tenantAttributes, gridSpec);
         }
 
         [HttpGet]
@@ -114,7 +108,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(CurrentPerson);
-            return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail(tenantPrimaryKey)).BuildUrlFromExpression());
+            return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
         }
 
         private PartialViewResult ViewEditBasics(EditBasicsViewModel viewModel, Tenant tenant)
