@@ -68,4 +68,6 @@ values
 (239, 'Monitoring Program Home Page', 'MonitoringProgramUrl', null),
 (240, 'Classification Description', 'ClassificationDescription', null),
 (241, 'Classification Goal Statement', 'ClassificationGoalStatement', null),
-(242, 'Classification Narrative', 'ClassificationNarrative', null)
+(242, 'Classification Narrative', 'ClassificationNarrative', null),
+(243, 'TaxonomySystemName', 'Taxonomy System Name', null),
+(244, 'TaxonomyTierOneDisplayNameForProject', 'Taxonomy Tier One Display Name For Project', null)

@@ -38,17 +38,17 @@ namespace ProjectFirma.Web.Common
 
         public static string GetTaxonomySystemName()
         {
-            return GetCurrentTenantAttributes().TaxonomySystemName;
+            return FieldDefinition.TaxonomySystemName.GetFieldDefinitionLabel();
         }
 
         public static string GetTaxonomyTierOneDisplayNameForProject()
         {
-            return GetCurrentTenantAttributes().TaxonomyTierOneDisplayNameForProject;
+            return FieldDefinition.TaxonomyTierOneDisplayNameForProject.GetFieldDefinitionLabel();
         }
 
         public static string GetPerformanceMeasureName()
         {
-            return GetCurrentTenantAttributes().PerformanceMeasureDisplayName;
+            return FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel();
         }
 
         public static string GetPerformanceMeasureNamePluralized()
@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Common
 
         public static string GetClassificationDisplayName()
         {
-            return GetCurrentTenantAttributes().ClassificationDisplayName;
+            return FieldDefinition.Classification.GetFieldDefinitionLabel();
         }
 
         public static string GetClassificationDisplayNamePluralized()

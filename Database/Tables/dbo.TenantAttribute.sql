@@ -5,10 +5,6 @@ GO
 CREATE TABLE [dbo].[TenantAttribute](
 	[TenantAttributeID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
-	[TaxonomySystemName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[TaxonomyTierOneDisplayNameForProject] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[PerformanceMeasureDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[ClassificationDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[DefaultBoundingBox] [geometry] NOT NULL,
 	[NumberOfTaxonomyTiersToUse] [int] NOT NULL,
 	[MinimumYear] [int] NOT NULL,

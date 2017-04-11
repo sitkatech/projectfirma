@@ -1906,10 +1906,6 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
     </Key>
     <Property Name="TenantAttributeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="TaxonomySystemName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="TaxonomyTierOneDisplayNameForProject" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="PerformanceMeasureDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="ClassificationDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="DefaultBoundingBox" Type="geometry" Nullable="false" />
     <Property Name="NumberOfTaxonomyTiersToUse" Type="int" Nullable="false" />
     <Property Name="MinimumYear" Type="int" Nullable="false" />

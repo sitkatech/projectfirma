@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System.Data.Entity.Infrastructure.Pluralization;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
@@ -27,6 +28,8 @@ namespace ProjectFirma.Web.Models
 {
     public partial class FieldDefinition : IFieldDefinition
     {
+        private static readonly EnglishPluralizationService PluralizationService = new EnglishPluralizationService();
+
         public bool HasDefinition()
         {
             var fieldDefinitionData = GetFieldDefinitionData();
@@ -56,7 +59,7 @@ namespace ProjectFirma.Web.Models
 
         public string GetFieldDefinitionLabelPluralized()
         {
-            return GetFieldDefinitionLabel() + "s"; //TODO: NEED TO ADD Plural version
+            return PluralizationService.Pluralize(GetFieldDefinitionLabel());
         }
 
         public string GetContentUrl()

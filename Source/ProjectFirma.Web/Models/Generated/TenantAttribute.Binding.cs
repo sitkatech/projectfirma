@@ -30,13 +30,9 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(int tenantAttributeID, string taxonomySystemName, string taxonomyTierOneDisplayNameForProject, string performanceMeasureDisplayName, string classificationDisplayName, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantDisplayName) : this()
+        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantDisplayName) : this()
         {
             this.TenantAttributeID = tenantAttributeID;
-            this.TaxonomySystemName = taxonomySystemName;
-            this.TaxonomyTierOneDisplayNameForProject = taxonomyTierOneDisplayNameForProject;
-            this.PerformanceMeasureDisplayName = performanceMeasureDisplayName;
-            this.ClassificationDisplayName = classificationDisplayName;
             this.DefaultBoundingBox = defaultBoundingBox;
             this.NumberOfTaxonomyTiersToUse = numberOfTaxonomyTiersToUse;
             this.MinimumYear = minimumYear;
@@ -50,15 +46,11 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(string taxonomySystemName, string taxonomyTierOneDisplayNameForProject, string performanceMeasureDisplayName, string classificationDisplayName, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, string tenantDisplayName) : this()
+        public TenantAttribute(DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, string tenantDisplayName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TenantAttributeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TaxonomySystemName = taxonomySystemName;
-            this.TaxonomyTierOneDisplayNameForProject = taxonomyTierOneDisplayNameForProject;
-            this.PerformanceMeasureDisplayName = performanceMeasureDisplayName;
-            this.ClassificationDisplayName = classificationDisplayName;
             this.DefaultBoundingBox = defaultBoundingBox;
             this.NumberOfTaxonomyTiersToUse = numberOfTaxonomyTiersToUse;
             this.MinimumYear = minimumYear;
@@ -71,7 +63,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static TenantAttribute CreateNewBlank()
         {
-            return new TenantAttribute(default(string), default(string), default(string), default(string), default(DbGeometry), default(int), default(int), default(string));
+            return new TenantAttribute(default(DbGeometry), default(int), default(int), default(string));
         }
 
         /// <summary>
@@ -91,10 +83,6 @@ namespace ProjectFirma.Web.Models
         [Key]
         public int TenantAttributeID { get; set; }
         public int TenantID { get; private set; }
-        public string TaxonomySystemName { get; set; }
-        public string TaxonomyTierOneDisplayNameForProject { get; set; }
-        public string PerformanceMeasureDisplayName { get; set; }
-        public string ClassificationDisplayName { get; set; }
         public DbGeometry DefaultBoundingBox { get; set; }
         public int NumberOfTaxonomyTiersToUse { get; set; }
         public int MinimumYear { get; set; }
@@ -113,10 +101,6 @@ namespace ProjectFirma.Web.Models
 
         public static class FieldLengths
         {
-            public const int TaxonomySystemName = 100;
-            public const int TaxonomyTierOneDisplayNameForProject = 100;
-            public const int PerformanceMeasureDisplayName = 100;
-            public const int ClassificationDisplayName = 100;
             public const int TenantDisplayName = 100;
         }
     }

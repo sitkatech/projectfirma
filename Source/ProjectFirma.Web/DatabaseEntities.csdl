@@ -1983,10 +1983,6 @@
     </Key>
     <Property Name="TenantAttributeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="TaxonomySystemName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="TaxonomyTierOneDisplayNameForProject" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="PerformanceMeasureDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="ClassificationDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="DefaultBoundingBox" Type="Geometry" Nullable="false" />
     <Property Name="NumberOfTaxonomyTiersToUse" Type="Int32" Nullable="false" />
     <Property Name="MinimumYear" Type="Int32" Nullable="false" />
