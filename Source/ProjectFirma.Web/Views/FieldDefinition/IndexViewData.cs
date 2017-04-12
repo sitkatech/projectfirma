@@ -30,7 +30,6 @@ namespace ProjectFirma.Web.Views.FieldDefinition
         public readonly FieldDefinitionGridSpec GridSpec;
         public readonly string GridName;
         public readonly string GridDataUrl;
-        public readonly string FieldDefinitionDataUrl;
 
         public IndexViewData(Person currentPerson) : base(currentPerson)
         {
@@ -44,8 +43,6 @@ namespace ProjectFirma.Web.Views.FieldDefinition
             };
             GridName = "fieldDefinitionsGrid";
             GridDataUrl = SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
-
-            FieldDefinitionDataUrl = SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(x => x.FieldDefinitionDetails(UrlTemplate.Parameter1Int));
         }
     }
 }

@@ -57,6 +57,12 @@ namespace ProjectFirma.Web.Models
             return fieldDefinitionData != null && !string.IsNullOrWhiteSpace(fieldDefinitionData.FieldDefinitionLabel);
         }
 
+        public bool HasCustomFieldDefinition()
+        {
+            var fieldDefinitionData = GetFieldDefinitionData();
+            return fieldDefinitionData != null && fieldDefinitionData.FieldDefinitionDataValueHtmlString != null;
+        }
+
         public string GetFieldDefinitionLabelPluralized()
         {
             return PluralizationService.Pluralize(GetFieldDefinitionLabel());

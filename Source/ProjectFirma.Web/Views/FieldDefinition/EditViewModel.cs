@@ -29,10 +29,10 @@ namespace ProjectFirma.Web.Views.FieldDefinition
     public class EditViewModel : FormViewModel
     {
         [Required]
-        [DisplayName("Definition")]
+        [DisplayName("Custom Definition")]
         public HtmlString FieldDefinitionDataValue { get; set; }
 
-        [DisplayName("Label")]
+        [DisplayName("Custom Label")]
         [StringLength(FieldDefinitionData.FieldLengths.FieldDefinitionLabel)]
         public string FieldDefinitionLabel { get; set; }
 

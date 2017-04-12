@@ -27,12 +27,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
     <div class="form-horizontal">
         <div class="form-group">
-            <label class="col-md-2 control-label">Default Label</label>
-            <div class="col-md-10">
-                <input class="form-control" type="text" placeholder="@ViewDataTyped.FieldDefinition.FieldDefinitionDisplayName" readonly />
-            </div>
-        </div>
-        <div class="form-group">
             @Html.LabelFor(x => x.FieldDefinitionLabel, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
                 @Html.TextBoxFor(x => x.FieldDefinitionLabel, new { @class = "form-control" })
@@ -42,6 +36,16 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.LabelFor(x => x.FieldDefinitionDataValue, new { @class = "col-md-2 control-label" })
             <div class="col-md-10" style="max-height: 300px; overflow-y: auto;">
                 @Html.CkEditorFor(x => x.FieldDefinitionDataValue, CkEditorExtension.CkEditorToolbar.MinimalWithImages, true, false, ViewDataTyped.FileBrowserImageUploadUrl, 200)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Default Label</label>
+            <div class="col-md-10">@ViewDataTyped.FieldDefinition.FieldDefinitionDisplayName</div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Default Definition</label>
+            <div class="col-md-10 fieldDefinition" style="max-height: 300px; overflow-y: auto;">
+                @ViewDataTyped.FieldDefinition.DefaultDefinition
             </div>
         </div>
     </div>

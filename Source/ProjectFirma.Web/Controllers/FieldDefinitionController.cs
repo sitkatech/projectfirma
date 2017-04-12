@@ -102,12 +102,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var fieldDefinition = FieldDefinition.AllLookupDictionary[fieldDefinitionID];
             var fieldDefinitionData = HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.SingleOrDefault(x => x.FieldDefinitionID == fieldDefinitionID);
-            var fieldDefinitionDataValue = new HtmlString(string.Format("{0} not yet defined.", fieldDefinition.GetFieldDefinitionLabel()));
-            if (fieldDefinitionData != null)
-            {
-                fieldDefinitionDataValue = fieldDefinitionData.FieldDefinitionDataValueHtmlString;
-            }
-            var viewData = new FieldDefinitionDetailsViewData(fieldDefinitionDataValue);
+            var showEditLink = new FieldDefinitionManageFeature().HasPermission(CurrentPerson, fieldDefinition).HasPermission; 
+            var viewData = new FieldDefinitionDetailsViewData(fieldDefinition, fieldDefinitionData, showEditLink);
             return RazorPartialView<FieldDefinitionDetails, FieldDefinitionDetailsViewData>(viewData);
         }
     }

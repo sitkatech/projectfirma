@@ -19,16 +19,39 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Web;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared
 {
     public class FieldDefinitionDetailsViewData : FirmaUserControlViewData
     {
-        public readonly HtmlString FieldDefinition;
+        public readonly Models.FieldDefinition FieldDefinition;
+        private readonly FieldDefinitionData _fieldDefinitionData;
+        public readonly bool ShowEditLink;
 
-        public FieldDefinitionDetailsViewData(HtmlString fieldDefinition)
+        public FieldDefinitionDetailsViewData(Models.FieldDefinition fieldDefinition, FieldDefinitionData fieldDefinitionData, bool showEditLink)
         {
             FieldDefinition = fieldDefinition;
+            _fieldDefinitionData = fieldDefinitionData;
+            ShowEditLink = showEditLink;
+        }
+
+        public HtmlString GetFieldDefinition()
+        {
+            if (_fieldDefinitionData != null && _fieldDefinitionData.FieldDefinitionDataValueHtmlString != null)
+            {
+               return _fieldDefinitionData.FieldDefinitionDataValueHtmlString;
+            }
+            return new HtmlString(FieldDefinition.DefaultDefinition ?? string.Format("{0} not yet defined.", FieldDefinition.GetFieldDefinitionLabel()));
+        }
+
+        public string GetFieldDefinitionLabel()
+        {
+            if (_fieldDefinitionData != null)
+            {
+               return _fieldDefinitionData.FieldDefinitionLabel;
+            }
+            return FieldDefinition.FieldDefinitionDisplayName;
         }
     }
 }

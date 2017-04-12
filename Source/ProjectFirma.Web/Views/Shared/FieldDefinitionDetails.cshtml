@@ -18,8 +18,20 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Controllers
 @inherits ProjectFirma.Web.Views.Shared.FieldDefinitionDetails
 
+@if (ViewDataTyped.ShowEditLink)
+{
+    <div class="pull-right">@DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(
+                                new ModalDialogForm(
+                                    SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(t => t.Edit(ViewDataTyped.FieldDefinition)),
+                                    string.Format("Edit Field Definition '{0}'", ViewDataTyped.GetFieldDefinitionLabel())))</div>
+    <div class="clearfix"></div>
+}
 <div class="fieldDefinition">
-    @ViewDataTyped.FieldDefinition
+    @ViewDataTyped.GetFieldDefinition()
 </div>

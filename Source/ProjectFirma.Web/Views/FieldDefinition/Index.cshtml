@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common
 @using LtInfo.Common.DhtmlWrappers
 @inherits ProjectFirma.Web.Views.FieldDefinition.Index
 @section JavascriptAndStylesContent
@@ -33,31 +32,5 @@ Source code is available upon request via <support@sitkatech.com>.
 </p>
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-5">
-            @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
-        </div>
-        <div class="col-md-7">
-            <h3>Definition:</h3>
-            <div id="fieldDefinition"></div>
-        </div>
-    </div>
+    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
-
-<script type="text/javascript">
-    // <![CDATA[
-    jQuery(document).ready(function()
-    {
-        var sitkaGrid = Sitka.@ViewDataTyped.GridName;
-        sitkaGrid.grid.attachEvent("onRowSelect", function(id)
-        {
-            var fieldDefinitionId = sitkaGrid.grid.cells(id, sitkaGrid.getColumnIndexByName("FieldDefinitionID")).getValue();
-            var dataUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.FieldDefinitionDataUrl.ToJS()));
-            var dataUrl = dataUrlTemplate.ParameterReplace(fieldDefinitionId);
-            SitkaAjax.load(jQuery("#fieldDefinition"), dataUrl);
-        });
-        sitkaGrid.grid.attachEvent("onXLE", function() { sitkaGrid.grid.selectRow(0, true); });
-        sitkaGrid.grid.attachEvent("onFilterEnd", function() { sitkaGrid.grid.selectRow(0, true); });
-    });
-    // ]]>
-</script>

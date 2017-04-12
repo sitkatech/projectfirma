@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 function modalDialogLink(anchorTag, javascriptReadyFunction, postData) {
+    jQuery('.qtip.ui-tooltip-help').qtip('hide'); // hide any qtips
     var element = jQuery(anchorTag);
     var randomNumber = Math.floor(Math.random() * 10000000);
     var dialogDivId = "SitkajQueryModalDialogUniqueID" + randomNumber;
