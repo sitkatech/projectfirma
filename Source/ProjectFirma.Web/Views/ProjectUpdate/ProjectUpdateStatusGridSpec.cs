@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add(Models.FieldDefinition.PrimaryContact.ToGridHeaderString(),
                 x => x.PrimaryContactPerson == null ? new HtmlString(string.Format("({0})", ViewUtilities.NoneString)) : x.PrimaryContactPerson.GetFullNameFirstLastAndOrgAsUrl(),
                 95);
-            Add(Models.FieldDefinition.ProjectStage.ToGridHeaderStringWider(), x => x.ProjectStage.ProjectStageDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.PlanningDesignStartYear, 90, DhtmlxGridColumnFormatType.None);
             Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => x.ImplementationStartYear, 115, DhtmlxGridColumnFormatType.None);
             Add(Models.FieldDefinition.CompletionYear.ToGridHeaderString(), x => x.CompletionYear, 90, DhtmlxGridColumnFormatType.None);

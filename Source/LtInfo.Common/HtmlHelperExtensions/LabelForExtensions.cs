@@ -27,7 +27,6 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using LtInfo.Common.BootstrapWrappers;
-using LtInfo.Common.DesignByContract;
 
 namespace LtInfo.Common.HtmlHelperExtensions
 {
@@ -144,7 +143,6 @@ namespace LtInfo.Common.HtmlHelperExtensions
         }
 
         public const int DefaultPopupWidth = 300;
-        public const int DefaultPopupWidthWider = 800;
 
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
@@ -160,22 +158,6 @@ namespace LtInfo.Common.HtmlHelperExtensions
         public static MvcHtmlString LabelWithSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, string labelText)
         {
             return LabelWithSugarFor(html, expression, DefaultPopupWidth, labelText);
-        }
-
-        /// <summary>
-        /// Does what LabelWithHelpFor does and adds a help icon
-        /// </summary>
-        public static MvcHtmlString LabelWithFieldDefinitionWiderFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression)
-        {
-            return LabelWithSugarFor(html, expression, DefaultPopupWidthWider);
-        }
-
-        /// <summary>
-        /// Does what LabelWithHelpFor does and adds a help icon
-        /// </summary>
-        public static MvcHtmlString LabelWithFieldDefinitionWiderFor(this HtmlHelper html, IFieldDefinition fieldDefinition)
-        {
-            return LabelWithSugarFor(html, fieldDefinition, DefaultPopupWidthWider);
         }
 
         /// <summary>
@@ -346,7 +328,7 @@ namespace LtInfo.Common.HtmlHelperExtensions
                     var divTag = new TagBuilder("div");
                     divTag.Attributes.Add("style", "display:table; vertical-align: top");
                     labelTag.Attributes.Add("style", "display:table-cell");
-                    divTag.InnerHtml = string.Format(@"{0}{1}", helpIconImgTag, labelTag.ToString(TagRenderMode.Normal));
+                    divTag.InnerHtml = string.Format("{0}{1}", helpIconImgTag, labelTag.ToString(TagRenderMode.Normal));
                     return MvcHtmlString.Create(divTag.ToString(TagRenderMode.Normal));
                 case DisplayStyle.HelpIconOnly:
                     return MvcHtmlString.Create(helpIconImgTag);
@@ -361,15 +343,8 @@ namespace LtInfo.Common.HtmlHelperExtensions
 
         public static string GenerateHelpIconImgTag(string labelText, HtmlString fieldDefinitionDefinition, string urlToContent, int popupWidth, DisplayStyle displayStyle)
         {
-            var helpIconColor = " helpiconGridGray";
-            var hasDefinition = fieldDefinitionDefinition != null && !string.IsNullOrWhiteSpace(fieldDefinitionDefinition.ToString());
-            if (hasDefinition)
-            {
-                helpIconColor = " helpiconGridBlue";
-            }
-
             var helpIconImgTag = new TagBuilder("span");
-            helpIconImgTag.Attributes.Add("class", string.Format("helpicon glyphicon glyphicon-question-sign{0}", helpIconColor));
+            helpIconImgTag.Attributes.Add("class", "helpicon glyphicon glyphicon-question-sign");
             helpIconImgTag.Attributes.Add("title", string.Format("Click to get help on {0}", labelText));
             AddHelpToolTipPopupToHtmlTag(helpIconImgTag, labelText, urlToContent, popupWidth);
             if (displayStyle == DisplayStyle.AsGridHeader)
@@ -395,7 +370,7 @@ namespace LtInfo.Common.HtmlHelperExtensions
             var labelTag = new TagBuilder("a");
             AddHelpToolTipPopupToHtmlTag(labelTag, popupTitleText, urlToContent, popupWidth);
             labelTag.SetInnerText(linkText);
-            return MvcHtmlString.Create(string.Format(@"{0} {1}", helpIconImgTag.ToString(TagRenderMode.Normal), labelTag.ToString(TagRenderMode.Normal)));
+            return MvcHtmlString.Create(string.Format("{0} {1}", helpIconImgTag.ToString(TagRenderMode.Normal), labelTag.ToString(TagRenderMode.Normal)));
         }
     }    
 }

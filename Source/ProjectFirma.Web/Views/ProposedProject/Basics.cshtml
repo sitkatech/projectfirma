@@ -92,7 +92,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4 col-lg-3 col-header">@Html.LabelWithFieldDefinitionWiderFor(m => m.FundingTypeID)</div>
+        <div class="col-md-4 col-lg-3 col-header">@Html.LabelWithSugarFor(m => m.FundingTypeID)</div>
         <div class="col-md-8">
             @Html.DropDownListFor(m => m.FundingTypeID, ViewDataTyped.FundingTypes, new { onchange = "displaySelectedFundingTypeFields()" })
             @Html.ValidationMessageFor(m => m.FundingTypeID)

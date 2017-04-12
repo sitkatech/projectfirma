@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.Organization
         public ProjectOrganizationsGridSpec(IEnumerable<int> calendarYearsForProjectExpenditures)
         {
             Add(Models.FieldDefinition.Project.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.Project.GetDetailUrl(), a.Project.DisplayName), 350, DhtmlxGridColumnFilterType.Html);
-            Add(Models.FieldDefinition.ProjectStage.ToGridHeaderStringWider(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.LeadImplementer.ToGridHeaderString(), a => a.IsLeadOrganization.ToYesNo(), 120, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.Implementer.ToGridHeaderString(), a => (a.IsImplementingOrganization && !a.IsLeadOrganization).ToYesNo(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.Funder.ToGridHeaderString(), a => a.IsFundingOrganization.ToYesNo(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);

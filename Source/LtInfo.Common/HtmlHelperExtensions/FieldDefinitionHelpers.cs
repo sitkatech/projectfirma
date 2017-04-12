@@ -45,10 +45,5 @@ namespace LtInfo.Common.HtmlHelperExtensions
                 LabelWithSugarForExtensions.LabelWithSugarFor(fieldDefinition, popupWidth,
                     LabelWithSugarForExtensions.DisplayStyle.AsGridHeader, fieldDefinitionDisplayName).ToString();
         }
-
-        public static string ToGridHeaderStringWider(this IFieldDefinition fieldDefinition)
-        {
-            return fieldDefinition.ToGridHeaderString(LabelWithSugarForExtensions.DefaultPopupWidthWider, fieldDefinition.GetFieldDefinitionLabel());
-        }
     }
 }
