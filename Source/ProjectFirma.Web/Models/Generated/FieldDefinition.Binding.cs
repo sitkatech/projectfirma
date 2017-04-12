@@ -294,10 +294,10 @@ namespace ProjectFirma.Web.Models
                     return TagName;
                 case FieldDefinitionEnum.TaxonomySystemName:
                     return TaxonomySystemName;
-                case FieldDefinitionEnum.TaxonomyTierOneDisplayNameForProject:
-                    return TaxonomyTierOneDisplayNameForProject;
                 case FieldDefinitionEnum.TaxonomyTierOne:
                     return TaxonomyTierOne;
+                case FieldDefinitionEnum.TaxonomyTierOneDisplayNameForProject:
+                    return TaxonomyTierOneDisplayNameForProject;
                 case FieldDefinitionEnum.TaxonomyTierThree:
                     return TaxonomyTierThree;
                 case FieldDefinitionEnum.TaxonomyTierTwo:
@@ -389,7 +389,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionTaxonomyTierOne : FieldDefinition
     {
         private FieldDefinitionTaxonomyTierOne(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionTaxonomyTierOne Instance = new FieldDefinitionTaxonomyTierOne(1, @"TaxonomyTierOne", @"Taxonomy Tier One", null);
+        public static readonly FieldDefinitionTaxonomyTierOne Instance = new FieldDefinitionTaxonomyTierOne(1, @"TaxonomyTierOne", @"Taxonomy Tier One", @"<p>The highest level record in the hierarchical project taxonomy system.</p>");
     }
 
     public partial class FieldDefinitionExpectedValue : FieldDefinition
@@ -401,7 +401,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionTaxonomyTierThree : FieldDefinition
     {
         private FieldDefinitionTaxonomyTierThree(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionTaxonomyTierThree Instance = new FieldDefinitionTaxonomyTierThree(5, @"TaxonomyTierThree", @"Taxonomy Tier Three", null);
+        public static readonly FieldDefinitionTaxonomyTierThree Instance = new FieldDefinitionTaxonomyTierThree(5, @"TaxonomyTierThree", @"Taxonomy Tier Three", @"<p>The lowest level record in the hierarchical project taxonomy system.</p>");
     }
 
     public partial class FieldDefinitionFunder : FieldDefinition
@@ -449,7 +449,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionPerformanceMeasureType : FieldDefinition
     {
         private FieldDefinitionPerformanceMeasureType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionPerformanceMeasureType Instance = new FieldDefinitionPerformanceMeasureType(19, @"PerformanceMeasureType", @"Performance Measure Type", null);
+        public static readonly FieldDefinitionPerformanceMeasureType Instance = new FieldDefinitionPerformanceMeasureType(19, @"PerformanceMeasureType", @"Performance Measure Type", @"<p>The type of a Performance Measure - either an Action or Outcome.</p>");
     }
 
     public partial class FieldDefinitionMeasurementUnit : FieldDefinition
@@ -485,7 +485,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionTaxonomyTierTwo : FieldDefinition
     {
         private FieldDefinitionTaxonomyTierTwo(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionTaxonomyTierTwo Instance = new FieldDefinitionTaxonomyTierTwo(26, @"TaxonomyTierTwo", @"Taxonomy Tier Two", null);
+        public static readonly FieldDefinitionTaxonomyTierTwo Instance = new FieldDefinitionTaxonomyTierTwo(26, @"TaxonomyTierTwo", @"Taxonomy Tier Two", @"<p>The second level record in the hierarchical project taxonomy system.</p>");
     }
 
     public partial class FieldDefinitionCompletionYear : FieldDefinition
@@ -527,7 +527,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionSector : FieldDefinition
     {
         private FieldDefinitionSector(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionSector Instance = new FieldDefinitionSector(34, @"Sector", @"Sector", @"<p>A categorization of an organization as Local, State (California or Nevada), Federal or Private.</p>");
+        public static readonly FieldDefinitionSector Instance = new FieldDefinitionSector(34, @"Sector", @"Sector", @"<p>A categorization of an organization as Local, State, Federal or Private.</p>");
     }
 
     public partial class FieldDefinitionSecuredFunding : FieldDefinition
@@ -539,13 +539,13 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionProjectStage : FieldDefinition
     {
         private FieldDefinitionProjectStage(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionProjectStage Instance = new FieldDefinitionProjectStage(36, @"ProjectStage", @"Project Stage", null);
+        public static readonly FieldDefinitionProjectStage Instance = new FieldDefinitionProjectStage(36, @"ProjectStage", @"Project Stage", @"<p>Where a project exists in the project life cycle - Planning/Design, Implementation, Complete, Terminated, etc.</p>");
     }
 
     public partial class FieldDefinitionClassificationName : FieldDefinition
     {
         private FieldDefinitionClassificationName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionClassificationName Instance = new FieldDefinitionClassificationName(39, @"ClassificationName", @"Classification Name", @"<p>-</p>");
+        public static readonly FieldDefinitionClassificationName Instance = new FieldDefinitionClassificationName(39, @"ClassificationName", @"Classification Name", @"<p>The name of the this classification system record.-</p>");
     }
 
     public partial class FieldDefinitionEstimatedTotalCost : FieldDefinition
@@ -569,13 +569,13 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionProject : FieldDefinition
     {
         private FieldDefinitionProject(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionProject Instance = new FieldDefinitionProject(44, @"Project", @"Project", @"<p>-</p>");
+        public static readonly FieldDefinitionProject Instance = new FieldDefinitionProject(44, @"Project", @"Project", @"<p>The core entity that ProjectFirma tracks - A collection of activities, with Performance Measurs and Expenditures, that contribute to meeting program goals.-</p>");
     }
 
     public partial class FieldDefinitionClassification : FieldDefinition
     {
         private FieldDefinitionClassification(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionClassification Instance = new FieldDefinitionClassification(46, @"Classification", @"Classification", @"<p>The Focal Species of the Clackamas Partnership. Projects are identified as pertaining to one or more focal species.</p>");
+        public static readonly FieldDefinitionClassification Instance = new FieldDefinitionClassification(46, @"Classification", @"Classification", @"<p>A logical system to group projects according to overarching program themes or goals.</p>");
     }
 
     public partial class FieldDefinitionWatershed : FieldDefinition
@@ -641,7 +641,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionReportingYear : FieldDefinition
     {
         private FieldDefinitionReportingYear(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionReportingYear Instance = new FieldDefinitionReportingYear(76, @"ReportingYear", @"Reporting Year", @"The current year used for reporting purposes, which is defined as the previous calendar year until after November 1st of the present calendar year");
+        public static readonly FieldDefinitionReportingYear Instance = new FieldDefinitionReportingYear(76, @"ReportingYear", @"Reporting Year", @"<p>The current year used for reporting purposes, which is defined as the previous calendar year until after November 1st of the present calendar year.</p>");
     }
 
     public partial class FieldDefinitionTagName : FieldDefinition
@@ -683,7 +683,7 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionAssociatedTaxonomyTierTwos : FieldDefinition
     {
         private FieldDefinitionAssociatedTaxonomyTierTwos(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionAssociatedTaxonomyTierTwos Instance = new FieldDefinitionAssociatedTaxonomyTierTwos(87, @"AssociatedTaxonomyTierTwos", @"Associated TaxonomyTierTwos", @"<p>External&nbsp;programs that are related to the content you are reviewing. You may wish to look up these programs to learn more.</p>");
+        public static readonly FieldDefinitionAssociatedTaxonomyTierTwos Instance = new FieldDefinitionAssociatedTaxonomyTierTwos(87, @"AssociatedTaxonomyTierTwos", @"Associated Taxonomy Tier Twos", @"<p>External&nbsp;programs that are related to the content you are reviewing. You may wish to look up these programs to learn more.</p>");
     }
 
     public partial class FieldDefinitionExternalLinks : FieldDefinition
@@ -713,13 +713,13 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionLifecycleOperatingCost : FieldDefinition
     {
         private FieldDefinitionLifecycleOperatingCost(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionLifecycleOperatingCost Instance = new FieldDefinitionLifecycleOperatingCost(92, @"LifecycleOperatingCost", @"Lifecycle Operating Cost", @"Sum of the annual operating cost from the Implementation Start Year to Completion Year. Not inflation adjusted.");
+        public static readonly FieldDefinitionLifecycleOperatingCost Instance = new FieldDefinitionLifecycleOperatingCost(92, @"LifecycleOperatingCost", @"Lifecycle Operating Cost", @"<p>Sum of the annual operating cost from the Implementation Start Year to Completion Year. Not inflation adjusted.</p>");
     }
 
     public partial class FieldDefinitionPerformanceMeasureChartTitle : FieldDefinition
     {
         private FieldDefinitionPerformanceMeasureChartTitle(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionPerformanceMeasureChartTitle Instance = new FieldDefinitionPerformanceMeasureChartTitle(97, @"PerformanceMeasureChartTitle", @"Performance Measure Chart Title", @"<p>A short title for the Indicator (aka Performance Measure) used for charts throughout LT Info.</p>");
+        public static readonly FieldDefinitionPerformanceMeasureChartTitle Instance = new FieldDefinitionPerformanceMeasureChartTitle(97, @"PerformanceMeasureChartTitle", @"Performance Measure Chart Title", @"<p>A short title for the Indicator (aka Performance Measure) used for charts throughout ProjectFirma.</p>");
     }
 
     public partial class FieldDefinitionRoleName : FieldDefinition
@@ -731,19 +731,19 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionRegion : FieldDefinition
     {
         private FieldDefinitionRegion(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionRegion Instance = new FieldDefinitionRegion(184, @"Region", @"Region (Geospatial, null),", null);
+        public static readonly FieldDefinitionRegion Instance = new FieldDefinitionRegion(184, @"Region", @"Region (Geospatial)", @"<p>The region in which a project is located.</p>");
     }
 
     public partial class FieldDefinitionPerformanceMeasureChartCaption : FieldDefinition
     {
         private FieldDefinitionPerformanceMeasureChartCaption(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionPerformanceMeasureChartCaption Instance = new FieldDefinitionPerformanceMeasureChartCaption(228, @"PerformanceMeasureChartCaption", @"Performance Measure Chart Caption", null);
+        public static readonly FieldDefinitionPerformanceMeasureChartCaption Instance = new FieldDefinitionPerformanceMeasureChartCaption(228, @"PerformanceMeasureChartCaption", @"Performance Measure Chart Caption", @"<p>The caption which will appear on Performance Measure charts throughout the system.</p>");
     }
 
     public partial class FieldDefinitionMonitoringProgram : FieldDefinition
     {
         private FieldDefinitionMonitoringProgram(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionMonitoringProgram Instance = new FieldDefinitionMonitoringProgram(236, @"MonitoringProgram", @"Monitoring Program", null);
+        public static readonly FieldDefinitionMonitoringProgram Instance = new FieldDefinitionMonitoringProgram(236, @"MonitoringProgram", @"Monitoring Program", @"<p>A on-going activity to collect environmental monitoring data</p>");
     }
 
     public partial class FieldDefinitionMonitoringApproach : FieldDefinition
@@ -761,36 +761,36 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionMonitoringProgramUrl : FieldDefinition
     {
         private FieldDefinitionMonitoringProgramUrl(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionMonitoringProgramUrl Instance = new FieldDefinitionMonitoringProgramUrl(239, @"MonitoringProgramUrl", @"Monitoring Program Home Page", null);
+        public static readonly FieldDefinitionMonitoringProgramUrl Instance = new FieldDefinitionMonitoringProgramUrl(239, @"MonitoringProgramUrl", @"Monitoring Program Home Page", @"<p>The external homepage of a related monitoring program</p>");
     }
 
     public partial class FieldDefinitionClassificationDescription : FieldDefinition
     {
         private FieldDefinitionClassificationDescription(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionClassificationDescription Instance = new FieldDefinitionClassificationDescription(240, @"ClassificationDescription", @"Classification Description", @"<p>-</p>");
+        public static readonly FieldDefinitionClassificationDescription Instance = new FieldDefinitionClassificationDescription(240, @"ClassificationDescription", @"Classification Description", @"<p>The long-form description of the entries in the project classification system.-</p>");
     }
 
     public partial class FieldDefinitionClassificationGoalStatement : FieldDefinition
     {
         private FieldDefinitionClassificationGoalStatement(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionClassificationGoalStatement Instance = new FieldDefinitionClassificationGoalStatement(241, @"ClassificationGoalStatement", @"Classification Goal Statement", null);
+        public static readonly FieldDefinitionClassificationGoalStatement Instance = new FieldDefinitionClassificationGoalStatement(241, @"ClassificationGoalStatement", @"Classification Goal Statement", @"<p>The goal of this classification system record.-</p>");
     }
 
     public partial class FieldDefinitionClassificationNarrative : FieldDefinition
     {
         private FieldDefinitionClassificationNarrative(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionClassificationNarrative Instance = new FieldDefinitionClassificationNarrative(242, @"ClassificationNarrative", @"Classification Narrative", null);
+        public static readonly FieldDefinitionClassificationNarrative Instance = new FieldDefinitionClassificationNarrative(242, @"ClassificationNarrative", @"Classification Narrative", @"<p>Descriptive text describing the criteria for including a project in this classification system..-</p>");
     }
 
     public partial class FieldDefinitionTaxonomySystemName : FieldDefinition
     {
         private FieldDefinitionTaxonomySystemName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionTaxonomySystemName Instance = new FieldDefinitionTaxonomySystemName(243, @"Taxonomy System Name", @"TaxonomySystemName", null);
+        public static readonly FieldDefinitionTaxonomySystemName Instance = new FieldDefinitionTaxonomySystemName(243, @"TaxonomySystem Name", @"Taxonomy System Name", @"<p>The customized name for the hierarchical project taxonomy system.<p>");
     }
 
     public partial class FieldDefinitionTaxonomyTierOneDisplayNameForProject : FieldDefinition
     {
         private FieldDefinitionTaxonomyTierOneDisplayNameForProject(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionTaxonomyTierOneDisplayNameForProject Instance = new FieldDefinitionTaxonomyTierOneDisplayNameForProject(244, @"Taxonomy Tier One Display Name For Project", @"TaxonomyTierOneDisplayNameForProject", null);
+        public static readonly FieldDefinitionTaxonomyTierOneDisplayNameForProject Instance = new FieldDefinitionTaxonomyTierOneDisplayNameForProject(244, @"TaxonomyTierOneDisplay NameForProject", @"Taxonomy Tier One Display Name For Project", @"<p>A custom label describing how a Project relates to it's highest Taxonomy tier..</p>");
     }
 }
