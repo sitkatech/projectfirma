@@ -42,12 +42,12 @@ namespace ProjectFirma.Web.Views.Shared
             {
                return _fieldDefinitionData.FieldDefinitionDataValueHtmlString;
             }
-            return new HtmlString(FieldDefinition.DefaultDefinition ?? string.Format("{0} not yet defined.", FieldDefinition.GetFieldDefinitionLabel()));
+            return FieldDefinition.DefaultDefinitionHtmlString ?? new HtmlString(string.Format("{0} not yet defined.", FieldDefinition.GetFieldDefinitionLabel()));
         }
 
         public string GetFieldDefinitionLabel()
         {
-            if (_fieldDefinitionData != null)
+            if (_fieldDefinitionData != null && !string.IsNullOrWhiteSpace(_fieldDefinitionData.FieldDefinitionLabel))
             {
                return _fieldDefinitionData.FieldDefinitionLabel;
             }

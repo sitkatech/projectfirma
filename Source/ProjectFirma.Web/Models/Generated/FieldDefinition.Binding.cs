@@ -6,8 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Linq;
+using System.Web;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -112,7 +114,13 @@ namespace ProjectFirma.Web.Models
         public int FieldDefinitionID { get; private set; }
         public string FieldDefinitionName { get; private set; }
         public string FieldDefinitionDisplayName { get; private set; }
-        public string DefaultDefinition { get; private set; }
+        [NotMapped]
+        private string DefaultDefinition { get; set; }
+        public HtmlString DefaultDefinitionHtmlString
+        { 
+            get { return DefaultDefinition == null ? null : new HtmlString(DefaultDefinition); }
+            set { DefaultDefinition = value == null ? null : value.ToString(); }
+        }
         public int PrimaryKey { get { return FieldDefinitionID; } }
 
         /// <summary>
