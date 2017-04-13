@@ -20,16 +20,14 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Controllers
 @inherits ProjectFirma.Web.Views.Shared.FieldDefinitionDetails
 
 @if (ViewDataTyped.ShowEditLink)
 {
-    <div class="pull-right">@DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(
-                                new ModalDialogForm(
-                                    SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(t => t.Edit(ViewDataTyped.FieldDefinition)),
-                                    string.Format("Edit Field Definition '{0}'", ViewDataTyped.GetFieldDefinitionLabel())))</div>
+    <div class="pull-right">
+        <a href="@(SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(t => t.Edit(ViewDataTyped.FieldDefinition)))" target="_blank">@DhtmlxGridHtmlHelpers.EditIconBootstrap</a>
+    </div>
     <div class="clearfix"></div>
 }
 <div class="fieldDefinition">

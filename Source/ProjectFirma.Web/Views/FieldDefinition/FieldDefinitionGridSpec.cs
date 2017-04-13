@@ -18,10 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Views.FieldDefinition
@@ -34,10 +34,9 @@ namespace ProjectFirma.Web.Views.FieldDefinition
             {
                 Add(string.Empty,
                     a =>
-                        DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(
-                            new ModalDialogForm(
-                                SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(t => t.Edit(a)),
-                                string.Format("Edit Field Definition '{0}'", a.GetFieldDefinitionLabel()))),
+                        UrlTemplate.MakeHrefString(SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(t => t.Edit(a)),
+                            DhtmlxGridHtmlHelpers.EditIconBootstrap.ToString(),
+                            new Dictionary<string, string> {{"target", "_blank"}}),
                     30);
             }
             Add("Custom Label", a => a.HasDefinition() ? a.GetFieldDefinitionData().FieldDefinitionLabel : string.Empty, 200);

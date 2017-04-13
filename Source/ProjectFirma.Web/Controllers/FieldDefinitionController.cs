@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpGet]
         [FieldDefinitionManageFeature]
         [CrossAreaRoute]
-        public PartialViewResult Edit(FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey)
+        public ViewResult Edit(FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey)
         {
             var fieldDefinitionData = HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.GetFieldDefinitionDataByFieldDefinition(fieldDefinitionPrimaryKey);            
             var viewModel = new EditViewModel(fieldDefinitionData);
@@ -89,10 +89,10 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey, EditViewModel viewModel)
+        private ViewResult ViewEdit(FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey, EditViewModel viewModel)
         {
-            var viewData = new EditViewData(fieldDefinitionPrimaryKey);
-            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+            var viewData = new EditViewData(fieldDefinitionPrimaryKey, CurrentPerson);
+            return RazorView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
         [HttpGet]

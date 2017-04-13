@@ -20,15 +20,16 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.FieldDefinition
 {
-    public class EditViewData : FirmaUserControlViewData
+    public class EditViewData : FirmaViewData
     {
         public readonly string FileBrowserImageUploadUrl;
         public readonly Models.FieldDefinition FieldDefinition;
 
-        public EditViewData(Models.FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey)
+        public EditViewData(Models.FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey, Person currentPerson) : base(currentPerson)
         {
             FieldDefinition = fieldDefinitionPrimaryKey.EntityObject;
             FileBrowserImageUploadUrl = SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.CkEditorUploadFileResourceForFieldDefinition(FieldDefinition, null));

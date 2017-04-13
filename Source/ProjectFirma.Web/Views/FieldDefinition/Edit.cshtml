@@ -21,10 +21,9 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.FieldDefinition.Edit
 
+<h3>Edit Field Definition</h3>
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary()
-
     <div class="form-horizontal">
         <div class="form-group">
             @Html.LabelFor(x => x.FieldDefinitionLabel, new { @class = "col-md-2 control-label" })
@@ -49,6 +48,4 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
     </div>
-
-    <script type="text/javascript" src="/ScriptsCustom/CkEditorReady.js"></script>
 }
