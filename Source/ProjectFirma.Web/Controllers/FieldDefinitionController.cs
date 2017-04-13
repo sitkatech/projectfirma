@@ -86,7 +86,8 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(fieldDefinitionData);
-            return new ModalDialogFormJsonResult();
+            SetMessageForDisplay("Field Definition successfully saved.");
+            return RedirectToAction(new SitkaRoute<FieldDefinitionController>(x => x.Edit(fieldDefinitionData.FieldDefinition)));
         }
 
         private ViewResult ViewEdit(FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey, EditViewModel viewModel)
