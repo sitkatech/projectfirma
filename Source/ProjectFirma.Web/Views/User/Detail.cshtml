@@ -65,33 +65,33 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-xs-4 fieldLabel text-right">Name:</div>
+                    <div class="col-xs-4 fieldLabel text-right">Name</div>
                     <div class="col-xs-8">@ViewDataTyped.Person.FullNameFirstLast</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4 fieldLabel text-right">Email:</div>
+                    <div class="col-xs-4 fieldLabel text-right">Email</div>
                     <div class="col-xs-8">@ViewDataTyped.Person.Email</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4 fieldLabel text-right">Phone:</div>
+                    <div class="col-xs-4 fieldLabel text-right">Phone</div>
                     <div class="col-xs-8">@ViewDataTyped.Person.Phone.ToPhoneNumberString()</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4 fieldLabel text-right">Username:</div>
+                    <div class="col-xs-4 fieldLabel text-right">Username</div>
                     <div class="col-xs-8">@ViewDataTyped.Person.LoginName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4 fieldLabel text-right">Organization:</div>
+                    <div class="col-xs-4 fieldLabel text-right">Organization</div>
                     <div class="col-xs-8">@ViewDataTyped.Person.Organization.GetDisplayNameAsUrl()</div>
                 </div>
                 @if (ViewDataTyped.UserHasPersonManagePermissions)
                 {
                     <div class="row">
-                        <div class="col-xs-4 fieldLabel text-right">Last Activity:</div>
+                        <div class="col-xs-4 fieldLabel text-right">Last Activity</div>
                         <div class="col-xs-8">@ViewDataTyped.Person.LastActivityDate.ToStringDateTimeNoLeadingZeros()</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4 fieldLabel text-right">Created Date:</div>
+                        <div class="col-xs-4 fieldLabel text-right">Created Date</div>
                         <div class="col-xs-8">@ViewDataTyped.Person.CreateDate.ToStringDateTimeNoLeadingZeros()</div>
                     </div>
                 }
@@ -113,7 +113,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-xs-4 fieldLabel text-right">Role:</div>
+                        <div class="col-xs-4 fieldLabel text-right">Role</div>
                         <div class="col-xs-8">
                             @if (ViewDataTyped.UserHasPersonManagePermissions)
                             {
@@ -126,7 +126,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4 fieldLabel text-right">Receive Support Emails:</div>
+                        <div class="col-xs-4 fieldLabel text-right">Receive Support Emails</div>
                         <div class="col-xs-8">@ViewDataTyped.Person.ReceiveSupportEmails.ToYesNo()</div>
                     </div>
                 </div>
