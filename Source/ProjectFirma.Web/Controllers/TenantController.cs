@@ -31,6 +31,7 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Tenant;
 
@@ -161,6 +162,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [Route("Content/style-{tenantName}.css")]
+        [AnonymousUnclassifiedFeature]
         public ActionResult Style(string tenantName)
         {
             var tenant = Tenant.All.SingleOrDefault(t => t.TenantName == tenantName);
