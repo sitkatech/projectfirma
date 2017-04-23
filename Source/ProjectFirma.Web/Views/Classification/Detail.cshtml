@@ -22,7 +22,6 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
-@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Views
 @inherits ProjectFirma.Web.Views.Classification.Detail
 
@@ -76,7 +75,7 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <div>
-    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @MultiTenantHelpers.GetClassificationDisplayNamePluralized()</a>
+    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @ViewDataTyped.ClassificationDisplayNamePluralized</a>
 </div>
 
 
@@ -85,7 +84,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div style="padding: 20px;">
             <h1>
                 <span style="vertical-align: top">
-                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetClassificationDisplayName(), ViewDataTyped.Classification.DisplayName), ViewDataTyped.UserHasClassificationManagePermissions)
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationUrl, string.Format("Edit {0} - {1}", ViewDataTyped.ClassificationDisplayName, ViewDataTyped.Classification.DisplayName), ViewDataTyped.UserHasClassificationManagePermissions)
                 </span>
                 @ViewDataTyped.Classification.DisplayName
             </h1>

@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllClassifications.Add(classification);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay(string.Format("New {0} {1} successfully created!", MultiTenantHelpers.GetClassificationDisplayName(), classification.GetDisplayNameAsUrl()));
+            SetMessageForDisplay(string.Format("New {0} {1} successfully created!", FieldDefinition.Classification.GetFieldDefinitionLabel(), classification.GetDisplayNameAsUrl()));
 
             return new ModalDialogFormJsonResult();
         }
@@ -124,8 +124,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !classification.HasDependentObjects();
             var confirmMessage = canDelete
-                ? string.Format("Are you sure you want to delete this {0} '{1}'?", MultiTenantHelpers.GetClassificationDisplayName(), classification.DisplayName)
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(MultiTenantHelpers.GetClassificationDisplayName(), SitkaRoute<ClassificationController>.BuildLinkFromExpression(x => x.Detail(classification), "here"));
+                ? string.Format("Are you sure you want to delete this {0} '{1}'?", FieldDefinition.Classification.GetFieldDefinitionLabel(), classification.DisplayName)
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinition.Classification.GetFieldDefinitionLabel(), SitkaRoute<ClassificationController>.BuildLinkFromExpression(x => x.Detail(classification), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);

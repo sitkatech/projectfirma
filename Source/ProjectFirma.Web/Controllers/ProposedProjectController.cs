@@ -315,7 +315,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ProposedProjectClassifications.Load();
             viewModel.UpdateModel(proposedProject, currentProposedProjectClassifications);
 
-            SetMessageForDisplay(string.Format("Proposed Project {0} succesfully saved.", MultiTenantHelpers.GetClassificationDisplayNamePluralized()));
+            SetMessageForDisplay(string.Format("Proposed Project {0} succesfully saved.", FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()));
             return RedirectToAction(new SitkaRoute<ProposedProjectController>(x => x.EditClassifications(proposedProject)));
         }
 

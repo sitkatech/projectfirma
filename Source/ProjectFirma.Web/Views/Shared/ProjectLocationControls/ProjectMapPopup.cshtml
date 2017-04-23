@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Models
 @using LtInfo.Common
-@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectMapPopup
 
 <div style="font-weight: bold">@ViewDataTyped.Project.DisplayName</div>
@@ -57,7 +56,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <td>@ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()</td>
         </tr>
         <tr>
-            <th>@MultiTenantHelpers.GetClassificationDisplayNamePluralized()</th>
+            <th>@ViewDataTyped.ClassificationDisplayNamePluralized</th>
             <td>@string.Join(", ", ViewDataTyped.Project.ProjectClassifications.Select(x => x.Classification.DisplayName))</td>
         </tr>
     </tbody>

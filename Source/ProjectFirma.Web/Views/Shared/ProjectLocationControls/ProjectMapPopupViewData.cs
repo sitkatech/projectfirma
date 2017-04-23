@@ -26,6 +26,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly string TaxonomyTierThreeDisplayName;
         public readonly string TaxonomyTierTwoDisplayName;
         public readonly string TaxonomyTierOneDisplayName;
+        public readonly string ClassificationDisplayNamePluralized;
 
         public ProjectMapPopupViewData(Models.Project project)
         {
@@ -33,6 +34,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             TaxonomyTierThreeDisplayName = Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel();
             TaxonomyTierTwoDisplayName = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
             TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
+            ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
         }
     }
 }

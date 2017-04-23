@@ -121,7 +121,7 @@ namespace ProjectFirma.Web.Views
         {
             var programInfoMenu = new LtInfoMenuItem("Program Info");
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramInfoController>(c => c.Taxonomy()), currentPerson, MultiTenantHelpers.GetTaxonomySystemName(), "Group1"));
-            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ClassificationController>(c => c.Index()), currentPerson, MultiTenantHelpers.GetClassificationDisplayNamePluralized(), "Group1"));
+            programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ClassificationController>(c => c.Index()), currentPerson, Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized(), "Group1"));
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Index()), currentPerson, MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), "Group1"));          
 
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<WatershedController>(c => c.Index()), currentPerson, "Watersheds", "Group2"));

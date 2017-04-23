@@ -33,7 +33,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using (Html.BeginForm())
 {
     <div>
-        Click the checkboxes below to associate this project with one or more @Html.LabelWithSugarFor(FieldDefinition.Classification, MultiTenantHelpers.GetClassificationDisplayNamePluralized()).
+        Click the checkboxes below to associate this project with one or more @(Html.LabelWithSugarFor(FieldDefinition.Classification, FieldDefinition.Classification.GetFieldDefinitionLabelPluralized())).
     </div>
     <div>
         @{var i = 0;}

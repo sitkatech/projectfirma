@@ -266,10 +266,10 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                 </div>
 
-                <h2 data-toc-skip class="sectionHeader">Project Classification</h2>
+                <h2 data-toc-skip class="sectionHeader">Project @ViewDataTyped.ClassificationDisplayName</h2>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationsUrl, string.Format("Edit {0}", MultiTenantHelpers.GetClassificationDisplayNamePluralized()), ViewDataTyped.UserHasProjectClassificationManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.Classification, MultiTenantHelpers.GetClassificationDisplayNamePluralized())</h2>
+                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationsUrl, string.Format("Edit {0}", ViewDataTyped.ClassificationDisplayNamePluralized), ViewDataTyped.UserHasProjectClassificationManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.Classification, ViewDataTyped.ClassificationDisplayNamePluralized)</h2>
                     </div>
                     <div class="panel-body">
                         @if (ViewDataTyped.Project.ProjectClassifications.Any())
@@ -291,7 +291,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         }
                         else
                         {
-                            <p class="alert">No @MultiTenantHelpers.GetClassificationDisplayNamePluralized().ToLower() set for this project.</p>
+                            <p class="alert">No @ViewDataTyped.ClassificationDisplayNamePluralized set for this project.</p>
                         }
                     </div>
                 </div>

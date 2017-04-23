@@ -58,6 +58,9 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public readonly bool ProjectStateIsValidInWizard;
 
         public readonly bool HasAssessments;
+        public readonly string ClassificationDisplayName;
+        public readonly string ClassificationDisplayNamePluralized;
+
 
         protected ProposedProjectViewData(Person currentPerson,
             Models.ProposedProject proposedProject,
@@ -101,6 +104,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
             CurrentPersonIsApprover = new ProposedProjectApproveFeature().HasPermissionByPerson(CurrentPerson);
 
             HasAssessments = HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Any();
+            ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
+            ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
         }
 
         //New (not yet created) Proposed Projects use this constructor. Valid only for Instructions and Basics page.

@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.Classification
                     30);
             }
 
-            Add(Models.FieldDefinition.Classification.ToGridHeaderString(MultiTenantHelpers.GetClassificationDisplayName()), a => a.GetDisplayNameAsUrl(), 250);
+            Add(Models.FieldDefinition.Classification.ToGridHeaderString(Models.FieldDefinition.Classification.GetFieldDefinitionLabel()), a => a.GetDisplayNameAsUrl(), 250);
             Add(Models.FieldDefinition.ClassificationDescription.ToGridHeaderString("Description"), a => a.ClassificationDescription, 250);
             Add(Models.FieldDefinition.ClassificationDescription.ToGridHeaderString("Goal Statement"), a => a.GoalStatement, 250);
             Add("# of Projects", a => a.ProjectClassifications.Count, 90);

@@ -26,7 +26,6 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Views
-@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Tag.Detail
 
 @section JavascriptAndStylesContent
@@ -36,7 +35,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTagUrl, string.Format("Edit {0} - {1}", MultiTenantHelpers.GetClassificationDisplayName(), ViewDataTyped.Tag.DisplayName), ViewDataTyped.UserHasTagManagePermissions) Basics</h2>
+        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTagUrl, string.Format("Edit {0}", ViewDataTyped.Tag.DisplayName), ViewDataTyped.UserHasTagManagePermissions) Basics</h2>
     </div>
     <div class="panel-body">
         <table class="summaryLayout">

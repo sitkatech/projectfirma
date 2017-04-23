@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
@@ -51,7 +52,11 @@ namespace ProjectFirma.Web.Models
             get { return SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.GetFileResourceResized(KeyImageFileResource.FileResourceGUIDAsString, 287, 180)); }
         }
 
-
+        public static bool IsDisplayNameUnique(IEnumerable<Classification> classifications, string displayName, int currentClassificationID)
+        {
+            var classification = classifications.SingleOrDefault(x => x.ClassificationID != currentClassificationID && String.Equals(x.DisplayName, displayName, StringComparison.InvariantCultureIgnoreCase));
+            return classification == null;
+        }
 
         public string AuditDescriptionString
         {

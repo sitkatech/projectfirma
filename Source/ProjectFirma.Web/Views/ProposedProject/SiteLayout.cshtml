@@ -101,11 +101,11 @@ Source code is available upon request via <support@sitkatech.com>.
             <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Classifications, ViewDataTyped.SelectedProposedProjectSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {
-                    <a href="@ViewDataTyped.ProjectUpdateClassificationsUrl">@MultiTenantHelpers.GetClassificationDisplayNamePluralized()</a>
+                    <a href="@ViewDataTyped.ProjectUpdateClassificationsUrl">@ViewDataTyped.ClassificationDisplayNamePluralized</a>
                 }
                 else
                 {
-                    @ProjectWizardComponents.MakeDisabledSectionLink(MultiTenantHelpers.GetClassificationDisplayNamePluralized())
+                    @ProjectWizardComponents.MakeDisabledSectionLink(ViewDataTyped.ClassificationDisplayNamePluralized)
                 }
                 <span class="pull-right statusIcon">
                     @Html.Raw(ViewDataTyped.ProposalSectionsStatus.IsClassificationsComplete ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)

@@ -98,6 +98,10 @@ namespace ProjectFirma.Web.Views.Project
 
         public readonly AssessmentTreeViewData AssessmentTreeViewData;
 
+        public readonly string ClassificationDisplayName;
+        public readonly string ClassificationDisplayNamePluralized;
+
+
         //TODO: Inline all url parameters
         public DetailViewData(Person currentPerson, Models.Project project, string confirmNonMandatoryUpdateUrl, List<ProjectStage> projectStages, ProjectTaxonomyViewData projectTaxonomyViewData,
             ProjectBudgetDetailViewData projectBudgetDetailViewData, 
@@ -187,6 +191,9 @@ namespace ProjectFirma.Web.Views.Project
             ProjectNotificationGridDataUrl = projectNotificationGridDataUrl;
 
             HasAssessment = HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Any();
+
+            ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
+            ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
         }
 
         public readonly bool HasAssessment;

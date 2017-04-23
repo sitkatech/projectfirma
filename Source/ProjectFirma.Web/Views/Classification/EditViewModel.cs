@@ -22,10 +22,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Classification
@@ -86,6 +88,12 @@ namespace ProjectFirma.Web.Views.Classification
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();
+
+            var existingClassifications = HttpRequestStorage.DatabaseEntities.Classifications.ToList();
+            if (!Models.Classification.IsDisplayNameUnique(existingClassifications, DisplayName, ClassificationID))
+            {
+                validationResults.Add(new SitkaValidationResult<EditViewModel, string>(FirmaValidationMessages.ClassificationNameUnique, x => x.DisplayName));
+            }
 
             if (KeyImageFileResourceData != null && KeyImageFileResourceData.ContentLength > MaxImageSizeInBytes)
             {

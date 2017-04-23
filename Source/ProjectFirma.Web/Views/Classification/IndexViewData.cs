@@ -37,13 +37,13 @@ namespace ProjectFirma.Web.Views.Classification
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, List<Models.Classification> classifications) : base(currentPerson, firmaPage, false)
         {
-            PageTitle = MultiTenantHelpers.GetClassificationDisplayNamePluralized();
+            PageTitle = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
             Classifications = classifications;
 
             GridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson))
             {
-                ObjectNameSingular = MultiTenantHelpers.GetClassificationDisplayName(),
-                ObjectNamePlural = MultiTenantHelpers.GetClassificationDisplayNamePluralized(),
+                ObjectNameSingular = Models.FieldDefinition.Classification.GetFieldDefinitionLabel(),
+                ObjectNamePlural = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized(),
                 SaveFiltersInCookie = true,
                 CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.New()), "New Project Classification"),
             };

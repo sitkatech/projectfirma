@@ -376,8 +376,8 @@ namespace ProjectFirma.Web.Controllers
             var wsProjectWatersheds = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Project Watersheds", projectWatershedSpec, projectWatersheds);
 
             var projectClassificationSpec = new ProjectClassificationExcelSpec();
-            var projectClassifications = (projects.SelectMany(p => p.ProjectClassifications)).ToList();
-            var wsProjectClassifications = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(string.Format("Project {0}", MultiTenantHelpers.GetClassificationDisplayNamePluralized()), projectClassificationSpec, projectClassifications);
+            var projectClassifications = projects.SelectMany(p => p.ProjectClassifications).ToList();
+            var wsProjectClassifications = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(string.Format("Project {0}", FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()), projectClassificationSpec, projectClassifications);
 
             
             var workSheets = new List<IExcelWorkbookSheetDescriptor>

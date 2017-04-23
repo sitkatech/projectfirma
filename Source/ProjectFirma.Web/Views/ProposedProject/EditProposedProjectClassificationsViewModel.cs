@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
             if (!ProposedProjectClassificationSimples.Any(x => x.Selected))
             {
-                validationResults.Add(new ValidationResult(string.Format("You must select at least one {0}.", MultiTenantHelpers.GetClassificationDisplayName())));
+                validationResults.Add(new ValidationResult(string.Format("You must select at least one {0}.", Models.FieldDefinition.Classification.GetFieldDefinitionLabel())));
             }
 
             var classifications = HttpRequestStorage.DatabaseEntities.Classifications.ToList();

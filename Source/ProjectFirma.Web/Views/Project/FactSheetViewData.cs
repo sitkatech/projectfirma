@@ -47,6 +47,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string TaxonomyColor;
         public readonly string TaxonomyTierOneName;
         public readonly string TaxonomyTierTwoName;
+        public readonly string ClassificationDisplayNamePluralized;
 
         public readonly string TaxonomyTierOneDisplayName;
 
@@ -96,8 +97,8 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyColor = project.TaxonomyTierOne == null ? "blue" : project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor;
             TaxonomyTierOneName = project.TaxonomyTierOne == null ? "Project Taxonomy Not Set" : project.TaxonomyTierOne.DisplayName;
             TaxonomyTierTwoName = project.TaxonomyTierOne == null ? "Project Taxonomy Not Set" : project.TaxonomyTierOne.TaxonomyTierTwo.DisplayName;
-
             TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
+            ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
         }
 
         public HtmlString LegendHTML

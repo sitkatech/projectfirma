@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn("Non-Lead Implementing Organizations",
                 x => string.Join(",", x.ProjectImplementingOrganizations.Where(pio => pio.OrganizationID != x.LeadImplementer.OrganizationID).Select(pio => pio.Organization.DisplayName)));
             AddColumn(Models.FieldDefinition.ProjectStage.GetFieldDefinitionLabel(), x => x.ProjectStage.ProjectStageDisplayName);
-            AddColumn(MultiTenantHelpers.GetClassificationDisplayNamePluralized(), x => string.Join(",", x.ProjectClassifications.Select(tc => tc.Classification.DisplayName)));
+            AddColumn(Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized(), x => string.Join(",", x.ProjectClassifications.Select(tc => tc.Classification.DisplayName)));
             AddColumn("Watersheds", x => string.Join(",", x.ProjectWatersheds.Select(pw => pw.Watershed.DisplayName)));
             AddColumn(Models.FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel(), x => x.ImplementationStartYear);
             AddColumn(Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel(), x => x.CompletionYear);
@@ -152,7 +152,7 @@ namespace ProjectFirma.Web.Views.Project
         {
             AddColumn("Project ID", x => x.Project.ProjectID);
             AddColumn("Project Name", x => x.Project.ProjectName);
-            AddColumn(MultiTenantHelpers.GetClassificationDisplayName(), x => x.Classification.DisplayName);
+            AddColumn(Models.FieldDefinition.Classification.GetFieldDefinitionLabel(), x => x.Classification.DisplayName);
         }
     }
 }

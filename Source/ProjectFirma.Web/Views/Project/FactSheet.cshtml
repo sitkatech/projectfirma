@@ -325,7 +325,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 {
                     <p>Accomplishments to be provided upon completion of project.</p>
                 }
-                <div class="sectionTitle taxonomyTierThreeColor">@MultiTenantHelpers.GetClassificationDisplayNamePluralized()</div>
+                <div class="sectionTitle taxonomyTierThreeColor">@ViewDataTyped.ClassificationDisplayNamePluralized</div>
                 @if (ViewDataTyped.Project.ProjectClassifications.Any())
                 {
                     <table>
@@ -343,7 +343,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 else
                 {
-                    <p>No @MultiTenantHelpers.GetClassificationDisplayNamePluralized() provided.</p>
+                    <p>No @ViewDataTyped.ClassificationDisplayNamePluralized provided.</p>
                 }
             </td>
             @if (ViewDataTyped.KeyPhoto != null)

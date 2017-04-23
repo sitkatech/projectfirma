@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using LtInfo.Common;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
@@ -38,21 +37,26 @@ namespace ProjectFirma.Web.Views.Classification
         public readonly string BasicProjectInfoGridName;
         public readonly string BasicProjectInfoGridDataUrl;
 
+        public readonly string ClassificationDisplayName;
+        public readonly string ClassificationDisplayNamePluralized;
+
         public DetailViewData(Person currentPerson, Models.Classification classification)
             : base(currentPerson)
         {
             Classification = classification;
-            PageTitle = MultiTenantHelpers.GetClassificationDisplayName();
+            PageTitle = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
             EditClassificationUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Edit(classification));
             IndexUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Index());
 
             UserHasClassificationManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
+            ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
+            ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
 
             BasicProjectInfoGridName = "watershedProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false)
             {
-                ObjectNameSingular = string.Format("Project associated with this {0}", MultiTenantHelpers.GetClassificationDisplayName()),
-                ObjectNamePlural = string.Format("Projects associated with this {0}", MultiTenantHelpers.GetClassificationDisplayNamePluralized()),
+                ObjectNameSingular = string.Format("Project associated with this {0}", ClassificationDisplayName),
+                ObjectNamePlural = string.Format("Projects associated with this {0}", ClassificationDisplayNamePluralized),
                 SaveFiltersInCookie = true
             };
 

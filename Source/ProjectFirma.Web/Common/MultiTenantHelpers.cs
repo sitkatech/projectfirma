@@ -56,16 +56,6 @@ namespace ProjectFirma.Web.Common
             return PluralizationService.Pluralize(GetPerformanceMeasureName());
         }
 
-        public static string GetClassificationDisplayName()
-        {
-            return FieldDefinition.Classification.GetFieldDefinitionLabel();
-        }
-
-        public static string GetClassificationDisplayNamePluralized()
-        {
-            return PluralizationService.Pluralize(GetClassificationDisplayName());
-        }
-
         public static string GetTenantDisplayName()
         {
             return GetCurrentTenantAttributes().TenantDisplayName;

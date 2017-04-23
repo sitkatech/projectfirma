@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Linq;
 using LtInfo.Common.DesignByContract;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -29,7 +28,7 @@ namespace ProjectFirma.Web.Models
         public static Classification GetClassificationByClassificationeName(this IQueryable<Classification> classifications, string classificationName)
         {
             var classification = classifications.SingleOrDefault(x => x.ClassificationName == classificationName);
-            Check.RequireNotNullThrowNotFound(classification, MultiTenantHelpers.GetClassificationDisplayName(), classificationName);
+            Check.RequireNotNullThrowNotFound(classification, FieldDefinition.Classification.GetFieldDefinitionLabel(), classificationName);
             return classification;
         }
     }
