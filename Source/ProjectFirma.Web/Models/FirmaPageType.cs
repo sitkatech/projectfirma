@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeFirmaCustomPage1
+    public partial class FirmaPageTypeMeetingsandDocuments
     {
         public override string GetViewUrl()
         {
@@ -52,11 +52,11 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeFirmaCustomPage2
+    public partial class FirmaPageTypeDemoScript
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.FirmaCustomPage2());
+            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.DemoScript());
         }
     }
 

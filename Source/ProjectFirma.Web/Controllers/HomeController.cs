@@ -126,15 +126,15 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Meetings()
         {
             var con = new HomeController { ControllerContext = ControllerContext };
-            return con.ViewPageContent(FirmaPageTypeEnum.FirmaCustomPage1);
+            return con.ViewPageContent(FirmaPageTypeEnum.MeetingsandDocuments);
         }
 
         [HttpGet]
         [AnonymousUnclassifiedFeature]
-        public ActionResult FirmaCustomPage2()
+        public ActionResult DemoScript()
         {
             var con = new HomeController { ControllerContext = ControllerContext };
-            return con.ViewPageContent(FirmaPageTypeEnum.FirmaCustomPage2);
+            return con.ViewPageContent(FirmaPageTypeEnum.DemoScript);
         }
 
         [HttpGet]

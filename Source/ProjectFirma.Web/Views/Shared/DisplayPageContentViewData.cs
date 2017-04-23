@@ -33,8 +33,7 @@ namespace ProjectFirma.Web.Views.Shared
         {
             PageTitle = firmaPageType.FirmaPageTypeDisplayName;
             var firmaPageByPageType = Models.FirmaPage.GetFirmaPageByPageType(firmaPageType);
-            var permissionCheckResult = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageByPageType);
-            ShowEditButton = permissionCheckResult.HasPermission;
+            ShowEditButton = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageByPageType).HasPermission;
             EditUrl = SitkaRoute<Controllers.HomeController>.BuildUrlFromExpression(x => x.EditPageContent(firmaPageType.ToEnum));
         }
     }
