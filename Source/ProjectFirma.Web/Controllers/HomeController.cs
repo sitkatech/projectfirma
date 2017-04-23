@@ -130,7 +130,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [AnonymousUnclassifiedFeature]
+        [SitkaAdminFeature]
         public ActionResult DemoScript()
         {
             var con = new HomeController { ControllerContext = ControllerContext };
