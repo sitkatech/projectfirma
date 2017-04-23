@@ -25,7 +25,7 @@ CREATE TABLE [dbo].[Classification](
 	[ClassificationName] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_Classification_DisplayName] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_Classification_DisplayName_TenantID] UNIQUE NONCLUSTERED 
 (
 	[DisplayName] ASC,
 	[TenantID] ASC
