@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -27,6 +28,7 @@ using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -94,7 +96,28 @@ namespace ProjectFirma.Web.Views.Project
             var chartHeight = 435 - (FundingSourceExpenditures.Count*19);
             GoogleChartJson.GoogleChartConfiguration.SetSize(chartHeight, 450);
 
-            TaxonomyColor = project.TaxonomyTierOne == null ? "blue" : project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor;
+            if (project.TaxonomyTierOne == null)
+            {
+                TaxonomyColor = "blue";
+            }
+            else
+            {
+                switch (MultiTenantHelpers.NumberOfTaxonomyTiers)
+                {
+                    case 1:
+                        TaxonomyColor = project.TaxonomyTierOne.TaxonomyTierTwo.ThemeColor;
+                        break;
+                    case 2:
+                        TaxonomyColor = project.TaxonomyTierOne.TaxonomyTierTwo.ThemeColor;
+                        break;
+                    case 3:
+                        TaxonomyColor = project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor;
+                        break;
+                    // we don't support more than 3 so we should throw if that has more than 3
+                    default:
+                        throw new ArgumentException(string.Format("ProjectFirma currently only supports up to a 3-tier taxonomy; number of taxonomy tiers is {0}", MultiTenantHelpers.NumberOfTaxonomyTiers));
+                }
+            }
             TaxonomyTierOneName = project.TaxonomyTierOne == null ? "Project Taxonomy Not Set" : project.TaxonomyTierOne.DisplayName;
             TaxonomyTierTwoName = project.TaxonomyTierOne == null ? "Project Taxonomy Not Set" : project.TaxonomyTierOne.TaxonomyTierTwo.DisplayName;
             TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
