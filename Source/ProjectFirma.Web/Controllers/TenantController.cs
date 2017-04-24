@@ -43,12 +43,12 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail()
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
-            var editBasicsUrl = new SitkaRoute<TenantController>(c => c.EditBasics(tenant)).BuildUrlFromExpression();
-            var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox(tenant)).BuildUrlFromExpression();
-            string deleteTenantStyleSheetFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantStyleSheetFileResource(tenant)).BuildUrlFromExpression();
-            string deleteTenantSquareLogoFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantSquareLogoFileResource(tenant)).BuildUrlFromExpression();
-            string deleteTenantBannerLogoFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantBannerLogoFileResource(tenant)).BuildUrlFromExpression();
+            var tenantAttribute = tenant.GetTenantAttribute();
+            var editBasicsUrl = new SitkaRoute<TenantController>(c => c.EditBasics()).BuildUrlFromExpression();
+            var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox()).BuildUrlFromExpression();
+            var deleteTenantStyleSheetFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantStyleSheetFileResource()).BuildUrlFromExpression();
+            var deleteTenantSquareLogoFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantSquareLogoFileResource()).BuildUrlFromExpression();
+            var deleteTenantBannerLogoFileResourceUrl = new SitkaRoute<TenantController>(c => c.DeleteTenantBannerLogoFileResource()).BuildUrlFromExpression();
             var boundingBoxLayer = new LayerGeoJson("Bounding Box",
                 new FeatureCollection(new List<TenantAttribute> {tenantAttribute}.Select(x => DbGeometryToGeoJsonHelper.FromDbGeometry(x.DefaultBoundingBox)).ToList()),
                 FirmaHelpers.DefaultColorRange[0],
@@ -89,43 +89,42 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [SitkaAdminFeature]
-        public PartialViewResult EditBasics(TenantPrimaryKey tenantPrimaryKey)
+        public PartialViewResult EditBasics()
         {
-            var tenant = tenantPrimaryKey.EntityObject;
-            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
+            var tenant = HttpRequestStorage.Tenant;
+            var tenantAttribute = tenant.GetTenantAttribute();
             var viewModel = new EditBasicsViewModel(tenant, tenantAttribute);
-            return ViewEditBasics(viewModel, tenant);
+            return ViewEditBasics(viewModel);
         }
 
         [HttpPost]
         [SitkaAdminFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid] //todo need to figure out if there's a way to bypass tenant safe check on saving
-        public ActionResult EditBasics(TenantPrimaryKey tenantPrimaryKey, EditBasicsViewModel viewModel)
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditBasics(EditBasicsViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                var tenant = tenantPrimaryKey.EntityObject;
-                return ViewEditBasics(viewModel, tenant);
+                return ViewEditBasics(viewModel);
             }
 
             viewModel.UpdateModel(CurrentPerson);
             return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
         }
 
-        private PartialViewResult ViewEditBasics(EditBasicsViewModel viewModel, Tenant tenant)
+        private PartialViewResult ViewEditBasics(EditBasicsViewModel viewModel)
         {
             var adminFeature = new AdminFeature();
-            var tenantPeople = HttpRequestStorage.DatabaseEntities.AllPeople.Where(x => x.TenantID == tenant.TenantID).ToList().Where(x => adminFeature.HasPermissionByPerson(x)).ToList();
+            var tenantPeople = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => adminFeature.HasPermissionByPerson(x)).ToList();
             var viewData = new EditBasicsViewData(CurrentPerson, tenantPeople);
             return RazorPartialView<EditBasics, EditBasicsViewData, EditBasicsViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
         [SitkaAdminFeature]
-        public PartialViewResult EditBoundingBox(TenantPrimaryKey tenantPrimaryKey)
+        public PartialViewResult EditBoundingBox()
         {
-            var tenant = tenantPrimaryKey.EntityObject;
-            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
+            var tenant = HttpRequestStorage.Tenant;
+            var tenantAttribute = tenant.GetTenantAttribute();
             var viewModel = new EditBoundingBoxViewModel(tenantAttribute);
             return ViewEditBoundingBox(viewModel, tenantAttribute);
         }
@@ -133,12 +132,12 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [SitkaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditBoundingBox(TenantPrimaryKey tenantPrimaryKey, EditBoundingBoxViewModel viewModel)
+        public ActionResult EditBoundingBox(EditBoundingBoxViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                var tenant = tenantPrimaryKey.EntityObject;
-                var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
+                var tenant = HttpRequestStorage.Tenant;
+                var tenantAttribute = tenant.GetTenantAttribute();
                 return ViewEditBoundingBox(viewModel, tenantAttribute);
             }
 
@@ -155,7 +154,7 @@ namespace ProjectFirma.Web.Controllers
                 0.8m,
                 LayerInitialVisibility.Show);
             var mapInitJson = new MapInitJson("TenantEditBoundingBoxMap", 10, new List<LayerGeoJson>(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
-            var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox(tenantAttribute.TenantID)).BuildUrlFromExpression();
+            var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox()).BuildUrlFromExpression();
 
             var viewData = new EditBoundingBoxViewData(mapInitJson, editBoundingBoxUrl, EditBoundingBoxFormID);
             return RazorPartialView<EditBoundingBox, EditBoundingBoxViewData, EditBoundingBoxViewModel>(viewData, viewModel);
@@ -171,7 +170,7 @@ namespace ProjectFirma.Web.Controllers
                 return HttpNotFound();
             }
 
-            var tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes.Single(a => a.TenantID == HttpRequestStorage.Tenant.TenantID);
+            var tenantAttribute = tenant.GetTenantAttribute();
             var fileResource = tenantAttribute.TenantStyleSheetFileResource;
 
             Check.Assert(fileResource != null, "Tenant Attribute must have an associated Tenant Style Sheet File Resource.");
@@ -182,10 +181,10 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [SitkaAdminFeature]
-        public PartialViewResult DeleteTenantBannerLogoFileResource(TenantPrimaryKey tenantPrimaryKey)
+        public PartialViewResult DeleteTenantBannerLogoFileResource()
         {
-            var tenant = tenantPrimaryKey.EntityObject;
-            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
+            var tenant = HttpRequestStorage.Tenant;
+            var tenantAttribute = tenant.GetTenantAttribute();
             var viewModel = new ConfirmDialogFormViewModel(tenant.TenantID);
             return ViewDeleteTenantBannerLogoFileResource(viewModel, tenantAttribute);
         }
@@ -193,32 +192,32 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [SitkaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteTenantBannerLogoFileResource(TenantPrimaryKey tenantPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult DeleteTenantBannerLogoFileResource(ConfirmDialogFormViewModel viewModel)
         {
-            var tenant = tenantPrimaryKey.EntityObject;
-            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
+            var tenant = HttpRequestStorage.Tenant;
+            var tenantAttribute = tenant.GetTenantAttribute();
             if (!ModelState.IsValid)
             {
                 return ViewDeleteTenantBannerLogoFileResource(viewModel, tenantAttribute);
             }
 
-            HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID).TenantBannerLogoFileResource.DeleteFileResource();
+            tenantAttribute.TenantBannerLogoFileResource.DeleteFileResource();
             return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewDeleteTenantBannerLogoFileResource(ConfirmDialogFormViewModel viewModel, TenantAttribute tenantAttribute)
         {
-            var confirmMessage = String.Format("Are you sure you want to delete Tenant Banner Logo for {0}?", tenantAttribute.TenantDisplayName);
+            var confirmMessage = string.Format("Are you sure you want to delete Tenant Banner Logo for {0}?", tenantAttribute.TenantDisplayName);
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
         [SitkaAdminFeature]
-        public PartialViewResult DeleteTenantSquareLogoFileResource(TenantPrimaryKey tenantPrimaryKey)
+        public PartialViewResult DeleteTenantSquareLogoFileResource()
         {
-            var tenant = tenantPrimaryKey.EntityObject;
-            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
+            var tenant = HttpRequestStorage.Tenant;
+            var tenantAttribute = tenant.GetTenantAttribute();
             var viewModel = new ConfirmDialogFormViewModel(tenant.TenantID);
             return ViewDeleteTenantSquareLogoFileResource(viewModel, tenantAttribute);
         }
@@ -226,16 +225,16 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [SitkaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteTenantSquareLogoFileResource(TenantPrimaryKey tenantPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult DeleteTenantSquareLogoFileResource(ConfirmDialogFormViewModel viewModel)
         {
-            var tenant = tenantPrimaryKey.EntityObject;
-            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
+            var tenant = HttpRequestStorage.Tenant;
+            var tenantAttribute = tenant.GetTenantAttribute();
             if (!ModelState.IsValid)
             {
                 return ViewDeleteTenantSquareLogoFileResource(viewModel, tenantAttribute);
             }
 
-            HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID).TenantSquareLogoFileResource.DeleteFileResource();
+            tenantAttribute.TenantSquareLogoFileResource.DeleteFileResource();
             return new ModalDialogFormJsonResult();
         }
 
@@ -248,10 +247,10 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [SitkaAdminFeature]
-        public PartialViewResult DeleteTenantStyleSheetFileResource(TenantPrimaryKey tenantPrimaryKey)
+        public PartialViewResult DeleteTenantStyleSheetFileResource()
         {
-            var tenant = tenantPrimaryKey.EntityObject;
-            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
+            var tenant = HttpRequestStorage.Tenant;
+            var tenantAttribute = tenant.GetTenantAttribute();
             var viewModel = new ConfirmDialogFormViewModel(tenant.TenantID);
             return ViewDeleteTenantStyleSheetFileResource(viewModel, tenantAttribute);
         }
@@ -259,29 +258,26 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [SitkaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteTenantStyleSheetFileResource(TenantPrimaryKey tenantPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult DeleteTenantStyleSheetFileResource(ConfirmDialogFormViewModel viewModel)
         {
-            var tenant = tenantPrimaryKey.EntityObject;
-            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
+            var tenant = HttpRequestStorage.Tenant;
+            var tenantAttribute = tenant.GetTenantAttribute();
             if (!ModelState.IsValid)
             {
                 return ViewDeleteTenantStyleSheetFileResource(viewModel, tenantAttribute);
             }
 
-            HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID).TenantStyleSheetFileResource.DeleteFileResource();
+            tenantAttribute.TenantStyleSheetFileResource.DeleteFileResource();
             return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewDeleteTenantStyleSheetFileResource(ConfirmDialogFormViewModel viewModel, TenantAttribute tenantAttribute)
         {
-            var confirmMessage = String.Format("Are you sure you want to delete Tenant Style Sheet for {0}?", tenantAttribute.TenantDisplayName);
+            var confirmMessage = string.Format("Are you sure you want to delete Tenant Style Sheet for {0}?", tenantAttribute.TenantDisplayName);
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
-        private string EditBoundingBoxFormID
-        {
-            get { return "EditBoundingBoxForm"; }
-        }
+        private const string EditBoundingBoxFormID = "EditBoundingBoxForm";
     }
 }

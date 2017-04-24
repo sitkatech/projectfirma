@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Views.Project
             }
             else
             {
-                switch (MultiTenantHelpers.NumberOfTaxonomyTiers)
+                switch (MultiTenantHelpers.GetNumberOfTaxonomyTiers())
                 {
                     case 1:
                         TaxonomyColor = project.TaxonomyTierOne.TaxonomyTierTwo.ThemeColor;
@@ -115,7 +115,7 @@ namespace ProjectFirma.Web.Views.Project
                         break;
                     // we don't support more than 3 so we should throw if that has more than 3
                     default:
-                        throw new ArgumentException(string.Format("ProjectFirma currently only supports up to a 3-tier taxonomy; number of taxonomy tiers is {0}", MultiTenantHelpers.NumberOfTaxonomyTiers));
+                        throw new ArgumentException(string.Format("ProjectFirma currently only supports up to a 3-tier taxonomy; number of taxonomy tiers is {0}", MultiTenantHelpers.GetNumberOfTaxonomyTiers()));
                 }
             }
             TaxonomyTierOneName = project.TaxonomyTierOne == null ? "Project Taxonomy Not Set" : project.TaxonomyTierOne.DisplayName;

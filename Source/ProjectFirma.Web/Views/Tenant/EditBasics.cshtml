@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using LtInfo.Common.Mvc
 @using ProjectFirma.Web.Views.Tenant
 @inherits EditBasics
@@ -38,10 +39,10 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-md-8">
             <select id="@Html.IdFor(m => m.PrimaryContactPersonID)" name="@Html.NameFor(m => m.PrimaryContactPersonID)"
                     class="selectpicker" title="Select person for primary contact."
-                    data-live-search="true" data-live-search-placeholder="Firstname Lastname">
+                    data-live-search="true" data-live-search-placeholder="First Last">
                 @foreach (var person in ViewDataTyped.TenantPeople)
                 {
-                    <option value="@person.PersonID" data-tokens="@person.FullNameFirstLast" selected="@(Model.PrimaryContactPersonID == person.PersonID ? "selected" : null)">
+                    <option value="@person.PersonID" data-tokens="@person.FullNameFirstLast" @((Model.PrimaryContactPersonID == person.PersonID).ToSelectedOrEmpty())>
                         @person.FullNameFirstLast
                     </option>
                 }
@@ -52,7 +53,11 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="form-group">
         <div class="col-md-4 text-right">@Html.LabelFor(m => m.NumberOfTaxonomyTiersToUse)</div>
         <div class="col-md-8">
-            @Html.TextBoxFor(m => m.NumberOfTaxonomyTiersToUse, new Dictionary<string, object> {{"type", "number"}, {"class", "form-control"}, {"style", "width:auto;"}})
+            <select id="@Html.IdFor(m => m.NumberOfTaxonomyTiersToUse)" name="@Html.NameFor(m => m.NumberOfTaxonomyTiersToUse)" class="selectpicker">
+                <option value="1" @((Model.NumberOfTaxonomyTiersToUse == 1).ToSelectedOrEmpty())>1</option>
+                <option value="2" @((Model.NumberOfTaxonomyTiersToUse == 2).ToSelectedOrEmpty())>2</option>
+                <option value="3" @((Model.NumberOfTaxonomyTiersToUse == 3).ToSelectedOrEmpty())>3</option>
+            </select>
             @Html.ValidationMessageFor(m => m.NumberOfTaxonomyTiersToUse)
         </div>
     </div>

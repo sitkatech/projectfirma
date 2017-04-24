@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Controllers
             
             
             List<FancyTreeNode> topLevelTaxonomyTierAsFancyTreeNodes;
-            switch (MultiTenantHelpers.NumberOfTaxonomyTiers)
+            switch (MultiTenantHelpers.GetNumberOfTaxonomyTiers())
             {
                 case 3:
                     var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList();

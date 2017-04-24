@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
         {
             taxonomyTierTwo.TaxonomyTierTwoName = TaxonomyTierTwoName;
             taxonomyTierTwo.TaxonomyTierTwoDescription = TaxonomyTierTwoDescription;
-            taxonomyTierTwo.TaxonomyTierThreeID = MultiTenantHelpers.NumberOfTaxonomyTiers == 3
+            taxonomyTierTwo.TaxonomyTierThreeID = MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3
                 ? TaxonomyTierThreeID
                 : HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.Single().TaxonomyTierThreeID;
             taxonomyTierTwo.ThemeColor = ThemeColor;

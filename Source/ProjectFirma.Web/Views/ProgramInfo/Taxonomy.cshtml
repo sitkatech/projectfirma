@@ -96,11 +96,11 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div style="padding: 0 15px;">
         <div class="pull-left" style="font-weight: bold">
-            @if (MultiTenantHelpers.NumberOfTaxonomyTiers == 3)
+            @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
             @ViewDataTyped.TaxonomyTierThreeDisplayName <span class='glyphicon glyphicon-chevron-right'></span>
             }
-            @if (MultiTenantHelpers.NumberOfTaxonomyTiers >= 2)
+            @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
             {
             @ViewDataTyped.TaxonomyTierTwoDisplayName <span class='glyphicon glyphicon-chevron-right'></span>
             }            

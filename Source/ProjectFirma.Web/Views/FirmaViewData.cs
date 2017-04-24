@@ -137,11 +137,11 @@ namespace ProjectFirma.Web.Views
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Manage()), currentPerson, MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), "Group1"));
             //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.SpendingByPerformanceMeasureByProject(null)), currentPerson, "Spending by Performance Measures", "Group1"));
 
-            if (MultiTenantHelpers.NumberOfTaxonomyTiers == 3)
+            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
                 manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierThreeController>(c => c.Manage()), currentPerson, Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabelPluralized(), "Group2"));    
             }
-            if (MultiTenantHelpers.NumberOfTaxonomyTiers >= 2)
+            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
             {
                 manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyTierTwoController>(c => c.Manage()), currentPerson, Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized(), "Group2"));    
             }

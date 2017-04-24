@@ -255,13 +255,13 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectLocationFilterTypesAndValues = new Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>>();
 
-            if (MultiTenantHelpers.NumberOfTaxonomyTiers == 3)
+            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
                 var taxonomyTierThreesAsSelectListItems = taxonomyTierThrees.ToSelectList(x => x.TaxonomyTierThreeID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
                 projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierThree, taxonomyTierThreesAsSelectListItems);    
             }
 
-            if (MultiTenantHelpers.NumberOfTaxonomyTiers >= 2)
+            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
             {
                 var taxonomyTierTwosAsSelectListItems = HttpRequestStorage.DatabaseEntities.TaxonomyTierTwos.ToSelectList(x => x.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
                 projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.TaxonomyTierTwo, taxonomyTierTwosAsSelectListItems);    

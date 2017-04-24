@@ -51,11 +51,11 @@ namespace ProjectFirma.Web.Models
             var selectListItems = new List<SelectListItem>();
             var groups = new Dictionary<string, SelectListGroup>();
 
-            if (MultiTenantHelpers.NumberOfTaxonomyTiers == 3)
+            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
                 BuildThreeTierSelectList(taxonomyTierOnes, groups, selectListItems);    
             }
-            else if (MultiTenantHelpers.NumberOfTaxonomyTiers == 2)
+            else if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 2)
             {
                 foreach (var taxonomyTierTwoGrouping in taxonomyTierOnes.GroupBy(x => x.TaxonomyTierTwo).OrderBy(x => x.Key.DisplayName))
                 {

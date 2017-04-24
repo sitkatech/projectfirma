@@ -18,7 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.UnitTestCommon
@@ -30,7 +29,6 @@ namespace ProjectFirma.Web.UnitTestCommon
             public static TaxonomyTierThree Create()
             {
                 var taxonomyTierThree = TaxonomyTierThree.CreateNewBlank();
-                MultiTenantHelpers.NumberOfTaxonomyTiers = 3; //Tests on TaxonomyTierThree expect a three-tier taxonomy, but the Sitka tenant is configured as a two-tier
                 taxonomyTierThree.ThemeColor = "#FFFFFF";
                 return taxonomyTierThree;
             }

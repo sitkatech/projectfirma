@@ -32,8 +32,6 @@ namespace ProjectFirma.Web.Models
 {
     public partial class PerformanceMeasure : IAuditableEntity
     {
-        public const int PerformanceMeasureIDMilesOfPedestrianAndBicycleRoutesImprovedOrConstructed = 23;
-
         public int ExpectedProjectsCount
         {
             get { return PerformanceMeasureExpecteds.ToList().Select(pepm => pepm.ProjectID).Distinct().Count(); }

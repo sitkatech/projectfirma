@@ -33,7 +33,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.TaxonomyTierOneName)
             </div>
         </div>
-        @if (MultiTenantHelpers.NumberOfTaxonomyTiers >= 2)
+        @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
         {
             <div class="form-group">
                 <div class="col-sm-3 control-label">

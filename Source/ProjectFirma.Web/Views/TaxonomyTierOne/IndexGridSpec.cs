@@ -37,11 +37,11 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
                     x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()),
                     30);
             }
-            if (MultiTenantHelpers.NumberOfTaxonomyTiers == 3)
+            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
                 Add(Models.FieldDefinition.TaxonomyTierThree.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyTierTwo.TaxonomyTierThree.SummaryUrl, a.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName), 250);    
             }
-            if (MultiTenantHelpers.NumberOfTaxonomyTiers >= 2)
+            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
             {
                 Add(Models.FieldDefinition.TaxonomyTierTwo.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyTierTwo.SummaryUrl, a.TaxonomyTierTwo.TaxonomyTierTwoName), 300);    
             }            

@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, !x.HasDependentObjects()), 30);
             }
 
-            if (MultiTenantHelpers.NumberOfTaxonomyTiers == 3)
+            if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
             {
                 Add(Models.FieldDefinition.TaxonomyTierThree.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyTierThree.SummaryUrl, a.TaxonomyTierThree.TaxonomyTierThreeName), 210);    
             }            

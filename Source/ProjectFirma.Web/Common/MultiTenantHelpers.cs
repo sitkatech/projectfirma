@@ -31,11 +31,6 @@ namespace ProjectFirma.Web.Common
     {
         private static readonly EnglishPluralizationService PluralizationService = new EnglishPluralizationService();
 
-        private static TenantAttribute GetCurrentTenantAttributes()
-        {
-            return HttpRequestStorage.DatabaseEntities.TenantAttributes.Single(x => x.TenantID == HttpRequestStorage.Tenant.TenantID);
-        }
-
         public static string GetTaxonomySystemName()
         {
             return FieldDefinition.TaxonomySystemName.GetFieldDefinitionLabel();
@@ -58,40 +53,43 @@ namespace ProjectFirma.Web.Common
 
         public static string GetTenantDisplayName()
         {
-            return GetCurrentTenantAttributes().TenantDisplayName;
+            return HttpRequestStorage.Tenant.GetTenantAttribute().TenantDisplayName;
         }
 
         public static string GetTenantSquareLogoUrl()
         {
-            return GetCurrentTenantAttributes().TenantSquareLogoFileResource != null
-                ? GetCurrentTenantAttributes().TenantSquareLogoFileResource.FileResourceUrl
+            return HttpRequestStorage.Tenant.GetTenantAttribute().TenantSquareLogoFileResource != null
+                ? HttpRequestStorage.Tenant.GetTenantAttribute().TenantSquareLogoFileResource.FileResourceUrl
                 : "/Content/img/ProjectFirma_Logo_Square.png";
         }
 
         public static string GetTenantBannerLogoUrl()
         {
-            return GetCurrentTenantAttributes().TenantBannerLogoFileResource != null
-                ? GetCurrentTenantAttributes().TenantBannerLogoFileResource.FileResourceUrl
+            return HttpRequestStorage.Tenant.GetTenantAttribute().TenantBannerLogoFileResource != null
+                ? HttpRequestStorage.Tenant.GetTenantAttribute().TenantBannerLogoFileResource.FileResourceUrl
                 : "/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png";
         }
 
         public static string GetTenantStyleSheetUrl()
         {
-            return GetCurrentTenantAttributes().TenantStyleSheetFileResource != null
-                ? new SitkaRoute<TenantController>(c => c.Style(GetCurrentTenantAttributes().Tenant.TenantName)).BuildUrlFromExpression()
+            return HttpRequestStorage.Tenant.GetTenantAttribute().TenantStyleSheetFileResource != null
+                ? new SitkaRoute<TenantController>(c => c.Style(HttpRequestStorage.Tenant.TenantName)).BuildUrlFromExpression()
                 : "~/Content/Bootstrap/firma/clackamas.theme.min.css";
         }
         
         public static DbGeometry GetDefaultBoundingBox()
         {
-            return GetCurrentTenantAttributes().DefaultBoundingBox;
+            return HttpRequestStorage.Tenant.GetTenantAttribute().DefaultBoundingBox;
         }
 
-        public static int NumberOfTaxonomyTiers
+        public static int GetNumberOfTaxonomyTiers()
         {
-            get { return GetCurrentTenantAttributes().NumberOfTaxonomyTiersToUse; }
-            set { GetCurrentTenantAttributes().NumberOfTaxonomyTiersToUse = value; }
+            return HttpRequestStorage.Tenant.GetTenantAttribute().NumberOfTaxonomyTiersToUse;
         }
-        public static int MinimumYear { get { return GetCurrentTenantAttributes().MinimumYear;  } }
+
+        public static int GetMinimumYear()
+        {
+            return HttpRequestStorage.Tenant.GetTenantAttribute().MinimumYear;
+        }
     }
 }
