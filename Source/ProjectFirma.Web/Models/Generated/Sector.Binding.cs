@@ -22,6 +22,7 @@ namespace ProjectFirma.Web.Models
         public static readonly SectorLocal Local = SectorLocal.Instance;
         public static readonly SectorPrivate Private = SectorPrivate.Instance;
         public static readonly SectorState State = SectorState.Instance;
+        public static readonly SectorTribe Tribe = SectorTribe.Instance;
 
         public static readonly List<Sector> All;
         public static readonly ReadOnlyDictionary<int, Sector> AllLookupDictionary;
@@ -31,7 +32,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static Sector()
         {
-            All = new List<Sector> { Federal, Local, Private, State };
+            All = new List<Sector> { Federal, Local, Private, State, Tribe };
             AllLookupDictionary = new ReadOnlyDictionary<int, Sector>(All.ToDictionary(x => x.SectorID));
         }
 
@@ -112,6 +113,8 @@ namespace ProjectFirma.Web.Models
                     return Private;
                 case SectorEnum.State:
                     return State;
+                case SectorEnum.Tribe:
+                    return Tribe;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -123,7 +126,8 @@ namespace ProjectFirma.Web.Models
         Federal = 1,
         Local = 2,
         Private = 3,
-        State = 4
+        State = 4,
+        Tribe = 5
     }
 
     public partial class SectorFederal : Sector
@@ -148,5 +152,11 @@ namespace ProjectFirma.Web.Models
     {
         private SectorState(int sectorID, string sectorName, string sectorDisplayName, string sectorAbbreviation, string legendColor) : base(sectorID, sectorName, sectorDisplayName, sectorAbbreviation, legendColor) {}
         public static readonly SectorState Instance = new SectorState(4, @"State", @"State", @"ST", @"#ffbb78");
+    }
+
+    public partial class SectorTribe : Sector
+    {
+        private SectorTribe(int sectorID, string sectorName, string sectorDisplayName, string sectorAbbreviation, string legendColor) : base(sectorID, sectorName, sectorDisplayName, sectorAbbreviation, legendColor) {}
+        public static readonly SectorTribe Instance = new SectorTribe(5, @"Tribe", @"Tribe", @"TRI", @"#2ca02c");
     }
 }
