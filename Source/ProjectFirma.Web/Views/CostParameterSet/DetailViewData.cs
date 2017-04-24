@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.CostParameterSet
         public readonly bool HasEditPermissions;
 
         public DetailViewData(Person currentPerson, Models.FirmaPage firmaPage, Models.CostParameterSet costParameterSet)
-            : base(currentPerson, firmaPage, false)
+            : base(currentPerson, firmaPage)
         {
             PageTitle = " Cost Parameters";
             CostParameterSet = costParameterSet;            

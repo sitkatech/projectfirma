@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.Project
         {
         }        
 
-        protected ProjectViewData(Person currentPerson, Models.Project project, bool useFluidContainer) : base(currentPerson, null, useFluidContainer)
+        protected ProjectViewData(Person currentPerson, Models.Project project, bool useFluidContainer) : base(currentPerson, null)
         {
             Project = project;
             HtmlPageTitle = project.ProjectName;

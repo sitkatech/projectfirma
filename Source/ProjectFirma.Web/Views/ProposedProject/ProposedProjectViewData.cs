@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         protected ProposedProjectViewData(Person currentPerson,
             Models.ProposedProject proposedProject,
             ProposedProjectSectionEnum selectedProposedProjectSection,
-            ProposalSectionsStatus proposalSectionsStatus) : base(currentPerson, null, true)
+            ProposalSectionsStatus proposalSectionsStatus) : this(currentPerson)
         {
             Check.Assert(proposedProject != null);
             Check.Assert(selectedProposedProjectSection == ProposedProjectSectionEnum.Instructions || selectedProposedProjectSection == ProposedProjectSectionEnum.Basics ||
@@ -78,11 +78,6 @@ namespace ProjectFirma.Web.Views.ProposedProject
             ProjectStateIsValidInWizard = proposedProject.ProposedProjectState == ProposedProjectState.Draft || proposedProject.ProposedProjectState == ProposedProjectState.Submitted;
 
             PageTitle = proposedProject.DisplayName;
-            EntityName = "Proposed Project";
-
-            ProposedProjectListUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Index());
-            ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.ProposedProjectFeedback());
-            
 
             ProjectUpdateInstructionsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Instructions(proposedProject.ProposedProjectID));
             ProjectUpdateBasicsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditBasics(proposedProject.ProposedProjectID));
@@ -99,18 +94,11 @@ namespace ProjectFirma.Web.Views.ProposedProject
             ReturnUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Return(proposedProject));
             WithdrawUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Withdraw(proposedProject));
             RejectUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Reject(proposedProject));
-
-            CurrentPersonIsSubmitter = new ProposedProjectEditFeature().HasPermissionByPerson(CurrentPerson);
-            CurrentPersonIsApprover = new ProposedProjectApproveFeature().HasPermissionByPerson(CurrentPerson);
-
-            HasAssessments = HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Any();
-            ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
-            ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
         }
 
         //New (not yet created) Proposed Projects use this constructor. Valid only for Instructions and Basics page.
         protected ProposedProjectViewData(Person currentPerson,
-            ProposedProjectSectionEnum selectedProposedProjectSection) : base(currentPerson)
+            ProposedProjectSectionEnum selectedProposedProjectSection) : this(currentPerson)
         {
             Check.Assert(selectedProposedProjectSection == ProposedProjectSectionEnum.Instructions || selectedProposedProjectSection == ProposedProjectSectionEnum.Basics);
 
@@ -118,11 +106,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             SelectedProposedProjectSection = selectedProposedProjectSection;
             ProposalSectionsStatus = new ProposalSectionsStatus();
             PageTitle = "New Proposed Project";
-            EntityName = "Proposed Project";
 
-            ProposedProjectListUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Index());
-            ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.ProposedProjectFeedback());
-            
             ProjectUpdateInstructionsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Instructions(null));
             ProjectUpdateBasicsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.CreateAndEditBasics());
             ProjectUpdatePerformanceMeasuresUrl = string.Empty;
@@ -136,9 +120,18 @@ namespace ProjectFirma.Web.Views.ProposedProject
             WithdrawUrl = string.Empty;
             RejectUrl = string.Empty;
 
+        }
+
+        private ProposedProjectViewData(Person currentPerson) : base(currentPerson)
+        {
+            EntityName = "Proposed Project";
+            ProposedProjectListUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Index());
+            ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.ProposedProjectFeedback());
             CurrentPersonIsSubmitter = new ProposedProjectEditFeature().HasPermissionByPerson(CurrentPerson);
             CurrentPersonIsApprover = new ProposedProjectApproveFeature().HasPermissionByPerson(CurrentPerson);
-
+            HasAssessments = HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Any();
+            ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
+            ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
         }
     }
 }

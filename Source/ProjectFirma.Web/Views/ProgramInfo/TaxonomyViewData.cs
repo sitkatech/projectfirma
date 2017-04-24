@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.ProgramInfo
         public readonly string TaxonomyTierOneDisplayName;
 
         public TaxonomyViewData(Person currentPerson, Models.FirmaPage firmaPage,
-            List<FancyTreeNode> topLevelTaxonomyTierAsFancyTreeNodes) : base(currentPerson, firmaPage, false)
+            List<FancyTreeNode> topLevelTaxonomyTierAsFancyTreeNodes) : base(currentPerson, firmaPage)
         {
             TopLevelTaxonomyTierAsFancyTreeNodes = topLevelTaxonomyTierAsFancyTreeNodes;
             PageTitle = MultiTenantHelpers.GetTaxonomySystemName();

@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.Results
             List<TaxonomyTierTwoSectorExpenditure> taxonomyTierTwoSectorExpenditures,
             List<Sector> sectors,
             int? selectedCalendarYear,
-            IEnumerable<SelectListItem> calendarYears) : base(currentPerson, firmaPage, false)
+            IEnumerable<SelectListItem> calendarYears) : base(currentPerson, firmaPage)
         {
             TaxonomyTierTwoSectorExpenditures = taxonomyTierTwoSectorExpenditures;
             PageTitle = string.Format("Spending by Sector by {0} by {1}", Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel(), Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel());

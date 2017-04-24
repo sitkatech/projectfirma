@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Classification
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, List<Models.Classification> classifications) : base(currentPerson, firmaPage, false)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, List<Models.Classification> classifications) : base(currentPerson, firmaPage)
         {
             PageTitle = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
             Classifications = classifications;

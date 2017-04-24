@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.Shared
         public readonly bool ShowEditButton;
         public readonly string EditUrl;
 
-        public DisplayPageContentViewData(Person currentPerson, FirmaPageType firmaPageType) : base(currentPerson, Models.FirmaPage.GetFirmaPageByPageType(firmaPageType), false)
+        public DisplayPageContentViewData(Person currentPerson, FirmaPageType firmaPageType) : base(currentPerson, Models.FirmaPage.GetFirmaPageByPageType(firmaPageType))
         {
             PageTitle = firmaPageType.FirmaPageTypeDisplayName;
             var firmaPageByPageType = Models.FirmaPage.GetFirmaPageByPageType(firmaPageType);

@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.FirmaPage
         public readonly string GridDataUrl;
         public readonly string FirmaPageUrl;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage, false)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             PageTitle = "Manage Page Content";
 

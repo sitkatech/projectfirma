@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.Home
             Models.FirmaPage firmaPage,
             FeaturedProjectsViewData featuredProjectsViewData,
             ProjectLocationsMapViewData projectLocationsMapViewData,
-            ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentPerson, firmaPage, false)
+            ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentPerson, firmaPage)
         {
             PageTitle = string.Format("{0} Project Tracker", MultiTenantHelpers.GetTenantDisplayName());
 

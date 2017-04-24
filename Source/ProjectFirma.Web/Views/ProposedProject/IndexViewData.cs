@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public readonly bool HasProposeProjectPermissions;
         public readonly string ProposeNewProjectUrl;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage, false)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             PageTitle = "Proposed Projects";
 

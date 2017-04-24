@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly UpdateStatus UpdateStatus;
         public readonly bool HasUpdateStarted;
 
-        public ProjectUpdateViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSectionEnum selectedProjectUpdateSection, UpdateStatus updateStatus) : base(currentPerson, null, true)
+        public ProjectUpdateViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateSectionEnum selectedProjectUpdateSection, UpdateStatus updateStatus) : base(currentPerson, null)
         {
             SelectedProjectUpdateSection = selectedProjectUpdateSection;
             ProjectUpdateBatch = projectUpdateBatch;

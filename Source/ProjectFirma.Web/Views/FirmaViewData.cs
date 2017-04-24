@@ -49,16 +49,15 @@ namespace ProjectFirma.Web.Views
         /// <summary>
         /// Call for page without associated FirmaPage
         /// </summary>
-        protected FirmaViewData(Person currentPerson) : this(currentPerson, null, false)
+        protected FirmaViewData(Person currentPerson) : this(currentPerson, null)
         {
         }
      
         /// <summary>
         /// Call for page with associated FirmaPage
         /// </summary>
-        protected FirmaViewData(Person currentPerson, Models.FirmaPage firmaPage, bool useFluidContainer)
+        protected FirmaViewData(Person currentPerson, Models.FirmaPage firmaPage)
         {
-            UseFluidContainer = useFluidContainer;
             FirmaPage = firmaPage;
 
             CurrentPerson = currentPerson;

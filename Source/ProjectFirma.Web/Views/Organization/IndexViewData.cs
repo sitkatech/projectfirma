@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly bool UserIsSitkaAdmin;
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage)
-            : base(currentPerson, firmaPage, false)
+            : base(currentPerson, firmaPage)
         {
             PageTitle = "Organizations";
 

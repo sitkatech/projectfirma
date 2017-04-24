@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ProjectUpdateStatusViewData(Person currentPerson,
             Models.FirmaPage firmaPage,                        
             PeopleReceivingReminderGridSpec peopleReceivingReminderGridSpec,
-            string peopleReceivingReminderGridDataUrl) : base(currentPerson, firmaPage, false)
+            string peopleReceivingReminderGridDataUrl) : base(currentPerson, firmaPage)
         {
             var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             PageTitle = string.Format("Project Update Status for Reporting Year: {0}", reportingYear);

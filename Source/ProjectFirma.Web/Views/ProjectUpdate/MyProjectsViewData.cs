@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string ArbitraryHtmlPlaceholderID;
         public readonly string ArbitraryHtmlProjectFilterButtonsID;
 
-        public MyProjectsViewData(Person currentPerson, Models.FirmaPage firmaPage, ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterType, string gridDataUrl) : base(currentPerson, firmaPage, false)
+        public MyProjectsViewData(Person currentPerson, Models.FirmaPage firmaPage, ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterType, string gridDataUrl) : base(currentPerson, firmaPage)
         {
             ProjectUpdateStatusFilterType = projectUpdateStatusFilterType;
             switch (projectUpdateStatusFilterType)

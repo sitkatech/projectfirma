@@ -829,7 +829,6 @@ ul.filmStrip li a div.caption {
     text-align: left;
     margin: 0;
     padding: 0;
-    background-color: rgb(230, 230, 230);
 }
 
 
@@ -840,9 +839,11 @@ ul.filmStrip li a div.caption {
     padding-left: 5px;
 }
 
-#tab-container ol li.selectable:hover, #tab-container ul li.selectable:hover
+#tab-container ol li.selectable:hover, #tab-container ul li.selectable:hover, #tab-container ol li.selected:hover, #tab-container ul li.selected:hover
 {
     background-color: #bbb;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
 }
 
 #tab-container ul li .statusIcon, #tab-container ol li .statusIcon
@@ -861,7 +862,9 @@ ul.filmStrip li a div.caption {
 #tab-container ol li.selected, #tab-container ul li.selected
 {
     border-right: none;
-    background-color: #fff;
+    background-color: #ddd;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
 }
 
 #projectWizardContent .glyphicon-flag {
@@ -876,8 +879,7 @@ ul.filmStrip li a div.caption {
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
     border-bottom-left-radius: 6px;
-    border-color: #333;
-    border-width: 10px;
+    border: 1px solid #ddd;
 }
 
 .sectionComments {

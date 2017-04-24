@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.Results
             Models.FirmaPage firmaPage,
             List<Models.PerformanceMeasure> performanceMeasures,
             Models.PerformanceMeasure selectedPerformanceMeasure,
-            PerformanceMeasureChartViewData performanceMeasureChartViewData) : base(currentPerson, firmaPage, false)
+            PerformanceMeasureChartViewData performanceMeasureChartViewData) : base(currentPerson, firmaPage)
         {
             PageTitle = string.Format("Spending by Project for Selected {0}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized());
 

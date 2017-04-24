@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.Results
             List<FundingSectorExpenditure> fundingSectorExpenditures,
             int? selectedCalendarYear,
             IEnumerable<SelectListItem> calendarYears,
-            string reportingYearRangeTitle) : base(currentPerson, firmaPage, false)
+            string reportingYearRangeTitle) : base(currentPerson, firmaPage)
         {
             FundingSectorExpenditures = fundingSectorExpenditures;
             PageTitle = "Investment by Funding Sector";

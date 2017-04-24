@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.Results
         public ResultsByTaxonomyTierTwoViewData(Person currentPerson,
             Models.FirmaPage firmaPage,
             List<Models.TaxonomyTierThree> taxonomyTierThrees,
-            Models.TaxonomyTierTwo selectedTaxonomyTierTwo) : base(currentPerson, firmaPage, false)
+            Models.TaxonomyTierTwo selectedTaxonomyTierTwo) : base(currentPerson, firmaPage)
         {
             TaxonomyTierThrees = taxonomyTierThrees;
             PageTitle = string.Format("Results by {0}", Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel());

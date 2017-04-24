@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.Results
             ProjectLocationsMapViewData projectLocationsMapViewData,
             Dictionary<ProjectLocationFilterType, IEnumerable<SelectListItem>> projectLocationFilterTypesAndValues,
             string projectLocationsUrl,
-            string filteredProjectsWithLocationAreasUrl) : base(currentPerson, firmaPage, false)
+            string filteredProjectsWithLocationAreasUrl) : base(currentPerson, firmaPage)
         {
             PageTitle = "Project Map";
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;

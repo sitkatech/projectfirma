@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public readonly string PerformanceMeasureGridName;
         public readonly string PerformanceMeasureGridDataUrl;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage, false)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             PageTitle = MultiTenantHelpers.GetPerformanceMeasureNamePluralized();
 
