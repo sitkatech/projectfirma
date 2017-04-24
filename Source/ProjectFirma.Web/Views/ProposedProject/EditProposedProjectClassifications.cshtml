@@ -72,7 +72,8 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <hr/>
     <div class="pull-right">
-        <button class="btn btn-xs btn-firma" type="button" onclick="saveForm()">Save</button>
+        <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(false)">Save</button>
+        <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(true)">Save &amp; Continue</button>
     </div>
     
 }
@@ -84,52 +85,47 @@ Source code is available upon request via <support@sitkatech.com>.
         @for (var i = 0; i < ViewDataTyped.Classifications.Count; i++)
         {
             <text>
-                var checkBox = jQuery("#@Html.IdFor(x => x.ProposedProjectClassificationSimples[i].Selected)");
-                var notesTextArea = jQuery("#@Html.IdFor(x => x.ProposedProjectClassificationSimples[i].ProposedProjectClassificationNotesForBinding)");
-                var charactersRemaining = jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProposedProjectClassificationSimples[i].ProposedProjectClassificationNotesForBinding))");
+        var checkBox = jQuery("#@Html.IdFor(x => x.ProposedProjectClassificationSimples[i].Selected)");
+        var notesTextArea = jQuery("#@Html.IdFor(x => x.ProposedProjectClassificationSimples[i].ProposedProjectClassificationNotesForBinding)");
+        var charactersRemaining = jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProposedProjectClassificationSimples[i].ProposedProjectClassificationNotesForBinding))");
 
-                //Set default display
-                if (checkBox.prop("checked"))
-                {
-                    notesTextArea.css("background-color", "");
-                    notesTextArea.attr("disabled", false);
-                    notesTextArea.attr("disabled", false);
-                    charactersRemaining.css("display", "");
-                }
-                else
-                {
-                    notesTextArea.css("background-color", "#EEEEEE");
-                    notesTextArea.attr("disabled", "disabled");
-                    charactersRemaining.css("display", "none");
-                }
+        //Set default display
+        if (checkBox.prop("checked")) {
+            notesTextArea.css("background-color", "");
+            notesTextArea.attr("disabled", false);
+            notesTextArea.attr("disabled", false);
+            charactersRemaining.css("display", "");
+        }
+        else {
+            notesTextArea.css("background-color", "#EEEEEE");
+            notesTextArea.attr("disabled", "disabled");
+            charactersRemaining.css("display", "none");
+        }
 
-                //Create on-change event
-                jQuery(checkBox).change(function()
-                {
-                    var notesTextAreaForCheckboxFunction = jQuery("#@Html.IdFor(x => x.ProposedProjectClassificationSimples[i].ProposedProjectClassificationNotesForBinding)");
-                    var charactersRemainingFunction = 
-                        jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProposedProjectClassificationSimples[i].ProposedProjectClassificationNotesForBinding))");
+        //Create on-change event
+        jQuery(checkBox).change(function () {
+            var notesTextAreaForCheckboxFunction = jQuery("#@Html.IdFor(x => x.ProposedProjectClassificationSimples[i].ProposedProjectClassificationNotesForBinding)");
+            var charactersRemainingFunction =
+                jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProposedProjectClassificationSimples[i].ProposedProjectClassificationNotesForBinding))");
 
-                    if (this.checked)
-                    {
-                        notesTextAreaForCheckboxFunction.css("background-color", "");
-                        notesTextAreaForCheckboxFunction.attr("disabled", false);
-                        charactersRemainingFunction.css("display", "");
-                    }
-                    else
-                    {
-                        notesTextAreaForCheckboxFunction.css("background-color", "#EEEEEE");
-                        notesTextAreaForCheckboxFunction.attr("disabled", "disabled");
-                        charactersRemainingFunction.css("display", "none");
-                    }
-                });
-            </text>
+            if (this.checked) {
+                notesTextAreaForCheckboxFunction.css("background-color", "");
+                notesTextAreaForCheckboxFunction.attr("disabled", false);
+                charactersRemainingFunction.css("display", "");
+            }
+            else {
+                notesTextAreaForCheckboxFunction.css("background-color", "#EEEEEE");
+                notesTextAreaForCheckboxFunction.attr("disabled", "disabled");
+                charactersRemainingFunction.css("display", "none");
+            }
+        });
+        </text>
         }
 
         HookupCheckIfFormIsDirty(undefined, ".submitProposal");
     });
 
-    function saveForm() {
+    function saveForm(autoAdvance) {
         var form = jQuery("form");
         // Do not submit if the form
         // does not pass client side validation
@@ -138,6 +134,7 @@ Source code is available upon request via <support@sitkatech.com>.
             return false;
         }
 
+        jQuery("<input type='hidden' name='@Html.NameFor(x => x.AutoAdvance)' value=" + autoAdvance + " />").appendTo(form);
         form.submit();
     }
 

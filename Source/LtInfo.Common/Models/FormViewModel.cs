@@ -22,5 +22,6 @@ namespace LtInfo.Common.Models
 {
     public abstract class FormViewModel
     {
+        public bool AutoAdvance { get; set; }
     }
 }

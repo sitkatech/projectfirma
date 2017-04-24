@@ -212,7 +212,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllAuditLogs.Add(auditLog);
             SetMessageForDisplay("Proposed Project succesfully saved.");
 
-            return RedirectToAction(new SitkaRoute<ProposedProjectController>(x => x.EditBasics(proposedProject.PrimaryKey)));
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditLocationSimple(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditBasics(proposedProject.PrimaryKey)));
         }
 
         [HttpGet]
@@ -258,7 +258,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             SetMessageForDisplay(string.Format("Proposed Project {0} succesfully saved.", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()));
-            return RedirectToAction(new SitkaRoute<ProposedProjectController>(x => x.EditExpectedPerformanceMeasureValues(proposedProject)));
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditClassifications(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditExpectedPerformanceMeasureValues(proposedProject.PrimaryKey)));
         }
 
         [HttpGet]
@@ -316,7 +316,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(proposedProject, currentProposedProjectClassifications);
 
             SetMessageForDisplay(string.Format("Proposed Project {0} succesfully saved.", FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()));
-            return RedirectToAction(new SitkaRoute<ProposedProjectController>(x => x.EditClassifications(proposedProject)));
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.Photos(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditClassifications(proposedProject.PrimaryKey)));
         }
 
         [HttpGet]
@@ -359,8 +359,8 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(proposedProject);
-            SetMessageForDisplay(" Assessment succesfully saved.");
-            return RedirectToAction(new SitkaRoute<ProposedProjectController>(x => x.EditAssessment(proposedProject)));
+            SetMessageForDisplay("Assessment succesfully saved.");
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.Photos(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditAssessment(proposedProject.PrimaryKey)));
         }
 
         private ViewResult ViewEditAssessment(ProposedProject proposedProject, EditAssessmentViewModel viewModel)
@@ -411,7 +411,7 @@ namespace ProjectFirma.Web.Controllers
 
             viewModel.UpdateModel(proposedProject);
             SetMessageForDisplay("Proposed Project Location succesfully saved.");
-            return RedirectToAction(new SitkaRoute<ProposedProjectController>(x => x.EditLocationSimple(proposedProject)));
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditLocationDetailed(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditLocationSimple(proposedProject.PrimaryKey)));
         }
 
 
@@ -459,7 +459,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditLocationDetailed(proposedProject, viewModel);
             }
             SaveDetailedLocations(viewModel, proposedProject);
-            return RedirectToAction(new SitkaRoute<ProposedProjectController>(x => x.EditLocationDetailed(proposedProject)));
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditExpectedPerformanceMeasureValues(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditLocationDetailed(proposedProject.PrimaryKey)));
         }
 
         [HttpGet]
@@ -570,7 +570,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProposedProjectEditFeature]
-        public ViewResult EditNotes(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        public ViewResult Notes(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             var entityNotes = new List<IEntityNote>(proposedProject.ProposedProjectNotes);
@@ -582,7 +582,6 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new NotesViewData(CurrentPerson, proposedProject, proposalSectionsStatus, entityNotesViewData);
             return RazorView<Notes, NotesViewData>(viewData);
         }
-
 
         [HttpGet]
         [ProposedProjectNoteCreateFeature]
@@ -673,10 +672,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProposedProjectEditFeature]
-        public ViewResult EditPhotos(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
+        public ViewResult Photos(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
-
             var viewData = BuildImageGalleryViewData(proposedProject, CurrentPerson);
             return RazorView<Photos, PhotoViewData>(viewData);
         }

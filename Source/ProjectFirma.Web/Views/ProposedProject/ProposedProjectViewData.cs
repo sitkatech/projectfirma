@@ -86,8 +86,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
             ProjectUpdateLocationDetailedUrl =  SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditLocationDetailed(proposedProject));
             ProjectUpdateClassificationsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditClassifications(proposedProject));
             ProjectUpdateAssessmentUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditAssessment(proposedProject));
-            ProjectUpdateNotesUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditNotes(proposedProject.ProposedProjectID));
-            ProjectUpdatePhotosUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditPhotos(proposedProject.ProposedProjectID));
+            ProjectUpdateNotesUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Notes(proposedProject.ProposedProjectID));
+            ProjectUpdatePhotosUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Photos(proposedProject.ProposedProjectID));
             
             SubmitUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Submit(proposedProject));
             ApproveUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Approve(proposedProject));
