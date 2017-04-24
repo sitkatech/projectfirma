@@ -19,31 +19,21 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.Organization
 {
-    public class PullOrganizationFromKeystoneViewModel : FormViewModel, IValidatableObject
+    public class PullOrganizationFromKeystoneViewModel : FormViewModel
     {
         [Required]
-        [DisplayName("Organization Name")]
+        [DisplayName("Keystone Organization Guid")]
         public Guid? OrganizationGuid { get; set; }
-
 
         // Needed by model binder
         public PullOrganizationFromKeystoneViewModel()
         {
-        }
-
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            var errors = new List<ValidationResult>();
-            
-            return errors;
         }
     }
 }
