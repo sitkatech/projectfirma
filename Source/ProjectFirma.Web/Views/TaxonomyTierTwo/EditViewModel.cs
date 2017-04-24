@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             taxonomyTierTwo.TaxonomyTierTwoDescription = TaxonomyTierTwoDescription;
             taxonomyTierTwo.TaxonomyTierThreeID = MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3
                 ? TaxonomyTierThreeID
-                : HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.Single().TaxonomyTierThreeID;
+                : HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.First().TaxonomyTierThreeID; // really should only be one
             taxonomyTierTwo.ThemeColor = ThemeColor;
         }
 
