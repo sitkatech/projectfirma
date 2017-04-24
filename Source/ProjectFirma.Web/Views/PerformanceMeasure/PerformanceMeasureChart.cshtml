@@ -27,25 +27,6 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Common
 @inherits PerformanceMeasureChart
 
-<style>
-    .chartWrapper {
-        background: #FFF;
-        border-radius: 10px;
-        margin: 0 0 10px 10px;
-        padding: 2px;
-        vertical-align: top;
-    }
-
-    .chartHeader {
-        padding: 0 5px;
-    }
-
-    .subcategorySelector {
-        font-size: 13px;
-        margin-top: 5px;
-    }
-</style>
-
 @if (ViewDataTyped.HasChartData)
 {
     <div class="chartWrapper" style="display: inline-block">
@@ -63,9 +44,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
 
             </div>
-            @{
-    var subcategoriesForPerformanceMeasureChart = ViewDataTyped.PerformanceMeasure.GetSubcategoriesForPerformanceMeasureChart();
-            }
+            @{ var subcategoriesForPerformanceMeasureChart = ViewDataTyped.PerformanceMeasure.GetSubcategoriesForPerformanceMeasureChart();}
             @if (!subcategoriesForPerformanceMeasureChart.Any())
             {
                 <!-- MB: This is to ensure that all three logical branches give us the same overall height; otherwise the firmaChartControls DIV sometimes gets offset wrong -->
@@ -128,7 +107,6 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                 </div>
             }
-
         </div>
 
         <script type="text/javascript">
@@ -168,10 +146,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
             }
         </script>
-
-
-
-
     </div>
 }
 else

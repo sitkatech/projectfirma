@@ -762,4 +762,18 @@ h2.collapsed {
   cursor: pointer;
   font-size: 13px;
 }
+.chartWrapper {
+  background: #FFF;
+  border-radius: 10px;
+  margin: 0 0 10px 10px;
+  padding: 2px;
+  vertical-align: top;
+}
+.chartHeader {
+  padding: 0 5px;
+}
+.subcategorySelector {
+  font-size: 13px;
+  margin-top: 5px;
+}
 /*# sourceMappingURL=default.theme.css.map */
