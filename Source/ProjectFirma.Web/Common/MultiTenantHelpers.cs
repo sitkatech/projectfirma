@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Common
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().TenantStyleSheetFileResource != null
                 ? new SitkaRoute<TenantController>(c => c.Style(HttpRequestStorage.Tenant.TenantName)).BuildUrlFromExpression()
-                : "~/Content/Bootstrap/firma/clackamas.theme.min.css";
+                : "~/Content/Bootstrap/firma/default.theme.min.css";
         }
         
         public static DbGeometry GetDefaultBoundingBox()

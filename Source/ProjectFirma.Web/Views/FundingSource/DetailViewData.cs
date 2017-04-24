@@ -25,7 +25,6 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Results;
 using LtInfo.Common;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.FundingSource
 {

@@ -18,12 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Views.PerformanceMeasure
 @inherits PerformanceMeasureChartPopup
 
 <link href="@Url.Content("~/Content/jquery.fancybox.css")" rel="stylesheet" type="text/css" />
-<link href="@Url.Content("~/Content/Bootstrap/ltinfo/bootstrap.ltinfo.base.min.css")" rel="stylesheet" type="text/css" />
-<link href="@Url.Content("~/Content/Bootstrap/ltinfo/bootstrap.ltinfo.theme.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/Bootstrap/firma/bootstrap.firma.base.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content(MultiTenantHelpers.GetTenantStyleSheetUrl())" rel="stylesheet" type="text/css" />
 <link href='@Url.Content("~/Content/css/google-chart-config-overrides.css")' rel='stylesheet' type='text/css' media='all' />
 
 <script src="@Url.Content("~/Scripts/jquery-1.11.0.min.js")" type="text/javascript"></script>
