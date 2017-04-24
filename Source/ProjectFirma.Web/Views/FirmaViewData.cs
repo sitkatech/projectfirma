@@ -30,7 +30,6 @@ namespace ProjectFirma.Web.Views
     public abstract class FirmaViewData
     {
         public List<LtInfoMenuItem> TopLevelLtInfoMenuItems;
-        public bool UseFluidContainer;
 
         public readonly string FullProjectListUrl;
         public readonly string ProjectSearchUrl;
