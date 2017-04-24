@@ -829,6 +829,7 @@ ul.filmStrip li a div.caption {
     text-align: left;
     margin: 0;
     padding: 0;
+    background-color: rgb(230, 230, 230);
 }
 
 
@@ -842,8 +843,6 @@ ul.filmStrip li a div.caption {
 #tab-container ol li.selectable:hover, #tab-container ul li.selectable:hover
 {
     background-color: #bbb;
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
 }
 
 #tab-container ul li .statusIcon, #tab-container ol li .statusIcon
@@ -863,8 +862,6 @@ ul.filmStrip li a div.caption {
 {
     border-right: none;
     background-color: #fff;
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
 }
 
 #projectWizardContent .glyphicon-flag {
@@ -936,3 +933,18 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
         background-color: #2B6991;
     }
 
+h2.expanded {
+    padding: 0 0 10px 25px;
+    background: url("/Content/img/expanded.png") no-repeat scroll 0 0 transparent;
+    color: #007CB9;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+h2.collapsed {
+    padding: 0 0 10px 25px;
+    background: url("/Content/img/collapsed.png") no-repeat scroll 0 0 transparent;
+    color: #007CB9;
+    cursor: pointer;
+    font-size: 13px;
+}
