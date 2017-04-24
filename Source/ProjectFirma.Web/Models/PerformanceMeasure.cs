@@ -185,5 +185,28 @@ namespace ProjectFirma.Web.Models
             var googleChartJsons = GetSubcategoriesAsGoogleChartJsons(this, projectIDs);
             return googleChartJsons.ToDictionary(x => x.ChartName);
         }
+
+
+        public void DeletePerformanceMeasureAndAllRelatedData()
+        {
+            PerformanceMeasureActualSubcategoryOptions.ToList().ForEach(x => x.DeletePerformanceMeasureActualSubcategoryOption());
+            PerformanceMeasureActuals.ToList().ForEach(x => x.DeletePerformanceMeasureActual());
+            PerformanceMeasureActualSubcategoryOptionUpdates.ToList().ForEach(x => x.DeletePerformanceMeasureActualSubcategoryOptionUpdate());
+            PerformanceMeasureActualUpdates.ToList().ForEach(x => x.DeletePerformanceMeasureActualUpdate());
+            PerformanceMeasureExpectedSubcategoryOptions.ToList().ForEach(x => x.DeletePerformanceMeasureExpectedSubcategoryOption());
+            PerformanceMeasureExpecteds.ToList().ForEach(x => x.DeletePerformanceMeasureExpected());
+            PerformanceMeasureExpectedSubcategoryOptionProposeds.ToList().ForEach(x => x.DeletePerformanceMeasureExpectedSubcategoryOptionProposed());
+            PerformanceMeasureExpectedProposeds.ToList().ForEach(x => x.DeletePerformanceMeasureExpectedProposed());
+            PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).ToList().ForEach(x => x.DeletePerformanceMeasureSubcategoryOption());
+            PerformanceMeasureSubcategories.ToList().ForEach(x => x.DeletePerformanceMeasureSubcategory());
+            PerformanceMeasureMonitoringPrograms.ToList().ForEach(x => x.DeletePerformanceMeasureMonitoringProgram());
+            ClassificationPerformanceMeasures.ToList().ForEach(x => x.DeleteClassificationPerformanceMeasure());
+            // TODO: We might want to consider removing the FKs to SnapshotPerformanceMeasure and SnapshotPerformanceMeasureSubcategoryOption since it's purpose it to track historical data
+            SnapshotPerformanceMeasureSubcategoryOptions.ToList().ForEach(x => x.DeleteSnapshotPerformanceMeasureSubcategoryOption());
+            SnapshotPerformanceMeasures.ToList().ForEach(x => x.DeleteSnapshotPerformanceMeasure());
+            TaxonomyTierTwoPerformanceMeasures.ToList().ForEach(x => x.DeleteTaxonomyTierTwoPerformanceMeasure());
+            PerformanceMeasureNotes.ToList().ForEach(x => x.DeletePerformanceMeasureNote());
+            this.DeletePerformanceMeasure();
+        }
     }
 }

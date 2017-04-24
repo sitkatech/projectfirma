@@ -366,17 +366,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeletePerformanceMeasure(performanceMeasure, viewModel);
             }
-            // Delete dependent associated items, then delete Performance Measure
-            performanceMeasure.PerformanceMeasureActuals.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions)
-                .ToList()
-                .ForEach(x => x.DeletePerformanceMeasureActualSubcategoryOption());
-            performanceMeasure.PerformanceMeasureActuals.ToList().ForEach(x => x.DeletePerformanceMeasureActual());
-            performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions)
-                .ToList()
-                .ForEach(x => x.DeletePerformanceMeasureSubcategoryOption());
-            performanceMeasure.PerformanceMeasureSubcategories.ToList().ForEach(x => x.DeletePerformanceMeasureSubcategory());
-            performanceMeasure.DeletePerformanceMeasure();
-
+            performanceMeasure.DeletePerformanceMeasureAndAllRelatedData();
             SetMessageForDisplay(String.Format("Successfully deleted {0} '{1}'!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName));
             return new ModalDialogFormJsonResult();
         }
