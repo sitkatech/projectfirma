@@ -109,7 +109,7 @@ namespace ProjectFirma.Web.Models
         
         public decimal? CalculateWeightedAnnualExpenditure()
         {
-            var reportedValuesForAllSubcategories = PerformanceMeasure.GetReportedPerformanceMeasureValues(Project.ProjectID).Where(x => x.CalendarYear == CalendarYear).Sum(x => x.ReportedValue ?? 0);
+            var reportedValuesForAllSubcategories = PerformanceMeasure.GetReportedPerformanceMeasureValues(Project).Where(x => x.CalendarYear == CalendarYear).Sum(x => x.ReportedValue ?? 0);
             if (Math.Abs(reportedValuesForAllSubcategories) < double.Epsilon)
             {
                 return null;

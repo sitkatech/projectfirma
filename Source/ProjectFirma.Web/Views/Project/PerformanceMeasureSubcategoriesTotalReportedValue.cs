@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Views.Project
 
         public decimal? CalculateWeightedTotalExpenditure()
         {
-            var reportedValuesForAllSubcategories = PerformanceMeasure.GetReportedPerformanceMeasureValues(Project.ProjectID)
+            var reportedValuesForAllSubcategories = PerformanceMeasure.GetReportedPerformanceMeasureValues(Project)
                 .Where(x => FirmaDateUtilities.DateIsInReportingRange(x.CalendarYear))
                 .Sum(x => x.ReportedValue ?? 0);
             if (Math.Abs(reportedValuesForAllSubcategories) < double.Epsilon)

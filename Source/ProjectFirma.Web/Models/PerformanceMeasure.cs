@@ -64,14 +64,19 @@ namespace ProjectFirma.Web.Models
 
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues()
         {
-            return GetReportedPerformanceMeasureValues(null);
+            return GetReportedPerformanceMeasureValues(new List<int>());
         }
 
-        public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(int? projectID)
+        public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(Project project)
+        {
+            return GetReportedPerformanceMeasureValues(new List<int> {project.ProjectID});
+        }
+       
+        public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(List<int> projectIDs)
         {
             var performanceMeasureActuals =
                 HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(
-                    pmav => pmav.PerformanceMeasureID == PerformanceMeasureID && (!projectID.HasValue || (projectID.HasValue && pmav.ProjectID == projectID))).ToList();
+                    pmav => pmav.PerformanceMeasureID == PerformanceMeasureID && (!projectIDs.Any() || (projectIDs.Any() && projectIDs.Contains(pmav.ProjectID)))).ToList();
             var performanceMeasureReportedValues = PerformanceMeasureReportedValue.MakeFromList(performanceMeasureActuals);
             return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.ProjectName).ToList();
         }
@@ -150,7 +155,7 @@ namespace ProjectFirma.Web.Models
             List<PerformanceMeasureReportedValue> reportedValues;
             if (projectIDs != null && projectIDs.Any())
             {
-                reportedValues = performanceMeasure.GetReportedPerformanceMeasureValues().Where(x => x.Project.ProjectStage.ArePerformanceMeasuresReportable() && projectIDs.Contains(x.Project.ProjectID)).ToList();
+                reportedValues = performanceMeasure.GetReportedPerformanceMeasureValues(projectIDs).Where(x => x.Project.ProjectStage.ArePerformanceMeasuresReportable()).ToList();
             }
             else
             {
