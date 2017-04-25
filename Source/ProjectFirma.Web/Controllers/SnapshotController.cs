@@ -39,14 +39,14 @@ namespace ProjectFirma.Web.Controllers
 {
     public class SnapshotController : FirmaBaseController
     {
-        [AdminFeature]
+        [FirmaAdminFeature]
         public ActionResult Index()
         {
             var viewData = new IndexViewData(CurrentPerson);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        [AdminFeature]
+        [FirmaAdminFeature]
         public GridJsonNetJObjectResult<Snapshot> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec();
@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetObjectResult;
         }
 
-        [AdminFeature]
+        [FirmaAdminFeature]
         public ActionResult Detail(SnapshotPrimaryKey snapshotPrimaryKey)
         {
             var snapshot = snapshotPrimaryKey.EntityObject;
@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [AdminFeature]
+        [FirmaAdminFeature]
         public PartialViewResult Edit(SnapshotPrimaryKey snapshotPrimaryKey)
         {
             var snapshot = snapshotPrimaryKey.EntityObject;
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [AdminFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(SnapshotPrimaryKey snapshotPrimaryKey, EditViewModel viewModel)
         {
@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
-        [AdminFeature]
+        [FirmaAdminFeature]
         public GridJsonNetJObjectResult<SnapshotProject> SnapshotProjectGridJsonData(SnapshotPrimaryKey snapshotPrimaryKey)
         {
             SnapshotProjectGridSpec gridSpec = new SnapshotProjectGridSpec();

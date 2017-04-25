@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [PageContentManageFeature]
+        [FirmaAdminFeature]
         public ActionResult EditPageContent(FirmaPageTypeEnum firmaPageTypeEnum)
         {
             var firmaPageType = FirmaPageType.ToType(firmaPageTypeEnum);
@@ -98,7 +98,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [PageContentManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditPageContent(FirmaPageTypeEnum firmaPageTypeEnum, EditPageContentViewModel viewModel)
         {

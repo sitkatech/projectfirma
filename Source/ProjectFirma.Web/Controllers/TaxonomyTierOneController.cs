@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Controllers
             return IndexImpl();
         }
 
-        [AdminFeature]
+        [FirmaAdminFeature]
         public ViewResult Manage()
         {
             return IndexImpl();

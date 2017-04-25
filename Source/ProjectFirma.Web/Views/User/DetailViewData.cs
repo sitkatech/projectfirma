@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Views.User
 
             UserHasPersonViewPermissions = new UserViewFeature().HasPermission(currentPerson, personToView).HasPermission;
             UserHasPersonManagePermissions = new UserEditFeature().HasPermissionByPerson(currentPerson);
-            UserHasViewEverythingPermissions = new AdminFeature().HasPermissionByPerson(currentPerson);
+            UserHasViewEverythingPermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
             IsViewingSelf = currentPerson != null && currentPerson.PersonID == personToView.PersonID;
             EditRolesLink = UserHasPersonManagePermissions
                 ? ModalDialogFormHelper.MakeEditIconLink(SitkaRoute<UserController>.BuildUrlFromExpression(c => c.EditRoles(personToView)),

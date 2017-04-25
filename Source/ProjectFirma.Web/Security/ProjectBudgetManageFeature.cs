@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage  Project Budget")]
-    public class ProjectBudgetManageFeature : SuperAdminFeature
+    public class ProjectBudgetManageFeature : FirmaAdminFeature
     {
     }
 }

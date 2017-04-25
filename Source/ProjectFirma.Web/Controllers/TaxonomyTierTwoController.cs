@@ -26,7 +26,6 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Map;
-using ProjectFirma.Web.Views.TaxonomyTierTwo;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared;
@@ -52,7 +51,7 @@ namespace ProjectFirma.Web.Controllers
             return IndexImpl();
         }
 
-        [AdminFeature]
+        [FirmaAdminFeature]
         public ViewResult Manage()
         {
             return IndexImpl();

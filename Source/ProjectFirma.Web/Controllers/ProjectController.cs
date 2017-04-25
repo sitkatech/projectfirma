@@ -474,7 +474,7 @@ namespace ProjectFirma.Web.Controllers
             return GetProjectsForGrid(p => p.IsOnActiveProjectsList);
         }      
 
-        [AdminFeature]
+        [FirmaAdminFeature]
         public GridJsonNetJObjectResult<AuditLog> AuditLogsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             var gridSpec = new AuditLogsGridSpec();

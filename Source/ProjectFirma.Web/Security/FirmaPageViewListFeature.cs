@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("View List of All Page Contents")]
-    public class FirmaPageViewListFeature : SuperAdminFeature
+    public class FirmaPageViewListFeature : FirmaAdminFeature
     {
     }
 }

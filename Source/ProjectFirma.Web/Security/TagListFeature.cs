@@ -18,17 +18,3 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using ProjectFirma.Web.Models;
-
-namespace ProjectFirma.Web.Security
-{
-    [SecurityFeatureDescription("List Tags")]
-    public class TagListFeature : FirmaFeature
-    {
-        public TagListFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
-        {
-        }
-    }
-}

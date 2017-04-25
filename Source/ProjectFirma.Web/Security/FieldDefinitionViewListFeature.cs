@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("View List of All Field Definitions")]
-    public class FieldDefinitionViewListFeature : SuperAdminFeature
+    public class FieldDefinitionViewListFeature : FirmaAdminFeature
     {
     }
 }

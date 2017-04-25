@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult(string.Format("You don't have permission to Edit Project Image for Project {0}", project.DisplayName));
             }
 
-            var projectIsEditableByUser = new AdminFeature().HasPermissionByPerson(person) || project.IsMyProject(person);
+            var projectIsEditableByUser = new FirmaAdminFeature().HasPermissionByPerson(person) || project.IsMyProject(person);
             if (!projectIsEditableByUser)
             {
                 return new PermissionCheckResult(string.Format("Project {0} is not editable by you.", project.ProjectID));

@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditBasics(EditBasicsViewModel viewModel)
         {
-            var adminFeature = new AdminFeature();
+            var adminFeature = new FirmaAdminFeature();
             var tenantPeople = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => adminFeature.HasPermissionByPerson(x)).ToList();
             var viewData = new EditBasicsViewData(CurrentPerson, tenantPeople);
             return RazorPartialView<EditBasics, EditBasicsViewData, EditBasicsViewModel>(viewData, viewModel);

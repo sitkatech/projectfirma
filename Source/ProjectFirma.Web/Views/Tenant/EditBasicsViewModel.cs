@@ -93,7 +93,7 @@ namespace ProjectFirma.Web.Views.Tenant
             {
                 primaryContactPerson = HttpRequestStorage.DatabaseEntities.AllPeople.Single(p => p.PersonID == PrimaryContactPersonID);
                 Check.Assert(primaryContactPerson.TenantID == TenantID, "Primary contact must belong to the tenant being edited. This should have been ensured by validation.");
-                Check.Assert(new AdminFeature().HasPermissionByPerson(primaryContactPerson), "Primary contact must be an admin. This should have been ensured by validation.");
+                Check.Assert(new FirmaAdminFeature().HasPermissionByPerson(primaryContactPerson), "Primary contact must be an admin. This should have been ensured by validation.");
             }
             tenantAttribute.PrimaryContactPerson = primaryContactPerson;
 
@@ -140,7 +140,7 @@ namespace ProjectFirma.Web.Views.Tenant
                 {
                     errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>("Primary contact must belong to the tenant being edited.", m => m.PrimaryContactPersonID));
                 }
-                if (!new AdminFeature().HasPermissionByPerson(primaryContact))
+                if (!new FirmaAdminFeature().HasPermissionByPerson(primaryContact))
                 {
                     errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>("Primary contact must be an admin.", m => m.PrimaryContactPersonID));
                 }

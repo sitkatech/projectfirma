@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("View Spending By Performance Measure By Project")]
-    public class SpendingByPerformanceMeasureByProjectViewFeature : AdminFeature
+    public class SpendingByPerformanceMeasureByProjectViewFeature : FirmaAdminFeature
     {
     }
 }

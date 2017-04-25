@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectStages = projectStages;
 
             EditProjectUrl = project.GetEditUrl();
-            UserHasProjectViewEverythingPermissions = new AdminFeature().HasPermissionByPerson(currentPerson);
+            UserHasProjectViewEverythingPermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
             UserHasEditProjectPermissions = new ProjectEditFeature().HasPermission(currentPerson, project).HasPermission;
             UserHasProjectUpdatePermissions = new ProjectUpdateManageFeature().HasPermission(CurrentPerson, project).HasPermission;
             ProjectBasicsViewData = projectBasicsViewData;

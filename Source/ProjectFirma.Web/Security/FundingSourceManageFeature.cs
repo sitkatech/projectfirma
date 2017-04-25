@@ -18,12 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Security;
-
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Funding Source")]
-    public class FundingSourceManageFeature : AdminFeature
+    public class FundingSourceManageFeature : FirmaAdminFeature
     {
     }
 }

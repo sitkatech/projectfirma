@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Security
 {

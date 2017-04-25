@@ -535,7 +535,6 @@
     <Compile Include="Security\TaxonomyTierTwoPerformanceMeasureManageFeature.cs" />
     <Compile Include="Security\TaxonomyTierOneViewFeature.cs" />
     <Compile Include="Security\TaxonomyTierOneManageFeature.cs" />
-    <Compile Include="Security\AdminFeature.cs" />
     <Compile Include="Security\AssessmentManageFeature.cs" />
     <Compile Include="Security\AssessmentViewFeature.cs" />
     <Compile Include="Security\AssessmentViewListFeature.cs" />
@@ -554,7 +553,6 @@
     <Compile Include="Security\PerformanceMeasureNoteViewFeature.cs" />
     <Compile Include="Security\PerformanceMeasureViewFeature.cs" />
     <Compile Include="Security\InvestmentByFundingSourceViewFeature.cs" />
-    <Compile Include="Security\PageContentManageFeature.cs" />
     <Compile Include="Security\TaxonomyTierTwoViewFeature.cs" />
     <Compile Include="Security\TaxonomyTierTwoManageFeature.cs" />
     <Compile Include="Security\ProjectCreateNewFeature.cs" />
@@ -602,8 +600,6 @@
     <Compile Include="Security\SpendingByPerformanceMeasureByProjectViewFeature.cs" />
     <Compile Include="Security\SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewFeature.cs" />
     <Compile Include="Security\SpendingBySectorByOrganizationViewFeature.cs" />
-    <Compile Include="Security\SuperAdminFeature.cs" />
-    <Compile Include="Security\TagListFeature.cs" />
     <Compile Include="Security\TagManageFeature.cs" />
     <Compile Include="Security\TagViewFeature.cs" />
     <Compile Include="Security\ProjectBudgetManageFeature.cs" />

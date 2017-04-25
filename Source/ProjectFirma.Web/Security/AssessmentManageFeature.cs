@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Assessments")]
-    public class AssessmentManageFeature : SuperAdminFeature
+    public class AssessmentManageFeature : FirmaAdminFeature
     {
     }
 }

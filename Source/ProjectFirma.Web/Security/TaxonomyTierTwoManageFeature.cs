@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Taxonomy Tier Two")]
-    public class TaxonomyTierTwoManageFeature : SuperAdminFeature
+    public class TaxonomyTierTwoManageFeature : FirmaAdminFeature
     {
     }
 }

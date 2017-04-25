@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Security
             }
 
             // Admin can edit anything
-            if (new AdminFeature().HasPermissionByPerson(person))
+            if (new FirmaAdminFeature().HasPermissionByPerson(person))
             {
                 return new PermissionCheckResult();
             }
