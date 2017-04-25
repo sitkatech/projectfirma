@@ -580,8 +580,11 @@ namespace ProjectFirma.Web.Controllers
             }
             var currentFeaturedProjects = HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.IsFeatured).ToList();
             currentFeaturedProjects.ForEach(x => x.IsFeatured = false);
-            var newlyFearturedProjects = HttpRequestStorage.DatabaseEntities.Projects.Where(x => viewModel.ProjectIDList.Contains(x.ProjectID)).ToList();
-            newlyFearturedProjects.ForEach(x => x.IsFeatured = true);
+            if (viewModel.ProjectIDList != null)
+            {
+                var newlyFearturedProjects = HttpRequestStorage.DatabaseEntities.Projects.Where(x => viewModel.ProjectIDList.Contains(x.ProjectID)).ToList();
+                newlyFearturedProjects.ForEach(x => x.IsFeatured = true);
+            }
             return new ModalDialogFormJsonResult();
         }
 
