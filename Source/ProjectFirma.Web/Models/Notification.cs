@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
-using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
@@ -34,43 +33,6 @@ namespace ProjectFirma.Web.Models
     public partial class Notification
     {
         public static string FirmaSignature = string.Format("{0} team<br/><br/><img src=\"http://clackamaspartnership.org/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png\" width=\"600\" />", MultiTenantHelpers.GetTenantDisplayName());
-
-        public HtmlString GetFullDescriptionFromUserPerspective()
-        {
-            var displayNameAsUrl = NotificationProjects.Any() ? NotificationProjects.First().Project.DisplayNameAsUrl : new HtmlString("<Deleted Project>");
-            switch (NotificationType.ToEnum)
-            {
-                case NotificationTypeEnum.ProjectUpdateReminder:
-                    return new HtmlString("Project Update reminder sent.");
-                case NotificationTypeEnum.ProjectUpdateSubmitted:
-                    return new HtmlString(String.Format("The update for project {0} was submitted", displayNameAsUrl));
-                case NotificationTypeEnum.ProjectUpdateReturned:
-                    return new HtmlString(String.Format("The update for project {0} has been returned", displayNameAsUrl));
-                case NotificationTypeEnum.ProjectUpdateApproved:
-                    return new HtmlString(String.Format("The update for project {0} was approved", displayNameAsUrl));
-                case NotificationTypeEnum.Custom:
-                    return new HtmlString("A customized notification was sent.");
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        public string GetFullDescriptionFromProjectPerspective()
-        {
-            switch (NotificationType.ToEnum)
-            {
-                case NotificationTypeEnum.ProjectUpdateReminder:
-                    return "Project Update reminder sent.";
-                case NotificationTypeEnum.ProjectUpdateSubmitted:
-                    return "Project update was submitted";
-                case NotificationTypeEnum.ProjectUpdateReturned:
-                    return "Project update has been returned";
-                case NotificationTypeEnum.ProjectUpdateApproved:
-                    return "Project update was approved";
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
 
         public static List<Notification> SendMessageAndLogNotification(MailMessage mailMessage, IEnumerable<string> emailsToSendTo, IEnumerable<string> emailsToReplyTo, IEnumerable<string> emailsToCc, List<Person> notificationPeople, DateTime notificationDate, List<Project> notificationProjects, NotificationType notificationType)
         {

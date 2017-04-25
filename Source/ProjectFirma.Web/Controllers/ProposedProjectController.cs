@@ -276,9 +276,10 @@ namespace ProjectFirma.Web.Controllers
         {
             var selectedProposedProjectClassifications = proposedProject.ProposedProjectClassifications;
 
+            //JHB 2/28/17: This is really brittle. The ViewModel relies on the ViewData also being ordered by DisplayName. 
             var proposedProjectClassificationSimples =
-                HttpRequestStorage.DatabaseEntities.Classifications.Select(x => new ProposedProjectClassificationSimple { ClassificationID = x.ClassificationID }).ToList();
-
+                HttpRequestStorage.DatabaseEntities.Classifications.OrderBy(x => x.DisplayName).Select(x => new ProposedProjectClassificationSimple { ClassificationID = x.ClassificationID }).ToList();
+ 
             foreach (var selectedClassification in selectedProposedProjectClassifications)
             {
                 var selectedSimple = proposedProjectClassificationSimples.Single(x => x.ClassificationID == selectedClassification.ClassificationID);
@@ -291,7 +292,6 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewEditClassifications(ProposedProject proposedProject, EditProposedProjectClassificationsViewModel viewModel)
         {
-
             var allClassifications = HttpRequestStorage.DatabaseEntities.Classifications.OrderBy(p => p.DisplayName).ToList();
             var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
             proposalSectionsStatus.IsClassificationsComplete = ModelState.IsValid && proposalSectionsStatus.IsClassificationsComplete;

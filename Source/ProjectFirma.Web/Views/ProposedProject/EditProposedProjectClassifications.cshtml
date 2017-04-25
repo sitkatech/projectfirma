@@ -40,7 +40,10 @@ Source code is available upon request via <support@sitkatech.com>.
         @foreach (var classificationsBatch in ViewDataTyped.Classifications.OrderBy(x => x.DisplayName).Batch(3).ToList())
         {
             <div class="row" style="padding-top: 10px">
-                @foreach (var classification in classificationsBatch.OrderBy(x => x.DisplayName))
+                @{
+                    var classifications = classificationsBatch.OrderBy(x => x.DisplayName).ToList();
+                }
+                @foreach (var classification in classifications)
                 {
                     <div class="col-xs-4">
                         @Html.CheckBoxFor(x => x.ProposedProjectClassificationSimples[i].Selected)
@@ -53,7 +56,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
             </div>
             <div class="row" style="padding-top: 5px">
-                @foreach (var classification in classificationsBatch.OrderBy(x => x.DisplayName))
+                @foreach (var classification in classifications)
                 {
                     <div class="col-xs-4">
                         <div>

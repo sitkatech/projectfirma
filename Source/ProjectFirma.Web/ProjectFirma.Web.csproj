@@ -449,6 +449,7 @@
     </None>
     <Content Include="Views\Organization\PullOrganizationFromKeystone.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
+    <Compile Include="Models\NotificationType.cs" />
     <Compile Include="Models\Tenant.cs" />
     <Compile Include="Security\SitkaAdminFeature.cs" />
     <Compile Include="Service References\KeystoneDataService\Reference.cs">

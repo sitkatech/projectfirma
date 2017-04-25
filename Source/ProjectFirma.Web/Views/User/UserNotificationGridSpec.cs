@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.User
             Add("Date", x => x.NotificationDate, 120);
             Add("Notification Type", x => x.NotificationType.NotificationTypeDisplayName, 140, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Notification",
-                x => x.GetFullDescriptionFromUserPerspective(),
+                x => x.NotificationType.GetFullDescriptionFromUserPerspective(x),
                 500,
                 DhtmlxGridColumnFilterType.Html);
             Add("# of Projects", x => x.NotificationProjects.Count, 100);
