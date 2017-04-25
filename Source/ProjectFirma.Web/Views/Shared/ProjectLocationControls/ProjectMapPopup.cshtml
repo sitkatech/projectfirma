@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Models
 @using LtInfo.Common
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectMapPopup
 
 <div style="font-weight: bold">@ViewDataTyped.Project.DisplayName</div>
@@ -31,18 +32,24 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 <table class="summaryLayout">
     <tbody>
-        <tr>
-            <th>Duration</th>
-            <td>@ViewDataTyped.Project.Duration @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName</td>
-        </tr>
-        <tr>
-            <th>@ViewDataTyped.TaxonomyTierThreeDisplayName</th>
-            <td>@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName</td>
-        </tr>
-        <tr>
-            <th>@ViewDataTyped.TaxonomyTierTwoDisplayName</th>
-            <td>@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierTwoName</td>
-        </tr>
+    <tr>
+        <th>Duration</th>
+        <td>@ViewDataTyped.Project.Duration @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName</td>
+    </tr>
+        @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() == 3)
+        {
+            <tr>
+                <th>@ViewDataTyped.TaxonomyTierThreeDisplayName</th>
+                <td>@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.TaxonomyTierThreeName</td>
+            </tr>
+        }
+        @if (MultiTenantHelpers.GetNumberOfTaxonomyTiers() >= 2)
+        {
+            <tr>
+                <th>@ViewDataTyped.TaxonomyTierTwoDisplayName</th>
+                <td>@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierTwoName</td>
+            </tr>
+        }
         <tr>
             <th>@ViewDataTyped.TaxonomyTierOneDisplayName</th>
             <td>@ViewDataTyped.Project.TaxonomyTierOne.TaxonomyTierOneName</td>
