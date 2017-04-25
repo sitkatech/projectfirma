@@ -73,7 +73,7 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
 
     $scope.hasAnySubcategories = function()
     {
-        var performanceMeasureIDsInModel = _.pluck($scope.AngularModel.PerformanceMeasureActualUpdates, function(pmav) { return pmav.PerformanceMeasureID; });
+        var performanceMeasureIDsInModel = _.map($scope.AngularModel.PerformanceMeasureActualUpdates, function(pmav) { return pmav.PerformanceMeasureID; });
         var anySubcategories = _.any($scope.AngularViewData.AllPerformanceMeasureSubcategories, function (sc) { return _.contains(performanceMeasureIDsInModel, sc.PerformanceMeasureID); });
         return anySubcategories;
     };

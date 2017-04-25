@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Models
 
         private static GoogleChartJson MakeGoogleChartJson(PerformanceMeasure performanceMeasure, PerformanceMeasureSubcategory performanceMeasureSubcategory, IEnumerable<PerformanceMeasureReportedValue> performanceMeasureReportedValues, IEnumerable<int> yearRange)
         {
-            var performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.ToDictionary(x => x.ChartName, x =>
+            var performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.ToDictionary(x => performanceMeasure.HasRealSubcategories ? x.ChartName : performanceMeasure.PerformanceMeasureDisplayName, x =>
             {
                 var calendarYearReportedValuesDict =
                     performanceMeasureReportedValues.SelectMany(pmav => pmav.PerformanceMeasureActualSubcategoryOptions)
@@ -83,11 +83,12 @@ namespace ProjectFirma.Web.Models
                 performanceMeasure.MeasurementUnitType,
                 googleChartType,
                 performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues);
+            var legendTitle = performanceMeasure.HasRealSubcategories
+                ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName
+                : performanceMeasure.PerformanceMeasureDisplayName;
             var googleChartJson = MakeGoogleChartJsonForPerformanceMeasureSubcategory(performanceMeasureSubcategory,
                 googleChartDataTable,
-                performanceMeasure.GetPerformanceMeasureSubcategories().Count == 1
-                    ? performanceMeasure.PerformanceMeasureDisplayName
-                    : performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName);
+                legendTitle);
             return googleChartJson;
         }
 
