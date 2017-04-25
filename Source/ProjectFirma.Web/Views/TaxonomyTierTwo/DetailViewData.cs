@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
         public DetailViewData(Person currentPerson,
             Models.TaxonomyTierTwo taxonomyTierTwo,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
-            ProjectLocationsMapViewData projectLocationsMapViewData) : base(currentPerson)
+            ProjectLocationsMapViewData projectLocationsMapViewData, List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas) : base(currentPerson)
         {
             TaxonomyTierTwo = taxonomyTierTwo;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
@@ -79,13 +79,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             PerformanceMeasuresEndOfFirstHalf = GeneralUtility.CalculateIndexOfEndOfFirstHalf(PerformanceMeasures.Count);
 
             ProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
-
-            var projectIDs = TaxonomyTierTwo.Projects.Select(y => y.ProjectID).ToList();
-            PerformanceMeasureChartViewDatas =
-                TaxonomyTierTwo.GetPerformanceMeasures()
-                    .ToList()
-                    .Select(x => new PerformanceMeasureChartViewData(x, true, ChartViewMode.Small, projectIDs))
-                    .ToList();
+            PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;
 
             UserHasTaxonomyTierTwoManagePermissions = new TaxonomyTierTwoManageFeature().HasPermissionByPerson(CurrentPerson);
             EditTaxonomyTierTwoUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(c => c.Edit(taxonomyTierTwo.TaxonomyTierTwoID));

@@ -32,6 +32,7 @@ using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using DetailViewData = ProjectFirma.Web.Views.TaxonomyTierTwo.DetailViewData;
 using Edit = ProjectFirma.Web.Views.TaxonomyTierTwo.Edit;
 using EditViewData = ProjectFirma.Web.Views.TaxonomyTierTwo.EditViewData;
@@ -79,19 +80,20 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyTierTwo = taxonomyTierTwoPrimaryKey.EntityObject;
             var taxonomyTierTwoProjects = taxonomyTierTwo.Projects.ToList();
-            var projects = IsCurrentUserAnonymous() ? taxonomyTierTwoProjects.Where(p => p.IsVisibleToEveryone()).ToList() : taxonomyTierTwoProjects;
+            var visibleProjectsForUser = IsCurrentUserAnonymous() ? taxonomyTierTwoProjects.Where(p => p.IsVisibleToEveryone()).ToList() : taxonomyTierTwoProjects;
 
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyTierTwo, new List<int> {taxonomyTierTwo.TaxonomyTierTwoID}, ProjectColorByType.ProjectStage);
-            var projectLocationsLayerGeoJson = new LayerGeoJson("Project Locations", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show);
-            var namedAreasAsPointsLayerGeoJson = new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show);
+            var projectLocationsLayerGeoJson = new LayerGeoJson("Project Locations", Project.MappedPointsToGeoJsonFeatureCollection(visibleProjectsForUser, true), "red", 1, LayerInitialVisibility.Show);
+            var namedAreasAsPointsLayerGeoJson = new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(visibleProjectsForUser, true), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, namedAreasAsPointsLayerGeoJson, projectMapCustomization, "TaxonomyTierTwoProjectMap");
 
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList());
+            var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList();
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, taxonomyTierThrees);
 
-            var viewData = new DetailViewData(CurrentPerson,
-                taxonomyTierTwo,
-                projectLocationsMapInitJson,
-                projectLocationsMapViewData);
+            var projectIDs = visibleProjectsForUser.Select(y => y.ProjectID).ToList();
+            var performanceMeasureChartViewDatas = taxonomyTierTwo.GetPerformanceMeasures().Select(x => new PerformanceMeasureChartViewData(x, true, ChartViewMode.Small, projectIDs)).ToList();
+
+            var viewData = new DetailViewData(CurrentPerson, taxonomyTierTwo, projectLocationsMapInitJson, projectLocationsMapViewData, performanceMeasureChartViewDatas);
             return RazorView<Summary, DetailViewData>(viewData);
         }
 

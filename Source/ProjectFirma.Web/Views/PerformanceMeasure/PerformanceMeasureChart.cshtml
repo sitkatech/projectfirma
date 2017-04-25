@@ -68,7 +68,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
         </div>
 
-        <div class="chartBody" style="height: @(ViewDataTyped.ChartHeight)px; width: @(ViewDataTyped.ChartWidth)px;">
+        <div class="chartBody" style="width: @(ViewDataTyped.ChartWidth)px; height: @(ViewDataTyped.ChartHeight)px;">
 
             @foreach (var googleChartJson in ViewDataTyped.GoogleChartJsonDictionary.Values.OrderByDescending(x => x.LegendTitle))
             {

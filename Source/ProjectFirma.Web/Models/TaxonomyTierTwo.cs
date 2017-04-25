@@ -78,8 +78,7 @@ namespace ProjectFirma.Web.Models
 
         public List<PerformanceMeasure> GetPerformanceMeasures()
         {
-            var performanceMeasures = TaxonomyTierTwoPerformanceMeasures.Where(x => x.IsPrimaryTaxonomyTierTwo).OrderBy(x => x.PerformanceMeasure.PerformanceMeasureDisplayName).Select(x => x.PerformanceMeasure).ToList();
-            return performanceMeasures;
+            return TaxonomyTierTwoPerformanceMeasures.Where(x => x.IsPrimaryTaxonomyTierTwo).OrderBy(x => x.PerformanceMeasure.PerformanceMeasureDisplayName).Select(x => x.PerformanceMeasure).ToList();
         }
 
         public FancyTreeNode ToFancyTreeNode()
