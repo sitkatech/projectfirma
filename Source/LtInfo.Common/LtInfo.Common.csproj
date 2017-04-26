@@ -381,9 +381,7 @@
     <Compile Include="RouteTableBuilder.cs" />
     <Compile Include="SitkaController.cs" />
     <Compile Include="SitkaGlobalBase.cs" />
-    <Compile Include="HtmlHelperExtensions\SitkaHtmlHelpersTest.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="HtmlHelperExtensions\SitkaHtmlHelpersTest.cs" />
     <Compile Include="SitkaHttpApplication.cs" />
     <Compile Include="SitkaHttpRequestStorage.cs" />
     <Compile Include="SitkaLogger.cs" />
@@ -495,7 +493,7 @@
       <ScriptLocation Condition=" '$(ScriptLocation)'=='' ">.\..\AddCopyrightAndLicense.ps1</ScriptLocation>
       <CopyrightHolder>Sitka Technology Group</CopyrightHolder>
     </PropertyGroup>
-    <Exec Command="$(PowerShellExe) -NonInteractive -executionpolicy Unrestricted -command &quot;&amp; {&amp;&apos;$(ScriptLocation)&apos; &apos;$(CopyrightHolder)&apos; } &quot;" />
+    <Exec Command="$(PowerShellExe) -NonInteractive -executionpolicy Unrestricted -command &quot;&amp; {&amp;'$(ScriptLocation)' '$(CopyrightHolder)' } &quot;" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
