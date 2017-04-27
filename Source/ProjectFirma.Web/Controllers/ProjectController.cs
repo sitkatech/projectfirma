@@ -252,7 +252,8 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureReportedValuesGroupedViewData = new PerformanceMeasureReportedValuesGroupedViewData(performanceMeasureSubcategoriesCalendarYearReportedValues,
                 project.ProjectExemptReportingYears.Select(x => x.CalendarYear).ToList(),
                 project.PerformanceMeasureActualYearsExemptionExplanation,
-                performanceMeasureReportedValues.Select(x => x.CalendarYear).Distinct().ToList());
+                performanceMeasureReportedValues.Select(x => x.CalendarYear).Distinct().ToList(),
+                false);
             return performanceMeasureReportedValuesGroupedViewData;
         }
 
