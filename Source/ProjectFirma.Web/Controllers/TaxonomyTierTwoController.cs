@@ -90,8 +90,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList();
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, taxonomyTierThrees);
 
-            var projectIDs = visibleProjectsForUser.Select(y => y.ProjectID).ToList();
-            var performanceMeasureChartViewDatas = taxonomyTierTwo.GetPerformanceMeasures().Select(x => new PerformanceMeasureChartViewData(x, true, ChartViewMode.Small, projectIDs)).ToList();
+            var performanceMeasureChartViewDatas = taxonomyTierTwo.GetPerformanceMeasures().Select(x => new PerformanceMeasureChartViewData(x, true, ChartViewMode.Small, null)).ToList();
 
             var viewData = new DetailViewData(CurrentPerson, taxonomyTierTwo, projectLocationsMapInitJson, projectLocationsMapViewData, performanceMeasureChartViewDatas);
             return RazorView<Summary, DetailViewData>(viewData);
