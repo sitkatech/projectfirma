@@ -98,11 +98,11 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <div class="alert alert-danger">There are currently no Options on this Subcategory.</div>
                                     </td>
                                 </tr>
-                                <tr ng-repeat="optionSimple in subcategorySimple.PerformanceMeasureSubcategoryOptions">
+                                <tr ng-repeat="optionSimple in subcategorySimple.PerformanceMeasureSubcategoryOptions | orderBy: 'SortOrder'">
                                     <td>
                                         <input type="hidden" value="{{optionSimple.PerformanceMeasureSubcategoryOptionID}}"
                                                name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].PerformanceMeasureSubcategoryOptionID" />
-                                        <input type="hidden" value="{{$index}}"
+                                        <input type="hidden" value="{{($index + 1) * 10}}"
                                                name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].SortOrder" />
                                         <a href="#" ng-show="!optionSimple.HasAssociatedActuals" ng-click="removeSubcategoryOption(subcategorySimple, optionSimple)">
                                             <i class="glyphicon glyphicon-trash" title="Remove Subcategory Option" alt="Remove Subcategory Option"></i>

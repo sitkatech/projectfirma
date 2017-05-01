@@ -209,7 +209,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var performanceMeasureSubcategory in ViewDataTyped.PerformanceMeasure.PerformanceMeasureSubcategories)
+                            @foreach (var performanceMeasureSubcategory in ViewDataTyped.PerformanceMeasure.PerformanceMeasureSubcategories.OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName))
                             {
                                 <tr>
                                     <td>@performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName</td>
