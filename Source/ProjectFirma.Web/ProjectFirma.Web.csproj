@@ -3146,7 +3146,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Libraries\Keystone.Common\Keystone.Common.csproj">
+    <ProjectReference Include="..\Keystone.Common\Keystone.Common.csproj">
       <Project>{8792E614-C20E-41D6-BDE4-BCB3178FC796}</Project>
       <Name>Keystone.Common</Name>
     </ProjectReference>
