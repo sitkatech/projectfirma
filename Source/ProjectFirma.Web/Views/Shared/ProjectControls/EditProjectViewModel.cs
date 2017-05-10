@@ -193,7 +193,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             if (HasExistingProjectUpdate && OldProjectStageID != ProjectStageID)
             {
                 errors.Add(
-                    new SitkaValidationResult<EditProjectViewModel, int?>(
+                    new SitkaValidationResult<EditProjectViewModel, int>(
                         "There are updates to this project that have not been submitted.<br />Making this change can potentially affect that update in process.<br />Please delete the update if you want to change this project's stage.",
                         m => m.ProjectStageID));
             }
