@@ -1,0 +1,4 @@
+alter table dbo.TenantAttribute add constraint FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_TenantID_FileResourceID_TenantID foreign key (TenantStyleSheetFileResourceID, TenantID) references dbo.FileResource(FileResourceID, TenantID)
+alter table dbo.TenantAttribute add constraint FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_TenantID_FileResourceID_TenantID foreign key (TenantSquareLogoFileResourceID, TenantID) references dbo.FileResource(FileResourceID, TenantID)
+alter table dbo.TenantAttribute add constraint FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_TenantID_FileResourceID_TenantID foreign key (TenantBannerLogoFileResourceID, TenantID) references dbo.FileResource(FileResourceID, TenantID)
+alter table dbo.TenantAttribute add constraint FK_TenantAttribute_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID foreign key (PrimaryContactPersonID, TenantID) references dbo.Person(PersonID, TenantID)
