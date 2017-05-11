@@ -1,0 +1,29 @@
+# /Batch/
+/Batch
+
+# /Build/
+/Build
+
+# /Database/
+/Database/Baseline
+/Database/Hotfixes
+/Database/PostReleaseScript
+/Database/ReleaseScript
+/Database/Utilities
+
+# /Source/
+/Source/Corral.v12.suo
+/Source/NuGetPackages
+/Source/ProjectFirma.sln.DotSettings
+/Source/ProjectFirma.sln.DotSettings.user
+
+# /Source/LtInfo.Common/
+/Source/LtInfo.Common/Lorax.Common.csproj.user
+/Source/LtInfo.Common/Lorax.Common.csproj.DotSettings.user
+
+# /Source/LtInfo.Common/HealthMonitor/
+
+# /Source/ProjectFirma.Web/
+/Source/ProjectFirma.Web/*.user
+/Source/ProjectFirma.Web/Web.config
+/Source/ProjectFirma.Web/Web.config.template
