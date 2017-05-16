@@ -4,9 +4,6 @@
 # /Build/
 /Build
 
-# /Database/
-/Database/Baseline
-
 # /Source/
 /Source/.vs/
 /Source/Corral.v12.suo
