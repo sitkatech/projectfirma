@@ -43,20 +43,6 @@ Source code is available upon request via <support@sitkatech.com>.
                     AngularModel: @Html.Raw(JObject.FromObject(Model)),
                     AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
                     };
-            }).directive("qtip", function($compile, $templateCache)
-            {
-                function link(scope, el, attr)
-                {
-                    var performanceMeasure = scope.text;
-                    ProjectFirma.Views.Methods.addHelpTooltipPopup(el, performanceMeasure.DisplayName, performanceMeasure.DefinitionAndGuidanceUrl, 800);
-                }
-
-                return {
-                    link: link,
-                    scope: {
-                        text: "=qtip"
-                    }
-                };
             });
 
             jQuery(document).ready(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
@@ -136,7 +122,7 @@ else
                         <span class="glyphicon glyphicon-trash blue" title="Remove row'" alt="Remove row" ng-click="deleteRow(performanceMeasureActualUpdate)" style="cursor: pointer"></span>
                     </td>
                     <td class="fit">
-                        <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get help on {{getPerformanceMeasureName(performanceMeasureActualUpdate)}}" data-qtip="getPerformanceMeasure(performanceMeasureActualUpdate.PerformanceMeasureID)"></span> <span ng-bind="getPerformanceMeasureName(performanceMeasureActualUpdate)"></span>
+                        <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get help on {{getPerformanceMeasureName(performanceMeasureActualUpdate)}}" data-pmqtip="getPerformanceMeasure(performanceMeasureActualUpdate.PerformanceMeasureID)"></span> <span ng-bind="getPerformanceMeasureName(performanceMeasureActualUpdate)"></span>
                     </td>
                     <td class="fit">
                         @Html.AngularDropdownListFor(x => x.PerformanceMeasureActualUpdates[0].CalendarYear, "performanceMeasureActualUpdate.CalendarYear", "calendarYear in filteredCalendarYears()", "{{calendarYear}}", "calendarYear", "calendarYear == performanceMeasureActualUpdate.CalendarYear", "-Year-", String.Empty, new { style = "width: 55px", data_uniqueid = "{{performanceMeasureActualUpdate.PerformanceMeasureActualUpdateID}}" })

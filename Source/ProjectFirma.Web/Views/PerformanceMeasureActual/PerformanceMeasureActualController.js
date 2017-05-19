@@ -131,13 +131,13 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
     };
 
     $scope.getMeasurementUnitTypeDisplayName = function (performanceMeasureActual) {
-        var MeasurementUnitTypeDisplayName = "";
+        var measurementUnitTypeDisplayName = "";
         var performanceMeasure = $scope.getPerformanceMeasure(performanceMeasureActual.PerformanceMeasureID);
         if (performanceMeasure != null)
         {
-            MeasurementUnitTypeDisplayName = performanceMeasure.MeasurementUnitTypeDisplayName;
+            measurementUnitTypeDisplayName = performanceMeasure.MeasurementUnitTypeDisplayName;
         }
-        return MeasurementUnitTypeDisplayName;
+        return measurementUnitTypeDisplayName;
     };
 
     $scope.filteredCalendarYears = function()

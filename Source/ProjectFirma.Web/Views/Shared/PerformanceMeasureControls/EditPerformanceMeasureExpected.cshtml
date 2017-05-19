@@ -26,7 +26,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <script type="text/javascript">
     // <![CDATA[
-
     jQuery(document).ready(function()
     {
         angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
@@ -34,20 +33,6 @@ Source code is available upon request via <support@sitkatech.com>.
             return {
                 AngularModel: @Html.Raw(JObject.FromObject(Model)),
                 AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
-            };
-        }).directive("qtip", function($compile, $templateCache)
-        {
-            function link(scope, el, attr)
-            {
-                var performanceMeasure = scope.text;
-                ProjectFirma.Views.Methods.addHelpTooltipPopup(el, performanceMeasure.DisplayName, performanceMeasure.DefinitionAndGuidanceUrl, 800);
-            }
-
-            return {
-                link: link,
-                scope: {
-                    text: "=qtip"
-                }
             };
         });
         angular.bootstrap(jQuery("#EditPerformanceMeasureExpectedsApp"), ["ProjectFirmaApp"]);
@@ -77,7 +62,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <span class="glyphicon glyphicon-trash blue" title="Remove row'" alt="Remove row" ng-click="deleteRow(performanceMeasureExpected)" style="cursor: pointer"></span>
             </td>
             <td>
-                <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get help on {{getPerformanceMeasureName(performanceMeasureExpected)}}" data-qtip="getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID)"></span>
+                <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get help on {{getPerformanceMeasureName(performanceMeasureExpected)}}" data-pmqtip="getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID)"></span>
                 <span ng-bind="getPerformanceMeasureName(performanceMeasureExpected)"></span>
             </td>
             <td style="white-space: nowrap">

@@ -134,13 +134,13 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedControll
     };
 
     $scope.getMeasurementUnitTypeDisplayName = function (performanceMeasureExpected) {
-        var MeasurementUnitTypeDisplayName = "";
+        var measurementUnitTypeDisplayName = "";
         var performanceMeasure = $scope.getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID);
         if (performanceMeasure != null)
         {
-            MeasurementUnitTypeDisplayName = performanceMeasure.MeasurementUnitTypeDisplayName;
+            measurementUnitTypeDisplayName = performanceMeasure.MeasurementUnitTypeDisplayName;
         }
-        return MeasurementUnitTypeDisplayName;
+        return measurementUnitTypeDisplayName;
     };
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
