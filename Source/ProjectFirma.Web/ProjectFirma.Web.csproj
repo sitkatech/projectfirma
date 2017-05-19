@@ -2324,7 +2324,6 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js.map" />
-    <Content Include="Content\ProjectTracker-Quickstart.pdf" />
     <Content Include="Content\Bootstrap\bootstrap-hover-dropdown.min.js.map" />
     <Content Include="Content\angular\directives\angular-nvd3.min.js.map" />
     <Content Include="Content\JQuery\jquery.blockUI.min.js.map">
