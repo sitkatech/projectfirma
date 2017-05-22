@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Models
 
         private static GoogleChartJson MakeGoogleChartJson(PerformanceMeasure performanceMeasure, PerformanceMeasureSubcategory performanceMeasureSubcategory, IEnumerable<PerformanceMeasureReportedValue> performanceMeasureReportedValues, IEnumerable<int> yearRange)
         {
-            var performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.ToDictionary(x => performanceMeasure.HasRealSubcategories ? x.ChartName : performanceMeasure.PerformanceMeasureDisplayName, x =>
+            var performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.OrderBy(x => x.SortOrder).ToDictionary(x => x, x =>
             {
                 var calendarYearReportedValuesDict =
                     performanceMeasureReportedValues.SelectMany(pmav => pmav.PerformanceMeasureActualSubcategoryOptions)
@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Models
         private static GoogleChartJson MakeGoogleChartJsonForPerformanceMeasureSubcategory(PerformanceMeasure performanceMeasure,
             IEnumerable<int> yearRange,
             PerformanceMeasureSubcategory performanceMeasureSubcategory,
-            Dictionary<string, IEnumerable<CalendarYearReportedValue>> performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues)
+            Dictionary<PerformanceMeasureSubcategoryOption, IEnumerable<CalendarYearReportedValue>> performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues)
         {
 
             var googleChartType = GoogleChartTypeExtension.ParseOrDefault(performanceMeasureSubcategory.ChartType);
@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Models
             return googleChartJson;
         }
 
-        private static GoogleChartDataTable GetGoogleChartDataTableForPerformanceMeasure(IEnumerable<int> yearRange, MeasurementUnitType measurementUnitType, GoogleChartType googleChartType, Dictionary<string, IEnumerable<CalendarYearReportedValue>> performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues)
+        private static GoogleChartDataTable GetGoogleChartDataTableForPerformanceMeasure(IEnumerable<int> yearRange, MeasurementUnitType measurementUnitType, GoogleChartType googleChartType, Dictionary<PerformanceMeasureSubcategoryOption, IEnumerable<CalendarYearReportedValue>> performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues)
         {
             var seriesChartType = googleChartType == GoogleChartType.ComboChart ? GoogleChartType.LineChart : googleChartType;
 
@@ -121,7 +121,7 @@ namespace ProjectFirma.Web.Models
             {
                 var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(year, year.ToString()) };
                 googleChartRowVs.AddRange(
-                    performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues.OrderBy(x => x.Key)
+                    performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues.OrderBy(x => x.Key.SortOrder)
                         .Select(x =>
                         {
                             //calendarYearReportedValue used to never be null, but commit 124877 changed flow so it can be null now, so catch null and return 0.
@@ -134,7 +134,7 @@ namespace ProjectFirma.Web.Models
             }
 
             var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn("Year", GoogleChartColumnDataType.String, seriesChartType) };
-            googleChartColumns.AddRange(performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues.OrderBy(x => x.Key).Select(x => new GoogleChartColumn(x.Key, GoogleChartColumnDataType.Number, seriesChartType)));
+            googleChartColumns.AddRange(performanceMeasureSubcategoryOptionsWithCalendarYearReportedValues.OrderBy(x => x.Key.SortOrder).Select(x => new GoogleChartColumn(x.Key.PerformanceMeasureSubcategory.PerformanceMeasure.HasRealSubcategories ? x.Key.ChartName : x.Key.PerformanceMeasureSubcategory.PerformanceMeasure.PerformanceMeasureDisplayName, GoogleChartColumnDataType.Number, seriesChartType)));
 
             return new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
         }

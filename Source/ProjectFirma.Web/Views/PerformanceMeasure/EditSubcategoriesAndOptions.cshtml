@@ -23,7 +23,6 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.PerformanceMeasure
 @inherits EditSubcategoriesAndOptions
 
-<script type="text/javascript" src="@Url.Content("~/Views/PerformanceMeasure/EditSubcategoriesAndOptionsController.js")"></script>
 <script type="text/javascript">
     // <![CDATA[
     angular.module("ProjectFirmaApp")
@@ -102,9 +101,15 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <td>
                                         <input type="hidden" value="{{optionSimple.PerformanceMeasureSubcategoryOptionID}}"
                                                name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].PerformanceMeasureSubcategoryOptionID" />
-                                        <input type="hidden" value="{{($index + 1) * 10}}"
+                                        <input type="hidden" value="{{optionSimple.SortOrder}}"
                                                name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].SortOrder" />
-                                        <a href="#" ng-show="!optionSimple.HasAssociatedActuals" ng-click="removeSubcategoryOption(subcategorySimple, optionSimple)">
+                                        <a href="javascript:void(0)" ng-show="$index > 0 && subcategorySimple.PerformanceMeasureSubcategoryOptions.length > 0" ng-click="moveSubcategoryUp(subcategorySimple, optionSimple)">
+                                            <i class="glyphicon glyphicon-arrow-up" title="Move Up" alt="Move Up"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" ng-show="$index < subcategorySimple.PerformanceMeasureSubcategoryOptions.length - 1 && subcategorySimple.PerformanceMeasureSubcategoryOptions.length > 0" ng-click="moveSubcategoryDown(subcategorySimple, optionSimple)">
+                                            <i class="glyphicon glyphicon-arrow-down" title="Move Down" alt="Move Down"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" ng-show="!optionSimple.HasAssociatedActuals" ng-click="removeSubcategoryOption(subcategorySimple, optionSimple)">
                                             <i class="glyphicon glyphicon-trash" title="Remove Subcategory Option" alt="Remove Subcategory Option"></i>
                                         </a>
                                     </td>

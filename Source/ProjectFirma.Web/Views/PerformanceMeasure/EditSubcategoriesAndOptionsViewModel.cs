@@ -55,8 +55,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 performanceMeasureSubcategory.PerformanceMeasure = performanceMeasure;
                 performanceMeasureSubcategory.PerformanceMeasureSubcategoryID = x.PerformanceMeasureSubcategoryID;
                 performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions =
-                    x.PerformanceMeasureSubcategoryOptions.Select(
-                        y =>
+                    x.PerformanceMeasureSubcategoryOptions.OrderBy(y => y.SortOrder).Select(
+                        (y, index) =>
                             new PerformanceMeasureSubcategoryOption(
                                 new PerformanceMeasureSubcategory(new Models.PerformanceMeasure(String.Empty, default(int), default(int), String.Empty), String.Empty),
                                 y.PerformanceMeasureSubcategoryOptionName)
@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                                     performanceMeasure.PerformanceMeasureSubcategories.SingleOrDefault(z => z.PerformanceMeasureSubcategoryID == x.PerformanceMeasureSubcategoryID),
                                 PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID,
                                 ShortName = y.ShortName,
-                                SortOrder = y.SortOrder
+                                SortOrder = index + 1
                             }).ToList();
                 return performanceMeasureSubcategory;
             }).ToList();

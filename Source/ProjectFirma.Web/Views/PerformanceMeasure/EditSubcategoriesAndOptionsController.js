@@ -63,7 +63,8 @@ angular.module("ProjectFirmaApp")
             {
                 subcategorySimple.PerformanceMeasureSubcategoryOptions.push({
                     PerformanceMeasureSubcategoryOptionID: $scope.nextOptionID--,
-                    HasAssociatedActuals: false
+                    HasAssociatedActuals: false,
+                    SortOrder: subcategorySimple.PerformanceMeasureSubcategoryOptions.length + 1
                 });
             }
 
@@ -105,6 +106,40 @@ angular.module("ProjectFirmaApp")
                     errors.push("Please specify a unique name for the subcategory.");
                 }
                 return errors;
+            }
+
+            $scope.moveSubcategoryUp = function (subcategorySimple, optionSimple) {
+                var subcategoryOptionsForThisPerformanceMeasureSubcategory = _.find($scope.AngularModel.PerformanceMeasureSubcategorySimples,
+                    function(x) {
+                        return x.PerformanceMeasureSubcategoryID === subcategorySimple.PerformanceMeasureSubcategoryID;
+                    }
+                ).PerformanceMeasureSubcategoryOptions;
+
+                var optionBeforeThis = _.chain(subcategoryOptionsForThisPerformanceMeasureSubcategory).filter(function(x) {
+                    return x.SortOrder < optionSimple.SortOrder;
+                }).sortBy(function (x) { return x.SortOrder; }).last().value();
+
+                if (optionBeforeThis != null) {
+                    optionBeforeThis.SortOrder++;
+                }
+                optionSimple.SortOrder--;
+            }
+
+            $scope.moveSubcategoryDown = function (subcategorySimple, optionSimple) {
+                var subcategoryOptionsForThisPerformanceMeasureSubcategory = _.find($scope.AngularModel.PerformanceMeasureSubcategorySimples,
+                    function (x) {
+                        return x.PerformanceMeasureSubcategoryID === subcategorySimple.PerformanceMeasureSubcategoryID;
+                    }
+                ).PerformanceMeasureSubcategoryOptions;
+
+                var optionAfterThis = _.chain(subcategoryOptionsForThisPerformanceMeasureSubcategory).filter(function (x) {
+                    return x.SortOrder > optionSimple.SortOrder;
+                }).sortBy(function(x) { return x.SortOrder; }).first().value();
+
+                if (optionAfterThis != null) {
+                    optionAfterThis.SortOrder--;
+                }
+                optionSimple.SortOrder++;
             }
 
             $scope.showOptionValidationWarnings = function(optionSimple)
