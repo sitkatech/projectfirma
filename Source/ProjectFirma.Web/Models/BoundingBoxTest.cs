@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Models
         [Test]
         public void CanCreateBoundingBoxFromGeoJson()
         {
-            var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(@"LTInfo\LTInfo.Common\GdalOgr\SampleFileGeodatabase.gdb.zip");
+            var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(@"LTInfo.Common\GdalOgr\SampleFileGeodatabase.gdb.zip");
             const string sourceLayerName = "MySampleFeatureClass";
             // Act
             // ---

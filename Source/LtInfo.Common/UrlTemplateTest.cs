@@ -87,7 +87,7 @@ namespace LtInfo.Common
         [Test]
         public void JavascriptAndCSharpConstantsAreTheSame()
         {
-            var sitkaJsFile = FileUtility.FirstMatchingFileUpDirectoryTree(@"Libraries\SitkaContent\JS\sitka.js");
+            var sitkaJsFile = FileUtility.FirstMatchingFileUpDirectoryTree(@"ProjectFirma.Web\ScriptsCustom\sitka.js");
             var sitkaJsFileContents = FileUtility.FileToString(sitkaJsFile);
 
             var allParameters = UrlTemplate.StringParameters.Union(UrlTemplate.IntParameters.Select(x => x.ToString())).ToList();
