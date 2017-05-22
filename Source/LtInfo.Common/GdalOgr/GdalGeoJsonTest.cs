@@ -31,7 +31,7 @@ namespace LtInfo.Common.GdalOgr
         [Test]
         public void CanReadColumnNamesFromGeoJsonString()
         {
-            var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(@"LTInfo\LTInfo.Common\GdalOgr\SampleFileGeodatabase.gdb.zip");
+            var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(@"LTInfo.Common\GdalOgr\SampleFileGeodatabase.gdb.zip");
             const string sourceLayerName = "MySampleFeatureClass";
 
             // Act
