@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Models
         public HtmlString FirmaPageContentHtmlString
         { 
             get { return FirmaPageContent == null ? null : new HtmlString(FirmaPageContent); }
-            set { FirmaPageContent = value == null ? null : value.ToString(); }
+            set { FirmaPageContent = value?.ToString(); }
         }
         public int PrimaryKey { get { return FirmaPageID; } set { FirmaPageID = value; } }
 

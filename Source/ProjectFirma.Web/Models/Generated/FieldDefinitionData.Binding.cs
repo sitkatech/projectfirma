@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Models
         public HtmlString FieldDefinitionDataValueHtmlString
         { 
             get { return FieldDefinitionDataValue == null ? null : new HtmlString(FieldDefinitionDataValue); }
-            set { FieldDefinitionDataValue = value == null ? null : value.ToString(); }
+            set { FieldDefinitionDataValue = value?.ToString(); }
         }
         public string FieldDefinitionLabel { get; set; }
         public int PrimaryKey { get { return FieldDefinitionDataID; } set { FieldDefinitionDataID = value; } }

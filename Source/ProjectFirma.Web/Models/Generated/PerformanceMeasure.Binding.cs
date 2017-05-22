@@ -116,14 +116,14 @@ namespace ProjectFirma.Web.Models
         public HtmlString CriticalDefinitionsHtmlString
         { 
             get { return CriticalDefinitions == null ? null : new HtmlString(CriticalDefinitions); }
-            set { CriticalDefinitions = value == null ? null : value.ToString(); }
+            set { CriticalDefinitions = value?.ToString(); }
         }
         [NotMapped]
         private string ProjectReporting { get; set; }
         public HtmlString ProjectReportingHtmlString
         { 
             get { return ProjectReporting == null ? null : new HtmlString(ProjectReporting); }
-            set { ProjectReporting = value == null ? null : value.ToString(); }
+            set { ProjectReporting = value?.ToString(); }
         }
         public string PerformanceMeasureDisplayName { get; set; }
         public int MeasurementUnitTypeID { get; set; }

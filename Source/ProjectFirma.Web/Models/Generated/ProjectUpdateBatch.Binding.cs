@@ -158,42 +158,42 @@ namespace ProjectFirma.Web.Models
         public HtmlString BasicsDiffLogHtmlString
         { 
             get { return BasicsDiffLog == null ? null : new HtmlString(BasicsDiffLog); }
-            set { BasicsDiffLog = value == null ? null : value.ToString(); }
+            set { BasicsDiffLog = value?.ToString(); }
         }
         [NotMapped]
         private string PerformanceMeasureDiffLog { get; set; }
         public HtmlString PerformanceMeasureDiffLogHtmlString
         { 
             get { return PerformanceMeasureDiffLog == null ? null : new HtmlString(PerformanceMeasureDiffLog); }
-            set { PerformanceMeasureDiffLog = value == null ? null : value.ToString(); }
+            set { PerformanceMeasureDiffLog = value?.ToString(); }
         }
         [NotMapped]
         private string ExpendituresDiffLog { get; set; }
         public HtmlString ExpendituresDiffLogHtmlString
         { 
             get { return ExpendituresDiffLog == null ? null : new HtmlString(ExpendituresDiffLog); }
-            set { ExpendituresDiffLog = value == null ? null : value.ToString(); }
+            set { ExpendituresDiffLog = value?.ToString(); }
         }
         [NotMapped]
         private string BudgetsDiffLog { get; set; }
         public HtmlString BudgetsDiffLogHtmlString
         { 
             get { return BudgetsDiffLog == null ? null : new HtmlString(BudgetsDiffLog); }
-            set { BudgetsDiffLog = value == null ? null : value.ToString(); }
+            set { BudgetsDiffLog = value?.ToString(); }
         }
         [NotMapped]
         private string ExternalLinksDiffLog { get; set; }
         public HtmlString ExternalLinksDiffLogHtmlString
         { 
             get { return ExternalLinksDiffLog == null ? null : new HtmlString(ExternalLinksDiffLog); }
-            set { ExternalLinksDiffLog = value == null ? null : value.ToString(); }
+            set { ExternalLinksDiffLog = value?.ToString(); }
         }
         [NotMapped]
         private string NotesDiffLog { get; set; }
         public HtmlString NotesDiffLogHtmlString
         { 
             get { return NotesDiffLog == null ? null : new HtmlString(NotesDiffLog); }
-            set { NotesDiffLog = value == null ? null : value.ToString(); }
+            set { NotesDiffLog = value?.ToString(); }
         }
         public int PrimaryKey { get { return ProjectUpdateBatchID; } set { ProjectUpdateBatchID = value; } }
 

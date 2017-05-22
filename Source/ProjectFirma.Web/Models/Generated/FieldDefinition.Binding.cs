@@ -119,7 +119,7 @@ namespace ProjectFirma.Web.Models
         public HtmlString DefaultDefinitionHtmlString
         { 
             get { return DefaultDefinition == null ? null : new HtmlString(DefaultDefinition); }
-            set { DefaultDefinition = value == null ? null : value.ToString(); }
+            set { DefaultDefinition = value?.ToString(); }
         }
         public int PrimaryKey { get { return FieldDefinitionID; } }
 
