@@ -67,9 +67,10 @@ Source code is available upon request via <support@sitkatech.com>.
             <th ng-show="hasAnySubcategories()">Subcategories</th>
             <th colspan="2" style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ReportedValue)</th>
         </tr>
-        <tr ng-repeat="performanceMeasureActual in AngularModel.PerformanceMeasureActuals | orderBy:['PerformanceMeasureID', 'CalendarYear', getProjectName]">
+        <tr ng-repeat="performanceMeasureActual in AngularModel.PerformanceMeasureActuals | orderBy:[getPerformanceMeasureName, 'CalendarYear', getProjectName]">
             <td>
-                <span class="glyphicon glyphicon-trash blue" title="Remove row'" alt="Remove row" ng-click="deleteRow(performanceMeasureActual)" style="cursor: pointer"></span></td>
+                <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(performanceMeasureActual)" style="cursor: pointer"></span>
+            </td>
             <td>
                 <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get help on {{getPerformanceMeasureName(performanceMeasureActual)}}" data-pmqtip="getPerformanceMeasure(performanceMeasureActual.PerformanceMeasureID)"></span>
                 <span ng-bind="getPerformanceMeasureName(performanceMeasureActual)"></span>

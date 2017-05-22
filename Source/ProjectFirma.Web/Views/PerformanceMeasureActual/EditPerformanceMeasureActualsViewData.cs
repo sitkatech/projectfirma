@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
         {
             ShowExemptYears = showExemptYears;
             ProjectID = project.ProjectID;
-            AllPerformanceMeasures = allPerformanceMeasures.Select(x => new PerformanceMeasureSimple(x)).OrderBy(p => p.PerformanceMeasureID).ToList();
+            AllPerformanceMeasures = allPerformanceMeasures.Select(x => new PerformanceMeasureSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var performanceMeasureSubcategories =
                 allPerformanceMeasures.SelectMany(x => x.PerformanceMeasureSubcategories).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureSubcategory>()).ToList();
             AllPerformanceMeasureSubcategories = performanceMeasureSubcategories.Select(x => new PerformanceMeasureSubcategorySimple(x)).ToList();

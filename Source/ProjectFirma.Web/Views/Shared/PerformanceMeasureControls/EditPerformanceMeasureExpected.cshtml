@@ -57,12 +57,12 @@ Source code is available upon request via <support@sitkatech.com>.
             <th ng-show="hasAnySubcategories()">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory)</th>
             <th colspan="2" style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ExpectedValue)</th>
         </tr>
-        <tr ng-repeat="performanceMeasureExpected in AngularModel.PerformanceMeasureExpecteds | orderBy:['DisplayName', 'CalendarYear', getProjectName]">
+        <tr ng-repeat="performanceMeasureExpected in AngularModel.PerformanceMeasureExpecteds | orderBy:[getPerformanceMeasureName, 'CalendarYear', getProjectName]">
             <td>
-                <span class="glyphicon glyphicon-trash blue" title="Remove row'" alt="Remove row" ng-click="deleteRow(performanceMeasureExpected)" style="cursor: pointer"></span>
+                <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(performanceMeasureExpected)" style="cursor: pointer"></span>
             </td>
             <td>
-                <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get help on {{getPerformanceMeasureName(performanceMeasureExpected)}}" data-pmqtip="getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID)"></span>
+                <span class="helpicon glyphicon glyphicon-question-sign" title="Click to get help on {{getPerformanceMeasureName(performanceMeasureExpected)}}" data-pmqtip="getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID)"></span>
                 <span ng-bind="getPerformanceMeasureName(performanceMeasureExpected)"></span>
             </td>
             <td style="white-space: nowrap">
