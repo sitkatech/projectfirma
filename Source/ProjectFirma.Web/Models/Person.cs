@@ -51,14 +51,6 @@ namespace ProjectFirma.Web.Models
             get { return PersonID == AnonymousPersonID; }
         }
 
-        public bool IsSitkaUser
-        {
-            get
-            {
-                return Email.Contains("@sitkatech.com") && HttpRequestStorage.Tenant != Tenant.SitkaTechnologyGroup;
-            }
-        }
-
         public string FullNameFirstLast
         {
             get { return String.Format("{0} {1}", FirstName, LastName); }

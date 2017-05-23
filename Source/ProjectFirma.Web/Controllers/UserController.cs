@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Person> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var persons = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => !x.IsSitkaUser && new UserViewFeature().HasPermission(CurrentPerson, x).HasPermission).OrderBy(x => x.FullNameLastFirst).ToList();
+            var persons = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => new UserViewFeature().HasPermission(CurrentPerson, x).HasPermission).OrderBy(x => x.FullNameLastFirst).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(persons, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -79,7 +79,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditRolesViewModel viewModel)
         {
-            var rolesAsSelectListItems = Role.All.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture), x => x.RoleDisplayName);
+            var roles = CurrentPerson.IsSitkaAdministrator() ? Role.All : Role.All.Except(new[] {Role.SitkaAdmin});
+            var rolesAsSelectListItems = roles.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture), x => x.RoleDisplayName);
             var viewData = new EditRolesViewData(rolesAsSelectListItems);
             return RazorPartialView<EditRoles, EditRolesViewData, EditRolesViewModel>(viewData, viewModel);
         }

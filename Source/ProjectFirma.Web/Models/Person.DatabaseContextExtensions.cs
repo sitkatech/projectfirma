@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<Person> GetActivePeople(this IQueryable<Person> people)
         {
-            return people.Where(x => x.IsActive).ToList().Where(x => !x.IsSitkaUser).OrderBy(ht => ht.FullNameLastFirst).ToList();
+            return people.Where(x => x.IsActive).ToList().OrderBy(ht => ht.FullNameLastFirst).ToList();
         }
 
         public static List<Person> GetPeopleWhoReceiveNotifications(this IQueryable<Person> people)
