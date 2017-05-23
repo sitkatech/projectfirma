@@ -7,7 +7,7 @@ values
 (2, 'About', 'About', 2),
 (3, 'Meetings and Documents', 'Meetings and Documents', 2),
 (4, 'DemoScript', 'Demo Script', 2),
-(5, 'FirmaCustomPage3', 'Firma Custom Page 3', 2),
+(5, 'InternalSetupNotes', 'Internal Setup Notes', 2),
 (6, 'FullProjectList', 'Full Project List', 1),
 (7, 'ActiveProjectsList', 'Active Projects List', 1),
 (9, 'PerformanceMeasuresList', 'Performance Measures List', 1),

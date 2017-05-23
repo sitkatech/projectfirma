@@ -138,11 +138,11 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [AnonymousUnclassifiedFeature]
-        public ActionResult FirmaCustomPage3()
+        [FirmaAdminFeature]
+        public ActionResult InternalSetupNotes()
         {
             var con = new HomeController { ControllerContext = ControllerContext };
-            return con.ViewPageContent(FirmaPageTypeEnum.FirmaCustomPage3);
+            return con.ViewPageContent(FirmaPageTypeEnum.InternalSetupNotes);
         }
     }
 }

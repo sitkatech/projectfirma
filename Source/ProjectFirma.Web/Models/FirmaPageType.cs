@@ -60,11 +60,11 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeFirmaCustomPage3
+    public partial class FirmaPageTypeInternalSetupNotes
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.FirmaCustomPage3());
+            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.InternalSetupNotes());
         }
     }
 
