@@ -25,14 +25,14 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <div class="container-fluid container-fluid-dialog-form" style="max-height: 600px; overflow-y: auto">
         <div class="row">
-            <div class="col-md-4 col-header">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureChartTitle)</div>
+            <div class="col-md-4">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureChartTitle)</div>
             <div class="col-md-7">
                 @Html.TextBoxFor(m => m.ChartTitle, new { style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.ChartTitle)
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4 col-header">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureChartCaption)</div>
+            <div class="col-md-4">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureChartCaption)</div>
             <div class="col-md-7">
                 @Html.TextAreaWithMaxLengthFor(m => m.ChartCaption, new TextAreaForExtensions.TextAreaDimensions(null, 6), null)
                 @Html.ValidationMessageFor(m => m.ChartCaption)
