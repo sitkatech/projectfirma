@@ -39,6 +39,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string TaxonomyTierOneDisplayName;
         public readonly string RefreshUrl;
         public readonly string DiffUrl;
+        public readonly string RequestPrimaryContactChangeUrl;
+
         public readonly Models.ProjectUpdate ProjectUpdate;
         public readonly SectionCommentsViewData SectionCommentsViewData;
         // ReSharper disable once InconsistentNaming
@@ -62,6 +64,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffBasics(Project));
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.BasicsComment, projectUpdate.ProjectUpdateBatch.IsReturned);            
             ViewDataForAngular = viewDataForAngular;
+            RequestPrimaryContactChangeUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestProjectPrimaryContactChange(projectUpdate.ProjectUpdateBatch.Project));
 
             InflationRate = inflationRate;
             CapitalCostInYearOfExpenditure = Models.CostParameterSet.CalculateCapitalCostInYearOfExpenditure(projectUpdate);

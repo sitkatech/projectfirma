@@ -80,6 +80,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public bool HasExistingProjectUpdate { get; set; }
         public int? OldProjectStageID { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.PrimaryContact)]
+        public int? PrimaryContactPersonID { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -104,6 +107,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             SecuredFunding = project.SecuredFunding;
             LeadImplementerOrganizationID = project.LeadImplementerOrganizationID;
             HasExistingProjectUpdate = hasExistingProjectUpdate;
+            PrimaryContactPersonID = project.PrimaryContactPersonID;
         }
 
         public EditProjectViewModel(Models.ProposedProject proposedProject)
@@ -134,6 +138,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             project.ImplementationStartYear = ImplementationStartYear;
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.CompletionYear = CompletionYear;
+            project.PrimaryContactPersonID = PrimaryContactPersonID;
 
             if (FundingTypeID == FundingType.Capital.FundingTypeID)
             {

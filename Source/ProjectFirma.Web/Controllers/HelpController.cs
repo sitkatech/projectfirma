@@ -151,5 +151,31 @@ namespace ProjectFirma.Web.Controllers
         {
             return Support(viewModel);
         }
+
+        [AnonymousUnclassifiedFeature]
+        [CrossAreaRoute]
+        [HttpGet]
+        public PartialViewResult RequestProjectPrimaryContactChange(ProjectPrimaryKey projectPrimaryKey)
+        {
+            return ViewSupport(SupportRequestTypeEnum.RequestProjectPrimaryContactChange, string.Empty);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        [CrossAreaRoute]
+        [HttpPost]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult RequestProjectPrimaryContactChange(ProjectPrimaryKey projectPrimaryKey, SupportFormViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewSupportImpl(viewModel, string.Empty);
+            }
+            var supportRequestLog = SupportRequestLog.Create(CurrentPerson);
+            viewModel.UpdateModel(supportRequestLog, CurrentPerson);
+            HttpRequestStorage.DatabaseEntities.AllSupportRequestLogs.Add(supportRequestLog);
+            supportRequestLog.SendMessage(Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, projectPrimaryKey.EntityObject);
+            SetMessageForDisplay("Support request sent.");
+            return new ModalDialogFormJsonResult();
+        }
     }
 }

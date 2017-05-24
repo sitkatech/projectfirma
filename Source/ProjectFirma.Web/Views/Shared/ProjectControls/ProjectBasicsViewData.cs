@@ -20,12 +20,14 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using LtInfo.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
     public class ProjectBasicsViewData
     {
         public readonly Models.Project Project;
+        public readonly Person PrimaryContactPerson;
         public readonly bool UserHasProjectBudgetManagePermissions;
         public readonly bool UserHasTaggingPermissions;
         public readonly ProjectBasicsCalculatedCosts ProjectBasicsCalculatedCosts;
@@ -35,6 +37,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public ProjectBasicsViewData(Models.Project project, bool userHasProjectBudgetManagePermissions, bool userHasTaggingPermissions, ProjectBasicsTagsViewData projectBasicsTagsViewData)
         {
             Project = project;
+            PrimaryContactPerson = project.GetPrimaryContact();
             UserHasProjectBudgetManagePermissions = userHasProjectBudgetManagePermissions;
             UserHasTaggingPermissions = userHasTaggingPermissions;
             ProjectBasicsTagsViewData = projectBasicsTagsViewData;

@@ -1,0 +1,2 @@
+alter table dbo.Project add PrimaryContactPersonID int null
+alter table dbo.Project add constraint FK_Project_Person_PrimaryContactPersonID_PersonID foreign key (PrimaryContactPersonID) references dbo.Person (PersonID)

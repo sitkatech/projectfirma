@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID) : this()
+        public Project(int projectID, int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int? primaryContactPersonID) : this()
         {
             this.ProjectID = projectID;
             this.TaxonomyTierOneID = taxonomyTierOneID;
@@ -69,6 +69,7 @@ namespace ProjectFirma.Web.Models
             this.ProjectLocationSimpleTypeID = projectLocationSimpleTypeID;
             this.EstimatedAnnualOperatingCost = estimatedAnnualOperatingCost;
             this.FundingTypeID = fundingTypeID;
+            this.PrimaryContactPersonID = primaryContactPersonID;
         }
 
         /// <summary>
@@ -148,6 +149,7 @@ namespace ProjectFirma.Web.Models
         public int ProjectLocationSimpleTypeID { get; set; }
         public decimal? EstimatedAnnualOperatingCost { get; set; }
         public int FundingTypeID { get; set; }
+        public int? PrimaryContactPersonID { get; set; }
         public int PrimaryKey { get { return ProjectID; } set { ProjectID = value; } }
 
         public virtual ICollection<NotificationProject> NotificationProjects { get; set; }
@@ -177,6 +179,7 @@ namespace ProjectFirma.Web.Models
         public virtual ProjectLocationArea ProjectLocationArea { get; set; }
         public ProjectLocationSimpleType ProjectLocationSimpleType { get { return ProjectLocationSimpleType.AllLookupDictionary[ProjectLocationSimpleTypeID]; } }
         public FundingType FundingType { get { return FundingType.AllLookupDictionary[FundingTypeID]; } }
+        public virtual Person PrimaryContactPerson { get; set; }
 
         public static class FieldLengths
         {

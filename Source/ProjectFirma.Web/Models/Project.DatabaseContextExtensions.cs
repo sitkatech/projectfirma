@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<Person> GetPrimaryContactPeople(this IList<Project> projects)
         {
-            return projects.Where(x => x.PrimaryContactPerson != null).Select(x => x.PrimaryContactPerson).Distinct(new HavePrimaryKeyComparer<Person>()).ToList();
+            return projects.Where(x => x.GetPrimaryContact() != null).Select(x => x.GetPrimaryContact()).Distinct(new HavePrimaryKeyComparer<Person>()).ToList();
         }
 
         public static List<Project> GetProjectFindResultsForProjectNameAndDescriptionAndNumber(this IQueryable<Project> projects, string projectKeyword)

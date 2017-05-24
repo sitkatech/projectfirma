@@ -24,7 +24,6 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using Keystone.Common;
 using LtInfo.Common;
-using MoreLinq;
 
 namespace ProjectFirma.Web.Models
 {
@@ -75,7 +74,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public List<Project> GetPrimaryContactProjects()
         {
-            return HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(p => p.PrimaryContactPerson != null && p.PrimaryContactPerson.PersonID == PersonID).ToList();
+            return HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(p => p.GetPrimaryContact() != null && p.GetPrimaryContact().PersonID == PersonID).ToList();
         }
 
         public List<Project> GetPrimaryContactUpdatableProjects()
@@ -110,7 +109,7 @@ namespace ProjectFirma.Web.Models
 
             if (notifications.Count == 0)
                 return null;
-            return notifications.MaxBy(y => y.NotificationDate);
+            return notifications.OrderByDescending(y => y.NotificationDate).First();
         }
 
         /// <summary>

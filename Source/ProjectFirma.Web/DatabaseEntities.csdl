@@ -404,6 +404,10 @@
       <End Role="PerformanceMeasureSubcategoryOption" EntitySet="PerformanceMeasureSubcategoryOption" />
       <End Role="SnapshotPerformanceMeasureSubcategoryOptions" EntitySet="SnapshotPerformanceMeasureSubcategoryOption" />
     </AssociationSet>
+    <AssociationSet Name="FK_Project_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.FK_Project_Person_PrimaryContactPersonID_PersonID">
+      <End Role="PrimaryContactPerson" EntitySet="Person" />
+      <End Role="ProjectsWhereYouAreThePrimaryContactPerson" EntitySet="Project" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectLocationStaging_Person_PersonID" Association="ProjectFirma.Web.Models.FK_ProjectLocationStaging_Person_PersonID">
       <End Role="Person" EntitySet="Person" />
       <End Role="ProjectLocationStagings" EntitySet="ProjectLocationStaging" />
@@ -1220,6 +1224,7 @@
     <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_Person_Organization_OrganizationID" FromRole="People" ToRole="Organization" />
     <NavigationProperty Name="PerformanceMeasureNotesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="PerformanceMeasureNotesWhereYouAreTheCreatePerson" />
     <NavigationProperty Name="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureNote_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="PerformanceMeasureNotesWhereYouAreTheUpdatePerson" />
+    <NavigationProperty Name="ProjectsWhereYouAreThePrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_Project_Person_PrimaryContactPersonID_PersonID" FromRole="PrimaryContactPerson" ToRole="ProjectsWhereYouAreThePrimaryContactPerson" />
     <NavigationProperty Name="ProjectLocationStagings" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationStaging_Person_PersonID" FromRole="Person" ToRole="ProjectLocationStagings" />
     <NavigationProperty Name="ProjectLocationStagingUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationStagingUpdate_Person_PersonID" FromRole="Person" ToRole="ProjectLocationStagingUpdates" />
     <NavigationProperty Name="ProjectNotesWhereYouAreTheCreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNote_Person_CreatePersonID_PersonID" FromRole="CreatePerson" ToRole="ProjectNotesWhereYouAreTheCreatePerson" />
@@ -1259,9 +1264,11 @@
     <Property Name="ProjectLocationSimpleTypeID" Type="Int32" Nullable="false" />
     <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="18" Scale="0" />
     <Property Name="FundingTypeID" Type="Int32" Nullable="false" />
+    <Property Name="PrimaryContactPersonID" Type="Int32" />
     <NavigationProperty Name="NotificationProjects" Relationship="ProjectFirma.Web.Models.FK_NotificationProject_Project_ProjectID" FromRole="Project" ToRole="NotificationProjects" />
     <NavigationProperty Name="PerformanceMeasureActuals" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_Project_ProjectID" FromRole="Project" ToRole="PerformanceMeasureActuals" />
     <NavigationProperty Name="PerformanceMeasureExpecteds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpected_Project_ProjectID" FromRole="Project" ToRole="PerformanceMeasureExpecteds" />
+    <NavigationProperty Name="PrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_Project_Person_PrimaryContactPersonID_PersonID" FromRole="ProjectsWhereYouAreThePrimaryContactPerson" ToRole="PrimaryContactPerson" />
     <NavigationProperty Name="ProjectLocationArea" Relationship="ProjectFirma.Web.Models.FK_Project_ProjectLocationArea_ProjectLocationAreaID" FromRole="Projects" ToRole="ProjectLocationArea" />
     <NavigationProperty Name="TaxonomyTierOne" Relationship="ProjectFirma.Web.Models.FK_Project_TaxonomyTierOne_TaxonomyTierOneID" FromRole="Projects" ToRole="TaxonomyTierOne" />
     <NavigationProperty Name="ProjectAssessmentQuestions" Relationship="ProjectFirma.Web.Models.FK_ProjectAssessmentQuestion_Project_ProjectID" FromRole="Project" ToRole="ProjectAssessmentQuestions" />
@@ -2953,6 +2960,18 @@
       </Principal>
       <Dependent Role="SnapshotPerformanceMeasureSubcategoryOptions">
         <PropertyRef Name="PerformanceMeasureSubcategoryOptionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Project_Person_PrimaryContactPersonID_PersonID">
+    <End Role="PrimaryContactPerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="0..1" />
+    <End Role="ProjectsWhereYouAreThePrimaryContactPerson" Type="ProjectFirma.Web.Models.Project" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PrimaryContactPerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProjectsWhereYouAreThePrimaryContactPerson">
+        <PropertyRef Name="PrimaryContactPersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -26,10 +26,10 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <div class="form-horizontal">
         <div class="form-group">
-            <div class="col-sm-2 control-label">
+            <div class="col-sm-3 control-label">
                 @Html.LabelWithSugarFor(x => x.RequestPersonName)
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 @if (ViewDataTyped.IsUserAnonymous)
                 {
                     @Html.TextBoxFor(x => x.RequestPersonName, new { style = "width:100%" })
@@ -43,10 +43,10 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-2 control-label">
+            <div class="col-sm-3 control-label">
                 @Html.LabelWithSugarFor(x => x.RequestPersonEmail)
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 @if (ViewDataTyped.IsUserAnonymous)
                 {
                     @Html.TextBoxFor(x => x.RequestPersonEmail, new { style = "width:100%" })
@@ -60,35 +60,35 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-2 control-label">
+            <div class="col-sm-3 control-label">
                 @Html.LabelWithSugarFor(x => x.RequestPersonOrganization) (optional)
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 @Html.TextBoxFor(x => x.RequestPersonOrganization, new { style = "width:100%" })
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-2 control-label">
+            <div class="col-sm-3 control-label">
                 @Html.LabelWithSugarFor(x => x.RequestPersonPhone) (optional)
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 @Html.TextBoxFor(x => x.RequestPersonPhone)
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-2 control-label">
+            <div class="col-sm-3 control-label">
                 @Html.LabelWithSugarFor(x => x.SupportRequestTypeEnum)
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 @Html.DropDownListFor(x => x.SupportRequestTypeEnum, ViewDataTyped.SupportRequestTypes, new { style = "width:100%" })
                 @Html.ValidationMessageFor(x => x.SupportRequestTypeEnum)
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-2 control-label">
+            <div class="col-sm-3 control-label">
                 @Html.LabelWithSugarFor(x => x.RequestDescription)
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 @Html.TextAreaWithMaxLengthFor(x => x.RequestDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null)
                 @Html.ValidationMessageFor(x => x.RequestDescription)
             </div>

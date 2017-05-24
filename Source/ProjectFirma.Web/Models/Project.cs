@@ -118,11 +118,7 @@ namespace ProjectFirma.Web.Models
             get { return ProjectStage.IsOnActiveProjectsList(); }
         }
 
-        public Person PrimaryContactPerson
-        {
-            // Primary Contact could very well turn out to be null
-            get { return LeadImplementer != null ? (LeadImplementer.PrimaryContactPerson) : null; }
-        }
+        public Person GetPrimaryContact() => PrimaryContactPerson ?? LeadImplementer?.PrimaryContactPerson;
 
         public decimal? UnfundedNeed
         {
@@ -330,7 +326,12 @@ namespace ProjectFirma.Web.Models
 
         public bool IsPersonThePrimaryContact(Person person)
         {
-            return PrimaryContactPerson != null && person != null && person.PersonID == PrimaryContactPerson.PersonID;
+            if (person == null)
+            {
+                return false;
+            }
+            var primaryContactPerson = GetPrimaryContact();
+            return person.PersonID == primaryContactPerson?.PersonID;
         }
 
         public bool DoesPersonBelongToProjectLeadImplementingOranization(Person person)

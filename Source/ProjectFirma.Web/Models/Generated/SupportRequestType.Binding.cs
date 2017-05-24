@@ -25,6 +25,7 @@ namespace ProjectFirma.Web.Models
         public static readonly SupportRequestTypeProvideFeedback ProvideFeedback = SupportRequestTypeProvideFeedback.Instance;
         public static readonly SupportRequestTypeRequestOrganizationNameChange RequestOrganizationNameChange = SupportRequestTypeRequestOrganizationNameChange.Instance;
         public static readonly SupportRequestTypeOther Other = SupportRequestTypeOther.Instance;
+        public static readonly SupportRequestTypeRequestProjectPrimaryContactChange RequestProjectPrimaryContactChange = SupportRequestTypeRequestProjectPrimaryContactChange.Instance;
 
         public static readonly List<SupportRequestType> All;
         public static readonly ReadOnlyDictionary<int, SupportRequestType> AllLookupDictionary;
@@ -34,7 +35,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static SupportRequestType()
         {
-            All = new List<SupportRequestType> { ReportBug, HelpWithProjectUpdate, ForgotLoginInfo, NewOrganizationOrFundingSource, ProvideFeedback, RequestOrganizationNameChange, Other };
+            All = new List<SupportRequestType> { ReportBug, HelpWithProjectUpdate, ForgotLoginInfo, NewOrganizationOrFundingSource, ProvideFeedback, RequestOrganizationNameChange, Other, RequestProjectPrimaryContactChange };
             AllLookupDictionary = new ReadOnlyDictionary<int, SupportRequestType>(All.ToDictionary(x => x.SupportRequestTypeID));
         }
 
@@ -119,6 +120,8 @@ namespace ProjectFirma.Web.Models
                     return ReportBug;
                 case SupportRequestTypeEnum.RequestOrganizationNameChange:
                     return RequestOrganizationNameChange;
+                case SupportRequestTypeEnum.RequestProjectPrimaryContactChange:
+                    return RequestProjectPrimaryContactChange;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -133,7 +136,8 @@ namespace ProjectFirma.Web.Models
         NewOrganizationOrFundingSource = 4,
         ProvideFeedback = 5,
         RequestOrganizationNameChange = 6,
-        Other = 7
+        Other = 7,
+        RequestProjectPrimaryContactChange = 8
     }
 
     public partial class SupportRequestTypeReportBug : SupportRequestType
@@ -176,5 +180,11 @@ namespace ProjectFirma.Web.Models
     {
         private SupportRequestTypeOther(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder) {}
         public static readonly SupportRequestTypeOther Instance = new SupportRequestTypeOther(7, @"Other", @"Other", 100);
+    }
+
+    public partial class SupportRequestTypeRequestProjectPrimaryContactChange : SupportRequestType
+    {
+        private SupportRequestTypeRequestProjectPrimaryContactChange(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder) {}
+        public static readonly SupportRequestTypeRequestProjectPrimaryContactChange Instance = new SupportRequestTypeRequestProjectPrimaryContactChange(8, @"RequestProjectPrimaryContactChange", @"Request a change to a Project's primary contact", 10);
     }
 }

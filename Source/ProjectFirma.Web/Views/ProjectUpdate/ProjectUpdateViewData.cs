@@ -47,6 +47,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly ProjectUpdateSectionEnum SelectedProjectUpdateSection;
         public readonly ProjectUpdateBatch ProjectUpdateBatch;
         public readonly Models.Project Project;
+        public readonly Person PrimaryContactPerson;
         public readonly string ProjectUpdateMyProjectsUrl;
         public readonly string ProjectUpdateInstructionsUrl;
         public readonly string ProjectUpdateBasicsUrl;
@@ -75,7 +76,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
             SelectedProjectUpdateSection = selectedProjectUpdateSection;
             ProjectUpdateBatch = projectUpdateBatch;
-            Project = ProjectUpdateBatch.Project;
+            Project = projectUpdateBatch.Project;
+            PrimaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
             HtmlPageTitle += " - Project Updates";
             EntityName = string.Format("Project Update for Reporting Year: {0}", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
             PageTitle = Project.DisplayName;

@@ -52,6 +52,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string ClassificationDisplayNamePluralized;
 
         public readonly string TaxonomyTierOneDisplayName;
+        public readonly Person PrimaryContactPerson;
 
         public FactSheetViewData(Person currentPerson, Models.Project project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, List<string> chartColorRange) : base(currentPerson, project)
         {
@@ -122,6 +123,7 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyTierTwoName = project.TaxonomyTierOne == null ? "Project Taxonomy Not Set" : project.TaxonomyTierOne.TaxonomyTierTwo.DisplayName;
             TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
             ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
+            PrimaryContactPerson = project.GetPrimaryContact();
         }
 
         public HtmlString LegendHTML

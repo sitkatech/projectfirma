@@ -368,7 +368,7 @@ namespace ProjectFirma.Web.Models
 
             // Make sure the user WAS NOT already primary contact. That would indicate confusion or misuse.
             Assert.That(user.OrganizationID != organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg.OrganizationID);
-            Assert.That(project.PrimaryContactPerson == null);
+            Assert.That(project.GetPrimaryContact() == null);
 
             organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg.PrimaryContactPerson = user;
             organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg.PrimaryContactPersonID = user.PersonID;

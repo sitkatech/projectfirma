@@ -108,7 +108,7 @@ Thank you,<br />
         {
             var latestProjectUpdateHistorySubmitted = projectUpdateBatch.LatestProjectUpdateHistorySubmitted;
             var submitterPerson = latestProjectUpdateHistorySubmitted.UpdatePerson;
-            var primaryContactPerson = projectUpdateBatch.Project.PrimaryContactPerson;
+            var primaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
 
             var notificationPeople = new List<Person> { submitterPerson };
             if (primaryContactPerson != null && submitterPerson.PersonID != primaryContactPerson.PersonID)
@@ -147,7 +147,7 @@ Thank you,<br />
             var latestProjectUpdateHistorySubmitted = projectUpdateBatch.LatestProjectUpdateHistorySubmitted;
             var submitterPerson = latestProjectUpdateHistorySubmitted.UpdatePerson;
             var submitterEmails = new List<string> { submitterPerson.Email };
-            var primaryContactPerson = projectUpdateBatch.Project.PrimaryContactPerson;
+            var primaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
             if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
             {
                 submitterEmails.Add(primaryContactPerson.Email);
@@ -167,7 +167,7 @@ Thank you,<br />
             var emailsToSendTo = new List<string> { submitterPerson.Email };
 
             var personNames = submitterPerson.FullNameFirstLast;
-            var primaryContactPerson = projectUpdateBatch.Project.PrimaryContactPerson;
+            var primaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
             if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
             {
                 emailsToSendTo.Add(primaryContactPerson.Email);
@@ -193,7 +193,7 @@ Thank you,<br />
             var emailsToSendTo = new List<string> { submitterPerson.Email };
 
             var personNames = submitterPerson.FullNameFirstLast;
-            var primaryContactPerson = projectUpdateBatch.Project.PrimaryContactPerson;
+            var primaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
             if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
             {
                 emailsToSendTo.Add(primaryContactPerson.Email);

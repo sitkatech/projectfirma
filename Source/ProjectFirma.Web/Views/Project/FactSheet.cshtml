@@ -280,10 +280,10 @@ Source code is available upon request via <support@sitkatech.com>.
                     <tr>
                         <th>Primary Contact:</th>
                         <td>
-                            @if (ViewDataTyped.Project.PrimaryContactPerson != null)
+                            @if (ViewDataTyped.PrimaryContactPerson != null)
                             {
                                 <span>
-                                    @ViewDataTyped.Project.PrimaryContactPerson.FullNameFirstLast (@ViewDataTyped.Project.PrimaryContactPerson.Email)
+                                    @ViewDataTyped.PrimaryContactPerson.FullNameFirstLast (@ViewDataTyped.PrimaryContactPerson.Email)
                                 </span>
                             }
                             else

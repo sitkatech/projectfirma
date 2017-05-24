@@ -262,14 +262,20 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)
             </div>
             <div class="col-md-9">
-                @if (ViewDataTyped.Project.PrimaryContactPerson != null)
+                @if (ViewDataTyped.PrimaryContactPerson != null)
                 {
-                    <a href="@ViewDataTyped.Project.PrimaryContactPerson.GetDetailUrl()" target="_blank">@ViewDataTyped.Project.PrimaryContactPerson.FullNameFirstLast</a>
-                    if (ViewDataTyped.Project.PrimaryContactPerson.Organization != null)
+                    <a href="@ViewDataTyped.PrimaryContactPerson.GetDetailUrl()" target="_blank">@ViewDataTyped.PrimaryContactPerson.FullNameFirstLast</a>
+                    if (ViewDataTyped.PrimaryContactPerson.Organization != null)
                     {
                         <span>-</span>
-                        <a href="@ViewDataTyped.Project.PrimaryContactPerson.Organization.GetDetailUrl()" target="_blank">@ViewDataTyped.Project.PrimaryContactPerson.Organization.DisplayName</a>
+                        <a href="@ViewDataTyped.PrimaryContactPerson.Organization.GetDetailUrl()" target="_blank">@ViewDataTyped.PrimaryContactPerson.Organization.DisplayName</a>
                     }
+
+                    <div>
+                        <i>If this user is not the primary contact for this project please 
+                            @ModalDialogFormHelper.ModalDialogFormLink("contact support", ViewDataTyped.RequestPrimaryContactChangeUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)    
+                        </i>
+                    </div>
                 }
             </div>
         </div>

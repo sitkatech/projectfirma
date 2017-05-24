@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var latestNotApprovedUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             var viewModel = new EditProjectViewModel(project, latestNotApprovedUpdateBatch != null);
-            return ViewEdit(viewModel, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, latestNotApprovedUpdateBatch);
+            return ViewEdit(viewModel, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, latestNotApprovedUpdateBatch, project.LeadImplementer);
         }
 
         [HttpPost]
@@ -101,7 +101,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, project.GetLatestNotApprovedUpdateBatch());
+                return ViewEdit(viewModel, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, project.GetLatestNotApprovedUpdateBatch(), project.LeadImplementer);
             }
             viewModel.UpdateModel(project);
             return new ModalDialogFormJsonResult();
@@ -109,18 +109,23 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewNew(EditProjectViewModel viewModel)
         {
-            return ViewEdit(viewModel, EditProjectType.NewProject, string.Empty, null, null);
+            return ViewEdit(viewModel, EditProjectType.NewProject, string.Empty, null, null, null);
         }
 
-        private PartialViewResult ViewEdit(EditProjectViewModel viewModel, EditProjectType editProjectType, string taxonomyTierOneDisplayName, decimal? totalExpenditures, ProjectUpdateBatch projectUpdateBatch)
+        private PartialViewResult ViewEdit(EditProjectViewModel viewModel, EditProjectType editProjectType, string taxonomyTierOneDisplayName, decimal? totalExpenditures, ProjectUpdateBatch projectUpdateBatch, Organization leadImplementer)
         {
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var hasExistingProjectUpdate = projectUpdateBatch != null;
             var hasExistingProjectBudgetUpdates = hasExistingProjectUpdate && projectUpdateBatch.ProjectBudgetUpdates.Any();
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes.ToList().OrderBy(ap => ap.DisplayName).ToList();
+            var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
             var viewData = new EditProjectViewData(editProjectType,
                 taxonomyTierOneDisplayName,
-                ProjectStage.All, FundingType.All, organizations, totalExpenditures, hasExistingProjectBudgetUpdates, taxonomyTierOnes);
+                ProjectStage.All, FundingType.All, organizations,
+                primaryContactPeople,
+                totalExpenditures, hasExistingProjectBudgetUpdates,
+                taxonomyTierOnes, leadImplementer
+            );
             return RazorPartialView<EditProject, EditProjectViewData, EditProjectViewModel>(viewData, viewModel);
         }
 

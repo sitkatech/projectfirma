@@ -25,6 +25,7 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common.Mvc;
+using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
@@ -36,19 +37,22 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public readonly IEnumerable<SelectListItem> ProjectStages;
         public readonly IEnumerable<SelectListItem> FundingTypes;
         public readonly IEnumerable<SelectListItem> Organizations;
+        public readonly IEnumerable<Person> PrimaryContactPeople;
         public readonly EditProjectType EditProjectType;
         public readonly string TaxonomyTierOneDisplayName;
         public readonly decimal? TotalExpenditures;
         public readonly bool HasExistingProjectBudgetUpdates;
+        public readonly string LeadImplementerPrimaryContact;
 
         public EditProjectViewData(EditProjectType editProjectType,
             string taxonomyTierOneDisplayName,
             IEnumerable<ProjectStage> projectStages,
             IEnumerable<FundingType> fundingTypes,
             IEnumerable<Models.Organization> organizations,
+            IEnumerable<Models.Person> primaryContactPeople,
             decimal? totalExpenditures,
             bool hasExistingProjectBudgetUpdates,
-            List<Models.TaxonomyTierOne> taxonomyTierOnes)
+            List<Models.TaxonomyTierOne> taxonomyTierOnes, Models.Organization leadImplementer)
         {
             EditProjectType = editProjectType;
             TaxonomyTierOneDisplayName = taxonomyTierOneDisplayName;
@@ -56,10 +60,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             ProjectStages = projectStages.OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
             FundingTypes = fundingTypes.OrderBy(x => x.SortOrder).ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             Organizations = organizations.ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), y => y.DisplayName);
+            PrimaryContactPeople = primaryContactPeople;
             TaxonomyTierOnes = taxonomyTierOnes.ToGroupedSelectList();
             StartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.ToString(CultureInfo.InvariantCulture));
             HasExistingProjectBudgetUpdates = hasExistingProjectBudgetUpdates;
+            LeadImplementerPrimaryContact = leadImplementer?.PrimaryContactPerson != null ? leadImplementer.PrimaryContactPerson.FullNameFirstLastAndOrg : ViewUtilities.NoneString;
         }
     }
 }
