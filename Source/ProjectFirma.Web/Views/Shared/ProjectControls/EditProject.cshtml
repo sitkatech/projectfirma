@@ -104,7 +104,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="col-md-3">@Html.LabelWithSugarFor(m => m.PrimaryContactPersonID)</div>
                 <div class="col-md-9">
                     <select name="@Html.NameFor(m => m.PrimaryContactPersonID)" id="@Html.IdFor(m => m.PrimaryContactPersonID)">
-                        <option value="">Use lead implementer's primary contact: @ViewDataTyped.LeadImplementerPrimaryContact</option>
+                        <option value="">Use Lead Implementer's Primary Contact: @ViewDataTyped.LeadImplementerPrimaryContact</option>
                         @foreach (var person in ViewDataTyped.PrimaryContactPeople)
                         {
                             <option value="@person.PersonID" @((Model.PrimaryContactPersonID == person.PersonID).ToSelectedOrEmpty())>
@@ -207,7 +207,7 @@ Source code is available upon request via <support@sitkatech.com>.
             });
         jQuery("#@Html.IdFor(x => x.PrimaryContactPersonID)").selectpicker(
             {
-                size: 12, liveSearch: true, width: 'auto'
+                size: 12, liveSearch: true, width: 'auto', liveSearchPlaceholder: 'Search for a user by name or organization', size: 5, dropupAuto: false
             });
     });
     // ]]>
