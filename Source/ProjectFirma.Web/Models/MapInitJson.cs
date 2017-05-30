@@ -18,8 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using System.Linq;
+using GeoJSON.Net.Feature;
+using LtInfo.Common.GeoJson;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
@@ -70,6 +73,20 @@ namespace ProjectFirma.Web.Models
                 new LayerGeoJson("Project Location - Simple", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show),
                 new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show)
             };
+            return layerGeoJsons;
+        }
+
+        public static List<LayerGeoJson> GetWatershedMapLayersAndProjectLocationSimple(IProject project)
+        {
+            var layerGeoJsons = GetWatershedMapLayers();
+            if (project.ProjectLocationPoint != null)
+            {
+                var projectLocationSimpleFeatureCollection = new FeatureCollection();
+                projectLocationSimpleFeatureCollection.Features.Add(
+                    DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint));
+                layerGeoJsons.Add(new LayerGeoJson("Project Location - Simple", projectLocationSimpleFeatureCollection,
+                    "red", 1, LayerInitialVisibility.Show));
+            }
             return layerGeoJsons;
         }
     }

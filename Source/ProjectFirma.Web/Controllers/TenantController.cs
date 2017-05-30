@@ -54,11 +54,12 @@ namespace ProjectFirma.Web.Controllers
                 FirmaHelpers.DefaultColorRange[0],
                 0.8m,
                 LayerInitialVisibility.Show);
-            var layers = new List<LayerGeoJson> {boundingBoxLayer};
+            var layers = MapInitJson.GetWatershedMapLayers();
+            layers.Add(boundingBoxLayer);
             var mapInitJson = new MapInitJson("TenantDetailBoundingBoxMap",
                 10,
                 layers,
-                BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers));
+                BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
             var gridSpec = new DetailGridSpec { ObjectNameSingular = "Tenant", ObjectNamePlural = "Tenants", SaveFiltersInCookie = true };
             var gridName = "Tenants";
             var gridDataUrl = new SitkaRoute<TenantController>(c => c.DetailGridJsonData()).BuildUrlFromExpression();
@@ -153,7 +154,7 @@ namespace ProjectFirma.Web.Controllers
                 FirmaHelpers.DefaultColorRange[0],
                 0.8m,
                 LayerInitialVisibility.Show);
-            var mapInitJson = new MapInitJson("TenantEditBoundingBoxMap", 10, new List<LayerGeoJson>(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
+            var mapInitJson = new MapInitJson("TenantEditBoundingBoxMap", 10, MapInitJson.GetWatershedMapLayers(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
             var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox()).BuildUrlFromExpression();
 
             var viewData = new EditBoundingBoxViewData(mapInitJson, editBoundingBoxUrl, EditBoundingBoxFormID);
