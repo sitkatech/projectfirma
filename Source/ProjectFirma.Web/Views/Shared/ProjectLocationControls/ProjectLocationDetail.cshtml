@@ -48,6 +48,13 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 500px">
 </div>
+@if (ViewDataTyped.HasProjectLocationPoint)
+{
+    <div>
+        <img style="margin-top: 10px; margin-right: 5px;" src="@ViewDataTyped.SimplePointMarkerImg"> Simple Location (for reference)
+    </div>
+}
+
 
 <script type="text/javascript">
     getDrawOptions = function(editableFeatureGroup)

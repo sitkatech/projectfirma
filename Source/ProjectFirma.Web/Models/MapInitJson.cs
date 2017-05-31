@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Models
                 projectLocationSimpleFeatureCollection.Features.Add(
                     DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint));
                 layerGeoJsons.Add(new LayerGeoJson("Project Location - Simple", projectLocationSimpleFeatureCollection,
-                    "red", 1, LayerInitialVisibility.Show));
+                    "#838383", 1, LayerInitialVisibility.Show));
             }
             return layerGeoJsons;
         }

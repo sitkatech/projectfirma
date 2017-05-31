@@ -793,13 +793,17 @@ namespace ProjectFirma.Web.Controllers
             var mapFormID = ProjectLocationController.GenerateEditProjectLocationFormID(projectUpdateBatch.ProjectID);
             var uploadGisFileUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.ImportGdbFile(project.ProjectID));
             var saveFeatureCollectionUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationDetailed(project.ProjectID, null));
+
+            var hasSimpleLocationPoint = project.ProjectLocationPoint != null;
+
             var projectLocationDetailViewData = new ProjectLocationDetailViewData(projectUpdateBatch.ProjectID,
                 mapInitJson,
                 editableLayerGeoJson,
                 uploadGisFileUrl,
                 mapFormID,
                 saveFeatureCollectionUrl,
-                ProjectLocationUpdate.FieldLengths.Annotation);
+                ProjectLocationUpdate.FieldLengths.Annotation,
+                hasSimpleLocationPoint);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new LocationDetailedViewData(CurrentPerson, projectUpdateBatch, projectLocationDetailViewData, uploadGisFileUrl, updateStatus);
             return RazorView<LocationDetailed, LocationDetailedViewData, LocationDetailedViewModel>(viewData, viewModel);
