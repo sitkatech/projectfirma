@@ -20,6 +20,7 @@ namespace ProjectFirma.Web.Models
     {
         public static readonly TenantSitkaTechnologyGroup SitkaTechnologyGroup = TenantSitkaTechnologyGroup.Instance;
         public static readonly TenantClackamasPartnership ClackamasPartnership = TenantClackamasPartnership.Instance;
+        public static readonly TenantCaliforniaAssocationOfResourceConversationDistricts CaliforniaAssocationOfResourceConversationDistricts = TenantCaliforniaAssocationOfResourceConversationDistricts.Instance;
 
         public static readonly List<Tenant> All;
         public static readonly ReadOnlyDictionary<int, Tenant> AllLookupDictionary;
@@ -29,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static Tenant()
         {
-            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership };
+            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, CaliforniaAssocationOfResourceConversationDistricts };
             AllLookupDictionary = new ReadOnlyDictionary<int, Tenant>(All.ToDictionary(x => x.TenantID));
         }
 
@@ -98,6 +99,8 @@ namespace ProjectFirma.Web.Models
         {
             switch (enumValue)
             {
+                case TenantEnum.CaliforniaAssocationOfResourceConversationDistricts:
+                    return CaliforniaAssocationOfResourceConversationDistricts;
                 case TenantEnum.ClackamasPartnership:
                     return ClackamasPartnership;
                 case TenantEnum.SitkaTechnologyGroup:
@@ -111,7 +114,8 @@ namespace ProjectFirma.Web.Models
     public enum TenantEnum
     {
         SitkaTechnologyGroup = 1,
-        ClackamasPartnership = 2
+        ClackamasPartnership = 2,
+        CaliforniaAssocationOfResourceConversationDistricts = 3
     }
 
     public partial class TenantSitkaTechnologyGroup : Tenant
@@ -124,5 +128,11 @@ namespace ProjectFirma.Web.Models
     {
         private TenantClackamasPartnership(int tenantID, string tenantName, string tenantDomain) : base(tenantID, tenantName, tenantDomain) {}
         public static readonly TenantClackamasPartnership Instance = new TenantClackamasPartnership(2, @"ClackamasPartnership", @"clackamaspartnership.org");
+    }
+
+    public partial class TenantCaliforniaAssocationOfResourceConversationDistricts : Tenant
+    {
+        private TenantCaliforniaAssocationOfResourceConversationDistricts(int tenantID, string tenantName, string tenantDomain) : base(tenantID, tenantName, tenantDomain) {}
+        public static readonly TenantCaliforniaAssocationOfResourceConversationDistricts Instance = new TenantCaliforniaAssocationOfResourceConversationDistricts(3, @"CaliforniaAssocationOfResourceConversationDistricts", @"rcdprojects.org");
     }
 }

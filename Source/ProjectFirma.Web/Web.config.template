@@ -16,8 +16,6 @@
     <add key="UnobtrusiveJavaScriptEnabled" value="true"/>
     <add key="CacheStaticContentTimeSpan" value="${cache-static-content-timespan}"/>
     <add key="CanonicalHostName" value="${canonical.host.name}"/>
-    <add key="CanonicalHostNameRoot" value="${canonical.host.name.root}"/>
-    <add key="CanonicalHostNameTenantOne" value="${canonical.host.name.tenant.one}"/>
     <add key="UseMvcExtensionInUrl" value="false"/>
     <add key="SitkaEmailRedirect" value="${sitka-email-redirect}"/>
     <add key="IsEmailEnabled" value="true"/>
@@ -116,6 +114,7 @@
       <audienceUris>
         <add value="https://${canonical.host.name.root}/"/>
         <add value="https://${canonical.host.name.tenant.one}/"/>
+        <add value="https://${canonical.host.name.tenant.two}/"/>
       </audienceUris>
       <federatedAuthentication>
         <wsFederation passiveRedirectEnabled="false" issuer="${keystone-sso-endpoint}" realm="${fq-canonical.host.name}/" requireHttps="true" reply="${fq-canonical.host.name}/Account/LogOn/" signOutReply="${fq-canonical.host.name}/"/>
