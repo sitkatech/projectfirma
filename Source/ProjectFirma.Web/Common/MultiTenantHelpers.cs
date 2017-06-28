@@ -56,6 +56,11 @@ namespace ProjectFirma.Web.Common
             return HttpRequestStorage.Tenant.GetTenantAttribute().TenantDisplayName;
         }
 
+        public static string GetToolDisplayName()
+        {
+            return HttpRequestStorage.Tenant.GetTenantAttribute().ToolDisplayName;
+        }
+
         public static string GetTenantSquareLogoUrl()
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().TenantSquareLogoFileResource != null

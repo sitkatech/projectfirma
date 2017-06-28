@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.Home
             ProjectLocationsMapViewData projectLocationsMapViewData,
             ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentPerson, firmaPage)
         {
-            PageTitle = string.Format("{0} Project Tracker", MultiTenantHelpers.GetTenantDisplayName());
+            PageTitle = MultiTenantHelpers.GetToolDisplayName();
 
             var permissionCheckResult = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage);
             ShowEditButton = permissionCheckResult.HasPermission;

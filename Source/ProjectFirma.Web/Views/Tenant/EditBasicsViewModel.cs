@@ -42,6 +42,10 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Tenant Display Name")]
         public string TenantDisplayName { get; set; }
 
+        [Required]
+        [DisplayName("Tool Display Name")]
+        public string ToolDisplayName { get; set; }
+
         [DisplayName("Primary Contact")]
         public int? PrimaryContactPersonID { get; set; }
 
@@ -77,6 +81,7 @@ namespace ProjectFirma.Web.Views.Tenant
         {
             TenantID = tenant.TenantID;
             TenantDisplayName = tenantAttribute.TenantDisplayName;
+            ToolDisplayName = tenantAttribute.ToolDisplayName;
             PrimaryContactPersonID = tenantAttribute.PrimaryContactPersonID;
             NumberOfTaxonomyTiersToUse = tenantAttribute.NumberOfTaxonomyTiersToUse;
             MinimumYear = tenantAttribute.MinimumYear;
@@ -87,6 +92,7 @@ namespace ProjectFirma.Web.Views.Tenant
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == TenantID);
 
             tenantAttribute.TenantDisplayName = TenantDisplayName;
+            tenantAttribute.ToolDisplayName = ToolDisplayName;
 
             Person primaryContactPerson = null;
             if (PrimaryContactPersonID != null)

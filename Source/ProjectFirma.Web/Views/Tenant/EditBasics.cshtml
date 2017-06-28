@@ -35,6 +35,13 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
     <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelFor(m => m.ToolDisplayName)</div>
+        <div class="col-md-8">
+            @Html.TextBoxFor(m => m.ToolDisplayName, new Dictionary<string, object> { { "class", "form-control" }, { "style", "width:auto;" } })
+            @Html.ValidationMessageFor(x => x.ToolDisplayName)
+        </div>
+    </div>
+    <div class="form-group">
         <div class="col-md-4 text-right">@Html.LabelFor(m => m.PrimaryContactPersonID)</div>
         <div class="col-md-8">
             <select id="@Html.IdFor(m => m.PrimaryContactPersonID)" name="@Html.NameFor(m => m.PrimaryContactPersonID)"

@@ -1101,6 +1101,7 @@
           <ScalarProperty Name="TenantBannerLogoFileResourceID" ColumnName="TenantBannerLogoFileResourceID" />
           <ScalarProperty Name="TenantStyleSheetFileResourceID" ColumnName="TenantStyleSheetFileResourceID" />
           <ScalarProperty Name="TenantDisplayName" ColumnName="TenantDisplayName" />
+          <ScalarProperty Name="ToolDisplayName" ColumnName="ToolDisplayName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Models
     {
         public static readonly TenantSitkaTechnologyGroup SitkaTechnologyGroup = TenantSitkaTechnologyGroup.Instance;
         public static readonly TenantClackamasPartnership ClackamasPartnership = TenantClackamasPartnership.Instance;
-        public static readonly TenantCaliforniaAssocationOfResourceConversationDistricts CaliforniaAssocationOfResourceConversationDistricts = TenantCaliforniaAssocationOfResourceConversationDistricts.Instance;
+        public static readonly TenantRCDProjectTracker RCDProjectTracker = TenantRCDProjectTracker.Instance;
 
         public static readonly List<Tenant> All;
         public static readonly ReadOnlyDictionary<int, Tenant> AllLookupDictionary;
@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static Tenant()
         {
-            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, CaliforniaAssocationOfResourceConversationDistricts };
+            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker };
             AllLookupDictionary = new ReadOnlyDictionary<int, Tenant>(All.ToDictionary(x => x.TenantID));
         }
 
@@ -99,10 +99,10 @@ namespace ProjectFirma.Web.Models
         {
             switch (enumValue)
             {
-                case TenantEnum.CaliforniaAssocationOfResourceConversationDistricts:
-                    return CaliforniaAssocationOfResourceConversationDistricts;
                 case TenantEnum.ClackamasPartnership:
                     return ClackamasPartnership;
+                case TenantEnum.RCDProjectTracker:
+                    return RCDProjectTracker;
                 case TenantEnum.SitkaTechnologyGroup:
                     return SitkaTechnologyGroup;
                 default:
@@ -115,7 +115,7 @@ namespace ProjectFirma.Web.Models
     {
         SitkaTechnologyGroup = 1,
         ClackamasPartnership = 2,
-        CaliforniaAssocationOfResourceConversationDistricts = 3
+        RCDProjectTracker = 3
     }
 
     public partial class TenantSitkaTechnologyGroup : Tenant
@@ -130,9 +130,9 @@ namespace ProjectFirma.Web.Models
         public static readonly TenantClackamasPartnership Instance = new TenantClackamasPartnership(2, @"ClackamasPartnership", @"clackamaspartnership.org");
     }
 
-    public partial class TenantCaliforniaAssocationOfResourceConversationDistricts : Tenant
+    public partial class TenantRCDProjectTracker : Tenant
     {
-        private TenantCaliforniaAssocationOfResourceConversationDistricts(int tenantID, string tenantName, string tenantDomain) : base(tenantID, tenantName, tenantDomain) {}
-        public static readonly TenantCaliforniaAssocationOfResourceConversationDistricts Instance = new TenantCaliforniaAssocationOfResourceConversationDistricts(3, @"CaliforniaAssocationOfResourceConversationDistricts", @"rcdprojects.org");
+        private TenantRCDProjectTracker(int tenantID, string tenantName, string tenantDomain) : base(tenantID, tenantName, tenantDomain) {}
+        public static readonly TenantRCDProjectTracker Instance = new TenantRCDProjectTracker(3, @"RCDProjectTracker", @"rcdprojects.org");
     }
 }

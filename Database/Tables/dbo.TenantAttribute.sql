@@ -13,6 +13,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[TenantBannerLogoFileResourceID] [int] NULL,
 	[TenantStyleSheetFileResourceID] [int] NULL,
 	[TenantDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[ToolDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC
