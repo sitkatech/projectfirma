@@ -1,5 +1,5 @@
 /*
- Leaflet.draw 0.4.9, a plugin that adds drawing and editing tools to Leaflet powered maps.
+ Leaflet.draw 0.4.10, a plugin that adds drawing and editing tools to Leaflet powered maps.
  (c) 2012-2017, Jacob Toye, Jon West, Smartrak, Leaflet
 
  https://github.com/Leaflet/Leaflet.draw
@@ -8,7 +8,7 @@
 (function (window, document, undefined) {/**
  * Leaflet.draw assumes that you have already included the Leaflet library.
  */
-L.drawVersion = "0.4.9";
+L.drawVersion = "0.4.10";
 /**
  * @class L.Draw
  * @aka Draw
@@ -79,6 +79,14 @@ L.Draw = {};
  *  **Please note the edit toolbar is not enabled by default.**
  */
 L.drawLocal = {
+	// format: {
+	// 	numeric: {
+	// 		delimiters: {
+	// 			thousands: ',',
+	// 			decimal: '.'
+	// 		}
+	// 	}
+	// },
 	draw: {
 		toolbar: {
 			// #TODO: this should be reorganized where actions are nested in actions
@@ -152,6 +160,10 @@ L.drawLocal = {
 				cancel: {
 					title: 'Cancel editing, discards all changes.',
 					text: 'Cancel'
+				},
+				clearAll:{
+					title: 'clear all layers.',
+					text: 'Clear All'
 				}
 			},
 			buttons: {
@@ -949,9 +961,9 @@ L.Draw.Polyline = L.Draw.Feature.extend({
 			distance;
 
 		// calculate the distance from the last fixed point to the mouse position
-		distance = this._measurementRunningTotal + currentLatLng.distanceTo(previousLatLng);
+		distance = previousLatLng && currentLatLng && currentLatLng.distanceTo ? this._measurementRunningTotal + currentLatLng.distanceTo(previousLatLng) : this._measurementRunningTotal || 0 ;
 
-		return L.GeometryUtil.readableDistance(distance, this.options.metric, this.options.feet, this.options.nautic);
+		return L.GeometryUtil.readableDistance(distance, this.options.metric, this.options.feet, this.options.nautic, this.options.precision);
 	},
 
 	_showErrorTooltip: function () {
@@ -1034,6 +1046,7 @@ L.Draw.Polygon = L.Draw.Polyline.extend({
 
 	options: {
 		showArea: false,
+		showLength: false,
 		shapeOptions: {
 			stroke: true,
 			color: '#3388ff',
@@ -1044,7 +1057,14 @@ L.Draw.Polygon = L.Draw.Polyline.extend({
 			fillOpacity: 0.2,
 			clickable: true
 		},
-		metric: true // Whether to use the metric measurement system or imperial
+		// Whether to use the metric measurement system (truthy) or not (falsy).
+		// Also defines the units to use for the metric system as an array of
+		// strings (e.g. `['ha', 'm']`).
+		metric: true,
+		feet: true, // When not metric, to use feet instead of yards for display.
+		nautic: false, // When not metric, not feet use nautic mile for display
+		// Defines the precision for each type of unit (e.g. {km: 2, ft: 0}
+		precision: {}
 	},
 
 	// @method initialize(): void
@@ -1080,6 +1100,7 @@ L.Draw.Polygon = L.Draw.Polyline.extend({
 			text = L.drawLocal.draw.handlers.polygon.tooltip.start;
 		} else if (this._markers.length < 3) {
 			text = L.drawLocal.draw.handlers.polygon.tooltip.cont;
+			subtext = this._getMeasurementString();
 		} else {
 			text = L.drawLocal.draw.handlers.polygon.tooltip.end;
 			subtext = this._getMeasurementString();
@@ -1092,13 +1113,23 @@ L.Draw.Polygon = L.Draw.Polyline.extend({
 	},
 
 	_getMeasurementString: function () {
-		var area = this._area;
+		var area = this._area,
+			measurementString = '';
 
-		if (!area) {
+
+		if (!area && !this.options.showLength) {
 			return null;
 		}
 
-		return L.GeometryUtil.readableArea(area, this.options.metric);
+		if (this.options.showLength) {
+			measurementString = L.Draw.Polyline.prototype._getMeasurementString.call(this);
+		}
+
+		if (area) {
+			measurementString += '<br>' + L.GeometryUtil.readableArea(area, this.options.metric, this.options.precision);
+		}
+
+		return measurementString;
 	},
 
 	_shapeIsValid: function () {
@@ -2835,6 +2866,20 @@ L.LatLngUtil = {
 
 
 
+(function() {
+
+var defaultPrecision = {
+	km: 2,
+	ha: 2,
+	m: 0,
+	mi: 2,
+	ac: 2,
+	yd: 0,
+	ft: 0,
+	nm: 2
+};
+
+
 /**
  * @class L.GeometryUtil
  * @aka GeometryUtil
@@ -2862,26 +2907,60 @@ L.GeometryUtil = L.extend(L.GeometryUtil || {}, {
 		return Math.abs(area);
 	},
 
-	// @method readableArea(area, isMetric): string
-	// Returns a readable area string in yards or metric
-	readableArea: function (area, isMetric) {
-		var areaStr;
+	// @method formattedNumber(n, precision): string
+	// Returns n in specified number format (if defined) and precision
+	formattedNumber: function (n, precision) {
+		var formatted = n.toFixed(precision),
+			format = L.drawLocal.format && L.drawLocal.format.numeric,
+			delimiters = format && format.delimiters,
+			thousands = delimiters && delimiters.thousands,
+			decimal = delimiters && delimiters.decimal;
+
+		if (thousands || decimal) {
+			var splitValue = formatted.split('.');
+			formatted = thousands ? splitValue[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + thousands) : splitValue[0];
+			decimal = decimal || '.';
+			if (splitValue.length > 1) {
+				formatted = formatted + decimal + splitValue[1];
+			}
+		}
+
+		return formatted;
+	},
+
+	// @method readableArea(area, isMetric, precision): string
+	// Returns a readable area string in yards or metric.
+	// The value will be rounded as defined by the precision option object.
+	readableArea: function (area, isMetric, precision) {
+		var areaStr,
+			units, 
+			precision = L.Util.extend({}, defaultPrecision, precision);
 
 		if (isMetric) {
-			if (area >= 10000) {
-				areaStr = (area * 0.0001).toFixed(2) + ' ha';
+			units = ['ha', 'm'];
+			type = typeof isMetric;
+			if (type === 'string') {
+				units = [isMetric];
+			} else if (type !== 'boolean') {
+				units = isMetric;
+			}
+
+			if (area >= 1000000 && units.indexOf('km') !== -1) {
+				areaStr = L.GeometryUtil.formattedNumber(area * 0.000001, precision['km']) + ' km²';
+			} else if (area >= 10000 && units.indexOf('ha') !== -1) {
+				areaStr = L.GeometryUtil.formattedNumber(area * 0.0001, precision['ha']) + ' ha';
 			} else {
-				areaStr = area.toFixed(2) + ' m&sup2;';
+				areaStr = L.GeometryUtil.formattedNumber(area, precision['m']) + ' m²';
 			}
 		} else {
 			area /= 0.836127; // Square yards in 1 meter
 
 			if (area >= 3097600) { //3097600 square yards in 1 square mile
-				areaStr = (area / 3097600).toFixed(2) + ' mi&sup2;';
-			} else if (area >= 4840) {//48040 square yards in 1 acre
-				areaStr = (area / 4840).toFixed(2) + ' acres';
+				areaStr = L.GeometryUtil.formattedNumber(area / 3097600, precision['mi']) + ' mi²';
+			} else if (area >= 4840) { //4840 square yards in 1 acre
+				areaStr = L.GeometryUtil.formattedNumber(area / 4840, precision['ac']) + ' acres';
 			} else {
-				areaStr = Math.ceil(area) + ' yd&sup2;';
+				areaStr = L.GeometryUtil.formattedNumber(area, precision['yd']) + ' yd²';
 			}
 		}
 
@@ -2892,58 +2971,58 @@ L.GeometryUtil = L.extend(L.GeometryUtil || {}, {
 	// Converts a metric distance to one of [ feet, nauticalMile, metric or yards ] string
 	//
 	// @alternative
-	// @method readableDistance(distance, isMetric, useFeet, isNauticalMile): string
+	// @method readableDistance(distance, isMetric, useFeet, isNauticalMile, precision): string
 	// Converts metric distance to distance string.
-	readableDistance: function (distance, isMetric, isFeet, isNauticalMile) {
+	// The value will be rounded as defined by the precision option object.
+	readableDistance: function (distance, isMetric, isFeet, isNauticalMile, precision) {
 		var distanceStr,
-			units;
+			units,
+			precision = L.Util.extend({}, defaultPrecision, precision);
 
-		if (typeof isMetric == "string") {
-			units = isMetric;
+		if (isMetric) {
+			units = typeof isMetric == 'string' ? isMetric : 'metric';
+		} else if (isFeet) {
+			units = 'feet';
+		} else if (isNauticalMile) {
+			units = 'nauticalMile';
 		} else {
-			if (isFeet) {
-				units = 'feet';
-			} else if (isNauticalMile) {
-				units = 'nauticalMile';
-			} else if (isMetric) {
-				units = 'metric';
-			} else {
-				units = 'yards';
-			}
+			units = 'yards';
 		}
 
 		switch (units) {
 		case 'metric':
 			// show metres when distance is < 1km, then show km
 			if (distance > 1000) {
-				distanceStr = (distance / 1000).toFixed(2) + ' km';
+				distanceStr = L.GeometryUtil.formattedNumber(distance / 1000, precision['km']) + ' km';
 			} else {
-				distanceStr = Math.ceil(distance) + ' m';
+				distanceStr = L.GeometryUtil.formattedNumber(distance, precision['m']) + ' m';
 			}
 			break;
 		case 'feet':
 			distance *= 1.09361 * 3;
-			distanceStr = Math.ceil(distance) + ' ft';
+			distanceStr = L.GeometryUtil.formattedNumber(distance, precision['ft']) + ' ft';
 
 			break;
 		case 'nauticalMile':
 			distance *= 0.53996;
-			distanceStr = (distance / 1000).toFixed(2) + ' nm';
+			distanceStr = L.GeometryUtil.formattedNumber(distance / 1000, precision['nm']) + ' nm';
 			break;
 		case 'yards':
 		default:
 			distance *= 1.09361;
 
 			if (distance > 1760) {
-				distanceStr = (distance / 1760).toFixed(2) + ' miles';
+				distanceStr = L.GeometryUtil.formattedNumber(distance / 1760, precision['mi']) + ' miles';
 			} else {
-				distanceStr = Math.ceil(distance) + ' yd';
+				distanceStr = L.GeometryUtil.formattedNumber(distance, precision['yd']) + ' yd';
 			}
 			break;
 		}
 		return distanceStr;
 	}
 });
+
+})();
 
 
 
@@ -3577,6 +3656,7 @@ L.Draw.Tooltip = L.Class.extend({
 	initialize: function (map) {
 		this._map = map;
 		this._popupPane = map._panes.popupPane;
+		this._visible = false;
 
 		this._container = map.options.drawControlTooltips ?
 			L.DomUtil.create('div', 'leaflet-draw-tooltip', this._popupPane) : null;
@@ -3619,6 +3699,14 @@ L.Draw.Tooltip = L.Class.extend({
 			'<span class="leaflet-draw-tooltip-subtext">' + labelText.subtext + '</span>' + '<br />' : '') +
 			'<span>' + labelText.text + '</span>';
 
+		if (!labelText.text && !labelText.subtext) {
+			this._visible = false;
+			this._container.style.visibility = 'hidden';
+		} else {
+			this._visible = true;
+			this._container.style.visibility = 'inherit';
+		}
+
 		return this;
 	},
 
@@ -3629,7 +3717,9 @@ L.Draw.Tooltip = L.Class.extend({
 			tooltipContainer = this._container;
 
 		if (this._container) {
-			tooltipContainer.style.visibility = 'inherit';
+			if (this._visible) {
+				tooltipContainer.style.visibility = 'inherit';
+			}
 			L.DomUtil.setPosition(tooltipContainer, pos);
 		}
 
@@ -3863,6 +3953,12 @@ L.EditToolbar = L.Toolbar.extend({
 				text: L.drawLocal.edit.toolbar.actions.cancel.text,
 				callback: this.disable,
 				context: this
+			},
+			{
+				title: L.drawLocal.edit.toolbar.actions.clearAll.title,
+				text: L.drawLocal.edit.toolbar.actions.clearAll.text,
+				callback: this._clearAllLayers,
+				context: this
 			}
 		];
 	},
@@ -3901,6 +3997,13 @@ L.EditToolbar = L.Toolbar.extend({
 
 	_save: function () {
 		this._activeMode.handler.save();
+		if (this._activeMode) {
+			this._activeMode.handler.disable();
+		}
+	},
+
+	_clearAllLayers:function(){
+		this._activeMode.handler.removeAllLayers();
 		if (this._activeMode) {
 			this._activeMode.handler.disable();
 		}
@@ -4345,6 +4448,16 @@ L.EditToolbar.Delete = L.Handler.extend({
 	// Save deleted layers
 	save: function () {
 		this._map.fire(L.Draw.Event.DELETED, { layers: this._deletedLayers });
+	},
+
+	// @method removeAllLayers(): void
+	// Remove all delateable layers
+	removeAllLayers: function(){
+		// Iterate of the delateable layers and add remove them
+		this._deletableLayers.eachLayer(function (layer) {
+			this._removeLayer({layer:layer});
+		}, this);
+		this.save();
 	},
 
 	_enableLayerDelete: function (e) {
