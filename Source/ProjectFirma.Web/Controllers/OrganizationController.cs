@@ -85,6 +85,9 @@ namespace ProjectFirma.Web.Controllers
             var organization = new Organization(String.Empty, viewModel.SectorID, true);
             viewModel.UpdateModel(organization, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            SetMessageForDisplay($"Organization {organization.DisplayName} succesfully created.");
+
             return new ModalDialogFormJsonResult();
         }
 
