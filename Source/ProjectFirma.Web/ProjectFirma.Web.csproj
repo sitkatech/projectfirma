@@ -368,6 +368,50 @@
     <Content Include="Content\Bootstrap\firma\default.theme.min.css">
       <DependentUpon>default.theme.css</DependentUpon>
     </Content>
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-114x114.png" />
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-120x120.png" />
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-57x57.png" />
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-60x60.png" />
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-72x72.png" />
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-76x76.png" />
+    <Content Include="Content\img\ClackamasPartnership\favicon-16x16.png" />
+    <Content Include="Content\img\ClackamasPartnership\favicon-32x32.png" />
+    <Content Include="Content\img\ClackamasPartnership\favicon-96x96.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-icon-144x144.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-icon-192x192.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-icon-36x36.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-icon-48x48.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-icon-72x72.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-icon-96x96.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-icon-114x114.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-icon-120x120.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-icon-144x144.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-icon-152x152.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-icon-180x180.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-icon-57x57.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-icon-60x60.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-icon-72x72.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-icon-76x76.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-icon-precomposed.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-icon.png" />
+    <Content Include="Content\img\RCDProjectTracker\browserconfig.xml" />
+    <Content Include="Content\img\RCDProjectTracker\favicon-16x16.png" />
+    <Content Include="Content\img\RCDProjectTracker\favicon-32x32.png" />
+    <Content Include="Content\img\RCDProjectTracker\favicon-96x96.png" />
+    <Content Include="Content\img\RCDProjectTracker\favicon.ico" />
+    <Content Include="Content\img\RCDProjectTracker\ms-icon-144x144.png" />
+    <Content Include="Content\img\RCDProjectTracker\ms-icon-150x150.png" />
+    <Content Include="Content\img\RCDProjectTracker\ms-icon-310x310.png" />
+    <Content Include="Content\img\RCDProjectTracker\ms-icon-70x70.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-114x114.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-120x120.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-57x57.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-60x60.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-72x72.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-76x76.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\favicon-16x16.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\favicon-32x32.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\favicon-96x96.png" />
     <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js.map" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js.map" />
     <Content Include="ScriptsCustom\CkEditorReady.min.js.map" />
@@ -391,6 +435,7 @@
     <Content Include="Content\Bootstrap\firma\default.theme.css.map">
       <DependentUpon>default.theme.css</DependentUpon>
     </Content>
+    <Content Include="Content\img\RCDProjectTracker\manifest.json" />
     <None Include="Service References\KeystoneDataService\KeystoneData.disco" />
     <None Include="Service References\KeystoneDataService\configuration91.svcinfo" />
     <None Include="Service References\KeystoneDataService\configuration.svcinfo" />
@@ -1630,12 +1675,6 @@
       <DependentUpon>jquery.ui.firma.css</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap-toc\bootstrap-toc.js" />
-    <Content Include="Content\img\apple-icon-114x114.png" />
-    <Content Include="Content\img\apple-icon-120x120.png" />
-    <Content Include="Content\img\apple-icon-57x57.png" />
-    <Content Include="Content\img\apple-icon-60x60.png" />
-    <Content Include="Content\img\apple-icon-72x72.png" />
-    <Content Include="Content\img\apple-icon-76x76.png" />
     <Content Include="Content\img\ProjectFirma_Logo_2016_FNL.width-600.png" />
     <Content Include="Content\img\ProjectFirma_Logo_Square.png" />
     <Content Include="Content\qtip\jquery.qtip.firma.min.css">
@@ -1673,9 +1712,6 @@
       <DependentUpon>dhtmlxgrid_ltinfo_skin.css</DependentUpon>
     </Content>
     <Content Include="Content\css\jquery.ui.firma.css" />
-    <Content Include="Content\img\favicon-16x16.png" />
-    <Content Include="Content\img\favicon-32x32.png" />
-    <Content Include="Content\img\favicon-96x96.png" />
     <Content Include="Content\img\favicon.ico" />
     <Content Include="Content\qtip\jquery.qtip.firma.css" />
     <Content Include="Content\qtip\jquery.qtip.validation.min.js">
