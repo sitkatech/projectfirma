@@ -412,6 +412,12 @@
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-16x16.png" />
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-32x32.png" />
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-96x96.png" />
+    <Content Include="Content\Bootstrap\firma\tmpRCDPalette.css">
+      <DependentUpon>tmpRCDPalette.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\tmpRCDPalette.min.css">
+      <DependentUpon>tmpRCDPalette.css</DependentUpon>
+    </Content>
     <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js.map" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js.map" />
     <Content Include="ScriptsCustom\CkEditorReady.min.js.map" />
@@ -436,6 +442,7 @@
       <DependentUpon>default.theme.css</DependentUpon>
     </Content>
     <Content Include="Content\img\RCDProjectTracker\manifest.json" />
+    <Content Include="Content\Bootstrap\firma\tmpRCDPalette.less" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>

@@ -47,7 +47,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
     @{ Html.RenderRazorSitkaPartial<FirmaIncludes>(); }
     
-    <link href="@Url.Content(MultiTenantHelpers.GetTenantStyleSheetUrl())" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Bootstrap/firma/tmpRCDPalette.min.css" rel="stylesheet" type="text/css" />
 
     <script src="@Url.Content("~/Content/bootstrap-typeahead/bootstrap3-typeahead.js")" type="text/javascript"></script>
 
@@ -60,7 +60,6 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="header">
             <img class="headerLogo" src="@MultiTenantHelpers.GetTenantBannerLogoUrl()" />
             <div class="headerText">
-                |
                 <a href="@ViewDataTyped.FirmaHomeUrl">@MultiTenantHelpers.GetTenantDisplayName()</a>
             </div>
 
