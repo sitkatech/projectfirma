@@ -43,7 +43,7 @@
 @firma-pageTitle-color: #1E2617;
 @firma-header-color: #1E2617;
 
-@firma-helpIcon-color: #fff;
+@firma-helpIcon-color: #6c91a4;
 
 @firma-buttonBackground-color: #477514;
 @firma-buttonText-color: #fff;
@@ -53,15 +53,10 @@
 @firma-scrollSpyAccent-color: #007CB9;
 
 @firma-white: #fff;
-@firma-active-arrow-color: #38618D;
-@firma-inactive-arrow-color: #B9C6C5;
+@firma-active-arrow-color: #7E9A2C;
+@firma-inactive-arrow-color: #ddd;
 
 @z-index-arrow: 900;
-
-// Planning & Design
-// Implementation
-// Post-Implementation
-// Completed
 
 @disabled-color: LightGray;
 
@@ -134,6 +129,10 @@ form {
 }
 
 // Header
+
+.expandToFillScreen {
+    min-height: 100%;
+}
 
 .header {
     background-color: @firma-logoHeaderBackground-color;
@@ -523,11 +522,12 @@ table.summaryLayout td {
     color: @firma-panel-headerText-color;
     background-color: @firma-panel-headerBackground-color;
     border-color: @firma-panel-border-color;
-    font-weight: bold;
-    font-size: 14px;
+    font-weight: 400;
+    font-size: 16px;
     font-family: @firma-header-font;
     margin-bottom: 0;
     margin-top: 0;
+    text-transform: uppercase;
     }
 
 }

@@ -62,6 +62,9 @@ form .form-group-condensed {
   margin-top: 5px;
   margin-bottom: 5px;
 }
+.expandToFillScreen {
+  min-height: 100%;
+}
 .header {
   background-color: #F5F8E7;
 }
@@ -391,11 +394,12 @@ table.summaryLayout td {
   color: #fff;
   background-color: #546B7D;
   border-color: #ddd;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 400;
+  font-size: 16px;
   font-family: "Montserrat", sans-serif;
   margin-bottom: 0;
   margin-top: 0;
+  text-transform: uppercase;
 }
 .fieldLabel {
   font-weight: 600;
@@ -445,7 +449,7 @@ a.excelbutton {
   font-size: 12px;
   cursor: pointer;
   margin-right: 2px;
-  color: #fff;
+  color: #6c91a4;
 }
 .red {
   color: red;
@@ -551,15 +555,15 @@ h2.sectionHeader {
   width: 100%;
 }
 .arrow.current {
-  background-color: #38618D;
-  border-left-color: #38618D;
+  background-color: #7E9A2C;
+  border-left-color: #7E9A2C;
 }
 .arrow.default {
-  background: #B9C6C5;
+  background: #ddd;
   color: #fff;
 }
 .singleArrow {
-  background: #B9C6C5;
+  background: #ddd;
   color: #fff;
 }
 /* First arrow */
@@ -568,11 +572,11 @@ h2.sectionHeader {
   border-bottom-left-radius: .25rem;
 }
 .firstArrow.current {
-  background-color: #38618D;
-  border-left-color: #38618D;
+  background-color: #7E9A2C;
+  border-left-color: #7E9A2C;
 }
 .firstArrow.default {
-  background: #B9C6C5;
+  background: #ddd;
   color: #fff;
 }
 .firstArrow:after {
@@ -594,11 +598,11 @@ h2.sectionHeader {
 }
 /* Middle arrow */
 .middleArrow.current {
-  background-color: #38618D;
-  border-left-color: #38618D;
+  background-color: #7E9A2C;
+  border-left-color: #7E9A2C;
 }
 .middleArrow.default {
-  background: #B9C6C5;
+  background: #ddd;
   color: #fff;
 }
 .middleArrow:before {
@@ -627,7 +631,7 @@ h2.sectionHeader {
   border-top: 22px solid transparent;
   border-right: 22px solid transparent;
   border-bottom: 22px solid transparent;
-  border-left: 7px solid #B9C6C5;
+  border-left: 7px solid #ddd;
   z-index: 900;
 }
 /* Last arrow */
@@ -636,11 +640,11 @@ h2.sectionHeader {
   border-bottom-right-radius: .25rem;
 }
 .lastArrow.current {
-  background-color: #38618D;
-  border-left-color: #38618D;
+  background-color: #7E9A2C;
+  border-left-color: #7E9A2C;
 }
 .lastArrow.default {
-  background: #B9C6C5;
+  background: #ddd;
   color: #fff;
 }
 .lastArrow:before {
