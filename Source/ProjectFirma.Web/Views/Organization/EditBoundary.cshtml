@@ -1,5 +1,77 @@
-﻿@using ProjectFirma.Web.Views.Organization
+﻿@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Views.Organization
 
 @inherits EditBoundary
 
+@section JavascriptAndStylesContent
+{
+    <script type="text/javascript">
+        // <![CDATA[
+        jQuery(function () {
+            var $saveButton = jQuery("#@ModalDialogFormHelper.SaveButtonId");
+            $saveButton.prop("disabled", true);
+            jQuery("#@Html.IdFor(x => x.FileResourceData)").on("change", function () {
+                var $form = jQuery("#uploadGisForm");
+                if ($form.valid()) {
+                    var $gisUploadResults = jQuery("#gisUploadResults");
+                    $form.ajaxForm({
+                        "url": this.action,
+                        "type": this.method,
+                        "beforeSubmit": function () { $gisUploadResults.html(jQuery("#progressBarHtml").html()); },
+                        "success": function (result, textStatus, jqXhr) {
+                            jQuery(".progress").hide();
+                            SitkaAjax.handleLoginRedirect(result,
+                                textStatus,
+                                jqXhr,
+                                function () {
+                                    $gisUploadResults.html(result);
+                                    $saveButton.prop("disabled", false);
+                                });
+                        },
+                        "error": function (xhr, statusText) {
+                            console.error("xhr: " + xhr + ", status: " + statusText);
+                            jQuery(".progress").hide();
+                            $saveButton.prop("disabled", true);
+                            $gisUploadResults.html(jQuery("#gisUploadErrorHtml").html());
+                        }
+                    });
+                    $form.submit();
+                }
+            });
+        });
+        // ]]>
+    </script>
+    <script id="progressBarHtml" type="text/html">
+        <div style="padding-top: 10%">
+            <div class="progress">
+                <div class="progress-bar progress-bar-info progress-bar-striped active text-center" role="progressbar" style="width: 100%">
+                    Uploading &hellip;
+                </div>
+            </div>
+        </div>
+    </script>
+    <script id="gisUploadErrorHtml" type="text/html">
+        <div class="alert alert-danger" role="alert">
+            There was a problem uploading your file geodatabase. Verify it meets the requirements and is not corrupt.
+        </div>
+    </script>
+}
 
+<div class="row">
+    <div class="col-xs-12 col-sm-4">
+        <form id="uploadGisForm" method="post" action="@ViewDataTyped.EditBoundaryUrl" endtype="multipart/form-data">
+            <div class="form-group">
+                @Html.EditorFor(m => m.FileResourceData)
+                @Html.ValidationMessageFor(m => m.FileResourceData)
+                <span class="smallExplanationText">
+                    Allowed Extensions: zip
+                </span>
+            </div>
+        </form>
+    </div>
+    <div class="col-xs-12 col-sm-8">
+        <form id="appoveGisUploadForm" method="post" action="@ViewDataTyped.ApproveGisUploadUrl">
+            <div id="gisUploadResults"></div>
+        </form>
+    </div>
+</div>

@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Views\Organization\ApproveUploadGis.cs" />
+    <Compile Include="Views\Organization\ApproveUploadGisViewData.cs" />
+    <Compile Include="Views\Organization\ApproveUploadGisViewModel.cs" />
     <Compile Include="Views\Organization\EditBoundary.cs" />
     <Compile Include="Views\Organization\EditBoundaryViewData.cs" />
     <Compile Include="Views\Organization\EditBoundaryViewModel.cs" />
@@ -516,6 +519,7 @@
     <Content Include="Views\Organization\PullOrganizationFromKeystone.cshtml" />
     <Content Include="Views\Organization\EditBoundary.cshtml" />
     <Content Include="Views\Home\ManageHomePageImages.cshtml" />
+    <Content Include="Views\Organization\ApproveUploadGis.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
     <Compile Include="Models\NotificationType.cs" />
     <Compile Include="Models\Tenant.cs" />

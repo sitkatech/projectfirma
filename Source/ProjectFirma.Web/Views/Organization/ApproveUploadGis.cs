@@ -23,5 +23,5 @@ using LtInfo.Common.Mvc;
 
 namespace ProjectFirma.Web.Views.Organization
 {
-    public abstract class EditBoundary : TypedWebViewPage<EditBoundaryViewData, EditBoundaryViewModel> { }
+    public abstract class ApproveUploadGis : TypedWebPartialViewPage<ApproveUploadGisViewData, ApproveUploadGisViewModel> { }
 }

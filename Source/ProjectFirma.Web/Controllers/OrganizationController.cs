@@ -353,32 +353,54 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [SitkaAdminFeature]
-        public PartialViewResult EditBoundary(OrganizationPrimaryKey organizationPrimaryKey) {
-            var organization = organizationPrimaryKey.EntityObject;
-            var viewModel = new EditBoundaryViewModel(organization);
-            return ViewEditBoundary(viewModel);
+        [OrganizationManageFeature]
+        public ViewResult EditBoundary(OrganizationPrimaryKey organizationPrimaryKey) {
+            var viewModel = new EditBoundaryViewModel();
+            return ViewEditBoundary(viewModel, organizationPrimaryKey.EntityObject);
         }
 
         [HttpPost]
-        [SitkaAdminFeature]
+        [OrganizationManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditBoundary(OrganizationPrimaryKey organizationPrimaryKey, EditBoundaryViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                return ViewEditBoundary(viewModel);
+                return ViewEditBoundary(viewModel, organizationPrimaryKey.EntityObject);
             }
 
             viewModel.UpdateModel();
 
-            return new ModalDialogFormJsonResult();
+            return RedirectToAction(new SitkaRoute<OrganizationController>(c => c.Detail(organizationPrimaryKey)));
         }
 
-        private PartialViewResult ViewEditBoundary(EditBoundaryViewModel viewModel)
+        private ViewResult ViewEditBoundary(EditBoundaryViewModel viewModel, Organization organization)
         {
-            var viewData = new EditBoundaryViewData();
-            return RazorPartialView<EditBoundary, EditBoundaryViewData, EditBoundaryViewModel>(viewData, viewModel);
+            var viewData = new EditBoundaryViewData(CurrentPerson, organization);
+            return RazorView<EditBoundary, EditBoundaryViewData, EditBoundaryViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        public PartialViewResult ApproveUploadGis(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var viewModel = new ApproveUploadGisViewModel();
+            return ViewApproveUploadGis(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult ApproveUploadGis(OrganizationPrimaryKey organizationPrimaryKey, ApproveUploadGisViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewApproveUploadGis(viewModel);
+            }
+
+            return RedirectToAction(new SitkaRoute<OrganizationController>(c => c.Detail(organizationPrimaryKey)));
+        }
+        private PartialViewResult ViewApproveUploadGis(ApproveUploadGisViewModel viewModel)
+        {
+            var viewData = new ApproveUploadGisViewData(CurrentPerson);
+            return RazorPartialView<ApproveUploadGis, ApproveUploadGisViewData, ApproveUploadGisViewModel>(viewData, viewModel);
         }
     }
 }

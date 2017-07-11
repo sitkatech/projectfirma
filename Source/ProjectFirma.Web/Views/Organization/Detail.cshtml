@@ -110,7 +110,12 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-md-12">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditBoundaryUrl, string.Format("Edit Boundary - {0}", ViewDataTyped.Organization.OrganizationName), ViewDataTyped.UserHasOrganizationManagePermissions)
+                                @if (ViewDataTyped.UserHasOrganizationManagePermissions)
+                                {
+                                    <a href="@ViewDataTyped.EditBoundaryUrl">
+                                        @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit blue")
+                                    </a>
+                                }
                                 Map
                             </div>
                             <div class="panel-body">
