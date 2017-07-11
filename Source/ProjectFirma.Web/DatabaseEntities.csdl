@@ -995,6 +995,7 @@
     <Property Name="IsActive" Type="Boolean" Nullable="false" />
     <Property Name="OrganizationUrl" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="LogoFileResourceID" Type="Int32" />
+    <Property Name="OrganizationBoundary" Type="Geometry" />
     <NavigationProperty Name="LogoFileResource" Relationship="ProjectFirma.Web.Models.FK_Organization_FileResource_LogoFileResourceID_FileResourceID" FromRole="OrganizationsWhereYouAreTheLogoFileResource" ToRole="LogoFileResource" />
     <NavigationProperty Name="FundingSources" Relationship="ProjectFirma.Web.Models.FK_FundingSource_Organization_OrganizationID" FromRole="Organization" ToRole="FundingSources" />
     <NavigationProperty Name="MonitoringProgramPartners" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_Organization_OrganizationID" FromRole="Organization" ToRole="MonitoringProgramPartners" />

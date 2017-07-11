@@ -13,6 +13,7 @@ CREATE TABLE [dbo].[Organization](
 	[IsActive] [bit] NOT NULL,
 	[OrganizationUrl] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[LogoFileResourceID] [int] NULL,
+	[OrganizationBoundary] [geometry] NULL,
  CONSTRAINT [PK_Organization_OrganizationID] PRIMARY KEY CLUSTERED 
 (
 	[OrganizationID] ASC
@@ -27,7 +28,7 @@ CREATE TABLE [dbo].[Organization](
 	[OrganizationName] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [AK_Organization_OrganizationGuid_TenantID] ON [dbo].[Organization]

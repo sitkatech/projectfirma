@@ -167,9 +167,8 @@ Source code is available upon request via <support@sitkatech.com>.
         var allLegendsHtml = "";
         for (var i = 0; i < markerColorTable.length; ++i)
         {
-            var currentLegendIcon = L.MakiMarkers.icon({ icon: "marker", color: markerColorTable[i].LegendColor, size: "m" });
-            console.log(currentLegendIcon);
-            var currentLegendAsHtml = currentLegendIcon.options.iconUrl;
+            var currentLegendIcon = L.MakiMarkers.icon({ icon: "marker", color: markerColorTable[i].LegendColor, size: "m" }),
+                currentLegendAsHtml = currentLegendIcon.options.iconUrl;
             allLegendsHtml += "<div class=\"mapLegendElement\">" + "<img class='mapLegendIcon' src= '" + currentLegendAsHtml  + "'></img>" + markerColorTable[i].LegendText + "</div>";
         }
         return allLegendsHtml;

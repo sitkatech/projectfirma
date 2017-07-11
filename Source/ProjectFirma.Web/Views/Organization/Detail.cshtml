@@ -101,7 +101,6 @@ Source code is available upon request via <support@sitkatech.com>.
                                 {
                                     <p>No logo uploaded for this organization</p>
                                 }
-
                             </div>
                         </div>
 
@@ -111,6 +110,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-md-12">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
+                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditBoundaryUrl, string.Format("Edit Boundary - {0}", ViewDataTyped.Organization.OrganizationName), ViewDataTyped.UserHasOrganizationManagePermissions)
                                 Map
                             </div>
                             <div class="panel-body">

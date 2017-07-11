@@ -35,7 +35,6 @@ using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.KeystoneDataService;
-using ProjectFirma.Web.Views.User;
 using Detail = ProjectFirma.Web.Views.Organization.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Organization.DetailViewData;
 using Index = ProjectFirma.Web.Views.Organization.Index;
@@ -144,8 +143,14 @@ namespace ProjectFirma.Web.Controllers
         private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData)
         {
             hasSpatialData = false;
-            var mapDivID = string.Format("organization_{0}_Map", organization.OrganizationID);
+            var mapDivID = $"organization_{organization.OrganizationID}_Map";
             var layers = new List<LayerGeoJson>();
+
+            if (organization.OrganizationBoundary != null)
+            {
+                hasSpatialData = true;
+                layers.Add(new LayerGeoJson("Organization Boundary", organization.OrganizationBoundaryToFeatureCollection, "lightgreen", 1, LayerInitialVisibility.Hide)); // todo pick a color that might not be lightgreen
+            }
 
             var projectsLayerGeoJson = GetProjectsLayerGeoJson(organization);
             if (projectsLayerGeoJson.GeoJsonFeatureCollection.Features.Any())
@@ -230,7 +235,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !organization.HasDependentObjects() && !organization.IsUnknown;
             var confirmMessage = canDelete
-                ? String.Format("Are you sure you want to delete this Organization '{0}'?", organization.OrganizationName)
+                ? $"Are you sure you want to delete this Organization '{organization.OrganizationName}'?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Organization", SitkaRoute<OrganizationController>.BuildLinkFromExpression(x => x.Detail(organization), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
@@ -307,12 +312,10 @@ namespace ProjectFirma.Web.Controllers
 
             var keystoneClient = new KeystoneDataClient();
 
-
             var organizationGuid = viewModel.OrganizationGuid.Value;
-            KeystoneDataService.Organization keystoneOrganization = null;
+            KeystoneDataService.Organization keystoneOrganization;
             try
             {
-                
                 keystoneOrganization = keystoneClient.GetOrganization(organizationGuid);
             }
             catch (Exception)
@@ -338,7 +341,7 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            SetMessageForDisplay(string.Format("Organization {0} successfully added.", firmaOrganization.GetDisplayNameAsUrl()));
+            SetMessageForDisplay($"Organization {firmaOrganization.GetDisplayNameAsUrl()} successfully added.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -349,5 +352,33 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<PullOrganizationFromKeystone, PullOrganizationFromKeystoneViewData, PullOrganizationFromKeystoneViewModel>(viewData, viewModel);
         }
 
+        [HttpGet]
+        [SitkaAdminFeature]
+        public PartialViewResult EditBoundary(OrganizationPrimaryKey organizationPrimaryKey) {
+            var organization = organizationPrimaryKey.EntityObject;
+            var viewModel = new EditBoundaryViewModel(organization);
+            return ViewEditBoundary(viewModel);
+        }
+
+        [HttpPost]
+        [SitkaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditBoundary(OrganizationPrimaryKey organizationPrimaryKey, EditBoundaryViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEditBoundary(viewModel);
+            }
+
+            viewModel.UpdateModel();
+
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditBoundary(EditBoundaryViewModel viewModel)
+        {
+            var viewData = new EditBoundaryViewData();
+            return RazorPartialView<EditBoundary, EditBoundaryViewData, EditBoundaryViewModel>(viewData, viewModel);
+        }
     }
 }

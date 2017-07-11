@@ -269,6 +269,7 @@
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="OrganizationUrl" ColumnName="OrganizationUrl" />
           <ScalarProperty Name="LogoFileResourceID" ColumnName="LogoFileResourceID" />
+          <ScalarProperty Name="OrganizationBoundary" ColumnName="OrganizationBoundary" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
