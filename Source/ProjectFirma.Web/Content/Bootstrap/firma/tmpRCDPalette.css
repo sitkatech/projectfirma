@@ -1,8 +1,6 @@
 ﻿@import url(https://fonts.googleapis.com/css?family=Basic);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
-@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
-@import url(https://fonts.googleapis.com/css?family=EB+Garamond:400,700);
+@import url(https://fonts.googleapis.com/css?family=Bree+Serif);
 html,
 body {
   height: 100%;
@@ -29,7 +27,7 @@ h4,
 h5,
 h6 {
   color: #1E2617;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Bree Serif", sans-serif;
   font-weight: 600;
 }
 .container {
@@ -39,8 +37,9 @@ h6 {
   margin-left: auto;
 }
 .pageTitle {
-  font-weight: 600;
+  font-weight: 400;
   color: #1E2617;
+  font-size: 28px;
 }
 #mainnavandcontent {
   margin-bottom: 20px;
@@ -66,7 +65,7 @@ form .form-group-condensed {
   min-height: 100%;
 }
 .header {
-  background-color: #F5F8E7;
+  background-color: #476926;
 }
 .header img {
   margin: 10px;
@@ -74,24 +73,30 @@ form .form-group-condensed {
 }
 .header .headerText {
   display: inline-block;
-  font-size: 30px;
+  font-size: 36px;
   font-weight: 600;
-  font-family: "Montserrat", sans-serif;
-  color: #4B613A;
+  font-family: "Bree Serif", sans-serif;
+  color: #fff;
   vertical-align: bottom;
   margin-bottom: 6px;
   margin-bottom: 10px;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 1px #7E9A2C;
+  letter-spacing: 3px;
 }
 .header .headerText a {
-  color: #4B613A;
+  color: #fff;
 }
 .header .headerText a:hover,
 .header .headerText a:active {
   text-decoration: none;
 }
 .navbar {
-  background-color: #fff;
-  border-bottom-color: #fff;
+  background: #476926;
+  /* For browsers that do not support gradients */
+  background: linear-gradient(#476926, #7E9A2C);
+  /* Standard syntax */
+  border: none;
   border-radius: 0;
 }
 .nav li p {
@@ -99,12 +104,15 @@ form .form-group-condensed {
 }
 .nav li {
   font-weight: 600;
+  text-transform: uppercase;
 }
 .nav li a {
-  color: #4B613A;
+  color: #fff;
   font-family: "Open Sans", sans-serif;
 }
-.nav li a:hover {
+.nav li a:hover,
+.nav li a:focus,
+.nav li a:active {
   color: #0B90D1;
   background-color: #ecf7fb;
   text-decoration: none;
@@ -113,7 +121,7 @@ form .form-group-condensed {
   background-color: transparent;
 }
 .nav li .navbar-text {
-  color: #4B613A;
+  color: #fff;
   font-family: "Open Sans", sans-serif;
 }
 .nav .open > a,
@@ -129,19 +137,20 @@ form .form-group-condensed {
   z-index: 16000;
 }
 ul.dropdown-menu {
-  background-color: #fff;
+  background-color: #7E9A2C;
   border: 1px solid #fff;
 }
 ul.dropdown-menu li a {
   font-weight: 600;
   font-family: "Open Sans", sans-serif;
-  color: #4B613A;
-  background-color: #fff;
+  color: #fff;
+  background-color: #7E9A2C;
 }
-ul.dropdown-menu li a:hover {
+ul.dropdown-menu li a:hover,
+ul.dropdown-menu li a:active,
+ul.dropdown-menu li a:focus {
   color: #0B90D1;
   background-color: #ecf7fb;
-  color: #4B613A;
   text-decoration: none;
 }
 ul.dropdown-menu .divider {
@@ -267,21 +276,21 @@ footer p {
 .firma-modal-dialog .btn-firma {
   font-size: 14px;
   color: #fff;
-  background-color: #477514;
+  background-color: #3670c5;
 }
 .btn-primary:hover {
   color: #fff;
-  background-color: #68A042;
+  background-color: #5C91DE;
 }
 .btn-firma:hover,
 .btn-primary:focus,
 .btn-primary.focus {
   color: #fff;
-  background-color: #68A042;
+  background-color: #5C91DE;
 }
 a.btn-firma {
   color: #fff;
-  background-color: #477514;
+  background-color: #3670c5;
 }
 .btn-tag {
   color: black;
@@ -396,10 +405,14 @@ table.summaryLayout td {
   border-color: #ddd;
   font-weight: 400;
   font-size: 16px;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Bree Serif", sans-serif;
   margin-bottom: 0;
   margin-top: 0;
   text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.panelFirma .panelTitle a .glyphicon {
+  color: white;
 }
 .fieldLabel {
   font-weight: 600;
@@ -411,7 +424,7 @@ table.summaryLayout td {
 }
 a.gridButton {
   margin: 0 7px 0 0;
-  background-color: #477514;
+  background-color: #3670c5;
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -435,7 +448,7 @@ a.gridButton.disabled {
 }
 /* STANDARD */
 a.gridButton:hover {
-  background-color: #68A042;
+  background-color: #5C91DE;
   color: #fff;
 }
 a.excelbutton {
@@ -495,13 +508,13 @@ nav#tableOfContents ul.nav li.active ul.nav {
   max-height: 200px;
 }
 nav#tableOfContents ul.nav li.active a {
-  color: #007CB9;
-  border-left: 4px solid #007CB9;
+  color: #3670c5;
+  border-left: 4px solid #3670c5;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li.active a {
-  color: #007CB9;
-  border-left: 2px solid #007CB9;
+  color: #3670c5;
+  border-left: 2px solid #3670c5;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li a {
@@ -511,12 +524,12 @@ nav#tableOfContents ul.nav li.active ul.nav li a {
   color: #1c2329;
 }
 nav#tableOfContents ul.nav li a:hover {
-  color: #007CB9;
+  color: #3670c5;
   cursor: pointer;
   text-decoration: none;
 }
 nav#tableOfContents ul.nav li ul.nav li a:hover {
-  color: #007CB9;
+  color: #3670c5;
   cursor: pointer;
   text-decoration: none;
 }
@@ -552,18 +565,16 @@ h2.sectionHeader {
   display: inline-block;
   position: relative;
   padding: 10px 15px;
-  width: 100%;
+  text-align: center;
 }
-.arrow.current {
+.singleArrow.current {
   background-color: #7E9A2C;
   border-left-color: #7E9A2C;
-}
-.arrow.default {
-  background: #ddd;
   color: #fff;
 }
-.singleArrow {
-  background: #ddd;
+.singleArrow.default {
+  background-color: #bbb;
+  border-left-color: #bbb;
   color: #fff;
 }
 /* First arrow */
@@ -574,9 +585,11 @@ h2.sectionHeader {
 .firstArrow.current {
   background-color: #7E9A2C;
   border-left-color: #7E9A2C;
+  color: #fff;
 }
 .firstArrow.default {
-  background: #ddd;
+  background-color: #bbb;
+  border-left-color: #bbb;
   color: #fff;
 }
 .firstArrow:after {
@@ -600,9 +613,11 @@ h2.sectionHeader {
 .middleArrow.current {
   background-color: #7E9A2C;
   border-left-color: #7E9A2C;
+  color: #fff;
 }
 .middleArrow.default {
-  background: #ddd;
+  background-color: #bbb;
+  border-left-color: #bbb;
   color: #fff;
 }
 .middleArrow:before {
@@ -631,7 +646,9 @@ h2.sectionHeader {
   border-top: 22px solid transparent;
   border-right: 22px solid transparent;
   border-bottom: 22px solid transparent;
-  border-left: 7px solid #ddd;
+  border-left-width: 7px;
+  border-left-style: solid;
+  border-left-color: inherit;
   z-index: 900;
 }
 /* Last arrow */
@@ -642,9 +659,11 @@ h2.sectionHeader {
 .lastArrow.current {
   background-color: #7E9A2C;
   border-left-color: #7E9A2C;
+  color: #fff;
 }
 .lastArrow.default {
-  background: #ddd;
+  background-color: #bbb;
+  border-left-color: #bbb;
   color: #fff;
 }
 .lastArrow:before {

@@ -93,45 +93,38 @@
 }
 
 <div class="row" style="margin: 20px 0;">
-
-    @for (var i = 0; i < ViewDataTyped.ProjectStages.Count; i++)
-    {
-        var stage = ViewDataTyped.ProjectStages[i];
-
-        var isCurrentStage = stage == ViewDataTyped.Project.ProjectStage;
-
-        var stateName = "default";
-        if (isCurrentStage)
+    <div class="col-xs-12">
+        @for (var i = 0; i < ViewDataTyped.ProjectStages.Count; i++)
         {
-            stateName = "current";
-        }
+            var stage = ViewDataTyped.ProjectStages[i];
 
-        var arrowClass = "middleArrow";
-        if (i == 0)
-        {
-            arrowClass = "firstArrow";
-        }
-        else if (i == ViewDataTyped.ProjectStages.Count-1)
-        {
-            arrowClass = "lastArrow";
-        }
-        else if (i == 0 && ViewDataTyped.ProjectStages.Count == 0)
-        {
-            arrowClass = "singleArrow";
-        }
+            var isCurrentStage = stage == ViewDataTyped.Project.ProjectStage;
 
-        var width = 100 / ViewDataTyped.ProjectStages.Count;
-        var widthString =String.Format("{0}%", width);
+            var stateName = "default";
+            if (isCurrentStage)
+            {
+                stateName = "current";
+            }
 
+            var arrowClass = "middleArrow";
+            if (i == 0)
+            {
+                arrowClass = "firstArrow";
+            }
+            else if (i == ViewDataTyped.ProjectStages.Count - 1)
+            {
+                arrowClass = "lastArrow";
+            }
+            else if (i == 0 && ViewDataTyped.ProjectStages.Count == 0)
+            {
+                arrowClass = "singleArrow";
+            }
 
-        <div class="col-sm-3" style="width:@Html.Raw(widthString)">
             <div class="breadcrumbTitle arrow @Html.Raw(stateName) @Html.Raw(arrowClass)">@stage.ProjectStageDisplayName</div>
-        </div>
-
-    }
+        }
+    </div>
+    
 </div>
-
-
         <div data-spy="scroll" data-target="#toc">
             <div id="contentForTOC" class="container-fluid">
                 <div class="row">

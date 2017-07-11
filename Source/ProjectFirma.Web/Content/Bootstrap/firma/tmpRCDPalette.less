@@ -9,15 +9,13 @@
 // Fonts
 @import url(https://fonts.googleapis.com/css?family=Basic);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
-@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
-@import url(https://fonts.googleapis.com/css?family=EB+Garamond:400,700);
+@import url(https://fonts.googleapis.com/css?family=Bree+Serif);
 
 
 
 // Customizable Variables
 @firma-menu-font: "Open Sans", sans-serif;
-@firma-header-font: "Montserrat", sans-serif;
+@firma-header-font: "Bree Serif", sans-serif;
 @firma-text-font: "Open Sans",sans-serif;
 @firma-text-fontSize: 14px;
 
@@ -28,11 +26,11 @@
 @firma-contentBackground-color: #fff;
 @firma-contentBorder-color: #fff;
 
-@firma-logoHeaderBackground-color: #F5F8E7;
-@firma-logoHeaderText-color: #4B613A;
-@firma-navBackground-color: #fff;
+@firma-logoHeaderBackground-color: #476926;
+@firma-logoHeaderText-color: #fff;
+@firma-navBackground-color: #7E9A2C;
 @firma-navBorder-color: #fff;
-@firma-navText-color: #4B613A;
+@firma-navText-color: #fff;
 @firma-navItemText-color-hover: #0B90D1;
 @firma-navItemBackground-color-hover: #ecf7fb;
 
@@ -45,16 +43,16 @@
 
 @firma-helpIcon-color: #6c91a4;
 
-@firma-buttonBackground-color: #477514;
+@firma-buttonBackground-color: #3670c5;
 @firma-buttonText-color: #fff;
-@firma-buttonBackground-color-hover: #68A042;
+@firma-buttonBackground-color-hover: #5C91DE;
 @firma-buttonText-color-hover: #fff;
 
-@firma-scrollSpyAccent-color: #007CB9;
+@firma-scrollSpyAccent-color: #3670c5;
 
 @firma-white: #fff;
 @firma-active-arrow-color: #7E9A2C;
-@firma-inactive-arrow-color: #ddd;
+@firma-inactive-arrow-color: #bbb;
 
 @z-index-arrow: 900;
 
@@ -88,6 +86,7 @@ h1, h2, h3, h4, h5, h6 {
     color: @firma-header-color;
     font-family: @firma-header-font;
     font-weight: 600;
+
 }
 
 .container {
@@ -98,8 +97,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .pageTitle {
-    font-weight: 600;
+    font-weight: 400;
     color: @firma-pageTitle-color;
+    font-size: 28px
 }
 
 #mainnavandcontent {
@@ -144,13 +144,16 @@ form {
 
     .headerText {
         display: inline-block;
-        font-size: 30px;
+        font-size: 36px;
         font-weight: 600;
         font-family: @firma-header-font;
         color: @firma-logoHeaderText-color;
         vertical-align: bottom;
         margin-bottom: 6px;
-        margin-bottom: 10px;;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        text-shadow: 1px 1px 1px #7E9A2C;
+        letter-spacing: 3px;
 
         a {
             color: @firma-logoHeaderText-color;
@@ -160,11 +163,14 @@ form {
             text-decoration: none;
         }
     }
+
 }
 
 .navbar {
-    background-color: @firma-navBackground-color;
-    border-bottom-color: @firma-navBorder-color;
+    background: @firma-logoHeaderBackground-color; /* For browsers that do not support gradients */
+    
+    background: linear-gradient(@firma-logoHeaderBackground-color, @firma-navBackground-color); /* Standard syntax */
+    border: none;
     border-radius: 0;
 }
 
@@ -175,13 +181,13 @@ form {
 
 .nav li {
     font-weight: 600;
-
+    text-transform: uppercase;
     a {
         color: @firma-navText-color;
         font-family: @firma-menu-font;
     }
     
-    a:hover {
+    a:hover, a:focus, a:active {
         color: @firma-navItemText-color-hover;
         background-color: @firma-navItemBackground-color-hover;
         text-decoration: none;
@@ -222,10 +228,9 @@ ul.dropdown-menu{
             background-color: @firma-navBackground-color;
         }
 
-        a:hover {
-             color: @firma-navItemText-color-hover;
+        a:hover, a:active, a:focus {
+            color: @firma-navItemText-color-hover;
             background-color: @firma-navItemBackground-color-hover;
-            color: @firma-navText-color;
             text-decoration: none;
         }
     }
@@ -518,18 +523,22 @@ table.summaryLayout td {
 .panelFirma {
     border-color: @firma-panel-border-color;
 
-.panelTitle, .panelTitle h2, .panelTitle h3 {
-    color: @firma-panel-headerText-color;
-    background-color: @firma-panel-headerBackground-color;
-    border-color: @firma-panel-border-color;
-    font-weight: 400;
-    font-size: 16px;
-    font-family: @firma-header-font;
-    margin-bottom: 0;
-    margin-top: 0;
-    text-transform: uppercase;
+    .panelTitle, .panelTitle h2, .panelTitle h3 {
+        color: @firma-panel-headerText-color;
+        background-color: @firma-panel-headerBackground-color;
+        border-color: @firma-panel-border-color;
+        font-weight: 400;
+        font-size: 16px;
+        font-family: @firma-header-font;
+        margin-bottom: 0;
+        margin-top: 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
+    .panelTitle a .glyphicon {
+        color: white;
+    }
 }
 
 .fieldLabel {
@@ -706,22 +715,21 @@ h2.sectionHeader {
     display: inline-block;
     position: relative;
     padding: 10px 15px;
-    width: 100%;
-
-    &.current {
-        background-color: @firma-active-arrow-color;
-        border-left-color: @firma-active-arrow-color;
-    }
-
-    &.default {
-        background: @firma-inactive-arrow-color;
-        color: @firma-white;
-    }
+    text-align: center;
 }
 
 .singleArrow {
-    background: @firma-inactive-arrow-color;
-    color: @firma-white;
+    &.current {
+        background-color: @firma-active-arrow-color;
+        border-left-color: @firma-active-arrow-color;
+        color: @firma-white;
+    }
+
+    &.default {
+        background-color: @firma-inactive-arrow-color;
+        border-left-color: @firma-inactive-arrow-color;
+        color: @firma-white;
+    }
 }
 
 /* First arrow */
@@ -729,10 +737,12 @@ h2.sectionHeader {
     &.current {
         background-color: @firma-active-arrow-color;
         border-left-color: @firma-active-arrow-color;
+        color: @firma-white;
     }
 
     &.default {
-        background: @firma-inactive-arrow-color;
+        background-color: @firma-inactive-arrow-color;
+        border-left-color: @firma-inactive-arrow-color;
         color: @firma-white;
     }
 
@@ -762,10 +772,12 @@ h2.sectionHeader {
     &.current {
         background-color: @firma-active-arrow-color;
         border-left-color: @firma-active-arrow-color;
+        color: @firma-white;
     }
 
     &.default {
-        background: @firma-inactive-arrow-color;
+        background-color: @firma-inactive-arrow-color;
+        border-left-color: @firma-inactive-arrow-color;
         color: @firma-white;
     }
 }
@@ -782,7 +794,7 @@ h2.sectionHeader {
   border-top: 22px solid transparent;
   border-right: 22px solid transparent;
   border-bottom: 22px solid transparent;
-  border-left: 7px solid @firma-white;
+  border-left: 7px solid @firma-contentBackground-color;
 }
 
 .middleArrow:after {
@@ -797,7 +809,9 @@ h2.sectionHeader {
     border-top: 22px solid transparent;
     border-right: 22px solid transparent;
     border-bottom: 22px solid transparent;
-    border-left: 7px solid @firma-inactive-arrow-color;
+    border-left-width: 7px;
+    border-left-style: solid;
+    border-left-color: inherit;
     z-index: @z-index-arrow;
 }
 
@@ -806,29 +820,31 @@ h2.sectionHeader {
     &.current {
         background-color: @firma-active-arrow-color;
         border-left-color: @firma-active-arrow-color;
+        color: @firma-contentBackground-color;
     }
 
     &.default {
-        background: @firma-inactive-arrow-color;
-        color: @firma-white;
+        background-color: @firma-inactive-arrow-color;
+        border-left-color: @firma-inactive-arrow-color;
+        color: @firma-contentBackground-color;
     }
 
     border-top-right-radius: .25rem;
     border-bottom-right-radius: .25rem;
 }
 .lastArrow:before {
-  content: '';
-  display: block;
-  position: absolute;
-  left: 0%;
-  top: 50%;
-  margin-top: -22px;
-  width: 0;
-  height: 0;
-  border-top: 22px solid transparent;
-  border-right: 22px solid transparent;
-  border-bottom: 22px solid transparent;
-  border-left: 7px solid @firma-white;
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0%;
+    top: 50%;
+    margin-top: -22px;
+    width: 0;
+    height: 0;
+    border-top: 22px solid transparent;
+    border-right: 22px solid transparent;
+    border-bottom: 22px solid transparent;
+    border-left: 7px solid @firma-contentBackground-color;
 }
 
 /* begin photo gallery css*/
