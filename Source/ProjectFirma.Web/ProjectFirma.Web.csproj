@@ -45,6 +45,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controllers\FirmaHomePageImageController.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.Binding.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\AssessmentGoalPrimaryKey.Binding.cs" />
@@ -85,6 +86,9 @@
     <Compile Include="Models\Generated\FileResourceMimeType.Binding.cs" />
     <Compile Include="Models\Generated\FileResourceMimeTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FileResourcePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaHomePageImage.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaHomePageImage.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FirmaHomePageImagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FirmaPage.Binding.cs" />
     <Compile Include="Models\Generated\FirmaPage.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\FirmaPageImage.Binding.cs" />
@@ -449,6 +453,7 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Organization\PullOrganizationFromKeystone.cshtml" />
+    <Content Include="Views\Home\ManageHomePageImages.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
     <Compile Include="Models\NotificationType.cs" />
     <Compile Include="Models\Tenant.cs" />
@@ -458,8 +463,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Views\Home\ManageHomePageImagesViewData.cs" />
+    <Compile Include="Views\Home\ManageHomePageImages.cs" />
     <Compile Include="Views\Home\FeaturedProjects.cs" />
     <Compile Include="Views\Home\FeaturedProjectsViewData.cs" />
+    <Compile Include="Models\FirmaHomePageImage.cs" />
     <Compile Include="Views\Organization\PullOrganizationFromKeystone.cs" />
     <Compile Include="Views\Organization\PullOrganizationFromKeystoneViewData.cs" />
     <Compile Include="Views\Organization\PullOrganizationFromKeystoneViewModel.cs" />
@@ -616,6 +624,12 @@
     <Compile Include="Views\PerformanceMeasureMonitoringProgram\EditPerformanceMeasureMonitoringPrograms.cs" />
     <Compile Include="Views\PerformanceMeasureMonitoringProgram\EditPerformanceMeasureMonitoringProgramsViewData.cs" />
     <Compile Include="Views\PerformanceMeasureMonitoringProgram\EditPerformanceMeasureMonitoringProgramsViewModel.cs" />
+    <Compile Include="Views\FirmaHomePageImage\Edit.cs" />
+    <Compile Include="Views\FirmaHomePageImage\EditViewData.cs" />
+    <Compile Include="Views\FirmaHomePageImage\EditViewModel.cs" />
+    <Compile Include="Views\FirmaHomePageImage\New.cs" />
+    <Compile Include="Views\FirmaHomePageImage\NewViewData.cs" />
+    <Compile Include="Views\FirmaHomePageImage\NewViewModel.cs" />
     <Compile Include="Views\Tenant\Detail.cs" />
     <Compile Include="Views\TaxonomyTierTwoPerformanceMeasure\Edit.cs" />
     <Compile Include="Views\TaxonomyTierTwoPerformanceMeasure\EditViewData.cs" />
@@ -1187,6 +1201,8 @@
     <Content Include="Views\Tenant\Detail.cshtml" />
     <Content Include="Views\Tenant\EditBasics.cshtml" />
     <Content Include="Views\Tenant\EditBoundingBox.cshtml" />
+    <Content Include="Views\FirmaHomePageImage\Edit.cshtml" />
+    <Content Include="Views\FirmaHomePageImage\New.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
