@@ -35,15 +35,15 @@ Source code is available upon request via <support@sitkatech.com>.
 
     <title>@MultiTenantHelpers.GetTenantDisplayName()  @(!string.IsNullOrWhiteSpace(ViewDataTyped.HtmlPageTitle) ? string.Format(" | {0}", ViewDataTyped.HtmlPageTitle) : string.Empty)@ViewDataTyped.GetBreadCrumbTitle()</title>
 
-    <link rel="apple-touch-icon" sizes="57x57" href="/Content/img/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/Content/img/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/Content/img/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/Content/img/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/Content/img/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/Content/img/apple-icon-120x120.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/Content/img/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/Content/img/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/Content/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-57x57.png", MultiTenantHelpers.GetTenantName())>
+    <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-60x60.png", MultiTenantHelpers.GetTenantName())>
+    <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-72x72.png", MultiTenantHelpers.GetTenantName())>
+    <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-76x76.png", MultiTenantHelpers.GetTenantName())>
+    <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-114x114.png", MultiTenantHelpers.GetTenantName())>
+    <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-120x120.png", MultiTenantHelpers.GetTenantName())>
+    <link rel="icon" type="image/png" sizes="57x57" href=@string.Format("/Content/img/{0}/favicon-32x32.png", MultiTenantHelpers.GetTenantName())>
+    <link rel="icon" type="image/png" sizes="57x57" href=@string.Format("/Content/img/{0}/favicon-96x96.png", MultiTenantHelpers.GetTenantName())>
+    <link rel="icon" type="image/png" sizes="57x57" href=@string.Format("/Content/img/{0}/favicon-16x16.png", MultiTenantHelpers.GetTenantName())>
 
     @{ Html.RenderRazorSitkaPartial<FirmaIncludes>(); }
     
@@ -56,11 +56,10 @@ Source code is available upon request via <support@sitkatech.com>.
 
 </head>
 <body>
-    <div id="wrapper">
+    <div class="expandToFillScreen">
         <div class="header">
             <img class="headerLogo" src="@MultiTenantHelpers.GetTenantBannerLogoUrl()" />
             <div class="headerText">
-                |
                 <a href="@ViewDataTyped.FirmaHomeUrl">@MultiTenantHelpers.GetTenantDisplayName()</a>
             </div>
 
@@ -167,7 +166,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
             @RenderBody()
         </div>
-        <div id="push"></div>
     </div>
 
     <footer id="footer">

@@ -56,6 +56,11 @@ namespace ProjectFirma.Web.Common
             return HttpRequestStorage.Tenant.GetTenantAttribute().TenantDisplayName;
         }
 
+        public static string GetTenantName()
+        {
+            return HttpRequestStorage.Tenant.TenantName;
+        }
+
         public static string GetToolDisplayName()
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().ToolDisplayName;

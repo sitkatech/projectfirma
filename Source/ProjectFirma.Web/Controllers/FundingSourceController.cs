@@ -86,6 +86,9 @@ namespace ProjectFirma.Web.Controllers
             var fundingSource = new FundingSource(viewModel.OrganizationID, string.Empty, true);
             viewModel.UpdateModel(fundingSource, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllFundingSources.Add(fundingSource);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            SetMessageForDisplay($"Funding Source {fundingSource.DisplayName} succesfully created.");
+
             return new ModalDialogFormJsonResult();
         }
 
