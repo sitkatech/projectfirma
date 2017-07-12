@@ -26,7 +26,7 @@ VALUES
 (31, N'ProjectNote', N'Project Note', N'<p>Any important information about a project that would be useful to staff or project implementers.</p>'),
 (32, N'ImplementationStartYear', N'Implementation Start Year', N'<p>The year during which project construction or program implementation was started or is expected to be started. Contrast with &quot;Planning / Design Start Year.&quot; For more detailed information on implementation stages, see the definition for &quot;Stage&quot;.</p>'),
 (33, N'ReportedValue', N'Reported Value', N'<p>The accomplishments achieved by a project after the accomplishments are realized. Accomplishments can be realized and reported throughout implementation and not only after the entire project is completed.</p>'),
-(34, N'Sector', N'Sector', N'<p>A categorization of an organization as Local, State, Federal or Private.</p>'),
+(34, N'OrganizationType', N'Organization Type', N'<p>A categorization of an organization, e.g. Local, State, Federal or Private.</p>'),
 (35, N'SecuredFunding', N'Secured Funding', N'<p>Funding that has been acquired for a project but may not have necessarily been expended.</p>'),
 (36, N'ProjectStage', N'Project Stage', N'<p>Where a project exists in the project life cycle - Planning/Design, Implementation, Complete, Terminated, etc.</p>'),
 (39, N'ClassificationName', N'Classification Name', N'<p>The name of the this classification system record.-</p>'),

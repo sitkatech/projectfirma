@@ -20,45 +20,42 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Models
 {
-    public class SectorSimple
+    public class OrganizationTypeSimple
     {
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
-        public SectorSimple()
+        public OrganizationTypeSimple()
         {
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public SectorSimple(int sectorID, string sectorName, string sectorDisplayName, string sectorAbbreviation, string legendColor)
+        public OrganizationTypeSimple(int organizationTypeId, string organizationTypeName, string organizationTypeAbbreviation, string legendColor)
             : this()
         {
-            SectorID = sectorID;
-            SectorName = sectorName;
-            SectorDisplayName = sectorDisplayName;
-            SectorAbbreviation = sectorAbbreviation;
+            OrganizationTypeID = organizationTypeId;
+            OrganizationTypeName = organizationTypeName;
+            OrganizationTypeAbbreviation = organizationTypeAbbreviation;
             LegendColor = legendColor;
         }
 
         /// <summary>
         /// Constructor for building a new simple object with the POCO class
         /// </summary>
-        public SectorSimple(Sector sector)
+        public OrganizationTypeSimple(OrganizationType organizationType)
             : this()
         {
-            SectorID = sector.SectorID;
-            SectorName = sector.SectorName;
-            SectorDisplayName = sector.SectorDisplayName;
-            SectorAbbreviation = sector.SectorAbbreviation;
-            LegendColor = sector.LegendColor;
+            OrganizationTypeID = organizationType.OrganizationTypeID;
+            OrganizationTypeName = organizationType.OrganizationTypeName;
+            OrganizationTypeAbbreviation = organizationType.OrganizationTypeAbbreviation;
+            LegendColor = organizationType.LegendColor;
         }
 
-        public int SectorID { get; set; }
-        public string SectorName { get; set; }
-        public string SectorDisplayName { get; set; }
-        public string SectorAbbreviation { get; set; }
+        public int OrganizationTypeID { get; set; }
+        public string OrganizationTypeName { get; set; }
+        public string OrganizationTypeAbbreviation { get; set; }
         public string LegendColor { get; set; }
     }
 }

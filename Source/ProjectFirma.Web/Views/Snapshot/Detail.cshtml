@@ -112,7 +112,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
             <table class="summaryLayout">
                 <tr>
-                    <th>@Html.LabelWithSugarFor(FieldDefinition.Sector)</th>
+                    <th>@Html.LabelWithSugarFor(FieldDefinition.OrganizationType)</th>
                     @foreach (var calendarYear in ViewDataTyped.SectorExpenditureCalendarYears)
                     {
                         <th class="text-right">
@@ -121,15 +121,15 @@ Source code is available upon request via <support@sitkatech.com>.
                     }
                     <th class="text-right">Total</th>
                 </tr>
-                @foreach (var sector in ViewDataTyped.Sectors)
+                @foreach (var organizationType in ViewDataTyped.OrganizationTypes)
                 {
                     <tr>
-                        <td>@sector.SectorDisplayName</td>
+                        <td>@organizationType.OrganizationTypeName</td>
                         @foreach (var calendarYear in ViewDataTyped.SectorExpenditureCalendarYears)
                         {
-                            <td class="text-right">@ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Where(expenditure => expenditure.CalendarYear == calendarYear && expenditure.Sector == sector).Sum(expenditure => expenditure.ExpenditureAmount).ToStringCurrency()</td>
+                            <td class="text-right">@ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Where(expenditure => expenditure.CalendarYear == calendarYear && expenditure.OrganizationType == organizationType).Sum(expenditure => expenditure.ExpenditureAmount).ToStringCurrency()</td>
                         }
-                        <th class="text-right">@ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Where(expenditure => expenditure.Sector == sector).Sum(expenditure => expenditure.ExpenditureAmount).ToStringCurrency()</th>
+                        <th class="text-right">@ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Where(expenditure => expenditure.OrganizationType == organizationType).Sum(expenditure => expenditure.ExpenditureAmount).ToStringCurrency()</th>
                     </tr>
                 }
                 @if (ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Any())

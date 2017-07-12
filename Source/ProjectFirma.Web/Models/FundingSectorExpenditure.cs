@@ -25,36 +25,36 @@ namespace ProjectFirma.Web.Models
 {
     public class FundingSectorExpenditure
     {
-        private readonly SectorSimple _sector;
-        public int SectorID
+        private readonly OrganizationTypeSimple _organizationType;
+        public int OrganizationTypeID
         {
-            get { return _sector.SectorID; }
+            get { return _organizationType.OrganizationTypeID; }
         }
-        public string SectorDisplayName
+        public string OrganizationTypeName
         {
-            get { return _sector.SectorDisplayName; }
+            get { return _organizationType.OrganizationTypeName; }
         }
         public string LegendColor
         {
-            get { return _sector.LegendColor; }
+            get { return _organizationType.LegendColor; }
         }
         public readonly decimal CalendarYearExpenditureAmount;
         public readonly int FundingSourceCount;
         public readonly int FundingOrganizationCount;
         public readonly int? CalendarYear;
 
-        public FundingSectorExpenditure(Sector sector, decimal calendarYearExpenditureAmount, int fundingSourceCount, int fundingOrganizationCount, int? calendarYear)
+        public FundingSectorExpenditure(OrganizationType organizationType, decimal calendarYearExpenditureAmount, int fundingSourceCount, int fundingOrganizationCount, int? calendarYear)
         {
-            _sector = new SectorSimple(sector);
+            _organizationType = new OrganizationTypeSimple(organizationType);
             CalendarYear = calendarYear;
             CalendarYearExpenditureAmount = calendarYearExpenditureAmount;
             FundingSourceCount = fundingSourceCount;
             FundingOrganizationCount = fundingOrganizationCount;
         }
 
-        public FundingSectorExpenditure(Sector sector, List<ProjectFundingSourceExpenditure> projectFundingSourceExpendituresForThisSectorAndCalendarYear, int? calendarYear)
+        public FundingSectorExpenditure(OrganizationType organizationType, List<ProjectFundingSourceExpenditure> projectFundingSourceExpendituresForThisSectorAndCalendarYear, int? calendarYear)
         {
-            _sector = new SectorSimple(sector);
+            _organizationType = new OrganizationTypeSimple(organizationType);
             CalendarYear = calendarYear;
             CalendarYearExpenditureAmount = projectFundingSourceExpendituresForThisSectorAndCalendarYear.Sum(x => x.ExpenditureAmount);
             FundingSourceCount = projectFundingSourceExpendituresForThisSectorAndCalendarYear.Select(x => x.FundingSourceID).Distinct().Count();

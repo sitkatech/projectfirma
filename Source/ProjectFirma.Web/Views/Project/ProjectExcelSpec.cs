@@ -130,7 +130,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn("Project Name", x => x.Project.ProjectName);
             AddColumn("Funding Source", x => x.FundingSource.FundingSourceName);
             AddColumn("Funding Organization", x => x.FundingSource.Organization.OrganizationName);
-            AddColumn("Sector", x => x.FundingSource.Organization.Sector.SectorDisplayName);
+            AddColumn("Sector", x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName);
             AddColumn("Calendar Year", x => x.CalendarYear);
             AddColumn("Expenditure Amount", x => x.ExpenditureAmount);
         }

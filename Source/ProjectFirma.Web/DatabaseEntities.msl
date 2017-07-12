@@ -253,11 +253,22 @@
           <ScalarProperty Name="OrganizationGuid" ColumnName="OrganizationGuid" />
           <ScalarProperty Name="OrganizationName" ColumnName="OrganizationName" />
           <ScalarProperty Name="OrganizationAbbreviation" ColumnName="OrganizationAbbreviation" />
-          <ScalarProperty Name="SectorID" ColumnName="SectorID" />
           <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="OrganizationUrl" ColumnName="OrganizationUrl" />
           <ScalarProperty Name="LogoFileResourceID" ColumnName="LogoFileResourceID" />
+          <ScalarProperty Name="OrganizationTypeID" ColumnName="OrganizationTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrganizationType">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.OrganizationType">
+        <MappingFragment StoreEntitySet="OrganizationType">
+          <ScalarProperty Name="OrganizationTypeID" ColumnName="OrganizationTypeID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="OrganizationTypeName" ColumnName="OrganizationTypeName" />
+          <ScalarProperty Name="OrganizationTypeAbbreviation" ColumnName="OrganizationTypeAbbreviation" />
+          <ScalarProperty Name="LegendColor" ColumnName="LegendColor" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -996,9 +1007,9 @@
           <ScalarProperty Name="SnapshotSectorExpenditureID" ColumnName="SnapshotSectorExpenditureID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="SnapshotID" ColumnName="SnapshotID" />
-          <ScalarProperty Name="SectorID" ColumnName="SectorID" />
           <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
           <ScalarProperty Name="ExpenditureAmount" ColumnName="ExpenditureAmount" />
+          <ScalarProperty Name="OrganizationTypeID" ColumnName="OrganizationTypeID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

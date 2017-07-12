@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="Sector.cs" company="Tahoe Regional Planning Agency">
+<copyright file="TestOrganization.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,9 +18,21 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirma.Web.Models
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+
+namespace ProjectFirma.Web.UnitTestCommon
 {
-    public partial class Sector
+    public static partial class TestFramework
     {
+        public static class TestOrganizationType
+        {
+            public static OrganizationType Create()
+            {
+                var organizationType = OrganizationType.CreateNewBlank();
+                return organizationType;
+            }
+
+        }
     }
 }

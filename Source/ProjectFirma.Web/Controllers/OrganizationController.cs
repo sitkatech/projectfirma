@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, true, null);
             }
-            var organization = new Organization(String.Empty, viewModel.SectorID, true);
+            var organization = new Organization(String.Empty, true);
             viewModel.UpdateModel(organization, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
             return new ModalDialogFormJsonResult();
@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditViewModel viewModel, bool isInKeystone, Person currentPrimaryContactPerson)
         {
-            var sectorsAsSelectListItems = Sector.All.ToSelectList(x => x.SectorID.ToString(CultureInfo.InvariantCulture), x => x.SectorDisplayName);
+            var organizationTypesAsSelectListItems = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToSelectList(x => x.OrganizationTypeID.ToString(CultureInfo.InvariantCulture), x => x.OrganizationTypeName);
             var activePeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
             if (currentPrimaryContactPerson != null && !activePeople.Contains(currentPrimaryContactPerson))
             {
@@ -121,7 +121,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var peopleAsSelectListItems = activePeople.ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.FullNameFirstLastAndOrg, "<None>").ToList();
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
-            var viewData = new EditViewData(sectorsAsSelectListItems, peopleAsSelectListItems, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin);
+            var viewData = new EditViewData(organizationTypesAsSelectListItems, peopleAsSelectListItems, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -325,7 +325,7 @@ namespace ProjectFirma.Web.Controllers
                 return new ModalDialogFormJsonResult();
             }
 
-            firmaOrganization = new Organization(keystoneOrganization.FullName, Sector.Private, true)
+            firmaOrganization = new Organization(keystoneOrganization.FullName, true)
             {
                 OrganizationGuid = keystoneOrganization.OrganizationGuid,
                 OrganizationAbbreviation = keystoneOrganization.ShortName,

@@ -22,6 +22,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views;
 using LtInfo.Common;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Results
 {
@@ -31,23 +32,23 @@ namespace ProjectFirma.Web.Views.Results
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public ProjectFundingSourceExpendituresBySectorViewData(int? sectorID, int? calendarYear)
+        public ProjectFundingSourceExpendituresBySectorViewData(int? organizationTypeID, int? calendarYear)
         {
-            var sectorDisplayString = "all Sectors";
-            if (sectorID.HasValue)
+            var organizationTypeDisplayName = "all Organization Types";
+            if (organizationTypeID.HasValue)
             {
-                var sector = Sector.AllLookupDictionary[sectorID.Value];
-                sectorDisplayString = string.Format("selected Sector: {0}", sector.SectorDisplayName);
+                var organizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetOrganizationType(organizationTypeID.Value);
+                organizationTypeDisplayName = string.Format("selected Organization Type: {0}", organizationType.OrganizationTypeName);
             }
             GridSpec = new ProjectFundingSourceExpendituresBySectorGridSpec(calendarYear)
             {
-                ObjectNameSingular = string.Format("record by {0}", sectorDisplayString),
-                ObjectNamePlural = string.Format("records by {0}", sectorDisplayString),
+                ObjectNameSingular = string.Format("record by {0}", organizationTypeDisplayName),
+                ObjectNamePlural = string.Format("records by {0}", organizationTypeDisplayName),
                 SaveFiltersInCookie = true
             };
 
             GridName = "projectFundingSourceExpendituresBySectorGrid";
-            GridDataUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(tc => tc.ProjectExpendituresByFundingSectorGridJsonData(sectorID, calendarYear));
+            GridDataUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(tc => tc.ProjectExpendituresByFundingSectorGridJsonData(organizationTypeID, calendarYear));
         }
     }
 }

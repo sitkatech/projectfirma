@@ -128,6 +128,9 @@
     <Compile Include="Models\Generated\Organization.Binding.cs" />
     <Compile Include="Models\Generated\Organization.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\OrganizationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationType.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\OrganizationTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasure.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasure.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureActual.Binding.cs" />
@@ -305,8 +308,6 @@
     <Compile Include="Models\Generated\ProposedProjectStatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Role.Binding.cs" />
     <Compile Include="Models\Generated\RolePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\Sector.Binding.cs" />
-    <Compile Include="Models\Generated\SectorPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Snapshot.Binding.cs" />
     <Compile Include="Models\Generated\Snapshot.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\SnapshotPerformanceMeasure.Binding.cs" />
@@ -458,6 +459,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="UnitTestCommon\TestOrganizationType.cs" />
     <Compile Include="Views\Home\FeaturedProjects.cs" />
     <Compile Include="Views\Home\FeaturedProjectsViewData.cs" />
     <Compile Include="Views\Organization\PullOrganizationFromKeystone.cs" />
@@ -703,7 +705,7 @@
     <Compile Include="Models\MonitoringProgramPartnerSimple.cs" />
     <Compile Include="Models\ProjectWatershedSimple.cs" />
     <Compile Include="Models\ProposedProjectImage.cs" />
-    <Compile Include="Models\SectorSimple.cs" />
+    <Compile Include="Models\OrganizationTypeSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategory.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategoryOptionSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategorySimple.cs" />
@@ -1472,7 +1474,6 @@
     <Compile Include="Models\ProjectUpdateHistoryTest.cs" />
     <Compile Include="Models\ProjectWatershed.cs" />
     <Compile Include="Models\FundingSectorExpenditure.cs" />
-    <Compile Include="Models\Sector.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategoryOption.cs" />
     <Compile Include="Models\SupportRequestLog.cs" />
     <Compile Include="Models\Classification.cs" />

@@ -72,6 +72,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<Notification> Notifications { get { return AllNotifications.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Organization> AllOrganizations { get; set; }
         public virtual IQueryable<Organization> Organizations { get { return AllOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<OrganizationType> AllOrganizationTypes { get; set; }
+        public virtual IQueryable<OrganizationType> OrganizationTypes { get { return AllOrganizationTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Person> AllPeople { get; set; }
         public virtual IQueryable<Person> People { get { return AllPeople.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<PerformanceMeasureActual> AllPerformanceMeasureActuals { get; set; }
@@ -313,6 +315,9 @@ namespace ProjectFirma.Web.Models
                 case "Organization":
                     return Organizations.GetOrganization(primaryKey);
 
+                case "OrganizationType":
+                    return OrganizationTypes.GetOrganizationType(primaryKey);
+
                 case "Person":
                     return People.GetPerson(primaryKey);
 
@@ -525,11 +530,6 @@ namespace ProjectFirma.Web.Models
                     var role = Role.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(role, "Role", primaryKey);
                     return role;
-
-                case "Sector":
-                    var sector = Sector.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(sector, "Sector", primaryKey);
-                    return sector;
 
                 case "SnapshotPerformanceMeasure":
                     return SnapshotPerformanceMeasures.GetSnapshotPerformanceMeasure(primaryKey);

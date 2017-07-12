@@ -24,23 +24,23 @@ namespace ProjectFirma.Web.Models
 {
     public class TaxonomyTierTwoSectorExpenditure
     {
-        public readonly Sector Sector;
+        public readonly OrganizationType OrganizationType;
         public readonly HtmlString TaxonomyTierTwoName;
         public readonly HtmlString TaxonomyTierThreeName;
         public readonly decimal ExpenditureAmount;
 
-        public TaxonomyTierTwoSectorExpenditure(Sector sector, TaxonomyTierTwo taxonomyTierTwo, decimal expenditureAmount) : this(sector, taxonomyTierTwo.GetDisplayNameAsUrl(), taxonomyTierTwo.TaxonomyTierThree.GetDisplayNameAsUrl(), expenditureAmount)
+        public TaxonomyTierTwoSectorExpenditure(OrganizationType organizationType, TaxonomyTierTwo taxonomyTierTwo, decimal expenditureAmount) : this(organizationType, taxonomyTierTwo.GetDisplayNameAsUrl(), taxonomyTierTwo.TaxonomyTierThree.GetDisplayNameAsUrl(), expenditureAmount)
         {
         }
 
-        public TaxonomyTierTwoSectorExpenditure(Sector sector, string taxonomyTierTwoName, string taxonomyTierThreeName, decimal expenditureAmount)
-            : this(sector, new HtmlString(taxonomyTierTwoName), new HtmlString(taxonomyTierThreeName), expenditureAmount)
+        public TaxonomyTierTwoSectorExpenditure(OrganizationType organizationType, string taxonomyTierTwoName, string taxonomyTierThreeName, decimal expenditureAmount)
+            : this(organizationType, new HtmlString(taxonomyTierTwoName), new HtmlString(taxonomyTierThreeName), expenditureAmount)
         {
         }
 
-        private TaxonomyTierTwoSectorExpenditure(Sector sector, HtmlString taxonomyTierTwoName, HtmlString taxonomyTierThreeName, decimal expenditureAmount)
+        private TaxonomyTierTwoSectorExpenditure(OrganizationType organizationType, HtmlString taxonomyTierTwoName, HtmlString taxonomyTierThreeName, decimal expenditureAmount)
         {
-            Sector = sector;
+            OrganizationType = organizationType;
             TaxonomyTierTwoName = taxonomyTierTwoName;
             TaxonomyTierThreeName = taxonomyTierThreeName;
             ExpenditureAmount = expenditureAmount;

@@ -8,11 +8,11 @@ CREATE TABLE [dbo].[Organization](
 	[OrganizationGuid] [uniqueidentifier] NULL,
 	[OrganizationName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[OrganizationAbbreviation] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[SectorID] [int] NOT NULL,
 	[PrimaryContactPersonID] [int] NULL,
 	[IsActive] [bit] NOT NULL,
 	[OrganizationUrl] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[LogoFileResourceID] [int] NULL,
+	[OrganizationTypeID] [int] NULL,
  CONSTRAINT [PK_Organization_OrganizationID] PRIMARY KEY CLUSTERED 
 (
 	[OrganizationID] ASC
@@ -48,6 +48,11 @@ REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
 GO
 ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_FileResource_LogoFileResourceID_TenantID_FileResourceID_TenantID]
 GO
+ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_OrganizationType_OrganizationTypeID] FOREIGN KEY([OrganizationTypeID])
+REFERENCES [dbo].[OrganizationType] ([OrganizationTypeID])
+GO
+ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_OrganizationType_OrganizationTypeID]
+GO
 ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_Person_PrimaryContactPersonID_PersonID] FOREIGN KEY([PrimaryContactPersonID])
 REFERENCES [dbo].[Person] ([PersonID])
 GO
@@ -57,11 +62,6 @@ ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_Pe
 REFERENCES [dbo].[Person] ([PersonID], [TenantID])
 GO
 ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID]
-GO
-ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_Sector_SectorID] FOREIGN KEY([SectorID])
-REFERENCES [dbo].[Sector] ([SectorID])
-GO
-ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_Sector_SectorID]
 GO
 ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

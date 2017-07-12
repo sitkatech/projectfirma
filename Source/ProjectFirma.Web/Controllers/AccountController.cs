@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Controllers
 
                 if (organization == null)
                 {
-                    organization = new Organization(keystoneUserClaims.OrganizationName, Sector.Private, true);
+                    organization = new Organization(keystoneUserClaims.OrganizationName, true);
                     HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
                     sendNewOrganizationNotification = true;
                 }

@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionProjectNote ProjectNote = FieldDefinitionProjectNote.Instance;
         public static readonly FieldDefinitionImplementationStartYear ImplementationStartYear = FieldDefinitionImplementationStartYear.Instance;
         public static readonly FieldDefinitionReportedValue ReportedValue = FieldDefinitionReportedValue.Instance;
-        public static readonly FieldDefinitionSector Sector = FieldDefinitionSector.Instance;
+        public static readonly FieldDefinitionOrganizationType OrganizationType = FieldDefinitionOrganizationType.Instance;
         public static readonly FieldDefinitionSecuredFunding SecuredFunding = FieldDefinitionSecuredFunding.Instance;
         public static readonly FieldDefinitionProjectStage ProjectStage = FieldDefinitionProjectStage.Instance;
         public static readonly FieldDefinitionClassificationName ClassificationName = FieldDefinitionClassificationName.Instance;
@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { TaxonomyTierOne, ExpectedValue, TaxonomyTierThree, Funder, FundingSource, Implementer, LeadImplementer, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, TaxonomyTierTwo, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, ProposedProject, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative, TaxonomySystemName, TaxonomyTierOneDisplayNameForProject };
+            All = new List<FieldDefinition> { TaxonomyTierOne, ExpectedValue, TaxonomyTierThree, Funder, FundingSource, Implementer, LeadImplementer, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, TaxonomyTierTwo, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, OrganizationType, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, ProposedProject, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative, TaxonomySystemName, TaxonomyTierOneDisplayNameForProject };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -232,6 +232,8 @@ namespace ProjectFirma.Web.Models
                     return MonitoringProgramUrl;
                 case FieldDefinitionEnum.Organization:
                     return Organization;
+                case FieldDefinitionEnum.OrganizationType:
+                    return OrganizationType;
                 case FieldDefinitionEnum.Password:
                     return Password;
                 case FieldDefinitionEnum.PerformanceMeasure:
@@ -282,8 +284,6 @@ namespace ProjectFirma.Web.Models
                     return ReportingYear;
                 case FieldDefinitionEnum.RoleName:
                     return RoleName;
-                case FieldDefinitionEnum.Sector:
-                    return Sector;
                 case FieldDefinitionEnum.SecuredFunding:
                     return SecuredFunding;
                 case FieldDefinitionEnum.SpendingAssociatedWithPM:
@@ -339,7 +339,7 @@ namespace ProjectFirma.Web.Models
         ProjectNote = 31,
         ImplementationStartYear = 32,
         ReportedValue = 33,
-        Sector = 34,
+        OrganizationType = 34,
         SecuredFunding = 35,
         ProjectStage = 36,
         ClassificationName = 39,
@@ -524,10 +524,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionReportedValue Instance = new FieldDefinitionReportedValue(33, @"ReportedValue", @"Reported Value", @"<p>The accomplishments achieved by a project after the accomplishments are realized. Accomplishments can be realized and reported throughout implementation and not only after the entire project is completed.</p>");
     }
 
-    public partial class FieldDefinitionSector : FieldDefinition
+    public partial class FieldDefinitionOrganizationType : FieldDefinition
     {
-        private FieldDefinitionSector(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionSector Instance = new FieldDefinitionSector(34, @"Sector", @"Sector", @"<p>A categorization of an organization as Local, State, Federal or Private.</p>");
+        private FieldDefinitionOrganizationType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
+        public static readonly FieldDefinitionOrganizationType Instance = new FieldDefinitionOrganizationType(34, @"OrganizationType", @"Organization Type", @"<p>A categorization of an organization, e.g. Local, State, Federal or Private.</p>");
     }
 
     public partial class FieldDefinitionSecuredFunding : FieldDefinition

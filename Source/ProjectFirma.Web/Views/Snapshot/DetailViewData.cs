@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.Snapshot
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public readonly List<Sector> Sectors;
+        public readonly List<OrganizationType> OrganizationTypes;
         public readonly List<int> SectorExpenditureCalendarYears;
         public readonly List<int> PerformanceMeasureCalendarYears;
 
@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.Snapshot
             PageTitle = snapshot.GetDisplayName();
             EntityName = "Snapshot";
 
-            Sectors = snapshot.SnapshotSectorExpenditures.Select(x => x.Sector).Distinct().OrderBy(x => x.SectorDisplayName).ToList();
+            OrganizationTypes = snapshot.SnapshotSectorExpenditures.Select(x => x.OrganizationType).Distinct().OrderBy(x => x.OrganizationTypeName).ToList();
             SectorExpenditureCalendarYears = snapshot.SnapshotSectorExpenditures.Select(x => x.CalendarYear).Distinct().OrderBy(x => x).ToList();
             PerformanceMeasureCalendarYears = snapshot.SnapshotPerformanceMeasures.Select(x => x.CalendarYear).Distinct().OrderBy(x => x).ToList();
 

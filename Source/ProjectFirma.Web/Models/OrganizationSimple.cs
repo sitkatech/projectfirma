@@ -34,14 +34,14 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public OrganizationSimple(int organizationID, Guid? organizationGuid, string organizationName, string organizationAbbreviation, int sectorID, int? primaryContactPersonID, bool isActive, string url, int? logoFileResourceID)
+        public OrganizationSimple(int organizationID, Guid? organizationGuid, string organizationName, string organizationAbbreviation, int organizationTypeId, int? primaryContactPersonID, bool isActive, string url, int? logoFileResourceID)
             : this()
         {
             OrganizationID = organizationID;
             OrganizationGuid = organizationGuid;
             OrganizationName = organizationName;
             OrganizationAbbreviation = organizationAbbreviation;
-            SectorID = sectorID;
+            OrganizationTypeID = organizationTypeId;
             PrimaryContactPersonID = primaryContactPersonID;
             IsActive = isActive;
             URL = url;
@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Models
             OrganizationGuid = organization.OrganizationGuid;
             OrganizationName = organization.OrganizationName;
             OrganizationAbbreviation = organization.OrganizationAbbreviation;
-            SectorID = organization.SectorID;
+            OrganizationTypeID = organization.OrganizationTypeID.Value;
             PrimaryContactPersonID = organization.PrimaryContactPersonID;
             IsActive = organization.IsActive;
             URL = organization.OrganizationUrl;
@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Models
         public Guid? OrganizationGuid { get; set; }
         public string OrganizationName { get; set; }
         public string OrganizationAbbreviation { get; set; }
-        public int SectorID { get; set; }
+        public int OrganizationTypeID { get; set; }
         public int? PrimaryContactPersonID { get; set; }
         public bool IsActive { get; set; }
         public string URL { get; set; }

@@ -23,6 +23,7 @@
     <EntitySet Name="NotificationProject" EntityType="ProjectFirma.Web.Models.Store.NotificationProject" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="NotificationProposedProject" EntityType="ProjectFirma.Web.Models.Store.NotificationProposedProject" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Organization" EntityType="ProjectFirma.Web.Models.Store.Organization" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrganizationType" EntityType="ProjectFirma.Web.Models.Store.OrganizationType" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PerformanceMeasureActual" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureActual" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PerformanceMeasureActualSubcategoryOption" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureActualSubcategoryOption" store:Type="Tables" Schema="dbo" />
@@ -179,6 +180,10 @@
     <AssociationSet Name="FK_Organization_FileResource_LogoFileResourceID_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_Organization_FileResource_LogoFileResourceID_FileResourceID">
       <End Role="LogoFileResource" EntitySet="FileResource" />
       <End Role="OrganizationsWhereYouAreTheLogoFileResource" EntitySet="Organization" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Organization_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.Store.FK_Organization_OrganizationType_OrganizationTypeID">
+      <End Role="OrganizationType" EntitySet="OrganizationType" />
+      <End Role="Organizations" EntitySet="Organization" />
     </AssociationSet>
     <AssociationSet Name="FK_Organization_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_Organization_Person_PrimaryContactPersonID_PersonID">
       <End Role="PrimaryContactPerson" EntitySet="Person" />
@@ -648,6 +653,10 @@
       <End Role="Snapshot" EntitySet="Snapshot" />
       <End Role="SnapshotProjects" EntitySet="SnapshotProject" />
     </AssociationSet>
+    <AssociationSet Name="FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID">
+      <End Role="OrganizationType" EntitySet="OrganizationType" />
+      <End Role="SnapshotSectorExpenditures" EntitySet="SnapshotSectorExpenditure" />
+    </AssociationSet>
     <AssociationSet Name="FK_SnapshotSectorExpenditure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotSectorExpenditure_Snapshot_SnapshotID">
       <End Role="Snapshot" EntitySet="Snapshot" />
       <End Role="SnapshotSectorExpenditures" EntitySet="SnapshotSectorExpenditure" />
@@ -981,11 +990,21 @@ warning 6035: The relationship 'FK_ProposedProject_Organization_LeadImplementerO
     <Property Name="OrganizationGuid" Type="uniqueidentifier" />
     <Property Name="OrganizationName" Type="varchar" Nullable="false" MaxLength="200" />
     <Property Name="OrganizationAbbreviation" Type="varchar" MaxLength="20" />
-    <Property Name="SectorID" Type="int" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="int" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="OrganizationUrl" Type="varchar" MaxLength="200" />
     <Property Name="LogoFileResourceID" Type="int" />
+    <Property Name="OrganizationTypeID" Type="int" />
+  </EntityType>
+  <EntityType Name="OrganizationType">
+    <Key>
+      <PropertyRef Name="OrganizationTypeID" />
+    </Key>
+    <Property Name="OrganizationTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="OrganizationTypeName" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="OrganizationTypeAbbreviation" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="LegendColor" Type="varchar" Nullable="false" MaxLength="10" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1808,9 +1827,9 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="SnapshotSectorExpenditureID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="SnapshotID" Type="int" Nullable="false" />
-    <Property Name="SectorID" Type="int" Nullable="false" />
     <Property Name="CalendarYear" Type="int" Nullable="false" />
     <Property Name="ExpenditureAmount" Type="money" Nullable="false" />
+    <Property Name="OrganizationTypeID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_County_StateProvince_StateProvinceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -2213,6 +2232,18 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Principal>
       <Dependent Role="OrganizationsWhereYouAreTheLogoFileResource">
         <PropertyRef Name="LogoFileResourceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Organization_OrganizationType_OrganizationTypeID">
+    <End Role="OrganizationType" Type="ProjectFirma.Web.Models.Store.OrganizationType" Multiplicity="0..1" />
+    <End Role="Organizations" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrganizationType">
+        <PropertyRef Name="OrganizationTypeID" />
+      </Principal>
+      <Dependent Role="Organizations">
+        <PropertyRef Name="OrganizationTypeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3617,6 +3648,18 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Principal>
       <Dependent Role="SnapshotProjects">
         <PropertyRef Name="SnapshotID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID">
+    <End Role="OrganizationType" Type="ProjectFirma.Web.Models.Store.OrganizationType" Multiplicity="1" />
+    <End Role="SnapshotSectorExpenditures" Type="ProjectFirma.Web.Models.Store.SnapshotSectorExpenditure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrganizationType">
+        <PropertyRef Name="OrganizationTypeID" />
+      </Principal>
+      <Dependent Role="SnapshotSectorExpenditures">
+        <PropertyRef Name="OrganizationTypeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

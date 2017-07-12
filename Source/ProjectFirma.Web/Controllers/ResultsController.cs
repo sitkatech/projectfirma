@@ -85,18 +85,17 @@ namespace ProjectFirma.Web.Controllers
             List<FundingSectorExpenditure> fundingSectorExpenditures;
             if (!calendarYear.HasValue)
             {
-                fundingSectorExpenditures =
-                    Sector.All.Select(sector => new FundingSectorExpenditure(sector, projectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.Sector == sector).ToList(), null))
+                fundingSectorExpenditures = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList().Select(organizationType => new FundingSectorExpenditure(organizationType, projectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationType == organizationType).ToList(), null))
                         .ToList();
             }
             else
             {
                 if (calendarYear.Value == FirmaDateUtilities.MinimumYear)
                 {
-                    fundingSectorExpenditures = Sector.All.Select(sector =>
+                    fundingSectorExpenditures = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList().Select(organizationType =>
                     {
-                        var fundingSourceExpendituresForThisSector = projectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.Sector == sector).ToList();
-                        return new FundingSectorExpenditure(sector,
+                        var fundingSourceExpendituresForThisSector = projectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationType == organizationType).ToList();
+                        return new FundingSectorExpenditure(organizationType,
                             fundingSourceExpendituresForThisSector.Sum(y => y.ExpenditureAmount),
                             fundingSourceExpendituresForThisSector.Select(y => y.FundingSourceID).Distinct().Count(),
                             fundingSourceExpendituresForThisSector.Select(y => y.FundingSource.OrganizationID).Distinct().Count(),
@@ -106,10 +105,10 @@ namespace ProjectFirma.Web.Controllers
                 else
                 {
                     fundingSectorExpenditures =
-                        Sector.All.Select(
-                            sector =>
-                                new FundingSectorExpenditure(sector,
-                                    projectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.Sector == sector && y.CalendarYear == calendarYear.Value).ToList(),
+                        HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList().Select(
+                            organizationType =>
+                                new FundingSectorExpenditure(organizationType,
+                                    projectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationType == organizationType && y.CalendarYear == calendarYear.Value).ToList(),
                                     calendarYear)).ToList();
                 }
             }
@@ -117,40 +116,42 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [InvestmentByFundingSourceViewFeature]
-        public PartialViewResult ProjectFundingSourceExpendituresBySector(int? sectorID, int? calendarYear)
+        public PartialViewResult ProjectFundingSourceExpendituresBySector(int? organizationTypeID, int? calendarYear)
         {
-            var viewData = new ProjectFundingSourceExpendituresBySectorViewData(sectorID, calendarYear);
+            var viewData = new ProjectFundingSourceExpendituresBySectorViewData(organizationTypeID, calendarYear);
             return RazorPartialView<ProjectFundingSourceExpendituresBySector, ProjectFundingSourceExpendituresBySectorViewData>(viewData);
         }
 
         [InvestmentByFundingSourceViewFeature]
-        public GridJsonNetJObjectResult<ProjectFundingSourceSectorExpenditure> ProjectExpendituresByFundingSectorGridJsonData(int? sectorID, int? calendarYear)
+        public GridJsonNetJObjectResult<ProjectFundingSourceSectorExpenditure> ProjectExpendituresByFundingSectorGridJsonData(int? organizationTypeID, int? calendarYear)
         {
             ProjectFundingSourceExpendituresBySectorGridSpec gridSpec;
-            var projectFundingSourceSectorExpenditures = GetProjectExpendituresByFundingSectorAndGridSpec(out gridSpec, sectorID, calendarYear);
+            var projectFundingSourceSectorExpenditures = GetProjectExpendituresByFundingSectorAndGridSpec(out gridSpec, organizationTypeID, calendarYear);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectFundingSourceSectorExpenditure>(projectFundingSourceSectorExpenditures, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
         private static List<ProjectFundingSourceSectorExpenditure> GetProjectExpendituresByFundingSectorAndGridSpec(out ProjectFundingSourceExpendituresBySectorGridSpec gridSpec,
-            int? sectorID,
+            int? organizationTypeID,
             int? calendarYear)
         {
             gridSpec = new ProjectFundingSourceExpendituresBySectorGridSpec(calendarYear);
-            var projectFundingSourceExpenditures = GetProjectExpendituresByFundingSector(sectorID, calendarYear);
+            var projectFundingSourceExpenditures = GetProjectExpendituresByFundingSector(organizationTypeID, calendarYear);
             var projectFundingSourceSectorExpenditures = ProjectFundingSourceSectorExpenditure.MakeFromProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
             return projectFundingSourceSectorExpenditures;
         }
 
-        private static List<ProjectFundingSourceExpenditure> GetProjectExpendituresByFundingSector(int? sectorID, int? calendarYear)
+        private static List<ProjectFundingSourceExpenditure> GetProjectExpendituresByFundingSector(int? organizationTypeID, int? calendarYear)
         {
             var currentYearToUseForReporting = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
+            var organizationType = organizationTypeID.HasValue ? HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetOrganizationType(organizationTypeID.Value) : null;
             return HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.GetExpendituresFromMininumYearForReportingOnward()
                     .Where(x => (!calendarYear.HasValue && x.CalendarYear <= currentYearToUseForReporting) || x.CalendarYear == calendarYear)
                     .ToList()
-                    .Where(x => !sectorID.HasValue || (x.FundingSource.Organization.Sector == Sector.AllLookupDictionary[sectorID.Value]))
-                    .OrderBy(x => x.Project.DisplayName)
-                    .ToList();
+                    .Where(x => !organizationTypeID.HasValue ||
+                                (x.FundingSource.Organization.OrganizationType == organizationType))
+                                .OrderBy(x => x.Project.DisplayName)
+                                .ToList();
         }
 
         [SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewFeature]
@@ -160,7 +161,8 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierTwoSectorExpenditures = GetTaxonomyTierTwoSectorExpenditures(calendarYear, projectFundingSourceExpenditures);
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.SpendingBySectorByTaxonomyTier);
             var calendarYears = GetCalendarYearsDropdownForInvestmentByFundingSectorAndSpendingBySectorAndTaxonomyTierThreeReports(projectFundingSourceExpenditures);
-            var viewData = new SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewData(CurrentPerson, firmaPage, taxonomyTierTwoSectorExpenditures, Sector.All, calendarYear, calendarYears);
+            var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
+            var viewData = new SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewData(CurrentPerson, firmaPage, taxonomyTierTwoSectorExpenditures, organizationTypes, calendarYear, calendarYears);
             var viewModel = new SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewModel(calendarYear);
             return RazorView<SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo, SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewData, SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewModel>(viewData, viewModel);
         }
@@ -171,16 +173,16 @@ namespace ProjectFirma.Web.Controllers
             if (!calendarYear.HasValue)
             {
                 taxonomyTierTwoSectorExpenditures =
-                    projectFundingSourceExpenditures.GroupBy(y => new {y.Project.TaxonomyTierOne.TaxonomyTierTwo, y.FundingSource.Organization.Sector})
-                        .Select(x => new TaxonomyTierTwoSectorExpenditure(x.Key.Sector, x.Key.TaxonomyTierTwo, x.Sum(y => y.ExpenditureAmount)))
+                    projectFundingSourceExpenditures.GroupBy(y => new {y.Project.TaxonomyTierOne.TaxonomyTierTwo, y.FundingSource.Organization.OrganizationType})
+                        .Select(x => new TaxonomyTierTwoSectorExpenditure(x.Key.OrganizationType, x.Key.TaxonomyTierTwo, x.Sum(y => y.ExpenditureAmount)))
                         .ToList();
             }
             else
             {
                 taxonomyTierTwoSectorExpenditures =
                     projectFundingSourceExpenditures.Where(x => x.CalendarYear == calendarYear.Value)
-                        .GroupBy(y => new {y.Project.TaxonomyTierOne.TaxonomyTierTwo, y.FundingSource.Organization.Sector})
-                        .Select(x => new TaxonomyTierTwoSectorExpenditure(x.Key.Sector, x.Key.TaxonomyTierTwo, x.Sum(y => y.ExpenditureAmount)))
+                        .GroupBy(y => new {y.Project.TaxonomyTierOne.TaxonomyTierTwo, y.FundingSource.Organization.OrganizationType})
+                        .Select(x => new TaxonomyTierTwoSectorExpenditure(x.Key.OrganizationType, x.Key.TaxonomyTierTwo, x.Sum(y => y.ExpenditureAmount)))
                         .ToList();
 
             }
@@ -333,15 +335,15 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [SpendingBySectorByOrganizationViewFeature]
-        public PartialViewResult SpendingBySectorByOrganization(int sectorID, int? calendarYear)
+        public PartialViewResult SpendingBySectorByOrganization(int organizationTypeID, int? calendarYear)
         {
-            var viewData = GetSpendingBySectorByOrganizationViewData(sectorID, calendarYear);
+            var viewData = GetSpendingBySectorByOrganizationViewData(organizationTypeID, calendarYear);
             return RazorPartialView<SpendingBySectorByOrganization, SpendingBySectorByOrganizationViewData>(viewData);
         }
 
-        private static SpendingBySectorByOrganizationViewData GetSpendingBySectorByOrganizationViewData(int sectorID, int? calendarYear)
+        private static SpendingBySectorByOrganizationViewData GetSpendingBySectorByOrganizationViewData(int organizationTypeID, int? calendarYear)
         {
-            var projectFundingSourceExpenditures = GetProjectExpendituresByFundingSector(sectorID, null);
+            var projectFundingSourceExpenditures = GetProjectExpendituresByFundingSector(organizationTypeID, null);
             List<int> calendarYearRange;
             List<FundingSourceCalendarYearExpenditure> fundingSourceCalendarYearExpenditures;
             if (!calendarYear.HasValue)
@@ -360,16 +362,16 @@ namespace ProjectFirma.Web.Controllers
             }
             var calendarYears = calendarYearRange.ToDictionary(x => x,
                 year => year.ToString(CultureInfo.InvariantCulture));
-            var excelUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingBySectorByOrganizationExcelDownload(sectorID, calendarYear));
+            var excelUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingBySectorByOrganizationExcelDownload(organizationTypeID, calendarYear));
             var viewData = new SpendingBySectorByOrganizationViewData(fundingSourceCalendarYearExpenditures, calendarYears, excelUrl);
             return viewData;
         }
 
         [SpendingBySectorByOrganizationViewFeature]
-        public ExcelResult SpendingBySectorByOrganizationExcelDownload(int sectorID, int? calendarYear)
+        public ExcelResult SpendingBySectorByOrganizationExcelDownload(int organizationTypeID, int? calendarYear)
         {
-            var sector = Sector.AllLookupDictionary[sectorID];
-            var viewData = GetSpendingBySectorByOrganizationViewData(sectorID, calendarYear);
+            var organizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetOrganizationType(organizationTypeID);
+            var viewData = GetSpendingBySectorByOrganizationViewData(organizationTypeID, calendarYear);
 
             var excelSpec = new FundingSourceCalendarYearExpenditureExcelSpec(viewData.CalendarYears);
             var wsFundingSources = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Funding Sources",
@@ -379,7 +381,7 @@ namespace ProjectFirma.Web.Controllers
 
             var wbm = new ExcelWorkbookMaker(workSheets);
             var excelWorkbook = wbm.ToXLWorkbook();
-            return new ExcelResult(excelWorkbook, String.Format("Funding Source Spending for {0}", sector.SectorDisplayName));
+            return new ExcelResult(excelWorkbook, String.Format("Funding Source Spending for {0}", organizationType.OrganizationTypeName));
         }
 
         [ResultsByTaxonomyTierTwoViewFeature]
@@ -467,7 +469,7 @@ namespace ProjectFirma.Web.Controllers
 
             var googleChartRowCs = fundingSectorExpenditures.Select(x =>
             {
-                var sectorRowV = new GoogleChartRowV(x.SectorDisplayName);
+                var sectorRowV = new GoogleChartRowV(x.OrganizationTypeName);
                 var formattedValue = GoogleChartJson.GetFormattedValue((double) x.CalendarYearExpenditureAmount, MeasurementUnitType.Dollars);
                 var expenditureRowV = new GoogleChartRowV(x.CalendarYearExpenditureAmount, formattedValue);
                 return new GoogleChartRowC(new List<GoogleChartRowV> {sectorRowV, expenditureRowV});
