@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
         protected OrganizationType()
         {
             this.Organizations = new HashSet<Organization>();
+            this.OrganizationTypeRelationshipTypes = new HashSet<OrganizationTypeRelationshipType>();
             this.SnapshotSectorExpenditures = new HashSet<SnapshotSectorExpenditure>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
@@ -67,13 +68,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return Organizations.Any() || SnapshotSectorExpenditures.Any();
+            return Organizations.Any() || OrganizationTypeRelationshipTypes.Any() || SnapshotSectorExpenditures.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(OrganizationType).Name, typeof(Organization).Name, typeof(SnapshotSectorExpenditure).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(OrganizationType).Name, typeof(Organization).Name, typeof(OrganizationTypeRelationshipType).Name, typeof(SnapshotSectorExpenditure).Name};
 
         [Key]
         public int OrganizationTypeID { get; set; }
@@ -84,6 +85,7 @@ namespace ProjectFirma.Web.Models
         public int PrimaryKey { get { return OrganizationTypeID; } set { OrganizationTypeID = value; } }
 
         public virtual ICollection<Organization> Organizations { get; set; }
+        public virtual ICollection<OrganizationTypeRelationshipType> OrganizationTypeRelationshipTypes { get; set; }
         public virtual ICollection<SnapshotSectorExpenditure> SnapshotSectorExpenditures { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 

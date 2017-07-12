@@ -272,6 +272,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="OrganizationTypeRelationshipType">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.OrganizationTypeRelationshipType">
+        <MappingFragment StoreEntitySet="OrganizationTypeRelationshipType">
+          <ScalarProperty Name="OrganizationTypeRelationshipTypeID" ColumnName="OrganizationTypeRelationshipTypeID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="OrganizationTypeID" ColumnName="OrganizationTypeID" />
+          <ScalarProperty Name="RelationshipTypeID" ColumnName="RelationshipTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="PerformanceMeasure">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasure">
         <MappingFragment StoreEntitySet="PerformanceMeasure">
@@ -479,6 +489,7 @@
           <ScalarProperty Name="EstimatedAnnualOperatingCost" ColumnName="EstimatedAnnualOperatingCost" />
           <ScalarProperty Name="FundingTypeID" ColumnName="FundingTypeID" />
           <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
+          <ScalarProperty Name="LeadImplementerOrganizationID" ColumnName="LeadImplementerOrganizationID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -572,16 +583,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ProjectFundingOrganization">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectFundingOrganization">
-        <MappingFragment StoreEntitySet="ProjectFundingOrganization">
-          <ScalarProperty Name="ProjectFundingOrganizationID" ColumnName="ProjectFundingOrganizationID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ProjectFundingSourceExpenditure">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectFundingSourceExpenditure">
         <MappingFragment StoreEntitySet="ProjectFundingSourceExpenditure">
@@ -634,17 +635,6 @@
           <ScalarProperty Name="IsKeyPhoto" ColumnName="IsKeyPhoto" />
           <ScalarProperty Name="ExcludeFromFactSheet" ColumnName="ExcludeFromFactSheet" />
           <ScalarProperty Name="ProjectImageID" ColumnName="ProjectImageID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProjectImplementingOrganization">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectImplementingOrganization">
-        <MappingFragment StoreEntitySet="ProjectImplementingOrganization">
-          <ScalarProperty Name="ProjectImplementingOrganizationID" ColumnName="ProjectImplementingOrganizationID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
-          <ScalarProperty Name="IsLeadOrganization" ColumnName="IsLeadOrganization" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -764,6 +754,17 @@
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectOrganization">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectOrganization">
+        <MappingFragment StoreEntitySet="ProjectOrganization">
+          <ScalarProperty Name="ProjectOrganizationID" ColumnName="ProjectOrganizationID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+          <ScalarProperty Name="RelationshipTypeID" ColumnName="RelationshipTypeID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -952,6 +953,15 @@
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RelationshipType">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.RelationshipType">
+        <MappingFragment StoreEntitySet="RelationshipType">
+          <ScalarProperty Name="RelationshipTypeID" ColumnName="RelationshipTypeID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="RelationshipTypeName" ColumnName="RelationshipTypeName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

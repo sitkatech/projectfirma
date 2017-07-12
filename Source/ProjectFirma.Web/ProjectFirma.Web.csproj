@@ -131,6 +131,9 @@
     <Compile Include="Models\Generated\OrganizationType.Binding.cs" />
     <Compile Include="Models\Generated\OrganizationType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\OrganizationTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationTypeRelationshipType.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationTypeRelationshipType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\OrganizationTypeRelationshipTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasure.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasure.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureActual.Binding.cs" />
@@ -207,9 +210,6 @@
     <Compile Include="Models\Generated\ProjectExternalLinkUpdate.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExternalLinkUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectExternalLinkUpdatePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectFundingOrganization.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectFundingOrganization.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectFundingOrganizationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectFundingSourceExpenditure.Binding.cs" />
     <Compile Include="Models\Generated\ProjectFundingSourceExpenditure.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectFundingSourceExpenditurePrimaryKey.Binding.cs" />
@@ -224,9 +224,6 @@
     <Compile Include="Models\Generated\ProjectImageUpdate.Binding.cs" />
     <Compile Include="Models\Generated\ProjectImageUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectImageUpdatePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectImplementingOrganization.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectImplementingOrganization.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectImplementingOrganizationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectLocation.Binding.cs" />
     <Compile Include="Models\Generated\ProjectLocation.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectLocationArea.Binding.cs" />
@@ -263,6 +260,9 @@
     <Compile Include="Models\Generated\ProjectNoteUpdate.Binding.cs" />
     <Compile Include="Models\Generated\ProjectNoteUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectNoteUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectOrganization.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectOrganization.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectOrganizationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectStage.Binding.cs" />
     <Compile Include="Models\Generated\ProjectStagePrimaryKey.Binding.cs" />
@@ -306,6 +306,9 @@
     <Compile Include="Models\Generated\ProposedProjectPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProjectState.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProjectStatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\RelationshipType.Binding.cs" />
+    <Compile Include="Models\Generated\RelationshipType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\RelationshipTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Role.Binding.cs" />
     <Compile Include="Models\Generated\RolePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Snapshot.Binding.cs" />

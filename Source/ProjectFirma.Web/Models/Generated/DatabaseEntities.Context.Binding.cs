@@ -72,6 +72,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<Notification> Notifications { get { return AllNotifications.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Organization> AllOrganizations { get; set; }
         public virtual IQueryable<Organization> Organizations { get { return AllOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<OrganizationTypeRelationshipType> AllOrganizationTypeRelationshipTypes { get; set; }
+        public virtual IQueryable<OrganizationTypeRelationshipType> OrganizationTypeRelationshipTypes { get { return AllOrganizationTypeRelationshipTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<OrganizationType> AllOrganizationTypes { get; set; }
         public virtual IQueryable<OrganizationType> OrganizationTypes { get { return AllOrganizationTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Person> AllPeople { get; set; }
@@ -118,8 +120,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectExternalLink> ProjectExternalLinks { get { return AllProjectExternalLinks.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectExternalLinkUpdate> AllProjectExternalLinkUpdates { get; set; }
         public virtual IQueryable<ProjectExternalLinkUpdate> ProjectExternalLinkUpdates { get { return AllProjectExternalLinkUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectFundingOrganization> AllProjectFundingOrganizations { get; set; }
-        public virtual IQueryable<ProjectFundingOrganization> ProjectFundingOrganizations { get { return AllProjectFundingOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectFundingSourceExpenditure> AllProjectFundingSourceExpenditures { get; set; }
         public virtual IQueryable<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get { return AllProjectFundingSourceExpenditures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectFundingSourceExpenditureUpdate> AllProjectFundingSourceExpenditureUpdates { get; set; }
@@ -128,8 +128,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectImage> ProjectImages { get { return AllProjectImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectImageUpdate> AllProjectImageUpdates { get; set; }
         public virtual IQueryable<ProjectImageUpdate> ProjectImageUpdates { get { return AllProjectImageUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectImplementingOrganization> AllProjectImplementingOrganizations { get; set; }
-        public virtual IQueryable<ProjectImplementingOrganization> ProjectImplementingOrganizations { get { return AllProjectImplementingOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectLocationAreaGroup> AllProjectLocationAreaGroups { get; set; }
         public virtual IQueryable<ProjectLocationAreaGroup> ProjectLocationAreaGroups { get { return AllProjectLocationAreaGroups.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectLocationArea> AllProjectLocationAreas { get; set; }
@@ -150,6 +148,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectNote> ProjectNotes { get { return AllProjectNotes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectNoteUpdate> AllProjectNoteUpdates { get; set; }
         public virtual IQueryable<ProjectNoteUpdate> ProjectNoteUpdates { get { return AllProjectNoteUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectOrganization> AllProjectOrganizations { get; set; }
+        public virtual IQueryable<ProjectOrganization> ProjectOrganizations { get { return AllProjectOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Project> AllProjects { get; set; }
         public virtual IQueryable<Project> Projects { get { return AllProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectTag> AllProjectTags { get; set; }
@@ -176,6 +176,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProposedProjectNote> ProposedProjectNotes { get { return AllProposedProjectNotes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProposedProject> AllProposedProjects { get; set; }
         public virtual IQueryable<ProposedProject> ProposedProjects { get { return AllProposedProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<RelationshipType> AllRelationshipTypes { get; set; }
+        public virtual IQueryable<RelationshipType> RelationshipTypes { get { return AllRelationshipTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<SnapshotPerformanceMeasure> AllSnapshotPerformanceMeasures { get; set; }
         public virtual IQueryable<SnapshotPerformanceMeasure> SnapshotPerformanceMeasures { get { return AllSnapshotPerformanceMeasures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<SnapshotPerformanceMeasureSubcategoryOption> AllSnapshotPerformanceMeasureSubcategoryOptions { get; set; }
@@ -315,6 +317,9 @@ namespace ProjectFirma.Web.Models
                 case "Organization":
                     return Organizations.GetOrganization(primaryKey);
 
+                case "OrganizationTypeRelationshipType":
+                    return OrganizationTypeRelationshipTypes.GetOrganizationTypeRelationshipType(primaryKey);
+
                 case "OrganizationType":
                     return OrganizationTypes.GetOrganizationType(primaryKey);
 
@@ -404,9 +409,6 @@ namespace ProjectFirma.Web.Models
                 case "ProjectExternalLinkUpdate":
                     return ProjectExternalLinkUpdates.GetProjectExternalLinkUpdate(primaryKey);
 
-                case "ProjectFundingOrganization":
-                    return ProjectFundingOrganizations.GetProjectFundingOrganization(primaryKey);
-
                 case "ProjectFundingSourceExpenditure":
                     return ProjectFundingSourceExpenditures.GetProjectFundingSourceExpenditure(primaryKey);
 
@@ -423,9 +425,6 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectImageUpdate":
                     return ProjectImageUpdates.GetProjectImageUpdate(primaryKey);
-
-                case "ProjectImplementingOrganization":
-                    return ProjectImplementingOrganizations.GetProjectImplementingOrganization(primaryKey);
 
                 case "ProjectLocationAreaGroup":
                     return ProjectLocationAreaGroups.GetProjectLocationAreaGroup(primaryKey);
@@ -471,6 +470,9 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectNoteUpdate":
                     return ProjectNoteUpdates.GetProjectNoteUpdate(primaryKey);
+
+                case "ProjectOrganization":
+                    return ProjectOrganizations.GetProjectOrganization(primaryKey);
 
                 case "Project":
                     return Projects.GetProject(primaryKey);
@@ -525,6 +527,9 @@ namespace ProjectFirma.Web.Models
                     var proposedProjectState = ProposedProjectState.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(proposedProjectState, "ProposedProjectState", primaryKey);
                     return proposedProjectState;
+
+                case "RelationshipType":
+                    return RelationshipTypes.GetRelationshipType(primaryKey);
 
                 case "Role":
                     var role = Role.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

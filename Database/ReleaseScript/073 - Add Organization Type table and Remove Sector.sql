@@ -62,3 +62,130 @@ alter table dbo.SnapshotSectorExpenditure drop column SectorID
 go
 
 drop table dbo.Sector
+
+
+CREATE TABLE dbo.RelationshipType(
+	RelationshipTypeID int NOT NULL IDENTITY(1,1) constraint PK_RelationshipType_RelationshipTypeID PRIMARY KEY,
+	TenantID int NOT NULL constraint FK_RelationshipType_Tenant_TenantID FOREIGN KEY REFERENCES dbo.Tenant (TenantID),	
+	RelationshipTypeName varchar(200) NOT NULL,	
+)
+
+alter table dbo.RelationshipType add constraint AK_RelationshipType_RelationshipTypeID_TenantID UNIQUE (RelationshipTypeID, TenantID)
+alter table dbo.RelationshipType add constraint AK_RelationshipType_RelationshipTypeName_TenantID UNIQUE (RelationshipTypeName, TenantID) 
+
+go
+
+CREATE TABLE dbo.OrganizationTypeRelationshipType(
+	OrganizationTypeRelationshipTypeID int NOT NULL IDENTITY(1,1) constraint PK_OrganizationTypeRelationshipType_OrganizationTypeRelationshipTypeID PRIMARY KEY,
+	TenantID int NOT NULL constraint FK_OrganizationTypeRelationshipType_Tenant_TenantID FOREIGN KEY REFERENCES dbo.Tenant (TenantID),	
+	OrganizationTypeID int NOT Null constraint FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID FOREIGN KEY REFERENCES dbo.OrganizationType (OrganizationTypeID),
+	RelationshipTypeID int NOT Null constraint FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID FOREIGN KEY REFERENCES dbo.RelationshipType (RelationshipTypeID)
+)
+
+ALTER TABLE dbo.OrganizationTypeRelationshipType ADD CONSTRAINT FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID_TenantID FOREIGN KEY(OrganizationTypeID, TenantID) REFERENCES dbo.OrganizationType (OrganizationTypeID, TenantID)
+ALTER TABLE dbo.OrganizationTypeRelationshipType ADD CONSTRAINT FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID_TenantID FOREIGN KEY(RelationshipTypeID, TenantID) REFERENCES dbo.RelationshipType (RelationshipTypeID, TenantID)
+alter table dbo.OrganizationTypeRelationshipType add constraint AK_OrganizationTypeRelationshipType_OrganizationTypeRelationshipTypeID_TenantID UNIQUE (OrganizationTypeRelationshipTypeID, TenantID)
+alter table dbo.OrganizationTypeRelationshipType add constraint AK_OrganizationTypeRelationshipType_OrganizationTypeID_RelationshipTypeID_TenantID UNIQUE (OrganizationTypeID, RelationshipTypeID, TenantID)
+
+go
+
+insert into dbo.RelationshipType(TenantID, RelationshipTypeName)
+select distinct TenantID, 'Funder'
+from dbo.ProjectFundingOrganization
+
+insert into dbo.RelationshipType(TenantID, RelationshipTypeName)
+select distinct TenantID, 'Implementer'
+from dbo.ProjectImplementingOrganization
+
+go
+
+CREATE TABLE dbo.ProjectOrganization(
+	ProjectOrganizationID int NOT NULL IDENTITY(1,1) constraint PK_ProjectOrganization_ProjectOrganizationID PRIMARY KEY,
+	TenantID int NOT NULL constraint FK_ProjectOrganization_Tenant_TenantID FOREIGN KEY REFERENCES dbo.Tenant (TenantID),
+	ProjectID int NOT NULL constraint FK_ProjectOrganization_Project_ProjectID FOREIGN KEY REFERENCES dbo.Project (ProjectID),
+	OrganizationID int NOT NULL constraint FK_ProjectOrganization_Organization_OrganizationID FOREIGN KEY REFERENCES dbo.Organization (OrganizationID),
+	RelationshipTypeID int NOT NULL constraint FK_ProjectOrganization_RelationshipType_RelationshipTypeID FOREIGN KEY REFERENCES dbo.RelationshipType (RelationshipTypeID),
+)
+
+ALTER TABLE dbo.ProjectOrganization ADD CONSTRAINT FK_ProjectOrganization_Project_ProjectID_TenantID FOREIGN KEY(ProjectID, TenantID) REFERENCES dbo.Project (ProjectID, TenantID)
+ALTER TABLE dbo.ProjectOrganization ADD CONSTRAINT FK_ProjectOrganization_Organization_OrganizationID_TenantID FOREIGN KEY(OrganizationID, TenantID) REFERENCES dbo.Organization (OrganizationID, TenantID)
+alter table dbo.ProjectOrganization add constraint AK_ProjectOrganization_ProjectOrganizationID_TenantID UNIQUE (ProjectOrganizationID, TenantID)
+
+go
+
+alter table dbo.Project add LeadImplementerOrganizationID int null
+alter table dbo.Project add constraint FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID foreign key (LeadImplementerOrganizationID) references dbo.Organization(OrganizationID)
+
+go
+
+update p
+set p.LeadImplementerOrganizationID = y.OrganizationID
+from dbo.Project p 
+inner join (
+	select pio.OrganizationID, p.ProjectID, p.TenantID
+	from dbo.Project p join dbo.ProjectImplementingOrganization pio
+	on p.ProjectID = pio.ProjectID
+	where pio.IsLeadOrganization = 1
+) y on p.ProjectID = y.ProjectID and p.TenantID = y.TenantID
+
+insert into dbo.OrganizationTypeRelationshipType (TenantID, OrganizationTypeID, RelationshipTypeID)
+select distinct pfo.TenantID, o.OrganizationTypeID, rt.RelationshipTypeID
+from dbo.ProjectFundingOrganization pfo 
+inner join dbo.Organization o 
+	on pfo.OrganizationID = o.OrganizationID
+inner join dbo.RelationshipType rt
+	on pfo.TenantID = rt.TenantID
+	where rt.RelationshipTypeName = 'Funder'
+
+insert into dbo.OrganizationTypeRelationshipType (TenantID, OrganizationTypeID, RelationshipTypeID)
+select distinct pio.TenantID, o.OrganizationTypeID, rt.RelationshipTypeID
+from dbo.ProjectImplementingOrganization pio 
+inner join dbo.Organization o 
+	on pio.OrganizationID = o.OrganizationID
+inner join dbo.RelationshipType rt
+	on pio.TenantID = rt.TenantID
+	where rt.RelationshipTypeName = 'Implementer'
+
+insert into dbo.ProjectOrganization
+select pfo.TenantID, pfo.ProjectID, o.OrganizationID, rt.RelationshipTypeID
+from dbo.ProjectFundingOrganization pfo
+inner join dbo.Organization o
+	on pfo.OrganizationID = o.OrganizationID
+inner join dbo.RelationshipType rt
+	on pfo.TenantID = rt.TenantID
+	where rt.RelationshipTypeName = 'Funder'
+
+insert into dbo.ProjectOrganization
+select pio.TenantID, pio.ProjectID, o.OrganizationID, rt.RelationshipTypeID
+from dbo.ProjectImplementingOrganization pio
+inner join dbo.Organization o
+	on pio.OrganizationID = o.OrganizationID
+inner join dbo.RelationshipType rt
+	on pio.TenantID = rt.TenantID
+	where rt.RelationshipTypeName = 'Implementer'
+
+USE [ProjectFirma]
+GO
+
+ALTER TABLE dbo.ProjectFundingOrganization DROP CONSTRAINT FK_ProjectFundingOrganization_Organization_OrganizationID
+ALTER TABLE dbo.ProjectFundingOrganization DROP CONSTRAINT FK_ProjectFundingOrganization_Organization_OrganizationID_TenantID
+ALTER TABLE dbo.ProjectFundingOrganization DROP CONSTRAINT FK_ProjectFundingOrganization_Project_ProjectID
+ALTER TABLE dbo.ProjectFundingOrganization DROP CONSTRAINT FK_ProjectFundingOrganization_Project_ProjectID_TenantID
+ALTER TABLE dbo.ProjectFundingOrganization DROP CONSTRAINT FK_ProjectFundingOrganization_Tenant_TenantID
+ALTER TABLE dbo.ProjectFundingOrganization DROP CONSTRAINT AK_ProjectFundingOrganization_ProjectID_OrganizationID
+
+ALTER TABLE dbo.ProjectImplementingOrganization DROP CONSTRAINT FK_ProjectImplementingOrganization_Organization_OrganizationID
+ALTER TABLE dbo.ProjectImplementingOrganization DROP CONSTRAINT FK_ProjectImplementingOrganization_Organization_OrganizationID_TenantID
+ALTER TABLE dbo.ProjectImplementingOrganization DROP CONSTRAINT FK_ProjectImplementingOrganization_Project_ProjectID
+ALTER TABLE dbo.ProjectImplementingOrganization DROP CONSTRAINT FK_ProjectImplementingOrganization_Project_ProjectID_TenantID
+ALTER TABLE dbo.ProjectImplementingOrganization DROP CONSTRAINT FK_ProjectImplementingOrganization_Tenant_TenantID
+ALTER TABLE dbo.ProjectImplementingOrganization DROP CONSTRAINT AK_ProjectImplementingOrganization_ProjectID_OrganizationID
+
+GO
+
+DROP TABLE dbo.ProjectFundingOrganization
+DROP TABLE dbo.ProjectImplementingOrganization
+
+
+
+
