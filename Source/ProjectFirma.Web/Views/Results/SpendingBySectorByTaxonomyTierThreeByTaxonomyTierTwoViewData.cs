@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.Results
     public class SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewData : FirmaViewData
     {
         public readonly List<TaxonomyTierTwoSectorExpenditure> TaxonomyTierTwoSectorExpenditures;
-        public readonly List<OrganizationType> OrganizationTypes;
+        public readonly List<Models.OrganizationType> OrganizationTypes;
         public readonly int? SelectedCalendarYear;
         public readonly IEnumerable<SelectListItem> CalendarYears;
         public readonly string SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoUrl;
@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.Results
         public SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewData(Person currentPerson,
             Models.FirmaPage firmaPage,
             List<TaxonomyTierTwoSectorExpenditure> taxonomyTierTwoSectorExpenditures,
-            List<OrganizationType> organizationTypes,
+            List<Models.OrganizationType> organizationTypes,
             int? selectedCalendarYear,
             IEnumerable<SelectListItem> calendarYears) : base(currentPerson, firmaPage)
         {

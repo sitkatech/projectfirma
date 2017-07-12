@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.Snapshot
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public readonly List<OrganizationType> OrganizationTypes;
+        public readonly List<Models.OrganizationType> OrganizationTypes;
         public readonly List<int> SectorExpenditureCalendarYears;
         public readonly List<int> PerformanceMeasureCalendarYears;
 
