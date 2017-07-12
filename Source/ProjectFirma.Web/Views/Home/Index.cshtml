@@ -31,6 +31,60 @@ Source code is available upon request via <support@sitkatech.com>.
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
 }
 
+@section BeforeBodyContainer
+{
+    @if (ViewDataTyped.FirmaHomePageCarouselImages.Any())
+    {
+        <div class="container-fluid">
+            <div class="row">
+                @* ReSharper disable once UnknownCssClass *@
+                <div class="col-md-12 homepageCarouselFullWidthColumn">
+                    @* ReSharper disable once UnknownCssClass *@
+                    <div id="homepageCarousel" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            @for (var i = 0; i < ViewDataTyped.FirmaHomePageCarouselImages.Count; i++)
+                            {
+                                <li data-target="#homepageCarousel" data-slide-to="@(i)" class="@(i == 0 ? "active" : null)"></li>
+                            }
+                        </ol>
+                        <div class="carousel-inner" role="listbox">
+                            @for (var i = 0; i < ViewDataTyped.FirmaHomePageCarouselImages.Count; i++)
+                            {
+                                var firmaSiteImage = ViewDataTyped.FirmaHomePageCarouselImages[i];
+                                <div class="item@(i == 0 ? " active" : null)" style="background-image: url('@firmaSiteImage.FileResource.FileResourceUrl')">
+                                    <div class="carousel-caption">
+                                        <div class="container">
+                                            <div class="col-md-7 col-md-offset-5 text-right">
+                                                <p>@firmaSiteImage.Caption</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <a href="#homepageCarousel" class="carousel-control left" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a href="#homepageCarousel" class="carousel-control right" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    @* ReSharper disable once UnknownCssClass *@
+                    <div class="main-text">
+                        <div class="container">
+                            <div class="col-md-5 text-left">
+                                <h1>This is the official carousel title.</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
 @section RightOfPageTitle
 {
     @if (ViewDataTyped.ShowEditButton)

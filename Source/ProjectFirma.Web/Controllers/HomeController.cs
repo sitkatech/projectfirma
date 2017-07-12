@@ -58,7 +58,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 AllowFullScreen = false
             };
-            var firmaHomePageImages = new List<FirmaHomePageImage>();
+            var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.Where(x => x.Caption != null).ToList();
+
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList());
             
             var featuredProjectsViewData = new FeaturedProjectsViewData(HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.IsFeatured).ToList());
