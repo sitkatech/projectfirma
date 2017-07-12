@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Models
         public const string OrganizationSitka = "Sitka Technology Group";
         public const string OrganizationUnknown = "(Unknown or Unspecified Organization)";
 
-        public string DisplayName => IsUnknown ? OrganizationName : string.Format("{0}{1}{2}", OrganizationName, !string.IsNullOrWhiteSpace(OrganizationAbbreviation) ? string.Format(" ({0})", OrganizationAbbreviation) : string.Empty, !IsActive ? " (Inactive)" : string.Empty);
+        public string DisplayName => IsUnknown ? OrganizationName : $"{OrganizationName}{(!string.IsNullOrWhiteSpace(OrganizationAbbreviation) ? $" ({OrganizationAbbreviation})" : string.Empty)}{(!IsActive ? " (Inactive)" : string.Empty)}";
 
         public string OrganizationNamePossessive
         {
@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Models
                     return OrganizationName;
                 }
                 var postFix = OrganizationName.EndsWith("s") ? "'" : "'s";
-                return string.Format("{0}{1}", OrganizationName, postFix);
+                return $"{OrganizationName}{postFix}";
             }
         }
 

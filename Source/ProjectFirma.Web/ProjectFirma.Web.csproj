@@ -45,12 +45,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Views\Organization\ApproveUploadGis.cs" />
-    <Compile Include="Views\Organization\ApproveUploadGisViewData.cs" />
-    <Compile Include="Views\Organization\ApproveUploadGisViewModel.cs" />
-    <Compile Include="Views\Organization\EditBoundary.cs" />
-    <Compile Include="Views\Organization\EditBoundaryViewData.cs" />
-    <Compile Include="Views\Organization\EditBoundaryViewModel.cs" />
+    <Compile Include="Views\Organization\EditBoundaryErrors.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.Binding.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\AssessmentGoalPrimaryKey.Binding.cs" />
@@ -136,6 +131,9 @@
     <Compile Include="Models\Generated\NotificationTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Organization.Binding.cs" />
     <Compile Include="Models\Generated\Organization.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\OrganizationBoundaryStaging.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationBoundaryStaging.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\OrganizationBoundaryStagingPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\OrganizationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasure.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasure.DatabaseContextExtensions.cs" />
@@ -365,7 +363,12 @@
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
     <Compile Include="Controllers\FirmaHomePageImageController.cs" />
-    <Compile Include="Controllers\TenantController.cs" />
+    <Compile Include="Views\Organization\ApproveUploadGis.cs" />
+    <Compile Include="Views\Organization\ApproveUploadGisViewData.cs" />
+    <Compile Include="Views\Organization\ApproveUploadGisViewModel.cs" />
+    <Compile Include="Views\Organization\EditBoundary.cs" />
+    <Compile Include="Views\Organization\EditBoundaryViewData.cs" />
+    <Compile Include="Views\Organization\EditBoundaryViewModel.cs" />    <Compile Include="Controllers\TenantController.cs" />
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.css">
       <DependentUpon>bootstrap.firma.theme.less</DependentUpon>
     </Content>
@@ -520,6 +523,7 @@
     <Content Include="Views\Organization\EditBoundary.cshtml" />
     <Content Include="Views\Home\ManageHomePageImages.cshtml" />
     <Content Include="Views\Organization\ApproveUploadGis.cshtml" />
+    <Content Include="Views\Organization\EditBoundaryErrors.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
     <Compile Include="Models\NotificationType.cs" />
     <Compile Include="Models\Tenant.cs" />
@@ -533,6 +537,7 @@
     <Compile Include="Views\Home\ManageHomePageImages.cs" />
     <Compile Include="Views\Home\FeaturedProjects.cs" />
     <Compile Include="Views\Home\FeaturedProjectsViewData.cs" />
+    <Compile Include="Models\OrganizationBoundaryStaging.cs" />
     <Compile Include="Models\FirmaHomePageImage.cs" />
     <Compile Include="Views\Organization\PullOrganizationFromKeystone.cs" />
     <Compile Include="Views\Organization\PullOrganizationFromKeystoneViewData.cs" />

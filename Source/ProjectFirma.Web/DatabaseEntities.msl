@@ -273,6 +273,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="OrganizationBoundaryStaging">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.OrganizationBoundaryStaging">
+        <MappingFragment StoreEntitySet="OrganizationBoundaryStaging">
+          <ScalarProperty Name="OrganizationBoundaryStagingID" ColumnName="OrganizationBoundaryStagingID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+          <ScalarProperty Name="FeatureClassName" ColumnName="FeatureClassName" />
+          <ScalarProperty Name="GeoJson" ColumnName="GeoJson" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="PerformanceMeasure">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.PerformanceMeasure">
         <MappingFragment StoreEntitySet="PerformanceMeasure">

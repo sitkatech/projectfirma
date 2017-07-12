@@ -356,7 +356,8 @@ namespace ProjectFirma.Web.Controllers
         [OrganizationManageFeature]
         public ViewResult EditBoundary(OrganizationPrimaryKey organizationPrimaryKey) {
             var viewModel = new EditBoundaryViewModel();
-            return ViewEditBoundary(viewModel, organizationPrimaryKey.EntityObject);
+            var viewData = new EditBoundaryViewData(CurrentPerson, organizationPrimaryKey.EntityObject);
+            return RazorView<EditBoundary, EditBoundaryViewData, EditBoundaryViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
@@ -364,23 +365,20 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditBoundary(OrganizationPrimaryKey organizationPrimaryKey, EditBoundaryViewModel viewModel)
         {
+            var organization = organizationPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditBoundary(viewModel, organizationPrimaryKey.EntityObject);
+                var viewData = new EditBoundaryViewData(CurrentPerson, organization);
+                return RazorPartialView<EditBoundaryErrors, EditBoundaryViewData, EditBoundaryViewModel>(viewData, viewModel);
             }
 
-            viewModel.UpdateModel();
+            viewModel.UpdateModel(organization);
 
-            return RedirectToAction(new SitkaRoute<OrganizationController>(c => c.Detail(organizationPrimaryKey)));
-        }
-
-        private ViewResult ViewEditBoundary(EditBoundaryViewModel viewModel, Organization organization)
-        {
-            var viewData = new EditBoundaryViewData(CurrentPerson, organization);
-            return RazorView<EditBoundary, EditBoundaryViewData, EditBoundaryViewModel>(viewData, viewModel);
+            return RedirectToAction(new SitkaRoute<OrganizationController>(c => c.ApproveUploadGis(organizationPrimaryKey)));
         }
 
         [HttpGet]
+        [OrganizationManageFeature]
         public PartialViewResult ApproveUploadGis(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var viewModel = new ApproveUploadGisViewModel();
@@ -388,6 +386,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
+        [OrganizationManageFeature]
         public ActionResult ApproveUploadGis(OrganizationPrimaryKey organizationPrimaryKey, ApproveUploadGisViewModel viewModel)
         {
             if (!ModelState.IsValid)

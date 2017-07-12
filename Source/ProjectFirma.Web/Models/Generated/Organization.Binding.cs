@@ -25,6 +25,7 @@ namespace ProjectFirma.Web.Models
         {
             this.FundingSources = new HashSet<FundingSource>();
             this.MonitoringProgramPartners = new HashSet<MonitoringProgramPartner>();
+            this.OrganizationBoundaryStagings = new HashSet<OrganizationBoundaryStaging>();
             this.People = new HashSet<Person>();
             this.ProjectFundingOrganizations = new HashSet<ProjectFundingOrganization>();
             this.ProjectImplementingOrganizations = new HashSet<ProjectImplementingOrganization>();
@@ -88,13 +89,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return FundingSources.Any() || MonitoringProgramPartners.Any() || People.Any() || ProjectFundingOrganizations.Any() || ProjectImplementingOrganizations.Any() || ProposedProjectsWhereYouAreTheLeadImplementerOrganization.Any();
+            return FundingSources.Any() || MonitoringProgramPartners.Any() || OrganizationBoundaryStagings.Any() || People.Any() || ProjectFundingOrganizations.Any() || ProjectImplementingOrganizations.Any() || ProposedProjectsWhereYouAreTheLeadImplementerOrganization.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(MonitoringProgramPartner).Name, typeof(Person).Name, typeof(ProjectFundingOrganization).Name, typeof(ProjectImplementingOrganization).Name, typeof(ProposedProject).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(MonitoringProgramPartner).Name, typeof(OrganizationBoundaryStaging).Name, typeof(Person).Name, typeof(ProjectFundingOrganization).Name, typeof(ProjectImplementingOrganization).Name, typeof(ProposedProject).Name};
 
         [Key]
         public int OrganizationID { get; set; }
@@ -112,6 +113,7 @@ namespace ProjectFirma.Web.Models
 
         public virtual ICollection<FundingSource> FundingSources { get; set; }
         public virtual ICollection<MonitoringProgramPartner> MonitoringProgramPartners { get; set; }
+        public virtual ICollection<OrganizationBoundaryStaging> OrganizationBoundaryStagings { get; set; }
         public virtual ICollection<Person> People { get; set; }
         public virtual ICollection<ProjectFundingOrganization> ProjectFundingOrganizations { get; set; }
         public virtual ICollection<ProjectImplementingOrganization> ProjectImplementingOrganizations { get; set; }

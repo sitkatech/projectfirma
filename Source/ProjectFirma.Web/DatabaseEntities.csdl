@@ -24,6 +24,7 @@
     <EntitySet Name="NotificationProject" EntityType="ProjectFirma.Web.Models.NotificationProject" />
     <EntitySet Name="NotificationProposedProject" EntityType="ProjectFirma.Web.Models.NotificationProposedProject" />
     <EntitySet Name="Organization" EntityType="ProjectFirma.Web.Models.Organization" />
+    <EntitySet Name="OrganizationBoundaryStaging" EntityType="ProjectFirma.Web.Models.OrganizationBoundaryStaging" />
     <EntitySet Name="PerformanceMeasure" EntityType="ProjectFirma.Web.Models.PerformanceMeasure" />
     <EntitySet Name="PerformanceMeasureActual" EntityType="ProjectFirma.Web.Models.PerformanceMeasureActual" />
     <EntitySet Name="PerformanceMeasureActualSubcategoryOption" EntityType="ProjectFirma.Web.Models.PerformanceMeasureActualSubcategoryOption" />
@@ -252,6 +253,10 @@
     <AssociationSet Name="FK_Organization_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.FK_Organization_Person_PrimaryContactPersonID_PersonID">
       <End Role="PrimaryContactPerson" EntitySet="Person" />
       <End Role="OrganizationsWhereYouAreThePrimaryContactPerson" EntitySet="Organization" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrganizationBoundaryStaging_Organization_OrganizationID" Association="ProjectFirma.Web.Models.FK_OrganizationBoundaryStaging_Organization_OrganizationID">
+      <End Role="Organization" EntitySet="Organization" />
+      <End Role="OrganizationBoundaryStagings" EntitySet="OrganizationBoundaryStaging" />
     </AssociationSet>
     <AssociationSet Name="FK_Person_Organization_OrganizationID" Association="ProjectFirma.Web.Models.FK_Person_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
@@ -1000,10 +1005,22 @@
     <NavigationProperty Name="FundingSources" Relationship="ProjectFirma.Web.Models.FK_FundingSource_Organization_OrganizationID" FromRole="Organization" ToRole="FundingSources" />
     <NavigationProperty Name="MonitoringProgramPartners" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_Organization_OrganizationID" FromRole="Organization" ToRole="MonitoringProgramPartners" />
     <NavigationProperty Name="PrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_Organization_Person_PrimaryContactPersonID_PersonID" FromRole="OrganizationsWhereYouAreThePrimaryContactPerson" ToRole="PrimaryContactPerson" />
+    <NavigationProperty Name="OrganizationBoundaryStagings" Relationship="ProjectFirma.Web.Models.FK_OrganizationBoundaryStaging_Organization_OrganizationID" FromRole="Organization" ToRole="OrganizationBoundaryStagings" />
     <NavigationProperty Name="People" Relationship="ProjectFirma.Web.Models.FK_Person_Organization_OrganizationID" FromRole="Organization" ToRole="People" />
     <NavigationProperty Name="ProjectFundingOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingOrganization_Organization_OrganizationID" FromRole="Organization" ToRole="ProjectFundingOrganizations" />
     <NavigationProperty Name="ProjectImplementingOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectImplementingOrganization_Organization_OrganizationID" FromRole="Organization" ToRole="ProjectImplementingOrganizations" />
     <NavigationProperty Name="ProposedProjectsWhereYouAreTheLeadImplementerOrganization" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID" FromRole="LeadImplementerOrganization" ToRole="ProposedProjectsWhereYouAreTheLeadImplementerOrganization" />
+  </EntityType>
+  <EntityType Name="OrganizationBoundaryStaging">
+    <Key>
+      <PropertyRef Name="OrganizationBoundaryStagingID" />
+    </Key>
+    <Property Name="OrganizationBoundaryStagingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="OrganizationID" Type="Int32" Nullable="false" />
+    <Property Name="FeatureClassName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+    <Property Name="GeoJson" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_OrganizationBoundaryStaging_Organization_OrganizationID" FromRole="OrganizationBoundaryStagings" ToRole="Organization" />
   </EntityType>
   <EntityType Name="PerformanceMeasure">
     <Key>
@@ -2523,6 +2540,18 @@
       </Principal>
       <Dependent Role="OrganizationsWhereYouAreThePrimaryContactPerson">
         <PropertyRef Name="PrimaryContactPersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrganizationBoundaryStaging_Organization_OrganizationID">
+    <End Role="Organization" Type="ProjectFirma.Web.Models.Organization" Multiplicity="1" />
+    <End Role="OrganizationBoundaryStagings" Type="ProjectFirma.Web.Models.OrganizationBoundaryStaging" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organization">
+        <PropertyRef Name="OrganizationID" />
+      </Principal>
+      <Dependent Role="OrganizationBoundaryStagings">
+        <PropertyRef Name="OrganizationID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
