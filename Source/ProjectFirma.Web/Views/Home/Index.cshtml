@@ -106,9 +106,12 @@ Source code is available upon request via <support@sitkatech.com>.
                     @* ReSharper disable once UnknownCssClass *@
                     <div id="homepageCarousel" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
-                            @for (var i = 0; i < ViewDataTyped.FirmaHomePageCarouselImages.Count; i++)
+                            @if (ViewDataTyped.FirmaHomePageCarouselImages.Count > 1)
                             {
-                                <li data-target="#homepageCarousel" data-slide-to="@(i)" class="@(i == 0 ? "active" : null)"></li>
+                                for (var i = 0; i < ViewDataTyped.FirmaHomePageCarouselImages.Count; i++)
+                                {
+                                    <li data-target="#homepageCarousel" data-slide-to="@(i)" class="@(i == 0 ? "active" : null)"></li>
+                                }
                             }
                         </ol>
                         <div class="carousel-inner" role="listbox">
@@ -126,14 +129,18 @@ Source code is available upon request via <support@sitkatech.com>.
                                 </div>
                             }
                         </div>
-                        <a href="#homepageCarousel" class="carousel-control left" role="button" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a href="#homepageCarousel" class="carousel-control right" role="button" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
+                        @if (ViewDataTyped.FirmaHomePageCarouselImages.Count > 1)
+                        {
+                            <a href="#homepageCarousel" class="carousel-control left" role="button" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a href="#homepageCarousel" class="carousel-control right" role="button" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        }
+                        
                     </div>
                     @* ReSharper disable once UnknownCssClass *@
                     <div class="main-text">
