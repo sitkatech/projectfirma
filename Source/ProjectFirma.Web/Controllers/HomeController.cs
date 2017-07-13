@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
@@ -42,10 +44,12 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [AnonymousUnclassifiedFeature]
-        public ActionResult Index()
+        public ViewResult Index()
         {
             var firmaPageType = FirmaPageType.ToType(FirmaPageTypeEnum.HomePage);
             var firmaPageByPageType = FirmaPage.GetFirmaPageByPageType(firmaPageType);
+
+            var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList();
 
             var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
             var projects = IsCurrentUserAnonymous() ? allProjects.Where(p => p.IsVisibleToEveryone()).ToList() : allProjects;
@@ -56,11 +60,12 @@ namespace ProjectFirma.Web.Controllers
             {
                 AllowFullScreen = false
             };
+
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList());
             
             var featuredProjectsViewData = new FeaturedProjectsViewData(HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.IsFeatured).ToList());
 
-            var viewData = new IndexViewData(CurrentPerson, firmaPageByPageType, featuredProjectsViewData, projectLocationsMapViewData, projectLocationsMapInitJson);
+            var viewData = new IndexViewData(CurrentPerson, firmaPageByPageType, featuredProjectsViewData, projectLocationsMapViewData, projectLocationsMapInitJson, firmaHomePageImages);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -89,7 +94,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [FirmaAdminFeature]
-        public ActionResult EditPageContent(FirmaPageTypeEnum firmaPageTypeEnum)
+        public ViewResult EditPageContent(FirmaPageTypeEnum firmaPageTypeEnum)
         {
             var firmaPageType = FirmaPageType.ToType(firmaPageTypeEnum);
             var viewModel = new EditPageContentViewModel(firmaPageType);
@@ -115,7 +120,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [AnonymousUnclassifiedFeature]
-        public ActionResult About()
+        public ViewResult About()
         {
             var con = new HomeController { ControllerContext = ControllerContext };
             return con.ViewPageContent(FirmaPageTypeEnum.About);
@@ -123,7 +128,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [AnonymousUnclassifiedFeature]
-        public ActionResult Meetings()
+        public ViewResult Meetings()
         {
             var con = new HomeController { ControllerContext = ControllerContext };
             return con.ViewPageContent(FirmaPageTypeEnum.MeetingsandDocuments);
@@ -131,7 +136,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [SitkaAdminFeature]
-        public ActionResult DemoScript()
+        public ViewResult DemoScript()
         {
             var con = new HomeController { ControllerContext = ControllerContext };
             return con.ViewPageContent(FirmaPageTypeEnum.DemoScript);
@@ -139,10 +144,37 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [FirmaAdminFeature]
-        public ActionResult InternalSetupNotes()
+        public ViewResult ManageHomePageImages()
+        {
+            var firmaHomePageImages = new List<FirmaHomePageImage>();
+            var viewData = new ManageHomePageImagesViewData(CurrentPerson, BuildImageGalleryViewData(CurrentPerson));
+            return RazorView<ManageHomePageImages, ManageHomePageImagesViewData>(viewData);
+        }
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public ViewResult InternalSetupNotes()
         {
             var con = new HomeController { ControllerContext = ControllerContext };
             return con.ViewPageContent(FirmaPageTypeEnum.InternalSetupNotes);
+        }
+
+        private static ImageGalleryViewData BuildImageGalleryViewData(Person currentPerson)
+        {
+            var userCanAddPhotosToHomePage = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+            var newPhotoForProjectUrl = SitkaRoute<FirmaHomePageImageController>.BuildUrlFromExpression(x => x.New());
+            var galleryName = "HomePageImagesGallery";
+            var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList(); 
+            var imageGalleryViewData = new ImageGalleryViewData(currentPerson,
+                galleryName,
+                firmaHomePageImages,
+                userCanAddPhotosToHomePage,
+                newPhotoForProjectUrl,
+                null,
+                true,
+                x => x.CaptionOnFullView,
+                "Photo");
+            return imageGalleryViewData;
         }
     }
 }
