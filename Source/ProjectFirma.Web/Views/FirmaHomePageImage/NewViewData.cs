@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.FirmaHomePageImage
 
         public NewViewData()
         {
-            SupportedFileExtensions = new List<string> {"jpg", "png", "gif", "tiff", "bmp"};
+            SupportedFileExtensions = new List<string> {"jpg", "jpeg", "gif", "png", "tiff", "bmp"};
             SupportedFileExtensionsCommaSeparated = string.Join(", ", SupportedFileExtensions.OrderBy(x => x));
         }
     }

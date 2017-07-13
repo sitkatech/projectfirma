@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.FirmaHomePageImage
     {
         [Required]
         [DisplayName("Image File")]
-        [SitkaFileExtensions("jpg|jpeg|gif|png")]
+        [SitkaFileExtensions("jpg|jpeg|gif|png|tiff|bmp")]
         public HttpPostedFileBase FileResourceData { get; set; }
 
         public override void UpdateModel(Models.FirmaHomePageImage firmaHomePageImage, Person person)

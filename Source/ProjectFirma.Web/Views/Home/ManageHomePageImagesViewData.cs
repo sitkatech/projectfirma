@@ -26,11 +26,9 @@ namespace ProjectFirma.Web.Views.Home
 {
     public class ManageHomePageImagesViewData : FirmaViewData
     {
-        public readonly List<Models.FirmaHomePageImage> ManageHomePageImages;
 
-        public ManageHomePageImagesViewData(Person currentPerson, List<Models.FirmaHomePageImage> firmaHomePageImages, ImageGalleryViewData imageGalleryViewData) : base(currentPerson)
+        public ManageHomePageImagesViewData(Person currentPerson, ImageGalleryViewData imageGalleryViewData) : base(currentPerson)
         {
-            ManageHomePageImages = firmaHomePageImages;
             ImageGalleryViewData = imageGalleryViewData;
         }
 
