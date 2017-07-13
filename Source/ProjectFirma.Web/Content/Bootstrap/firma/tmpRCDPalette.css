@@ -961,3 +961,8 @@ h2.collapsed {
 #featuredProjectsCarousel .carousel-indicators .active {
   background-color: #eee;
 }
+@media only screen and (min-width: 768px) {
+  .main-text h1 {
+    font-size: 32px;
+  }
+}
