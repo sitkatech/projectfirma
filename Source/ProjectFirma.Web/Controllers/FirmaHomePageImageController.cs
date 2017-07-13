@@ -32,6 +32,7 @@ namespace ProjectFirma.Web.Controllers
 {
     public class FirmaHomePageImageController : FirmaBaseController
     {
+
         [HttpGet]
         [FirmaAdminFeature]
         public PartialViewResult New()
@@ -40,11 +41,13 @@ namespace ProjectFirma.Web.Controllers
             return ViewNew(viewModel);
         }
 
+
         private PartialViewResult ViewNew(NewViewModel viewModel)
         {
             var viewData = new NewViewData();
             return RazorPartialView<New, NewViewData, NewViewModel>(viewData, viewModel);
         }
+
 
         [HttpPost]
         [FirmaAdminFeature]
@@ -61,6 +64,7 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
+
         [HttpGet]
         [FirmaAdminFeature]
         public PartialViewResult Edit(FirmaHomePageImagePrimaryKey firmaHomePageImagePrimaryKey)
@@ -70,11 +74,13 @@ namespace ProjectFirma.Web.Controllers
             return ViewEdit(firmaHomePageImage, viewModel);
         }
 
+
         private PartialViewResult ViewEdit(FirmaHomePageImage firmaHomePageImage, EditViewModel viewModel)
         {
             var viewData = new EditViewData(firmaHomePageImage);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
+
 
         [HttpPost]
         [FirmaAdminFeature]
@@ -90,6 +96,7 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
+
         [HttpGet]
         [FirmaAdminFeature]
         public PartialViewResult DeleteFirmaHomePageImage(FirmaHomePageImagePrimaryKey firmaHomePageImagePrimaryKey)
@@ -99,6 +106,7 @@ namespace ProjectFirma.Web.Controllers
             return ViewDeleteFirmaHomePageImage(firmaHomePageImage, viewModel);
         }
 
+
         private PartialViewResult ViewDeleteFirmaHomePageImage(FirmaHomePageImage firmaHomePageImage, ConfirmDialogFormViewModel viewModel)
         {
             var confirmMessage =
@@ -106,6 +114,7 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
+
 
         [HttpPost]
         [FirmaAdminFeature]
@@ -121,5 +130,6 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
       
+
     }
 }
