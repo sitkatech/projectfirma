@@ -32,6 +32,7 @@ using ProjectFirma.Web.Views.Organization;
 using ProjectFirma.Web.Views.Shared;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
+using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.KeystoneDataService;
@@ -141,7 +142,7 @@ namespace ProjectFirma.Web.Controllers
         private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData)
         {
             hasSpatialData = false;
-            var mapDivID = string.Format("organization_{0}_Map", organization.OrganizationID);
+            var mapDivID = $"organization_{organization.OrganizationID}_Map";
             var layers = new List<LayerGeoJson>();
 
             var projectsLayerGeoJson = GetProjectsLayerGeoJson(organization);
@@ -151,7 +152,7 @@ namespace ProjectFirma.Web.Controllers
                 layers.Add(projectsLayerGeoJson);
             }
 
-            var projectDetails = organization.ProjectFundingOrganizations.SelectMany(x => x.Project.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
+            var projectDetails = organization.ProjectOrganizations.SelectMany(x => x.Project.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
             if (projectDetails.Features.Any())
             {
                 hasSpatialData = true;
@@ -189,7 +190,7 @@ namespace ProjectFirma.Web.Controllers
                     });
                 }
 
-                feature.Properties.Add("FeatureColor", x.IsLeadOrganization ? "#3366ff" : "#99b3ff");
+                feature.Properties.Add("FeatureColor", "#99b3ff");
                 return feature;
             }).ToList());
 
@@ -249,15 +250,15 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [OrganizationViewFeature]
-        public GridJsonNetJObjectResult<ProjectImplementingOrganizationOrProjectFundingOrganization> ProjectOrganizationsGridJsonData(OrganizationPrimaryKey organizationPrimaryKey)
+        public GridJsonNetJObjectResult<ProjectOrganization> ProjectOrganizationsGridJsonData(OrganizationPrimaryKey organizationPrimaryKey)
         {
             ProjectOrganizationsGridSpec gridSpec;
             var projectOrganizations = GetProjectOrganizationsAndGridSpec(out gridSpec, organizationPrimaryKey.EntityObject);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectImplementingOrganizationOrProjectFundingOrganization>(projectOrganizations, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectOrganization>(projectOrganizations, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
-        private static List<ProjectImplementingOrganizationOrProjectFundingOrganization> GetProjectOrganizationsAndGridSpec(out ProjectOrganizationsGridSpec gridSpec,
+        private static List<ProjectOrganization> GetProjectOrganizationsAndGridSpec(out ProjectOrganizationsGridSpec gridSpec,
             Organization organization)
         {
             gridSpec = new ProjectOrganizationsGridSpec(organization.GetCalendarYearsForProjectExpenditures());

@@ -48,37 +48,24 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
         {
             public int OrganizationID;
             public string OrganizationDisplayName;
-            public bool IsFundingOrganization;
-            public bool IsImplementingOrganization;
+            public string RelationshipTypeName;
 
             [Obsolete("Needed by the ModelBinder")]
             public ProjectOrganizationJson()
             {
             }
 
-            public ProjectOrganizationJson(ProjectImplementingOrganizationOrProjectFundingOrganization po)
+            public ProjectOrganizationJson(Models.ProjectOrganization po)
             {
                 OrganizationID = po.Organization.OrganizationID;
                 OrganizationDisplayName = po.Organization.DisplayName;
-                IsFundingOrganization = po.IsFundingOrganization;
-                IsImplementingOrganization = po.IsImplementingOrganization;
-            }
-
-            public ProjectOrganizationJson(int organizationID, string organizationDisplayName, bool isFundingOrganization, bool isImplementingOrganization)
-            {
-                OrganizationID = organizationID;
-                OrganizationDisplayName = organizationDisplayName;
-                IsFundingOrganization = isFundingOrganization;
-                IsImplementingOrganization = isImplementingOrganization;
+                RelationshipTypeName = po.RelationshipType.RelationshipTypeName;
             }
 
             public override string ToString()
             {
-                return string.Format("OrganizationID: {0}; OrganizationDisplayName: {1}; IsFundingOrganization: {2}; IsImplementingOrganization: {3}",
-                    OrganizationID,
-                    OrganizationDisplayName,
-                    IsFundingOrganization,
-                    IsImplementingOrganization);
+                return
+                    $"OrganizationID: {OrganizationID}; OrganizationDisplayName: {OrganizationDisplayName}; RelationshipTypeName: {RelationshipTypeName};";
             }
         }
     }

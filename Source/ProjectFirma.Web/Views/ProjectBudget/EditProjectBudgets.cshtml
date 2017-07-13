@@ -55,9 +55,7 @@ else
             </div>
             <div class="col-md-9">
                 <select ng-model="FundingSourceToAdd" ng-options="fundingSource.DisplayName group by fundingSource.OrganizationName for fundingSource in filteredFundingSources()" style="width: 500px"></select>
-                <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>
-                <br/>
-                <label style="font-size: 12px"><input type="checkbox" ng-model="ShowOnlyProjectFunders"/>Show only my project's Funders</label>
+                <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>                
             </div>
         </div>
         <div>

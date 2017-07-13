@@ -195,18 +195,26 @@ Source code is available upon request via <support@sitkatech.com>.
                             <table class="summaryLayout">
                                 <tr>
                                     <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
-                                    <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.LeadImplementer)</th>
-                                    <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Implementer)</th>
-                                    <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Funder)</th>
+                                    <th style="white-space: nowrap">@Html.Label("Relationship to Project")</th>
                                     <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact, "Organization's Primary Contact")</th>
                                 </tr>
-                                @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations)
+                                <tr>
+                                    <td>@ViewDataTyped.Project.LeadImplementerOrganization.OrganizationName</td>
+                                    <td style="text-align: center">Lead Implementer</td>
+                                    @if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, ViewDataTyped.Project.LeadImplementerOrganization.PrimaryContactPerson).HasPermission)
+                                    {
+                                        <td>@ViewDataTyped.Project.LeadImplementerOrganization.PrimaryContactPersonWithOrgAsUrl</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@ViewDataTyped.Project.LeadImplementerOrganization.PrimaryContactPersonAsStringAndOrgAsUrl</td>
+                                    }
+                                </tr>
+                                @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations.OrderBy(x => x.RelationshipType.RelationshipTypeName))
                                 {
                                     <tr>
                                         <td>@projectOrganization.Organization.GetDisplayNameAsUrl()</td>
-                                        <td style="text-align: center">@projectOrganization.IsLeadOrganization.ToCheckboxImageOrEmpty()</td>
-                                        <td style="text-align: center">@((projectOrganization.IsImplementingOrganization && !projectOrganization.IsLeadOrganization).ToCheckboxImageOrEmpty())</td>
-                                        <td style="text-align: center">@projectOrganization.IsFundingOrganization.ToCheckboxImageOrEmpty()</td>
+                                        <td style="text-align: center">@projectOrganization.RelationshipType.RelationshipTypeName</td>
                                         @if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, projectOrganization.Organization.PrimaryContactPerson).HasPermission)
                                         {
                                             <td>@projectOrganization.Organization.PrimaryContactPersonWithOrgAsUrl</td>

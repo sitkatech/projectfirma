@@ -32,9 +32,9 @@ namespace ProjectFirma.Web.Views.Project
         {
             AddColumn(Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel(), x => x.ProjectName);
             AddColumn(Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel(), x => x.LeadImplementerName);
-            AddColumn(Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel(), x => (x.LeadImplementer != null) ? x.LeadImplementer.PrimaryContactPersonWithOrgAsString : string.Empty);
+            AddColumn(Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel(), x => x.LeadImplementerOrganization != null ? x.LeadImplementerOrganization.PrimaryContactPersonWithOrgAsString : string.Empty);
             AddColumn("Non-Lead Implementing Organizations",
-                x => string.Join(",", x.ProjectImplementingOrganizations.Where(pio => pio.OrganizationID != x.LeadImplementer.OrganizationID).Select(pio => pio.Organization.DisplayName)));
+                x => string.Join(",", x.ProjectOrganizations.Select(pio => pio.Organization.DisplayName)));
             AddColumn(Models.FieldDefinition.ProjectStage.GetFieldDefinitionLabel(), x => x.ProjectStage.ProjectStageDisplayName);
             AddColumn(Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized(), x => string.Join(",", x.ProjectClassifications.Select(tc => tc.Classification.DisplayName)));
             AddColumn("Watersheds", x => string.Join(",", x.ProjectWatersheds.Select(pw => pw.Watershed.DisplayName)));
@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Views.Project
         }
     }
 
-    public class ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec : ExcelWorksheetSpec<ProjectImplementingOrganizationOrProjectFundingOrganization>
+    public class ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec : ExcelWorksheetSpec<Models.ProjectOrganization>
     {
         public ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec()
         {
@@ -71,13 +71,12 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn("Organization ID", x => x.Organization.OrganizationID);
             AddColumn("Organization Name", x => x.Organization.OrganizationName);
             AddColumn("Primary Contact for Organization", x => x.Organization.PrimaryContactPersonWithOrgAsString);
-            AddColumn("Is Lead Implementer", x => x.IsLeadOrganization.ToYesNo());
-            AddColumn("Is Implementing Organization", x => x.IsImplementingOrganization.ToYesNo());
-            AddColumn("Is Funding Organization", x => x.IsFundingOrganization.ToYesNo());
+            AddColumn("Organization Type", x => x.Organization.OrganizationType?.OrganizationTypeName);
+            AddColumn("Organization Relationship To Project", x => x.RelationshipType.RelationshipTypeName);
         }
     }
 
-    public class ProjectNoteExcelSpec : ExcelWorksheetSpec<Models.ProjectNote>
+    public class ProjectNoteExcelSpec : ExcelWorksheetSpec<ProjectNote>
     {
         public ProjectNoteExcelSpec()
         {
@@ -89,7 +88,7 @@ namespace ProjectFirma.Web.Views.Project
         }
     }
 
-    public class PerformanceMeasureExpectedExcelSpec : ExcelWorksheetSpec<Models.PerformanceMeasureExpected>
+    public class PerformanceMeasureExpectedExcelSpec : ExcelWorksheetSpec<PerformanceMeasureExpected>
     {
         public PerformanceMeasureExpectedExcelSpec()
         {

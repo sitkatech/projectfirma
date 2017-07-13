@@ -56,29 +56,24 @@ namespace ProjectFirma.Web.Controllers
                 var calendarYearRangeForExpenditures = currentProjectBudgets.CalculateCalendarYearRangeForBudgets(project);
                 return ViewEditProjectBudgets(project, viewModel, calendarYearRangeForExpenditures);
             }
-            var currentProjectFundingOrganizations = project.ProjectFundingOrganizations.ToList();
-            return UpdateProjectBudgets(viewModel, currentProjectBudgets, currentProjectFundingOrganizations);
+            return UpdateProjectBudgets(viewModel, currentProjectBudgets);
         }
 
         private static ActionResult UpdateProjectBudgets(EditProjectBudgetsViewModel viewModel,
-            List<ProjectBudget> currentProjectBudgets,
-            List<ProjectFundingOrganization> currentProjectFundingOrganizations)
+            List<ProjectBudget> currentProjectBudgets)
         {
             HttpRequestStorage.DatabaseEntities.ProjectBudgets.Load();
             var allProjectBudgets = HttpRequestStorage.DatabaseEntities.AllProjectBudgets.Local;
             viewModel.UpdateModel(currentProjectBudgets, allProjectBudgets);
-
-            var distinctProjectIDs = currentProjectBudgets.Select(x => x.ProjectID).Distinct().ToList();
-            ProjectFundingOrganization.SyncProjectFundingOrganizationsWithProjectFundingSourceExpenditures(distinctProjectIDs, currentProjectBudgets, currentProjectFundingOrganizations);
+            
             return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewEditProjectBudgets(Project project, EditProjectBudgetsViewModel viewModel, List<int> calendarYearRangeForExpenditures)
         {
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var projectFundingOrganizationFundingSourceIDs = project.ProjectFundingOrganizations.SelectMany(x => x.Organization.FundingSources.Select(y => y.FundingSourceID));
             var ProjectCostTypeSimples = ProjectCostType.All.Select(x => new ProjectCostTypeSimple(x)).ToList();
-            var viewData = new EditProjectBudgetsViewData(project, allFundingSources, ProjectCostTypeSimples, projectFundingOrganizationFundingSourceIDs, calendarYearRangeForExpenditures);
+            var viewData = new EditProjectBudgetsViewData(project, allFundingSources, ProjectCostTypeSimples, calendarYearRangeForExpenditures);
             return RazorPartialView<EditProjectBudgets, EditProjectBudgetsViewData, EditProjectBudgetsViewModel>(viewData, viewModel);
         }
     }

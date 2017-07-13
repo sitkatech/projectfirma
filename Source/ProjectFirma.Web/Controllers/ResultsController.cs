@@ -274,22 +274,7 @@ namespace ProjectFirma.Web.Controllers
 
             var classificationsAsSelectListItems = HttpRequestStorage.DatabaseEntities.Classifications.ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.Classification, classificationsAsSelectListItems);
-
-            var implementingOrganizationsAsSelectListItems =
-                projects.SelectMany(x => x.ProjectImplementingOrganizations)
-                    .Select(x => x.Organization)
-                    .Distinct(new HavePrimaryKeyComparer<Organization>())
-                    .OrderBy(x => x.DisplayName)
-                    .ToSelectList(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ImplementingOrganization, implementingOrganizationsAsSelectListItems);
-
-            var fundingOrganizationsAsSelectListItems =
-                projects.SelectMany(x => x.ProjectFundingOrganizations)
-                    .Select(x => x.Organization)
-                    .Distinct(new HavePrimaryKeyComparer<Organization>())
-                    .OrderBy(x => x.DisplayName)
-                    .ToSelectList(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
-            projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.FundingOrganization, fundingOrganizationsAsSelectListItems);
+            
 
             var projectStagesAsSelectListItems = projectStages.ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
             projectLocationFilterTypesAndValues.Add(ProjectLocationFilterType.ProjectStage, projectStagesAsSelectListItems);
