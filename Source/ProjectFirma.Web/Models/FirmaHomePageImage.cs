@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Models
         private object _orderBy;
         public object OrderBy
         {
-            get => _orderBy ?? CaptionOnFullView;
+            get => _orderBy ?? SortOrder;
             set => _orderBy = value;
         }
 
