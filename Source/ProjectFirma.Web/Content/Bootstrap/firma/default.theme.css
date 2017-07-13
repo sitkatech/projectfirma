@@ -89,6 +89,7 @@ form .form-group-condensed {
   background-color: #f8f8f8;
   border-bottom-color: #e7e7e7;
   border-radius: 0;
+  margin-bottom: 2px;
 }
 .nav li p {
   padding: 0 15px 0 15px;
@@ -941,4 +942,60 @@ h2.collapsed {
 }
 #featuredProjectsCarousel .carousel-indicators .active {
   background-color: #eee;
+}
+.homepageCarouselFullWidthColumn {
+  padding-left: 0;
+  padding-right: 0;
+}
+#homepageCarousel,
+#homepageCarousel .carousel-inner .item {
+  height: 450px;
+  margin-bottom: 50px;
+}
+#homepageCarousel .carousel-control {
+  z-index: 10;
+}
+#homepageCarousel .carousel-inner .item {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+#homepageCarousel .carousel-inner .item .carousel-caption {
+  left: 0;
+  right: 0;
+}
+#homepageCarousel .carousel-inner .item .carousel-caption p {
+  text-shadow: 0 1px 2px #000000, 0 1px 20px rgba(0, 0, 0, 0.8);
+  font-size: 1em;
+}
+@media only screen and (min-width: 768px) {
+  #homepageCarousel .carousel-inner .item .carousel-caption p {
+    font-size: 1.5em;
+  }
+}
+.main-text {
+  position: absolute;
+  top: 50px;
+  width: 96.66666666666666%;
+  color: #FFF;
+  text-shadow: 0 1px 2px #000000, 0 1px 20px rgba(0, 0, 0, 0.8);
+}
+.main-text h1,
+.main-text h2,
+.main-text h3,
+.main-text h4,
+.main-text h5,
+.main-text h6 {
+  font-size: 2em;
+  color: #fff;
+}
+@media only screen and (min-width: 768px) {
+  .main-text h1,
+  .main-text h2,
+  .main-text h3,
+  .main-text h4,
+  .main-text h5,
+  .main-text h6 {
+    font-size: 3em;
+  }
 }
