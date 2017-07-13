@@ -372,6 +372,58 @@
     <Content Include="Content\Bootstrap\firma\default.theme.min.css">
       <DependentUpon>default.theme.css</DependentUpon>
     </Content>
+    <Content Include="Content\Bootstrap\firma\tmpRCDPalette.css">
+      <DependentUpon>tmpRCDPalette.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\tmpRCDPalette.min.css">
+      <DependentUpon>tmpRCDPalette.css</DependentUpon>
+    </Content>
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-114x114.png" />
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-120x120.png" />
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-57x57.png" />
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-60x60.png" />
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-72x72.png" />
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-76x76.png" />
+    <Content Include="Content\img\ClackamasPartnership\favicon-16x16.png" />
+    <Content Include="Content\img\ClackamasPartnership\favicon-32x32.png" />
+    <Content Include="Content\img\ClackamasPartnership\favicon-96x96.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-chrome-144x144.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-chrome-192x192.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-chrome-256x256.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-chrome-36x36.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-chrome-384x384.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-chrome-48x48.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-chrome-72x72.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-chrome-96x96.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-114x114.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-120x120.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-144x144.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-152x152.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-180x180.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-57x57.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-60x60.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-72x72.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-76x76.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon.png" />
+    <Content Include="Content\img\RCDProjectTracker\browserconfig.xml" />
+    <Content Include="Content\img\RCDProjectTracker\favicon-16x16.png" />
+    <Content Include="Content\img\RCDProjectTracker\favicon-32x32.png" />
+    <Content Include="Content\img\RCDProjectTracker\favicon.ico" />
+    <Content Include="Content\img\RCDProjectTracker\mstile-144x144.png" />
+    <Content Include="Content\img\RCDProjectTracker\mstile-150x150.png" />
+    <Content Include="Content\img\RCDProjectTracker\mstile-310x150.png" />
+    <Content Include="Content\img\RCDProjectTracker\mstile-310x310.png" />
+    <Content Include="Content\img\RCDProjectTracker\mstile-70x70.png" />
+    <Content Include="Content\img\RCDProjectTracker\safari-pinned-tab.svg" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-114x114.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-120x120.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-57x57.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-60x60.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-72x72.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-76x76.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\favicon-16x16.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\favicon-32x32.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\favicon-96x96.png" />
     <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js.map" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js.map" />
     <Content Include="ScriptsCustom\CkEditorReady.min.js.map" />
@@ -395,6 +447,8 @@
     <Content Include="Content\Bootstrap\firma\default.theme.css.map">
       <DependentUpon>default.theme.css</DependentUpon>
     </Content>
+    <Content Include="Content\img\RCDProjectTracker\manifest.json" />
+    <Content Include="Content\Bootstrap\firma\tmpRCDPalette.less" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
@@ -1650,12 +1704,6 @@
       <DependentUpon>jquery.ui.firma.css</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap-toc\bootstrap-toc.js" />
-    <Content Include="Content\img\apple-icon-114x114.png" />
-    <Content Include="Content\img\apple-icon-120x120.png" />
-    <Content Include="Content\img\apple-icon-57x57.png" />
-    <Content Include="Content\img\apple-icon-60x60.png" />
-    <Content Include="Content\img\apple-icon-72x72.png" />
-    <Content Include="Content\img\apple-icon-76x76.png" />
     <Content Include="Content\img\ProjectFirma_Logo_2016_FNL.width-600.png" />
     <Content Include="Content\img\ProjectFirma_Logo_Square.png" />
     <Content Include="Content\qtip\jquery.qtip.firma.min.css">
@@ -1693,9 +1741,6 @@
       <DependentUpon>dhtmlxgrid_ltinfo_skin.css</DependentUpon>
     </Content>
     <Content Include="Content\css\jquery.ui.firma.css" />
-    <Content Include="Content\img\favicon-16x16.png" />
-    <Content Include="Content\img\favicon-32x32.png" />
-    <Content Include="Content\img\favicon-96x96.png" />
     <Content Include="Content\img\favicon.ico" />
     <Content Include="Content\qtip\jquery.qtip.firma.css" />
     <Content Include="Content\qtip\jquery.qtip.validation.min.js">
@@ -3205,16 +3250,15 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost:60514/</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>https://localhost.projectFirma.sitkatech.com</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>True</UseCustomServer>
+          <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>https://localhost.projectFirma.sitkatech.com</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
