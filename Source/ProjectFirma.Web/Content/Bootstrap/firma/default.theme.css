@@ -11,7 +11,7 @@ body {
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
   background-color: #f5f8fa;
-  color: #193d5b;
+  color: #193D5B;
 }
 input[disabled] {
   background-color: LightGray;
@@ -46,7 +46,7 @@ h6 {
   margin-bottom: 20px;
 }
 .firmaContent {
-  background-color: #ffffff;
+  background-color: #fff;
   border: 1px solid #e7e7e7;
   padding-bottom: 20px;
 }
@@ -97,25 +97,25 @@ form .form-group-condensed {
   font-weight: 600;
 }
 .nav li a {
-  color: #777777;
+  color: #777;
   font-family: "Open Sans", sans-serif;
 }
 .nav li a:hover {
-  color: #777777;
-  background-color: #eeeeee;
+  color: #777;
+  background-color: #eee;
   text-decoration: none;
 }
 .nav li p a:hover {
   background-color: transparent;
 }
 .nav li .navbar-text {
-  color: #777777;
+  color: #777;
   font-family: "Open Sans", sans-serif;
 }
 .nav .open > a,
 .nav .open > a:hover,
 .nav .open > a:focus {
-  background-color: #eeeeee;
+  background-color: #eee;
   border-color: #e7e7e7;
 }
 .navbar-right {
@@ -131,12 +131,12 @@ ul.dropdown-menu {
 ul.dropdown-menu li a {
   font-weight: 600;
   font-family: "Open Sans", sans-serif;
-  color: #777777;
+  color: #777;
   background-color: #f8f8f8;
 }
 ul.dropdown-menu li a:hover {
-  background-color: #eeeeee;
-  color: #777777;
+  background-color: #eee;
+  color: #777;
   text-decoration: none;
 }
 ul.dropdown-menu .divider {
@@ -261,21 +261,21 @@ footer p {
 .form-dialog .ui-widget-content .btn-firma,
 .firma-modal-dialog .btn-firma {
   font-size: 14px;
-  color: #ffffff;
+  color: #fff;
   background-color: #337ab7;
 }
 .btn-primary:hover {
-  color: #ffffff;
+  color: #fff;
   background-color: #286090;
 }
 .btn-firma:hover,
 .btn-primary:focus,
 .btn-primary.focus {
-  color: #ffffff;
+  color: #fff;
   background-color: #286090;
 }
 a.btn-firma {
-  color: #ffffff;
+  color: #fff;
   background-color: #337ab7;
 }
 .btn-tag {
@@ -365,7 +365,7 @@ table.summaryLayout th,
   font-weight: bold;
   padding: 2px 6px;
   vertical-align: top;
-  color: #193d5b;
+  color: #193D5B;
 }
 table.summaryLayout tr {
   font-weight: normal;
@@ -381,14 +381,14 @@ table.summaryLayout td {
   width: 1%;
 }
 .panelFirma {
-  border-color: #dddddd;
+  border-color: #ddd;
 }
 .panelFirma .panelTitle,
 .panelFirma .panelTitle h2,
 .panelFirma .panelTitle h3 {
-  color: #333333;
+  color: #333;
   background-color: #f5f5f5;
-  border-color: #dddddd;
+  border-color: #ddd;
   font-weight: bold;
   font-size: 14px;
   font-family: "Open Sans", sans-serif;
@@ -413,7 +413,7 @@ a.gridButton {
   line-height: 130%;
   text-decoration: none;
   font-weight: bold;
-  color: #ffffff;
+  color: #fff;
   cursor: pointer;
   padding: 1px 5px 1px 3px;
   /* Links */
@@ -422,7 +422,7 @@ a.gridButton:visited,
 a.gridButton:active,
 a.button:visited,
 a.button:active {
-  color: #ffffff;
+  color: #fff;
 }
 a.gridButton.disabled {
   background-color: LightGray;
@@ -430,7 +430,7 @@ a.gridButton.disabled {
 /* STANDARD */
 a.gridButton:hover {
   background-color: #286090;
-  color: #ffffff;
+  color: #fff;
 }
 a.excelbutton {
   background: url(/Content/img/button_icon_excel.png) no-repeat scroll 0 0 transparent;
@@ -443,7 +443,7 @@ a.excelbutton {
   font-size: 12px;
   cursor: pointer;
   margin-right: 2px;
-  color: #70a1cc;
+  color: #70A1CC;
 }
 .red {
   color: red;
@@ -457,8 +457,8 @@ a.excelbutton {
 /* ScrollSpy / Table of Contents */
 nav#tableOfContents ul.nav li a {
   border: none;
-  color: #193d5b;
-  background-color: #ffffff;
+  color: #193D5B;
+  background-color: #fff;
   text-decoration: none;
   font-weight: bold;
   padding: 0 0 0 5px;
@@ -502,7 +502,7 @@ nav#tableOfContents ul.nav li.active ul.nav li a {
   cursor: pointer;
   text-decoration: none;
   border: none;
-  color: #193d5b;
+  color: #193D5B;
 }
 nav#tableOfContents ul.nav li a:hover {
   color: #337ab7;
@@ -809,4 +809,58 @@ h2.collapsed {
 #featuredProjectsCarousel .carousel-indicators .active {
   background-color: #eee;
 }
-/*# sourceMappingURL=default.theme.css.map */
+.homepageCarouselFullWidthColumn {
+  padding-left: 0;
+  padding-right: 0;
+}
+#homepageCarousel,
+#homepageCarousel .carousel-inner .item {
+  height: 450px;
+}
+#homepageCarousel .carousel-control {
+  z-index: 10;
+}
+#homepageCarousel .carousel-inner .item {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+#homepageCarousel .carousel-inner .item .carousel-caption {
+  left: 0;
+  right: 0;
+}
+#homepageCarousel .carousel-inner .item .carousel-caption p {
+  text-shadow: 0 1px 2px #000000, 0 1px 20px rgba(0, 0, 0, 0.8);
+  font-size: 1em;
+}
+@media only screen and (min-width: 768px) {
+  #homepageCarousel .carousel-inner .item .carousel-caption p {
+    font-size: 1.5em;
+  }
+}
+.main-text {
+  position: absolute;
+  top: 50px;
+  width: 96.66666666666666%;
+  color: #FFF;
+  text-shadow: 0 1px 2px #000000, 0 1px 20px rgba(0, 0, 0, 0.8);
+}
+.main-text h1,
+.main-text h2,
+.main-text h3,
+.main-text h4,
+.main-text h5,
+.main-text h6 {
+  font-size: 2em;
+  color: #fff;
+}
+@media only screen and (min-width: 768px) {
+  .main-text h1,
+  .main-text h2,
+  .main-text h3,
+  .main-text h4,
+  .main-text h5,
+  .main-text h6 {
+    font-size: 3em;
+  }
+}

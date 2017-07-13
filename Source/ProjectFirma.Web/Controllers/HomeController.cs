@@ -49,6 +49,8 @@ namespace ProjectFirma.Web.Controllers
             var firmaPageType = FirmaPageType.ToType(FirmaPageTypeEnum.HomePage);
             var firmaPageByPageType = FirmaPage.GetFirmaPageByPageType(firmaPageType);
 
+            var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList();
+
             var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
             var projects = IsCurrentUserAnonymous() ? allProjects.Where(p => p.IsVisibleToEveryone()).ToList() : allProjects;
             var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(projects);
@@ -58,7 +60,6 @@ namespace ProjectFirma.Web.Controllers
             {
                 AllowFullScreen = false
             };
-            var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.Where(x => x.Caption != null).ToList();
 
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList());
             
