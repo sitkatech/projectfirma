@@ -458,6 +458,8 @@
     <Compile Include="Models\NotificationType.cs" />
     <Compile Include="Models\OrganizationType.cs" />
     <Compile Include="Models\ProjectOrganization.cs" />
+    <Compile Include="Models\RelationshipType.cs" />
+    <Compile Include="Models\RelationshipTypeSimple.cs" />
     <Compile Include="Models\Tenant.cs" />
     <Compile Include="Security\OrganizationTypeManageFeature.cs" />
     <Compile Include="Security\OrganizationTypeViewFeature.cs" />

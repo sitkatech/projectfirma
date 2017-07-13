@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             int? leadOrganizationID)
         {
             viewModel.ProjectOrganizationsViewModelJson = new ProjectOrganizationsViewModelJson(leadOrganizationID,
-                projectOrganizations.Select(po => new ProjectOrganizationsViewModelJson.ProjectOrganizationJson(po)).ToList());
+                projectOrganizations.GroupBy(x => x.Organization).Select(po => new ProjectOrganizationsViewModelJson.ProjectOrganizationJson(po.Key, po.ToList())).ToList());
         }
     }
 }

@@ -169,28 +169,52 @@ namespace ProjectFirma.Web.Controllers
 
         private static LayerGeoJson GetProjectsLayerGeoJson(Organization organization)
         {
-            var mappedProjects = organization.GetAllProjectOrganizations().Where(x => x.Project.ProjectLocationSimpleType != ProjectLocationSimpleType.None && x.Project.ProjectStage.ShouldShowOnMap()).ToList();
-            
-            var namedAreaFeatures = Project.NamedAreasToPointGeoJsonFeatureCollection(mappedProjects.Select(x => x.Project).ToList(), true);
+            var relatedProjects = organization.GetAllProjectOrganizations().Where(x => x.Project.ProjectLocationSimpleType != ProjectLocationSimpleType.None && x.Project.ProjectStage.ShouldShowOnMap()).Select(x => x.Project).ToList();
+            var leadImplementerProjects = organization.ProjectsWhereYouAreTheLeadImplementerOrganization.Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None && x.ProjectStage.ShouldShowOnMap()).ToList();
+
+            var filtered = relatedProjects
+                .Where(x => leadImplementerProjects.All(y => y.ProjectID != x.ProjectID));
+
+            var namedAreaFeatures = Project.NamedAreasToPointGeoJsonFeatureCollection(relatedProjects, true);
 
             var featureCollection = new FeatureCollection();
-            featureCollection.Features.AddRange(mappedProjects.Select(x =>
+            featureCollection.Features.AddRange(filtered.Select(x =>
             {
                 Feature feature;
-                if (x.Project.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap)
+                if (x.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap)
                 {
-                    feature = x.Project.MakePointFeatureWithRelevantProperties(x.Project.ProjectLocationPoint, true);    
+                    feature = x.MakePointFeatureWithRelevantProperties(x.ProjectLocationPoint, true);    
                 }
                 else
                 {
                     feature = namedAreaFeatures.Features.Single(y =>
                     {
                         var projectID = int.Parse(y.Properties["ProjectID"].ToString());
-                        return projectID == x.Project.ProjectID;
+                        return projectID == x.ProjectID;
                     });
                 }
 
                 feature.Properties.Add("FeatureColor", "#99b3ff");
+                return feature;
+            }).ToList());
+            
+            featureCollection.Features.AddRange(leadImplementerProjects.Select(x =>
+            {
+                Feature feature;
+                if (x.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap)
+                {
+                    feature = x.MakePointFeatureWithRelevantProperties(x.ProjectLocationPoint, true);
+                }
+                else
+                {
+                    feature = namedAreaFeatures.Features.Single(y =>
+                    {
+                        var projectID = int.Parse(y.Properties["ProjectID"].ToString());
+                        return projectID == x.ProjectID;
+                    });
+                }
+
+                feature.Properties.Add("FeatureColor", "#3366ff");
                 return feature;
             }).ToList());
 

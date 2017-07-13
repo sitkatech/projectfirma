@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
@@ -47,25 +48,23 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
         public class ProjectOrganizationJson
         {
             public int OrganizationID;
-            public string OrganizationDisplayName;
-            public string RelationshipTypeName;
+            public List<RelationshipTypeSimple> RelationshipTypes;
 
             [Obsolete("Needed by the ModelBinder")]
             public ProjectOrganizationJson()
             {
             }
 
-            public ProjectOrganizationJson(Models.ProjectOrganization po)
+            public ProjectOrganizationJson(Models.Organization organization, List<Models.ProjectOrganization> organizationProjectOrganizations)
             {
-                OrganizationID = po.Organization.OrganizationID;
-                OrganizationDisplayName = po.Organization.DisplayName;
-                RelationshipTypeName = po.RelationshipType.RelationshipTypeName;
+                OrganizationID = organization.OrganizationID;
+                RelationshipTypes = organizationProjectOrganizations.Select(x => new RelationshipTypeSimple(x.RelationshipType)).ToList();
             }
 
             public override string ToString()
             {
                 return
-                    $"OrganizationID: {OrganizationID}; OrganizationDisplayName: {OrganizationDisplayName}; RelationshipTypeName: {RelationshipTypeName};";
+                    $"OrganizationID: {OrganizationID};";
             }
         }
     }

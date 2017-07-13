@@ -67,7 +67,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 allPeople.Add(CurrentPerson);
             }
-            var viewData = new EditOrganizationsViewData(allOrganizations, allPeople);
+            var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
+            var viewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes);
             return RazorPartialView<EditOrganizations, EditOrganizationsViewData, EditOrganizationsViewModel>(viewData, viewModel);
         }
     }
