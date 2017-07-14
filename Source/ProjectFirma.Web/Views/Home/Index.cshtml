@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="Index.cshtml" company="Tahoe Regional Planning Agency">
-Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="Index.cshtml" company="Tahoe Regional Planning Agency">
+    Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using LtInfo.Common
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
@@ -37,7 +37,7 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 
-     @section BeforeBodyContainer
+@section BeforeBodyContainer
 {
     @if (ViewDataTyped.FirmaHomePageCarouselImages.Any())
     {
@@ -82,7 +82,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <span class="sr-only">Next</span>
                             </a>
                         }
-                        
+
                     </div>
                     @* ReSharper disable once UnknownCssClass *@
                     <div class="main-text">
@@ -98,27 +98,24 @@ Source code is available upon request via <support@sitkatech.com>.
     }
 }
 
-     <div class="container firmaContent">
-    <div class="rightFloatingInfo">
-        @if (ViewDataTyped.ShowEditButton)
-        {
-            <div style="margin-top: 10px">
-                <a class="btn btn-xs btn-firma" href="@ViewDataTyped.EditUrl">Edit</a>
-            </div>
-        }
-
-    <style>
-        #@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID
-        {
-            height: 400px;
-        }
-    </style>
-    </div>
+<div class="container firmaContent">
+    @if (ViewDataTyped.ShowEditButton)
+    {
+        <div class="rightFloatingInfo">
+                <div style="margin-top: 10px">
+                    <a class="btn btn-xs btn-firma" href="@ViewDataTyped.EditUrl">Edit</a>
+                </div>
+        </div>
+    }
+    
 
     @if (!ViewDataTyped.FirmaHomePageCarouselImages.Any())
     {
         <h2 class="pageTitle">@ViewDataTyped.PageTitle</h2>
     }
+    <style>
+        #@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID { height: 400px; }
+    </style>
 
     @if (TempData.ContainsKey(SitkaController.StatusErrorIndex))
     {
@@ -168,15 +165,13 @@ Source code is available upon request via <support@sitkatech.com>.
     }
 
     <script type="text/javascript">
-        jQuery(document).ready(function()
-        {
-            var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
+        jQuery(document).ready(function() {
+            var projectLocationsMapInitJson =
+                @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
             var map = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
             map.initializeProjectLocations(projectLocationsMapInitJson);
             map.disableUserInteraction();
-            jQuery('.leaflet-container').css('cursor','pointer');
+            jQuery('.leaflet-container').css('cursor', 'pointer');
         })
     </script>
 </div>
-
-

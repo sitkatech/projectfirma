@@ -52,7 +52,7 @@ h6 {
 }
 .rightFloatingInfo {
   float: right;
-  padding: 20px;
+  padding: 10px;
 }
 form .form-group {
   margin-top: 20px;
@@ -946,11 +946,11 @@ h2.collapsed {
 .homepageCarouselFullWidthColumn {
   padding-left: 0;
   padding-right: 0;
+  margin-bottom: 50px;
 }
 #homepageCarousel,
 #homepageCarousel .carousel-inner .item {
   height: 450px;
-  margin-bottom: 50px;
 }
 #homepageCarousel .carousel-control {
   z-index: 10;
