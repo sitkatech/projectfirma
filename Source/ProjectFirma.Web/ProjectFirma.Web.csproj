@@ -433,6 +433,8 @@
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-16x16.png" />
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-32x32.png" />
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-96x96.png" />
+    <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.css" />
+    <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.js" />
     <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js.map" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js.map" />
     <Content Include="ScriptsCustom\CkEditorReady.min.js.map" />
@@ -440,8 +442,14 @@
     <Content Include="ScriptsCustom\FancyboxReady.min.js.map" />
     <Content Include="ScriptsCustom\GoogleAnalytics.min.js.map" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.GeoServerMap.min.js.map" />
-    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.min.js.map" />
+    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.min.js">
+      <DependentUpon>ProjectFirmaMaps.js</DependentUpon>
+    </Content>
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.ProjectLocationSummary.min.js.map" />
+    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.SelectableMap.js" />
+    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.SelectableMap.min.js">
+      <DependentUpon>ProjectFirmaMaps.SelectableMap.js</DependentUpon>
+    </Content>
     <Content Include="ScriptsCustom\ModalDialogForm.min.js.map" />
     <Content Include="ScriptsCustom\qtippopuphelper.min.js.map" />
     <Content Include="ScriptsCustom\sitka.grid.min.js.map" />
@@ -462,11 +470,15 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <None Include="bundleconfig.json" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
     <None Include="Service References\KeystoneDataService\KeystoneData.disco" />
     <None Include="Service References\KeystoneDataService\configuration91.svcinfo" />
     <None Include="Service References\KeystoneDataService\configuration.svcinfo" />
     <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.js" />
-    <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.js" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js" />
     <Content Include="ScriptsCustom\CkEditorReady.js" />
@@ -480,7 +492,6 @@
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.GeoServerMap.js" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.GeoServerMap.min.js" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.js" />
-    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.min.js" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.ProjectLocationSummary.js" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.ProjectLocationSummary.min.js" />
     <Content Include="ScriptsCustom\ModalDialogForm.js" />

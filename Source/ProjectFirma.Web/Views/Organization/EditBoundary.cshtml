@@ -1,10 +1,13 @@
 ﻿@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Views.Organization
+@using ProjectFirma.Web.Views.Shared
 
 @inherits EditBoundary
 
 @section JavascriptAndStylesContent
 {
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+    <script type="text/javascript" src="@Url.Content("~/ScriptsCustom/Maps/ProjectFirmaMaps.SelectableMap.min.js")"></script>
     <script type="text/javascript">
         // <![CDATA[
         jQuery(function () {

@@ -1,4 +1,64 @@
-﻿@using ProjectFirma.Web.Views.Organization
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Views.Organization
 
 @inherits ApproveUploadGis
-    
+
+@Html.ValidationSummary()
+
+<form action="@ViewDataTyped.ApproveUploadGisUrl" method="post">
+    <div class="row">
+        <div class="col-xs-12">
+            <ul>
+                <li>To zoom, hold <strong>Shift</strong> and drag mouse to desired viewport.</li>
+                <li>Switch between Feature Groups using the map control in the upper-right corner.</li>
+                <li>Select a polygon feature to represent the Organization boundary.</li>
+            </ul>
+            <div id="@ViewDataTyped.MapInitJson.MapDivID" class="organizationBoundaryMap" style="height: 400px; margin-bottom: 25px;"></div><!-- TODO move the inline styles to a stylesheet -->
+        </div>
+        <div class="col-xs-12">
+            <div class="well" style="display: none;">
+                @* ReSharper disable once UnknownCssClass *@
+                <div class="selectedOrganizationBoundaryInformation" style="max-height: 200px; overflow: auto;"></div><!-- TODO move the inline styles to a stylesheet -->
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="text-right">
+                <div id="putTheDataHere"></div>
+                <a href="@ViewDataTyped.OrganizationDetailUrl" class="btn btn-firma">Cancel</a>
+                <button id="submitApproveUploadGis" type="button" class="btn btn-firma" disabled="disabled">Submit Boundary</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    // <![CDATA[
+    jQuery(function() {
+        var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
+        window.Sitka.approveUploadGisMap = new ProjectFirmaMaps.SelectableMap(mapInitJson);
+        window.Sitka.approveUploadGisMap.onSelectLayer = function(event) {
+            var $boundaryInformation = jQuery(".selectedOrganizationBoundaryInformation"),
+                $submitButton = jQuery("#submitApproveUploadGis"),
+                $placeForTheData = jQuery("#putTheDataHere"),
+                $hiddenInputForData = jQuery("<input type=\"hidden\" name=\"@Html.NameFor(m => m.OrganizationBoundaryGeoJson)\"/>");
+
+            $boundaryInformation.parent().show();
+            $boundaryInformation.html(layerToDescriptionString(event.layer));
+            $submitButton.prop("disabled", false);
+            $hiddenInputForData.attr("value", JSON.stringify(event.layer.toGeoJSON()));
+            $placeForTheData.html($hiddenInputForData);
+
+            function layerToDescriptionString(layer) {
+                var $dl = jQuery("<div><p>Here is a list of properties of the selected polygon feature read from the GIS file you uploaded:</p><dl class=\"dl-horizontal\"></dl></div>");
+                _.each(layer.feature.properties,
+                    function(value, key) {
+                        $dl.find("dl").append("<dt>" + key + "</dt><dd>" + value + "</dd>");
+                    });
+                return $dl.prop("outerHTML");
+            }
+        };
+    });
+    // ]]>
+</script>
+

@@ -18,28 +18,24 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using ProjectFirma.Web.Views.Results;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Security.Shared;
-using ProjectFirma.Web.Views.Organization;
-using ProjectFirma.Web.Views.Shared;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.KeystoneDataService;
-using Detail = ProjectFirma.Web.Views.Organization.Detail;
-using DetailViewData = ProjectFirma.Web.Views.Organization.DetailViewData;
-using Index = ProjectFirma.Web.Views.Organization.Index;
-using IndexGridSpec = ProjectFirma.Web.Views.Organization.IndexGridSpec;
-using IndexViewData = ProjectFirma.Web.Views.Organization.IndexViewData;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.Organization;
+using ProjectFirma.Web.Views.Results;
+using ProjectFirma.Web.Views.Shared;
 using Organization = ProjectFirma.Web.Models.Organization;
 
 namespace ProjectFirma.Web.Controllers
@@ -68,7 +64,7 @@ namespace ProjectFirma.Web.Controllers
         [OrganizationManageFeature]
         public PartialViewResult New()
         {
-            var viewModel = new EditViewModel() {IsActive = true};
+            var viewModel = new EditViewModel {IsActive = true};
             return ViewEdit(viewModel, false, null);
         }
 
@@ -381,24 +377,32 @@ namespace ProjectFirma.Web.Controllers
         [OrganizationManageFeature]
         public PartialViewResult ApproveUploadGis(OrganizationPrimaryKey organizationPrimaryKey)
         {
+            var organization = organizationPrimaryKey.EntityObject;
             var viewModel = new ApproveUploadGisViewModel();
-            return ViewApproveUploadGis(viewModel);
+            return ViewApproveUploadGis(viewModel, organization);
         }
 
         [HttpPost]
         [OrganizationManageFeature]
         public ActionResult ApproveUploadGis(OrganizationPrimaryKey organizationPrimaryKey, ApproveUploadGisViewModel viewModel)
         {
+            var organization = organizationPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewApproveUploadGis(viewModel);
+                return ViewApproveUploadGis(viewModel, organization);
             }
 
-            return RedirectToAction(new SitkaRoute<OrganizationController>(c => c.Detail(organizationPrimaryKey)));
+            return RedirectToAction(new SitkaRoute<OrganizationController>(c => c.Detail(organization)));
         }
-        private PartialViewResult ViewApproveUploadGis(ApproveUploadGisViewModel viewModel)
+        private PartialViewResult ViewApproveUploadGis(ApproveUploadGisViewModel viewModel, Organization organization)
         {
-            var viewData = new ApproveUploadGisViewData(CurrentPerson);
+            var layers = organization.OrganizationBoundaryStagings.Select((x, index) => new LayerGeoJson(
+                x.FeatureClassName, x.ToGeoJsonFeatureCollection(),
+                FirmaHelpers.DefaultColorRange[index], 0.8m,
+                index == 0 ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide)).ToList();
+            var mapInitJson = new MapInitJson("organizationBoundaryApproveUploadGisMap", 10, layers, BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers));
+
+            var viewData = new ApproveUploadGisViewData(CurrentPerson, organization, mapInitJson);
             return RazorPartialView<ApproveUploadGis, ApproveUploadGisViewData, ApproveUploadGisViewModel>(viewData, viewModel);
         }
     }
