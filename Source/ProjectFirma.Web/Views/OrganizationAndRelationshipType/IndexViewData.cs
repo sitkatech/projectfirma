@@ -19,8 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
@@ -52,7 +54,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             OrganizationTypeGridName = "organizationTypeGrid";
             OrganizationTypeGridDataUrl = SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(otc => otc.OrganizationTypeGridJsonData());
 
-            RelationshipTypeGridSpec = new RelationshipTypeGridSpec(hasManagePermissions) { ObjectNameSingular = "Relationship Type", ObjectNamePlural = "Relationship Types", SaveFiltersInCookie = true };
+            RelationshipTypeGridSpec = new RelationshipTypeGridSpec(hasManagePermissions, HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList()) { ObjectNameSingular = "Relationship Type", ObjectNamePlural = "Relationship Types", SaveFiltersInCookie = true };
 
             if (hasManagePermissions)
             {

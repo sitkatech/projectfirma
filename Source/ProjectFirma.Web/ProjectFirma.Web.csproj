@@ -458,6 +458,7 @@
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
     <Compile Include="Models\NotificationType.cs" />
     <Compile Include="Models\OrganizationType.cs" />
+    <Compile Include="Models\OrganizationTypeRelationshipType.cs" />
     <Compile Include="Models\ProjectOrganization.cs" />
     <Compile Include="Models\RelationshipType.cs" />
     <Compile Include="Models\RelationshipTypeSimple.cs" />

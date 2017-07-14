@@ -19,26 +19,44 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
     public class RelationshipTypeGridSpec : GridSpec<Models.RelationshipType>
     {
-        public RelationshipTypeGridSpec(bool hasManagePermissions)
-        {            
+        public RelationshipTypeGridSpec(bool hasManagePermissions, List<OrganizationType> allOrganizationTypes)
+        {
+            var basicsColumnGroupCount = 1;
+           
+
             if (hasManagePermissions)
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, !x.HasDependentObjects()), 30);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.EditRelationshipType(a)),
                         $"Edit Relationship Type '{a.RelationshipTypeName}'")),
                     30);
+                basicsColumnGroupCount += 2;
             }
 
-            Add("Relationship Type Name", a => a.RelationshipTypeName, 240);           
+            Add("Relationship Type Name", a => a.RelationshipTypeName, 240);
+            foreach (var organizationType in allOrganizationTypes)
+            {
+                Add(organizationType.OrganizationTypeName, a => a.IsAssociatedWithOrganiztionType(organizationType).ToCheckboxImageOrEmpty(), 100);
+            }
+
+            GroupingHeader =
+                BuildGroupingHeader(new ColumnHeaderGroupingList
+                {
+                    {"", basicsColumnGroupCount},
+                    {"Applicable to Organizations with the following types:", allOrganizationTypes.Count}                    
+                });
+
         }
     }
 }

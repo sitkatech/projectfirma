@@ -20,5 +20,10 @@ namespace ProjectFirma.Web.Models
         {
             get { return SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(c => c.DeleteRelationshipType(RelationshipTypeID)); }
         }
+
+        public bool IsAssociatedWithOrganiztionType(OrganizationType organizationType)
+        {
+            return OrganizationTypeRelationshipTypes.Select(x => x.OrganizationType).Contains(organizationType);
+        }
     }
 }

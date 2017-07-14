@@ -19,14 +19,18 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using System.Linq;
+using ProjectFirma.Web.Models;
+
 namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
     public class EditRelationshipTypeViewData : FirmaUserControlViewData
     {
-       
-        public EditRelationshipTypeViewData()
+        public readonly List<OrganizationTypeSimple> AllOrganizationTypes;
+        public EditRelationshipTypeViewData(List<OrganizationType> allOrganizationTypes)
         {
-
+            AllOrganizationTypes = allOrganizationTypes.Select(x => new OrganizationTypeSimple(x)).ToList();
         }
     }
 }

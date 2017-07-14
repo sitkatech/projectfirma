@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
@@ -66,7 +67,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<RelationshipType> RelationshipTypeGridJsonData()
         {
             var hasManagePermissions = new OrganizationAndRelationshipTypeManageFeature().HasPermissionByPerson(CurrentPerson);
-            var gridSpec = new RelationshipTypeGridSpec(hasManagePermissions);
+            var gridSpec = new RelationshipTypeGridSpec(hasManagePermissions, HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList());
             var relationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList().OrderBy(x => x.RelationshipTypeName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<RelationshipType>(relationshipTypes, gridSpec);
             return gridJsonNetJObjectResult;
@@ -186,10 +187,14 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNewRelationshipType(viewModel);
             }
             var relationshipType = new RelationshipType(viewModel.RelationshipTypeName);
-            viewModel.UpdateModel(relationshipType, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllRelationshipTypes.Add(relationshipType);
-
             HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            HttpRequestStorage.DatabaseEntities.OrganizationTypeRelationshipTypes.Load();
+            var organizationTypeRelationshipTypes = HttpRequestStorage.DatabaseEntities.AllOrganizationTypeRelationshipTypes.Local;
+
+            viewModel.UpdateModel(relationshipType, organizationTypeRelationshipTypes);
+            
             SetMessageForDisplay(
                 "New Relationship Type successfully created!");
             return new ModalDialogFormJsonResult();
@@ -214,7 +219,11 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditRelationshipType(viewModel);
             }
-            viewModel.UpdateModel(relationshipType, CurrentPerson);
+
+            HttpRequestStorage.DatabaseEntities.OrganizationTypeRelationshipTypes.Load();
+            var organizationTypeRelationshipTypes = HttpRequestStorage.DatabaseEntities.AllOrganizationTypeRelationshipTypes.Local;
+
+            viewModel.UpdateModel(relationshipType, organizationTypeRelationshipTypes);
             return new ModalDialogFormJsonResult();
         }
 
@@ -225,7 +234,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditRelationshipType(EditRelationshipTypeViewModel viewModel)
         {
-            var viewData = new EditRelationshipTypeViewData();
+            var allOrganizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
+            var viewData = new EditRelationshipTypeViewData(allOrganizationTypes);
             return RazorPartialView<EditRelationshipType, EditRelationshipTypeViewData, EditRelationshipTypeViewModel>(viewData, viewModel);
         }
 

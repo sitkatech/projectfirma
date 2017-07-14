@@ -39,6 +39,9 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         [StringLength(Models.RelationshipType.FieldLengths.RelationshipTypeName)]
         [DisplayName("Name")]
         public string RelationshipTypeName { get; set; }
+
+        [Required]
+        public List<OrganizationTypeSimple> OrganizationTypeSimples { get; set; }
                 
 
         /// <summary>
@@ -51,12 +54,21 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         public EditRelationshipTypeViewModel(Models.RelationshipType relationshipType)
         {
             RelationshipTypeID = relationshipType.RelationshipTypeID;
-            RelationshipTypeName = relationshipType.RelationshipTypeName;            
+            RelationshipTypeName = relationshipType.RelationshipTypeName;
+            OrganizationTypeSimples = relationshipType.OrganizationTypeRelationshipTypes
+                .Select(x => new OrganizationTypeSimple(x.OrganizationType))
+                .ToList();
         }
 
-        public void UpdateModel(Models.RelationshipType relationshipType, Person currentPerson)
+        public void UpdateModel(Models.RelationshipType relationshipType, ICollection<Models.OrganizationTypeRelationshipType> allOrganizationTypeRelationshipTypes)
         {
-            relationshipType.RelationshipTypeName = RelationshipTypeName;            
+            relationshipType.RelationshipTypeName = RelationshipTypeName;
+
+            var organizationTypesUpdated = OrganizationTypeSimples.Select(orgBeingAdded => new OrganizationTypeRelationshipType(orgBeingAdded.OrganizationTypeID, relationshipType.RelationshipTypeID)).ToList();
+
+            relationshipType.OrganizationTypeRelationshipTypes.Merge(organizationTypesUpdated,
+                allOrganizationTypeRelationshipTypes,
+                (x, y) => x.OrganizationTypeID == y.OrganizationTypeID && x.RelationshipTypeID == y.RelationshipTypeID);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -65,7 +77,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             var existingRelationshipType = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
             if (!RelationshipType.IsRelationshipTypeNameUnique(existingRelationshipType, RelationshipTypeName, RelationshipTypeID))
             {
-                errors.Add(new SitkaValidationResult<EditRelationshipTypeViewModel, string>("Name already exists", x => x.RelationshipTypeName));
+                errors.Add(new SitkaValidationResult<EditRelationshipTypeViewModel, string>("Name already exists!", x => x.RelationshipTypeName));
             }
             return errors;
         }
