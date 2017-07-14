@@ -64,6 +64,7 @@ form .form-group-condensed {
 }
 .header {
   background-color: #f8f8f8;
+  padding: 10px;
 }
 .header img {
   margin: 5px;
@@ -529,6 +530,11 @@ table.summaryLayout td {
   margin-bottom: 0;
   margin-top: 0;
 }
+.panelFirma .panelTitle a,
+.panelFirma .panelTitle h2 a,
+.panelFirma .panelTitle h3 a {
+  color: #333;
+}
 .fieldLabel {
   font-weight: 600;
   display: inline-block;
@@ -649,7 +655,7 @@ nav#tableOfContents ul.nav li ul.nav li a:hover {
   text-decoration: none;
 }
 .scrollSpy {
-  width: 200px;
+  max-width: 185px;
 }
 #tableOfContentsAffixed.affix {
   top: 0;
@@ -998,4 +1004,16 @@ h2.collapsed {
   .main-text h6 {
     font-size: 3em;
   }
+}
+.validation-summary-errors {
+  padding: 5px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+}
+.validation-summary-errors ul {
+  margin-top: 10px;
 }

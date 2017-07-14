@@ -1,6 +1,7 @@
 ﻿@import url(https://fonts.googleapis.com/css?family=Basic);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
 @import url(https://fonts.googleapis.com/css?family=Bree+Serif);
+@import url(https://fonts.googleapis.com/css?family=Crimson+Text);
 html,
 body {
   height: 100%;
@@ -21,7 +22,7 @@ h4,
 h5,
 h6 {
   color: #1E2617;
-  font-family: "Bree Serif", sans-serif;
+  font-family: "Crimson Text", sans-serif;
   font-weight: 600;
 }
 h4 {
@@ -51,7 +52,7 @@ h4 {
   display: inline-block;
   font-size: 36px;
   font-weight: 600;
-  font-family: "Bree Serif", sans-serif;
+  font-family: "Crimson Text", sans-serif;
   color: #fff;
   vertical-align: bottom;
   margin-bottom: 6px;
@@ -97,30 +98,30 @@ h4 {
   color: #fff;
   font-family: "Open Sans", sans-serif;
 }
-.nav .open > a,
-.nav .open > a:hover,
-.nav .open > a:focus {
+.nav li .nav .open > a,
+.nav li .nav .open > a:hover,
+.nav li .nav .open > a:focus {
   background-color: #ecf7fb;
   border-color: #fff;
 }
-ul.dropdown-menu {
+.nav li ul.dropdown-menu {
   background-color: #7E9A2C;
   border: 1px solid #fff;
 }
-ul.dropdown-menu li a {
+.nav li ul.dropdown-menu li a {
   font-weight: 600;
   font-family: "Open Sans", sans-serif;
   color: #fff;
   background-color: #7E9A2C;
 }
-ul.dropdown-menu li a:hover,
-ul.dropdown-menu li a:active,
-ul.dropdown-menu li a:focus {
+.nav li ul.dropdown-menu li a:hover,
+.nav li ul.dropdown-menu li a:active,
+.nav li ul.dropdown-menu li a:focus {
   color: #0B90D1;
   background-color: #ecf7fb;
   text-decoration: none;
 }
-ul.dropdown-menu .divider {
+.nav li ul.dropdown-menu .divider {
   background-color: #fff;
 }
 footer {
@@ -309,11 +310,16 @@ table.summaryLayout th,
   border-color: #ddd;
   font-weight: 400;
   font-size: 16px;
-  font-family: "Bree Serif", sans-serif;
+  font-family: "Crimson Text", sans-serif;
   margin-bottom: 0;
   margin-top: 0;
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+.panelFirma .panelTitle a,
+.panelFirma .panelTitle h2 a,
+.panelFirma .panelTitle h3 a {
+  color: #fff;
 }
 .panelFirma .panelTitle a .glyphicon {
   color: white;
@@ -442,14 +448,6 @@ a.disabled {
 #projectWizardContent .dropdown-toggle[disabled],
 #projectWizardContent .dropdown-menu[disabled] {
   background-color: LightGray;
-}
-.bootstrap-select-simple-dropdown.open dropdown-menu.open dropdown-menu.inner li {
-  color: black;
-  background-color: #D644D0;
-}
-.bootstrap-select-simple-dropdown a {
-  color: black;
-  background-color: #D644D0;
 }
 @media only screen and (min-width: 768px) {
   .main-text h1 {

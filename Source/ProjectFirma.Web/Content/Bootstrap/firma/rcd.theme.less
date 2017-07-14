@@ -10,12 +10,13 @@
 @import url(https://fonts.googleapis.com/css?family=Basic);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
 @import url(https://fonts.googleapis.com/css?family=Bree+Serif);
+@import url(https://fonts.googleapis.com/css?family=Crimson+Text);
 
 
 
 // Customizable Variables
 @firma-menu-font: "Open Sans", sans-serif;
-@firma-header-font: "Bree Serif", sans-serif;
+@firma-header-font: "Crimson Text", sans-serif;
 @firma-text-font: "Open Sans",sans-serif;
 @firma-text-fontSize: 14px;
 
@@ -33,8 +34,6 @@
 @firma-navText-color: #fff;
 @firma-navItemText-color-hover: #0B90D1;
 @firma-navItemBackground-color-hover: #ecf7fb;
-
-@firma-dropdownBackground-color: #D644D0;
 
 @firma-panel-headerBackground-color: #546B7D;
 @firma-panel-headerText-color: #fff;
@@ -148,11 +147,12 @@ h4 {
 .nav li {
     font-weight: 600;
     text-transform: uppercase;
+
     a {
         color: @firma-navText-color;
         font-family: @firma-menu-font;
     }
-    
+
     a:hover, a:focus, a:active {
         color: @firma-navItemText-color-hover;
         background-color: @firma-navItemBackground-color-hover;
@@ -167,36 +167,38 @@ h4 {
         color: @firma-navText-color;
         font-family: @firma-menu-font;
     }
-}
 
-.nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
-    background-color: @firma-navItemBackground-color-hover;
-    border-color: @firma-navBorder-color;
-}
-
-ul.dropdown-menu{
-    background-color: @firma-navBackground-color;
-    border: 1px solid @firma-navBorder-color;
-
-    li {    
-        a {
-            font-weight: 600;
-            font-family: @firma-menu-font;
-            color: @firma-navText-color;
-            background-color: @firma-navBackground-color;
-        }
-
-        a:hover, a:active, a:focus {
-            color: @firma-navItemText-color-hover;
-            background-color: @firma-navItemBackground-color-hover;
-            text-decoration: none;
-        }
+    .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+        background-color: @firma-navItemBackground-color-hover;
+        border-color: @firma-navBorder-color;
     }
 
-    .divider {
-        background-color: @firma-navBorder-color;
+    ul.dropdown-menu {
+        background-color: @firma-navBackground-color;
+        border: 1px solid @firma-navBorder-color;
+
+        li {
+            a {
+                font-weight: 600;
+                font-family: @firma-menu-font;
+                color: @firma-navText-color;
+                background-color: @firma-navBackground-color;
+            }
+
+            a:hover, a:active, a:focus {
+                color: @firma-navItemText-color-hover;
+                background-color: @firma-navItemBackground-color-hover;
+                text-decoration: none;
+            }
+        }
+
+        .divider {
+            background-color: @firma-navBorder-color;
+        }
     }
-} 
+}
+
+
 
 // Footer
 footer {
@@ -420,6 +422,10 @@ table.summaryLayout th,
         margin-top: 0;
         text-transform: uppercase;
         letter-spacing: 1px;
+
+        a {
+            color: @firma-panel-headerText-color;
+        }
     }
 
     .panelTitle a .glyphicon {
@@ -571,17 +577,6 @@ h2.sectionHeader {
     background-color: @disabled-color;
 }
 
-.bootstrap-select-simple-dropdown.open dropdown-menu.open dropdown-menu.inner li {
-    color: black;
-    background-color: @firma-dropdownBackground-color;
-}
-
-.bootstrap-select-simple-dropdown {
-    a {
-        color: black;
-        background-color: @firma-dropdownBackground-color;
-    }
-}
 
 //Home page image carousel customizations
 @media only screen and (min-width: 768px) {
