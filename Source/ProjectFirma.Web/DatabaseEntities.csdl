@@ -854,7 +854,7 @@
     <Key>
       <PropertyRef Name="FirmaHomePageImageID" />
     </Key>
-    <Property Name="FirmaHomePageImageID" Type="Int32" Nullable="false" />
+    <Property Name="FirmaHomePageImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="FileResourceID" Type="Int32" Nullable="false" />
     <Property Name="Caption" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />

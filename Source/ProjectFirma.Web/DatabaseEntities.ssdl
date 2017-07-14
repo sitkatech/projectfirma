@@ -856,7 +856,7 @@ warning 6035: The relationship 'FK_TenantAttribute_FileResource_TenantStyleSheet
     <Key>
       <PropertyRef Name="FirmaHomePageImageID" />
     </Key>
-    <Property Name="FirmaHomePageImageID" Type="int" Nullable="false" />
+    <Property Name="FirmaHomePageImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="FileResourceID" Type="int" Nullable="false" />
     <Property Name="Caption" Type="varchar" Nullable="false" MaxLength="300" />
