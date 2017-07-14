@@ -146,7 +146,6 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult ManageHomePageImages()
         {
-            var firmaHomePageImages = new List<FirmaHomePageImage>();
             var viewData = new ManageHomePageImagesViewData(CurrentPerson, BuildImageGalleryViewData(CurrentPerson));
             return RazorView<ManageHomePageImages, ManageHomePageImagesViewData>(viewData);
         }

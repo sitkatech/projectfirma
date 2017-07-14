@@ -443,6 +443,14 @@ a.disabled {
 #projectWizardContent .dropdown-menu[disabled] {
   background-color: LightGray;
 }
+.bootstrap-select-simple-dropdown.open dropdown-menu.open dropdown-menu.inner li {
+  color: black;
+  background-color: #D644D0;
+}
+.bootstrap-select-simple-dropdown a {
+  color: black;
+  background-color: #D644D0;
+}
 @media only screen and (min-width: 768px) {
   .main-text h1 {
     font-size: 32px;

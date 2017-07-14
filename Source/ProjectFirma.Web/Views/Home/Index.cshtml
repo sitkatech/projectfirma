@@ -36,7 +36,6 @@
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
 }
 
-
 @section BeforeBodyContainer
 {
     @if (ViewDataTyped.FirmaHomePageCarouselImages.Any())
@@ -46,7 +45,7 @@
                 @* ReSharper disable once UnknownCssClass *@
                 <div class="col-md-12 homepageCarouselFullWidthColumn">
                     @* ReSharper disable once UnknownCssClass *@
-                    <div id="homepageCarousel" class="carousel slide" data-ride="carousel">
+                    <div id="homepageCarousel" class="carousel slide" data-ride="carousel" data-interval="8000">
                         <ol class="carousel-indicators">
                             @if (ViewDataTyped.FirmaHomePageCarouselImages.Count > 1)
                             {

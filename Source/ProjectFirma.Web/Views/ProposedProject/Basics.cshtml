@@ -65,7 +65,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.ProposedTaxonomyTierOneID, 600, MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject())</div>
         <div class="col-md-6">
             <div>
-                @Html.DropDownListFor(x => x.ProposedTaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, new { style = "display: inline !important; height: 0; width: 1px; border:0; box-shadow:none; color:white; overflow:hidden; margin-right:-1px; background-color: green;" })
+                @Html.DropDownListFor(x => x.ProposedTaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, new { style = "display: inline !important; height: 0; width: 1px; border:0; box-shadow:none; color:white; overflow:hidden; margin-right:-1px; background-color: green;"})
                 @Html.ValidationMessageFor(m => m.ProposedTaxonomyTierOneID)
             </div>
         </div>
@@ -174,7 +174,7 @@ Source code is available upon request via <support@sitkatech.com>.
     jQuery(document).ready(function ()
     {
         displaySelectedFundingTypeFields();
-        jQuery(@Html.IdFor(x => x.ProposedTaxonomyTierOneID)).selectpicker(
+        jQuery("#@Html.IdFor(x => x.ProposedTaxonomyTierOneID)").selectpicker(
             {
                 size: 12, title: 'Select the @MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject()', width: '400px'
             });
