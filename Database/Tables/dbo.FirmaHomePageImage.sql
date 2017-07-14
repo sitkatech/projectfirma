@@ -3,7 +3,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[FirmaHomePageImage](
-	[FirmaHomePageImageID] [int] NOT NULL,
+	[FirmaHomePageImageID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[FileResourceID] [int] NOT NULL,
 	[Caption] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,

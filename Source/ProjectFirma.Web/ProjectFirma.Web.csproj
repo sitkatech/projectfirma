@@ -360,23 +360,23 @@
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
     <Compile Include="Controllers\FirmaHomePageImageController.cs" />
     <Compile Include="Controllers\TenantController.cs" />
+    <Content Include="Content\Bootstrap\firma\base.theme.css">
+      <DependentUpon>base.theme.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\base.theme.min.css">
+      <DependentUpon>base.theme.css</DependentUpon>
+    </Content>
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.css">
       <DependentUpon>bootstrap.firma.theme.less</DependentUpon>
     </Content>
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.min.css">
       <DependentUpon>bootstrap.firma.theme.css</DependentUpon>
     </Content>
-    <Content Include="Content\Bootstrap\firma\default.theme.css">
-      <DependentUpon>default.theme.less</DependentUpon>
+    <Content Include="Content\Bootstrap\firma\rcd.theme.css">
+      <DependentUpon>rcd.theme.less</DependentUpon>
     </Content>
-    <Content Include="Content\Bootstrap\firma\default.theme.min.css">
-      <DependentUpon>default.theme.css</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\firma\tmpRCDPalette.css">
-      <DependentUpon>tmpRCDPalette.less</DependentUpon>
-    </Content>
-    <Content Include="Content\Bootstrap\firma\tmpRCDPalette.min.css">
-      <DependentUpon>tmpRCDPalette.css</DependentUpon>
+    <Content Include="Content\Bootstrap\firma\rcd.theme.min.css">
+      <DependentUpon>rcd.theme.css</DependentUpon>
     </Content>
     <Content Include="Content\img\ClackamasPartnership\apple-icon-114x114.png" />
     <Content Include="Content\img\ClackamasPartnership\apple-icon-120x120.png" />
@@ -443,12 +443,9 @@
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.css.map">
       <DependentUpon>bootstrap.firma.theme.css</DependentUpon>
     </Content>
-    <Content Include="Content\Bootstrap\firma\default.theme.less" />
-    <Content Include="Content\Bootstrap\firma\default.theme.css.map">
-      <DependentUpon>default.theme.css</DependentUpon>
-    </Content>
+    <Content Include="Content\Bootstrap\firma\base.theme.less" />
     <Content Include="Content\img\RCDProjectTracker\manifest.json" />
-    <Content Include="Content\Bootstrap\firma\tmpRCDPalette.less" />
+    <Content Include="Content\Bootstrap\firma\rcd.theme.less" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
