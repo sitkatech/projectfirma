@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Models;
 using FluentValidation.Attributes;
@@ -29,7 +30,7 @@ using LtInfo.Common.Models;
 namespace ProjectFirma.Web.Views.ProjectOrganization
 {
     [Validator(typeof(EditOrganizationsViewModelValidator))]
-    public class EditOrganizationsViewModel : FormViewModel
+    public class EditOrganizationsViewModel : FormViewModel, IValidatableObject
     {
         public ProjectOrganizationsViewModelJson ProjectOrganizationsViewModelJson { get; set; }
 
@@ -52,10 +53,6 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
 
         public void UpdateModel(Models.Project project, ICollection<Models.ProjectOrganization> allProjectOrganizations)
         {            
-            Check.Require(ProjectOrganizationsViewModelJson.ProjectOrganizations.Count > 0, "Need to have at least the lead implementer set.");
-            Check.Require(ProjectOrganizationsViewModelJson.ProjectOrganizations.Count == ProjectOrganizationsViewModelJson.ProjectOrganizations.Select(x => x.OrganizationID).Distinct().Count(),
-                "Cannot have the same organization listed multiple times.");
-
             project.LeadImplementerOrganizationID = ProjectOrganizationsViewModelJson.LeadOrganizationID;
 
             var projectOrganizationViewModelJsons =
@@ -75,6 +72,26 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             project.ProjectOrganizations.Merge(projectOrganizationsUpdated,
                 allProjectOrganizations,
                 (x, y) => x.ProjectID == y.ProjectID && x.OrganizationID == y.OrganizationID && x.RelationshipTypeID == y.RelationshipTypeID);
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var errors = new List<ValidationResult>();
+
+            if (ProjectOrganizationsViewModelJson.LeadOrganizationID == null)
+            {
+                errors.Add(new ValidationResult("Lead Implementer Organization is required."));
+            }
+            if (ProjectOrganizationsViewModelJson.ProjectOrganizations.Count != ProjectOrganizationsViewModelJson.ProjectOrganizations.Select(x => x.OrganizationID).Distinct().Count())
+            {
+                errors.Add(new ValidationResult("Cannot have the same organization listed multiple times."));
+            }
+            if (ProjectOrganizationsViewModelJson.ProjectOrganizations.Any(x => x.RelationshipTypes.Count != x.RelationshipTypes.Select(y => y.RelationshipTypeID).Distinct().Count()))
+            {
+                errors.Add(new ValidationResult("Cannot have the same relationship type listed for the same organization multiple times."));
+            }
+           
+            return errors;
         }
     }
 }

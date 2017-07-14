@@ -46,7 +46,6 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             RuleFor(x => x.ProjectOrganizationsViewModelJson)
                 .Must(HasOneLeadImplementer)
                 .WithMessage(FirmaValidationMessages.ProjectOrganizationLeadShouldBeSetIfThereAreAnyOrganizations)
-                .WithMessage(FirmaValidationMessages.AllProjectOrganizationShouldEitherBeTheLeadOrImplementerOrFunder)
                 .Must(LeadImplementingOrganizationIfSetMustHavePrimaryContactSet)
                 .WithMessage(FirmaValidationMessages.LeadImplementingOrganizationMustHavePrimaryContactSet);
         }

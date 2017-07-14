@@ -35,8 +35,7 @@ namespace ProjectFirma.Web.Common
         public const string OrganizationNameUnique = "Organization name already exists";
         public const string OrganizationAbbreviationUnique = "Organization abbreviation already exists";
         public const string OrganizationMustBeSetForNewUser = "Organization must be set for a new user";
-        public const string ProjectOrganizationLeadShouldBeSetIfThereAreAnyOrganizations = "Please select one of the organizations as the lead implementer";
-        public const string AllProjectOrganizationShouldEitherBeTheLeadOrImplementerOrFunder = "For each organization, please select if it is an implementer, funder or both";
+        public const string ProjectOrganizationLeadShouldBeSetIfThereAreAnyOrganizations = "Please select one of the organizations as the lead implementer";        
         public const string LeadImplementingOrganizationMustHavePrimaryContactSet = "The Lead implementer Organization must have a primary contact set";
         public const string FundingSourceNameUnique = "Funding Source name already exists";
         public const string ClassificationNameUnique = "Classification name already exists";
