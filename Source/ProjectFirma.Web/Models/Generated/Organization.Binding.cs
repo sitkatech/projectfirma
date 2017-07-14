@@ -110,7 +110,7 @@ namespace ProjectFirma.Web.Models
         public static class FieldLengths
         {
             public const int OrganizationName = 200;
-            public const int OrganizationAbbreviation = 20;
+            public const int OrganizationAbbreviation = 50;
             public const int OrganizationUrl = 200;
         }
     }

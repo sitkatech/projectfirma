@@ -28,55 +28,44 @@ using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
-namespace ProjectFirma.Web.Views.OrganizationType
+namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
-    public class EditViewModel : FormViewModel, IValidatableObject
+    public class EditRelationshipTypeViewModel : FormViewModel, IValidatableObject
     {
         [Required]
-        public int OrganizationTypeID { get; set; }
+        public int RelationshipTypeID { get; set; }
 
         [Required]
-        [StringLength(Models.OrganizationType.FieldLengths.OrganizationTypeName)]
+        [StringLength(Models.RelationshipType.FieldLengths.RelationshipTypeName)]
         [DisplayName("Name")]
-        public string OrganizationTypeName { get; set; }
-
-        [Required]
-        [StringLength(Models.OrganizationType.FieldLengths.OrganizationTypeAbbreviation)]
-        [DisplayName("Abbreviation")]
-        public string OrganizationTypeAbbreviation { get; set; }
-
-        [Required]
-        public string LegendColor { get; set; }
+        public string RelationshipTypeName { get; set; }
+                
 
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public EditViewModel()
+        public EditRelationshipTypeViewModel()
         {
         }
 
-        public EditViewModel(Models.OrganizationType organizationType)
+        public EditRelationshipTypeViewModel(Models.RelationshipType relationshipType)
         {
-            OrganizationTypeID = organizationType.OrganizationTypeID;
-            OrganizationTypeName = organizationType.OrganizationTypeName;
-            OrganizationTypeAbbreviation = organizationType.OrganizationTypeAbbreviation;
-            LegendColor = organizationType.LegendColor;
+            RelationshipTypeID = relationshipType.RelationshipTypeID;
+            RelationshipTypeName = relationshipType.RelationshipTypeName;            
         }
 
-        public void UpdateModel(Models.OrganizationType organizationType, Person currentPerson)
+        public void UpdateModel(Models.RelationshipType relationshipType, Person currentPerson)
         {
-            organizationType.OrganizationTypeName = OrganizationTypeName;
-            organizationType.OrganizationTypeAbbreviation = OrganizationTypeAbbreviation; 
-            organizationType.LegendColor = LegendColor;
+            relationshipType.RelationshipTypeName = RelationshipTypeName;            
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-            var existingOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
-            if (!Models.OrganizationType.IsOrganizationTypeNameUnique(existingOrganizationType, OrganizationTypeName, OrganizationTypeID))
+            var existingRelationshipType = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
+            if (!RelationshipType.IsRelationshipTypeNameUnique(existingRelationshipType, RelationshipTypeName, RelationshipTypeID))
             {
-                errors.Add(new SitkaValidationResult<EditViewModel, string>("Name already exists", x => x.OrganizationTypeName));
+                errors.Add(new SitkaValidationResult<EditRelationshipTypeViewModel, string>("Name already exists", x => x.RelationshipTypeName));
             }
             return errors;
         }

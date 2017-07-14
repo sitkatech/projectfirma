@@ -18,9 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirma.Web.Views.OrganizationType
+namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
-    public abstract class Edit : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditViewData, EditViewModel>
+    public abstract class EditRelationshipType : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditRelationshipTypeViewData, EditRelationshipTypeViewModel>
     {
     }
 }

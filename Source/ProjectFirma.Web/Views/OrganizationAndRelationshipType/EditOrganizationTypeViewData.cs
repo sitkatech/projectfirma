@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="Index.cs" company="Tahoe Regional Planning Agency">
+<copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,9 +18,15 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirma.Web.Views.OrganizationType
+
+namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
-    public abstract class Index : LtInfo.Common.Mvc.TypedWebViewPage<IndexViewData>
+    public class EditOrganizationTypeViewData : FirmaUserControlViewData
     {
+       
+        public EditOrganizationTypeViewData()
+        {
+
+        }
     }
 }

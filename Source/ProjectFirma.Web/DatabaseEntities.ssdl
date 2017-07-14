@@ -997,7 +997,7 @@ warning 6035: The relationship 'FK_ProposedProject_Organization_LeadImplementerO
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="OrganizationGuid" Type="uniqueidentifier" />
     <Property Name="OrganizationName" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="OrganizationAbbreviation" Type="varchar" MaxLength="20" />
+    <Property Name="OrganizationAbbreviation" Type="varchar" MaxLength="50" />
     <Property Name="PrimaryContactPersonID" Type="int" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="OrganizationUrl" Type="varchar" MaxLength="200" />

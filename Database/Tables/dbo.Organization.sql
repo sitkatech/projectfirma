@@ -7,7 +7,7 @@ CREATE TABLE [dbo].[Organization](
 	[TenantID] [int] NOT NULL,
 	[OrganizationGuid] [uniqueidentifier] NULL,
 	[OrganizationName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[OrganizationAbbreviation] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[OrganizationAbbreviation] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[PrimaryContactPersonID] [int] NULL,
 	[IsActive] [bit] NOT NULL,
 	[OrganizationUrl] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

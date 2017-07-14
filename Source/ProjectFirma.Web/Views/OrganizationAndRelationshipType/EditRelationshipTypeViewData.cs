@@ -19,12 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-namespace ProjectFirma.Web.Views.OrganizationType
+namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
-    public class EditViewData : FirmaUserControlViewData
+    public class EditRelationshipTypeViewData : FirmaUserControlViewData
     {
        
-        public EditViewData()
+        public EditRelationshipTypeViewData()
         {
 
         }

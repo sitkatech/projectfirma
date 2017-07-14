@@ -359,7 +359,7 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
-    <Compile Include="Controllers\OrganizationTypeController.cs" />
+    <Compile Include="Controllers\OrganizationAndRelationshipTypeController.cs" />
     <Compile Include="Controllers\TenantController.cs" />
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.css">
       <DependentUpon>bootstrap.firma.theme.less</DependentUpon>
@@ -454,6 +454,7 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Organization\PullOrganizationFromKeystone.cshtml" />
+    <Content Include="Views\OrganizationAndRelationshipType\EditRelationshipType.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
     <Compile Include="Models\NotificationType.cs" />
     <Compile Include="Models\OrganizationType.cs" />
@@ -461,8 +462,8 @@
     <Compile Include="Models\RelationshipType.cs" />
     <Compile Include="Models\RelationshipTypeSimple.cs" />
     <Compile Include="Models\Tenant.cs" />
-    <Compile Include="Security\OrganizationTypeManageFeature.cs" />
-    <Compile Include="Security\OrganizationTypeViewFeature.cs" />
+    <Compile Include="Security\OrganizationAndRelationshipTypeManageFeature.cs" />
+    <Compile Include="Security\OrganizationAndRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\SitkaAdminFeature.cs" />
     <Compile Include="Service References\KeystoneDataService\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -472,6 +473,10 @@
     <Compile Include="UnitTestCommon\TestOrganizationType.cs" />
     <Compile Include="Views\Home\FeaturedProjects.cs" />
     <Compile Include="Views\Home\FeaturedProjectsViewData.cs" />
+    <Compile Include="Views\OrganizationAndRelationshipType\EditRelationshipType.cs" />
+    <Compile Include="Views\OrganizationAndRelationshipType\EditRelationshipTypeViewData.cs" />
+    <Compile Include="Views\OrganizationAndRelationshipType\EditRelationshipTypeViewModel.cs" />
+    <Compile Include="Views\OrganizationAndRelationshipType\RelationshipTypeGridSpec.cs" />
     <Compile Include="Views\Organization\PullOrganizationFromKeystone.cs" />
     <Compile Include="Views\Organization\PullOrganizationFromKeystoneViewData.cs" />
     <Compile Include="Views\Organization\PullOrganizationFromKeystoneViewModel.cs" />
@@ -628,12 +633,12 @@
     <Compile Include="Views\PerformanceMeasureMonitoringProgram\EditPerformanceMeasureMonitoringPrograms.cs" />
     <Compile Include="Views\PerformanceMeasureMonitoringProgram\EditPerformanceMeasureMonitoringProgramsViewData.cs" />
     <Compile Include="Views\PerformanceMeasureMonitoringProgram\EditPerformanceMeasureMonitoringProgramsViewModel.cs" />
-    <Compile Include="Views\OrganizationType\Edit.cs" />
-    <Compile Include="Views\OrganizationType\EditViewData.cs" />
-    <Compile Include="Views\OrganizationType\EditViewModel.cs" />
-    <Compile Include="Views\OrganizationType\Index.cs" />
-    <Compile Include="Views\OrganizationType\IndexGridSpec.cs" />
-    <Compile Include="Views\OrganizationType\IndexViewData.cs" />
+    <Compile Include="Views\OrganizationAndRelationshipType\EditOrganizationType.cs" />
+    <Compile Include="Views\OrganizationAndRelationshipType\EditOrganizationTypeViewData.cs" />
+    <Compile Include="Views\OrganizationAndRelationshipType\EditOrganizationTypeViewModel.cs" />
+    <Compile Include="Views\OrganizationAndRelationshipType\Index.cs" />
+    <Compile Include="Views\OrganizationAndRelationshipType\OrganizationTypeGridSpec.cs" />
+    <Compile Include="Views\OrganizationAndRelationshipType\IndexViewData.cs" />
     <Compile Include="Views\Tenant\Detail.cs" />
     <Compile Include="Views\TaxonomyTierTwoPerformanceMeasure\Edit.cs" />
     <Compile Include="Views\TaxonomyTierTwoPerformanceMeasure\EditViewData.cs" />
@@ -886,7 +891,6 @@
     <Compile Include="Views\ProjectOrganization\EditOrganizationsViewData.cs" />
     <Compile Include="Views\ProjectOrganization\EditOrganizationsViewModel.cs" />
     <Compile Include="Views\ProjectOrganization\EditOrganizationsViewModelTest.cs" />
-    <Compile Include="Views\ProjectOrganization\EditOrganizationsViewModelValidator.cs" />
     <Compile Include="Views\ProjectOrganization\EditOrganizationsViewModelValidatorTest.cs" />
     <Compile Include="Views\ProjectOrganization\ProjectOrganizationsViewModelJson.cs" />
     <Compile Include="Views\ProjectUpdate\Basics.cs" />
@@ -1205,8 +1209,8 @@
     <Content Include="Views\Tenant\Detail.cshtml" />
     <Content Include="Views\Tenant\EditBasics.cshtml" />
     <Content Include="Views\Tenant\EditBoundingBox.cshtml" />
-    <Content Include="Views\OrganizationType\Edit.cshtml" />
-    <Content Include="Views\OrganizationType\Index.cshtml" />
+    <Content Include="Views\OrganizationAndRelationshipType\EditOrganizationType.cshtml" />
+    <Content Include="Views\OrganizationAndRelationshipType\Index.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

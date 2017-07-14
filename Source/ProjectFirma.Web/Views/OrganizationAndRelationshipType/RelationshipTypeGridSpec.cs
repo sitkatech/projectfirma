@@ -19,21 +19,26 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.ModalDialog;
+using ProjectFirma.Web.Controllers;
 
-namespace ProjectFirma.Web.Views.OrganizationType
+namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
-    public class IndexGridSpec : GridSpec<Models.OrganizationType>
+    public class RelationshipTypeGridSpec : GridSpec<Models.RelationshipType>
     {
-        public IndexGridSpec(bool hasDeletePermissions)
+        public RelationshipTypeGridSpec(bool hasManagePermissions)
         {            
-            if (hasDeletePermissions)
+            if (hasManagePermissions)
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, !x.HasDependentObjects()), 30);
+                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.EditRelationshipType(a)),
+                        $"Edit Relationship Type '{a.RelationshipTypeName}'")),
+                    30);
             }
-                        
-            Add("Organization Type Name", a => a.OrganizationTypeName, 240);
-            Add("Abbreviation", a => a.OrganizationTypeAbbreviation, 200);            
+
+            Add("Relationship Type Name", a => a.RelationshipTypeName, 240);           
         }
     }
 }

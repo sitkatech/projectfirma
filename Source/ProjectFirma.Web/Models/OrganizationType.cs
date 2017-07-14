@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Models
         }
         public string DeleteUrl
         {
-            get { return SitkaRoute<OrganizationTypeController>.BuildUrlFromExpression(c => c.DeleteOrganizationType(OrganizationTypeID)); }
+            get { return SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(c => c.DeleteOrganizationType(OrganizationTypeID)); }
         }
 
         public string AuditDescriptionString => OrganizationTypeName;

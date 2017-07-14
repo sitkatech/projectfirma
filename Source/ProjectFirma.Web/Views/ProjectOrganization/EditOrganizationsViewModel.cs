@@ -26,10 +26,10 @@ using FluentValidation.Attributes;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.ProjectOrganization
 {
-    [Validator(typeof(EditOrganizationsViewModelValidator))]
     public class EditOrganizationsViewModel : FormViewModel, IValidatableObject
     {
         public ProjectOrganizationsViewModelJson ProjectOrganizationsViewModelJson { get; set; }
@@ -81,6 +81,12 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             if (ProjectOrganizationsViewModelJson.LeadOrganizationID == null)
             {
                 errors.Add(new ValidationResult("Lead Implementer Organization is required."));
+                return errors;
+            }
+            var leadOrg = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(ProjectOrganizationsViewModelJson.LeadOrganizationID.Value);
+            if (leadOrg.PrimaryContactPerson == null)
+            {
+                errors.Add(new ValidationResult("Lead Implementer Organization must have a primary contact set."));
             }
             if (ProjectOrganizationsViewModelJson.ProjectOrganizations.Count != ProjectOrganizationsViewModelJson.ProjectOrganizations.Select(x => x.OrganizationID).Distinct().Count())
             {
