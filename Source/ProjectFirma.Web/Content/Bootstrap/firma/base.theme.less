@@ -131,6 +131,7 @@ form {
 
 .header {
     background-color: @firma-logoHeaderBackground-color;
+    padding: 10px;
 
     img {
         margin: 5px;
@@ -677,6 +678,10 @@ table.summaryLayout td {
     font-family: @firma-header-font;
     margin-bottom: 0;
     margin-top: 0;
+
+    a {
+        color: @firma-panel-headerText-color;
+    }
     }
 
 }
@@ -819,7 +824,7 @@ nav#tableOfContents ul.nav li ul.nav li a:hover
 
 
 .scrollSpy {
-  width: 200px;
+  max-width: 185px;
 }
 
 #tableOfContentsAffixed.affix {
@@ -1227,3 +1232,19 @@ h2.collapsed {
 }
 
 // End Image Carousel Styling
+
+//Validation
+
+.validation-summary-errors {
+    padding: 5px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
+
+    ul {
+        margin-top: 10px;
+    }
+}

@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
             var firmaPageType = FirmaPageType.ToType(FirmaPageTypeEnum.HomePage);
             var firmaPageByPageType = FirmaPage.GetFirmaPageByPageType(firmaPageType);
 
-            var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList();
+            var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().OrderBy(x => x.SortOrder).ToList();
 
             var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
             var projects = IsCurrentUserAnonymous() ? allProjects.Where(p => p.IsVisibleToEveryone()).ToList() : allProjects;
