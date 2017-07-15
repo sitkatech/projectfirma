@@ -368,7 +368,8 @@
     <Compile Include="Views\Organization\ApproveUploadGisViewModel.cs" />
     <Compile Include="Views\Organization\EditBoundary.cs" />
     <Compile Include="Views\Organization\EditBoundaryViewData.cs" />
-    <Compile Include="Views\Organization\EditBoundaryViewModel.cs" />    <Compile Include="Controllers\TenantController.cs" />
+    <Compile Include="Views\Organization\EditBoundaryViewModel.cs" />
+    <Compile Include="Controllers\TenantController.cs" />
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.css">
       <DependentUpon>bootstrap.firma.theme.less</DependentUpon>
     </Content>
@@ -435,6 +436,7 @@
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-96x96.png" />
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.css" />
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.js" />
+    <Content Include="Content\spinjs\spin.min.js" />
     <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js.map" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js.map" />
     <Content Include="ScriptsCustom\CkEditorReady.min.js.map" />

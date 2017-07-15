@@ -8,6 +8,7 @@
 {
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
     <script type="text/javascript" src="@Url.Content("~/ScriptsCustom/Maps/ProjectFirmaMaps.SelectableMap.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/spinjs/spin.min.js")"></script>
     <script type="text/javascript">
         // <![CDATA[
         jQuery(function () {
@@ -73,8 +74,6 @@
         </form>
     </div>
     <div class="col-xs-12 col-sm-8">
-        <form id="appoveGisUploadForm" method="post" action="@ViewDataTyped.ApproveGisUploadUrl">
-            <div id="gisUploadResults"></div>
-        </form>
+        <div id="gisUploadResults"></div>
     </div>
 </div>

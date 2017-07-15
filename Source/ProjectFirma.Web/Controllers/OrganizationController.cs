@@ -392,7 +392,8 @@ namespace ProjectFirma.Web.Controllers
                 return ViewApproveUploadGis(viewModel, organization);
             }
 
-            return RedirectToAction(new SitkaRoute<OrganizationController>(c => c.Detail(organization)));
+            // todo make congratulations message to display when we come back to detial page
+            return new ContentResult();
         }
         private PartialViewResult ViewApproveUploadGis(ApproveUploadGisViewModel viewModel, Organization organization)
         {
