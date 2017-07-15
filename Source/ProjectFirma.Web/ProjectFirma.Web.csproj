@@ -85,6 +85,9 @@
     <Compile Include="Models\Generated\FileResourceMimeType.Binding.cs" />
     <Compile Include="Models\Generated\FileResourceMimeTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FileResourcePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaHomePageImage.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaHomePageImage.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FirmaHomePageImagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FirmaPage.Binding.cs" />
     <Compile Include="Models\Generated\FirmaPage.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\FirmaPageImage.Binding.cs" />
@@ -355,19 +358,72 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Controllers\FirmaHomePageImageController.cs" />
     <Compile Include="Controllers\TenantController.cs" />
+    <Content Include="Content\Bootstrap\firma\base.theme.css">
+      <DependentUpon>base.theme.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\base.theme.min.css">
+      <DependentUpon>base.theme.css</DependentUpon>
+    </Content>
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.css">
       <DependentUpon>bootstrap.firma.theme.less</DependentUpon>
     </Content>
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.min.css">
       <DependentUpon>bootstrap.firma.theme.css</DependentUpon>
     </Content>
-    <Content Include="Content\Bootstrap\firma\default.theme.css">
-      <DependentUpon>default.theme.less</DependentUpon>
+    <Content Include="Content\Bootstrap\firma\rcd.theme.css">
+      <DependentUpon>rcd.theme.less</DependentUpon>
     </Content>
-    <Content Include="Content\Bootstrap\firma\default.theme.min.css">
-      <DependentUpon>default.theme.css</DependentUpon>
+    <Content Include="Content\Bootstrap\firma\rcd.theme.min.css">
+      <DependentUpon>rcd.theme.css</DependentUpon>
     </Content>
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-114x114.png" />
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-120x120.png" />
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-57x57.png" />
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-60x60.png" />
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-72x72.png" />
+    <Content Include="Content\img\ClackamasPartnership\apple-icon-76x76.png" />
+    <Content Include="Content\img\ClackamasPartnership\favicon-16x16.png" />
+    <Content Include="Content\img\ClackamasPartnership\favicon-32x32.png" />
+    <Content Include="Content\img\ClackamasPartnership\favicon-96x96.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-chrome-144x144.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-chrome-192x192.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-chrome-256x256.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-chrome-36x36.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-chrome-384x384.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-chrome-48x48.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-chrome-72x72.png" />
+    <Content Include="Content\img\RCDProjectTracker\android-chrome-96x96.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-114x114.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-120x120.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-144x144.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-152x152.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-180x180.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-57x57.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-60x60.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-72x72.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon-76x76.png" />
+    <Content Include="Content\img\RCDProjectTracker\apple-touch-icon.png" />
+    <Content Include="Content\img\RCDProjectTracker\browserconfig.xml" />
+    <Content Include="Content\img\RCDProjectTracker\favicon-16x16.png" />
+    <Content Include="Content\img\RCDProjectTracker\favicon-32x32.png" />
+    <Content Include="Content\img\RCDProjectTracker\favicon.ico" />
+    <Content Include="Content\img\RCDProjectTracker\mstile-144x144.png" />
+    <Content Include="Content\img\RCDProjectTracker\mstile-150x150.png" />
+    <Content Include="Content\img\RCDProjectTracker\mstile-310x150.png" />
+    <Content Include="Content\img\RCDProjectTracker\mstile-310x310.png" />
+    <Content Include="Content\img\RCDProjectTracker\mstile-70x70.png" />
+    <Content Include="Content\img\RCDProjectTracker\safari-pinned-tab.svg" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-114x114.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-120x120.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-57x57.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-60x60.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-72x72.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\apple-icon-76x76.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\favicon-16x16.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\favicon-32x32.png" />
+    <Content Include="Content\img\SitkaTechnologyGroup\favicon-96x96.png" />
     <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js.map" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js.map" />
     <Content Include="ScriptsCustom\CkEditorReady.min.js.map" />
@@ -387,10 +443,13 @@
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.css.map">
       <DependentUpon>bootstrap.firma.theme.css</DependentUpon>
     </Content>
-    <Content Include="Content\Bootstrap\firma\default.theme.less" />
-    <Content Include="Content\Bootstrap\firma\default.theme.css.map">
-      <DependentUpon>default.theme.css</DependentUpon>
-    </Content>
+    <Content Include="Content\Bootstrap\firma\base.theme.less" />
+    <Content Include="Content\img\RCDProjectTracker\manifest.json" />
+    <Content Include="Content\Bootstrap\firma\rcd.theme.less" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
     <None Include="Service References\KeystoneDataService\KeystoneData.disco" />
     <None Include="Service References\KeystoneDataService\configuration91.svcinfo" />
     <None Include="Service References\KeystoneDataService\configuration.svcinfo" />
@@ -449,6 +508,7 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Organization\PullOrganizationFromKeystone.cshtml" />
+    <Content Include="Views\Home\ManageHomePageImages.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
     <Compile Include="Models\NotificationType.cs" />
     <Compile Include="Models\Tenant.cs" />
@@ -458,8 +518,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Views\Home\ManageHomePageImagesViewData.cs" />
+    <Compile Include="Views\Home\ManageHomePageImages.cs" />
     <Compile Include="Views\Home\FeaturedProjects.cs" />
     <Compile Include="Views\Home\FeaturedProjectsViewData.cs" />
+    <Compile Include="Models\FirmaHomePageImage.cs" />
     <Compile Include="Views\Organization\PullOrganizationFromKeystone.cs" />
     <Compile Include="Views\Organization\PullOrganizationFromKeystoneViewData.cs" />
     <Compile Include="Views\Organization\PullOrganizationFromKeystoneViewModel.cs" />
@@ -616,6 +679,12 @@
     <Compile Include="Views\PerformanceMeasureMonitoringProgram\EditPerformanceMeasureMonitoringPrograms.cs" />
     <Compile Include="Views\PerformanceMeasureMonitoringProgram\EditPerformanceMeasureMonitoringProgramsViewData.cs" />
     <Compile Include="Views\PerformanceMeasureMonitoringProgram\EditPerformanceMeasureMonitoringProgramsViewModel.cs" />
+    <Compile Include="Views\FirmaHomePageImage\Edit.cs" />
+    <Compile Include="Views\FirmaHomePageImage\EditViewData.cs" />
+    <Compile Include="Views\FirmaHomePageImage\EditViewModel.cs" />
+    <Compile Include="Views\FirmaHomePageImage\New.cs" />
+    <Compile Include="Views\FirmaHomePageImage\NewViewData.cs" />
+    <Compile Include="Views\FirmaHomePageImage\NewViewModel.cs" />
     <Compile Include="Views\Tenant\Detail.cs" />
     <Compile Include="Views\TaxonomyTierTwoPerformanceMeasure\Edit.cs" />
     <Compile Include="Views\TaxonomyTierTwoPerformanceMeasure\EditViewData.cs" />
@@ -1187,6 +1256,8 @@
     <Content Include="Views\Tenant\Detail.cshtml" />
     <Content Include="Views\Tenant\EditBasics.cshtml" />
     <Content Include="Views\Tenant\EditBoundingBox.cshtml" />
+    <Content Include="Views\FirmaHomePageImage\Edit.cshtml" />
+    <Content Include="Views\FirmaHomePageImage\New.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -1630,12 +1701,6 @@
       <DependentUpon>jquery.ui.firma.css</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap-toc\bootstrap-toc.js" />
-    <Content Include="Content\img\apple-icon-114x114.png" />
-    <Content Include="Content\img\apple-icon-120x120.png" />
-    <Content Include="Content\img\apple-icon-57x57.png" />
-    <Content Include="Content\img\apple-icon-60x60.png" />
-    <Content Include="Content\img\apple-icon-72x72.png" />
-    <Content Include="Content\img\apple-icon-76x76.png" />
     <Content Include="Content\img\ProjectFirma_Logo_2016_FNL.width-600.png" />
     <Content Include="Content\img\ProjectFirma_Logo_Square.png" />
     <Content Include="Content\qtip\jquery.qtip.firma.min.css">
@@ -1673,9 +1738,6 @@
       <DependentUpon>dhtmlxgrid_ltinfo_skin.css</DependentUpon>
     </Content>
     <Content Include="Content\css\jquery.ui.firma.css" />
-    <Content Include="Content\img\favicon-16x16.png" />
-    <Content Include="Content\img\favicon-32x32.png" />
-    <Content Include="Content\img\favicon-96x96.png" />
     <Content Include="Content\img\favicon.ico" />
     <Content Include="Content\qtip\jquery.qtip.firma.css" />
     <Content Include="Content\qtip\jquery.qtip.validation.min.js">
@@ -3185,16 +3247,15 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost:60514/</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>https://localhost.projectFirma.sitkatech.com</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>True</UseCustomServer>
+          <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>https://localhost.projectFirma.sitkatech.com</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>

@@ -12,6 +12,7 @@
     <EntitySet Name="FieldDefinitionData" EntityType="ProjectFirma.Web.Models.FieldDefinitionData" />
     <EntitySet Name="FieldDefinitionDataImage" EntityType="ProjectFirma.Web.Models.FieldDefinitionDataImage" />
     <EntitySet Name="FileResource" EntityType="ProjectFirma.Web.Models.FileResource" />
+    <EntitySet Name="FirmaHomePageImage" EntityType="ProjectFirma.Web.Models.FirmaHomePageImage" />
     <EntitySet Name="FirmaPage" EntityType="ProjectFirma.Web.Models.FirmaPage" />
     <EntitySet Name="FirmaPageImage" EntityType="ProjectFirma.Web.Models.FirmaPageImage" />
     <EntitySet Name="FundingSource" EntityType="ProjectFirma.Web.Models.FundingSource" />
@@ -143,6 +144,10 @@
     <AssociationSet Name="FK_FileResource_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.FK_FileResource_Person_CreatePersonID_PersonID">
       <End Role="CreatePerson" EntitySet="Person" />
       <End Role="FileResourcesWhereYouAreTheCreatePerson" EntitySet="FileResource" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FirmaHomePageImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_FirmaHomePageImage_FileResource_FileResourceID">
+      <End Role="FileResource" EntitySet="FileResource" />
+      <End Role="FirmaHomePageImages" EntitySet="FirmaHomePageImage" />
     </AssociationSet>
     <AssociationSet Name="FK_FirmaPageImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.FK_FirmaPageImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
@@ -834,6 +839,7 @@
     <NavigationProperty Name="ClassificationsWhereYouAreTheKeyImageFileResource" Relationship="ProjectFirma.Web.Models.FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID" FromRole="KeyImageFileResource" ToRole="ClassificationsWhereYouAreTheKeyImageFileResource" />
     <NavigationProperty Name="FieldDefinitionDataImages" Relationship="ProjectFirma.Web.Models.FK_FieldDefinitionDataImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FieldDefinitionDataImages" />
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_FileResource_Person_CreatePersonID_PersonID" FromRole="FileResourcesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
+    <NavigationProperty Name="FirmaHomePageImages" Relationship="ProjectFirma.Web.Models.FK_FirmaHomePageImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FirmaHomePageImages" />
     <NavigationProperty Name="FirmaPageImages" Relationship="ProjectFirma.Web.Models.FK_FirmaPageImage_FileResource_FileResourceID" FromRole="FileResource" ToRole="FirmaPageImages" />
     <NavigationProperty Name="MonitoringProgramDocuments" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramDocument_FileResource_FileResourceID" FromRole="FileResource" ToRole="MonitoringProgramDocuments" />
     <NavigationProperty Name="OrganizationsWhereYouAreTheLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_Organization_FileResource_LogoFileResourceID_FileResourceID" FromRole="LogoFileResource" ToRole="OrganizationsWhereYouAreTheLogoFileResource" />
@@ -843,6 +849,17 @@
     <NavigationProperty Name="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID" FromRole="TenantBannerLogoFileResource" ToRole="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" />
     <NavigationProperty Name="TenantAttributesWhereYouAreTheTenantSquareLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID" FromRole="TenantSquareLogoFileResource" ToRole="TenantAttributesWhereYouAreTheTenantSquareLogoFileResource" />
     <NavigationProperty Name="TenantAttributesWhereYouAreTheTenantStyleSheetFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_FileResourceID" FromRole="TenantStyleSheetFileResource" ToRole="TenantAttributesWhereYouAreTheTenantStyleSheetFileResource" />
+  </EntityType>
+  <EntityType Name="FirmaHomePageImage">
+    <Key>
+      <PropertyRef Name="FirmaHomePageImageID" />
+    </Key>
+    <Property Name="FirmaHomePageImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="FileResourceID" Type="Int32" Nullable="false" />
+    <Property Name="Caption" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
+    <Property Name="SortOrder" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_FirmaHomePageImage_FileResource_FileResourceID" FromRole="FirmaHomePageImages" ToRole="FileResource" />
   </EntityType>
   <EntityType Name="FirmaPage">
     <Key>
@@ -2181,6 +2198,18 @@
       </Principal>
       <Dependent Role="FileResourcesWhereYouAreTheCreatePerson">
         <PropertyRef Name="CreatePersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FirmaHomePageImage_FileResource_FileResourceID">
+    <End Role="FileResource" Type="ProjectFirma.Web.Models.FileResource" Multiplicity="1" />
+    <End Role="FirmaHomePageImages" Type="ProjectFirma.Web.Models.FirmaHomePageImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="FirmaHomePageImages">
+        <PropertyRef Name="FileResourceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

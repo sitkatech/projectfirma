@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.FieldDefinition.Edit
 
+@Html.ValidationSummary()
 <h3>Edit Field Definition</h3>
 @using (Html.BeginForm())
 {
@@ -30,12 +31,14 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="col-md-10">
                 @Html.TextBoxFor(x => x.FieldDefinitionLabel, new { @class = "form-control" })
             </div>
+            @Html.ValidationMessageFor(x => x.FieldDefinitionLabel)
         </div>
         <div class="form-group">
             @Html.LabelFor(x => x.FieldDefinitionDataValue, new { @class = "col-md-2 control-label" })
             <div class="col-md-10" style="max-height: 300px; overflow-y: auto;">
                 @Html.CkEditorFor(x => x.FieldDefinitionDataValue, CkEditorExtension.CkEditorToolbar.MinimalWithImages, true, false, ViewDataTyped.FileBrowserImageUploadUrl, 200)
             </div>
+            @Html.ValidationMessageFor(x => x.FieldDefinitionDataValue)
         </div>
         <div class="form-group">
             <label class="col-md-2 control-label">Default Label</label>

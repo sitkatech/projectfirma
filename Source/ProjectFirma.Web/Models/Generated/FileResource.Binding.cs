@@ -25,6 +25,7 @@ namespace ProjectFirma.Web.Models
         {
             this.ClassificationsWhereYouAreTheKeyImageFileResource = new HashSet<Classification>();
             this.FieldDefinitionDataImages = new HashSet<FieldDefinitionDataImage>();
+            this.FirmaHomePageImages = new HashSet<FirmaHomePageImage>();
             this.FirmaPageImages = new HashSet<FirmaPageImage>();
             this.MonitoringProgramDocuments = new HashSet<MonitoringProgramDocument>();
             this.OrganizationsWhereYouAreTheLogoFileResource = new HashSet<Organization>();
@@ -101,13 +102,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ClassificationsWhereYouAreTheKeyImageFileResource.Any() || FieldDefinitionDataImages.Any() || FirmaPageImages.Any() || MonitoringProgramDocuments.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ProposedProjectImages.Any() || TenantAttributesWhereYouAreTheTenantBannerLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantSquareLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantStyleSheetFileResource.Any();
+            return ClassificationsWhereYouAreTheKeyImageFileResource.Any() || FieldDefinitionDataImages.Any() || FirmaHomePageImages.Any() || FirmaPageImages.Any() || MonitoringProgramDocuments.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ProposedProjectImages.Any() || TenantAttributesWhereYouAreTheTenantBannerLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantSquareLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantStyleSheetFileResource.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(Classification).Name, typeof(FieldDefinitionDataImage).Name, typeof(FirmaPageImage).Name, typeof(MonitoringProgramDocument).Name, typeof(Organization).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ProposedProjectImage).Name, typeof(TenantAttribute).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(Classification).Name, typeof(FieldDefinitionDataImage).Name, typeof(FirmaHomePageImage).Name, typeof(FirmaPageImage).Name, typeof(MonitoringProgramDocument).Name, typeof(Organization).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ProposedProjectImage).Name, typeof(TenantAttribute).Name};
 
         [Key]
         public int FileResourceID { get; set; }
@@ -123,6 +124,7 @@ namespace ProjectFirma.Web.Models
 
         public virtual ICollection<Classification> ClassificationsWhereYouAreTheKeyImageFileResource { get; set; }
         public virtual ICollection<FieldDefinitionDataImage> FieldDefinitionDataImages { get; set; }
+        public virtual ICollection<FirmaHomePageImage> FirmaHomePageImages { get; set; }
         public virtual ICollection<FirmaPageImage> FirmaPageImages { get; set; }
         public virtual ICollection<MonitoringProgramDocument> MonitoringProgramDocuments { get; set; }
         public virtual ICollection<Organization> OrganizationsWhereYouAreTheLogoFileResource { get; set; }
