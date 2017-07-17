@@ -45,7 +45,6 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly MapInitJson MapInitJson;
         public readonly bool HasSpatialData;
 
-
         public DetailViewData(Person currentPerson,
             Models.Organization organization,
             CalendarYearExpendituresLineChartViewData calendarYearExpendituresLineChartViewData,
