@@ -14,7 +14,9 @@ alter table dbo.OrganizationType add constraint AK_OrganizationType_Organization
 
 insert into dbo.OrganizationType(TenantID, OrganizationTypeName, OrganizationTypeAbbreviation, LegendColor)
 select distinct TenantID, SectorDisplayName, SectorAbbreviation, LegendColor
-from dbo.Organization org inner join dbo.Sector sect on org.SectorID = sect.SectorID
+from dbo.Organization org 
+	inner join dbo.Sector sect 
+	on org.SectorID = sect.SectorID
 
 go
 

@@ -18,6 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
+using System.Linq;
+
 namespace ProjectFirma.Web.Models
 {
     public class OrganizationTypeSimple
@@ -50,12 +54,13 @@ namespace ProjectFirma.Web.Models
             OrganizationTypeID = organizationType.OrganizationTypeID;
             OrganizationTypeName = organizationType.OrganizationTypeName;
             OrganizationTypeAbbreviation = organizationType.OrganizationTypeAbbreviation;
-            LegendColor = organizationType.LegendColor;
+            LegendColor = organizationType.LegendColor;            
         }
 
         public int OrganizationTypeID { get; set; }
         public string OrganizationTypeName { get; set; }
         public string OrganizationTypeAbbreviation { get; set; }
         public string LegendColor { get; set; }
+        
     }
 }

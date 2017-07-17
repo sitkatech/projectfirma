@@ -1,4 +1,6 @@
-﻿namespace ProjectFirma.Web.Models
+﻿using System.Collections.Generic;
+
+namespace ProjectFirma.Web.Models
 {
     public class RelationshipTypeSimple
     {
@@ -30,6 +32,7 @@
         }
 
         public int RelationshipTypeID { get; set; }
-        public string RelationshipTypeName { get; set; }       
+        public string RelationshipTypeName { get; set; }    
+
     }
 }

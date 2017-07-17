@@ -134,7 +134,7 @@ update o
 set o.OrganizationTypeID = ot.OrganizationTypeID
 from #RCDOrgs ro
 join dbo.OrganizationType ot on ro.OrganizationType = ot.OrganizationTypeName and ot.TenantID = 3
-join dbo.Organization o on ro.OrganizationName = o.OrganizationName
+join dbo.Organization o on ro.OrganizationName = o.OrganizationName and o.TenantID = 3
 
 update o
 set o.OrganizationGuid = ko.OrganizationGuid
