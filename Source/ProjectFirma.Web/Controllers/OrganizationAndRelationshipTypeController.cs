@@ -250,7 +250,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteRelationshipType(RelationshipType relationshipType, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !relationshipType.HasDependentObjects();
+            var canDelete = relationshipType.CanDelete();
             var confirmMessage = canDelete
                 ? $"Are you sure you want to delete this Relationship Type '{relationshipType.RelationshipTypeName}'?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Relationship Type", SitkaRoute<OrganizationAndRelationshipTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
@@ -269,6 +269,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteRelationshipType(relationshipType, viewModel);
             }
+
+            relationshipType.OrganizationTypeRelationshipTypes.DeleteOrganizationTypeRelationshipType();
             relationshipType.DeleteRelationshipType();
             return new ModalDialogFormJsonResult();
         }

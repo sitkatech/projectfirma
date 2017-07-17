@@ -69,5 +69,6 @@ VALUES
 (240, N'ClassificationDescription', N'Classification Description', N'<p>The long-form description of the entries in the project classification system.-</p>'),
 (241, N'ClassificationGoalStatement', N'Classification Goal Statement', N'<p>The goal of this classification system record.-</p>'),
 (242, N'ClassificationNarrative', N'Classification Narrative', N'<p>Descriptive text describing the criteria for including a project in this classification system..-</p>'),
-(243, N'TaxonomySystem Name', N'Taxonomy System Name', N'<p>The customized name for the hierarchical project taxonomy system.<p>'),
-(244, N'TaxonomyTierOneDisplay NameForProject', N'Taxonomy Tier One Display Name For Project', N'<p>A custom label describing how a Project relates to it''s highest Taxonomy tier..</p>')
+(243, N'TaxonomySystemName', N'Taxonomy System Name', N'<p>The customized name for the hierarchical project taxonomy system.<p>'),
+(244, N'TaxonomyTierOneDisplayNameForProject', N'Taxonomy Tier One Display Name For Project', N'<p>A custom label describing how a Project relates to it''s highest Taxonomy tier..</p>'),
+(245, N'ProjectRelationshipType', N'Project Relationship Type', N'<p>A categorization of a relationship between an organization and a project, e.g. Funder, Implementer.</p>')

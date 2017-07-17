@@ -8,6 +8,10 @@ namespace ProjectFirma.Web.Models
 {
     public partial class RelationshipType : IAuditableEntity
     {
+        public bool CanDelete()
+        {
+            return !ProjectOrganizations.Any();
+        }
         public string AuditDescriptionString => RelationshipTypeName;
 
         public static bool IsRelationshipTypeNameUnique(List<RelationshipType> existingRelationshipTypes, string relationshipTypeName, int currentRelationshipTypeID)
