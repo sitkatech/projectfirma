@@ -63,6 +63,7 @@ h4 {
 }
 .header .headerText a {
   color: #fff;
+  vertical-align: top;
 }
 .header .headerText a:hover,
 .header .headerText a:active {
