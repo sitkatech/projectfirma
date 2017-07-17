@@ -151,5 +151,10 @@ namespace ProjectFirma.Web.Models
             var projectFundingSourceExpenditures = FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures);
             return projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(this);
         }
+
+        public List<RelationshipType> GetProjectRelationshipTypes(Project project)
+        {
+            return ProjectOrganizations.Where(x => x.Project == project).Select(x => x.RelationshipType).ToList();
+        }
     }
 }

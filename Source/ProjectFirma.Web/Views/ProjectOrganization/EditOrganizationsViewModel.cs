@@ -96,6 +96,19 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             {
                 errors.Add(new ValidationResult("Cannot have the same relationship type listed for the same organization multiple times."));
             }
+            var allValidRelationshipTypes = ProjectOrganizationsViewModelJson.ProjectOrganizations.All(x =>
+            {
+                var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(x.OrganizationID);
+                var validRelationshipTypes = organization.OrganizationType.OrganizationTypeRelationshipTypes
+                    .Select(t => t.RelationshipType)
+                    .ToList();
+                
+                return x.RelationshipTypes.All(y => validRelationshipTypes.Select(i => i.RelationshipTypeID).Contains(y.RelationshipTypeID));
+            });
+            if (!allValidRelationshipTypes)
+            {
+                errors.Add(new ValidationResult("One or more relationship types are invalid."));
+            }
            
             return errors;
         }

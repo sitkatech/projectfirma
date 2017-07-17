@@ -49,7 +49,6 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
         {
             public int OrganizationID;
             public List<RelationshipTypeSimple> RelationshipTypes;
-            public List<RelationshipTypeSimple> ValidRelationshipTypeSimples;
 
             [Obsolete("Needed by the ModelBinder")]
             public ProjectOrganizationJson()
@@ -59,11 +58,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             public ProjectOrganizationJson(Models.Organization organization, List<Models.ProjectOrganization> organizationProjectOrganizations)
             {
                 OrganizationID = organization.OrganizationID;
-                RelationshipTypes = organizationProjectOrganizations.Select(x => new RelationshipTypeSimple(x.RelationshipType)).ToList();
-                var validRelationshipTypes = organization.OrganizationType.OrganizationTypeRelationshipTypes.Select(x => x.RelationshipType).ToList();
-                ValidRelationshipTypeSimples = validRelationshipTypes
-                    .Select(x => new RelationshipTypeSimple(x))
-                    .ToList();
+                RelationshipTypes = organizationProjectOrganizations.Select(x => new RelationshipTypeSimple(x.RelationshipType)).ToList();             
             }
 
             public override string ToString()

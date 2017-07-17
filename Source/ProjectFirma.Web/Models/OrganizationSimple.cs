@@ -19,6 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ProjectFirma.Web.Models
 {
@@ -63,6 +65,10 @@ namespace ProjectFirma.Web.Models
             IsActive = organization.IsActive;
             URL = organization.OrganizationUrl;
             LogoFileResourceID = organization.LogoFileResourceID;
+            var validRelationshipTypes = organization.OrganizationType.OrganizationTypeRelationshipTypes.Select(x => x.RelationshipType).ToList();
+            ValidRelationshipTypeSimples = validRelationshipTypes
+                .Select(x => new RelationshipTypeSimple(x))
+                .ToList();
         }
 
         public int OrganizationID { get; set; }
@@ -74,7 +80,8 @@ namespace ProjectFirma.Web.Models
         public bool IsActive { get; set; }
         public string URL { get; set; }
         public int? LogoFileResourceID { get; set; }
-        
+        public List<RelationshipTypeSimple> ValidRelationshipTypeSimples;
+
         public string DisplayName
         {
             get { return string.Format("{0}{1}", OrganizationName, !string.IsNullOrWhiteSpace(OrganizationAbbreviation) ? string.Format(" ({0})", OrganizationAbbreviation) : string.Empty); }

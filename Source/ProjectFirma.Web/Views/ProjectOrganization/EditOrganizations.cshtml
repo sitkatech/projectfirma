@@ -95,9 +95,17 @@ Source code is available upon request via <support@sitkatech.com>.
         }
 
         $scope.updateLeadOrgModel = function (option) {
-            console.log(option);
             $scope.AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID = Number.parseInt(option);
         }
+
+        $scope.validRelationshipTypes = function(organizationID) {
+            var organization =
+                Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllOrganizations,
+                    "OrganizationID",
+                    organizationID);
+            return organization.ValidRelationshipTypeSimples;
+        }
+
     });
 
     angular.bootstrap(jQuery("#EditOrganizationsAngularApp"), ["EditOrganizationsAngularApp"]);
@@ -205,7 +213,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                            name="ProjectOrganizations[{{$index}}].RelationshipTypes[0].RelationshipTypeID" />
                                     <select style="width: 100%" ng-model="primarySimple.RelationshipTypes[0].RelationshipTypeID" name="ProjectOrganizations[{{$index}}].RelationshipTypes[0].RelationshipTypeID" ng-required="true">
                                         <option value="" disabled selected>Select a Relationship</option>
-                                        <option ng-repeat="detailType in primarySimple.ValidRelationshipTypeSimples"
+                                        <option ng-repeat="detailType in validRelationshipTypes(primarySimple.OrganizationID)"
                                                 ng-selected="primarySimple.RelationshipTypes[0].RelationshipTypeID == detailType.RelationshipTypeID"
                                                 ng-bind="detailType.RelationshipTypeName"
                                                 value="{{detailType.RelationshipTypeID}}"></option>
@@ -215,7 +223,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     {{lookupLeadPersonForOrganization(primarySimple.OrganizationID)}}
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-firma" ng-click="addDetailTier(primarySimple)" ng-disabled="primarySimple.ValidRelationshipTypeSimples.length <= primarySimple.RelationshipTypes.length">
+                                    <button type="button" class="btn btn-sm btn-firma" ng-click="addDetailTier(primarySimple)" ng-disabled="validRelationshipTypes(primarySimple.OrganizationID).length <= primarySimple.RelationshipTypes.length">
                                         <span class="glyphicon glyphicon-plus"></span>
                                         Add Relationship
                                     </button>
@@ -234,7 +242,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <td>
                                     <select style="width: 100%" ng-model="detailSimple.RelationshipTypeID" name="ProjectOrganizations[{{$parent.$index}}].RelationshipTypes[{{$index+1}}].RelationshipTypeID" ng-required="true">
                                         <option value="" disabled selected>Select a Relationship</option>
-                                        <option ng-repeat="detailType in primarySimple.ValidRelationshipTypeSimples"
+                                        <option ng-repeat="detailType in validRelationshipTypes(primarySimple.OrganizationID)"
                                                 ng-selected="detailSimple.RelationshipTypeID == detailType.RelationshipTypeID"
                                                 ng-bind="detailType.RelationshipTypeName"
                                                 value="{{detailType.RelationshipTypeID}}"></option>

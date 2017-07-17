@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
         public EditOrganizationsViewData(IEnumerable<Models.Organization> organizations, IEnumerable<Person> allPeople, List<RelationshipType> allRelationshipTypes)
         {
             AllPeople = allPeople.Select(x => new PersonSimple(x)).ToList();
-            AllOrganizations = organizations.Select(x => new OrganizationSimple(x)).ToList();
+            AllOrganizations = organizations.Where(x => x.OrganizationType.OrganizationTypeRelationshipTypes.Any()).Select(x => new OrganizationSimple(x)).ToList();
             AllRelationshipTypes = allRelationshipTypes.Select(x => new RelationshipTypeSimple(x)).ToList();
         }
     }
