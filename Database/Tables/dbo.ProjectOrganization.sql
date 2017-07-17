@@ -45,6 +45,11 @@ REFERENCES [dbo].[RelationshipType] ([RelationshipTypeID])
 GO
 ALTER TABLE [dbo].[ProjectOrganization] CHECK CONSTRAINT [FK_ProjectOrganization_RelationshipType_RelationshipTypeID]
 GO
+ALTER TABLE [dbo].[ProjectOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectOrganization_RelationshipType_RelationshipTypeID_TenantID] FOREIGN KEY([RelationshipTypeID], [TenantID])
+REFERENCES [dbo].[RelationshipType] ([RelationshipTypeID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectOrganization] CHECK CONSTRAINT [FK_ProjectOrganization_RelationshipType_RelationshipTypeID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectOrganization_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

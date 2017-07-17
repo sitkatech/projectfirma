@@ -27,6 +27,11 @@ REFERENCES [dbo].[OrganizationType] ([OrganizationTypeID])
 GO
 ALTER TABLE [dbo].[SnapshotSectorExpenditure] CHECK CONSTRAINT [FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID]
 GO
+ALTER TABLE [dbo].[SnapshotSectorExpenditure]  WITH CHECK ADD  CONSTRAINT [FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID_TenantID] FOREIGN KEY([OrganizationTypeID], [TenantID])
+REFERENCES [dbo].[OrganizationType] ([OrganizationTypeID], [TenantID])
+GO
+ALTER TABLE [dbo].[SnapshotSectorExpenditure] CHECK CONSTRAINT [FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID_TenantID]
+GO
 ALTER TABLE [dbo].[SnapshotSectorExpenditure]  WITH CHECK ADD  CONSTRAINT [FK_SnapshotSectorExpenditure_Snapshot_SnapshotID] FOREIGN KEY([SnapshotID])
 REFERENCES [dbo].[Snapshot] ([SnapshotID])
 GO

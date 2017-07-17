@@ -41,6 +41,7 @@ alter table dbo.Organization drop column SectorID
 
 alter table dbo.SnapshotSectorExpenditure add OrganizationTypeID int NULL
 alter table dbo.SnapshotSectorExpenditure add constraint FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID foreign key (OrganizationTypeID) references dbo.OrganizationType(OrganizationTypeID)
+alter table dbo.SnapshotSectorExpenditure add constraint FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID_TenantID foreign key (OrganizationTypeID, TenantID) references dbo.OrganizationType(OrganizationTypeID, TenantID)
 
 go
 
@@ -112,11 +113,13 @@ CREATE TABLE dbo.ProjectOrganization(
 ALTER TABLE dbo.ProjectOrganization ADD CONSTRAINT FK_ProjectOrganization_Project_ProjectID_TenantID FOREIGN KEY(ProjectID, TenantID) REFERENCES dbo.Project (ProjectID, TenantID)
 ALTER TABLE dbo.ProjectOrganization ADD CONSTRAINT FK_ProjectOrganization_Organization_OrganizationID_TenantID FOREIGN KEY(OrganizationID, TenantID) REFERENCES dbo.Organization (OrganizationID, TenantID)
 alter table dbo.ProjectOrganization add constraint AK_ProjectOrganization_ProjectOrganizationID_TenantID UNIQUE (ProjectOrganizationID, TenantID)
+alter table dbo.ProjectOrganization add constraint FK_ProjectOrganization_RelationshipType_RelationshipTypeID_TenantID foreign key (RelationshipTypeID, TenantID) references dbo.RelationshipType(RelationshipTypeID, TenantID)
 
 go
 
 alter table dbo.Project add LeadImplementerOrganizationID int null
 alter table dbo.Project add constraint FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID foreign key (LeadImplementerOrganizationID) references dbo.Organization(OrganizationID)
+alter table dbo.Project add constraint FK_Project_Organization_LeadImplementerOrganizationID_TenantID_OrganizationID_TenantID foreign key (LeadImplementerOrganizationID, TenantID) references dbo.Organization(OrganizationID, TenantID)
 
 go
 
