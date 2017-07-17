@@ -63,6 +63,18 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-4">
+        <p>You may provide a map of your existing boundary location. Here is a list of requirements for upload:</p>
+        <ul>
+            <li>A single ArcGIS file geodatabase containing only features associated with the current project</li>
+            <li>The file geodatabase (.gdb) must be contained within a compressed zip file (.zip)</li>
+            <li>The zip file must contain only one file geodatabase and no other data</li>
+            <li>Geodatabased using ESRI Smart Database Compression (SDC) are not supported. Please uncompress before zipping and uploading</li>
+            <li>Version 10.1+ file geodatabases are supported</li>
+        </ul>
+        <p>
+            After you upload your file, you will be able to preview and verify the uploaded data. Note that once you accept the uploaded data,
+            any existing organization boundary for  <strong>@(ViewDataTyped.Organization.OrganizationName)</strong> will be overwritten.
+        </p>
         <form id="uploadGisForm" method="post" action="@ViewDataTyped.EditBoundaryUrl" endtype="multipart/form-data">
             <div class="form-group">
                 @Html.EditorFor(m => m.FileResourceData)

@@ -20,6 +20,11 @@ REFERENCES [dbo].[Organization] ([OrganizationID])
 GO
 ALTER TABLE [dbo].[OrganizationBoundaryStaging] CHECK CONSTRAINT [FK_OrganizationBoundaryStaging_Organization_OrganizationID]
 GO
+ALTER TABLE [dbo].[OrganizationBoundaryStaging]  WITH CHECK ADD  CONSTRAINT [FK_OrganizationBoundaryStaging_Organization_OrganizationID_TenantID] FOREIGN KEY([OrganizationID], [TenantID])
+REFERENCES [dbo].[Organization] ([OrganizationID], [TenantID])
+GO
+ALTER TABLE [dbo].[OrganizationBoundaryStaging] CHECK CONSTRAINT [FK_OrganizationBoundaryStaging_Organization_OrganizationID_TenantID]
+GO
 ALTER TABLE [dbo].[OrganizationBoundaryStaging]  WITH CHECK ADD  CONSTRAINT [FK_OrganizationBoundaryStaging_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

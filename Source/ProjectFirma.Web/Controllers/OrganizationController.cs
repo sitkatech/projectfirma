@@ -145,7 +145,7 @@ namespace ProjectFirma.Web.Controllers
             if (organization.OrganizationBoundary != null)
             {
                 hasSpatialData = true;
-                layers.Add(new LayerGeoJson("Organization Boundary", organization.OrganizationBoundaryToFeatureCollection, "lightgreen", 1, LayerInitialVisibility.Hide)); // todo pick a color that might not be lightgreen
+                layers.Add(new LayerGeoJson("Organization Boundary", organization.OrganizationBoundaryToFeatureCollection, "#ff9933", 1, LayerInitialVisibility.Show));
             }
 
             var projectsLayerGeoJson = GetProjectsLayerGeoJson(organization);
@@ -384,6 +384,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpPost]
         [OrganizationManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult ApproveUploadGis(OrganizationPrimaryKey organizationPrimaryKey, ApproveUploadGisViewModel viewModel)
         {
             var organization = organizationPrimaryKey.EntityObject;
@@ -392,7 +393,9 @@ namespace ProjectFirma.Web.Controllers
                 return ViewApproveUploadGis(viewModel, organization);
             }
 
-            // todo make congratulations message to display when we come back to detial page
+            viewModel.UpdateModel(organization);
+
+            SetMessageForDisplay($"Organization Boundary for {organization.GetDisplayNameAsUrl()} successfully updated.");
             return new ContentResult();
         }
         private PartialViewResult ViewApproveUploadGis(ApproveUploadGisViewModel viewModel, Organization organization)

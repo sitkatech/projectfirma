@@ -6,6 +6,7 @@ namespace ProjectFirma.Web.Views.Organization
 {
     public class EditBoundaryViewData : FirmaViewData
     {
+        public readonly Models.Organization Organization;
         public readonly string EditBoundaryUrl;
         public readonly string ApproveGisUploadUrl;
 
@@ -13,6 +14,7 @@ namespace ProjectFirma.Web.Views.Organization
         {
             PageTitle = "Edit Organization Boundary";
 
+            Organization = organization;
             EditBoundaryUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditBoundary(organization));
             ApproveGisUploadUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.ApproveUploadGis(organization));
         }

@@ -1,21 +1,20 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using GeoJSON.Net.Feature;
+using System.Data.Entity.Spatial;
 using LtInfo.Common;
 using LtInfo.Common.Models;
-using Newtonsoft.Json;
 
 namespace ProjectFirma.Web.Views.Organization
 {
     public class ApproveUploadGisViewModel : FormViewModel, IValidatableObject
     {
         [DisplayName("Organization Boundary"), Required]
-        public string OrganizationBoundaryGeoJson { get; set; }
+        public string OrganizationBoundaryWkt { get; set; }
 
-        public static void UpdateModel(Models.Organization organization)
+        public void UpdateModel(Models.Organization organization)
         {
-            
+            organization.OrganizationBoundary = DbGeometry.FromText(OrganizationBoundaryWkt);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -24,13 +23,13 @@ namespace ProjectFirma.Web.Views.Organization
 
             try
             {
-                JsonConvert.DeserializeObject<Feature>(OrganizationBoundaryGeoJson);
+                DbGeometry.FromText(OrganizationBoundaryWkt);
             }
             catch
             {
                 errors.Add(new SitkaValidationResult<ApproveUploadGisViewModel, string>(
-                    "Unable to deserialize Organization Boundary. Make sure the Organization Boundary is valid GeoJSON.",
-                    x => x.OrganizationBoundaryGeoJson));
+                    "Unable to deserialize Organization Boundary. Make sure the Organization Boundary is valid Well-Known Text (WKT).",
+                    x => x.OrganizationBoundaryWkt));
             }
 
             return errors;

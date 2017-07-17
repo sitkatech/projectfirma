@@ -1,5 +1,4 @@
-﻿@using Microsoft.Web.Mvc.Html
-@using Newtonsoft.Json
+﻿@using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Views.Organization
 
@@ -48,16 +47,16 @@
             var $boundaryInformation = jQuery(".selectedOrganizationBoundaryInformation"),
                 $submitButton = jQuery("#submitApproveUploadGis"),
                 $placeForTheData = jQuery("#putTheDataHere"),
-                $hiddenInputForData = jQuery("<input type=\"hidden\" name=\"@Html.NameFor(m => m.OrganizationBoundaryGeoJson)\"/>");
+                $hiddenInputForData = jQuery("<input type=\"hidden\" name=\"@Html.NameFor(m => m.OrganizationBoundaryWkt)\"/>");
 
             $boundaryInformation.parent().show();
             $boundaryInformation.html(layerToDescriptionString(event.layer));
             $submitButton.prop("disabled", false);
-            $hiddenInputForData.attr("value", JSON.stringify(event.layer.toGeoJSON()));
+            $hiddenInputForData.attr("value", Terraformer.WKT.convert(event.layer.toGeoJSON().geometry));
             $placeForTheData.html($hiddenInputForData);
 
             function layerToDescriptionString(layer) {
-                var $dl = jQuery("<div><p>Here is a list of properties of the selected polygon feature read from the GIS file you uploaded:</p><dl class=\"dl-horizontal\"></dl></div>");
+                var $dl = jQuery("<div><p>This is a list of properties attached to the selected polygon in the GIS file you uploaded:</p><dl class=\"dl-horizontal\"></dl></div>");
                 _.each(layer.feature.properties,
                     function(value, key) {
                         $dl.find("dl").append("<dt>" + key + "</dt><dd>" + value + "</dd>");
