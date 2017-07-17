@@ -409,5 +409,40 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new ApproveUploadGisViewData(CurrentPerson, organization, mapInitJson);
             return RazorPartialView<ApproveUploadGis, ApproveUploadGisViewData, ApproveUploadGisViewModel>(viewData, viewModel);
         }
+
+        [HttpGet]
+        [OrganizationManageFeature]
+        public PartialViewResult DeleteOrganizationBoundary(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(organization.OrganizationID);
+            return ViewDeleteOrganizationBoundary(organization, viewModel);
+        }
+
+        [HttpPost]
+        [OrganizationManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult DeleteOrganizationBoundary(OrganizationPrimaryKey organizationPrimaryKey,
+            ConfirmDialogFormViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewDeleteOrganizationBoundary(organization, viewModel);
+            }
+
+            organization.OrganizationBoundary = null;
+
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewDeleteOrganizationBoundary(Organization organization,
+            ConfirmDialogFormViewModel viewModel)
+        {
+            var viewData = new ConfirmDialogFormViewData(
+                $"Are you sure you want to delete the boundary for this Organization '{organization.OrganizationName}'?");
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,
+                viewModel);
+        }
     }
 }

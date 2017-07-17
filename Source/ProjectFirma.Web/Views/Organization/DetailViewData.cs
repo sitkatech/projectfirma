@@ -33,6 +33,7 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly bool UserHasOrganizationManagePermissions;
         public readonly string EditOrganizationUrl;
         public readonly string EditBoundaryUrl;
+        public readonly string DeleteOrganizationBoundaryUrl;
         public readonly ProjectOrganizationsGridSpec ProjectOrganizationsGridSpec;
         public readonly string ProjectOrganizationsGridName;
         public readonly string ProjectOrganizationsGridDataUrl;
@@ -60,6 +61,9 @@ namespace ProjectFirma.Web.Views.Organization
             EditOrganizationUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Edit(organization));
             EditBoundaryUrl =
                 SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditBoundary(organization));
+            DeleteOrganizationBoundaryUrl =
+                SitkaRoute<OrganizationController>.BuildUrlFromExpression(
+                    c => c.DeleteOrganizationBoundary(organization));
 
             ProjectOrganizationsGridSpec =
                 new ProjectOrganizationsGridSpec(organization.GetCalendarYearsForProjectExpenditures())
