@@ -12,6 +12,7 @@
     <EntitySet Name="FieldDefinitionData" EntityType="ProjectFirma.Web.Models.Store.FieldDefinitionData" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FieldDefinitionDataImage" EntityType="ProjectFirma.Web.Models.Store.FieldDefinitionDataImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FileResource" EntityType="ProjectFirma.Web.Models.Store.FileResource" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FirmaHomePageImage" EntityType="ProjectFirma.Web.Models.Store.FirmaHomePageImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FirmaPage" EntityType="ProjectFirma.Web.Models.Store.FirmaPage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FirmaPageImage" EntityType="ProjectFirma.Web.Models.Store.FirmaPageImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FundingSource" EntityType="ProjectFirma.Web.Models.Store.FundingSource" store:Type="Tables" Schema="dbo" />
@@ -129,6 +130,10 @@
     <AssociationSet Name="FK_FileResource_Person_CreatePersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_FileResource_Person_CreatePersonID_PersonID">
       <End Role="CreatePerson" EntitySet="Person" />
       <End Role="FileResourcesWhereYouAreTheCreatePerson" EntitySet="FileResource" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FirmaHomePageImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_FirmaHomePageImage_FileResource_FileResourceID">
+      <End Role="FileResource" EntitySet="FileResource" />
+      <End Role="FirmaHomePageImages" EntitySet="FirmaHomePageImage" />
     </AssociationSet>
     <AssociationSet Name="FK_FirmaPageImage_FileResource_FileResourceID" Association="ProjectFirma.Web.Models.Store.FK_FirmaPageImage_FileResource_FileResourceID">
       <End Role="FileResource" EntitySet="FileResource" />
@@ -840,6 +845,7 @@ warning 6035: The relationship 'FK_FieldDefinitionDataImage_FieldDefinitionData_
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_Classification_FileResource_KeyImageFileResourceID_TenantID_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_FieldDefinitionDataImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_FirmaHomePageImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_FirmaPageImage_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_MonitoringProgramDocument_FileResource_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_Organization_FileResource_LogoFileResourceID_TenantID_FileResourceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -863,6 +869,16 @@ warning 6035: The relationship 'FK_TenantAttribute_FileResource_TenantStyleSheet
     <Property Name="FileResourceData" Type="varbinary(max)" Nullable="false" />
     <Property Name="CreatePersonID" Type="int" Nullable="false" />
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FirmaHomePageImage">
+    <Key>
+      <PropertyRef Name="FirmaHomePageImageID" />
+    </Key>
+    <Property Name="FirmaHomePageImageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="FileResourceID" Type="int" Nullable="false" />
+    <Property Name="Caption" Type="varchar" Nullable="false" MaxLength="300" />
+    <Property Name="SortOrder" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_FirmaPageImage_FirmaPage_FirmaPageID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -2098,6 +2114,18 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Principal>
       <Dependent Role="FileResourcesWhereYouAreTheCreatePerson">
         <PropertyRef Name="CreatePersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FirmaHomePageImage_FileResource_FileResourceID">
+    <End Role="FileResource" Type="ProjectFirma.Web.Models.Store.FileResource" Multiplicity="1" />
+    <End Role="FirmaHomePageImages" Type="ProjectFirma.Web.Models.Store.FirmaHomePageImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileResource">
+        <PropertyRef Name="FileResourceID" />
+      </Principal>
+      <Dependent Role="FirmaHomePageImages">
+        <PropertyRef Name="FileResourceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

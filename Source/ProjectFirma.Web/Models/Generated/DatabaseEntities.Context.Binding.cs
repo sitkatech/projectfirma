@@ -50,6 +50,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<FieldDefinitionData> FieldDefinitionDatas { get { return AllFieldDefinitionDatas.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<FileResource> AllFileResources { get; set; }
         public virtual IQueryable<FileResource> FileResources { get { return AllFileResources.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<FirmaHomePageImage> AllFirmaHomePageImages { get; set; }
+        public virtual IQueryable<FirmaHomePageImage> FirmaHomePageImages { get { return AllFirmaHomePageImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<FirmaPageImage> AllFirmaPageImages { get; set; }
         public virtual IQueryable<FirmaPageImage> FirmaPageImages { get { return AllFirmaPageImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<FirmaPage> AllFirmaPages { get; set; }
@@ -258,6 +260,9 @@ namespace ProjectFirma.Web.Models
 
                 case "FileResource":
                     return FileResources.GetFileResource(primaryKey);
+
+                case "FirmaHomePageImage":
+                    return FirmaHomePageImages.GetFirmaHomePageImage(primaryKey);
 
                 case "FirmaPageImage":
                     return FirmaPageImages.GetFirmaPageImage(primaryKey);

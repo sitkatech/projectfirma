@@ -1,0 +1,51 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="New.cshtml" company="Tahoe Regional Planning Agency">
+Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Controllers
+@using LtInfo.Common.Mvc
+@using Microsoft.Web.Mvc
+@inherits ProjectFirma.Web.Views.FirmaHomePageImage.New
+@using (Html.BeginForm<FirmaHomePageImageController>(x => x.New(null), FormMethod.Post, new {enctype = "multipart/form-data"}))
+{
+    <div class="row form-group">
+        <div class="col-md-4">@Html.LabelWithSugarFor(x => x.FileResourceData)</div>
+        <div class="col-md-8">
+            @Html.EditorFor(x => x.FileResourceData)
+            <span class="smallExplanationText">
+                Allowed Extensions: @Model.GetFileExtensions(x => x.FileResourceData)
+            </span>
+            @Html.ValidationMessageFor(x => x.FileResourceData)
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-4">@Html.LabelWithSugarFor(x => x.Caption)</div>
+        <div class="col-md-8">
+            @Html.TextBoxFor(x => x.Caption, new { style = "width:380px" })
+            <div class="smallExplanationText">Be concise yet descriptive. Thumbnails above will display by sort order specified.</div>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-4">@Html.LabelFor(x => x.SortOrder)</div>
+        <div class="col-md-8">
+            @Html.TextBoxFor(x => x.SortOrder, new { style = "width:50px", type= "number" })
+        </div>
+    </div>
+}

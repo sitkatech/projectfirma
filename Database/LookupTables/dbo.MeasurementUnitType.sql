@@ -18,5 +18,6 @@ insert into dbo.MeasurementUnitType(MeasurementUnitTypeID, MeasurementUnitTypeNa
 (15, 'MilligamsPerLiter', 'mg/L', 'mg/L', 'Milligram Per Liter'),
 (16, 'NephlometricTurbidityUnit', 'NTU', 'NTU', 'Nephlometric Turbidity Unit'),
 (17, 'Meters', 'meters', 'meters', 'Meter'),
-(18, 'PeriphytonBiomassIndex', 'PBI', 'PBI', 'Periphyton biomass index')
+(18, 'PeriphytonBiomassIndex', 'PBI', 'PBI', 'Periphyton biomass index'),
+(19, 'AcreFeet', 'acre-feet', 'acre-ft', 'Acre-Foot')
 

@@ -138,6 +138,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="FirmaHomePageImage">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FirmaHomePageImage">
+        <MappingFragment StoreEntitySet="FirmaHomePageImage">
+          <ScalarProperty Name="FirmaHomePageImageID" ColumnName="FirmaHomePageImageID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="FileResourceID" ColumnName="FileResourceID" />
+          <ScalarProperty Name="Caption" ColumnName="Caption" />
+          <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="FirmaPage">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.FirmaPage">
         <MappingFragment StoreEntitySet="FirmaPage">

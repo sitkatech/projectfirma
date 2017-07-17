@@ -18,6 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
+using System.Linq;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -37,12 +40,14 @@ namespace ProjectFirma.Web.Views.Home
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
         public readonly string FullMapUrl;
+        public readonly List<Models.FirmaHomePageImage> FirmaHomePageCarouselImages;
 
         public IndexViewData(Person currentPerson,
             Models.FirmaPage firmaPage,
             FeaturedProjectsViewData featuredProjectsViewData,
             ProjectLocationsMapViewData projectLocationsMapViewData,
-            ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentPerson, firmaPage)
+            ProjectLocationsMapInitJson projectLocationsMapInitJson,
+            List<Models.FirmaHomePageImage> firmaHomePageImages) : base(currentPerson, firmaPage)
         {
             PageTitle = MultiTenantHelpers.GetToolDisplayName();
 
@@ -54,6 +59,7 @@ namespace ProjectFirma.Web.Views.Home
             FullMapUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ProjectMap());
             ProjectLocationsMapViewData = projectLocationsMapViewData;
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
+            FirmaHomePageCarouselImages = firmaHomePageImages;
         }
     }
 }
