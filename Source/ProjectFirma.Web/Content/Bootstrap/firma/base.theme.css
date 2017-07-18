@@ -81,6 +81,7 @@ form .form-group-condensed {
 }
 .header .headerText a {
   color: #337ab7;
+  vertical-align: middle;
 }
 .header .headerText a:hover,
 .header .headerText a:active {
