@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="TaxonomyTierTwoSectorExpenditure.cs" company="Tahoe Regional Planning Agency">
+<copyright file="TaxonomyTierTwoOrganizationTypeExpenditure.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -22,23 +22,23 @@ using System.Web;
 
 namespace ProjectFirma.Web.Models
 {
-    public class TaxonomyTierTwoSectorExpenditure
+    public class TaxonomyTierTwoOrganizationTypeExpenditure
     {
         public readonly OrganizationType OrganizationType;
         public readonly HtmlString TaxonomyTierTwoName;
         public readonly HtmlString TaxonomyTierThreeName;
         public readonly decimal ExpenditureAmount;
 
-        public TaxonomyTierTwoSectorExpenditure(OrganizationType organizationType, TaxonomyTierTwo taxonomyTierTwo, decimal expenditureAmount) : this(organizationType, taxonomyTierTwo.GetDisplayNameAsUrl(), taxonomyTierTwo.TaxonomyTierThree.GetDisplayNameAsUrl(), expenditureAmount)
+        public TaxonomyTierTwoOrganizationTypeExpenditure(OrganizationType organizationType, TaxonomyTierTwo taxonomyTierTwo, decimal expenditureAmount) : this(organizationType, taxonomyTierTwo.GetDisplayNameAsUrl(), taxonomyTierTwo.TaxonomyTierThree.GetDisplayNameAsUrl(), expenditureAmount)
         {
         }
 
-        public TaxonomyTierTwoSectorExpenditure(OrganizationType organizationType, string taxonomyTierTwoName, string taxonomyTierThreeName, decimal expenditureAmount)
+        public TaxonomyTierTwoOrganizationTypeExpenditure(OrganizationType organizationType, string taxonomyTierTwoName, string taxonomyTierThreeName, decimal expenditureAmount)
             : this(organizationType, new HtmlString(taxonomyTierTwoName), new HtmlString(taxonomyTierThreeName), expenditureAmount)
         {
         }
 
-        private TaxonomyTierTwoSectorExpenditure(OrganizationType organizationType, HtmlString taxonomyTierTwoName, HtmlString taxonomyTierThreeName, decimal expenditureAmount)
+        private TaxonomyTierTwoOrganizationTypeExpenditure(OrganizationType organizationType, HtmlString taxonomyTierTwoName, HtmlString taxonomyTierThreeName, decimal expenditureAmount)
         {
             OrganizationType = organizationType;
             TaxonomyTierTwoName = taxonomyTierTwoName;

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="InvestmentByFundingSector.cs" company="Tahoe Regional Planning Agency">
+<copyright file="SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwo.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Views.Results
 {
-    public abstract class InvestmentByFundingSector : LtInfo.Common.Mvc.TypedWebViewPage<InvestmentByFundingSectorViewData, InvestmentByFundingSectorViewModel>
+    public abstract class SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwo : LtInfo.Common.Mvc.TypedWebViewPage<SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewData, SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewModel>
     {
     }
 }

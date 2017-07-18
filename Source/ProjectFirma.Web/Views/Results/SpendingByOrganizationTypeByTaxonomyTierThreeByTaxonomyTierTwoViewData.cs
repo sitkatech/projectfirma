@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewData.cs" company="Tahoe Regional Planning Agency">
+<copyright file="SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewData.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -26,28 +26,28 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewData : FirmaViewData
+    public class SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewData : FirmaViewData
     {
-        public readonly List<TaxonomyTierTwoSectorExpenditure> TaxonomyTierTwoSectorExpenditures;
+        public readonly List<TaxonomyTierTwoOrganizationTypeExpenditure> TaxonomyTierTwoOrganizationTypeExpenditures;
         public readonly List<Models.OrganizationType> OrganizationTypes;
         public readonly int? SelectedCalendarYear;
         public readonly IEnumerable<SelectListItem> CalendarYears;
-        public readonly string SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoUrl;
+        public readonly string SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoUrl;
         public readonly string TaxonomyTierTwoDisplayNamePluralized;
 
-        public SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewData(Person currentPerson,
+        public SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewData(Person currentPerson,
             Models.FirmaPage firmaPage,
-            List<TaxonomyTierTwoSectorExpenditure> taxonomyTierTwoSectorExpenditures,
+            List<TaxonomyTierTwoOrganizationTypeExpenditure> taxonomyTierTwoOrganizationTypeExpenditures,
             List<Models.OrganizationType> organizationTypes,
             int? selectedCalendarYear,
             IEnumerable<SelectListItem> calendarYears) : base(currentPerson, firmaPage)
         {
-            TaxonomyTierTwoSectorExpenditures = taxonomyTierTwoSectorExpenditures;
-            PageTitle = string.Format("Spending by Sector by {0} by {1}", Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel(), Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel());
+            TaxonomyTierTwoOrganizationTypeExpenditures = taxonomyTierTwoOrganizationTypeExpenditures;
+            PageTitle = string.Format("Spending by Organization Type by {0} by {1}", Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel(), Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel());
             SelectedCalendarYear = selectedCalendarYear;
             CalendarYears = calendarYears;
             OrganizationTypes = organizationTypes;
-            SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo(UrlTemplate.Parameter1Int));
+            SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwo(UrlTemplate.Parameter1Int));
             TaxonomyTierTwoDisplayNamePluralized = Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabelPluralized();
         }
     }

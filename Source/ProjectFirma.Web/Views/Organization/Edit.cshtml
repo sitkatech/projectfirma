@@ -60,7 +60,7 @@ Source code is available upon request via <support@sitkatech.com>.
                @Html.LabelWithSugarFor(m => m.OrganizationTypeID)
             </div>
             <div class="col-sm-9">
-                @Html.DropDownListFor(m => m.OrganizationTypeID, ViewDataTyped.Sectors, new { style = "width:100%" })
+                @Html.DropDownListFor(m => m.OrganizationTypeID, ViewDataTyped.OrganizationTypes, new { style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.OrganizationTypeID)
             </div>
         </div>

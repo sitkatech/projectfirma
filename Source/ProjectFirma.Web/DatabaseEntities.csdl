@@ -78,10 +78,10 @@
     <EntitySet Name="ProposedProjectNote" EntityType="ProjectFirma.Web.Models.ProposedProjectNote" />
     <EntitySet Name="RelationshipType" EntityType="ProjectFirma.Web.Models.RelationshipType" />
     <EntitySet Name="Snapshot" EntityType="ProjectFirma.Web.Models.Snapshot" />
+    <EntitySet Name="SnapshotOrganizationTypeExpenditure" EntityType="ProjectFirma.Web.Models.SnapshotOrganizationTypeExpenditure" />
     <EntitySet Name="SnapshotPerformanceMeasure" EntityType="ProjectFirma.Web.Models.SnapshotPerformanceMeasure" />
     <EntitySet Name="SnapshotPerformanceMeasureSubcategoryOption" EntityType="ProjectFirma.Web.Models.SnapshotPerformanceMeasureSubcategoryOption" />
     <EntitySet Name="SnapshotProject" EntityType="ProjectFirma.Web.Models.SnapshotProject" />
-    <EntitySet Name="SnapshotSectorExpenditure" EntityType="ProjectFirma.Web.Models.SnapshotSectorExpenditure" />
     <EntitySet Name="StateProvince" EntityType="ProjectFirma.Web.Models.StateProvince" />
     <EntitySet Name="SupportRequestLog" EntityType="ProjectFirma.Web.Models.SupportRequestLog" />
     <EntitySet Name="Tag" EntityType="ProjectFirma.Web.Models.Tag" />
@@ -279,9 +279,9 @@
       <End Role="OrganizationType" EntitySet="OrganizationType" />
       <End Role="OrganizationTypeRelationshipTypes" EntitySet="OrganizationTypeRelationshipType" />
     </AssociationSet>
-    <AssociationSet Name="FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID">
+    <AssociationSet Name="FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID">
       <End Role="OrganizationType" EntitySet="OrganizationType" />
-      <End Role="SnapshotSectorExpenditures" EntitySet="SnapshotSectorExpenditure" />
+      <End Role="SnapshotOrganizationTypeExpenditures" EntitySet="SnapshotOrganizationTypeExpenditure" />
     </AssociationSet>
     <AssociationSet Name="FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID" Association="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID">
       <End Role="RelationshipType" EntitySet="RelationshipType" />
@@ -683,6 +683,10 @@
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectNotes" EntitySet="ProposedProjectNote" />
     </AssociationSet>
+    <AssociationSet Name="FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID">
+      <End Role="Snapshot" EntitySet="Snapshot" />
+      <End Role="SnapshotOrganizationTypeExpenditures" EntitySet="SnapshotOrganizationTypeExpenditure" />
+    </AssociationSet>
     <AssociationSet Name="FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID">
       <End Role="Snapshot" EntitySet="Snapshot" />
       <End Role="SnapshotPerformanceMeasures" EntitySet="SnapshotPerformanceMeasure" />
@@ -690,10 +694,6 @@
     <AssociationSet Name="FK_SnapshotProject_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.FK_SnapshotProject_Snapshot_SnapshotID">
       <End Role="Snapshot" EntitySet="Snapshot" />
       <End Role="SnapshotProjects" EntitySet="SnapshotProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SnapshotSectorExpenditure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.FK_SnapshotSectorExpenditure_Snapshot_SnapshotID">
-      <End Role="Snapshot" EntitySet="Snapshot" />
-      <End Role="SnapshotSectorExpenditures" EntitySet="SnapshotSectorExpenditure" />
     </AssociationSet>
     <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID">
       <End Role="SnapshotPerformanceMeasure" EntitySet="SnapshotPerformanceMeasure" />
@@ -1034,7 +1034,7 @@
     <Property Name="LegendColor" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="Organizations" Relationship="ProjectFirma.Web.Models.FK_Organization_OrganizationType_OrganizationTypeID" FromRole="OrganizationType" ToRole="Organizations" />
     <NavigationProperty Name="OrganizationTypeRelationshipTypes" Relationship="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID" FromRole="OrganizationType" ToRole="OrganizationTypeRelationshipTypes" />
-    <NavigationProperty Name="SnapshotSectorExpenditures" Relationship="ProjectFirma.Web.Models.FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID" FromRole="OrganizationType" ToRole="SnapshotSectorExpenditures" />
+    <NavigationProperty Name="SnapshotOrganizationTypeExpenditures" Relationship="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID" FromRole="OrganizationType" ToRole="SnapshotOrganizationTypeExpenditures" />
   </EntityType>
   <EntityType Name="OrganizationTypeRelationshipType">
     <Key>
@@ -1895,9 +1895,22 @@
     <Property Name="SnapshotDate" Type="DateTime" Nullable="false" />
     <Property Name="SnapshotNote" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="ProjectCount" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="SnapshotOrganizationTypeExpenditures" Relationship="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID" FromRole="Snapshot" ToRole="SnapshotOrganizationTypeExpenditures" />
     <NavigationProperty Name="SnapshotPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID" FromRole="Snapshot" ToRole="SnapshotPerformanceMeasures" />
     <NavigationProperty Name="SnapshotProjects" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Snapshot_SnapshotID" FromRole="Snapshot" ToRole="SnapshotProjects" />
-    <NavigationProperty Name="SnapshotSectorExpenditures" Relationship="ProjectFirma.Web.Models.FK_SnapshotSectorExpenditure_Snapshot_SnapshotID" FromRole="Snapshot" ToRole="SnapshotSectorExpenditures" />
+  </EntityType>
+  <EntityType Name="SnapshotOrganizationTypeExpenditure">
+    <Key>
+      <PropertyRef Name="SnapshotOrganizationTypeExpenditureID" />
+    </Key>
+    <Property Name="SnapshotOrganizationTypeExpenditureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="SnapshotID" Type="Int32" Nullable="false" />
+    <Property Name="CalendarYear" Type="Int32" Nullable="false" />
+    <Property Name="ExpenditureAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="OrganizationTypeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="OrganizationType" Relationship="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID" FromRole="SnapshotOrganizationTypeExpenditures" ToRole="OrganizationType" />
+    <NavigationProperty Name="Snapshot" Relationship="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID" FromRole="SnapshotOrganizationTypeExpenditures" ToRole="Snapshot" />
   </EntityType>
   <EntityType Name="SnapshotPerformanceMeasure">
     <Key>
@@ -1939,19 +1952,6 @@
     <Property Name="SnapshotProjectTypeID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Project_ProjectID" FromRole="SnapshotProjects" ToRole="Project" />
     <NavigationProperty Name="Snapshot" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Snapshot_SnapshotID" FromRole="SnapshotProjects" ToRole="Snapshot" />
-  </EntityType>
-  <EntityType Name="SnapshotSectorExpenditure">
-    <Key>
-      <PropertyRef Name="SnapshotSectorExpenditureID" />
-    </Key>
-    <Property Name="SnapshotSectorExpenditureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="SnapshotID" Type="Int32" Nullable="false" />
-    <Property Name="CalendarYear" Type="Int32" Nullable="false" />
-    <Property Name="ExpenditureAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="OrganizationTypeID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="OrganizationType" Relationship="ProjectFirma.Web.Models.FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID" FromRole="SnapshotSectorExpenditures" ToRole="OrganizationType" />
-    <NavigationProperty Name="Snapshot" Relationship="ProjectFirma.Web.Models.FK_SnapshotSectorExpenditure_Snapshot_SnapshotID" FromRole="SnapshotSectorExpenditures" ToRole="Snapshot" />
   </EntityType>
   <EntityType Name="StateProvince">
     <Key>
@@ -2642,14 +2642,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID">
+  <Association Name="FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID">
     <End Role="OrganizationType" Type="ProjectFirma.Web.Models.OrganizationType" Multiplicity="1" />
-    <End Role="SnapshotSectorExpenditures" Type="ProjectFirma.Web.Models.SnapshotSectorExpenditure" Multiplicity="*" />
+    <End Role="SnapshotOrganizationTypeExpenditures" Type="ProjectFirma.Web.Models.SnapshotOrganizationTypeExpenditure" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="OrganizationType">
         <PropertyRef Name="OrganizationTypeID" />
       </Principal>
-      <Dependent Role="SnapshotSectorExpenditures">
+      <Dependent Role="SnapshotOrganizationTypeExpenditures">
         <PropertyRef Name="OrganizationTypeID" />
       </Dependent>
     </ReferentialConstraint>
@@ -3854,6 +3854,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID">
+    <End Role="Snapshot" Type="ProjectFirma.Web.Models.Snapshot" Multiplicity="1" />
+    <End Role="SnapshotOrganizationTypeExpenditures" Type="ProjectFirma.Web.Models.SnapshotOrganizationTypeExpenditure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Snapshot">
+        <PropertyRef Name="SnapshotID" />
+      </Principal>
+      <Dependent Role="SnapshotOrganizationTypeExpenditures">
+        <PropertyRef Name="SnapshotID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID">
     <End Role="Snapshot" Type="ProjectFirma.Web.Models.Snapshot" Multiplicity="1" />
     <End Role="SnapshotPerformanceMeasures" Type="ProjectFirma.Web.Models.SnapshotPerformanceMeasure" Multiplicity="*" />
@@ -3874,18 +3886,6 @@
         <PropertyRef Name="SnapshotID" />
       </Principal>
       <Dependent Role="SnapshotProjects">
-        <PropertyRef Name="SnapshotID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SnapshotSectorExpenditure_Snapshot_SnapshotID">
-    <End Role="Snapshot" Type="ProjectFirma.Web.Models.Snapshot" Multiplicity="1" />
-    <End Role="SnapshotSectorExpenditures" Type="ProjectFirma.Web.Models.SnapshotSectorExpenditure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Snapshot">
-        <PropertyRef Name="SnapshotID" />
-      </Principal>
-      <Dependent Role="SnapshotSectorExpenditures">
         <PropertyRef Name="SnapshotID" />
       </Dependent>
     </ReferentialConstraint>

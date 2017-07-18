@@ -713,7 +713,7 @@ Continue with a new project update?
             var project = projectPrimaryKey.EntityObject;
             var fundingSourceExpenditures = project.GetExpendituresDictionary();
             var googleChartDataTable = GetProjectFactSheetGoogleChartDataTable(fundingSourceExpenditures);
-            var googleChartTitle = string.Format("Investment by Funding Sector for: {0}", project.ProjectName);
+            var googleChartTitle = string.Format("Investment by Funding Source for: {0}", project.ProjectName);
             var googleChartConfiguration = new GooglePieChartConfiguration(googleChartTitle, MeasurementUnitType.Dollars, chartSize, chartSize)
             {
                 Slices = GetSlicesForGoogleChart(fundingSourceExpenditures)
@@ -726,13 +726,13 @@ Continue with a new project update?
 
         public static GoogleChartDataTable GetProjectFactSheetGoogleChartDataTable(Dictionary<string, decimal> fundingSourceExpenditures)
         {
-            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn("Funding Sector", GoogleChartColumnDataType.String, GoogleChartType.PieChart), new GoogleChartColumn("Expenditures", GoogleChartColumnDataType.Number, GoogleChartType.PieChart) };
+            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn("Funding Source", GoogleChartColumnDataType.String, GoogleChartType.PieChart), new GoogleChartColumn("Expenditures", GoogleChartColumnDataType.Number, GoogleChartType.PieChart) };
             var chartRowCs = fundingSourceExpenditures.Select(x =>
             {
-                var sectorRowV = new GoogleChartRowV(x.Key);
+                var organizationTypeRowV = new GoogleChartRowV(x.Key);
                 var formattedValue = GoogleChartJson.GetFormattedValue((double)x.Value, MeasurementUnitType.Dollars);
                 var expenditureRowV = new GoogleChartRowV(x.Value, formattedValue);
-                return new GoogleChartRowC(new List<GoogleChartRowV> { sectorRowV, expenditureRowV });
+                return new GoogleChartRowC(new List<GoogleChartRowV> { organizationTypeRowV, expenditureRowV });
             });
             var googleChartRowCs = new List<GoogleChartRowC>(chartRowCs);
 

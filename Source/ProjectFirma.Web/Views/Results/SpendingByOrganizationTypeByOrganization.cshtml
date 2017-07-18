@@ -1,5 +1,5 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="SpendingBySectorByOrganization.cshtml" company="Tahoe Regional Planning Agency">
+<copyright file="SpendingByOrganizationTypeByOrganization.cshtml" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -20,10 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common
 @using LtInfo.Common.DhtmlWrappers
-@inherits ProjectFirma.Web.Views.Results.SpendingBySectorByOrganization
+@inherits ProjectFirma.Web.Views.Results.SpendingByOrganizationTypeByOrganization
 
 <div class="panel-body">
-    <div style="float: right">@Html.Raw(DhtmlxGridHtmlHelpers.CreateCustomExcelDownloadIconHtml("spendingBySectorAndOrganization", ViewDataTyped.ExcelUrl, "Download Table", "Down this table as Excel file"))</div>
+    <div style="float: right">@Html.Raw(DhtmlxGridHtmlHelpers.CreateCustomExcelDownloadIconHtml("spendingByOrganizationTypeAndOrganization", ViewDataTyped.ExcelUrl, "Download Table", "Down this table as Excel file"))</div>
     <br style="clear: both" />
     <table class="gridLayout" style="width: 100%">
         <tr>

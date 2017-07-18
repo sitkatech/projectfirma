@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectFundingSourceSectorExpenditure.cs" company="Tahoe Regional Planning Agency">
+<copyright file="ProjectFundingSourceOrganizationTypeExpenditure.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -23,24 +23,24 @@ using System.Linq;
 
 namespace ProjectFirma.Web.Models
 {
-    public class ProjectFundingSourceSectorExpenditure
+    public class ProjectFundingSourceOrganizationTypeExpenditure
     {
         public readonly Project Project;
         public readonly FundingSource FundingSource;
         public readonly decimal ExpenditureAmount;
 
-        public ProjectFundingSourceSectorExpenditure(Project project, FundingSource fundingSource, decimal expenditureAmount)
+        public ProjectFundingSourceOrganizationTypeExpenditure(Project project, FundingSource fundingSource, decimal expenditureAmount)
         {
             Project = project;
             FundingSource = fundingSource;
             ExpenditureAmount = expenditureAmount;
         }
 
-        public static List<ProjectFundingSourceSectorExpenditure> MakeFromProjectFundingSourceExpenditures(List<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
+        public static List<ProjectFundingSourceOrganizationTypeExpenditure> MakeFromProjectFundingSourceExpenditures(List<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
         {
             return
                 projectFundingSourceExpenditures.GroupBy(x => new {x.Project, x.FundingSource})
-                    .Select(x => new ProjectFundingSourceSectorExpenditure(x.Key.Project, x.Key.FundingSource, x.Sum(y => y.ExpenditureAmount)))
+                    .Select(x => new ProjectFundingSourceOrganizationTypeExpenditure(x.Key.Project, x.Key.FundingSource, x.Sum(y => y.ExpenditureAmount)))
                     .ToList();
         }
     }

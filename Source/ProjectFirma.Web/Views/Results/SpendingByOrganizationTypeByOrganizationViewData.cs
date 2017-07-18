@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewModel.cs" company="Tahoe Regional Planning Agency">
+<copyright file="SpendingByOrganizationTypeByOrganizationViewData.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,26 +18,22 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.ComponentModel;
-using LtInfo.Common.Models;
+using System.Collections.Generic;
+using ProjectFirma.Web.Views.Project;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewModel : FormViewModel
+    public class SpendingByOrganizationTypeByOrganizationViewData : FirmaUserControlViewData
     {
-        [DisplayName("Time Period")]
-        public int? CalendarYear { get; set; }
+        public readonly List<FundingSourceCalendarYearExpenditure> FundingSourceCalendarYearExpenditures;
+        public readonly Dictionary<int, string> CalendarYears;
+        public readonly string ExcelUrl;
 
-        /// <summary>
-        /// Needed by Model Binder
-        /// </summary>
-        public SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewModel()
+        public SpendingByOrganizationTypeByOrganizationViewData(List<FundingSourceCalendarYearExpenditure> fundingSourceCalendarYearExpenditures, Dictionary<int, string> calendarYears, string excelUrl)
         {
-        }
-
-        public SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewModel(int? calendarYear)
-        {
-            CalendarYear = calendarYear;
+            FundingSourceCalendarYearExpenditures = fundingSourceCalendarYearExpenditures;
+            CalendarYears = calendarYears;
+            ExcelUrl = excelUrl;
         }
     }
 }

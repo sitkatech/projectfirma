@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="SpendingBySectorByOrganizationViewData.cs" company="Tahoe Regional Planning Agency">
+<copyright file="InvestmentByFundingOrganizationTypeViewModel.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,22 +18,26 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using ProjectFirma.Web.Views.Project;
+using System.ComponentModel;
+using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class SpendingBySectorByOrganizationViewData : FirmaUserControlViewData
+    public class InvestmentByOrganizationTypeViewModel : FormViewModel
     {
-        public readonly List<FundingSourceCalendarYearExpenditure> FundingSourceCalendarYearExpenditures;
-        public readonly Dictionary<int, string> CalendarYears;
-        public readonly string ExcelUrl;
+        [DisplayName("Time Period")]
+        public int? CalendarYear { get; set; }
 
-        public SpendingBySectorByOrganizationViewData(List<FundingSourceCalendarYearExpenditure> fundingSourceCalendarYearExpenditures, Dictionary<int, string> calendarYears, string excelUrl)
+        /// <summary>
+        /// Needed by Model Binder
+        /// </summary>
+        public InvestmentByOrganizationTypeViewModel()
         {
-            FundingSourceCalendarYearExpenditures = fundingSourceCalendarYearExpenditures;
-            CalendarYears = calendarYears;
-            ExcelUrl = excelUrl;
+        }
+
+        public InvestmentByOrganizationTypeViewModel(int? calendarYear)
+        {
+            CalendarYear = calendarYear;
         }
     }
 }

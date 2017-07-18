@@ -25,15 +25,15 @@ namespace ProjectFirma.Web.Views.Organization
 {
     public class EditViewData : FirmaUserControlViewData
     {
-        public readonly IEnumerable<SelectListItem> Sectors;
+        public readonly IEnumerable<SelectListItem> OrganizationTypes;
         public readonly IEnumerable<SelectListItem> People;
         public readonly bool IsInKeystone;
         public readonly string RequestOrganizationChangeUrl;
         public readonly bool IsSitkaAdmin;
 
-        public EditViewData(IEnumerable<SelectListItem> sectors, IEnumerable<SelectListItem> people, bool isInKeystone, string requestOrganizationChangeUrl, bool isSitkaAdmin)
+        public EditViewData(IEnumerable<SelectListItem> organizationTypes, IEnumerable<SelectListItem> people, bool isInKeystone, string requestOrganizationChangeUrl, bool isSitkaAdmin)
         {
-            Sectors = sectors;
+            OrganizationTypes = organizationTypes;
             People = people;
             IsInKeystone = isInKeystone;
             RequestOrganizationChangeUrl = requestOrganizationChangeUrl;

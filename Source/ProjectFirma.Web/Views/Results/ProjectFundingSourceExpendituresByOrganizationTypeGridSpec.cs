@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectFundingSourceExpendituresBySectorGridSpec.cs" company="Tahoe Regional Planning Agency">
+<copyright file="ProjectFundingSourceExpendituresByOrganizationTypeGridSpec.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -27,9 +27,9 @@ using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class ProjectFundingSourceExpendituresBySectorGridSpec : GridSpec<ProjectFundingSourceSectorExpenditure>
+    public class ProjectFundingSourceExpendituresByOrganizationTypeGridSpec : GridSpec<ProjectFundingSourceOrganizationTypeExpenditure>
     {
-        public ProjectFundingSourceExpendituresBySectorGridSpec(int? calendarYear)
+        public ProjectFundingSourceExpendituresByOrganizationTypeGridSpec(int? calendarYear)
         {            
             Add(Models.FieldDefinition.ProjectName.ToGridHeaderString(),
                 x => UrlTemplate.MakeHrefString(x.Project.GetDetailUrl(), x.Project.ProjectName),

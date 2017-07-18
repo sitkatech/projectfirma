@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="SpendingBySectorByOrganizationViewFeature.cs" company="Tahoe Regional Planning Agency">
+<copyright file="ProjectFundingSourceExpendituresByOrganizationType.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,13 +18,16 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Security.Shared;
+using System.Web.Mvc;
+using LtInfo.Common.HtmlHelperExtensions;
 
-namespace ProjectFirma.Web.Security
+namespace ProjectFirma.Web.Views.Results
 {
-    [SecurityFeatureDescription("View Spending by Sector by Organization")]
-    public class SpendingBySectorByOrganizationViewFeature : AnonymousUnclassifiedFeature
+    public abstract class ProjectFundingSourceExpendituresByOrganizationType : LtInfo.Common.Mvc.TypedWebPartialViewPage<ProjectFundingSourceExpendituresByOrganizationTypeViewData>
     {
+        public static void RenderPartialView(HtmlHelper html, ProjectFundingSourceExpendituresByOrganizationTypeViewData viewData)
+        {
+            html.RenderRazorSitkaPartial<ProjectFundingSourceExpendituresByOrganizationType, ProjectFundingSourceExpendituresByOrganizationTypeViewData>(viewData);
+        }
     }
 }

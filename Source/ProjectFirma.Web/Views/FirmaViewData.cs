@@ -104,10 +104,10 @@ namespace ProjectFirma.Web.Views
         private static LtInfoMenuItem BuildResultsMenu(Person currentPerson)
         {
             var resultsMenu = new LtInfoMenuItem("Results");
-            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.InvestmentByFundingSector(null)), currentPerson, "Investment by Funding Sector"));
-            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo(null)),
+            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.InvestmentByOrganizationType(null)), currentPerson, "Investment by Organization Type"));
+            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwo(null)),
                 currentPerson,
-                string.Format("Spending by Funding Sector by {0} by {1}", Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel(), Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel())));
+                string.Format("Spending by Organization Type by {0} by {1}", Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel(), Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel())));
             resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ResultsByTaxonomyTierTwo(null)), currentPerson, string.Format("Results by {0}", Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel())));
             resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentPerson, "Project Map"));
 

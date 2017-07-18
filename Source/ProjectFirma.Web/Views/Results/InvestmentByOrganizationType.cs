@@ -1,5 +1,5 @@
-﻿@*-----------------------------------------------------------------------
-<copyright file="ProjectFundingSourceExpendituresBySector.cshtml" company="Tahoe Regional Planning Agency">
+﻿/*-----------------------------------------------------------------------
+<copyright file="InvestmentByFundingOrganizationType.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -17,9 +17,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 
 Source code is available upon request via <support@sitkatech.com>.
 </license>
------------------------------------------------------------------------*@
-@using ProjectFirma.Web.Views
-@using LtInfo.Common.DhtmlWrappers
-@inherits ProjectFirma.Web.Views.Results.ProjectFundingSourceExpendituresBySector
-
-@Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:400px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+-----------------------------------------------------------------------*/
+namespace ProjectFirma.Web.Views.Results
+{
+    public abstract class InvestmentByOrganizationType : LtInfo.Common.Mvc.TypedWebViewPage<InvestmentByOrganizationTypeViewData, InvestmentByOrganizationTypeViewModel>
+    {
+    }
+}

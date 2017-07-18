@@ -316,6 +316,9 @@
     <Compile Include="Models\Generated\RolePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Snapshot.Binding.cs" />
     <Compile Include="Models\Generated\Snapshot.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\SnapshotOrganizationTypeExpenditure.Binding.cs" />
+    <Compile Include="Models\Generated\SnapshotOrganizationTypeExpenditure.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\SnapshotOrganizationTypeExpenditurePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\SnapshotPerformanceMeasure.Binding.cs" />
     <Compile Include="Models\Generated\SnapshotPerformanceMeasure.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\SnapshotPerformanceMeasurePrimaryKey.Binding.cs" />
@@ -328,9 +331,6 @@
     <Compile Include="Models\Generated\SnapshotProjectPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\SnapshotProjectType.Binding.cs" />
     <Compile Include="Models\Generated\SnapshotProjectTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\SnapshotSectorExpenditure.Binding.cs" />
-    <Compile Include="Models\Generated\SnapshotSectorExpenditure.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\SnapshotSectorExpenditurePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\StateProvince.Binding.cs" />
     <Compile Include="Models\Generated\StateProvince.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\StateProvincePrimaryKey.Binding.cs" />
@@ -526,6 +526,7 @@
     <Compile Include="Security\OrganizationAndRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\OrganizationAndRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\SitkaAdminFeature.cs" />
+    <Compile Include="Security\SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewFeature.cs" />
     <Compile Include="Service References\KeystoneDataService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -560,7 +561,7 @@
     <Compile Include="Models\TaxonomyTierThreeForReporting.cs" />
     <Compile Include="Models\TaxonomyTierThreeSimple.cs" />
     <Compile Include="Models\TaxonomyTierTwo.cs" />
-    <Compile Include="Models\TaxonomyTierTwoSectorExpenditure.cs" />
+    <Compile Include="Models\TaxonomyTierTwoOrganizationTypeExpenditure.cs" />
     <Compile Include="Models\TaxonomyTierTwoSimple.cs" />
     <Compile Include="Models\TaxonomyTierOne.cs" />
     <Compile Include="Models\TaxonomyTierOneModelExtensions.cs" />
@@ -681,8 +682,7 @@
     <Compile Include="Security\ProposedProjectViewFeature.cs" />
     <Compile Include="Security\ResultsByTaxonomyTierTwoViewFeature.cs" />
     <Compile Include="Security\SpendingByPerformanceMeasureByProjectViewFeature.cs" />
-    <Compile Include="Security\SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewFeature.cs" />
-    <Compile Include="Security\SpendingBySectorByOrganizationViewFeature.cs" />
+    <Compile Include="Security\SpendingByOrganizationTypeByOrganizationViewFeature.cs" />
     <Compile Include="Security\TagManageFeature.cs" />
     <Compile Include="Security\TagViewFeature.cs" />
     <Compile Include="Security\ProjectBudgetManageFeature.cs" />
@@ -715,9 +715,9 @@
     <Compile Include="Views\TaxonomyTierTwoPerformanceMeasure\EditViewModel.cs" />
     <Compile Include="Views\Results\ResultsByTaxonomyTierTwo.cs" />
     <Compile Include="Views\Results\ResultsByTaxonomyTierTwoViewData.cs" />
-    <Compile Include="Views\Results\SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewModel.cs" />
-    <Compile Include="Views\Results\SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewData.cs" />
-    <Compile Include="Views\Results\SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo.cs" />
+    <Compile Include="Views\Results\SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewModel.cs" />
+    <Compile Include="Views\Results\SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewData.cs" />
+    <Compile Include="Views\Results\SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwo.cs" />
     <Compile Include="Views\TaxonomyTierOne\Edit.cs" />
     <Compile Include="Views\TaxonomyTierOne\EditViewData.cs" />
     <Compile Include="Views\TaxonomyTierOne\EditViewModel.cs" />
@@ -1102,18 +1102,18 @@
     <Compile Include="Views\Results\ProjectMapViewData.cs" />
     <Compile Include="Views\Results\ProjectMapViewDataTest.cs" />
     <Compile Include="Views\Results\FundingSourceCalendarYearExpenditureExcelSpec.cs" />
-    <Compile Include="Views\Results\InvestmentByFundingSector.cs" />
-    <Compile Include="Views\Results\InvestmentByFundingSectorViewData.cs" />
-    <Compile Include="Views\Results\InvestmentByFundingSectorViewModel.cs" />
-    <Compile Include="Views\Results\ProjectFundingSourceExpendituresBySector.cs" />
-    <Compile Include="Views\Results\ProjectFundingSourceExpendituresBySectorGridSpec.cs" />
-    <Compile Include="Views\Results\ProjectFundingSourceExpendituresBySectorViewData.cs" />
+    <Compile Include="Views\Results\InvestmentByOrganizationType.cs" />
+    <Compile Include="Views\Results\InvestmentByOrganizationTypeViewData.cs" />
+    <Compile Include="Views\Results\InvestmentByOrganizationTypeViewModel.cs" />
+    <Compile Include="Views\Results\ProjectFundingSourceExpendituresByOrganizationType.cs" />
+    <Compile Include="Views\Results\ProjectFundingSourceExpendituresByOrganizationTypeGridSpec.cs" />
+    <Compile Include="Views\Results\ProjectFundingSourceExpendituresByOrganizationTypeViewData.cs" />
     <Compile Include="Views\Results\SpendingByPerformanceMeasureByProject.cs" />
     <Compile Include="Views\Results\SpendingByPerformanceMeasureByProjectGridSpec.cs" />
     <Compile Include="Views\Results\SpendingByPerformanceMeasureByProjectViewData.cs" />
     <Compile Include="Views\Results\SpendingByPerformanceMeasureByProjectViewModel.cs" />
-    <Compile Include="Views\Results\SpendingBySectorByOrganization.cs" />
-    <Compile Include="Views\Results\SpendingBySectorByOrganizationViewData.cs" />
+    <Compile Include="Views\Results\SpendingByOrganizationTypeByOrganization.cs" />
+    <Compile Include="Views\Results\SpendingByOrganizationTypeByOrganizationViewData.cs" />
     <Compile Include="Views\Shared\CalendarYearString.cs" />
     <Compile Include="Views\Shared\DisplayPageContent.cs" />
     <Compile Include="Views\Shared\DisplayPageContentViewData.cs" />
@@ -1548,7 +1548,7 @@
     <Compile Include="Models\ProjectFundingSourceExpenditure.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditureBulk.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditureUpdate.cs" />
-    <Compile Include="Models\ProjectFundingSourceSectorExpenditure.cs" />
+    <Compile Include="Models\ProjectFundingSourceOrganizationTypeExpenditure.cs" />
     <Compile Include="Models\ProjectImage.cs" />
     <Compile Include="Models\ProjectImageUpdate.cs" />
     <Compile Include="Models\ProjectNote.cs" />
@@ -1564,7 +1564,7 @@
     <Compile Include="Models\ProjectUpdateHistory.DatabaseContextExtensions.cs" />
     <Compile Include="Models\ProjectUpdateHistoryTest.cs" />
     <Compile Include="Models\ProjectWatershed.cs" />
-    <Compile Include="Models\FundingSectorExpenditure.cs" />
+    <Compile Include="Models\OrganizationTypeExpenditure.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategoryOption.cs" />
     <Compile Include="Models\SupportRequestLog.cs" />
     <Compile Include="Models\Classification.cs" />
@@ -3168,10 +3168,10 @@
     <Content Include="Views\ProposedProject\_ViewStart.cshtml" />
     <Content Include="Views\Results\CalendarYearExpendituresLineChart.cshtml" />
     <Content Include="Views\Results\ProjectMap.cshtml" />
-    <Content Include="Views\Results\InvestmentByFundingSector.cshtml" />
-    <Content Include="Views\Results\ProjectFundingSourceExpendituresBySector.cshtml" />
+    <Content Include="Views\Results\InvestmentByOrganizationType.cshtml" />
+    <Content Include="Views\Results\ProjectFundingSourceExpendituresByOrganizationType.cshtml" />
     <Content Include="Views\Results\SpendingByPerformanceMeasureByProject.cshtml" />
-    <Content Include="Views\Results\SpendingBySectorByOrganization.cshtml" />
+    <Content Include="Views\Results\SpendingByOrganizationTypeByOrganization.cshtml" />
     <Content Include="Views\Shared\PerformanceMeasureControls\EditPerformanceMeasureExpected.cshtml" />
     <Content Include="Views\Shared\PerformanceMeasureControls\PerformanceMeasureExpectedSummary.cshtml" />
     <Content Include="Views\Shared\PerformanceMeasureControls\PerformanceMeasureReportedValuesGrouped.cshtml" />
@@ -3211,7 +3211,7 @@
     <Content Include="Views\TaxonomyTierOne\Edit.cshtml" />
     <Content Include="Views\TaxonomyTierOne\Index.cshtml" />
     <Content Include="Views\TaxonomyTierOne\Detail.cshtml" />
-    <Content Include="Views\Results\SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo.cshtml" />
+    <Content Include="Views\Results\SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewModel.cshtml" />
     <Content Include="Views\Results\ResultsByTaxonomyTierTwo.cshtml" />
     <Content Include="Views\TaxonomyTierTwoPerformanceMeasure\Edit.cshtml" />
   </ItemGroup>

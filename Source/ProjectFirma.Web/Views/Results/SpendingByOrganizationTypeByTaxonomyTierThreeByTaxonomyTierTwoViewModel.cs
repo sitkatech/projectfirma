@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewFeature.cs" company="Tahoe Regional Planning Agency">
+<copyright file="SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewModel.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,12 +18,26 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Security.Shared;
+using System.ComponentModel;
+using LtInfo.Common.Models;
 
-namespace ProjectFirma.Web.Security
+namespace ProjectFirma.Web.Views.Results
 {
-    [SecurityFeatureDescription("View Spending by Sector by Taxonomy Tier Three by Taxonomy Tier Two")]
-    public class SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwoViewFeature : AnonymousUnclassifiedFeature
+    public class SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewModel : FormViewModel
     {
+        [DisplayName("Time Period")]
+        public int? CalendarYear { get; set; }
+
+        /// <summary>
+        /// Needed by Model Binder
+        /// </summary>
+        public SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewModel()
+        {
+        }
+
+        public SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewModel(int? calendarYear)
+        {
+            CalendarYear = calendarYear;
+        }
     }
 }

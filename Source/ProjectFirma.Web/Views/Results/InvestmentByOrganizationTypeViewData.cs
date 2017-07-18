@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="InvestmentByFundingSectorViewData.cs" company="Tahoe Regional Planning Agency">
+<copyright file="InvestmentByFundingOrganizationTypeViewData.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -27,35 +27,35 @@ using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class InvestmentByFundingSectorViewData : FirmaViewData
+    public class InvestmentByOrganizationTypeViewData : FirmaViewData
     {
-        public readonly List<FundingSectorExpenditure> FundingSectorExpenditures;
+        public readonly List<OrganizationTypeExpenditure> OrganizationTypeExpenditures;
         public readonly int? SelectedCalendarYear;
-        public readonly string ProjectFundingSourceExpendituresBySectorUrl;
-        public readonly string InvestmentByFundingSectorUrl;
+        public readonly string ProjectFundingSourceExpendituresByOrganizationTypeUrl;
+        public readonly string InvestmentByFundingOrganizationTypeUrl;
         public readonly IEnumerable<SelectListItem> CalendarYears;
-        public readonly string SpendingBySectorAndOrganizationUrl;
+        public readonly string SpendingByOrganizationTypeAndOrganizationUrl;
         public readonly string ReportingYearRangeTitle;
         public readonly GoogleChartJson GoogleChartJson;
 
-        public InvestmentByFundingSectorViewData(Person currentPerson,
+        public InvestmentByOrganizationTypeViewData(Person currentPerson,
             Models.FirmaPage firmaPage,
-            List<FundingSectorExpenditure> fundingSectorExpenditures,
+            List<OrganizationTypeExpenditure> organizationTypeExpenditures,
             int? selectedCalendarYear,
             IEnumerable<SelectListItem> calendarYears,
             string reportingYearRangeTitle) : base(currentPerson, firmaPage)
         {
-            FundingSectorExpenditures = fundingSectorExpenditures;
-            PageTitle = "Investment by Funding Sector";
+            OrganizationTypeExpenditures = organizationTypeExpenditures;
+            PageTitle = "Investment by Organization Type";
             SelectedCalendarYear = selectedCalendarYear;
             CalendarYears = calendarYears;
             ReportingYearRangeTitle = reportingYearRangeTitle;
-            ProjectFundingSourceExpendituresBySectorUrl =
-                SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ProjectFundingSourceExpendituresBySector(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int));
-            SpendingBySectorAndOrganizationUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingBySectorByOrganization(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int));
-            InvestmentByFundingSectorUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.InvestmentByFundingSector(UrlTemplate.Parameter1Int));
+            ProjectFundingSourceExpendituresByOrganizationTypeUrl =
+                SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ProjectFundingSourceExpendituresByOrganizationType(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int));
+            SpendingByOrganizationTypeAndOrganizationUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingByOrganizationTypeByOrganization(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int));
+            InvestmentByFundingOrganizationTypeUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.InvestmentByOrganizationType(UrlTemplate.Parameter1Int));
 
-            GoogleChartJson = ResultsController.GetInvestmentByFundingSectorGoogleChart(FundingSectorExpenditures, selectedCalendarYear);
+            GoogleChartJson = ResultsController.GetInvestmentByOrganizationTypeGoogleChart(OrganizationTypeExpenditures, selectedCalendarYear);
             GoogleChartJson.GoogleChartConfiguration.SetSize(300, 350);
         }
     }

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="FundingSectorExpenditure.cs" company="Tahoe Regional Planning Agency">
+<copyright file="OrganizationTypeExpenditure.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -23,7 +23,7 @@ using System.Linq;
 
 namespace ProjectFirma.Web.Models
 {
-    public class FundingSectorExpenditure
+    public class OrganizationTypeExpenditure
     {
         private readonly OrganizationTypeSimple _organizationType;
         public int OrganizationTypeID
@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Models
         public readonly int FundingOrganizationCount;
         public readonly int? CalendarYear;
 
-        public FundingSectorExpenditure(OrganizationType organizationType, decimal calendarYearExpenditureAmount, int fundingSourceCount, int fundingOrganizationCount, int? calendarYear)
+        public OrganizationTypeExpenditure(OrganizationType organizationType, decimal calendarYearExpenditureAmount, int fundingSourceCount, int fundingOrganizationCount, int? calendarYear)
         {
             _organizationType = new OrganizationTypeSimple(organizationType);
             CalendarYear = calendarYear;
@@ -52,13 +52,13 @@ namespace ProjectFirma.Web.Models
             FundingOrganizationCount = fundingOrganizationCount;
         }
 
-        public FundingSectorExpenditure(OrganizationType organizationType, List<ProjectFundingSourceExpenditure> projectFundingSourceExpendituresForThisSectorAndCalendarYear, int? calendarYear)
+        public OrganizationTypeExpenditure(OrganizationType organizationType, List<ProjectFundingSourceExpenditure> projectFundingSourceExpendituresForThisOrganizationTypeAndCalendarYear, int? calendarYear)
         {
             _organizationType = new OrganizationTypeSimple(organizationType);
             CalendarYear = calendarYear;
-            CalendarYearExpenditureAmount = projectFundingSourceExpendituresForThisSectorAndCalendarYear.Sum(x => x.ExpenditureAmount);
-            FundingSourceCount = projectFundingSourceExpendituresForThisSectorAndCalendarYear.Select(x => x.FundingSourceID).Distinct().Count();
-            FundingOrganizationCount = projectFundingSourceExpendituresForThisSectorAndCalendarYear.Select(x => x.FundingSource.OrganizationID).Distinct().Count();
+            CalendarYearExpenditureAmount = projectFundingSourceExpendituresForThisOrganizationTypeAndCalendarYear.Sum(x => x.ExpenditureAmount);
+            FundingSourceCount = projectFundingSourceExpendituresForThisOrganizationTypeAndCalendarYear.Select(x => x.FundingSourceID).Distinct().Count();
+            FundingOrganizationCount = projectFundingSourceExpendituresForThisOrganizationTypeAndCalendarYear.Select(x => x.FundingSource.OrganizationID).Distinct().Count();
         }
     }
 }

@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[SnapshotSectorExpenditure]
+//  Source Table: [dbo].[SnapshotOrganizationTypeExpenditure]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,13 +15,13 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
-    [Table("[dbo].[SnapshotSectorExpenditure]")]
-    public partial class SnapshotSectorExpenditure : IHavePrimaryKey, IHaveATenantID
+    [Table("[dbo].[SnapshotOrganizationTypeExpenditure]")]
+    public partial class SnapshotOrganizationTypeExpenditure : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected SnapshotSectorExpenditure()
+        protected SnapshotOrganizationTypeExpenditure()
         {
 
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
@@ -30,9 +30,9 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public SnapshotSectorExpenditure(int snapshotSectorExpenditureID, int snapshotID, int calendarYear, decimal expenditureAmount, int organizationTypeID) : this()
+        public SnapshotOrganizationTypeExpenditure(int snapshotOrganizationTypeExpenditureID, int snapshotID, int calendarYear, decimal expenditureAmount, int organizationTypeID) : this()
         {
-            this.SnapshotSectorExpenditureID = snapshotSectorExpenditureID;
+            this.SnapshotOrganizationTypeExpenditureID = snapshotOrganizationTypeExpenditureID;
             this.SnapshotID = snapshotID;
             this.CalendarYear = calendarYear;
             this.ExpenditureAmount = expenditureAmount;
@@ -42,10 +42,10 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public SnapshotSectorExpenditure(int snapshotID, int calendarYear, decimal expenditureAmount, int organizationTypeID) : this()
+        public SnapshotOrganizationTypeExpenditure(int snapshotID, int calendarYear, decimal expenditureAmount, int organizationTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.SnapshotSectorExpenditureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.SnapshotOrganizationTypeExpenditureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.SnapshotID = snapshotID;
             this.CalendarYear = calendarYear;
@@ -56,26 +56,26 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public SnapshotSectorExpenditure(Snapshot snapshot, int calendarYear, decimal expenditureAmount, OrganizationType organizationType) : this()
+        public SnapshotOrganizationTypeExpenditure(Snapshot snapshot, int calendarYear, decimal expenditureAmount, OrganizationType organizationType) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.SnapshotSectorExpenditureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.SnapshotOrganizationTypeExpenditureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.SnapshotID = snapshot.SnapshotID;
             this.Snapshot = snapshot;
-            snapshot.SnapshotSectorExpenditures.Add(this);
+            snapshot.SnapshotOrganizationTypeExpenditures.Add(this);
             this.CalendarYear = calendarYear;
             this.ExpenditureAmount = expenditureAmount;
             this.OrganizationTypeID = organizationType.OrganizationTypeID;
             this.OrganizationType = organizationType;
-            organizationType.SnapshotSectorExpenditures.Add(this);
+            organizationType.SnapshotOrganizationTypeExpenditures.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static SnapshotSectorExpenditure CreateNewBlank(Snapshot snapshot, OrganizationType organizationType)
+        public static SnapshotOrganizationTypeExpenditure CreateNewBlank(Snapshot snapshot, OrganizationType organizationType)
         {
-            return new SnapshotSectorExpenditure(snapshot, default(int), default(decimal), organizationType);
+            return new SnapshotOrganizationTypeExpenditure(snapshot, default(int), default(decimal), organizationType);
         }
 
         /// <summary>
@@ -90,16 +90,16 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(SnapshotSectorExpenditure).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(SnapshotOrganizationTypeExpenditure).Name};
 
         [Key]
-        public int SnapshotSectorExpenditureID { get; set; }
+        public int SnapshotOrganizationTypeExpenditureID { get; set; }
         public int TenantID { get; private set; }
         public int SnapshotID { get; set; }
         public int CalendarYear { get; set; }
         public decimal ExpenditureAmount { get; set; }
         public int OrganizationTypeID { get; set; }
-        public int PrimaryKey { get { return SnapshotSectorExpenditureID; } set { SnapshotSectorExpenditureID = value; } }
+        public int PrimaryKey { get { return SnapshotOrganizationTypeExpenditureID; } set { SnapshotOrganizationTypeExpenditureID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Snapshot Snapshot { get; set; }

@@ -78,10 +78,10 @@
     <EntitySet Name="ProposedProjectNote" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectNote" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RelationshipType" EntityType="ProjectFirma.Web.Models.Store.RelationshipType" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Snapshot" EntityType="ProjectFirma.Web.Models.Store.Snapshot" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SnapshotOrganizationTypeExpenditure" EntityType="ProjectFirma.Web.Models.Store.SnapshotOrganizationTypeExpenditure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SnapshotPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.SnapshotPerformanceMeasure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SnapshotPerformanceMeasureSubcategoryOption" EntityType="ProjectFirma.Web.Models.Store.SnapshotPerformanceMeasureSubcategoryOption" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SnapshotProject" EntityType="ProjectFirma.Web.Models.Store.SnapshotProject" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="SnapshotSectorExpenditure" EntityType="ProjectFirma.Web.Models.Store.SnapshotSectorExpenditure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="StateProvince" EntityType="ProjectFirma.Web.Models.Store.StateProvince" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupportRequestLog" EntityType="ProjectFirma.Web.Models.Store.SupportRequestLog" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Tag" EntityType="ProjectFirma.Web.Models.Store.Tag" store:Type="Tables" Schema="dbo" />
@@ -635,6 +635,14 @@
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectNotes" EntitySet="ProposedProjectNote" />
     </AssociationSet>
+    <AssociationSet Name="FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID">
+      <End Role="OrganizationType" EntitySet="OrganizationType" />
+      <End Role="SnapshotOrganizationTypeExpenditures" EntitySet="SnapshotOrganizationTypeExpenditure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID">
+      <End Role="Snapshot" EntitySet="Snapshot" />
+      <End Role="SnapshotOrganizationTypeExpenditures" EntitySet="SnapshotOrganizationTypeExpenditure" />
+    </AssociationSet>
     <AssociationSet Name="FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="SnapshotPerformanceMeasures" EntitySet="SnapshotPerformanceMeasure" />
@@ -666,14 +674,6 @@
     <AssociationSet Name="FK_SnapshotProject_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotProject_Snapshot_SnapshotID">
       <End Role="Snapshot" EntitySet="Snapshot" />
       <End Role="SnapshotProjects" EntitySet="SnapshotProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID">
-      <End Role="OrganizationType" EntitySet="OrganizationType" />
-      <End Role="SnapshotSectorExpenditures" EntitySet="SnapshotSectorExpenditure" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SnapshotSectorExpenditure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotSectorExpenditure_Snapshot_SnapshotID">
-      <End Role="Snapshot" EntitySet="Snapshot" />
-      <End Role="SnapshotSectorExpenditures" EntitySet="SnapshotSectorExpenditure" />
     </AssociationSet>
     <AssociationSet Name="FK_SupportRequestLog_Person_RequestPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_SupportRequestLog_Person_RequestPersonID_PersonID">
       <End Role="RequestPerson" EntitySet="Person" />
@@ -1023,7 +1023,7 @@ warning 6035: The relationship 'FK_ProposedProject_Organization_LeadImplementerO
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="OrganizationType">
     <Key>
@@ -1811,9 +1811,9 @@ warning 6035: The relationship 'FK_ProjectOrganization_RelationshipType_Relation
     <Property Name="RelationshipTypeName" Type="varchar" Nullable="false" MaxLength="200" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotProject_Snapshot_SnapshotID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_SnapshotSectorExpenditure_Snapshot_SnapshotID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="Snapshot">
     <Key>
@@ -1824,6 +1824,17 @@ warning 6035: The relationship 'FK_SnapshotSectorExpenditure_Snapshot_SnapshotID
     <Property Name="SnapshotDate" Type="date" Nullable="false" />
     <Property Name="SnapshotNote" Type="varchar" MaxLength="200" />
     <Property Name="ProjectCount" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SnapshotOrganizationTypeExpenditure">
+    <Key>
+      <PropertyRef Name="SnapshotOrganizationTypeExpenditureID" />
+    </Key>
+    <Property Name="SnapshotOrganizationTypeExpenditureID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="SnapshotID" Type="int" Nullable="false" />
+    <Property Name="CalendarYear" Type="int" Nullable="false" />
+    <Property Name="ExpenditureAmount" Type="money" Nullable="false" />
+    <Property Name="OrganizationTypeID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1860,17 +1871,6 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="SnapshotID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="SnapshotProjectTypeID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="SnapshotSectorExpenditure">
-    <Key>
-      <PropertyRef Name="SnapshotSectorExpenditureID" />
-    </Key>
-    <Property Name="SnapshotSectorExpenditureID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="SnapshotID" Type="int" Nullable="false" />
-    <Property Name="CalendarYear" Type="int" Nullable="false" />
-    <Property Name="ExpenditureAmount" Type="money" Nullable="false" />
-    <Property Name="OrganizationTypeID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_County_StateProvince_StateProvinceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -3632,6 +3632,30 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID">
+    <End Role="OrganizationType" Type="ProjectFirma.Web.Models.Store.OrganizationType" Multiplicity="1" />
+    <End Role="SnapshotOrganizationTypeExpenditures" Type="ProjectFirma.Web.Models.Store.SnapshotOrganizationTypeExpenditure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrganizationType">
+        <PropertyRef Name="OrganizationTypeID" />
+      </Principal>
+      <Dependent Role="SnapshotOrganizationTypeExpenditures">
+        <PropertyRef Name="OrganizationTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID">
+    <End Role="Snapshot" Type="ProjectFirma.Web.Models.Store.Snapshot" Multiplicity="1" />
+    <End Role="SnapshotOrganizationTypeExpenditures" Type="ProjectFirma.Web.Models.Store.SnapshotOrganizationTypeExpenditure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Snapshot">
+        <PropertyRef Name="SnapshotID" />
+      </Principal>
+      <Dependent Role="SnapshotOrganizationTypeExpenditures">
+        <PropertyRef Name="SnapshotID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
     <End Role="SnapshotPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.SnapshotPerformanceMeasure" Multiplicity="*" />
@@ -3724,30 +3748,6 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
         <PropertyRef Name="SnapshotID" />
       </Principal>
       <Dependent Role="SnapshotProjects">
-        <PropertyRef Name="SnapshotID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SnapshotSectorExpenditure_OrganizationType_OrganizationTypeID">
-    <End Role="OrganizationType" Type="ProjectFirma.Web.Models.Store.OrganizationType" Multiplicity="1" />
-    <End Role="SnapshotSectorExpenditures" Type="ProjectFirma.Web.Models.Store.SnapshotSectorExpenditure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="OrganizationType">
-        <PropertyRef Name="OrganizationTypeID" />
-      </Principal>
-      <Dependent Role="SnapshotSectorExpenditures">
-        <PropertyRef Name="OrganizationTypeID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SnapshotSectorExpenditure_Snapshot_SnapshotID">
-    <End Role="Snapshot" Type="ProjectFirma.Web.Models.Store.Snapshot" Multiplicity="1" />
-    <End Role="SnapshotSectorExpenditures" Type="ProjectFirma.Web.Models.Store.SnapshotSectorExpenditure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Snapshot">
-        <PropertyRef Name="SnapshotID" />
-      </Principal>
-      <Dependent Role="SnapshotSectorExpenditures">
         <PropertyRef Name="SnapshotID" />
       </Dependent>
     </ReferentialConstraint>

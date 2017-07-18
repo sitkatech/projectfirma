@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectFundingSourceExpendituresBySectorViewData.cs" company="Tahoe Regional Planning Agency">
+<copyright file="ProjectFundingSourceExpendituresByOrganizationTypeViewData.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -26,13 +26,13 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class ProjectFundingSourceExpendituresBySectorViewData : FirmaUserControlViewData
+    public class ProjectFundingSourceExpendituresByOrganizationTypeViewData : FirmaUserControlViewData
     {
-        public readonly ProjectFundingSourceExpendituresBySectorGridSpec GridSpec;
+        public readonly ProjectFundingSourceExpendituresByOrganizationTypeGridSpec GridSpec;
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public ProjectFundingSourceExpendituresBySectorViewData(int? organizationTypeID, int? calendarYear)
+        public ProjectFundingSourceExpendituresByOrganizationTypeViewData(int? organizationTypeID, int? calendarYear)
         {
             var organizationTypeDisplayName = "all Organization Types";
             if (organizationTypeID.HasValue)
@@ -40,15 +40,15 @@ namespace ProjectFirma.Web.Views.Results
                 var organizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetOrganizationType(organizationTypeID.Value);
                 organizationTypeDisplayName = string.Format("selected Organization Type: {0}", organizationType.OrganizationTypeName);
             }
-            GridSpec = new ProjectFundingSourceExpendituresBySectorGridSpec(calendarYear)
+            GridSpec = new ProjectFundingSourceExpendituresByOrganizationTypeGridSpec(calendarYear)
             {
                 ObjectNameSingular = string.Format("record by {0}", organizationTypeDisplayName),
                 ObjectNamePlural = string.Format("records by {0}", organizationTypeDisplayName),
                 SaveFiltersInCookie = true
             };
 
-            GridName = "projectFundingSourceExpendituresBySectorGrid";
-            GridDataUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(tc => tc.ProjectExpendituresByFundingSectorGridJsonData(organizationTypeID, calendarYear));
+            GridName = "projectFundingSourceExpendituresByOrganizationTypeGrid";
+            GridDataUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(tc => tc.ProjectExpendituresByOrganizationTypeGridJsonData(organizationTypeID, calendarYear));
         }
     }
 }

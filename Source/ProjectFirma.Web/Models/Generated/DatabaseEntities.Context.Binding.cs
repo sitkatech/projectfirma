@@ -180,6 +180,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProposedProject> ProposedProjects { get { return AllProposedProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<RelationshipType> AllRelationshipTypes { get; set; }
         public virtual IQueryable<RelationshipType> RelationshipTypes { get { return AllRelationshipTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<SnapshotOrganizationTypeExpenditure> AllSnapshotOrganizationTypeExpenditures { get; set; }
+        public virtual IQueryable<SnapshotOrganizationTypeExpenditure> SnapshotOrganizationTypeExpenditures { get { return AllSnapshotOrganizationTypeExpenditures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<SnapshotPerformanceMeasure> AllSnapshotPerformanceMeasures { get; set; }
         public virtual IQueryable<SnapshotPerformanceMeasure> SnapshotPerformanceMeasures { get { return AllSnapshotPerformanceMeasures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<SnapshotPerformanceMeasureSubcategoryOption> AllSnapshotPerformanceMeasureSubcategoryOptions { get; set; }
@@ -188,8 +190,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<SnapshotProject> SnapshotProjects { get { return AllSnapshotProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Snapshot> AllSnapshots { get; set; }
         public virtual IQueryable<Snapshot> Snapshots { get { return AllSnapshots.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<SnapshotSectorExpenditure> AllSnapshotSectorExpenditures { get; set; }
-        public virtual IQueryable<SnapshotSectorExpenditure> SnapshotSectorExpenditures { get { return AllSnapshotSectorExpenditures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
         public virtual IQueryable<StateProvince> StateProvinces { get { return AllStateProvinces.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<SupportRequestLog> AllSupportRequestLogs { get; set; }
@@ -541,6 +541,9 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(role, "Role", primaryKey);
                     return role;
 
+                case "SnapshotOrganizationTypeExpenditure":
+                    return SnapshotOrganizationTypeExpenditures.GetSnapshotOrganizationTypeExpenditure(primaryKey);
+
                 case "SnapshotPerformanceMeasure":
                     return SnapshotPerformanceMeasures.GetSnapshotPerformanceMeasure(primaryKey);
 
@@ -557,9 +560,6 @@ namespace ProjectFirma.Web.Models
 
                 case "Snapshot":
                     return Snapshots.GetSnapshot(primaryKey);
-
-                case "SnapshotSectorExpenditure":
-                    return SnapshotSectorExpenditures.GetSnapshotSectorExpenditure(primaryKey);
 
                 case "StateProvince":
                     return StateProvinces.GetStateProvince(primaryKey);

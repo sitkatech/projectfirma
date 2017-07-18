@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="SpendingBySectorByOrganization.cs" company="Tahoe Regional Planning Agency">
+<copyright file="SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewFeature.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,16 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Web.Mvc;
-using LtInfo.Common.HtmlHelperExtensions;
+using ProjectFirma.Web.Security.Shared;
 
-namespace ProjectFirma.Web.Views.Results
+namespace ProjectFirma.Web.Security
 {
-    public abstract class SpendingBySectorByOrganization : LtInfo.Common.Mvc.TypedWebPartialViewPage<SpendingBySectorByOrganizationViewData>
+    [SecurityFeatureDescription("View Spending by Organization Type by Taxonomy Tier Three by Taxonomy Tier Two")]
+    public class SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewFeature : AnonymousUnclassifiedFeature
     {
-        public static void RenderPartialView(HtmlHelper html, SpendingBySectorByOrganizationViewData viewData)
-        {
-            html.RenderRazorSitkaPartial<SpendingBySectorByOrganization, SpendingBySectorByOrganizationViewData>(viewData);
-        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="InvestmentByFundingSectorViewModel.cs" company="Tahoe Regional Planning Agency">
+<copyright file="SpendingByOrganizationTypeByOrganizationViewFeature.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,26 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.ComponentModel;
-using LtInfo.Common.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Security.Shared;
 
-namespace ProjectFirma.Web.Views.Results
+namespace ProjectFirma.Web.Security
 {
-    public class InvestmentByFundingSectorViewModel : FormViewModel
+    [SecurityFeatureDescription("View Spending by Organization Type by Organization")]
+    public class SpendingByOrganizationTypeByOrganizationViewFeature : AnonymousUnclassifiedFeature
     {
-        [DisplayName("Time Period")]
-        public int? CalendarYear { get; set; }
-
-        /// <summary>
-        /// Needed by Model Binder
-        /// </summary>
-        public InvestmentByFundingSectorViewModel()
-        {
-        }
-
-        public InvestmentByFundingSectorViewModel(int? calendarYear)
-        {
-            CalendarYear = calendarYear;
-        }
     }
 }

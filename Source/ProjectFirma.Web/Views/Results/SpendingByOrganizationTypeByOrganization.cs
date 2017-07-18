@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectFundingSourceExpendituresBySector.cs" company="Tahoe Regional Planning Agency">
+<copyright file="SpendingByOrganizationTypeByOrganization.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -23,11 +23,11 @@ using LtInfo.Common.HtmlHelperExtensions;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public abstract class ProjectFundingSourceExpendituresBySector : LtInfo.Common.Mvc.TypedWebPartialViewPage<ProjectFundingSourceExpendituresBySectorViewData>
+    public abstract class SpendingByOrganizationTypeByOrganization : LtInfo.Common.Mvc.TypedWebPartialViewPage<SpendingByOrganizationTypeByOrganizationViewData>
     {
-        public static void RenderPartialView(HtmlHelper html, ProjectFundingSourceExpendituresBySectorViewData viewData)
+        public static void RenderPartialView(HtmlHelper html, SpendingByOrganizationTypeByOrganizationViewData viewData)
         {
-            html.RenderRazorSitkaPartial<ProjectFundingSourceExpendituresBySector, ProjectFundingSourceExpendituresBySectorViewData>(viewData);
+            html.RenderRazorSitkaPartial<SpendingByOrganizationTypeByOrganization, SpendingByOrganizationTypeByOrganizationViewData>(viewData);
         }
     }
 }
