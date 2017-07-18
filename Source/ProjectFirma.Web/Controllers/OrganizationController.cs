@@ -139,7 +139,6 @@ namespace ProjectFirma.Web.Controllers
         private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData)
         {
             hasSpatialData = false;
-            var mapDivID = $"organization_{organization.OrganizationID}_Map";
             var layers = new List<LayerGeoJson>();
 
             if (organization.OrganizationBoundary != null)
@@ -162,12 +161,11 @@ namespace ProjectFirma.Web.Controllers
                 layers.Add(new LayerGeoJson("Project Detailed Mapping", projectDetails, "blue", 1, LayerInitialVisibility.Hide));
             }
 
-            layers.AddRange(MapInitJson.GetWatershedMapLayers());
-
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
 
-            var mapInitJson = new MapInitJson(mapDivID, 10, layers, boundingBox);
-            return mapInitJson;
+            layers.AddRange(MapInitJson.GetWatershedMapLayers());
+
+            return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, boundingBox);
         }
 
         private static LayerGeoJson GetProjectsLayerGeoJson(Organization organization)
