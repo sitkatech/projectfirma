@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Views.Shared
     {
         public SitkaRecaptchaViewData()
         {
-            RecaptchaPublicKey = FirmaWebConfiguration.RecaptchaPublicKey;
+            RecaptchaPublicKey = MultiTenantHelpers.GetTenantRecaptchaPublicKey();
             Theme = "clean";
         }
 

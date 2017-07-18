@@ -372,6 +372,12 @@
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.min.css">
       <DependentUpon>bootstrap.firma.theme.css</DependentUpon>
     </Content>
+    <Content Include="Content\Bootstrap\firma\clackamas.css">
+      <DependentUpon>clackamas.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\clackamas.min.css">
+      <DependentUpon>clackamas.css</DependentUpon>
+    </Content>
     <Content Include="Content\Bootstrap\firma\rcd.theme.css">
       <DependentUpon>rcd.theme.less</DependentUpon>
     </Content>
@@ -450,6 +456,7 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="Content\Bootstrap\firma\clackamas.less" />
     <None Include="Service References\KeystoneDataService\KeystoneData.disco" />
     <None Include="Service References\KeystoneDataService\configuration91.svcinfo" />
     <None Include="Service References\KeystoneDataService\configuration.svcinfo" />

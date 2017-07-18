@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Data.Entity.Infrastructure.Pluralization;
 using System.Data.Entity.Spatial;
-using System.Linq;
 using LtInfo.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -100,6 +99,16 @@ namespace ProjectFirma.Web.Common
         public static int GetMinimumYear()
         {
             return HttpRequestStorage.Tenant.GetTenantAttribute().MinimumYear;
+        }
+
+        public static string GetTenantRecaptchaPrivateKey()
+        {
+            return HttpRequestStorage.Tenant.GetTenantAttribute().RecaptchaPrivateKey;
+        }
+
+        public static string GetTenantRecaptchaPublicKey()
+        {
+            return HttpRequestStorage.Tenant.GetTenantAttribute().RecaptchaPublicKey;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantDisplayName, string toolDisplayName) : this()
+        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantDisplayName, string toolDisplayName, string recaptchaPublicKey, string recaptchaPrivateKey) : this()
         {
             this.TenantAttributeID = tenantAttributeID;
             this.DefaultBoundingBox = defaultBoundingBox;
@@ -42,6 +42,8 @@ namespace ProjectFirma.Web.Models
             this.TenantStyleSheetFileResourceID = tenantStyleSheetFileResourceID;
             this.TenantDisplayName = tenantDisplayName;
             this.ToolDisplayName = toolDisplayName;
+            this.RecaptchaPublicKey = recaptchaPublicKey;
+            this.RecaptchaPrivateKey = recaptchaPrivateKey;
         }
 
         /// <summary>
@@ -94,6 +96,8 @@ namespace ProjectFirma.Web.Models
         public int? TenantStyleSheetFileResourceID { get; set; }
         public string TenantDisplayName { get; set; }
         public string ToolDisplayName { get; set; }
+        public string RecaptchaPublicKey { get; set; }
+        public string RecaptchaPrivateKey { get; set; }
         public int PrimaryKey { get { return TenantAttributeID; } set { TenantAttributeID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
@@ -106,6 +110,8 @@ namespace ProjectFirma.Web.Models
         {
             public const int TenantDisplayName = 100;
             public const int ToolDisplayName = 100;
+            public const int RecaptchaPublicKey = 100;
+            public const int RecaptchaPrivateKey = 100;
         }
     }
 }
