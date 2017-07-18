@@ -101,8 +101,8 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
         overlayLayers[currentLayer.LayerName] = layerGroup;
         this.vectorLayers.push(layerGeoJson);
     }
-    this.layerControl = L.control.layers(baseLayers, overlayLayers);
-    this.layerControl.addTo(this.map);
+
+    this.addLayersToMapLayersControl(baseLayers, overlayLayers);
 
     var modalDialog = jQuery(".modal");
     if (!Sitka.Methods.isUndefinedNullOrEmpty(modalDialog))
@@ -114,6 +114,11 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
         });
     }
     self.setMapBounds(mapInitJson);
+};
+
+ProjectFirmaMaps.Map.prototype.addLayersToMapLayersControl = function(baseLayers, overlayLayers) {
+    this.layerControl = L.control.layers(baseLayers, overlayLayers);
+    this.layerControl.addTo(this.map);
 };
 
 ProjectFirmaMaps.Map.prototype.setMapBounds = function(mapInitJson)
