@@ -172,19 +172,19 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeInvestmentByFundingSector
+    public partial class FirmaPageTypeInvestmentByOrganizationType
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.InvestmentByFundingSector(null));
+            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.InvestmentByOrganizationType(null));
         }
     }
 
-    public partial class FirmaPageTypeSpendingBySectorByTaxonomyTier
+    public partial class FirmaPageTypeSpendingByOrganizationTypeByTaxonomyTier
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo(null));
+            return SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwo(null));
         }
     }
 

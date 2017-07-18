@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditOrganizations(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new EditOrganizationsViewModel(project.GetAllProjectOrganizations());
+            var viewModel = new EditOrganizationsViewModel(project.GetAllProjectOrganizations(), project);
             return ViewEditOrganizations(viewModel);
         }
 
@@ -51,13 +51,11 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditOrganizations(viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.ProjectFundingOrganizations.Load();
-            var projectFundingOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectFundingOrganizations.Local;
 
-            HttpRequestStorage.DatabaseEntities.ProjectImplementingOrganizations.Load();
-            var projectImplementingOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectImplementingOrganizations.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectOrganizations.Load();
+            var projectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
 
-            viewModel.UpdateModel(project, projectFundingOrganizations, projectImplementingOrganizations);
+            viewModel.UpdateModel(project, projectOrganizations);
             return new ModalDialogFormJsonResult();
         }
 
@@ -69,7 +67,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 allPeople.Add(CurrentPerson);
             }
-            var viewData = new EditOrganizationsViewData(allOrganizations, allPeople);
+            var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
+            var viewData = new EditOrganizationsViewData(allOrganizations, allPeople, allRelationshipTypes);
             return RazorPartialView<EditOrganizations, EditOrganizationsViewData, EditOrganizationsViewModel>(viewData, viewModel);
         }
     }

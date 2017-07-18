@@ -59,9 +59,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 DhtmlxGridColumnFilterType.SelectFilterStrict);
 
             Add(Models.FieldDefinition.ProjectName.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 180, DhtmlxGridColumnFilterType.Html);
-            Add(Models.FieldDefinition.LeadImplementer.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.LeadImplementer != null ? x.LeadImplementer.GetDetailUrl() : null, x.LeadImplementerName), 130);
+            Add(Models.FieldDefinition.LeadImplementer.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.LeadImplementerOrganization?.GetDetailUrl(), x.LeadImplementerName), 130);
             Add(Models.FieldDefinition.PrimaryContact.ToGridHeaderString(),
-                x => x.GetPrimaryContact() == null ? new HtmlString(string.Format("({0})", ViewUtilities.NoneString)) : x.GetPrimaryContact().GetFullNameFirstLastAndOrgAsUrl(),
+                x => x.GetPrimaryContact() == null ? new HtmlString($"({ViewUtilities.NoneString})") : x.GetPrimaryContact().GetFullNameFirstLastAndOrgAsUrl(),
                 95);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.PlanningDesignStartYear, 90, DhtmlxGridColumnFormatType.None);
@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add("Last Approved", x =>
             {
                 var latestApprovedUpdateBatch = x.GetLatestApprovedUpdateBatch();
-                return latestApprovedUpdateBatch == null ? (DateTime?) null : latestApprovedUpdateBatch.LastUpdateDate;
+                return latestApprovedUpdateBatch?.LastUpdateDate;
             }, 120);
         }
 

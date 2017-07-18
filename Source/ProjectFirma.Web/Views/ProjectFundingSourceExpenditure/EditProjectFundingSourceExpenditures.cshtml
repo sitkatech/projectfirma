@@ -51,8 +51,7 @@ Source code is available upon request via <support@sitkatech.com>.
     else
     {
         <div style="display: inline-block; margin-right: 5px;">
-            Funding Source to Add:<br/>
-            <label style="font-size: 12px"><input type="checkbox" ng-model="ShowOnlyProjectFunders"/>Show only my project's Funders</label>
+            Funding Source to Add:            
         </div>
         <div style="display: inline-block; vertical-align: top">
             <select ng-model="FundingSourceToAdd" ng-options="fundingSource.DisplayName group by fundingSource.OrganizationName for fundingSource in filteredFundingSources()" style="width: 500px"></select>

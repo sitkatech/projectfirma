@@ -32,8 +32,8 @@ Source code is available upon request via <support@sitkatech.com>.
         //       ProjectOrganizations (ProjectOrganizationJson[])
         //          OrganizationID
         //          OrganizationDisplayName
-        //          IsFundingOrganization
-        //          IsImplementingOrganization
+        //          RelationshipTypeID
+        //          RelationshipTypeName
         $scope.AngularModel = @Html.Raw(JObject.FromObject(Model));
         $scope.AngularViewData = @Html.Raw(JObject.FromObject(ViewDataTyped));
         $scope.OrganizationToAdd = null;
@@ -42,6 +42,10 @@ Source code is available upon request via <support@sitkatech.com>.
 
         $scope.lookupLeadPersonForOrganization = function(organizationId)
         {
+            if (organizationId == null) {
+                return "";
+            }
+
             var leadOrg = _.find($scope.AngularViewData.AllOrganizations, function(o) { return o.OrganizationID == organizationId; });
             var primaryContactForLeadImplementerOrg = _.find($scope.AngularViewData.AllPeople, function(x) { return x.PersonID == leadOrg.PrimaryContactPersonID; });
             if (primaryContactForLeadImplementerOrg != null)
@@ -51,103 +55,208 @@ Source code is available upon request via <support@sitkatech.com>.
             return "None";
         };
 
-        $scope.filteredOrganizations = function()
+        $scope.addTopTier = function()
         {
-            var usedOrganizationsIDs = _.map($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations, function(o) { return o.OrganizationID; });
-            return _.filter($scope.AngularViewData.AllOrganizations, function(f) { return !_.contains(usedOrganizationsIDs, f.OrganizationID); });
+            var newPrimary = {
+                OrganizationID: null,
+                RelationshipTypes: []
+            };
+            $scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.push(newPrimary);
+            $scope.addDetailTier(newPrimary);
         };
 
-        $scope.setLeadOrganization = function(organization)
-        {
-            // if there are no organizations to begin with, we need to make the new record be the lead implementer
-            $scope.AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID = organization.OrganizationID;
+
+        $scope.removeTopTier = function (primarySimple) {
+            Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations,
+                primarySimple);
         };
 
-        $scope.addOrganization = function()
+        $scope.addDetailTier = function(primarySimple)
         {
-            if ($scope.OrganizationToAdd != null)
+            if (primarySimple.RelationshipTypes == undefined)
             {
-                // if there are no organizations to begin with, we need to make the new record be the lead implementer
-                if ($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length == 0)
-                {
-                    $scope.setLeadOrganization($scope.OrganizationToAdd);
-                }
-                var newProjectOrganizationJson = {
-                    OrganizationID: $scope.OrganizationToAdd.OrganizationID,
-                    OrganizationDisplayName: $scope.OrganizationToAdd.DisplayName,
-                    IsFundingOrganization: false,
-                    IsImplementingOrganization: false
-                };
-                $scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.push(newProjectOrganizationJson);
-                $scope.OrganizationToAdd = null;
+                primarySimple.RelationshipTypes = [];
             }
+            primarySimple.RelationshipTypes.push({});
         };
 
-        $scope.deleteOrganization = function(organization)
-        {
-            var isOrganizationTheCurrentLead = organization.OrganizationID == $scope.AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID;
-
-            Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations, organization);
-
-            // if the one deleted was the lead, we need to set a new lead if there are still organizations left
-            if (isOrganizationTheCurrentLead && $scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length > 0)
-            {
-                // set the leaf to the first remaining org
-                $scope.setLeadOrganization($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations[0]);
-            }
+        $scope.removeDetailTier = function(primarySimple, detailSimple) {
+            Sitka.Methods.removeFromJsonArray(primarySimple.RelationshipTypes, detailSimple);
         };
 
-        $scope.isLeadOrganization = function(projectOrganization)
-        {
-            var isOrganizationTheCurrentLead = projectOrganization.OrganizationID == $scope.AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID;
-            if (isOrganizationTheCurrentLead)
-            {
-                projectOrganization.IsImplementingOrganization = true;
-            }
-            return projectOrganization.IsImplementingOrganization;
-        };
+        $scope.updateModel = function(option)
+        {                
+            var primarySimple =
+                Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations,
+                    "OrganizationID",
+                    option.OrganizationID);
+
+            primarySimple.OrganizationID = Number.parseInt(option.OrganizationID);
+        }
+
+        $scope.updateLeadOrgModel = function (option) {
+            $scope.AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID = Number.parseInt(option);
+        }
+
+        $scope.validRelationshipTypes = function(organizationID) {
+            var organization =
+                Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllOrganizations,
+                    "OrganizationID",
+                    organizationID);
+            return organization.ValidRelationshipTypeSimples;
+        }
+
     });
 
     angular.bootstrap(jQuery("#EditOrganizationsAngularApp"), ["EditOrganizationsAngularApp"]);
     // ]]>
 </script>
 
+<style>
+    .table > tbody > tr.subRelationships > td {
+        border-top: none;
+        padding-top: 0;
+    }
+</style>
+
 <div class="validationError">
     @Html.ValidationSummary()
 </div>
 
-<div style="font-weight: bold; margin-bottom: 20px">Organizations Associated with Project</div>
 <div id="EditOrganizationsAngularApp" ng-controller="ProjectOrganizationController">
-    Organization to Add: <select ng-model="OrganizationToAdd" ng-options="organization.DisplayName for organization in filteredOrganizations()">
-        <option value="">Choose One</option>
-    </select>
-    <button class="btn btn-xs btn-firma" type="button" ng-click="addOrganization()">Add</button>
-    <table class="dialogFormLayout">
-        <tr>
-            <th></th>
-            <th>@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
-            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.LeadImplementer)</th>
-            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Implementer)</th>
-            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Funder)</th>
-            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)</th>
-        </tr>
-        <tr ng-repeat="projectOrganization in AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations">
-            <td>
-                <span class="glyphicon glyphicon-trash blue" title="Remove '{{projectOrganization.OrganizationDisplayName}}'" alt="Remove '{{projectOrganization.OrganizationDisplayName}}'" ng-click="deleteOrganization(projectOrganization)" style="cursor: pointer"></span></td>
-            <td>{{projectOrganization.OrganizationDisplayName}}</td>
-            <td>
-                <input type="radio" ng-model="AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID" ng-value="projectOrganization.OrganizationID"/>
-            </td>
-            <td>
-                <input type="checkbox" ng-model="projectOrganization.IsImplementingOrganization" ng-checked="isLeadOrganization(projectOrganization)"/>
-            </td>
-            <td>
-                <input type="checkbox" ng-model="projectOrganization.IsFundingOrganization"/>
-            </td>
-            <td>{{lookupLeadPersonForOrganization(projectOrganization.OrganizationID)}}</td>
-        </tr>
-    </table>
-
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-xs-3">
+                    @Html.LabelWithSugarFor(FieldDefinition.LeadImplementer)
+                </div>
+                <div class="col-xs-9">
+                    <input type="hidden" value="{{AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID}}"
+                           name="LeadOrganizationID"/>
+                    <select style="width: 100%" ng-model="AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID"
+                            name="LeadOrganizationID"
+                            ng-required="true" 
+                            ng-change="updateLeadOrgModel(AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID)">
+                        <option value="" disabled selected>Select an Organization</option>
+                        <option ng-repeat="organization in AngularViewData.AllOrganizations"
+                                value="{{organization.OrganizationID}}"
+                                ng-selected="AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID == organization.OrganizationID"
+                                ng-bind="organization.OrganizationName"></option>
+                    </select>
+                </div>                                
+            </div>
+            <div class="row" style="margin-bottom: 20px;">
+                <div class="col-xs-3">
+                    @Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)
+                </div>
+                <div class="col-xs-9">
+                    {{lookupLeadPersonForOrganization(AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID)}}
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 20px;">
+                <div class="col-xs-6">
+                    <strong>
+                        Enter any other Organizations associated with this Project.
+                    </strong>
+                </div>
+                <div class="col-xs-6">
+                    <button type="button" class="btn btn-sm btn-firma pull-right" ng-click="addTopTier()">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Add Organization
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div ng-show="!AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations || !AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length || AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length < 1">
+                        <span class="systemText">No Organizations Added.</span>
+                    </div>
+                    <table class="table" style="margin-bottom: 50px;" ng-show="AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations && AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length && AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length > 0">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center">Remove<br/>Org.</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
+                            <th style="text-align: center">Remove<br/>Relationship</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType, "Relationship to Project")</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody ng-repeat="primarySimple in AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations">
+                            <tr>
+                                <td style="text-align: center">
+                                    <a href="#" ng-click="removeTopTier(primarySimple); $event.preventDefault();" style="text-decoration: none">
+                                        <i class="glyphicon glyphicon-trash" title="Remove Organization" alt="Remove Organization"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <input type="hidden" value="{{primarySimple.OrganizationID}}"
+                                           name="ProjectOrganizations[{{$index}}].OrganizationID" />
+                                    <select style="width: 100%" ng-model="primarySimple.OrganizationID"
+                                            name="ProjectOrganizations[{{$index}}].OrganizationID"
+                                            ng-required="true"
+                                            ng-change="updateModel(primarySimple)">
+                                        <option value="" disabled selected>Select an Organization</option>
+                                        <option ng-repeat="organization in AngularViewData.AllOrganizations"
+                                                value="{{organization.OrganizationID}}"
+                                                ng-selected="primarySimple.OrganizationID == organization.OrganizationID"
+                                                ng-bind="organization.OrganizationName"></option>
+                                    </select>
+                                </td>
+                                <td style="text-align: center">
+                                    <a href="#" ng-click="removeDetailTier(primarySimple, primarySimple.RelationshipTypes[0]); $event.preventDefault();" ng-class="primarySimple.RelationshipTypes.length <= 1 ? 'disabled' : ''">
+                                        <i class="glyphicon glyphicon-trash" title="Remove Relationship" alt="Remove Relationship"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <input type="hidden" value="{{primarySimple.RelationshipTypes[0].RelationshipTypeID}}"
+                                           name="ProjectOrganizations[{{$index}}].RelationshipTypes[0].RelationshipTypeID" />
+                                    <select style="width: 100%" ng-model="primarySimple.RelationshipTypes[0].RelationshipTypeID" name="ProjectOrganizations[{{$index}}].RelationshipTypes[0].RelationshipTypeID" ng-required="true">
+                                        <option value="" disabled selected>Select a Relationship</option>
+                                        <option ng-repeat="detailType in validRelationshipTypes(primarySimple.OrganizationID)"
+                                                ng-selected="primarySimple.RelationshipTypes[0].RelationshipTypeID == detailType.RelationshipTypeID"
+                                                ng-bind="detailType.RelationshipTypeName"
+                                                value="{{detailType.RelationshipTypeID}}"></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    {{lookupLeadPersonForOrganization(primarySimple.OrganizationID)}}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-firma" ng-click="addDetailTier(primarySimple)" ng-disabled="validRelationshipTypes(primarySimple.OrganizationID).length <= primarySimple.RelationshipTypes.length">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                        Add Relationship
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr ng-repeat="detailSimple in primarySimple.RelationshipTypes.slice(1)" class="subRelationships">
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td style="text-align: center">
+                                    <input type="hidden" value="{{detailSimple.RelationshipTypeID}}"
+                                           name="ProjectOrganizations[{{$parent.$index}}].RelationshipTypes[{{$index+1}}].RelationshipTypeID" />
+                                    <a href="#" ng-click="removeDetailTier(primarySimple, detailSimple); $event.preventDefault();">
+                                        <i class="glyphicon glyphicon-trash" title="Remove Relationship" alt="Remove Relationship"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <select style="width: 100%" ng-model="detailSimple.RelationshipTypeID" name="ProjectOrganizations[{{$parent.$index}}].RelationshipTypes[{{$index+1}}].RelationshipTypeID" ng-required="true">
+                                        <option value="" disabled selected>Select a Relationship</option>
+                                        <option ng-repeat="detailType in validRelationshipTypes(primarySimple.OrganizationID)"
+                                                ng-selected="detailSimple.RelationshipTypeID == detailType.RelationshipTypeID"
+                                                ng-bind="detailType.RelationshipTypeName"
+                                                value="{{detailType.RelationshipTypeID}}"></option>
+                                    </select>
+                                </td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     @using (Html.BeginForm())
     {
         @Html.HiddenFor(x => x.ProjectOrganizationsViewModelJson)

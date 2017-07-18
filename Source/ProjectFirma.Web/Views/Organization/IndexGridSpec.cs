@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Organization
             }
             Add(Models.FieldDefinition.Organization.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.OrganizationName), 400, DhtmlxGridColumnFilterType.Html);
             Add("Abbreviation", a => a.OrganizationAbbreviation, 100);
-            Add(Models.FieldDefinition.Sector.ToGridHeaderString(), a => a.Sector.SectorDisplayName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.OrganizationType.ToGridHeaderString(), a => a.OrganizationType.OrganizationTypeName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.PrimaryContact.ToGridHeaderString(), a => userViewFeature.HasPermission(currentPerson, a.PrimaryContactPerson).HasPermission ? a.PrimaryContactPersonAsUrl : new HtmlString(a.PrimaryContactPersonAsString), 120);
             Add("# of Projects", a => a.GetAllProjectOrganizations().Count, 90);
             Add("# of Funding Sources", a => a.FundingSources.Count, 150);

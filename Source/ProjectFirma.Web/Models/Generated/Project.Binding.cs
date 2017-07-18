@@ -31,13 +31,12 @@ namespace ProjectFirma.Web.Models
             this.ProjectClassifications = new HashSet<ProjectClassification>();
             this.ProjectExemptReportingYears = new HashSet<ProjectExemptReportingYear>();
             this.ProjectExternalLinks = new HashSet<ProjectExternalLink>();
-            this.ProjectFundingOrganizations = new HashSet<ProjectFundingOrganization>();
             this.ProjectFundingSourceExpenditures = new HashSet<ProjectFundingSourceExpenditure>();
             this.ProjectImages = new HashSet<ProjectImage>();
-            this.ProjectImplementingOrganizations = new HashSet<ProjectImplementingOrganization>();
             this.ProjectLocations = new HashSet<ProjectLocation>();
             this.ProjectLocationStagings = new HashSet<ProjectLocationStaging>();
             this.ProjectNotes = new HashSet<ProjectNote>();
+            this.ProjectOrganizations = new HashSet<ProjectOrganization>();
             this.ProjectTags = new HashSet<ProjectTag>();
             this.ProjectUpdateBatches = new HashSet<ProjectUpdateBatch>();
             this.ProjectWatersheds = new HashSet<ProjectWatershed>();
@@ -49,7 +48,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int? primaryContactPersonID) : this()
+        public Project(int projectID, int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int? primaryContactPersonID, int? leadImplementerOrganizationID) : this()
         {
             this.ProjectID = projectID;
             this.TaxonomyTierOneID = taxonomyTierOneID;
@@ -70,6 +69,7 @@ namespace ProjectFirma.Web.Models
             this.EstimatedAnnualOperatingCost = estimatedAnnualOperatingCost;
             this.FundingTypeID = fundingTypeID;
             this.PrimaryContactPersonID = primaryContactPersonID;
+            this.LeadImplementerOrganizationID = leadImplementerOrganizationID;
         }
 
         /// <summary>
@@ -121,13 +121,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return NotificationProjects.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureExpecteds.Any() || ProjectAssessmentQuestions.Any() || ProjectBudgets.Any() || ProjectClassifications.Any() || ProjectExemptReportingYears.Any() || ProjectExternalLinks.Any() || ProjectFundingOrganizations.Any() || ProjectFundingSourceExpenditures.Any() || ProjectImages.Any() || ProjectImplementingOrganizations.Any() || ProjectLocations.Any() || ProjectLocationStagings.Any() || ProjectNotes.Any() || ProjectTags.Any() || ProjectUpdateBatches.Any() || ProjectWatersheds.Any() || (ProposedProject != null) || SnapshotProjects.Any();
+            return NotificationProjects.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureExpecteds.Any() || ProjectAssessmentQuestions.Any() || ProjectBudgets.Any() || ProjectClassifications.Any() || ProjectExemptReportingYears.Any() || ProjectExternalLinks.Any() || ProjectFundingSourceExpenditures.Any() || ProjectImages.Any() || ProjectLocations.Any() || ProjectLocationStagings.Any() || ProjectNotes.Any() || ProjectOrganizations.Any() || ProjectTags.Any() || ProjectUpdateBatches.Any() || ProjectWatersheds.Any() || (ProposedProject != null) || SnapshotProjects.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Project).Name, typeof(NotificationProject).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureExpected).Name, typeof(ProjectAssessmentQuestion).Name, typeof(ProjectBudget).Name, typeof(ProjectClassification).Name, typeof(ProjectExemptReportingYear).Name, typeof(ProjectExternalLink).Name, typeof(ProjectFundingOrganization).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectImage).Name, typeof(ProjectImplementingOrganization).Name, typeof(ProjectLocation).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectNote).Name, typeof(ProjectTag).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectWatershed).Name, typeof(ProposedProject).Name, typeof(SnapshotProject).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Project).Name, typeof(NotificationProject).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureExpected).Name, typeof(ProjectAssessmentQuestion).Name, typeof(ProjectBudget).Name, typeof(ProjectClassification).Name, typeof(ProjectExemptReportingYear).Name, typeof(ProjectExternalLink).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectImage).Name, typeof(ProjectLocation).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectNote).Name, typeof(ProjectOrganization).Name, typeof(ProjectTag).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectWatershed).Name, typeof(ProposedProject).Name, typeof(SnapshotProject).Name};
 
         [Key]
         public int ProjectID { get; set; }
@@ -150,6 +150,7 @@ namespace ProjectFirma.Web.Models
         public decimal? EstimatedAnnualOperatingCost { get; set; }
         public int FundingTypeID { get; set; }
         public int? PrimaryContactPersonID { get; set; }
+        public int? LeadImplementerOrganizationID { get; set; }
         public int PrimaryKey { get { return ProjectID; } set { ProjectID = value; } }
 
         public virtual ICollection<NotificationProject> NotificationProjects { get; set; }
@@ -160,13 +161,12 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProjectClassification> ProjectClassifications { get; set; }
         public virtual ICollection<ProjectExemptReportingYear> ProjectExemptReportingYears { get; set; }
         public virtual ICollection<ProjectExternalLink> ProjectExternalLinks { get; set; }
-        public virtual ICollection<ProjectFundingOrganization> ProjectFundingOrganizations { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; set; }
         public virtual ICollection<ProjectImage> ProjectImages { get; set; }
-        public virtual ICollection<ProjectImplementingOrganization> ProjectImplementingOrganizations { get; set; }
         public virtual ICollection<ProjectLocation> ProjectLocations { get; set; }
         public virtual ICollection<ProjectLocationStaging> ProjectLocationStagings { get; set; }
         public virtual ICollection<ProjectNote> ProjectNotes { get; set; }
+        public virtual ICollection<ProjectOrganization> ProjectOrganizations { get; set; }
         public virtual ICollection<ProjectTag> ProjectTags { get; set; }
         public virtual ICollection<ProjectUpdateBatch> ProjectUpdateBatches { get; set; }
         public virtual ICollection<ProjectWatershed> ProjectWatersheds { get; set; }
@@ -180,6 +180,7 @@ namespace ProjectFirma.Web.Models
         public ProjectLocationSimpleType ProjectLocationSimpleType { get { return ProjectLocationSimpleType.AllLookupDictionary[ProjectLocationSimpleTypeID]; } }
         public FundingType FundingType { get { return FundingType.AllLookupDictionary[FundingTypeID]; } }
         public virtual Person PrimaryContactPerson { get; set; }
+        public virtual Organization LeadImplementerOrganization { get; set; }
 
         public static class FieldLengths
         {

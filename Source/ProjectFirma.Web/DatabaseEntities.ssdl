@@ -25,6 +25,8 @@
     <EntitySet Name="NotificationProposedProject" EntityType="ProjectFirma.Web.Models.Store.NotificationProposedProject" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Organization" EntityType="ProjectFirma.Web.Models.Store.Organization" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="OrganizationBoundaryStaging" EntityType="ProjectFirma.Web.Models.Store.OrganizationBoundaryStaging" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrganizationType" EntityType="ProjectFirma.Web.Models.Store.OrganizationType" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrganizationTypeRelationshipType" EntityType="ProjectFirma.Web.Models.Store.OrganizationTypeRelationshipType" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PerformanceMeasureActual" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureActual" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PerformanceMeasureActualSubcategoryOption" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasureActualSubcategoryOption" store:Type="Tables" Schema="dbo" />
@@ -48,12 +50,10 @@
     <EntitySet Name="ProjectExemptReportingYearUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectExemptReportingYearUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectExternalLink" EntityType="ProjectFirma.Web.Models.Store.ProjectExternalLink" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectExternalLinkUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectExternalLinkUpdate" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProjectFundingOrganization" EntityType="ProjectFirma.Web.Models.Store.ProjectFundingOrganization" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectFundingSourceExpenditure" EntityType="ProjectFirma.Web.Models.Store.ProjectFundingSourceExpenditure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectFundingSourceExpenditureUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectFundingSourceExpenditureUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectImage" EntityType="ProjectFirma.Web.Models.Store.ProjectImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectImageUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectImageUpdate" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProjectImplementingOrganization" EntityType="ProjectFirma.Web.Models.Store.ProjectImplementingOrganization" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectLocation" EntityType="ProjectFirma.Web.Models.Store.ProjectLocation" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectLocationArea" EntityType="ProjectFirma.Web.Models.Store.ProjectLocationArea" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectLocationAreaGroup" EntityType="ProjectFirma.Web.Models.Store.ProjectLocationAreaGroup" store:Type="Tables" Schema="dbo" />
@@ -64,6 +64,7 @@
     <EntitySet Name="ProjectLocationUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectLocationUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectNote" EntityType="ProjectFirma.Web.Models.Store.ProjectNote" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectNoteUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectNoteUpdate" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProjectOrganization" EntityType="ProjectFirma.Web.Models.Store.ProjectOrganization" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectTag" EntityType="ProjectFirma.Web.Models.Store.ProjectTag" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectUpdateBatch" EntityType="ProjectFirma.Web.Models.Store.ProjectUpdateBatch" store:Type="Tables" Schema="dbo" />
@@ -76,11 +77,12 @@
     <EntitySet Name="ProposedProjectLocation" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectLocation" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProposedProjectLocationStaging" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectLocationStaging" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProposedProjectNote" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectNote" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RelationshipType" EntityType="ProjectFirma.Web.Models.Store.RelationshipType" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Snapshot" EntityType="ProjectFirma.Web.Models.Store.Snapshot" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SnapshotOrganizationTypeExpenditure" EntityType="ProjectFirma.Web.Models.Store.SnapshotOrganizationTypeExpenditure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SnapshotPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.SnapshotPerformanceMeasure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SnapshotPerformanceMeasureSubcategoryOption" EntityType="ProjectFirma.Web.Models.Store.SnapshotPerformanceMeasureSubcategoryOption" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SnapshotProject" EntityType="ProjectFirma.Web.Models.Store.SnapshotProject" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="SnapshotSectorExpenditure" EntityType="ProjectFirma.Web.Models.Store.SnapshotSectorExpenditure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="StateProvince" EntityType="ProjectFirma.Web.Models.Store.StateProvince" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupportRequestLog" EntityType="ProjectFirma.Web.Models.Store.SupportRequestLog" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Tag" EntityType="ProjectFirma.Web.Models.Store.Tag" store:Type="Tables" Schema="dbo" />
@@ -186,6 +188,10 @@
       <End Role="LogoFileResource" EntitySet="FileResource" />
       <End Role="OrganizationsWhereYouAreTheLogoFileResource" EntitySet="Organization" />
     </AssociationSet>
+    <AssociationSet Name="FK_Organization_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.Store.FK_Organization_OrganizationType_OrganizationTypeID">
+      <End Role="OrganizationType" EntitySet="OrganizationType" />
+      <End Role="Organizations" EntitySet="Organization" />
+    </AssociationSet>
     <AssociationSet Name="FK_Organization_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_Organization_Person_PrimaryContactPersonID_PersonID">
       <End Role="PrimaryContactPerson" EntitySet="Person" />
       <End Role="OrganizationsWhereYouAreThePrimaryContactPerson" EntitySet="Organization" />
@@ -193,6 +199,14 @@
     <AssociationSet Name="FK_OrganizationBoundaryStaging_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_OrganizationBoundaryStaging_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
       <End Role="OrganizationBoundaryStagings" EntitySet="OrganizationBoundaryStaging" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.Store.FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID">
+      <End Role="OrganizationType" EntitySet="OrganizationType" />
+      <End Role="OrganizationTypeRelationshipTypes" EntitySet="OrganizationTypeRelationshipType" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID" Association="ProjectFirma.Web.Models.Store.FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID">
+      <End Role="RelationshipType" EntitySet="RelationshipType" />
+      <End Role="OrganizationTypeRelationshipTypes" EntitySet="OrganizationTypeRelationshipType" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
@@ -322,6 +336,10 @@
       <End Role="Organization" EntitySet="Organization" />
       <End Role="People" EntitySet="Person" />
     </AssociationSet>
+    <AssociationSet Name="FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID">
+      <End Role="LeadImplementerOrganization" EntitySet="Organization" />
+      <End Role="ProjectsWhereYouAreTheLeadImplementerOrganization" EntitySet="Project" />
+    </AssociationSet>
     <AssociationSet Name="FK_Project_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_Project_Person_PrimaryContactPersonID_PersonID">
       <End Role="PrimaryContactPerson" EntitySet="Person" />
       <End Role="ProjectsWhereYouAreThePrimaryContactPerson" EntitySet="Project" />
@@ -382,14 +400,6 @@
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectExternalLinkUpdates" EntitySet="ProjectExternalLinkUpdate" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProjectFundingOrganization_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFundingOrganization_Organization_OrganizationID">
-      <End Role="Organization" EntitySet="Organization" />
-      <End Role="ProjectFundingOrganizations" EntitySet="ProjectFundingOrganization" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectFundingOrganization_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFundingOrganization_Project_ProjectID">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="ProjectFundingOrganizations" EntitySet="ProjectFundingOrganization" />
-    </AssociationSet>
     <AssociationSet Name="FK_ProjectFundingSourceExpenditure_FundingSource_FundingSourceID" Association="ProjectFirma.Web.Models.Store.FK_ProjectFundingSourceExpenditure_FundingSource_FundingSourceID">
       <End Role="FundingSource" EntitySet="FundingSource" />
       <End Role="ProjectFundingSourceExpenditures" EntitySet="ProjectFundingSourceExpenditure" />
@@ -425,14 +435,6 @@
     <AssociationSet Name="FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectImageUpdates" EntitySet="ProjectImageUpdate" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectImplementingOrganization_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_ProjectImplementingOrganization_Organization_OrganizationID">
-      <End Role="Organization" EntitySet="Organization" />
-      <End Role="ProjectImplementingOrganizations" EntitySet="ProjectImplementingOrganization" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectImplementingOrganization_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectImplementingOrganization_Project_ProjectID">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="ProjectImplementingOrganizations" EntitySet="ProjectImplementingOrganization" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectLocation_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocation_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
@@ -513,6 +515,18 @@
     <AssociationSet Name="FK_ProjectNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectNoteUpdates" EntitySet="ProjectNoteUpdate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectOrganization_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_ProjectOrganization_Organization_OrganizationID">
+      <End Role="Organization" EntitySet="Organization" />
+      <End Role="ProjectOrganizations" EntitySet="ProjectOrganization" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectOrganization_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectOrganization_Project_ProjectID">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectOrganizations" EntitySet="ProjectOrganization" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectOrganization_RelationshipType_RelationshipTypeID" Association="ProjectFirma.Web.Models.Store.FK_ProjectOrganization_RelationshipType_RelationshipTypeID">
+      <End Role="RelationshipType" EntitySet="RelationshipType" />
+      <End Role="ProjectOrganizations" EntitySet="ProjectOrganization" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectTag_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProjectTag_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
@@ -626,6 +640,14 @@
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectNotes" EntitySet="ProposedProjectNote" />
     </AssociationSet>
+    <AssociationSet Name="FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID">
+      <End Role="OrganizationType" EntitySet="OrganizationType" />
+      <End Role="SnapshotOrganizationTypeExpenditures" EntitySet="SnapshotOrganizationTypeExpenditure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID">
+      <End Role="Snapshot" EntitySet="Snapshot" />
+      <End Role="SnapshotOrganizationTypeExpenditures" EntitySet="SnapshotOrganizationTypeExpenditure" />
+    </AssociationSet>
     <AssociationSet Name="FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
       <End Role="SnapshotPerformanceMeasures" EntitySet="SnapshotPerformanceMeasure" />
@@ -657,10 +679,6 @@
     <AssociationSet Name="FK_SnapshotProject_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotProject_Snapshot_SnapshotID">
       <End Role="Snapshot" EntitySet="Snapshot" />
       <End Role="SnapshotProjects" EntitySet="SnapshotProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SnapshotSectorExpenditure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotSectorExpenditure_Snapshot_SnapshotID">
-      <End Role="Snapshot" EntitySet="Snapshot" />
-      <End Role="SnapshotSectorExpenditures" EntitySet="SnapshotSectorExpenditure" />
     </AssociationSet>
     <AssociationSet Name="FK_SupportRequestLog_Person_RequestPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_SupportRequestLog_Person_RequestPersonID_PersonID">
       <End Role="RequestPerson" EntitySet="Person" />
@@ -990,8 +1008,8 @@ warning 6035: The relationship 'FK_FundingSource_Organization_OrganizationID_Ten
 warning 6035: The relationship 'FK_MonitoringProgramPartner_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_OrganizationBoundaryStaging_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_Person_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProjectFundingOrganization_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProjectImplementingOrganization_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_Project_Organization_LeadImplementerOrganizationID_TenantID_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectOrganization_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProposedProject_Organization_LeadImplementerOrganizationID_TenantID_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="Organization">
@@ -1002,12 +1020,12 @@ warning 6035: The relationship 'FK_ProposedProject_Organization_LeadImplementerO
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="OrganizationGuid" Type="uniqueidentifier" />
     <Property Name="OrganizationName" Type="varchar" Nullable="false" MaxLength="200" />
-    <Property Name="OrganizationAbbreviation" Type="varchar" MaxLength="20" />
-    <Property Name="SectorID" Type="int" Nullable="false" />
+    <Property Name="OrganizationAbbreviation" Type="varchar" MaxLength="50" />
     <Property Name="PrimaryContactPersonID" Type="int" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="OrganizationUrl" Type="varchar" MaxLength="200" />
     <Property Name="LogoFileResourceID" Type="int" />
+    <Property Name="OrganizationTypeID" Type="int" />
     <Property Name="OrganizationBoundary" Type="geometry" />
   </EntityType>
   <EntityType Name="OrganizationBoundaryStaging">
@@ -1019,6 +1037,29 @@ warning 6035: The relationship 'FK_ProposedProject_Organization_LeadImplementerO
     <Property Name="OrganizationID" Type="int" Nullable="false" />
     <Property Name="FeatureClassName" Type="varchar" Nullable="false" MaxLength="255" />
     <Property Name="GeoJson" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+-->
+  <EntityType Name="OrganizationType">
+    <Key>
+      <PropertyRef Name="OrganizationTypeID" />
+    </Key>
+    <Property Name="OrganizationTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="OrganizationTypeName" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="OrganizationTypeAbbreviation" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="LegendColor" Type="varchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="OrganizationTypeRelationshipType">
+    <Key>
+      <PropertyRef Name="OrganizationTypeRelationshipTypeID" />
+    </Key>
+    <Property Name="OrganizationTypeRelationshipTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="OrganizationTypeID" Type="int" Nullable="false" />
+    <Property Name="RelationshipTypeID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ClassificationPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1272,13 +1313,12 @@ warning 6035: The relationship 'FK_ProjectBudget_Project_ProjectID_TenantID' has
 warning 6035: The relationship 'FK_ProjectClassification_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectExemptReportingYear_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectExternalLink_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProjectFundingOrganization_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectFundingSourceExpenditure_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectImage_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProjectImplementingOrganization_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocation_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectLocationStaging_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectNote_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectOrganization_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectTag_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectUpdateBatch_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectWatershed_Project_ProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1309,6 +1349,7 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="EstimatedAnnualOperatingCost" Type="decimal" />
     <Property Name="FundingTypeID" Type="int" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="int" />
+    <Property Name="LeadImplementerOrganizationID" Type="int" />
   </EntityType>
   <EntityType Name="ProjectAssessmentQuestion">
     <Key>
@@ -1392,15 +1433,6 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="ExternalLinkLabel" Type="varchar" Nullable="false" MaxLength="300" />
     <Property Name="ExternalLinkUrl" Type="varchar" Nullable="false" MaxLength="300" />
   </EntityType>
-  <EntityType Name="ProjectFundingOrganization">
-    <Key>
-      <PropertyRef Name="ProjectFundingOrganizationID" />
-    </Key>
-    <Property Name="ProjectFundingOrganizationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProjectID" Type="int" Nullable="false" />
-    <Property Name="OrganizationID" Type="int" Nullable="false" />
-  </EntityType>
   <EntityType Name="ProjectFundingSourceExpenditure">
     <Key>
       <PropertyRef Name="ProjectFundingSourceExpenditureID" />
@@ -1454,16 +1486,6 @@ warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageI
     <Property Name="IsKeyPhoto" Type="bit" Nullable="false" />
     <Property Name="ExcludeFromFactSheet" Type="bit" Nullable="false" />
     <Property Name="ProjectImageID" Type="int" />
-  </EntityType>
-  <EntityType Name="ProjectImplementingOrganization">
-    <Key>
-      <PropertyRef Name="ProjectImplementingOrganizationID" />
-    </Key>
-    <Property Name="ProjectImplementingOrganizationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProjectID" Type="int" Nullable="false" />
-    <Property Name="OrganizationID" Type="int" Nullable="false" />
-    <Property Name="IsLeadOrganization" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectLocation">
     <Key>
@@ -1583,6 +1605,16 @@ warning 6035: The relationship 'FK_ProjectLocationArea_ProjectLocationAreaGroup_
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
     <Property Name="UpdatePersonID" Type="int" />
     <Property Name="UpdateDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="ProjectOrganization">
+    <Key>
+      <PropertyRef Name="ProjectOrganizationID" />
+    </Key>
+    <Property Name="ProjectOrganizationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="ProjectID" Type="int" Nullable="false" />
+    <Property Name="OrganizationID" Type="int" Nullable="false" />
+    <Property Name="RelationshipTypeID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectTag">
     <Key>
@@ -1784,9 +1816,21 @@ warning 6035: The relationship 'FK_ProposedProjectNote_ProposedProject_ProposedP
     <Property Name="UpdateDate" Type="datetime" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectOrganization_RelationshipType_RelationshipTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+-->
+  <EntityType Name="RelationshipType">
+    <Key>
+      <PropertyRef Name="RelationshipTypeID" />
+    </Key>
+    <Property Name="RelationshipTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="RelationshipTypeName" Type="varchar" Nullable="false" MaxLength="200" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_SnapshotProject_Snapshot_SnapshotID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_SnapshotSectorExpenditure_Snapshot_SnapshotID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="Snapshot">
     <Key>
@@ -1797,6 +1841,17 @@ warning 6035: The relationship 'FK_SnapshotSectorExpenditure_Snapshot_SnapshotID
     <Property Name="SnapshotDate" Type="date" Nullable="false" />
     <Property Name="SnapshotNote" Type="varchar" MaxLength="200" />
     <Property Name="ProjectCount" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SnapshotOrganizationTypeExpenditure">
+    <Key>
+      <PropertyRef Name="SnapshotOrganizationTypeExpenditureID" />
+    </Key>
+    <Property Name="SnapshotOrganizationTypeExpenditureID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="SnapshotID" Type="int" Nullable="false" />
+    <Property Name="CalendarYear" Type="int" Nullable="false" />
+    <Property Name="ExpenditureAmount" Type="money" Nullable="false" />
+    <Property Name="OrganizationTypeID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID_PerformanceMeasureID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1833,17 +1888,6 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
     <Property Name="SnapshotID" Type="int" Nullable="false" />
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="SnapshotProjectTypeID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="SnapshotSectorExpenditure">
-    <Key>
-      <PropertyRef Name="SnapshotSectorExpenditureID" />
-    </Key>
-    <Property Name="SnapshotSectorExpenditureID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="SnapshotID" Type="int" Nullable="false" />
-    <Property Name="SectorID" Type="int" Nullable="false" />
-    <Property Name="CalendarYear" Type="int" Nullable="false" />
-    <Property Name="ExpenditureAmount" Type="money" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_County_StateProvince_StateProvinceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -2261,6 +2305,18 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Organization_OrganizationType_OrganizationTypeID">
+    <End Role="OrganizationType" Type="ProjectFirma.Web.Models.Store.OrganizationType" Multiplicity="0..1" />
+    <End Role="Organizations" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrganizationType">
+        <PropertyRef Name="OrganizationTypeID" />
+      </Principal>
+      <Dependent Role="Organizations">
+        <PropertyRef Name="OrganizationTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Organization_Person_PrimaryContactPersonID_PersonID">
     <End Role="PrimaryContactPerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
     <End Role="OrganizationsWhereYouAreThePrimaryContactPerson" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="*" />
@@ -2282,6 +2338,30 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Principal>
       <Dependent Role="OrganizationBoundaryStagings">
         <PropertyRef Name="OrganizationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID">
+    <End Role="OrganizationType" Type="ProjectFirma.Web.Models.Store.OrganizationType" Multiplicity="1" />
+    <End Role="OrganizationTypeRelationshipTypes" Type="ProjectFirma.Web.Models.Store.OrganizationTypeRelationshipType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrganizationType">
+        <PropertyRef Name="OrganizationTypeID" />
+      </Principal>
+      <Dependent Role="OrganizationTypeRelationshipTypes">
+        <PropertyRef Name="OrganizationTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID">
+    <End Role="RelationshipType" Type="ProjectFirma.Web.Models.Store.RelationshipType" Multiplicity="1" />
+    <End Role="OrganizationTypeRelationshipTypes" Type="ProjectFirma.Web.Models.Store.OrganizationTypeRelationshipType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RelationshipType">
+        <PropertyRef Name="RelationshipTypeID" />
+      </Principal>
+      <Dependent Role="OrganizationTypeRelationshipTypes">
+        <PropertyRef Name="RelationshipTypeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2669,6 +2749,18 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID">
+    <End Role="LeadImplementerOrganization" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="0..1" />
+    <End Role="ProjectsWhereYouAreTheLeadImplementerOrganization" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LeadImplementerOrganization">
+        <PropertyRef Name="OrganizationID" />
+      </Principal>
+      <Dependent Role="ProjectsWhereYouAreTheLeadImplementerOrganization">
+        <PropertyRef Name="LeadImplementerOrganizationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Project_Person_PrimaryContactPersonID_PersonID">
     <End Role="PrimaryContactPerson" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="0..1" />
     <End Role="ProjectsWhereYouAreThePrimaryContactPerson" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="*" />
@@ -2849,30 +2941,6 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProjectFundingOrganization_Organization_OrganizationID">
-    <End Role="Organization" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="1" />
-    <End Role="ProjectFundingOrganizations" Type="ProjectFirma.Web.Models.Store.ProjectFundingOrganization" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Organization">
-        <PropertyRef Name="OrganizationID" />
-      </Principal>
-      <Dependent Role="ProjectFundingOrganizations">
-        <PropertyRef Name="OrganizationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectFundingOrganization_Project_ProjectID">
-    <End Role="Project" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="1" />
-    <End Role="ProjectFundingOrganizations" Type="ProjectFirma.Web.Models.Store.ProjectFundingOrganization" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectID" />
-      </Principal>
-      <Dependent Role="ProjectFundingOrganizations">
-        <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ProjectFundingSourceExpenditure_FundingSource_FundingSourceID">
     <End Role="FundingSource" Type="ProjectFirma.Web.Models.Store.FundingSource" Multiplicity="1" />
     <End Role="ProjectFundingSourceExpenditures" Type="ProjectFirma.Web.Models.Store.ProjectFundingSourceExpenditure" Multiplicity="*" />
@@ -2978,30 +3046,6 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Principal>
       <Dependent Role="ProjectImageUpdates">
         <PropertyRef Name="ProjectUpdateBatchID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectImplementingOrganization_Organization_OrganizationID">
-    <End Role="Organization" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="1" />
-    <End Role="ProjectImplementingOrganizations" Type="ProjectFirma.Web.Models.Store.ProjectImplementingOrganization" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Organization">
-        <PropertyRef Name="OrganizationID" />
-      </Principal>
-      <Dependent Role="ProjectImplementingOrganizations">
-        <PropertyRef Name="OrganizationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectImplementingOrganization_Project_ProjectID">
-    <End Role="Project" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="1" />
-    <End Role="ProjectImplementingOrganizations" Type="ProjectFirma.Web.Models.Store.ProjectImplementingOrganization" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectID" />
-      </Principal>
-      <Dependent Role="ProjectImplementingOrganizations">
-        <PropertyRef Name="ProjectID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3242,6 +3286,42 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Principal>
       <Dependent Role="ProjectNoteUpdates">
         <PropertyRef Name="ProjectUpdateBatchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectOrganization_Organization_OrganizationID">
+    <End Role="Organization" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="1" />
+    <End Role="ProjectOrganizations" Type="ProjectFirma.Web.Models.Store.ProjectOrganization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organization">
+        <PropertyRef Name="OrganizationID" />
+      </Principal>
+      <Dependent Role="ProjectOrganizations">
+        <PropertyRef Name="OrganizationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectOrganization_Project_ProjectID">
+    <End Role="Project" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="1" />
+    <End Role="ProjectOrganizations" Type="ProjectFirma.Web.Models.Store.ProjectOrganization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="ProjectOrganizations">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectOrganization_RelationshipType_RelationshipTypeID">
+    <End Role="RelationshipType" Type="ProjectFirma.Web.Models.Store.RelationshipType" Multiplicity="1" />
+    <End Role="ProjectOrganizations" Type="ProjectFirma.Web.Models.Store.ProjectOrganization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RelationshipType">
+        <PropertyRef Name="RelationshipTypeID" />
+      </Principal>
+      <Dependent Role="ProjectOrganizations">
+        <PropertyRef Name="RelationshipTypeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3581,6 +3661,30 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID">
+    <End Role="OrganizationType" Type="ProjectFirma.Web.Models.Store.OrganizationType" Multiplicity="1" />
+    <End Role="SnapshotOrganizationTypeExpenditures" Type="ProjectFirma.Web.Models.Store.SnapshotOrganizationTypeExpenditure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrganizationType">
+        <PropertyRef Name="OrganizationTypeID" />
+      </Principal>
+      <Dependent Role="SnapshotOrganizationTypeExpenditures">
+        <PropertyRef Name="OrganizationTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID">
+    <End Role="Snapshot" Type="ProjectFirma.Web.Models.Store.Snapshot" Multiplicity="1" />
+    <End Role="SnapshotOrganizationTypeExpenditures" Type="ProjectFirma.Web.Models.Store.SnapshotOrganizationTypeExpenditure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Snapshot">
+        <PropertyRef Name="SnapshotID" />
+      </Principal>
+      <Dependent Role="SnapshotOrganizationTypeExpenditures">
+        <PropertyRef Name="SnapshotID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_SnapshotPerformanceMeasure_PerformanceMeasure_PerformanceMeasureID">
     <End Role="PerformanceMeasure" Type="ProjectFirma.Web.Models.Store.PerformanceMeasure" Multiplicity="1" />
     <End Role="SnapshotPerformanceMeasures" Type="ProjectFirma.Web.Models.Store.SnapshotPerformanceMeasure" Multiplicity="*" />
@@ -3673,18 +3777,6 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
         <PropertyRef Name="SnapshotID" />
       </Principal>
       <Dependent Role="SnapshotProjects">
-        <PropertyRef Name="SnapshotID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SnapshotSectorExpenditure_Snapshot_SnapshotID">
-    <End Role="Snapshot" Type="ProjectFirma.Web.Models.Store.Snapshot" Multiplicity="1" />
-    <End Role="SnapshotSectorExpenditures" Type="ProjectFirma.Web.Models.Store.SnapshotSectorExpenditure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Snapshot">
-        <PropertyRef Name="SnapshotID" />
-      </Principal>
-      <Dependent Role="SnapshotSectorExpenditures">
         <PropertyRef Name="SnapshotID" />
       </Dependent>
     </ReferentialConstraint>

@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var latestNotApprovedUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             var viewModel = new EditProjectViewModel(project, latestNotApprovedUpdateBatch != null);
-            return ViewEdit(viewModel, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, latestNotApprovedUpdateBatch, project.LeadImplementer);
+            return ViewEdit(viewModel, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, latestNotApprovedUpdateBatch, project.LeadImplementerOrganization);
         }
 
         [HttpPost]
@@ -101,7 +101,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, project.GetLatestNotApprovedUpdateBatch(), project.LeadImplementer);
+                return ViewEdit(viewModel, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, project.GetLatestNotApprovedUpdateBatch(), project.LeadImplementerOrganization);
             }
             viewModel.UpdateModel(project);
             return new ModalDialogFormJsonResult();
@@ -269,7 +269,7 @@ namespace ProjectFirma.Web.Controllers
             var selectKeyImageUrl = (new ProjectImageSetKeyPhotoFeature().HasPermissionByPerson(currentPerson))
                 ? SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.SetKeyPhoto(UrlTemplate.Parameter1Int))
                 : string.Empty;
-            var galleryName = string.Format("ProjectImage{0}", project.ProjectID);
+            var galleryName = $"ProjectImage{project.ProjectID}";
             var imageGalleryViewData = new ImageGalleryViewData(currentPerson,
                 galleryName,
                 project.ProjectImages,
@@ -307,7 +307,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult FactSheet(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var mapDivID = string.Format("project_{0}_Map", project.ProjectID);
+            var mapDivID = $"project_{project.ProjectID}_Map";
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID);
             var viewData = new FactSheetViewData(CurrentPerson, project, projectLocationSummaryMapInitJson, FirmaHelpers.DefaultColorRange);
             return RazorView<FactSheet, FactSheetViewData>(viewData);
@@ -356,8 +356,8 @@ namespace ProjectFirma.Web.Controllers
             var wsProjectDescriptions = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Project Descriptions", projectsDescriptionSpec, projects);
 
             var organizationsSpec = new ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec();
-            var projectImplementingOrganizationOrProjectFundingOrganizations = (projects.SelectMany(p => p.GetAllProjectOrganizations())).ToList();
-            var wsOrganizations = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Project Organizations", organizationsSpec, projectImplementingOrganizationOrProjectFundingOrganizations);
+            var projectOrganizations = projects.SelectMany(p => p.ProjectOrganizations).ToList();
+            var wsOrganizations = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Project Organizations", organizationsSpec, projectOrganizations);
 
             var projectNoteSpec = new ProjectNoteExcelSpec();
             var projectNotes = (projects.SelectMany(p => p.ProjectNotes)).ToList();
@@ -365,13 +365,15 @@ namespace ProjectFirma.Web.Controllers
 
             var performanceMeasureExpectedExcelSpec = new PerformanceMeasureExpectedExcelSpec();
             var performanceMeasureExpecteds = (projects.SelectMany(p => p.PerformanceMeasureExpecteds)).ToList();
-            var wsPerformanceMeasureExpecteds = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(string.Format("Expected {0}s", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()),
+            var wsPerformanceMeasureExpecteds = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(
+                $"Expected {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}s",
                 performanceMeasureExpectedExcelSpec,
                 performanceMeasureExpecteds);
 
             var performanceMeasureActualExcelSpec = new PerformanceMeasureActualExcelSpec();
             var performanceMeasureActuals = (projects.SelectMany(p => p.GetReportedPerformanceMeasures())).ToList();
-            var wsPerformanceMeasureActuals = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(string.Format("Reported {0}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()), performanceMeasureActualExcelSpec, performanceMeasureActuals);
+            var wsPerformanceMeasureActuals = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(
+                $"Reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}", performanceMeasureActualExcelSpec, performanceMeasureActuals);
 
             var projectFundingSourceExpenditureSpec = new ProjectFundingSourceExpenditureExcelSpec();
             var projectFundingSourceExpenditures = (projects.SelectMany(p => p.ProjectFundingSourceExpenditures)).ToList();
@@ -383,7 +385,8 @@ namespace ProjectFirma.Web.Controllers
 
             var projectClassificationSpec = new ProjectClassificationExcelSpec();
             var projectClassifications = projects.SelectMany(p => p.ProjectClassifications).ToList();
-            var wsProjectClassifications = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(string.Format("Project {0}", FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()), projectClassificationSpec, projectClassifications);
+            var wsProjectClassifications = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(
+                $"Project {FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()}", projectClassificationSpec, projectClassifications);
 
             
             var workSheets = new List<IExcelWorkbookSheetDescriptor>
@@ -441,8 +444,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProject(project, viewModel);
             }
             // since we do not check for these in the CanDelete call, we need to remove them manually; this is because we are requiring a lead organization for each project, so the editor no longer supports deletion of all organizations per Mingle story #209.
-            project.ProjectImplementingOrganizations.DeleteProjectImplementingOrganization();
-            project.ProjectFundingOrganizations.DeleteProjectFundingOrganization();
+            project.ProjectOrganizations.DeleteProjectOrganization();           
             project.ProjectClassifications.DeleteProjectClassification();
             project.SnapshotProjects.DeleteSnapshotProject();
             project.ProjectTags.DeleteProjectTag();
@@ -612,7 +614,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static string GenerateEditProjectLocationFormID(Project project)
         {
-            return string.Format("editMapForProject{0}", project.ProjectID);
+            return $"editMapForProject{project.ProjectID}";
         }
 
         [HttpGet]
@@ -711,7 +713,7 @@ Continue with a new project update?
             var project = projectPrimaryKey.EntityObject;
             var fundingSourceExpenditures = project.GetExpendituresDictionary();
             var googleChartDataTable = GetProjectFactSheetGoogleChartDataTable(fundingSourceExpenditures);
-            var googleChartTitle = string.Format("Investment by Funding Sector for: {0}", project.ProjectName);
+            var googleChartTitle = string.Format("Investment by Funding Source for: {0}", project.ProjectName);
             var googleChartConfiguration = new GooglePieChartConfiguration(googleChartTitle, MeasurementUnitType.Dollars, chartSize, chartSize)
             {
                 Slices = GetSlicesForGoogleChart(fundingSourceExpenditures)
@@ -724,13 +726,13 @@ Continue with a new project update?
 
         public static GoogleChartDataTable GetProjectFactSheetGoogleChartDataTable(Dictionary<string, decimal> fundingSourceExpenditures)
         {
-            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn("Funding Sector", GoogleChartColumnDataType.String, GoogleChartType.PieChart), new GoogleChartColumn("Expenditures", GoogleChartColumnDataType.Number, GoogleChartType.PieChart) };
+            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn("Funding Source", GoogleChartColumnDataType.String, GoogleChartType.PieChart), new GoogleChartColumn("Expenditures", GoogleChartColumnDataType.Number, GoogleChartType.PieChart) };
             var chartRowCs = fundingSourceExpenditures.Select(x =>
             {
-                var sectorRowV = new GoogleChartRowV(x.Key);
+                var organizationTypeRowV = new GoogleChartRowV(x.Key);
                 var formattedValue = GoogleChartJson.GetFormattedValue((double)x.Value, MeasurementUnitType.Dollars);
                 var expenditureRowV = new GoogleChartRowV(x.Value, formattedValue);
-                return new GoogleChartRowC(new List<GoogleChartRowV> { sectorRowV, expenditureRowV });
+                return new GoogleChartRowC(new List<GoogleChartRowV> { organizationTypeRowV, expenditureRowV });
             });
             var googleChartRowCs = new List<GoogleChartRowC>(chartRowCs);
 
@@ -750,7 +752,7 @@ Continue with a new project update?
         public GridJsonNetJObjectResult<Project> MyOrganizationsProjectsGridJsonData()
         {
             var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(p => p.DoesPersonBelongToProjectLeadImplementingOranization(CurrentPerson)).OrderBy(x => x.DisplayName).ToList();
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(p => p.DoesPersonBelongToProjectLeadImplementingOrganization(CurrentPerson)).OrderBy(x => x.DisplayName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
         }

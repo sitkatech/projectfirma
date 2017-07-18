@@ -108,12 +108,12 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="col-md-9">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                <h2>Snapshot of Sector Expenditures on @(ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString())</h2>
+                <h2>Snapshot of Organization Type Expenditures on @(ViewDataTyped.Snapshot.SnapshotDate.ToLongDateString())</h2>
             </div>
             <table class="summaryLayout">
                 <tr>
-                    <th>@Html.LabelWithSugarFor(FieldDefinition.Sector)</th>
-                    @foreach (var calendarYear in ViewDataTyped.SectorExpenditureCalendarYears)
+                    <th>@Html.LabelWithSugarFor(FieldDefinition.OrganizationType)</th>
+                    @foreach (var calendarYear in ViewDataTyped.OrganizationTypeExpenditureCalendarYears)
                     {
                         <th class="text-right">
                             @calendarYear
@@ -121,30 +121,30 @@ Source code is available upon request via <support@sitkatech.com>.
                     }
                     <th class="text-right">Total</th>
                 </tr>
-                @foreach (var sector in ViewDataTyped.Sectors)
+                @foreach (var organizationType in ViewDataTyped.OrganizationTypes)
                 {
                     <tr>
-                        <td>@sector.SectorDisplayName</td>
-                        @foreach (var calendarYear in ViewDataTyped.SectorExpenditureCalendarYears)
+                        <td>@organizationType.OrganizationTypeName</td>
+                        @foreach (var calendarYear in ViewDataTyped.OrganizationTypeExpenditureCalendarYears)
                         {
-                            <td class="text-right">@ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Where(expenditure => expenditure.CalendarYear == calendarYear && expenditure.Sector == sector).Sum(expenditure => expenditure.ExpenditureAmount).ToStringCurrency()</td>
+                            <td class="text-right">@ViewDataTyped.Snapshot.SnapshotOrganizationTypeExpenditures.Where(expenditure => expenditure.CalendarYear == calendarYear && expenditure.OrganizationType == organizationType).Sum(expenditure => expenditure.ExpenditureAmount).ToStringCurrency()</td>
                         }
-                        <th class="text-right">@ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Where(expenditure => expenditure.Sector == sector).Sum(expenditure => expenditure.ExpenditureAmount).ToStringCurrency()</th>
+                        <th class="text-right">@ViewDataTyped.Snapshot.SnapshotOrganizationTypeExpenditures.Where(expenditure => expenditure.OrganizationType == organizationType).Sum(expenditure => expenditure.ExpenditureAmount).ToStringCurrency()</th>
                     </tr>
                 }
-                @if (ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Any())
+                @if (ViewDataTyped.Snapshot.SnapshotOrganizationTypeExpenditures.Any())
                 {
                     <tr>
                         <th>Total:</th>
-                        @foreach (var calendarYear in ViewDataTyped.SectorExpenditureCalendarYears)
+                        @foreach (var calendarYear in ViewDataTyped.OrganizationTypeExpenditureCalendarYears)
                         {
-                            <th class="text-right">@ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Where(expenditure => expenditure.CalendarYear == calendarYear).Sum(expenditure => expenditure.ExpenditureAmount).ToStringCurrency()</th>
+                            <th class="text-right">@ViewDataTyped.Snapshot.SnapshotOrganizationTypeExpenditures.Where(expenditure => expenditure.CalendarYear == calendarYear).Sum(expenditure => expenditure.ExpenditureAmount).ToStringCurrency()</th>
                         }
-                        <th class="text-right">@ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Sum(expenditure => expenditure.ExpenditureAmount).ToStringCurrency()</th>
+                        <th class="text-right">@ViewDataTyped.Snapshot.SnapshotOrganizationTypeExpenditures.Sum(expenditure => expenditure.ExpenditureAmount).ToStringCurrency()</th>
                     </tr>
                 }
             </table>
-            @if (!ViewDataTyped.Snapshot.SnapshotSectorExpenditures.Any())
+            @if (!ViewDataTyped.Snapshot.SnapshotOrganizationTypeExpenditures.Any())
             {
                 <p class="alert">No expenditures have been reported for this project.</p>
             }

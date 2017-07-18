@@ -60,20 +60,17 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             public readonly List<int> CalendarYearRange;
             public readonly List<FundingSourceSimple> AllFundingSources;
             public readonly int ProjectID;
-            public readonly IEnumerable<int> ProjectFundingOrganizationFundingSourceIDs;
             public readonly List<string> ValidationWarnings;
             public readonly int MaxYear;
 
             public ViewDataForAngularClass(Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
                 List<int> calendarYearRange,
-                IEnumerable<int> projectFundingOrganizationFundingSourceIDs,
                 ExpendituresValidationResult expendituresValidationResult)
             {
                 CalendarYearRange = calendarYearRange;
                 AllFundingSources = allFundingSources;
                 ProjectID = project.ProjectID;
-                ProjectFundingOrganizationFundingSourceIDs = projectFundingOrganizationFundingSourceIDs;
                 ValidationWarnings = expendituresValidationResult.GetWarningMessages();
                 MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             }

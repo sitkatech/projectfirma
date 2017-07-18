@@ -25,6 +25,8 @@
     <EntitySet Name="NotificationProposedProject" EntityType="ProjectFirma.Web.Models.NotificationProposedProject" />
     <EntitySet Name="Organization" EntityType="ProjectFirma.Web.Models.Organization" />
     <EntitySet Name="OrganizationBoundaryStaging" EntityType="ProjectFirma.Web.Models.OrganizationBoundaryStaging" />
+    <EntitySet Name="OrganizationType" EntityType="ProjectFirma.Web.Models.OrganizationType" />
+    <EntitySet Name="OrganizationTypeRelationshipType" EntityType="ProjectFirma.Web.Models.OrganizationTypeRelationshipType" />
     <EntitySet Name="PerformanceMeasure" EntityType="ProjectFirma.Web.Models.PerformanceMeasure" />
     <EntitySet Name="PerformanceMeasureActual" EntityType="ProjectFirma.Web.Models.PerformanceMeasureActual" />
     <EntitySet Name="PerformanceMeasureActualSubcategoryOption" EntityType="ProjectFirma.Web.Models.PerformanceMeasureActualSubcategoryOption" />
@@ -48,12 +50,10 @@
     <EntitySet Name="ProjectExemptReportingYearUpdate" EntityType="ProjectFirma.Web.Models.ProjectExemptReportingYearUpdate" />
     <EntitySet Name="ProjectExternalLink" EntityType="ProjectFirma.Web.Models.ProjectExternalLink" />
     <EntitySet Name="ProjectExternalLinkUpdate" EntityType="ProjectFirma.Web.Models.ProjectExternalLinkUpdate" />
-    <EntitySet Name="ProjectFundingOrganization" EntityType="ProjectFirma.Web.Models.ProjectFundingOrganization" />
     <EntitySet Name="ProjectFundingSourceExpenditure" EntityType="ProjectFirma.Web.Models.ProjectFundingSourceExpenditure" />
     <EntitySet Name="ProjectFundingSourceExpenditureUpdate" EntityType="ProjectFirma.Web.Models.ProjectFundingSourceExpenditureUpdate" />
     <EntitySet Name="ProjectImage" EntityType="ProjectFirma.Web.Models.ProjectImage" />
     <EntitySet Name="ProjectImageUpdate" EntityType="ProjectFirma.Web.Models.ProjectImageUpdate" />
-    <EntitySet Name="ProjectImplementingOrganization" EntityType="ProjectFirma.Web.Models.ProjectImplementingOrganization" />
     <EntitySet Name="ProjectLocation" EntityType="ProjectFirma.Web.Models.ProjectLocation" />
     <EntitySet Name="ProjectLocationArea" EntityType="ProjectFirma.Web.Models.ProjectLocationArea" />
     <EntitySet Name="ProjectLocationAreaGroup" EntityType="ProjectFirma.Web.Models.ProjectLocationAreaGroup" />
@@ -64,6 +64,7 @@
     <EntitySet Name="ProjectLocationUpdate" EntityType="ProjectFirma.Web.Models.ProjectLocationUpdate" />
     <EntitySet Name="ProjectNote" EntityType="ProjectFirma.Web.Models.ProjectNote" />
     <EntitySet Name="ProjectNoteUpdate" EntityType="ProjectFirma.Web.Models.ProjectNoteUpdate" />
+    <EntitySet Name="ProjectOrganization" EntityType="ProjectFirma.Web.Models.ProjectOrganization" />
     <EntitySet Name="ProjectTag" EntityType="ProjectFirma.Web.Models.ProjectTag" />
     <EntitySet Name="ProjectUpdate" EntityType="ProjectFirma.Web.Models.ProjectUpdate" />
     <EntitySet Name="ProjectUpdateBatch" EntityType="ProjectFirma.Web.Models.ProjectUpdateBatch" />
@@ -76,11 +77,12 @@
     <EntitySet Name="ProposedProjectLocation" EntityType="ProjectFirma.Web.Models.ProposedProjectLocation" />
     <EntitySet Name="ProposedProjectLocationStaging" EntityType="ProjectFirma.Web.Models.ProposedProjectLocationStaging" />
     <EntitySet Name="ProposedProjectNote" EntityType="ProjectFirma.Web.Models.ProposedProjectNote" />
+    <EntitySet Name="RelationshipType" EntityType="ProjectFirma.Web.Models.RelationshipType" />
     <EntitySet Name="Snapshot" EntityType="ProjectFirma.Web.Models.Snapshot" />
+    <EntitySet Name="SnapshotOrganizationTypeExpenditure" EntityType="ProjectFirma.Web.Models.SnapshotOrganizationTypeExpenditure" />
     <EntitySet Name="SnapshotPerformanceMeasure" EntityType="ProjectFirma.Web.Models.SnapshotPerformanceMeasure" />
     <EntitySet Name="SnapshotPerformanceMeasureSubcategoryOption" EntityType="ProjectFirma.Web.Models.SnapshotPerformanceMeasureSubcategoryOption" />
     <EntitySet Name="SnapshotProject" EntityType="ProjectFirma.Web.Models.SnapshotProject" />
-    <EntitySet Name="SnapshotSectorExpenditure" EntityType="ProjectFirma.Web.Models.SnapshotSectorExpenditure" />
     <EntitySet Name="StateProvince" EntityType="ProjectFirma.Web.Models.StateProvince" />
     <EntitySet Name="SupportRequestLog" EntityType="ProjectFirma.Web.Models.SupportRequestLog" />
     <EntitySet Name="Tag" EntityType="ProjectFirma.Web.Models.Tag" />
@@ -250,6 +252,10 @@
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="NotificationProposedProjects" EntitySet="NotificationProposedProject" />
     </AssociationSet>
+    <AssociationSet Name="FK_Organization_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.FK_Organization_OrganizationType_OrganizationTypeID">
+      <End Role="OrganizationType" EntitySet="OrganizationType" />
+      <End Role="Organizations" EntitySet="Organization" />
+    </AssociationSet>
     <AssociationSet Name="FK_Organization_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.FK_Organization_Person_PrimaryContactPersonID_PersonID">
       <End Role="PrimaryContactPerson" EntitySet="Person" />
       <End Role="OrganizationsWhereYouAreThePrimaryContactPerson" EntitySet="Organization" />
@@ -262,17 +268,29 @@
       <End Role="Organization" EntitySet="Organization" />
       <End Role="People" EntitySet="Person" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProjectFundingOrganization_Organization_OrganizationID" Association="ProjectFirma.Web.Models.FK_ProjectFundingOrganization_Organization_OrganizationID">
-      <End Role="Organization" EntitySet="Organization" />
-      <End Role="ProjectFundingOrganizations" EntitySet="ProjectFundingOrganization" />
+    <AssociationSet Name="FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID" Association="ProjectFirma.Web.Models.FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID">
+      <End Role="LeadImplementerOrganization" EntitySet="Organization" />
+      <End Role="ProjectsWhereYouAreTheLeadImplementerOrganization" EntitySet="Project" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProjectImplementingOrganization_Organization_OrganizationID" Association="ProjectFirma.Web.Models.FK_ProjectImplementingOrganization_Organization_OrganizationID">
+    <AssociationSet Name="FK_ProjectOrganization_Organization_OrganizationID" Association="ProjectFirma.Web.Models.FK_ProjectOrganization_Organization_OrganizationID">
       <End Role="Organization" EntitySet="Organization" />
-      <End Role="ProjectImplementingOrganizations" EntitySet="ProjectImplementingOrganization" />
+      <End Role="ProjectOrganizations" EntitySet="ProjectOrganization" />
     </AssociationSet>
     <AssociationSet Name="FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID" Association="ProjectFirma.Web.Models.FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID">
       <End Role="LeadImplementerOrganization" EntitySet="Organization" />
       <End Role="ProposedProjectsWhereYouAreTheLeadImplementerOrganization" EntitySet="ProposedProject" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID">
+      <End Role="OrganizationType" EntitySet="OrganizationType" />
+      <End Role="OrganizationTypeRelationshipTypes" EntitySet="OrganizationTypeRelationshipType" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID">
+      <End Role="OrganizationType" EntitySet="OrganizationType" />
+      <End Role="SnapshotOrganizationTypeExpenditures" EntitySet="SnapshotOrganizationTypeExpenditure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID" Association="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID">
+      <End Role="RelationshipType" EntitySet="RelationshipType" />
+      <End Role="OrganizationTypeRelationshipTypes" EntitySet="OrganizationTypeRelationshipType" />
     </AssociationSet>
     <AssociationSet Name="FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID">
       <End Role="PerformanceMeasure" EntitySet="PerformanceMeasure" />
@@ -506,10 +524,6 @@
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectExternalLinks" EntitySet="ProjectExternalLink" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProjectFundingOrganization_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectFundingOrganization_Project_ProjectID">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="ProjectFundingOrganizations" EntitySet="ProjectFundingOrganization" />
-    </AssociationSet>
     <AssociationSet Name="FK_ProjectFundingSourceExpenditure_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditure_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectFundingSourceExpenditures" EntitySet="ProjectFundingSourceExpenditure" />
@@ -517,10 +531,6 @@
     <AssociationSet Name="FK_ProjectImage_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectImage_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectImages" EntitySet="ProjectImage" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectImplementingOrganization_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectImplementingOrganization_Project_ProjectID">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="ProjectImplementingOrganizations" EntitySet="ProjectImplementingOrganization" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectLocation_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectLocation_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
@@ -533,6 +543,10 @@
     <AssociationSet Name="FK_ProjectNote_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectNote_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectNotes" EntitySet="ProjectNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectOrganization_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectOrganization_Project_ProjectID">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectOrganizations" EntitySet="ProjectOrganization" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectTag_Project_ProjectID" Association="ProjectFirma.Web.Models.FK_ProjectTag_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
@@ -626,6 +640,10 @@
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectNoteUpdates" EntitySet="ProjectNoteUpdate" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectOrganization_RelationshipType_RelationshipTypeID" Association="ProjectFirma.Web.Models.FK_ProjectOrganization_RelationshipType_RelationshipTypeID">
+      <End Role="RelationshipType" EntitySet="RelationshipType" />
+      <End Role="ProjectOrganizations" EntitySet="ProjectOrganization" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectTag_Tag_TagID" Association="ProjectFirma.Web.Models.FK_ProjectTag_Tag_TagID">
       <End Role="Tag" EntitySet="Tag" />
       <End Role="ProjectTags" EntitySet="ProjectTag" />
@@ -670,6 +688,10 @@
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectNotes" EntitySet="ProposedProjectNote" />
     </AssociationSet>
+    <AssociationSet Name="FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID">
+      <End Role="Snapshot" EntitySet="Snapshot" />
+      <End Role="SnapshotOrganizationTypeExpenditures" EntitySet="SnapshotOrganizationTypeExpenditure" />
+    </AssociationSet>
     <AssociationSet Name="FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID">
       <End Role="Snapshot" EntitySet="Snapshot" />
       <End Role="SnapshotPerformanceMeasures" EntitySet="SnapshotPerformanceMeasure" />
@@ -677,10 +699,6 @@
     <AssociationSet Name="FK_SnapshotProject_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.FK_SnapshotProject_Snapshot_SnapshotID">
       <End Role="Snapshot" EntitySet="Snapshot" />
       <End Role="SnapshotProjects" EntitySet="SnapshotProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SnapshotSectorExpenditure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.FK_SnapshotSectorExpenditure_Snapshot_SnapshotID">
-      <End Role="Snapshot" EntitySet="Snapshot" />
-      <End Role="SnapshotSectorExpenditures" EntitySet="SnapshotSectorExpenditure" />
     </AssociationSet>
     <AssociationSet Name="FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID" Association="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasureSubcategoryOption_SnapshotPerformanceMeasure_SnapshotPerformanceMeasureID">
       <End Role="SnapshotPerformanceMeasure" EntitySet="SnapshotPerformanceMeasure" />
@@ -994,21 +1012,22 @@
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="OrganizationGuid" Type="Guid" />
     <Property Name="OrganizationName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="OrganizationAbbreviation" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-    <Property Name="SectorID" Type="Int32" Nullable="false" />
+    <Property Name="OrganizationAbbreviation" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
     <Property Name="PrimaryContactPersonID" Type="Int32" />
     <Property Name="IsActive" Type="Boolean" Nullable="false" />
     <Property Name="OrganizationUrl" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="LogoFileResourceID" Type="Int32" />
+    <Property Name="OrganizationTypeID" Type="Int32" />
     <Property Name="OrganizationBoundary" Type="Geometry" />
     <NavigationProperty Name="LogoFileResource" Relationship="ProjectFirma.Web.Models.FK_Organization_FileResource_LogoFileResourceID_FileResourceID" FromRole="OrganizationsWhereYouAreTheLogoFileResource" ToRole="LogoFileResource" />
     <NavigationProperty Name="FundingSources" Relationship="ProjectFirma.Web.Models.FK_FundingSource_Organization_OrganizationID" FromRole="Organization" ToRole="FundingSources" />
     <NavigationProperty Name="MonitoringProgramPartners" Relationship="ProjectFirma.Web.Models.FK_MonitoringProgramPartner_Organization_OrganizationID" FromRole="Organization" ToRole="MonitoringProgramPartners" />
+    <NavigationProperty Name="OrganizationType" Relationship="ProjectFirma.Web.Models.FK_Organization_OrganizationType_OrganizationTypeID" FromRole="Organizations" ToRole="OrganizationType" />
     <NavigationProperty Name="PrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_Organization_Person_PrimaryContactPersonID_PersonID" FromRole="OrganizationsWhereYouAreThePrimaryContactPerson" ToRole="PrimaryContactPerson" />
     <NavigationProperty Name="OrganizationBoundaryStagings" Relationship="ProjectFirma.Web.Models.FK_OrganizationBoundaryStaging_Organization_OrganizationID" FromRole="Organization" ToRole="OrganizationBoundaryStagings" />
     <NavigationProperty Name="People" Relationship="ProjectFirma.Web.Models.FK_Person_Organization_OrganizationID" FromRole="Organization" ToRole="People" />
-    <NavigationProperty Name="ProjectFundingOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingOrganization_Organization_OrganizationID" FromRole="Organization" ToRole="ProjectFundingOrganizations" />
-    <NavigationProperty Name="ProjectImplementingOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectImplementingOrganization_Organization_OrganizationID" FromRole="Organization" ToRole="ProjectImplementingOrganizations" />
+    <NavigationProperty Name="ProjectsWhereYouAreTheLeadImplementerOrganization" Relationship="ProjectFirma.Web.Models.FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID" FromRole="LeadImplementerOrganization" ToRole="ProjectsWhereYouAreTheLeadImplementerOrganization" />
+    <NavigationProperty Name="ProjectOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganization_Organization_OrganizationID" FromRole="Organization" ToRole="ProjectOrganizations" />
     <NavigationProperty Name="ProposedProjectsWhereYouAreTheLeadImplementerOrganization" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID" FromRole="LeadImplementerOrganization" ToRole="ProposedProjectsWhereYouAreTheLeadImplementerOrganization" />
   </EntityType>
   <EntityType Name="OrganizationBoundaryStaging">
@@ -1021,6 +1040,30 @@
     <Property Name="FeatureClassName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="GeoJson" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_OrganizationBoundaryStaging_Organization_OrganizationID" FromRole="OrganizationBoundaryStagings" ToRole="Organization" />
+  </EntityType>
+  <EntityType Name="OrganizationType">
+    <Key>
+      <PropertyRef Name="OrganizationTypeID" />
+    </Key>
+    <Property Name="OrganizationTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="OrganizationTypeName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="OrganizationTypeAbbreviation" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="LegendColor" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Organizations" Relationship="ProjectFirma.Web.Models.FK_Organization_OrganizationType_OrganizationTypeID" FromRole="OrganizationType" ToRole="Organizations" />
+    <NavigationProperty Name="OrganizationTypeRelationshipTypes" Relationship="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID" FromRole="OrganizationType" ToRole="OrganizationTypeRelationshipTypes" />
+    <NavigationProperty Name="SnapshotOrganizationTypeExpenditures" Relationship="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID" FromRole="OrganizationType" ToRole="SnapshotOrganizationTypeExpenditures" />
+  </EntityType>
+  <EntityType Name="OrganizationTypeRelationshipType">
+    <Key>
+      <PropertyRef Name="OrganizationTypeRelationshipTypeID" />
+    </Key>
+    <Property Name="OrganizationTypeRelationshipTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="OrganizationTypeID" Type="Int32" Nullable="false" />
+    <Property Name="RelationshipTypeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="OrganizationType" Relationship="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID" FromRole="OrganizationTypeRelationshipTypes" ToRole="OrganizationType" />
+    <NavigationProperty Name="RelationshipType" Relationship="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID" FromRole="OrganizationTypeRelationshipTypes" ToRole="RelationshipType" />
   </EntityType>
   <EntityType Name="PerformanceMeasure">
     <Key>
@@ -1300,7 +1343,9 @@
     <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="18" Scale="0" />
     <Property Name="FundingTypeID" Type="Int32" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="Int32" />
+    <Property Name="LeadImplementerOrganizationID" Type="Int32" />
     <NavigationProperty Name="NotificationProjects" Relationship="ProjectFirma.Web.Models.FK_NotificationProject_Project_ProjectID" FromRole="Project" ToRole="NotificationProjects" />
+    <NavigationProperty Name="LeadImplementerOrganization" Relationship="ProjectFirma.Web.Models.FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID" FromRole="ProjectsWhereYouAreTheLeadImplementerOrganization" ToRole="LeadImplementerOrganization" />
     <NavigationProperty Name="PerformanceMeasureActuals" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_Project_ProjectID" FromRole="Project" ToRole="PerformanceMeasureActuals" />
     <NavigationProperty Name="PerformanceMeasureExpecteds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpected_Project_ProjectID" FromRole="Project" ToRole="PerformanceMeasureExpecteds" />
     <NavigationProperty Name="PrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_Project_Person_PrimaryContactPersonID_PersonID" FromRole="ProjectsWhereYouAreThePrimaryContactPerson" ToRole="PrimaryContactPerson" />
@@ -1311,13 +1356,12 @@
     <NavigationProperty Name="ProjectClassifications" Relationship="ProjectFirma.Web.Models.FK_ProjectClassification_Project_ProjectID" FromRole="Project" ToRole="ProjectClassifications" />
     <NavigationProperty Name="ProjectExemptReportingYears" Relationship="ProjectFirma.Web.Models.FK_ProjectExemptReportingYear_Project_ProjectID" FromRole="Project" ToRole="ProjectExemptReportingYears" />
     <NavigationProperty Name="ProjectExternalLinks" Relationship="ProjectFirma.Web.Models.FK_ProjectExternalLink_Project_ProjectID" FromRole="Project" ToRole="ProjectExternalLinks" />
-    <NavigationProperty Name="ProjectFundingOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingOrganization_Project_ProjectID" FromRole="Project" ToRole="ProjectFundingOrganizations" />
     <NavigationProperty Name="ProjectFundingSourceExpenditures" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingSourceExpenditure_Project_ProjectID" FromRole="Project" ToRole="ProjectFundingSourceExpenditures" />
     <NavigationProperty Name="ProjectImages" Relationship="ProjectFirma.Web.Models.FK_ProjectImage_Project_ProjectID" FromRole="Project" ToRole="ProjectImages" />
-    <NavigationProperty Name="ProjectImplementingOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectImplementingOrganization_Project_ProjectID" FromRole="Project" ToRole="ProjectImplementingOrganizations" />
     <NavigationProperty Name="ProjectLocations" Relationship="ProjectFirma.Web.Models.FK_ProjectLocation_Project_ProjectID" FromRole="Project" ToRole="ProjectLocations" />
     <NavigationProperty Name="ProjectLocationStagings" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationStaging_Project_ProjectID" FromRole="Project" ToRole="ProjectLocationStagings" />
     <NavigationProperty Name="ProjectNotes" Relationship="ProjectFirma.Web.Models.FK_ProjectNote_Project_ProjectID" FromRole="Project" ToRole="ProjectNotes" />
+    <NavigationProperty Name="ProjectOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganization_Project_ProjectID" FromRole="Project" ToRole="ProjectOrganizations" />
     <NavigationProperty Name="ProjectTags" Relationship="ProjectFirma.Web.Models.FK_ProjectTag_Project_ProjectID" FromRole="Project" ToRole="ProjectTags" />
     <NavigationProperty Name="ProjectUpdateBatches" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Project_ProjectID" FromRole="Project" ToRole="ProjectUpdateBatches" />
     <NavigationProperty Name="ProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Project_ProjectID" FromRole="Project" ToRole="ProjectWatersheds" />
@@ -1418,17 +1462,6 @@
     <Property Name="ExternalLinkUrl" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectExternalLinkUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectExternalLinkUpdates" ToRole="ProjectUpdateBatch" />
   </EntityType>
-  <EntityType Name="ProjectFundingOrganization">
-    <Key>
-      <PropertyRef Name="ProjectFundingOrganizationID" />
-    </Key>
-    <Property Name="ProjectFundingOrganizationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="ProjectID" Type="Int32" Nullable="false" />
-    <Property Name="OrganizationID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingOrganization_Organization_OrganizationID" FromRole="ProjectFundingOrganizations" ToRole="Organization" />
-    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectFundingOrganization_Project_ProjectID" FromRole="ProjectFundingOrganizations" ToRole="Project" />
-  </EntityType>
   <EntityType Name="ProjectFundingSourceExpenditure">
     <Key>
       <PropertyRef Name="ProjectFundingSourceExpenditureID" />
@@ -1489,18 +1522,6 @@
     <NavigationProperty Name="FileResource" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_FileResource_FileResourceID" FromRole="ProjectImageUpdates" ToRole="FileResource" />
     <NavigationProperty Name="ProjectImage" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_ProjectImage_ProjectImageID" FromRole="ProjectImageUpdates" ToRole="ProjectImage" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectImageUpdates" ToRole="ProjectUpdateBatch" />
-  </EntityType>
-  <EntityType Name="ProjectImplementingOrganization">
-    <Key>
-      <PropertyRef Name="ProjectImplementingOrganizationID" />
-    </Key>
-    <Property Name="ProjectImplementingOrganizationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="ProjectID" Type="Int32" Nullable="false" />
-    <Property Name="OrganizationID" Type="Int32" Nullable="false" />
-    <Property Name="IsLeadOrganization" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_ProjectImplementingOrganization_Organization_OrganizationID" FromRole="ProjectImplementingOrganizations" ToRole="Organization" />
-    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectImplementingOrganization_Project_ProjectID" FromRole="ProjectImplementingOrganizations" ToRole="Project" />
   </EntityType>
   <EntityType Name="ProjectLocation">
     <Key>
@@ -1636,6 +1657,19 @@
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNoteUpdate_Person_CreatePersonID_PersonID" FromRole="ProjectNoteUpdatesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
     <NavigationProperty Name="UpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNoteUpdate_Person_UpdatePersonID_PersonID" FromRole="ProjectNoteUpdatesWhereYouAreTheUpdatePerson" ToRole="UpdatePerson" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectNoteUpdates" ToRole="ProjectUpdateBatch" />
+  </EntityType>
+  <EntityType Name="ProjectOrganization">
+    <Key>
+      <PropertyRef Name="ProjectOrganizationID" />
+    </Key>
+    <Property Name="ProjectOrganizationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectID" Type="Int32" Nullable="false" />
+    <Property Name="OrganizationID" Type="Int32" Nullable="false" />
+    <Property Name="RelationshipTypeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Organization" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganization_Organization_OrganizationID" FromRole="ProjectOrganizations" ToRole="Organization" />
+    <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganization_Project_ProjectID" FromRole="ProjectOrganizations" ToRole="Project" />
+    <NavigationProperty Name="RelationshipType" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganization_RelationshipType_RelationshipTypeID" FromRole="ProjectOrganizations" ToRole="RelationshipType" />
   </EntityType>
   <EntityType Name="ProjectTag">
     <Key>
@@ -1860,6 +1894,16 @@
     <NavigationProperty Name="UpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_UpdatePersonID_PersonID" FromRole="ProposedProjectNotesWhereYouAreTheUpdatePerson" ToRole="UpdatePerson" />
     <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_ProposedProject_ProposedProjectID" FromRole="ProposedProjectNotes" ToRole="ProposedProject" />
   </EntityType>
+  <EntityType Name="RelationshipType">
+    <Key>
+      <PropertyRef Name="RelationshipTypeID" />
+    </Key>
+    <Property Name="RelationshipTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="RelationshipTypeName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="OrganizationTypeRelationshipTypes" Relationship="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID" FromRole="RelationshipType" ToRole="OrganizationTypeRelationshipTypes" />
+    <NavigationProperty Name="ProjectOrganizations" Relationship="ProjectFirma.Web.Models.FK_ProjectOrganization_RelationshipType_RelationshipTypeID" FromRole="RelationshipType" ToRole="ProjectOrganizations" />
+  </EntityType>
   <EntityType Name="Snapshot">
     <Key>
       <PropertyRef Name="SnapshotID" />
@@ -1869,9 +1913,22 @@
     <Property Name="SnapshotDate" Type="DateTime" Nullable="false" />
     <Property Name="SnapshotNote" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="ProjectCount" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="SnapshotOrganizationTypeExpenditures" Relationship="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID" FromRole="Snapshot" ToRole="SnapshotOrganizationTypeExpenditures" />
     <NavigationProperty Name="SnapshotPerformanceMeasures" Relationship="ProjectFirma.Web.Models.FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID" FromRole="Snapshot" ToRole="SnapshotPerformanceMeasures" />
     <NavigationProperty Name="SnapshotProjects" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Snapshot_SnapshotID" FromRole="Snapshot" ToRole="SnapshotProjects" />
-    <NavigationProperty Name="SnapshotSectorExpenditures" Relationship="ProjectFirma.Web.Models.FK_SnapshotSectorExpenditure_Snapshot_SnapshotID" FromRole="Snapshot" ToRole="SnapshotSectorExpenditures" />
+  </EntityType>
+  <EntityType Name="SnapshotOrganizationTypeExpenditure">
+    <Key>
+      <PropertyRef Name="SnapshotOrganizationTypeExpenditureID" />
+    </Key>
+    <Property Name="SnapshotOrganizationTypeExpenditureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="SnapshotID" Type="Int32" Nullable="false" />
+    <Property Name="CalendarYear" Type="Int32" Nullable="false" />
+    <Property Name="ExpenditureAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="OrganizationTypeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="OrganizationType" Relationship="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID" FromRole="SnapshotOrganizationTypeExpenditures" ToRole="OrganizationType" />
+    <NavigationProperty Name="Snapshot" Relationship="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID" FromRole="SnapshotOrganizationTypeExpenditures" ToRole="Snapshot" />
   </EntityType>
   <EntityType Name="SnapshotPerformanceMeasure">
     <Key>
@@ -1913,18 +1970,6 @@
     <Property Name="SnapshotProjectTypeID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Project_ProjectID" FromRole="SnapshotProjects" ToRole="Project" />
     <NavigationProperty Name="Snapshot" Relationship="ProjectFirma.Web.Models.FK_SnapshotProject_Snapshot_SnapshotID" FromRole="SnapshotProjects" ToRole="Snapshot" />
-  </EntityType>
-  <EntityType Name="SnapshotSectorExpenditure">
-    <Key>
-      <PropertyRef Name="SnapshotSectorExpenditureID" />
-    </Key>
-    <Property Name="SnapshotSectorExpenditureID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="Int32" Nullable="false" />
-    <Property Name="SnapshotID" Type="Int32" Nullable="false" />
-    <Property Name="SectorID" Type="Int32" Nullable="false" />
-    <Property Name="CalendarYear" Type="Int32" Nullable="false" />
-    <Property Name="ExpenditureAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-    <NavigationProperty Name="Snapshot" Relationship="ProjectFirma.Web.Models.FK_SnapshotSectorExpenditure_Snapshot_SnapshotID" FromRole="SnapshotSectorExpenditures" ToRole="Snapshot" />
   </EntityType>
   <EntityType Name="StateProvince">
     <Key>
@@ -2531,6 +2576,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Organization_OrganizationType_OrganizationTypeID">
+    <End Role="OrganizationType" Type="ProjectFirma.Web.Models.OrganizationType" Multiplicity="0..1" />
+    <End Role="Organizations" Type="ProjectFirma.Web.Models.Organization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrganizationType">
+        <PropertyRef Name="OrganizationTypeID" />
+      </Principal>
+      <Dependent Role="Organizations">
+        <PropertyRef Name="OrganizationTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Organization_Person_PrimaryContactPersonID_PersonID">
     <End Role="PrimaryContactPerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="0..1" />
     <End Role="OrganizationsWhereYouAreThePrimaryContactPerson" Type="ProjectFirma.Web.Models.Organization" Multiplicity="*" />
@@ -2567,26 +2624,26 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProjectFundingOrganization_Organization_OrganizationID">
-    <End Role="Organization" Type="ProjectFirma.Web.Models.Organization" Multiplicity="1" />
-    <End Role="ProjectFundingOrganizations" Type="ProjectFirma.Web.Models.ProjectFundingOrganization" Multiplicity="*" />
+  <Association Name="FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID">
+    <End Role="LeadImplementerOrganization" Type="ProjectFirma.Web.Models.Organization" Multiplicity="0..1" />
+    <End Role="ProjectsWhereYouAreTheLeadImplementerOrganization" Type="ProjectFirma.Web.Models.Project" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Organization">
+      <Principal Role="LeadImplementerOrganization">
         <PropertyRef Name="OrganizationID" />
       </Principal>
-      <Dependent Role="ProjectFundingOrganizations">
-        <PropertyRef Name="OrganizationID" />
+      <Dependent Role="ProjectsWhereYouAreTheLeadImplementerOrganization">
+        <PropertyRef Name="LeadImplementerOrganizationID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProjectImplementingOrganization_Organization_OrganizationID">
+  <Association Name="FK_ProjectOrganization_Organization_OrganizationID">
     <End Role="Organization" Type="ProjectFirma.Web.Models.Organization" Multiplicity="1" />
-    <End Role="ProjectImplementingOrganizations" Type="ProjectFirma.Web.Models.ProjectImplementingOrganization" Multiplicity="*" />
+    <End Role="ProjectOrganizations" Type="ProjectFirma.Web.Models.ProjectOrganization" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Organization">
         <PropertyRef Name="OrganizationID" />
       </Principal>
-      <Dependent Role="ProjectImplementingOrganizations">
+      <Dependent Role="ProjectOrganizations">
         <PropertyRef Name="OrganizationID" />
       </Dependent>
     </ReferentialConstraint>
@@ -2600,6 +2657,42 @@
       </Principal>
       <Dependent Role="ProposedProjectsWhereYouAreTheLeadImplementerOrganization">
         <PropertyRef Name="LeadImplementerOrganizationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID">
+    <End Role="OrganizationType" Type="ProjectFirma.Web.Models.OrganizationType" Multiplicity="1" />
+    <End Role="OrganizationTypeRelationshipTypes" Type="ProjectFirma.Web.Models.OrganizationTypeRelationshipType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrganizationType">
+        <PropertyRef Name="OrganizationTypeID" />
+      </Principal>
+      <Dependent Role="OrganizationTypeRelationshipTypes">
+        <PropertyRef Name="OrganizationTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID">
+    <End Role="OrganizationType" Type="ProjectFirma.Web.Models.OrganizationType" Multiplicity="1" />
+    <End Role="SnapshotOrganizationTypeExpenditures" Type="ProjectFirma.Web.Models.SnapshotOrganizationTypeExpenditure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrganizationType">
+        <PropertyRef Name="OrganizationTypeID" />
+      </Principal>
+      <Dependent Role="SnapshotOrganizationTypeExpenditures">
+        <PropertyRef Name="OrganizationTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID">
+    <End Role="RelationshipType" Type="ProjectFirma.Web.Models.RelationshipType" Multiplicity="1" />
+    <End Role="OrganizationTypeRelationshipTypes" Type="ProjectFirma.Web.Models.OrganizationTypeRelationshipType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RelationshipType">
+        <PropertyRef Name="RelationshipTypeID" />
+      </Principal>
+      <Dependent Role="OrganizationTypeRelationshipTypes">
+        <PropertyRef Name="RelationshipTypeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3299,18 +3392,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProjectFundingOrganization_Project_ProjectID">
-    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
-    <End Role="ProjectFundingOrganizations" Type="ProjectFirma.Web.Models.ProjectFundingOrganization" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectID" />
-      </Principal>
-      <Dependent Role="ProjectFundingOrganizations">
-        <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ProjectFundingSourceExpenditure_Project_ProjectID">
     <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
     <End Role="ProjectFundingSourceExpenditures" Type="ProjectFirma.Web.Models.ProjectFundingSourceExpenditure" Multiplicity="*" />
@@ -3331,18 +3412,6 @@
         <PropertyRef Name="ProjectID" />
       </Principal>
       <Dependent Role="ProjectImages">
-        <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectImplementingOrganization_Project_ProjectID">
-    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
-    <End Role="ProjectImplementingOrganizations" Type="ProjectFirma.Web.Models.ProjectImplementingOrganization" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectID" />
-      </Principal>
-      <Dependent Role="ProjectImplementingOrganizations">
         <PropertyRef Name="ProjectID" />
       </Dependent>
     </ReferentialConstraint>
@@ -3379,6 +3448,18 @@
         <PropertyRef Name="ProjectID" />
       </Principal>
       <Dependent Role="ProjectNotes">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectOrganization_Project_ProjectID">
+    <End Role="Project" Type="ProjectFirma.Web.Models.Project" Multiplicity="1" />
+    <End Role="ProjectOrganizations" Type="ProjectFirma.Web.Models.ProjectOrganization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="ProjectOrganizations">
         <PropertyRef Name="ProjectID" />
       </Dependent>
     </ReferentialConstraint>
@@ -3659,6 +3740,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectOrganization_RelationshipType_RelationshipTypeID">
+    <End Role="RelationshipType" Type="ProjectFirma.Web.Models.RelationshipType" Multiplicity="1" />
+    <End Role="ProjectOrganizations" Type="ProjectFirma.Web.Models.ProjectOrganization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RelationshipType">
+        <PropertyRef Name="RelationshipTypeID" />
+      </Principal>
+      <Dependent Role="ProjectOrganizations">
+        <PropertyRef Name="RelationshipTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectTag_Tag_TagID">
     <End Role="Tag" Type="ProjectFirma.Web.Models.Tag" Multiplicity="1" />
     <End Role="ProjectTags" Type="ProjectFirma.Web.Models.ProjectTag" Multiplicity="*" />
@@ -3791,6 +3884,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID">
+    <End Role="Snapshot" Type="ProjectFirma.Web.Models.Snapshot" Multiplicity="1" />
+    <End Role="SnapshotOrganizationTypeExpenditures" Type="ProjectFirma.Web.Models.SnapshotOrganizationTypeExpenditure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Snapshot">
+        <PropertyRef Name="SnapshotID" />
+      </Principal>
+      <Dependent Role="SnapshotOrganizationTypeExpenditures">
+        <PropertyRef Name="SnapshotID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_SnapshotPerformanceMeasure_Snapshot_SnapshotID">
     <End Role="Snapshot" Type="ProjectFirma.Web.Models.Snapshot" Multiplicity="1" />
     <End Role="SnapshotPerformanceMeasures" Type="ProjectFirma.Web.Models.SnapshotPerformanceMeasure" Multiplicity="*" />
@@ -3811,18 +3916,6 @@
         <PropertyRef Name="SnapshotID" />
       </Principal>
       <Dependent Role="SnapshotProjects">
-        <PropertyRef Name="SnapshotID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SnapshotSectorExpenditure_Snapshot_SnapshotID">
-    <End Role="Snapshot" Type="ProjectFirma.Web.Models.Snapshot" Multiplicity="1" />
-    <End Role="SnapshotSectorExpenditures" Type="ProjectFirma.Web.Models.SnapshotSectorExpenditure" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Snapshot">
-        <PropertyRef Name="SnapshotID" />
-      </Principal>
-      <Dependent Role="SnapshotSectorExpenditures">
         <PropertyRef Name="SnapshotID" />
       </Dependent>
     </ReferentialConstraint>
