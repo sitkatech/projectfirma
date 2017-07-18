@@ -25,6 +25,7 @@ namespace ProjectFirma.Web.Models
         {
             this.FundingSources = new HashSet<FundingSource>();
             this.MonitoringProgramPartners = new HashSet<MonitoringProgramPartner>();
+            this.OrganizationBoundaryStagings = new HashSet<OrganizationBoundaryStaging>();
             this.People = new HashSet<Person>();
             this.ProjectsWhereYouAreTheLeadImplementerOrganization = new HashSet<Project>();
             this.ProjectOrganizations = new HashSet<ProjectOrganization>();
@@ -35,7 +36,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationAbbreviation, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceID, int? organizationTypeID) : this()
+        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationAbbreviation, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceID, int? organizationTypeID, DbGeometry organizationBoundary) : this()
         {
             this.OrganizationID = organizationID;
             this.OrganizationGuid = organizationGuid;
@@ -46,6 +47,7 @@ namespace ProjectFirma.Web.Models
             this.OrganizationUrl = organizationUrl;
             this.LogoFileResourceID = logoFileResourceID;
             this.OrganizationTypeID = organizationTypeID;
+            this.OrganizationBoundary = organizationBoundary;
         }
 
         /// <summary>
@@ -75,13 +77,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return FundingSources.Any() || MonitoringProgramPartners.Any() || People.Any() || ProjectsWhereYouAreTheLeadImplementerOrganization.Any() || ProjectOrganizations.Any() || ProposedProjectsWhereYouAreTheLeadImplementerOrganization.Any();
+            return FundingSources.Any() || MonitoringProgramPartners.Any() || OrganizationBoundaryStagings.Any() || People.Any() || ProjectsWhereYouAreTheLeadImplementerOrganization.Any() || ProjectOrganizations.Any() || ProposedProjectsWhereYouAreTheLeadImplementerOrganization.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(MonitoringProgramPartner).Name, typeof(Person).Name, typeof(Project).Name, typeof(ProjectOrganization).Name, typeof(ProposedProject).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(MonitoringProgramPartner).Name, typeof(OrganizationBoundaryStaging).Name, typeof(Person).Name, typeof(Project).Name, typeof(ProjectOrganization).Name, typeof(ProposedProject).Name};
 
         [Key]
         public int OrganizationID { get; set; }
@@ -94,10 +96,12 @@ namespace ProjectFirma.Web.Models
         public string OrganizationUrl { get; set; }
         public int? LogoFileResourceID { get; set; }
         public int? OrganizationTypeID { get; set; }
+        public DbGeometry OrganizationBoundary { get; set; }
         public int PrimaryKey { get { return OrganizationID; } set { OrganizationID = value; } }
 
         public virtual ICollection<FundingSource> FundingSources { get; set; }
         public virtual ICollection<MonitoringProgramPartner> MonitoringProgramPartners { get; set; }
+        public virtual ICollection<OrganizationBoundaryStaging> OrganizationBoundaryStagings { get; set; }
         public virtual ICollection<Person> People { get; set; }
         public virtual ICollection<Project> ProjectsWhereYouAreTheLeadImplementerOrganization { get; set; }
         public virtual ICollection<ProjectOrganization> ProjectOrganizations { get; set; }

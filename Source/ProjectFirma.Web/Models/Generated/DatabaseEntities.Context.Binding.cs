@@ -72,6 +72,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<NotificationProposedProject> NotificationProposedProjects { get { return AllNotificationProposedProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Notification> AllNotifications { get; set; }
         public virtual IQueryable<Notification> Notifications { get { return AllNotifications.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<OrganizationBoundaryStaging> AllOrganizationBoundaryStagings { get; set; }
+        public virtual IQueryable<OrganizationBoundaryStaging> OrganizationBoundaryStagings { get { return AllOrganizationBoundaryStagings.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Organization> AllOrganizations { get; set; }
         public virtual IQueryable<Organization> Organizations { get { return AllOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<OrganizationTypeRelationshipType> AllOrganizationTypeRelationshipTypes { get; set; }
@@ -318,6 +320,9 @@ namespace ProjectFirma.Web.Models
                     var notificationType = NotificationType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(notificationType, "NotificationType", primaryKey);
                     return notificationType;
+
+                case "OrganizationBoundaryStaging":
+                    return OrganizationBoundaryStagings.GetOrganizationBoundaryStaging(primaryKey);
 
                 case "Organization":
                     return Organizations.GetOrganization(primaryKey);

@@ -22,8 +22,6 @@
     <add key="MailLogBcc" value=""/>
     <add key="MaximumAllowedUploadFileSize" value="${max-file-upload-size}"/>
     <add key="DatabaseConnectionString" value="Server=${db-data-source};Database=${db-name};${db-auth-settings}"/>
-    <add key="RecaptchaPublicKey" value="${google-recaptcha-public-key}"/>
-    <add key="RecaptchaPrivateKey" value="${google-recaptcha-private-key}"/>
     <add key="RecaptchaValidatorUrl" value="https://www.google.com/recaptcha/api/siteverify"/>
     <add key="SitkaSupportEmail" value="projectfirma@sitkatech.com"/>
     <add key="DoNotReplyEmail" value="donotreply@${application-domain}"/>

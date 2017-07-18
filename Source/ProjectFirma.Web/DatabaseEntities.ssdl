@@ -24,6 +24,7 @@
     <EntitySet Name="NotificationProject" EntityType="ProjectFirma.Web.Models.Store.NotificationProject" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="NotificationProposedProject" EntityType="ProjectFirma.Web.Models.Store.NotificationProposedProject" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Organization" EntityType="ProjectFirma.Web.Models.Store.Organization" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrganizationBoundaryStaging" EntityType="ProjectFirma.Web.Models.Store.OrganizationBoundaryStaging" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="OrganizationType" EntityType="ProjectFirma.Web.Models.Store.OrganizationType" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="OrganizationTypeRelationshipType" EntityType="ProjectFirma.Web.Models.Store.OrganizationTypeRelationshipType" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.PerformanceMeasure" store:Type="Tables" Schema="dbo" />
@@ -194,6 +195,10 @@
     <AssociationSet Name="FK_Organization_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.Store.FK_Organization_Person_PrimaryContactPersonID_PersonID">
       <End Role="PrimaryContactPerson" EntitySet="Person" />
       <End Role="OrganizationsWhereYouAreThePrimaryContactPerson" EntitySet="Organization" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrganizationBoundaryStaging_Organization_OrganizationID" Association="ProjectFirma.Web.Models.Store.FK_OrganizationBoundaryStaging_Organization_OrganizationID">
+      <End Role="Organization" EntitySet="Organization" />
+      <End Role="OrganizationBoundaryStagings" EntitySet="OrganizationBoundaryStaging" />
     </AssociationSet>
     <AssociationSet Name="FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.Store.FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID">
       <End Role="OrganizationType" EntitySet="OrganizationType" />
@@ -1001,6 +1006,7 @@ warning 6035: The relationship 'FK_NotificationProposedProject_Notification_Noti
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_FundingSource_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_MonitoringProgramPartner_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_OrganizationBoundaryStaging_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_Person_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_Project_Organization_LeadImplementerOrganizationID_TenantID_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectOrganization_Organization_OrganizationID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1020,6 +1026,17 @@ warning 6035: The relationship 'FK_ProposedProject_Organization_LeadImplementerO
     <Property Name="OrganizationUrl" Type="varchar" MaxLength="200" />
     <Property Name="LogoFileResourceID" Type="int" />
     <Property Name="OrganizationTypeID" Type="int" />
+    <Property Name="OrganizationBoundary" Type="geometry" />
+  </EntityType>
+  <EntityType Name="OrganizationBoundaryStaging">
+    <Key>
+      <PropertyRef Name="OrganizationBoundaryStagingID" />
+    </Key>
+    <Property Name="OrganizationBoundaryStagingID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="OrganizationID" Type="int" Nullable="false" />
+    <Property Name="FeatureClassName" Type="varchar" Nullable="false" MaxLength="255" />
+    <Property Name="GeoJson" Type="varchar(max)" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1985,6 +2002,8 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
     <Property Name="TenantStyleSheetFileResourceID" Type="int" />
     <Property Name="TenantDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="ToolDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="RecaptchaPublicKey" Type="varchar" MaxLength="100" />
+    <Property Name="RecaptchaPrivateKey" Type="varchar" MaxLength="100" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectLocationArea_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -2309,6 +2328,18 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
       </Principal>
       <Dependent Role="OrganizationsWhereYouAreThePrimaryContactPerson">
         <PropertyRef Name="PrimaryContactPersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrganizationBoundaryStaging_Organization_OrganizationID">
+    <End Role="Organization" Type="ProjectFirma.Web.Models.Store.Organization" Multiplicity="1" />
+    <End Role="OrganizationBoundaryStagings" Type="ProjectFirma.Web.Models.Store.OrganizationBoundaryStaging" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organization">
+        <PropertyRef Name="OrganizationID" />
+      </Principal>
+      <Dependent Role="OrganizationBoundaryStagings">
+        <PropertyRef Name="OrganizationID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

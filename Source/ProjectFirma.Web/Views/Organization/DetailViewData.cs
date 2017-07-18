@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Results;
@@ -31,11 +32,13 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly Models.Organization Organization;
         public readonly bool UserHasOrganizationManagePermissions;
         public readonly string EditOrganizationUrl;
+        public readonly string EditBoundaryUrl;
+        public readonly string DeleteOrganizationBoundaryUrl;
         public readonly ProjectOrganizationsGridSpec ProjectOrganizationsGridSpec;
         public readonly string ProjectOrganizationsGridName;
         public readonly string ProjectOrganizationsGridDataUrl;
         public readonly CalendarYearExpendituresLineChartViewData CalendarYearExpendituresLineChartViewData;
-        
+
         public readonly string ManageFundingSourcesUrl;
         public readonly string IndexUrl;
 
@@ -55,16 +58,24 @@ namespace ProjectFirma.Web.Views.Organization
             UserHasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByPerson(CurrentPerson);
 
             EditOrganizationUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Edit(organization));
+            EditBoundaryUrl =
+                SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditBoundary(organization));
+            DeleteOrganizationBoundaryUrl =
+                SitkaRoute<OrganizationController>.BuildUrlFromExpression(
+                    c => c.DeleteOrganizationBoundary(organization));
 
-            ProjectOrganizationsGridSpec = new ProjectOrganizationsGridSpec(organization.GetCalendarYearsForProjectExpenditures())
-            {
-                ObjectNameSingular = "Project",
-                ObjectNamePlural = string.Format("Projects associated with {0}", organization.DisplayName),
-                SaveFiltersInCookie = true
-            };
+            ProjectOrganizationsGridSpec =
+                new ProjectOrganizationsGridSpec(organization.GetCalendarYearsForProjectExpenditures())
+                {
+                    ObjectNameSingular = "Project",
+                    ObjectNamePlural = $"Projects associated with {organization.DisplayName}",
+                    SaveFiltersInCookie = true
+                };
 
             ProjectOrganizationsGridName = "projectOrganizationsFromOrganizationGrid";
-            ProjectOrganizationsGridDataUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(tc => tc.ProjectOrganizationsGridJsonData(organization));
+            ProjectOrganizationsGridDataUrl =
+                SitkaRoute<OrganizationController>.BuildUrlFromExpression(
+                    tc => tc.ProjectOrganizationsGridJsonData(organization));
             ManageFundingSourcesUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.Index());
             IndexUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Index());
 

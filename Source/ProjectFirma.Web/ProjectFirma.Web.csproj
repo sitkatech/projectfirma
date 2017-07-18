@@ -130,6 +130,9 @@
     <Compile Include="Models\Generated\NotificationTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Organization.Binding.cs" />
     <Compile Include="Models\Generated\Organization.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\OrganizationBoundaryStaging.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationBoundaryStaging.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\OrganizationBoundaryStagingPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\OrganizationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\OrganizationType.Binding.cs" />
     <Compile Include="Models\Generated\OrganizationType.DatabaseContextExtensions.cs" />
@@ -363,7 +366,14 @@
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
     <Compile Include="Controllers\OrganizationAndRelationshipTypeController.cs" />
+    <Compile Include="Views\Organization\EditBoundaryErrors.cs" />
     <Compile Include="Controllers\FirmaHomePageImageController.cs" />
+    <Compile Include="Views\Organization\ApproveUploadGis.cs" />
+    <Compile Include="Views\Organization\ApproveUploadGisViewData.cs" />
+    <Compile Include="Views\Organization\ApproveUploadGisViewModel.cs" />
+    <Compile Include="Views\Organization\EditBoundary.cs" />
+    <Compile Include="Views\Organization\EditBoundaryViewData.cs" />
+    <Compile Include="Views\Organization\EditBoundaryViewModel.cs" />
     <Compile Include="Controllers\TenantController.cs" />
     <Content Include="Content\Bootstrap\firma\base.theme.css">
       <DependentUpon>base.theme.less</DependentUpon>
@@ -376,6 +386,12 @@
     </Content>
     <Content Include="Content\Bootstrap\firma\bootstrap.firma.theme.min.css">
       <DependentUpon>bootstrap.firma.theme.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\clackamas.css">
+      <DependentUpon>clackamas.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\clackamas.min.css">
+      <DependentUpon>clackamas.css</DependentUpon>
     </Content>
     <Content Include="Content\Bootstrap\firma\rcd.theme.css">
       <DependentUpon>rcd.theme.less</DependentUpon>
@@ -429,6 +445,9 @@
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-16x16.png" />
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-32x32.png" />
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-96x96.png" />
+    <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.css" />
+    <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.js" />
+    <Content Include="Content\spinjs\spin.min.js" />
     <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js.map" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js.map" />
     <Content Include="ScriptsCustom\CkEditorReady.min.js.map" />
@@ -436,8 +455,14 @@
     <Content Include="ScriptsCustom\FancyboxReady.min.js.map" />
     <Content Include="ScriptsCustom\GoogleAnalytics.min.js.map" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.GeoServerMap.min.js.map" />
-    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.min.js.map" />
+    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.min.js">
+      <DependentUpon>ProjectFirmaMaps.js</DependentUpon>
+    </Content>
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.ProjectLocationSummary.min.js.map" />
+    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.SelectableMap.js" />
+    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.SelectableMap.min.js">
+      <DependentUpon>ProjectFirmaMaps.SelectableMap.js</DependentUpon>
+    </Content>
     <Content Include="ScriptsCustom\ModalDialogForm.min.js.map" />
     <Content Include="ScriptsCustom\qtippopuphelper.min.js.map" />
     <Content Include="ScriptsCustom\sitka.grid.min.js.map" />
@@ -455,11 +480,16 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="Content\Bootstrap\firma\clackamas.less" />
+    <None Include="bundleconfig.json" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
     <None Include="Service References\KeystoneDataService\KeystoneData.disco" />
     <None Include="Service References\KeystoneDataService\configuration91.svcinfo" />
     <None Include="Service References\KeystoneDataService\configuration.svcinfo" />
     <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.js" />
-    <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.js" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js" />
     <Content Include="ScriptsCustom\CkEditorReady.js" />
@@ -473,7 +503,6 @@
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.GeoServerMap.js" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.GeoServerMap.min.js" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.js" />
-    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.min.js" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.ProjectLocationSummary.js" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.ProjectLocationSummary.min.js" />
     <Content Include="ScriptsCustom\ModalDialogForm.js" />
@@ -514,7 +543,10 @@
     </None>
     <Content Include="Views\Organization\PullOrganizationFromKeystone.cshtml" />
     <Content Include="Views\OrganizationAndRelationshipType\EditRelationshipType.cshtml" />
+    <Content Include="Views\Organization\EditBoundary.cshtml" />
     <Content Include="Views\Home\ManageHomePageImages.cshtml" />
+    <Content Include="Views\Organization\ApproveUploadGis.cshtml" />
+    <Content Include="Views\Organization\EditBoundaryErrors.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
     <Compile Include="Models\NotificationType.cs" />
     <Compile Include="Models\OrganizationType.cs" />
@@ -541,6 +573,7 @@
     <Compile Include="Views\OrganizationAndRelationshipType\RelationshipTypeGridSpec.cs" />
     <Compile Include="Views\Home\ManageHomePageImagesViewData.cs" />
     <Compile Include="Views\Home\ManageHomePageImages.cs" />
+    <Compile Include="Models\OrganizationBoundaryStaging.cs" />
     <Compile Include="Models\FirmaHomePageImage.cs" />
     <Compile Include="Views\Organization\PullOrganizationFromKeystone.cs" />
     <Compile Include="Views\Organization\PullOrganizationFromKeystoneViewData.cs" />

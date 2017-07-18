@@ -18,25 +18,24 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using ProjectFirma.Web.Views.Results;
+using GeoJSON.Net.Feature;
+using LtInfo.Common;
+using LtInfo.Common.Mvc;
+using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.KeystoneDataService;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Organization;
+using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Views.Shared;
-using GeoJSON.Net.Feature;
-using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.Mvc;
-using LtInfo.Common.MvcResults;
-using ProjectFirma.Web.KeystoneDataService;
-using ProjectFirma.Web.Views.User;
 using Detail = ProjectFirma.Web.Views.Organization.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Organization.DetailViewData;
 using Index = ProjectFirma.Web.Views.Organization.Index;
@@ -70,7 +69,7 @@ namespace ProjectFirma.Web.Controllers
         [OrganizationManageFeature]
         public PartialViewResult New()
         {
-            var viewModel = new EditViewModel() {IsActive = true};
+            var viewModel = new EditViewModel {IsActive = true};
             return ViewEdit(viewModel, false, null);
         }
 
@@ -145,8 +144,15 @@ namespace ProjectFirma.Web.Controllers
         private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData)
         {
             hasSpatialData = false;
+
             var mapDivID = $"organization_{organization.OrganizationID}_Map";
             var layers = new List<LayerGeoJson>();
+
+            if (organization.OrganizationBoundary != null)
+            {
+                hasSpatialData = true;
+                layers.Add(new LayerGeoJson("Organization Boundary", organization.OrganizationBoundaryToFeatureCollection, "#ff9933", 1, LayerInitialVisibility.Show));
+            }
 
             var projectsLayerGeoJson = GetProjectsLayerGeoJson(organization);
             if (projectsLayerGeoJson.GeoJsonFeatureCollection.Features.Any())
@@ -162,12 +168,11 @@ namespace ProjectFirma.Web.Controllers
                 layers.Add(new LayerGeoJson("Project Detailed Mapping", projectDetails, "blue", 1, LayerInitialVisibility.Hide));
             }
 
-            layers.AddRange(MapInitJson.GetWatershedMapLayers());
-
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
 
-            var mapInitJson = new MapInitJson(mapDivID, 10, layers, boundingBox);
-            return mapInitJson;
+            layers.AddRange(MapInitJson.GetWatershedMapLayers());
+
+            return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, boundingBox);
         }
 
         private static LayerGeoJson GetProjectsLayerGeoJson(Organization organization)
@@ -255,7 +260,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !organization.HasDependentObjects() && !organization.IsUnknown;
             var confirmMessage = canDelete
-                ? String.Format("Are you sure you want to delete this Organization '{0}'?", organization.OrganizationName)
+                ? $"Are you sure you want to delete this Organization '{organization.OrganizationName}'?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Organization", SitkaRoute<OrganizationController>.BuildLinkFromExpression(x => x.Detail(organization), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
@@ -332,12 +337,10 @@ namespace ProjectFirma.Web.Controllers
 
             var keystoneClient = new KeystoneDataClient();
 
-
             var organizationGuid = viewModel.OrganizationGuid.Value;
-            KeystoneDataService.Organization keystoneOrganization = null;
+            KeystoneDataService.Organization keystoneOrganization;
             try
             {
-                
                 keystoneOrganization = keystoneClient.GetOrganization(organizationGuid);
             }
             catch (Exception)
@@ -363,7 +366,7 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            SetMessageForDisplay(string.Format("Organization {0} successfully added.", firmaOrganization.GetDisplayNameAsUrl()));
+            SetMessageForDisplay($"Organization {firmaOrganization.GetDisplayNameAsUrl()} successfully added.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -374,5 +377,101 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<PullOrganizationFromKeystone, PullOrganizationFromKeystoneViewData, PullOrganizationFromKeystoneViewModel>(viewData, viewModel);
         }
 
+        [HttpGet]
+        [OrganizationManageFeature]
+        public ViewResult EditBoundary(OrganizationPrimaryKey organizationPrimaryKey) {
+            var viewModel = new EditBoundaryViewModel();
+            var viewData = new EditBoundaryViewData(CurrentPerson, organizationPrimaryKey.EntityObject);
+            return RazorView<EditBoundary, EditBoundaryViewData, EditBoundaryViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [OrganizationManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditBoundary(OrganizationPrimaryKey organizationPrimaryKey, EditBoundaryViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                var viewData = new EditBoundaryViewData(CurrentPerson, organization);
+                return RazorPartialView<EditBoundaryErrors, EditBoundaryViewData, EditBoundaryViewModel>(viewData, viewModel);
+            }
+
+            viewModel.UpdateModel(organization);
+
+            return RedirectToAction(new SitkaRoute<OrganizationController>(c => c.ApproveUploadGis(organizationPrimaryKey)));
+        }
+
+        [HttpGet]
+        [OrganizationManageFeature]
+        public PartialViewResult ApproveUploadGis(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var viewModel = new ApproveUploadGisViewModel();
+            return ViewApproveUploadGis(viewModel, organization);
+        }
+
+        [HttpPost]
+        [OrganizationManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ApproveUploadGis(OrganizationPrimaryKey organizationPrimaryKey, ApproveUploadGisViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewApproveUploadGis(viewModel, organization);
+            }
+
+            viewModel.UpdateModel(organization);
+
+            SetMessageForDisplay($"Organization Boundary for {organization.GetDisplayNameAsUrl()} successfully updated.");
+            return new ContentResult();
+        }
+        private PartialViewResult ViewApproveUploadGis(ApproveUploadGisViewModel viewModel, Organization organization)
+        {
+            var layers = organization.OrganizationBoundaryStagings.Select((x, index) => new LayerGeoJson(
+                x.FeatureClassName, x.ToGeoJsonFeatureCollection(),
+                FirmaHelpers.DefaultColorRange[index], 0.8m,
+                index == 0 ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide)).ToList();
+            var mapInitJson = new MapInitJson("organizationBoundaryApproveUploadGisMap", 10, layers, BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers));
+
+            var viewData = new ApproveUploadGisViewData(CurrentPerson, organization, mapInitJson);
+            return RazorPartialView<ApproveUploadGis, ApproveUploadGisViewData, ApproveUploadGisViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [OrganizationManageFeature]
+        public PartialViewResult DeleteOrganizationBoundary(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(organization.OrganizationID);
+            return ViewDeleteOrganizationBoundary(organization, viewModel);
+        }
+
+        [HttpPost]
+        [OrganizationManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult DeleteOrganizationBoundary(OrganizationPrimaryKey organizationPrimaryKey,
+            ConfirmDialogFormViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewDeleteOrganizationBoundary(organization, viewModel);
+            }
+
+            organization.OrganizationBoundary = null;
+
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewDeleteOrganizationBoundary(Organization organization,
+            ConfirmDialogFormViewModel viewModel)
+        {
+            var viewData = new ConfirmDialogFormViewData(
+                $"Are you sure you want to delete the boundary for this Organization '{organization.OrganizationName}'?");
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,
+                viewModel);
+        }
     }
 }

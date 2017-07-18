@@ -269,6 +269,18 @@
           <ScalarProperty Name="OrganizationUrl" ColumnName="OrganizationUrl" />
           <ScalarProperty Name="LogoFileResourceID" ColumnName="LogoFileResourceID" />
           <ScalarProperty Name="OrganizationTypeID" ColumnName="OrganizationTypeID" />
+          <ScalarProperty Name="OrganizationBoundary" ColumnName="OrganizationBoundary" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrganizationBoundaryStaging">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.OrganizationBoundaryStaging">
+        <MappingFragment StoreEntitySet="OrganizationBoundaryStaging">
+          <ScalarProperty Name="OrganizationBoundaryStagingID" ColumnName="OrganizationBoundaryStagingID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+          <ScalarProperty Name="FeatureClassName" ColumnName="FeatureClassName" />
+          <ScalarProperty Name="GeoJson" ColumnName="GeoJson" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1134,6 +1146,8 @@
           <ScalarProperty Name="TenantStyleSheetFileResourceID" ColumnName="TenantStyleSheetFileResourceID" />
           <ScalarProperty Name="TenantDisplayName" ColumnName="TenantDisplayName" />
           <ScalarProperty Name="ToolDisplayName" ColumnName="ToolDisplayName" />
+          <ScalarProperty Name="RecaptchaPublicKey" ColumnName="RecaptchaPublicKey" />
+          <ScalarProperty Name="RecaptchaPrivateKey" ColumnName="RecaptchaPrivateKey" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

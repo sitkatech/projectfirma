@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "ScriptsCustom/Maps/ProjectFirmaMaps.SelectableMap.min.js",
+    "inputFiles": [
+      "ScriptsCustom/Maps/ProjectFirmaMaps.SelectableMap.js"
+    ]
+  },
+  {
+    "outputFileName": "ScriptsCustom/Maps/ProjectFirmaMaps.min.js",
+    "inputFiles": [
+      "ScriptsCustom/Maps/ProjectFirmaMaps.js"
+    ]
+  }
+]

@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Views.Shared
                 if (
                     !RecaptchaValidator.IsValidResponse(gRecaptchaResponse,
                         ipAddress,
-                        FirmaWebConfiguration.RecaptchaPrivateKey,
+                        MultiTenantHelpers.GetTenantRecaptchaPrivateKey(),
                         FirmaWebConfiguration.RecaptchaValidatorUrl,
                         SitkaLogger.Instance.LogDetailedErrorMessage))
                 {
