@@ -272,7 +272,7 @@ namespace ProjectFirma.Web.Controllers
             var firmaOrganization = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(x => x.OrganizationGuid == keystoneUser.OrganizationGuid);
             if (firmaOrganization == null)
             {
-                firmaOrganization = new Organization(keystoneOrganization.FullName, Sector.Private, true)
+                firmaOrganization = new Organization(keystoneOrganization.FullName, true)
                 {
                     OrganizationGuid = keystoneOrganization.OrganizationGuid,
                     OrganizationAbbreviation = keystoneOrganization.ShortName,

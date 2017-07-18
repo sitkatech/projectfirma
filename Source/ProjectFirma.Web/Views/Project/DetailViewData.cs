@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly ProjectBasicsTagsViewData ProjectBasicsTagsViewData;
 
         public readonly List<ProjectStage> ProjectStages;
-        public readonly List<ProjectImplementingOrganizationOrProjectFundingOrganization> AllProjectOrganizations;
+        public readonly List<Models.ProjectOrganization> AllProjectOrganizations;
         public readonly string MapFormID;
 
         public readonly ProjectUpdateBatchGridSpec ProjectUpdateBatchGridSpec;
@@ -143,7 +143,7 @@ namespace ProjectFirma.Web.Views.Project
             EditDetailedProjectLocationUrl = editDetailedProjectLocationUrl;
             UserHasMapManagePermissions = new ProjectMapManageFeature().HasPermissionByPerson(currentPerson);
 
-            AllProjectOrganizations = project.GetAllProjectOrganizations();
+            AllProjectOrganizations = project.ProjectOrganizations.ToList();
             EditProjectOrganizationsUrl = editProjectOrganizationsUrl;
             UserHasProjectOrganizationManagePermissions = new ProjectOrganizationManageFeature().HasPermissionByPerson(currentPerson);
 

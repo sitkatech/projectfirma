@@ -159,7 +159,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                 Check.RequireNotNull(LeadImplementerOrganizationID, "Lead Implementer must be specified");
                 if (LeadImplementerOrganizationID != null)
                 {
-                    project.ProjectImplementingOrganizations.Add(new ProjectImplementingOrganization(ProjectID, LeadImplementerOrganizationID.Value, true));
+                    project.LeadImplementerOrganizationID = LeadImplementerOrganizationID;
                 }
             }
         }

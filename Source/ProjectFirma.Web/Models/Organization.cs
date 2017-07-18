@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -87,7 +88,11 @@ namespace ProjectFirma.Web.Models
 
         public bool IsLeadImplementerForOneOrMoreProjects
         {
-            get { return GetAllProjectOrganizations().Any(po => po.IsLeadOrganization); }
+            get
+            {
+                var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
+                return allProjects.Any(p => p.LeadImplementerOrganizationID == OrganizationID);
+            }
         }
 
         public static bool IsOrganizationNameUnique(IEnumerable<Organization> organizations, string organizationName, int currentOrganizationID)
@@ -110,17 +115,9 @@ namespace ProjectFirma.Web.Models
             return existingOrganization == null;
         }
 
-        public List<ProjectImplementingOrganizationOrProjectFundingOrganization> GetAllProjectOrganizations()
-        {
-            var projectsWhereYouAreTheImplementingOrg = ProjectImplementingOrganizations.ToLookup(x => x.ProjectID);
-            var projectsWhereYouAreTheFundingOrg = ProjectFundingOrganizations.ToLookup(x => x.ProjectID);
-            var allProjects = projectsWhereYouAreTheImplementingOrg.Select(x => x.Key).Union(projectsWhereYouAreTheFundingOrg.Select(x => x.Key)).ToList();
-            var projectImplementingOrganizationOrProjectFundingOrganizations =
-                allProjects.Select(
-                    projectID =>
-                        new ProjectImplementingOrganizationOrProjectFundingOrganization(projectsWhereYouAreTheImplementingOrg[projectID].SingleOrDefault(),
-                            projectsWhereYouAreTheFundingOrg[projectID].SingleOrDefault())).ToList();
-            return projectImplementingOrganizationOrProjectFundingOrganizations.OrderBy(x => x.Project.DisplayName).ToList();
+        public List<ProjectOrganization> GetAllProjectOrganizations()
+        {            
+            return ProjectOrganizations.OrderBy(x => x.Project.DisplayName).ToList();
         }
 
         public string AuditDescriptionString
@@ -153,6 +150,11 @@ namespace ProjectFirma.Web.Models
         {
             var projectFundingSourceExpenditures = FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures);
             return projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(this);
+        }
+
+        public List<RelationshipType> GetProjectRelationshipTypes(Project project)
+        {
+            return ProjectOrganizations.Where(x => x.Project == project).Select(x => x.RelationshipType).ToList();
         }
     }
 }

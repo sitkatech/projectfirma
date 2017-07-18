@@ -61,21 +61,18 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             public readonly List<FundingSourceSimple> AllFundingSources;
             public readonly List<ProjectCostTypeSimple> AllProjectCostTypes;
             public readonly int ProjectID;
-            public readonly IEnumerable<int> ProjectFundingOrganizationFundingSourceIDs;
             public readonly List<string> ValidationWarnings;
 
             public ViewDataForAngularEditor(Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
                 List<ProjectCostTypeSimple> allProjectCostTypes,
                 List<int> calendarYearRange,
-                IEnumerable<int> projectFundingOrganizationFundingSourceIDs,
                 BudgetsValidationResult budgetsValidationResult)
             {
                 CalendarYearRange = calendarYearRange;
                 AllFundingSources = allFundingSources;
                 ProjectID = project.ProjectID;
                 AllProjectCostTypes = allProjectCostTypes;
-                ProjectFundingOrganizationFundingSourceIDs = projectFundingOrganizationFundingSourceIDs;
                 ValidationWarnings = budgetsValidationResult.GetWarningMessages();
             }
         }

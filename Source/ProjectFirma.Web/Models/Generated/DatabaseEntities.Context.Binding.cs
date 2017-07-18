@@ -74,6 +74,10 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<Notification> Notifications { get { return AllNotifications.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Organization> AllOrganizations { get; set; }
         public virtual IQueryable<Organization> Organizations { get { return AllOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<OrganizationTypeRelationshipType> AllOrganizationTypeRelationshipTypes { get; set; }
+        public virtual IQueryable<OrganizationTypeRelationshipType> OrganizationTypeRelationshipTypes { get { return AllOrganizationTypeRelationshipTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<OrganizationType> AllOrganizationTypes { get; set; }
+        public virtual IQueryable<OrganizationType> OrganizationTypes { get { return AllOrganizationTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Person> AllPeople { get; set; }
         public virtual IQueryable<Person> People { get { return AllPeople.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<PerformanceMeasureActual> AllPerformanceMeasureActuals { get; set; }
@@ -118,8 +122,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectExternalLink> ProjectExternalLinks { get { return AllProjectExternalLinks.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectExternalLinkUpdate> AllProjectExternalLinkUpdates { get; set; }
         public virtual IQueryable<ProjectExternalLinkUpdate> ProjectExternalLinkUpdates { get { return AllProjectExternalLinkUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectFundingOrganization> AllProjectFundingOrganizations { get; set; }
-        public virtual IQueryable<ProjectFundingOrganization> ProjectFundingOrganizations { get { return AllProjectFundingOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectFundingSourceExpenditure> AllProjectFundingSourceExpenditures { get; set; }
         public virtual IQueryable<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get { return AllProjectFundingSourceExpenditures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectFundingSourceExpenditureUpdate> AllProjectFundingSourceExpenditureUpdates { get; set; }
@@ -128,8 +130,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectImage> ProjectImages { get { return AllProjectImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectImageUpdate> AllProjectImageUpdates { get; set; }
         public virtual IQueryable<ProjectImageUpdate> ProjectImageUpdates { get { return AllProjectImageUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectImplementingOrganization> AllProjectImplementingOrganizations { get; set; }
-        public virtual IQueryable<ProjectImplementingOrganization> ProjectImplementingOrganizations { get { return AllProjectImplementingOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectLocationAreaGroup> AllProjectLocationAreaGroups { get; set; }
         public virtual IQueryable<ProjectLocationAreaGroup> ProjectLocationAreaGroups { get { return AllProjectLocationAreaGroups.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectLocationArea> AllProjectLocationAreas { get; set; }
@@ -150,6 +150,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectNote> ProjectNotes { get { return AllProjectNotes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectNoteUpdate> AllProjectNoteUpdates { get; set; }
         public virtual IQueryable<ProjectNoteUpdate> ProjectNoteUpdates { get { return AllProjectNoteUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectOrganization> AllProjectOrganizations { get; set; }
+        public virtual IQueryable<ProjectOrganization> ProjectOrganizations { get { return AllProjectOrganizations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Project> AllProjects { get; set; }
         public virtual IQueryable<Project> Projects { get { return AllProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectTag> AllProjectTags { get; set; }
@@ -176,6 +178,10 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProposedProjectNote> ProposedProjectNotes { get { return AllProposedProjectNotes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProposedProject> AllProposedProjects { get; set; }
         public virtual IQueryable<ProposedProject> ProposedProjects { get { return AllProposedProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<RelationshipType> AllRelationshipTypes { get; set; }
+        public virtual IQueryable<RelationshipType> RelationshipTypes { get { return AllRelationshipTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<SnapshotOrganizationTypeExpenditure> AllSnapshotOrganizationTypeExpenditures { get; set; }
+        public virtual IQueryable<SnapshotOrganizationTypeExpenditure> SnapshotOrganizationTypeExpenditures { get { return AllSnapshotOrganizationTypeExpenditures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<SnapshotPerformanceMeasure> AllSnapshotPerformanceMeasures { get; set; }
         public virtual IQueryable<SnapshotPerformanceMeasure> SnapshotPerformanceMeasures { get { return AllSnapshotPerformanceMeasures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<SnapshotPerformanceMeasureSubcategoryOption> AllSnapshotPerformanceMeasureSubcategoryOptions { get; set; }
@@ -184,8 +190,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<SnapshotProject> SnapshotProjects { get { return AllSnapshotProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Snapshot> AllSnapshots { get; set; }
         public virtual IQueryable<Snapshot> Snapshots { get { return AllSnapshots.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<SnapshotSectorExpenditure> AllSnapshotSectorExpenditures { get; set; }
-        public virtual IQueryable<SnapshotSectorExpenditure> SnapshotSectorExpenditures { get { return AllSnapshotSectorExpenditures.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
         public virtual IQueryable<StateProvince> StateProvinces { get { return AllStateProvinces.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<SupportRequestLog> AllSupportRequestLogs { get; set; }
@@ -318,6 +322,12 @@ namespace ProjectFirma.Web.Models
                 case "Organization":
                     return Organizations.GetOrganization(primaryKey);
 
+                case "OrganizationTypeRelationshipType":
+                    return OrganizationTypeRelationshipTypes.GetOrganizationTypeRelationshipType(primaryKey);
+
+                case "OrganizationType":
+                    return OrganizationTypes.GetOrganizationType(primaryKey);
+
                 case "Person":
                     return People.GetPerson(primaryKey);
 
@@ -404,9 +414,6 @@ namespace ProjectFirma.Web.Models
                 case "ProjectExternalLinkUpdate":
                     return ProjectExternalLinkUpdates.GetProjectExternalLinkUpdate(primaryKey);
 
-                case "ProjectFundingOrganization":
-                    return ProjectFundingOrganizations.GetProjectFundingOrganization(primaryKey);
-
                 case "ProjectFundingSourceExpenditure":
                     return ProjectFundingSourceExpenditures.GetProjectFundingSourceExpenditure(primaryKey);
 
@@ -423,9 +430,6 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectImageUpdate":
                     return ProjectImageUpdates.GetProjectImageUpdate(primaryKey);
-
-                case "ProjectImplementingOrganization":
-                    return ProjectImplementingOrganizations.GetProjectImplementingOrganization(primaryKey);
 
                 case "ProjectLocationAreaGroup":
                     return ProjectLocationAreaGroups.GetProjectLocationAreaGroup(primaryKey);
@@ -471,6 +475,9 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectNoteUpdate":
                     return ProjectNoteUpdates.GetProjectNoteUpdate(primaryKey);
+
+                case "ProjectOrganization":
+                    return ProjectOrganizations.GetProjectOrganization(primaryKey);
 
                 case "Project":
                     return Projects.GetProject(primaryKey);
@@ -526,15 +533,16 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNullThrowNotFound(proposedProjectState, "ProposedProjectState", primaryKey);
                     return proposedProjectState;
 
+                case "RelationshipType":
+                    return RelationshipTypes.GetRelationshipType(primaryKey);
+
                 case "Role":
                     var role = Role.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(role, "Role", primaryKey);
                     return role;
 
-                case "Sector":
-                    var sector = Sector.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(sector, "Sector", primaryKey);
-                    return sector;
+                case "SnapshotOrganizationTypeExpenditure":
+                    return SnapshotOrganizationTypeExpenditures.GetSnapshotOrganizationTypeExpenditure(primaryKey);
 
                 case "SnapshotPerformanceMeasure":
                     return SnapshotPerformanceMeasures.GetSnapshotPerformanceMeasure(primaryKey);
@@ -552,9 +560,6 @@ namespace ProjectFirma.Web.Models
 
                 case "Snapshot":
                     return Snapshots.GetSnapshot(primaryKey);
-
-                case "SnapshotSectorExpenditure":
-                    return SnapshotSectorExpenditures.GetSnapshotSectorExpenditure(primaryKey);
 
                 case "StateProvince":
                     return StateProvinces.GetStateProvince(primaryKey);

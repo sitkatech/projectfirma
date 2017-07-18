@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.Results
                 SaveFiltersInCookie = true
             };
 
-            GridName = "projectFundingSourceExpendituresBySectorGrid";
+            GridName = "projectFundingSourceExpendituresByOrganizationTypeGrid";
             GridDataUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingByPerformanceMeasureByProjectGridJsonData(selectedPerformanceMeasure.PerformanceMeasureID));
         }
     }

@@ -23,8 +23,6 @@ namespace ProjectFirma.Web.Models
         public static readonly ProjectLocationFilterTypeTaxonomyTierOne TaxonomyTierOne = ProjectLocationFilterTypeTaxonomyTierOne.Instance;
         public static readonly ProjectLocationFilterTypeClassification Classification = ProjectLocationFilterTypeClassification.Instance;
         public static readonly ProjectLocationFilterTypeProjectStage ProjectStage = ProjectLocationFilterTypeProjectStage.Instance;
-        public static readonly ProjectLocationFilterTypeImplementingOrganization ImplementingOrganization = ProjectLocationFilterTypeImplementingOrganization.Instance;
-        public static readonly ProjectLocationFilterTypeFundingOrganization FundingOrganization = ProjectLocationFilterTypeFundingOrganization.Instance;
 
         public static readonly List<ProjectLocationFilterType> All;
         public static readonly ReadOnlyDictionary<int, ProjectLocationFilterType> AllLookupDictionary;
@@ -34,7 +32,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectLocationFilterType()
         {
-            All = new List<ProjectLocationFilterType> { TaxonomyTierThree, TaxonomyTierTwo, TaxonomyTierOne, Classification, ProjectStage, ImplementingOrganization, FundingOrganization };
+            All = new List<ProjectLocationFilterType> { TaxonomyTierThree, TaxonomyTierTwo, TaxonomyTierOne, Classification, ProjectStage };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectLocationFilterType>(All.ToDictionary(x => x.ProjectLocationFilterTypeID));
         }
 
@@ -111,10 +109,6 @@ namespace ProjectFirma.Web.Models
             {
                 case ProjectLocationFilterTypeEnum.Classification:
                     return Classification;
-                case ProjectLocationFilterTypeEnum.FundingOrganization:
-                    return FundingOrganization;
-                case ProjectLocationFilterTypeEnum.ImplementingOrganization:
-                    return ImplementingOrganization;
                 case ProjectLocationFilterTypeEnum.ProjectStage:
                     return ProjectStage;
                 case ProjectLocationFilterTypeEnum.TaxonomyTierOne:
@@ -135,9 +129,7 @@ namespace ProjectFirma.Web.Models
         TaxonomyTierTwo = 2,
         TaxonomyTierOne = 3,
         Classification = 4,
-        ProjectStage = 5,
-        ImplementingOrganization = 6,
-        FundingOrganization = 7
+        ProjectStage = 5
     }
 
     public partial class ProjectLocationFilterTypeTaxonomyTierThree : ProjectLocationFilterType
@@ -168,17 +160,5 @@ namespace ProjectFirma.Web.Models
     {
         private ProjectLocationFilterTypeProjectStage(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
         public static readonly ProjectLocationFilterTypeProjectStage Instance = new ProjectLocationFilterTypeProjectStage(5, @"ProjectStage", @"ProjectStageID", @"Project Stage", 50, 3);
-    }
-
-    public partial class ProjectLocationFilterTypeImplementingOrganization : ProjectLocationFilterType
-    {
-        private ProjectLocationFilterTypeImplementingOrganization(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeImplementingOrganization Instance = new ProjectLocationFilterTypeImplementingOrganization(6, @"ImplementingOrganization", @"ImplementingOrganizationID", @"Implementing Organization", 60, 4);
-    }
-
-    public partial class ProjectLocationFilterTypeFundingOrganization : ProjectLocationFilterType
-    {
-        private ProjectLocationFilterTypeFundingOrganization(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeFundingOrganization Instance = new ProjectLocationFilterTypeFundingOrganization(7, @"FundingOrganization", @"FundingOrganizationID", @"Funding Organization", 70, 4);
     }
 }

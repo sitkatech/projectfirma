@@ -23,9 +23,9 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected Snapshot()
         {
+            this.SnapshotOrganizationTypeExpenditures = new HashSet<SnapshotOrganizationTypeExpenditure>();
             this.SnapshotPerformanceMeasures = new HashSet<SnapshotPerformanceMeasure>();
             this.SnapshotProjects = new HashSet<SnapshotProject>();
-            this.SnapshotSectorExpenditures = new HashSet<SnapshotSectorExpenditure>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -67,13 +67,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return SnapshotPerformanceMeasures.Any() || SnapshotProjects.Any() || SnapshotSectorExpenditures.Any();
+            return SnapshotOrganizationTypeExpenditures.Any() || SnapshotPerformanceMeasures.Any() || SnapshotProjects.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Snapshot).Name, typeof(SnapshotPerformanceMeasure).Name, typeof(SnapshotProject).Name, typeof(SnapshotSectorExpenditure).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Snapshot).Name, typeof(SnapshotOrganizationTypeExpenditure).Name, typeof(SnapshotPerformanceMeasure).Name, typeof(SnapshotProject).Name};
 
         [Key]
         public int SnapshotID { get; set; }
@@ -83,9 +83,9 @@ namespace ProjectFirma.Web.Models
         public int ProjectCount { get; set; }
         public int PrimaryKey { get { return SnapshotID; } set { SnapshotID = value; } }
 
+        public virtual ICollection<SnapshotOrganizationTypeExpenditure> SnapshotOrganizationTypeExpenditures { get; set; }
         public virtual ICollection<SnapshotPerformanceMeasure> SnapshotPerformanceMeasures { get; set; }
         public virtual ICollection<SnapshotProject> SnapshotProjects { get; set; }
-        public virtual ICollection<SnapshotSectorExpenditure> SnapshotSectorExpenditures { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths

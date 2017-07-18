@@ -266,9 +266,9 @@ namespace ProjectFirma.Web.Models
                 ProjectLocationNotes = proposedProject.ProjectLocationNotes,
             };
             project.ProjectNotes = proposedProject.ProposedProjectNotes.Select(x => new ProjectNote(project, x.Note, x.CreateDate)).ToList();
-            project.ProjectClassifications = proposedProject.ProposedProjectClassifications.Select(x => new ProjectClassification(project.ProjectID, x.ClassificationID, x.ProposedProjectClassificationNotes)).ToList();            
+            project.ProjectClassifications = proposedProject.ProposedProjectClassifications.Select(x => new ProjectClassification(project.ProjectID, x.ClassificationID, x.ProposedProjectClassificationNotes)).ToList();
 
-            project.ProjectImplementingOrganizations.Add(new ProjectImplementingOrganization(project, proposedProject.LeadImplementerOrganization, true));
+            project.LeadImplementerOrganization = proposedProject.LeadImplementerOrganization;
 
             project.ProjectAssessmentQuestions = proposedProject.ProposedProjectAssessmentQuestions.OrderBy(x => x.AssessmentQuestionID).Select(x => new ProjectAssessmentQuestion(project.ProjectID, x.AssessmentQuestionID) {Answer = x.Answer}).ToList();
 

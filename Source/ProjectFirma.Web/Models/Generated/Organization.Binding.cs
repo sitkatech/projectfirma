@@ -26,8 +26,8 @@ namespace ProjectFirma.Web.Models
             this.FundingSources = new HashSet<FundingSource>();
             this.MonitoringProgramPartners = new HashSet<MonitoringProgramPartner>();
             this.People = new HashSet<Person>();
-            this.ProjectFundingOrganizations = new HashSet<ProjectFundingOrganization>();
-            this.ProjectImplementingOrganizations = new HashSet<ProjectImplementingOrganization>();
+            this.ProjectsWhereYouAreTheLeadImplementerOrganization = new HashSet<Project>();
+            this.ProjectOrganizations = new HashSet<ProjectOrganization>();
             this.ProposedProjectsWhereYouAreTheLeadImplementerOrganization = new HashSet<ProposedProject>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
@@ -35,50 +35,38 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationAbbreviation, int sectorID, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceID) : this()
+        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationAbbreviation, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceID, int? organizationTypeID) : this()
         {
             this.OrganizationID = organizationID;
             this.OrganizationGuid = organizationGuid;
             this.OrganizationName = organizationName;
             this.OrganizationAbbreviation = organizationAbbreviation;
-            this.SectorID = sectorID;
             this.PrimaryContactPersonID = primaryContactPersonID;
             this.IsActive = isActive;
             this.OrganizationUrl = organizationUrl;
             this.LogoFileResourceID = logoFileResourceID;
+            this.OrganizationTypeID = organizationTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Organization(string organizationName, int sectorID, bool isActive) : this()
+        public Organization(string organizationName, bool isActive) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.OrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.OrganizationName = organizationName;
-            this.SectorID = sectorID;
             this.IsActive = isActive;
         }
 
-        /// <summary>
-        /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
-        /// </summary>
-        public Organization(string organizationName, Sector sector, bool isActive) : this()
-        {
-            // Mark this as a new object by setting primary key with special value
-            this.OrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.OrganizationName = organizationName;
-            this.SectorID = sector.SectorID;
-            this.IsActive = isActive;
-        }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static Organization CreateNewBlank(Sector sector)
+        public static Organization CreateNewBlank()
         {
-            return new Organization(default(string), sector, default(bool));
+            return new Organization(default(string), default(bool));
         }
 
         /// <summary>
@@ -87,13 +75,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return FundingSources.Any() || MonitoringProgramPartners.Any() || People.Any() || ProjectFundingOrganizations.Any() || ProjectImplementingOrganizations.Any() || ProposedProjectsWhereYouAreTheLeadImplementerOrganization.Any();
+            return FundingSources.Any() || MonitoringProgramPartners.Any() || People.Any() || ProjectsWhereYouAreTheLeadImplementerOrganization.Any() || ProjectOrganizations.Any() || ProposedProjectsWhereYouAreTheLeadImplementerOrganization.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(MonitoringProgramPartner).Name, typeof(Person).Name, typeof(ProjectFundingOrganization).Name, typeof(ProjectImplementingOrganization).Name, typeof(ProposedProject).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(MonitoringProgramPartner).Name, typeof(Person).Name, typeof(Project).Name, typeof(ProjectOrganization).Name, typeof(ProposedProject).Name};
 
         [Key]
         public int OrganizationID { get; set; }
@@ -101,28 +89,28 @@ namespace ProjectFirma.Web.Models
         public Guid? OrganizationGuid { get; set; }
         public string OrganizationName { get; set; }
         public string OrganizationAbbreviation { get; set; }
-        public int SectorID { get; set; }
         public int? PrimaryContactPersonID { get; set; }
         public bool IsActive { get; set; }
         public string OrganizationUrl { get; set; }
         public int? LogoFileResourceID { get; set; }
+        public int? OrganizationTypeID { get; set; }
         public int PrimaryKey { get { return OrganizationID; } set { OrganizationID = value; } }
 
         public virtual ICollection<FundingSource> FundingSources { get; set; }
         public virtual ICollection<MonitoringProgramPartner> MonitoringProgramPartners { get; set; }
         public virtual ICollection<Person> People { get; set; }
-        public virtual ICollection<ProjectFundingOrganization> ProjectFundingOrganizations { get; set; }
-        public virtual ICollection<ProjectImplementingOrganization> ProjectImplementingOrganizations { get; set; }
+        public virtual ICollection<Project> ProjectsWhereYouAreTheLeadImplementerOrganization { get; set; }
+        public virtual ICollection<ProjectOrganization> ProjectOrganizations { get; set; }
         public virtual ICollection<ProposedProject> ProposedProjectsWhereYouAreTheLeadImplementerOrganization { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public Sector Sector { get { return Sector.AllLookupDictionary[SectorID]; } }
         public virtual Person PrimaryContactPerson { get; set; }
         public virtual FileResource LogoFileResource { get; set; }
+        public virtual OrganizationType OrganizationType { get; set; }
 
         public static class FieldLengths
         {
             public const int OrganizationName = 200;
-            public const int OrganizationAbbreviation = 20;
+            public const int OrganizationAbbreviation = 50;
             public const int OrganizationUrl = 200;
         }
     }

@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.Snapshot
             Add(string.Empty, x => UrlTemplate.MakeHrefString(x.Project.GetFactSheetUrl(), FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString()), 30);
             Add(Models.FieldDefinition.ProjectName.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.Project.GetDetailUrl(), x.Project.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
             Add("Added/ Updated", x => x.SnapshotProjectType.SnapshotProjectTypeDisplayName, 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.LeadImplementer.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.Project.LeadImplementer != null ? x.Project.LeadImplementer.GetDetailUrl() : null, x.Project.LeadImplementerName), 140);
+            Add(Models.FieldDefinition.LeadImplementer.ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.Project.LeadImplementerOrganization?.GetDetailUrl(), x.Project.LeadImplementerName), 140);
             Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), x => x.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.PlanningDesignStartYear.ToGridHeaderString(), x => x.Project.PlanningDesignStartYear, 90, DhtmlxGridColumnFormatType.None);
             Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => x.Project.ImplementationStartYear, 115, DhtmlxGridColumnFormatType.None);
