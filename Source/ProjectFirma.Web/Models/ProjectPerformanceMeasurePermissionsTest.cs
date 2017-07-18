@@ -316,8 +316,8 @@ namespace ProjectFirma.Web.Models
 
         private static void MakeOrganizationTheOnlyAndTheLeadImplementingOrganization(Project theProject, Organization leadOrganization)
         {
-            theProject.ProjectImplementingOrganizations.Clear();
-            theProject.ProjectImplementingOrganizations.Add(new ProjectImplementingOrganization(theProject, leadOrganization, true));
+            theProject.ProjectOrganizations.Clear();
+            theProject.LeadImplementerOrganization = leadOrganization;
         }
 
         private static void TestExpectedUserPermission(Person user, Project project, IFirmaBaseFeatureWithContext<Project> projectCheckingFeature, bool expectedPermission)
@@ -331,7 +331,7 @@ namespace ProjectFirma.Web.Models
             Organization optionalOrganizationToMakeUserTemporaryMemberOf,
             bool expectedPermission)
         {
-            Assert.That(project.LeadImplementer == null);
+            Assert.That(project.LeadImplementerOrganization == null);
 
             var originalUserOrg = user.Organization;
             var originalUserOrgID = user.OrganizationID;
@@ -345,7 +345,7 @@ namespace ProjectFirma.Web.Models
             }
 
             Assert.That(projectCheckingFeature.HasPermission(user, project).HasPermission == expectedPermission);
-            project.ProjectImplementingOrganizations.Clear();
+            project.ProjectOrganizations.Clear();
             user.Organization = originalUserOrg;
             user.OrganizationID = originalUserOrgID;
         }
@@ -357,7 +357,7 @@ namespace ProjectFirma.Web.Models
             Organization organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg,
             bool expectedPermission)
         {
-            Assert.That(project.LeadImplementer == null);
+            Assert.That(project.LeadImplementerOrganization == null);
 
             // We deliberately put user in a DIFFERENT org, so make user these aren't the same org
             Assert.That(orgUserShouldBeMemberOf.OrganizationID != organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg.OrganizationID);
@@ -373,15 +373,13 @@ namespace ProjectFirma.Web.Models
             organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg.PrimaryContactPerson = user;
             organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg.PrimaryContactPersonID = user.PersonID;
 
-            project.ProjectImplementingOrganizations.Add(new ProjectImplementingOrganization(project, organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg, true));
-            Assert.That(project.LeadImplementer.OrganizationID == organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg.OrganizationID);
+            Assert.That(project.LeadImplementerOrganization.OrganizationID == organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg.OrganizationID);
 
             Assert.That(projectCheckingFeature.HasPermission(user, project).HasPermission == expectedPermission);
 
-            project.ProjectImplementingOrganizations.Clear();
             user.Organization = originalUserOrg;
             user.OrganizationID = originalUserOrgID;
-            Assert.That(project.LeadImplementer == null);
+            Assert.That(project.LeadImplementerOrganization == null);
         }
     }
 }

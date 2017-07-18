@@ -29,13 +29,13 @@ namespace ProjectFirma.Web.UnitTestCommon
         {
             public static Organization Create()
             {
-                var organization = Organization.CreateNewBlank(Sector.Local);
+                var organization = Organization.CreateNewBlank();
                 return organization;
             }
 
             public static Organization Create(string organizationName)
             {
-                var organization = new Organization(organizationName, Sector.Private, true);
+                var organization = new Organization(organizationName, true);
                 return organization;
             }
 
@@ -43,12 +43,11 @@ namespace ProjectFirma.Web.UnitTestCommon
             {
                 string testOrganizationName = MakeTestName("Org Name");
                 const int maxLengthOfOrganizationAbbreviation = Organization.FieldLengths.OrganizationAbbreviation - 1;
-                string testOrganizationAbbreviation = TestFramework.MakeTestName(testOrganizationName, maxLengthOfOrganizationAbbreviation);
-                Sector testSector = Sector.Federal;
+                string testOrganizationAbbreviation = TestFramework.MakeTestName(testOrganizationName, maxLengthOfOrganizationAbbreviation);                
                 // Since a person contains an Org, we get into a chicken & egg recursion issue. So we put in a stubby Person to start with
                 //Person testPersonPrimaryContact = TestPerson.Create();
 
-                var testOrganization = new Organization(testOrganizationName, testSector, true);
+                var testOrganization = new Organization(testOrganizationName, true);
                 testOrganization.OrganizationAbbreviation = testOrganizationAbbreviation;
                 //testOrganization.PrimaryContactPerson = testPersonPrimaryContact;
 

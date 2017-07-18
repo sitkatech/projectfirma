@@ -39,68 +39,19 @@ namespace ProjectFirma.Web.Models
 {
     public partial class Project : IAuditableEntity, IProject
     {
-        public Project(Project project)
-            : this(
-                project.TaxonomyTierOne,
-                project.ProjectStage,
-                project.ProjectName,
-                project.ProjectDescription,
-                project.IsFeatured,
-                project.ProjectLocationSimpleType,
-                project.FundingType)
-        {
-            project.ProjectImplementingOrganizations.ForEach(x => ProjectImplementingOrganizations.Add(x));
-        }
+        public int EntityID => ProjectID;
 
-        public int EntityID
-        {
-            get { return ProjectID; }
-        }
+        public string AuditDescriptionString => ProjectName;
 
-        public string AuditDescriptionString
-        {
-            get { return ProjectName; }
-        }
+        public string DisplayName => ProjectName;
 
-        public string DisplayName
-        {
-            get { return ProjectName; }
-        }
+        public HtmlString DisplayNameAsUrl => UrlTemplate.MakeHrefString(this.GetDetailUrl(), DisplayName);
 
-        public HtmlString DisplayNameAsUrl
-        {
-            get { return UrlTemplate.MakeHrefString(this.GetDetailUrl(), DisplayName); }
-        }
+        public string LeadImplementerName => LeadImplementerOrganization != null ? LeadImplementerOrganization.OrganizationName : String.Empty;
 
-        public Organization LeadImplementer
+        public List<ProjectOrganization> GetAllProjectOrganizations()
         {
-            get
-            {
-                var leadImplementingOrganization = ProjectImplementingOrganizations.SingleOrDefault(o => o.IsLeadOrganization);
-                return leadImplementingOrganization != null ? leadImplementingOrganization.Organization : null;
-            }
-        }
-
-        public int? LeadImplementerOrganizationID
-        {
-            get { return LeadImplementer != null ? LeadImplementer.OrganizationID : (int?)null; }
-        }
-
-        public string LeadImplementerName
-        {
-            get { return LeadImplementer != null ? LeadImplementer.OrganizationName : String.Empty; }
-        }
-
-        public List<ProjectImplementingOrganizationOrProjectFundingOrganization> GetAllProjectOrganizations()
-        {
-            var implementingOrgs = ProjectImplementingOrganizations.ToList().ToLookup(x => x.OrganizationID);
-            var fundingOrgs = ProjectFundingOrganizations.ToList().ToLookup(x => x.OrganizationID);
-            var allOrgs = implementingOrgs.Select(x => x.Key).Union(fundingOrgs.Select(x => x.Key)).ToList();
-            var projectImplementingOrganizationOrProjectFundingOrganizations =
-                allOrgs.Select(
-                    organizationID => new ProjectImplementingOrganizationOrProjectFundingOrganization(implementingOrgs[organizationID].SingleOrDefault(), fundingOrgs[organizationID].SingleOrDefault()))
-                    .ToList();
-            return projectImplementingOrganizationOrProjectFundingOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList();
+            return ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList();
         }
 
         public static bool IsProjectNameUnique(IEnumerable<Project> projects, string projectName, int currentProjectID)
@@ -118,22 +69,16 @@ namespace ProjectFirma.Web.Models
             get { return ProjectStage.IsOnActiveProjectsList(); }
         }
 
-        public Person GetPrimaryContact() => PrimaryContactPerson ?? LeadImplementer?.PrimaryContactPerson;
+        public Person GetPrimaryContact() => PrimaryContactPerson ?? LeadImplementerOrganization?.PrimaryContactPerson;
 
-        public decimal? UnfundedNeed
-        {
-            get { return EstimatedTotalCost - SecuredFunding; }
-        }
+        public decimal? UnfundedNeed => EstimatedTotalCost - SecuredFunding;
 
         public decimal? TotalExpenditures
         {
             get { return ProjectFundingSourceExpenditures.Any() ? ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount) : (decimal?)null; }
         }
 
-        public bool HasProjectLocationPoint
-        {
-            get { return ProjectLocationPoint != null; }
-        }
+        public bool HasProjectLocationPoint => ProjectLocationPoint != null;
 
         //TODO: This could be moved to ProjectLocationSimpleType and made smarter
         public string ProjectLocationTypeDisplay
@@ -212,10 +157,7 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public bool IsUpdatableViaProjectUpdateProcess
-        {
-            get { return ProjectStage.RequiresReportedExpenditures() || ProjectStage.RequiresPerformanceMeasureActuals(); }
-        }
+        public bool IsUpdatableViaProjectUpdateProcess => ProjectStage.RequiresReportedExpenditures() || ProjectStage.RequiresPerformanceMeasureActuals();
 
         public ProjectUpdateState GetLatestUpdateState()
         {
@@ -316,7 +258,7 @@ namespace ProjectFirma.Web.Models
 
         public bool IsMyProject(Person person)
         {
-            return IsPersonThePrimaryContact(person) || DoesPersonBelongToProjectLeadImplementingOranization(person);
+            return IsPersonThePrimaryContact(person) || DoesPersonBelongToProjectLeadImplementingOrganization(person);
         }
 
         public bool IsVisibleToThisPerson(Person person)
@@ -334,9 +276,9 @@ namespace ProjectFirma.Web.Models
             return person.PersonID == primaryContactPerson?.PersonID;
         }
 
-        public bool DoesPersonBelongToProjectLeadImplementingOranization(Person person)
+        public bool DoesPersonBelongToProjectLeadImplementingOrganization(Person person)
         {
-            return person != null && LeadImplementer != null && LeadImplementer.OrganizationID == person.OrganizationID;
+            return person != null && LeadImplementerOrganization != null && LeadImplementerOrganization.OrganizationID == person.OrganizationID;
         }
 
         public List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasures()
@@ -360,7 +302,8 @@ namespace ProjectFirma.Web.Models
 
             if (!ProjectStage.IsDeletable())
             {
-                return new PermissionCheckResult(String.Format("Can't delete project: can only delete when in following stages: {0}.", String.Join(", ", ProjectStage.All.Where(x => x.IsDeletable()).Select(x => x.ProjectStageDisplayName))));
+                return new PermissionCheckResult(
+                    $"Can't delete project: can only delete when in following stages: {String.Join(", ", ProjectStage.All.Where(x => x.IsDeletable()).Select(x => x.ProjectStageDisplayName))}.");
             }
             return new PermissionCheckResult();
         }
@@ -380,7 +323,7 @@ namespace ProjectFirma.Web.Models
             return featureCollection;
         }
 
-        public ProjectType ProjectType { get { return ProjectType.Project; } }
+        public ProjectType ProjectType => ProjectType.Project;
 
         public IEnumerable<IQuestionAnswer> GetQuestionAnswers()
         {
@@ -422,8 +365,10 @@ namespace ProjectFirma.Web.Models
                 feature.Properties.Add("TaxonomyTierTwoID", TaxonomyTierOne.TaxonomyTierTwoID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("TaxonomyTierOneID", TaxonomyTierOneID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ClassificationID", String.Join(",", ProjectClassifications.Select(x => x.ClassificationID)));
-                feature.Properties.Add("ImplementingOrganizationID", String.Join(",", ProjectImplementingOrganizations.Select(x => x.OrganizationID)));
-                feature.Properties.Add("FundingOrganizationID", String.Join(",", ProjectFundingOrganizations.Select(x => x.OrganizationID)));
+                foreach (var type in ProjectOrganizations.Select(x => x.RelationshipType).Distinct())
+                {
+                    feature.Properties.Add($"{type.RelationshipTypeName}ID", ProjectOrganizations.Where(y => y.RelationshipType == type).Select(z => z.OrganizationID));
+                }                
                 feature.Properties.Add("PopupUrl", this.GetProjectMapPopupUrl());
             }
             return feature;
@@ -491,14 +436,11 @@ namespace ProjectFirma.Web.Models
             return features;
         }
 
-        public string Duration
-        {
-            get { return String.Format("{0} - {1}", ImplementationStartYear.HasValue ? ImplementationStartYear.Value.ToString(CultureInfo.InvariantCulture) : "?", CompletionYear.HasValue ? CompletionYear.Value.ToString(CultureInfo.InvariantCulture) : "?"); }
-        }
+        public string Duration => $"{ImplementationStartYear?.ToString(CultureInfo.InvariantCulture) ?? "?"} - {CompletionYear?.ToString(CultureInfo.InvariantCulture) ?? "?"}";
 
-        public string ProjectImplementingOrganizationNames
+        public string ProjectOrganizationNamesAndTypes
         {
-            get { return ProjectImplementingOrganizations.Any() ? String.Join(", ", ProjectImplementingOrganizations.OrderByDescending(x => x.IsLeadOrganization).ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName)) : String.Empty; }
+            get { return ProjectOrganizations.Any() ? String.Join(", ", ProjectOrganizations.OrderBy(x => x.RelationshipType.RelationshipTypeName).ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName)) : String.Empty; }
         }
 
         public ProjectImage KeyPhoto
@@ -525,19 +467,14 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public double? ProjectLocationPointLatitude
-        {
-            get { return HasProjectLocationPoint ? ProjectLocationPoint.YCoordinate : null; }
-        }
+        public double? ProjectLocationPointLatitude => HasProjectLocationPoint ? ProjectLocationPoint.YCoordinate : null;
 
-        public double? ProjectLocationPointLongitude
-        {
-            get { return HasProjectLocationPoint ? ProjectLocationPoint.XCoordinate : null; }
-        }
+        public double? ProjectLocationPointLongitude => HasProjectLocationPoint ? ProjectLocationPoint.XCoordinate : null;
 
         public FancyTreeNode ToFancyTreeNode()
         {
-            var fancyTreeNode = new FancyTreeNode(String.Format("{0}", UrlTemplate.MakeHrefString(this.GetFactSheetUrl(), ProjectName, ProjectName)), ProjectID.ToString(), false) { ThemeColor = TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor, MapUrl = null };
+            var fancyTreeNode = new FancyTreeNode(
+                $"{UrlTemplate.MakeHrefString(this.GetFactSheetUrl(), ProjectName, ProjectName)}", ProjectID.ToString(), false) { ThemeColor = TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThree.ThemeColor, MapUrl = null };
             return fancyTreeNode;
         }
 

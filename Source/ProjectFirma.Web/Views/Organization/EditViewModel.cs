@@ -48,9 +48,10 @@ namespace ProjectFirma.Web.Views.Organization
         [DisplayName("Abbreviation")]
         public string OrganizationAbbreviation { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.Sector)]
-        [DisplayName("Sector")]
-        public int SectorID { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationType)]
+        [Required]
+        [DisplayName("Organization Type")]
+        public int OrganizationTypeID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.PrimaryContact)]
         [DisplayName("Primary Contact")]
@@ -82,7 +83,7 @@ namespace ProjectFirma.Web.Views.Organization
             OrganizationID = organization.OrganizationID;
             OrganizationName = organization.OrganizationName;
             OrganizationAbbreviation = organization.OrganizationAbbreviation;
-            SectorID = organization.SectorID;
+            OrganizationTypeID = organization.OrganizationTypeID.Value;
             PrimaryContactPersonID = organization.PrimaryContactPerson != null ? organization.PrimaryContactPerson.PersonID : (int?) null;
             OrganizationUrl = organization.OrganizationUrl;
 
@@ -94,7 +95,7 @@ namespace ProjectFirma.Web.Views.Organization
         {
             organization.OrganizationName = OrganizationName;
             organization.OrganizationAbbreviation = OrganizationAbbreviation;
-            organization.SectorID = SectorID;
+            organization.OrganizationTypeID = OrganizationTypeID;
             organization.IsActive = IsActive;
             organization.PrimaryContactPersonID = PrimaryContactPersonID;
             organization.OrganizationUrl = OrganizationUrl;

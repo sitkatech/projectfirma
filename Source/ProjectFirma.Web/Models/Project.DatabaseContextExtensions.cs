@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Models
                     .Include(x => x.ProjectLocationAreaStateProvinces.Select(y => y.StateProvince))
                     .ToDictionary(x => x.ProjectLocationAreaID);
 
-            var projectsList = projects.Include(x => x.ProjectImplementingOrganizations.Select(y => y.Organization)).Include(x => x.ProjectFundingSourceExpenditures).ToList();
+            var projectsList = projects.Include(x => x.ProjectOrganizations.Select(y => y.Organization)).Include(x => x.ProjectFundingSourceExpenditures).ToList();
             if (filterFunction != null)
             {
                 projectsList = projectsList.Where(filterFunction).ToList();

@@ -22,7 +22,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using GeoJSON.Net.Feature;
+using LtInfo.Common.GeoJson;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -31,13 +34,7 @@ namespace ProjectFirma.Web.Models
         public const string OrganizationSitka = "Sitka Technology Group";
         public const string OrganizationUnknown = "(Unknown or Unspecified Organization)";
 
-        public string DisplayName
-        {
-            get
-            {
-                return IsUnknown ? OrganizationName : string.Format("{0}{1}{2}", OrganizationName, !string.IsNullOrWhiteSpace(OrganizationAbbreviation) ? string.Format(" ({0})", OrganizationAbbreviation) : string.Empty, !IsActive ? " (Inactive)" : string.Empty);
-            }
-        }
+        public string DisplayName => IsUnknown ? OrganizationName : $"{OrganizationName}{(!string.IsNullOrWhiteSpace(OrganizationAbbreviation) ? $" ({OrganizationAbbreviation})" : string.Empty)}{(!IsActive ? " (Inactive)" : string.Empty)}";
 
         public string OrganizationNamePossessive
         {
@@ -48,46 +45,32 @@ namespace ProjectFirma.Web.Models
                     return OrganizationName;
                 }
                 var postFix = OrganizationName.EndsWith("s") ? "'" : "'s";
-                return string.Format("{0}{1}", OrganizationName, postFix);
+                return $"{OrganizationName}{postFix}";
             }
         }
 
-        public string AbbreviationIfAvailable
-        {
-            get { return OrganizationAbbreviation ?? OrganizationName; }
-        }
+        public string AbbreviationIfAvailable => OrganizationAbbreviation ?? OrganizationName;
 
-        public HtmlString PrimaryContactPersonAsUrl
-        {
-            get { return PrimaryContactPerson != null ? PrimaryContactPerson.GetFullNameFirstLastAsUrl() : new HtmlString(ViewUtilities.NoneString); }
-        }
+        public HtmlString PrimaryContactPersonAsUrl => PrimaryContactPerson != null ? PrimaryContactPerson.GetFullNameFirstLastAsUrl() : new HtmlString(ViewUtilities.NoneString);
 
-        public HtmlString PrimaryContactPersonWithOrgAsUrl
-        {
-            get { return PrimaryContactPerson != null ? PrimaryContactPerson.GetFullNameFirstLastAndOrgAsUrl() : new HtmlString(ViewUtilities.NoneString); }
-        }
+        public HtmlString PrimaryContactPersonWithOrgAsUrl => PrimaryContactPerson != null ? PrimaryContactPerson.GetFullNameFirstLastAndOrgAsUrl() : new HtmlString(ViewUtilities.NoneString);
 
         /// <summary>
         /// Use for security situations where the user summary is not displayable, but the Organization is.
         /// </summary>
-        public HtmlString PrimaryContactPersonAsStringAndOrgAsUrl
-        {
-            get { return PrimaryContactPerson != null ? PrimaryContactPerson.GetFullNameFirstLastAsStringAndOrgAsUrl() : new HtmlString(ViewUtilities.NoneString); }
-        }
+        public HtmlString PrimaryContactPersonAsStringAndOrgAsUrl => PrimaryContactPerson != null ? PrimaryContactPerson.GetFullNameFirstLastAsStringAndOrgAsUrl() : new HtmlString(ViewUtilities.NoneString);
 
-        public string PrimaryContactPersonWithOrgAsString
-        {
-            get { return PrimaryContactPerson != null ? PrimaryContactPerson.FullNameFirstLastAndOrg : ViewUtilities.NoneString; }
-        }
+        public string PrimaryContactPersonWithOrgAsString => PrimaryContactPerson != null ? PrimaryContactPerson.FullNameFirstLastAndOrg : ViewUtilities.NoneString;
 
-        public string PrimaryContactPersonAsString
-        {
-            get { return PrimaryContactPerson != null ? PrimaryContactPerson.FullNameFirstLast : ViewUtilities.NoneString; }
-        }
+        public string PrimaryContactPersonAsString => PrimaryContactPerson != null ? PrimaryContactPerson.FullNameFirstLast : ViewUtilities.NoneString;
 
         public bool IsLeadImplementerForOneOrMoreProjects
         {
-            get { return GetAllProjectOrganizations().Any(po => po.IsLeadOrganization); }
+            get
+            {
+                var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
+                return allProjects.Any(p => p.LeadImplementerOrganizationID == OrganizationID);
+            }
         }
 
         public static bool IsOrganizationNameUnique(IEnumerable<Organization> organizations, string organizationName, int currentOrganizationID)
@@ -110,32 +93,16 @@ namespace ProjectFirma.Web.Models
             return existingOrganization == null;
         }
 
-        public List<ProjectImplementingOrganizationOrProjectFundingOrganization> GetAllProjectOrganizations()
-        {
-            var projectsWhereYouAreTheImplementingOrg = ProjectImplementingOrganizations.ToLookup(x => x.ProjectID);
-            var projectsWhereYouAreTheFundingOrg = ProjectFundingOrganizations.ToLookup(x => x.ProjectID);
-            var allProjects = projectsWhereYouAreTheImplementingOrg.Select(x => x.Key).Union(projectsWhereYouAreTheFundingOrg.Select(x => x.Key)).ToList();
-            var projectImplementingOrganizationOrProjectFundingOrganizations =
-                allProjects.Select(
-                    projectID =>
-                        new ProjectImplementingOrganizationOrProjectFundingOrganization(projectsWhereYouAreTheImplementingOrg[projectID].SingleOrDefault(),
-                            projectsWhereYouAreTheFundingOrg[projectID].SingleOrDefault())).ToList();
-            return projectImplementingOrganizationOrProjectFundingOrganizations.OrderBy(x => x.Project.DisplayName).ToList();
+        public List<ProjectOrganization> GetAllProjectOrganizations()
+        {            
+            return ProjectOrganizations.OrderBy(x => x.Project.DisplayName).ToList();
         }
 
-        public string AuditDescriptionString
-        {
-            get { return OrganizationName; }
-        }
+        public string AuditDescriptionString => OrganizationName;
 
-        public bool IsInKeystone
-        {
-            get { return OrganizationGuid.HasValue; }
-        }
-        public bool IsUnknown
-        {
-            get { return !string.IsNullOrWhiteSpace(OrganizationName) && OrganizationName.Equals(OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase); }
-        }
+        public bool IsInKeystone => OrganizationGuid.HasValue;
+
+        public bool IsUnknown => !string.IsNullOrWhiteSpace(OrganizationName) && OrganizationName.Equals(OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase);
 
         public IEnumerable<CalendarYearReportedValue> GetAllCalendarYearExpenditures()
         {
@@ -154,5 +121,15 @@ namespace ProjectFirma.Web.Models
             var projectFundingSourceExpenditures = FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures);
             return projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(this);
         }
+
+        public List<RelationshipType> GetProjectRelationshipTypes(Project project)
+        {
+            return ProjectOrganizations.Where(x => x.Project == project).Select(x => x.RelationshipType).ToList();
+        }
+
+        public FeatureCollection OrganizationBoundaryToFeatureCollection => new FeatureCollection(new List<Feature>
+        {
+            DbGeometryToGeoJsonHelper.FromDbGeometry(OrganizationBoundary)
+        });
     }
 }

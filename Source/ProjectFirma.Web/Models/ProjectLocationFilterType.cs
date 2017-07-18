@@ -96,30 +96,5 @@ namespace ProjectFirma.Web.Models
             get { return ProjectLocationFilterTypeDisplayName; }
         }
     }
-
-    public partial class ProjectLocationFilterTypeImplementingOrganization
-    {
-        public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
-        {
-            return project => filterValues.Intersect(project.ProjectImplementingOrganizations.Select(x => x.OrganizationID)).Any();
-        }
-
-        public override string DisplayName
-        {
-            get { return ProjectLocationFilterTypeDisplayName; }
-        }
-    }
-
-    public partial class ProjectLocationFilterTypeFundingOrganization
-    {
-        public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
-        {
-            return project => filterValues.Intersect(project.ProjectFundingOrganizations.Select(x => x.OrganizationID)).Any();
-        }
-
-        public override string DisplayName
-        {
-            get { return ProjectLocationFilterTypeDisplayName; }
-        }
-    }
+  
 }

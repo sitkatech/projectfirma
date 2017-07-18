@@ -1,0 +1,93 @@
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Views.Organization
+
+@inherits ApproveUploadGis
+
+@if (Html.ValidationSummary().ToString().IsEmpty())
+{
+    <div class="alert alert-danger" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+        @Html.ValidationSummary()
+    </div>
+}
+
+<form id="approveUploadGisForm" action="@ViewDataTyped.ApproveUploadGisUrl" method="post">
+    <div class="row">
+        <div class="col-xs-12">
+            <ul>
+                <li>To zoom, hold <strong>Shift</strong> and drag mouse to desired viewport.</li>
+                <li>Switch between Feature Groups using the map control in the upper-right corner.</li>
+                <li>Select a polygon feature to represent the Organization boundary.</li>
+            </ul>
+            <div id="@ViewDataTyped.MapInitJson.MapDivID" class="organizationBoundaryMap" style="height: 400px; margin-bottom: 25px;"></div><!-- TODO move the inline styles to a stylesheet -->
+        </div>
+        <div class="col-xs-12">
+            <div class="well" style="display: none;">
+                @* ReSharper disable once UnknownCssClass *@
+                <div class="selectedOrganizationBoundaryInformation" style="max-height: 200px; overflow: auto;"></div><!-- TODO move the inline styles to a stylesheet -->
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="text-right">
+                <div id="putTheDataHere"></div>
+                <a href="@ViewDataTyped.OrganizationDetailUrl" class="btn btn-firma">Cancel</a>
+                <button id="submitApproveUploadGis" type="button" class="btn btn-firma" disabled="disabled" onclick="submitSelectedOrganizationBoundary()">Submit Boundary</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    // <![CDATA[
+    jQuery(function() {
+        var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
+        window.Sitka.approveUploadGisMap = new ProjectFirmaMaps.SelectableMap(mapInitJson);
+        window.Sitka.approveUploadGisMap.onSelectLayer = function(event) {
+            var $boundaryInformation = jQuery(".selectedOrganizationBoundaryInformation"),
+                $submitButton = jQuery("#submitApproveUploadGis"),
+                $placeForTheData = jQuery("#putTheDataHere"),
+                $hiddenInputForData = jQuery("<input type=\"hidden\" name=\"@Html.NameFor(m => m.OrganizationBoundaryWkt)\"/>");
+
+            $boundaryInformation.parent().show();
+            $boundaryInformation.html(layerToDescriptionString(event.layer));
+            $submitButton.prop("disabled", false);
+            $hiddenInputForData.attr("value", Terraformer.WKT.convert(event.layer.toGeoJSON().geometry));
+            $placeForTheData.html($hiddenInputForData);
+
+            function layerToDescriptionString(layer) {
+                var $dl = jQuery("<div><p>This is a list of properties attached to the selected polygon in the GIS file you uploaded:</p><dl class=\"dl-horizontal\"></dl></div>");
+                _.each(layer.feature.properties,
+                    function(value, key) {
+                        $dl.find("dl").append("<dt>" + key + "</dt><dd>" + value + "</dd>");
+                    });
+                return $dl.prop("outerHTML");
+            }
+        };
+    });
+
+    function submitSelectedOrganizationBoundary() {
+        var $form = jQuery("#approveUploadGisForm");
+        if ($form.valid()) {
+            $form.ajaxForm({
+                "url": this.action,
+                "type": this.method,
+                "beforeSubmit": function() {
+                    new Spinner().spin(document.getElementById("@ViewDataTyped.MapInitJson.MapDivID"));
+                },
+                "success": function() {
+                    window.location.href = "@(ViewDataTyped.OrganizationDetailUrl)";
+                },
+                "error": function (xhr, statusText) {
+                    console.error(statusText);
+                    jQuery("#approveUploadGisForm").prepend("<div class=\"alert alert-danger\" role=\"alert\">" +
+                        "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">&times;</button>" +
+                        "There was a problem submitting the selected boundary.</div>");
+                }
+            });
+            $form.submit();
+        }
+    }
+    // ]]>
+</script>
+

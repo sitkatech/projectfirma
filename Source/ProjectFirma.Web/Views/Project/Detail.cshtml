@@ -181,30 +181,52 @@
                                 <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasProjectOrganizationManagePermissions) Organizations</h3>
                             </div>
                             <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        @Html.LabelWithSugarFor(FieldDefinition.LeadImplementer)
+                                    </div>
+                                    <div class="col-xs-7">
+                                        @ViewDataTyped.Project.LeadImplementerOrganization.GetDisplayNameAsUrl()
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        @Html.LabelWithSugarFor(FieldDefinition.PrimaryContact, "Lead Implementing Organization Primary Contact")
+                                    </div>
+                                    <div class="col-xs-7">
+                                        @if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, ViewDataTyped.Project.LeadImplementerOrganization.PrimaryContactPerson).HasPermission)
+                                        {
+                                            @ViewDataTyped.Project.LeadImplementerOrganization.PrimaryContactPersonWithOrgAsUrl
+                                        }
+                                        else
+                                        {
+                                            @ViewDataTyped.Project.LeadImplementerOrganization.PrimaryContactPersonAsStringAndOrgAsUrl
+                                        }
+                                    </div>
+                                </div>
+                        
                                 @if (ViewDataTyped.AllProjectOrganizations.Any())
                                 {
+                                    <hr />
+                                    @Html.Label("Other Associated Organizations")
                                     <table class="summaryLayout">
                                         <tr>
                                             <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
-                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.LeadImplementer)</th>
-                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Implementer)</th>
-                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Funder)</th>
+                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType, "Relationship to Project")</th>
                                             <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact, "Organization's Primary Contact")</th>
-                                        </tr>
-                                        @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations)
+                                        </tr>                                
+                                        @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations.GroupBy(x => x.Organization))
                                         {
                                             <tr>
-                                                <td>@projectOrganization.Organization.GetDisplayNameAsUrl()</td>
-                                                <td style="text-align: center">@projectOrganization.IsLeadOrganization.ToCheckboxImageOrEmpty()</td>
-                                                <td style="text-align: center">@((projectOrganization.IsImplementingOrganization && !projectOrganization.IsLeadOrganization).ToCheckboxImageOrEmpty())</td>
-                                                <td style="text-align: center">@projectOrganization.IsFundingOrganization.ToCheckboxImageOrEmpty()</td>
-                                                @if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, projectOrganization.Organization.PrimaryContactPerson).HasPermission)
+                                                <td>@projectOrganization.Key.GetDisplayNameAsUrl()</td>
+                                                <td style="text-align: center">@string.Join(", ", @projectOrganization.Key.GetProjectRelationshipTypes(ViewDataTyped.Project).Select(x => x.RelationshipTypeName))</td>
+                                                @if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, projectOrganization.Key.PrimaryContactPerson).HasPermission)
                                                 {
-                                                    <td>@projectOrganization.Organization.PrimaryContactPersonWithOrgAsUrl</td>
+                                                    <td>@projectOrganization.Key.PrimaryContactPersonWithOrgAsUrl</td>
                                                 }
                                                 else
                                                 {
-                                                    <td>@projectOrganization.Organization.PrimaryContactPersonAsStringAndOrgAsUrl</td>
+                                                    <td>@projectOrganization.Key.PrimaryContactPersonAsStringAndOrgAsUrl</td>
                                                 }
                                             </tr>
                                         }
@@ -236,8 +258,7 @@
                                     @{ PerformanceMeasureExpectedSummary.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureExpectedSummaryViewData); }
                                 </div>
                             </div>
-                                        }
-
+                        }
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported " + @MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions) Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h3>
