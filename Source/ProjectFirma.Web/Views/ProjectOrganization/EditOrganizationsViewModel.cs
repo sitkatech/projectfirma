@@ -19,17 +19,18 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Models;
 using FluentValidation.Attributes;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.ProjectOrganization
 {
-    [Validator(typeof(EditOrganizationsViewModelValidator))]
-    public class EditOrganizationsViewModel : FormViewModel
+    public class EditOrganizationsViewModel : FormViewModel, IValidatableObject
     {
         public ProjectOrganizationsViewModelJson ProjectOrganizationsViewModelJson { get; set; }
 
@@ -40,41 +41,76 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
         {
         }
 
-        public EditOrganizationsViewModel(List<ProjectImplementingOrganizationOrProjectFundingOrganization> projectOrganizations)
+        public EditOrganizationsViewModel(List<Models.ProjectOrganization> projectOrganizations, Models.Project project)
         {
-            var projectOrganizationJsons = projectOrganizations.OrderBy(po => po.Organization.DisplayName).Select(po => new ProjectOrganizationsViewModelJson.ProjectOrganizationJson(po)).ToList();
-            var projectImplementingOrganizationOrProjectFundingOrganization = projectOrganizations.SingleOrDefault(po => po.IsLeadOrganization);
-            var leadOrganization = projectImplementingOrganizationOrProjectFundingOrganization != null ? projectImplementingOrganizationOrProjectFundingOrganization.Organization : null;
-            var leadOrganizationID = leadOrganization != null ? leadOrganization.OrganizationID : (int?) null;
+            var projectOrganizationJsons = projectOrganizations.GroupBy(po => po.Organization).Select(o => new ProjectOrganizationsViewModelJson.ProjectOrganizationJson(o.Key, o.ToList())).ToList();
+
+            var leadOrganization = project.LeadImplementerOrganization;
+            var leadOrganizationID = leadOrganization?.OrganizationID;
+
             ProjectOrganizationsViewModelJson = new ProjectOrganizationsViewModelJson(leadOrganizationID, projectOrganizationJsons);
         }
 
-        public void UpdateModel(Models.Project project,
-            ICollection<ProjectFundingOrganization> allProjectFundingOrganizations,
-            ICollection<ProjectImplementingOrganization> allProjectImplementingOrganizations)
-        {
-            Check.Require(ProjectOrganizationsViewModelJson.ProjectOrganizations.Count > 0, "Need to have at least the lead implementer set.");
-            Check.Require(ProjectOrganizationsViewModelJson.ProjectOrganizations.Count == ProjectOrganizationsViewModelJson.ProjectOrganizations.Select(x => x.OrganizationID).Distinct().Count(),
-                "Cannot have the same organization listed multiple times.");
+        public void UpdateModel(Models.Project project, ICollection<Models.ProjectOrganization> allProjectOrganizations)
+        {            
+            project.LeadImplementerOrganizationID = ProjectOrganizationsViewModelJson.LeadOrganizationID;
 
-            // we need to also include when the lead implementer is selected but not checked as an implementer
-            var projectImplementingOrganizationViewModelJsons =
-                ProjectOrganizationsViewModelJson.ProjectOrganizations.Where(x => x.IsImplementingOrganization || ProjectOrganizationsViewModelJson.LeadOrganizationID == x.OrganizationID).ToList();
-            var projectImplementingOrganizationsUpdated =
-                projectImplementingOrganizationViewModelJsons.Select(
+            var projectOrganizationViewModelJsons =
+                ProjectOrganizationsViewModelJson.ProjectOrganizations.ToList();
+
+            var projectOrganizationsUpdated = projectOrganizationViewModelJsons.SelectMany(
                     orgBeingAdded =>
-                        new ProjectImplementingOrganization(project.ProjectID, orgBeingAdded.OrganizationID, ProjectOrganizationsViewModelJson.LeadOrganizationID == orgBeingAdded.OrganizationID))
-                    .ToList();
-            project.ProjectImplementingOrganizations.Merge(projectImplementingOrganizationsUpdated,
-                allProjectImplementingOrganizations,
-                (x, y) => x.ProjectID == y.ProjectID && x.OrganizationID == y.OrganizationID,
-                (x, y) => x.IsLeadOrganization = y.IsLeadOrganization);
+                    {
+                        var projectOrgsToAdd = new List<Models.ProjectOrganization>();
+                        foreach (var relationshipType in orgBeingAdded.RelationshipTypes)
+                        {
+                            projectOrgsToAdd.Add(new Models.ProjectOrganization(project.ProjectID, orgBeingAdded.OrganizationID, relationshipType.RelationshipTypeID));
+                        }
+                        return projectOrgsToAdd;
+                    }).ToList();
 
-            // funding orgs
-            var projectFundingOrganizationViewModelJsons = ProjectOrganizationsViewModelJson.ProjectOrganizations.Where(x => x.IsFundingOrganization).ToList();
-            var projectFundingOrganizationsUpdated =
-                projectFundingOrganizationViewModelJsons.Select(orgBeingAdded => new ProjectFundingOrganization(project.ProjectID, orgBeingAdded.OrganizationID)).ToList();
-            project.ProjectFundingOrganizations.Merge(projectFundingOrganizationsUpdated, allProjectFundingOrganizations, (x, y) => x.ProjectID == y.ProjectID && x.OrganizationID == y.OrganizationID);
+            project.ProjectOrganizations.Merge(projectOrganizationsUpdated,
+                allProjectOrganizations,
+                (x, y) => x.ProjectID == y.ProjectID && x.OrganizationID == y.OrganizationID && x.RelationshipTypeID == y.RelationshipTypeID);
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var errors = new List<ValidationResult>();
+
+            if (ProjectOrganizationsViewModelJson.LeadOrganizationID == null)
+            {
+                errors.Add(new ValidationResult("Lead Implementer Organization is required."));
+                return errors;
+            }
+            var leadOrg = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(ProjectOrganizationsViewModelJson.LeadOrganizationID.Value);
+            if (leadOrg.PrimaryContactPerson == null)
+            {
+                errors.Add(new ValidationResult("Lead Implementer Organization must have a primary contact set."));
+            }
+            if (ProjectOrganizationsViewModelJson.ProjectOrganizations.Count != ProjectOrganizationsViewModelJson.ProjectOrganizations.Select(x => x.OrganizationID).Distinct().Count())
+            {
+                errors.Add(new ValidationResult("Cannot have the same organization listed multiple times."));
+            }
+            if (ProjectOrganizationsViewModelJson.ProjectOrganizations.Any(x => x.RelationshipTypes.Count != x.RelationshipTypes.Select(y => y.RelationshipTypeID).Distinct().Count()))
+            {
+                errors.Add(new ValidationResult("Cannot have the same relationship type listed for the same organization multiple times."));
+            }
+            var allValidRelationshipTypes = ProjectOrganizationsViewModelJson.ProjectOrganizations.All(x =>
+            {
+                var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(x.OrganizationID);
+                var validRelationshipTypes = organization.OrganizationType.OrganizationTypeRelationshipTypes
+                    .Select(t => t.RelationshipType)
+                    .ToList();
+                
+                return x.RelationshipTypes.All(y => validRelationshipTypes.Select(i => i.RelationshipTypeID).Contains(y.RelationshipTypeID));
+            });
+            if (!allValidRelationshipTypes)
+            {
+                errors.Add(new ValidationResult("One or more relationship types are invalid."));
+            }
+           
+            return errors;
         }
     }
 }

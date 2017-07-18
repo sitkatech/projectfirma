@@ -102,11 +102,8 @@ namespace ProjectFirma.Web.Service.ServiceModels
         }
 
         public static List<WebServiceProject> GetProjectsByOrganization(int organizationID)
-        {
-            var projectsByImplementingOrganization = HttpRequestStorage.DatabaseEntities.ProjectImplementingOrganizations.Where(x => x.OrganizationID == organizationID).Select(x => x.ProjectID);
-            var projectsByFundingOrganization = HttpRequestStorage.DatabaseEntities.ProjectFundingOrganizations.Where(x => x.OrganizationID == organizationID).Select(x => x.ProjectID);
-
-            var projectIDs = projectsByImplementingOrganization.Union(projectsByFundingOrganization).ToList();
+        {            
+            var projectIDs = HttpRequestStorage.DatabaseEntities.ProjectOrganizations.Where(x => x.OrganizationID == organizationID).Select(x => x.ProjectID).ToList();
             var projects = HttpRequestStorage.DatabaseEntities.Projects.Where(x => projectIDs.Contains(x.ProjectID)).ToList();
 
             return projects

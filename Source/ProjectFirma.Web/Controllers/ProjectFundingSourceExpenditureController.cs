@@ -57,8 +57,8 @@ namespace ProjectFirma.Web.Controllers
                 var calendarYearRangeForExpenditures = currentProjectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
                 return ViewEditProjectFundingSourceExpenditures(project, viewModel, calendarYearRangeForExpenditures);
             }
-            var currentProjectFundingOrganizations = project.ProjectFundingOrganizations.ToList();
-            return UpdateProjectFundingSourceExpenditures(viewModel, currentProjectFundingSourceExpenditures, currentProjectFundingOrganizations);
+
+            return UpdateProjectFundingSourceExpenditures(viewModel, currentProjectFundingSourceExpenditures);
         }
 
         [HttpGet]
@@ -84,22 +84,17 @@ namespace ProjectFirma.Web.Controllers
                 var calendarYearRangeForExpenditures = currentProjectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(fundingSource);
                 return ViewEditProjectFundingSourceExpenditures(fundingSource, viewModel, calendarYearRangeForExpenditures);
             }
-            var currentProjectFundingOrganizations = fundingSource.Organization.ProjectFundingOrganizations.ToList();
-            return UpdateProjectFundingSourceExpenditures(viewModel, currentProjectFundingSourceExpenditures, currentProjectFundingOrganizations);
+
+            return UpdateProjectFundingSourceExpenditures(viewModel, currentProjectFundingSourceExpenditures);
         }
 
         private static ActionResult UpdateProjectFundingSourceExpenditures(EditProjectFundingSourceExpendituresViewModel viewModel,
-            List<ProjectFundingSourceExpenditure> currentProjectFundingSourceExpenditures,
-            List<ProjectFundingOrganization> currentProjectFundingOrganizations)
+            List<ProjectFundingSourceExpenditure> currentProjectFundingSourceExpenditures)
         {
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Load();
             var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
             viewModel.UpdateModel(currentProjectFundingSourceExpenditures, allProjectFundingSourceExpenditures);
 
-            var distinctProjectIDs = currentProjectFundingSourceExpenditures.Select(x => x.ProjectID).Distinct().ToList();
-            ProjectFundingOrganization.SyncProjectFundingOrganizationsWithProjectFundingSourceExpenditures(distinctProjectIDs,
-                currentProjectFundingSourceExpenditures,
-                currentProjectFundingOrganizations);
             return new ModalDialogFormJsonResult();
         }
 
@@ -115,8 +110,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditProjectFundingSourceExpenditures(Project project, EditProjectFundingSourceExpendituresViewModel viewModel, List<int> calendarYearRangeForExpenditures)
         {
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var projectFundingOrganizationFundingSourceIDs = project.ProjectFundingOrganizations.SelectMany(x => x.Organization.FundingSources.Select(y => y.FundingSourceID));
-            var viewData = new EditProjectFundingSourceExpendituresViewData(new ProjectSimple(project), allFundingSources, projectFundingOrganizationFundingSourceIDs, calendarYearRangeForExpenditures);
+            var viewData = new EditProjectFundingSourceExpendituresViewData(new ProjectSimple(project), allFundingSources, calendarYearRangeForExpenditures);
             return RazorPartialView<EditProjectFundingSourceExpenditures, EditProjectFundingSourceExpendituresViewData, EditProjectFundingSourceExpendituresViewModel>(viewData, viewModel);
         }
     }

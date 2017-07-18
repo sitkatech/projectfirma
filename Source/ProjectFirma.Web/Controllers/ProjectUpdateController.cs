@@ -440,13 +440,11 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectUpdateBatch.Project;
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var projectFundingOrganizationFundingSourceIDs = project.ProjectFundingOrganizations.SelectMany(x => x.Organization.FundingSources.Select(y => y.FundingSourceID));
             var expendituresValidationResult = projectUpdateBatch.ValidateExpenditures();
 
             var viewDataForAngularEditor = new ExpendituresViewData.ViewDataForAngularClass(project,
                 allFundingSources,
                 calendarYearRange,
-                projectFundingOrganizationFundingSourceIDs,
                 expendituresValidationResult);
             var projectFundingSourceExpenditures = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
             var fromFundingSourcesAndCalendarYears = FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(
@@ -541,15 +539,13 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectUpdateBatch.Project;
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var projectFundingOrganizationFundingSourceIDs = project.ProjectFundingOrganizations.SelectMany(x => x.Organization.FundingSources.Select(y => y.FundingSourceID));
             var budgetsValidationResult = projectUpdateBatch.ValidateBudgets();
             var projectCostTypeSimples = ProjectCostType.All.Select(x => new ProjectCostTypeSimple(x)).ToList();
 
-            var viewDataForAngularEditor = new BudgetsViewData.ViewDataForAngularEditor(project, 
+            var viewDataForAngularEditor = new BudgetsViewData.ViewDataForAngularEditor(project,
                 allFundingSources,
                 projectCostTypeSimples,
                 calendarYearRange,
-                projectFundingOrganizationFundingSourceIDs,
                 budgetsValidationResult);
 
             var projectBudgetAmounts =
@@ -1141,10 +1137,6 @@ namespace ProjectFirma.Web.Controllers
                 allProjectImages,
                 allProjectLocations);
 
-            // we need to sync funding source updates
-            ProjectFundingOrganization.SyncProjectFundingOrganizationsWithProjectFundingSourceExpenditures(new List<int> {projectUpdateBatch.ProjectID},
-                projectUpdateBatch.Project.ProjectFundingSourceExpenditures.ToList(),
-                projectUpdateBatch.Project.ProjectFundingOrganizations.ToList());
 
             var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
             Notification.SendApprovalMessage(peopleToCc, projectUpdateBatch);

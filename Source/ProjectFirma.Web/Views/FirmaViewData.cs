@@ -104,10 +104,10 @@ namespace ProjectFirma.Web.Views
         private static LtInfoMenuItem BuildResultsMenu(Person currentPerson)
         {
             var resultsMenu = new LtInfoMenuItem("Results");
-            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.InvestmentByFundingSector(null)), currentPerson, "Investment by Funding Sector"));
-            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.SpendingBySectorByTaxonomyTierThreeByTaxonomyTierTwo(null)),
+            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.InvestmentByOrganizationType(null)), currentPerson, "Investment by Organization Type"));
+            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwo(null)),
                 currentPerson,
-                string.Format("Spending by Funding Sector by {0} by {1}", Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel(), Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel())));
+                string.Format("Spending by Organization Type by {0} by {1}", Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel(), Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel())));
             resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ResultsByTaxonomyTierTwo(null)), currentPerson, string.Format("Results by {0}", Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel())));
             resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentPerson, "Project Map"));
 
@@ -154,6 +154,7 @@ namespace ProjectFirma.Web.Views
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CostParameterSetController>(c => c.Manage()), currentPerson, "Cost Parameters", "Group6"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FirmaPageController>(c => c.Index()), currentPerson, "Page Content", "Group7"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FieldDefinitionController>(c => c.Index()), currentPerson, "Field Definitions", "Group7"));
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<OrganizationAndRelationshipTypeController>(c => c.Index()), currentPerson, "Organization Types", "Group7"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<UserController>(c => c.Index()), currentPerson, "Users", "Group7"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TenantController>(c => c.Detail()), currentPerson, "Tenant Configuration", "Group7"));
             // TODO: poor man's hack until we do tenant specific menu and features

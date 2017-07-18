@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionProjectNote ProjectNote = FieldDefinitionProjectNote.Instance;
         public static readonly FieldDefinitionImplementationStartYear ImplementationStartYear = FieldDefinitionImplementationStartYear.Instance;
         public static readonly FieldDefinitionReportedValue ReportedValue = FieldDefinitionReportedValue.Instance;
-        public static readonly FieldDefinitionSector Sector = FieldDefinitionSector.Instance;
+        public static readonly FieldDefinitionOrganizationType OrganizationType = FieldDefinitionOrganizationType.Instance;
         public static readonly FieldDefinitionSecuredFunding SecuredFunding = FieldDefinitionSecuredFunding.Instance;
         public static readonly FieldDefinitionProjectStage ProjectStage = FieldDefinitionProjectStage.Instance;
         public static readonly FieldDefinitionClassificationName ClassificationName = FieldDefinitionClassificationName.Instance;
@@ -86,6 +86,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionClassificationNarrative ClassificationNarrative = FieldDefinitionClassificationNarrative.Instance;
         public static readonly FieldDefinitionTaxonomySystemName TaxonomySystemName = FieldDefinitionTaxonomySystemName.Instance;
         public static readonly FieldDefinitionTaxonomyTierOneDisplayNameForProject TaxonomyTierOneDisplayNameForProject = FieldDefinitionTaxonomyTierOneDisplayNameForProject.Instance;
+        public static readonly FieldDefinitionProjectRelationshipType ProjectRelationshipType = FieldDefinitionProjectRelationshipType.Instance;
 
         public static readonly List<FieldDefinition> All;
         public static readonly ReadOnlyDictionary<int, FieldDefinition> AllLookupDictionary;
@@ -95,7 +96,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FieldDefinition()
         {
-            All = new List<FieldDefinition> { TaxonomyTierOne, ExpectedValue, TaxonomyTierThree, Funder, FundingSource, Implementer, LeadImplementer, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, TaxonomyTierTwo, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, Sector, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, ProposedProject, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative, TaxonomySystemName, TaxonomyTierOneDisplayNameForProject };
+            All = new List<FieldDefinition> { TaxonomyTierOne, ExpectedValue, TaxonomyTierThree, Funder, FundingSource, Implementer, LeadImplementer, Organization, Password, PerformanceMeasure, PerformanceMeasureType, MeasurementUnit, PhotoCaption, PhotoCredit, PhotoTiming, PrimaryContact, TaxonomyTierTwo, CompletionYear, ProjectDescription, ProjectName, ProjectNote, ImplementationStartYear, ReportedValue, OrganizationType, SecuredFunding, ProjectStage, ClassificationName, EstimatedTotalCost, UnfundedNeed, Username, Project, Classification, Watershed, PerformanceMeasureSubcategory, PerformanceMeasureSubcategoryOption, IsPrimaryTaxonomyTierTwo, FundedAmount, ProjectLocation, ExcludeFromFactSheet, FundingType, ProjectCostInYearOfExpenditure, GlobalInflationRate, ReportingYear, TagName, TagDescription, ReportedExpenditure, ProposedProject, SpendingAssociatedWithPM, PlanningDesignStartYear, AssociatedTaxonomyTierTwos, ExternalLinks, EstimatedAnnualOperatingCost, CalculatedTotalRemainingOperatingCost, CurrentYearForPVCalculations, LifecycleOperatingCost, PerformanceMeasureChartTitle, RoleName, Region, PerformanceMeasureChartCaption, MonitoringProgram, MonitoringApproach, MonitoringProgramPartner, MonitoringProgramUrl, ClassificationDescription, ClassificationGoalStatement, ClassificationNarrative, TaxonomySystemName, TaxonomyTierOneDisplayNameForProject, ProjectRelationshipType };
             AllLookupDictionary = new ReadOnlyDictionary<int, FieldDefinition>(All.ToDictionary(x => x.FieldDefinitionID));
         }
 
@@ -232,6 +233,8 @@ namespace ProjectFirma.Web.Models
                     return MonitoringProgramUrl;
                 case FieldDefinitionEnum.Organization:
                     return Organization;
+                case FieldDefinitionEnum.OrganizationType:
+                    return OrganizationType;
                 case FieldDefinitionEnum.Password:
                     return Password;
                 case FieldDefinitionEnum.PerformanceMeasure:
@@ -268,6 +271,8 @@ namespace ProjectFirma.Web.Models
                     return ProjectName;
                 case FieldDefinitionEnum.ProjectNote:
                     return ProjectNote;
+                case FieldDefinitionEnum.ProjectRelationshipType:
+                    return ProjectRelationshipType;
                 case FieldDefinitionEnum.ProjectStage:
                     return ProjectStage;
                 case FieldDefinitionEnum.ProposedProject:
@@ -282,8 +287,6 @@ namespace ProjectFirma.Web.Models
                     return ReportingYear;
                 case FieldDefinitionEnum.RoleName:
                     return RoleName;
-                case FieldDefinitionEnum.Sector:
-                    return Sector;
                 case FieldDefinitionEnum.SecuredFunding:
                     return SecuredFunding;
                 case FieldDefinitionEnum.SpendingAssociatedWithPM:
@@ -339,7 +342,7 @@ namespace ProjectFirma.Web.Models
         ProjectNote = 31,
         ImplementationStartYear = 32,
         ReportedValue = 33,
-        Sector = 34,
+        OrganizationType = 34,
         SecuredFunding = 35,
         ProjectStage = 36,
         ClassificationName = 39,
@@ -383,7 +386,8 @@ namespace ProjectFirma.Web.Models
         ClassificationGoalStatement = 241,
         ClassificationNarrative = 242,
         TaxonomySystemName = 243,
-        TaxonomyTierOneDisplayNameForProject = 244
+        TaxonomyTierOneDisplayNameForProject = 244,
+        ProjectRelationshipType = 245
     }
 
     public partial class FieldDefinitionTaxonomyTierOne : FieldDefinition
@@ -524,10 +528,10 @@ namespace ProjectFirma.Web.Models
         public static readonly FieldDefinitionReportedValue Instance = new FieldDefinitionReportedValue(33, @"ReportedValue", @"Reported Value", @"<p>The accomplishments achieved by a project after the accomplishments are realized. Accomplishments can be realized and reported throughout implementation and not only after the entire project is completed.</p>");
     }
 
-    public partial class FieldDefinitionSector : FieldDefinition
+    public partial class FieldDefinitionOrganizationType : FieldDefinition
     {
-        private FieldDefinitionSector(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionSector Instance = new FieldDefinitionSector(34, @"Sector", @"Sector", @"<p>A categorization of an organization as Local, State, Federal or Private.</p>");
+        private FieldDefinitionOrganizationType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
+        public static readonly FieldDefinitionOrganizationType Instance = new FieldDefinitionOrganizationType(34, @"OrganizationType", @"Organization Type", @"<p>A categorization of an organization, e.g. Local, State, Federal or Private.</p>");
     }
 
     public partial class FieldDefinitionSecuredFunding : FieldDefinition
@@ -785,12 +789,18 @@ namespace ProjectFirma.Web.Models
     public partial class FieldDefinitionTaxonomySystemName : FieldDefinition
     {
         private FieldDefinitionTaxonomySystemName(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionTaxonomySystemName Instance = new FieldDefinitionTaxonomySystemName(243, @"TaxonomySystem Name", @"Taxonomy System Name", @"<p>The customized name for the hierarchical project taxonomy system.<p>");
+        public static readonly FieldDefinitionTaxonomySystemName Instance = new FieldDefinitionTaxonomySystemName(243, @"TaxonomySystemName", @"Taxonomy System Name", @"<p>The customized name for the hierarchical project taxonomy system.<p>");
     }
 
     public partial class FieldDefinitionTaxonomyTierOneDisplayNameForProject : FieldDefinition
     {
         private FieldDefinitionTaxonomyTierOneDisplayNameForProject(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
-        public static readonly FieldDefinitionTaxonomyTierOneDisplayNameForProject Instance = new FieldDefinitionTaxonomyTierOneDisplayNameForProject(244, @"TaxonomyTierOneDisplay NameForProject", @"Taxonomy Tier One Display Name For Project", @"<p>A custom label describing how a Project relates to it's highest Taxonomy tier..</p>");
+        public static readonly FieldDefinitionTaxonomyTierOneDisplayNameForProject Instance = new FieldDefinitionTaxonomyTierOneDisplayNameForProject(244, @"TaxonomyTierOneDisplayNameForProject", @"Taxonomy Tier One Display Name For Project", @"<p>A custom label describing how a Project relates to it's highest Taxonomy tier..</p>");
+    }
+
+    public partial class FieldDefinitionProjectRelationshipType : FieldDefinition
+    {
+        private FieldDefinitionProjectRelationshipType(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : base(fieldDefinitionID, fieldDefinitionName, fieldDefinitionDisplayName, defaultDefinition) {}
+        public static readonly FieldDefinitionProjectRelationshipType Instance = new FieldDefinitionProjectRelationshipType(245, @"ProjectRelationshipType", @"Project Relationship Type", @"<p>A categorization of a relationship between an organization and a project, e.g. Funder, Implementer.</p>");
     }
 }

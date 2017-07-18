@@ -266,8 +266,12 @@ Source code is available upon request via <support@sitkatech.com>.
                         <td>@ViewDataTyped.TaxonomyTierOneName</td>
                     </tr>
                     <tr>
-                        <th>Implementers:</th>
-                        <td>@ViewDataTyped.Project.ProjectImplementingOrganizationNames</td>
+                        <th>@FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()</th>
+                        <td>@ViewDataTyped.Project.LeadImplementerOrganization != null ? @ViewDataTyped.Project.LeadImplementerOrganization.OrganizationName : "None Identified"</td>
+                    </tr>
+                    <tr>
+                        <th>Organizations:</th>
+                        <td>@ViewDataTyped.Project.ProjectOrganizationNamesAndTypes</td>
                     </tr>
                     <tr>
                         <th>Stage:</th>

@@ -37,8 +37,8 @@ namespace ProjectFirma.Web.Views.Snapshot
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public readonly List<Sector> Sectors;
-        public readonly List<int> SectorExpenditureCalendarYears;
+        public readonly List<Models.OrganizationType> OrganizationTypes;
+        public readonly List<int> OrganizationTypeExpenditureCalendarYears;
         public readonly List<int> PerformanceMeasureCalendarYears;
 
         public readonly string SnapshotEditUrl;
@@ -63,8 +63,8 @@ namespace ProjectFirma.Web.Views.Snapshot
             PageTitle = snapshot.GetDisplayName();
             EntityName = "Snapshot";
 
-            Sectors = snapshot.SnapshotSectorExpenditures.Select(x => x.Sector).Distinct().OrderBy(x => x.SectorDisplayName).ToList();
-            SectorExpenditureCalendarYears = snapshot.SnapshotSectorExpenditures.Select(x => x.CalendarYear).Distinct().OrderBy(x => x).ToList();
+            OrganizationTypes = snapshot.SnapshotOrganizationTypeExpenditures.Select(x => x.OrganizationType).Distinct().OrderBy(x => x.OrganizationTypeName).ToList();
+            OrganizationTypeExpenditureCalendarYears = snapshot.SnapshotOrganizationTypeExpenditures.Select(x => x.CalendarYear).Distinct().OrderBy(x => x).ToList();
             PerformanceMeasureCalendarYears = snapshot.SnapshotPerformanceMeasures.Select(x => x.CalendarYear).Distinct().OrderBy(x => x).ToList();
 
             SnapshotEditUrl = SitkaRoute<SnapshotController>.BuildUrlFromExpression(controller => controller.Edit(Snapshot.SnapshotID));

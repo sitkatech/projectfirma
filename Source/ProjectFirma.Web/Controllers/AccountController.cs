@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Controllers
 
                 if (organization == null)
                 {
-                    organization = new Organization(keystoneUserClaims.OrganizationName, Sector.Private, true);
+                    organization = new Organization(keystoneUserClaims.OrganizationName, true);
                     HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
                     sendNewOrganizationNotification = true;
                 }
@@ -201,7 +201,7 @@ namespace ProjectFirma.Web.Controllers
     <strong>New user:</strong> {2} ({3})<br />
     <br />
     <p>
-        You may want to <a href=""{4}"">add detail for this organization</a> such as its abbreviation, sector, website, logo, etc. This will make its Organization summary page display better.
+        You may want to <a href=""{4}"">add detail for this organization</a> such as its abbreviation, organization type, website, logo, etc. This will make its Organization summary page display better.
     </p>
     <br />
     <br />

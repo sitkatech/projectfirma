@@ -38,10 +38,10 @@ namespace ProjectFirma.Web.Controllers
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var rangeOfYears = GetRangeOfYears(projectFundingSourceExpenditures);
 
-            var fullSectorAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
+            var fullOrganizationTypeAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
                 new List<string>(), x => x.FundingSource.Organization.DisplayName, rangeOfYears);
 
-            Assert.That(fullSectorAndYearDictionary, Is.Empty);
+            Assert.That(fullOrganizationTypeAndYearDictionary, Is.Empty);
         }
 
         private static List<int> GetRangeOfYears(List<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
@@ -70,10 +70,10 @@ namespace ProjectFirma.Web.Controllers
 
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var rangeOfYears = GetRangeOfYears(projectFundingSourceExpenditures);
-            var fullSectorAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
+            var fullOrganizationTypeAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
                 new List<string> {"test organization 1"}, x => x.FundingSource.Organization.DisplayName, rangeOfYears);
 
-            Assert.That(fullSectorAndYearDictionary.Sum(x => x.Value.Sum(y => y.Value)), Is.EqualTo(400.00m));
+            Assert.That(fullOrganizationTypeAndYearDictionary.Sum(x => x.Value.Sum(y => y.Value)), Is.EqualTo(400.00m));
         }
 
         [Test]
@@ -82,12 +82,12 @@ namespace ProjectFirma.Web.Controllers
             var projectFundingSourceExpenditures = BuildExpenditures("org 1", "funding source 1", new Dictionary<int, decimal> {{2010, 100.0m}, {2011, 200.0m}, {2012, 300.0m}, {2013, 400.0m}});
             projectFundingSourceExpenditures.AddAll(BuildExpenditures("org 2", "funding source 2", new Dictionary<int, decimal> {{2010, 100.0m}, {2011, 200.0m}, {2012, 300.0m}, {2013, 400.0m}}));
 
-            var fullSectorAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
+            var fullOrganizationTypeAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
                 new List<string> {"org 1", "org 2"},
                 x => x.FundingSource.Organization.DisplayName,
                 GetRangeOfYears(projectFundingSourceExpenditures));
 
-            Assert.That(fullSectorAndYearDictionary.Sum(x => x.Value.Sum(y => y.Value)), Is.EqualTo(2000.0m));
+            Assert.That(fullOrganizationTypeAndYearDictionary.Sum(x => x.Value.Sum(y => y.Value)), Is.EqualTo(2000.0m));
         }
 
         [Test]
@@ -103,10 +103,10 @@ namespace ProjectFirma.Web.Controllers
             var endCalendarYear = projectFundingSourceExpenditures.Max(x => x.CalendarYear);
             var rangeOfYears = FirmaDateUtilities.GetRangeOfYears(beginCalendarYear, endCalendarYear);
 
-            var fullSectorAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
+            var fullOrganizationTypeAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
                 new List<string> {"org 1", "org 2"}, x=> x.FundingSource.Organization.DisplayName, rangeOfYears);
 
-            Assert.That(fullSectorAndYearDictionary["org 1"][2012], Is.EqualTo(300.00m));
+            Assert.That(fullOrganizationTypeAndYearDictionary["org 1"][2012], Is.EqualTo(300.00m));
         }
 
         [Test]
@@ -122,10 +122,10 @@ namespace ProjectFirma.Web.Controllers
             var endCalendarYear = projectFundingSourceExpenditures.Max(x => x.CalendarYear);
             var rangeOfYears = FirmaDateUtilities.GetRangeOfYears(beginCalendarYear, endCalendarYear);
 
-            var fullSectorAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
+            var fullOrganizationTypeAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
                 new List<string> { "org 1", "org 2" }, x => x.FundingSource.Organization.DisplayName, rangeOfYears);
 
-            Assert.That(fullSectorAndYearDictionary.Sum(x => x.Value[2012]), Is.EqualTo(600.0m));
+            Assert.That(fullOrganizationTypeAndYearDictionary.Sum(x => x.Value[2012]), Is.EqualTo(600.0m));
         }
 
         [Test]
@@ -139,10 +139,10 @@ namespace ProjectFirma.Web.Controllers
             var endCalendarYear = projectFundingSourceExpenditures.Max(x => x.CalendarYear);
             var rangeOfYears = FirmaDateUtilities.GetRangeOfYears(beginCalendarYear, endCalendarYear);
 
-            var fullSectorAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
+            var fullOrganizationTypeAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
                 new List<string> { "org 1", "org 2" }, x => x.FundingSource.Organization.DisplayName, rangeOfYears);
 
-            Assert.That(fullSectorAndYearDictionary["org 1"].Sum(x => x.Value), Is.EqualTo(1000.0m));
+            Assert.That(fullOrganizationTypeAndYearDictionary["org 1"].Sum(x => x.Value), Is.EqualTo(1000.0m));
         }
 
         [Test]
@@ -152,10 +152,10 @@ namespace ProjectFirma.Web.Controllers
             projectFundingSourceExpenditures.AddAll(BuildExpenditures("org 2", "funding source 2", new Dictionary<int, decimal> { { 2010, 200.0m }, { 2011, 200.0m } }));
             projectFundingSourceExpenditures.AddAll(BuildExpenditures("org 3", "funding source 2", new Dictionary<int, decimal> { { 2010, 200.0m }, { 2011, 200.0m } }));
 
-            var fullSectorAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.FundingSourceName,
+            var fullOrganizationTypeAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.FundingSourceName,
                 new List<string> { "funding source 1", "funding source 2" }, x => x.FundingSource.Organization.DisplayName, GetRangeOfYears(projectFundingSourceExpenditures));
 
-            Assert.That(fullSectorAndYearDictionary["funding source 2"].Sum(x => x.Value), Is.EqualTo(800.0m));
+            Assert.That(fullOrganizationTypeAndYearDictionary["funding source 2"].Sum(x => x.Value), Is.EqualTo(800.0m));
         }
 
 
@@ -167,11 +167,11 @@ namespace ProjectFirma.Web.Controllers
             projectFundingSourceExpenditures.AddAll(BuildExpenditures("org 2", "funding source 2", new Dictionary<int, decimal> 
             { { 2010, 100.0m }, { 2011, 200.0m }, { 2012, 300.0m }, { 2013, 400.0m } }));
 
-            var fullSectorAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
+            var fullOrganizationTypeAndYearDictionary = projectFundingSourceExpenditures.GetFullCategoryYearDictionary(x => x.FundingSource.Organization.DisplayName,
                 new List<string> { "org 1" }, x => x.FundingSource.Organization.DisplayName, GetRangeOfYears(projectFundingSourceExpenditures));
 
-            Assert.That(fullSectorAndYearDictionary.ContainsKey("org 2"), Is.False);
-            Assert.That(fullSectorAndYearDictionary.Sum(x => x.Value.Sum(y => y.Value)), Is.EqualTo(1000.0m));
+            Assert.That(fullOrganizationTypeAndYearDictionary.ContainsKey("org 2"), Is.False);
+            Assert.That(fullOrganizationTypeAndYearDictionary.Sum(x => x.Value.Sum(y => y.Value)), Is.EqualTo(1000.0m));
         }
 
 

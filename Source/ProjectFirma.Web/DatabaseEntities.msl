@@ -264,11 +264,32 @@
           <ScalarProperty Name="OrganizationGuid" ColumnName="OrganizationGuid" />
           <ScalarProperty Name="OrganizationName" ColumnName="OrganizationName" />
           <ScalarProperty Name="OrganizationAbbreviation" ColumnName="OrganizationAbbreviation" />
-          <ScalarProperty Name="SectorID" ColumnName="SectorID" />
           <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="OrganizationUrl" ColumnName="OrganizationUrl" />
           <ScalarProperty Name="LogoFileResourceID" ColumnName="LogoFileResourceID" />
+          <ScalarProperty Name="OrganizationTypeID" ColumnName="OrganizationTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrganizationType">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.OrganizationType">
+        <MappingFragment StoreEntitySet="OrganizationType">
+          <ScalarProperty Name="OrganizationTypeID" ColumnName="OrganizationTypeID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="OrganizationTypeName" ColumnName="OrganizationTypeName" />
+          <ScalarProperty Name="OrganizationTypeAbbreviation" ColumnName="OrganizationTypeAbbreviation" />
+          <ScalarProperty Name="LegendColor" ColumnName="LegendColor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrganizationTypeRelationshipType">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.OrganizationTypeRelationshipType">
+        <MappingFragment StoreEntitySet="OrganizationTypeRelationshipType">
+          <ScalarProperty Name="OrganizationTypeRelationshipTypeID" ColumnName="OrganizationTypeRelationshipTypeID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="OrganizationTypeID" ColumnName="OrganizationTypeID" />
+          <ScalarProperty Name="RelationshipTypeID" ColumnName="RelationshipTypeID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -479,6 +500,7 @@
           <ScalarProperty Name="EstimatedAnnualOperatingCost" ColumnName="EstimatedAnnualOperatingCost" />
           <ScalarProperty Name="FundingTypeID" ColumnName="FundingTypeID" />
           <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
+          <ScalarProperty Name="LeadImplementerOrganizationID" ColumnName="LeadImplementerOrganizationID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -572,16 +594,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ProjectFundingOrganization">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectFundingOrganization">
-        <MappingFragment StoreEntitySet="ProjectFundingOrganization">
-          <ScalarProperty Name="ProjectFundingOrganizationID" ColumnName="ProjectFundingOrganizationID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ProjectFundingSourceExpenditure">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectFundingSourceExpenditure">
         <MappingFragment StoreEntitySet="ProjectFundingSourceExpenditure">
@@ -634,17 +646,6 @@
           <ScalarProperty Name="IsKeyPhoto" ColumnName="IsKeyPhoto" />
           <ScalarProperty Name="ExcludeFromFactSheet" ColumnName="ExcludeFromFactSheet" />
           <ScalarProperty Name="ProjectImageID" ColumnName="ProjectImageID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProjectImplementingOrganization">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectImplementingOrganization">
-        <MappingFragment StoreEntitySet="ProjectImplementingOrganization">
-          <ScalarProperty Name="ProjectImplementingOrganizationID" ColumnName="ProjectImplementingOrganizationID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
-          <ScalarProperty Name="IsLeadOrganization" ColumnName="IsLeadOrganization" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -764,6 +765,17 @@
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectOrganization">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectOrganization">
+        <MappingFragment StoreEntitySet="ProjectOrganization">
+          <ScalarProperty Name="ProjectOrganizationID" ColumnName="ProjectOrganizationID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+          <ScalarProperty Name="RelationshipTypeID" ColumnName="RelationshipTypeID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -955,6 +967,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="RelationshipType">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.RelationshipType">
+        <MappingFragment StoreEntitySet="RelationshipType">
+          <ScalarProperty Name="RelationshipTypeID" ColumnName="RelationshipTypeID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="RelationshipTypeName" ColumnName="RelationshipTypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Snapshot">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.Snapshot">
         <MappingFragment StoreEntitySet="Snapshot">
@@ -963,6 +984,18 @@
           <ScalarProperty Name="SnapshotDate" ColumnName="SnapshotDate" />
           <ScalarProperty Name="SnapshotNote" ColumnName="SnapshotNote" />
           <ScalarProperty Name="ProjectCount" ColumnName="ProjectCount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SnapshotOrganizationTypeExpenditure">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.SnapshotOrganizationTypeExpenditure">
+        <MappingFragment StoreEntitySet="SnapshotOrganizationTypeExpenditure">
+          <ScalarProperty Name="SnapshotOrganizationTypeExpenditureID" ColumnName="SnapshotOrganizationTypeExpenditureID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="SnapshotID" ColumnName="SnapshotID" />
+          <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
+          <ScalarProperty Name="ExpenditureAmount" ColumnName="ExpenditureAmount" />
+          <ScalarProperty Name="OrganizationTypeID" ColumnName="OrganizationTypeID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -998,18 +1031,6 @@
           <ScalarProperty Name="SnapshotID" ColumnName="SnapshotID" />
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="SnapshotProjectTypeID" ColumnName="SnapshotProjectTypeID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SnapshotSectorExpenditure">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.SnapshotSectorExpenditure">
-        <MappingFragment StoreEntitySet="SnapshotSectorExpenditure">
-          <ScalarProperty Name="SnapshotSectorExpenditureID" ColumnName="SnapshotSectorExpenditureID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="SnapshotID" ColumnName="SnapshotID" />
-          <ScalarProperty Name="SectorID" ColumnName="SectorID" />
-          <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
-          <ScalarProperty Name="ExpenditureAmount" ColumnName="ExpenditureAmount" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

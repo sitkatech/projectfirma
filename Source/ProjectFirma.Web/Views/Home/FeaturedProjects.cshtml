@@ -78,8 +78,12 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <td>@featuredProject.TaxonomyTierOne.TaxonomyTierOneName</td>
                                     </tr>
                                     <tr>
-                                        <th>Implementers</th>
-                                        <td>@featuredProject.ProjectImplementingOrganizationNames</td>
+                                        <th>@FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()</th>
+                                        <td>@featuredProject.LeadImplementerOrganization != null ? @featuredProject.LeadImplementerOrganization.OrganizationName : "None Identified"</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Organizations</th>
+                                        <td>@featuredProject.ProjectOrganizationNamesAndTypes</td>
                                     </tr>
                                     <tr>
                                         <th>Stage</th>

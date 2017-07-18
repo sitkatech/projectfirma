@@ -132,16 +132,18 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(WatershedPrimaryKey watershedPrimaryKey)
         {
             var watershed = watershedPrimaryKey.EntityObject;
+
             var mapDivID = string.Format("watershed_{0}_Map", watershed.WatershedID);
             var layers = MapInitJson.GetWatershedLayers(watershed, watershed.AssociatedProjects);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, new BoundingBox(watershed.WatershedFeature));
 
             var projectFundingSourceExpenditures = watershed.AssociatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);
+            var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
 
             var chartPopupUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(x => x.GoogleChartPopup(watershedPrimaryKey));
-            var googleChartJson = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.Sector.SectorDisplayName,
-                Sector.All.Select(x => x.SectorDisplayName).ToList(),
-                x => x.FundingSource.Organization.Sector.SectorDisplayName,
+            var googleChartJson = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
+                organizationTypes.Select(x => x.OrganizationTypeName).ToList(),
+                x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
                 "ReportedExpendituresChart",
                 watershed.DisplayName, chartPopupUrl);
 
@@ -201,10 +203,11 @@ namespace ProjectFirma.Web.Controllers
         {
             var watershed = watershedPrimaryKey.EntityObject;
             var projectFundingSourceExpenditures = watershed.AssociatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);
+            var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
 
-            var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.Sector.SectorDisplayName,
-                Sector.All.Select(x => x.SectorDisplayName).ToList(),
-                x => x.FundingSource.Organization.Sector.SectorDisplayName,
+            var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
+                organizationTypes.Select(x => x.OrganizationTypeName).ToList(),
+                x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
                 "ReportedExpendituresChart",
                 watershed.DisplayName, string.Empty);
 
