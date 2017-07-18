@@ -752,7 +752,7 @@ Continue with a new project update?
         public GridJsonNetJObjectResult<Project> MyOrganizationsProjectsGridJsonData()
         {
             var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(p => p.DoesPersonBelongToProjectLeadImplementingOranization(CurrentPerson)).OrderBy(x => x.DisplayName).ToList();
+            var taxonomyTierTwos = HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(p => p.DoesPersonBelongToProjectLeadImplementingOrganization(CurrentPerson)).OrderBy(x => x.DisplayName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyTierTwos, gridSpec);
             return gridJsonNetJObjectResult;
         }

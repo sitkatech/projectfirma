@@ -100,16 +100,16 @@ Source code is available upon request via <support@sitkatech.com>.
 <div ng-app="InvestmentByOrganizationTypeApp" ng-controller="InvestmentByOrganizationTypeController">
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
-            <h2>Investment by Funding OrganizationType</h2>
+            <h2>Investment by Funding Organization Type</h2>
         </div>
         <div class="panel-body">
             <table>
                 <tr style="vertical-align: top">
                     <td>
-                        <p>Select a OrganizationType to view the projects it funded.</p>
+                        <p>Select a Organization Type to view the projects it funded.</p>
                         <table class="gridLayout">
                             <tr>
-                                <th style="text-align: left" colspan="2">Funding OrganizationType</th>
+                                <th style="text-align: left" colspan="2">Funding Organization Type</th>
                                 <th># of Funding Sources</th>
                                 <th># of Funding Organizations</th>
                                 <th style="text-align: right; white-space: nowrap">$ in @ViewDataTyped.ReportingYearRangeTitle</th>
@@ -134,7 +134,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     </td>
                     <td>
                         <div style="height: @(ViewDataTyped.GoogleChartJson.GoogleChartConfiguration.Height + 30)px; width: @(ViewDataTyped.GoogleChartJson.GoogleChartConfiguration.Width)px overflow:hidden; margin-top: 10px">
-                            <div style="font-weight: bold; max-width: 280px;">Investment by Funding OrganizationType for: @ViewDataTyped.ReportingYearRangeTitle</div>
+                            <div style="font-weight: bold; max-width: 280px;">Investment by Funding Organization Type for: @ViewDataTyped.ReportingYearRangeTitle</div>
                             <div class="firmaChartControls">
                                 <a class="expandBox" style="font-size: small" href="@ViewDataTyped.GoogleChartJson.ChartPopupUrl">
                                     <span class="glyphicon glyphicon-fullscreen" style="margin-right: 5px"></span>Enlarge
@@ -152,7 +152,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
-            <h2>Organization/Funding Source spending by selected OrganizationType: <span ng-bind="SelectedOrganizationType"></span></h2>
+            <h2>Organization/Funding Source spending by selected Organization Type: <span ng-bind="SelectedOrganizationType"></span></h2>
         </div>
         <div class="panel-body">
             <div id="spendingByOrganizationTypeAndOrganization">
@@ -163,10 +163,10 @@ Source code is available upon request via <support@sitkatech.com>.
 
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
-            <h2>Projects Funded by selected OrganizationType: <span ng-bind="SelectedOrganizationType"></span></h2>
+            <h2>Projects Funded by selected Organization Type: <span ng-bind="SelectedOrganizationType"></span></h2>
         </div>
         <div class="panel-body">
-            <p>These projects are funded in full or in part by a Funding Source that falls under the selected Funding OrganizationType. If a project is funded by more than one Funding Source within the selected OrganizationType, it will be listed multiple times.</p>
+            <p>These projects are funded in full or in part by a Funding Source that falls under the selected Funding Organization Type. If a project is funded by more than one Funding Source within the selected Organization Type, it will be listed multiple times.</p>
             <div id="projectOrganizationTypeExpenditureGrid" style="width: 100%">
             </div>
         </div>

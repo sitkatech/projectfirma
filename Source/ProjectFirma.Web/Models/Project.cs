@@ -258,7 +258,7 @@ namespace ProjectFirma.Web.Models
 
         public bool IsMyProject(Person person)
         {
-            return IsPersonThePrimaryContact(person) || DoesPersonBelongToProjectLeadImplementingOranization(person);
+            return IsPersonThePrimaryContact(person) || DoesPersonBelongToProjectLeadImplementingOrganization(person);
         }
 
         public bool IsVisibleToThisPerson(Person person)
@@ -276,7 +276,7 @@ namespace ProjectFirma.Web.Models
             return person.PersonID == primaryContactPerson?.PersonID;
         }
 
-        public bool DoesPersonBelongToProjectLeadImplementingOranization(Person person)
+        public bool DoesPersonBelongToProjectLeadImplementingOrganization(Person person)
         {
             return person != null && LeadImplementerOrganization != null && LeadImplementerOrganization.OrganizationID == person.OrganizationID;
         }
