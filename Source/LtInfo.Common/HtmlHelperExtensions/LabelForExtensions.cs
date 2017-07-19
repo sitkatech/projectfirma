@@ -263,7 +263,6 @@ namespace LtInfo.Common.HtmlHelperExtensions
             }
         }
 
-        //WORKIMNH ON THIS ONE
         public static MvcHtmlString LabelWithSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, bool hasRequiredAttribute)
         {
             var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
