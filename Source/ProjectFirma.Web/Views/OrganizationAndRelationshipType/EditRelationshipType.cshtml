@@ -88,17 +88,19 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.TextBoxFor(m => m.RelationshipTypeName)
                 </div>
             </div>
-                <div class="form-group">
-                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(FieldDefinition.OrganizationType)</div>
-                    <div class="col-sm-8">
-                        <select ng-model="OrganizationTypeToAdd" ng-options="organizationType.OrganizationTypeName for organizationType in filteredOrganizationTypes()">
-                            <option value="">Choose One</option>
-                        </select>
-                        <button class="btn btn-xs btn-firma" type="button" ng-click="addOrganizationType()">Add</button>
-                    </div>
+            <p>Select which @FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized() can be associated to a project with this @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()</p>
+            <div class="form-group">
+                <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(FieldDefinition.OrganizationType)</div>
+                <div class="col-sm-8">
+                    <select ng-model="OrganizationTypeToAdd" ng-options="organizationType.OrganizationTypeName for organizationType in filteredOrganizationTypes()">
+                        <option value="">Choose One</option>
+                    </select>
+                    <button class="btn btn-xs btn-firma" type="button" ng-click="addOrganizationType()">Add</button>
                 </div>
+            </div>
+            
                 <div class="form-group">
-                    <div class="col-sm-4 control-label">@Html.Label("Associated Organization Types")</div>
+                    <div class="col-sm-4 control-label">@Html.Label(string.Format("Associated {0}", FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized()))</div>
                     <div class="col-sm-8">
                         <ul style="list-style: none">
                             <li ng-repeat="relationshipOrganizationType in AngularModel.OrganizationTypeSimples | orderBy:getOrganizationTypeName">

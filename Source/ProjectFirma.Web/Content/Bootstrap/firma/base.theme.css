@@ -181,6 +181,12 @@ footer p {
     height: 90px;
   }
 }
+.modal {
+  overflow: visible;
+}
+.modal-body {
+  overflow-y: visible !important;
+}
 .modal-dialog {
   background: transparent;
 }
