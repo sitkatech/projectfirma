@@ -9,14 +9,19 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly Models.Organization Organization;
         public readonly string EditBoundaryUrl;
         public readonly string ApproveGisUploadUrl;
+        public readonly string OrganizationDetailUrl;
 
         public EditBoundaryViewData(Person currentPerson, Models.Organization organization) : base(currentPerson)
         {
             PageTitle = "Edit Organization Boundary";
 
             Organization = organization;
-            EditBoundaryUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditBoundary(organization));
-            ApproveGisUploadUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.ApproveUploadGis(organization));
+            EditBoundaryUrl =
+                SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditBoundary(organization));
+            ApproveGisUploadUrl =
+                SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.ApproveUploadGis(organization));
+            OrganizationDetailUrl =
+                SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Detail(organization));
         }
     }
 }
