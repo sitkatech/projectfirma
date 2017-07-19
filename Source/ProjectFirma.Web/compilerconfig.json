@@ -14,5 +14,9 @@
   {
     "outputFile": "Content/Bootstrap/firma/rcd.theme.css",
     "inputFile": "Content/Bootstrap/firma/rcd.theme.less"
+  },
+  {
+    "outputFile": "Content/Bootstrap/firma/clackamas.css",
+    "inputFile": "Content/Bootstrap/firma/clackamas.less"
   }
 ]
