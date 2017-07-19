@@ -50,6 +50,8 @@ namespace LtInfo.Common.DhtmlWrappers
         /// If this field is set to a value, the custom download button is automatically created when the table is rendered
         /// </summary>
         public string CustomExcelDownloadUrl { get; set; }
+        public string CustomExcelDownloadLinkText { get; set; }
+
         public List<String> ArbitraryHtml { get; set; }
         public bool? SaveFiltersInCookie { get; set; }
         public string GridInstructionsWhenEmpty { get; set; }

@@ -237,7 +237,7 @@ namespace LtInfo.Common.DhtmlWrappers
         {
             var clearCookiesIconHtml = CreateClearAllCookiesIconHtml(gridName);
             var filteredExcelDownloadIconHtml = CreateFilteredExcelDownloadIconHtml(gridName, gridSpec.HasColumnTotals, excelDownloadWithFooterUrl, excelDownloadWithoutFooterUrl);
-            var customExcelDownloadIconHtml = CreateFullDatabaseExcelDownloadIconHtml(gridName, gridSpec.CustomExcelDownloadUrl);
+            var customExcelDownloadIconHtml = CreateFullDatabaseExcelDownloadIconHtml(gridName, gridSpec.CustomExcelDownloadUrl, gridSpec.CustomExcelDownloadLinkText ?? "Download Full Database");
             var createIconHtml = CreateCreateUrlHtml(gridSpec.CreateEntityUrl, gridSpec.CreateEntityUrlClass, gridSpec.CreateEntityModalDialogForm, gridSpec.CreateEntityActionPhrase, gridSpec.ObjectNameSingular);
             var tagIconHtml = CreateTagUrlHtml(gridName, gridSpec.BulkTagModalDialogForm);
             var arbitraryHtml = CreateArbitraryHtml(gridSpec.ArbitraryHtml, "    ");
@@ -431,9 +431,9 @@ namespace LtInfo.Common.DhtmlWrappers
             return String.Empty;
         }
 
-        public static string CreateFullDatabaseExcelDownloadIconHtml(string gridName, string excelDownloadUrl)
+        public static string CreateFullDatabaseExcelDownloadIconHtml(string gridName, string excelDownloadUrl, string excelDownloadLinkText)
         {
-            return CreateCustomExcelDownloadIconHtml(gridName, excelDownloadUrl, "Download Full Database", "Download the full database as an Excel file");
+            return CreateCustomExcelDownloadIconHtml(gridName, excelDownloadUrl, excelDownloadLinkText, "Download the full database as an Excel file");
         }
 
         /// <summary>
