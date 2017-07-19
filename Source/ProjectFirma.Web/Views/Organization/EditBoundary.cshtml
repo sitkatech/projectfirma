@@ -1,4 +1,5 @@
 ﻿@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Organization
 @using ProjectFirma.Web.Views.Shared
 
@@ -21,7 +22,10 @@
                     $form.ajaxForm({
                         "url": this.action,
                         "type": this.method,
-                        "beforeSubmit": function () { $gisUploadResults.html(jQuery("#progressBarHtml").html()); },
+                        "beforeSubmit": function () {
+                            jQuery("#submitApproveUploadGis").prop("disabled", true);
+                            $gisUploadResults.html(jQuery("#progressBarHtml").html());
+                        },
                         "success": function (result, textStatus, jqXhr) {
                             jQuery(".progress").hide();
                             SitkaAjax.handleLoginRedirect(result,
@@ -73,7 +77,7 @@
         </ul>
         <p>
             After you upload your file, you will be able to preview and verify the uploaded data. Note that once you accept the uploaded data,
-            any existing organization boundary for  <strong>@(ViewDataTyped.Organization.OrganizationName)</strong> will be overwritten.
+            any existing @(FieldDefinition.Organization.GetFieldDefinitionLabel()) boundary for <strong>@(ViewDataTyped.Organization.OrganizationName)</strong> will be overwritten.
         </p>
         <form id="uploadGisForm" method="post" action="@ViewDataTyped.EditBoundaryUrl" endtype="multipart/form-data">
             <div class="form-group">
@@ -86,6 +90,21 @@
         </form>
     </div>
     <div class="col-xs-12 col-sm-8">
-        <div id="gisUploadResults"></div>
+        <div id="gisUploadResults">
+            <p class="text-center">
+                Select a GIS file to upload, then specify the boundary you wish to assign to this @(FieldDefinition.Organization.GetFieldDefinitionLabel()).
+            </p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-4">
+        <form id="approveUploadGisForm" action="@ViewDataTyped.ApproveGisUploadUrl" method="post">
+            <div class="text-right">
+                <div id="putTheDataHere"></div>
+                <a href="@ViewDataTyped.OrganizationDetailUrl" class="btn btn-firma">Cancel</a>
+                <button id="submitApproveUploadGis" type="button" class="btn btn-firma" disabled="disabled" onclick="submitSelectedOrganizationBoundary()">Submit Boundary</button>
+            </div>
+        </form>
     </div>
 </div>
