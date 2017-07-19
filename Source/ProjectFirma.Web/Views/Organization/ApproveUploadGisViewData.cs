@@ -9,7 +9,6 @@ namespace ProjectFirma.Web.Views.Organization
     {
         public readonly MapInitJson MapInitJson;
         public readonly string OrganizationDetailUrl;
-        public readonly string ApproveUploadGisUrl;
 
         public ApproveUploadGisViewData(Person currentPerson, Models.Organization organization,
             MapInitJson mapInitJson) : base(currentPerson)
@@ -17,8 +16,6 @@ namespace ProjectFirma.Web.Views.Organization
             MapInitJson = mapInitJson;
             OrganizationDetailUrl =
                 SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Detail(organization));
-            ApproveUploadGisUrl =
-                SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.ApproveUploadGis(organization));
         }
     }
 }
