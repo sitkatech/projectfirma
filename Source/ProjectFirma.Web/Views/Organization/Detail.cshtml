@@ -132,7 +132,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                             <span style="font-weight: bold">Projects</span>
                                             <div style="margin-left: 10px">
                                                 <div>
-                                                    <span class="glyphicon glyphicon-map-marker" style="color: #3366ff"></span> Lead Implementer
+                                                    <span class="glyphicon glyphicon-map-marker" style="color: #3366ff"></span> @FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()
                                                 </div>
                                                 <div>
                                                     <span class="glyphicon glyphicon-map-marker" style="color: #99b3ff"></span> Other Association
@@ -239,7 +239,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-md-4">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @Html.LabelWithSugarFor(FieldDefinition.FundingSource, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) <a href="@ViewDataTyped.ManageFundingSourcesUrl">Funding Sources</a>
+                                @Html.LabelWithSugarFor(FieldDefinition.FundingSource, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) <a href="@ViewDataTyped.ManageFundingSourcesUrl">@FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()</a>
                             </div>
                             <div class="panel-body">
                                 @if (ViewDataTyped.Organization.FundingSources.Any())
@@ -256,7 +256,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 }
                                 else
                                 {
-                                    <div class="alert">No funding sources set for this organization.</div>
+                                    <div class="alert">No @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() set for this organization.</div>
                                 }
                             </div>
                         </div>
@@ -264,7 +264,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-md-8">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                Reported Expenditures by Funding Source
+                                Reported Expenditures by @FieldDefinition.FundingSource.GetFieldDefinitionLabel()
                             </div>
                             <div class="panel-body">
                                 <div>

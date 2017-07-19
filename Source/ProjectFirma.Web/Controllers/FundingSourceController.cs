@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(fundingSource, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllFundingSources.Add(fundingSource);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"Funding Source {fundingSource.DisplayName} succesfully created.");
+            SetMessageForDisplay($"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()} {fundingSource.DisplayName} succesfully created.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -160,8 +160,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !fundingSource.HasDependentObjects();
             var confirmMessage = canDelete
-                ? string.Format("Are you sure you want to delete this Funding Source '{0}'?", fundingSource.FundingSourceName)
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Funding Source", SitkaRoute<FundingSourceController>.BuildLinkFromExpression(x => x.Detail(fundingSource), "here"));
+                ? $"Are you sure you want to delete this {FieldDefinition.FundingSource.GetFieldDefinitionLabel()} '{fundingSource.FundingSourceName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()}", SitkaRoute<FundingSourceController>.BuildLinkFromExpression(x => x.Detail(fundingSource), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);

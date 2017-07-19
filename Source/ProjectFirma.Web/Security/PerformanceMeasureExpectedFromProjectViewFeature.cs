@@ -64,7 +64,8 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult();
             }
 
-            return new PermissionCheckResult(String.Format("You don't have permission to View Performance Measure Expected Values for Project {0}", contextModelObject.DisplayName));
+            return new PermissionCheckResult(
+                $"You don't have permission to View {FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()} {FieldDefinition.ExpectedValue.GetFieldDefinitionLabelPluralized()} for Project {contextModelObject.DisplayName}");
         }
     }
 }

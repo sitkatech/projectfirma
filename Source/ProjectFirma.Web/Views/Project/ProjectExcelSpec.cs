@@ -96,7 +96,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn("Project Name", x => x.Project.ProjectName);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName() + " ID", x => x.PerformanceMeasureID);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName(), x => x.PerformanceMeasure.PerformanceMeasureDisplayName);
-            AddColumn("Expected Value", x => x.ExpectedValue);
+            AddColumn($"{Models.FieldDefinition.ExpectedValue.GetFieldDefinitionLabel()}", x => x.ExpectedValue);
         }
     }
 
@@ -127,7 +127,7 @@ namespace ProjectFirma.Web.Views.Project
         {
             AddColumn("Project ID", x => x.Project.ProjectID);
             AddColumn("Project Name", x => x.Project.ProjectName);
-            AddColumn("Funding Source", x => x.FundingSource.FundingSourceName);
+            AddColumn($"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}", x => x.FundingSource.FundingSourceName);
             AddColumn("Funding Organization", x => x.FundingSource.Organization.OrganizationName);
             AddColumn("Organization Type", x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName);
             AddColumn("Calendar Year", x => x.CalendarYear);

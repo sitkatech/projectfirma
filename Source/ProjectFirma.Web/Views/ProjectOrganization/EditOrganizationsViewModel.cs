@@ -80,13 +80,13 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
 
             if (ProjectOrganizationsViewModelJson.LeadOrganizationID == null)
             {
-                errors.Add(new ValidationResult("Lead Implementer Organization is required."));
+                errors.Add(new ValidationResult($"{Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} Organization is required."));
                 return errors;
             }
             var leadOrg = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(ProjectOrganizationsViewModelJson.LeadOrganizationID.Value);
             if (leadOrg.PrimaryContactPerson == null)
             {
-                errors.Add(new ValidationResult("Lead Implementer Organization must have a primary contact set."));
+                errors.Add(new ValidationResult($"{Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} Organization must have a primary contact set."));
             }
             if (ProjectOrganizationsViewModelJson.ProjectOrganizations.Count != ProjectOrganizationsViewModelJson.ProjectOrganizations.Select(x => x.OrganizationID).Distinct().Count())
             {

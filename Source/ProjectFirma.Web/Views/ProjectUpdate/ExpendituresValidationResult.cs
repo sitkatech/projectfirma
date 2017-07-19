@@ -50,9 +50,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 _warningMessages.AddRange(
                     missingFundingSourceYears.Select(
                         missingFundingSourceYear =>
-                            string.Format("Missing Expenditures for Funding Source '{0}' for the following years: {1}",
-                                missingFundingSourceYear.Key.DisplayName,
-                                string.Join(", ", missingFundingSourceYear.Value))).ToList());
+                            $"Missing Expenditures for {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()} '{missingFundingSourceYear.Key.DisplayName}' for the following years: {string.Join(", ", missingFundingSourceYear.Value)}").ToList());
             }
         }
 

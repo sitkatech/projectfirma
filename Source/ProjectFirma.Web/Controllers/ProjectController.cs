@@ -713,7 +713,7 @@ Continue with a new project update?
             var project = projectPrimaryKey.EntityObject;
             var fundingSourceExpenditures = project.GetExpendituresDictionary();
             var googleChartDataTable = GetProjectFactSheetGoogleChartDataTable(fundingSourceExpenditures);
-            var googleChartTitle = string.Format("Investment by Funding Source for: {0}", project.ProjectName);
+            var googleChartTitle = $"Investment by {FieldDefinition.FundingSource.GetFieldDefinitionLabel()} for: {project.ProjectName}";
             var googleChartConfiguration = new GooglePieChartConfiguration(googleChartTitle, MeasurementUnitType.Dollars, chartSize, chartSize)
             {
                 Slices = GetSlicesForGoogleChart(fundingSourceExpenditures)
@@ -726,7 +726,7 @@ Continue with a new project update?
 
         public static GoogleChartDataTable GetProjectFactSheetGoogleChartDataTable(Dictionary<string, decimal> fundingSourceExpenditures)
         {
-            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn("Funding Source", GoogleChartColumnDataType.String, GoogleChartType.PieChart), new GoogleChartColumn("Expenditures", GoogleChartColumnDataType.Number, GoogleChartType.PieChart) };
+            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn($"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()}", GoogleChartColumnDataType.String, GoogleChartType.PieChart), new GoogleChartColumn("Expenditures", GoogleChartColumnDataType.Number, GoogleChartType.PieChart) };
             var chartRowCs = fundingSourceExpenditures.Select(x =>
             {
                 var organizationTypeRowV = new GoogleChartRowV(x.Key);

@@ -47,7 +47,8 @@ namespace ProjectFirma.Web.Security
             var hasPermissionByPerson = HasPermissionByPerson(person);
             if (!hasPermissionByPerson)
             {
-                return new PermissionCheckResult(String.Format("You don't have permission to Edit {0} Expected Values for Project {1}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), contextModelObject.DisplayName));
+                return new PermissionCheckResult(
+                    $"You don't have permission to Edit {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} {FieldDefinition.ExpectedValue.GetFieldDefinitionLabelPluralized()} for Project {contextModelObject.DisplayName}");
             }
 
             // Admin can edit anything
@@ -68,7 +69,8 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult();
             }
 
-            return new PermissionCheckResult(String.Format("You don't have permission to Edit {0} Expected Values for Project {1}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), contextModelObject.DisplayName));
+            return new PermissionCheckResult(
+                $"You don't have permission to Edit {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} {FieldDefinition.ExpectedValue.GetFieldDefinitionLabelPluralized()} for Project {contextModelObject.DisplayName}");
         }
     }
 }

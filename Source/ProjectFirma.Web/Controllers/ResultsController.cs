@@ -359,14 +359,15 @@ namespace ProjectFirma.Web.Controllers
             var viewData = GetSpendingByOrganizationTypeByOrganizationViewData(organizationTypeID, calendarYear);
 
             var excelSpec = new FundingSourceCalendarYearExpenditureExcelSpec(viewData.CalendarYears);
-            var wsFundingSources = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Funding Sources",
+            var wsFundingSources = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()}",
                 excelSpec,
                 viewData.FundingSourceCalendarYearExpenditures.OrderBy(x => x.OrganizationName).ThenBy(x => x.FundingSourceName).ToList());
             var workSheets = new List<IExcelWorkbookSheetDescriptor> {wsFundingSources};
 
             var wbm = new ExcelWorkbookMaker(workSheets);
             var excelWorkbook = wbm.ToXLWorkbook();
-            return new ExcelResult(excelWorkbook, String.Format("Funding Source Spending for {0}", organizationType.OrganizationTypeName));
+            return new ExcelResult(excelWorkbook,
+                $"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()} Spending for {organizationType.OrganizationTypeName}");
         }
 
         [ResultsByTaxonomyTierTwoViewFeature]

@@ -156,7 +156,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(project.ProjectID))
             {
-                Check.RequireNotNull(LeadImplementerOrganizationID, "Lead Implementer must be specified");
+                Check.RequireNotNull(LeadImplementerOrganizationID, $"{Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} must be specified");
                 if (LeadImplementerOrganizationID != null)
                 {
                     project.LeadImplementerOrganizationID = LeadImplementerOrganizationID;
@@ -186,7 +186,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(ProjectID) && !LeadImplementerOrganizationID.HasValue)
             {
-                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>("Lead Implementer must be specified", m => m.LeadImplementerOrganizationID));
+                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>($"{Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} must be specified", m => m.LeadImplementerOrganizationID));
             }
 
             var isCompletedOrPostImplementation = ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID;

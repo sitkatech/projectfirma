@@ -50,11 +50,9 @@ namespace ProjectFirma.Web.Views.Organization
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationType)]
         [Required]
-        [DisplayName("Organization Type")]
         public int OrganizationTypeID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.PrimaryContact)]
-        [DisplayName("Primary Contact")]
         public int? PrimaryContactPersonID { get; set; }
 
         [Url]
@@ -124,7 +122,7 @@ namespace ProjectFirma.Web.Views.Organization
                 {
                     validationResults.Add(
                         new SitkaValidationResult<EditViewModel, int?>(
-                            string.Format("Organization {0} is Lead Implementer for one or more projects, so you must specify a primary contact", organizationBeingUpdated.OrganizationName),
+                            $"Organization {organizationBeingUpdated.OrganizationName} is {Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} for one or more projects, so you must specify a primary contact",
                             x => x.PrimaryContactPersonID));
                 }
             }

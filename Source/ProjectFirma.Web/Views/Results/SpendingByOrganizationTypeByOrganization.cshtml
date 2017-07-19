@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common
 @using LtInfo.Common.DhtmlWrappers
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Results.SpendingByOrganizationTypeByOrganization
 
 <div class="panel-body">
@@ -27,7 +28,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <br style="clear: both" />
     <table class="gridLayout" style="width: 100%">
         <tr>
-            <th style="text-align: left">Organization / Funding Source</th>
+            <th style="text-align: left">Organization / @FieldDefinition.FundingSource.GetFieldDefinitionLabel()</th>
             @foreach (var calendarYear in ViewDataTyped.CalendarYears)
             {
                 <th>@calendarYear.Value</th>
