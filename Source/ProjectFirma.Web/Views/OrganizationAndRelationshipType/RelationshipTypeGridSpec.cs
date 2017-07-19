@@ -39,12 +39,12 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, x.CanDelete()), 30);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.EditRelationshipType(a)),
-                        $"Edit Relationship Type '{a.RelationshipTypeName}'")),
+                        $"Edit {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} '{a.RelationshipTypeName}'")),
                     30);
                 basicsColumnGroupCount += 2;
             }
 
-            Add("Relationship Type Name", a => a.RelationshipTypeName, 240);
+            Add($"{Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} Name", a => a.RelationshipTypeName, 240);
             foreach (var organizationType in allOrganizationTypes)
             {
                 Add(organizationType.OrganizationTypeName, a => a.IsAssociatedWithOrganiztionType(organizationType).ToCheckboxImageOrEmpty(), 100);
@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
                 BuildGroupingHeader(new ColumnHeaderGroupingList
                 {
                     {"", basicsColumnGroupCount},
-                    {"Applicable to Organizations with the following types:", allOrganizationTypes.Count}                    
+                    {$"Applicable to the following {Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized()}:", allOrganizationTypes.Count}                    
                 });
 
         }

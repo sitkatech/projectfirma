@@ -34,16 +34,16 @@ namespace ProjectFirma.Web.Views.Results
 
         public ProjectFundingSourceExpendituresByOrganizationTypeViewData(int? organizationTypeID, int? calendarYear)
         {
-            var organizationTypeDisplayName = "all Organization Types";
+            var organizationTypeDisplayName = $"all {Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized()}";
             if (organizationTypeID.HasValue)
             {
                 var organizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetOrganizationType(organizationTypeID.Value);
-                organizationTypeDisplayName = string.Format("selected Organization Type: {0}", organizationType.OrganizationTypeName);
+                organizationTypeDisplayName = $"selected {Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()}: {organizationType.OrganizationTypeName}";
             }
             GridSpec = new ProjectFundingSourceExpendituresByOrganizationTypeGridSpec(calendarYear)
             {
-                ObjectNameSingular = string.Format("record by {0}", organizationTypeDisplayName),
-                ObjectNamePlural = string.Format("records by {0}", organizationTypeDisplayName),
+                ObjectNameSingular = $"record by {organizationTypeDisplayName}",
+                ObjectNamePlural = $"records by {organizationTypeDisplayName}",
                 SaveFiltersInCookie = true
             };
 

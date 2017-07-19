@@ -191,7 +191,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-5">
-                                        @Html.LabelWithSugarFor(FieldDefinition.PrimaryContact, "Lead Implementing Organization Primary Contact")
+                                        @Html.LabelWithSugarFor(FieldDefinition.PrimaryContact, "Lead Implementer Primary Contact")
                                     </div>
                                     <div class="col-xs-7">
                                         @if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, ViewDataTyped.Project.LeadImplementerOrganization.PrimaryContactPerson).HasPermission)
@@ -204,37 +204,27 @@
                                         }
                                     </div>
                                 </div>
-                        
+                                <hr />
+                                @Html.Label("Other Associated Organizations")
                                 @if (ViewDataTyped.AllProjectOrganizations.Any())
-                                {
-                                    <hr />
-                                    @Html.Label("Other Associated Organizations")
+                                {                                    
                                     <table class="summaryLayout">
                                         <tr>
                                             <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
-                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType, "Relationship to Project")</th>
-                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact, "Organization's Primary Contact")</th>
+                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
                                         </tr>                                
-                                        @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations.GroupBy(x => x.Organization))
+                                        @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations.GroupBy(x => x.Organization).OrderBy(x => x.Key.DisplayName))
                                         {
                                             <tr>
                                                 <td>@projectOrganization.Key.GetDisplayNameAsUrl()</td>
-                                                <td style="text-align: center">@string.Join(", ", @projectOrganization.Key.GetProjectRelationshipTypes(ViewDataTyped.Project).Select(x => x.RelationshipTypeName))</td>
-                                                @if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, projectOrganization.Key.PrimaryContactPerson).HasPermission)
-                                                {
-                                                    <td>@projectOrganization.Key.PrimaryContactPersonWithOrgAsUrl</td>
-                                                }
-                                                else
-                                                {
-                                                    <td>@projectOrganization.Key.PrimaryContactPersonAsStringAndOrgAsUrl</td>
-                                                }
+                                                <td style="text-align: center">@string.Join(", ", projectOrganization.Key.GetProjectRelationshipTypes(ViewDataTyped.Project).Select(x => x.RelationshipTypeName))</td>
                                             </tr>
                                         }
                                     </table>
                                 }
                                 else
                                 {
-                                    <p>No organizations set for this project.</p>
+                                    <p>No other organizations set for this project.</p>
                                 }
                             </div>
                         </div>
@@ -404,24 +394,24 @@
             </div>
         </div>
 
-        <script type="text/javascript">
-            jQuery(document)
-                .ready(function () {
-                    Toc.init({
-                        $nav: jQuery('#tableOfContents'),
-                        $scope: jQuery('#contentForTOC')
-                    });
+<script type="text/javascript">
+    jQuery(document)
+        .ready(function () {
+            Toc.init({
+                $nav: jQuery('#tableOfContents'),
+                $scope: jQuery('#contentForTOC')
+            });
 
-                    jQuery('body').scrollspy({
-                        target: '#tableOfContents'
-                    });
+            jQuery('body').scrollspy({
+                target: '#tableOfContents'
+            });
 
-                    jQuery('#tableOfContentsAffixed')
-                        .affix({
-                            offset: {
-                                top: function () { return (this.top = jQuery("#tableOfContentsAffixed").offset().top); },
-                                bottom: function () { return (this.bottom = jQuery('footer').outerHeight(true) + 100); }
-                            }
-                        });
-                });
-        </script>
+            jQuery('#tableOfContentsAffixed')
+                .affix({
+                    offset: {
+                        top: function () { return (this.top = jQuery("#tableOfContentsAffixed").offset().top); },
+                        bottom: function () { return (this.bottom = jQuery('footer').outerHeight(true) + 100); }
+                    }
+                });          
+        });
+</script>

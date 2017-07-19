@@ -40,7 +40,8 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         [DisplayName("Name")]
         public string RelationshipTypeName { get; set; }
 
-        [Required(ErrorMessage = "Add at least one Organization Type")]
+        [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationType)]
         public List<OrganizationTypeSimple> OrganizationTypeSimples { get; set; }
                 
 
@@ -79,10 +80,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             {
                 errors.Add(new SitkaValidationResult<EditRelationshipTypeViewModel, string>("Name already exists", x => x.RelationshipTypeName));
             }
-            if (OrganizationTypeSimples == null || OrganizationTypeSimples.Count.Equals(0))
-            {
-                errors.Add(new SitkaValidationResult<EditRelationshipTypeViewModel, string>("Add at least one Organization Type", x => x.RelationshipTypeName));
-            }
+           
             return errors;
         }
     }
