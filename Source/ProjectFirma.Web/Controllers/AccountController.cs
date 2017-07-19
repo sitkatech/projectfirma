@@ -201,20 +201,20 @@ namespace ProjectFirma.Web.Controllers
     <strong>New user:</strong> {2} ({3})<br />
     <br />
     <p>
-        You may want to <a href=""{4}"">add detail for this organization</a> such as its abbreviation, organization type, website, logo, etc. This will make its Organization summary page display better.
+        You may want to <a href=""{4}"">add detail for this organization</a> such as its abbreviation, {5}, website, logo, etc. This will make its Organization summary page display better.
     </p>
     <br />
     <br />
     <div style='font-size: 10px; color: gray'>
     OTHER DETAILS:<br />
-    LOGIN: {5}<br />
-    IP ADDRESS: {6}<br />
-    USERAGENT: {7}<br />
+    LOGIN: {6}<br />
+    IP ADDRESS: {7}<br />
+    USERAGENT: {8}<br />
     <br />
     </div>
-    <div>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {8}</div>.
+    <div>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {9}</div>.
 </div>
-", organization.GetDisplayNameAsUrl(), DateTime.Now, person.FullNameFirstLast, person.Email, SitkaRoute<OrganizationController>.BuildAbsoluteUrlFromExpression(x => x.Detail(organization.OrganizationID)), loginName, ipAddress, userAgent, FirmaWebConfiguration.SitkaSupportEmail);
+", organization.GetDisplayNameAsUrl(), DateTime.Now, person.FullNameFirstLast, person.Email, SitkaRoute<OrganizationController>.BuildAbsoluteUrlFromExpression(x => x.Detail(organization.OrganizationID)), FieldDefinition.OrganizationType.GetFieldDefinitionLabel(), loginName, ipAddress, userAgent, FirmaWebConfiguration.SitkaSupportEmail);
             
             var mailMessage = new MailMessage { From = new MailAddress(FirmaWebConfiguration.DoNotReplyEmail), Subject = subject, Body = message, IsBodyHtml = true };
             mailMessage.To.Add(Common.FirmaWebConfiguration.SitkaSupportEmail);

@@ -211,13 +211,13 @@
                                     <table class="summaryLayout">
                                         <tr>
                                             <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
-                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType, "Relationship to Project")</th>
+                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
                                         </tr>                                
                                         @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations.GroupBy(x => x.Organization).OrderBy(x => x.Key.DisplayName))
                                         {
                                             <tr>
                                                 <td>@projectOrganization.Key.GetDisplayNameAsUrl()</td>
-                                                <td style="text-align: center">@string.Join(", ", @projectOrganization.Key.GetProjectRelationshipTypes(ViewDataTyped.Project).Select(x => x.RelationshipTypeName))</td>
+                                                <td style="text-align: center">@string.Join(", ", projectOrganization.Key.GetProjectRelationshipTypes(ViewDataTyped.Project).Select(x => x.RelationshipTypeName))</td>
                                             </tr>
                                         }
                                     </table>

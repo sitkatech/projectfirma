@@ -200,10 +200,10 @@ Source code is available upon request via <support@sitkatech.com>.
                     <table class="table" style="margin-bottom: 50px;" ng-show="AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations && AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length && AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length > 0">
                         <thead>
                         <tr>
-                            <th style="text-align: center">Remove<br/>Org.</th>
+                            <th style="text-align: center">Remove<br/>Organization</th>
                             <th>@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
-                            <th style="text-align: center">Remove<br/>Relationship</th>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType, "Relationship to Project")</th>
+                            <th style="text-align: center">Remove<br/>@FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -240,7 +240,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <input type="hidden" value="{{primarySimple.RelationshipTypes[0].RelationshipTypeID}}"
                                            name="ProjectOrganizations[{{$index}}].RelationshipTypes[0].RelationshipTypeID" />
                                     <select class="form-control" style="width: 100%" ng-model="primarySimple.RelationshipTypes[0].RelationshipTypeID" name="ProjectOrganizations[{{$index}}].RelationshipTypes[0].RelationshipTypeID" ng-required="true">
-                                        <option value="" disabled selected>Select a Relationship</option>
+                                        <option value="" disabled selected>Select one</option>
                                         <option ng-repeat="detailType in validRelationshipTypes(primarySimple.OrganizationID)"
                                                 ng-selected="primarySimple.RelationshipTypes[0].RelationshipTypeID == detailType.RelationshipTypeID"
                                                 ng-bind="detailType.RelationshipTypeName"
@@ -250,7 +250,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <td>
                                     <button type="button" class="btn btn-sm btn-firma" ng-click="addDetailTier(primarySimple)" ng-disabled="validRelationshipTypes(primarySimple.OrganizationID).length <= primarySimple.RelationshipTypes.length">
                                         <span class="glyphicon glyphicon-plus"></span>
-                                        Add Relationship
+                                        Add @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()
                                     </button>
                                 </td>
                             </tr>

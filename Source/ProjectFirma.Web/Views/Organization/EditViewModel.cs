@@ -50,7 +50,6 @@ namespace ProjectFirma.Web.Views.Organization
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationType)]
         [Required]
-        [DisplayName("Organization Type")]
         public int OrganizationTypeID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.PrimaryContact)]

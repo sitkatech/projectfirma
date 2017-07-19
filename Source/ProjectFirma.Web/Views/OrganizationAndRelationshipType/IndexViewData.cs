@@ -41,24 +41,24 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 
         public IndexViewData(Person currentPerson) : base(currentPerson)
         {
-            PageTitle = "Manage Organization Types";
+            PageTitle = $"Manage {Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized()}";
 
             var hasManagePermissions = new OrganizationAndRelationshipTypeManageFeature().HasPermissionByPerson(currentPerson);
-            OrganizationTypeGridSpec = new OrganizationTypeGridSpec(hasManagePermissions) { ObjectNameSingular = "Organization Type", ObjectNamePlural = "Organization Types", SaveFiltersInCookie = true };
+            OrganizationTypeGridSpec = new OrganizationTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             if (hasManagePermissions)
             {
-                OrganizationTypeGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.NewOrganizationType()), "Create a new Organization Type");
+                OrganizationTypeGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.NewOrganizationType()), $"Create a new {Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()}");
             }
 
             OrganizationTypeGridName = "organizationTypeGrid";
             OrganizationTypeGridDataUrl = SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(otc => otc.OrganizationTypeGridJsonData());
 
-            RelationshipTypeGridSpec = new RelationshipTypeGridSpec(hasManagePermissions, HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList()) { ObjectNameSingular = "Relationship Type", ObjectNamePlural = "Relationship Types", SaveFiltersInCookie = true };
+            RelationshipTypeGridSpec = new RelationshipTypeGridSpec(hasManagePermissions, HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList()) { ObjectNameSingular = $"{Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             if (hasManagePermissions)
             {
-                RelationshipTypeGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.NewRelationshipType()), "Create a new Relationship Type");
+                RelationshipTypeGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.NewRelationshipType()), $"Create a new {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()}");
             }
 
             RelationshipTypeGridName = "relationshipTypeGrid";

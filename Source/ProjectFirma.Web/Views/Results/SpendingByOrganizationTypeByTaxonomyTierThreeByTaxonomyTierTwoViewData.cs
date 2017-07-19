@@ -43,7 +43,8 @@ namespace ProjectFirma.Web.Views.Results
             IEnumerable<SelectListItem> calendarYears) : base(currentPerson, firmaPage)
         {
             TaxonomyTierTwoOrganizationTypeExpenditures = taxonomyTierTwoOrganizationTypeExpenditures;
-            PageTitle = string.Format("Spending by Organization Type by {0} by {1}", Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel(), Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel());
+            PageTitle =
+                $"Spending by {Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()} by {Models.FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel()} by {Models.FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel()}";
             SelectedCalendarYear = selectedCalendarYear;
             CalendarYears = calendarYears;
             OrganizationTypes = organizationTypes;
