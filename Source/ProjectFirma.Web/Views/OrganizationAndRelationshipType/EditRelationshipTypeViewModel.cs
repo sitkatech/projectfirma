@@ -40,6 +40,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         [DisplayName("Name")]
         public string RelationshipTypeName { get; set; }
 
+        [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationType)]
         public List<OrganizationTypeSimple> OrganizationTypeSimples { get; set; }
                 
