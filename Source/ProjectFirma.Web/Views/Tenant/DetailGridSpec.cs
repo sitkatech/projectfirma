@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.Tenant
             Add("Tenant Name", t => t.Tenant.TenantName, 150);
             Add("Tenant Domain", t => string.Format("<a href=\"http://{0}\" target=\"_blank\">{0}</a>", t.Tenant.TenantDomain).ToHTMLFormattedString(), 200, DhtmlxGridColumnFilterType.Html);
 
-            Add("Primary Contact",
+            Add($"{Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()}",
                 t =>
                     t.PrimaryContactPerson != null
                         ? new SitkaRoute<UserController>(c => c.Detail(t.PrimaryContactPerson)).BuildLinkFromExpression(t.PrimaryContactPerson.FullNameFirstLast).ToHTMLFormattedString()

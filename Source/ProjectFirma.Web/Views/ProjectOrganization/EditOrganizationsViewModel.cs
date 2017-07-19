@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             var leadOrg = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(ProjectOrganizationsViewModelJson.LeadOrganizationID.Value);
             if (leadOrg.PrimaryContactPerson == null)
             {
-                errors.Add(new ValidationResult($"{Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} Organization must have a primary contact set."));
+                errors.Add(new ValidationResult($"{Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} Organization must have a {Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} set."));
             }
             if (ProjectOrganizationsViewModelJson.ProjectOrganizations.Count != ProjectOrganizationsViewModelJson.ProjectOrganizations.Select(x => x.OrganizationID).Distinct().Count())
             {

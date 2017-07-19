@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Models
                 var performanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOption != null ? performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : ViewUtilities.NotFoundString;
                 var performanceMeasureSubcategoryName = performanceMeasureSubcategory != null ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : ViewUtilities.NotFoundString;
                 var performanceMeasureName = performanceMeasure != null ? performanceMeasure.PerformanceMeasureDisplayName : ViewUtilities.NotFoundString;
-                return string.Format("Performance Measure: {0}, Subcategory: {1}, Subcategory Option: {2}", performanceMeasureName, performanceMeasureSubcategoryName, performanceMeasureSubcategoryOptionName);
+                return $"Performance Measure: {performanceMeasureName}, Subcategory: {performanceMeasureSubcategoryName}, Subcategory Option: {performanceMeasureSubcategoryOptionName}";
             }
         }
     }

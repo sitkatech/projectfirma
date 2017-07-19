@@ -23,6 +23,7 @@ using System.ServiceModel;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Service.ServiceModels;
 using LtInfo.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Service
 {
@@ -43,7 +44,7 @@ namespace ProjectFirma.Web.Service
         List<WebServiceProject> GetProjectsByOrganization(string returnType, string webServiceToken, int organizationID);
         
         [OperationContract]
-        [WebServiceDocumentationAttribute("Provides the list of performance measure accomplishments for the specified Project.")]
+        [WebServiceDocumentationAttribute("Provides the list of {0} accomplishments for the specified Project.", FieldDefinitionEnum.PerformanceMeasure, false)]
         List<WebServiceProjectAccomplishments> GetProjectAccomplishments(string returnType, string webServiceToken, int projectID);
 
         [OperationContract]
@@ -55,7 +56,7 @@ namespace ProjectFirma.Web.Service
         List<WebServiceProjectKeyPhoto> GetProjectKeyPhoto(string returnType, string webServiceToken, int projectID);
 
         [OperationContract]
-        [WebServiceDocumentationAttribute("Provides the list of all Performance Measures (aka PerformanceMeasures), including their subcategories (aka dimensions) and the number of options in each performanceMeasureSubcategory.")]
+        [WebServiceDocumentationAttribute("Provides the list of all {0}, including their subcategories (aka dimensions) and the number of options in each performanceMeasureSubcategory.", FieldDefinitionEnum.PerformanceMeasure, true)]
         List<WebServicePerformanceMeasure> GetPerformanceMeasures(string returnType, string webServiceToken);
 
         [OperationContract]

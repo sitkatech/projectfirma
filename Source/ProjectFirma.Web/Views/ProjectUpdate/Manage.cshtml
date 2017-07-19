@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
+@using ProjectFirma.Web.Models
 @inherits Manage
 
 @{
@@ -34,7 +35,7 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 @if (ViewDataTyped.ProjectsWithNoContactCount > 0)
 {
-    <p class="alert alert-danger" style="margin-top: 10px">There are @ViewDataTyped.ProjectsWithNoContactCount projects which require an update but do not have a Primary Contact. No reminders will be sent for these projects.</p>
+    <p class="alert alert-danger" style="margin-top: 10px">There are @ViewDataTyped.ProjectsWithNoContactCount projects which require an update but do not have a @FieldDefinition.PrimaryContact.GetFieldDefinitionLabel(). No reminders will be sent for these projects.</p>
 }
 <div>
     @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
@@ -42,7 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>Primary Contacts Receiving Notification</h2>
+        <h2>@FieldDefinition.PrimaryContact.GetFieldDefinitionLabelPluralized() Receiving Notification</h2>
     </div>
     <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.PeopleReceivingReminderGridSpec, ViewDataTyped.PeopleReceivingReminderGridName, ViewDataTyped.PeopleReceivingReminderGridDataUrl, "height:350px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

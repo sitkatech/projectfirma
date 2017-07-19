@@ -98,7 +98,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !person.HasDependentObjects() && person != CurrentPerson;
             var confirmMessage = canDelete
-                ? string.Format("Are you sure you want to delete {0}?", person.FullNameFirstLastAndOrg)
+                ? $"Are you sure you want to delete {person.FullNameFirstLastAndOrg}?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Person", SitkaRoute<UserController>.BuildLinkFromExpression(x => x.Detail(person), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
@@ -127,8 +127,8 @@ namespace ProjectFirma.Web.Controllers
             var userNotificationGridDataUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.UserNotificationsGridJsonData(personPrimaryKey));
             var basicProjectInfoGridSpec = new Views.Project.BasicProjectInfoGridSpec(CurrentPerson, false)
             {
-                ObjectNameSingular = string.Format("Project where {0} is the Primary Contact", person.FullNameFirstLast),
-                ObjectNamePlural = string.Format("Projects where {0} is the Primary Contact", person.FullNameFirstLast),
+                ObjectNameSingular = $"Project where {person.FullNameFirstLast} is the {FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"Projects where {person.FullNameFirstLast} is the {FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()}",
                 SaveFiltersInCookie = true
             };
             const string basicProjectInfoGridName = "userProjectListGrid";
@@ -182,21 +182,19 @@ namespace ProjectFirma.Web.Controllers
                 var isPrimaryContactForAnyOrganization = person.OrganizationsWhereYouAreThePrimaryContactPerson.Any();
                 if (isPrimaryContactForAnyOrganization)
                 {
-                    confirmMessage = string.Format(@"You cannot inactive user '{0}' because {1} is the primary contact for the following organizations: 
-<ul>
-{2}
-</ul>", person.FullNameFirstLast, person.FirstName, string.Join("\r\n", person.PrimaryContactOrganizations.Select(x => string.Format("<li>{0}</li>", x.OrganizationName))));
+                    confirmMessage =
+                        $@"You cannot inactive user '{person.FullNameFirstLast}' because {person.FirstName} is the {FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} for the following organizations: <ul> {string.Join("\r\n", person.PrimaryContactOrganizations.Select(x =>$"<li>{x.OrganizationName}</li>"))}</ul>";
                 }
                 else
                 {
-                    confirmMessage = string.Format("Are you sure you want to inactivate user '{0}'?", person.FullNameFirstLast);
+                    confirmMessage = $"Are you sure you want to inactivate user '{person.FullNameFirstLast}'?";
                 }
                 var viewData = new ConfirmDialogFormViewData(confirmMessage, !isPrimaryContactForAnyOrganization);
                 return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
             }
             else
             {
-                confirmMessage = string.Format("Are you sure you want to activate user '{0}'?", person.FullNameFirstLast);
+                confirmMessage = $"Are you sure you want to activate user '{person.FullNameFirstLast}'?";
                 var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
                 return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
             }
@@ -211,7 +209,9 @@ namespace ProjectFirma.Web.Controllers
             if (person.IsActive)
             {
                 Check.Require(!person.OrganizationsWhereYouAreThePrimaryContactPerson.Any(),
-                    string.Format(@"You cannot inactive user '{0}' because {1} is the primary contact for one or more organizations!", person.FullNameFirstLast, person.FirstName));
+                    $@"You cannot inactive user '{person.FullNameFirstLast}' because {
+                            person.FirstName
+                        } is the {FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} for one or more organizations!");
             }
             if (!ModelState.IsValid)
             {
@@ -294,7 +294,7 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            SetMessageForDisplay(string.Format("{0} successfully added. You may want to <a href=\"{1}\">assign them a role</a>.", firmaPerson.GetFullNameFirstLastAndOrgAsUrl(), firmaPerson.GetDetailUrl()));
+            SetMessageForDisplay($"{firmaPerson.GetFullNameFirstLastAndOrgAsUrl()} successfully added. You may want to <a href=\"{firmaPerson.GetDetailUrl()}\">assign them a role</a>.");
 
             return new ModalDialogFormJsonResult();
 

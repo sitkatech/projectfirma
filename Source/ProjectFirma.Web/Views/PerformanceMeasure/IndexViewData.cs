@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             if (hasPerformanceMeasureManagePermissions)
             {
                 var contentUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.New());
-                PerformanceMeasureGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(contentUrl, "Create a new Performance Measure");
+                PerformanceMeasureGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(contentUrl, $"Create a new {Models.FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()}");
             }
 
             PerformanceMeasureGridName = "performanceMeasuresGrid";

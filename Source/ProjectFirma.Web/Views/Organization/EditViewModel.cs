@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.Views.Organization
                 {
                     validationResults.Add(
                         new SitkaValidationResult<EditViewModel, int?>(
-                            $"Organization {organizationBeingUpdated.OrganizationName} is {Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} for one or more projects, so you must specify a primary contact",
+                            $"Organization {organizationBeingUpdated.OrganizationName} is {Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} for one or more projects, so you must specify a {Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()}",
                             x => x.PrimaryContactPersonID));
                 }
             }

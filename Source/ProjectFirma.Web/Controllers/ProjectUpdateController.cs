@@ -484,7 +484,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var viewData =
                 new ConfirmDialogFormViewData(
-                    "Are you sure you want to refresh the expenditures for this Project? This will pull the most recently approved information for the project and use the updated Start Year and Completion Year from the Basics section. Any updates made in this section will be lost.");
+                    $"Are you sure you want to refresh the expenditures for this Project? This will pull the most recently approved information for the project and use the updated Start Year and {FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} from the Basics section. Any updates made in this section will be lost.");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -584,7 +584,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var viewData =
                 new ConfirmDialogFormViewData(
-                    "Are you sure you want to refresh the budgets for this Project? This will pull the most recently approved information for the project and use the updated Start Year and Completion Year from the Basics section. Any updates made in this section will be lost.");
+                    "Are you sure you want to refresh the budgets for this Project? This will pull the most recently approved information for the project and use the updated Start Year and {FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} from the Basics section. Any updates made in this section will be lost.");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 

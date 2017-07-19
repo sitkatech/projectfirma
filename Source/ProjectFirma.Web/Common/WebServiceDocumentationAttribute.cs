@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Common
 {
@@ -26,6 +27,18 @@ namespace ProjectFirma.Web.Common
     public class WebServiceDocumentationAttribute : Attribute
     {
         public string Documentation;
+
+        public WebServiceDocumentationAttribute(string formatString, FieldDefinitionEnum fieldDefinitionEnum, bool plural)
+        {
+            if (!plural)
+            {
+                Documentation = string.Format(formatString, FieldDefinition.ToType(fieldDefinitionEnum).GetFieldDefinitionLabel());
+            }
+            else
+            {
+                Documentation = string.Format(formatString, FieldDefinition.ToType(fieldDefinitionEnum).GetFieldDefinitionLabelPluralized());
+            }
+        }
 
         public WebServiceDocumentationAttribute(string s)
         {

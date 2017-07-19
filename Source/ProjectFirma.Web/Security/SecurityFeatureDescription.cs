@@ -19,15 +19,21 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
     public class SecurityFeatureDescription : Attribute
     {
-        public string Name;
-        public SecurityFeatureDescription(string name)
+        public string DescriptionMessage;
+
+        public SecurityFeatureDescription(string formatString, FieldDefinitionEnum fieldDefinitionEnum)
         {
-            Name = name;
+            DescriptionMessage = string.Format(formatString, FieldDefinition.ToType(fieldDefinitionEnum).GetFieldDefinitionLabel());
+        }
+        public SecurityFeatureDescription(string descriptionMessage)
+        {
+            DescriptionMessage = descriptionMessage;
         }
     }
 }

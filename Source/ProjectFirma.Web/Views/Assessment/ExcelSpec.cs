@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.Assessment
                         throw new ArgumentOutOfRangeException();
                 }
             });
-            AddColumn("Project Name", project => project.DisplayName);
+            AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", project => project.DisplayName);
 
             foreach (var assessmentQuestion in HttpRequestStorage.DatabaseEntities.AssessmentQuestions)
             {

@@ -353,7 +353,7 @@ namespace ProjectFirma.Web.Controllers
             var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Projects", projectsSpec, projects);
 
             var projectsDescriptionSpec = new ProjectDescriptionExcelSpec();
-            var wsProjectDescriptions = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Project Descriptions", projectsDescriptionSpec, projects);
+            var wsProjectDescriptions = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.ProjectDescription.GetFieldDefinitionLabelPluralized()}", projectsDescriptionSpec, projects);
 
             var organizationsSpec = new ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec();
             var projectOrganizations = projects.SelectMany(p => p.ProjectOrganizations).ToList();
@@ -361,7 +361,7 @@ namespace ProjectFirma.Web.Controllers
 
             var projectNoteSpec = new ProjectNoteExcelSpec();
             var projectNotes = (projects.SelectMany(p => p.ProjectNotes)).ToList();
-            var wsProjectNotes = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Project Notes", projectNoteSpec, projectNotes);
+            var wsProjectNotes = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.ProjectNote.GetFieldDefinitionLabelPluralized()}", projectNoteSpec, projectNotes);
 
             var performanceMeasureExpectedExcelSpec = new PerformanceMeasureExpectedExcelSpec();
             var performanceMeasureExpecteds = (projects.SelectMany(p => p.PerformanceMeasureExpecteds)).ToList();

@@ -46,7 +46,8 @@ namespace ProjectFirma.Web.Security
             var project = contextModelObject.ProjectUpdateBatch.Project;
             if (!hasPermissionByPerson)
             {
-                return new PermissionCheckResult(string.Format("You don't have permission to Edit Project Note for Project {0}", project.DisplayName));
+                return new PermissionCheckResult(
+                    $"You don't have permission to Edit {FieldDefinition.ProjectNote.GetFieldDefinitionLabel()} for Project {project.DisplayName}");
             }
 
             var projectIsEditableByUser = new FirmaAdminFeature().HasPermissionByPerson(person) || project.IsMyProject(person);

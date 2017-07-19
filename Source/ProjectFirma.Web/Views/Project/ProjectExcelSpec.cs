@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectDescriptionExcelSpec()
         {
             AddColumn("Project ID", x => x.ProjectID);
-            AddColumn("Project Name", x => x.ProjectName);
+            AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.ProjectName);
             AddColumn("Description", x => x.ProjectDescription);
         }
     }
@@ -67,10 +67,10 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec()
         {
             AddColumn("Project ID", x => x.Project.ProjectID);
-            AddColumn("Project Name", x => x.Project.ProjectName);
+            AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn("Organization ID", x => x.Organization.OrganizationID);
             AddColumn("Organization Name", x => x.Organization.OrganizationName);
-            AddColumn("Primary Contact for Organization", x => x.Organization.PrimaryContactPersonWithOrgAsString);
+            AddColumn($"{Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} for Organization", x => x.Organization.PrimaryContactPersonWithOrgAsString);
             AddColumn("Organization Type", x => x.Organization.OrganizationType?.OrganizationTypeName);
             AddColumn("Organization Relationship To Project", x => x.RelationshipType.RelationshipTypeName);
         }
@@ -81,8 +81,8 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectNoteExcelSpec()
         {
             AddColumn("Project ID", x => x.Project.ProjectID);
-            AddColumn("Project Name", x => x.Project.ProjectName);
-            AddColumn("Project Note", x => x.Note);
+            AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
+            AddColumn($"{Models.FieldDefinition.ProjectNote.GetFieldDefinitionLabel()}", x => x.Note);
             AddColumn("Create Person", x => x.CreatePersonName);
             AddColumn("Create Date", x => x.CreateDate);
         }
@@ -93,7 +93,7 @@ namespace ProjectFirma.Web.Views.Project
         public PerformanceMeasureExpectedExcelSpec()
         {
             AddColumn("Project ID", x => x.Project.ProjectID);
-            AddColumn("Project Name", x => x.Project.ProjectName);
+            AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName() + " ID", x => x.PerformanceMeasureID);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName(), x => x.PerformanceMeasure.PerformanceMeasureDisplayName);
             AddColumn($"{Models.FieldDefinition.ExpectedValue.GetFieldDefinitionLabel()}", x => x.ExpectedValue);
@@ -105,7 +105,7 @@ namespace ProjectFirma.Web.Views.Project
         public PerformanceMeasureActualExcelSpec()
         {
             AddColumn("Project ID", x => x.Project.ProjectID);
-            AddColumn("Project Name", x => x.Project.ProjectName);
+            AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName() + " ID", x => x.PerformanceMeasureID);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName(), x => x.PerformanceMeasure.PerformanceMeasureDisplayName);
             AddColumn("Calendar Year", x => x.CalendarYear);
@@ -126,7 +126,7 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectFundingSourceExpenditureExcelSpec()
         {
             AddColumn("Project ID", x => x.Project.ProjectID);
-            AddColumn("Project Name", x => x.Project.ProjectName);
+            AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn($"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}", x => x.FundingSource.FundingSourceName);
             AddColumn("Funding Organization", x => x.FundingSource.Organization.OrganizationName);
             AddColumn("Organization Type", x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName);
@@ -140,7 +140,7 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectWatershedExcelSpec()
         {
             AddColumn("Project ID", x => x.Project.ProjectID);
-            AddColumn("Project Name", x => x.Project.ProjectName);
+            AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn("Watershed", x => x.Watershed.DisplayName);
         }
     }
@@ -150,7 +150,7 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectClassificationExcelSpec()
         {
             AddColumn("Project ID", x => x.Project.ProjectID);
-            AddColumn("Project Name", x => x.Project.ProjectName);
+            AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn(Models.FieldDefinition.Classification.GetFieldDefinitionLabel(), x => x.Classification.DisplayName);
         }
     }

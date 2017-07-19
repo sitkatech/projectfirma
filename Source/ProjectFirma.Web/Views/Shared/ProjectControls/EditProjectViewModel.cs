@@ -192,7 +192,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             var isCompletedOrPostImplementation = ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID;
             if (isCompletedOrPostImplementation && CompletionYear > DateTime.Now.Year)
             {
-                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>("Project is in the Completed or Post-Implementation stage: the Completion Year must be less than or equal to the current year", m => m.CompletionYear));    
+                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>($"Project is in the Completed or Post-Implementation stage: the {Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be less than or equal to the current year", m => m.CompletionYear));    
             }
 
             if (HasExistingProjectUpdate && OldProjectStageID != ProjectStageID)

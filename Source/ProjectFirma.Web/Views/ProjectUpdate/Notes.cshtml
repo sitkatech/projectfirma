@@ -20,9 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Shared.TextControls
 @using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectUpdate.Notes
 
-<p>You may enter one or more project notes to convey additional information not covered by other parts of this project update. Project Notes, if/when approved, will be publicly visible.</p>
+<p>You may enter one or more @FieldDefinition.ProjectNote.GetFieldDefinitionLabel() to convey additional information not covered by other parts of this project update. @FieldDefinition.ProjectNote.GetFieldDefinitionLabelPluralized(), if/when approved, will be publicly visible.</p>
 <hr />
 <div style="min-height: 200px">
     @{
@@ -39,7 +40,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
                 @if (ViewDataTyped.UpdateStatus.IsNotesUpdated)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to Project Notes", 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() {"btn-firma", "btn-xs"})
+                    @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0}", FieldDefinition.ProjectNote.GetFieldDefinitionLabelPluralized()), 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() {"btn-firma", "btn-xs"})
                 }
             </td>
         </tr>
