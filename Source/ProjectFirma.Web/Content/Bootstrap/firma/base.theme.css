@@ -1018,3 +1018,11 @@ h2.collapsed {
 .validation-summary-errors ul {
   margin-top: 10px;
 }
+.organizationBoundaryMap {
+  height: 400px;
+  margin-bottom: 25px;
+}
+.selectedOrganizationBoundaryInformation {
+  max-height: 200px;
+  overflow: auto;
+}
