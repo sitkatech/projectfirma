@@ -24,6 +24,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ClosedXML.Excel;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -34,6 +35,8 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
+using Detail = ProjectFirma.Web.Views.PerformanceMeasure.Detail;
+using DetailViewData = ProjectFirma.Web.Views.PerformanceMeasure.DetailViewData;
 using Index = ProjectFirma.Web.Views.PerformanceMeasure.Index;
 using IndexViewData = ProjectFirma.Web.Views.PerformanceMeasure.IndexViewData;
 
@@ -384,5 +387,65 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
+
+        [PerformanceMeasureManageFeature]
+        public ExcelResult IndexExcelDownload()
+        {
+            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
+            var excelWorkbook = new XLWorkbook();
+            var ws = excelWorkbook.Worksheets.Add("Performance Measures");
+
+            var row = 1;
+            var fieldDefinitionLabel = FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel();
+            foreach (var performanceMeasure in performanceMeasures)
+            {
+                var performanceMeasureHeaderCell = ws.Cell(row, 1);
+                performanceMeasureHeaderCell.SetValue(fieldDefinitionLabel);
+                performanceMeasureHeaderCell.SetDataType(XLCellValues.Text);
+                performanceMeasureHeaderCell.Style.Font.SetBold();
+                var subcategoryHeaderCell = ws.Cell(row, 2);
+                subcategoryHeaderCell.SetValue(FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel());
+                subcategoryHeaderCell.SetDataType(XLCellValues.Text);
+                subcategoryHeaderCell.Style.Font.SetBold();
+                var numberOfOptionsHeaderCell = ws.Cell(row, 3);
+                numberOfOptionsHeaderCell.SetValue("Number of Options");
+                numberOfOptionsHeaderCell.SetDataType(XLCellValues.Text);
+                numberOfOptionsHeaderCell.Style.Font.SetBold();
+                var optionsHeaderCell = ws.Cell(row, 4);
+                optionsHeaderCell.SetValue("Options");
+                optionsHeaderCell.SetDataType(XLCellValues.Text);
+                optionsHeaderCell.Style.Font.SetBold();
+                row++;
+
+                var performanceMeasureNameCell = ws.Cell(row, 1);
+                performanceMeasureNameCell.SetValue(performanceMeasure.PerformanceMeasureDisplayName);
+                performanceMeasureNameCell.SetDataType(XLCellValues.Text);
+
+                foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
+                {
+                    var subcategoryNameCell = ws.Cell(row, 2);
+                    subcategoryNameCell.SetValue(performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName);
+                    subcategoryNameCell.SetDataType(XLCellValues.Text);
+                    var numberOfOptionsCell = ws.Cell(row, 3);
+                    numberOfOptionsCell.SetValue(performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count);
+                    numberOfOptionsCell.SetDataType(XLCellValues.Number);
+                    var optionColNumberStart = 4;
+                    foreach (var performanceMeasureSubcategoryOption in performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions)
+                    {
+                        var optionNameCell = ws.Cell(row, optionColNumberStart);
+                        optionNameCell.SetValue(performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName);
+                        optionNameCell.SetDataType(XLCellValues.Text);
+                        optionColNumberStart++;
+                    }
+                    row++;
+                }
+                row++;
+            }
+            ws.Columns().AdjustToContents();
+            return new ExcelResult(excelWorkbook,
+                string.Format("{1} as of {0}", DateTime.Now.ToStringDateTime(),
+                    fieldDefinitionLabel));
+        }
+
     }
 }
