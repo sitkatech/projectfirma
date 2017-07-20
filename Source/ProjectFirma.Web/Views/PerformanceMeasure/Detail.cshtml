@@ -269,7 +269,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @*<div class="panel panelFirma">
         <div class="panel-heading panelTitle">
-            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditMonitoringProgramsUrl, string.Format("Edit Monitoring Programs: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.MonitoringProgram)</h2>
+            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditMonitoringProgramsUrl, string.Format("Edit {0}: {1}", FieldDefinition.MonitoringProgram.GetFieldDefinitionLabelPluralized(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.MonitoringProgram)</h2>
         </div>
         <div class="panel-body">
             @if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Any())
@@ -277,7 +277,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 foreach (var a in ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms)
                 {
                     <p>
-                        <strong>Monitoring Program</strong>:
+                        <strong>@FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel()</strong>:
                         @a.MonitoringProgram.DisplayNameAsUrl
                     </p>
                     <p>
@@ -299,7 +299,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <p class="alert">No monitoring programs are yet associated with this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
+                <p class="alert">No @FieldDefinition.MonitoringProgram.GetFieldDefinitionLabelPluralized() are yet associated with this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
             }
         </div>
     </div>*@

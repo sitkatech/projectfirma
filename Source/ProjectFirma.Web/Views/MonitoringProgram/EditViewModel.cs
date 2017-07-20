@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Views.MonitoringProgram
             var existingMonitoringPrograms = HttpRequestStorage.DatabaseEntities.MonitoringPrograms.ToList();
             if (!Models.MonitoringProgram.IsMonitoringProgramNameUnique(existingMonitoringPrograms, MonitoringProgramName, MonitoringProgramID))
             {
-                errors.Add(new SitkaValidationResult<EditViewModel, string>("Monitoring Program Name already exists", x => x.MonitoringProgramName));
+                errors.Add(new SitkaValidationResult<EditViewModel, string>($"{Models.FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel()} Name already exists", x => x.MonitoringProgramName));
             }
             return errors;
         }

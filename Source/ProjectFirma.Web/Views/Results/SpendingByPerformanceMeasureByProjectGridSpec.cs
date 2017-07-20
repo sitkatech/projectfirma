@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views.Results
             Add(Models.FieldDefinition.Region.ToGridHeaderString(), a => a.Project.ProjectLocationTypeDisplay, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             //Add("State", a => a.Project.ProjectLocationStateProvince, 95, DhtmlxGridColumnFilterType.Text);
             //Add("Jurisdiction", a => a.Project.ProjectLocationJurisdiction, 95, DhtmlxGridColumnFilterType.Text);
-            //Add("Watershed", a => a.Project.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
+            //Add($"{FieldDefinition.Watershed.GetFieldDefinitionLabel()}", a => a.Project.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
         }
     }
 }

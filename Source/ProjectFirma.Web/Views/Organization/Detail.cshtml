@@ -206,31 +206,31 @@ Source code is available upon request via <support@sitkatech.com>.
                         </div>
                     </div>
                     @*<div class="col-md-4 col-sm-12">
-                        <div class="panel panelFirma">
-                            <div class="panel-heading panelTitle">
-                                <h2>Monitoring Programs</h2>
-                            </div>
-                            <div class="panel-body">
-                                @if (ViewDataTyped.Organization.MonitoringProgramPartners.Any())
-                                {
-                                    <table class="summaryLayout">
-                                        @foreach (var monitoringProgram in ViewDataTyped.Organization.MonitoringProgramPartners.Select(x => x.MonitoringProgram).OrderBy(x => x.MonitoringProgramName))
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @monitoringProgram.DisplayNameAsUrl
-                                                </td>
-                                            </tr>
-                                        }
-                                    </table>
-                                }
-                                else
-                                {
-                                    <span class="alert">No monitoring programs for this organization.</span>
-                                }
-                            </div>
-                        </div>
-                    </div>*@
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>@FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel()</h2>
+            </div>
+            <div class="panel-body">
+                @if (ViewDataTyped.Organization.MonitoringProgramPartners.Any())
+                {
+                    <table class="summaryLayout">
+                        @foreach (var monitoringProgram in ViewDataTyped.Organization.MonitoringProgramPartners.Select(x => x.MonitoringProgram).OrderBy(x => x.MonitoringProgramName))
+                        {
+                            <tr>
+                                <td>
+                                    @monitoringProgram.DisplayNameAsUrl
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <span class="alert">No @FieldDefinition.MonitoringProgram.GetFieldDefinitionLabelPluralized() for this organization.</span>
+                }
+            </div>
+        </div>
+    </div>*@
 
                 </div>
             </div>

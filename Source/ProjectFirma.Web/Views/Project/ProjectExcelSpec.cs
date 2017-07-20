@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.Project
                 x => string.Join(",", x.ProjectOrganizations.Select(pio => pio.Organization.DisplayName)));
             AddColumn(Models.FieldDefinition.ProjectStage.GetFieldDefinitionLabel(), x => x.ProjectStage.ProjectStageDisplayName);
             AddColumn(Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized(), x => string.Join(",", x.ProjectClassifications.Select(tc => tc.Classification.DisplayName)));
-            AddColumn("Watersheds", x => string.Join(",", x.ProjectWatersheds.Select(pw => pw.Watershed.DisplayName)));
+            AddColumn($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()}", x => string.Join(",", x.ProjectWatersheds.Select(pw => pw.Watershed.DisplayName)));
             AddColumn(Models.FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel(), x => x.ImplementationStartYear);
             AddColumn(Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel(), x => x.CompletionYear);
             AddColumn(Models.FieldDefinition.ProjectDescription.GetFieldDefinitionLabel(), x => x.ProjectDescription);
@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(Models.FieldDefinition.UnfundedNeed.GetFieldDefinitionLabel(), x => x.UnfundedNeed);
             AddColumn(Models.FieldDefinition.Region.GetFieldDefinitionLabel(), a => a.ProjectLocationTypeDisplay);
             AddColumn("State", a => a.ProjectLocationStateProvince);
-            AddColumn("Watershed", a => a.ProjectLocationWatershed);
+            AddColumn($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}", a => a.ProjectLocationWatershed);
             AddColumn($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} Notes", a => a.ProjectLocationNotes);
         }
     }
@@ -141,7 +141,7 @@ namespace ProjectFirma.Web.Views.Project
         {
             AddColumn("Project ID", x => x.Project.ProjectID);
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
-            AddColumn("Watershed", x => x.Watershed.DisplayName);
+            AddColumn($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}", x => x.Watershed.DisplayName);
         }
     }
 

@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.BootstrapWrappers
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.TextControls.EntityExternalLinks
 
 @if (ViewDataTyped.ExternalLinks.Any())
@@ -35,5 +36,5 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 else
 {
-    <p class="alert">No external links entered.</p>
+    <p class="alert">No @FieldDefinition.ExternalLinks.GetFieldDefinitionLabelPluralized() entered.</p>
 }

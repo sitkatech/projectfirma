@@ -322,7 +322,7 @@
                                         }
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditWatershedsUrl, "Edit Watersheds", ViewDataTyped.UserHasProjectWatershedManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.Watershed, "Watersheds")</h3>
+                                <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditWatershedsUrl, "Edit Watersheds", ViewDataTyped.UserHasProjectWatershedManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.Watershed, string.Format("{0}", FieldDefinition.Watershed.GetFieldDefinitionLabel()))</h3>
                             </div>
                             <div class="panel-body">
                                 @if (ViewDataTyped.Project.ProjectWatersheds.Any())
@@ -344,7 +344,7 @@
                         </div>
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, "Edit External Links", ViewDataTyped.UserHasProjectExternalLinkManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.ExternalLinks)</h3>
+                                <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, string.Format("Edit {0}", FieldDefinition.ExternalLinks.GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasProjectExternalLinkManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.ExternalLinks)</h3>
                             </div>
                             <div class="panel-body">
                                 @{ EntityExternalLinks.RenderPartialView(Html, ViewDataTyped.EntityExternalLinksViewData); }

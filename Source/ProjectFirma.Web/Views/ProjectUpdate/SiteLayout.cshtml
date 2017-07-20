@@ -133,7 +133,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </li>
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.ExternalLinks, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdateExternalLinksUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">
-                    External Links
+                    @FieldDefinition.ExternalLinks.GetFieldDefinitionLabelPluralized()
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsExternalLinksUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
                 </a>
             </li>

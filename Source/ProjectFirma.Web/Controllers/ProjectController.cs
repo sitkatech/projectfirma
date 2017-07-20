@@ -419,10 +419,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = project.CanDelete().HasPermission;
             var confirmMessage = canDelete
-                ? string.Format("Are you sure you want to delete this Project '{0}'?", project.DisplayName)
-                : string.Format("Only projects in the following stages may be deleted: {0}<br />{1}",
-                    string.Join(", ", ProjectStage.All.Where(x => x.IsDeletable()).Select(x => x.ProjectStageDisplayName)),
-                    ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Project", SitkaRoute<ProjectController>.BuildLinkFromExpression(x => x.Detail(project), "here")));
+                ? $"Are you sure you want to delete this {FieldDefinition.Project.GetFieldDefinitionLabel()} '{project.DisplayName}'?"
+                : $"Only projects in the following stages may be deleted: {string.Join(", ", ProjectStage.All.Where(x => x.IsDeletable()).Select(x => x.ProjectStageDisplayName))}<br />{ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Project", SitkaRoute<ProjectController>.BuildLinkFromExpression(x => x.Detail(project), "here"))}";
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);

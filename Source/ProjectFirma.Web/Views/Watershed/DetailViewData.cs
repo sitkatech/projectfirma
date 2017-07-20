@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.Watershed
             MapInitJson = mapInitJson;
             CalendarYearExpendituresLineChartViewData = calendarYearExpendituresLineChartViewData;
             PageTitle = watershed.WatershedName;
-            EntityName = "Watershed";
+            EntityName = $"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}";
             UserHasWatershedManagePermissions = new WatershedManageFeature().HasPermissionByPerson(currentPerson);
             IndexUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(x => x.Index());
 
