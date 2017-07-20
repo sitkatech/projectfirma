@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
                         var projectOrgsToAdd = new List<Models.ProjectOrganization>();
                         foreach (var relationshipType in orgBeingAdded.RelationshipTypes)
                         {
-                            projectOrgsToAdd.Add(new Models.ProjectOrganization(project.ProjectID, orgBeingAdded.OrganizationID, relationshipType.RelationshipTypeID));
+                            projectOrgsToAdd.Add(new Models.ProjectOrganization(project.ProjectID, orgBeingAdded.OrganizationID.Value, relationshipType.RelationshipTypeID));
                         }
                         return projectOrgsToAdd;
                     }).ToList();
@@ -83,6 +83,12 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
                 errors.Add(new ValidationResult($"{Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} Organization is required."));
                 return errors;
             }
+            if (ProjectOrganizationsViewModelJson.ProjectOrganizations.Any(x => x.OrganizationID == null))
+            {
+                errors.Add(new ValidationResult("Organization must be specfied."));
+                return errors;
+            }
+
             var leadOrg = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(ProjectOrganizationsViewModelJson.LeadOrganizationID.Value);
             if (leadOrg.PrimaryContactPerson == null)
             {
@@ -98,7 +104,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             }
             var allValidRelationshipTypes = ProjectOrganizationsViewModelJson.ProjectOrganizations.All(x =>
             {
-                var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(x.OrganizationID);
+                var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(x.OrganizationID.Value);
                 var validRelationshipTypes = organization.OrganizationType.OrganizationTypeRelationshipTypes
                     .Select(t => t.RelationshipType)
                     .ToList();
@@ -109,6 +115,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             {
                 errors.Add(new ValidationResult("One or more relationship types are invalid."));
             }
+            
            
             return errors;
         }

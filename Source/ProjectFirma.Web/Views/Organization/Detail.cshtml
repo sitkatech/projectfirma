@@ -110,63 +110,77 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-md-12">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @if (ViewDataTyped.UserHasOrganizationManagePermissions)
-                                {
-                                    <a href="@ViewDataTyped.EditBoundaryUrl" title="Edit Organization Boundary">
-                                        @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit blue")
-                                    </a>
-                                    if (ViewDataTyped.Organization.OrganizationBoundary != null)
-                                    {
-                                        @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteOrganizationBoundaryUrl, ViewDataTyped.UserHasOrganizationManagePermissions)
-                                    }
-                                }
-                                Map
+                                Project Locations and Boundary
                             </div>
                             <div class="panel-body">
-                                @if (ViewDataTyped.HasSpatialData)
-                                {
-                                    <span>This map displays any Projects, Development Right Transfers, and jurisdictional boundaries associated with this organiztion.</span>
-
-                                    <div id="legend" style="padding: 10px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);">
-                                        <div>
-                                            <span style="font-weight: bold">Projects</span>
-                                            <div style="margin-left: 10px">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="pull-right">
+                                            @if (ViewDataTyped.UserHasOrganizationManagePermissions)
+                                            {
+                                                <a href="@ViewDataTyped.EditBoundaryUrl" title="Edit Organization Boundary" class="btn btn-firma">
+                                                    @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit blue")
+                                                    Edit Boundary
+                                                </a>
+                                                if (ViewDataTyped.Organization.OrganizationBoundary != null)
+                                                {
+                                                    @ModalDialogFormHelper.MakeDeleteLink(string.Format("{0} Delete Boundary", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash")), ViewDataTyped.DeleteOrganizationBoundaryUrl, new List<string> { "btn", "btn-firma" }, ViewDataTyped.UserHasOrganizationManagePermissions)
+                                                }
+                                            }
+                                        </div>
+                                        @if (ViewDataTyped.HasSpatialData)
+                                        {
+                                            <p>
+                                                This map displays any the location of any @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() and boundaries associated with this @FieldDefinition.Organization.GetFieldDefinitionLabel().
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p>No spatial data associated with this @FieldDefinition.Organization.GetFieldDefinitionLabel().</p>
+                                        }
+                                    </div>
+                                    <div class="col-xs-12">
+                                        @if (ViewDataTyped.HasSpatialData)
+                                        {
+                                            <div id="legend" style="padding: 10px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);">
+>>>>>>> develop
                                                 <div>
-                                                    <span class="glyphicon glyphicon-map-marker" style="color: #3366ff"></span> @FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()
-                                                </div>
-                                                <div>
-                                                    <span class="glyphicon glyphicon-map-marker" style="color: #99b3ff"></span> Other Association
+                                                    <span style="font-weight: bold">Projects</span>
+                                                    <div style="margin-left: 10px">
+                                                        <div>
+                                                            <span class="glyphicon glyphicon-map-marker" style="color: #3366ff"></span> Lead Implementer
+                                                        </div>
+                                                        <div>
+                                                            <span class="glyphicon glyphicon-map-marker" style="color: #99b3ff"></span> Other Association
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+
+                                            <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 600px; margin: 5px 0 5px 0">
+                                            </div>
+                                            <span class="alert" style="font-size: 12px">To zoom, hold down Shift and drag a rectangle.</span>
+                                            <script type="text/javascript">
+                                                jQuery(document).ready(function() {
+                                                    var mapInitJson =
+                                                        @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
+                                                    var map = new ProjectFirmaMaps.Map(mapInitJson);
+
+                                                    var legend = new L.Control.Legend({
+                                                        position: 'topleft',
+                                                        collapsed: false,
+                                                        controlButton: {
+                                                            title: "Legend"
+                                                        }
+                                                    });
+
+                                                    map.map.addControl(legend);
+                                                    $(".legend-container").append($("#legend"));
+                                                });
+                                            </script>
+                                        }
                                     </div>
-
-                                    <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 600px; margin: 5px 0 5px 0">
-                                    </div>
-                                    <span class="alert" style="font-size: 12px">To zoom, hold down Shift and drag a rectangle.</span>
-                                    <script type="text/javascript">
-                                        jQuery(document).ready(function()
-                                        {
-                                            var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
-                                            var map = new ProjectFirmaMaps.Map(mapInitJson);
-
-                                            var legend = new L.Control.Legend({
-                                                position: 'topleft',
-                                                collapsed: false,
-                                                controlButton: {
-                                                    title: "Legend"
-                                                }
-                                            });
-
-                                            map.map.addControl( legend );
-                                            $(".legend-container").append( $("#legend") );
-                                        });
-                                    </script>
-                                }
-                                else
-                                {
-                                    <span class="alert">No spatial data associated with this organization.</span>
-                                }
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -29,17 +29,16 @@ namespace ProjectFirma.Web.Common
         public static readonly string MustEnterOldPasswordWhenChangingPassword = $"Old {FieldDefinition.Password.GetFieldDefinitionLabel()} is required when changing {FieldDefinition.Password.GetFieldDefinitionLabel()}";
         public static readonly string OldPasswordProvidedIsNotCorrect = $"Old {FieldDefinition.Password.GetFieldDefinitionLabel()} is incorrect";
         public static readonly string CantChangePasswordToBeSameAsOldPassword = $"Can't reset {FieldDefinition.Password.GetFieldDefinitionLabel()} to same as old {FieldDefinition.Password.GetFieldDefinitionLabel()}";
-        public static readonly string EmailAlreadyUsed = "Email already exists";
         public static readonly string ImplementationStartYearGreaterThanPlanningDesignStartYear = $"{FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()} must be greater than or equal to {FieldDefinition.PlanningDesignStartYear.GetFieldDefinitionLabel()}";
         public static readonly string CompletionYearGreaterThanEqualToImplementationStartYear = $"{FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be greater than or equal to the {FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()}";
         public static readonly string CompletionYearGreaterThanEqualToPlanningDesignStartYear = $"{FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be greater than or equal to the {FieldDefinition.PlanningDesignStartYear.GetFieldDefinitionLabel()}";
         public static readonly string UpdateSectionIsDependentUponBasicsSection = "Your project's \"Basics\" page must be complete before you can begin updating this section.";
         public static readonly string ProjectNameUnique = $"{FieldDefinition.ProjectName.GetFieldDefinitionLabel()} already exists";
-        public static readonly string OrganizationNameUnique = $"Organization name already exists";
-        public static readonly string OrganizationAbbreviationUnique = $"Organization abbreviation already exists";
-        public static readonly string OrganizationMustBeSetForNewUser = $"Organization must be set for a new user";
-        public static readonly string ProjectOrganizationLeadShouldBeSetIfThereAreAnyOrganizations = $"Please select one of the organizations as the {FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()}";
-        public static readonly string LeadImplementingOrganizationMustHavePrimaryContactSet = $"The {FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} Organization must have a primary contact set";
+        public static readonly string OrganizationNameUnique = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} name already exists";
+        public static readonly string OrganizationAbbreviationUnique = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} abbreviation already exists";
+        public static readonly string OrganizationMustBeSetForNewUser = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} must be set for a new user";
+        public static readonly string ProjectOrganizationLeadShouldBeSetIfThereAreAnyOrganizations = $"Please select one of the {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()} as the {FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()}";
+        public static readonly string LeadImplementingOrganizationMustHavePrimaryContactSet = $"The {FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} {FieldDefinition.Organization.GetFieldDefinitionLabel()} must have a {FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} set";
         public static readonly string FundingSourceNameUnique = $"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()} name already exists";
         public static readonly string ClassificationNameUnique = $"{FieldDefinition.Classification.GetFieldDefinitionLabel()} name already exists";
         public static readonly string PerformanceMeasureNameUnique = $"{FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()} name already exists";
@@ -50,6 +49,7 @@ namespace ProjectFirma.Web.Common
         public const string LettersNumbersSpacesDashesAndUnderscoresOnly = "Only letters, numbers, spaces, dashes and underscores are allowed.";
         public const string LettersOnly = "Only letters are allowed.";
         public const string MoreThanOneProjectUpdateInProgress = "Cannot determine latest update state; more than one update is in progress!";
+        public const string EmailAlreadyUsed = "Email already exists";
 
     }
 }

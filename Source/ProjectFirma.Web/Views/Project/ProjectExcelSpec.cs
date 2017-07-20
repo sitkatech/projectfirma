@@ -70,8 +70,8 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn("Organization ID", x => x.Organization.OrganizationID);
             AddColumn("Organization Name", x => x.Organization.OrganizationName);
-            AddColumn($"{Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} for Organization", x => x.Organization.PrimaryContactPersonWithOrgAsString);
-            AddColumn("Organization Type", x => x.Organization.OrganizationType?.OrganizationTypeName);
+            AddColumn($"{Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} for {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", x => x.Organization.PrimaryContactPersonWithOrgAsString);
+            AddColumn(Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel(), x => x.Organization.OrganizationType?.OrganizationTypeName);
             AddColumn("Organization Relationship To Project", x => x.RelationshipType.RelationshipTypeName);
         }
     }
@@ -129,7 +129,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn($"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}", x => x.FundingSource.FundingSourceName);
             AddColumn("Funding Organization", x => x.FundingSource.Organization.OrganizationName);
-            AddColumn("Organization Type", x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName);
+            AddColumn(Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel(), x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName);
             AddColumn("Calendar Year", x => x.CalendarYear);
             AddColumn("Expenditure Amount", x => x.ExpenditureAmount);
         }

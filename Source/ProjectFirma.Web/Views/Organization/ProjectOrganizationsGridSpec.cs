@@ -34,8 +34,9 @@ namespace ProjectFirma.Web.Views.Organization
         public ProjectOrganizationsGridSpec(IEnumerable<int> calendarYearsForProjectExpenditures)
         {
             Add(Models.FieldDefinition.Project.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.Project.GetDetailUrl(), a.Project.DisplayName), 350, DhtmlxGridColumnFilterType.Html);
-            Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);            
-            Add("Org. Relationship to Project", a => a.RelationshipType.RelationshipTypeName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(Models.FieldDefinition.ProjectRelationshipType.ToGridHeaderString(),
+                a => a.RelationshipType.RelationshipTypeName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             foreach (var year in calendarYearsForProjectExpenditures)
             {
                 var calendarYear = year;

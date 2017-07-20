@@ -263,6 +263,13 @@ namespace LtInfo.Common.HtmlHelperExtensions
             }
         }
 
+        public static MvcHtmlString LabelWithSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, bool hasRequiredAttribute)
+        {
+            var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
+            var htmlFieldName = ExpressionHelper.GetExpressionText(expression);
+            return LabelWithRequiredTagForImpl(html, metadata, htmlFieldName, hasRequiredAttribute, null, null);
+        }
+
         public static MvcHtmlString LabelWithSugarFor(IFieldDefinition fieldDefinition, int popupWidth, DisplayStyle displayStyle, string labelText)
         {
             var fullHtmlFieldID = labelText.Replace(" ", "");

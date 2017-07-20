@@ -62,7 +62,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="form-horizontal">
         <div class="row form-group-condensed">
             <div class="col-md-3">
-                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne, 600)
+                @Html.LabelWithSugarFor(FieldDefinition.TaxonomyTierOne)
             </div>
             <div class="col-md-9">
                 @ViewDataTyped.TaxonomyTierOneDisplayName
@@ -70,7 +70,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="row form-group-condensed">
             <div class="col-md-3">
-                @Html.LabelWithSugarFor(m => m.ProjectDescription)
+                @Html.LabelWithSugarFor(m => m.ProjectDescription, true)
             </div>
             <div class="col-md-9">
                 @if (ViewDataTyped.IsEditable)
@@ -88,7 +88,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="row form-group-condensed">
             <div class="col-md-3">
-                @Html.LabelWithSugarFor(m => m.ProjectStageID)
+                @Html.LabelWithSugarFor(m => m.ProjectStageID, true)
             </div>
             <div class="col-md-9">
                 @if (ViewDataTyped.IsEditable)
@@ -199,7 +199,7 @@ Source code is available upon request via <support@sitkatech.com>.
         }
         <div class="row form-group-condensed">
             <div class="col-md-3">
-                @Html.LabelWithSugarFor(m => m.PlanningDesignStartYear)
+                @Html.LabelWithSugarFor(m => m.PlanningDesignStartYear, true)
             </div>
             <div class="col-md-9">
                 @if (ViewDataTyped.IsEditable)
@@ -216,7 +216,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
         <div class="row form-group-condensed">
             <div class="col-md-3">
-                @Html.LabelWithSugarFor(m => m.ImplementationStartYear)
+                @Html.LabelWithSugarFor(m => m.ImplementationStartYear, true)
             </div>
             <div class="col-md-3">
                 @if (ViewDataTyped.IsEditable)
