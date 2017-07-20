@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Models
         public static List<LayerGeoJson> GetBoundaryLayerGeoJson(this IEnumerable<Organization> organizations)
         {
             var organizationsToShow =
-                organizations?.Where(x => x.OrganizationBoundary != null)
+                organizations?.Where(x => x.OrganizationBoundary != null && x.OrganizationType != null)
                     .ToList();
             if (organizationsToShow == null || !organizationsToShow.Any())
             {
