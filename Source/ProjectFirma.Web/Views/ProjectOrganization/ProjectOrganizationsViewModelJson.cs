@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
 
         public class ProjectOrganizationJson
         {
-            public int OrganizationID;
+            public int? OrganizationID;
             public List<RelationshipTypeSimple> RelationshipTypes;
 
             [Obsolete("Needed by the ModelBinder")]

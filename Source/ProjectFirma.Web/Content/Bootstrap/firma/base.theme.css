@@ -181,6 +181,12 @@ footer p {
     height: 90px;
   }
 }
+.modal {
+  overflow: visible;
+}
+.modal-body {
+  overflow-y: visible !important;
+}
 .modal-dialog {
   background: transparent;
 }
@@ -1017,4 +1023,12 @@ h2.collapsed {
 }
 .validation-summary-errors ul {
   margin-top: 10px;
+}
+.organizationBoundaryMap {
+  height: 400px;
+  margin-bottom: 25px;
+}
+.selectedOrganizationBoundaryInformation {
+  max-height: 200px;
+  overflow: auto;
 }

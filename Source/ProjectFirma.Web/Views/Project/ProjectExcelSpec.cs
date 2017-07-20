@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn("Organization ID", x => x.Organization.OrganizationID);
             AddColumn("Organization Name", x => x.Organization.OrganizationName);
             AddColumn("Primary Contact for Organization", x => x.Organization.PrimaryContactPersonWithOrgAsString);
-            AddColumn("Organization Type", x => x.Organization.OrganizationType?.OrganizationTypeName);
+            AddColumn(Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel(), x => x.Organization.OrganizationType?.OrganizationTypeName);
             AddColumn("Organization Relationship To Project", x => x.RelationshipType.RelationshipTypeName);
         }
     }
@@ -129,7 +129,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn("Project Name", x => x.Project.ProjectName);
             AddColumn("Funding Source", x => x.FundingSource.FundingSourceName);
             AddColumn("Funding Organization", x => x.FundingSource.Organization.OrganizationName);
-            AddColumn("Organization Type", x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName);
+            AddColumn(Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel(), x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName);
             AddColumn("Calendar Year", x => x.CalendarYear);
             AddColumn("Expenditure Amount", x => x.ExpenditureAmount);
         }

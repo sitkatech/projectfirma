@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.Results
             string reportingYearRangeTitle) : base(currentPerson, firmaPage)
         {
             OrganizationTypeExpenditures = organizationTypeExpenditures;
-            PageTitle = "Investment by Organization Type";
+            PageTitle = $"Investment by {Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()}";
             SelectedCalendarYear = selectedCalendarYear;
             CalendarYears = calendarYears;
             ReportingYearRangeTitle = reportingYearRangeTitle;

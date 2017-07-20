@@ -85,20 +85,24 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="form-group">
                 <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.RelationshipTypeName)</div>
                 <div class="col-sm-8">
-                    @Html.TextBoxFor(m => m.RelationshipTypeName)
+                    @Html.TextBoxFor(m => m.RelationshipTypeName, new { style = "width: 100%", @class = "form-control" })
                 </div>
             </div>
-                <div class="form-group">
-                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(FieldDefinition.OrganizationType)</div>
-                    <div class="col-sm-8">
-                        <select ng-model="OrganizationTypeToAdd" ng-options="organizationType.OrganizationTypeName for organizationType in filteredOrganizationTypes()">
-                            <option value="">Choose One</option>
-                        </select>
-                        <button class="btn btn-xs btn-firma" type="button" ng-click="addOrganizationType()">Add</button>
-                    </div>
+            <p>Select which @FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized() can be associated to a project with this @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()</p>
+            <div class="form-group">
+                <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(FieldDefinition.OrganizationType)</div>
+                <div class="col-sm-7">
+                    <select ng-model="OrganizationTypeToAdd" ng-options="organizationType.OrganizationTypeName for organizationType in filteredOrganizationTypes()" class="form-control">
+                        <option value="">Choose One</option>
+                    </select>                    
                 </div>
+                <div class="col-sm-1">
+                    <button class="btn  btn-firma" type="button" ng-click="addOrganizationType()">Add</button>
+                </div>
+            </div>
+            
                 <div class="form-group">
-                    <div class="col-sm-4 control-label">@Html.Label("Associated Organization Types")</div>
+                    <div class="col-sm-4 control-label">@Html.Label(string.Format("Associated {0}", FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized()))</div>
                     <div class="col-sm-8">
                         <ul style="list-style: none">
                             <li ng-repeat="relationshipOrganizationType in AngularModel.OrganizationTypeSimples | orderBy:getOrganizationTypeName">

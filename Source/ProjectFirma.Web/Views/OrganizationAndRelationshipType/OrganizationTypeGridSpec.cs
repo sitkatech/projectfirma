@@ -34,11 +34,11 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, !x.HasDependentObjects()), 30);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.EditOrganizationType(a)),
-                        $"Edit Organization Type '{a.OrganizationTypeName}'")),
+                        $"Edit {Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()} '{a.OrganizationTypeName}'")),
                     30);
             }
 
-            Add("Organization Type Name", a => a.OrganizationTypeName, 240);
+            Add($"{Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()} Name", a => a.OrganizationTypeName, 240);
             Add("Abbreviation", a => a.OrganizationTypeAbbreviation, 200);
             Add("Show on Project Map", a => a.ShowOnProjectMaps.ToCheckboxImageOrEmpty(), 100);
         }

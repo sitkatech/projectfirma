@@ -149,7 +149,7 @@ namespace ProjectFirma.Web.Controllers
             var canDelete = !organizationType.HasDependentObjects(); //TODO
             var fieldDefinitionLabel = FieldDefinition.OrganizationType.GetFieldDefinitionLabel();
             var confirmMessage = canDelete
-                ? string.Format("Are you sure you want to delete this {0} '{1}'?", fieldDefinitionLabel, organizationType.OrganizationTypeName)
+                ? $"Are you sure you want to delete this {fieldDefinitionLabel} '{organizationType.OrganizationTypeName}'?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(fieldDefinitionLabel, SitkaRoute<OrganizationAndRelationshipTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
@@ -197,7 +197,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(relationshipType, organizationTypeRelationshipTypes);
             
             SetMessageForDisplay(
-                "New Relationship Type successfully created!");
+                $"New {FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} {relationshipType.RelationshipTypeName} successfully created!");
             return new ModalDialogFormJsonResult();
         }
 
@@ -253,8 +253,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = relationshipType.CanDelete();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this Relationship Type '{relationshipType.RelationshipTypeName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Relationship Type", SitkaRoute<OrganizationAndRelationshipTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
+                ? $"Are you sure you want to delete this {FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} '{relationshipType.RelationshipTypeName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel(), SitkaRoute<OrganizationAndRelationshipTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
