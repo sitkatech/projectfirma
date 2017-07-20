@@ -36,13 +36,13 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         public int RelationshipTypeID { get; set; }
 
         [Required]
-        [StringLength(Models.RelationshipType.FieldLengths.RelationshipTypeName)]
+        [StringLength(RelationshipType.FieldLengths.RelationshipTypeName)]
         [DisplayName("Name")]
         public string RelationshipTypeName { get; set; }
-
+      
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationType)]
-        public List<OrganizationTypeSimple> OrganizationTypeSimples { get; set; }
+        public List<int> OrganizationTypeIDs { get; set; }
                 
 
         /// <summary>
@@ -52,20 +52,20 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         {
         }
 
-        public EditRelationshipTypeViewModel(Models.RelationshipType relationshipType)
+        public EditRelationshipTypeViewModel(RelationshipType relationshipType)
         {
             RelationshipTypeID = relationshipType.RelationshipTypeID;
             RelationshipTypeName = relationshipType.RelationshipTypeName;
-            OrganizationTypeSimples = relationshipType.OrganizationTypeRelationshipTypes
-                .Select(x => new OrganizationTypeSimple(x.OrganizationType))
+            OrganizationTypeIDs = relationshipType.OrganizationTypeRelationshipTypes
+                .Select(x => x.OrganizationTypeID)
                 .ToList();
         }
 
-        public void UpdateModel(Models.RelationshipType relationshipType, ICollection<Models.OrganizationTypeRelationshipType> allOrganizationTypeRelationshipTypes)
+        public void UpdateModel(RelationshipType relationshipType, ICollection<OrganizationTypeRelationshipType> allOrganizationTypeRelationshipTypes)
         {
             relationshipType.RelationshipTypeName = RelationshipTypeName;
 
-            var organizationTypesUpdated = OrganizationTypeSimples.Select(orgBeingAdded => new OrganizationTypeRelationshipType(orgBeingAdded.OrganizationTypeID, relationshipType.RelationshipTypeID)).ToList();
+            var organizationTypesUpdated = OrganizationTypeIDs.Select(x => new OrganizationTypeRelationshipType(x, relationshipType.RelationshipTypeID)).ToList();
 
             relationshipType.OrganizationTypeRelationshipTypes.Merge(organizationTypesUpdated,
                 allOrganizationTypeRelationshipTypes,
