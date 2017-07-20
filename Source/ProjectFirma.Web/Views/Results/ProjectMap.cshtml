@@ -383,8 +383,25 @@ Source code is available upon request via <support@sitkatech.com>.
 
         jQuery(document).ready(function()
         {
-            var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
-            var projectFirmaMap = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
+            ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function (layer, feature) {
+                if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties.OrganizationName)) {
+                    layer.bindTooltip(feature.properties.OrganizationName, { direction: "auto", sticky: "true" });
+
+                    var originalFillOpacity = layer.options.fillOpacity;
+                    layer.on("mouseover",
+                        function () {
+                            layer.setStyle({ fillOpacity: Math.min(originalFillOpacity + 0.4, 1) });
+                        });
+                    layer.on("mouseout",
+                        function () {
+                            layer.setStyle({ fillOpacity: originalFillOpacity });
+                        });
+                };
+
+                return layer;
+            };
+            var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None)),
+                projectFirmaMap = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
             projectFirmaMap.initializeProjectLocations(projectLocationsMapInitJson);
 
             projectFirmaMap.map.scrollWheelZoom.enable();

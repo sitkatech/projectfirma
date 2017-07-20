@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Models
             return organizationsToShow.GroupBy(x => x.OrganizationType, (organizationType, organizationList) =>
             {
                 return new LayerGeoJson(
-                    $"{organizationType.OrganizationTypeName} {FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized()}",
+                    $"{organizationType.OrganizationTypeName} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}",
                     new FeatureCollection(organizationList.Select(organization =>
                     {
                         var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(organization.OrganizationBoundary);
