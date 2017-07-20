@@ -45,7 +45,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="form-group">
                 <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.OrganizationTypeIDs)</div>
                 <div class="col-sm-8">
-                    @Html.CheckBoxListFor(x => x.OrganizationTypeIDs, ViewDataTyped.AllOrganizationTypes.ToSelectList(x => x.OrganizationTypeID.ToString(), x => x.OrganizationTypeName))
+                    @Html.CheckBoxListFor(x => x.OrganizationTypeIDs, ViewDataTyped.AllOrganizationTypes.ToSelectList(x => x.OrganizationTypeID.ToString(), x => x.OrganizationTypeName), new { style ="display:block"}, CheckboxExtensions.ColNumber.twoCols)
                 </div>
             </div>                        
         </div>

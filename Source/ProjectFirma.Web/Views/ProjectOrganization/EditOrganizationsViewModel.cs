@@ -57,15 +57,9 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
                 ProjectOrganizationsViewModelJson.ProjectOrganizations.ToList();
 
             var projectOrganizationsUpdated = projectOrganizationViewModelJsons.SelectMany(
-                    orgBeingAdded =>
-                    {
-                        var projectOrgsToAdd = new List<Models.ProjectOrganization>();
-                        foreach (var relationshipType in orgBeingAdded.RelationshipTypes)
-                        {
-                            projectOrgsToAdd.Add(new Models.ProjectOrganization(project.ProjectID, orgBeingAdded.OrganizationID.Value, relationshipType.RelationshipTypeID));
-                        }
-                        return projectOrgsToAdd;
-                    }).ToList();
+                orgBeingAdded => orgBeingAdded.RelationshipTypes.Select(
+                    relationshipType => new Models.ProjectOrganization(project.ProjectID,
+                        orgBeingAdded.OrganizationID.Value, relationshipType.RelationshipTypeID))).ToList();
 
             project.ProjectOrganizations.Merge(projectOrganizationsUpdated,
                 allProjectOrganizations,
@@ -103,11 +97,17 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             var allValidRelationshipTypes = ProjectOrganizationsViewModelJson.ProjectOrganizations.All(x =>
             {
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(x.OrganizationID.Value);
-                var validRelationshipTypes = organization.OrganizationType.OrganizationTypeRelationshipTypes
-                    .Select(t => t.RelationshipType)
-                    .ToList();
-                
-                return x.RelationshipTypes.All(y => validRelationshipTypes.Select(i => i.RelationshipTypeID).Contains(y.RelationshipTypeID));
+                var organizationType = organization.OrganizationType;
+                if (organizationType != null)
+                {
+                    var validRelationshipTypes = organizationType.OrganizationTypeRelationshipTypes
+                        .Select(t => t.RelationshipType)
+                        .ToList();
+
+                    return x.RelationshipTypes.All(y => validRelationshipTypes.Select(i => i.RelationshipTypeID)
+                        .Contains(y.RelationshipTypeID));
+                }
+                return false;
             });
             if (!allValidRelationshipTypes)
             {

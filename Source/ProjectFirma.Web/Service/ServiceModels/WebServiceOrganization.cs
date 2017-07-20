@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             OrganizationID = organization.OrganizationID;
             OrganizationName = organization.OrganizationName;
             OrganizationAbbreviation = organization.OrganizationAbbreviation;
-            OrganizationType = organization.OrganizationType.OrganizationTypeName;
+            OrganizationType = organization.OrganizationType?.OrganizationTypeName;
             PrimaryContact = organization.PrimaryContactPersonAsString;
             ProjectCount = organization.GetAllProjectOrganizations().Count;
             FundingSourceCount = organization.FundingSources.Count;

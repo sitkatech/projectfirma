@@ -71,7 +71,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.OrganizationType)</div>
-                                    <div class="col-xs-7">@ViewDataTyped.Organization.OrganizationType.OrganizationTypeName</div>
+                                    <div class="col-xs-7">@(ViewDataTyped.Organization.OrganizationType != null ? ViewDataTyped.Organization.OrganizationType.OrganizationTypeName : string.Empty)</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact)</div>
