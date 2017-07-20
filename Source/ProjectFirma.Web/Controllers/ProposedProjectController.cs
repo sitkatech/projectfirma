@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(ProposedProjectPrimaryKey proposedProjectPrimaryKey)
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
-            var mapDivID = string.Format("proposedProject_{0}_Map", proposedProject.ProposedProjectID);
+            var mapDivID = $"proposedProject_{proposedProject.ProposedProjectID}_Map";
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(proposedProject, mapDivID);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(proposedProject, projectLocationSummaryMapInitJson);
             var mapFormID = GenerateEditProjectLocationSimpleFormID(proposedProject);
@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Controllers
                 proposedProject.DisplayName,
                 true);
 
-            var galleryName = string.Format("ProjectImage{0}", proposedProject.ProposedProjectID);
+            var galleryName = $"ProjectImage{proposedProject.ProposedProjectID}";
             var galleryImages = proposedProject.ProposedProjectImages.ToList();
             var imageGalleryViewData = new ImageGalleryViewData(CurrentPerson, galleryName, galleryImages, false, string.Empty, string.Empty, true, x => x.CaptionOnFullView, "Photo");
 
@@ -186,7 +186,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                SetErrorForDisplay("Could not save Proposed Project: Please fix validation errors to proceed.");
+                SetErrorForDisplay($"Could not save {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}: Please fix validation errors to proceed.");
                 return ModelObjectHelpers.IsRealPrimaryKeyValue(proposedProject.PrimaryKey) ? ViewEditBasics(proposedProject, viewModel) : ViewCreateAndEditBasics(viewModel);
             }
 
@@ -207,10 +207,10 @@ namespace ProjectFirma.Web.Controllers
                 proposedProject.ProposedProjectID.ToString())
             {
                 ProposedProjectID = proposedProject.ProposedProjectID,
-                AuditDescription = string.Format("ProposedProject: created {0}", proposedProject.DisplayName)
+                AuditDescription = $"ProposedProject: created {proposedProject.DisplayName}"
             };
             HttpRequestStorage.DatabaseEntities.AllAuditLogs.Add(auditLog);
-            SetMessageForDisplay("Proposed Project succesfully saved.");
+            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} succesfully saved.");
 
             return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditLocationSimple(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditBasics(proposedProject.PrimaryKey)));
         }
@@ -257,7 +257,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(currentPerformanceMeasureExpectedProposeds, allPerformanceMeasureExpectedProposeds, allPerformanceMeasureExpectedSubcategoryOptionProposeds, proposedProject);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            SetMessageForDisplay(string.Format("Proposed Project {0} succesfully saved.", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()));
+            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} succesfully saved.");
             return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditClassifications(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditExpectedPerformanceMeasureValues(proposedProject.PrimaryKey)));
         }
 
@@ -315,7 +315,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ProposedProjectClassifications.Load();
             viewModel.UpdateModel(proposedProject, currentProposedProjectClassifications);
 
-            SetMessageForDisplay(string.Format("Proposed Project {0} succesfully saved.", FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()));
+            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} {FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()} succesfully saved.");
             return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.Photos(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditClassifications(proposedProject.PrimaryKey)));
         }
 
@@ -384,7 +384,7 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewEditLocationSimple(ProposedProject proposedProject, LocationSimpleViewModel viewModel)
         {
             var layerGeoJsons = MapInitJson.GetWatershedMapLayers();
-            var mapInitJson = new MapInitJson(string.Format("proposedProject_{0}_EditMap", proposedProject.ProposedProjectID), 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false};
+            var mapInitJson = new MapInitJson($"proposedProject_{proposedProject.ProposedProjectID}_EditMap", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false};
             var proposedProjectLocationAreas = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.ToSelectList();
 
             var mapPostUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditLocationSimple(proposedProject, null));
@@ -410,14 +410,14 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(proposedProject);
-            SetMessageForDisplay("Proposed Project Location succesfully saved.");
+            SetMessageForDisplay($"Proposed {FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} succesfully saved.");
             return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditLocationDetailed(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditLocationSimple(proposedProject.PrimaryKey)));
         }
 
 
         private static string GenerateEditProjectLocationSimpleFormID(ProposedProject proposedProject)
         {
-            return string.Format("editMapForProposedProject{0}", proposedProject.ProposedProjectID);
+            return $"editMapForProposedProject{proposedProject.ProposedProjectID}";
         }
 
         [HttpGet]
@@ -431,9 +431,9 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewEditLocationDetailed(ProposedProject proposedProject, LocationDetailedViewModel viewModel)
         {
-            var mapDivID = string.Format("proposedProject_{0}_EditDetailedMap", proposedProject.EntityID);
+            var mapDivID = $"proposedProject_{proposedProject.EntityID}_EditDetailedMap";
             var detailedLocationGeoJsonFeatureCollection = proposedProject.DetailedLocationToGeoJsonFeatureCollection();
-            var editableLayerGeoJson = new LayerGeoJson("Proposed Project Location Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
+            var editableLayerGeoJson = new LayerGeoJson($"Proposed {FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}n Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
 
             var boundingBox = new BoundingBox(proposedProject.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry));
             var mapInitJson = new MapInitJson(mapDivID, 10, MapInitJson.GetWatershedMapLayersAndProjectLocationSimple(proposedProject), boundingBox) { AllowFullScreen = false };
@@ -529,7 +529,7 @@ namespace ProjectFirma.Web.Controllers
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);
 
-            var mapInitJson = new MapInitJson(string.Format("proposedProject_{0}_PreviewMap", proposedProject.ProposedProjectID), 10, layerGeoJsons, boundingBox, false) {AllowFullScreen = false};
+            var mapInitJson = new MapInitJson($"proposedProject_{proposedProject.ProposedProjectID}_PreviewMap", 10, layerGeoJsons, boundingBox, false) {AllowFullScreen = false};
             var mapFormID = GenerateEditProposedProjectLocationFormID(proposedProject.ProposedProjectID);
             var approveGisUploadUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.ApproveGisUpload(proposedProject, null));
 
@@ -568,7 +568,7 @@ namespace ProjectFirma.Web.Controllers
 
         public static string GenerateEditProposedProjectLocationFormID(int proposedProjectID)
         {
-            return string.Format("editMapForProposedProject{0}", proposedProjectID);
+            return $"editMapForProposedProject{proposedProjectID}";
         }
 
         [ProposedProjectEditFeature]
@@ -578,7 +578,7 @@ namespace ProjectFirma.Web.Controllers
             var entityNotes = new List<IEntityNote>(proposedProject.ProposedProjectNotes);
             var addNoteUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.NewNote(proposedProject));
             var canEditNotes = new ProposedProjectNoteManageFeature().HasPermissionByPerson(CurrentPerson);
-            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(entityNotes), addNoteUrl, "Proposed Project", canEditNotes);
+            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(entityNotes), addNoteUrl, $"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}", canEditNotes);
 
             var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
             var viewData = new NotesViewData(CurrentPerson, proposedProject, proposalSectionsStatus, entityNotesViewData);
@@ -651,7 +651,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !proposedProjectNote.HasDependentObjects();
             var confirmMessage = canDelete
-                ? string.Format("Are you sure you want to delete this note for proposedProject '{0}'?", proposedProjectNote.ProposedProject.DisplayName)
+                ? $"Are you sure you want to delete this note for proposedProject '{proposedProjectNote.ProposedProject.DisplayName}'?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"Proposed {FieldDefinition.ProjectNote.GetFieldDefinitionLabel()}");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
@@ -685,7 +685,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
             var newPhotoForProjectUrl = SitkaRoute<ProposedProjectImageController>.BuildUrlFromExpression(x => x.New(proposedProject));
-            var galleryName = string.Format("ProjectImage{0}", proposedProject.ProposedProjectID);
+            var galleryName = $"ProjectImage{proposedProject.ProposedProjectID}";
             var projectImages = proposedProject.ProposedProjectImages.ToList();
             var imageGalleryViewData = new PhotoViewData(currentPerson, galleryName, projectImages, newPhotoForProjectUrl, x => x.CaptionOnFullView, proposedProject, proposalSectionsStatus);
             return imageGalleryViewData;
@@ -703,7 +703,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = proposedProject.CanDelete().HasPermission;
             var confirmMessage = canDelete
-                ? String.Format("Are you sure you want to delete Proposed Project \"{0}\"?", proposedProject.DisplayName)
+                ? $"Are you sure you want to delete {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{proposedProject.DisplayName}\"?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("ProposedProject", SitkaRoute<ProposedProjectController>.BuildLinkFromExpression(x => x.Detail(proposedProject), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
@@ -751,7 +751,7 @@ namespace ProjectFirma.Web.Controllers
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             var viewModel = new ConfirmDialogFormViewModel(proposedProject.ProposedProjectID);
             //TODO: Change "reviewer" to specific reviewer as determined by tentant review 
-            var viewData = new ConfirmDialogFormViewData(string.Format("Are you sure you want to submit Proposed Project \"{0}\" to the reviewer?", proposedProject.DisplayName));
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to submit {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{proposedProject.DisplayName}\" to the reviewer?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -766,7 +766,7 @@ namespace ProjectFirma.Web.Controllers
             var peopleToNotify = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
             Notification.SendProposedProjectSubmittedMessage(peopleToNotify, proposedProject);
             //TODO: Change "reviewer" to specific reviewer as determined by tentant review 
-            SetMessageForDisplay("Proposed Project succesfully submitted for review.");
+            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} succesfully submitted for review.");
             return new ModalDialogFormJsonResult(proposedProject.GetDetailUrl());
         }
 
@@ -803,7 +803,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             GenerateApprovalAuditLogEntries(project, proposedProject);
 
-            SetMessageForDisplay(string.Format("Proposed Project \"{0}\" succesfully approved as an actual project in the Planning/Design stage.", UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)));
+            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)}\" succesfully approved as an actual project in the Planning/Design stage.");
 
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
@@ -814,7 +814,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 ProposedProjectID = proposedProject.ProposedProjectID,
                 ProjectID = project.ProjectID,
-                AuditDescription = string.Format("Project: created via approval of Proposed Project {0}", proposedProject.DisplayName)
+                AuditDescription = $"Project: created via approval of Proposed Project {proposedProject.DisplayName}"
             };
             HttpRequestStorage.DatabaseEntities.AllAuditLogs.Add(auditLog);
         }
@@ -832,7 +832,7 @@ namespace ProjectFirma.Web.Controllers
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             var viewModel = new ConfirmDialogFormViewModel(proposedProject.ProposedProjectID);
             //TODO: Change "reviewer" to specific reviewer as determined by tentant review 
-            var viewData = new ConfirmDialogFormViewData(string.Format("Are you sure you want to withdraw Proposed Project \"{0}\" from review?", proposedProject.DisplayName));
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to withdraw {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{proposedProject.DisplayName}\" from review?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -844,7 +844,7 @@ namespace ProjectFirma.Web.Controllers
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Draft;
             //TODO: Change "reviewer" to specific reviewer as determined by tentant review 
-            SetMessageForDisplay("Proposed Project withdrawn from review.");
+            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} withdrawn from review.");
             return new ModalDialogFormJsonResult(proposedProject.GetDetailUrl());
         }
 
@@ -854,7 +854,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             var viewModel = new ConfirmDialogFormViewModel(proposedProject.ProposedProjectID);
-            var viewData = new ConfirmDialogFormViewData(string.Format("Are you sure you want to return Proposed Project \"{0}\" to Submitter?", proposedProject.DisplayName));
+            var viewData = new ConfirmDialogFormViewData(string.Format($"Are you sure you want to return {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{0}\" to Submitter?", proposedProject.DisplayName));
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -865,7 +865,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Draft;
-            SetMessageForDisplay("Proposed Project returned to Submitter for additional clarifactions/corrections.");
+            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} returned to Submitter for additional clarifactions/corrections.");
             return new ModalDialogFormJsonResult(proposedProject.GetDetailUrl());
         }
 
@@ -875,7 +875,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             var viewModel = new ConfirmDialogFormViewModel(proposedProject.ProposedProjectID);
-            var viewData = new ConfirmDialogFormViewData(string.Format("Are you sure you want to reject Proposed Project \"{0}\"?", proposedProject.DisplayName));
+            var viewData = new ConfirmDialogFormViewData(string.Format($"Are you sure you want to reject {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{0}\"?", proposedProject.DisplayName));
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -886,7 +886,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             proposedProject.ProposedProjectStateID = (int)ProposedProjectStateEnum.Rejected;
-            SetMessageForDisplay("Proposed Project was rejected.");
+            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} was rejected.");
             return new ModalDialogFormJsonResult(proposedProject.GetDetailUrl());
         }
 
@@ -905,10 +905,9 @@ namespace ProjectFirma.Web.Controllers
             var validationErrorMessages = string.Empty;
             if (validationResults.Any())
             {
-                validationErrorMessages = string.Format(" Please fix these errors: <ul>{0}</ul>",
-                    string.Join(Environment.NewLine, validationResults.Select(x => string.Format("<li>{0}</li>", x.ErrorMessage))));
+                validationErrorMessages =$" Please fix these errors: <ul>{string.Join(Environment.NewLine, validationResults.Select(x => $"<li>{x.ErrorMessage}</li>"))}</ul>";
             }
-            SetErrorForDisplay(string.Format("Could not save Proposed Project.{0}", validationErrorMessages));
+            SetErrorForDisplay($"Could not save {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}.{validationErrorMessages}");
         }
     }
 }

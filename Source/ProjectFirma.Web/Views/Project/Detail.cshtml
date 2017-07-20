@@ -156,8 +156,8 @@
                                         @if (ViewDataTyped.UserHasMapManagePermissions)
                                         {
                                             <ul style="list-style-type: none; padding-left: 0;">
-                                                <li style="display: inline-block; margin-right: 5px"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Simple", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditSimpleProjectLocationUrl, "Edit Project Location - Simple", 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
-                                                <li style="display: inline-block"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Detailed", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditDetailedProjectLocationUrl, "Edit Project Location - Detail", 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
+                                                <li style="display: inline-block; margin-right: 5px"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Simple", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditSimpleProjectLocationUrl, string.Format("Edit {0} - Simple", FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
+                                                <li style="display: inline-block"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Detailed", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditDetailedProjectLocationUrl, string.Format("Edit {0} - Detail", FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
                                             </ul>
                                         }
                                         @{ ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData); }
@@ -271,7 +271,7 @@
                         <h2 data-toc-skip class="sectionHeader">Reported Expenditures</h2>
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, "Edit Reported Expenditures", 1000, ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions) Reported Expenditures</h2>
+                                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions) Reported Expenditures</h2>
                             </div>
                             <div class="panel-body">
                                 @{ ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData); }

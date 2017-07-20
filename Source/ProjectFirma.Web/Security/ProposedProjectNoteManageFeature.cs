@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Security
             var projectNoteIsEditableByUser = contextModelObject.ProposedProject.IsEditableToThisPerson(person);
             if (!projectNoteIsEditableByUser)
             {
-                return new PermissionCheckResult(string.Format("Proposed project {0} is not editable by you.", contextModelObject.ProposedProjectID));
+                return new PermissionCheckResult($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} {contextModelObject.ProposedProjectID} is not editable by you.");
             }
 
             return new PermissionCheckResult();

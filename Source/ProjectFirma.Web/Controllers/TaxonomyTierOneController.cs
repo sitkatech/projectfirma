@@ -84,7 +84,7 @@ namespace ProjectFirma.Web.Controllers
             var projects = IsCurrentUserAnonymous() ? taxonomyTierOneProjects.Where(p => p.IsVisibleToEveryone()).ToList() : taxonomyTierOneProjects;
 
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyTierOne, new List<int> {taxonomyTierOne.TaxonomyTierOneID}, ProjectColorByType.ProjectStage);
-            var projectLocationsLayerGeoJson = new LayerGeoJson("Project Locations", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show);
+            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show);
             var namedAreasAsPointsLayerGeoJson = new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, namedAreasAsPointsLayerGeoJson, projectMapCustomization, "TaxonomyTierOneProjectMap");
 

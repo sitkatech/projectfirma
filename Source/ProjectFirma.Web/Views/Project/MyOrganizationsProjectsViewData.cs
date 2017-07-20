@@ -47,8 +47,8 @@ namespace ProjectFirma.Web.Views.Project
             ProjectsGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
                 
-                ObjectNameSingular = string.Format("{0} Project", organizationNamePossessive),
-                ObjectNamePlural = string.Format("{0} Projects", organizationNamePossessive),
+                ObjectNameSingular = $"{organizationNamePossessive} Project",
+                ObjectNamePlural = $"{organizationNamePossessive} Projects",
                 SaveFiltersInCookie = true
             };
             ProjectsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.MyOrganizationsProjectsGridJsonData());
@@ -56,8 +56,8 @@ namespace ProjectFirma.Web.Views.Project
             ProposedProjectsGridName = "myOrganizationsProposedProjectsGrid";
             ProposedProjectsGridSpec = new ProposedProjectGridSpec(currentPerson)
             {
-                ObjectNameSingular = string.Format("{0} Proposed Project", organizationNamePossessive),
-                ObjectNamePlural = string.Format("{0} Proposed Projects", organizationNamePossessive),
+                ObjectNameSingular = $"{organizationNamePossessive} {Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{organizationNamePossessive} {Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true 
             
             };

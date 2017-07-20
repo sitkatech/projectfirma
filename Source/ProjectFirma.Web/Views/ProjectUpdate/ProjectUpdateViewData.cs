@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Project = projectUpdateBatch.Project;
             PrimaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
             HtmlPageTitle += " - Project Updates";
-            EntityName = string.Format("Project Update for Reporting Year: {0}", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+            EntityName = string.Format("Project Update for {0}: {1}", Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel(), FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
             PageTitle = Project.DisplayName;
             ProjectUpdateMyProjectsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate());
             ProjectUpdateInstructionsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Instructions(Project));

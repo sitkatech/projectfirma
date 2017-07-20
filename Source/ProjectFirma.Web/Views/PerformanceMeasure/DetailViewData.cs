@@ -92,8 +92,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             PerformanceMeasureReportedValuesGridSpec = new PerformanceMeasureReportedValuesGridSpec(performanceMeasure)
             {
-                ObjectNameSingular = "Reported Value for Projects",
-                ObjectNamePlural = "Reported Values for Projects",
+                ObjectNameSingular = $"{Models.FieldDefinition.ReportedValue.GetFieldDefinitionLabel()} for Projects",
+                ObjectNamePlural = $"{Models.FieldDefinition.ReportedValue.GetFieldDefinitionLabelPluralized()} for Projects",
                 SaveFiltersInCookie = true
             };
 

@@ -732,7 +732,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var viewData =
                 new ConfirmDialogFormViewData(
-                    "Are you sure you want to refresh the Project location data? This will pull the most recently approved information for the project and any updates made in this section will be lost.");
+                    $"Are you sure you want to refresh the {FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} data? This will pull the most recently approved information for the project and any updates made in this section will be lost.");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -782,7 +782,7 @@ namespace ProjectFirma.Web.Controllers
 
             var mapDivID = string.Format("project_{0}_EditDetailedMap", project.ProjectID);
             var detailedLocationGeoJsonFeatureCollection = projectUpdate.DetailedLocationToGeoJsonFeatureCollection();
-            var editableLayerGeoJson = new LayerGeoJson("Project Location Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
+            var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
 
             var boundingBox = new BoundingBox(projectUpdate.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry));
             var mapInitJson = new MapInitJson(mapDivID, 10, MapInitJson.GetWatershedMapLayersAndProjectLocationSimple(project), boundingBox) {AllowFullScreen = false};
@@ -835,7 +835,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var viewData =
                 new ConfirmDialogFormViewData(
-                    "Are you sure you want to refresh the Project location data? This will pull the most recently approved information for the project and any updates made in this section will be lost.");
+                    $"Are you sure you want to refresh the {FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} data? This will pull the most recently approved information for the project and any updates made in this section will be lost.");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 

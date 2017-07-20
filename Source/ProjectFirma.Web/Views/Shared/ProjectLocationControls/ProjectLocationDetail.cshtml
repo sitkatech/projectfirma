@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectLocationDetail
 
 <style>
@@ -32,7 +33,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <p>
     Create a drawing of your project’s implementation (but not the full area affected by your project).
-    The detailed project location information will appear on the Project Fact Sheet and Project summary page.
+    The detailed @FieldDefinition.ProjectLocation.GetFieldDefinitionLabel() information will appear on the Project Fact Sheet and Project summary page.
     <ul>
         <li>To zoom to your project area hold down the Shift key and drag a rectangle.</li>
         <li>Use the edit tools on the left of the map to add point, line, and polygon features representing details of your project, such as the project boundary, a specific stream segment, or an area of interest.</li>
@@ -202,7 +203,7 @@ Source code is available upon request via <support@sitkatech.com>.
         var modalTitle = jQuery(".ui-dialog-title");
         if(!Sitka.Methods.isUndefinedNullOrEmpty(modalTitle))
         {
-            modalTitle.html("Edit Project Location - Detail");
+            modalTitle.html(string.Format("Edit {0} - Detail", Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()));
         }
     });
 

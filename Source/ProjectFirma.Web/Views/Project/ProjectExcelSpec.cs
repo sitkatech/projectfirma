@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(Models.FieldDefinition.Region.GetFieldDefinitionLabel(), a => a.ProjectLocationTypeDisplay);
             AddColumn("State", a => a.ProjectLocationStateProvince);
             AddColumn("Watershed", a => a.ProjectLocationWatershed);
-            AddColumn("Project Location Notes", a => a.ProjectLocationNotes);
+            AddColumn($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} Notes", a => a.ProjectLocationNotes);
         }
     }
 
@@ -117,7 +117,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn("Subcategory 3 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 3 ? x.PerformanceMeasureSubcategoryOptions[2].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
             AddColumn("Subcategory 4 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 4 ? x.PerformanceMeasureSubcategoryOptions[3].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
             AddColumn("Subcategory 4 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 4 ? x.PerformanceMeasureSubcategoryOptions[3].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
-            AddColumn("Reported Value", x => x.ReportedValue);
+            AddColumn($"{Models.FieldDefinition.ReportedValue.GetFieldDefinitionLabel()}", x => x.ReportedValue);
         }
     }
 

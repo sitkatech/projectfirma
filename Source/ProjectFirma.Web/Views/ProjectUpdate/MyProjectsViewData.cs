@@ -55,13 +55,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             switch (projectUpdateStatusFilterType)
             {
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MyProjectsRequiringAnUpdate:
-                    PageTitle = string.Format("Projects Requiring an Update for Reporting Year: {0}", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+                    PageTitle = string.Format("Projects Requiring an Update for {0}: {1}", Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel(), FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects:
-                    PageTitle = string.Format("Recently Submitted Projects for Reporting Year: {0}", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+                    PageTitle = string.Format("Recently Submitted Projects for {0}: {1}", Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel(), FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllMyProjects:
-                    PageTitle = string.Format("All My Projects for Reporting Year: {0}", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+                    PageTitle = string.Format("All My Projects for {0}: {1}", Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel(), FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects:
                     PageTitle = "All Projects";

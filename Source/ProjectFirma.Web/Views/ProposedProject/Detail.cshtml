@@ -58,12 +58,12 @@ Source code is available upon request via <support@sitkatech.com>.
 
 
 <div class="alert alert-info" style="margin-bottom: 10px">
-    <span class="glyphicon glyphicon-info-sign blue" title="Proposed Project"></span>
+    <span class="glyphicon glyphicon-info-sign blue" title="@FieldDefinition.ProposedProject.GetFieldDefinitionLabel()"></span>
     @switch (ViewDataTyped.ProposedProject.ProposedProjectState.ToEnum)
     {
         case ProposedProjectStateEnum.Draft:
             <span>
-                This Proposed Project has not yet been submitted and may be incomplete.
+                This @FieldDefinition.ProposedProject.GetFieldDefinitionLabel() has not yet been submitted and may be incomplete.
                 @if (ViewDataTyped.CurrentPersonIsSubmitter || ViewDataTyped.CurrentPersonIsApprover)
                 {
                     <span>You may <a href="@ViewDataTyped.ProjectUpdateBasicsUrl">finalize the Project Proposal</a> at any time.</span>
@@ -72,7 +72,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 break;
         case ProposedProjectStateEnum.Submitted:
         <span>
-            This Proposed Project is awaiting review.
+            This @FieldDefinition.ProposedProject.GetFieldDefinitionLabel() is awaiting review.
             @if (ViewDataTyped.CurrentPersonIsApprover)
             {
                 <span>You may <a href="@ViewDataTyped.ProjectUpdateBasicsUrl">review/approve/reject the Project Proposal</a> at any time.</span>
@@ -90,7 +90,7 @@ Source code is available upon request via <support@sitkatech.com>.
             break;
         case ProposedProjectStateEnum.Rejected:
         <span>
-            This proposal was rejected by the reviewer. @ModalDialogFormHelper.ModalDialogFormLink("Contact TRPA", ViewDataTyped.RequestSupportUrl, "Request Support", true) with any questions regarding this Proposed Project.
+            This proposal was rejected by the reviewer. @ModalDialogFormHelper.ModalDialogFormLink("Contact TRPA", ViewDataTyped.RequestSupportUrl, "Request Support", true) with any questions regarding this @FieldDefinition.ProposedProject.GetFieldDefinitionLabel().
         </span>
             break;
         default:

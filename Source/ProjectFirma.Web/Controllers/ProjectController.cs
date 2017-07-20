@@ -377,7 +377,7 @@ namespace ProjectFirma.Web.Controllers
 
             var projectFundingSourceExpenditureSpec = new ProjectFundingSourceExpenditureExcelSpec();
             var projectFundingSourceExpenditures = (projects.SelectMany(p => p.ProjectFundingSourceExpenditures)).ToList();
-            var wsProjectFundingSourceExpenditures = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Reported Expenditures", projectFundingSourceExpenditureSpec, projectFundingSourceExpenditures);
+            var wsProjectFundingSourceExpenditures = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()}", projectFundingSourceExpenditureSpec, projectFundingSourceExpenditures);
 
             var projectWatershedSpec = new ProjectWatershedExcelSpec();
             var projectWatersheds = (projects.SelectMany(p => p.ProjectWatersheds)).ToList();
@@ -633,13 +633,13 @@ namespace ProjectFirma.Web.Controllers
 
             var viewData = new ConfirmDialogFormViewData(string.Format(@"
 <div>
-An update for this project was already submitted for this reporting year{0}. If project information has changed, 
+An update for this project was already submitted for this {0} {1}. If project information has changed, 
 any new information you'd like to provide will be added to the project. Thanks for being pro-active!
 </div>
 <div>
 <hr />
 Continue with a new project update?
-</div>", dateDisplayText));
+</div>", FieldDefinition.ReportingYear.GetFieldDefinitionLabel(), dateDisplayText));
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 

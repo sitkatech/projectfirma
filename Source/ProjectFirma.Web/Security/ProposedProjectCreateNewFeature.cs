@@ -23,7 +23,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Create New Proposed Project")]
+    [SecurityFeatureDescription("Create New {0}", FieldDefinitionEnum.ProposedProject)]
     public class ProposedProjectCreateNewFeature : FirmaFeature
     {
         public ProposedProjectCreateNewFeature()

@@ -66,7 +66,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="col-md-5 col-lg-4">
         <form method="POST" id="@ViewDataTyped.MapFormID" action="@ViewDataTyped.MapPostUrl">
             @Html.LabelWithSugarFor(FieldDefinition.ProjectLocation, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-            <b>How do you want to specify your simple Project location?</b>
+            <b>How do you want to specify your simple @FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()?</b>
 
             <div class="groupedControl">
                 @Html.RadioButtonFor(x => x.ProjectLocationSimpleType, ProjectLocationSimpleTypeEnum.PointOnMap, new { @id = "ProjectLocationTypePointOnMap" })
@@ -225,7 +225,7 @@ Source code is available upon request via <support@sitkatech.com>.
             self.map.fitBounds(self.selectedProjectAreaLayer.getBounds());
         }, function()
         {
-            alert("There was an error selecting the project location area from list.");
+            alert("There was an error selecting the @FieldDefinition.ProjectLocation.GetFieldDefinitionLabel() area from list.");
             self.selectedProjectAreaLayer = null;
         });
     };

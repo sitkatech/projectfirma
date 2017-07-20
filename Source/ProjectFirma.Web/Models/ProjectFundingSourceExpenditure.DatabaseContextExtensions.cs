@@ -96,7 +96,7 @@ namespace ProjectFirma.Web.Models
             var fullCategoryYearDictionary = GetFullCategoryYearDictionary(projectFundingSourceExpenditures, filterFunction, filterValues, sortFunction, rangeOfYears);
             var googleChartDataTable = GetGoogleChartDataTable(fullCategoryYearDictionary, rangeOfYears);
             
-            var chartConfiguration = new GoogleChartConfiguration(chartTitle, "Reported Expenditures ($)", MeasurementUnitType.Dollars);
+            var chartConfiguration = new GoogleChartConfiguration(chartTitle, $"{FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()} ($)", MeasurementUnitType.Dollars);
             var googleChart = new GoogleChartJson(string.Empty, chartName, chartConfiguration, chartType, googleChartDataTable, chartPopupUrl, string.Empty, string.Empty);
             return googleChart;
         }

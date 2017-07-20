@@ -83,7 +83,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-sm-12">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
-                    Reported Expenditures
+                    @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()
                 </div>
                 <div class="panel-body">
                     @Html.DhtmlxGrid(ViewDataTyped.ProjectCalendarYearExpendituresGridSpec, ViewDataTyped.ProjectCalendarYearExpendituresGridName, ViewDataTyped.ProjectCalendarYearExpendituresGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
