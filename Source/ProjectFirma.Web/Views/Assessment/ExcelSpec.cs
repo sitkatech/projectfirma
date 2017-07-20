@@ -32,12 +32,12 @@ namespace ProjectFirma.Web.Views.Assessment
     {
         public ProjectAssessmentExcelSpec()
         {
-            AddColumn("Proposal or Project", project =>
+            AddColumn($"Proposal or {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", project =>
             {
                 switch (project.ProjectType)
                 {
                     case ProjectType.Project:
-                        return "Project";
+                        return $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
                     case ProjectType.ProposedProject:
                         return "Proposal";
                     case ProjectType.ProjectUpdate:
@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.Assessment
             foreach (var assessmentQuestion in HttpRequestStorage.DatabaseEntities.AssessmentQuestions)
             {
                 var questionID = assessmentQuestion.AssessmentQuestionID;
-                AddColumn(string.Format("Q {0}", assessmentQuestion.AssessmentQuestionID), project =>
+                AddColumn($"Q {assessmentQuestion.AssessmentQuestionID}", project =>
                 {
                     var questionAnswer = project.GetQuestionAnswers().SingleOrDefault(x => x.AssessmentQuestionID == questionID);
                     return questionAnswer == null ? ViewUtilities.NoAnswerProvided : questionAnswer.Answer.ToYesNo(ViewUtilities.NoAnswerProvided);

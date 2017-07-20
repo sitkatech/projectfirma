@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Organization.Index
 @section JavascriptAndStylesContent
 {
@@ -32,7 +33,7 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     @if (ViewDataTyped.UserIsSitkaAdmin)
     {
-        @ModalDialogFormHelper.ModalDialogFormLink("Pull Organization from Keystone", ViewDataTyped.PullOrganizationFromKeystoneUrl, "Pull Organization from Keystone", new List<string> { "btn", "btn-firma", "btn-sm" })
+        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("Pull {0} from Keystone", FieldDefinition.Organization.GetFieldDefinitionLabel()), ViewDataTyped.PullOrganizationFromKeystoneUrl, string.Format("Pull {0} from Keystone", FieldDefinition.Organization.GetFieldDefinitionLabel()), new List<string> { "btn", "btn-firma", "btn-sm" })
     }
 
 }

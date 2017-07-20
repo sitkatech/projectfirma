@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.Project
             HasProposedProjectPermissions = new ProposedProjectCreateNewFeature().HasPermissionByPerson(currentPerson);
             ProposeNewProjectUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(tc => tc.Instructions(null));
 
-            PageTitle = "Active Project List";
+            PageTitle = $"Active {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} List";
 
             GridName = "activeProjectsListGrid";
             GridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true) { ObjectNameSingular = "Active Project", ObjectNamePlural = "Active Projects", SaveFiltersInCookie = true };

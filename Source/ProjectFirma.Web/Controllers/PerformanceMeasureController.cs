@@ -393,7 +393,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
             var excelWorkbook = new XLWorkbook();
-            var ws = excelWorkbook.Worksheets.Add("Performance Measures");
+            var ws = excelWorkbook.Worksheets.Add($"{FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized()}");
 
             var row = 1;
             var fieldDefinitionLabel = FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel();

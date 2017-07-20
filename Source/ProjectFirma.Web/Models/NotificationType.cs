@@ -56,12 +56,12 @@ namespace ProjectFirma.Web.Models
 
         public override HtmlString GetFullDescriptionFromUserPerspective(Notification notification)
         {
-            return new HtmlString("Project Update reminder sent.");
+            return new HtmlString($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Update reminder sent.");
         }
 
         public override string GetFullDescriptionFromProjectPerspective()
         {
-            return "Project Update reminder sent.";
+            return $"{FieldDefinition.Project.GetFieldDefinitionLabel()} Update reminder sent.";
         }
 
         public override string GetFullDescriptionFromRegistrationPerspective()
@@ -84,12 +84,12 @@ namespace ProjectFirma.Web.Models
 
         public override HtmlString GetFullDescriptionFromUserPerspective(Notification notification)
         {
-            return new HtmlString(string.Format("The update for project {0} was submitted", GetEntityDetailsAsHref(notification)));
+            return new HtmlString($"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {GetEntityDetailsAsHref(notification)} was submitted");
         }
 
         public override string GetFullDescriptionFromProjectPerspective()
         {
-            return "Project update was submitted";
+            return $"{FieldDefinition.Project.GetFieldDefinitionLabel()} update was submitted";
         }
 
         public override string GetFullDescriptionFromRegistrationPerspective()
@@ -112,12 +112,12 @@ namespace ProjectFirma.Web.Models
 
         public override HtmlString GetFullDescriptionFromUserPerspective(Notification notification)
         {
-            return new HtmlString(string.Format("The update for project {0} has been returned", GetEntityDetailsAsHref(notification)));
+            return new HtmlString($"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {GetEntityDetailsAsHref(notification)} has been returned");
         }
 
         public override string GetFullDescriptionFromProjectPerspective()
         {
-            return "Project update has been returned";
+            return $"{FieldDefinition.Project.GetFieldDefinitionLabel()} update has been returned";
         }
 
         public override string GetFullDescriptionFromRegistrationPerspective()
@@ -140,12 +140,12 @@ namespace ProjectFirma.Web.Models
 
         public override HtmlString GetFullDescriptionFromUserPerspective(Notification notification)
         {
-            return new HtmlString(string.Format("The update for project {0} was approved", GetEntityDetailsAsHref(notification)));
+            return new HtmlString($"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {GetEntityDetailsAsHref(notification)} was approved");
         }
 
         public override string GetFullDescriptionFromProjectPerspective()
         {
-            return "Project update was approved";
+            return $"{FieldDefinition.Project.GetFieldDefinitionLabel()} update was approved";
         }
 
         public override string GetFullDescriptionFromRegistrationPerspective()
@@ -196,7 +196,7 @@ namespace ProjectFirma.Web.Models
 
         public override HtmlString GetFullDescriptionFromUserPerspective(Notification notification)
         {
-            return new HtmlString(string.Format("A project proposal {0} was submitted for review", GetEntityDetailsAsHref(notification)));
+            return new HtmlString($"A {FieldDefinition.Project.GetFieldDefinitionLabel()} proposal {GetEntityDetailsAsHref(notification)} was submitted for review");
         }
 
         public override string GetFullDescriptionFromProjectPerspective()
@@ -224,7 +224,8 @@ namespace ProjectFirma.Web.Models
 
         public override HtmlString GetFullDescriptionFromUserPerspective(Notification notification)
         {
-            return new HtmlString(string.Format("A project proposal {0} was approved for the 5-year list", GetEntityDetailsAsHref(notification)));
+            return new HtmlString(
+                $"A {FieldDefinition.Project.GetFieldDefinitionLabel()} proposal {GetEntityDetailsAsHref(notification)} was approved for the 5-year list");
         }
 
         public override string GetFullDescriptionFromProjectPerspective()
@@ -252,7 +253,8 @@ namespace ProjectFirma.Web.Models
 
         public override HtmlString GetFullDescriptionFromUserPerspective(Notification notification)
         {
-            return new HtmlString(string.Format("A project proposal {0} was returned for additional information", GetEntityDetailsAsHref(notification)));
+            return new HtmlString(
+                $"A {FieldDefinition.Project.GetFieldDefinitionLabel()} proposal {GetEntityDetailsAsHref(notification)} was returned for additional information");
         }
 
         public override string GetFullDescriptionFromProjectPerspective()

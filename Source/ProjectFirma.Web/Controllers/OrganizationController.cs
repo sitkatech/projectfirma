@@ -260,8 +260,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !organization.HasDependentObjects() && !organization.IsUnknown;
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this Organization '{organization.OrganizationName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Organization", SitkaRoute<OrganizationController>.BuildLinkFromExpression(x => x.Detail(organization), "here"));
+                ? $"Are you sure you want to delete this {FieldDefinition.Organization.GetFieldDefinitionLabel()} '{organization.OrganizationName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinition.Organization.GetFieldDefinitionLabel()}", SitkaRoute<OrganizationController>.BuildLinkFromExpression(x => x.Detail(organization), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
@@ -469,7 +469,7 @@ namespace ProjectFirma.Web.Controllers
             ConfirmDialogFormViewModel viewModel)
         {
             var viewData = new ConfirmDialogFormViewData(
-                $"Are you sure you want to delete the boundary for this Organization '{organization.OrganizationName}'?");
+                $"Are you sure you want to delete the boundary for this {FieldDefinition.Organization.GetFieldDefinitionLabel()} '{organization.OrganizationName}'?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,
                 viewModel);
         }

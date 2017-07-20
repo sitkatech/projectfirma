@@ -18,9 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Models;
+
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Manage Taxonomy Tier One")]
+    [SecurityFeatureDescription("Manage {0}", FieldDefinitionEnum.TaxonomyTierOne)]
     public class TaxonomyTierOneManageFeature : FirmaAdminFeature
     {
     }

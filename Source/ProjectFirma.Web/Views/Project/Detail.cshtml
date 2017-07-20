@@ -191,7 +191,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-5">
-                                        @Html.LabelWithSugarFor(FieldDefinition.PrimaryContact, string.Format("Lead Implementer {0}", FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()))
+                                        @Html.LabelWithSugarFor(FieldDefinition.PrimaryContact, string.Format("{0} {1}", FieldDefinition.LeadImplementer.GetFieldDefinitionLabel(), FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()))
                                     </div>
                                     <div class="col-xs-7">
                                         @if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, ViewDataTyped.Project.LeadImplementerOrganization.PrimaryContactPerson).HasPermission)
@@ -211,12 +211,8 @@
                                     <table class="summaryLayout">
                                         <tr>
                                             <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
-<<<<<<< HEAD
-                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType, "Relationship to Project")</th>
-                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact, string.Format("Organization's {0}", FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()))</th>
-=======
                                             <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
->>>>>>> develop
+                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact, string.Format("Organization's {0}", FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()))</th>
                                         </tr>                                
                                         @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations.GroupBy(x => x.Organization).OrderBy(x => x.Key.DisplayName))
                                         {
@@ -263,10 +259,10 @@
                             </div>
                         </div>
 
-                        <h2 data-toc-skip class="sectionHeader">Reported Expenditures</h2>
+                        <h2 data-toc-skip class="sectionHeader">@FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()</h2>
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions) Reported Expenditures</h2>
+                                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions)@FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()</h2>
                             </div>
                             <div class="panel-body">
                                 @{ ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData); }

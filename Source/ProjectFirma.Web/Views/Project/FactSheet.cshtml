@@ -244,7 +244,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="container factSheet noPrint aboveFactSheet">
     <div class="pull-right">
-        <a class="btn btn-xs btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">Project Details</a>
+        <a class="btn btn-xs btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinition.Project.GetFieldDefinitionLabel() Details</a>
         <button class="btn btn-xs btn-firma" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> Print</button>
     </div>
 
@@ -257,7 +257,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </td>
             <td style="padding: 20px">
                 <div class="taxonomyTierThreeColor" style="font-size: medium">
-                    Project Fact Sheet
+                    @FieldDefinition.Project.GetFieldDefinitionLabel() Fact Sheet
                 </div>
                 <div class="projectTitle taxonomyTierThreeColor">@ViewDataTyped.Project.ProjectName</div>
                 <table class="summaryLayout">
@@ -270,7 +270,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <td>@(ViewDataTyped.Project.LeadImplementerOrganization != null ? ViewDataTyped.Project.LeadImplementerOrganization.OrganizationName : "None Identified")</td>
                     </tr>
                     <tr>
-                        <th>Organizations:</th>
+                        <th>@FieldDefinition.Organization.GetFieldDefinitionLabelPluralized():</th>
                         <td>@ViewDataTyped.Project.ProjectOrganizationNamesAndTypes</td>
                     </tr>
                     <tr>
@@ -312,7 +312,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <tr>
             <td class="factSheetAboutProject" style="padding-top: 20px; max-width:1000px">
                 <div style="max-height:320px; white-space: normal; text-overflow: ellipsis; overflow-y: hidden">@ViewDataTyped.Project.ProjectDescription</div>
-                <div class="sectionTitle taxonomyTierThreeColor">Key accomplishments of project</div>
+                <div class="sectionTitle taxonomyTierThreeColor">Key accomplishments of @FieldDefinition.Project.GetFieldDefinitionLabel()</div>
                 @if (ViewDataTyped.PerformanceMeasureReportedValues.Any())
                 {
                     <table>
@@ -368,7 +368,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <tr>
             <td style="width: 550px">
                 <div style="width: 560px; margin-left: auto; margin-right: auto; page-break-inside: avoid">
-                    <div class="sectionTitle taxonomyTierThreeColor">Location</div>
+                    <div class="sectionTitle taxonomyTierThreeColor">@FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()</div>
                     <div id="@ViewDataTyped.ProjectLocationSummaryViewData.ProjectLocationSummaryMapInitJson.MapDivID" class="ltInfoPanel mapPanel"></div>
                     <script type="text/javascript">
                         jQuery(document).ready(function()

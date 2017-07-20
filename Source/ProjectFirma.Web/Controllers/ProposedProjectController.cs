@@ -803,7 +803,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             GenerateApprovalAuditLogEntries(project, proposedProject);
 
-            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)}\" succesfully approved as an actual project in the Planning/Design stage.");
+            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)}\" succesfully approved as an actual {FieldDefinition.Project.GetFieldDefinitionLabel()} in the Planning/Design stage.");
 
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }

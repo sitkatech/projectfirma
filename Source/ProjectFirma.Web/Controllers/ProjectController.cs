@@ -631,13 +631,13 @@ namespace ProjectFirma.Web.Controllers
 
             var viewData = new ConfirmDialogFormViewData(string.Format(@"
 <div>
-An update for this project was already submitted for this {0} {1}. If project information has changed, 
-any new information you'd like to provide will be added to the project. Thanks for being pro-active!
+An update for this {0} was already submitted for this {1} {2}. If {3} information has changed, 
+any new information you'd like to provide will be added to the {4}. Thanks for being pro-active!
 </div>
 <div>
 <hr />
-Continue with a new project update?
-</div>", FieldDefinition.ReportingYear.GetFieldDefinitionLabel(), dateDisplayText));
+Continue with a new {5} update?
+</div>", FieldDefinition.Project.GetFieldDefinitionLabel(), FieldDefinition.ReportingYear.GetFieldDefinitionLabel(), dateDisplayText, FieldDefinition.Project.GetFieldDefinitionLabel(), FieldDefinition.Project.GetFieldDefinitionLabel(), FieldDefinition.Project.GetFieldDefinitionLabel()));
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 

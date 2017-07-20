@@ -24,7 +24,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("View PerformanceMeasure Expected Value From Project")]
+    [SecurityFeatureDescription("View {0} {1} From {2}", FieldDefinitionEnum.PerformanceMeasure, FieldDefinitionEnum.ExpectedValue, FieldDefinitionEnum.Project)]
     public class PerformanceMeasureExpectedFromProjectViewFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;

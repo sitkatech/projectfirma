@@ -25,7 +25,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Manage Taxonomy Tier Two {0}", FieldDefinitionEnum.PerformanceMeasure)]
+    [SecurityFeatureDescription("Manage {0} {1}", FieldDefinitionEnum.TaxonomyTierTwo, FieldDefinitionEnum.PerformanceMeasure)]
     public class TaxonomyTierTwoPerformanceMeasureManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<PerformanceMeasure>
     {
         private readonly FirmaFeatureWithContextImpl<PerformanceMeasure> _firmaFeatureWithContextImpl;

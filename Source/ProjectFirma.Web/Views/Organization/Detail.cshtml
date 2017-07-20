@@ -110,7 +110,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-md-12">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                Project Locations and Boundary
+                                @FieldDefinition.ProjectLocation.GetFieldDefinitionLabelPluralized() and Boundary
                             </div>
                             <div class="panel-body">
                                 <div class="row">
@@ -143,12 +143,11 @@ Source code is available upon request via <support@sitkatech.com>.
                                         @if (ViewDataTyped.HasSpatialData)
                                         {
                                             <div id="legend" style="padding: 10px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);">
->>>>>>> develop
                                                 <div>
                                                     <span style="font-weight: bold">Projects</span>
                                                     <div style="margin-left: 10px">
                                                         <div>
-                                                            <span class="glyphicon glyphicon-map-marker" style="color: #3366ff"></span> Lead Implementer
+                                                            <span class="glyphicon glyphicon-map-marker" style="color: #3366ff"></span> @FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()
                                                         </div>
                                                         <div>
                                                             <span class="glyphicon glyphicon-map-marker" style="color: #99b3ff"></span> Other Association

@@ -127,8 +127,8 @@ namespace ProjectFirma.Web.Controllers
             var userNotificationGridDataUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.UserNotificationsGridJsonData(personPrimaryKey));
             var basicProjectInfoGridSpec = new Views.Project.BasicProjectInfoGridSpec(CurrentPerson, false)
             {
-                ObjectNameSingular = $"Project where {person.FullNameFirstLast} is the {FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"Projects where {person.FullNameFirstLast} is the {FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()}",
+                ObjectNameSingular = $"{FieldDefinition.Project.GetFieldDefinitionLabel()} where {person.FullNameFirstLast} is the {FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} where {person.FullNameFirstLast} is the {FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()}",
                 SaveFiltersInCookie = true
             };
             const string basicProjectInfoGridName = "userProjectListGrid";
@@ -211,7 +211,7 @@ namespace ProjectFirma.Web.Controllers
                 Check.Require(!person.OrganizationsWhereYouAreThePrimaryContactPerson.Any(),
                     $@"You cannot inactive user '{person.FullNameFirstLast}' because {
                             person.FirstName
-                        } is the {FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} for one or more organizations!");
+                        } is the {FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} for one or more {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}!");
             }
             if (!ModelState.IsValid)
             {
@@ -250,13 +250,13 @@ namespace ProjectFirma.Web.Controllers
             UserProfile keystoneUser = keystoneClient.GetUserProfileByUsername(FirmaWebConfiguration.KeystoneWebServiceApplicationGuid, viewModel.LoginName);
             if (keystoneUser == null)
             {
-                SetErrorForDisplay("Person not added. The User Name was not found in Keystone");
+                SetErrorForDisplay($"Person not added. The {FieldDefinition.Username.GetFieldDefinitionLabel()} was not found in Keystone");
                 return new ModalDialogFormJsonResult();    
             }
             
             if (!keystoneUser.OrganizationGuid.HasValue)
             {
-                SetErrorForDisplay("Person not added. They do not have an Organization in Keystone");
+                SetErrorForDisplay($"Person not added. They have no {FieldDefinition.Organization.GetFieldDefinitionLabel()} in Keystone");
             }
 
             KeystoneDataService.Organization keystoneOrganization = null;
@@ -266,7 +266,7 @@ namespace ProjectFirma.Web.Controllers
             }
             catch (Exception)
             {
-                SetErrorForDisplay("Person not added. Could not find their Organization in Keystone");
+                SetErrorForDisplay($"Person not added. Could not find their {FieldDefinition.Organization.GetFieldDefinitionLabel()} in Keystone");
             }
                         
             var firmaOrganization = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(x => x.OrganizationGuid == keystoneUser.OrganizationGuid);

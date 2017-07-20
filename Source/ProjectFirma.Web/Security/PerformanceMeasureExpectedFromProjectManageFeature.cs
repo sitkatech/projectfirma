@@ -25,7 +25,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Edit {0} Expected Value From Project", FieldDefinitionEnum.PerformanceMeasure)]
+    [SecurityFeatureDescription("Edit {0} {1} From {2}", FieldDefinitionEnum.PerformanceMeasure, FieldDefinitionEnum.ExpectedValue, FieldDefinitionEnum.Project)]
     public class PerformanceMeasureExpectedFromProjectManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;

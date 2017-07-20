@@ -58,7 +58,8 @@ namespace ProjectFirma.Web.Models
                 return PerformanceMeasureExpectedSubcategoryOptionProposeds.Any()
                     ? String.Join(", ",
                         PerformanceMeasureExpectedSubcategoryOptionProposeds.OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
-                            .Select(x => String.Format("[{0}: {1}]", x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName, x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName)))
+                            .Select(x =>
+                                $"[{x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}: {x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName}]"))
                     : ViewUtilities.NoneString;
             }
         }

@@ -127,7 +127,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel">
-                        Project Reporting Instructions @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit Project Reporting: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                        @FieldDefinition.Project.GetFieldDefinitionLabel() Reporting Instructions @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit {0} Reporting: {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                     </div>                
                     <div class="col-xs-7">
                         @ViewDataTyped.PerformanceMeasure.ProjectReportingHtmlString

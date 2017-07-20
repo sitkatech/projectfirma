@@ -40,7 +40,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 
 <div id="EditFeaturedProjectsApp" ng-controller="FeaturedProjectController">
-    Project to Add:
+    @FieldDefinition.Project.GetFieldDefinitionLabel() to Add:
     <input type="text" ng-model="ProjectToAdd" typeahead="project as project.DisplayName for project in filteredProjects() | filter:{DisplayName: $viewValue} | limitTo:8" style="width: 700px" placeholder="Search for a @FieldDefinition.ProjectName.GetFieldDefinitionLabel()"/>
     <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>
     <table class="dialogFormLayout">

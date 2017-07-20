@@ -44,7 +44,7 @@ Source code is available upon request via <support@sitkatech.com>.
     @if (Model.ProjectExemptReportingYears != null && Model.ProjectExemptReportingYears.Any())
     {
         <div style="margin-top: 5px">
-            <h4 ng-class="AngularViewData.ShowExemptYears ? 'expanded' : 'collapsed'" ng-click="AngularViewData.ShowExemptYears = !AngularViewData.ShowExemptYears"> What if my project has no accomplishments to report?</h4>
+            <h4 ng-class="AngularViewData.ShowExemptYears ? 'expanded' : 'collapsed'" ng-click="AngularViewData.ShowExemptYears = !AngularViewData.ShowExemptYears"> What if my @FieldDefinition.Project.GetFieldDefinitionLabel() has no accomplishments to report?</h4>
             <div ng-show="AngularViewData.ShowExemptYears" style="padding: 0 0 10px 27px">
                 Select the years for which you have no accomplishments to report and provide a brief explanation.
                 <div>
