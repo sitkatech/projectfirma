@@ -19,66 +19,19 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.Mvc
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.OrganizationAndRelationshipType.EditRelationshipType
               
 
-<script type="text/javascript">
-    // <![CDATA[
-    angular.module("EditAngularApp", []).controller("EditRelationshipTypeController", function($scope)
-    {
-        $scope.AngularModel = @Html.Raw(JObject.FromObject(Model));
-        $scope.AngularViewData = @Html.Raw(JObject.FromObject(ViewDataTyped));
-        $scope.OrganizationTypeToAdd = null;       
-
-        $scope.filteredOrganizationTypes = function()
-        {
-            var usedOrganizationTypeIDs = _.map($scope.AngularModel.OrganizationTypeSimples, function (p) { return p.OrganizationTypeID; });
-            var filter = _.filter($scope.AngularViewData.AllOrganizationTypes, function (f) { return !_.contains(usedOrganizationTypeIDs, f.OrganizationTypeID); });
-            return filter;
-        };
-
-        $scope.getOrganizationTypeName = function(relationshipOrganizationType)
-        {
-            var typeToFind = $scope.getOrganizationType(relationshipOrganizationType.OrganizationTypeID);
-            return typeToFind.OrganizationTypeName;
-        };
-
-        $scope.getOrganizationType = function (organizationTypeID) { return _.find($scope.AngularViewData.AllOrganizationTypes, function (f) { return organizationTypeID == f.OrganizationTypeID; }); };
-
-        $scope.addOrganizationType = function()
-        {
-            if ($scope.AngularModel.OrganizationTypeSimples == null) {
-                $scope.AngularModel.OrganizationTypeSimples = [];
-            }
-
-            if ($scope.OrganizationTypeToAdd != null)
-            {                
-                var newOrganizationType = {
-                    OrganizationTypeID: $scope.OrganizationTypeToAdd.OrganizationTypeID
-                };
-                $scope.AngularModel.OrganizationTypeSimples.push(newOrganizationType);
-                $scope.OrganizationTypeToAdd = null;
-            }
-        };
-
-        $scope.deleteOrganizationType = function (relationshipOrganizationType)
-        {
-            Sitka.Methods.removeFromJsonArray($scope.AngularModel.OrganizationTypeSimples, relationshipOrganizationType);
-        };
-    });
-    angular.bootstrap(jQuery("#EditRelationshipTypeControllerAngularApp"), ["EditAngularApp"]);
-    // ]]>
-</script>
-
 <div class="validationError">
     @Html.ValidationSummary()
 </div>
 
 
-<div id="EditRelationshipTypeControllerAngularApp" ng-controller="EditRelationshipTypeController">   
+<div>   
     @using (Html.BeginForm())
     {
         <div class="form-horizontal">
@@ -87,34 +40,15 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="col-sm-8">
                     @Html.TextBoxFor(m => m.RelationshipTypeName, new { style = "width: 100%", @class = "form-control" })
                 </div>
-            </div>
+            </div>            
             <p>Select which @FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized() can be associated to a project with this @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()</p>
             <div class="form-group">
-                <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(FieldDefinition.OrganizationType)</div>
-                <div class="col-sm-7">
-                    <select ng-model="OrganizationTypeToAdd" ng-options="organizationType.OrganizationTypeName for organizationType in filteredOrganizationTypes()" class="form-control">
-                        <option value="">Choose One</option>
-                    </select>                    
+                <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.OrganizationTypeIDs)</div>
+                <div class="col-sm-8">
+                    @Html.CheckBoxListFor(x => x.OrganizationTypeIDs, ViewDataTyped.AllOrganizationTypes.ToSelectList(x => x.OrganizationTypeID.ToString(), x => x.OrganizationTypeName))
                 </div>
-                <div class="col-sm-1">
-                    <button class="btn  btn-firma" type="button" ng-click="addOrganizationType()">Add</button>
-                </div>
-            </div>
-            
-                <div class="form-group">
-                    <div class="col-sm-4 control-label">@Html.Label(string.Format("Associated {0}", FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized()))</div>
-                    <div class="col-sm-8">
-                        <ul style="list-style: none">
-                            <li ng-repeat="relationshipOrganizationType in AngularModel.OrganizationTypeSimples | orderBy:getOrganizationTypeName">
-                                <a>
-                                    <span class="glyphicon glyphicon-trash blue" title="Remove '{{relationshipOrganizationType.OrganizationTypeName}}'" alt="Remove '{{relationshipOrganizationType.OrganizationTypeName}}'" ng-click="deleteOrganizationType(relationshipOrganizationType)" style="cursor: pointer"></span>
-                                </a> {{getOrganizationTypeName(relationshipOrganizationType)}}
-                            </li>
-                        </ul>
-                        <input ng-repeat="relationshipOrganizationType in AngularModel.OrganizationTypeSimples" type="hidden" name="@Html.NameFor(x => x.OrganizationTypeSimples[0].OrganizationTypeID).ToString().Replace("0", "{{$index}}")" value="{{relationshipOrganizationType.OrganizationTypeID}}">
-                    </div>
-                </div>
-            </div>
+            </div>                        
+        </div>
         @Html.HiddenFor(m => m.RelationshipTypeID)
     }
     

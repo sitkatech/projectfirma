@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
@@ -46,8 +47,11 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 
             Add($"{Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} Name", a => a.RelationshipTypeName, 240);
             foreach (var organizationType in allOrganizationTypes)
-            {
-                Add(organizationType.OrganizationTypeName, a => a.IsAssociatedWithOrganiztionType(organizationType).ToCheckboxImageOrEmpty(), 100);
+            {               
+                Add(organizationType.OrganizationTypeName,
+                    a => new HtmlString(a.IsAssociatedWithOrganiztionType(organizationType)
+                            ? $"<span style='display:none'>Yes</span><span style='margin-left: 40px'>{a.IsAssociatedWithOrganiztionType(organizationType).ToCheckboxImageOrEmpty()}</span>"
+                            : "<span style='display:none'>No</span>"), 100);
             }
 
             GroupingHeader =
