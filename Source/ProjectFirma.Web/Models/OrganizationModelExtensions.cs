@@ -18,9 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
+using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
+using LtInfo.Common.GeoJson;
 
 namespace ProjectFirma.Web.Models
 {
@@ -40,8 +45,33 @@ namespace ProjectFirma.Web.Models
         public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
         public static string GetDetailUrl(this Organization organization)
         {
-            if (organization == null) {return "";}
-            return SummaryUrlTemplate.ParameterReplace(organization.OrganizationID);
+            return organization == null ? "" : SummaryUrlTemplate.ParameterReplace(organization.OrganizationID);
+        }
+
+        public static List<LayerGeoJson> GetBoundaryLayerGeoJson(this IEnumerable<Organization> organizations)
+        {
+            var organizationsToShow =
+                organizations?.Where(x => x.OrganizationBoundary != null && x.OrganizationType != null)
+                    .ToList();
+            if (organizationsToShow == null || !organizationsToShow.Any())
+            {
+                return new List<LayerGeoJson>();
+            }
+
+
+            return organizationsToShow.GroupBy(x => x.OrganizationType, (organizationType, organizationList) =>
+            {
+                return new LayerGeoJson(
+                    $"{organizationType.OrganizationTypeName} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}",
+                    new FeatureCollection(organizationList.Select(organization =>
+                    {
+                        var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(organization.OrganizationBoundary);
+                        feature.Properties.Add("OrganizationName", organization.OrganizationName);
+                        return feature;
+                    }).ToList()),
+                    organizationType.LegendColor, 1,
+                    organizationType.ShowOnProjectMaps ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide);
+            }).ToList();
         }
     }
 }
