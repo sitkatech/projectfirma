@@ -137,7 +137,7 @@ namespace ProjectFirma.Web.Controllers
             var layers = MapInitJson.GetWatershedLayers(watershed, watershed.AssociatedProjects);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, new BoundingBox(watershed.WatershedFeature));
 
-            var projectFundingSourceExpenditures = watershed.AssociatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);
+            var projectFundingSourceExpenditures = watershed.AssociatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID.HasValue));
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
 
             var chartPopupUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(x => x.GoogleChartPopup(watershedPrimaryKey));
@@ -202,7 +202,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult GoogleChartPopup(WatershedPrimaryKey watershedPrimaryKey)
         {
             var watershed = watershedPrimaryKey.EntityObject;
-            var projectFundingSourceExpenditures = watershed.AssociatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);
+            var projectFundingSourceExpenditures = watershed.AssociatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID.HasValue));
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
 
             var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,

@@ -26,14 +26,6 @@ Source code is available upon request via <support@sitkatech.com>.
     // <![CDATA[    
     angular.module("EditOrganizationsAngularApp", []).controller("ProjectOrganizationController", function($scope)
     {
-        // AngularModel
-        //    ProjectOrganizationsViewModelJson
-        //       LeadOrganizationID
-        //       ProjectOrganizations (ProjectOrganizationJson[])
-        //          OrganizationID
-        //          OrganizationDisplayName
-        //          RelationshipTypeID
-        //          RelationshipTypeName
         $scope.AngularModel = @Html.Raw(JObject.FromObject(Model));
         $scope.AngularViewData = @Html.Raw(JObject.FromObject(ViewDataTyped));
         $scope.OrganizationToAdd = null;
@@ -44,13 +36,12 @@ Source code is available upon request via <support@sitkatech.com>.
 
         jQuery("form").submit(function() { jQuery("#@Html.IdFor(x => x.ProjectOrganizationsViewModelJson)").val(JSON.stringify($scope.AngularModel.ProjectOrganizationsViewModelJson)); });
 
-        $scope.lookupLeadPersonForOrganization = function(organizationId)
-        {
-            if (organizationId == null) {
+        $scope.lookupLeadPersonForOrganization = function(organizationID) {
+            
+            if (organizationID == null) {
                 return "";
             }
-
-            var leadOrg = _.find($scope.AngularViewData.AllOrganizations, function(o) { return o.OrganizationID == organizationId; });
+            var leadOrg = _.find($scope.AngularViewData.AllOrganizations, function (o) { return o.OrganizationID == organizationID; });
             var primaryContactForLeadImplementerOrg = _.find($scope.AngularViewData.AllPeople, function(x) { return x.PersonID == leadOrg.PrimaryContactPersonID; });
             if (primaryContactForLeadImplementerOrg != null)
             {
@@ -155,13 +146,14 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="col-xs-9">
                     <input type="hidden" value="{{AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID}}"
                            name="LeadOrganizationID"/>
-                    <select style="width: 100%" ng-model="AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID"
+                    <select ng-model="AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID"
                             name="LeadOrganizationID"
                             ng-required="true" 
                             ng-change="updateLeadOrgModel(AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID)"
                             class="selectpicker"
                             data-live-search="true"
-                            title="Select an Organization">
+                            title="Select an Organization"
+                            data-width="100%">
                         <option value="" disabled selected>Select an Organization</option>
                         <option ng-repeat="organization in AngularViewData.AllOrganizations"
                                 value="{{organization.OrganizationID}}"
@@ -179,13 +171,13 @@ Source code is available upon request via <support@sitkatech.com>.
                     {{lookupLeadPersonForOrganization(AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID)}}
                 </div>
             </div>
-            <div class="row" style="margin-bottom: 20px;">
-                <div class="col-xs-6">
-                    <strong>
-                        Enter any other Organizations associated with this Project.
-                    </strong>
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-xs-12">
+                    <p>Enter any other Organizations associated with this Project. Organizations may have more than one relationship to a Project. If the Lead Implementer has other roles on this project enter their other Project Relationship Type below in addition to specifying the Organization as the Lead Implementer.</p>        
                 </div>
-                <div class="col-xs-6">
+            </div>
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-xs-12">
                     <button type="button" class="btn btn-sm btn-firma pull-right" ng-click="addTopTier()">
                         <span class="glyphicon glyphicon-plus"></span>
                         Add Organization
@@ -199,27 +191,26 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                     <table class="table" style="margin-bottom: 50px;" ng-show="AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations && AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length && AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length > 0">
                         <thead>
-                        <tr>
-                            <th style="text-align: center">Remove<br/>Organization</th>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
-                            <th style="text-align: center">Remove<br/>@FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()</th>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
-                            <th></th>
+                        <tr class="row">
+                            <th class="col-xs-1" style="text-align: center">Remove<br/>Organization</th>
+                            <th class="col-xs-5">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
+                            <th class="col-xs-1" style="text-align: center">Remove<br/>@FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()</th>
+                            <th class="col-xs-4">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
+                            <th class="col-xs-1"></th>
                         </tr>
                         </thead>
                         <tbody ng-repeat="primarySimple in AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations">
-                            <tr>
-                                <td style="text-align: center">
+                            <tr class="row">
+                                <td class="col-xs-1" style="text-align: center">
                                     <a href="#" ng-click="removeTopTier(primarySimple); $event.preventDefault();" style="text-decoration: none">
                                         <i class="glyphicon glyphicon-trash" title="Remove Organization" alt="Remove Organization"></i>
                                     </a>
                                 </td>
-                                <td>
+                                <td class="col-xs-5">
                                     <input type="hidden" value="{{primarySimple.OrganizationID}}"
                                            name="ProjectOrganizations[{{$index}}].OrganizationID" />
                                     <select style="width: 100%" ng-model="primarySimple.OrganizationID"
                                             name="ProjectOrganizations[{{$index}}].OrganizationID"
-                                            ng-required="true"
                                             ng-change="updateModel(primarySimple)"
                                             class="selectpicker"
                                             data-live-search="true"
@@ -231,12 +222,12 @@ Source code is available upon request via <support@sitkatech.com>.
                                                 data-tokens="{{organization.OrganizationName}}"></option>
                                     </select>
                                 </td>
-                                <td style="text-align: center">
+                                <td class="col-xs-1" style="text-align: center">
                                     <a href="#" ng-click="removeDetailTier(primarySimple, primarySimple.RelationshipTypes[0]); $event.preventDefault();" ng-class="primarySimple.RelationshipTypes.length <= 1 ? 'disabled' : ''">
                                         <i class="glyphicon glyphicon-trash" title="Remove Relationship" alt="Remove Relationship"></i>
                                     </a>
                                 </td>
-                                <td>
+                                <td class="col-xs-4">
                                     <input type="hidden" value="{{primarySimple.RelationshipTypes[0].RelationshipTypeID}}"
                                            name="ProjectOrganizations[{{$index}}].RelationshipTypes[0].RelationshipTypeID" />
                                     <select class="form-control" style="width: 100%" ng-model="primarySimple.RelationshipTypes[0].RelationshipTypeID" name="ProjectOrganizations[{{$index}}].RelationshipTypes[0].RelationshipTypeID" ng-required="true">
@@ -247,24 +238,24 @@ Source code is available upon request via <support@sitkatech.com>.
                                                 value="{{detailType.RelationshipTypeID}}"></option>
                                     </select>
                                 </td>
-                                <td>
+                                <td  class="col-xs-1">
                                     <button type="button" class="btn btn-sm btn-firma" ng-click="addDetailTier(primarySimple)" ng-disabled="validRelationshipTypes(primarySimple.OrganizationID).length <= primarySimple.RelationshipTypes.length">
                                         <span class="glyphicon glyphicon-plus"></span>
-                                        Add @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()
+                                        Add
                                     </button>
                                 </td>
                             </tr>
-                            <tr ng-repeat="detailSimple in primarySimple.RelationshipTypes.slice(1)" class="subRelationships">
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td style="text-align: center">
+                            <tr class="row" ng-repeat="detailSimple in primarySimple.RelationshipTypes.slice(1)" class="subRelationships">
+                                <td class="col-xs-1">&nbsp;</td>
+                                <td class="col-xs-5">&nbsp;</td>
+                                <td class="col-xs-1" style="text-align: center">
                                     <input type="hidden" value="{{detailSimple.RelationshipTypeID}}"
                                            name="ProjectOrganizations[{{$parent.$index}}].RelationshipTypes[{{$index+1}}].RelationshipTypeID" />
                                     <a href="#" ng-click="removeDetailTier(primarySimple, detailSimple); $event.preventDefault();">
                                         <i class="glyphicon glyphicon-trash" title="Remove Relationship" alt="Remove Relationship"></i>
                                     </a>
                                 </td>
-                                <td>
+                                <td  class="col-xs-4">
                                     <select class="form-control" style="width: 100%" ng-model="detailSimple.RelationshipTypeID" name="ProjectOrganizations[{{$parent.$index}}].RelationshipTypes[{{$index+1}}].RelationshipTypeID" ng-required="true">
                                         <option value="" disabled selected>Select a Relationship</option>
                                         <option ng-repeat="detailType in validRelationshipTypes(primarySimple.OrganizationID)"
@@ -273,7 +264,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                                 value="{{detailType.RelationshipTypeID}}"></option>
                                     </select>
                                 </td>
-                                <td>&nbsp;</td>
+                                <td  class="col-xs-1">&nbsp;</td>
                             </tr>
                         </tbody>
                     </table>

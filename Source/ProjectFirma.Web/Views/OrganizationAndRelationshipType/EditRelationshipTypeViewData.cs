@@ -27,10 +27,10 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
     public class EditRelationshipTypeViewData : FirmaUserControlViewData
     {
-        public readonly List<OrganizationTypeSimple> AllOrganizationTypes;
+        public readonly List<OrganizationType> AllOrganizationTypes;
         public EditRelationshipTypeViewData(List<OrganizationType> allOrganizationTypes)
         {
-            AllOrganizationTypes = allOrganizationTypes.Select(x => new OrganizationTypeSimple(x)).ToList();
+            AllOrganizationTypes = allOrganizationTypes.OrderBy(x => x.OrganizationTypeName).ToList();
         }
     }
 }

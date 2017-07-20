@@ -129,7 +129,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn($"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}", x => x.FundingSource.FundingSourceName);
             AddColumn("Funding Organization", x => x.FundingSource.Organization.OrganizationName);
-            AddColumn(Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel(), x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName);
+            AddColumn(Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel(), x => x.FundingSource.Organization.OrganizationType?.OrganizationTypeName);
             AddColumn("Calendar Year", x => x.CalendarYear);
             AddColumn("Expenditure Amount", x => x.ExpenditureAmount);
         }

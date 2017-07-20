@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Controllers
             List<OrganizationTypeExpenditure> fundingOrganizationTypeExpenditures;
             if (!calendarYear.HasValue)
             {
-                fundingOrganizationTypeExpenditures = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList().Select(organizationType => new OrganizationTypeExpenditure(organizationType, projectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationType == organizationType).ToList(), null))
+                fundingOrganizationTypeExpenditures = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList().Select(organizationType => new OrganizationTypeExpenditure(organizationType, projectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).ToList(), null))
                         .ToList();
             }
             else
@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Controllers
                 {
                     fundingOrganizationTypeExpenditures = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList().Select(organizationType =>
                     {
-                        var fundingSourceExpendituresForThisOrganizationType = projectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationType == organizationType).ToList();
+                        var fundingSourceExpendituresForThisOrganizationType = projectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID).ToList();
                         return new OrganizationTypeExpenditure(organizationType,
                             fundingSourceExpendituresForThisOrganizationType.Sum(y => y.ExpenditureAmount),
                             fundingSourceExpendituresForThisOrganizationType.Select(y => y.FundingSourceID).Distinct().Count(),
@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Controllers
                         HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList().Select(
                             organizationType =>
                                 new OrganizationTypeExpenditure(organizationType,
-                                    projectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationType == organizationType && y.CalendarYear == calendarYear.Value).ToList(),
+                                    projectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID && y.CalendarYear == calendarYear.Value).ToList(),
                                     calendarYear)).ToList();
                 }
             }
@@ -144,14 +144,25 @@ namespace ProjectFirma.Web.Controllers
         private static List<ProjectFundingSourceExpenditure> GetProjectExpendituresByOrganizationType(int? organizationTypeID, int? calendarYear)
         {
             var currentYearToUseForReporting = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
-            var organizationType = organizationTypeID.HasValue ? HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetOrganizationType(organizationTypeID.Value) : null;
-            return HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.GetExpendituresFromMininumYearForReportingOnward()
+            OrganizationType organizationType;
+            if (organizationTypeID.HasValue)
+            {
+                organizationType =
+                    HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetOrganizationType(organizationTypeID.Value);
+                return HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.GetExpendituresFromMininumYearForReportingOnward()
                     .Where(x => (!calendarYear.HasValue && x.CalendarYear <= currentYearToUseForReporting) || x.CalendarYear == calendarYear)
                     .ToList()
-                    .Where(x => !organizationTypeID.HasValue ||
-                                (x.FundingSource.Organization.OrganizationType == organizationType))
-                                .OrderBy(x => x.Project.DisplayName)
-                                .ToList();
+                    .Where(x => x.FundingSource.Organization.OrganizationTypeID.HasValue && x.FundingSource.Organization.OrganizationTypeID == organizationType.OrganizationTypeID)
+                    .OrderBy(x => x.Project.DisplayName)
+                    .ToList();
+            }
+
+            return HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures
+                .GetExpendituresFromMininumYearForReportingOnward()
+                .Where(x => (!calendarYear.HasValue && x.CalendarYear <= currentYearToUseForReporting) ||
+                            x.CalendarYear == calendarYear)
+                .OrderBy(x => x.Project.ProjectName)
+                .ToList();
         }
 
         [SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewFeature]

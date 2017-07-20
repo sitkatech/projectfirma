@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         public string OrganizationTypeName { get; set; }
 
         [Required]
-        [StringLength(Models.OrganizationType.FieldLengths.OrganizationTypeAbbreviation)]
+        [StringLength(OrganizationType.FieldLengths.OrganizationTypeAbbreviation)]
         [DisplayName("Abbreviation")]
         public string OrganizationTypeAbbreviation { get; set; }
 
@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         {
         }
 
-        public EditOrganizationTypeViewModel(Models.OrganizationType organizationType)
+        public EditOrganizationTypeViewModel(OrganizationType organizationType)
         {
             OrganizationTypeID = organizationType.OrganizationTypeID;
             OrganizationTypeName = organizationType.OrganizationTypeName;
@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             LegendColor = organizationType.LegendColor;
         }
 
-        public void UpdateModel(Models.OrganizationType organizationType, Person currentPerson)
+        public void UpdateModel(OrganizationType organizationType, Person currentPerson)
         {
             organizationType.OrganizationTypeName = OrganizationTypeName;
             organizationType.OrganizationTypeAbbreviation = OrganizationTypeAbbreviation; 
@@ -74,9 +74,14 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         {
             var errors = new List<ValidationResult>();
             var existingOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
-            if (!Models.OrganizationType.IsOrganizationTypeNameUnique(existingOrganizationType, OrganizationTypeName, OrganizationTypeID))
+            if (!OrganizationType.IsOrganizationTypeNameUnique(existingOrganizationType, OrganizationTypeName, OrganizationTypeID))
             {
-                errors.Add(new SitkaValidationResult<EditOrganizationTypeViewModel, string>("Name already exists", x => x.OrganizationTypeName));
+                errors.Add(new SitkaValidationResult<EditOrganizationTypeViewModel, string>("Name is already used for another organization type", x => x.OrganizationTypeName));
+            }
+
+            if (!OrganizationType.IsOrganizationTypeAbbreviationUnique(existingOrganizationType, OrganizationTypeAbbreviation, OrganizationTypeID))
+            {
+                errors.Add(new SitkaValidationResult<EditOrganizationTypeViewModel, string>("Abbreviation is already used for another organization type", x => x.OrganizationTypeAbbreviation));
             }
             return errors;
         }

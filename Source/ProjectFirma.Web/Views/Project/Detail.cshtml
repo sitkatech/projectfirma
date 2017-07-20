@@ -196,16 +196,16 @@
                                     <div class="col-xs-7">
                                         @if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, ViewDataTyped.Project.LeadImplementerOrganization.PrimaryContactPerson).HasPermission)
                                         {
-                                            @ViewDataTyped.Project.LeadImplementerOrganization.PrimaryContactPersonWithOrgAsUrl
+                                            @ViewDataTyped.Project.LeadImplementerOrganization.PrimaryContactPersonAsUrl
                                         }
                                         else
                                         {
-                                            @ViewDataTyped.Project.LeadImplementerOrganization.PrimaryContactPersonAsStringAndOrgAsUrl
+                                            @ViewDataTyped.Project.LeadImplementerOrganization.PrimaryContactPersonAsString
                                         }
                                     </div>
                                 </div>
                                 <hr />
-                                @Html.Label("Other Associated Organizations")
+                                @Html.Label("Associated Organizations")
                                 @if (ViewDataTyped.AllProjectOrganizations.Any())
                                 {                                    
                                     <table class="summaryLayout">
@@ -216,9 +216,9 @@
                                         </tr>                                
                                         @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations.GroupBy(x => x.Organization).OrderBy(x => x.Key.DisplayName))
                                         {
-                                            <tr>
-                                                <td>@projectOrganization.Key.GetDisplayNameAsUrl()</td>
-                                                <td style="text-align: center">@string.Join(", ", projectOrganization.Key.GetProjectRelationshipTypes(ViewDataTyped.Project).Select(x => x.RelationshipTypeName))</td>
+                                            <tr class="row">
+                                                <td class="col-xs-6">@projectOrganization.Key.GetDisplayNameAsUrl()</td>
+                                                <td class="col-xs-6">@string.Join(", ", projectOrganization.Key.GetProjectRelationshipTypes(ViewDataTyped.Project).Select(x => x.RelationshipTypeName))</td>
                                             </tr>
                                         }
                                     </table>
