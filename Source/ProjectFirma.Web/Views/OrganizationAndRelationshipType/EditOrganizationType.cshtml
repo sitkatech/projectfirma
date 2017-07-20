@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
-@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.OrganizationAndRelationshipType.EditOrganizationType
               
 <link href="@Url.Content("~/Content/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css")" rel="stylesheet" type="text/css" />
@@ -52,6 +51,22 @@ Source code is available upon request via <support@sitkatech.com>.
                     <span class="input-group-addon"><i></i></span>
                     @Html.ValidationMessageFor(x => x.LegendColor)
                 </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.ShowOnProjectMaps)</div>
+            <div class="col-sm-9">
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.ShowOnProjectMaps, true) Yes
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.ShowOnProjectMaps, false) No
+                    </label>
+                </div>
+                @Html.ValidationMessageFor(m => m.ShowOnProjectMaps)
             </div>
         </div>
 

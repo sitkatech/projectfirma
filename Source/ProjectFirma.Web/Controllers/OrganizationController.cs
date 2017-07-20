@@ -144,14 +144,15 @@ namespace ProjectFirma.Web.Controllers
         private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData)
         {
             hasSpatialData = false;
-
-            var mapDivID = $"organization_{organization.OrganizationID}_Map";
+            
             var layers = new List<LayerGeoJson>();
 
             if (organization.OrganizationBoundary != null)
             {
                 hasSpatialData = true;
-                layers.Add(new LayerGeoJson("Organization Boundary", organization.OrganizationBoundaryToFeatureCollection, "#ff9933", 1, LayerInitialVisibility.Show));
+                layers.Add(new LayerGeoJson("Organization Boundary",
+                    organization.OrganizationBoundaryToFeatureCollection, organization.OrganizationType?.LegendColor ?? FirmaHelpers.DefaultColorRange.First(), 1,
+                    LayerInitialVisibility.Show));
             }
 
             var projectsLayerGeoJson = GetProjectsLayerGeoJson(organization);

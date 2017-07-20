@@ -39,7 +39,7 @@ namespace LtInfo.Common.GdalOgr
             const int totalMilliseconds = 110000;
             const string pathToOgr2OgrExecutable = @"C:\Program Files\GDAL\ogr2ogr.exe";
             var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(pathToOgr2OgrExecutable, GdalGeoJsonTest.CoordinateSystemId, totalMilliseconds);
-            var geoJson = ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gdbFileInfo, sourceLayerName);
+            var geoJson = ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gdbFileInfo, sourceLayerName, true);
 
 
             var a = JsonTools.DeserializeObject<GeoJSON.Net.Feature.FeatureCollection>(geoJson);

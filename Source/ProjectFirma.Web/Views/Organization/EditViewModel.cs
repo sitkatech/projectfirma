@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.Organization
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationType)]
         [Required]
-        public int OrganizationTypeID { get; set; }
+        public int? OrganizationTypeID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.PrimaryContact)]
         public int? PrimaryContactPersonID { get; set; }
@@ -81,8 +81,8 @@ namespace ProjectFirma.Web.Views.Organization
             OrganizationID = organization.OrganizationID;
             OrganizationName = organization.OrganizationName;
             OrganizationAbbreviation = organization.OrganizationAbbreviation;
-            OrganizationTypeID = organization.OrganizationTypeID.Value;
-            PrimaryContactPersonID = organization.PrimaryContactPerson != null ? organization.PrimaryContactPerson.PersonID : (int?) null;
+            OrganizationTypeID = organization.OrganizationTypeID;
+            PrimaryContactPersonID = organization.PrimaryContactPerson?.PersonID;
             OrganizationUrl = organization.OrganizationUrl;
 
             IsActive = organization.IsActive;
@@ -93,7 +93,7 @@ namespace ProjectFirma.Web.Views.Organization
         {
             organization.OrganizationName = OrganizationName;
             organization.OrganizationAbbreviation = OrganizationAbbreviation;
-            organization.OrganizationTypeID = OrganizationTypeID;
+            organization.OrganizationTypeID = OrganizationTypeID.Value;
             organization.IsActive = IsActive;
             organization.PrimaryContactPersonID = PrimaryContactPersonID;
             organization.OrganizationUrl = OrganizationUrl;

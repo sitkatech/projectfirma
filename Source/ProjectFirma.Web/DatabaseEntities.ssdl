@@ -1051,6 +1051,7 @@ warning 6035: The relationship 'FK_SnapshotOrganizationTypeExpenditure_Organizat
     <Property Name="OrganizationTypeName" Type="varchar" Nullable="false" MaxLength="200" />
     <Property Name="OrganizationTypeAbbreviation" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="LegendColor" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="ShowOnProjectMaps" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="OrganizationTypeRelationshipType">
     <Key>

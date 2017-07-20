@@ -292,6 +292,7 @@
           <ScalarProperty Name="OrganizationTypeName" ColumnName="OrganizationTypeName" />
           <ScalarProperty Name="OrganizationTypeAbbreviation" ColumnName="OrganizationTypeAbbreviation" />
           <ScalarProperty Name="LegendColor" ColumnName="LegendColor" />
+          <ScalarProperty Name="ShowOnProjectMaps" ColumnName="ShowOnProjectMaps" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
