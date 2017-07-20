@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views.Project
             }
 
             Add("# of Photos", x => x.ProjectImages.Count, 60);
-            Add("Active Projects List", x => x.IsOnActiveProjectsList.ToYesNo(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add($"Active {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} List", x => x.IsOnActiveProjectsList.ToYesNo(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
     }
 }

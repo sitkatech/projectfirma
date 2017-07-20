@@ -158,7 +158,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
     <div class="mapCustomizations" style="display: inline-block; vertical-align: middle; margin-top: 10px">
-        <span style="font-weight: bold">Color Projects by:</span>
+        <span style="font-weight: bold">Color @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() by:</span>
         <select id="ColorPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
             @foreach (var colorByType in ProjectColorByType.All)
             {
@@ -166,7 +166,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
         </select>
 
-        <span style="font-weight: bold">Filter Projects by:</span>
+        <span style="font-weight: bold">Filter @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() by:</span>
         <select id="FilterPropertyName" name="FilterPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
             @{
                 var displayGroup = -1;

@@ -41,14 +41,14 @@ namespace ProjectFirma.Web.Views.Project
         {
             //TODO: It shouldn't be possible to reach this if Person.Organization is null...
             string organizationNamePossessive = currentPerson.Organization.OrganizationNamePossessive;
-            PageTitle = string.Format("{0} Projects", organizationNamePossessive);
+            PageTitle = $"{organizationNamePossessive} {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
 
             ProjectsGridName = "myOrganizationsProjectListGrid";
             ProjectsGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
                 
-                ObjectNameSingular = $"{organizationNamePossessive} Project",
-                ObjectNamePlural = $"{organizationNamePossessive} Projects",
+                ObjectNameSingular = $"{organizationNamePossessive} {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{organizationNamePossessive} {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
             ProjectsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.MyOrganizationsProjectsGridJsonData());

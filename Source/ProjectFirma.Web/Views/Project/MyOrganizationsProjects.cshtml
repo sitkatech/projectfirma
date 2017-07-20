@@ -36,7 +36,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>@Html.LabelWithSugarFor(FieldDefinition.Project, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) Projects</h2>
+        <h2>@Html.LabelWithSugarFor(FieldDefinition.Project, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</h2>
     </div>
     <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.ProjectsGridSpec, ViewDataTyped.ProjectsGridName, ViewDataTyped.ProjectsGridDataUrl, "height:400px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Classification
             Add(Models.FieldDefinition.Classification.ToGridHeaderString(Models.FieldDefinition.Classification.GetFieldDefinitionLabel()), a => a.GetDisplayNameAsUrl(), 250);
             Add(Models.FieldDefinition.ClassificationDescription.ToGridHeaderString("Description"), a => a.ClassificationDescription, 250);
             Add(Models.FieldDefinition.ClassificationDescription.ToGridHeaderString("Goal Statement"), a => a.GoalStatement, 250);
-            Add("# of Projects", a => a.ProjectClassifications.Count, 90);
+            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.ProjectClassifications.Count, 90);
         }
     }
 }
