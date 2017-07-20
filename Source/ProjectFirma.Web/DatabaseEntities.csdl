@@ -1050,6 +1050,7 @@
     <Property Name="OrganizationTypeName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
     <Property Name="OrganizationTypeAbbreviation" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="LegendColor" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+    <Property Name="ShowOnProjectMaps" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Organizations" Relationship="ProjectFirma.Web.Models.FK_Organization_OrganizationType_OrganizationTypeID" FromRole="OrganizationType" ToRole="Organizations" />
     <NavigationProperty Name="OrganizationTypeRelationshipTypes" Relationship="ProjectFirma.Web.Models.FK_OrganizationTypeRelationshipType_OrganizationType_OrganizationTypeID" FromRole="OrganizationType" ToRole="OrganizationTypeRelationshipTypes" />
     <NavigationProperty Name="SnapshotOrganizationTypeExpenditures" Relationship="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID" FromRole="OrganizationType" ToRole="SnapshotOrganizationTypeExpenditures" />

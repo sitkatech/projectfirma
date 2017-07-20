@@ -48,6 +48,10 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         [Required]
         public string LegendColor { get; set; }
 
+        [Required]
+        [DisplayName("Show On Project Map")]
+        public bool? ShowOnProjectMaps { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -61,6 +65,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             OrganizationTypeName = organizationType.OrganizationTypeName;
             OrganizationTypeAbbreviation = organizationType.OrganizationTypeAbbreviation;
             LegendColor = organizationType.LegendColor;
+            ShowOnProjectMaps = organizationType.ShowOnProjectMaps;
         }
 
         public void UpdateModel(Models.OrganizationType organizationType, Person currentPerson)
@@ -68,6 +73,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             organizationType.OrganizationTypeName = OrganizationTypeName;
             organizationType.OrganizationTypeAbbreviation = OrganizationTypeAbbreviation; 
             organizationType.LegendColor = LegendColor;
+            organizationType.ShowOnProjectMaps = ShowOnProjectMaps ?? false;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
