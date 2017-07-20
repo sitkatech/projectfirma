@@ -136,67 +136,70 @@ h4 {
     }
 }
 
-.navbar {
-    background: @firma-logoHeaderBackground-color; /* For browsers that do not support gradients */
-    
-    background: linear-gradient(@firma-logoHeaderBackground-color, @firma-navBackground-color); /* Standard syntax */
-    border: none;
-    border-radius: 0;
-}
-
-.nav li {
-    font-weight: 600;
-    text-transform: uppercase;
-
-    a {
-        color: @firma-navText-color;
-        font-family: @firma-menu-font;
+  .navbar {
+        background: @firma-logoHeaderBackground-color; /* For browsers that do not support gradients */
+        background: linear-gradient(@firma-logoHeaderBackground-color, @firma-navBackground-color); /* Standard syntax */
+        border: none;
+        border-radius: 0;
     }
 
-    a:hover, a:focus, a:active {
-        color: @firma-navItemText-color-hover;
-        background-color: @firma-navItemBackground-color-hover;
-        text-decoration: none;
-    }
+.projectFirmaNavbar {
+    .nav li {
+        font-weight: 600;
+        text-transform: uppercase;
 
-    p a:hover {
-        background-color: transparent;
-    }
-
-    .navbar-text {
-        color: @firma-navText-color;
-        font-family: @firma-menu-font;
-    }
-
-    .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-        background-color: @firma-navItemBackground-color-hover;
-        border-color: @firma-navBorder-color;
-    }
-
-    ul.dropdown-menu {
-        background-color: @firma-navBackground-color;
-        border: 1px solid @firma-navBorder-color;
-
-        li {
-            a {
-                font-weight: 600;
-                font-family: @firma-menu-font;
-                color: @firma-navText-color;
-                background-color: @firma-navBackground-color;
-            }
-
-            a:hover, a:active, a:focus {
-                color: @firma-navItemText-color-hover;
-                background-color: @firma-navItemBackground-color-hover;
-                text-decoration: none;
-            }
+        a {
+            color: @firma-navText-color;
+            font-family: @firma-menu-font;
         }
 
-        .divider {
-            background-color: @firma-navBorder-color;
+        a:hover, a:focus, a:active {
+            color: @firma-navItemText-color-hover;
+            background-color: @firma-navItemBackground-color-hover;
+            text-decoration: none;
+        }
+
+        p a:hover {
+            background-color: transparent;
+        }
+
+        .navbar-text {
+            color: @firma-navText-color;
+            font-family: @firma-menu-font;
+        }
+
+        .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+            background-color: @firma-navItemBackground-color-hover;
+            border-color: @firma-navBorder-color;
+        }
+
+        ul.dropdown-menu {
+            background-color: @firma-navBackground-color;
+            border: 1px solid @firma-navBorder-color;
+
+            li {
+                a {
+                    font-weight: 600;
+                    font-family: @firma-menu-font;
+                    color: @firma-navText-color;
+                    background-color: @firma-navBackground-color;
+                }
+
+                a:hover, a:active, a:focus {
+                    color: @firma-navItemText-color-hover;
+                    background-color: @firma-navItemBackground-color-hover;
+                    text-decoration: none;
+                }
+            }
+
+            .divider {
+                background-color: @firma-navBorder-color;
+            }
         }
     }
 }
+
+
 
 
 

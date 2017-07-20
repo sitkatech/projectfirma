@@ -77,52 +77,52 @@ h4 {
   border: none;
   border-radius: 0;
 }
-.nav li {
+.projectFirmaNavbar .nav li {
   font-weight: 600;
   text-transform: uppercase;
 }
-.nav li a {
+.projectFirmaNavbar .nav li a {
   color: #fff;
   font-family: "Open Sans", sans-serif;
 }
-.nav li a:hover,
-.nav li a:focus,
-.nav li a:active {
+.projectFirmaNavbar .nav li a:hover,
+.projectFirmaNavbar .nav li a:focus,
+.projectFirmaNavbar .nav li a:active {
   color: #0B90D1;
   background-color: #ecf7fb;
   text-decoration: none;
 }
-.nav li p a:hover {
+.projectFirmaNavbar .nav li p a:hover {
   background-color: transparent;
 }
-.nav li .navbar-text {
+.projectFirmaNavbar .nav li .navbar-text {
   color: #fff;
   font-family: "Open Sans", sans-serif;
 }
-.nav li .nav .open > a,
-.nav li .nav .open > a:hover,
-.nav li .nav .open > a:focus {
+.projectFirmaNavbar .nav li .nav .open > a,
+.projectFirmaNavbar .nav li .nav .open > a:hover,
+.projectFirmaNavbar .nav li .nav .open > a:focus {
   background-color: #ecf7fb;
   border-color: #fff;
 }
-.nav li ul.dropdown-menu {
+.projectFirmaNavbar .nav li ul.dropdown-menu {
   background-color: #7E9A2C;
   border: 1px solid #fff;
 }
-.nav li ul.dropdown-menu li a {
+.projectFirmaNavbar .nav li ul.dropdown-menu li a {
   font-weight: 600;
   font-family: "Open Sans", sans-serif;
   color: #fff;
   background-color: #7E9A2C;
 }
-.nav li ul.dropdown-menu li a:hover,
-.nav li ul.dropdown-menu li a:active,
-.nav li ul.dropdown-menu li a:focus {
+.projectFirmaNavbar .nav li ul.dropdown-menu li a:hover,
+.projectFirmaNavbar .nav li ul.dropdown-menu li a:active,
+.projectFirmaNavbar .nav li ul.dropdown-menu li a:focus {
   color: #0B90D1;
   background-color: #ecf7fb;
   text-decoration: none;
 }
-.nav li ul.dropdown-menu .divider {
+.projectFirmaNavbar .nav li ul.dropdown-menu .divider {
   background-color: #fff;
 }
 footer {
