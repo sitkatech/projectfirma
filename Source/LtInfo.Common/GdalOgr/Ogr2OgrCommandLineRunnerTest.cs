@@ -90,9 +90,10 @@ namespace LtInfo.Common.GdalOgr
 
             // Act
             // ---
-            var actualCommandLineArguments = Ogr2OgrCommandLineRunner.BuildCommandLineArgumentsForFileGdbToGeoJson(inputGdbFile,
+            var actualCommandLineArguments = Ogr2OgrCommandLineRunner.BuildCommandLineArgumentsForFileGdbToGeoJson(
+                inputGdbFile,
                 gdalDataDirectoryInfo,
-                sourceLayerName, CoordinateSystemId);
+                sourceLayerName, CoordinateSystemId, true);
 
             // Assert
             // ------
@@ -193,7 +194,7 @@ namespace LtInfo.Common.GdalOgr
             const int totalMilliseconds = 110000;
             const string pathToOgr2OgrExecutable = @"C:\Program Files\GDAL\ogr2ogr.exe";
             var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(pathToOgr2OgrExecutable, CoordinateSystemId, totalMilliseconds);
-            var geoJson = ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gdbFileInfo, sourceLayerName);
+            var geoJson = ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gdbFileInfo, sourceLayerName, true);
 
             // Assert
             // ------
@@ -210,7 +211,7 @@ namespace LtInfo.Common.GdalOgr
             const int totalMilliseconds = 110000;
             const string pathToOgr2OgrExecutable = @"C:\Program Files\GDAL\ogr2ogr.exe";
             var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(pathToOgr2OgrExecutable, CoordinateSystemId, totalMilliseconds);
-            var geoJson = ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gdbFileInfo, sourceLayerName);
+            var geoJson = ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gdbFileInfo, sourceLayerName, true);
 
             var sourceColumnName1 = "mystringcolumn";
             var destinationTableName = "test_table";

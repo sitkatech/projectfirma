@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Models
 
             var geoJsons =
                 OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileGdb(new FileInfo(FirmaWebConfiguration.OgrInfoExecutable), gisFile, Ogr2OgrCommandLineRunner.DefaultTimeOut)
-                    .ToDictionary(x => x, x => ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gisFile, x))
+                    .ToDictionary(x => x, x => ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gisFile, x, false))
                     .Where(x => IsUsableFeatureCollectionGeoJson(JsonTools.DeserializeObject<FeatureCollection>(x.Value)))
                     .ToDictionary(x => x.Key, x => new FeatureCollection(JsonTools.DeserializeObject<FeatureCollection>(x.Value).Features.Where(IsUsableFeatureGeoJson).ToList()).ToGeoJsonString());
 

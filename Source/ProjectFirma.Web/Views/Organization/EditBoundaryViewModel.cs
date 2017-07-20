@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.Organization
                         {
                             try
                             {
-                                var geoJson = ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gdbFile, x);
+                                var geoJson = ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gdbFile, x, false);
                                 return JsonTools.DeserializeObject<FeatureCollection>(geoJson);
                             }
                             catch (Exception e)

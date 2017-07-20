@@ -80,7 +80,8 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
             },
             style: function(feature)
             {
-                var fillPolygonByDefault = feature.geometry.type == "Polygon";
+                
+                var fillPolygonByDefault = _.includes(["Polygon", "MultiPolygon"], feature.geometry.type);
                 return {
                     color: feature.properties.FeatureColor == null ? currentLayer.LayerColor : feature.properties.FeatureColor,
                     weight: feature.properties.FeatureWeight == null ? 2 : feature.properties.FeatureWeight,

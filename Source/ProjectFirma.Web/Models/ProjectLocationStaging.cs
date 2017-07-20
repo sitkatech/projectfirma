@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Models
             var featureClassNames = OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileGdb(new FileInfo(FirmaWebConfiguration.OgrInfoExecutable), gdbFile, Ogr2OgrCommandLineRunner.DefaultTimeOut);
 
             var projectLocationStagings =
-                featureClassNames.Select(x => new ProjectLocationStaging(project, currentPerson, x, ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gdbFile, x), true)).ToList();
+                featureClassNames.Select(x => new ProjectLocationStaging(project, currentPerson, x, ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gdbFile, x, true), true)).ToList();
             return projectLocationStagings;
         }
     }
