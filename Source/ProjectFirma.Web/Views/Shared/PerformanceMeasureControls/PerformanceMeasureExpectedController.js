@@ -143,6 +143,16 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedControll
         return measurementUnitTypeDisplayName;
     };
 
+    $scope.maxNumberOfSubcategoryOptions = function() {
+        if (Sitka.Methods.isUndefinedNullOrEmpty($scope.AngularModel.PerformanceMeasureExpecteds)) {
+            return 0;
+        }
+
+        return _($scope.AngularModel.PerformanceMeasureExpecteds).map(function(performanceMeasureExpected) {
+            return performanceMeasureExpected.PerformanceMeasureExpectedSubcategoryOptions.length;
+        }).max();
+    };
+
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     $scope.resetPerformanceMeasureToAdd();
