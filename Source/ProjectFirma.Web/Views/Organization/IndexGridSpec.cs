@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Organization
             var userViewFeature = new UserViewFeature();
             if (hasDeletePermissions)
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
             }
             Add(Models.FieldDefinition.Organization.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.OrganizationName), 400, DhtmlxGridColumnFilterType.Html);
             Add("Abbreviation", a => a.OrganizationAbbreviation, 100);
@@ -45,6 +45,7 @@ namespace ProjectFirma.Web.Views.Organization
             Add($"# of {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()}", a => a.FundingSources.Count, 150);
             Add("# of Users", a => a.People.Count, 90);
             Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Has Boundary", x => (x.OrganizationBoundary != null).ToCheckboxImageOrEmpty(), 70);
         }
     }
 }
