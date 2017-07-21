@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Security
             }
 
             return new PermissionCheckResult(
-                $"You don't have permission to View {FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()} {FieldDefinition.ExpectedValue.GetFieldDefinitionLabelPluralized()} for Project {contextModelObject.DisplayName}");
+                $"You don't have permission to View {FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()} {FieldDefinition.ExpectedValue.GetFieldDefinitionLabelPluralized()} for {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}");
         }
     }
 }

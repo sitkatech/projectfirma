@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Security
             if (!hasPermissionByPerson)
             {
                 return new PermissionCheckResult(
-                    $"You don't have permission to Edit {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} {FieldDefinition.ExpectedValue.GetFieldDefinitionLabelPluralized()} for Project {contextModelObject.DisplayName}");
+                    $"You don't have permission to Edit {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} {FieldDefinition.ExpectedValue.GetFieldDefinitionLabelPluralized()} for {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}");
             }
 
             // Admin can edit anything
@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Security
             }
 
             return new PermissionCheckResult(
-                $"You don't have permission to Edit {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} {FieldDefinition.ExpectedValue.GetFieldDefinitionLabelPluralized()} for Project {contextModelObject.DisplayName}");
+                $"You don't have permission to Edit {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} {FieldDefinition.ExpectedValue.GetFieldDefinitionLabelPluralized()} for {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}");
         }
     }
 }

@@ -135,7 +135,7 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-9 col-lg-10">
-                        <h2 class="sectionHeader">Project Overview</h2>
+                        <h2 class="sectionHeader">@FieldDefinition.Project.GetFieldDefinitionLabel() Overview</h2>
                         <div class="row">
                             <div class="col-md-12 col-lg-8">
                                 <div class="panel panelFirma">
@@ -269,7 +269,7 @@
                             </div>
                         </div>
 
-                        <h2 data-toc-skip class="sectionHeader">Project @ViewDataTyped.ClassificationDisplayName</h2>
+                        <h2 data-toc-skip class="sectionHeader">@FieldDefinition.Project.GetFieldDefinitionLabel() @ViewDataTyped.ClassificationDisplayName</h2>
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationsUrl, string.Format("Edit {0}", ViewDataTyped.ClassificationDisplayNamePluralized), ViewDataTyped.UserHasProjectClassificationManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.Classification, ViewDataTyped.ClassificationDisplayNamePluralized)</h2>
@@ -299,7 +299,7 @@
                             </div>
                         </div>
 
-                        <h2 class="sectionHeader">Project Details</h2>
+                        <h2 class="sectionHeader">@FieldDefinition.Project.GetFieldDefinitionLabel() Details</h2>
                         @if (ViewDataTyped.UserHasProjectBudgetManagePermissions && ViewDataTyped.HasAssessment)
                         {
                             <div class="panel panelFirma">
@@ -367,7 +367,7 @@
                             <h2 class="sectionHeader">Administrative</h2>
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
-                                    <h3>Project Update History</h3>
+                                    <h3>@FieldDefinition.Project.GetFieldDefinitionLabel() Update History</h3>
                                 </div>
                                 <div class="panel-body">
                                     @Html.DhtmlxGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

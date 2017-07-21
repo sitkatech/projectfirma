@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.Classification
                 ObjectNameSingular = Models.FieldDefinition.Classification.GetFieldDefinitionLabel(),
                 ObjectNamePlural = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized(),
                 SaveFiltersInCookie = true,
-                CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.New()), "New Project Classification"),
+                CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.New()), $"New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Classification"),
             };
 
             GridName = "classificationsGrid";

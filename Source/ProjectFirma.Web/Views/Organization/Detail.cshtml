@@ -47,7 +47,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="container-fluid">
     <ul class="nav nav-tabs" id="organizationDetailsTabs">
         <li class="active"><a href="#organizationOverview" aria-controls="organizationOverview" role="tab" data-toggle="tab">Overview</a></li>
-        <li><a href="#fundingAndProjects" aria-controls="fundingAndProjects" role="tab" data-toggle="tab">Funding &amp; Projects</a></li>
+        <li><a href="#fundingAndProjects" aria-controls="fundingAndProjects" role="tab" data-toggle="tab">Funding &amp; @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</a></li>
     </ul>
 </div>
 <div class="panel panel-default">
@@ -144,7 +144,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                         {
                                             <div id="legend" style="padding: 10px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);">
                                                 <div>
-                                                    <span style="font-weight: bold">Projects</span>
+                                                    <span style="font-weight: bold">@FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</span>
                                                     <div style="margin-left: 10px">
                                                         <div>
                                                             <span class="glyphicon glyphicon-map-marker" style="color: #3366ff"></span> @FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()
@@ -291,7 +291,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-sm-12">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                Projects
+                                @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
                             </div>
                             <div class="panel-body">
                                 <div>

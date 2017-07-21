@@ -51,8 +51,8 @@ namespace ProjectFirma.Web.Views.Watershed
             BasicProjectInfoGridName = "watershedProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false)
             {
-                ObjectNameSingular = "Project in this Watershed",
-                ObjectNamePlural = "Projects in this Watershed",
+                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} in this {Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} in this {Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}",
                 SaveFiltersInCookie = true
             };
           

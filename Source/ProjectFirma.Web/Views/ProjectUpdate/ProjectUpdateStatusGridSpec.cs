@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                             var submitLink = DhtmlxGridHtmlHelpers.MakeModalDialogLink(String.Format("<span style=\"display:none\">Ready to</span> {0}", submitText),
                                 SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(y => y.Submit(x)),
                                 500,
-                                String.Format("{0} Project {1}", submitText, x.DisplayName),
+                                $"{submitText} {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {x.DisplayName}",
                                 true,
                                 "Continue",
                                 "Cancel",

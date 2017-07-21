@@ -23,7 +23,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Add Notes for Project Updates")]
+    [SecurityFeatureDescription("Add Notes for {0} Updates", FieldDefinitionEnum.Project)]
     public class ProjectNoteUpdateNewFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<ProjectUpdateBatch>
     {
         private readonly FirmaFeatureWithContextImpl<ProjectUpdateBatch> _firmaFeatureWithContextImpl;
@@ -47,13 +47,13 @@ namespace ProjectFirma.Web.Security
             if (!hasPermissionByPerson)
             {
                 return new PermissionCheckResult(
-                    $"You don't have permission to Edit {FieldDefinition.ProjectNote.GetFieldDefinitionLabel()} for Project {project.DisplayName}");
+                    $"You don't have permission to Edit {FieldDefinition.ProjectNote.GetFieldDefinitionLabel()} for {FieldDefinition.Project.GetFieldDefinitionLabel()} {project.DisplayName}");
             }
 
             var projectIsEditableByUser = new FirmaAdminFeature().HasPermissionByPerson(person) || project.IsMyProject(person);
             if (!projectIsEditableByUser)
             {
-                return new PermissionCheckResult(string.Format("Project {0} is not editable by you.", project.ProjectID));
+                return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {project.ProjectID} is not editable by you.");
             }
 
             return new PermissionCheckResult();

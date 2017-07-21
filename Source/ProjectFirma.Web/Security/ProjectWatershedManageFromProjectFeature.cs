@@ -23,7 +23,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Manage Project {0} from Project", FieldDefinitionEnum.Watershed)]
+    [SecurityFeatureDescription("Manage {0} {1} from {0}", FieldDefinitionEnum.Project, FieldDefinitionEnum.Watershed)]
     public class ProjectWatershedManageFromProjectFeature : ProjectEditFeature
     {
     }

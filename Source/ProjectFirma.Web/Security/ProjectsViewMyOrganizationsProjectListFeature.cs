@@ -18,9 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Models;
+
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("View My Organization's Project List")]
+    [SecurityFeatureDescription("View My {0}'s {1} List", FieldDefinitionEnum.Organization, FieldDefinitionEnum.Project)]
     public class ProjectsViewMyOrganizationsProjectListFeature : FirmaFeature
     {
         public ProjectsViewMyOrganizationsProjectListFeature()
