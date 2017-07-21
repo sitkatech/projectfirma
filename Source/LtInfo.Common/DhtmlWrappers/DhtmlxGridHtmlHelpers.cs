@@ -153,7 +153,7 @@ namespace LtInfo.Common.DhtmlWrappers
         {
             const string indent = "            ";
             var gridColumnsJavascriptFunctions = BuildGridColumns(gridSpec, indent);
-            var dataUrlReadyForJavascript = String.IsNullOrWhiteSpace(optionalGridDataUrl) ? "null" : String.Format("\"{0}\"", optionalGridDataUrl);
+            var dataUrlReadyForJavascript = String.IsNullOrWhiteSpace(optionalGridDataUrl) ? "null" : $"\"{optionalGridDataUrl}\"";
             var useSmartRendering = IsUsingSmartRendering(gridSpec);
             var splitAtColumnJavascriptVariable = (splitAtColumn != null) ? splitAtColumn.ToString() : "null";
             
@@ -172,7 +172,7 @@ namespace LtInfo.Common.DhtmlWrappers
                 gridColumnsJavascriptFunctions,
                 gridSpec.ColumnFilterListForJavascript,
                 gridSpec.GetColumnTotals(gridName),
-                string.IsNullOrWhiteSpace(gridSpec.GroupingHeader) ? "null" : string.Format("\"{0}\"", gridSpec.GroupingHeader),
+                string.IsNullOrWhiteSpace(gridSpec.GroupingHeader) ? "null" : $"\"{gridSpec.GroupingHeader}\"",
                 dataUrlReadyForJavascript,
                 useSmartRendering.ToString().ToLower(),
                 splitAtColumnJavascriptVariable,
@@ -223,14 +223,14 @@ namespace LtInfo.Common.DhtmlWrappers
             var filteredStateHtml = CreateFilteredStateHtml(gridName, gridSpec.ShowFilterBar);
             var gridHeaderIconsHtml = CreateGridHeaderIconsHtml(gridSpec, gridName, excelDownloadWithFooterUrl, excelDownloadWithoutFooterUrl);
 
-            return String.Format(@"
+            return $@"
     <span class=""record-count"">
-        {0}
-        {1}
+        {CreateViewingRowCountGridHeaderHtml(gridName, gridSpec.ObjectNamePlural)}
+        {filteredStateHtml}
     </span>
     <span class=""actions pull-right"">
-    {2}
-    </span>", CreateViewingRowCountGridHeaderHtml(gridName, gridSpec.ObjectNamePlural), filteredStateHtml, gridHeaderIconsHtml);
+    {gridHeaderIconsHtml}
+    </span>";
         }
 
         private static string CreateGridHeaderIconsHtml<T>(GridSpec<T> gridSpec, string gridName, UrlTemplate<string> excelDownloadWithFooterUrl, UrlTemplate<string> excelDownloadWithoutFooterUrl)
@@ -241,18 +241,33 @@ namespace LtInfo.Common.DhtmlWrappers
             var createIconHtml = CreateCreateUrlHtml(gridSpec.CreateEntityUrl, gridSpec.CreateEntityUrlClass, gridSpec.CreateEntityModalDialogForm, gridSpec.CreateEntityActionPhrase, gridSpec.ObjectNameSingular);
             var tagIconHtml = CreateTagUrlHtml(gridName, gridSpec.BulkTagModalDialogForm);
             var arbitraryHtml = CreateArbitraryHtml(gridSpec.ArbitraryHtml, "    ");
-            return String.Format(@"
-            {0}
-            {1}
-            {2}
-            {3}
-            {4}
-            {5}", !string.IsNullOrWhiteSpace(arbitraryHtml) ? string.Format("<span>{0}</span>", arbitraryHtml) : string.Empty,
-                !string.IsNullOrWhiteSpace(createIconHtml) ? string.Format("<span>{0}</span>", createIconHtml) : string.Empty,
-                !string.IsNullOrWhiteSpace(tagIconHtml) ? string.Format("<span>{0}</span>", tagIconHtml) : string.Empty,
-                !string.IsNullOrWhiteSpace(clearCookiesIconHtml) ? string.Format("<span>{0}</span>", clearCookiesIconHtml) : string.Empty,
-                !string.IsNullOrWhiteSpace(filteredExcelDownloadIconHtml) ? string.Format("<span>{0}</span>", filteredExcelDownloadIconHtml) : string.Empty,
-                !string.IsNullOrWhiteSpace(customExcelDownloadIconHtml) ? string.Format("<span>{0}</span>", customExcelDownloadIconHtml) : string.Empty);
+            return $@"
+            {
+                    (!string.IsNullOrWhiteSpace(arbitraryHtml)
+                        ? $"<span>{arbitraryHtml}</span>"
+                        : string.Empty)
+                }
+            {
+                    (!string.IsNullOrWhiteSpace(createIconHtml)
+                        ? $"<span>{createIconHtml}</span>"
+                        : string.Empty)
+                }
+            {(!string.IsNullOrWhiteSpace(tagIconHtml) ? $"<span>{tagIconHtml}</span>" : string.Empty)}
+            {
+                    (!string.IsNullOrWhiteSpace(clearCookiesIconHtml)
+                        ? $"<span>{clearCookiesIconHtml}</span>"
+                        : string.Empty)
+                }
+            {
+                    (!string.IsNullOrWhiteSpace(filteredExcelDownloadIconHtml)
+                        ? $"<span>{filteredExcelDownloadIconHtml}</span>"
+                        : string.Empty)
+                }
+            {
+                    (!string.IsNullOrWhiteSpace(customExcelDownloadIconHtml)
+                        ? $"<span>{customExcelDownloadIconHtml}</span>"
+                        : string.Empty)
+                }";
         }
 
         public static string CreateTagUrlHtml(string gridName, BulkTagModalDialogForm bulkTagModalDialogForm)
@@ -260,16 +275,14 @@ namespace LtInfo.Common.DhtmlWrappers
             if (bulkTagModalDialogForm == null)
                 return string.Empty;
 
-            var tagIconHtml = string.Format("<span style=\"margin-right:5px\">{0}</span>", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-tag"));
+            var tagIconHtml =
+                $"<span style=\"margin-right:5px\">{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-tag")}</span>";
 
-            var getProjectIDFunctionString = string.Format("function() {{ return Sitka.{0}.getValuesFromCheckedGridRows({1}, '{2}', '{3}'); }}",
-                gridName,
-                bulkTagModalDialogForm.CheckboxColumnIndex,
-                bulkTagModalDialogForm.ValueColumnName,
-                bulkTagModalDialogForm.ReturnListName);
+            var getProjectIDFunctionString =
+                $"function() {{ return Sitka.{gridName}.getValuesFromCheckedGridRows({bulkTagModalDialogForm.CheckboxColumnIndex}, '{bulkTagModalDialogForm.ValueColumnName}', '{bulkTagModalDialogForm.ReturnListName}'); }}";
 
             return
-                ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}{1}", tagIconHtml, bulkTagModalDialogForm.DialogLinkText),
+                ModalDialogFormHelper.ModalDialogFormLink($"{tagIconHtml}{bulkTagModalDialogForm.DialogLinkText}",
                     bulkTagModalDialogForm.DialogUrl,
                     bulkTagModalDialogForm.DialogTitle,
                     ModalDialogFormHelper.DefaultDialogWidth,
@@ -305,7 +318,7 @@ namespace LtInfo.Common.DhtmlWrappers
         /// <returns></returns>
         public static string CreateArbitraryHtml(IEnumerable<string> arbitraryHtml, string indent)
         {
-            return arbitraryHtml != null ? String.Join("\r\n", arbitraryHtml.Select(x => String.Format("{0}{1}", indent, x))) : String.Empty;
+            return arbitraryHtml != null ? String.Join("\r\n", arbitraryHtml.Select(x => $"{indent}{x}")) : String.Empty;
         }
 
         /// <summary>
@@ -320,7 +333,7 @@ namespace LtInfo.Common.DhtmlWrappers
         /// <returns></returns>
         public static string CreateCreateUrlHtml(string createUrl, string createUrlClass, ModalDialogForm createPopupForm, string createActionPhrase, string objectNameSingular)
         {
-            var createString = !string.IsNullOrEmpty(createActionPhrase) ? createActionPhrase : String.Format("Create New {0}", objectNameSingular);
+            var createString = !string.IsNullOrEmpty(createActionPhrase) ? createActionPhrase : $"Create New {objectNameSingular}";
             var createUrlHtml = String.Empty;
             if (!String.IsNullOrWhiteSpace(createUrl))
             {
@@ -331,7 +344,7 @@ namespace LtInfo.Common.DhtmlWrappers
             }
             else if (createPopupForm != null)
             {
-                createUrlHtml = MakeModalDialogLink(string.Format("{0} {1}", PlusIconBootstrap, createString),
+                createUrlHtml = MakeModalDialogLink($"{PlusIconBootstrap} {createString}",
                     createPopupForm.ContentUrl,
                     createPopupForm.DialogWidth,
                     createPopupForm.DialogTitle,
@@ -353,9 +366,11 @@ namespace LtInfo.Common.DhtmlWrappers
         public static string CreateClearAllCookiesIconHtml(string gridName)
         {
             return
-                String.Format(
-                    @"<a href=""javascript:void(0);"" onclick=""Sitka.{0}.clearAllCookies()"" title=""Reset this grid to default column widths and filters"">{1} Reset</a>&nbsp;",
-                    gridName, UndoIconBootstrap);
+                $@"<a href=""javascript:void(0);"" onclick=""Sitka.{
+                        gridName
+                    }.clearAllCookies()"" title=""Reset this grid to default column widths and filters"">{
+                        UndoIconBootstrap
+                    } Reset</a>&nbsp;";
         }
 
         /// <summary>
@@ -369,7 +384,9 @@ namespace LtInfo.Common.DhtmlWrappers
         {
             if (showFilterBar)
             {
-                return String.Format(@"<a class=""filter"" href=""javascript:void(0);"" onclick=""Sitka.{0}.showHideFilterRow()"" title=""Show/hide filters"">Show/hide filters</a>&nbsp;", gridName);
+                return $@"<a class=""filter"" href=""javascript:void(0);"" onclick=""Sitka.{
+                        gridName
+                    }.showHideFilterRow()"" title=""Show/hide filters"">Show/hide filters</a>&nbsp;";
             }
             return String.Empty;
         }
@@ -406,11 +423,9 @@ namespace LtInfo.Common.DhtmlWrappers
         {
             if (!String.IsNullOrWhiteSpace(excelDownloadUrl))
             {
-                return String.Format(@"<a class=""excelbutton"" id=""{0}ExcelDownloadLink"" href=""{1}"" title=""{2}"">{3}</a>",
-                    gridName,
-                    excelDownloadUrl,
-                    hoverText,
-                    linkText);
+                return $@"<a class=""excelbutton"" id=""{
+                        gridName
+                    }ExcelDownloadLink"" href=""{excelDownloadUrl}"" title=""{hoverText}"">{linkText}</a>";
             }
             return String.Empty;
         }
@@ -426,7 +441,9 @@ namespace LtInfo.Common.DhtmlWrappers
         {
             if (!String.IsNullOrWhiteSpace(csvDownloadUrl))
             {
-                return String.Format(@"<a class=""process download"" id=""{0}DownloadLink"" href=""{1}"" title=""Download this grid as a CSV file"">Download</a>", gridName, csvDownloadUrl);
+                return $@"<a class=""process download"" id=""{gridName}DownloadLink"" href=""{
+                        csvDownloadUrl
+                    }"" title=""Download this grid as a CSV file"">Download</a>";
             }
             return String.Empty;
         }
@@ -470,17 +487,19 @@ namespace LtInfo.Common.DhtmlWrappers
             return String.Join(",\r\n",
                 gridSpec.Select(
                     (column, i) =>
-                        String.Format(
-                            @"{0}new Sitka.Grid.Class.GridColumn(""{1}"", {2}, ""{3}"", ""{4}"", ""{5}"", ""{6}"", ""{7}"", {8})",
-                            indent,
-                            String.IsNullOrWhiteSpace(column.ColumnNameForJavascript)
-                                ? String.Format("Column{0}", i)
-                                : column.ColumnNameForJavascript,
-                            string.IsNullOrWhiteSpace(column.ColumnName) ? "\"\"" : column.ColumnName.ToJS(),
-                            column.GridWidth.ToString(CultureInfo.InvariantCulture),
-                            column.DhtmlxGridColumnAlignType.ToString().ToLower(), column.DhtmlxGridColumnDataType,
-                            column.DhtmlxGridColumnSortType.SortingType, column.DhtmlxGridColumnFilterType,
-                            string.Format("\"{0}\"", column.DhtmlxGridColumnFormatType.ColumnFormatType))));
+                        $@"{indent}new Sitka.Grid.Class.GridColumn(""{
+                                (String.IsNullOrWhiteSpace(column.ColumnNameForJavascript)
+                                    ? $"Column{i}"
+                                    : column.ColumnNameForJavascript)
+                            }"", {
+                                (string.IsNullOrWhiteSpace(column.ColumnName) ? "\"\"" : column.ColumnName.ToJS())
+                            }, ""{
+                                column.GridWidth.ToString(CultureInfo.InvariantCulture)
+                            }"", ""{column.DhtmlxGridColumnAlignType.ToString().ToLower()}"", ""{
+                                column.DhtmlxGridColumnDataType
+                            }"", ""{column.DhtmlxGridColumnSortType.SortingType}"", ""{
+                                column.DhtmlxGridColumnFilterType
+                            }"", {$"\"{column.DhtmlxGridColumnFormatType.ColumnFormatType}\""})"));
         }
 
         /// <summary>
@@ -492,7 +511,8 @@ namespace LtInfo.Common.DhtmlWrappers
         /// <returns></returns>
         public static HtmlString MakeEditIconAsHyperlink(string editUrl, bool hasPermission)
         {
-            return hasPermission ? UrlTemplate.MakeHrefString(editUrl, String.Format("{0}<span style=\"display:none\">Edit</span>", EditIcon)) : new HtmlString(string.Empty);
+            return hasPermission ? UrlTemplate.MakeHrefString(editUrl,
+                $"{EditIcon}<span style=\"display:none\">Edit</span>") : new HtmlString(string.Empty);
         }
 
         /// <summary>
@@ -514,7 +534,8 @@ namespace LtInfo.Common.DhtmlWrappers
         /// <returns></returns>
         public static HtmlString MakeEditIconAsHyperlinkBootstrap(string editUrl, bool hasPermission)
         {
-            return hasPermission ? UrlTemplate.MakeHrefString(editUrl, String.Format("{0}<span style=\"display:none\">Edit</span>", EditIconBootstrap)) : new HtmlString(string.Empty);
+            return hasPermission ? UrlTemplate.MakeHrefString(editUrl,
+                $"{EditIconBootstrap}<span style=\"display:none\">Edit</span>") : new HtmlString(string.Empty);
         }
 
         /// <summary>
@@ -553,7 +574,7 @@ namespace LtInfo.Common.DhtmlWrappers
         /// </summary>
         public static HtmlString MakeEditIconAsModalDialogLink(ModalDialogForm modalDialogForm)
         {
-            return MakeModalDialogLink(String.Format("{0}<span style=\"display:none\">Edit</span>", EditIcon), modalDialogForm.ContentUrl, modalDialogForm.DialogWidth, modalDialogForm.DialogTitle, modalDialogForm.OnJavascriptReadyFunction);
+            return MakeModalDialogLink($"{EditIcon}<span style=\"display:none\">Edit</span>", modalDialogForm.ContentUrl, modalDialogForm.DialogWidth, modalDialogForm.DialogTitle, modalDialogForm.OnJavascriptReadyFunction);
         }
 
         /// <summary>
@@ -561,7 +582,7 @@ namespace LtInfo.Common.DhtmlWrappers
         /// </summary>
         public static HtmlString MakeEditIconAsModalDialogLinkBootstrap(ModalDialogForm modalDialogForm)
         {
-            return MakeModalDialogLink(String.Format("{0}<span style=\"display:none\">Edit</span>", EditIconBootstrap), modalDialogForm.ContentUrl, modalDialogForm.DialogWidth, modalDialogForm.DialogTitle, modalDialogForm.OnJavascriptReadyFunction);
+            return MakeModalDialogLink($"{EditIconBootstrap}<span style=\"display:none\">Edit</span>", modalDialogForm.ContentUrl, modalDialogForm.DialogWidth, modalDialogForm.DialogTitle, modalDialogForm.OnJavascriptReadyFunction);
         }
 
         /// <summary>
@@ -569,7 +590,7 @@ namespace LtInfo.Common.DhtmlWrappers
         /// </summary>
         public static HtmlString MakeLtInfoEditIconAsModalDialogLinkBootstrap(ModalDialogForm modalDialogForm)
         {
-            string linkText = String.Format("{0}<span style=\"display:none\">Edit</span>", EditIconBootstrap);
+            string linkText = $"{EditIconBootstrap}<span style=\"display:none\">Edit</span>";
             List<string> extraCssClasses = new List<string>();
             return ModalDialogFormHelper.ModalDialogFormLink(null,
                 linkText,
@@ -609,7 +630,7 @@ namespace LtInfo.Common.DhtmlWrappers
         public static HtmlString MakeDeleteIconAndLink(string deleteDialogUrl, bool userHasDeletePermission, bool deletePossibleForObject)
         {
             var deleteIcon = deletePossibleForObject ? DeleteIcon : DeleteIconGrey;
-            return ModalDialogFormHelper.MakeDeleteLink(String.Format("{0}<span style=\"display:none\">Delete</span>", deleteIcon), deleteDialogUrl, new List<string>(), userHasDeletePermission);
+            return ModalDialogFormHelper.MakeDeleteLink($"{deleteIcon}<span style=\"display:none\">Delete</span>", deleteDialogUrl, new List<string>(), userHasDeletePermission);
         }
 
         /// <summary>
@@ -633,7 +654,8 @@ namespace LtInfo.Common.DhtmlWrappers
         /// <returns></returns>
         public static HtmlString MakeDeleteIconAndLinkBootstrap(string deleteDialogUrl, bool userHasDeletePermission, bool deletePossibleForObject)
         {
-            var deleteIcon = deletePossibleForObject ? string.Format("{0}<span style=\"display:none\">Delete</span>", DeleteIconBootstrap) : BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash gi-1x disabled").ToString();
+            var deleteIcon = deletePossibleForObject ? $"{DeleteIconBootstrap}<span style=\"display:none\">Delete</span>"
+                : BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash gi-1x disabled").ToString();
             return ModalDialogFormHelper.MakeDeleteLink(deleteIcon, deleteDialogUrl, new List<string>(), userHasDeletePermission);
         }
     }

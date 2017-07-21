@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.Project
 
             if (userHasTagManagePermissions)
             {
-                BulkTagModalDialogForm = new BulkTagModalDialogForm(SitkaRoute<TagController>.BuildUrlFromExpression(x => x.BulkTagProjects(null)));
+                BulkTagModalDialogForm = new BulkTagModalDialogForm(SitkaRoute<TagController>.BuildUrlFromExpression(x => x.BulkTagProjects(null)), $"Tag Checked {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", $"Tag {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}");
                 AddCheckBoxColumn();
                 Add("ProjectID", x => x.ProjectID, 0);
             }

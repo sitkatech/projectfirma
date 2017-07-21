@@ -35,7 +35,6 @@ using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 using LtInfo.Common.ExcelWorkbookUtilities;
-using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 
@@ -61,11 +60,12 @@ namespace ProjectFirma.Web.Controllers
             var currentYearToUseForReporting = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             if (!year.HasValue)
             {
-                return String.Format("Recent Years ({0} - {1})", FirmaDateUtilities.GetMinimumYearForReportingExpenditures(), currentYearToUseForReporting);
+                return
+                    $"Recent Years ({FirmaDateUtilities.GetMinimumYearForReportingExpenditures()} - {currentYearToUseForReporting})";
             }
             if (year.Value == FirmaDateUtilities.MinimumYear)
             {
-                return String.Format("All Years ({0} - {1})", FirmaDateUtilities.MinimumYear, currentYearToUseForReporting);
+                return $"All Years ({FirmaDateUtilities.MinimumYear} - {currentYearToUseForReporting})";
             }
             return year.Value.ToString(CultureInfo.InvariantCulture);
         }
@@ -442,7 +442,7 @@ namespace ProjectFirma.Web.Controllers
         public static GoogleChartJson GetInvestmentByOrganizationTypeGoogleChart(List<OrganizationTypeExpenditure> fundingOrganizationTypeExpenditures, int? selectedCalendarYear)
         {
             const int chartSize = 350;
-            var chartName = string.Format("InvestmentByOrganizationType{0}PieChart", selectedCalendarYear);
+            var chartName = $"InvestmentByOrganizationType{selectedCalendarYear}PieChart";
 
             var googleChartDataTable = GetInvestmentByOrganizationTypeGoogleChartDataTable(fundingOrganizationTypeExpenditures);
             var googleChartTitle = "Investment by Funding OrganizationType for: " + YearDisplayName(selectedCalendarYear);

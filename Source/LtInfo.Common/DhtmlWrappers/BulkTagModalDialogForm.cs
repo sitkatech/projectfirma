@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 namespace LtInfo.Common.DhtmlWrappers
 {
     public class BulkTagModalDialogForm
@@ -29,11 +30,11 @@ namespace LtInfo.Common.DhtmlWrappers
         public string ValueColumnName;
         public string ReturnListName;
 
-        public BulkTagModalDialogForm(string dialogUrl)
+        public BulkTagModalDialogForm(string dialogUrl, string dialogLinkText, string dialogTitle)
         {
             DialogUrl = dialogUrl;
-            DialogLinkText = "Tag Checked Projects";
-            DialogTitle = "Tag Projects";
+            DialogLinkText = dialogLinkText;
+            DialogTitle = dialogTitle;
             CheckboxColumnIndex = 0;
             ValueColumnName = "ProjectID";
             ReturnListName = "ProjectIDList";
