@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             Add("Type", a => a.PerformanceMeasureType.PerformanceMeasureTypeDisplayName, 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Definition", a => a.PerformanceMeasureDefinition, 400, DhtmlxGridColumnFilterType.Html);
             Add("# of Subcategories", a => a.GetRealSubcategoryCount(), 110);
-            Add("# of Projects", a => a.ReportedProjectsCount, 80);
+            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.ReportedProjectsCount, 80);
         }
     }
 }

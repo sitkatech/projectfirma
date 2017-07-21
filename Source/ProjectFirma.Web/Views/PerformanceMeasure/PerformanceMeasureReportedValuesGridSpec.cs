@@ -51,9 +51,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                         return string.Empty;
                     }, 120, DhtmlxGridColumnFilterType.SelectFilterStrict);
             }
-            var reportedValueColumnName = string.Format("{0} ({1})",
-                Models.FieldDefinition.ReportedValue.ToGridHeaderString(),
-                performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName);
+            var reportedValueColumnName = $"{Models.FieldDefinition.ReportedValue.ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName})";
 
             Add(reportedValueColumnName, a => a.ReportedValue, 150, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
             Add(Models.FieldDefinition.Region.ToGridHeaderString(), a => a.Project.ProjectLocationTypeDisplay, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);

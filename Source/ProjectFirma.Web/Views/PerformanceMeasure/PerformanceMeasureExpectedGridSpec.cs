@@ -52,9 +52,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                     120,
                     DhtmlxGridColumnFilterType.SelectFilterStrict);
             }
-            var expectedValueColumnName = string.Format("{0} ({1})",
-                Models.FieldDefinition.ExpectedValue.ToGridHeaderString(),
-                performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName);
+            var expectedValueColumnName = $"{Models.FieldDefinition.ExpectedValue.ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName})";
 
             Add(expectedValueColumnName, a => a.ExpectedValue, 150, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
         }

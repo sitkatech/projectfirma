@@ -32,35 +32,35 @@ namespace ProjectFirma.Web.Service
     public interface IWebServices
     {
         [OperationContract]
-        [WebServiceDocumentationAttribute("Provides detailed information for the specified project.")]
+        [WebServiceDocumentationAttribute("Provides detailed information for the specified {0}.", FieldDefinitionEnum.Project)]
         List<WebServiceProject> GetProject(string returnType, string webServiceToken, int projectID);
 
         [OperationContract]
-        [WebServiceDocumentationAttribute("Provides the list of all projects regardless of stage or year completed.")]
+        [WebServiceDocumentationAttribute("Provides the list of all {0}s regardless of stage or year completed.", FieldDefinitionEnum.Project)]
         List<WebServiceProject> GetProjects(string returnType, string webServiceToken);
 
         [OperationContract]
-        [WebServiceDocumentationAttribute("Provides the list of projects where the specified organization is a funder or an implementer of the project.")]
+        [WebServiceDocumentationAttribute("Provides the list of {0}s where the specified {1} is a {2} or an {3} of the {0}.", FieldDefinitionEnum.Project, FieldDefinitionEnum.Organization, FieldDefinitionEnum.Funder, FieldDefinitionEnum.Implementer)]
         List<WebServiceProject> GetProjectsByOrganization(string returnType, string webServiceToken, int organizationID);
         
         [OperationContract]
-        [WebServiceDocumentationAttribute("Provides the list of {0} accomplishments for the specified Project.", FieldDefinitionEnum.PerformanceMeasure, false)]
+        [WebServiceDocumentationAttribute("Provides the list of {0} accomplishments for the specified {1}.", FieldDefinitionEnum.PerformanceMeasure, FieldDefinitionEnum.Project)]
         List<WebServiceProjectAccomplishments> GetProjectAccomplishments(string returnType, string webServiceToken, int projectID);
 
         [OperationContract]
-        [WebServiceDocumentationAttribute("Provides the description of the specified Project.")]
+        [WebServiceDocumentationAttribute("Provides the description of the specified {0}.", FieldDefinitionEnum.Project)]
         List<WebServiceProjectDescription> GetProjectDescription(string returnType, string webServiceToken, int projectID);
 
         [OperationContract]
-        [WebServiceDocumentationAttribute("Provides the URL to the key photo for the specified Project.")]
+        [WebServiceDocumentationAttribute("Provides the URL to the key photo for the specified {0}.", FieldDefinitionEnum.Project)]
         List<WebServiceProjectKeyPhoto> GetProjectKeyPhoto(string returnType, string webServiceToken, int projectID);
 
         [OperationContract]
-        [WebServiceDocumentationAttribute("Provides the list of all {0}, including their subcategories (aka dimensions) and the number of options in each performanceMeasureSubcategory.", FieldDefinitionEnum.PerformanceMeasure, true)]
+        [WebServiceDocumentationAttribute("Provides the list of all {0}s, including their subcategories (aka dimensions) and the number of options in each {1}.", FieldDefinitionEnum.PerformanceMeasure, FieldDefinitionEnum.PerformanceMeasureSubcategory)]
         List<WebServicePerformanceMeasure> GetPerformanceMeasures(string returnType, string webServiceToken);
 
         [OperationContract]
-        [WebServiceDocumentationAttribute("Provides the list of all Organizations within the LT Info platform. Most organizations in this list are local jurisdictions, agencies, associations, or private firms within the Lake Tahoe area, however this list will also include organizations of any person who as requested an account.")]
+        [WebServiceDocumentationAttribute("Provides the list of all {0}s within the platform. Most {0}s in this list are local jurisdictions, agencies, associations, or private firms, however this list will also include {0}s of any person who as requested an account.", FieldDefinitionEnum.Organization)]
         List<WebServiceOrganization> GetOrganizations(string returnType, string webServiceToken);
     }
 }

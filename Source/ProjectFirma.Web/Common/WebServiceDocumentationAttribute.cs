@@ -28,16 +28,19 @@ namespace ProjectFirma.Web.Common
     {
         public string Documentation;
 
-        public WebServiceDocumentationAttribute(string formatString, FieldDefinitionEnum fieldDefinitionEnum, bool plural)
+        public WebServiceDocumentationAttribute(string formatString, FieldDefinitionEnum fieldDefinitionEnum)
         {
-            if (!plural)
-            {
-                Documentation = string.Format(formatString, FieldDefinition.ToType(fieldDefinitionEnum).GetFieldDefinitionLabel());
-            }
-            else
-            {
-                Documentation = string.Format(formatString, FieldDefinition.ToType(fieldDefinitionEnum).GetFieldDefinitionLabelPluralized());
-            }
+            Documentation = string.Format(formatString, FieldDefinition.ToType(fieldDefinitionEnum).GetFieldDefinitionLabel());
+        }
+
+        public WebServiceDocumentationAttribute(string formatString, FieldDefinitionEnum fieldDefinitionEnum1, FieldDefinitionEnum fieldDefinitionEnum2)
+        {
+            Documentation = string.Format(formatString, FieldDefinition.ToType(fieldDefinitionEnum1).GetFieldDefinitionLabel(), FieldDefinition.ToType(fieldDefinitionEnum2).GetFieldDefinitionLabel());
+        }
+
+        public WebServiceDocumentationAttribute(string formatString, FieldDefinitionEnum fieldDefinitionEnum1, FieldDefinitionEnum fieldDefinitionEnum2, FieldDefinitionEnum fieldDefinitionEnum3, FieldDefinitionEnum fieldDefinitionEnum4)
+        {
+            Documentation = string.Format(formatString, FieldDefinition.ToType(fieldDefinitionEnum1).GetFieldDefinitionLabel(), FieldDefinition.ToType(fieldDefinitionEnum2).GetFieldDefinitionLabel(), FieldDefinition.ToType(fieldDefinitionEnum3).GetFieldDefinitionLabel(), FieldDefinition.ToType(fieldDefinitionEnum4).GetFieldDefinitionLabel());
         }
 
         public WebServiceDocumentationAttribute(string s)
