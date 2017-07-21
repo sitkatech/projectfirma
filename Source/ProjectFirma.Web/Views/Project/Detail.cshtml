@@ -178,7 +178,7 @@
                         </div>
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasProjectOrganizationManagePermissions) Organizations</h3>
+                                <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasProjectOrganizationManagePermissions) @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</h3>
                             </div>
                             <div class="panel-body">
                                 <div class="row">
@@ -205,14 +205,14 @@
                                     </div>
                                 </div>
                                 <hr />
-                                @Html.Label("Associated Organizations")
+                                @Html.Label(string.Format("Associated {0}", FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()))
                                 @if (ViewDataTyped.AllProjectOrganizations.Any())
                                 {                                    
                                     <table class="summaryLayout">
                                         <tr>
                                             <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
                                             <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
-                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact, string.Format("Organization's {0}", FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()))</th>
+                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact, string.Format("{0}'s {1}", FieldDefinition.Organization.GetFieldDefinitionLabel(), FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()))</th>
                                         </tr>                                
                                         @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations.GroupBy(x => x.Organization).OrderBy(x => x.Key.DisplayName))
                                         {

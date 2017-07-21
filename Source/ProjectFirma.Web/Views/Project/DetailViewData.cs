@@ -116,7 +116,7 @@ namespace ProjectFirma.Web.Views.Project
             : base(currentPerson, project)
         {
             PageTitle = project.DisplayName.ToEllipsifiedStringClean(110);
-            BreadCrumbTitle = "Project Detail";
+            BreadCrumbTitle = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Detail";
 
             ConfirmNonMandatoryUpdateUrl = confirmNonMandatoryUpdateUrl;
             ProjectStages = projectStages;
@@ -176,7 +176,7 @@ namespace ProjectFirma.Web.Views.Project
 
             EntityNotesViewData = entityNotesViewData;
 
-            ProjectUpdateBatchGridSpec = new ProjectUpdateBatchGridSpec() { ObjectNameSingular = "Project Update", ObjectNamePlural = "Project Updates", SaveFiltersInCookie = true };
+            ProjectUpdateBatchGridSpec = new ProjectUpdateBatchGridSpec() { ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update", ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Updates", SaveFiltersInCookie = true };
             ProjectUpdateBatchGridName = "projectUpdateBatch";
             ProjectUpdateBatchGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.ProjectUpdateBatchGridJsonData(project.ProjectID));
 

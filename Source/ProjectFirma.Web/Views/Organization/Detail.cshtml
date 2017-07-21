@@ -41,7 +41,7 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <div>
-    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all Organizations</a>
+    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</a>
 </div>
 
 <div class="container-fluid">
@@ -99,7 +99,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 }
                                 else
                                 {
-                                    <p>No logo uploaded for this organization</p>
+                                    <p>No logo uploaded for this @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</p>
                                 }
                             </div>
                         </div>
@@ -213,7 +213,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 }
                                 else
                                 {
-                                    <div class="alert" role="alert">No Users belong to this organization.</div>
+                                    <div class="alert" role="alert">No Users belong to this @FieldDefinition.Organization.GetFieldDefinitionLabel().</div>
                                 }
                             </div>
                         </div>
@@ -269,7 +269,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 }
                                 else
                                 {
-                                    <div class="alert">No @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() set for this organization.</div>
+                                    <div class="alert">No @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() set for this @FieldDefinition.Organization.GetFieldDefinitionLabel().</div>
                                 }
                             </div>
                         </div>

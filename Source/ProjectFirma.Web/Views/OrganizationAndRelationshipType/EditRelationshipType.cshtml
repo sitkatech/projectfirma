@@ -41,7 +41,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.TextBoxFor(m => m.RelationshipTypeName, new { style = "width: 100%", @class = "form-control" })
                 </div>
             </div>            
-            <p>Select which @FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized() can be associated to a project with this @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()</p>
+            <p>Select which @FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized() can be associated to a @FieldDefinition.Project.GetFieldDefinitionLabel() with this @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()</p>
             <div class="form-group">
                 <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.OrganizationTypeIDs)</div>
                 <div class="col-sm-8">
