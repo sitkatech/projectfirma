@@ -388,7 +388,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
-        [PerformanceMeasureManageFeature]
+        [PerformanceMeasureViewFeature]
         public ExcelResult IndexExcelDownload()
         {
             var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
