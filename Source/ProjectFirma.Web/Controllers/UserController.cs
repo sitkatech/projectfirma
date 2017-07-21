@@ -268,34 +268,49 @@ namespace ProjectFirma.Web.Controllers
             {
                 SetErrorForDisplay("Person not added. Could not find their Organization in Keystone");
             }
-                        
-            var firmaOrganization = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(x => x.OrganizationGuid == keystoneUser.OrganizationGuid);
-            if (firmaOrganization == null)
-            {
-                firmaOrganization = new Organization(keystoneOrganization.FullName, true)
-                {
-                    OrganizationGuid = keystoneOrganization.OrganizationGuid,
-                    OrganizationAbbreviation = keystoneOrganization.ShortName,
-                    OrganizationUrl = keystoneOrganization.URL
-                };
-                HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(firmaOrganization);
-            }
 
-            var firmaPerson = HttpRequestStorage.DatabaseEntities.People.SingleOrDefault(x => x.PersonGuid == keystoneUser.UserGuid);
-            if (firmaPerson != null)
+            if (keystoneOrganization == null)
             {
-                firmaPerson.OrganizationID = firmaOrganization.OrganizationID;
+                SetErrorForDisplay("Person not added. Could not find their Organization in Keystone");
+
             }
             else
             {
-                firmaPerson = new Person(keystoneUser.UserGuid, keystoneUser.FirstName, keystoneUser.LastName, keystoneUser.Email, Role.Unassigned, DateTime.Now, true, firmaOrganization, false, keystoneUser.LoginName);
-                HttpRequestStorage.DatabaseEntities.AllPeople.Add(firmaPerson);
+                var firmaOrganization =
+                    HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(
+                        x => x.OrganizationGuid == keystoneUser.OrganizationGuid);
+                if (firmaOrganization == null)
+                {
+                    firmaOrganization = new Organization(keystoneOrganization.FullName, true)
+                    {
+                        OrganizationGuid = keystoneOrganization.OrganizationGuid,
+                        OrganizationAbbreviation = keystoneOrganization.ShortName,
+                        OrganizationUrl = keystoneOrganization.URL
+                    };
+                    HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(firmaOrganization);
+                }
+
+                var firmaPerson =
+                    HttpRequestStorage.DatabaseEntities.People.SingleOrDefault(
+                        x => x.PersonGuid == keystoneUser.UserGuid);
+                if (firmaPerson != null)
+                {
+                    firmaPerson.OrganizationID = firmaOrganization.OrganizationID;
+                }
+                else
+                {
+                    firmaPerson = new Person(keystoneUser.UserGuid, keystoneUser.FirstName, keystoneUser.LastName,
+                        keystoneUser.Email, Role.Unassigned, DateTime.Now, true, firmaOrganization, false,
+                        keystoneUser.LoginName);
+                    HttpRequestStorage.DatabaseEntities.AllPeople.Add(firmaPerson);
+                }
+
+                HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+                SetMessageForDisplay(string.Format(
+                    "{0} successfully added. You may want to <a href=\"{1}\">assign them a role</a>.",
+                    firmaPerson.GetFullNameFirstLastAndOrgAsUrl(), firmaPerson.GetDetailUrl()));
             }
-
-            HttpRequestStorage.DatabaseEntities.SaveChanges();
-
-            SetMessageForDisplay(string.Format("{0} successfully added. You may want to <a href=\"{1}\">assign them a role</a>.", firmaPerson.GetFullNameFirstLastAndOrgAsUrl(), firmaPerson.GetDetailUrl()));
-
             return new ModalDialogFormJsonResult();
 
             
