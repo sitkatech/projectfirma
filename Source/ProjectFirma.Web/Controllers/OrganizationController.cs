@@ -116,7 +116,10 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditViewModel viewModel, bool isInKeystone, Person currentPrimaryContactPerson)
         {
-            var organizationTypesAsSelectListItems = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToSelectListWithEmptyFirstRow(x => x.OrganizationTypeID.ToString(CultureInfo.InvariantCulture), x => x.OrganizationTypeName);
+            var organizationTypesAsSelectListItems = HttpRequestStorage.DatabaseEntities.OrganizationTypes
+                .OrderBy(x => x.OrganizationTypeName)
+                .ToSelectListWithEmptyFirstRow(x => x.OrganizationTypeID.ToString(CultureInfo.InvariantCulture),
+                    x => x.OrganizationTypeName);
             var activePeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
             if (currentPrimaryContactPerson != null && !activePeople.Contains(currentPrimaryContactPerson))
             {
