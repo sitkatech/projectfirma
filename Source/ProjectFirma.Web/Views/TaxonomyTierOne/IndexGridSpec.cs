@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierOne
                 Add(Models.FieldDefinition.TaxonomyTierTwo.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyTierTwo.SummaryUrl, a.TaxonomyTierTwo.TaxonomyTierTwoName), 300);    
             }            
             Add(Models.FieldDefinition.TaxonomyTierOne.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.TaxonomyTierOneName), 350, DhtmlxGridColumnFilterType.Html);
-            Add("# of Projects", a => a.Projects.Count, 90);
+            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.Projects.Count, 90);
         }
     }
 }

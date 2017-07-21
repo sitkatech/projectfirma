@@ -140,19 +140,23 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     var latestNotApprovedUpdateBatch = x.GetLatestNotApprovedUpdateBatch();
                     if (latestNotApprovedUpdateBatch == null)
                     {
-                        return MakeAlertButton("Unable to View", String.Format("The Update for Project {0} cannot not be displayed because no Update is in progress. The most recent Update was already approved.", x.DisplayName), "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: The Update has already been approved</span>");
+                        return MakeAlertButton("Unable to View",
+                            $"The Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {x.DisplayName} cannot not be displayed because no Update is in progress. The most recent Update was already approved.", "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: The Update has already been approved</span>");
                     }
                     if (latestNotApprovedUpdateBatch.IsCreated)
                     {
-                        return MakeAlertButton("Unable to View", String.Format("The Update for Project {0} cannot not be displayed because a new Update has already been started. Go to the All My Projects list to edit the new Update.", x.DisplayName), "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: A new Update has been started</span>");
+                        return MakeAlertButton("Unable to View",
+                            $"The Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {x.DisplayName} cannot not be displayed because a new Update has already been started. Go to the All My Projects list to edit the new Update.", "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: A new Update has been started</span>");
                     }
                     if (latestNotApprovedUpdateBatch.IsReturned && x.IsUpdateMandatory)
                     {
-                        return MakeAlertButton("Unable to View", String.Format("The Update for Project {0} cannot not be displayed because the Update has been returned for mandatory correction. Go to the My Projects Requiring an Update list to fix the returned Update.", x.DisplayName), "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: The Update has been returned</span>");
+                        return MakeAlertButton("Unable to View",
+                            $"The Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {x.DisplayName} cannot not be displayed because the Update has been returned for mandatory correction. Go to the My Projects Requiring an Update list to fix the returned Update.", "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: The Update has been returned</span>");
                     }
                     if (latestNotApprovedUpdateBatch.IsReturned && !x.IsUpdateMandatory)
                     {
-                        return MakeAlertButton("Unable to View", String.Format("The Update for Project {0} cannot not be displayed because the Update has been returned for correction. Go to the All My Projects list to fix the returned Update.", x.DisplayName), "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: The Update has been returned</span>");
+                        return MakeAlertButton("Unable to View",
+                            $"The Update for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} {x.DisplayName} cannot not be displayed because the Update has been returned for correction. Go to the All My Projects list to fix the returned Update.", "OK", "<span style=\"display:none\">Unable to </span>View</a><span style=\"display:none\">: The Update has been returned</span>");
                     }
 
                     return UrlTemplate.MakeHrefString(x.GetProjectUpdateUrl(), _canApprove ? "Review" : "View", new Dictionary<string, string> {{"class", "btn btn-xs btn-firma"}});
@@ -173,7 +177,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                         return
                             ModalDialogFormHelper.ModalDialogFormLink("Begin",
                                 SitkaRoute<ProjectController>.BuildUrlFromExpression(y => y.ConfirmNonMandatoryUpdate(x.PrimaryKey)),
-                                "Update this project?",
+                                $"Update this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}?",
                                 400,
                                 "Continue",
                                 "Cancel",

@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.Tag
 
             Add(Models.FieldDefinition.TagName.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.DisplayName), 200, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.TagDescription.ToGridHeaderString(), a => a.TagDescription, 600);
-            Add("# of Projects", a => a.ProjectTags.Count, 65);
+            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.ProjectTags.Count, 65);
         }
     }
 }

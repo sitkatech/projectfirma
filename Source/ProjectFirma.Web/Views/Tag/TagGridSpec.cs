@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.Tag
             {
                 Add(string.Empty,
                     a => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<TagController>.BuildUrlFromExpression(t => t.Edit(a.TagID)),
-                        string.Format("Edit Tag'{0}'", a.TagName))),
+                        $"Edit Tag'{a.TagName}'")),
                     30);
             }
             Add("Field", a => a.TagName, 300);
