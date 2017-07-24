@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.Home
         {
             PageTitle = MultiTenantHelpers.GetToolDisplayName();
 
-            CustomHomePageTextViewData = new ViewPageContentViewData(firmaPage, SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.EditPageContent(FirmaPageTypeEnum.HomePage)), currentPerson);
+            CustomHomePageTextViewData = new ViewPageContentViewData(firmaPage, currentPerson);
             FeaturedProjectsViewData = featuredProjectsViewData;
             FullMapUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ProjectMap());
             ProjectLocationsMapViewData = projectLocationsMapViewData;

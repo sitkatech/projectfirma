@@ -18,28 +18,36 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Views.Shared
 @inherits ViewPageContent
 
-
-<div id="@Html.Id(ViewDataTyped.FirmaPageContentID)">
-    @if (ViewDataTyped.ShowEditButton)
-    {
-        <div class="rightFloatingInfo" style="display: none">
+@if (ViewDataTyped.ShowEditButton)
+{
+    <div id="@Html.Id(ViewDataTyped.FirmaPageContentID)" style="position: relative;">
+        <div class="hoverEditButton" style="display: none;">
             <div style="margin-top: 10px">
-                <a class="btn btn-xs btn-firma" href="@ViewDataTyped.EditUrl">Edit</a>
+                @ModalDialogFormHelper.ModalDialogFormLink("Edit", ViewDataTyped.EditPageContentUrl, string.Format("Edit Content for {0}", ViewDataTyped.FirmaPage.FirmaPageType.FirmaPageTypeDisplayName), 800, "Save", "Cancel", new List<string> { "btn-firma btn-sm" }, null, null)                
             </div>
         </div>
-    }
-    @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
-</div>
+        @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
+    </div>
+}
+else
+{
+    <div>
+        @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
+    </div>
+}
 
 <script>
     jQuery("#@Html.Id(ViewDataTyped.FirmaPageContentID)").hover(function(){
-        jQuery(".rightFloatingInfo").fadeIn();
+            jQuery(".hoverEditButton").fadeIn("fast");
+            jQuery(this).addClass("grayBackground");
         }
         ,function(){
-            jQuery(".rightFloatingInfo").fadeOut();
+            jQuery(".hoverEditButton").fadeOut("fast");
+            jQuery(this).removeClass("grayBackground");
         }
     );
 </script>

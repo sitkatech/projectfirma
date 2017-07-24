@@ -19,7 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Web;
+using LtInfo.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 
@@ -29,16 +30,15 @@ namespace ProjectFirma.Web.Views.Shared
     {
         public readonly Models.FirmaPage FirmaPage;
         public readonly bool ShowEditButton;
-        public readonly string EditUrl;
         public readonly string FirmaPageContentID;
+        public readonly string EditPageContentUrl;
 
-        public ViewPageContentViewData(Models.FirmaPage firmaPage, string editUrl, Person currentPerson)
+        public ViewPageContentViewData(Models.FirmaPage firmaPage, Person currentPerson)
         {
             FirmaPage = firmaPage;
-            var permissionCheckResult = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage);
-            ShowEditButton = permissionCheckResult.HasPermission;
-            EditUrl = editUrl;
+            ShowEditButton = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission;
             FirmaPageContentID = $"firmaPageContent{firmaPage.FirmaPageID}";
+            EditPageContentUrl = SitkaRoute<FirmaPageController>.BuildUrlFromExpression(t => t.EditInDialog(FirmaPage));
         }        
     }
 }

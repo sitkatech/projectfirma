@@ -54,6 +54,18 @@ h6 {
   float: right;
   padding: 10px;
 }
+.grayBackground {
+  background-color: #F8F8F8;
+}
+.hoverEditButton {
+  position: absolute;
+  right: 25px;
+}
+.hoverEditButton a.btn-firma {
+  opacity: 0.8;
+  background-color: gray;
+  color: white;
+}
 form .form-group {
   margin-top: 20px;
   margin-bottom: 20px;
