@@ -27,15 +27,14 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 
 namespace ProjectFirma.Web.Views.Home
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly bool ShowEditButton;
-        public readonly string EditUrl;
-
+        public readonly ViewPageContentViewData CustomHomePageTextViewData;
         public readonly FeaturedProjectsViewData FeaturedProjectsViewData;
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
@@ -51,10 +50,7 @@ namespace ProjectFirma.Web.Views.Home
         {
             PageTitle = MultiTenantHelpers.GetToolDisplayName();
 
-            var permissionCheckResult = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage);
-            ShowEditButton = permissionCheckResult.HasPermission;
-            EditUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.EditPageContent(FirmaPageTypeEnum.HomePage));
-
+            CustomHomePageTextViewData = new ViewPageContentViewData(firmaPage, SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.EditPageContent(FirmaPageTypeEnum.HomePage)), currentPerson);
             FeaturedProjectsViewData = featuredProjectsViewData;
             FullMapUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ProjectMap());
             ProjectLocationsMapViewData = projectLocationsMapViewData;

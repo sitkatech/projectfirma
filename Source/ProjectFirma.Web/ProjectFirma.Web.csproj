@@ -742,6 +742,8 @@
     <Compile Include="Views\FirmaHomePageImage\New.cs" />
     <Compile Include="Views\FirmaHomePageImage\NewViewData.cs" />
     <Compile Include="Views\FirmaHomePageImage\NewViewModel.cs" />
+    <Compile Include="Views\Shared\ViewPageContent.cs" />
+    <Compile Include="Views\Shared\ViewPageContentViewData.cs" />
     <Compile Include="Views\Tenant\Detail.cs" />
     <Compile Include="Views\TaxonomyTierTwoPerformanceMeasure\Edit.cs" />
     <Compile Include="Views\TaxonomyTierTwoPerformanceMeasure\EditViewData.cs" />
@@ -1316,6 +1318,7 @@
     <Content Include="Views\OrganizationAndRelationshipType\Index.cshtml" />
     <Content Include="Views\FirmaHomePageImage\Edit.cshtml" />
     <Content Include="Views\FirmaHomePageImage\New.cshtml" />
+    <Content Include="Views\Shared\ViewPageContent.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
