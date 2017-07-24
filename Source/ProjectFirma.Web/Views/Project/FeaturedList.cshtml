@@ -30,9 +30,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <script src="@Url.Content("~/Views/Project/FeaturedProjectController.js")" type="text/javascript"></script>
 }
 
-<div>
-    @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
-</div>
+@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 
 <div style="margin-top: 10px">
     @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)

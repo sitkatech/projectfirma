@@ -35,7 +35,6 @@ namespace ProjectFirma.Web.Views.Classification
         public readonly IndexGridSpec GridSpec;
         public readonly string GridName;
         public readonly string GridDataUrl;
-        public readonly ViewPageContentViewData ViewPageContentViewData;
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, List<Models.Classification> classifications) : base(currentPerson, firmaPage)
         {
@@ -52,8 +51,6 @@ namespace ProjectFirma.Web.Views.Classification
 
             GridName = "classificationsGrid";
             GridDataUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
-
-            ViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);
         }
     }
 }

@@ -28,16 +28,8 @@ Source code is available upon request via <support@sitkatech.com>.
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
-@section RightOfPageTitle
-{
-    @if (ViewDataTyped.HasProposedProjectPermissions)
-    {
-        <a class='btn btn-sm btn-firma' href="@ViewDataTyped.ProposeNewProjectUrl" title="Submit a project proposal">Propose New Project</a>
-    }
-}
-
 <div>
-    @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
 
 <div style="margin-top: 10px">

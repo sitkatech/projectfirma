@@ -59,7 +59,7 @@ h6 {
 }
 .hoverEditButton {
   position: absolute;
-  right: 25px;
+  right: 5px;
 }
 .hoverEditButton a.btn-firma {
   opacity: 0.8;

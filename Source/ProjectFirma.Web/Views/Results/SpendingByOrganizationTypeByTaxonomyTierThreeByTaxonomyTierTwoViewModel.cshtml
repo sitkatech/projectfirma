@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Results
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
-@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Views.Shared
 @inherits SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwo
 
 @section JavascriptAndStylesContent
@@ -43,7 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 
 <div>
-    @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
 
 <div class="panel panelFirma">
