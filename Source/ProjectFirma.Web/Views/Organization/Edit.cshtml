@@ -49,11 +49,11 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.OrganizationAbbreviation)
+                @Html.LabelWithSugarFor(m => m.OrganizationShortName)
             </div>
             <div class="col-sm-9">
-               @Html.TextBoxFor(m => m.OrganizationAbbreviation, new { style = "width:100%" })
-            @Html.ValidationMessageFor(m => m.OrganizationAbbreviation)
+               @Html.TextBoxFor(m => m.OrganizationShortName, new { style = "width:100%" })
+            @Html.ValidationMessageFor(m => m.OrganizationShortName)
             </div>
         </div>
         <div class="form-group">

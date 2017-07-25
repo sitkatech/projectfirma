@@ -284,7 +284,7 @@ namespace ProjectFirma.Web.Controllers
                     firmaOrganization = new Organization(keystoneOrganization.FullName, true)
                     {
                         OrganizationGuid = keystoneOrganization.OrganizationGuid,
-                        OrganizationAbbreviation = keystoneOrganization.ShortName,
+                        OrganizationShortName = keystoneOrganization.ShortName,
                         OrganizationUrl = keystoneOrganization.URL
                     };
                     HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(firmaOrganization);

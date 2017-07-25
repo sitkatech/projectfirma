@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Views
             ProjectSearchUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Search(UrlTemplate.Parameter1String));
             ProjectFindUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Find(string.Empty));
 
-            ViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);
+            ViewPageContentViewData = firmaPage != null ? new ViewPageContentViewData(firmaPage, currentPerson) : null;
         }
 
 
@@ -172,12 +172,14 @@ namespace ProjectFirma.Web.Views
 
         private static LtInfoMenuItem BuildProjectsMenu(Person currentPerson)
         {
-            var projectsMenu = new LtInfoMenuItem($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}");
+            var projectsMenu = new LtInfoMenuItem($"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}");
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentPerson, $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map", "Group1"));
-            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.Index()), currentPerson, $"Full {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} List", "Group2"));
-            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.ActiveProjectsList()), currentPerson, $"Active {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} List", "Group2"));
-            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.MyOrganizationsProjects()), currentPerson, $"My {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}'s {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", "Group2"));
-            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProposedProjectController>(c => c.Index()), currentPerson, $"{Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}", "Group3"));
+            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.Index()), currentPerson, $"Full {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} List", "Group2"));            
+            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.MyOrganizationsProjects()), currentPerson, $"My {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}'s {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", "Group2"));
+            //projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.MyProjectsRequiringAnUpdate()), currentPerson, "Update My Project(s)", "Group3"));
+            //var projectUpdateStatusMenuItemName = string.Format("{0} Status of Project Updates", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+            //projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.ProjectUpdateStatus()), currentPerson, projectUpdateStatusMenuItemName, "Group3"));
+            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProposedProjectController>(c => c.Index()), currentPerson, $"{Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabelPluralized()}", "Group3"));
             return projectsMenu;
         }
 

@@ -76,8 +76,8 @@ namespace ProjectFirma.Web.Views.Project
                 Add("Tags", x => new HtmlString(!x.ProjectTags.Any() ? string.Empty : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.DisplayNameAsUrl))), 100, DhtmlxGridColumnFilterType.Html);
             }
 
-            Add("# of Photos", x => x.ProjectImages.Count, 60);
-            Add($"Active {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} List", x => x.IsOnActiveProjectsList.ToYesNo(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("# of Photos", x => x.ProjectImages.Count, 60);            
+
         }
     }
 }

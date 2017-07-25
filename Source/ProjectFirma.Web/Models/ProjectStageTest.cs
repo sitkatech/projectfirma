@@ -33,12 +33,6 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
-        public void IsOnActiveProjectsListTest()
-        {
-            Assert.That(ProjectStage.All.Where(x => x.IsOnActiveProjectsList()), Is.EquivalentTo(new ProjectStage[] {ProjectStage.PlanningDesign, ProjectStage.Implementation}));
-        }
-
-        [Test]
         public void IsCompletedOrTerminatedTest()
         {
             Assert.That(ProjectStage.All.Where(x => x.IsOnCompletedList()), Is.EquivalentTo(new ProjectStage[] {ProjectStage.Completed, ProjectStage.PostImplementation}));

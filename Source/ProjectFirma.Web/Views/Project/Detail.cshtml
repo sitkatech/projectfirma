@@ -27,7 +27,6 @@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using ProjectFirma.Web.Views.Shared.TextControls
-@using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
@@ -56,6 +55,9 @@
     /*Hack to get scrollspy to select sections with no content*/
     footer {
         height: 600px;
+    }
+    .firma-modal .modal-body {
+        overflow-y: visible;
     }
 </style>
 

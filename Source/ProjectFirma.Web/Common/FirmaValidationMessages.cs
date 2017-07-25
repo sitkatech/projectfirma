@@ -35,10 +35,9 @@ namespace ProjectFirma.Web.Common
         public static readonly string UpdateSectionIsDependentUponBasicsSection = "Your project's \"Basics\" page must be complete before you can begin updating this section.";
         public static readonly string ProjectNameUnique = $"{FieldDefinition.ProjectName.GetFieldDefinitionLabel()} already exists";
         public static readonly string OrganizationNameUnique = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} name already exists";
-        public static readonly string OrganizationAbbreviationUnique = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} abbreviation already exists";
+        public static readonly string OrganizationShortNameUnique = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} short name already exists";
         public static readonly string OrganizationMustBeSetForNewUser = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} must be set for a new user";
         public static readonly string ProjectOrganizationLeadShouldBeSetIfThereAreAnyOrganizations = $"Please select one of the {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()} as the {FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()}";
-        public static readonly string LeadImplementingOrganizationMustHavePrimaryContactSet = $"The {FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} {FieldDefinition.Organization.GetFieldDefinitionLabel()} must have a {FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} set";
         public static readonly string FundingSourceNameUnique = $"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()} name already exists";
         public static readonly string ClassificationNameUnique = $"{FieldDefinition.Classification.GetFieldDefinitionLabel()} name already exists";
         public static readonly string PerformanceMeasureNameUnique = $"{FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()} name already exists";
