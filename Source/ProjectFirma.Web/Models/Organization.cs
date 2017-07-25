@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Models
         public const string OrganizationSitka = "Sitka Technology Group";
         public const string OrganizationUnknown = "(Unknown or Unspecified Organization)";
 
-        public string DisplayName => IsUnknown ? OrganizationName : $"{OrganizationName}{(!string.IsNullOrWhiteSpace(OrganizationAbbreviation) ? $" ({OrganizationAbbreviation})" : string.Empty)}{(!IsActive ? " (Inactive)" : string.Empty)}";
+        public string DisplayName => IsUnknown ? OrganizationName : $"{OrganizationName}{(!string.IsNullOrWhiteSpace(OrganizationShortName) ? $" ({OrganizationShortName})" : string.Empty)}{(!IsActive ? " (Inactive)" : string.Empty)}";
 
         public string OrganizationNamePossessive
         {
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public string AbbreviationIfAvailable => OrganizationAbbreviation ?? OrganizationName;
+        public string OrganizationShortNameIfAvailable => OrganizationShortName ?? OrganizationName;
 
         public HtmlString PrimaryContactPersonAsUrl => PrimaryContactPerson != null ? PrimaryContactPerson.GetFullNameFirstLastAsUrl() : new HtmlString(ViewUtilities.NoneString);
 
@@ -80,16 +80,16 @@ namespace ProjectFirma.Web.Models
             return organization == null;
         }
 
-        public static bool IsOrganizationAbbreviationUniqueIfProvided(IEnumerable<Organization> organizations, string organizationAbbreviation, int currentOrganizationID)
+        public static bool IsOrganizationShortNameUniqueIfProvided(IEnumerable<Organization> organizations, string organizationShortName, int currentOrganizationID)
         {
             // Nulls don't trip the unique check
-            if (organizationAbbreviation == null)
+            if (organizationShortName == null)
             {
                 return true;
             }
             var existingOrganization =
                 organizations.SingleOrDefault(
-                    x => x.OrganizationID != currentOrganizationID && String.Equals(x.OrganizationAbbreviation, organizationAbbreviation, StringComparison.InvariantCultureIgnoreCase));
+                    x => x.OrganizationID != currentOrganizationID && String.Equals(x.OrganizationShortName, organizationShortName, StringComparison.InvariantCultureIgnoreCase));
             return existingOrganization == null;
         }
 

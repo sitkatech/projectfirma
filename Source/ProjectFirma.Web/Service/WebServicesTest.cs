@@ -128,7 +128,7 @@ namespace ProjectFirma.Web.Service
 "PerformanceMeasureID,PerformanceMeasureName,PerformanceMeasureDescription,PerformanceMeasureUnits,PMSubcategoryName1,PMSubcategoryOptionCount1,PMSubcategoryName2,PMSubcategoryOptionCount2,PMSubcategoryName3,PMSubcategoryOptionCount3,PMSubcategoryName4,PMSubcategoryOptionCount4"),
                 new CsvColumnTestCase("GetOrganizations",
                     () => (CsvDownloadResult) testSubject.GetOrganizations(WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests),
-"OrganizationID,Organization,OrganizationAbbreviation,OrganizationType,PrimaryContact,NumberOfProjects,NumberOfFundingSources,NumberOfUsers,OrganizationSummaryUrl"),
+"OrganizationID,Organization,OrganizationShortName,OrganizationType,PrimaryContact,NumberOfProjects,NumberOfFundingSources,NumberOfUsers,OrganizationSummaryUrl"),
             };
 
             foreach (var testCase in testCases)

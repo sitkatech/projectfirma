@@ -36,13 +36,13 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public OrganizationSimple(int organizationID, Guid? organizationGuid, string organizationName, string organizationAbbreviation, int organizationTypeId, int? primaryContactPersonID, bool isActive, string url, int? logoFileResourceID)
+        public OrganizationSimple(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int organizationTypeId, int? primaryContactPersonID, bool isActive, string url, int? logoFileResourceID)
             : this()
         {
             OrganizationID = organizationID;
             OrganizationGuid = organizationGuid;
             OrganizationName = organizationName;
-            OrganizationAbbreviation = organizationAbbreviation;
+            OrganizationShortName = organizationShortName;
             OrganizationTypeID = organizationTypeId;
             PrimaryContactPersonID = primaryContactPersonID;
             IsActive = isActive;
@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Models
             OrganizationID = organization.OrganizationID;
             OrganizationGuid = organization.OrganizationGuid;
             OrganizationName = organization.OrganizationName;
-            OrganizationAbbreviation = organization.OrganizationAbbreviation;
+            OrganizationShortName = organization.OrganizationShortName;
             OrganizationTypeID = organization.OrganizationTypeID.Value;
             PrimaryContactPersonID = organization.PrimaryContactPersonID;
             IsActive = organization.IsActive;
@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Models
         public int OrganizationID { get; set; }
         public Guid? OrganizationGuid { get; set; }
         public string OrganizationName { get; set; }
-        public string OrganizationAbbreviation { get; set; }
+        public string OrganizationShortName { get; set; }
         public int OrganizationTypeID { get; set; }
         public int? PrimaryContactPersonID { get; set; }
         public bool IsActive { get; set; }
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Models
 
         public string DisplayName
         {
-            get { return string.Format("{0}{1}", OrganizationName, !string.IsNullOrWhiteSpace(OrganizationAbbreviation) ? string.Format(" ({0})", OrganizationAbbreviation) : string.Empty); }
+            get { return string.Format("{0}{1}", OrganizationName, !string.IsNullOrWhiteSpace(OrganizationShortName) ? string.Format(" ({0})", OrganizationShortName) : string.Empty); }
         }
     }
 }

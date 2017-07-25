@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
         {
             OrganizationID = organization.OrganizationID;
             OrganizationName = organization.OrganizationName;
-            OrganizationAbbreviation = organization.OrganizationAbbreviation;
+            OrganizationShortName = organization.OrganizationShortName;
             OrganizationType = organization.OrganizationType?.OrganizationTypeName;
             PrimaryContact = organization.PrimaryContactPersonAsString;
             ProjectCount = organization.GetAllProjectOrganizations().Count;
@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
 
         [DataMember] public int OrganizationID { get; set; }
         [DataMember] public string OrganizationName { get; set; }
-        [DataMember] public string OrganizationAbbreviation { get; set; }
+        [DataMember] public string OrganizationShortName { get; set; }
         [DataMember] public string OrganizationType { get; set; }
         
         [DataMember] public string PrimaryContact { get; set; }
@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
         {
             Add("OrganizationID", a => a.OrganizationID, 0);
             Add("Organization", a => a.OrganizationName, 0);
-            Add("OrganizationAbbreviation", a => a.OrganizationAbbreviation, 0);
+            Add("OrganizationShortName", a => a.OrganizationShortName, 0);
             Add("OrganizationType", a => a.OrganizationType, 0);
             Add("PrimaryContact", a => a.PrimaryContact, 0);
             Add("NumberOfProjects", a => a.ProjectCount, 0);

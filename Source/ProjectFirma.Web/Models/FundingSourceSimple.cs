@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Models
         {
             FundingSourceID = fundingSource.FundingSourceID;
             OrganizationID = fundingSource.OrganizationID;
-            OrganizationName = fundingSource.Organization.AbbreviationIfAvailable;
+            OrganizationName = fundingSource.Organization.OrganizationShortNameIfAvailable;
             FundingSourceName = fundingSource.FundingSourceName;
             IsActive = fundingSource.IsActive;
             DisplayName = fundingSource.DisplayName;
