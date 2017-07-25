@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Project
         {
             EntitySearchResults = entitySearchResults;
             SearchCriteria = searchCriteria;
-            PageTitle = "Project Search";
+            PageTitle = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Search";
         }
     }
 }

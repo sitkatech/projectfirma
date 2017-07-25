@@ -81,8 +81,8 @@ namespace ProjectFirma.Web.Views.TaxonomyTierThree
             BasicProjectInfoGridName = "taxonomyTierThreeProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
-                ObjectNameSingular = string.Format("Project with this {0}", TaxonomyTierThreeDisplayName),
-                ObjectNamePlural = string.Format("Projects with this {0}", TaxonomyTierThreeDisplayName),
+                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} with this {TaxonomyTierThreeDisplayName}",
+                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} with this {TaxonomyTierThreeDisplayName}",
                 SaveFiltersInCookie = true
             };
 

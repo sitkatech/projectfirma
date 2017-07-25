@@ -60,8 +60,8 @@ namespace ProjectFirma.Web.Views.FundingSource
 
             ProjectCalendarYearExpendituresGridSpec = new ProjectCalendarYearExpendituresGridSpec(CalendarYearsForProjectExpenditures)
             {
-                ObjectNameSingular = "Project",
-                ObjectNamePlural = "Projects",
+                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
 

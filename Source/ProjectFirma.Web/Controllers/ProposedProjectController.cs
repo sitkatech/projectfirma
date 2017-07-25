@@ -790,7 +790,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var proposedProject = proposedProjectPrimaryKey.EntityObject;
             Check.Assert(proposedProject.ProposedProjectState == ProposedProjectState.Submitted,
-                "Project is not in Submitted state. Actual state is: " + proposedProject.ProposedProjectState.ProposedProjectStateDisplayName);
+                $"{FieldDefinition.Project.GetFieldDefinitionLabel()} is not in Submitted state. Actual state is: " + proposedProject.ProposedProjectState.ProposedProjectStateDisplayName);
 
             Check.Assert(new ProposalSectionsStatus(proposedProject).AreAllSectionsValid, "Proposal is not ready for submittal.");
 
@@ -821,7 +821,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewApprove(ConfirmDialogFormViewModel viewModel)
         {
-            var viewData = new ConfirmDialogFormViewData("Are you sure you want to approve this Project?");
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to approve this {FieldDefinition.Project.GetFieldDefinitionLabel()}?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 

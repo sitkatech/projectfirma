@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel(), x => x.ProjectName);
             AddColumn(Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel(), x => x.LeadImplementerName);
             AddColumn(Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel(), x => x.LeadImplementerOrganization != null ? x.LeadImplementerOrganization.PrimaryContactPersonWithOrgAsString : string.Empty);
-            AddColumn("Non-Lead Implementing Organizations",
+            AddColumn($"Non-Lead Implementing {Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}",
                 x => string.Join(",", x.ProjectOrganizations.Select(pio => pio.Organization.DisplayName)));
             AddColumn(Models.FieldDefinition.ProjectStage.GetFieldDefinitionLabel(), x => x.ProjectStage.ProjectStageDisplayName);
             AddColumn(Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized(), x => string.Join(",", x.ProjectClassifications.Select(tc => tc.Classification.DisplayName)));
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectDescriptionExcelSpec()
         {
-            AddColumn("Project ID", x => x.ProjectID);
+            AddColumn($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} ID", x => x.ProjectID);
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.ProjectName);
             AddColumn("Description", x => x.ProjectDescription);
         }
@@ -66,13 +66,13 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec()
         {
-            AddColumn("Project ID", x => x.Project.ProjectID);
+            AddColumn($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
-            AddColumn("Organization ID", x => x.Organization.OrganizationID);
-            AddColumn("Organization Name", x => x.Organization.OrganizationName);
+            AddColumn($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} ID", x => x.Organization.OrganizationID);
+            AddColumn($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} Name", x => x.Organization.OrganizationName);
             AddColumn($"{Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} for {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", x => x.Organization.PrimaryContactPersonWithOrgAsString);
             AddColumn(Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel(), x => x.Organization.OrganizationType?.OrganizationTypeName);
-            AddColumn("Organization Relationship To Project", x => x.RelationshipType.RelationshipTypeName);
+            AddColumn($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} Relationship To {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", x => x.RelationshipType.RelationshipTypeName);
         }
     }
 
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectNoteExcelSpec()
         {
-            AddColumn("Project ID", x => x.Project.ProjectID);
+            AddColumn($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn($"{Models.FieldDefinition.ProjectNote.GetFieldDefinitionLabel()}", x => x.Note);
             AddColumn("Create Person", x => x.CreatePersonName);

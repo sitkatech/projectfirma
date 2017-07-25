@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Project
         {
             Project = project;
             HtmlPageTitle = project.ProjectName;
-            EntityName = "Project";
+            EntityName = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
             LatestUpdateState = project.GetLatestUpdateState();
         }        
     }

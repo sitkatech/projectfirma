@@ -192,14 +192,14 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             var isCompletedOrPostImplementation = ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID;
             if (isCompletedOrPostImplementation && CompletionYear > DateTime.Now.Year)
             {
-                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>($"Project is in the Completed or Post-Implementation stage: the {Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be less than or equal to the current year", m => m.CompletionYear));    
+                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is in the Completed or Post-Implementation stage: the {Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be less than or equal to the current year", m => m.CompletionYear));    
             }
 
             if (HasExistingProjectUpdate && OldProjectStageID != ProjectStageID)
             {
                 errors.Add(
                     new SitkaValidationResult<EditProjectViewModel, int>(
-                        "There are updates to this project that have not been submitted.<br />Making this change can potentially affect that update in process.<br />Please delete the update if you want to change this project's stage.",
+                        $"There are updates to this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} that have not been submitted.<br />Making this change can potentially affect that update in process.<br />Please delete the update if you want to change this {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}'s stage.",
                         m => m.ProjectStageID));
             }
 

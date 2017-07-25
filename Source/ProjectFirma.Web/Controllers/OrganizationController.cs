@@ -169,7 +169,7 @@ namespace ProjectFirma.Web.Controllers
             if (projectDetails.Features.Any())
             {
                 hasSpatialData = true;
-                layers.Add(new LayerGeoJson("Project Detailed Mapping", projectDetails, "blue", 1, LayerInitialVisibility.Hide));
+                layers.Add(new LayerGeoJson($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Detailed Mapping", projectDetails, "blue", 1, LayerInitialVisibility.Hide));
             }
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
