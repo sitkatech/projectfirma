@@ -1072,8 +1072,6 @@
     <Compile Include="Views\Project\FactSheetViewData.cs" />
     <Compile Include="Views\Project\FeaturedList.cs" />
     <Compile Include="Views\Project\FeaturedListViewData.cs" />
-    <Compile Include="Views\Project\ActiveProjectsList.cs" />
-    <Compile Include="Views\Project\ActiveProjectsListViewData.cs" />
     <Compile Include="Views\Project\FullProjectListSimple.cs" />
     <Compile Include="Views\Project\FullProjectListSimpleViewData.cs" />
     <Compile Include="Views\Project\FundingSourceCalendarYearExpenditure.cs" />
@@ -3151,7 +3149,6 @@
     <Content Include="Views\Project\EditFeaturedProjects.cshtml" />
     <Content Include="Views\Project\FactSheet.cshtml" />
     <Content Include="Views\Project\FeaturedList.cshtml" />
-    <Content Include="Views\Project\ActiveProjectsList.cshtml" />
     <Content Include="Views\Project\FullProjectListSimple.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Project\MyOrganizationsProjects.cshtml" />

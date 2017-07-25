@@ -35,8 +35,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaPageViewListFeature]
         public ViewResult Index()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.PagesWithIntroTextList);
-            var viewData = new IndexViewData(CurrentPerson, firmaPage);
+            var viewData = new IndexViewData(CurrentPerson);
             return RazorView<Index, IndexViewData>(viewData);
         }
 

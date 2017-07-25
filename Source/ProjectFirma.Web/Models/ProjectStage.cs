@@ -23,7 +23,6 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectStage
     {        
         public abstract bool IsOnCompletedList();
-        public abstract bool IsOnActiveProjectsList();
         public abstract bool IsDeletable();
 
         public bool IsVisibleToEveryone()
@@ -44,11 +43,6 @@ namespace ProjectFirma.Web.Models
         public override bool IsOnCompletedList()
         {
             return false;
-        }
-
-        public override bool IsOnActiveProjectsList()
-        {
-            return true;
         }
 
         public override bool IsDeletable()
@@ -94,11 +88,6 @@ namespace ProjectFirma.Web.Models
             return false;
         }
 
-        public override bool IsOnActiveProjectsList()
-        {
-            return true;
-        }
-
         public override bool IsDeletable()
         {
             return false;
@@ -140,11 +129,6 @@ namespace ProjectFirma.Web.Models
         public override bool IsOnCompletedList()
         {
             return true;
-        }
-
-        public override bool IsOnActiveProjectsList()
-        {
-            return false;
         }
 
         public override bool IsDeletable()
@@ -190,10 +174,6 @@ namespace ProjectFirma.Web.Models
             return false;
         }
 
-        public override bool IsOnActiveProjectsList()
-        {
-            return false;
-        }
 
         public override bool IsDeletable()
         {
@@ -234,11 +214,6 @@ namespace ProjectFirma.Web.Models
     public partial class ProjectStageDeferred
     {
         public override bool IsOnCompletedList()
-        {
-            return false;
-        }
-
-        public override bool IsOnActiveProjectsList()
         {
             return false;
         }
@@ -284,11 +259,6 @@ namespace ProjectFirma.Web.Models
         public override bool IsOnCompletedList()
         {
             return true;
-        }
-
-        public override bool IsOnActiveProjectsList()
-        {
-            return false;
         }
 
         public override bool IsDeletable()
