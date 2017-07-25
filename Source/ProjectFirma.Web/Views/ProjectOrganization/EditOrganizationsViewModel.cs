@@ -81,11 +81,6 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
                 return errors;
             }
 
-            var leadOrg = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(ProjectOrganizationsViewModelJson.LeadOrganizationID.Value);
-            if (leadOrg.PrimaryContactPerson == null)
-            {
-                errors.Add(new ValidationResult("Lead Implementer Organization must have a primary contact set."));
-            }
             if (ProjectOrganizationsViewModelJson.ProjectOrganizations.Count != ProjectOrganizationsViewModelJson.ProjectOrganizations.Select(x => x.OrganizationID).Distinct().Count())
             {
                 errors.Add(new ValidationResult("Cannot have the same organization listed multiple times."));
