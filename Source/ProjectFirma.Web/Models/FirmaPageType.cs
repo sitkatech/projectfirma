@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.ViewPageContent(ToEnum));
+            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 

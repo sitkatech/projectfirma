@@ -34,9 +34,7 @@ Source code is available upon request via <support@sitkatech.com>.
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
-<div>
-    @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
-</div>
+@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">

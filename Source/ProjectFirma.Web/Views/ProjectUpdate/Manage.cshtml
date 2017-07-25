@@ -38,7 +38,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <p class="alert alert-danger" style="margin-top: 10px">There are @ViewDataTyped.ProjectsWithNoContactCount @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() which require an update but do not have a @FieldDefinition.PrimaryContact.GetFieldDefinitionLabel(). No reminders will be sent for these @FieldDefinition.Project.GetFieldDefinitionLabelPluralized().</p>
 }
 <div>
-    @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
 
 <div class="panel panelFirma">

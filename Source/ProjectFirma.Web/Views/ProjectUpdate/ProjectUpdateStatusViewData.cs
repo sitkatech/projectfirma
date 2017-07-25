@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -43,7 +42,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             PeopleReceivingReminderGridDataUrl = peopleReceivingReminderGridDataUrl;
             PeopleReceivingReminderGridSpec = peopleReceivingReminderGridSpec;
-            PeopleReceivingReminderGridName = "peopleReceivingAnReminderGrid";           
+            PeopleReceivingReminderGridName = "peopleReceivingAnReminderGrid";
         }
     }
 }

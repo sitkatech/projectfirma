@@ -50,7 +50,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 
 <div>
-    @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
 
 <div class="container-fluid">

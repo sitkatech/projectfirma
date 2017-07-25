@@ -226,12 +226,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </style>
 
 <div>
-    @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
 
-<div class="">
-    <div class=" bubble-nav">
-
+<div>
+    <div class="bubble-nav">
         <div class="row row-centered">
             @foreach (var classification in ViewDataTyped.Classifications)
             {

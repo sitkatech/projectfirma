@@ -24,6 +24,7 @@ using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views
 {
@@ -44,6 +45,7 @@ namespace ProjectFirma.Web.Views
         public readonly string LogInUrl;
         public readonly string LogOutUrl;
         public readonly string RequestSupportUrl;
+        public readonly ViewPageContentViewData ViewPageContentViewData;
 
         /// <summary>
         /// Call for page without associated FirmaPage
@@ -72,6 +74,8 @@ namespace ProjectFirma.Web.Views
             FullProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Index());
             ProjectSearchUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Search(UrlTemplate.Parameter1String));
             ProjectFindUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Find(string.Empty));
+
+            ViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);
         }
 
 

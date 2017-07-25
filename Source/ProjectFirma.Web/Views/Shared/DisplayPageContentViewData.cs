@@ -19,22 +19,19 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
-using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Shared
 {
     public class DisplayPageContentViewData : FirmaViewData
     {
-        public readonly bool ShowEditButton;
-        public readonly string EditUrl;
+        public readonly ViewPageContentViewData ViewWholePageContentViewData;
 
         public DisplayPageContentViewData(Person currentPerson, FirmaPageType firmaPageType) : base(currentPerson, Models.FirmaPage.GetFirmaPageByPageType(firmaPageType))
         {
             PageTitle = firmaPageType.FirmaPageTypeDisplayName;
             var firmaPageByPageType = Models.FirmaPage.GetFirmaPageByPageType(firmaPageType);
-            ShowEditButton = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageByPageType).HasPermission;
-            EditUrl = SitkaRoute<Controllers.HomeController>.BuildUrlFromExpression(x => x.EditPageContent(firmaPageType.ToEnum));
+
+            ViewWholePageContentViewData = new ViewPageContentViewData(firmaPageByPageType, currentPerson);
         }
     }
 }
