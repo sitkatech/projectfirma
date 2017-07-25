@@ -1,23 +1,4 @@
-﻿@*-----------------------------------------------------------------------
-<copyright file="EditPageContent.cshtml" company="Tahoe Regional Planning Agency">
-Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
-
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
-
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+﻿
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Views.Shared
 @inherits ViewPageContent
@@ -27,7 +8,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div id="@Html.Id(ViewDataTyped.FirmaPageContentID)" style="position: relative;">
         <div class="hoverEditButton" style="display: none;">
             <div style="margin-top: 10px">
-                @ModalDialogFormHelper.ModalDialogFormLink("Edit", ViewDataTyped.EditPageContentUrl, string.Format("Edit Content for {0}", ViewDataTyped.FirmaPage.FirmaPageType.FirmaPageTypeDisplayName), 800, "Save", "Cancel", new List<string> { "btn-firma btn-xs" }, null, null)                
+                @ModalDialogFormHelper.ModalDialogFormLink("Edit", ViewDataTyped.EditPageContentUrl, string.Format("Edit Content for {0}", ViewDataTyped.FirmaPage.FirmaPageType.FirmaPageTypeDisplayName), 900, "Save", "Cancel", new List<string> { "btn-firma btn-xs" }, null, null)                
             </div>
         </div>
         @if (ViewDataTyped.FirmaPage.HasFirmaPageContent)

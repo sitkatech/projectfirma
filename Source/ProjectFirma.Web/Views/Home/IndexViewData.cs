@@ -33,22 +33,19 @@ namespace ProjectFirma.Web.Views.Home
     public class IndexViewData : FirmaViewData
     {
         public readonly ViewPageContentViewData CustomHomePageTextViewData;
+        public readonly ViewPageContentViewData CustomHomePageAdditionalInfoTextViewData;
         public readonly FeaturedProjectsViewData FeaturedProjectsViewData;
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
         public readonly string FullMapUrl;
         public readonly List<Models.FirmaHomePageImage> FirmaHomePageCarouselImages;
 
-        public IndexViewData(Person currentPerson,
-            Models.FirmaPage firmaPage,
-            FeaturedProjectsViewData featuredProjectsViewData,
-            ProjectLocationsMapViewData projectLocationsMapViewData,
-            ProjectLocationsMapInitJson projectLocationsMapInitJson,
-            List<Models.FirmaHomePageImage> firmaHomePageImages) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPageHomePage, Models.FirmaPage firmaPageAdditionalInfo, FeaturedProjectsViewData featuredProjectsViewData, ProjectLocationsMapViewData projectLocationsMapViewData, ProjectLocationsMapInitJson projectLocationsMapInitJson, List<Models.FirmaHomePageImage> firmaHomePageImages) : base(currentPerson, firmaPageHomePage)
         {
             PageTitle = MultiTenantHelpers.GetToolDisplayName();
 
-            CustomHomePageTextViewData = new ViewPageContentViewData(firmaPage, currentPerson);
+            CustomHomePageTextViewData = new ViewPageContentViewData(firmaPageHomePage, currentPerson);
+            CustomHomePageAdditionalInfoTextViewData = new ViewPageContentViewData(firmaPageAdditionalInfo, currentPerson);
             FeaturedProjectsViewData = featuredProjectsViewData;
             FullMapUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ProjectMap());
             ProjectLocationsMapViewData = projectLocationsMapViewData;
