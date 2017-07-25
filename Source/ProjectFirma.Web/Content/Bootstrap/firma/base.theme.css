@@ -60,11 +60,16 @@ h6 {
 .hoverEditButton {
   position: absolute;
   right: 5px;
+  top: -5px;
 }
 .hoverEditButton a.btn-firma {
   opacity: 0.8;
   background-color: gray;
   color: white;
+}
+.hoverEmptySpace {
+  width: 100%;
+  height: 30px;
 }
 form .form-group {
   margin-top: 20px;

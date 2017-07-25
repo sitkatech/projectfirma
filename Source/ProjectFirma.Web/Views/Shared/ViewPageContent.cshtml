@@ -27,10 +27,17 @@ Source code is available upon request via <support@sitkatech.com>.
     <div id="@Html.Id(ViewDataTyped.FirmaPageContentID)" style="position: relative;">
         <div class="hoverEditButton" style="display: none;">
             <div style="margin-top: 10px">
-                @ModalDialogFormHelper.ModalDialogFormLink("Edit", ViewDataTyped.EditPageContentUrl, string.Format("Edit Content for {0}", ViewDataTyped.FirmaPage.FirmaPageType.FirmaPageTypeDisplayName), 800, "Save", "Cancel", new List<string> { "btn-firma btn-sm" }, null, null)                
+                @ModalDialogFormHelper.ModalDialogFormLink("Edit", ViewDataTyped.EditPageContentUrl, string.Format("Edit Content for {0}", ViewDataTyped.FirmaPage.FirmaPageType.FirmaPageTypeDisplayName), 800, "Save", "Cancel", new List<string> { "btn-firma btn-xs" }, null, null)                
             </div>
         </div>
-        @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
+        @if (ViewDataTyped.FirmaPage.HasFirmaPageContent)
+        {
+            @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
+        }
+        else
+        {
+            <div class="hoverEmptySpace"></div>
+        }        
     </div>
 }
 else
