@@ -84,14 +84,6 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public partial class FirmaPageTypeActiveProjectsList
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.ActiveProjectsList());
-        }
-    }
-
     public partial class FirmaPageTypePerformanceMeasuresList
     {
         public override string GetViewUrl()
@@ -161,14 +153,6 @@ namespace ProjectFirma.Web.Models
         public override string GetViewUrl()
         {
             return SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.MyOrganizationsProjects());
-        }
-    }
-
-    public partial class FirmaPageTypePagesWithIntroTextList
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<FirmaPageController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 
