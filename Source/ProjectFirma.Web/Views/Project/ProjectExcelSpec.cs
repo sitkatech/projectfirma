@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public PerformanceMeasureExpectedExcelSpec()
         {
-            AddColumn("Project ID", x => x.Project.ProjectID);
+            AddColumn($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName() + " ID", x => x.PerformanceMeasureID);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName(), x => x.PerformanceMeasure.PerformanceMeasureDisplayName);
@@ -104,19 +104,19 @@ namespace ProjectFirma.Web.Views.Project
     {
         public PerformanceMeasureActualExcelSpec()
         {
-            AddColumn("Project ID", x => x.Project.ProjectID);
+            AddColumn($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName() + " ID", x => x.PerformanceMeasureID);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName(), x => x.PerformanceMeasure.PerformanceMeasureDisplayName);
             AddColumn("Calendar Year", x => x.CalendarYear);
-            AddColumn("Subcategory 1 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 1 ? x.PerformanceMeasureSubcategoryOptions[0].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
-            AddColumn("Subcategory 1 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 1 ? x.PerformanceMeasureSubcategoryOptions[0].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
-            AddColumn("Subcategory 2 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 2 ? x.PerformanceMeasureSubcategoryOptions[1].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
-            AddColumn("Subcategory 2 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 2 ? x.PerformanceMeasureSubcategoryOptions[1].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
-            AddColumn("Subcategory 3 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 3 ? x.PerformanceMeasureSubcategoryOptions[2].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
-            AddColumn("Subcategory 3 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 3 ? x.PerformanceMeasureSubcategoryOptions[2].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
-            AddColumn("Subcategory 4 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 4 ? x.PerformanceMeasureSubcategoryOptions[3].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
-            AddColumn("Subcategory 4 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 4 ? x.PerformanceMeasureSubcategoryOptions[3].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
+            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 1 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 1 ? x.PerformanceMeasureSubcategoryOptions[0].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
+            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 1 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 1 ? x.PerformanceMeasureSubcategoryOptions[0].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
+            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 2 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 2 ? x.PerformanceMeasureSubcategoryOptions[1].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
+            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 2 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 2 ? x.PerformanceMeasureSubcategoryOptions[1].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
+            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 3 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 3 ? x.PerformanceMeasureSubcategoryOptions[2].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
+            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 3 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 3 ? x.PerformanceMeasureSubcategoryOptions[2].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
+            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 4 Name", x => x.PerformanceMeasureSubcategoryOptions.Count > 4 ? x.PerformanceMeasureSubcategoryOptions[3].PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : string.Empty);
+            AddColumn($"{Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()} 4 Option", x => x.PerformanceMeasureSubcategoryOptions.Count > 4 ? x.PerformanceMeasureSubcategoryOptions[3].PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName : string.Empty);
             AddColumn($"{Models.FieldDefinition.ReportedValue.GetFieldDefinitionLabel()}", x => x.ReportedValue);
         }
     }
@@ -125,10 +125,10 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectFundingSourceExpenditureExcelSpec()
         {
-            AddColumn("Project ID", x => x.Project.ProjectID);
+            AddColumn($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn($"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}", x => x.FundingSource.FundingSourceName);
-            AddColumn("Funding Organization", x => x.FundingSource.Organization.OrganizationName);
+            AddColumn($"Funding {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", x => x.FundingSource.Organization.OrganizationName);
             AddColumn(Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel(), x => x.FundingSource.Organization.OrganizationType?.OrganizationTypeName);
             AddColumn("Calendar Year", x => x.CalendarYear);
             AddColumn("Expenditure Amount", x => x.ExpenditureAmount);
@@ -139,7 +139,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectWatershedExcelSpec()
         {
-            AddColumn("Project ID", x => x.Project.ProjectID);
+            AddColumn($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}", x => x.Watershed.DisplayName);
         }
@@ -149,7 +149,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectClassificationExcelSpec()
         {
-            AddColumn("Project ID", x => x.Project.ProjectID);
+            AddColumn($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn(Models.FieldDefinition.Classification.GetFieldDefinitionLabel(), x => x.Classification.DisplayName);
         }

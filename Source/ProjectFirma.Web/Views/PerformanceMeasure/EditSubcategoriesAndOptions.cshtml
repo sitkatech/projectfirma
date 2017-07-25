@@ -45,7 +45,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div>
         <button type="button" class="btn btn-sm btn-firma" ng-click="addSubcategory()">
             <span class="glyphicon glyphicon-plus"></span>
-            Add Subcategory
+            Add @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()
         </button>
     </div>
     
@@ -56,10 +56,10 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="row" ng-repeat="subcategorySimple in AngularModel.PerformanceMeasureSubcategorySimples">
         <div class="panel panelFirma" style="margin: 10px 10px 0;">
             <div class="panel-heading panelTitle">
-                <span>@MultiTenantHelpers.GetPerformanceMeasureName() Subcategory {{$index+1}}</span>
+                <span>@MultiTenantHelpers.GetPerformanceMeasureName() @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() {{$index+1}}</span>
                 <span class="pull-right panel-heading-right">
                     <a href="#" ng-show="!subcategoryHasAssociatedActuals(subcategorySimple)" ng-click="removeSubcategory(subcategorySimple)">
-                        <i class="glyphicon glyphicon-trash" title="Remove Subcategory" alt="Remove Subcategory"></i>
+                        <i class="glyphicon glyphicon-trash" title="Remove  @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()" alt="Remove  @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()"></i>
                     </a>
                 </span>
             </div>
@@ -69,7 +69,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="form-horizontal">
                     <div class="form-group-condensed">
                         <div ng-class="{'has-error': validateSubcategoryDisplayName(subcategorySimple).length != 0}">
-                            <label class="col-sm-2 control-label text-right">Subcategory Name</label>
+                            <label class="col-sm-2 control-label text-right">@FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() Name</label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" ng-model="subcategorySimple.PerformanceMeasureSubcategoryDisplayName"
                                        name="PerformanceMeasureSubcategorySimples[{{$index}}].PerformanceMeasureSubcategoryDisplayName" />
@@ -78,7 +78,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="col-sm-3 col-sm-offset-2">
                             <button type="button" class="btn btn-sm btn-firma" ng-click="addSubcategoryOption(subcategorySimple)">
                                 <span class="glyphicon glyphicon-plus"></span>
-                                Add Subcategory Option
+                                Add @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() Option
                             </button>
                         </div>
                     </div>
@@ -95,7 +95,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             <tbody>
                                 <tr ng-show="!subcategorySimple.PerformanceMeasureSubcategoryOptions || !subcategorySimple.PerformanceMeasureSubcategoryOptions.length || subcategorySimple.PerformanceMeasureSubcategoryOptions.length < 1">
                                     <td colspan="4">
-                                        <div class="alert alert-danger">There are currently no Options on this Subcategory.</div>
+                                        <div class="alert alert-danger">There are currently no @FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized() on this @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel().</div>
                                     </td>
                                 </tr>
                                 <tr ng-repeat="optionSimple in subcategorySimple.PerformanceMeasureSubcategoryOptions | orderBy: 'SortOrder'">
@@ -111,7 +111,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                             <i class="glyphicon glyphicon-arrow-down" title="Move Down" alt="Move Down"></i>
                                         </a>
                                         <a href="javascript:void(0)" ng-show="!optionSimple.HasAssociatedActuals" ng-click="removeSubcategoryOption(subcategorySimple, optionSimple)">
-                                            <i class="glyphicon glyphicon-trash" title="Remove Subcategory Option" alt="Remove Subcategory Option"></i>
+                                            <i class="glyphicon glyphicon-trash" title="Remove  @FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabel()" alt="Remove  @FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabel()"></i>
                                         </a>
                                     </td>
                                     <td>

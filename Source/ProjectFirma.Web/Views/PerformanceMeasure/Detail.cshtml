@@ -195,8 +195,10 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0} Subcategories And Subcategory Options for {1}", MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                    @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory, "Subcategories")
+                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0} {1} And {2} for {3}",
+                   MultiTenantHelpers.GetPerformanceMeasureName(), FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized(),
+                   FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                    @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory, $"{FieldDefinition.PerformanceMeasureSubcategory.DefaultDefinitionHtmlString}")
                 </h2>
             </div>
             <div class="panel-body">
@@ -266,43 +268,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
     </div>
 </div>
-
-@*<div class="panel panelFirma">
-        <div class="panel-heading panelTitle">
-            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditMonitoringProgramsUrl, string.Format("Edit {0}: {1}", FieldDefinition.MonitoringProgram.GetFieldDefinitionLabelPluralized(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.MonitoringProgram)</h2>
-        </div>
-        <div class="panel-body">
-            @if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Any())
-            {
-                foreach (var a in ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms)
-                {
-                    <p>
-                        <strong>@FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel()</strong>:
-                        @a.MonitoringProgram.DisplayNameAsUrl
-                    </p>
-                    <p>
-                        <strong>Approach</strong>:
-                        @a.MonitoringProgram.MonitoringApproach
-                    </p>
-
-                    <p>
-                        <strong>Partners</strong>:
-                        <ul>
-                            @Html.Raw(string.Join("\r\n", a.MonitoringProgram.MonitoringProgramPartners.Select(y => y.Organization).OrderBy(x => x.DisplayName).Select(x => string.Format("<li>{0}</li>", x.GetDisplayNameAsUrl()))))
-                        </ul>
-                    </p>
-                    if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Count > 1)
-                    {
-                        <hr />
-                    }
-                }
-            }
-            else
-            {
-                <p class="alert">No @FieldDefinition.MonitoringProgram.GetFieldDefinitionLabelPluralized() are yet associated with this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
-            }
-        </div>
-    </div>*@
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">

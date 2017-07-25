@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             Add(Models.FieldDefinition.MeasurementUnit.ToGridHeaderString("Unit"), a => a.MeasurementUnitType.MeasurementUnitTypeDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Type", a => a.PerformanceMeasureType.PerformanceMeasureTypeDisplayName, 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Definition", a => a.PerformanceMeasureDefinition, 400, DhtmlxGridColumnFilterType.Html);
-            Add("# of Subcategories", a => a.GetRealSubcategoryCount(), 110);
+            Add($"# of {Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()}", a => a.GetRealSubcategoryCount(), 110);
             Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.ReportedProjectsCount, 80);
         }
     }

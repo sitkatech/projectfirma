@@ -64,7 +64,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <th></th>
             <th style="white-space: nowrap">@Html.Raw(Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure))</th>
             <th>Year</th>
-            <th ng-show="hasAnySubcategories()">Subcategories</th>
+            <th ng-show="hasAnySubcategories()">@FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()</th>
             <th colspan="2" style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ReportedValue)</th>
         </tr>
         <tr ng-repeat="performanceMeasureActual in AngularModel.PerformanceMeasureActuals | orderBy:[getPerformanceMeasureName, 'CalendarYear', getProjectName]">
