@@ -67,11 +67,11 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div style="border-radius: 8px; background-color: white; margin-right: auto; margin-left: auto;">
                             @{ CalendarYearExpendituresLineChart.RenderPartialView(Html, ViewDataTyped.CalendarYearExpendituresLineChartViewData); }
                         </div>
-                        <span class="alert">Since some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() span multiple @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized(), expenditures reported above may be over reported for this @FieldDefinition.Watershed.GetFieldDefinitionLabel().</span>
+                        <span class="alert">Since some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() span multiple @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized(), the @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() above may be over-reported for this @FieldDefinition.Watershed.GetFieldDefinitionLabel().</span>
                     }
                     else
                     {
-                        <p class="alert">No expenditure data yet provided for this @FieldDefinition.Watershed.GetFieldDefinitionLabel().</p>
+                        <p class="alert">No @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabel() data yet provided for this @FieldDefinition.Watershed.GetFieldDefinitionLabel().</p>
                     }
                 </div>
             </div>

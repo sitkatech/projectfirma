@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.PerformanceMeasure
 @inherits EditSubcategoriesAndOptions
 
@@ -50,7 +51,7 @@ Source code is available upon request via <support@sitkatech.com>.
     
     <div class="alert alert-danger"
          ng-show="!AngularModel.PerformanceMeasureSubcategorySimples || !AngularModel.PerformanceMeasureSubcategorySimples.length || AngularModel.PerformanceMeasureSubcategorySimples.length < 1">
-        There are currently no Subcategories on this @MultiTenantHelpers.GetPerformanceMeasureName()
+        There are currently no @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() on this @MultiTenantHelpers.GetPerformanceMeasureName()
     </div>
     <div class="row" ng-repeat="subcategorySimple in AngularModel.PerformanceMeasureSubcategorySimples">
         <div class="panel panelFirma" style="margin: 10px 10px 0;">

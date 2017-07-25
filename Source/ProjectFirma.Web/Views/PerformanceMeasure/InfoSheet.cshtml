@@ -216,7 +216,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
     <div class="summarySection">
-        <span class="sectionTitle">Subcategories</span>
+        <span class="sectionTitle">@FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()</span>
         <div class="contentWrapper">
             @if (ViewDataTyped.PerformanceMeasure.HasRealSubcategories)
             {
@@ -245,7 +245,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <p class="alert">No subcategories for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
+                <p class="alert">No @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized() for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
             }
         </div>
     </div>

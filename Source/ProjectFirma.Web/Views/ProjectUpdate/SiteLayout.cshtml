@@ -49,7 +49,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @section RightOfPageTitle
 {
-    <a href="@ViewDataTyped.ProjectUpdateMyProjectsUrl" style="text-decoration: none">Back to Update My Projects list</a>
+    <a href="@ViewDataTyped.ProjectUpdateMyProjectsUrl" style="text-decoration: none">Back to Update My @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() list</a>
 }
 
 <div id="projectWizardContent" class="row">
@@ -166,16 +166,16 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="pull-right">
             @if (ViewDataTyped.ProjectUpdateBatch.IsReadyToSubmit)
             {
-                @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, string.Format("Submit Project {0} for review", ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
+                @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, string.Format("Submit {0} {1} for review", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
             }
             else if (ViewDataTyped.ShowApproveAndReturnButton)
             {
-                @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, string.Format("Return Project Updates for Project {0}", ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
+                @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, string.Format("Return {0} Updates for {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
                 <span style="padding: 2px"></span>
                 if (ViewDataTyped.IsReadyToApprove)
                 {
 
-                    @ModalDialogFormHelper.ModalDialogFormLink("Approve", ViewDataTyped.ApproveUrl, string.Format("Approve Project Updates for Project {0}", ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink("Approve", ViewDataTyped.ApproveUrl, string.Format("Approve {0} Updates for {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
                 }
                 else
                 {
@@ -197,7 +197,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <span>Returned by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.UpdatePerson.FullNameFirstLastAndOrg on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.TransitionDate.ToStringDateTime()</span>
             }
             <div>
-                <a href="@ViewDataTyped.Project.GetDetailUrl()" target="_blank">Back to  Project Details</a>
+                <a href="@ViewDataTyped.Project.GetDetailUrl()" target="_blank">Back to @FieldDefinition.Project.GetFieldDefinitionLabel() Details</a>
             </div>
 
         </div>

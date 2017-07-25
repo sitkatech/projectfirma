@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 PerformanceMeasureGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(contentUrl, $"Create a new {Models.FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()}");
 
             }
-            PerformanceMeasureGridSpec.CustomExcelDownloadLinkText = "Download with Subcategories";
+            PerformanceMeasureGridSpec.CustomExcelDownloadLinkText = $"Download with {Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()}";
             PerformanceMeasureGridSpec.CustomExcelDownloadUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());
 
             PerformanceMeasureGridName = "performanceMeasuresGrid";

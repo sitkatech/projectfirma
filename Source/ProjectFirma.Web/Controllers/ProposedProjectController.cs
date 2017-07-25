@@ -410,8 +410,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(proposedProject);
-            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} Location succesfully saved."); //WHICH ONE?? TODO
-            SetMessageForDisplay($"Proposed {FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} succesfully saved."); //WHICH ONE?? TODO
+            SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} Location succesfully saved.");
             return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditLocationDetailed(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditLocationSimple(proposedProject.PrimaryKey)));
         }
 

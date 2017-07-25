@@ -229,7 +229,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 else
                 {
-                    <p class="alert">No Subcategories for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
+                    <p class="alert">No @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized() for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
                 }
             </div>
         </div>
@@ -306,7 +306,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>Expected @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() Results per Project</h2>
+        <h2>Expected @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() Results per @FieldDefinition.Project.GetFieldDefinitionLabel()</h2>
     </div>
     <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureExpectedGridSpec, ViewDataTyped.PerformanceMeasureExpectedsGridName, ViewDataTyped.PerformanceMeasureExpectedsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
@@ -315,7 +315,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>Reported @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() Results per Project</h2>
+        <h2>Reported @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() Results per @FieldDefinition.Project.GetFieldDefinitionLabel()</h2>
     </div>
     <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
