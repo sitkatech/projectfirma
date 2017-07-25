@@ -198,7 +198,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0} {1} And {2} for {3}",
                    MultiTenantHelpers.GetPerformanceMeasureName(), FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized(),
                    FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                    @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory, $"{FieldDefinition.PerformanceMeasureSubcategory.DefaultDefinitionHtmlString}")
+                    @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory, string.Format("{0}", FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()))
                 </h2>
             </div>
             <div class="panel-body">
@@ -208,7 +208,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Options</th>
+                                <th>@FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized()</th>
                             </tr>
                         </thead>
                         <tbody>
