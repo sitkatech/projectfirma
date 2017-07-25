@@ -98,16 +98,6 @@
 }
 
 <div class="container firmaContent">
-    @if (ViewDataTyped.ShowEditButton)
-    {
-        <div class="rightFloatingInfo">
-                <div style="margin-top: 10px">
-                    <a class="btn btn-xs btn-firma" href="@ViewDataTyped.EditUrl">Edit</a>
-                </div>
-        </div>
-    }
-    
-
     @if (!ViewDataTyped.FirmaHomePageCarouselImages.Any())
     {
         <h2 class="pageTitle">@ViewDataTyped.PageTitle</h2>
@@ -134,7 +124,7 @@
     <div class="row">
         <div class="col-md-8">
             <div>
-                @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
+                @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageTextViewData); }
             </div>
         </div>
 
@@ -157,10 +147,16 @@
             <div class="col-md-12">
                 <h4>Featured Projects</h4>
                 @{ FeaturedProjects.RenderPartialView(Html, ViewDataTyped.FeaturedProjectsViewData); }
-
             </div>
         </div>
     }
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageAdditionalInfoTextViewData); }
+            </div>
+        </div>
+    </div>
 
     <script type="text/javascript">
         jQuery(document).ready(function () {

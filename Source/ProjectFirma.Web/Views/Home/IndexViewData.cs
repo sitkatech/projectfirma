@@ -20,41 +20,32 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using System.Linq;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 
 namespace ProjectFirma.Web.Views.Home
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly bool ShowEditButton;
-        public readonly string EditUrl;
-
+        public readonly ViewPageContentViewData CustomHomePageTextViewData;
+        public readonly ViewPageContentViewData CustomHomePageAdditionalInfoTextViewData;
         public readonly FeaturedProjectsViewData FeaturedProjectsViewData;
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
         public readonly string FullMapUrl;
         public readonly List<Models.FirmaHomePageImage> FirmaHomePageCarouselImages;
 
-        public IndexViewData(Person currentPerson,
-            Models.FirmaPage firmaPage,
-            FeaturedProjectsViewData featuredProjectsViewData,
-            ProjectLocationsMapViewData projectLocationsMapViewData,
-            ProjectLocationsMapInitJson projectLocationsMapInitJson,
-            List<Models.FirmaHomePageImage> firmaHomePageImages) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPageHomePage, Models.FirmaPage firmaPageAdditionalInfo, FeaturedProjectsViewData featuredProjectsViewData, ProjectLocationsMapViewData projectLocationsMapViewData, ProjectLocationsMapInitJson projectLocationsMapInitJson, List<Models.FirmaHomePageImage> firmaHomePageImages) : base(currentPerson, firmaPageHomePage)
         {
             PageTitle = MultiTenantHelpers.GetToolDisplayName();
 
-            var permissionCheckResult = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage);
-            ShowEditButton = permissionCheckResult.HasPermission;
-            EditUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.EditPageContent(FirmaPageTypeEnum.HomePage));
-
+            CustomHomePageTextViewData = new ViewPageContentViewData(firmaPageHomePage, currentPerson);
+            CustomHomePageAdditionalInfoTextViewData = new ViewPageContentViewData(firmaPageAdditionalInfo, currentPerson);
             FeaturedProjectsViewData = featuredProjectsViewData;
             FullMapUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ProjectMap());
             ProjectLocationsMapViewData = projectLocationsMapViewData;

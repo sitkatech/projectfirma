@@ -742,6 +742,8 @@
     <Compile Include="Views\FirmaHomePageImage\New.cs" />
     <Compile Include="Views\FirmaHomePageImage\NewViewData.cs" />
     <Compile Include="Views\FirmaHomePageImage\NewViewModel.cs" />
+    <Compile Include="Views\Shared\ViewPageContent.cs" />
+    <Compile Include="Views\Shared\ViewPageContentViewData.cs" />
     <Compile Include="Views\Tenant\Detail.cs" />
     <Compile Include="Views\TaxonomyTierTwoPerformanceMeasure\Edit.cs" />
     <Compile Include="Views\TaxonomyTierTwoPerformanceMeasure\EditViewData.cs" />
@@ -1150,9 +1152,6 @@
     <Compile Include="Views\Shared\CalendarYearString.cs" />
     <Compile Include="Views\Shared\DisplayPageContent.cs" />
     <Compile Include="Views\Shared\DisplayPageContentViewData.cs" />
-    <Compile Include="Views\Shared\EditPageContent.cs" />
-    <Compile Include="Views\Shared\EditPageContentViewData.cs" />
-    <Compile Include="Views\Shared\EditPageContentViewModel.cs" />
     <Compile Include="Views\Shared\PerformanceMeasureControls\EditPerformanceMeasureExpected.cs" />
     <Compile Include="Views\Shared\PerformanceMeasureControls\EditPerformanceMeasureExpectedViewData.cs" />
     <Compile Include="Views\Shared\PerformanceMeasureControls\EditPerformanceMeasureExpectedViewModel.cs" />
@@ -1316,6 +1315,7 @@
     <Content Include="Views\OrganizationAndRelationshipType\Index.cshtml" />
     <Content Include="Views\FirmaHomePageImage\Edit.cshtml" />
     <Content Include="Views\FirmaHomePageImage\New.cshtml" />
+    <Content Include="Views\Shared\ViewPageContent.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -3130,7 +3130,6 @@
     <Content Include="Views\Classification\Detail.cshtml" />
     <Content Include="Views\Shared\HtmlDiffSummary.cshtml" />
     <Content Include="Views\Shared\DisplayPageContent.cshtml" />
-    <Content Include="Views\Shared\EditPageContent.cshtml" />
     <Content Include="Views\Shared\NavAndHeaderLayout.cshtml" />
     <Content Include="Views\Snapshot\Edit.cshtml" />
     <Content Include="Views\Snapshot\Index.cshtml" />

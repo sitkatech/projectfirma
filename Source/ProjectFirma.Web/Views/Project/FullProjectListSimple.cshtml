@@ -21,10 +21,11 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.Project.FullProjectListSimple
 
 <div>
-    @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
 
 <table class="table table-striped table-hover table-condensed">
