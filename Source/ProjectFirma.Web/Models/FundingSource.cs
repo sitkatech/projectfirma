@@ -47,17 +47,15 @@ namespace ProjectFirma.Web.Models
 
         public string DisplayName
         {
-            get { return string.Format("{0} ({1}){2}", FundingSourceName, Organization.AbbreviationIfAvailable, !IsActive ? " (Inactive)" : string.Empty); }
+            get { return string.Format("{0} ({1}){2}", FundingSourceName, Organization.OrganizationShortNameIfAvailable, !IsActive ? " (Inactive)" : string.Empty); }
         }
 
         public string FixedLengthDisplayName
         {
             get
             {
-                var organizationAbbreviationIfAvailable = string.Format("({0})", Organization.AbbreviationIfAvailable);
-                var a = organizationAbbreviationIfAvailable.Length;
-
-                return string.Format("{0} {1}", FundingSourceName.ToEllipsifiedString(60 - a), organizationAbbreviationIfAvailable);
+                var organizationShortNameIfAvailable = $"({Organization.OrganizationShortNameIfAvailable})";
+                return $"{FundingSourceName.ToEllipsifiedString(60 - organizationShortNameIfAvailable.Length)} {organizationShortNameIfAvailable}";
             }
         }
 
