@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Service
         List<WebServiceProject> GetProjects(string returnType, string webServiceToken);
 
         [OperationContract]
-        [WebServiceDocumentationAttribute("Provides the list of {0}s where the specified {1} is a {2} or an {3} of the {0}.", FieldDefinitionEnum.Project, FieldDefinitionEnum.Organization, FieldDefinitionEnum.Funder, FieldDefinitionEnum.Implementer)]
+        [WebServiceDocumentationAttribute("Provides the list of {0}s for the specified {1}.", FieldDefinitionEnum.Project, FieldDefinitionEnum.Organization)]
         List<WebServiceProject> GetProjectsByOrganization(string returnType, string webServiceToken, int organizationID);
         
         [OperationContract]

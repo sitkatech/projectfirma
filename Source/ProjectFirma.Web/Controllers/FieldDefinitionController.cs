@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewEdit(FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey, EditViewModel viewModel)
         {
-            var viewData = new EditViewData(fieldDefinitionPrimaryKey, CurrentPerson);
+            var viewData = new EditViewData(CurrentPerson, fieldDefinitionPrimaryKey.EntityObject);
             return RazorView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 

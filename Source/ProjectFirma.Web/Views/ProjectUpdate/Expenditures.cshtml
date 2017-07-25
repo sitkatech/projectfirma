@@ -114,7 +114,7 @@ else
                     @ModalDialogFormHelper.ModalDialogFormLink("Contact support", ViewDataTyped.RequestFundingSourceUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
                 </span>
                 <br />
-                <label style="font-size: 12px"><input type="checkbox" ng-model="ShowOnlyProjectFunders" /> Show only my project's @FieldDefinition.Funder.GetFieldDefinitionLabelPluralized()</label>
+                <label style="font-size: 12px"><input type="checkbox" ng-model="ShowOnlyProjectFunders" /> Show only my project's funders</label>
             </div>
             <table class="table" style="margin-top: 20px; overflow: scroll" ng-show="AngularModel.ProjectFundingSourceExpenditures.length > 0">
                 <thead>

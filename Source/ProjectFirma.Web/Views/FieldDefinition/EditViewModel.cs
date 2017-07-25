@@ -45,8 +45,8 @@ namespace ProjectFirma.Web.Views.FieldDefinition
 
         public EditViewModel(FieldDefinitionData fieldDefinitionData)
         {
-            FieldDefinitionDataValue = fieldDefinitionData != null ? fieldDefinitionData.FieldDefinitionDataValueHtmlString : null;
-            FieldDefinitionLabel = fieldDefinitionData != null ? fieldDefinitionData.FieldDefinitionLabel : null;
+            FieldDefinitionDataValue = fieldDefinitionData?.FieldDefinitionDataValueHtmlString;
+            FieldDefinitionLabel = fieldDefinitionData?.FieldDefinitionLabel;
         }
 
         public void UpdateModel(FieldDefinitionData fieldDefinitionData)
