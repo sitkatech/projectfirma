@@ -33,4 +33,5 @@ values
 (41, 'ManageUpdateNotifications', 'Manage Project Update Notifications', 1),
 (42, 'ProjectUpdateStatus', 'Annual Project Update Status Report', 1),
 (43, 'ClassificationsList', 'Classifications List', 1),
-(44, 'MonitoringProgramsList', 'Monitoring Programs', 1)
+(44, 'MonitoringProgramsList', 'Monitoring Programs', 1),
+(45, 'ProposeProjectInstructions', 'Propose Project Instructions', 2)
