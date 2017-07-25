@@ -5,7 +5,7 @@
 
 @if (ViewDataTyped.ShowEditButton)
 {
-    <div id="@Html.Id(ViewDataTyped.FirmaPageContentID)" style="position: relative;">
+    <div id="@Html.Id(ViewDataTyped.FirmaPageContentID)" style="position: relative; min-height: 30px;">
         <div class="hoverEditButton" style="display: none;">
             <div style="margin-top: 10px">
                 @ModalDialogFormHelper.ModalDialogFormLink("Edit", ViewDataTyped.EditPageContentUrl, string.Format("Edit Content for {0}", ViewDataTyped.FirmaPage.FirmaPageType.FirmaPageTypeDisplayName), 900, "Save", "Cancel", new List<string> { "btn-firma btn-xs" }, null, null)                
