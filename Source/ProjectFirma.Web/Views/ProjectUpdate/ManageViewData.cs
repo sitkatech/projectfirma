@@ -60,11 +60,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             PeopleReceivingReminderGridSpec = peopleReceivingReminderGridSpec;
             PeopleReceivingReminderGridName = "peopleReceivingAnReminderGrid";
 
-            var getPersonIDFunctionString = string.Format("function() {{ return Sitka.{0}.getValuesFromCheckedGridRows({1}, '{2}', '{3}'); }}",
-                PeopleReceivingReminderGridName,
-                0,
-                "PersonID",
-                "PersonIDList");
+            var getPersonIDFunctionString = $"function() {{ return Sitka.{PeopleReceivingReminderGridName}.getValuesFromCheckedGridRows({0}, '{"PersonID"}', '{"PersonIDList"}'); }}";
 
 
             var modalDialogFormLink = ModalDialogFormHelper.ModalDialogFormLink("<span class=\"glyphicon glyphicon-envelope\" style=\"margin-right:5px\"></span>Send Notification to Selected People",

@@ -110,7 +110,7 @@ namespace ProjectFirma.Web.Common
                           || (endYear.HasValue && (!startYear.HasValue || endYear.Value >= startYear.Value)) // endYear provided and needs to either have start year null or start year <= end year
                           || !endYear.HasValue // only have startYear
                 ,
-                String.Format("Start Year {0} and End Year {1} are out of order!", startYear, endYear));
+                $"Start Year {startYear} and End Year {endYear} are out of order!");
             var currentYear = currentYearToUse;
             var defaultStartYear = currentYear;
             if (startYear.HasValue)

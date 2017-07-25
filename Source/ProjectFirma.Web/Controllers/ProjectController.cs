@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(project);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            SetMessageForDisplay(string.Format("Project {0} succesfully created.", UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)));
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.DisplayName)} succesfully created.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -151,7 +151,7 @@ namespace ProjectFirma.Web.Controllers
             var calendarYearsForProjectBudgets = project.ProjectBudgets.ToList().CalculateCalendarYearRangeForBudgets(project);
             var projectBudgetSummaryViewData = new ProjectBudgetDetailViewData(projectBudgetAmounts, calendarYearsForProjectBudgets);
 
-            var mapDivID = string.Format("project_{0}_Map", project.ProjectID);
+            var mapDivID = $"project_{project.ProjectID}_Map";
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID);
             var mapFormID = GenerateEditProjectLocationFormID(project);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
@@ -350,14 +350,14 @@ namespace ProjectFirma.Web.Controllers
             var projects = GetProjectsForGrid(null);
 
             var projectsSpec = new ProjectExcelSpec();
-            var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Projects", projectsSpec, projects);
+            var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", projectsSpec, projects);
 
             var projectsDescriptionSpec = new ProjectDescriptionExcelSpec();
             var wsProjectDescriptions = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.ProjectDescription.GetFieldDefinitionLabelPluralized()}", projectsDescriptionSpec, projects);
 
             var organizationsSpec = new ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec();
             var projectOrganizations = projects.SelectMany(p => p.ProjectOrganizations).ToList();
-            var wsOrganizations = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Project Organizations", organizationsSpec, projectOrganizations);
+            var wsOrganizations = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}", organizationsSpec, projectOrganizations);
 
             var projectNoteSpec = new ProjectNoteExcelSpec();
             var projectNotes = (projects.SelectMany(p => p.ProjectNotes)).ToList();
@@ -381,12 +381,12 @@ namespace ProjectFirma.Web.Controllers
 
             var projectWatershedSpec = new ProjectWatershedExcelSpec();
             var projectWatersheds = (projects.SelectMany(p => p.ProjectWatersheds)).ToList();
-            var wsProjectWatersheds = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Project Watersheds", projectWatershedSpec, projectWatersheds);
+            var wsProjectWatersheds = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()}", projectWatershedSpec, projectWatersheds);
 
             var projectClassificationSpec = new ProjectClassificationExcelSpec();
             var projectClassifications = projects.SelectMany(p => p.ProjectClassifications).ToList();
             var wsProjectClassifications = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(
-                $"Project {FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()}", projectClassificationSpec, projectClassifications);
+                $"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Classification.GetFieldDefinitionLabelPluralized()}", projectClassificationSpec, projectClassifications);
 
             
             var workSheets = new List<IExcelWorkbookSheetDescriptor>
@@ -404,7 +404,7 @@ namespace ProjectFirma.Web.Controllers
 
             var wbm = new ExcelWorkbookMaker(workSheets);
             var excelWorkbook = wbm.ToXLWorkbook();
-            return new ExcelResult(excelWorkbook, string.Format("Projects as of {0}", DateTime.Now.ToStringDateTime()));
+            return new ExcelResult(excelWorkbook, $"{FieldDefinition.Project.GetFieldDefinitionLabel()} as of {DateTime.Now.ToStringDateTime()}");
         }
 
         [HttpGet]
@@ -420,7 +420,7 @@ namespace ProjectFirma.Web.Controllers
             var canDelete = project.CanDelete().HasPermission;
             var confirmMessage = canDelete
                 ? $"Are you sure you want to delete this {FieldDefinition.Project.GetFieldDefinitionLabel()} '{project.DisplayName}'?"
-                : $"Only projects in the following stages may be deleted: {string.Join(", ", ProjectStage.All.Where(x => x.IsDeletable()).Select(x => x.ProjectStageDisplayName))}<br />{ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Project", SitkaRoute<ProjectController>.BuildLinkFromExpression(x => x.Detail(project), "here"))}";
+                : $"Only {FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} in the following stages may be deleted: {string.Join(", ", ProjectStage.All.Where(x => x.IsDeletable()).Select(x => x.ProjectStageDisplayName))}<br />{ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Project", SitkaRoute<ProjectController>.BuildLinkFromExpression(x => x.Detail(project), "here"))}";
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
@@ -533,9 +533,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 results.Add(
                     new ListItem(
-                        string.Format("<span style='font-weight:bold'>Displaying {0} of {1}</span><span style='color:blue; margin-left:8px'>See All Results</span>",
-                            ProjectsCountLimit,
-                            projectFindResults.Count),
+                        $"<span style='font-weight:bold'>Displaying {ProjectsCountLimit} of {projectFindResults.Count}</span><span style='color:blue; margin-left:8px'>See All Results</span>",
                         SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Search(term))));
             }
             return Json(results.Select(pfr => new {label = pfr.Text, value = pfr.Value}), JsonRequestBehavior.AllowGet);
@@ -626,18 +624,23 @@ namespace ProjectFirma.Web.Controllers
             var latestUpdateSubmittalDate = project.GetLatestUpdateSubmittalDate();
             if (latestUpdateSubmittalDate.HasValue)
             {
-                dateDisplayText = string.Format(" on <span style='font-weight: bold'>{0}</span>", latestUpdateSubmittalDate.Value.ToShortDateString());
+                dateDisplayText =
+                    $" on <span style='font-weight: bold'>{latestUpdateSubmittalDate.Value.ToShortDateString()}</span>";
             }
 
-            var viewData = new ConfirmDialogFormViewData(string.Format(@"
+            var viewData = new ConfirmDialogFormViewData($@"
 <div>
-An update for this {0} was already submitted for this {1} {2}. If {3} information has changed, 
-any new information you'd like to provide will be added to the {4}. Thanks for being pro-active!
+An update for this {FieldDefinition.Project.GetFieldDefinitionLabel()} was already submitted for this {
+                    FieldDefinition.ReportingYear.GetFieldDefinitionLabel()
+                } {dateDisplayText}. If {FieldDefinition.Project.GetFieldDefinitionLabel()} information has changed, 
+any new information you'd like to provide will be added to the {
+                    FieldDefinition.Project.GetFieldDefinitionLabel()
+                }. Thanks for being pro-active!
 </div>
 <div>
 <hr />
-Continue with a new {5} update?
-</div>", FieldDefinition.Project.GetFieldDefinitionLabel(), FieldDefinition.ReportingYear.GetFieldDefinitionLabel(), dateDisplayText, FieldDefinition.Project.GetFieldDefinitionLabel(), FieldDefinition.Project.GetFieldDefinitionLabel(), FieldDefinition.Project.GetFieldDefinitionLabel()));
+Continue with a new {FieldDefinition.Project.GetFieldDefinitionLabel()} update?
+</div>");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -706,7 +709,7 @@ Continue with a new {5} update?
         public static GoogleChartJson GetProjectFactSheetGoogleChart(ProjectPrimaryKey projectPrimaryKey)
         {
             const int chartSize = 430;
-            var chartName = string.Format("ProjectFactSheet{0}PieChart", projectPrimaryKey.PrimaryKeyValue);
+            var chartName = $"ProjectFactSheet{projectPrimaryKey.PrimaryKeyValue}PieChart";
 
             var project = projectPrimaryKey.EntityObject;
             var fundingSourceExpenditures = project.GetExpendituresDictionary();

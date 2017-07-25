@@ -168,7 +168,7 @@ namespace ProjectFirma.Web.Controllers
             var canDelete = !watershed.HasDependentObjects();
             var confirmMessage = canDelete
                 ? $"Are you sure you want to delete this {FieldDefinition.Watershed.GetFieldDefinitionLabel()} '{watershed.WatershedName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Watershed", SitkaRoute<WatershedController>.BuildLinkFromExpression(x => x.Detail(watershed), "here"));
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinition.Watershed.GetFieldDefinitionLabel()}", SitkaRoute<WatershedController>.BuildLinkFromExpression(x => x.Detail(watershed), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
