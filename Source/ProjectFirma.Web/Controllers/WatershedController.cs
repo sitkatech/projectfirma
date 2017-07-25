@@ -56,14 +56,10 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult IndexImpl()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.WatershedsList);
-            var layerGeoJsons = new List<LayerGeoJson>();
+            var mapInitJson = new MapInitJson("watershedIndex", 10, new List<LayerGeoJson>(), BoundingBox.MakeNewDefaultBoundingBox());
+            var geoserverUrl = HttpRequestStorage.Tenant.GetTenantAttribute().WatershedMapServiceUrl;
 
-            var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
-            var geoJsonForWatersheds = Watershed.ToGeoJsonFeatureCollection(watersheds);
-            layerGeoJsons.Add(new LayerGeoJson("Watershed", geoJsonForWatersheds, "#59ACFF", 0.6m, LayerInitialVisibility.Show));
-
-            var mapInitJson = new MapInitJson("watershedIndex", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox());
-            var viewData = new IndexViewData(CurrentPerson, firmaPage, mapInitJson);
+            var viewData = new IndexViewData(CurrentPerson, firmaPage, mapInitJson, geoserverUrl);
             return RazorView<Index, IndexViewData>(viewData);
         }
 

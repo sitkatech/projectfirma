@@ -1149,6 +1149,7 @@
           <ScalarProperty Name="ToolDisplayName" ColumnName="ToolDisplayName" />
           <ScalarProperty Name="RecaptchaPublicKey" ColumnName="RecaptchaPublicKey" />
           <ScalarProperty Name="RecaptchaPrivateKey" ColumnName="RecaptchaPrivateKey" />
+          <ScalarProperty Name="WatershedMapServiceUrl" ColumnName="WatershedMapServiceUrl" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

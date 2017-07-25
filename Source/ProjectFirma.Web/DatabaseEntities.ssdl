@@ -2005,6 +2005,7 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
     <Property Name="ToolDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="RecaptchaPublicKey" Type="varchar" MaxLength="100" />
     <Property Name="RecaptchaPrivateKey" Type="varchar" MaxLength="100" />
+    <Property Name="WatershedMapServiceUrl" Type="varchar" MaxLength="255" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectLocationArea_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.

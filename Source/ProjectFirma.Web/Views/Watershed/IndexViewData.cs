@@ -30,15 +30,17 @@ namespace ProjectFirma.Web.Views.Watershed
         public readonly MapInitJson MapInitJson;
         public readonly IndexGridSpec GridSpec;
         public readonly string GridName;
-        public readonly string GridDataUrl;        
+        public readonly string GridDataUrl;
+        public readonly string GeoserverUrl;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, MapInitJson mapInitJson) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, MapInitJson mapInitJson, string geoserverUrl) : base(currentPerson, firmaPage)
         {
             PageTitle = "Watersheds";
             MapInitJson = mapInitJson;
             GridSpec = new IndexGridSpec {ObjectNameSingular = "Watershed", ObjectNamePlural = "Watersheds", SaveFiltersInCookie = true};
             GridName = "watershedsGrid";
             GridDataUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            GeoserverUrl = geoserverUrl;
         }
     }
 }

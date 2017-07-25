@@ -23,15 +23,13 @@ using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
+using GeoJSON.Net.Feature;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class Watershed : IAuditableEntity
     {
-        public string DisplayName
-        {
-            get { return WatershedName; }
-        }
+        public string DisplayName => WatershedName;
 
         public List<Project> AssociatedProjects
         {
@@ -44,12 +42,9 @@ namespace ProjectFirma.Web.Models
             return watershed == null;
         }
 
-        public string AuditDescriptionString
-        {
-            get { return WatershedName; }
-        }
+        public string AuditDescriptionString => WatershedName;
 
-        public static GeoJSON.Net.Feature.FeatureCollection ToGeoJsonFeatureCollection(List<Watershed> watersheds)
+        public static FeatureCollection ToGeoJsonFeatureCollection(List<Watershed> watersheds)
         {
             var featureCollection = new GeoJSON.Net.Feature.FeatureCollection();
             featureCollection.Features.AddRange(watersheds.Select(MakeFeatureWithRelevantProperties).ToList());

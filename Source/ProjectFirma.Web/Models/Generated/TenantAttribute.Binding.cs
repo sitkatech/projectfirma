@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantDisplayName, string toolDisplayName, string recaptchaPublicKey, string recaptchaPrivateKey) : this()
+        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int numberOfTaxonomyTiersToUse, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantDisplayName, string toolDisplayName, string recaptchaPublicKey, string recaptchaPrivateKey, string watershedMapServiceUrl) : this()
         {
             this.TenantAttributeID = tenantAttributeID;
             this.DefaultBoundingBox = defaultBoundingBox;
@@ -44,6 +44,7 @@ namespace ProjectFirma.Web.Models
             this.ToolDisplayName = toolDisplayName;
             this.RecaptchaPublicKey = recaptchaPublicKey;
             this.RecaptchaPrivateKey = recaptchaPrivateKey;
+            this.WatershedMapServiceUrl = watershedMapServiceUrl;
         }
 
         /// <summary>
@@ -98,6 +99,7 @@ namespace ProjectFirma.Web.Models
         public string ToolDisplayName { get; set; }
         public string RecaptchaPublicKey { get; set; }
         public string RecaptchaPrivateKey { get; set; }
+        public string WatershedMapServiceUrl { get; set; }
         public int PrimaryKey { get { return TenantAttributeID; } set { TenantAttributeID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
@@ -112,6 +114,7 @@ namespace ProjectFirma.Web.Models
             public const int ToolDisplayName = 100;
             public const int RecaptchaPublicKey = 100;
             public const int RecaptchaPrivateKey = 100;
+            public const int WatershedMapServiceUrl = 255;
         }
     }
 }

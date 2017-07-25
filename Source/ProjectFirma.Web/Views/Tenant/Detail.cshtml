@@ -93,6 +93,22 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-xs-7">@ViewDataTyped.TenantAttribute.MinimumYear</div>
                 </div>
                 <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Watershed Map Service Url</div>
+                    <div class="col-xs-7">
+                        @if (ViewDataTyped.TenantAttribute.WatershedMapServiceUrl != null)
+                        {
+                            <a href="@ViewDataTyped.TenantAttribute.WatershedMapServiceUrl" target="_blank">
+                                @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")
+                                @ViewDataTyped.TenantAttribute.WatershedMapServiceUrl
+                            </a>
+                        }
+                        else
+                        {
+                            <em>Watershed Map Service Url not set.</em>
+                        }
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">
                         @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource != null)
                         {
