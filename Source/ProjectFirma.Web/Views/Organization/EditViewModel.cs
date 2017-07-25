@@ -44,9 +44,9 @@ namespace ProjectFirma.Web.Views.Organization
         public string OrganizationName { get; set; }
 
         [Required]
-        [StringLength(Models.Organization.FieldLengths.OrganizationAbbreviation)]
-        [DisplayName("Abbreviation")]
-        public string OrganizationAbbreviation { get; set; }
+        [StringLength(Models.Organization.FieldLengths.OrganizationShortName)]
+        [DisplayName("Short Name")]
+        public string OrganizationShortName { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationType)]
         [Required]
@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Views.Organization
         {
             OrganizationID = organization.OrganizationID;
             OrganizationName = organization.OrganizationName;
-            OrganizationAbbreviation = organization.OrganizationAbbreviation;
+            OrganizationShortName = organization.OrganizationShortName;
             OrganizationTypeID = organization.OrganizationTypeID;
             PrimaryContactPersonID = organization.PrimaryContactPerson?.PersonID;
             OrganizationUrl = organization.OrganizationUrl;
@@ -93,7 +93,7 @@ namespace ProjectFirma.Web.Views.Organization
         public void UpdateModel(Models.Organization organization, Person currentPerson)
         {
             organization.OrganizationName = OrganizationName;
-            organization.OrganizationAbbreviation = OrganizationAbbreviation;
+            organization.OrganizationShortName = OrganizationShortName;
             organization.OrganizationTypeID = OrganizationTypeID.Value;
             organization.IsActive = IsActive;
             organization.PrimaryContactPersonID = PrimaryContactPersonID;

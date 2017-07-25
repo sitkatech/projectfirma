@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Organization
             // Assert
             Assert.That(viewModel.OrganizationID, Is.EqualTo(organization.OrganizationID));
             Assert.That(viewModel.OrganizationName, Is.EqualTo(organization.OrganizationName));
-            Assert.That(viewModel.OrganizationAbbreviation, Is.EqualTo(organization.OrganizationAbbreviation));
+            Assert.That(viewModel.OrganizationShortName, Is.EqualTo(organization.OrganizationShortName));
         }
 
         [Test]
@@ -49,14 +49,14 @@ namespace ProjectFirma.Web.Views.Organization
             var organization = TestFramework.TestOrganization.Create();
             var viewModel = new EditViewModel(organization);
             viewModel.OrganizationName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.OrganizationName), Models.Organization.FieldLengths.OrganizationName);
-            viewModel.OrganizationAbbreviation = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.OrganizationAbbreviation), Models.Organization.FieldLengths.OrganizationAbbreviation);
+            viewModel.OrganizationShortName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.OrganizationShortName), Models.Organization.FieldLengths.OrganizationShortName);
 
             // Act
             viewModel.UpdateModel(organization, TestFramework.TestPerson.Create());
 
             // Assert
             Assert.That(organization.OrganizationName, Is.EqualTo(viewModel.OrganizationName));
-            Assert.That(organization.OrganizationAbbreviation, Is.EqualTo(viewModel.OrganizationAbbreviation));
+            Assert.That(organization.OrganizationShortName, Is.EqualTo(viewModel.OrganizationShortName));
         }
     }
 }

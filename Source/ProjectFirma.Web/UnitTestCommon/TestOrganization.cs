@@ -41,14 +41,14 @@ namespace ProjectFirma.Web.UnitTestCommon
 
             public static Organization Create(DatabaseEntities dbContext)
             {
-                string testOrganizationName = MakeTestName("Org Name");
-                const int maxLengthOfOrganizationAbbreviation = Organization.FieldLengths.OrganizationAbbreviation - 1;
-                string testOrganizationAbbreviation = TestFramework.MakeTestName(testOrganizationName, maxLengthOfOrganizationAbbreviation);                
+                var testOrganizationName = MakeTestName("Org Name");
+                const int maxLengthOfOrganizationShortName = Organization.FieldLengths.OrganizationShortName - 1;
+                var testOrganizationShortName = MakeTestName(testOrganizationName, maxLengthOfOrganizationShortName);                
                 // Since a person contains an Org, we get into a chicken & egg recursion issue. So we put in a stubby Person to start with
                 //Person testPersonPrimaryContact = TestPerson.Create();
 
                 var testOrganization = new Organization(testOrganizationName, true);
-                testOrganization.OrganizationAbbreviation = testOrganizationAbbreviation;
+                testOrganization.OrganizationShortName = testOrganizationShortName;
                 //testOrganization.PrimaryContactPerson = testPersonPrimaryContact;
 
                 // Now we sew up the Person with our org

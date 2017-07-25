@@ -263,7 +263,7 @@
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="OrganizationGuid" ColumnName="OrganizationGuid" />
           <ScalarProperty Name="OrganizationName" ColumnName="OrganizationName" />
-          <ScalarProperty Name="OrganizationAbbreviation" ColumnName="OrganizationAbbreviation" />
+          <ScalarProperty Name="OrganizationShortName" ColumnName="OrganizationShortName" />
           <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="OrganizationUrl" ColumnName="OrganizationUrl" />

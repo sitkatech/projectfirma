@@ -36,12 +36,12 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationAbbreviation, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceID, int? organizationTypeID, DbGeometry organizationBoundary) : this()
+        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceID, int? organizationTypeID, DbGeometry organizationBoundary) : this()
         {
             this.OrganizationID = organizationID;
             this.OrganizationGuid = organizationGuid;
             this.OrganizationName = organizationName;
-            this.OrganizationAbbreviation = organizationAbbreviation;
+            this.OrganizationShortName = organizationShortName;
             this.PrimaryContactPersonID = primaryContactPersonID;
             this.IsActive = isActive;
             this.OrganizationUrl = organizationUrl;
@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Models
         public int TenantID { get; private set; }
         public Guid? OrganizationGuid { get; set; }
         public string OrganizationName { get; set; }
-        public string OrganizationAbbreviation { get; set; }
+        public string OrganizationShortName { get; set; }
         public int? PrimaryContactPersonID { get; set; }
         public bool IsActive { get; set; }
         public string OrganizationUrl { get; set; }
@@ -114,7 +114,7 @@ namespace ProjectFirma.Web.Models
         public static class FieldLengths
         {
             public const int OrganizationName = 200;
-            public const int OrganizationAbbreviation = 50;
+            public const int OrganizationShortName = 50;
             public const int OrganizationUrl = 200;
         }
     }
