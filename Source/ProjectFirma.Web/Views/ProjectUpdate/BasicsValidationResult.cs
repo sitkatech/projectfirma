@@ -95,9 +95,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             return _warningMessages;
         }
 
-        public bool IsValid
-        {
-            get { return !_warningMessages.Any(); }
-        }
+        public bool IsValid => !_warningMessages.Any();
     }
 }

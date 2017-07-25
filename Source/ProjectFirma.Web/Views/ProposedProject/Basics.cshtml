@@ -92,6 +92,13 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
     <div class="row">
+        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.PrimaryContactPerson)</div>
+        <div class="col-md-6">
+            @Html.DropDownListFor(m => m.PrimaryContactPerson, ViewDataTyped.PrimaryContacts)
+            @Html.ValidationMessageFor(m => m.PrimaryContactPerson)
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.FundingTypeID)</div>
         <div class="col-md-8">
             @Html.DropDownListFor(m => m.FundingTypeID, ViewDataTyped.FundingTypes, new { onchange = "displaySelectedFundingTypeFields()" })
