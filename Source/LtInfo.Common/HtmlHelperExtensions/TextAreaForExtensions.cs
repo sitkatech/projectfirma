@@ -24,7 +24,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Web.Mvc;
 using LtInfo.Common.DesignByContract;
 
@@ -70,8 +69,19 @@ namespace LtInfo.Common.HtmlHelperExtensions
             Expression<Func<TViewModel, TValue>> expression,
             TextAreaDimensions textAreaDimensions, string optionalPlaceholderText)
         {
+            return html.TextAreaWithMaxLengthFor(expression, textAreaDimensions, optionalPlaceholderText, null);
+        }
+
+        /// <summary>
+        /// Custom TextArea control that has the max chars left in another div
+        /// Only public for unit testing
+        /// </summary>
+        public static MvcHtmlString TextAreaWithMaxLengthFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html,
+            Expression<Func<TViewModel, TValue>> expression,
+            TextAreaDimensions textAreaDimensions, string optionalPlaceholderText, IEnumerable<string> cssClasses)
+        {
             int? maxLength = null;
-            var memberExpression = (expression.Body as MemberExpression);
+            var memberExpression = expression.Body as MemberExpression;
             if (memberExpression != null)
             {
                 var stringLengthAttribute =
@@ -92,6 +102,14 @@ namespace LtInfo.Common.HtmlHelperExtensions
             var fieldId = TagBuilder.CreateSanitizedId(fullBindingName);
 
             var textAreaTag = new TagBuilder("textarea");
+            if (cssClasses != null)
+            {
+                foreach (var cssClass in cssClasses)
+                {
+                    textAreaTag.AddCssClass(cssClass);
+                }
+            }
+
             textAreaTag.Attributes.Add("name", fullBindingName);
             textAreaTag.Attributes.Add("id", fieldId);
             if (textAreaEnableType == TextAreaEnableType.Disabled)
@@ -117,6 +135,7 @@ namespace LtInfo.Common.HtmlHelperExtensions
                 return AddCharactersRemainingToTextArea(textAreaTag, fieldId, value, maxLength.Value,
                     textAreaDimensions.ColumnWidthInPixels.HasValue);
             }
+
             return new MvcHtmlString(textAreaTag.ToString(TagRenderMode.Normal));
         }
 
@@ -143,12 +162,9 @@ namespace LtInfo.Common.HtmlHelperExtensions
                 value = value.Substring(0, maxLength);
                 textAreaTag.InnerHtml = value;
             }
-            var charactersRemainingElementName = string.Format("CharactersRemaining_{0}", fieldId);
-            var keyUpKeyDownMaxLengthJavascript = string.Format("Sitka.Methods.keepTextAreaWithinMaxLength(this, {0}, {1}, '{2}', '{3}');",
-                maxLength,
-                lowCharacterCountWarning,
-                charactersRemainingElementName,
-                charactersRemainingString);
+            var charactersRemainingElementName = $"CharactersRemaining_{fieldId}";
+            var keyUpKeyDownMaxLengthJavascript =
+                $"Sitka.Methods.keepTextAreaWithinMaxLength(this, {maxLength}, {lowCharacterCountWarning}, '{charactersRemainingElementName}', '{charactersRemainingString}');";
             textAreaTag.Attributes.Add("onkeydown", keyUpKeyDownMaxLengthJavascript);
             textAreaTag.Attributes.Add("onkeyup", keyUpKeyDownMaxLengthJavascript);
 
@@ -163,9 +179,9 @@ namespace LtInfo.Common.HtmlHelperExtensions
             maxCharsDivTag.Attributes.Add("id", charactersRemainingElementName);
             var charactersRemaining = maxLength - valueLength;
             var charLimitStyle = (charactersRemaining <= lowCharacterCountWarning) ? "color:red;" : "color:#666666;";
-            maxCharsDivTag.Attributes.Add("style", string.Format("text-align:right;{0}", charLimitStyle));
+            maxCharsDivTag.Attributes.Add("style", $"text-align:right;{charLimitStyle}");
             maxCharsDivTag.Attributes.Add("class", "charactersRemainingText");
-            maxCharsDivTag.InnerHtml = string.Format("{0}{1}", charactersRemainingString, charactersRemaining);
+            maxCharsDivTag.InnerHtml = $"{charactersRemainingString}{charactersRemaining}";
 
             textAreaDivTag.InnerHtml = textAreaTag.ToString(TagRenderMode.Normal) + maxCharsDivTag.ToString(TagRenderMode.Normal);
 
@@ -182,9 +198,10 @@ namespace LtInfo.Common.HtmlHelperExtensions
             const string disabledBackgroundColor = "#DDDDDD";
             var backgroundColorString = textAreaEnableType == TextAreaEnableType.Enabled ? string.Empty : " background-color: " + disabledBackgroundColor;
             // We put in a "width" field (and not the "cols" attribute) when we are *NOT* in an IE browser AND we aren't using a monospaced font
-            var pixelWidthString = textAreaDimensions.ColumnWidthInPixels.HasValue ? string.Format("width:{0}px", textAreaDimensions.ColumnWidthInPixels) : "width:100%";
+            var pixelWidthString = textAreaDimensions.ColumnWidthInPixels.HasValue ? $"width:{textAreaDimensions.ColumnWidthInPixels}px"
+                : "width:100%";
             const string disableResizeString = "resize: none";
-            var styleString = string.Format("{0};{1};{2};", backgroundColorString, pixelWidthString, disableResizeString);
+            var styleString = $"{backgroundColorString};{pixelWidthString};{disableResizeString};";
             return styleString;
         }
     }

@@ -77,7 +77,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div id="ExplanationForNoMeasuresDiv">
             <p>If no @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are included, please explain why:</p>
             <div>
-                @Html.TextAreaWithMaxLengthFor(m => m.PerformanceMeasureNotes, new TextAreaForExtensions.TextAreaDimensions(null, 2), null)
+                @Html.TextAreaWithMaxLengthFor(m => m.PerformanceMeasureNotes, new TextAreaForExtensions.TextAreaDimensions(null, 2), null, new List<string> {"form-control"})
             </div>
         </div>
     </div>
