@@ -57,9 +57,11 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.WatershedsList);
             var mapInitJson = new MapInitJson("watershedIndex", 10, new List<LayerGeoJson>(), BoundingBox.MakeNewDefaultBoundingBox());
-            var geoserverUrl = HttpRequestStorage.Tenant.GetTenantAttribute().WatershedMapServiceUrl;
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var geoserverUrl = tenantAttribute.MapServiceUrl;
+            var watershedLayerName = tenantAttribute.WatershedLayerName;
 
-            var viewData = new IndexViewData(CurrentPerson, firmaPage, mapInitJson, geoserverUrl);
+            var viewData = new IndexViewData(CurrentPerson, firmaPage, mapInitJson, geoserverUrl, watershedLayerName);
             return RazorView<Index, IndexViewData>(viewData);
         }
 

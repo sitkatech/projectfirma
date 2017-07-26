@@ -69,5 +69,15 @@ Source code is available upon request via <support@sitkatech.com>.
         var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None)),
             geoserverUrl = @Html.Raw(ViewDataTyped.GeoserverUrl != null ? ViewDataTyped.GeoserverUrl.ToJS() : "null");
         window.Sitka.map = new ProjectFirmaMaps.GeoServerMap(mapInitJson, null, geoserverUrl);
+
+        initializeWatershedMap(window.Sitka.map);
     });
+
+    function initializeWatershedMap(watershedMap) {
+        var watershedLayerName = @Html.Raw(ViewDataTyped.WatershedLayerName != null ? ViewDataTyped.WatershedLayerName.ToJS() : "null");
+        watershedMap.wmsParams = watershedMap.createWmsParamsWithLayerName(watershedLayerName);
+        watershedMap.wfsParams = watershedMap.createWfsParamsWithLayerName(watershedLayerName);
+
+        watershedMap.addWmsLayer(watershedLayerName, "Watersheds");
+    }
 </script>

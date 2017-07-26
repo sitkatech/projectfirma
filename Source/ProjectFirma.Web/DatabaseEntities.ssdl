@@ -92,6 +92,14 @@
     <EntitySet Name="TaxonomyTierTwoPerformanceMeasure" EntityType="ProjectFirma.Web.Models.Store.TaxonomyTierTwoPerformanceMeasure" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TenantAttribute" EntityType="ProjectFirma.Web.Models.Store.TenantAttribute" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Store.Watershed" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="vGeoServerWatershed" EntityType="ProjectFirma.Web.Models.Store.vGeoServerWatershed" store:Type="Views" store:Schema="dbo" store:Name="vGeoServerWatershed">
+      <DefiningQuery>SELECT 
+[vGeoServerWatershed].[WatershedID] AS [WatershedID], 
+[vGeoServerWatershed].[WatershedName] AS [WatershedName], 
+[vGeoServerWatershed].[WatershedFeature] AS [WatershedFeature], 
+[vGeoServerWatershed].[TenantName] AS [TenantName]
+FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID" Association="ProjectFirma.Web.Models.Store.FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID">
       <End Role="AssessmentSubGoal" EntitySet="AssessmentSubGoal" />
       <End Role="AssessmentQuestions" EntitySet="AssessmentQuestion" />
@@ -2005,7 +2013,8 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
     <Property Name="ToolDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="RecaptchaPublicKey" Type="varchar" MaxLength="100" />
     <Property Name="RecaptchaPrivateKey" Type="varchar" MaxLength="100" />
-    <Property Name="WatershedMapServiceUrl" Type="varchar" MaxLength="255" />
+    <Property Name="MapServiceUrl" Type="varchar" MaxLength="255" />
+    <Property Name="WatershedLayerName" Type="varchar" MaxLength="255" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectLocationArea_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -2020,6 +2029,20 @@ warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_Tenant
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="WatershedName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="WatershedFeature" Type="geometry" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+-->
+  <EntityType Name="vGeoServerWatershed">
+    <Key>
+      <PropertyRef Name="WatershedID" />
+      <PropertyRef Name="WatershedName" />
+      <PropertyRef Name="TenantName" />
+    </Key>
+    <Property Name="WatershedID" Type="int" Nullable="false" />
+    <Property Name="WatershedName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="WatershedFeature" Type="geometry" />
+    <Property Name="TenantName" Type="varchar" Nullable="false" MaxLength="100" />
   </EntityType>
   <Association Name="FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID">
     <End Role="AssessmentSubGoal" Type="ProjectFirma.Web.Models.Store.AssessmentSubGoal" Multiplicity="1" />

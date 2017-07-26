@@ -32,8 +32,9 @@ namespace ProjectFirma.Web.Views.Watershed
         public readonly string GridName;
         public readonly string GridDataUrl;
         public readonly string GeoserverUrl;
+        public readonly string WatershedLayerName;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, MapInitJson mapInitJson, string geoserverUrl) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, MapInitJson mapInitJson, string geoserverUrl, string watershedLayerName) : base(currentPerson, firmaPage)
         {
             PageTitle = "Watersheds";
             MapInitJson = mapInitJson;
@@ -41,6 +42,7 @@ namespace ProjectFirma.Web.Views.Watershed
             GridName = "watershedsGrid";
             GridDataUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
             GeoserverUrl = geoserverUrl;
+            WatershedLayerName = watershedLayerName;
         }
     }
 }

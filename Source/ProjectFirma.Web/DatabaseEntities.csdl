@@ -92,6 +92,7 @@
     <EntitySet Name="TaxonomyTierTwoPerformanceMeasure" EntityType="ProjectFirma.Web.Models.TaxonomyTierTwoPerformanceMeasure" />
     <EntitySet Name="TenantAttribute" EntityType="ProjectFirma.Web.Models.TenantAttribute" />
     <EntitySet Name="Watershed" EntityType="ProjectFirma.Web.Models.Watershed" />
+    <EntitySet Name="vGeoServerWatershed" EntityType="ProjectFirma.Web.Models.vGeoServerWatershed" />
     <AssociationSet Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID" Association="ProjectFirma.Web.Models.FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
       <End Role="AssessmentGoal" EntitySet="AssessmentGoal" />
       <End Role="AssessmentSubGoals" EntitySet="AssessmentSubGoal" />
@@ -2082,7 +2083,8 @@
     <Property Name="ToolDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="RecaptchaPublicKey" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="RecaptchaPrivateKey" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="WatershedMapServiceUrl" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+    <Property Name="MapServiceUrl" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+    <Property Name="WatershedLayerName" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="TenantBannerLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantBannerLogoFileResource" ToRole="TenantBannerLogoFileResource" />
     <NavigationProperty Name="TenantSquareLogoFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantSquareLogoFileResource" ToRole="TenantSquareLogoFileResource" />
     <NavigationProperty Name="TenantStyleSheetFileResource" Relationship="ProjectFirma.Web.Models.FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_FileResourceID" FromRole="TenantAttributesWhereYouAreTheTenantStyleSheetFileResource" ToRole="TenantStyleSheetFileResource" />
@@ -2099,6 +2101,17 @@
     <NavigationProperty Name="ProjectLocationAreas" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationArea_Watershed_WatershedID" FromRole="Watershed" ToRole="ProjectLocationAreas" />
     <NavigationProperty Name="ProjectLocationAreaWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProjectLocationAreaWatershed_Watershed_WatershedID" FromRole="Watershed" ToRole="ProjectLocationAreaWatersheds" />
     <NavigationProperty Name="ProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Watershed_WatershedID" FromRole="Watershed" ToRole="ProjectWatersheds" />
+  </EntityType>
+  <EntityType Name="vGeoServerWatershed">
+    <Key>
+      <PropertyRef Name="WatershedID" />
+      <PropertyRef Name="WatershedName" />
+      <PropertyRef Name="TenantName" />
+    </Key>
+    <Property Name="WatershedID" Type="Int32" Nullable="false" />
+    <Property Name="WatershedName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="WatershedFeature" Type="Geometry" />
+    <Property Name="TenantName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
   </EntityType>
   <Association Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
     <End Role="AssessmentGoal" Type="ProjectFirma.Web.Models.AssessmentGoal" Multiplicity="1" />
