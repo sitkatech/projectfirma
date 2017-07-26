@@ -130,8 +130,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
-            var primaryContacts = HttpRequestStorage.DatabaseEntities.People;
-            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContacts, FundingType.All, taxonomyTierOnes);
+            var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People;
+            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, FundingType.All, taxonomyTierOnes);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
