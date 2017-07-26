@@ -38,7 +38,7 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <div class="hidden-xs">
-    @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
 
 <div style="margin-top: 10px;">

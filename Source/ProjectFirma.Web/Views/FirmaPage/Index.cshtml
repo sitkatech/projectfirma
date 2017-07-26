@@ -28,11 +28,13 @@ Source code is available upon request via <support@sitkatech.com>.
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
-<div>
-    @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
-</div>
 
 <div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <p>Use this page to update the page content and introductory text that appears at the top of various pages within this system. Select a page to view its current introductory text. You can also edit the text in place throughout the site by using the Edit button that appears when you hover over content that is customizable.</p>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-7">
             @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)

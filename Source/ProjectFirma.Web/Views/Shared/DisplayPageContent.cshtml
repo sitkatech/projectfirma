@@ -21,16 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared
 @inherits DisplayPageContent
 
-@section RightOfPageTitle
-{
-    @if (ViewDataTyped.ShowEditButton)
-    {
-        <div style="margin-top: 10px">
-            <a class="btn btn-xs btn-firma" href="@ViewDataTyped.EditUrl">Edit</a>
-        </div>
-    }
-}
-
 <div>
-    @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewWholePageContentViewData); }
 </div>

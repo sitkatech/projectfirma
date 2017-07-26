@@ -25,6 +25,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Classification
 {

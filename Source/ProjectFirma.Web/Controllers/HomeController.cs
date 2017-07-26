@@ -46,8 +46,11 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult Index()
         {
-            var firmaPageType = FirmaPageType.ToType(FirmaPageTypeEnum.HomePage);
-            var firmaPageByPageType = FirmaPage.GetFirmaPageByPageType(firmaPageType);
+            var firmaPageTypeHomePage = FirmaPageType.ToType(FirmaPageTypeEnum.HomePage);
+            var firmaPageByPageTypeHomePage = FirmaPage.GetFirmaPageByPageType(firmaPageTypeHomePage);
+
+            var firmaPageTypeHomePageAdditionalInfo = FirmaPageType.ToType(FirmaPageTypeEnum.HomeAdditionalInfo);
+            var firmaPageByPageTypeHomePageAdditionalInfo = FirmaPage.GetFirmaPageByPageType(firmaPageTypeHomePageAdditionalInfo);
 
             var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().OrderBy(x => x.SortOrder).ToList();
 
@@ -66,7 +69,7 @@ namespace ProjectFirma.Web.Controllers
             
             var featuredProjectsViewData = new FeaturedProjectsViewData(HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.IsFeatured).ToList());
 
-            var viewData = new IndexViewData(CurrentPerson, firmaPageByPageType, featuredProjectsViewData, projectLocationsMapViewData, projectLocationsMapInitJson, firmaHomePageImages);
+            var viewData = new IndexViewData(CurrentPerson, firmaPageByPageTypeHomePage, firmaPageByPageTypeHomePageAdditionalInfo, featuredProjectsViewData, projectLocationsMapViewData, projectLocationsMapInitJson, firmaHomePageImages);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -91,32 +94,6 @@ namespace ProjectFirma.Web.Controllers
             var firmaPageType = FirmaPageType.ToType(firmaPageTypeEnum);
             var viewData = new DisplayPageContentViewData(CurrentPerson, firmaPageType);
             return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
-        }
-
-        [HttpGet]
-        [FirmaAdminFeature]
-        public ViewResult EditPageContent(FirmaPageTypeEnum firmaPageTypeEnum)
-        {
-            var firmaPageType = FirmaPageType.ToType(firmaPageTypeEnum);
-            var viewModel = new EditPageContentViewModel(firmaPageType);
-            var viewData = new EditPageContentViewData(CurrentPerson, firmaPageType);
-            return RazorView<EditPageContent, EditPageContentViewData, EditPageContentViewModel>(viewData, viewModel);
-        }
-
-        [HttpPost]
-        [FirmaAdminFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditPageContent(FirmaPageTypeEnum firmaPageTypeEnum, EditPageContentViewModel viewModel)
-        {
-            var firmaPageType = FirmaPageType.ToType(firmaPageTypeEnum);
-            if (!ModelState.IsValid)
-            {
-                var viewData = new EditPageContentViewData(CurrentPerson, firmaPageType);
-                return RazorView<EditPageContent, EditPageContentViewData, EditPageContentViewModel>(viewData, viewModel);
-            }
-            viewModel.UpdateModel(firmaPageType, CurrentPerson);
-
-            return RedirectToAction((new SitkaRoute<HomeController>(c => c.ViewPageContent(firmaPageTypeEnum))));
         }
 
         [HttpGet]

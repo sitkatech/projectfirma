@@ -459,29 +459,6 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        [ProjectsViewActiveProjectsListFeature] 
-        public ViewResult ActiveProjectsList()
-        {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ActiveProjectsList);
-            var viewData = new ActiveProjectsListViewData(CurrentPerson, firmaPage);
-            return RazorView<ActiveProjectsList, ActiveProjectsListViewData>(viewData);
-        }
-
-        [ProjectsViewActiveProjectsListFeature]
-        public GridJsonNetJObjectResult<Project> ActiveProjectsListGridJsonData()
-        {
-            BasicProjectInfoGridSpec gridSpec;
-            var projects = GetActiveProjectsListGridSpec(out gridSpec);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-
-        private List<Project> GetActiveProjectsListGridSpec(out BasicProjectInfoGridSpec gridSpec)
-        {
-            gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            return GetProjectsForGrid(p => p.IsOnActiveProjectsList);
-        }      
-
         [FirmaAdminFeature]
         public GridJsonNetJObjectResult<AuditLog> AuditLogsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {

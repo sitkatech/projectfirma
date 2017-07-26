@@ -1,0 +1,41 @@
+﻿
+@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Views.Shared
+@inherits ViewPageContent
+
+@if (ViewDataTyped.ShowEditButton)
+{
+    <div id="@Html.Id(ViewDataTyped.FirmaPageContentID)" style="position: relative; min-height: 30px;">
+        <div class="hoverEditButton" style="display: none;">
+            <div style="margin-top: 10px">
+                @ModalDialogFormHelper.ModalDialogFormLink("Edit", ViewDataTyped.EditPageContentUrl, string.Format("Edit Content for {0}", ViewDataTyped.FirmaPage.FirmaPageType.FirmaPageTypeDisplayName), 900, "Save", "Cancel", new List<string> { "btn-firma btn-xs" }, null, null)                
+            </div>
+        </div>
+        @if (ViewDataTyped.FirmaPage.HasFirmaPageContent)
+        {
+            @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
+        }
+        else
+        {
+            <div class="hoverEmptySpace"></div>
+        }        
+    </div>
+}
+else
+{
+    <div>
+        @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
+    </div>
+}
+
+<script>
+    jQuery("#@Html.Id(ViewDataTyped.FirmaPageContentID)").hover(function(){
+            jQuery(".hoverEditButton").fadeIn("fast");
+            jQuery(this).addClass("grayBackground");
+        }
+        ,function(){
+            jQuery(".hoverEditButton").fadeOut("fast");
+            jQuery(this).removeClass("grayBackground");
+        }
+    );
+</script>

@@ -19,17 +19,21 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.ProposedProject
 {
     public class InstructionsViewData : ProposedProjectViewData
     {
-        public InstructionsViewData(Person currentPerson) : base(currentPerson, ProposedProjectSectionEnum.Instructions)
+        public readonly ViewPageContentViewData InstructionsViewPageContentViewData;
+        public InstructionsViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, ProposedProjectSectionEnum.Instructions)
         {
+            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);
         }
 
-        public InstructionsViewData(Person currentPerson, Models.ProposedProject proposedProject, ProposalSectionsStatus proposalSectionsStatus) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Instructions, proposalSectionsStatus)
+        public InstructionsViewData(Person currentPerson, Models.ProposedProject proposedProject, ProposalSectionsStatus proposalSectionsStatus, Models.FirmaPage firmaPage) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Instructions, proposalSectionsStatus)
         {
+            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, currentPerson);
         }
     }
 }

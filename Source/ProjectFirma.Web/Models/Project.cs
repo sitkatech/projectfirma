@@ -64,11 +64,6 @@ namespace ProjectFirma.Web.Models
             return project == null;
         }
 
-        public bool IsOnActiveProjectsList
-        {
-            get { return ProjectStage.IsOnActiveProjectsList(); }
-        }
-
         public Person GetPrimaryContact() => PrimaryContactPerson ?? LeadImplementerOrganization?.PrimaryContactPerson;
 
         public decimal? UnfundedNeed => EstimatedTotalCost - SecuredFunding;

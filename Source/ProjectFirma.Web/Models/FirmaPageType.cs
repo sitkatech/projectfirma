@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetViewUrl()
         {
-            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.ViewPageContent(ToEnum));
+            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 
@@ -81,14 +81,6 @@ namespace ProjectFirma.Web.Models
         public override string GetViewUrl()
         {
             return SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Index());
-        }
-    }
-
-    public partial class FirmaPageTypeActiveProjectsList
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.ActiveProjectsList());
         }
     }
 
@@ -161,14 +153,6 @@ namespace ProjectFirma.Web.Models
         public override string GetViewUrl()
         {
             return SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.MyOrganizationsProjects());
-        }
-    }
-
-    public partial class FirmaPageTypePagesWithIntroTextList
-    {
-        public override string GetViewUrl()
-        {
-            return SitkaRoute<FirmaPageController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 
@@ -289,6 +273,13 @@ namespace ProjectFirma.Web.Models
         public override string GetViewUrl()
         {
             return SitkaRoute<MonitoringProgramController>.BuildUrlFromExpression(x => x.Index());
+        }
+    }
+    public partial class FirmaPageTypeProposeProjectInstructions
+    {
+        public override string GetViewUrl()
+        {
+            return SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Instructions(null));
         }
     }
 }

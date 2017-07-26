@@ -9,7 +9,6 @@ values
 (4, 'DemoScript', 'Demo Script', 2),
 (5, 'InternalSetupNotes', 'Internal Setup Notes', 2),
 (6, 'FullProjectList', 'Full Project List', 1),
-(7, 'ActiveProjectsList', 'Active Projects List', 1),
 (9, 'PerformanceMeasuresList', 'Performance Measures List', 1),
 (11, 'TaxonomyTierOneList', 'Taxonomy Tier One List', 1),
 (13, 'TaxonomyTierTwoList', 'Taxonomy Tier Two List', 1),
@@ -18,7 +17,6 @@ values
 (16, 'OrganizationsList', 'Organizations List', 1),
 (17, 'WatershedsList', 'Watersheds List', 1),
 (18, 'MyProjects', 'My Projects', 1),
-(19, 'PagesWithIntroTextList', 'Manage Introductory Text for Pages', 1),
 (20, 'InvestmentByOrganizationType', 'Investment by Organization Type', 1),
 (21, 'SpendingByOrganizationTypeByTaxonomyTier', 'Spending by Organization Type by Taxonomy Tier', 1),
 (22, 'ProjectMap', 'Project Map', 1),
@@ -35,4 +33,5 @@ values
 (41, 'ManageUpdateNotifications', 'Manage Project Update Notifications', 1),
 (42, 'ProjectUpdateStatus', 'Annual Project Update Status Report', 1),
 (43, 'ClassificationsList', 'Classifications List', 1),
-(44, 'MonitoringProgramsList', 'Monitoring Programs', 1)
+(44, 'MonitoringProgramsList', 'Monitoring Programs', 1),
+(45, 'ProposeProjectInstructions', 'Propose Project Instructions', 2)

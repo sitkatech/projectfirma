@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.ProgramInfo.Taxonomy
 @section JavascriptAndStylesContent
 {
@@ -83,7 +83,7 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <div>
-    @ViewDataTyped.FirmaPage.FirmaPageContentHtmlString
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
 
 <div class="panel panel-default">
