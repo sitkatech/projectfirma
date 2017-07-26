@@ -275,4 +275,11 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<MonitoringProgramController>.BuildUrlFromExpression(x => x.Index());
         }
     }
+    public partial class FirmaPageTypeProposeProjectInstructions
+    {
+        public override string GetViewUrl()
+        {
+            return SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Instructions(null));
+        }
+    }
 }

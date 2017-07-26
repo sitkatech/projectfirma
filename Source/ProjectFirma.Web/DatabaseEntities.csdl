@@ -1012,7 +1012,7 @@
     <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="OrganizationGuid" Type="Guid" />
     <Property Name="OrganizationName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
-    <Property Name="OrganizationAbbreviation" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="OrganizationShortName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
     <Property Name="PrimaryContactPersonID" Type="Int32" />
     <Property Name="IsActive" Type="Boolean" Nullable="false" />
     <Property Name="OrganizationUrl" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />

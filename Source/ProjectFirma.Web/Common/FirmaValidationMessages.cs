@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Common
         public const string UpdateSectionIsDependentUponBasicsSection = "Your project's \"Basics\" page must be complete before you can begin updating this section.";
         public const string ProjectNameUnique = "Project name already exists";
         public const string OrganizationNameUnique = "Organization name already exists";
-        public const string OrganizationAbbreviationUnique = "Organization abbreviation already exists";
+        public const string OrganizationShortNameUnique = "Organization short name already exists";
         public const string OrganizationMustBeSetForNewUser = "Organization must be set for a new user";
         public const string ProjectOrganizationLeadShouldBeSetIfThereAreAnyOrganizations = "Please select one of the organizations as the lead implementer";        
         public const string LeadImplementingOrganizationMustHavePrimaryContactSet = "The Lead implementer Organization must have a primary contact set";
