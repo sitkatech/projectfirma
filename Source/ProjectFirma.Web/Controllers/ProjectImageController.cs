@@ -125,17 +125,14 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteProjectImage(projectImage, viewModel);
             }
+            var project = projectImage.Project;
             Project.DeleteProjectImages(new[] { projectImage });
             // reset key photo if needed
             var userHasPermissionToSetKeyPhoto = new ProjectImageSetKeyPhotoFeature().HasPermissionByPerson(CurrentPerson);
             if (userHasPermissionToSetKeyPhoto && projectImage.IsKeyPhoto)
             {
-                var project = projectImage.Project;
                 var firstNonKeyPhoto = project.ProjectImages.FirstOrDefault(x => !x.IsKeyPhoto && x.ProjectImageID != projectImage.ProjectImageID);
-                if (firstNonKeyPhoto != null)
-                {
-                    firstNonKeyPhoto.SetAsKeyPhoto(project.ProjectImages.Except(new[] { firstNonKeyPhoto, projectImage }).ToList());
-                }
+                firstNonKeyPhoto?.SetAsKeyPhoto(project.ProjectImages.Except(new[] { firstNonKeyPhoto, projectImage }).ToList());
             }
             return new ModalDialogFormJsonResult();
         }
