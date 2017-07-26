@@ -18,9 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
-@using LtInfo.Common.ModalDialog
-@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.ProposedProject.Instructions
 
 @section JavascriptAndStylesContent
@@ -43,40 +41,9 @@ Source code is available upon request via <support@sitkatech.com>.
         }
     </style>
 }
-
-<p>This @FieldDefinition.ProposedProject.GetFieldDefinitionLabel() area of the @MultiTenantHelpers.GetTenantDisplayName() Project Tracker walks you through developing a proposal to submit a project to the Active list.</p>
-<p>What projects belong the Active list?</p>
-<ul class="instructionList">
-    <li >A project that is desired to be implemented as part of the @MultiTenantHelpers.GetTenantDisplayName()</li>
-    <li >A project that is a priority for the implementing agency to begin at least planning and design within the next 5 years</li>
-    <li >A project that the implementing agency will actively pursue funding for within the next 5 years or has already secured funding</li>
-</ul>
-
-<p>The various aspects of your project that must be included in a project proposal can be seen on the left. Several of these sections are optional, but others are required:</p>
-<ul class="instructionList">
-    <li><strong>Basics:</strong> <i>You must enter the project's estimated start and completion dates and estimated costs.</i></li>
-    <li><strong>Location:</strong> <i>You must input your project's location via an interactive map or provide a short location description.</i></li>
-    <li><strong>@MultiTenantHelpers.GetPerformanceMeasureNamePluralized():</strong> <i>You must enter at least one expected @MultiTenantHelpers.GetPerformanceMeasureName(), or provide a note why this information is not available.</i></li>
-    <li><strong>@ViewDataTyped.ClassificationDisplayNamePluralized</strong> <i>You must enter at least one @ViewDataTyped.ClassificationDisplayName that your project will attain or support, and provide a description of how it will do so.</i></li>
-    <li><strong>Assessment</strong> <i>If this project has a  component, you will be required to complete a questionnaire.</i></li>
-</ul>
-Use the navigation to the left to view and enter your @FieldDefinition.ProposedProject.GetFieldDefinitionLabel() details. Be sure to click Save on each page. In order to Save your proposal you will be required to complete the required steps on any given section. Once all required sectins are complete you may submit your proposal for review. You will see some icons next to some pages – here is what they mean:
-<ul style="list-style-type: none; padding: 0">
-    <li class="iconRow">
-        <div class="iconDefinition">@Html.Raw(ProjectWizardComponents.RequiredInfoNotProvidedIcon)</div> Required information has not been completely provided (you can't submit this proposal)
-    </li>
-    <li class="iconRow">
-        <div class="iconDefinition">@Html.Raw(ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon)</div> Required information has been provided (you may submit this proposal)
-    </li>
-</ul>
-
-<p>Submitting this update will notify the reviewer. After review, your proposal will either be approved, or the review will contact you for follow up.</p>
-<p>
-    Click the <span class="helpicon glyphicon glyphicon-question-sign blue" title="Help"></span> icon to view field-specific help.
-</p>
-<p>
-    If you have questions or run into problems, please @(ModalDialogFormHelper.ModalDialogFormLink("Request Support", ViewDataTyped.RequestSupportUrl, "request support", 800, "Submit Request", "Cancel", new List<string>(), null, null)).
-</p>
+<div>
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.InstructionsViewPageContentViewData); }
+</div>
 <hr />
 <div class="pull-right">
     <a class="btn btn-xs btn-firma" href="@ViewDataTyped.ProjectUpdateBasicsUrl">Continue</a>

@@ -100,18 +100,21 @@ namespace ProjectFirma.Web.Controllers
         [ProposedProjectCreateNewFeature]
         public ViewResult Instructions(int? proposedProjectID)
         {
+            var firmaPageType = FirmaPageType.ToType(FirmaPageTypeEnum.ProposeProjectInstructions);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(firmaPageType);
+
             if (proposedProjectID.HasValue)
             {
                 var proposedProject = HttpRequestStorage.DatabaseEntities.ProposedProjects.GetProposedProject(proposedProjectID.Value);
 
                 var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
-                var viewData = new InstructionsViewData(CurrentPerson, proposedProject, proposalSectionsStatus);
+                var viewData = new InstructionsViewData(CurrentPerson, proposedProject, proposalSectionsStatus, firmaPage);
 
                 return RazorView<Instructions, InstructionsViewData>(viewData);
             }
             else
             {
-                var viewData = new InstructionsViewData(CurrentPerson);
+                var viewData = new InstructionsViewData(CurrentPerson, firmaPage);
                 return RazorView<Instructions, InstructionsViewData>(viewData);
             }
         }
