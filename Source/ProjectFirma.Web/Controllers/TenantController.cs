@@ -150,7 +150,8 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditBoundingBox(EditBoundingBoxViewModel viewModel, TenantAttribute tenantAttribute)
         {
             var boundingBoxLayer = new LayerGeoJson("Bounding Box",
-                new FeatureCollection(new List<TenantAttribute> {tenantAttribute}.Select(x => DbGeometryToGeoJsonHelper.FromDbGeometry(x.DefaultBoundingBox)).ToList()),
+                new FeatureCollection(new List<TenantAttribute> {tenantAttribute}
+                    .Select(x => DbGeometryToGeoJsonHelper.FromDbGeometry(x.DefaultBoundingBox)).ToList()),
                 FirmaHelpers.DefaultColorRange[0],
                 0.8m,
                 LayerInitialVisibility.Show);

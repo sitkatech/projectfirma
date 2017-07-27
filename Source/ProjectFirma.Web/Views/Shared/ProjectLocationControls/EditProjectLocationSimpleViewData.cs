@@ -34,16 +34,22 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly string MapPostUrl;
         public readonly string ProjectLocationInformationContainer;
         public readonly string ProjectLocationAreaGeoJsonUrl;
+        public readonly string GeoserverUrl;
+        public readonly string WatershedLayerName;
 
-        public EditProjectLocationSimpleViewData(Person currentPerson, MapInitJson mapInitJson, IEnumerable<SelectListItem> projectLocationSelectListItems, string mapPostUrl, string mapFormID)
+        public EditProjectLocationSimpleViewData(Person currentPerson, MapInitJson mapInitJson,
+            IEnumerable<SelectListItem> projectLocationSelectListItems, string mapPostUrl, string mapFormID,
+            string geoserverUrl, string watershedLayerName)
             : base(currentPerson)
         {
             MapInitJson = mapInitJson;
             ProjectLocationSelectListItems = projectLocationSelectListItems;
             MapPostUrl = mapPostUrl;
             MapFormID = mapFormID;
-            ProjectLocationInformationContainer = string.Format("{0}LocationInformationContainer", mapInitJson.MapDivID);
+            ProjectLocationInformationContainer = $"{mapInitJson.MapDivID}LocationInformationContainer";
             ProjectLocationAreaGeoJsonUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(x => x.GetProjectLocationAreaGeoJson(null));
+            GeoserverUrl = geoserverUrl;
+            WatershedLayerName = watershedLayerName;
         }
     }
 }

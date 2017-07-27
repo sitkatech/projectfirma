@@ -21,9 +21,13 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using GeoJSON.Net.Feature;
+using LtInfo.Common;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models
 {
@@ -44,18 +48,29 @@ namespace ProjectFirma.Web.Models
 
         public string AuditDescriptionString => WatershedName;
 
-        public static FeatureCollection ToGeoJsonFeatureCollection(List<Watershed> watersheds)
+        public Feature MakeFeatureWithRelevantProperties()
         {
-            var featureCollection = new GeoJSON.Net.Feature.FeatureCollection();
-            featureCollection.Features.AddRange(watersheds.Select(MakeFeatureWithRelevantProperties).ToList());
-            return featureCollection;
+            var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(WatershedFeature);
+            feature.Properties.Add("Watershed", GetDisplayNameAsUrl().ToString());
+            return feature;
         }
 
-        private static GeoJSON.Net.Feature.Feature MakeFeatureWithRelevantProperties(Watershed watershed)
+        public HtmlString GetDisplayNameAsUrl()
         {
-            var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(watershed.WatershedFeature);
-            feature.Properties.Add("Watershed", watershed.GetDisplayNameAsUrl().ToString());
-            return feature;
+            return UrlTemplate.MakeHrefString(GetSummaryUrl(), DisplayName);
+        }
+
+        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<WatershedController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
+
+        public string GetSummaryUrl()
+        {
+            return SummaryUrlTemplate.ParameterReplace(WatershedID);
+        }
+
+        public static LayerGeoJson GetWatershedWmsLayerGeoJson(string layerColor, decimal layerOpacity, LayerInitialVisibility layerInitialVisibility = LayerInitialVisibility.Show)
+        {
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            return new LayerGeoJson("Watersheds", tenantAttribute.MapServiceUrl, tenantAttribute.WatershedLayerName, layerColor, layerOpacity, layerInitialVisibility);
         }
     }
 }

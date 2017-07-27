@@ -20,10 +20,8 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using System.Linq;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -56,35 +54,31 @@ namespace ProjectFirma.Web.Models
 
         public static List<LayerGeoJson> GetWatershedMapLayers()
         {
-            var layerGeoJsons = new List<LayerGeoJson>();
-            var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
-            var geoJsonForWatersheds = Watershed.ToGeoJsonFeatureCollection(watersheds);
-            layerGeoJsons.Add(new LayerGeoJson("Watershed", geoJsonForWatersheds, "#90C3D4", 0.1m, LayerInitialVisibility.Show));
-            return layerGeoJsons;
+            return new List<LayerGeoJson> {Watershed.GetWatershedWmsLayerGeoJson("#90C3D4", 0.1m)};
         }
 
         public static List<LayerGeoJson> GetWatershedLayers(Watershed watershed, List<Project> projects)
         {
             var layerGeoJsons = new List<LayerGeoJson>
             {
-                new LayerGeoJson(watershed.DisplayName, Watershed.ToGeoJsonFeatureCollection(new List<Watershed> {watershed}), "red", 1, LayerInitialVisibility.Show),
-                new LayerGeoJson("Watersheds",
-                    Watershed.ToGeoJsonFeatureCollection(HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures().Where(x => x.WatershedID != watershed.WatershedID).ToList()), "#59ACFF", 0.6m, LayerInitialVisibility.Show),
+                new LayerGeoJson(watershed.DisplayName, new List<Watershed> {watershed}.ToGeoJsonFeatureCollection(), "red", 1, LayerInitialVisibility.Show),
+                Watershed.GetWatershedWmsLayerGeoJson("#59ACFF", 0.6m),
                 new LayerGeoJson("Project Location - Simple", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show),
                 new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show)
             };
             return layerGeoJsons;
         }
 
-        public static List<LayerGeoJson> GetWatershedMapLayersAndProjectLocationSimple(IProject project)
+        public static List<LayerGeoJson> GetWatershedAndProjectLocationSimpleMapLayers(IProject project)
         {
             var layerGeoJsons = GetWatershedMapLayers();
             if (project.ProjectLocationPoint != null)
             {
-                var projectLocationSimpleFeatureCollection = new FeatureCollection();
-                projectLocationSimpleFeatureCollection.Features.Add(
-                    DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint));
-                layerGeoJsons.Add(new LayerGeoJson("Project Location - Simple", projectLocationSimpleFeatureCollection,
+                layerGeoJsons.Add(new LayerGeoJson("Project Location - Simple",
+                    new FeatureCollection(new List<Feature>
+                    {
+                        DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint)
+                    }),
                     "#838383", 1, LayerInitialVisibility.Show));
             }
             return layerGeoJsons;

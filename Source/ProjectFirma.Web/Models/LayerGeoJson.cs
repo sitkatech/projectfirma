@@ -22,6 +22,8 @@ using System.Drawing;
 using System.Linq;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace ProjectFirma.Web.Models
 {
@@ -30,36 +32,54 @@ namespace ProjectFirma.Web.Models
     /// </summary>
     public class LayerGeoJson
     {
+        public readonly string LayerName;
+        public readonly FeatureCollection GeoJsonFeatureCollection;
+        public readonly string MapServerUrl;
+        public readonly string MapServerLayerName;
+        public readonly string LayerColor;
         public readonly decimal LayerOpacity;
         public readonly LayerInitialVisibility LayerInitialVisibility;
-        public readonly string LayerName;
-        public readonly string LayerColor;
-        public readonly FeatureCollection GeoJsonFeatureCollection;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public readonly LayerGeoJsonType LayerType;
         public readonly bool HasCustomPopups;
 
+        /// <summary>
+        /// Constructor for LayerGeoJson with Vector Type
+        /// </summary>
         public LayerGeoJson(string layerName, FeatureCollection geoJsonFeatureCollection, string layerColor, decimal layerOpacity, LayerInitialVisibility layerInitialVisibility)
         {
+            LayerName = layerName;
+            GeoJsonFeatureCollection = geoJsonFeatureCollection;
+            LayerColor = layerColor.StartsWith("#") ? layerColor : GetColorString(layerColor);
             LayerOpacity = layerOpacity;
             LayerInitialVisibility = layerInitialVisibility;
-            LayerName = layerName;
-
-            if (layerColor.StartsWith("#"))
-            {
-                LayerColor = layerColor;   
-            }
-            else
-            {                
-                var color = Color.FromName(layerColor);
-                LayerColor = string.Format("#{0:x2}{1:x2}{2:x2}", color.R, color.G, color.B);
-            }
-            
-            GeoJsonFeatureCollection = geoJsonFeatureCollection;
+            LayerType = LayerGeoJsonType.Vector;
             HasCustomPopups = geoJsonFeatureCollection.Features.Any(x => x.Properties.ContainsKey("PopupUrl"));
+        }
+
+        /// <summary>
+        /// Constructor for LayerGeoJson with WMS Type
+        /// </summary>
+        public LayerGeoJson(string layerName, string mapServerUrl, string mapServerLayerName, string layerColor, decimal layerOpacity, LayerInitialVisibility layerInitialVisibility)
+        {
+            LayerName = layerName;
+            MapServerUrl = mapServerUrl;
+            MapServerLayerName = mapServerLayerName;
+            LayerColor = layerColor;
+            LayerOpacity = layerOpacity;
+            LayerInitialVisibility = layerInitialVisibility;
+            LayerType = LayerGeoJsonType.Wms;
         }
 
         public string ToGeoJsonString()
         {
             return JsonTools.SerializeObject(this);
+        }
+
+        private static string GetColorString(string colorName)
+        {
+            var color = Color.FromName(colorName);
+            return $"#{color.R:x2}{color.G:x2}{color.B:x2}";
         }
     }
 }

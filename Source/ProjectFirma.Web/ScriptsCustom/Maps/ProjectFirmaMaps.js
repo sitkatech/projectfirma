@@ -41,7 +41,7 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
     var overlayLayers = { 'Street Labels': streetLabelsLayer };
 
     var streetLayerGroup;
-    if (initialBaseLayerShown == "Hybrid")
+    if (initialBaseLayerShown === "Hybrid")
     {
          streetLayerGroup = new L.LayerGroup();
         initialBaseLayerShown = "Aerial"; //Since switching to ArcGIS maps, there is no "Hybrid", so use "Aerial" instead.
@@ -70,37 +70,16 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
 
     for (var i = 0; i < mapInitJson.Layers.length; ++i) {
         var currentLayer = mapInitJson.Layers[i];
-        var layerGroup = new L.LayerGroup();
-        var layerGeoJson = L.geoJson(currentLayer.GeoJsonFeatureCollection, {
-            pointToLayer: function (feature, latlng)
-            {
-                var featureColor = feature.properties.FeatureColor == null ? currentLayer.LayerColor : feature.properties.FeatureColor;
-                var marker = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: featureColor, size: "s" }) });
-                return marker;
-            },
-            style: function(feature)
-            {
-                
-                var fillPolygonByDefault = _.includes(["Polygon", "MultiPolygon"], feature.geometry.type);
-                return {
-                    color: feature.properties.FeatureColor == null ? currentLayer.LayerColor : feature.properties.FeatureColor,
-                    weight: feature.properties.FeatureWeight == null ? 2 : feature.properties.FeatureWeight,
-                    fill: feature.properties.FillPolygon == null ? fillPolygonByDefault : feature.properties.FillPolygon,
-                    fillOpacity: feature.properties.FillOpacity == null ? 0.2 : feature.properties.FillOpacity
-                };
-            },
-            onEachFeature: function(feature, layer) { self.bindPopupToFeature(layer, feature); }
-        }).addTo(layerGroup);
-        //layerGeoJson.setStyle({ color: currentLayer.LayerColor });
-        if (currentLayer.LayerInitialVisibility == 1) {
-            layerGroup.addTo(this.map);
+        switch (currentLayer.LayerType) {
+            case "Vector":
+                this.addVectorLayer(currentLayer, overlayLayers);
+                break;
+            case "Wms":
+                this.addWmsLayer(currentLayer, overlayLayers);
+                break;
+            default:
+                console.error("Invalid LayerType " + currentLayer.LayerType + " not added to map layers.");
         }
-        if (!currentLayer.HasCustomPopups)
-        {
-            layerGeoJson.on('click', function (e) { self.getFeatureInfo(e); });
-        }
-        overlayLayers[currentLayer.LayerName] = layerGroup;
-        this.vectorLayers.push(layerGeoJson);
     }
 
     this.addLayersToMapLayersControl(baseLayers, overlayLayers);
@@ -117,55 +96,108 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
     self.setMapBounds(mapInitJson);
 };
 
+ProjectFirmaMaps.Map.prototype.addVectorLayer = function (currentLayer, overlayLayers) {
+    var layerGroup = new L.LayerGroup();
+    var layerGeoJson = L.geoJson(currentLayer.GeoJsonFeatureCollection, {
+        pointToLayer: function (feature, latlng) {
+            var featureColor = feature.properties.FeatureColor == null ? currentLayer.LayerColor : feature.properties.FeatureColor;
+            var marker = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: featureColor, size: "s" }) });
+            return marker;
+        },
+        style: function (feature) {
+
+            var fillPolygonByDefault = _.includes(["Polygon", "MultiPolygon"], feature.geometry.type);
+            return {
+                color: feature.properties.FeatureColor == null ? currentLayer.LayerColor : feature.properties.FeatureColor,
+                weight: feature.properties.FeatureWeight == null ? 2 : feature.properties.FeatureWeight,
+                fill: feature.properties.FillPolygon == null ? fillPolygonByDefault : feature.properties.FillPolygon,
+                fillOpacity: feature.properties.FillOpacity == null ? 0.2 : feature.properties.FillOpacity
+            };
+        },
+        onEachFeature: function (feature, layer) { self.bindPopupToFeature(layer, feature); }
+    }).addTo(layerGroup);
+
+    if (currentLayer.LayerInitialVisibility === 1) {
+        layerGroup.addTo(this.map);
+    }
+    if (!currentLayer.HasCustomPopups) {
+        layerGeoJson.on("click", function (e) { self.getFeatureInfo(e); });
+    }
+    overlayLayers[currentLayer.LayerName] = layerGroup;
+    this.vectorLayers.push(layerGeoJson);
+};
+
+ProjectFirmaMaps.Map.prototype.addWmsLayer = function (currentLayer, overlayLayers) {
+    var layerGroup = new L.LayerGroup(),
+        wmsParams = L.Util.extend(this.wmsParams, { layers: currentLayer.MapServerLayerName }),
+        wmsLayer = L.tileLayer.wms(currentLayer.MapServerUrl, wmsParams).addTo(layerGroup);
+
+    if (currentLayer.LayerInitialVisibility === 1) {
+        layerGroup.addTo(this.map);
+    }
+
+    overlayLayers[currentLayer.LayerName] = layerGroup;
+    this.vectorLayers.push(wmsLayer);
+};
+
+ProjectFirmaMaps.Map.prototype.wmsParams = {
+    service: "WMS",
+    transparent: true,
+    version: "1.1.1",
+    format: "image/png",
+    info_format: "application/json",
+    tiled: true
+};
+
+ProjectFirmaMaps.Map.prototype.wfsParams = {
+    service: "WFS",
+    version: "2.0",
+    request: "GetFeature",
+    outputFormat: "application/json",
+    SrsName: "EPSG:4326"
+};
+
 ProjectFirmaMaps.Map.prototype.addLayersToMapLayersControl = function(baseLayers, overlayLayers) {
     this.layerControl = L.control.layers(baseLayers, overlayLayers);
     this.layerControl.addTo(this.map);
 };
 
-ProjectFirmaMaps.Map.prototype.setMapBounds = function(mapInitJson)
-{
+ProjectFirmaMaps.Map.prototype.setMapBounds = function(mapInitJson) {
     this.map.fitBounds([
         [mapInitJson.BoundingBox.Northeast.Latitude, mapInitJson.BoundingBox.Northeast.Longitude],
         [mapInitJson.BoundingBox.Southwest.Latitude, mapInitJson.BoundingBox.Southwest.Longitude]
     ]);
 };
-ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function(layer, feature)
-{
-    if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties.PopupUrl))
-    {
+
+ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function(layer, feature) {
+    if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties.PopupUrl)) {
         layer.bindPopup("Loading...", { maxWidth: 600 });
-        layer.on('click', function(e)
-        {
-            //var popup = e.target.getPopup();
-            jQuery.get(feature.properties.PopupUrl).done(function(data)
-            {
-                layer.bindPopup(data).openPopup();
+        layer.on("click",
+            function() {
+                //var popup = e.target.getPopup();
+                jQuery.get(feature.properties.PopupUrl).done(function(data) {
+                    layer.bindPopup(data).openPopup();
+                });
             });
-        });
     }
-}
+};
 
-ProjectFirmaMaps.Map.prototype.assignClickEventHandler = function(clickEventFunction)
-{
+ProjectFirmaMaps.Map.prototype.assignClickEventHandler = function(clickEventFunction) {
     var self = this;
-    for (var i = 0; i < this.vectorLayers.length; ++i)
-    {
+    for (var i = 0; i < this.vectorLayers.length; ++i) {
         var currentLayer = this.vectorLayers[i];
-        currentLayer.on('click', function (e) { clickEventFunction(self, e); });
+        currentLayer.on('click', function(e) { clickEventFunction(self, e); });
     }
-    this.map.on("click", function (e) { clickEventFunction(self, e); });
-}
+    this.map.on("click", function(e) { clickEventFunction(self, e); });
+};
 
-ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function (clickEventFunction)
-{
-    var self = this;
-    for (var i = 0; i < this.vectorLayers.length; ++i)
-    {
+ProjectFirmaMaps.Map.prototype.removeClickEventHandler = function() {
+    for (var i = 0; i < this.vectorLayers.length; ++i) {
         var currentLayer = this.vectorLayers[i];
-        currentLayer.off('click');
+        currentLayer.off("click");
     }
     this.map.off("click");
-}
+};
 
 ProjectFirmaMaps.Map.prototype.getFeatureInfo = function (e)
 {
@@ -196,7 +228,8 @@ ProjectFirmaMaps.Map.prototype.getFeatureInfo = function (e)
             }
         }
     }
-    if (e.layer.feature.geometry.type == "Point" || e.layer.feature.geometry.type == "LineString") {
+
+    if (e.layer.feature.geometry.type === "Point" || e.layer.feature.geometry.type === "LineString") {
         html += this.formatLayerProperty("Info", e.layer.feature.properties["Info"]);
     }
     this.map.openPopup(L.popup().setLatLng(latlng).setContent(html).openOn(this.map));
@@ -221,8 +254,7 @@ ProjectFirmaMaps.Map.prototype.addLayerToLayerControl = function (layer, layerNa
     this.layerControl.addOverlay(layer, layerName);
 };
 
-ProjectFirmaMaps.Map.prototype.disableUserInteraction = function()
-{
+ProjectFirmaMaps.Map.prototype.disableUserInteraction = function() {
     this.map.dragging.disable();
     this.map.touchZoom.disable();
     this.map.doubleClickZoom.disable();
@@ -235,36 +267,35 @@ ProjectFirmaMaps.Map.prototype.disableUserInteraction = function()
     jQuery(".leaflet-control-zoom").css("visibility", "hidden");
     jQuery(".leaflet-control-layers").css("visibility", "hidden");
     this.removeClickEventHandler();
-}
+};
 
-ProjectFirmaMaps.Map.prototype.blockMapImpl = function()
-{
+ProjectFirmaMaps.Map.prototype.blockMapImpl = function() {
     this.map.dragging.disable();
     this.map.scrollWheelZoom.disable();
     jQuery("#" + this.MapDivId).block(
-    {
-        message: "<span style='font-weight: bold; font-size: 14px; margin: 0 2px'>Location Not Specified</span>",
-        css: {
-            border: "none",
-            cursor: "default"
-        },
-        overlayCSS: {
-            backgroundColor: "#D3D3D3",
-            cursor: "default"
-        },
-        baseZ: 999
-    });
-}
+        {
+            message: "<span style='font-weight: bold; font-size: 14px; margin: 0 2px'>Location Not Specified</span>",
+            css: {
+                border: "none",
+                cursor: "default"
+            },
+            overlayCSS: {
+                backgroundColor: "#D3D3D3",
+                cursor: "default"
+            },
+            baseZ: 999
+        });
+};
 
-ProjectFirmaMaps.Map.prototype.blockMap = function()
-{
-    var self = this;    
+ProjectFirmaMaps.Map.prototype.blockMap = function() {
+    var self = this;
     this.blockMapImpl();
     var modalDialog = jQuery(".modal");
-    modalDialog.on("shown.bs.modal", function () { self.blockMapImpl(); });    
-}
+    modalDialog.on("shown.bs.modal", function() { self.blockMapImpl(); });
+};
 
-ProjectFirmaMaps.Map.prototype.unblockMap = function () {
+ProjectFirmaMaps.Map.prototype.unblockMap = function() {
     this.map.dragging.enable();
     jQuery("#" + this.MapDivId).unblock();
-}
+};
+
