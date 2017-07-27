@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditProjectLocationSummaryPoint(Project project, EditProjectLocationSimpleViewModel viewModel)
         {
             var layerGeoJsons = MapInitJson.GetWatershedMapLayers();
-            var mapInitJson = new MapInitJson(string.Format("project_{0}_EditMap", project.ProjectID), 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false};
+            var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false};
             var projectLocationAreas = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.ToSelectList(x => x.ProjectLocationAreaID.ToString(), x => x.ProjectLocationAreaDisplayName);
             var mapPostUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(x => x.EditProjectLocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
@@ -81,9 +81,9 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditProjectLocationDetailed(IProject project, ProjectLocationDetailViewModel viewModel)
         {
-            var mapDivID = string.Format("project_{0}_EditDetailedMap", project.EntityID);
+            var mapDivID = $"project_{project.EntityID}_EditDetailedMap";
             var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
-            var editableLayerGeoJson = new LayerGeoJson("Project Location Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
+            var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
 
             var boundingBox = new BoundingBox(project.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry));
             var mapInitJson = new MapInitJson(mapDivID, 10, MapInitJson.GetWatershedMapLayersAndProjectLocationSimple(project), boundingBox) {AllowFullScreen = false};
@@ -185,7 +185,7 @@ namespace ProjectFirma.Web.Controllers
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);
 
-            var mapInitJson = new MapInitJson(string.Format("project_{0}_PreviewMap", project.ProjectID), 10, layerGeoJsons, boundingBox, false) { AllowFullScreen = false };
+            var mapInitJson = new MapInitJson($"project_{project.ProjectID}_PreviewMap", 10, layerGeoJsons, boundingBox, false) { AllowFullScreen = false };
             var mapFormID = GenerateEditProjectLocationFormID(((IProject)project).EntityID);
             var approveGisUploadUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(x => x.ApproveGisUpload(project, null));
 
@@ -224,7 +224,7 @@ namespace ProjectFirma.Web.Controllers
 
         public static string GenerateEditProjectLocationFormID(int projectID)
         {
-            return string.Format("editMapForProject{0}", projectID);
+            return $"editMapForProject{projectID}";
         }
     }
 }

@@ -23,7 +23,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("View Proposed Project")]
+    [SecurityFeatureDescription("View {0}", FieldDefinitionEnum.ProposedProject)]
     public class ProposedProjectViewFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<ProposedProject>
     {
         private readonly FirmaFeatureWithContextImpl<ProposedProject> _firmaFeatureWithContextImpl;

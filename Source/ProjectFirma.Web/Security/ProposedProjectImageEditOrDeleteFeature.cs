@@ -23,7 +23,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Edit/Delete Proposed Project Image")]
+    [SecurityFeatureDescription("Edit/Delete {0} Image", FieldDefinitionEnum.ProposedProject)]
     public class ProposedProjectImageEditOrDeleteFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<ProposedProjectImage>
     {
         private readonly FirmaFeatureWithContextImpl<ProposedProjectImage> _firmaFeatureWithContextImpl;
@@ -44,13 +44,13 @@ namespace ProjectFirma.Web.Security
         {
             if (!HasPermissionByPerson(person))
             {
-                return new PermissionCheckResult(string.Format("You don't have permission to edit {0}", contextModelObject.ProposedProject.DisplayName));
+                return new PermissionCheckResult($"You don't have permission to edit {contextModelObject.ProposedProject.DisplayName}");
             }
 
             var projectIsEditableByUser = contextModelObject.ProposedProject.IsEditableToThisPerson(person);
             if (!projectIsEditableByUser)
             {
-                return new PermissionCheckResult(string.Format("Proposed Project {0} is not editable by you.", contextModelObject.ProposedProjectImageID));
+                return new PermissionCheckResult($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} {contextModelObject.ProposedProjectImageID} is not editable by you.");
             }
 
             return new PermissionCheckResult();

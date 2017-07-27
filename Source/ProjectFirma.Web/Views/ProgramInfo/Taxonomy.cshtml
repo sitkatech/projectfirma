@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.ProgramInfo.Taxonomy
 @section JavascriptAndStylesContent
@@ -105,10 +106,10 @@ Source code is available upon request via <support@sitkatech.com>.
             @ViewDataTyped.TaxonomyTierTwoDisplayName <span class='glyphicon glyphicon-chevron-right'></span>
             }            
             @ViewDataTyped.TaxonomyTierOneDisplayName <span class='glyphicon glyphicon-chevron-right'></span>
-            Project
+            @FieldDefinition.Project.GetFieldDefinitionLabel()
         </div>
         <div class="pull-right" style="font-weight: bold">
-            Number of Projects
+            Number of @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
         </div>
         <div style="clear: both">
             @foreach (var taxonomyTier in ViewDataTyped.TopLevelTaxonomyTierAsFancyTreeNodes)

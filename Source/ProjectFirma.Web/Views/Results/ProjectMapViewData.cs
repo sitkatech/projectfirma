@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.Results
             string projectLocationsUrl,
             string filteredProjectsWithLocationAreasUrl) : base(currentPerson, firmaPage)
         {
-            PageTitle = "Project Map";
+            PageTitle = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map";
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
             ProjectLocationFilterTypesAndValues = projectLocationFilterTypesAndValues;
             ProjectLocationsMapViewData = projectLocationsMapViewData;

@@ -1,6 +1,8 @@
-﻿namespace ProjectFirma.Web.Security
+﻿using ProjectFirma.Web.Models;
+
+namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Manage Organization Types and Relationship Types")]
+    [SecurityFeatureDescription("Manage {0} and Relationship Types", FieldDefinitionEnum.OrganizationType)]
     public class OrganizationAndRelationshipTypeManageFeature : FirmaAdminFeature
     {
     }

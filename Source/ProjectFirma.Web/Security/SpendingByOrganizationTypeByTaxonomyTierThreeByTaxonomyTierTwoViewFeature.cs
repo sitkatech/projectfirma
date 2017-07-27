@@ -18,11 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("View Spending by Organization Type by Taxonomy Tier Three by Taxonomy Tier Two")]
+    [SecurityFeatureDescription("View Spending by {0} by {1} by {2}", FieldDefinitionEnum.OrganizationType, FieldDefinitionEnum.TaxonomyTierThree, FieldDefinitionEnum.TaxonomyTierTwo)]
     public class SpendingByOrganizationTypeByTaxonomyTierThreeByTaxonomyTierTwoViewFeature : AnonymousUnclassifiedFeature
     {
     }

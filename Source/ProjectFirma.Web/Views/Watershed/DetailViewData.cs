@@ -44,15 +44,15 @@ namespace ProjectFirma.Web.Views.Watershed
             MapInitJson = mapInitJson;
             CalendarYearExpendituresLineChartViewData = calendarYearExpendituresLineChartViewData;
             PageTitle = watershed.WatershedName;
-            EntityName = "Watershed";
+            EntityName = $"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}";
             UserHasWatershedManagePermissions = new WatershedManageFeature().HasPermissionByPerson(currentPerson);
             IndexUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(x => x.Index());
 
             BasicProjectInfoGridName = "watershedProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false)
             {
-                ObjectNameSingular = "Project in this Watershed",
-                ObjectNamePlural = "Projects in this Watershed",
+                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} in this {Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} in this {Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}",
                 SaveFiltersInCookie = true
             };
           

@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.Snapshot
             Add(Models.FieldDefinition.Region.ToGridHeaderString(), x => x.Project.ProjectLocationTypeDisplay, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             //Add("State", x => x.Project.ProjectLocationStateProvince, 95, DhtmlxGridColumnFilterType.Text);
             //Add("Jurisdiction", x => x.Project.ProjectLocationJurisdiction, 95, DhtmlxGridColumnFilterType.Text);
-            //Add("Watershed", x => x.Project.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
+            //Add($"{FieldDefinition.Watershed.GetFieldDefinitionLabel()}", x => x.Project.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
             Add(Models.FieldDefinition.ProjectDescription.ToGridHeaderString(), x => x.Project.ProjectDescription, 300);
         }
     }

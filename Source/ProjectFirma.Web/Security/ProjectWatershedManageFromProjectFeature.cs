@@ -18,9 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Models;
+
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Manage Project Watershed from Project")]
+    [SecurityFeatureDescription("Manage {0} {1} from {0}", FieldDefinitionEnum.Project, FieldDefinitionEnum.Watershed)]
     public class ProjectWatershedManageFromProjectFeature : ProjectEditFeature
     {
     }

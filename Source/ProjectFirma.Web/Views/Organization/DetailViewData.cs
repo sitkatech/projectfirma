@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.Organization
             Organization = organization;
             CalendarYearExpendituresLineChartViewData = calendarYearExpendituresLineChartViewData;
             PageTitle = organization.DisplayName;
-            EntityName = "Organization";
+            EntityName = $"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}";
             UserHasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByPerson(CurrentPerson);
 
             EditOrganizationUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Edit(organization));
@@ -67,8 +67,8 @@ namespace ProjectFirma.Web.Views.Organization
             ProjectOrganizationsGridSpec =
                 new ProjectOrganizationsGridSpec(organization.GetCalendarYearsForProjectExpenditures())
                 {
-                    ObjectNameSingular = "Project",
-                    ObjectNamePlural = $"Projects associated with {organization.DisplayName}",
+                    ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
+                    ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with {organization.DisplayName}",
                     SaveFiltersInCookie = true
                 };
 

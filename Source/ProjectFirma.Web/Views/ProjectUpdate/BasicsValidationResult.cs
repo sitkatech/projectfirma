@@ -29,13 +29,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class BasicsValidationResult
     {
-        public const string ImplementationStartYearIsRequired = "Implementation Start Year is a required field.";
-        public const string PlanningDesignStartYearIsRequired = "Planning / Design Start Year is a required field.";
-        public const string CompletionYearIsRequired = "For projects in the Completed or Post-Implementation stage, Completion Year is a required field.";
-        public const string ProjectDescriptionIsRequired = "Project Description is required.";
-        public const string CompletionYearShouldBeLessThanCurrentYear = "Since project is in Completed or Post-Implementation stage, the Completion Year needs to be less than or equal to this year";
-        public const string PlanningDesignStartYearShouldBeLessThanCurrentYear = "Since project is in the Planning / Design stage, the Planning / Design Start Year needs to be less than or equal to this year";
-        public const string ImplementationStartYearShouldBeLessThanCurrentYear = "Since project is in Implementation stage, the Implementation Year needs to be less than or equal to this year";
+        public static readonly string ImplementationStartYearIsRequired = $"{Models.FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()} is a required field.";
+        public static readonly string PlanningDesignStartYearIsRequired = $"{Models.FieldDefinition.PlanningDesignStartYear.GetFieldDefinitionLabel()} is a required field.";
+        public static readonly string CompletionYearIsRequired = $"For projects in the Completed or Post-Implementation stage, {Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} is a required field.";
+        public static readonly string ProjectDescriptionIsRequired = $"{Models.FieldDefinition.ProjectDescription.GetFieldDefinitionLabel()} is required.";
+        public static readonly string CompletionYearShouldBeLessThanCurrentYear = $"Since project is in Completed or Post-Implementation stage, the {Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} needs to be less than or equal to this year";
+        public static readonly string PlanningDesignStartYearShouldBeLessThanCurrentYear = $"Since project is in the Planning / Design stage, the {Models.FieldDefinition.PlanningDesignStartYear.GetFieldDefinitionLabel()} needs to be less than or equal to this year";
+        public static readonly string ImplementationStartYearShouldBeLessThanCurrentYear = $"Since project is in Implementation stage, the {Models.FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()} needs to be less than or equal to this year";
 
         private readonly List<string> _warningMessages;
 
@@ -95,9 +95,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             return _warningMessages;
         }
 
-        public bool IsValid
-        {
-            get { return !_warningMessages.Any(); }
-        }
+        public bool IsValid => !_warningMessages.Any();
     }
 }

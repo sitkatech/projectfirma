@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Common
     {
         public IFieldDefinition FieldDefinition { get; private set; }
 
-        public FieldDefinitionDisplayAttribute(FieldDefinitionEnum fieldDefinitionEnum) : base(Models.FieldDefinition.ToType(fieldDefinitionEnum).FieldDefinitionDisplayName)
+        public FieldDefinitionDisplayAttribute(FieldDefinitionEnum fieldDefinitionEnum) : base(Models.FieldDefinition.ToType(fieldDefinitionEnum).GetFieldDefinitionLabel())
         {
             FieldDefinition = Models.FieldDefinition.ToType(fieldDefinitionEnum);
         }

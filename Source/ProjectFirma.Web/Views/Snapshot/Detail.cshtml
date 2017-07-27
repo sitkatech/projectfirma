@@ -96,7 +96,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        <strong>Project Count:</strong>
+                        <strong>@FieldDefinition.Project.GetFieldDefinitionLabel() Count:</strong>
                     </div>
                     <div class="col-sm-8">
                         @ViewDataTyped.Snapshot.ProjectCount
@@ -146,7 +146,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </table>
             @if (!ViewDataTyped.Snapshot.SnapshotOrganizationTypeExpenditures.Any())
             {
-                <p class="alert">No expenditures have been reported for this project.</p>
+                <p class="alert">No expenditures have been reported for this @FieldDefinition.Project.GetFieldDefinitionLabel().</p>
             }
         </div>
     </div>

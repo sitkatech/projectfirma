@@ -18,12 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("View Funding Source")]
+    [SecurityFeatureDescription("View {0}", FieldDefinitionEnum.FundingSource)]
     public class FundingSourceViewFeature : AnonymousUnclassifiedFeature
     {
     }

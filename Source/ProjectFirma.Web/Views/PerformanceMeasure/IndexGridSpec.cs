@@ -35,10 +35,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             Add("#", a => UrlTemplate.MakeHrefString(a.GetInfoSheetUrl(), a.PerformanceMeasureID.ToString(CultureInfo.InvariantCulture)), 35, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.PerformanceMeasure.ToGridHeaderString(MultiTenantHelpers.GetPerformanceMeasureName()), a => UrlTemplate.MakeHrefString(a.GetInfoSheetUrl(), a.PerformanceMeasureDisplayName), 320, DhtmlxGridColumnFilterType.Html);
             Add(Models.FieldDefinition.MeasurementUnit.ToGridHeaderString("Units"), a => a.MeasurementUnitType.MeasurementUnitTypeDisplayName, 110, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(string.Format("{0} Definition", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()), a => a.PerformanceMeasureDefinition, 350, DhtmlxGridColumnFilterType.Text);
-            Add("# of Subcategories", a => a.GetRealSubcategoryCount(), 110);
-            Add("# of Projects", a => a.ReportedProjectsCount, 80);
-            Add("# of Projects Expected", a => a.ExpectedProjectsCount, 100);
+            Add($"{MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} Definition", a => a.PerformanceMeasureDefinition, 350, DhtmlxGridColumnFilterType.Text);
+            Add($"# of {Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()}", a => a.GetRealSubcategoryCount(), 110);
+            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.ReportedProjectsCount, 80);
+            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} Expected", a => a.ExpectedProjectsCount, 100);
         }
     }
 }

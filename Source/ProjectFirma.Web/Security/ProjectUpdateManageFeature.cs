@@ -23,7 +23,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Manage Project Updates")]
+    [SecurityFeatureDescription("Manage {0} Updates", FieldDefinitionEnum.Project)]
     public class ProjectUpdateManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
@@ -45,18 +45,18 @@ namespace ProjectFirma.Web.Security
             var hasPermissionByPerson = HasPermissionByPerson(person);
             if (!hasPermissionByPerson)
             {
-                return new PermissionCheckResult(string.Format("You don't have permission to Edit Project {0}", contextModelObject.DisplayName));
+                return new PermissionCheckResult($"You don't have permission to Edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}");
             }
 
             if (!contextModelObject.IsUpdatableViaProjectUpdateProcess)
             {
-                return new PermissionCheckResult(string.Format("Project {0} is not updatable via the Project Update process", contextModelObject.DisplayName));
+                return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName} is not updatable via the {FieldDefinition.Project.GetFieldDefinitionLabel()} Update process");
             }
 
             var projectIsEditableByUser = new ProjectUpdateAdminFeature().HasPermissionByPerson(person) || contextModelObject.IsMyProject(person);
             if (!projectIsEditableByUser)
             {
-                return new PermissionCheckResult(string.Format("Project {0} is not editable by you.", contextModelObject.ProjectID));
+                return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not editable by you.");
             }
 
             return new PermissionCheckResult();

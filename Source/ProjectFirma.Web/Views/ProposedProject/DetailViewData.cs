@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             AssessmentTreeViewData assessmentTreeViewData) : base(currentPerson, proposedProject, ProposedProjectSectionEnum.Basics, new ProposalSectionsStatus(proposedProject))
         {
             PageTitle = proposedProject.DisplayName;
-            BreadCrumbTitle = "Proposed Project Detail";
+            BreadCrumbTitle = $"{Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} Detail";
             MapFormID = mapFormID;
             
             EditProposedProjectUrl = proposedProject.GetEditUrl();

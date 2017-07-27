@@ -51,10 +51,7 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public DateTime CreateDate
-        {
-            get { return FileResource.CreateDate; }
-        }
+        public DateTime CreateDate => FileResource.CreateDate;
 
         public string DeleteUrl
         {
@@ -65,30 +62,19 @@ namespace ProjectFirma.Web.Models
         {
             get
             {
-                var creditString = string.IsNullOrWhiteSpace(Credit) ? string.Empty : string.Format("\r\nCredit: {0}", Credit);
-                return string.Format("{0}{1}", CaptionOnGallery, creditString);
+                var creditString = string.IsNullOrWhiteSpace(Credit) ? string.Empty : $"\r\nCredit: {Credit}";
+                return $"{CaptionOnGallery}{creditString}";
             }
         }
 
-        public string CaptionOnGallery
-        {
-            get { return string.Format("{0}\r\n(Timing: {1}) {2}", Caption, ProjectImageTiming.ProjectImageTimingDisplayName, FileResource.FileResourceDataLengthString); }
-        }
+        public string CaptionOnGallery =>
+            $"{Caption}\r\n(Timing: {ProjectImageTiming.ProjectImageTimingDisplayName}) {FileResource.FileResourceDataLengthString}";
 
-        public string PhotoUrl
-        {
-            get { return FileResource.FileResourceUrl; }
-        }
+        public string PhotoUrl => FileResource.FileResourceUrl;
 
-        public string PhotoUrlScaledThumbnail
-        {
-            get { return FileResource.FileResourceUrlScaledThumbnail; }
-        }
+        public string PhotoUrlScaledThumbnail => FileResource.FileResourceUrlScaledThumbnail;
 
-        public string PhotoUrlScaledForPrint
-        {
-            get { return FileResource.FileResourceUrlScaledForPrint; }
-        }
+        public string PhotoUrlScaledForPrint => FileResource.FileResourceUrlScaledForPrint;
 
         public string EditUrl
         {
@@ -98,15 +84,15 @@ namespace ProjectFirma.Web.Models
         private List<string> _additionalCssClasses = new List<string>();
         public List<string> AdditionalCssClasses
         {
-            get { return _additionalCssClasses; }
-            set { _additionalCssClasses = value; }
+            get => _additionalCssClasses;
+            set => _additionalCssClasses = value;
         }
 
         private object _orderBy;
         public object OrderBy
         {
-            get { return _orderBy ?? CaptionOnFullView; }
-            set { _orderBy = value; }
+            get => _orderBy ?? CaptionOnFullView;
+            set => _orderBy = value;
         }
 
         public void SetAsKeyPhoto()
@@ -131,13 +117,10 @@ namespace ProjectFirma.Web.Models
             {
                 var project = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return string.Format("Project: {0}, Image: {1}", projectName, Caption);
+                return $"Project: {projectName}, Image: {Caption}";
             }
         }
 
-        public int? EntityImageIDAsNullable
-        {
-            get { return ProjectImageID; }
-        }
+        public int? EntityImageIDAsNullable => ProjectImageID;
     }
 }

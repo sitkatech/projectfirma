@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
+@using ProjectFirma.Web.Models
 @inherits Index
 
 @{
@@ -37,7 +38,7 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     @if (ViewDataTyped.HasProposeProjectPermissions)
     {
-        <a class='btn btn-sm btn-firma' href="@ViewDataTyped.ProposeNewProjectUrl" title="Submit a project proposal">Propose New Project</a>
+        <a class='btn btn-sm btn-firma' href="@ViewDataTyped.ProposeNewProjectUrl" title="Submit a project proposal">Propose New @FieldDefinition.Project.GetFieldDefinitionLabel()</a>
     }
 }
 

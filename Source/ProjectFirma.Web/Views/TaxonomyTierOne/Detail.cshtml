@@ -27,6 +27,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
 @inherits ProjectFirma.Web.Views.TaxonomyTierOne.Detail
 
@@ -74,7 +75,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="col-md-6">
         <div class="panel panelFirma" style="height: auto">
             <div class="panel-heading panelTitle">
-                <h2>@ViewDataTyped.TaxonomyTierOneDisplayName Projects Map</h2>
+                <h2>@ViewDataTyped.TaxonomyTierOneDisplayName @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() Map</h2>
             </div>
             <div style="padding: 10px">
                 To zoom, hold down Shift and drag a rectangle.
@@ -91,7 +92,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    <a href="@ViewDataTyped.FullProjectListUrl">Projects</a>
+                    <a href="@ViewDataTyped.FullProjectListUrl">@FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</a>
                 </h2>
             </div>
             <div class="panel-body">

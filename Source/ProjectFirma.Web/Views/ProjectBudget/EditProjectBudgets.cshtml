@@ -25,7 +25,7 @@ Source code is available upon request via <support@sitkatech.com>.
               
 @if (!ViewDataTyped.AllFundingSources.Any())
 {
-    <p>No Funding Sources are defined. You must define <a href="@ViewDataTyped.FundingSourceUrl">Funding Sources</a> before entering a Project Budget.</p>
+    <p>No @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() are defined. You must define <a href="@ViewDataTyped.FundingSourceUrl">@FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()</a> before entering a Project Budget.</p>
 }
 else
 {
@@ -51,7 +51,7 @@ else
     <div ng-app="ProjectFirmaApp" id="EditProjectBudgetsApp" ng-controller="ProjectBudgetController" style="max-height: 600px; overflow-y: auto">
         <div class="row">
             <div class="col-md-3">
-                Funding Source to Add:
+                @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add:
             </div>
             <div class="col-md-9">
                 <select ng-model="FundingSourceToAdd" ng-options="fundingSource.DisplayName group by fundingSource.OrganizationName for fundingSource in filteredFundingSources()" style="width: 500px"></select>
@@ -62,7 +62,7 @@ else
             Group By:
             <label>
                 <input type="radio" name="budgetGroupedBy" checked="checked" ng-click="setGroupByProjectCostType(false)"/>
-                Funding Source
+                @FieldDefinition.FundingSource.GetFieldDefinitionLabel()
             </label>
             <label>
                 <input type="radio" name="budgetGroupedBy" ng-click="setGroupByProjectCostType(true)"/>
@@ -115,8 +115,8 @@ else
             <tbody ng-repeat="ProjectCostType in AngularViewData.AllProjectCostTypes | orderBy:'SortOrder'" ng-show="IsGroupedByProjectCostType">
             <tr>
                 <td>
-                    <span class="glyphicon glyphicon-collapse-down blue" ng-click="showHideFundingSources(ProjectCostType)" ng-show="existsInHiddenProjectCostTypes(ProjectCostType)" title="Show Funding Sources" alt="Show Funding Sources" style="cursor: pointer"></span>
-                    <span class="glyphicon glyphicon-collapse-up blue" ng-click="showHideFundingSources(ProjectCostType)" ng-show="!existsInHiddenProjectCostTypes(ProjectCostType)" title="Hide Funding Sources" alt="Hide Funding Sources" style="cursor: pointer"></span>
+                    <span class="glyphicon glyphicon-collapse-down blue" ng-click="showHideFundingSources(ProjectCostType)" ng-show="existsInHiddenProjectCostTypes(ProjectCostType)" title="Show @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()" alt="Show  @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()" style="cursor: pointer"></span>
+                    <span class="glyphicon glyphicon-collapse-up blue" ng-click="showHideFundingSources(ProjectCostType)" ng-show="!existsInHiddenProjectCostTypes(ProjectCostType)" title="Hide  @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()" alt="Hide @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()" style="cursor: pointer"></span>
                 </td>
                 <td colspan="2">
                     <span ng-bind="ProjectCostType.ProjectCostTypeDisplayName"></span>

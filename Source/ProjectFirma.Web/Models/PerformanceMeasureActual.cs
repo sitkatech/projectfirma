@@ -27,10 +27,7 @@ namespace ProjectFirma.Web.Models
 {
     public partial class PerformanceMeasureActual : IAuditableEntity, IPerformanceMeasureValue
     {
-        public string ActualValueDisplay
-        {
-            get { return GetActualValueDisplay(ActualValue, PerformanceMeasure); }
-        }
+        public string ActualValueDisplay => GetActualValueDisplay(ActualValue, PerformanceMeasure);
 
         private static string GetActualValueDisplay(double expectedValue, PerformanceMeasure performanceMeasure)
         {
@@ -46,18 +43,13 @@ namespace ProjectFirma.Web.Models
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var performanceMeasureName = performanceMeasure != null ? performanceMeasure.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var actualValue = GetActualValueDisplay(ActualValue, performanceMeasure);
-                return string.Format("Project: {0}, Performance Measure: {1}, Actual Value: {2}", projectName, performanceMeasureName, actualValue);
+                return
+                    $"Project: {projectName}, Performance Measure: {performanceMeasureName}, Actual Value: {actualValue}";
             }
         }
 
-        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions
-        {
-            get { return new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureActualSubcategoryOptions.ToList()); }
-        }
-        public double? ReportedValue
-        {
-            get { return ActualValue; }
-        }
+        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions => new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureActualSubcategoryOptions.ToList());
+        public double? ReportedValue => ActualValue;
 
         public string PerformanceMeasureSubcategoriesAsString
         {
@@ -68,7 +60,8 @@ namespace ProjectFirma.Web.Models
                     return PerformanceMeasureActualSubcategoryOptions.Any()
                         ? string.Join("\r\n",
                             PerformanceMeasureActualSubcategoryOptions.OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
-                                .Select(x => string.Format("{0}: {1}", x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName, x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName)))
+                                .Select(x =>
+                                    $"{x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}: {x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName}"))
                         : ViewUtilities.NoneString;
                 }
                 else

@@ -18,11 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("View Watershed")]
+    [SecurityFeatureDescription("View {0}", FieldDefinitionEnum.Watershed)]
     public class WatershedViewFeature : AnonymousUnclassifiedFeature
     {
     }

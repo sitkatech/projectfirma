@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Models
             var layerGeoJsons = new List<LayerGeoJson>();
             var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
             var geoJsonForWatersheds = Watershed.ToGeoJsonFeatureCollection(watersheds);
-            layerGeoJsons.Add(new LayerGeoJson("Watershed", geoJsonForWatersheds, "#90C3D4", 0.1m, LayerInitialVisibility.Show));
+            layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinition.Watershed.GetFieldDefinitionLabel()}", geoJsonForWatersheds, "#90C3D4", 0.1m, LayerInitialVisibility.Show));
             return layerGeoJsons;
         }
 
@@ -68,9 +68,9 @@ namespace ProjectFirma.Web.Models
             var layerGeoJsons = new List<LayerGeoJson>
             {
                 new LayerGeoJson(watershed.DisplayName, Watershed.ToGeoJsonFeatureCollection(new List<Watershed> {watershed}), "red", 1, LayerInitialVisibility.Show),
-                new LayerGeoJson("Watersheds",
+                new LayerGeoJson($"{FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()}",
                     Watershed.ToGeoJsonFeatureCollection(HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures().Where(x => x.WatershedID != watershed.WatershedID).ToList()), "#59ACFF", 0.6m, LayerInitialVisibility.Show),
-                new LayerGeoJson("Project Location - Simple", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show),
+                new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show),
                 new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show)
             };
             return layerGeoJsons;
@@ -84,7 +84,7 @@ namespace ProjectFirma.Web.Models
                 var projectLocationSimpleFeatureCollection = new FeatureCollection();
                 projectLocationSimpleFeatureCollection.Features.Add(
                     DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint));
-                layerGeoJsons.Add(new LayerGeoJson("Project Location - Simple", projectLocationSimpleFeatureCollection,
+                layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", projectLocationSimpleFeatureCollection,
                     "#838383", 1, LayerInitialVisibility.Show));
             }
             return layerGeoJsons;

@@ -37,14 +37,14 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <div>
-    <a class="btn backButton" href="@ViewDataTyped.ManageFundingSourcesUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all Funding Sources</a>
+    <a class="btn backButton" href="@ViewDataTyped.ManageFundingSourcesUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()</a>
 </div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-5">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
-                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditFundingSourceUrl, string.Format("Edit Funding Source - {0}", ViewDataTyped.FundingSource.DisplayName), ViewDataTyped.UserHasFundingSourceManagePermissions) Basics
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditFundingSourceUrl, string.Format("Edit {0} - {1}", FieldDefinition.FundingSource.GetFieldDefinitionLabel(), ViewDataTyped.FundingSource.DisplayName), ViewDataTyped.UserHasFundingSourceManagePermissions) Basics
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -69,7 +69,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-lg-7">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
-                    Expenditures by Funding Source
+                    Expenditures by @FieldDefinition.FundingSource.GetFieldDefinitionLabel()
                 </div>
                 <div class="panel-body">
                     <div style="border-radius: 8px; background-color: white; height: 410px; margin-right: auto; margin-left: auto; width: 600px">
@@ -83,7 +83,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-sm-12">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
-                    Reported Expenditures
+                    @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()
                 </div>
                 <div class="panel-body">
                     @Html.DhtmlxGrid(ViewDataTyped.ProjectCalendarYearExpendituresGridSpec, ViewDataTyped.ProjectCalendarYearExpendituresGridName, ViewDataTyped.ProjectCalendarYearExpendituresGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

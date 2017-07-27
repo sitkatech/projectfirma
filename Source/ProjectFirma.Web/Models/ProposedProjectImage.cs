@@ -38,51 +38,30 @@ namespace ProjectFirma.Web.Models
             // ReSharper restore DoNotCallOverridableMethodsInConstructor           
         }
 
-        public DateTime CreateDate
-        {
-            get { return FileResource.CreateDate; }
-        }
+        public DateTime CreateDate => FileResource.CreateDate;
 
         public string DeleteUrl
         {
             get { return SitkaRoute<ProposedProjectImageController>.BuildUrlFromExpression(x => x.Delete(ProposedProjectImageID)); }
         }
-        public bool IsKeyPhoto { get { return false; } }
+        public bool IsKeyPhoto => false;
 
         public string CaptionOnFullView
         {
             get
             {
-                var creditString = string.IsNullOrWhiteSpace(Credit) ? string.Empty : string.Format("\r\nCredit: {0}", Credit);
-                return string.Format("{0}{1}", CaptionOnGallery, creditString);
+                var creditString = string.IsNullOrWhiteSpace(Credit) ? string.Empty : $"\r\nCredit: {Credit}";
+                return $"{CaptionOnGallery}{creditString}";
             }
         }
 
-        public string CaptionOnGallery
-        {
-            get { return string.Format("{0}\r\n{1}", Caption, FileResource.FileResourceDataLengthString); }
-        }
+        public string CaptionOnGallery => $"{Caption}\r\n{FileResource.FileResourceDataLengthString}";
 
-        public string PhotoUrl
-        {
-            get { return FileResource.FileResourceUrl; }
-        }
+        public string PhotoUrl => FileResource.FileResourceUrl;
 
-        public string PhotoUrlScaledThumbnail
-        {
-            get
-            {
-                return FileResource.FileResourceUrlScaledThumbnail;
-            }
-        }
+        public string PhotoUrlScaledThumbnail => FileResource.FileResourceUrlScaledThumbnail;
 
-        public string PhotoUrlScaledForPrint
-        {
-            get
-            {
-                return FileResource.FileResourceUrlScaledForPrint;
-            }
-        }
+        public string PhotoUrlScaledForPrint => FileResource.FileResourceUrlScaledForPrint;
 
         public string EditUrl
         {
@@ -92,15 +71,15 @@ namespace ProjectFirma.Web.Models
         private List<string> _additionalCssClasses = new List<string>();
         public List<string> AdditionalCssClasses
         {
-            get { return _additionalCssClasses; }
-            set { _additionalCssClasses = value; }
+            get => _additionalCssClasses;
+            set => _additionalCssClasses = value;
         }
 
         private object _orderBy;
         public object OrderBy
         {
-            get { return _orderBy ?? CaptionOnFullView; }
-            set { _orderBy = value; }
+            get => _orderBy ?? CaptionOnFullView;
+            set => _orderBy = value;
         }       
 
         public bool IsPersonTheCreator(Person person)
@@ -114,13 +93,10 @@ namespace ProjectFirma.Web.Models
             {
                 var proposedProject = HttpRequestStorage.DatabaseEntities.AllProposedProjects.Find(ProposedProjectID);
                 var proposedProjectName = proposedProject != null ? proposedProject.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return string.Format("Project: {0}, Image: {1}", proposedProjectName, Caption);
+                return $"{FieldDefinition.Project.GetFieldDefinitionLabel()}: {proposedProjectName}, Image: {Caption}";
             }
         }
 
-        public int? EntityImageIDAsNullable
-        {
-            get { return ProposedProjectImageID; }
-        }
+        public int? EntityImageIDAsNullable => ProposedProjectImageID;
     }
 }

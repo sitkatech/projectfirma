@@ -50,8 +50,8 @@ namespace ProjectFirma.Web.Views.Tag
 
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
-                ObjectNameSingular = "Project with this Tag",
-                ObjectNamePlural = "Projects with this Tag",
+                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} with this Tag",
+                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} with this Tag",
                 SaveFiltersInCookie = true
             };
             

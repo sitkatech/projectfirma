@@ -55,8 +55,8 @@ namespace ProjectFirma.Web.Views.Classification
             BasicProjectInfoGridName = "watershedProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false)
             {
-                ObjectNameSingular = string.Format("Project associated with this {0}", ClassificationDisplayName),
-                ObjectNamePlural = string.Format("Projects associated with this {0}", ClassificationDisplayNamePluralized),
+                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} associated with this {ClassificationDisplayName}",
+                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with this {ClassificationDisplayNamePluralized}",
                 SaveFiltersInCookie = true
             };
 
