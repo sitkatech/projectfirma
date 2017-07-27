@@ -245,7 +245,7 @@
                         {
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
-                                    <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureExpectedsUrl, "Edit Expected " + @MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureExpectedManagePermissions) Expected @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h3>
+                                    <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureExpectedsUrl, "Edit Expected " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureExpectedManagePermissions) Expected @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h3>
                                 </div>
                                 <div class="panel-body">
                                     @{ PerformanceMeasureExpectedSummary.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureExpectedSummaryViewData); }
@@ -254,7 +254,7 @@
                         }
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported " + @MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions) Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h3>
+                                <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions) Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h3>
                             </div>
                             <div class="panel-body">
                                 @{ PerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureReportedValuesGroupedViewData); }
