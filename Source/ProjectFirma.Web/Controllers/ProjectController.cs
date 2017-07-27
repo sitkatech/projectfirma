@@ -417,12 +417,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteProject(Project project, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = project.CanDelete().HasPermission;
-            var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this {FieldDefinition.Project.GetFieldDefinitionLabel()} '{project.DisplayName}'?"
-                : $"Only {FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} in the following stages may be deleted: {string.Join(", ", ProjectStage.All.Where(x => x.IsDeletable()).Select(x => x.ProjectStageDisplayName))}<br />{ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Project", SitkaRoute<ProjectController>.BuildLinkFromExpression(x => x.Detail(project), "here"))}";
-
-            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
+            var confirmMessage = $"Are you sure you want to delete this Project '{project.DisplayName}'?";
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -432,28 +428,48 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteProject(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var permissionCheckResult = project.CanDelete();
-            if (!permissionCheckResult.HasPermission)
-            {
-                throw new SitkaRecordNotAuthorizedException(permissionCheckResult.PermissionDeniedMessage);
-            }
             if (!ModelState.IsValid)
             {
                 return ViewDeleteProject(project, viewModel);
             }
-            // since we do not check for these in the CanDelete call, we need to remove them manually; this is because we are requiring a lead organization for each project, so the editor no longer supports deletion of all organizations per Mingle story #209.
-            project.ProjectOrganizations.DeleteProjectOrganization();           
-            project.ProjectClassifications.DeleteProjectClassification();
-            project.SnapshotProjects.DeleteSnapshotProject();
-            project.ProjectTags.DeleteProjectTag();
+
             project.NotificationProjects.DeleteNotificationProject();
+            project.PerformanceMeasureActuals.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions).ToList().DeletePerformanceMeasureActualSubcategoryOption();
+            project.PerformanceMeasureActuals.DeletePerformanceMeasureActual();
+            project.PerformanceMeasureExpecteds.SelectMany(x => x.PerformanceMeasureExpectedSubcategoryOptions).ToList().DeletePerformanceMeasureExpectedSubcategoryOption();
+            project.PerformanceMeasureExpecteds.DeletePerformanceMeasureExpected();
+            project.ProjectAssessmentQuestions.DeleteProjectAssessmentQuestion();
+            project.ProjectBudgets.DeleteProjectBudget();
+            project.ProjectClassifications.DeleteProjectClassification();
+            project.ProjectExemptReportingYears.DeleteProjectExemptReportingYear();
+            project.ProjectExternalLinks.DeleteProjectExternalLink();
+            project.ProjectFundingSourceExpenditures.DeleteProjectFundingSourceExpenditure();
+            var fileResources = project.ProjectImages.Select(x => x.FileResource).ToList();
+            project.ProjectImages.DeleteProjectImage();
+            fileResources.DeleteFileResource();
+            project.ProjectLocations.DeleteProjectLocation();
+            project.ProjectLocationStagings.DeleteProjectLocationStaging();
+            project.ProjectNotes.DeleteProjectNote();
+            project.ProjectOrganizations.DeleteProjectOrganization();
+            project.ProjectTags.DeleteProjectTag();
+
+            foreach (var projectUpdateBatch in project.ProjectUpdateBatches.ToList())
+            {
+                projectUpdateBatch.DeleteAll();
+            }
+
+            project.ProjectWatersheds.DeleteProjectWatershed();
+
             if (project.ProposedProject != null)
             {
                 project.ProposedProject.ProposedProjectStateID = ProposedProjectState.Rejected.ProposedProjectStateID;
                 project.ProposedProject.Project = null;
             }
 
+            project.SnapshotProjects.DeleteSnapshotProject();
+            var message = $"Project \"{project.DisplayName}\" succesfully deleted.";
             project.DeleteProject();
+            SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();
         }
 

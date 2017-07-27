@@ -28,7 +28,6 @@ namespace ProjectFirma.Web.Views.FieldDefinition
 {
     public class EditViewModel : FormViewModel
     {
-        [Required]
         [DisplayName("Custom Definition")]
         public HtmlString FieldDefinitionDataValue { get; set; }
 
