@@ -48,8 +48,8 @@ Source code is available upon request via <support@sitkatech.com>.
     }
 }
 
-To enter your project's annual expenditures, add the appropriate Funding Sources and then enter the amount contributed by each for the duration defined by your project's Planning / Design Start and Completion Years
-(or, if Completion Year isn't set, through the current year). If your project had no expenditures for a given year, enter zero "0" for that year for at least one of its funding sources.
+To enter your project's annual expenditures, add the appropriate @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() and then enter the amount contributed by each for the duration defined by your project's Planning / Design Start and @FieldDefinition.CompletionYear.GetFieldDefinitionLabel()
+(or, if @FieldDefinition.CompletionYear.GetFieldDefinitionLabel() isn't set, through the current year). If your project had no expenditures for a given year, enter zero "0" for that year for at least one of its @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized().
 <hr />
 <div style="margin: 10px 0">
     <p>
@@ -58,16 +58,16 @@ To enter your project's annual expenditures, add the appropriate Funding Sources
 
     @if (ViewDataTyped.Project.FundingType == FundingType.Capital)
     {
-        <div style="width: 300px">Estimated Total Cost: <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.EstimatedTotalCost.ToStringCurrency()</span></div>
-        <div style="width: 300px">Secured Funding: <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.SecuredFunding.ToStringCurrency()</span></div>
-        <div style="width: 300px">Unfunded Need: <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.UnfundedNeed.ToStringCurrency()</span></div>
+        <div style="width: 300px">@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.EstimatedTotalCost.ToStringCurrency()</span></div>
+        <div style="width: 300px">@FieldDefinition.SecuredFunding.GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.SecuredFunding.ToStringCurrency()</span></div>
+        <div style="width: 300px">@FieldDefinition.UnfundedNeed.GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.UnfundedNeed.ToStringCurrency()</span></div>
     }
     else if (ViewDataTyped.Project.FundingType == FundingType.OperationsAndMaintenance)
     {
         <table>
             <tr>
                 <td style="width: 200px">
-                    Estimated Annual Operating Cost:
+                   @FieldDefinition.EstimatedAnnualOperatingCost.GetFieldDefinitionLabel():
                 </td>
                 <td>
                     <span style="font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.EstimatedAnnualOperatingCost.ToStringCurrency()</span>
@@ -104,7 +104,7 @@ else
     {
         <div ng-app="ProjectFirmaApp" ng-controller="ExpendituresController" style="overflow-x: auto">
             <div style="display: inline-block; margin-right: 5px; vertical-align: top">
-                Funding Source to Add:
+                @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add:
             </div>
             <div style="display: inline-block">
                 <select ng-model="FundingSourceToAdd" ng-options="fundingSource.DisplayName group by fundingSource.OrganizationName for fundingSource in filteredFundingSources()" style="width: 500px"></select>
@@ -114,7 +114,7 @@ else
                     @ModalDialogFormHelper.ModalDialogFormLink("Contact support", ViewDataTyped.RequestFundingSourceUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
                 </span>
                 <br />
-                <label style="font-size: 12px"><input type="checkbox" ng-model="ShowOnlyProjectFunders" /> Show only my project's Funders</label>
+                <label style="font-size: 12px"><input type="checkbox" ng-model="ShowOnlyProjectFunders" /> Show only my project's funders</label>
             </div>
             <table class="table" style="margin-top: 20px; overflow: scroll" ng-show="AngularModel.ProjectFundingSourceExpenditures.length > 0">
                 <thead>
@@ -177,7 +177,7 @@ else
                         @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
                         @if (ViewDataTyped.UpdateStatus.IsExpendituresUpdated)
                         {
-                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to Project Expenditures", 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() { "btn-firma", "btn-xs" })
+                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Expenditures", FieldDefinition.Project.GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() { "btn-firma", "btn-xs" })
                         }
                     </td>
                     <td>

@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared;
@@ -47,11 +46,7 @@ namespace ProjectFirma.Web.Models
             get
             {
                 var taxonomyTierTwoPerformanceMeasure = TaxonomyTierTwoPerformanceMeasures.SingleOrDefault(ppm => ppm.IsPrimaryTaxonomyTierTwo);
-                if (taxonomyTierTwoPerformanceMeasure != null)
-                {
-                    return taxonomyTierTwoPerformanceMeasure.TaxonomyTierTwo;
-                }
-                return null;
+                return taxonomyTierTwoPerformanceMeasure?.TaxonomyTierTwo;
             }
         }
 
@@ -138,14 +133,11 @@ namespace ProjectFirma.Web.Models
                             reportedValuesGroup.Sum(x => x.ReportedValue))).ToList();
         }
 
-        public string AuditDescriptionString
-        {
-            get { return PerformanceMeasureDisplayName; }
-        }
+        public string AuditDescriptionString => PerformanceMeasureDisplayName;
 
         public static List<GoogleChartJson> GetSubcategoriesAsGoogleChartJsons(PerformanceMeasure performanceMeasure, List<int> projectIDs)
         {
-            Check.Require(performanceMeasure.PerformanceMeasureSubcategories != null && performanceMeasure.PerformanceMeasureSubcategories.Any(), "Every Performance Measure must have at least one Subcategory!");            
+            Check.Require(performanceMeasure.PerformanceMeasureSubcategories != null && performanceMeasure.PerformanceMeasureSubcategories.Any(), $"Every {FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()} must have at least one Subcategory!");            
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
             var reportedValues = performanceMeasure.GetReportedPerformanceMeasureValues(projectIDs).Where(x => x.Project.ProjectStage.ArePerformanceMeasuresReportable()).ToList();
             return PerformanceMeasureSubcategory.MakeGoogleChartJsonsForSubcategories(performanceMeasure, reportedValues, yearRange);

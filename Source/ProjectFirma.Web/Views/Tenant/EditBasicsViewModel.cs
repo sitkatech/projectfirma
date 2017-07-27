@@ -107,8 +107,8 @@ namespace ProjectFirma.Web.Views.Tenant
             if (PrimaryContactPersonID != null)
             {
                 primaryContactPerson = HttpRequestStorage.DatabaseEntities.AllPeople.Single(p => p.PersonID == PrimaryContactPersonID);
-                Check.Assert(primaryContactPerson.TenantID == TenantID, "Primary contact must belong to the tenant being edited. This should have been ensured by validation.");
-                Check.Assert(new FirmaAdminFeature().HasPermissionByPerson(primaryContactPerson), "Primary contact must be an admin. This should have been ensured by validation.");
+                Check.Assert(primaryContactPerson.TenantID == TenantID, $"{Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} must belong to the tenant being edited. This should have been ensured by validation.");
+                Check.Assert(new FirmaAdminFeature().HasPermissionByPerson(primaryContactPerson), $"{Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} must be an admin. This should have been ensured by validation.");
             }
             tenantAttribute.PrimaryContactPerson = primaryContactPerson;
 
@@ -156,11 +156,11 @@ namespace ProjectFirma.Web.Views.Tenant
                 var primaryContact = HttpRequestStorage.DatabaseEntities.AllPeople.Single(p => p.PersonID == PrimaryContactPersonID);
                 if (primaryContact.TenantID != TenantID)
                 {
-                    errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>("Primary contact must belong to the tenant being edited.", m => m.PrimaryContactPersonID));
+                    errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>($"{Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} must belong to the tenant being edited.", m => m.PrimaryContactPersonID));
                 }
                 if (!new FirmaAdminFeature().HasPermissionByPerson(primaryContact))
                 {
-                    errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>("Primary contact must be an admin.", m => m.PrimaryContactPersonID));
+                    errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>($"{Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} must be an admin.", m => m.PrimaryContactPersonID));
                 }
             }
 

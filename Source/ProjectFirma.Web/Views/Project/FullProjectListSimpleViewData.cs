@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.Project
             : base(currentPerson, firmaPage)
         {
             Projects = projects;
-            PageTitle = "Full Project List (Simple)";
+            PageTitle = $"Full {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} List (Simple)";
         }
     }
 }

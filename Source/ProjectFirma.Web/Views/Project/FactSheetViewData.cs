@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.Project
             const bool userCanAddPhotosToThisProject = false;
             var newPhotoForProjectUrl = string.Empty;
             var selectKeyImageUrl = string.Empty;
-            var galleryName = string.Format("ProjectImage{0}", project.ProjectID);
+            var galleryName = $"ProjectImage{project.ProjectID}";
             ImageGalleryViewData = new ImageGalleryViewData(currentPerson,
                 galleryName,
                 project.ProjectImages,
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Views.Project
                     .ToList();
             ProjectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson);
 
-            ChartID = string.Format("fundingChartForProject{0}", project.ProjectID);
+            ChartID = $"fundingChartForProject{project.ProjectID}";
             FundingSourceExpenditures = project.GetExpendituresDictionary();
             KeyPhoto = project.KeyPhoto;
             ProjectImagesExceptKeyPhotoGroupedByTiming =
@@ -116,11 +116,12 @@ namespace ProjectFirma.Web.Views.Project
                         break;
                     // we don't support more than 3 so we should throw if that has more than 3
                     default:
-                        throw new ArgumentException(string.Format("ProjectFirma currently only supports up to a 3-tier taxonomy; number of taxonomy tiers is {0}", MultiTenantHelpers.GetNumberOfTaxonomyTiers()));
+                        throw new ArgumentException(
+                            $"ProjectFirma currently only supports up to a 3-tier taxonomy; number of taxonomy tiers is {MultiTenantHelpers.GetNumberOfTaxonomyTiers()}");
                 }
             }
-            TaxonomyTierOneName = project.TaxonomyTierOne == null ? "Project Taxonomy Not Set" : project.TaxonomyTierOne.DisplayName;
-            TaxonomyTierTwoName = project.TaxonomyTierOne == null ? "Project Taxonomy Not Set" : project.TaxonomyTierOne.TaxonomyTierTwo.DisplayName;
+            TaxonomyTierOneName = project.TaxonomyTierOne == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyTierOne.DisplayName;
+            TaxonomyTierTwoName = project.TaxonomyTierOne == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyTierOne.TaxonomyTierTwo.DisplayName;
             TaxonomyTierOneDisplayName = Models.FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
             ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
             PrimaryContactPerson = project.GetPrimaryContact();

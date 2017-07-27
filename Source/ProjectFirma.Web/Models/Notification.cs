@@ -32,7 +32,9 @@ namespace ProjectFirma.Web.Models
 {
     public partial class Notification
     {
-        public static string FirmaSignature = string.Format("{0} team<br/><br/><img src=\"http://clackamaspartnership.org/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png\" width=\"600\" />", MultiTenantHelpers.GetTenantDisplayName());
+        public static string FirmaSignature =
+            $"{MultiTenantHelpers.GetTenantDisplayName()} team<br/><br/><img src=\"http://clackamaspartnership.org/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png\" width=\"600\" />"
+        ;
 
         public static List<Notification> SendMessageAndLogNotification(MailMessage mailMessage, IEnumerable<string> emailsToSendTo, IEnumerable<string> emailsToReplyTo, IEnumerable<string> emailsToCc, List<Person> notificationPeople, DateTime notificationDate, List<Project> notificationProjects, NotificationType notificationType)
         {
@@ -68,7 +70,7 @@ namespace ProjectFirma.Web.Models
 
         public static MailAddress DoNotReplyMailAddress()
         {
-            return new MailAddress(Common.FirmaWebConfiguration.DoNotReplyEmail, "Sitka as Administrator of ProjectFirma");
+            return new MailAddress(FirmaWebConfiguration.DoNotReplyEmail, "Sitka as Administrator of ProjectFirma");
         }
 
         private static MailMessage GenerateProjectUpdateReturnedMessage(ProjectUpdateBatch projectUpdateBatch,
@@ -77,25 +79,29 @@ namespace ProjectFirma.Web.Models
             Person returnerPerson)
         {
             var instructionsUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(projectUpdateBatch.Project));
-            var message = string.Format(@"
-Dear {0},
+            var message = $@"
+Dear {personNames},
 <p>
-    The update submitted for project {1} on {2} has been returned by {3}.
+    The update submitted for {FieldDefinition.Project.GetFieldDefinitionLabel()} {
+                    projectUpdateBatch.Project.DisplayName
+                } on {latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate()} has been returned by {
+                    returnerPerson.FullNameFirstLastAndOrg
+                }.
 </p>
 <p>
-    <a href=""{4}"">View this project update</a>
+    <a href=""{instructionsUrl}"">View this {FieldDefinition.Project.GetFieldDefinitionLabel()} update</a>
 </p>
 <p>
-    Please review this update and address the comments that {5} left for you. If you have questions, please email: {6}
+    Please review this update and address the comments that {
+                    returnerPerson.FirstName
+                } left for you. If you have questions, please email: {returnerPerson.Email}
 </p>
 Thank you,<br />
-{7}
-", personNames, projectUpdateBatch.Project.DisplayName, latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate(), returnerPerson.FullNameFirstLastAndOrg, instructionsUrl,
-                returnerPerson.FirstName,
-                returnerPerson.Email,
-                FirmaSignature);
+{FirmaSignature}
+";
 
-            var subject = string.Format("The update for project {0} has been returned - please review and re-submit", projectUpdateBatch.Project.DisplayName);
+            var subject =
+                $"The update for project {projectUpdateBatch.Project.DisplayName} has been returned - please review and re-submit";
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true};
             return mailMessage;
         }
@@ -128,14 +134,16 @@ Thank you,<br />
 
         private static MailMessage GenerateProjectUpdateSubmittedMessage(ProjectUpdateBatch projectUpdateBatch, ProjectUpdateHistory latestProjectUpdateHistorySubmitted, Person submitterPerson)
         {
-            var subject = String.Format("The update for project {0} was submitted", projectUpdateBatch.Project.DisplayName);
+            var subject = $"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} was submitted";
             var instructionsUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(projectUpdateBatch.Project));
-            var message = String.Format(@"
-<p>The update for project {0} on {1} was just submitted by {2}.</p>
+            var message = $@"
+<p>The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} on {
+                    latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate()
+                } was just submitted by {submitterPerson.FullNameFirstLastAndOrg}.</p>
 <p>Please review and Approve or Return it at your earliest convenience.<br />
-<a href=""{3}"">View this project update</a></p>
+<a href=""{instructionsUrl}"">View this {FieldDefinition.Project.GetFieldDefinitionLabel()} update</a></p>
 <p>You received this email because you are assigned to receive support notifications within the ProjectFirma tool.</p>
-", projectUpdateBatch.Project.DisplayName, latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate(), submitterPerson.FullNameFirstLastAndOrg, instructionsUrl);
+";
 
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true};
             return mailMessage;
@@ -171,7 +179,7 @@ Thank you,<br />
             if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
             {
                 emailsToSendTo.Add(primaryContactPerson.Email);
-                personNames += String.Format(" and {0}", primaryContactPerson.FullNameFirstLast);
+                personNames += $" and {primaryContactPerson.FullNameFirstLast}";
             }
 
             var returnerPerson = projectUpdateBatch.LatestProjectUpdateHistoryReturned.UpdatePerson;
@@ -197,7 +205,7 @@ Thank you,<br />
             if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
             {
                 emailsToSendTo.Add(primaryContactPerson.Email);
-                personNames += String.Format(" and {0}", primaryContactPerson.FullNameFirstLast);
+                personNames += $" and {primaryContactPerson.FullNameFirstLast}";
             }
 
             var approverPerson = projectUpdateBatch.LastUpdatePerson;
@@ -217,23 +225,24 @@ Thank you,<br />
             Person approverPerson)
         {
             var detailUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(projectUpdateBatch.Project));
-            var message = String.Format(@"
-Dear {0},
+            var message = $@"
+Dear {personNames},
 <p>
-    The update submitted for project {1} on {2} was approved by {3}.
+    The update submitted for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} on {
+                    latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate()
+                } was approved by {approverPerson.FullNameFirstLastAndOrg}.
 </p>
 <p>
-    There is no action for you to take - this is simply a notification email. The updates for this project are now visible to the general public on this project's detail page:
+    There is no action for you to take - this is simply a notification email. The updates for this {FieldDefinition.Project.GetFieldDefinitionLabel()} are now visible to the general public on this {FieldDefinition.Project.GetFieldDefinitionLabel()}'s detail page:
 </p>
 <p>
-    <a href=""{4}"">View this project</a>
+    <a href=""{detailUrl}"">View this {FieldDefinition.Project.GetFieldDefinitionLabel()}</a>
 </p>
-Thank you for keeping your project information and accomplishments up to date!<br />
-{5}
-", personNames, projectUpdateBatch.Project.DisplayName, latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate(), approverPerson.FullNameFirstLastAndOrg, detailUrl,
-                FirmaSignature);
+Thank you for keeping your {FieldDefinition.Project.GetFieldDefinitionLabel()} information and accomplishments up to date!<br />
+{FirmaSignature}
+";
 
-            var subject = String.Format("The update for project {0} was approved", projectUpdateBatch.Project.DisplayName);
+            var subject = $"The update for {FieldDefinition.Project.GetFieldDefinitionLabel()} {projectUpdateBatch.Project.DisplayName} was approved";
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true};
             return mailMessage;
         }
@@ -252,15 +261,17 @@ Thank you for keeping your project information and accomplishments up to date!<b
 
         private static MailMessage GenerateProposedProjectSubmittedMessage(ProposedProject proposedProject, Person submitterPerson)
         {
-            var subject = String.Format("A Project Proposal was submitted by {0}", submitterPerson.FullNameFirstLastAndOrg);
+            var subject = $"A {FieldDefinition.Project.GetFieldDefinitionLabel()} Proposal was submitted by {submitterPerson.FullNameFirstLastAndOrg}";
             var instructionsUrl = SitkaRoute<ProposedProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(proposedProject.ProposedProjectID));
-            var message = String.Format(@"
-<p>A proposal was submitted for a new Project, “{0}”.</p>
-<p>The proposal was submitted on {1} by {2}.<br />
+            var message = $@"
+<p>A proposal was submitted for a new {FieldDefinition.Project.GetFieldDefinitionLabel()}, “{proposedProject.DisplayName}”.</p>
+<p>The proposal was submitted on {proposedProject.ProposingDate.ToStringDate()} by {
+                    submitterPerson.FullNameFirstLastAndOrg
+                }.<br />
 <p>Please review and Approve or Return it at your earliest convenience.</p>
-<a href=""{3}"">View this proposal</a></p>
+<a href=""{instructionsUrl}"">View this proposal</a></p>
 <p>You received this email because you are assigned to receive support notifications within the ProjectFirma tool.</p>
-", proposedProject.DisplayName, proposedProject.ProposingDate.ToStringDate(), submitterPerson.FullNameFirstLastAndOrg, instructionsUrl);
+";
 
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
             return mailMessage;

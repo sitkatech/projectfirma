@@ -34,20 +34,20 @@ namespace ProjectFirma.Web.Views.MonitoringProgram
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
-            PageTitle = "Monitoring Programs";
+            PageTitle = $"{Models.FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel()}";
 
             var userHasMonitoringProgramEditPermissions = new MonitoringProgramManageFeature().HasPermissionByPerson(currentPerson);
             GridSpec = new IndexGridSpec(userHasMonitoringProgramEditPermissions)
             {
-                ObjectNameSingular = "Monitoring Program",
-                ObjectNamePlural = "Monitoring Programs",
+                ObjectNameSingular = $"{Models.FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{Models.FieldDefinition.MonitoringProgram.GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
 
             if (userHasMonitoringProgramEditPermissions)
             {
                 var createNewMonitoringProgramUrl = SitkaRoute<MonitoringProgramController>.BuildUrlFromExpression(t => t.New());
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(createNewMonitoringProgramUrl, "Create a new Monitoring Program");
+                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(createNewMonitoringProgramUrl, $"Create a new {Models.FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel()}");
             }
 
             GridName = "monitoringProgramsGrid";

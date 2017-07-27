@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LtInfo.Common;
@@ -69,7 +70,10 @@ namespace ProjectFirma.Web.Views.ProposedProject
         [FieldDefinitionDisplay(FieldDefinitionEnum.LeadImplementer)]
         [Required]
         public int? LeadImplementerOrganizationID { get; set; }
-        
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.PrimaryContact)]
+        public Person PrimaryContactPerson { get; set; }
+
         [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
         [Required]
         public int FundingTypeID { get; set; }
@@ -88,6 +92,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             ProjectName = proposedProject.ProjectName;
             ProjectDescription = proposedProject.ProjectDescription;
             LeadImplementerOrganizationID = proposedProject.LeadImplementerOrganizationID;
+            PrimaryContactPerson = proposedProject.PrimaryContactPerson;
             FundingTypeID = proposedProject.FundingTypeID;
             EstimatedTotalCost = proposedProject.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = proposedProject.EstimatedAnnualOperatingCost;

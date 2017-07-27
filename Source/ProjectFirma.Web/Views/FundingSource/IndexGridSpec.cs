@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             Add(Models.FieldDefinition.OrganizationType.ToGridHeaderString(), a => a.Organization.OrganizationType?.OrganizationTypeName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Description", a => a.FundingSourceDescription, 300);
             Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("# of Projects", a => a.AssociatedProjects.Count, 90);
+            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.AssociatedProjects.Count, 90);
         }
     }
 }

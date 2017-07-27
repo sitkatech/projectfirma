@@ -32,7 +32,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using (Html.BeginForm())
 {
     <div>
-        Click the checkboxes below to associate this project with one or more @(Html.LabelWithSugarFor(FieldDefinition.Classification, FieldDefinition.Classification.GetFieldDefinitionLabelPluralized())).
+        Click the checkboxes below to associate this @FieldDefinition.Project.GetFieldDefinitionLabel() with one or more @(Html.LabelWithSugarFor(FieldDefinition.Classification, FieldDefinition.Classification.GetFieldDefinitionLabelPluralized())).
     </div>
     <div>
         @{var i = 0;}
@@ -60,7 +60,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 {
                     <div class="col-xs-4">
                         <div>
-                            @Html.TextAreaWithMaxLengthFor(x => x.ProposedProjectClassificationSimples[j].ProposedProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 2), "Describe how this applies to the Project.")
+                            @Html.TextAreaWithMaxLengthFor(x => x.ProposedProjectClassificationSimples[j].ProposedProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 2), string.Format("Describe how this applies to the {0}.", FieldDefinition.Project.GetFieldDefinitionLabel()))
                         </div>
                         @Html.HiddenFor(x => x.ProposedProjectClassificationSimples[j].ClassificationID)
                         @{ j = j + 1; }

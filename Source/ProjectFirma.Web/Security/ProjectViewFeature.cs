@@ -24,7 +24,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("View Project")]
+    [SecurityFeatureDescription("View {0}", FieldDefinitionEnum.Project)]
     public class ProjectViewFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
@@ -44,12 +44,12 @@ namespace ProjectFirma.Web.Security
         {
             if (!HasPermissionByPerson(person))
             {
-                return new PermissionCheckResult(String.Format("You don't have permission to view {0}", contextModelObject.DisplayName));
+                return new PermissionCheckResult($"You don't have permission to view {contextModelObject.DisplayName}");
             }
 
             if (!contextModelObject.IsVisibleToThisPerson(person))
             {
-                return new PermissionCheckResult(string.Format("Project {0} is not visible to you.", contextModelObject.ProjectID));
+                return new PermissionCheckResult($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not visible to you.");
             }
 
             // Allowed

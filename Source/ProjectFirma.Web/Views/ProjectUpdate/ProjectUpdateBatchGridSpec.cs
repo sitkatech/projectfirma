@@ -37,9 +37,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ProjectUpdateBatchGridSpec()
         {
             Add("Date", x => x.LastUpdateDate, 120);
-            Add("Project Update Status", x => x.ProjectUpdateState.ProjectUpdateStateDisplayName, 170, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update Status", x => x.ProjectUpdateState.ProjectUpdateStateDisplayName, 170, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Updated By", x => x.LastUpdatePerson.FullNameFirstLastAndOrg, 350, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Project Update Details",
+            Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update Details",
                 pub =>
                 {
                     if (pub.ProjectUpdateState == ProjectUpdateState.Approved && pub.LastUpdateDate.IsDateOnOrAfter(_detailTrackingStartDate))
@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                         return ModalDialogFormHelper.ModalDialogFormLink("diff-link-id",
                             "Show Details",
                             url,
-                            "Project Update Change Log",
+                            $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update Change Log",
                             1000,
                             "hidden-save-button",
                             string.Empty,

@@ -23,7 +23,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Edit Proposed Project Note")]
+    [SecurityFeatureDescription("Edit Proposed {0}", FieldDefinitionEnum.ProjectNote)]
     public class ProposedProjectNoteManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<ProposedProjectNote>
     {
         private readonly FirmaFeatureWithContextImpl<ProposedProjectNote> _firmaFeatureWithContextImpl;
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Security
             var projectNoteIsEditableByUser = contextModelObject.ProposedProject.IsEditableToThisPerson(person);
             if (!projectNoteIsEditableByUser)
             {
-                return new PermissionCheckResult(string.Format("Proposed project {0} is not editable by you.", contextModelObject.ProposedProjectID));
+                return new PermissionCheckResult($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} {contextModelObject.ProposedProjectID} is not editable by you.");
             }
 
             return new PermissionCheckResult();

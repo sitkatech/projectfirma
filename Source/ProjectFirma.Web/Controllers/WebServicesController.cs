@@ -160,7 +160,7 @@ namespace ProjectFirma.Web.Controllers
                 case WebServiceReturnTypeEnum.JSON:
                     return Json(results, JsonRequestBehavior.AllowGet);
                 default:
-                    throw new ArgumentOutOfRangeException(string.Format("Invalid return type {0}", webServiceReturnTypeEnum));
+                    throw new ArgumentOutOfRangeException($"Invalid return type {webServiceReturnTypeEnum}");
             }
         }
     }

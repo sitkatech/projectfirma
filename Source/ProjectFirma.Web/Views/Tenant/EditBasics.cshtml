@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common
 @using LtInfo.Common.Mvc
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Tenant
 @inherits EditBasics
 
@@ -45,7 +46,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-md-4 text-right">@Html.LabelFor(m => m.PrimaryContactPersonID)</div>
         <div class="col-md-8">
             <select id="@Html.IdFor(m => m.PrimaryContactPersonID)" name="@Html.NameFor(m => m.PrimaryContactPersonID)"
-                    class="selectpicker" title="Select person for primary contact."
+                    class="selectpicker" title="Select person for @FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()."
                     data-live-search="true" data-live-search-placeholder="First Last">
                 @foreach (var person in ViewDataTyped.TenantPeople)
                 {

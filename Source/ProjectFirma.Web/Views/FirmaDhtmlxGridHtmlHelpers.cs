@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views
             var dhtmlxGrid = DhtmlxGridHtmlHelpers.DhtmlxGridImpl(gridSpec,
                 gridName,
                 optionalGridDataUrl,
-                string.Format("background-color:white;{0}", styleString),
+                $"background-color:white;{styleString}",
                 null, dhtmlxGridHeader, dhtmlxGridResizeType);
 
             return new HtmlString(dhtmlxGrid);

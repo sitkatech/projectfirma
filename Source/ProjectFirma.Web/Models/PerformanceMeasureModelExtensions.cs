@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Models
             {
                 return null;
             }
-            throw new NotImplementedException("PerformanceMeasure {0} is not reported in the Project Tracker!  No way to edit reported values!");
+            throw new NotImplementedException($"PerformanceMeasure {0} is not reported in the Project Tracker!  No way to edit {FieldDefinition.ReportedValue.GetFieldDefinitionLabel()}!");
         }
 
         public static bool IsPerformanceMeasureDisplayNameUnique(IEnumerable<PerformanceMeasure> performanceMeasures, string performanceMeasureDisplayName, int currentPerformanceMeasureID)

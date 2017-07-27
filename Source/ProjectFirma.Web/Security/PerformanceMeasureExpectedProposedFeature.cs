@@ -18,9 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Models;
+
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Edit Proposed Project's Performance Measure Expected Values")]
+    [SecurityFeatureDescription("Edit {0}'s {1} {2}s", FieldDefinitionEnum.ProposedProject,  FieldDefinitionEnum.PerformanceMeasure, FieldDefinitionEnum.ExpectedValue)]
     public class PerformanceMeasureExpectedProposedFeature : ProposedProjectEditFeature
     {
     }

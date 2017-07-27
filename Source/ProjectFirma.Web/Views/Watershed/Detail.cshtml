@@ -36,7 +36,7 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <div>
-    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all Watersheds</a>
+    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()</a>
 </div>
 
 
@@ -52,14 +52,14 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                     <p style="font-size: 10px">To zoom, hold down Shift and drag a rectangle.</p>
 
-                    <p>Projects can be associated with multiple watersheds, but are mapped in a single location. Therefore some projects may appear outside of the watershed boundary.</p>
+                    <p>@FieldDefinition.Project.GetFieldDefinitionLabelPluralized() can be associated with multiple @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized(), but are mapped in a single location. Therefore some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() may appear outside of the @FieldDefinition.Watershed.GetFieldDefinitionLabel() boundary.</p>
                 </div>
             </div>
         </div>
         <div class="col-lg-7">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
-                    <h2>Expenditures by Funding Source and @FieldDefinition.OrganizationType.GetFieldDefinitionLabel()</h2>
+                    <h2>Expenditures by @FieldDefinition.FundingSource.GetFieldDefinitionLabel() and @FieldDefinition.OrganizationType.GetFieldDefinitionLabel()</h2>
                 </div>
                 <div class="panel-body">
                     @if (ViewDataTyped.CalendarYearExpendituresLineChartViewData.HasChartData)
@@ -67,11 +67,11 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div style="border-radius: 8px; background-color: white; margin-right: auto; margin-left: auto;">
                             @{ CalendarYearExpendituresLineChart.RenderPartialView(Html, ViewDataTyped.CalendarYearExpendituresLineChartViewData); }
                         </div>
-                        <span class="alert">Since some projects span multiple watersheds, expenditures reported above may be over reported for this watershed.</span>
+                        <span class="alert">Since some @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() span multiple @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized(), the @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() above may be over-reported for this @FieldDefinition.Watershed.GetFieldDefinitionLabel().</span>
                     }
                     else
                     {
-                        <p class="alert">No expenditure data yet provided for this watershed.</p>
+                        <p class="alert">No @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabel() data yet provided for this @FieldDefinition.Watershed.GetFieldDefinitionLabel().</p>
                     }
                 </div>
             </div>
@@ -81,7 +81,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-md-12">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
-                    <h2>Projects</h2>
+                    <h2>@FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</h2>
                 </div>
                 <div class="panel-body">
                     @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

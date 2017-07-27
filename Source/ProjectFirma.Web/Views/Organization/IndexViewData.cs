@@ -38,20 +38,20 @@ namespace ProjectFirma.Web.Views.Organization
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage)
             : base(currentPerson, firmaPage)
         {
-            PageTitle = "Organizations";
+            PageTitle = $"{Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}";
 
             var hasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByPerson(currentPerson);
             GridSpec = new IndexGridSpec(currentPerson, hasOrganizationManagePermissions)
             {
-                ObjectNameSingular = "Organization",
-                ObjectNamePlural = "Organizations",
+                ObjectNameSingular = $"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
 
             if (hasOrganizationManagePermissions)
             {
                 var contentUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.New());
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(contentUrl, "Create a new Organization");
+                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(contentUrl, $"Create a new {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}");
             }
 
             GridName = "organizationsGrid";

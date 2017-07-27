@@ -48,9 +48,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             if (hasPerformanceMeasureManagePermissions)
             {
                 var contentUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.New());
-                PerformanceMeasureGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(contentUrl, "Create a new Performance Measure");
+                PerformanceMeasureGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(contentUrl, $"Create a new {Models.FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()}");
+
             }
-            PerformanceMeasureGridSpec.CustomExcelDownloadLinkText = "Download with Subcategories";
+            PerformanceMeasureGridSpec.CustomExcelDownloadLinkText = $"Download with {Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()}";
             PerformanceMeasureGridSpec.CustomExcelDownloadUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());
 
             PerformanceMeasureGridName = "performanceMeasuresGrid";

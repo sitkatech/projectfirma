@@ -24,7 +24,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("View PerformanceMeasure Expected Value From Project")]
+    [SecurityFeatureDescription("View {0} {1} From {2}", FieldDefinitionEnum.PerformanceMeasure, FieldDefinitionEnum.ExpectedValue, FieldDefinitionEnum.Project)]
     public class PerformanceMeasureExpectedFromProjectViewFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
@@ -64,7 +64,8 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult();
             }
 
-            return new PermissionCheckResult(String.Format("You don't have permission to View Performance Measure Expected Values for Project {0}", contextModelObject.DisplayName));
+            return new PermissionCheckResult(
+                $"You don't have permission to View {FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()} {FieldDefinition.ExpectedValue.GetFieldDefinitionLabelPluralized()} for {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}");
         }
     }
 }

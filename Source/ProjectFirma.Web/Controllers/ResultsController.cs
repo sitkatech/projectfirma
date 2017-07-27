@@ -35,7 +35,6 @@ using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 using LtInfo.Common.ExcelWorkbookUtilities;
-using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 
@@ -61,11 +60,12 @@ namespace ProjectFirma.Web.Controllers
             var currentYearToUseForReporting = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
             if (!year.HasValue)
             {
-                return String.Format("Recent Years ({0} - {1})", FirmaDateUtilities.GetMinimumYearForReportingExpenditures(), currentYearToUseForReporting);
+                return
+                    $"Recent Years ({FirmaDateUtilities.GetMinimumYearForReportingExpenditures()} - {currentYearToUseForReporting})";
             }
             if (year.Value == FirmaDateUtilities.MinimumYear)
             {
-                return String.Format("All Years ({0} - {1})", FirmaDateUtilities.MinimumYear, currentYearToUseForReporting);
+                return $"All Years ({FirmaDateUtilities.MinimumYear} - {currentYearToUseForReporting})";
             }
             return year.Value.ToString(CultureInfo.InvariantCulture);
         }
@@ -241,7 +241,7 @@ namespace ProjectFirma.Web.Controllers
             var projects = allProjects.Where(p => p.IsVisibleToThisPerson(CurrentPerson)).ToList();
 
             var initialCustomization = new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
-            var projectLocationsLayerGeoJson = new LayerGeoJson("Project Locations", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show);
+            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show);
             var namedAreasAsPointsLayerGeoJson = new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Hide);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
                 namedAreasAsPointsLayerGeoJson, initialCustomization, "ProjectLocationsMap")
@@ -374,14 +374,15 @@ namespace ProjectFirma.Web.Controllers
             var viewData = GetSpendingByOrganizationTypeByOrganizationViewData(organizationTypeID, calendarYear);
 
             var excelSpec = new FundingSourceCalendarYearExpenditureExcelSpec(viewData.CalendarYears);
-            var wsFundingSources = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Funding Sources",
+            var wsFundingSources = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()}",
                 excelSpec,
                 viewData.FundingSourceCalendarYearExpenditures.OrderBy(x => x.OrganizationName).ThenBy(x => x.FundingSourceName).ToList());
             var workSheets = new List<IExcelWorkbookSheetDescriptor> {wsFundingSources};
 
             var wbm = new ExcelWorkbookMaker(workSheets);
             var excelWorkbook = wbm.ToXLWorkbook();
-            return new ExcelResult(excelWorkbook, String.Format("Funding Source Spending for {0}", organizationType.OrganizationTypeName));
+            return new ExcelResult(excelWorkbook,
+                $"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()} Spending for {organizationType.OrganizationTypeName}");
         }
 
         [ResultsByTaxonomyTierTwoViewFeature]
@@ -441,7 +442,7 @@ namespace ProjectFirma.Web.Controllers
         public static GoogleChartJson GetInvestmentByOrganizationTypeGoogleChart(List<OrganizationTypeExpenditure> fundingOrganizationTypeExpenditures, int? selectedCalendarYear)
         {
             const int chartSize = 350;
-            var chartName = string.Format("InvestmentByOrganizationType{0}PieChart", selectedCalendarYear);
+            var chartName = $"InvestmentByOrganizationType{selectedCalendarYear}PieChart";
 
             var googleChartDataTable = GetInvestmentByOrganizationTypeGoogleChartDataTable(fundingOrganizationTypeExpenditures);
             var googleChartTitle = "Investment by Funding OrganizationType for: " + YearDisplayName(selectedCalendarYear);

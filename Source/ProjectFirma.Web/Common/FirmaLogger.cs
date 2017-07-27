@@ -34,7 +34,8 @@ namespace ProjectFirma.Web.Common
                 return "User: Anonymous";
             }
             string organizationName = person.Organization.OrganizationName;
-            return String.Format("User: {1}{0}LogonName: {2}{0}PersonID: {3}{0}Organization: {4}{0}", Environment.NewLine, person.FullNameFirstLast, person.Email, person.PersonID, organizationName);
+            return
+                $"User: {person.FullNameFirstLast}{Environment.NewLine}LogonName: {person.Email}{Environment.NewLine}PersonID: {person.PersonID}{Environment.NewLine}Organization: {organizationName}{Environment.NewLine}";
         }
     }
 }

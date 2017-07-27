@@ -55,11 +55,11 @@ Source code is available upon request via <support@sitkatech.com>.
     To enter your project's annual accomplishments:
     <ul>
         <li>Add the appropriate @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() to the list below</li>
-        <li>Select the appropriate Subcategory options for each @MultiTenantHelpers.GetPerformanceMeasureName()</li>
+        <li>Select the appropriate @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() options for each @MultiTenantHelpers.GetPerformanceMeasureName()</li>
         <li>Enter the accomplishment value</li>
         <li>
             You must enter at least one @MultiTenantHelpers.GetPerformanceMeasureName() per year for the duration defined by your project's Start and Completion
-            Years (or, if Completion Year isn't set, through the @Html.LinkWithFieldDefinitionFor(FieldDefinition.ReportingYear, "current reporting year", new List<string> { "fieldDefinitionLink" }).
+            Years (or, if @FieldDefinition.CompletionYear.GetFieldDefinitionLabel() isn't set, through the @Html.LinkWithFieldDefinitionFor(FieldDefinition.ReportingYear, string.Format("current {0}", FieldDefinition.ReportingYear.GetFieldDefinitionLabel()), new List<string> { "fieldDefinitionLink" }).
         </li>
     </ul>
     Click the <span class="helpicon glyphicon glyphicon-question-sign blue" title="Help"></span> icon to view reporting guidance
@@ -113,7 +113,7 @@ else
                     <th class="fit"></th>
                     <th class="fit">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure)</th>
                     <th class="fit">Year</th>
-                    <th class="fit" colspan="@ViewDataTyped.ViewDataForAngular.MaxSubcategoryOptions">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory, "Subcategory")</th>
+                    <th class="fit" colspan="@ViewDataTyped.ViewDataForAngular.MaxSubcategoryOptions">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory, FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel())</th>
                     <th>@Html.LabelWithSugarFor(FieldDefinition.ReportedValue)</th>
                 </tr>
                 <tr ng-repeat="performanceMeasureActualUpdate in AngularModel.PerformanceMeasureActualUpdates" ng-form="pmActualValuesForm">

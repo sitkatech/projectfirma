@@ -128,8 +128,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !monitoringProgram.HasDependentObjects();
             var confirmMessage = canDelete
-                ? string.Format("Are you sure you want to delete this Monitoring Program '{0}'?", monitoringProgram.MonitoringProgramName)
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Monitoring Program",
+                ? $"Are you sure you want to delete this {FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel()} '{monitoringProgram.MonitoringProgramName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel()}",
                     SitkaRoute<MonitoringProgramController>.BuildLinkFromExpression(x => x.Detail(monitoringProgram), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
@@ -202,8 +202,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !monitoringProgramDocument.HasDependentObjects();
             var confirmMessage = canDelete
-                ? "Are you sure you want to delete this Monitoring Program Document?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Monitoring Program Document",
+                ? $"Are you sure you want to delete this {FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel()} Document?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel()} Document",
                     SitkaRoute<MonitoringProgramController>.BuildLinkFromExpression(x => x.Detail(monitoringProgramDocument.MonitoringProgramID), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);

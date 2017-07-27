@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -39,10 +38,7 @@ namespace ProjectFirma.Web.Models
             return project => filterValues.Contains(project.TaxonomyTierOne.TaxonomyTierTwo.TaxonomyTierThreeID);
         }
 
-        public override string DisplayName
-        {
-            get { return FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel(); }
-        }
+        public override string DisplayName => FieldDefinition.TaxonomyTierThree.GetFieldDefinitionLabel();
     }
 
     public partial class ProjectLocationFilterTypeTaxonomyTierTwo
@@ -52,10 +48,7 @@ namespace ProjectFirma.Web.Models
             return project => filterValues.Contains(project.TaxonomyTierOne.TaxonomyTierTwoID);
         }
 
-        public override string DisplayName
-        {
-            get { return FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel(); }
-        }
+        public override string DisplayName => FieldDefinition.TaxonomyTierTwo.GetFieldDefinitionLabel();
     }
 
     public partial class ProjectLocationFilterTypeTaxonomyTierOne
@@ -65,10 +58,7 @@ namespace ProjectFirma.Web.Models
             return project => filterValues.Contains(project.TaxonomyTierOneID);
         }
 
-        public override string DisplayName
-        {
-            get { return FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel(); }
-        }
+        public override string DisplayName => FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel();
     }
 
     public partial class ProjectLocationFilterTypeClassification
@@ -78,10 +68,7 @@ namespace ProjectFirma.Web.Models
             return project => filterValues.Intersect(project.ProjectClassifications.Select(x => x.ClassificationID)).Any();
         }
 
-        public override string DisplayName
-        {
-            get { return ProjectLocationFilterTypeDisplayName; }
-        }
+        public override string DisplayName => FieldDefinition.Classification.GetFieldDefinitionLabel();
     }
 
     public partial class ProjectLocationFilterTypeProjectStage
@@ -91,10 +78,7 @@ namespace ProjectFirma.Web.Models
             return project => filterValues.Contains(project.ProjectStageID);
         }
 
-        public override string DisplayName
-        {
-            get { return ProjectLocationFilterTypeDisplayName; }
-        }
+        public override string DisplayName => FieldDefinition.ProjectStage.GetFieldDefinitionLabel();
     }
   
 }

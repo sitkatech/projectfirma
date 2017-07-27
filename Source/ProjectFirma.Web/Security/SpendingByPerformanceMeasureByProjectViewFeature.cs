@@ -18,9 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Models;
+
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("View Spending By Performance Measure By Project")]
+    [SecurityFeatureDescription("View Spending By {0} By Project", FieldDefinitionEnum.PerformanceMeasure)]
     public class SpendingByPerformanceMeasureByProjectViewFeature : FirmaAdminFeature
     {
     }

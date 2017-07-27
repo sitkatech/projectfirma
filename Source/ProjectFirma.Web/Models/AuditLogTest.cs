@@ -134,7 +134,8 @@ namespace ProjectFirma.Web.Models
             HttpRequestStorage.DatabaseEntities.SaveChanges(firmaUser);
 
             // Check that the audit log mentions this FundingSource
-            System.Diagnostics.Trace.WriteLine(string.Format("Looking for Funding Source named \"{0}\" in Audit Log database entries.", testFundingSource.FundingSourceName));
+            System.Diagnostics.Trace.WriteLine(
+                $"Looking for {FieldDefinition.FundingSource.GetFieldDefinitionLabel()} named \"{testFundingSource.FundingSourceName}\" in Audit Log database entries.");
             Check.Assert(HttpRequestStorage.DatabaseEntities.AuditLogs.Any(al => al.OriginalValue.Contains(testFundingSource.FundingSourceName)));
 
             // Change audit logging

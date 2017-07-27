@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Mvc
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ImportGdbFile
 
 <table style="width: 100%" class="summaryLayout">
@@ -41,7 +42,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </p>
             <p>
                 After you upload your file you will be able to preview and verify the uploaded data. Note that once you accept
-                the uploaded data, any existing detailed project location data will be overwritten.
+                the uploaded data, any existing detailed @FieldDefinition.ProjectLocation.GetFieldDefinitionLabel() data will be overwritten.
             </p>
 
             <form method="POST" id="uploadGisForm" action="@ViewDataTyped.NewGisUploadUrl" enctype="multipart/form-data">

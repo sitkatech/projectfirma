@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Security
             var securityFeatureDescriptionAttribute = customAttributes.FirstOrDefault(x => x is SecurityFeatureDescription);            
             if (securityFeatureDescriptionAttribute != null)
             {
-                return ((SecurityFeatureDescription)securityFeatureDescriptionAttribute).Name;
+                return ((SecurityFeatureDescription)securityFeatureDescriptionAttribute).DescriptionMessage;
             }
             else
             {

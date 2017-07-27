@@ -55,19 +55,22 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             switch (projectUpdateStatusFilterType)
             {
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MyProjectsRequiringAnUpdate:
-                    PageTitle = string.Format("Projects Requiring an Update for Reporting Year: {0}", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+                    PageTitle =
+                        $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} Requiring an Update for {Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel()}: {FirmaDateUtilities.CalculateCurrentYearToUseForReporting()}";
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects:
-                    PageTitle = string.Format("Recently Submitted Projects for Reporting Year: {0}", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+                    PageTitle =
+                        $"Recently Submitted {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} for {Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel()}: {FirmaDateUtilities.CalculateCurrentYearToUseForReporting()}";
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllMyProjects:
-                    PageTitle = string.Format("All My Projects for Reporting Year: {0}", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
+                    PageTitle =
+                        $"All My {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} for {Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel()}: {FirmaDateUtilities.CalculateCurrentYearToUseForReporting()}";
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects:
-                    PageTitle = "All Projects";
+                    PageTitle = $"All {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.SubmittedProjects:
-                    PageTitle = "Submitted Projects";
+                    PageTitle = $"Submitted {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("projectUpdateStatusFilterType", projectUpdateStatusFilterType, null);
@@ -83,13 +86,14 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             HasProjectUpdateAdminPermissions = new ProjectUpdateAdminFeature().HasPermissionByPerson(CurrentPerson);
             HasProposeProjectPermissions = new ProposedProjectEditFeature().HasPermissionByPerson(CurrentPerson);
 
-            GridSpec = new ProjectUpdateStatusGridSpec(projectUpdateStatusFilterType, currentPerson.IsAdministrator() || currentPerson.IsSitkaAdministrator()) {ObjectNameSingular = "Project", ObjectNamePlural = "Projects", SaveFiltersInCookie = true};
+            GridSpec = new ProjectUpdateStatusGridSpec(projectUpdateStatusFilterType, currentPerson.IsAdministrator() || currentPerson.IsSitkaAdministrator()) {ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
             GridDataUrl = gridDataUrl;
             GridName = "myProjectsGrid";
 
-            ArbitraryHtmlPlaceholderID = string.Format("{0}ArbitrayHtmlPlaceholder", GridName);
-            ArbitraryHtmlProjectFilterButtonsID = string.Format("{0}ArbitrayHtmlProjectFilterButtons", GridName);
-            GridSpec.ArbitraryHtml = new List<string> {string.Format("<span id='{0}'></span>", ArbitraryHtmlPlaceholderID)};
+            ArbitraryHtmlPlaceholderID = $"{GridName}ArbitrayHtmlPlaceholder";
+            ArbitraryHtmlProjectFilterButtonsID = $"{GridName}ArbitrayHtmlProjectFilterButtons";
+            GridSpec.ArbitraryHtml = new List<string> {$"<span id='{ArbitraryHtmlPlaceholderID}'></span>"};
         }
     }
 }

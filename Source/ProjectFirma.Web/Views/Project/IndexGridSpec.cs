@@ -42,14 +42,14 @@ namespace ProjectFirma.Web.Views.Project
 
             if (userHasTagManagePermissions)
             {
-                BulkTagModalDialogForm = new BulkTagModalDialogForm(SitkaRoute<TagController>.BuildUrlFromExpression(x => x.BulkTagProjects(null)));
+                BulkTagModalDialogForm = new BulkTagModalDialogForm(SitkaRoute<TagController>.BuildUrlFromExpression(x => x.BulkTagProjects(null)), $"Tag Checked {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", $"Tag {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}");
                 AddCheckBoxColumn();
                 Add("ProjectID", x => x.ProjectID, 0);
             }
 
             if (userHasDeletePermissions)
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete().HasPermission), 30, DhtmlxGridColumnFilterType.None);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
             }
 
             Add(string.Empty, x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(), FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString()), 30, DhtmlxGridColumnFilterType.None);
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.Project
             Add(Models.FieldDefinition.ImplementationStartYear.ToGridHeaderString(), x => x.ImplementationStartYear, 115, DhtmlxGridColumnFormatType.None);
             Add(Models.FieldDefinition.CompletionYear.ToGridHeaderString(), x => x.CompletionYear, 90, DhtmlxGridColumnFormatType.None);
             Add("Number Of Reported " + MultiTenantHelpers.GetPerformanceMeasureName() + " Records", x => x.PerformanceMeasureActuals.Count, 100);
-            Add("Number Of Reported Expenditure Records", x => x.ProjectFundingSourceExpenditures.Count, 100);
+            Add($"Number Of {Models.FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabel()} Records", x => x.ProjectFundingSourceExpenditures.Count, 100);
             Add(Models.FieldDefinition.FundingType.ToGridHeaderString(), x => x.FundingType.FundingTypeShortName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(Models.FieldDefinition.EstimatedTotalCost.ToGridHeaderString(), x => x.EstimatedTotalCost, 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add(Models.FieldDefinition.SecuredFunding.ToGridHeaderString(), x => x.SecuredFunding, 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Views.Project
             //Add(Models.FieldDefinition.Region.ToGridHeaderString(), a => a.ProjectLocationTypeDisplay, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             //Add("State", a => a.ProjectLocationStateProvince, 95, DhtmlxGridColumnFilterType.Text);
             //Add("Jurisdiction", a => a.ProjectLocationJurisdiction, 95, DhtmlxGridColumnFilterType.Text);
-            Add("Watershed", a => a.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
+            Add($"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}", a => a.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
             Add(Models.FieldDefinition.ProjectDescription.ToGridHeaderString(), x => x.ProjectDescription, 200);
             if (userHasTagViewPermissions)
             {
@@ -77,6 +77,7 @@ namespace ProjectFirma.Web.Views.Project
             }
 
             Add("# of Photos", x => x.ProjectImages.Count, 60);            
+
         }
     }
 }

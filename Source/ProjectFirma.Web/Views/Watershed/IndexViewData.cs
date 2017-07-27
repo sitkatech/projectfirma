@@ -34,9 +34,9 @@ namespace ProjectFirma.Web.Views.Watershed
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, MapInitJson mapInitJson) : base(currentPerson, firmaPage)
         {
-            PageTitle = "Watersheds";
+            PageTitle = $"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()}";
             MapInitJson = mapInitJson;
-            GridSpec = new IndexGridSpec {ObjectNameSingular = "Watershed", ObjectNamePlural = "Watersheds", SaveFiltersInCookie = true};
+            GridSpec = new IndexGridSpec {ObjectNameSingular = $"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
             GridName = "watershedsGrid";
             GridDataUrl = SitkaRoute<WatershedController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
         }

@@ -123,7 +123,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpGet]
         public PartialViewResult ProposedProjectFeedback()
         {
-            return ViewSupport(SupportRequestTypeEnum.ProvideFeedback, "Here is some feedback on the Proposed Project wizard: " + Environment.NewLine);
+            return ViewSupport(SupportRequestTypeEnum.ProvideFeedback, $"Here is some feedback on the {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} wizard: " + Environment.NewLine);
         }
 
         [AnonymousUnclassifiedFeature]

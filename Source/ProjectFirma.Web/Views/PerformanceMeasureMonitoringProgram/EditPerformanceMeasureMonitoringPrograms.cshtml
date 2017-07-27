@@ -40,7 +40,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 
 <div id="EditPerformanceMeasureMonitoringProgramsApp" ng-controller="MonitoringProgramController">
-    Monitoring Program to Add:
+    @FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel() to Add:
     <select ng-model="MonitoringProgramToAdd" ng-options="monitoringProgram.MonitoringProgramName for monitoringProgram in filteredMonitoringPrograms()" style="width: 700px"></select>
     <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>
     <table class="dialogFormLayout">

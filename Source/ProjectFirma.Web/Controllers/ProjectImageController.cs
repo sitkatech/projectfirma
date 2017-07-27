@@ -110,7 +110,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteProjectImage(ProjectImage projectImage, ConfirmDialogFormViewModel viewModel)
         {
-            var confirmMessage = string.Format("Are you sure you want to delete this image from Project '{0}'? ({1})", projectImage.Project.DisplayName, projectImage.Caption);
+            var confirmMessage =
+                $"Are you sure you want to delete this image from {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectImage.Project.DisplayName}'? ({projectImage.Caption})";
             var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -125,17 +126,14 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteProjectImage(projectImage, viewModel);
             }
+            var project = projectImage.Project;
             Project.DeleteProjectImages(new[] { projectImage });
             // reset key photo if needed
             var userHasPermissionToSetKeyPhoto = new ProjectImageSetKeyPhotoFeature().HasPermissionByPerson(CurrentPerson);
             if (userHasPermissionToSetKeyPhoto && projectImage.IsKeyPhoto)
             {
-                var project = projectImage.Project;
                 var firstNonKeyPhoto = project.ProjectImages.FirstOrDefault(x => !x.IsKeyPhoto && x.ProjectImageID != projectImage.ProjectImageID);
-                if (firstNonKeyPhoto != null)
-                {
-                    firstNonKeyPhoto.SetAsKeyPhoto(project.ProjectImages.Except(new[] { firstNonKeyPhoto, projectImage }).ToList());
-                }
+                firstNonKeyPhoto?.SetAsKeyPhoto(project.ProjectImages.Except(new[] { firstNonKeyPhoto, projectImage }).ToList());
             }
             return new ModalDialogFormJsonResult();
         }

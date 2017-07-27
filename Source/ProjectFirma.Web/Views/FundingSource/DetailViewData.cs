@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             CalendarYearExpendituresLineChartViewData = calendarYearExpendituresLineChartViewData;
             FundingSource = fundingSource;
             PageTitle = fundingSource.DisplayName;
-            EntityName = "Funding Source";
+            EntityName = $"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}";
             UserHasFundingSourceManagePermissions = new FundingSourceManageFeature().HasPermissionByPerson(CurrentPerson);
             UserHasProjectFundingSourceExpenditureManagePermissions = new ProjectFundingSourceExpenditureFromFundingSourceManageFeature().HasPermissionByPerson(currentPerson);
             EditFundingSourceUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.Edit(fundingSource));
@@ -60,8 +60,8 @@ namespace ProjectFirma.Web.Views.FundingSource
 
             ProjectCalendarYearExpendituresGridSpec = new ProjectCalendarYearExpendituresGridSpec(CalendarYearsForProjectExpenditures)
             {
-                ObjectNameSingular = "Project",
-                ObjectNamePlural = "Projects",
+                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
 

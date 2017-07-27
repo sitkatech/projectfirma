@@ -28,11 +28,13 @@ namespace ProjectFirma.Web.Views.FieldDefinition
     {
         public readonly string FileBrowserImageUploadUrl;
         public readonly Models.FieldDefinition FieldDefinition;
+        public readonly string CancelUrl;
 
-        public EditViewData(Models.FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey, Person currentPerson) : base(currentPerson)
+        public EditViewData(Person currentPerson, Models.FieldDefinition fieldDefinition) : base(currentPerson)
         {
-            FieldDefinition = fieldDefinitionPrimaryKey.EntityObject;
+            FieldDefinition = fieldDefinition;
             FileBrowserImageUploadUrl = SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.CkEditorUploadFileResourceForFieldDefinition(FieldDefinition, null));
+            CancelUrl = SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 }

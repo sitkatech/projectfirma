@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Models
         public Feature MakeFeatureWithRelevantProperties()
         {
             var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(WatershedFeature);
-            feature.Properties.Add("Watershed", GetDisplayNameAsUrl().ToString());
+            feature.Properties.Add(FieldDefinition.Watershed.GetFieldDefinitionLabel(), GetDisplayNameAsUrl().ToString());
             return feature;
         }
 
@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Models
         public static LayerGeoJson GetWatershedWmsLayerGeoJson(string layerColor, decimal layerOpacity, LayerInitialVisibility layerInitialVisibility = LayerInitialVisibility.Show)
         {
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
-            return new LayerGeoJson("Watersheds", tenantAttribute.MapServiceUrl, tenantAttribute.WatershedLayerName, layerColor, layerOpacity, layerInitialVisibility);
+            return new LayerGeoJson(FieldDefinition.Watershed.GetFieldDefinitionLabel(), tenantAttribute.MapServiceUrl, tenantAttribute.WatershedLayerName, layerColor, layerOpacity, layerInitialVisibility);
         }
     }
 }

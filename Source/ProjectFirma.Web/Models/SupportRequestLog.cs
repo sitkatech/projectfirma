@@ -54,12 +54,10 @@ namespace ProjectFirma.Web.Models
 
         public void SendMessage(string ipAddress, string userAgent, string currentUrl, SupportRequestType supportRequestType, Project project)
         {
-            var subject = string.Format("Support Request for Project Firma - {0}", DateTime.Now.ToStringDateTime());
+            var subject = $"Support Request for Project Firma - {DateTime.Now.ToStringDateTime()}";
             var projectSummaryUrl = project == null
                 ? string.Empty
-                : string.Format("    <strong>Project:</strong> <a href=\"{0}\">{1}</a><br />",
-                    SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(project)),
-                    project.DisplayName);
+                : $"<strong>{FieldDefinition.Project.GetFieldDefinitionLabel()}:</strong> <a href=\"{SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(project))}\">{project.DisplayName}</a><br />";
             var message = string.Format(@"
 <div style='font-size: 12px; font-family: Arial'>
     <strong>{0}</strong><br />
@@ -89,7 +87,7 @@ namespace ProjectFirma.Web.Models
 ", subject, RequestPersonName, RequestPersonOrganization ?? "(not provided)", RequestPersonEmail, RequestPersonPhone ?? "(not provided)", projectSummaryUrl,
                 supportRequestType.SupportRequestTypeDisplayName,
                 RequestDescription.HtmlEncodeWithBreaks(),
-                RequestPerson != null ? string.Format("{0} (UserID {1})", RequestPerson.FullNameFirstLast, RequestPerson.PersonID) : "(anonymous user)",
+                RequestPerson != null ? $"{RequestPerson.FullNameFirstLast} (UserID {RequestPerson.PersonID})" : "(anonymous user)",
                 ipAddress,
                 userAgent,
                 currentUrl,

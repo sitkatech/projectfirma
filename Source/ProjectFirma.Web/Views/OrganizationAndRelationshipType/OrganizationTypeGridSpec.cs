@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 
             Add($"{Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()} Name", a => a.OrganizationTypeName, 240);
             Add("Abbreviation", a => a.OrganizationTypeAbbreviation, 200);
-            Add("Show on Project Map", a => a.ShowOnProjectMaps.ToCheckboxImageOrEmpty(), 100);
+            Add($"Show on {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map", a => a.ShowOnProjectMaps.ToCheckboxImageOrEmpty(), 100);
         }
     }
 }

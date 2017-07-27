@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Models
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var fundingSourceName = fundingSource != null ? fundingSource.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var expenditureAmount = ExpenditureAmountDisplay;
-                return String.Format("Project: {0}, Funding Source: {1}, Year: {2},  Expenditure: {3}", projectName, fundingSourceName, CalendarYear, expenditureAmount);
+                return $"Project: {projectName}, Funding Source: {fundingSourceName}, Year: {CalendarYear},  Expenditure: {expenditureAmount}";
             }
         }
 

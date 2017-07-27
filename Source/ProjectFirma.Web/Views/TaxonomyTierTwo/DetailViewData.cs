@@ -90,8 +90,8 @@ namespace ProjectFirma.Web.Views.TaxonomyTierTwo
             BasicProjectInfoProjectGridName = "taxonomyTierTwoProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
-                ObjectNameSingular = string.Format("Project with this {0}", taxonomyTierTwoDisplayName),
-                ObjectNamePlural = string.Format("Projects with this {0}", taxonomyTierTwoDisplayName),
+                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} with this {taxonomyTierTwoDisplayName}",
+                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} with this {taxonomyTierTwoDisplayName}",
                 SaveFiltersInCookie = true
             };
             BasicProjectInfoProjectGridDataUrl = SitkaRoute<TaxonomyTierTwoController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyTierTwo));

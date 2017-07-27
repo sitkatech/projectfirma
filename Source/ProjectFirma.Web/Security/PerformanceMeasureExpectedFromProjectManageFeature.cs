@@ -25,7 +25,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Edit Performance Measure Expected Value From Project")]
+    [SecurityFeatureDescription("Edit {0} {1} From {2}", FieldDefinitionEnum.PerformanceMeasure, FieldDefinitionEnum.ExpectedValue, FieldDefinitionEnum.Project)]
     public class PerformanceMeasureExpectedFromProjectManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
@@ -47,7 +47,8 @@ namespace ProjectFirma.Web.Security
             var hasPermissionByPerson = HasPermissionByPerson(person);
             if (!hasPermissionByPerson)
             {
-                return new PermissionCheckResult(String.Format("You don't have permission to Edit {0} Expected Values for Project {1}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), contextModelObject.DisplayName));
+                return new PermissionCheckResult(
+                    $"You don't have permission to Edit {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} {FieldDefinition.ExpectedValue.GetFieldDefinitionLabelPluralized()} for {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}");
             }
 
             // Admin can edit anything
@@ -68,7 +69,8 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult();
             }
 
-            return new PermissionCheckResult(String.Format("You don't have permission to Edit {0} Expected Values for Project {1}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), contextModelObject.DisplayName));
+            return new PermissionCheckResult(
+                $"You don't have permission to Edit {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} {FieldDefinition.ExpectedValue.GetFieldDefinitionLabelPluralized()} for {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}");
         }
     }
 }

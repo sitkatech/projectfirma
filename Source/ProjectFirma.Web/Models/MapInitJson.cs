@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Models
             {
                 new LayerGeoJson(watershed.DisplayName, new List<Watershed> {watershed}.ToGeoJsonFeatureCollection(), "red", 1, LayerInitialVisibility.Show),
                 Watershed.GetWatershedWmsLayerGeoJson("#59ACFF", 0.6m),
-                new LayerGeoJson("Project Location - Simple", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show),
+                new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show),
                 new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show)
             };
             return layerGeoJsons;
@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Models
             var layerGeoJsons = GetWatershedMapLayers();
             if (project.ProjectLocationPoint != null)
             {
-                layerGeoJsons.Add(new LayerGeoJson("Project Location - Simple",
+                layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple",
                     new FeatureCollection(new List<Feature>
                     {
                         DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint)

@@ -77,7 +77,8 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllClassifications.Add(classification);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay(string.Format("New {0} {1} successfully created!", FieldDefinition.Classification.GetFieldDefinitionLabel(), classification.GetDisplayNameAsUrl()));
+            SetMessageForDisplay(
+                $"New {FieldDefinition.Classification.GetFieldDefinitionLabel()} {classification.GetDisplayNameAsUrl()} successfully created!");
 
             return new ModalDialogFormJsonResult();
         }
@@ -124,7 +125,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !classification.HasDependentObjects();
             var confirmMessage = canDelete
-                ? string.Format("Are you sure you want to delete this {0} '{1}'?", FieldDefinition.Classification.GetFieldDefinitionLabel(), classification.DisplayName)
+                ? $"Are you sure you want to delete this {FieldDefinition.Classification.GetFieldDefinitionLabel()} '{classification.DisplayName}'?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinition.Classification.GetFieldDefinitionLabel(), SitkaRoute<ClassificationController>.BuildLinkFromExpression(x => x.Detail(classification), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);

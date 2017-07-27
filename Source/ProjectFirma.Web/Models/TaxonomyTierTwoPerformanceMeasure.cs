@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Models
                 var performanceMeasure = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Find(PerformanceMeasureID);
                 var projectName = program != null ? program.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var performanceMeasureName = performanceMeasure != null ? performanceMeasure.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return string.Format("TaxonomyTierTwo: {0}, Performance Measure: {1}", projectName, performanceMeasureName);
+                return $"TaxonomyTierTwo: {projectName}, Performance Measure: {performanceMeasureName}";
             }
         }
     }

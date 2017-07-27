@@ -288,21 +288,6 @@ namespace ProjectFirma.Web.Models
                    ProjectNotes.Any() || ProjectClassifications.Any() || ProjectExemptReportingYears.Any() || ProjectWatersheds.Any() || ProjectUpdateBatches.Any();
         }
 
-        public PermissionCheckResult CanDelete()
-        {
-            if (HasDependentObjectsThatCount())
-            {
-                return new PermissionCheckResult(ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("project"));
-            }
-
-            if (!ProjectStage.IsDeletable())
-            {
-                return new PermissionCheckResult(
-                    $"Can't delete project: can only delete when in following stages: {String.Join(", ", ProjectStage.All.Where(x => x.IsDeletable()).Select(x => x.ProjectStageDisplayName))}.");
-            }
-            return new PermissionCheckResult();
-        }
-
         public FeatureCollection SimpleLocationToGeoJsonFeatureCollection(bool addProjectProperties)
         {
             var featureCollection = new FeatureCollection();

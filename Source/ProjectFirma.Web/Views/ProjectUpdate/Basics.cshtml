@@ -53,8 +53,8 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <p>
-    Update your project’s basic information here. If this project is complete, be sure to select "Complete" or "Post-Implementation"
-    from the Stage dropdown. Changes made here will not take effect until a review approves your updates.
+    Update your @FieldDefinition.Project.GetFieldDefinitionLabel()’s basic information here. If this @FieldDefinition.Project.GetFieldDefinitionLabel() is complete, be sure to select "Complete" or "Post-Implementation"
+    from the @FieldDefinition.ProjectStage.GetFieldDefinitionLabel() dropdown. Changes made here will not take effect until a review approves your updates.
 </p>
 <hr />
 @using (Html.BeginForm())
@@ -270,9 +270,14 @@ Source code is available upon request via <support@sitkatech.com>.
                         <span>-</span>
                         <a href="@ViewDataTyped.PrimaryContactPerson.Organization.GetDetailUrl()" target="_blank">@ViewDataTyped.PrimaryContactPerson.Organization.DisplayName</a>
                     }
+                    else
+                    {
+                        <span>-</span>
+                        <p> No Primary Contact set. </p>
+                    }
 
                     <div>
-                        <i>If this user is not the primary contact for this project please 
+                        <i>To update the @FieldDefinition.PrimaryContact.GetFieldDefinitionLabel() for this project please 
                             @ModalDialogFormHelper.ModalDialogFormLink("contact support", ViewDataTyped.RequestPrimaryContactChangeUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)    
                         </i>
                     </div>
@@ -303,7 +308,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
                         @if (ViewDataTyped.UpdateStatus.IsBasicsUpdated)
                         {
-                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to Project Basics", 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() { "btn-firma", "btn-xs" })
+                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Basics", FieldDefinition.Project.GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() { "btn-firma", "btn-xs" })
                         }
                     </td>
                     <td>

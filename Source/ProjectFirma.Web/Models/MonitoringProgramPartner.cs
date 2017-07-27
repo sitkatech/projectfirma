@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Models
                 var organization = HttpRequestStorage.DatabaseEntities.AllOrganizations.Find(OrganizationID);
                 var monitoringProgramName = monitoringProgram != null ? monitoringProgram.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var organizationName = organization != null ? organization.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return string.Format("Monitoring Program: {0}, Organization: {1}", monitoringProgramName, organizationName);
+                return $"Monitoring Program: {monitoringProgramName}, Organization: {organizationName}";
             }
         }
     }

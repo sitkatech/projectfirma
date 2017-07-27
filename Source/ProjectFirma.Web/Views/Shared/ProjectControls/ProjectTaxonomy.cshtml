@@ -80,7 +80,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div class="row taxonomyRow">
             <div class="col-sm-5 col-sm-offset-@(i++)">
-                @Html.LabelWithSugarFor(FieldDefinition.Project, "Project Name")
+                @Html.LabelWithSugarFor(FieldDefinition.Project, string.Format("{0}", FieldDefinition.ProjectName.GetFieldDefinitionLabel()))
             </div>
             <div class="col-sm-4">
                 <span class="taxonomyLink selected">@ViewDataTyped.Project.DisplayName</span>

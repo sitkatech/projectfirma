@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
+@using ProjectFirma.Web.Models
 @inherits ProjectUpdateStatus
 
 @{
@@ -37,7 +38,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>Status of Project Update Submittals</h2>
+        <h2>Status of @FieldDefinition.Project.GetFieldDefinitionLabel() Update Submittals</h2>
     </div>
     <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.PeopleReceivingReminderGridSpec, ViewDataTyped.PeopleReceivingReminderGridName, ViewDataTyped.PeopleReceivingReminderGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)

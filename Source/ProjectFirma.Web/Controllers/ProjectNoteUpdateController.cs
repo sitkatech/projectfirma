@@ -99,8 +99,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !projectNoteUpdate.HasDependentObjects();
             var confirmMessage = canDelete
-                ? string.Format("Are you sure you want to delete this note for project '{0}'?", projectNoteUpdate.ProjectUpdateBatch.Project.DisplayName)
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Project Note");
+                ? $"Are you sure you want to delete this note for {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectNoteUpdate.ProjectUpdateBatch.Project.DisplayName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinition.ProjectNote.GetFieldDefinitionLabel()}");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
 

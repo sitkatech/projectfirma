@@ -44,7 +44,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.MeasurementUnitTypeID, "Measurement Unit")
+                @Html.LabelWithSugarFor(m => m.MeasurementUnitTypeID, string.Format("{0}", FieldDefinition.MeasurementUnit.GetFieldDefinitionLabel()))
             </div>
             <div class="col-sm-9">
                 @Html.DropDownListFor(m => m.MeasurementUnitTypeID, ViewDataTyped.MeasurementUnitTypes, new {@class = "form-control"})

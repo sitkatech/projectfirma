@@ -26,6 +26,7 @@ using System.Linq;
 using System.Web.Mvc;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
+using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
@@ -125,9 +126,9 @@ namespace ProjectFirma.Web.Controllers
             {
                 activePeople.Add(currentPrimaryContactPerson);
             }
-            var peopleAsSelectListItems = activePeople.ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.FullNameFirstLastAndOrg, "<None>").ToList();
+            var people = activePeople.OrderBy(x => x.FullNameLastFirst);
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
-            var viewData = new EditViewData(organizationTypesAsSelectListItems, peopleAsSelectListItems, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin);
+            var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -169,7 +170,7 @@ namespace ProjectFirma.Web.Controllers
             if (projectDetails.Features.Any())
             {
                 hasSpatialData = true;
-                layers.Add(new LayerGeoJson("Project Detailed Mapping", projectDetails, "blue", 1, LayerInitialVisibility.Hide));
+                layers.Add(new LayerGeoJson($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Detailed Mapping", projectDetails, "blue", 1, LayerInitialVisibility.Hide));
             }
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
@@ -183,34 +184,20 @@ namespace ProjectFirma.Web.Controllers
         {
             var relatedProjects = organization.GetAllProjectOrganizations().Where(x => x.Project.ProjectLocationSimpleType != ProjectLocationSimpleType.None && x.Project.ProjectStage.ShouldShowOnMap()).Select(x => x.Project).ToList();
             var leadImplementerProjects = organization.ProjectsWhereYouAreTheLeadImplementerOrganization.Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None && x.ProjectStage.ShouldShowOnMap()).ToList();
-
-            var filtered = relatedProjects
-                .Where(x => leadImplementerProjects.All(y => y.ProjectID != x.ProjectID));
-
-            var namedAreaFeatures = Project.NamedAreasToPointGeoJsonFeatureCollection(relatedProjects, true);
+            var relatedProjectsThatAreNotInLeadImplementerProjects = relatedProjects.Where(x => leadImplementerProjects.All(y => y.ProjectID != x.ProjectID));
+            var namedAreaFeatures = Project.NamedAreasToPointGeoJsonFeatureCollection(relatedProjects.Union(leadImplementerProjects, new HavePrimaryKeyComparer<Project>()).ToList(), true);
 
             var featureCollection = new FeatureCollection();
-            featureCollection.Features.AddRange(filtered.Select(x =>
-            {
-                Feature feature;
-                if (x.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap)
-                {
-                    feature = x.MakePointFeatureWithRelevantProperties(x.ProjectLocationPoint, true);    
-                }
-                else
-                {
-                    feature = namedAreaFeatures.Features.Single(y =>
-                    {
-                        var projectID = int.Parse(y.Properties["ProjectID"].ToString());
-                        return projectID == x.ProjectID;
-                    });
-                }
+            AddToProjectsFeatureCollection(featureCollection, relatedProjectsThatAreNotInLeadImplementerProjects, namedAreaFeatures, "#99b3ff");
+            AddToProjectsFeatureCollection(featureCollection, leadImplementerProjects, namedAreaFeatures, "#3366ff");
+            var projectsLayerGeoJson = new LayerGeoJson("Projects", featureCollection, "blue", 1, LayerInitialVisibility.Show);
+            return projectsLayerGeoJson;
+        }
 
-                feature.Properties.Add("FeatureColor", "#99b3ff");
-                return feature;
-            }).ToList());
-            
-            featureCollection.Features.AddRange(leadImplementerProjects.Select(x =>
+        private static void AddToProjectsFeatureCollection(FeatureCollection featureCollection, IEnumerable<Project> projectsToAdd,
+            FeatureCollection namedAreaFeatures, string featureColor)
+        {
+            featureCollection.Features.AddRange(projectsToAdd.Select(x =>
             {
                 Feature feature;
                 if (x.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap)
@@ -226,12 +213,9 @@ namespace ProjectFirma.Web.Controllers
                     });
                 }
 
-                feature.Properties.Add("FeatureColor", "#3366ff");
+                feature.Properties.Add("FeatureColor", featureColor);
                 return feature;
             }).ToList());
-
-            var projectsLayerGeoJson = new LayerGeoJson("Projects", featureCollection, "blue", 1, LayerInitialVisibility.Show);
-            return projectsLayerGeoJson;
         }
 
         private static CalendarYearExpendituresLineChartViewData GetCalendarYearExpendituresLineChartViewData(Organization organization)
@@ -264,8 +248,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !organization.HasDependentObjects() && !organization.IsUnknown;
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this Organization '{organization.OrganizationName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Organization", SitkaRoute<OrganizationController>.BuildLinkFromExpression(x => x.Detail(organization), "here"));
+                ? $"Are you sure you want to delete this {FieldDefinition.Organization.GetFieldDefinitionLabel()} '{organization.OrganizationName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinition.Organization.GetFieldDefinitionLabel()}", SitkaRoute<OrganizationController>.BuildLinkFromExpression(x => x.Detail(organization), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
@@ -473,7 +457,7 @@ namespace ProjectFirma.Web.Controllers
             ConfirmDialogFormViewModel viewModel)
         {
             var viewData = new ConfirmDialogFormViewData(
-                $"Are you sure you want to delete the boundary for this Organization '{organization.OrganizationName}'?");
+                $"Are you sure you want to delete the boundary for this {FieldDefinition.Organization.GetFieldDefinitionLabel()} '{organization.OrganizationName}'?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,
                 viewModel);
         }

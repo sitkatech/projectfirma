@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var mapDivID = $"project_{project.EntityID}_EditDetailedMap";
             var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
-            var editableLayerGeoJson = new LayerGeoJson("Project Location Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
+            var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
 
             var boundingBox = new BoundingBox(project.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry));
             var mapInitJson = new MapInitJson(mapDivID, 10, MapInitJson.GetWatershedAndProjectLocationSimpleMapLayers(project), boundingBox) {AllowFullScreen = false};
@@ -190,7 +190,7 @@ namespace ProjectFirma.Web.Controllers
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);
 
-            var mapInitJson = new MapInitJson(string.Format("project_{0}_PreviewMap", project.ProjectID), 10, layerGeoJsons, boundingBox, false) { AllowFullScreen = false };
+            var mapInitJson = new MapInitJson($"project_{project.ProjectID}_PreviewMap", 10, layerGeoJsons, boundingBox, false) { AllowFullScreen = false };
             var mapFormID = GenerateEditProjectLocationFormID(((IProject)project).EntityID);
             var approveGisUploadUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(x => x.ApproveGisUpload(project, null));
 
@@ -229,7 +229,7 @@ namespace ProjectFirma.Web.Controllers
 
         public static string GenerateEditProjectLocationFormID(int projectID)
         {
-            return string.Format("editMapForProject{0}", projectID);
+            return $"editMapForProject{projectID}";
         }
     }
 }

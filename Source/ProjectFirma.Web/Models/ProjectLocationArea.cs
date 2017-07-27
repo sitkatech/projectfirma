@@ -46,13 +46,7 @@ namespace ProjectFirma.Web.Models
             return ProjectLocationAreaGroup.ProjectLocationAreaGroupType.GetGeometry(this);
         }
 
-        public string AuditDescriptionString
-        {
-            get
-            {
-                return "Project location named area deleted";
-            }
-        }
+        public string AuditDescriptionString => "Project Location named area deleted";
 
         public FancyTreeNode ToFancyTreeNode()
         {

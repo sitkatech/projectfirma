@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Models
             {
                 var performanceMeasure = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Find(PerformanceMeasureID);
                 var pmName = performanceMeasure != null ? performanceMeasure.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return string.Format("Performance Measure: {0}", pmName);
+                return $"Performance Measure: {pmName}";
             }
         }
     }

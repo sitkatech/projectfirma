@@ -60,7 +60,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditMonitoringProgramPartnersUrl, "Edit Monitoring Program Partners", ViewDataTyped.UserHasMonitoringProgramManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.MonitoringProgramPartner, "Partners")</h2>
+        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditMonitoringProgramPartnersUrl, string.Format("Edit {0} Partners", FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel()), ViewDataTyped.UserHasMonitoringProgramManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.MonitoringProgramPartner, "Partners")</h2>
     </div>
     <div class="panel-body">
         @if (ViewDataTyped.MonitoringProgram.MonitoringProgramPartners.Any())
@@ -76,7 +76,7 @@ Source code is available upon request via <support@sitkatech.com>.
         }
         else
         {
-            <p class="alert">No partners for this monitoring program.</p>
+            <p class="alert">No partners for this @FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel().</p>
         }
     </div>
 </div>
@@ -107,7 +107,7 @@ Source code is available upon request via <support@sitkatech.com>.
         }
         else
         {
-            <p class="alert">No documents have been uploaded for this monitoring program.</p>
+            <p class="alert">No documents have been uploaded for this @FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel().</p>
         }
     </div>
 </div>
@@ -130,7 +130,7 @@ Source code is available upon request via <support@sitkatech.com>.
         }
         else
         {
-            <p class="alert">No partners for this monitoring program.</p>
+            <p class="alert">No partners for this @FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel().</p>
         }
     </div>
 </div>

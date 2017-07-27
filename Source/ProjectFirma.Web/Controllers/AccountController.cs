@@ -40,10 +40,7 @@ namespace ProjectFirma.Web.Controllers
             get { return SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOn()); }
         }
 
-        protected override ISitkaDbContext SitkaDbContext
-        {
-            get { return HttpRequestStorage.DatabaseEntities; }
-        }
+        protected override ISitkaDbContext SitkaDbContext => HttpRequestStorage.DatabaseEntities;
 
         protected override string HomeUrl
         {
@@ -88,7 +85,7 @@ namespace ProjectFirma.Web.Controllers
             person.FirstName = keystoneUserClaims.FirstName;
             person.LastName = keystoneUserClaims.LastName;
             person.Email = keystoneUserClaims.Email;
-            person.Phone = keystoneUserClaims.PrimaryPhone == null ? null : keystoneUserClaims.PrimaryPhone.ToPhoneNumberString();
+            person.Phone = keystoneUserClaims.PrimaryPhone?.ToPhoneNumberString();
             person.LoginName = keystoneUserClaims.LoginName;
 
             // handle the organization
@@ -148,29 +145,33 @@ namespace ProjectFirma.Web.Controllers
 
         private static void SendNewUserCreatedMessage(Person person, string ipAddress, string userAgent, string loginName)
         {
-            var subject = string.Format("User added: {0}", person.FullNameFirstLastAndOrg);
-            var message = string.Format(@"
+            var subject = $"User added: {person.FullNameFirstLastAndOrg}";
+            var message = $@"
 <div style='font-size: 12px; font-family: Arial'>
-    <strong>Project Firma User added:</strong> {0}<br />
-    <strong>Added on:</strong> {1}<br />
-    <strong>Email:</strong> {2}<br />
-    <strong>Phone:</strong> {3}<br />
+    <strong>Project Firma User added:</strong> {person.FullNameFirstLast}<br />
+    <strong>Added on:</strong> {DateTime.Now}<br />
+    <strong>Email:</strong> {person.Email}<br />
+    <strong>Phone:</strong> {person.Phone.ToPhoneNumberString()}<br />
     <br />
     <p>
-        You may want to <a href=""{4}"">assign this user roles</a> to allow them to work with specific areas of the site. Or you can leave the user with an unassigned role if they don't need special privileges.
+        You may want to <a href=""{
+                    SitkaRoute<UserController>.BuildAbsoluteUrlFromExpression(x => x.Detail(person.PersonID))
+                }"">assign this user roles</a> to allow them to work with specific areas of the site. Or you can leave the user with an unassigned role if they don't need special privileges.
     </p>
     <br />
     <br />
     <div style='font-size: 10px; color: gray'>
     OTHER DETAILS:<br />
-    LOGIN: {5}<br />
-    IP ADDRESS: {6}<br />
-    USERAGENT: {7}<br />
+    LOGIN: {loginName}<br />
+    IP ADDRESS: {ipAddress}<br />
+    USERAGENT: {userAgent}<br />
     <br />
     </div>
-    <div>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {8}.</div>
+    <div>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {
+                    FirmaWebConfiguration.SitkaSupportEmail
+                }.</div>
 </div>
-", person.FullNameFirstLast, DateTime.Now, person.Email, person.Phone.ToPhoneNumberString(), SitkaRoute<UserController>.BuildAbsoluteUrlFromExpression(x => x.Detail(person.PersonID)), loginName, ipAddress, userAgent, FirmaWebConfiguration.SitkaSupportEmail);
+";
             
             var mailMessage = new MailMessage { From = new MailAddress(FirmaWebConfiguration.DoNotReplyEmail), Subject = subject, Body = message, IsBodyHtml = true };
             mailMessage.To.Add(FirmaWebConfiguration.SitkaSupportEmail);
@@ -191,33 +192,40 @@ namespace ProjectFirma.Web.Controllers
         private static void SendNewOrganizationCreatedMessage(Person person, string ipAddress, string userAgent, string loginName)
         {
             var organization = person.Organization;
-            var subject = string.Format("Organization added: {0}", person.Organization.DisplayName);
+            var subject = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} added: {person.Organization.DisplayName}";
 
-            var message = string.Format(@"
+            var message = $@"
 <div style='font-size: 12px; font-family: Arial'>
-    <strong>Organization created:</strong> {0}<br />
-    <strong>Created on:</strong> {1}<br />
+    <strong>{FieldDefinition.Organization.GetFieldDefinitionLabel()} created:</strong> {organization.GetDisplayNameAsUrl()}<br />
+    <strong>Created on:</strong> {DateTime.Now}<br />
     <strong>Created because:</strong> New user logged in<br />
-    <strong>New user:</strong> {2} ({3})<br />
+    <strong>New user:</strong> {person.FullNameFirstLast} ({person.Email})<br />
     <br />
     <p>
-        You may want to <a href=""{4}"">add detail for this organization</a> such as its abbreviation, {5}, website, logo, etc. This will make its Organization summary page display better.
+        You may want to <a href=""{
+                    SitkaRoute<OrganizationController>.BuildAbsoluteUrlFromExpression(x => x.Detail(organization
+                        .OrganizationID))
+                }"">add detail for this {FieldDefinition.Organization.GetFieldDefinitionLabel()}</a> such as its abbreviation, {
+                    FieldDefinition.OrganizationType.GetFieldDefinitionLabel()
+                }, website, logo, etc. This will make its {FieldDefinition.Organization.GetFieldDefinitionLabel()} summary page display better.
     </p>
     <br />
     <br />
     <div style='font-size: 10px; color: gray'>
     OTHER DETAILS:<br />
-    LOGIN: {6}<br />
-    IP ADDRESS: {7}<br />
-    USERAGENT: {8}<br />
+    LOGIN: {loginName}<br />
+    IP ADDRESS: {ipAddress}<br />
+    USERAGENT: {userAgent}<br />
     <br />
     </div>
-    <div>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {9}</div>.
+    <div>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {
+                    FirmaWebConfiguration.SitkaSupportEmail
+                }</div>.
 </div>
-", organization.GetDisplayNameAsUrl(), DateTime.Now, person.FullNameFirstLast, person.Email, SitkaRoute<OrganizationController>.BuildAbsoluteUrlFromExpression(x => x.Detail(organization.OrganizationID)), FieldDefinition.OrganizationType.GetFieldDefinitionLabel(), loginName, ipAddress, userAgent, FirmaWebConfiguration.SitkaSupportEmail);
+";
             
             var mailMessage = new MailMessage { From = new MailAddress(FirmaWebConfiguration.DoNotReplyEmail), Subject = subject, Body = message, IsBodyHtml = true };
-            mailMessage.To.Add(Common.FirmaWebConfiguration.SitkaSupportEmail);
+            mailMessage.To.Add(FirmaWebConfiguration.SitkaSupportEmail);
 
             // Reply-To Header
             mailMessage.ReplyToList.Add(person.Email);
