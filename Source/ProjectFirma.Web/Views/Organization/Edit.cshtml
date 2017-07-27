@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Mvc
@@ -58,7 +59,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-               @Html.LabelWithSugarFor(m => m.OrganizationTypeID)
+                @Html.LabelWithSugarFor(m => m.OrganizationTypeID)
             </div>
             <div class="col-sm-9">
                 @Html.DropDownListFor(m => m.OrganizationTypeID, ViewDataTyped.OrganizationTypes, new { style = "width:100%" })
@@ -70,7 +71,15 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.PrimaryContactPersonID)
             </div>
             <div class="col-sm-9">
-                @Html.DropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.People, new { style = "width:100%" })
+                <select name="@Html.NameFor(m => m.PrimaryContactPersonID)" id="@Html.IdFor(m => m.PrimaryContactPersonID)">
+                    <option value="">None</option>
+                    @foreach (var person in ViewDataTyped.People)
+                    {
+                        <option value="@person.PersonID" @((Model.PrimaryContactPersonID == person.PersonID).ToSelectedOrEmpty())>
+                            @person.FullNameFirstLastAndOrg
+                        </option>
+                    }
+                </select>
                 @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
             </div>
         </div>
@@ -123,3 +132,15 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     @Html.HiddenFor(m => m.OrganizationID)
 }
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function ()
+    {
+        jQuery("#@Html.IdFor(x => x.PrimaryContactPersonID)").selectpicker(
+            {
+                size: 12, liveSearch: true, width: '100%', liveSearchPlaceholder: 'Search for a user by name or organization', size: 5, dropupAuto: false
+            });
+        HookupCheckIfFormIsDirty(undefined, ".submitProposal");
+    });
+</script>
