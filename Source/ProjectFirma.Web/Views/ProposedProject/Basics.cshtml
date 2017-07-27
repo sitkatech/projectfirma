@@ -88,8 +88,8 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3">@Html.LabelWithSugarFor(m => m.LeadImplementerOrganizationID)</div>
-        <div class="col-md-9">
+        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.LeadImplementerOrganizationID)</div>
+        <div class="col-md-8">
             <select name="@Html.NameFor(m => m.LeadImplementerOrganizationID)" id="@Html.IdFor(m => m.LeadImplementerOrganizationID)">
                 @foreach (var org in ViewDataTyped.Organizations)
                 {
@@ -102,8 +102,8 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3">@Html.LabelWithSugarFor(m => m.PrimaryContactPerson)</div>
-        <div class="col-md-9">
+        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.PrimaryContactPerson)</div>
+        <div class="col-md-8">
             <select name="@Html.NameFor(m => m.PrimaryContactPerson)" id="@Html.IdFor(m => m.PrimaryContactPerson)">
                 <option value="">Use Lead Implementer's Primary Contact</option>
                 @foreach (var person in ViewDataTyped.PrimaryContactPeople)
