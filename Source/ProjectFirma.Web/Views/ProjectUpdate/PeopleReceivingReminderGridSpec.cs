@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             }
             Add(Models.FieldDefinition.PrimaryContact.ToGridHeaderString(), x => x.GetFullNameFirstLastAndOrgAsUrl(), 220);
             Add("Email", a => a.Email, 170);
-            Add("Projects Requiring Update",
+            Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Requiring Update",
                 x => x.GetPrimaryContactUpdatableProjects().Count,
                 70, DhtmlxGridColumnAggregationType.Total);
             Add("Updates Not Started",

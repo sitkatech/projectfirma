@@ -23,7 +23,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Approve Proposed Project")]
+    [SecurityFeatureDescription("Approve {0}", FieldDefinitionEnum.ProposedProject)]
     public class ProposedProjectApproveFeature : FirmaFeature
     {
         public ProposedProjectApproveFeature()

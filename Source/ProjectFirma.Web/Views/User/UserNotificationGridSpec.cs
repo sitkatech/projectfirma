@@ -36,8 +36,8 @@ namespace ProjectFirma.Web.Views.User
                 x => x.NotificationType.GetFullDescriptionFromUserPerspective(x),
                 500,
                 DhtmlxGridColumnFilterType.Html);
-            Add("# of Projects", x => x.NotificationProjects.Count, 100);
-            Add("Project", x =>
+            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", x => x.NotificationProjects.Count, 100);
+            Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", x =>
             {
                 if (x.NotificationType == NotificationType.ProjectUpdateReminder)
                 {

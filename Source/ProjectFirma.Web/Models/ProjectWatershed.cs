@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Models
                 var watershed = HttpRequestStorage.DatabaseEntities.AllWatersheds.Find(WatershedID);
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var watershedName = watershed != null ? watershed.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return string.Format("Project: {0}, Watershed: {1}", projectName, watershedName);
+                return $"{FieldDefinition.Project.GetFieldDefinitionLabel()}: {projectName}, {FieldDefinition.Watershed.GetFieldDefinitionLabel()}: {watershedName}";
             }
         }
     }

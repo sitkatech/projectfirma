@@ -173,7 +173,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
             <div class="row" style="margin-bottom: 10px;">
                 <div class="col-xs-12">
-                    <p>Enter any other Organizations associated with this Project. Organizations may have more than one relationship to a Project. If the Lead Implementer has other roles on this project enter their other Project Relationship Type below in addition to specifying the Organization as the Lead Implementer.</p>        
+                    <p>Enter any other @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() associated with this @FieldDefinition.Project.GetFieldDefinitionLabel(). @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() may have more than one relationship to a @FieldDefinition.Project.GetFieldDefinitionLabel(). If the @FieldDefinition.LeadImplementer.GetFieldDefinitionLabel() has other roles on this project enter their other @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel() below in addition to specifying the @FieldDefinition.Organization.GetFieldDefinitionLabel() as the @FieldDefinition.LeadImplementer.GetFieldDefinitionLabel().</p>        
                 </div>
             </div>
             <div class="row" style="margin-bottom: 10px;">
@@ -187,12 +187,12 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="row">
                 <div class="col-xs-12">
                     <div ng-show="!AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations || !AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length || AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length < 1">
-                        <span class="systemText">No Organizations Added.</span>
+                        <span class="systemText">No @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() Added.</span>
                     </div>
                     <table class="table" style="margin-bottom: 50px;" ng-show="AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations && AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length && AngularModel.ProjectOrganizationsViewModelJson.ProjectOrganizations.length > 0">
                         <thead>
                         <tr class="row">
-                            <th class="col-xs-1" style="text-align: center">Remove<br/>Organization</th>
+                            <th class="col-xs-1" style="text-align: center">Remove<br/>@FieldDefinition.Organization.GetFieldDefinitionLabel()</th>
                             <th class="col-xs-5">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
                             <th class="col-xs-1" style="text-align: center">Remove<br/>@FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()</th>
                             <th class="col-xs-4">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>

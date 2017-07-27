@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectLocationDetail
 
 <style>
@@ -32,16 +33,16 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <p>
     Create a drawing of your project’s implementation (but not the full area affected by your project).
-    The detailed project location information will appear on the Project Fact Sheet and Project summary page.
+    The detailed @FieldDefinition.ProjectLocation.GetFieldDefinitionLabel() information will appear on the @FieldDefinition.Project.GetFieldDefinitionLabel() Fact Sheet and @FieldDefinition.Project.GetFieldDefinitionLabel() summary page.
     <ul>
-        <li>To zoom to your project area hold down the Shift key and drag a rectangle.</li>
-        <li>Use the edit tools on the left of the map to add point, line, and polygon features representing details of your project, such as the project boundary, a specific stream segment, or an area of interest.</li>
+        <li>To zoom to your @FieldDefinition.Project.GetFieldDefinitionLabel() area hold down the Shift key and drag a rectangle.</li>
+        <li>Use the edit tools on the left of the map to add point, line, and polygon features representing details of your @FieldDefinition.Project.GetFieldDefinitionLabel(), such as the @FieldDefinition.Project.GetFieldDefinitionLabel() boundary, a specific stream segment, or an area of interest.</li>
         <li>After adding a feature, click it to provide a brief description of the feature.</li>
     </ul>
 </p>
 <hr/>
 <p>
-    <span style="margin-right:10px">Instead of drawing your project details by hand, you may alternately upload a GIS file.</span>
+    <span style="margin-right:10px">Instead of drawing your @FieldDefinition.Project.GetFieldDefinitionLabel() details by hand, you may alternately upload a GIS file.</span>
     @ModalDialogFormHelper.ModalDialogFormLink("Upload a GIS File", ViewDataTyped.UploadGisFileUrl, "Upload ArcGIS File Geodatabase", 1000, "Approve Upload", "Cancel", new List<string>(){"btn", "btn-sm", "btn-firma"}, null, null, ViewDataTyped.MapFormID)
 </p>
 
@@ -202,7 +203,7 @@ Source code is available upon request via <support@sitkatech.com>.
         var modalTitle = jQuery(".ui-dialog-title");
         if(!Sitka.Methods.isUndefinedNullOrEmpty(modalTitle))
         {
-            modalTitle.html("Edit Project Location - Detail");
+            modalTitle.html(string.Format("Edit {0} - Detail", Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()));
         }
     });
 

@@ -77,11 +77,11 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-xs-8">@ViewDataTyped.Person.Phone.ToPhoneNumberString()</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4 fieldLabel text-right">Username</div>
+                    <div class="col-xs-4 fieldLabel text-right">@FieldDefinition.Username.GetFieldDefinitionLabel()</div>
                     <div class="col-xs-8">@ViewDataTyped.Person.LoginName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4 fieldLabel text-right">Organization</div>
+                    <div class="col-xs-4 fieldLabel text-right">@FieldDefinition.Organization.GetFieldDefinitionLabel()</div>
                     <div class="col-xs-8">@ViewDataTyped.Person.Organization.GetDisplayNameAsUrl()</div>
                 </div>
                 @if (ViewDataTyped.UserHasPersonManagePermissions)
@@ -138,7 +138,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="col-md-12">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPersonOrganizationPrimaryContactUrl, string.Format("Edit Organizations for which {0} is a Primary Contact", ViewDataTyped.Person.FullNameFirstLast), ViewDataTyped.UserHasPersonManagePermissions) @string.Format("Organizations for which {0} is a Primary Contact", ViewDataTyped.Person.FullNameFirstLast)
+                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPersonOrganizationPrimaryContactUrl, string.Format("Edit {0} for which {1} is a {2}", FieldDefinition.Organization.GetFieldDefinitionLabelPluralized(), ViewDataTyped.Person.FullNameFirstLast, FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()), ViewDataTyped.UserHasPersonManagePermissions) @string.Format("Organizations for which {0} is a {1}", ViewDataTyped.Person.FullNameFirstLast, FieldDefinition.PrimaryContact.GetFieldDefinitionLabel())
             </div>
             <div class="panel-body">
                 @if (ViewDataTyped.Person.PrimaryContactOrganizations.Any())
@@ -159,7 +159,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="col-md-12">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                @string.Format("Projects for which {0} is a Primary Contact", ViewDataTyped.Person.FullNameFirstLast)
+                @string.Format("{0} for which {1} is a {2}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Person.FullNameFirstLast, FieldDefinition.PrimaryContact.GetFieldDefinitionLabel())
             </div>
             <div class="panel-body">
                 @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

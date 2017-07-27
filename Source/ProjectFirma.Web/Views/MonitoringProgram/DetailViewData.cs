@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.MonitoringProgram
         {
             MonitoringProgram = monitoringProgram;
             PageTitle = monitoringProgram.MonitoringProgramName;
-            EntityName = "Monitoring Program";
+            EntityName = $"{Models.FieldDefinition.MonitoringProgram.GetFieldDefinitionLabel()}";
             
             EditMonitoringProgramUrl = SitkaRoute<MonitoringProgramController>.BuildUrlFromExpression(c => c.Edit(monitoringProgram.MonitoringProgramID));
             EditMonitoringProgramPartnersUrl = SitkaRoute<MonitoringProgramPartnerController>.BuildUrlFromExpression(c => c.Edit(monitoringProgram.MonitoringProgramID));

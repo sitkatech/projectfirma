@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 @inherits ProjectFirma.Web.Views.ProposedProject.ExpectedPerformanceMeasureValues
 
@@ -32,7 +33,7 @@ Source code is available upon request via <support@sitkatech.com>.
     To enter your project's anticipated accomplishments:
     <ul>
         <li>Add the appropriate @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() to the list below</li>
-        <li>Select Subcategory options for each @MultiTenantHelpers.GetPerformanceMeasureName() in order to more accurately describe the anticipated accomplishment</li>
+        <li>Select @FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized() for each @MultiTenantHelpers.GetPerformanceMeasureName() in order to more accurately describe the anticipated accomplishment</li>
         <li>Enter the anticipated accomplishment value if known</li>
     </ul>
     Once a @MultiTenantHelpers.GetPerformanceMeasureName() is added, click the <span class="helpicon glyphicon glyphicon-question-sign blue" title="Help"></span>

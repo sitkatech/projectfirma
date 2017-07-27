@@ -23,7 +23,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("_Admin for Project Updates")]
+    [SecurityFeatureDescription("_Admin for {0} Updates", FieldDefinitionEnum.Project)]
     public class ProjectUpdateAdminFeature : FirmaFeature
     {
         public ProjectUpdateAdminFeature()

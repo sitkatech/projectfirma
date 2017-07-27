@@ -34,19 +34,19 @@ namespace ProjectFirma.Web.Views.FundingSource
 
         public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
-            PageTitle = "Funding Sources";
+            PageTitle = $"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}";
 
             var hasFundingSourceManagePermissions = new FundingSourceManageFeature().HasPermissionByPerson(currentPerson);
             GridSpec = new IndexGridSpec(hasFundingSourceManagePermissions)
             {
-                ObjectNameSingular = "Funding Source",
-                ObjectNamePlural = "Funding Sources",
+                ObjectNameSingular = $"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
 
             if (hasFundingSourceManagePermissions)
             {
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<FundingSourceController>.BuildUrlFromExpression(t => t.New()), "Create a new Funding Source");
+                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<FundingSourceController>.BuildUrlFromExpression(t => t.New()), $"Create a new {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}");
             }
 
             GridName = "fundingSourcesGrid";

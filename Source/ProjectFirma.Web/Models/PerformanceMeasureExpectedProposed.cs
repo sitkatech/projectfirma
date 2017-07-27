@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Models
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var performanceMeasureName = performanceMeasure != null ? performanceMeasure.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var expectedValue = GetExpectedValueDisplay(ExpectedValue, performanceMeasure);
-                return String.Format("Proposed Project: {0}, Performance Measure: {1}, Expected Value: {2}", projectName, performanceMeasureName, expectedValue);
+                return $"Proposed Project: {projectName}, Performance Measure: {performanceMeasureName}, Expected Value: {expectedValue}";
             }
         }
 
@@ -58,7 +58,8 @@ namespace ProjectFirma.Web.Models
                 return PerformanceMeasureExpectedSubcategoryOptionProposeds.Any()
                     ? String.Join(", ",
                         PerformanceMeasureExpectedSubcategoryOptionProposeds.OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
-                            .Select(x => String.Format("[{0}: {1}]", x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName, x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName)))
+                            .Select(x =>
+                                $"[{x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}: {x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName}]"))
                     : ViewUtilities.NoneString;
             }
         }

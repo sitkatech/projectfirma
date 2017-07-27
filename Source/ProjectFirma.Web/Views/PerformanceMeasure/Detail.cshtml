@@ -102,7 +102,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureType.PerformanceMeasureTypeDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.MeasurementUnit, "Measurement Unit")</div>
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.MeasurementUnit, string.Format("{0}", FieldDefinition.MeasurementUnit.GetFieldDefinitionLabel()))</div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.SingularDisplayName (@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName)</div>
                 </div>
                 <div class="row">
@@ -127,7 +127,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel">
-                        Project Reporting Instructions @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit Project Reporting: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                        @FieldDefinition.Project.GetFieldDefinitionLabel() Reporting Instructions @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit {0} Reporting: {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                     </div>                
                     <div class="col-xs-7">
                         @ViewDataTyped.PerformanceMeasure.ProjectReportingHtmlString
@@ -195,8 +195,10 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0} Subcategories And Subcategory Options for {1}", MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                    @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory, "Subcategories")
+                    @ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0} {1} And {2} for {3}",
+                   MultiTenantHelpers.GetPerformanceMeasureName(), FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized(),
+                   FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                    @Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory, string.Format("{0}", FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()))
                 </h2>
             </div>
             <div class="panel-body">
@@ -206,7 +208,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Options</th>
+                                <th>@FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized()</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -229,7 +231,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 else
                 {
-                    <p class="alert">No Subcategories for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
+                    <p class="alert">No @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized() for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
                 }
             </div>
         </div>
@@ -267,46 +269,9 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 </div>
 
-@*<div class="panel panelFirma">
-        <div class="panel-heading panelTitle">
-            <h2>@ModalDialogFormHelper.MakeLtInfoEditIconLink(ViewDataTyped.EditMonitoringProgramsUrl, string.Format("Edit Monitoring Programs: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.MonitoringProgram)</h2>
-        </div>
-        <div class="panel-body">
-            @if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Any())
-            {
-                foreach (var a in ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms)
-                {
-                    <p>
-                        <strong>Monitoring Program</strong>:
-                        @a.MonitoringProgram.DisplayNameAsUrl
-                    </p>
-                    <p>
-                        <strong>Approach</strong>:
-                        @a.MonitoringProgram.MonitoringApproach
-                    </p>
-
-                    <p>
-                        <strong>Partners</strong>:
-                        <ul>
-                            @Html.Raw(string.Join("\r\n", a.MonitoringProgram.MonitoringProgramPartners.Select(y => y.Organization).OrderBy(x => x.DisplayName).Select(x => string.Format("<li>{0}</li>", x.GetDisplayNameAsUrl()))))
-                        </ul>
-                    </p>
-                    if (ViewDataTyped.PerformanceMeasure.PerformanceMeasureMonitoringPrograms.Count > 1)
-                    {
-                        <hr />
-                    }
-                }
-            }
-            else
-            {
-                <p class="alert">No monitoring programs are yet associated with this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
-            }
-        </div>
-    </div>*@
-
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>Expected Performance Measure Results per Project</h2>
+        <h2>Expected @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() Results per @FieldDefinition.Project.GetFieldDefinitionLabel()</h2>
     </div>
     <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureExpectedGridSpec, ViewDataTyped.PerformanceMeasureExpectedsGridName, ViewDataTyped.PerformanceMeasureExpectedsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
@@ -315,7 +280,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>Reported Performance Measure Results per Project</h2>
+        <h2>Reported @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel() Results per @FieldDefinition.Project.GetFieldDefinitionLabel()</h2>
     </div>
     <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

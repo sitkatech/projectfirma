@@ -63,8 +63,8 @@ namespace ProjectFirma.Web.Views.Map
             var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
             HasDetailedLocation = detailedLocationGeoJsonFeatureCollection.Features.Any();
 
-            Layers.Add(new LayerGeoJson("Project Location - Simple", project.SimpleLocationToGeoJsonFeatureCollection(true), "red", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
-            Layers.Add(new LayerGeoJson("Project Location - Detail", detailedLocationGeoJsonFeatureCollection, "blue", 1, LayerInitialVisibility.Show));
+            Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", project.SimpleLocationToGeoJsonFeatureCollection(true), "red", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
+            Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "blue", 1, LayerInitialVisibility.Show));
 
             if (HasDetailedLocation)
             {

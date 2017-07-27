@@ -18,9 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Models;
+
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Create Proposed Project Note")]
+    [SecurityFeatureDescription("Create Proposed {0}", FieldDefinitionEnum.ProjectNote)]
     public class ProposedProjectNoteCreateFeature : ProposedProjectEditFeature
     {
     }

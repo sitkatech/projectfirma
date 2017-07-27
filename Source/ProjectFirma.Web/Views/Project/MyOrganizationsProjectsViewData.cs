@@ -41,14 +41,14 @@ namespace ProjectFirma.Web.Views.Project
         {
             //TODO: It shouldn't be possible to reach this if Person.Organization is null...
             string organizationNamePossessive = currentPerson.Organization.OrganizationNamePossessive;
-            PageTitle = string.Format("{0} Projects", organizationNamePossessive);
+            PageTitle = $"{organizationNamePossessive} {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
 
             ProjectsGridName = "myOrganizationsProjectListGrid";
             ProjectsGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
                 
-                ObjectNameSingular = string.Format("{0} Project", organizationNamePossessive),
-                ObjectNamePlural = string.Format("{0} Projects", organizationNamePossessive),
+                ObjectNameSingular = $"{organizationNamePossessive} {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{organizationNamePossessive} {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
             ProjectsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.MyOrganizationsProjectsGridJsonData());
@@ -56,8 +56,8 @@ namespace ProjectFirma.Web.Views.Project
             ProposedProjectsGridName = "myOrganizationsProposedProjectsGrid";
             ProposedProjectsGridSpec = new ProposedProjectGridSpec(currentPerson)
             {
-                ObjectNameSingular = string.Format("{0} Proposed Project", organizationNamePossessive),
-                ObjectNamePlural = string.Format("{0} Proposed Projects", organizationNamePossessive),
+                ObjectNameSingular = $"{organizationNamePossessive} {Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{organizationNamePossessive} {Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true 
             
             };

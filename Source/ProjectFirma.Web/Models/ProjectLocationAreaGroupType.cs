@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Models
         {
             var geoJsonFeatureCollection = new FeatureCollection();
             var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(geometry);
-            feature.Properties.Add("Project Location Area:", projectLocationAreaDisplayName);
+            feature.Properties.Add($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} Area:", projectLocationAreaDisplayName);
             geoJsonFeatureCollection.Features.Add(feature);
 
             return new LayerGeoJson(projectLocationAreaDisplayName, geoJsonFeatureCollection, "Blue", 1m, LayerInitialVisibility.Show);

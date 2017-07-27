@@ -137,7 +137,7 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-9 col-lg-10">
-                        <h2 class="sectionHeader">Project Overview</h2>
+                        <h2 class="sectionHeader">@FieldDefinition.Project.GetFieldDefinitionLabel() Overview</h2>
                         <div class="row">
                             <div class="col-md-12 col-lg-8">
                                 <div class="panel panelFirma">
@@ -158,8 +158,8 @@
                                         @if (ViewDataTyped.UserHasMapManagePermissions)
                                         {
                                             <ul style="list-style-type: none; padding-left: 0;">
-                                                <li style="display: inline-block; margin-right: 5px"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Simple", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditSimpleProjectLocationUrl, "Edit Project Location - Simple", 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
-                                                <li style="display: inline-block"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Detailed", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditDetailedProjectLocationUrl, "Edit Project Location - Detail", 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
+                                                <li style="display: inline-block; margin-right: 5px"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Simple", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditSimpleProjectLocationUrl, string.Format("Edit {0} - Simple", FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
+                                                <li style="display: inline-block"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Detailed", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditDetailedProjectLocationUrl, string.Format("Edit {0} - Detail", FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
                                             </ul>
                                         }
                                         @{ ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData); }
@@ -180,7 +180,7 @@
                         </div>
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasProjectOrganizationManagePermissions) Organizations</h3>
+                                <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasProjectOrganizationManagePermissions) @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</h3>
                             </div>
                             <div class="panel-body">
                                 <div class="row">
@@ -193,7 +193,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-5">
-                                        @Html.LabelWithSugarFor(FieldDefinition.PrimaryContact, "Lead Implementer Primary Contact")
+                                        @Html.LabelWithSugarFor(FieldDefinition.PrimaryContact, string.Format("{0} {1}", FieldDefinition.LeadImplementer.GetFieldDefinitionLabel(), FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()))
                                     </div>
                                     <div class="col-xs-7">
                                         @if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, ViewDataTyped.Project.LeadImplementerOrganization.PrimaryContactPerson).HasPermission)
@@ -207,13 +207,14 @@
                                     </div>
                                 </div>
                                 <hr />
-                                @Html.Label("Associated Organizations")
+                                @Html.Label(string.Format("Associated {0}", FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()))
                                 @if (ViewDataTyped.AllProjectOrganizations.Any())
                                 {                                    
                                     <table class="summaryLayout">
-                                        <tr class="row">
-                                            <th style="white-space: nowrap" class="col-xs-6">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
-                                            <th style="white-space: nowrap" class="col-xs-6">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
+                                        <tr>
+                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>
+                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ProjectRelationshipType)</th>
+                                            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.PrimaryContact, string.Format("{0}'s {1}", FieldDefinition.Organization.GetFieldDefinitionLabel(), FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()))</th>
                                         </tr>                                
                                         @foreach (var projectOrganization in ViewDataTyped.AllProjectOrganizations.GroupBy(x => x.Organization).OrderBy(x => x.Key.DisplayName))
                                         {
@@ -260,17 +261,17 @@
                             </div>
                         </div>
 
-                        <h2 data-toc-skip class="sectionHeader">Reported Expenditures</h2>
+                        <h2 data-toc-skip class="sectionHeader">@FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()</h2>
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, "Edit Reported Expenditures", 1000, ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions) Reported Expenditures</h2>
+                                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasProjectFundingSourceExpenditureManagePermissions)@FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()</h2>
                             </div>
                             <div class="panel-body">
                                 @{ ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData); }
                             </div>
                         </div>
 
-                        <h2 data-toc-skip class="sectionHeader">Project @ViewDataTyped.ClassificationDisplayName</h2>
+                        <h2 data-toc-skip class="sectionHeader">@FieldDefinition.Project.GetFieldDefinitionLabel() @ViewDataTyped.ClassificationDisplayName</h2>
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationsUrl, string.Format("Edit {0}", ViewDataTyped.ClassificationDisplayNamePluralized), ViewDataTyped.UserHasProjectClassificationManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.Classification, ViewDataTyped.ClassificationDisplayNamePluralized)</h2>
@@ -300,7 +301,7 @@
                             </div>
                         </div>
 
-                        <h2 class="sectionHeader">Project Details</h2>
+                        <h2 class="sectionHeader">@FieldDefinition.Project.GetFieldDefinitionLabel() Details</h2>
                         @if (ViewDataTyped.UserHasProjectBudgetManagePermissions && ViewDataTyped.HasAssessment)
                         {
                             <div class="panel panelFirma">
@@ -314,7 +315,7 @@
                                         }
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditWatershedsUrl, "Edit Watersheds", ViewDataTyped.UserHasProjectWatershedManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.Watershed, "Watersheds")</h3>
+                                <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditWatershedsUrl, string.Format("Edit {0}", FieldDefinition.Watershed.GetFieldDefinitionLabel()), ViewDataTyped.UserHasProjectWatershedManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.Watershed, string.Format("{0}", FieldDefinition.Watershed.GetFieldDefinitionLabel()))</h3>
                             </div>
                             <div class="panel-body">
                                 @if (ViewDataTyped.Project.ProjectWatersheds.Any())
@@ -336,7 +337,7 @@
                         </div>
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, "Edit External Links", ViewDataTyped.UserHasProjectExternalLinkManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.ExternalLinks)</h3>
+                                <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, string.Format("Edit {0}", FieldDefinition.ExternalLinks.GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasProjectExternalLinkManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.ExternalLinks)</h3>
                             </div>
                             <div class="panel-body">
                                 @{ EntityExternalLinks.RenderPartialView(Html, ViewDataTyped.EntityExternalLinksViewData); }
@@ -368,7 +369,7 @@
                             <h2 class="sectionHeader">Administrative</h2>
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
-                                    <h3>Project Update History</h3>
+                                    <h3>@FieldDefinition.Project.GetFieldDefinitionLabel() Update History</h3>
                                 </div>
                                 <div class="panel-body">
                                     @Html.DhtmlxGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

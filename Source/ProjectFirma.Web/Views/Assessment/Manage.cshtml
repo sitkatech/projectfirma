@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Assessment.Manage
 @section JavascriptAndStylesContent
 {
@@ -41,7 +42,7 @@ Source code is available upon request via <support@sitkatech.com>.
         @ModalDialogFormHelper.ModalDialogFormLink(@"<span class='glyphicon glyphicon-plus-sign' style='margin-right: 3px'></span>Add New Question", ViewDataTyped.AddQuestionUrl, "Add Question", ViewDataTyped.HasEditPermissions)
     </div>
     <p>
-        Manage Project Assessment questions.
+        Manage @FieldDefinition.Project.GetFieldDefinitionLabel() Assessment questions.
     </p>
 </div>
 

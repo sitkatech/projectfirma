@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.Tag
             ProjectDisplayNames = projectDisplayNames;
             FindTagUrl = SitkaRoute<TagController>.BuildUrlFromExpression(c => c.Find(null));
 
-            ProjectLabel = "Project" + (ProjectDisplayNames.Count > 1 ? "s" : String.Empty);
+            ProjectLabel = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}" + (ProjectDisplayNames.Count > 1 ? "s" : String.Empty);
 
         }
     }

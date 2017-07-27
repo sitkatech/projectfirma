@@ -158,7 +158,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
     <div class="mapCustomizations" style="display: inline-block; vertical-align: middle; margin-top: 10px">
-        <span style="font-weight: bold">Color Projects by:</span>
+        <span style="font-weight: bold">Color @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() by:</span>
         <select id="ColorPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
             @foreach (var colorByType in ProjectColorByType.All)
             {
@@ -166,7 +166,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
         </select>
 
-        <span style="font-weight: bold">Filter Projects by:</span>
+        <span style="font-weight: bold">Filter @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() by:</span>
         <select id="FilterPropertyName" name="FilterPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
             @{
                 var displayGroup = -1;
@@ -196,17 +196,17 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
     <div style="font-weight: bold;">
-        <label><span class="glyphicon glyphicon-map-marker"></span> Cluster Project Locations:</label><input style="margin-left: 5px" type="checkbox" id="ClusterLocations" />
+        <label><span class="glyphicon glyphicon-map-marker"></span> Cluster @FieldDefinition.ProjectLocation.GetFieldDefinitionLabelPluralized():</label><input style="margin-left: 5px" type="checkbox" id="ClusterLocations" />
     </div>
 
     <div id="showBasinwideProjectsToast">
         <a class="btn pull-right" title="Some projects operate over larger areas and are not represented on the map, but can be listed here.">
-            <span class="glyphicon glyphicon-chevron-left"></span>Show regional project list
+            <span class="glyphicon glyphicon-chevron-left"></span>Show regional @FieldDefinition.Project.GetFieldDefinitionLabel() list
         </a>
     </div>
     <div id="hideBasinwideProjectsToast" style="display: none">
         <a class="btn pull-right">
-            Hide regional project list<span class="glyphicon glyphicon-chevron-right"></span>
+            Hide regional @FieldDefinition.Project.GetFieldDefinitionLabel() list<span class="glyphicon glyphicon-chevron-right"></span>
         </a>
     </div>
 

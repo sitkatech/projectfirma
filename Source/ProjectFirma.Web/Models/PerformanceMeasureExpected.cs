@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Models
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var performanceMeasureName = performanceMeasure != null ? performanceMeasure.AuditDescriptionString : ViewUtilities.NotFoundString;
                 var expectedValue = GetExpectedValueDisplay(ExpectedValue, performanceMeasure);
-                return String.Format("Project: {0}, Performance Measure: {1}, Expected Value: {2}", projectName, performanceMeasureName, expectedValue);
+                return $"Project: {projectName}, Performance Measure: {performanceMeasureName}, Expected Value: {expectedValue}";
             }
         }
 

@@ -39,9 +39,9 @@ namespace ProjectFirma.Web.Views.Snapshot
             
             Add("Snapshot Date", snapshot => snapshot.SnapshotDate, 125, DhtmlxGridColumnFormatType.Date);
             Add("Snapshot Note", snapshot => snapshot.SnapshotNote, 300);
-            Add("Projects Added", snapshot => snapshot.SnapshotProjects.Count(snapshotProject => snapshotProject.SnapshotProjectType == SnapshotProjectType.Added), 75);
-            Add("Projects Updated", snapshot => snapshot.SnapshotProjects.Count(snapshotProject => snapshotProject.SnapshotProjectType == SnapshotProjectType.Updated), 75);
-            Add("Total Projects", snapshot => snapshot.ProjectCount, 75);
+            Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} Added", snapshot => snapshot.SnapshotProjects.Count(snapshotProject => snapshotProject.SnapshotProjectType == SnapshotProjectType.Added), 75);
+            Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} Updated", snapshot => snapshot.SnapshotProjects.Count(snapshotProject => snapshotProject.SnapshotProjectType == SnapshotProjectType.Updated), 75);
+            Add($"Total {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", snapshot => snapshot.ProjectCount, 75);
         }
     }
 }

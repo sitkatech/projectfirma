@@ -105,8 +105,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !proposedProjectrojectImage.HasDependentObjects();
             var confirmMessage = canDelete
-                ? string.Format("Are you sure you want to delete this image from Proposed Project '{0}'? ({1})", proposedProjectrojectImage.ProposedProject.DisplayName, proposedProjectrojectImage.Caption)
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Proposed Project Image");
+                ? $"Are you sure you want to delete this image from {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} '{proposedProjectrojectImage.ProposedProject.DisplayName}'? ({proposedProjectrojectImage.Caption})"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} Image");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);

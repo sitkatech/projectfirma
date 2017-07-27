@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.ProjectUpdate
 @inherits ProjectUpdateBatchDiffLog
 
@@ -31,7 +32,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="overflow-y: auto">
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
-            <h2>Project Basics</h2>
+            <h2>@FieldDefinition.Project.GetFieldDefinitionLabel() Basics</h2>
         </div>
         @if (ViewDataTyped.ProjectUpdateBatch.BasicsDiffLogHtmlString != null)
         {
@@ -87,7 +88,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
-            <h2>External Links</h2>
+            <h2>@FieldDefinition.ExternalLinks.GetFieldDefinitionLabelPluralized()</h2>
         </div>
         @if (ViewDataTyped.ProjectUpdateBatch.ExternalLinksDiffLogHtmlString != null)
         {
@@ -95,7 +96,7 @@ Source code is available upon request via <support@sitkatech.com>.
         }
         else
         {
-            <div class="panel-body">No changes to External Links section</div>
+            <div class="panel-body">No changes to @FieldDefinition.ExternalLinks.GetFieldDefinitionLabelPluralized() section</div>
         }
     </div>
 

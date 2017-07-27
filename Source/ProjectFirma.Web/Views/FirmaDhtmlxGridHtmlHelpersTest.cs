@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Views
         [UseReporter(typeof(DiffReporter))]
         public void CreateTagUrlHtmlTest()
         {
-            var bulkTagModalDialogForm = new BulkTagModalDialogForm("someUrl");
+            var bulkTagModalDialogForm = new BulkTagModalDialogForm("someUrl", $"Tag Checked {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", $"Tag {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}");
             var result = DhtmlxGridHtmlHelpers.CreateTagUrlHtml("someGridName", bulkTagModalDialogForm);
             Approvals.Verify(result);
         }

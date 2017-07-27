@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             string peopleReceivingReminderGridDataUrl, int projectsWithNoContactCount) : base(currentPerson, firmaPage)
         {
             var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForReporting();
-            PageTitle = string.Format("Project Update Notifications for Reporting Year: {0}", reportingYear);
+            PageTitle = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update Notifications for {Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel()}: {reportingYear}";
             ReportingYear = reportingYear;
 
             ProjectsRequiringUpdateGridDataUrl = projectsRequiringUpdateGridDataUrl;
@@ -60,11 +60,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             PeopleReceivingReminderGridSpec = peopleReceivingReminderGridSpec;
             PeopleReceivingReminderGridName = "peopleReceivingAnReminderGrid";
 
-            var getPersonIDFunctionString = string.Format("function() {{ return Sitka.{0}.getValuesFromCheckedGridRows({1}, '{2}', '{3}'); }}",
-                PeopleReceivingReminderGridName,
-                0,
-                "PersonID",
-                "PersonIDList");
+            var getPersonIDFunctionString = $"function() {{ return Sitka.{PeopleReceivingReminderGridName}.getValuesFromCheckedGridRows({0}, '{"PersonID"}', '{"PersonIDList"}'); }}";
 
 
             var modalDialogFormLink = ModalDialogFormHelper.ModalDialogFormLink("<span class=\"glyphicon glyphicon-envelope\" style=\"margin-right:5px\"></span>Send Notification to Selected People",

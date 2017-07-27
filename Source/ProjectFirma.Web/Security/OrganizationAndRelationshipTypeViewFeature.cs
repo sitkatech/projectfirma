@@ -1,8 +1,9 @@
-﻿using ProjectFirma.Web.Security.Shared;
+﻿using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security.Shared;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("View Organization and Relationship Types")]
+    [SecurityFeatureDescription("View {0} and Relationship Types", FieldDefinitionEnum.Organization)]
     public class OrganizationAndRelationshipTypeViewFeature : FirmaAdminFeature
     {
     }

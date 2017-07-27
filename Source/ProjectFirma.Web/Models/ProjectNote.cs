@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Models
             {
                 var project = HttpRequestStorage.DatabaseEntities.AllProjects.Find(ProjectID);
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return string.Format("Project: {0}", projectName);
+                return $"Project: {projectName}";
             }
         }
     }

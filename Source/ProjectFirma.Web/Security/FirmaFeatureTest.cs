@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Security
                 {
                     listOfSecurityFeaturesWithoutDescription.Add(type.FullName);
                 }
-                else if (attributes.Where(x => x is SecurityFeatureDescription).Any(attr => ((SecurityFeatureDescription)attr).Name == ""))
+                else if (attributes.Where(x => x is SecurityFeatureDescription).Any(attr => ((SecurityFeatureDescription)attr).DescriptionMessage == ""))
                 {
                     listOfSecurityFeaturesWithoutDescription.Add(type.FullName); //Also flag anything where the description is blank
                 }

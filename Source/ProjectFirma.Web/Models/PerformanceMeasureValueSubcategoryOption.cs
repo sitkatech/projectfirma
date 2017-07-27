@@ -40,15 +40,9 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureSubcategory = performanceMeasureSubcategory;
         }
 
-        public int PerformanceMeasureID
-        {
-            get { return PerformanceMeasure.PerformanceMeasureID; }
-        }
+        public int PerformanceMeasureID => PerformanceMeasure.PerformanceMeasureID;
 
-        public int PerformanceMeasureSubcategoryID
-        {
-            get { return PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID; }
-        }
+        public int PerformanceMeasureSubcategoryID => PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID;
 
         private static IEnumerable<PerformanceMeasureValueSubcategoryOption> GetAllPossibleSubcategoryOptionsForPerformanceMeasureValue(IPerformanceMeasureValue performanceMeasureValue)
         {

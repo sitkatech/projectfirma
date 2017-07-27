@@ -72,22 +72,27 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
 
             if (ProjectOrganizationsViewModelJson.LeadOrganizationID == null)
             {
-                errors.Add(new ValidationResult("Lead Implementer Organization is required."));
+                errors.Add(new ValidationResult($"{Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} is required."));
                 return errors;
             }
             if (ProjectOrganizationsViewModelJson.ProjectOrganizations.Any(x => x.OrganizationID == null))
             {
-                errors.Add(new ValidationResult("Organization must be specfied."));
+                errors.Add(new ValidationResult($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} must be specfied."));
                 return errors;
             }
 
+            var leadOrg = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(ProjectOrganizationsViewModelJson.LeadOrganizationID.Value);
+            if (leadOrg.PrimaryContactPerson == null)
+            {
+                errors.Add(new ValidationResult($"{Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} must have a {Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} set."));
+            }
             if (ProjectOrganizationsViewModelJson.ProjectOrganizations.Count != ProjectOrganizationsViewModelJson.ProjectOrganizations.Select(x => x.OrganizationID).Distinct().Count())
             {
-                errors.Add(new ValidationResult("Cannot have the same organization listed multiple times."));
+                errors.Add(new ValidationResult($"Cannot have the same {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} listed multiple times."));
             }
             if (ProjectOrganizationsViewModelJson.ProjectOrganizations.Any(x => x.RelationshipTypes.Count != x.RelationshipTypes.Select(y => y.RelationshipTypeID).Distinct().Count()))
             {
-                errors.Add(new ValidationResult("Cannot have the same relationship type listed for the same organization multiple times."));
+                errors.Add(new ValidationResult($"Cannot have the same relationship type listed for the same {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} multiple times."));
             }
             var allValidRelationshipTypes = ProjectOrganizationsViewModelJson.ProjectOrganizations.All(x =>
             {

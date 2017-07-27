@@ -54,17 +54,15 @@ namespace ProjectFirma.Web.Views.Results
                     DhtmlxGridColumnFilterType.SelectFilterStrict);
             }
 
-            var reportedValueColumnName = string.Format("{0} ({1})",
-                Models.FieldDefinition.ReportedValue.ToGridHeaderString(),
-                performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName);
+            var reportedValueColumnName = $"{Models.FieldDefinition.ReportedValue.ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName})";
 
             Add(reportedValueColumnName, a => a.TotalReportedValue, 150, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
             Add(Models.FieldDefinition.ReportedExpenditure.ToGridHeaderString(), x => x.CalculateWeightedTotalExpenditure(), 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
 
-            var reportedValueUnitCostColumnName = string.Format("Estimated Cost Per {0} ", performanceMeasure.MeasurementUnitType.SingularDisplayName);
+            var reportedValueUnitCostColumnName = $"Estimated Cost Per {performanceMeasure.MeasurementUnitType.SingularDisplayName} ";
             Add(reportedValueUnitCostColumnName, a => a.CalculateWeightedTotalExpenditurePerPerformanceMeasure(), 100, DhtmlxGridColumnFormatType.Currency);
 
-            Add(string.Format("Other Reported {0}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()),
+            Add($"Other Reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}",
                 a =>
                 {
                     var reportedPerformanceMeasures = a.Project.GetReportedPerformanceMeasures().Where(x => a.PerformanceMeasureID != x.PerformanceMeasure.PerformanceMeasureID).ToList();
@@ -77,7 +75,7 @@ namespace ProjectFirma.Web.Views.Results
             Add(Models.FieldDefinition.Region.ToGridHeaderString(), a => a.Project.ProjectLocationTypeDisplay, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             //Add("State", a => a.Project.ProjectLocationStateProvince, 95, DhtmlxGridColumnFilterType.Text);
             //Add("Jurisdiction", a => a.Project.ProjectLocationJurisdiction, 95, DhtmlxGridColumnFilterType.Text);
-            //Add("Watershed", a => a.Project.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
+            //Add($"{FieldDefinition.Watershed.GetFieldDefinitionLabel()}", a => a.Project.ProjectLocationWatershed, 95, DhtmlxGridColumnFilterType.Text);
         }
     }
 }

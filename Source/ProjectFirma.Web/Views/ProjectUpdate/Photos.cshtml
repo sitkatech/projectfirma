@@ -21,11 +21,12 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectUpdate.Photos
 
 <p>
     You may upload new photos for your project, or edit information on existing photos from here. You may also flag photos for deletion
-    (they won't actually be deleted until this Project Update is approved).
+    (they won't actually be deleted until this @FieldDefinition.Project.GetFieldDefinitionLabel() Update is approved).
 </p>
 
 <hr />
@@ -44,7 +45,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 700, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
                 @if (ViewDataTyped.UpdateStatus.IsPhotosUpdated)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to Project Photos", 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() {"btn-firma", "btn-xs"})
+                    @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Photos", FieldDefinition.Project.GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() {"btn-firma", "btn-xs"})
                 }
             </td>
         </tr>

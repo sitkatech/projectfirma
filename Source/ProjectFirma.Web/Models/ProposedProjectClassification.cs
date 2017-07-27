@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Models
             {
                 var project = HttpRequestStorage.DatabaseEntities.AllProposedProjects.Find(ProposedProjectID);
                 var projectName = project != null ? project.AuditDescriptionString : ViewUtilities.NotFoundString;
-                return string.Format("Proposed Project: {0}", projectName);
+                return $"Proposed Project: {projectName}";
             }
         }
     }

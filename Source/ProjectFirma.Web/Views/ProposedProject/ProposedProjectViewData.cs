@@ -105,7 +105,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             ProposedProject = null;
             SelectedProposedProjectSection = selectedProposedProjectSection;
             ProposalSectionsStatus = new ProposalSectionsStatus();
-            PageTitle = "New Proposed Project";
+            PageTitle = $"New {Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}";
 
             ProjectUpdateInstructionsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Instructions(null));
             ProjectUpdateBasicsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.CreateAndEditBasics());
@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
         private ProposedProjectViewData(Person currentPerson) : base(currentPerson)
         {
-            EntityName = "Proposed Project";
+            EntityName = $"{Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}";
             ProposedProjectListUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Index());
             ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.ProposedProjectFeedback());
             CurrentPersonIsSubmitter = new ProposedProjectEditFeature().HasPermissionByPerson(CurrentPerson);

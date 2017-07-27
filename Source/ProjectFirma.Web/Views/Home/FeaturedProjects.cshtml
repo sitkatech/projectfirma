@@ -74,7 +74,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <td>@(featuredProject.LeadImplementerOrganization != null ? featuredProject.LeadImplementerOrganization.OrganizationName : "None Identified")</td>
                                     </tr>
                                     <tr>
-                                        <th>Organizations</th>
+                                        <th>@FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</th>
                                         <td>@featuredProject.ProjectOrganizationNamesAndTypes</td>
                                     </tr>
                                     <tr>

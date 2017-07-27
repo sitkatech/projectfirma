@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.FirmaPage
             if (hasManagePermissions)
             {
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<FirmaPageController>.BuildUrlFromExpression(t => t.EditInDialog(a)),
-                        string.Format("Edit Intro Content for '{0}'", a.FirmaPageType.FirmaPageTypeDisplayName))),
+                        $"Edit Intro Content for '{a.FirmaPageType.FirmaPageTypeDisplayName}'")),
                     30);
             }
             Add("Page Name", a => UrlTemplate.MakeHrefString(a.FirmaPageType.GetViewUrl(), a.FirmaPageType.FirmaPageTypeDisplayName), 180, DhtmlxGridColumnFilterType.Text);
