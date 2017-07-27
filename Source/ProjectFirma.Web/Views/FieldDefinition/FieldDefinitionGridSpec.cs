@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.FieldDefinition
                             new Dictionary<string, string> {{"target", "_blank"}}),
                     30);
             }
-            Add("Custom Label", a => a.HasDefinition() ? a.GetFieldDefinitionData().FieldDefinitionLabel : string.Empty, 200);
+            Add("Custom Label", a => a.HasCustomFieldLabel() ? a.GetFieldDefinitionData().FieldDefinitionLabel : string.Empty, 200);
             Add("Default Label", a => a.FieldDefinitionDisplayName, 200);
             Add("Has Custom Field Name?", a => a.HasCustomFieldLabel().ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Has Custom Field Definition?", a => a.HasCustomFieldDefinition().ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
