@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             IEnumerable<ProjectStage> projectStages,
             IEnumerable<FundingType> fundingTypes,
             IEnumerable<Models.Organization> organizations,
-            IEnumerable<Models.Person> primaryContactPeople,
+            IEnumerable<Person> primaryContactPeople,
             decimal? totalExpenditures,
             bool hasExistingProjectBudgetUpdates,
             List<Models.TaxonomyTierOne> taxonomyTierOnes, Models.Organization leadImplementer)

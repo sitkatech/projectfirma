@@ -129,8 +129,9 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewCreateAndEditBasics(BasicsViewModel viewModel)
         {
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
-            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations().Where(x => x.PrimaryContactPerson != null); 
-            var viewData = new BasicsViewData(CurrentPerson, organizations, FundingType.All, taxonomyTierOnes);
+            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
+            var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People;
+            var viewData = new BasicsViewData(CurrentPerson, organizations, primaryContactPeople, FundingType.All, taxonomyTierOnes);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -152,9 +153,10 @@ namespace ProjectFirma.Web.Controllers
             proposalSectionsStatus.IsBasicsSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsBasicsSectionComplete;
             
             var taxonomyTierOnes = HttpRequestStorage.DatabaseEntities.TaxonomyTierOnes;
-            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations().Where(x => x.PrimaryContactPerson != null);
+            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
+            var primaryContacts = HttpRequestStorage.DatabaseEntities.People;
             
-            var viewData = new BasicsViewData(CurrentPerson, proposedProject, proposalSectionsStatus, organizations, FundingType.All, taxonomyTierOnes);
+            var viewData = new BasicsViewData(CurrentPerson, proposedProject, proposalSectionsStatus, taxonomyTierOnes, organizations, primaryContacts, FundingType.All);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }

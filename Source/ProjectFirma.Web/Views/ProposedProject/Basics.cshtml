@@ -18,14 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProposedProject.Basics
 
 @section JavascriptAndStylesContent
-{
+{   
     <style>
         .bootstrap-select .disabled a, .bootstrap-select li.dropdown-header {
             cursor: default !important;
@@ -52,8 +51,7 @@ Source code is available upon request via <support@sitkatech.com>.
             color: gray !important;
         }
 
-        .row
-        {
+        .row {
             margin-top: 5px;
         }
     </style>
@@ -87,9 +85,31 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div class="row">
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.LeadImplementerOrganizationID)</div>
-        <div class="col-md-6">
-            @Html.DropDownListFor(m => m.LeadImplementerOrganizationID, ViewDataTyped.Organizations, new Dictionary<string, object>() { { "style", "width: 100%" } })
+        <div class="col-md-8">
+            <select name="@Html.NameFor(m => m.LeadImplementerOrganizationID)" id="@Html.IdFor(m => m.LeadImplementerOrganizationID)">
+                @foreach (var org in ViewDataTyped.Organizations)
+                {
+                    <option value="@org.OrganizationID">
+                        @org.OrganizationName
+                    </option>
+                }
+            </select>
             @Html.ValidationMessageFor(m => m.LeadImplementerOrganizationID)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.PrimaryContactPerson)</div>
+        <div class="col-md-8">
+            <select name="@Html.NameFor(m => m.PrimaryContactPerson)" id="@Html.IdFor(m => m.PrimaryContactPerson)">
+                <option value="">Use Lead Implementer's Primary Contact</option>
+                @foreach (var person in ViewDataTyped.PrimaryContactPeople)
+                {
+                    <option value="@person.PersonID">
+                        @person.FullNameFirstLastAndOrg
+                    </option>
+                }
+            </select>
+            @Html.ValidationMessageFor(m => m.PrimaryContactPerson)
         </div>
     </div>
     <div class="row">
@@ -178,6 +198,14 @@ Source code is available upon request via <support@sitkatech.com>.
         jQuery("#@Html.IdFor(x => x.ProposedTaxonomyTierOneID)").selectpicker(
             {
                 size: 12, title: 'Select the @MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject()', width: '400px'
+            });
+        jQuery("#@Html.IdFor(x => x.LeadImplementerOrganizationID)").selectpicker(
+            {
+                size: 12, liveSearch: true, width: 'auto', liveSearchPlaceholder: 'Search for an organization', size: 5, dropupAuto: false
+            });
+        jQuery("#@Html.IdFor(x => x.PrimaryContactPerson)").selectpicker(
+            {
+                size: 12, liveSearch: true, width: 'auto', liveSearchPlaceholder: 'Search for a user by name or organization', size: 5, dropupAuto: false
             });
         HookupCheckIfFormIsDirty(undefined, ".submitProposal");
     });

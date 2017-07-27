@@ -270,9 +270,14 @@ Source code is available upon request via <support@sitkatech.com>.
                         <span>-</span>
                         <a href="@ViewDataTyped.PrimaryContactPerson.Organization.GetDetailUrl()" target="_blank">@ViewDataTyped.PrimaryContactPerson.Organization.DisplayName</a>
                     }
+                    else
+                    {
+                        <span>-</span>
+                        <p> No Primary Contact set. </p>
+                    }
 
                     <div>
-                        <i>If this user is not the @FieldDefinition.PrimaryContact.GetFieldDefinitionLabel() for this project please 
+                        <i>To update the @FieldDefinition.PrimaryContact.GetFieldDefinitionLabel() for this project please 
                             @ModalDialogFormHelper.ModalDialogFormLink("contact support", ViewDataTyped.RequestPrimaryContactChangeUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)    
                         </i>
                     </div>

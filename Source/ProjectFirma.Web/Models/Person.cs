@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
@@ -45,29 +45,20 @@ namespace ProjectFirma.Web.Models
             return anonymousSitkaUser;
         }
 
-        public bool IsAnonymousUser
-        {
-            get { return PersonID == AnonymousPersonID; }
-        }
+        public bool IsAnonymousUser => PersonID == AnonymousPersonID;
 
-        public string FullNameFirstLast
-        {
-            get { return String.Format("{0} {1}", FirstName, LastName); }
-        }
+        public string FullNameFirstLast => $"{FirstName} {LastName}";
 
         public string FullNameFirstLastAndOrg
         {
             get
             {
                 string orgName = Organization.DisplayName;
-                return String.Format("{0} {1} - {2}", FirstName, LastName, orgName);
+                return $"{FirstName} {LastName} - {orgName}";
             }
         }
 
-        public string FullNameLastFirst
-        {
-            get { return String.Format("{0}, {1}", LastName, FirstName); }
-        }
+        public string FullNameLastFirst => $"{LastName}, {FirstName}";
 
         /// <summary>
         /// List of Projects for which this Person is the primary contact
@@ -85,10 +76,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Is this Person the primary contact for one or more Projects?
         /// </summary>
-        public bool IsPrimaryContactForOneOrMoreProjects
-        {
-            get { return GetPrimaryContactProjects().Any(); }
-        }
+        public bool IsPrimaryContactForOneOrMoreProjects => GetPrimaryContactProjects().Any();
 
         /// <summary>
         /// List of Organizations for which this Person is the primary contact
@@ -98,10 +86,7 @@ namespace ProjectFirma.Web.Models
             get { return OrganizationsWhereYouAreThePrimaryContactPerson.OrderBy(x => x.OrganizationName).ToList(); }
         }
 
-        public string AuditDescriptionString
-        {
-            get { return FullNameFirstLast; }
-        }
+        public string AuditDescriptionString => FullNameFirstLast;
 
         public Notification GetMostRecentReminder()
         {

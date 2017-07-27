@@ -33,24 +33,13 @@ namespace ProjectFirma.Web.Models
 {
     public partial class ProposedProject : IAuditableEntity, IProject
     {
-        public int EntityID
-        {
-            get {  return ProposedProjectID; }
-        }
-        public string AuditDescriptionString
-        {
-            get { return ProjectName; }
-        }
+        public int EntityID => ProposedProjectID;
 
-        public string DisplayName
-        {
-            get { return ProjectName; }
-        }
+        public string AuditDescriptionString => ProjectName;
 
-        public HtmlString DisplayNameAsUrl
-        {
-            get { return UrlTemplate.MakeHrefString(this.GetDetailUrl(), DisplayName); }
-        }
+        public string DisplayName => ProjectName;
+
+        public HtmlString DisplayNameAsUrl => UrlTemplate.MakeHrefString(this.GetDetailUrl(), DisplayName);
 
         public static bool IsProjectNameUnique(IEnumerable<ProposedProject> projects, string projectName, int currentProposedProjectID)
         {
@@ -69,15 +58,9 @@ namespace ProjectFirma.Web.Models
             get { return LeadImplementerOrganization != null ? (LeadImplementerOrganization.PrimaryContactPerson) : null; }
         }
 
-        public decimal? UnfundedNeed
-        {
-            get { return EstimatedTotalCost - SecuredFunding; }
-        }
+        public decimal? UnfundedNeed => EstimatedTotalCost - SecuredFunding;
 
-        public bool HasProjectLocationPoint
-        {
-            get { return ProjectLocationPoint != null; }
-        }
+        public bool HasProjectLocationPoint => ProjectLocationPoint != null;
 
         //TODO: This could be moved to ProjectLocationSimpleType and made smarter
         public string ProjectLocationTypeDisplay
@@ -197,12 +180,9 @@ namespace ProjectFirma.Web.Models
             return new PermissionCheckResult();
         }
 
-        public ProjectStage ProjectStage
-        {
-            get { return ProjectStage.PlanningDesign; }
-        }
+        public ProjectStage ProjectStage => ProjectStage.PlanningDesign;
 
-        public ProjectType ProjectType {get { return ProjectType.ProposedProject; }}
+        public ProjectType ProjectType => ProjectType.ProposedProject;
 
         public IEnumerable<IQuestionAnswer> GetQuestionAnswers()
         {
@@ -233,15 +213,8 @@ namespace ProjectFirma.Web.Models
             return featureCollection;
         }
 
-        public string Duration
-        {
-            get
-            {
-                return string.Format("{0} - {1}",
-                    ImplementationStartYear.HasValue ? ImplementationStartYear.Value.ToString(CultureInfo.InvariantCulture) : "?",
-                    CompletionYear.HasValue ? CompletionYear.Value.ToString(CultureInfo.InvariantCulture) : "?");
-            }
-        }
+        public string Duration =>
+            $"{(ImplementationStartYear.HasValue ? ImplementationStartYear.Value.ToString(CultureInfo.InvariantCulture) : "?")} - {(CompletionYear.HasValue ? CompletionYear.Value.ToString(CultureInfo.InvariantCulture) : "?")}";
 
         public Project PromoteToProject(ProposedProject proposedProject)
         {

@@ -129,9 +129,7 @@ namespace ProjectFirma.Web.Views.Organization
 
             if (LogoFileResourceData != null && LogoFileResourceData.ContentLength > MaxLogoSizeInBytes)
             {
-                var errorMessage = String.Format("Logo is too large - must be less than {0}. Your logo was {1}.",
-                    FileUtility.FormatBytes(MaxLogoSizeInBytes),
-                    FileUtility.FormatBytes(LogoFileResourceData.ContentLength));
+                var errorMessage = $"Logo is too large - must be less than {FileUtility.FormatBytes(MaxLogoSizeInBytes)}. Your logo was {FileUtility.FormatBytes(LogoFileResourceData.ContentLength)}.";
                 validationResults.Add(new SitkaValidationResult<EditViewModel, HttpPostedFileBase>(errorMessage, x => x.LogoFileResourceData));
             }
 
