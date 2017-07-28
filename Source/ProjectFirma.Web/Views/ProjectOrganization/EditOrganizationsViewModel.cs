@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
 
         public void UpdateModel(Models.Project project, ICollection<Models.ProjectOrganization> allProjectOrganizations)
         {            
-            project.LeadImplementerOrganizationID = ProjectOrganizationsViewModelJson.LeadOrganizationID;
+            project.LeadImplementerOrganizationID = ProjectOrganizationsViewModelJson.LeadOrganizationID.Value;
 
             var projectOrganizationViewModelJsons =
                 ProjectOrganizationsViewModelJson.ProjectOrganizations.ToList();

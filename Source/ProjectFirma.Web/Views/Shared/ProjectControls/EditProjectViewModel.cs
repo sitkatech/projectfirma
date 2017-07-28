@@ -159,7 +159,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                 Check.RequireNotNull(LeadImplementerOrganizationID, $"{Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} must be specified");
                 if (LeadImplementerOrganizationID != null)
                 {
-                    project.LeadImplementerOrganizationID = LeadImplementerOrganizationID;
+                    project.LeadImplementerOrganizationID = LeadImplementerOrganizationID.Value;
                 }
             }
         }

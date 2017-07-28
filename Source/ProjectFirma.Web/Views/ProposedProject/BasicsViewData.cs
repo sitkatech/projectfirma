@@ -32,8 +32,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
     public class BasicsViewData : ProposedProjectViewData
     {
         public IEnumerable<SelectListItem> TaxonomyTierOnes;
-        public IEnumerable<Models.Organization> Organizations;
-        public IEnumerable<Person> PrimaryContactPeople;
+        public IEnumerable<SelectListItem> Organizations;
+        public IEnumerable<SelectListItem> PrimaryContactPeople;
         public IEnumerable<SelectListItem> FundingTypes;
         public IEnumerable<SelectListItem> StartYearRange;
         public IEnumerable<SelectListItem> CompletionYearRange;
@@ -59,8 +59,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
         private void AssignParameters(IEnumerable<Models.TaxonomyTierOne> taxonomyTierOnes, IEnumerable<Models.Organization> organizations, IEnumerable<Person> primaryContactPeople, IEnumerable<FundingType> fundingTypes)
         {
             TaxonomyTierOnes = taxonomyTierOnes.ToList().OrderBy(ap => ap.DisplayName).ToList().ToGroupedSelectList();
-            Organizations = organizations.OrderBy(x => x.OrganizationName);
-            PrimaryContactPeople = primaryContactPeople.OrderBy(x => x.FullNameLastFirst);
+            Organizations = organizations.OrderBy(x => x.OrganizationName).ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.OrganizationName);
+            PrimaryContactPeople = primaryContactPeople.OrderBy(x => x.FullNameLastFirst).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.FullNameFirstLastAndOrg);
 
             FundingTypes = fundingTypes.ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             StartYearRange =

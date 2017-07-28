@@ -52,11 +52,7 @@ namespace ProjectFirma.Web.Models
             return project == null;
         }
 
-        public Person PrimaryContactPerson
-        {
-            // Primary Contact could very well turn out to be null
-            get { return LeadImplementerOrganization != null ? (LeadImplementerOrganization.PrimaryContactPerson) : null; }
-        }
+        public Person GetPrimaryContactPerson => PrimaryContactPerson ?? LeadImplementerOrganization.PrimaryContactPerson;
 
         public decimal? UnfundedNeed => EstimatedTotalCost - SecuredFunding;
 
@@ -226,7 +222,8 @@ namespace ProjectFirma.Web.Models
                 proposedProject.ProjectDescription,
                 false,
                 ProjectLocationSimpleType.ProjectLocationSimpleTypeID,
-                FundingType.FundingTypeID)
+                FundingType.FundingTypeID,
+                proposedProject.LeadImplementerOrganizationID)
             {
                 PlanningDesignStartYear =  proposedProject.PlanningDesignStartYear,
                 ImplementationStartYear =  proposedProject.ImplementationStartYear,

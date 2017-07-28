@@ -168,15 +168,7 @@ Source code is available upon request via <support@sitkatech.com>.
     }
 
     jQuery(document).ready(function () {
-        displaySelectedFundingTypeFields();
-        jQuery("#@Html.IdFor(x => x.TaxonomyTierOneID)").selectpicker(
-            {
-                size: 12, title: 'Select the @MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject()', width: '400px'
-            });
-        jQuery("#@Html.IdFor(x => x.PrimaryContactPersonID)").selectpicker(
-            {
-                size: 12, liveSearch: true, width: 'auto', liveSearchPlaceholder: 'Search for a user by name or organization', size: 5, dropupAuto: false
-            });
+        displaySelectedFundingTypeFields();       
     });
     // ]]>
 </script>

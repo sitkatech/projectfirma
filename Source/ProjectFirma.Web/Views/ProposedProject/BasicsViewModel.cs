@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public int? LeadImplementerOrganizationID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.PrimaryContact)]
-        public Person PrimaryContactPerson { get; set; }
+        public int? PrimaryContactPersonID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
         [Required]
@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             ProjectName = proposedProject.ProjectName;
             ProjectDescription = proposedProject.ProjectDescription;
             LeadImplementerOrganizationID = proposedProject.LeadImplementerOrganizationID;
-            PrimaryContactPerson = proposedProject.PrimaryContactPerson;
+            PrimaryContactPersonID = proposedProject.PrimaryContactPersonID;
             FundingTypeID = proposedProject.FundingTypeID;
             EstimatedTotalCost = proposedProject.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = proposedProject.EstimatedAnnualOperatingCost;
@@ -132,7 +132,13 @@ namespace ProjectFirma.Web.Views.ProposedProject
             
             proposedProject.PlanningDesignStartYear = PlanningDesignStartYear;
             proposedProject.ImplementationStartYear = ImplementationStartYear;
-            proposedProject.CompletionYear = CompletionYear;            
+            proposedProject.CompletionYear = CompletionYear;
+
+            if (PrimaryContactPersonID != null)
+            {
+                proposedProject.PrimaryContactPerson.PersonID = PrimaryContactPersonID.Value;
+            }
+            
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
