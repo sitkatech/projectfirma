@@ -19,15 +19,16 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.Web.Mvc;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
     public class EditBasicsViewData : FirmaViewData
     {
-        public readonly List<Person> TenantPeople;
+        public readonly IEnumerable<SelectListItem> TenantPeople;
 
-        public EditBasicsViewData(Person currentPerson, List<Person> tenantPeople)
+        public EditBasicsViewData(Person currentPerson, IEnumerable<SelectListItem> tenantPeople)
             : base(currentPerson)
         {
             TenantPeople = tenantPeople;

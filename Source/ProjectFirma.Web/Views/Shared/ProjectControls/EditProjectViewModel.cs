@@ -62,8 +62,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public int? CompletionYear { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierOne)]
-        [Required]
-        public int TaxonomyTierOneID { get; set; }
+        [Required(ErrorMessage = "This field is required.")]
+        public int? TaxonomyTierOneID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
         public Money? EstimatedTotalCost { get; set; }
@@ -132,7 +132,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         {
             project.ProjectName = ProjectName;
             project.ProjectDescription = ProjectDescription;
-            project.TaxonomyTierOneID = TaxonomyTierOneID;
+            project.TaxonomyTierOneID = TaxonomyTierOneID.Value;
             project.ProjectStageID = ProjectStageID;
             project.FundingTypeID = FundingTypeID;
             project.ImplementationStartYear = ImplementationStartYear;

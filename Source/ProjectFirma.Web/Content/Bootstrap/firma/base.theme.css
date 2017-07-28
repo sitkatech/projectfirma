@@ -79,6 +79,9 @@ form .form-group-condensed {
   margin-top: 5px;
   margin-bottom: 5px;
 }
+.bootstrap-select.btn-group .dropdown-menu {
+  z-index: 1100;
+}
 .header {
   background-color: #f8f8f8;
   padding: 10px;

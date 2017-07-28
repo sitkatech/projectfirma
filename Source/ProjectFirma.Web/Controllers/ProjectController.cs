@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNew(viewModel);
             }
-            var project = new Project(viewModel.TaxonomyTierOneID,
+            var project = new Project(viewModel.TaxonomyTierOneID.Value,
                 viewModel.ProjectStageID,
                 viewModel.ProjectName,
                 viewModel.ProjectDescription,
