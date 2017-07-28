@@ -52,6 +52,9 @@ namespace ProjectFirma.Web.Controllers
             var firmaPageTypeHomePageAdditionalInfo = FirmaPageType.ToType(FirmaPageTypeEnum.HomeAdditionalInfo);
             var firmaPageByPageTypeHomePageAdditionalInfo = FirmaPage.GetFirmaPageByPageType(firmaPageTypeHomePageAdditionalInfo);
 
+            var firmaPageTypeHomePageMapInfo = FirmaPageType.ToType(FirmaPageTypeEnum.HomeMapInfo);
+            var firmaPageByPageTypeHomePageMapInfo = FirmaPage.GetFirmaPageByPageType(firmaPageTypeHomePageMapInfo);
+
             var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().OrderBy(x => x.SortOrder).ToList();
 
             var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
@@ -69,7 +72,7 @@ namespace ProjectFirma.Web.Controllers
             
             var featuredProjectsViewData = new FeaturedProjectsViewData(HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.IsFeatured).ToList());
 
-            var viewData = new IndexViewData(CurrentPerson, firmaPageByPageTypeHomePage, firmaPageByPageTypeHomePageAdditionalInfo, featuredProjectsViewData, projectLocationsMapViewData, projectLocationsMapInitJson, firmaHomePageImages);
+            var viewData = new IndexViewData(CurrentPerson, firmaPageByPageTypeHomePage, firmaPageByPageTypeHomePageAdditionalInfo, firmaPageByPageTypeHomePageMapInfo, featuredProjectsViewData, projectLocationsMapViewData, projectLocationsMapInitJson, firmaHomePageImages);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
