@@ -6,8 +6,10 @@ create view dbo.vGeoServerWatershed
 as
 select
 	w.WatershedID,
+	w.WatershedID as PrimaryKey,
 	w.WatershedName,
 	w.WatershedFeature,
+	w.WatershedFeature as Ogr_Geometry,
 	t.TenantID,
 	t.TenantName
 from

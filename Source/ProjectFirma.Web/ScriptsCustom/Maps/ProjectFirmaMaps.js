@@ -97,6 +97,8 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
 };
 
 ProjectFirmaMaps.Map.prototype.addVectorLayer = function (currentLayer, overlayLayers) {
+    var self = this;
+
     var layerGroup = new L.LayerGroup();
     var layerGeoJson = L.geoJson(currentLayer.GeoJsonFeatureCollection, {
         pointToLayer: function (feature, latlng) {
@@ -105,7 +107,6 @@ ProjectFirmaMaps.Map.prototype.addVectorLayer = function (currentLayer, overlayL
             return marker;
         },
         style: function (feature) {
-
             var fillPolygonByDefault = _.includes(["Polygon", "MultiPolygon"], feature.geometry.type);
             return {
                 color: feature.properties.FeatureColor == null ? currentLayer.LayerColor : feature.properties.FeatureColor,
@@ -128,12 +129,41 @@ ProjectFirmaMaps.Map.prototype.addVectorLayer = function (currentLayer, overlayL
 };
 
 ProjectFirmaMaps.Map.prototype.addWmsLayer = function (currentLayer, overlayLayers) {
+    var self = this;
     var layerGroup = new L.LayerGroup(),
         wmsParams = L.Util.extend(this.wmsParams, { layers: currentLayer.MapServerLayerName }),
         wmsLayer = L.tileLayer.wms(currentLayer.MapServerUrl, wmsParams).addTo(layerGroup);
 
     if (currentLayer.LayerInitialVisibility === 1) {
         layerGroup.addTo(this.map);
+    }
+
+    if (!currentLayer.HasCustomPopups && currentLayer.TooltipUrlTemplate) {
+        this.map.on("click",
+            function(event) {
+                var parameters = L.Util.extend(this.wfsParams,
+                    {
+                        typeName: currentLayer.MapServerLayerName,
+                        cql_filter: "intersects(Ogr_Geometry, POINT(" + event.latlng.lat + " " + event.latlng.lng + "))"
+                    });
+                SitkaAjax.ajax({
+                        url: currentLayer.MapServerUrl + L.Util.getParamString(parameters),
+                        dataType: "json",
+                        jsonpCallback: "getJson"
+                    },
+                    function(response) {
+                        var feature = _.first(response.features);
+                        if (feature) {
+                            var primaryKey = feature.properties.PrimaryKey,
+                                popupUrl = new Sitka.UrlTemplate(currentLayer.TooltipUrlTemplate).ParameterReplace(primaryKey.toString());
+                            jQuery.get(popupUrl).done(function (data) {
+                                self.currentWmsPopup = L.popup().setLatLng([event.latlng.lat, event.latlng.lng]).setContent(data).openOn(self.map);
+                            });
+                        }
+                    }
+                );
+            },
+            this);
     }
 
     overlayLayers[currentLayer.LayerName] = layerGroup;
@@ -205,8 +235,10 @@ ProjectFirmaMaps.Map.prototype.getFeatureInfo = function (e)
     var html = "<table class=\"summaryLayout\"><tr><th colspan=\"2\">Location Information</th></tr>";
     html += this.formatLayerProperty("Latitude", L.Util.formatNum(latlng.lat, 4));
     html += this.formatLayerProperty("Longitude", L.Util.formatNum(latlng.lng, 4));
-    for (var j = 0; j < this.vectorLayers.length; ++j) {
-        var currentLayer = this.vectorLayers[j];
+
+    var vectorLayers = _.filter(this.vectorLayers, function(layer) { return typeof layer.eachLayer !== "undefined"; });
+    for (var j = 0; j < vectorLayers.length; ++j) {
+        var currentLayer = vectorLayers[j];
 
         if (this.map.hasLayer(currentLayer)) {
             var match = leafletPip.pointInLayer(

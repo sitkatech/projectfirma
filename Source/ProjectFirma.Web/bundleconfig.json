@@ -10,5 +10,11 @@
     "inputFiles": [
       "ScriptsCustom/Maps/ProjectFirmaMaps.js"
     ]
+  },
+  {
+    "outputFileName": "ScriptsCustom/Maps/ProjectFirmaMaps.ProjectLocationSummary.min.js",
+    "inputFiles": [
+      "ScriptsCustom/Maps/ProjectFirmaMaps.ProjectLocationSummary.js"
+    ]
   }
 ]

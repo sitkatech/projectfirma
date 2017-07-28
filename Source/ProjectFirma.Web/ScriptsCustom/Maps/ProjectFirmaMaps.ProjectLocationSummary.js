@@ -32,13 +32,14 @@ ProjectFirmaMaps.ProjectLocationSummary = function(projectLocationSummaryMapInit
             var infoContainerPointHtml = "<table class=\"summaryLayout\">";
             infoContainerPointHtml += this.formatLayerProperty("Latitude", L.Util.formatNum(latLng.lat, 4));
             infoContainerPointHtml += this.formatLayerProperty("Longitude", L.Util.formatNum(latLng.lng, 4));
-            for (var i = 0; i < this.vectorLayers.length; i++)
+            var vectorLayers = _.filter(this.vectorLayers, function(layer) { return typeof layer.eachLayer !== "undefined"; });
+            for (var i = 0; i < vectorLayers.length; i++)
             {
                 var match = leafletPip.pointInLayer(
                     // the clicked point
                     latLng,
                     // this layer
-                    this.vectorLayers[i],
+                    vectorLayers[i],
                     // whether to stop at first match
                     true);
                 // if there's overlap, add some content to the popup: the layer name

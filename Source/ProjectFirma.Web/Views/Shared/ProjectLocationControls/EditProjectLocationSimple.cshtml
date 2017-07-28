@@ -242,9 +242,7 @@ Source code is available upon request via <support@sitkatech.com>.
         jQuery(document).ready(function()
         {
             var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None)),
-                geoserverUrl = @Html.Raw(ViewDataTyped.GeoserverUrl != null ? ViewDataTyped.GeoserverUrl.ToJS() : "null"),
-                watershedLayerName = @Html.Raw(ViewDataTyped.WatershedLayerName != null ? ViewDataTyped.WatershedLayerName.ToJS() : "null"),
-                projectFirmaMap = new ProjectFirmaMaps.WatershedMap(mapInitJson, null, geoserverUrl, watershedLayerName);
+                projectFirmaMap = new ProjectFirmaMaps.Map(mapInitJson);
             projectFirmaMap.initializeProjectLocationEditor();
         });
     </script>

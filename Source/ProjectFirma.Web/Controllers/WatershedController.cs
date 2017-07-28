@@ -210,5 +210,10 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<GoogleChartPopup, GoogleChartPopupViewData>(viewData);
         }
 
+        public PartialViewResult MapTooltip(WatershedPrimaryKey watershedPrimaryKey)
+        {
+            var viewData = new MapTooltipViewData(CurrentPerson, watershedPrimaryKey.EntityObject);
+            return RazorPartialView<MapTooltip, MapTooltipViewData>(viewData);
+        }
     }
 }

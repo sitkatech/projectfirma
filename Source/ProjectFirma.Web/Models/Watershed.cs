@@ -57,20 +57,25 @@ namespace ProjectFirma.Web.Models
 
         public HtmlString GetDisplayNameAsUrl()
         {
-            return UrlTemplate.MakeHrefString(GetSummaryUrl(), DisplayName);
+            return UrlTemplate.MakeHrefString(GetDetailUrl(), DisplayName);
         }
 
-        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<WatershedController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
+        public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<WatershedController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
 
-        public string GetSummaryUrl()
+        public string GetDetailUrl()
         {
-            return SummaryUrlTemplate.ParameterReplace(WatershedID);
+            return DetailUrlTemplate.ParameterReplace(WatershedID);
         }
 
-        public static LayerGeoJson GetWatershedWmsLayerGeoJson(string layerColor, decimal layerOpacity, LayerInitialVisibility layerInitialVisibility = LayerInitialVisibility.Show)
+        public static readonly UrlTemplate<int> MapTooltipUrlTemplate = new UrlTemplate<int>(SitkaRoute<WatershedController>.BuildUrlFromExpression(t => t.MapTooltip(UrlTemplate.Parameter1Int)));
+
+        public static LayerGeoJson GetWatershedWmsLayerGeoJson(string layerColor, decimal layerOpacity,
+            LayerInitialVisibility layerInitialVisibility = LayerInitialVisibility.Show)
         {
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
-            return new LayerGeoJson(FieldDefinition.Watershed.GetFieldDefinitionLabel(), tenantAttribute.MapServiceUrl, tenantAttribute.WatershedLayerName, layerColor, layerOpacity, layerInitialVisibility);
+            return new LayerGeoJson(FieldDefinition.Watershed.GetFieldDefinitionLabel(), tenantAttribute.MapServiceUrl,
+                tenantAttribute.WatershedLayerName, MapTooltipUrlTemplate.UrlTemplateString, layerColor, layerOpacity,
+                layerInitialVisibility);
         }
     }
 }

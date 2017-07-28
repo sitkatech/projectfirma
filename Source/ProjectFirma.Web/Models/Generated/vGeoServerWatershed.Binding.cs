@@ -25,10 +25,12 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public vGeoServerWatershed(int watershedID, string watershedName, string tenantName) : this()
+        public vGeoServerWatershed(int watershedID, int primaryKey, string watershedName, int tenantID, string tenantName) : this()
         {
             this.WatershedID = watershedID;
+            this.PrimaryKey = primaryKey;
             this.WatershedName = watershedName;
+            this.TenantID = tenantID;
             this.TenantName = tenantName;
         }
 
@@ -38,7 +40,9 @@ namespace ProjectFirma.Web.Models
         public vGeoServerWatershed(vGeoServerWatershed vGeoServerWatershed) : this()
         {
             this.WatershedID = vGeoServerWatershed.WatershedID;
+            this.PrimaryKey = vGeoServerWatershed.PrimaryKey;
             this.WatershedName = vGeoServerWatershed.WatershedName;
+            this.TenantID = vGeoServerWatershed.TenantID;
             this.TenantName = vGeoServerWatershed.TenantName;
             CallAfterConstructor(vGeoServerWatershed);
         }
@@ -46,7 +50,9 @@ namespace ProjectFirma.Web.Models
         partial void CallAfterConstructor(vGeoServerWatershed vGeoServerWatershed);
 
         public int WatershedID { get; set; }
+        public int PrimaryKey { get; set; }
         public string WatershedName { get; set; }
+        public int TenantID { get; set; }
         public string TenantName { get; set; }
     }
 }

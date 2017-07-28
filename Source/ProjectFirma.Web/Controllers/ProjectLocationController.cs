@@ -53,12 +53,7 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationAreas = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.ToSelectList(x => x.ProjectLocationAreaID.ToString(), x => x.ProjectLocationAreaDisplayName);
             var mapPostUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(x => x.EditProjectLocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
-
-            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
-            var geoserverUrl = tenantAttribute.MapServiceUrl;
-            var watershedLayerName = tenantAttribute.WatershedLayerName;
-
-            var viewData = new EditProjectLocationSimpleViewData(CurrentPerson, mapInitJson, projectLocationAreas, mapPostUrl, mapFormID, geoserverUrl, watershedLayerName);
+            var viewData = new EditProjectLocationSimpleViewData(CurrentPerson, mapInitJson, projectLocationAreas, mapPostUrl, mapFormID);
             return RazorPartialView<EditProjectLocationSimple, EditProjectLocationSimpleViewData, EditProjectLocationSimpleViewModel>(viewData, viewModel);
         }
 

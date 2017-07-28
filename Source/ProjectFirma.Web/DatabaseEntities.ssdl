@@ -95,8 +95,10 @@
     <EntitySet Name="vGeoServerWatershed" EntityType="ProjectFirma.Web.Models.Store.vGeoServerWatershed" store:Type="Views" store:Schema="dbo" store:Name="vGeoServerWatershed">
       <DefiningQuery>SELECT 
 [vGeoServerWatershed].[WatershedID] AS [WatershedID], 
+[vGeoServerWatershed].[PrimaryKey] AS [PrimaryKey], 
 [vGeoServerWatershed].[WatershedName] AS [WatershedName], 
 [vGeoServerWatershed].[WatershedFeature] AS [WatershedFeature], 
+[vGeoServerWatershed].[TenantID] AS [TenantID], 
 [vGeoServerWatershed].[TenantName] AS [TenantName]
 FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
     </EntitySet>
@@ -2036,12 +2038,16 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
   <EntityType Name="vGeoServerWatershed">
     <Key>
       <PropertyRef Name="WatershedID" />
+      <PropertyRef Name="PrimaryKey" />
       <PropertyRef Name="WatershedName" />
+      <PropertyRef Name="TenantID" />
       <PropertyRef Name="TenantName" />
     </Key>
     <Property Name="WatershedID" Type="int" Nullable="false" />
+    <Property Name="PrimaryKey" Type="int" Nullable="false" />
     <Property Name="WatershedName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="WatershedFeature" Type="geometry" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="TenantName" Type="varchar" Nullable="false" MaxLength="100" />
   </EntityType>
   <Association Name="FK_AssessmentQuestion_AssessmentSubGoal_AssessmentSubGoalID">

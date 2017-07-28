@@ -2105,12 +2105,16 @@
   <EntityType Name="vGeoServerWatershed">
     <Key>
       <PropertyRef Name="WatershedID" />
+      <PropertyRef Name="PrimaryKey" />
       <PropertyRef Name="WatershedName" />
+      <PropertyRef Name="TenantID" />
       <PropertyRef Name="TenantName" />
     </Key>
     <Property Name="WatershedID" Type="Int32" Nullable="false" />
+    <Property Name="PrimaryKey" Type="Int32" Nullable="false" />
     <Property Name="WatershedName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="WatershedFeature" Type="Geometry" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
     <Property Name="TenantName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
   </EntityType>
   <Association Name="FK_AssessmentSubGoal_AssessmentGoal_AssessmentGoalID">
