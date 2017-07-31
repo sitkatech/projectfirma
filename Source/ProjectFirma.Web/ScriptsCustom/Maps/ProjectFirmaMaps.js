@@ -129,7 +129,6 @@ ProjectFirmaMaps.Map.prototype.addVectorLayer = function (currentLayer, overlayL
 };
 
 ProjectFirmaMaps.Map.prototype.addWmsLayer = function (currentLayer, overlayLayers) {
-    var self = this;
     var layerGroup = new L.LayerGroup(),
         wmsParams = L.Util.extend(this.wmsParams, { layers: currentLayer.MapServerLayerName }),
         wmsLayer = L.tileLayer.wms(currentLayer.MapServerUrl, wmsParams).addTo(layerGroup);
@@ -139,35 +138,41 @@ ProjectFirmaMaps.Map.prototype.addWmsLayer = function (currentLayer, overlayLaye
     }
 
     if (!currentLayer.HasCustomPopups && currentLayer.TooltipUrlTemplate) {
-        this.map.on("click",
-            function(event) {
-                var parameters = L.Util.extend(this.wfsParams,
-                    {
-                        typeName: currentLayer.MapServerLayerName,
-                        cql_filter: "intersects(Ogr_Geometry, POINT(" + event.latlng.lat + " " + event.latlng.lng + "))"
-                    });
-                SitkaAjax.ajax({
-                        url: currentLayer.MapServerUrl + L.Util.getParamString(parameters),
-                        dataType: "json",
-                        jsonpCallback: "getJson"
-                    },
-                    function(response) {
-                        var feature = _.first(response.features);
-                        if (feature) {
-                            var primaryKey = feature.properties.PrimaryKey,
-                                popupUrl = new Sitka.UrlTemplate(currentLayer.TooltipUrlTemplate).ParameterReplace(primaryKey.toString());
-                            jQuery.get(popupUrl).done(function (data) {
-                                self.currentWmsPopup = L.popup().setLatLng([event.latlng.lat, event.latlng.lng]).setContent(data).openOn(self.map);
-                            });
-                        }
-                    }
-                );
-            },
-            this);
+        this.map.on("click", this.handleWmsPopupClickEventWithCurrentLayer(currentLayer), this);
     }
 
     overlayLayers[currentLayer.LayerName] = layerGroup;
     this.vectorLayers.push(wmsLayer);
+};
+
+ProjectFirmaMaps.Map.prototype.handleWmsPopupClickEventWithCurrentLayer = function (currentLayer) {
+    var self = this;
+    return function(event) {
+        var parameters = L.Util.extend(
+            {
+                typeName: currentLayer.MapServerLayerName,
+                cql_filter: "intersects(Ogr_Geometry, POINT(" + event.latlng.lat + " " + event.latlng.lng + "))"
+            },
+            this.wfsParams);
+        SitkaAjax.ajax({
+                url: currentLayer.MapServerUrl + L.Util.getParamString(parameters),
+                dataType: "json",
+                jsonpCallback: "getJson"
+            },
+            function (response) {
+                var feature = _.first(response.features);
+                if (feature) {
+                    var primaryKey = feature.properties.PrimaryKey,
+                        popupUrl =
+                            new Sitka.UrlTemplate(currentLayer.TooltipUrlTemplate).ParameterReplace(primaryKey.toString());
+                    jQuery.get(popupUrl).done(function (data) {
+                        self.currentWmsPopup = L.popup().setLatLng([event.latlng.lat, event.latlng.lng]).setContent(data)
+                            .openOn(self.map);
+                    });
+                }
+            }
+        );
+    };
 };
 
 ProjectFirmaMaps.Map.prototype.wmsParams = {
@@ -216,7 +221,7 @@ ProjectFirmaMaps.Map.prototype.assignClickEventHandler = function(clickEventFunc
     var self = this;
     for (var i = 0; i < this.vectorLayers.length; ++i) {
         var currentLayer = this.vectorLayers[i];
-        currentLayer.on('click', function(e) { clickEventFunction(self, e); });
+        currentLayer.on("click", function(e) { clickEventFunction(self, e); });
     }
     this.map.on("click", function(e) { clickEventFunction(self, e); });
 };

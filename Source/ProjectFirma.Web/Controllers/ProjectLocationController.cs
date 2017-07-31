@@ -30,7 +30,7 @@ using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Security.Shared;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
-using LtInfo.Common.Mvc;
+using LtInfo.Common.GeoJson;
 using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
@@ -50,10 +50,13 @@ namespace ProjectFirma.Web.Controllers
         {
             var layerGeoJsons = MapInitJson.GetWatershedMapLayers();
             var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false};
-            var projectLocationAreas = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.ToSelectList(x => x.ProjectLocationAreaID.ToString(), x => x.ProjectLocationAreaDisplayName);
             var mapPostUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(x => x.EditProjectLocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
-            var viewData = new EditProjectLocationSimpleViewData(CurrentPerson, mapInitJson, projectLocationAreas, mapPostUrl, mapFormID);
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var geometry = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.FirstOrDefault(x => x.ProjectLocationAreaID == viewModel.ProjectLocationAreaID)?.GetGeometry();
+            var initiallySelectedProjectLocationFeature = geometry != null ? DbGeometryToGeoJsonHelper.FromDbGeometry(geometry) : null;
+
+            var viewData = new EditProjectLocationSimpleViewData(CurrentPerson, mapInitJson, mapPostUrl, mapFormID, tenantAttribute.WatershedLayerName, tenantAttribute.MapServiceUrl, initiallySelectedProjectLocationFeature);
             return RazorPartialView<EditProjectLocationSimple, EditProjectLocationSimpleViewData, EditProjectLocationSimpleViewModel>(viewData, viewModel);
         }
 
@@ -225,6 +228,11 @@ namespace ProjectFirma.Web.Controllers
         public static string GenerateEditProjectLocationFormID(int projectID)
         {
             return $"editMapForProject{projectID}";
+        }
+
+        public ContentResult ProjectLocationAreaIDFromWatershedID(WatershedPrimaryKey watershedPrimaryKey)
+        {
+            return Content(watershedPrimaryKey.EntityObject.ProjectLocationAreas.Select(x => x.ProjectLocationAreaID).SingleOrDefault().ToString());
         }
     }
 }

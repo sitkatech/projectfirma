@@ -24,7 +24,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Spatial;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Map;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.Models;
