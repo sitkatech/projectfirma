@@ -20,6 +20,19 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedController", function ($scope, angularModelAndViewData)
 {
+    $scope.groupedPerformanceMeasures = function () {
+        var test = _.uniq($scope.AngularModel.PerformanceMeasureExpecteds, "PerformanceMeasureID");
+        console.log(test);
+
+        var test2 = _.chain($scope.AngularModel.PerformanceMeasureExpecteds).groupBy("PerformanceMeasureID").map(function(v,
+            i) {
+            return {
+                PerformanceMeasureID: i,
+                performanceMeasureOptionsRow
+            }
+        })
+    }
+
     $scope.resetPerformanceMeasureToAdd = function () { $scope.PerformanceMeasureToAdd = null; };
 
     $scope.resetProjectToAdd = function () { $scope.ProjectToAdd = $scope.getProject(angularModelAndViewData.AngularViewData.ProjectID); };
@@ -28,20 +41,8 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedControll
         return _($scope.AngularViewData.AllPerformanceMeasures).sortBy(function (x) { return x.DisplayName; }).value();
     };
 
-    $scope.filteredProjects = function () {
-        return _($scope.AngularViewData.AllProjects).sortBy(["DisplayName"]).value();
-    };
-
-    $scope.getProjectName = function (performanceMeasureExpected)
-    {
-        var projectToFind = $scope.getProject(performanceMeasureExpected.ProjectID);
-        return projectToFind.DisplayName;
-    };
-
-    $scope.getProject = function (projectId) {
-        return _.find($scope.AngularViewData.AllProjects, function (f) { return projectId == f.ProjectID; });
-    };
-
+    
+    
     $scope.getPerformanceMeasureName = function (performanceMeasureExpected) {
         var performanceMeasureToFind = $scope.getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID);
         return performanceMeasureToFind.DisplayName;
