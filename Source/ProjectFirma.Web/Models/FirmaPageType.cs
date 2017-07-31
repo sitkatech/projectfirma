@@ -76,6 +76,14 @@ namespace ProjectFirma.Web.Models
         }
     }
 
+    public partial class FirmaPageTypeHomeMapInfo
+    {
+        public override string GetViewUrl()
+        {
+            return SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Index());
+        }
+    }
+
     public partial class FirmaPageTypeFullProjectList
     {
         public override string GetViewUrl()

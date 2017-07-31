@@ -36,6 +36,7 @@ namespace ProjectFirma.Web.Models
         public static readonly FirmaPageTypeSpendingByOrganizationTypeByTaxonomyTier SpendingByOrganizationTypeByTaxonomyTier = FirmaPageTypeSpendingByOrganizationTypeByTaxonomyTier.Instance;
         public static readonly FirmaPageTypeProjectMap ProjectMap = FirmaPageTypeProjectMap.Instance;
         public static readonly FirmaPageTypeResultsByTaxonomyTierTwo ResultsByTaxonomyTierTwo = FirmaPageTypeResultsByTaxonomyTierTwo.Instance;
+        public static readonly FirmaPageTypeHomeMapInfo HomeMapInfo = FirmaPageTypeHomeMapInfo.Instance;
         public static readonly FirmaPageTypeHomeAdditionalInfo HomeAdditionalInfo = FirmaPageTypeHomeAdditionalInfo.Instance;
         public static readonly FirmaPageTypeFeaturedProjectList FeaturedProjectList = FirmaPageTypeFeaturedProjectList.Instance;
         public static readonly FirmaPageTypeCostParameterSet CostParameterSet = FirmaPageTypeCostParameterSet.Instance;
@@ -59,7 +60,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static FirmaPageType()
         {
-            All = new List<FirmaPageType> { HomePage, About, MeetingsandDocuments, DemoScript, InternalSetupNotes, FullProjectList, PerformanceMeasuresList, TaxonomyTierOneList, TaxonomyTierTwoList, TaxonomyTierThreeList, FundingSourcesList, OrganizationsList, WatershedsList, MyProjects, InvestmentByOrganizationType, SpendingByOrganizationTypeByTaxonomyTier, ProjectMap, ResultsByTaxonomyTierTwo, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, ClassificationsList, MonitoringProgramsList, ProposeProjectInstructions };
+            All = new List<FirmaPageType> { HomePage, About, MeetingsandDocuments, DemoScript, InternalSetupNotes, FullProjectList, PerformanceMeasuresList, TaxonomyTierOneList, TaxonomyTierTwoList, TaxonomyTierThreeList, FundingSourcesList, OrganizationsList, WatershedsList, MyProjects, InvestmentByOrganizationType, SpendingByOrganizationTypeByTaxonomyTier, ProjectMap, ResultsByTaxonomyTierTwo, HomeMapInfo, HomeAdditionalInfo, FeaturedProjectList, CostParameterSet, FullProjectListSimple, Taxonomy, TagList, SpendingByPerformanceMeasureByProject, ProposedProjects, MyOrganizationsProjects, ManageUpdateNotifications, ProjectUpdateStatus, ClassificationsList, MonitoringProgramsList, ProposeProjectInstructions };
             AllLookupDictionary = new ReadOnlyDictionary<int, FirmaPageType>(All.ToDictionary(x => x.FirmaPageTypeID));
         }
 
@@ -148,6 +149,8 @@ namespace ProjectFirma.Web.Models
                     return FundingSourcesList;
                 case FirmaPageTypeEnum.HomeAdditionalInfo:
                     return HomeAdditionalInfo;
+                case FirmaPageTypeEnum.HomeMapInfo:
+                    return HomeMapInfo;
                 case FirmaPageTypeEnum.HomePage:
                     return HomePage;
                 case FirmaPageTypeEnum.InternalSetupNotes:
@@ -220,6 +223,7 @@ namespace ProjectFirma.Web.Models
         SpendingByOrganizationTypeByTaxonomyTier = 21,
         ProjectMap = 22,
         ResultsByTaxonomyTierTwo = 23,
+        HomeMapInfo = 24,
         HomeAdditionalInfo = 25,
         FeaturedProjectList = 26,
         CostParameterSet = 31,
@@ -342,6 +346,12 @@ namespace ProjectFirma.Web.Models
     {
         private FirmaPageTypeResultsByTaxonomyTierTwo(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
         public static readonly FirmaPageTypeResultsByTaxonomyTierTwo Instance = new FirmaPageTypeResultsByTaxonomyTierTwo(23, @"ResultsByTaxonomyTierTwo", @"Results by Taxonomy Tier Two", 1);
+    }
+
+    public partial class FirmaPageTypeHomeMapInfo : FirmaPageType
+    {
+        private FirmaPageTypeHomeMapInfo(int firmaPageTypeID, string firmaPageTypeName, string firmaPageTypeDisplayName, int firmaPageRenderTypeID) : base(firmaPageTypeID, firmaPageTypeName, firmaPageTypeDisplayName, firmaPageRenderTypeID) {}
+        public static readonly FirmaPageTypeHomeMapInfo Instance = new FirmaPageTypeHomeMapInfo(24, @"HomeMapInfo", @"Home Page Map Info", 2);
     }
 
     public partial class FirmaPageTypeHomeAdditionalInfo : FirmaPageType

@@ -34,18 +34,22 @@ namespace ProjectFirma.Web.Views.Home
     {
         public readonly ViewPageContentViewData CustomHomePageTextViewData;
         public readonly ViewPageContentViewData CustomHomePageAdditionalInfoTextViewData;
+        public readonly ViewPageContentViewData CustomHomePageMapTextViewData;
         public readonly FeaturedProjectsViewData FeaturedProjectsViewData;
         public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
         public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
         public readonly string FullMapUrl;
         public readonly List<Models.FirmaHomePageImage> FirmaHomePageCarouselImages;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPageHomePage, Models.FirmaPage firmaPageAdditionalInfo, FeaturedProjectsViewData featuredProjectsViewData, ProjectLocationsMapViewData projectLocationsMapViewData, ProjectLocationsMapInitJson projectLocationsMapInitJson, List<Models.FirmaHomePageImage> firmaHomePageImages) : base(currentPerson, firmaPageHomePage)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPageHomePage, Models.FirmaPage firmaPageAdditionalInfo, Models.FirmaPage firmaPageMapInfo,
+            FeaturedProjectsViewData featuredProjectsViewData, ProjectLocationsMapViewData projectLocationsMapViewData, ProjectLocationsMapInitJson projectLocationsMapInitJson,
+            List<Models.FirmaHomePageImage> firmaHomePageImages) : base(currentPerson, firmaPageHomePage)
         {
             PageTitle = MultiTenantHelpers.GetToolDisplayName();
 
             CustomHomePageTextViewData = new ViewPageContentViewData(firmaPageHomePage, currentPerson);
             CustomHomePageAdditionalInfoTextViewData = new ViewPageContentViewData(firmaPageAdditionalInfo, currentPerson);
+            CustomHomePageMapTextViewData = new ViewPageContentViewData(firmaPageMapInfo, currentPerson);
             FeaturedProjectsViewData = featuredProjectsViewData;
             FullMapUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ProjectMap());
             ProjectLocationsMapViewData = projectLocationsMapViewData;

@@ -131,9 +131,9 @@
 
         <div class="col-md-4">
             <h4 style="margin-bottom: 5px;">@FieldDefinition.Project.GetFieldDefinitionLabel() Map</h4>
-            <p style="margin-bottom: 5px">
-                This map shows approximate @FieldDefinition.ProjectLocation.GetFieldDefinitionLabelPluralized(). For more detail, <a href="@ViewDataTyped.FullMapUrl">view the comprehensive map page</a>.
-            </p>
+            <div>
+                @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageMapTextViewData); }
+            </div>
             <div>
                 <a href="@ViewDataTyped.FullMapUrl">
                     @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
