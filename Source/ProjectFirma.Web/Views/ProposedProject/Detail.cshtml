@@ -229,7 +229,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <h2 data-toc-skip class="sectionHeader">@FieldDefinition.ProposedProject.GetFieldDefinitionLabel() @ViewDataTyped.ClassificationDisplayName</h2>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationsUrl, string.Format("Edit {0}", ViewDataTyped.ClassificationDisplayNamePluralized), ViewDataTyped.UserHasProposedProjectClassificationManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.Classification, ViewDataTyped.ClassificationDisplayNamePluralized)</h2>
+                        <h2> @Html.LabelWithSugarFor(FieldDefinition.Classification, ViewDataTyped.ClassificationDisplayNamePluralized)</h2>
                     </div>
                     <div class="panel-body">
                         @if (ViewDataTyped.ProposedProject.ProposedProjectClassifications.Any())
