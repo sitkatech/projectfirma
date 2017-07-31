@@ -41,55 +41,72 @@ Source code is available upon request via <support@sitkatech.com>.
     // ]]>
 </script>
 
-<div class="validationError">
-    @Html.ValidationSummary()
-</div>
-
-<div id="EditPerformanceMeasureExpectedsApp" ng-controller="PerformanceMeasureExpectedController">
-    @MultiTenantHelpers.GetPerformanceMeasureName() to Add:
-    <select ng-model="PerformanceMeasureToAdd" ng-options="performanceMeasure.DisplayName for performanceMeasure in filteredPerformanceMeasures()" style="width: 700px"></select>
-    <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>
-    <hr/>
-    <table class="dialogFormLayout" ng-show="AngularModel.PerformanceMeasureExpecteds.length > 0">
-        <tr>
-            <th></th>
-            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure)</th>
-            <th ng-show="hasAnySubcategories()">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory)</th>
-            <th colspan="2" style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ExpectedValue)</th>
-        </tr>
-        <tr ng-repeat="performanceMeasureExpected in AngularModel.PerformanceMeasureExpecteds | orderBy:[getPerformanceMeasureName, 'CalendarYear', getProjectName]">
-            <td>
-                <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(performanceMeasureExpected)" style="cursor: pointer"></span>
-            </td>
-            <td>
-                <span class="helpicon glyphicon glyphicon-question-sign" title="Click to get help on {{getPerformanceMeasureName(performanceMeasureExpected)}}" data-pmqtip="getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID)"></span>
-                <span ng-bind="getPerformanceMeasureName(performanceMeasureExpected)"></span>
-            </td>
-            <td style="white-space: nowrap">
-                <span ng-repeat="performanceMeasureExpectedSubcategoryOption in performanceMeasureExpected.PerformanceMeasureExpectedSubcategoryOptions | orderBy:[getSubcategoryName]">
-                    <select ng-model="performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID" style="width: 120px" ng-show="getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID).HasRealSubcategories">
-                        <optgroup label="{{getSubcategoryName(performanceMeasureExpectedSubcategoryOption)}}">
-                            <option ng-repeat="performanceMeasureSubcategoryOption in getSubcategoryOptionsForSubcategory(performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryID)" value="{{performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID}}" ng-selected="performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID == performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID">{{performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName}}</option>
-                        </optgroup>
-                    </select>
-                </span>
-            </td>
-            <td>
-                <input type="number" class="sitkaNumber" style="width: 80px" ng-model="performanceMeasureExpected.ExpectedValue" step="any"/> {{getMeasurementUnitTypeDisplayName(performanceMeasureExpected)}}
-            </td>            
-        </tr>
-    </table>
-    @using (Html.BeginForm())
-    {
-        <div ng-repeat="performanceMeasureExpected in AngularModel.PerformanceMeasureExpecteds | orderBy:'PerformanceMeasureID'">
-            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureExpected.ProjectID}}">
-            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureExpected.PerformanceMeasureID}}">
-            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].ExpectedValue).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureExpected.ExpectedValue}}">
-            <div ng-repeat="performanceMeasureExpectedSubcategoryOption in getPerformanceMeasureExpectedSubcategoryOptionsWithValues(performanceMeasureExpected)">
-                <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureExpectedSubcategoryOptions[1].PerformanceMeasureSubcategoryOptionID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID}}">
-                <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureExpectedSubcategoryOptions[1].PerformanceMeasureSubcategoryID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryID}}">
-                <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureExpectedSubcategoryOptions[1].PerformanceMeasureID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureExpectedSubcategoryOption.PerformanceMeasureID}}">
-            </div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="validationError">
+            @Html.ValidationSummary()
         </div>
-    }
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div id="EditPerformanceMeasureExpectedsApp" ng-controller="PerformanceMeasureExpectedController">
+            <div class="form-group">
+                <label class="control-label">@MultiTenantHelpers.GetPerformanceMeasureName() to Add:</label>
+                <div class="input-group">
+                    <select class="form-control" ng-model="PerformanceMeasureToAdd" ng-options="performanceMeasure.DisplayName for performanceMeasure in filteredPerformanceMeasures()"></select>
+                    <span class="input-group-btn">
+                        <button class="btn btn-firma" type="button" ng-click="addRow()">
+                            <span class="glyphicon glyphicon-plus"></span> Add
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <table class="table" ng-show="AngularModel.PerformanceMeasureExpecteds.length > 0">
+                <tr>
+                    <th></th>
+                    <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure)</th>
+                    <th ng-show="hasAnySubcategories()" colspan="{{maxNumberOfSubcategoryOptions()}}">@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory)</th>
+                    <th colspan="2" style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.ExpectedValue)</th>
+                </tr>
+                <tr ng-repeat="performanceMeasureExpected in AngularModel.PerformanceMeasureExpecteds | orderBy:[getPerformanceMeasureName, 'CalendarYear', getProjectName]">
+                    <td>
+                        <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(performanceMeasureExpected)" style="cursor: pointer"></span>
+                    </td>
+                    <td>
+                        <span class="helpicon glyphicon glyphicon-question-sign" title="Click to get help on {{getPerformanceMeasureName(performanceMeasureExpected)}}" data-pmqtip="getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID)"></span>
+                        <span ng-bind="getPerformanceMeasureName(performanceMeasureExpected)"></span>
+                    </td>
+                    <td ng-repeat="performanceMeasureExpectedSubcategoryOption in performanceMeasureExpected.PerformanceMeasureExpectedSubcategoryOptions | orderBy:[getSubcategoryName]">
+                        <select class="form-control"
+                                ng-model="performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID"
+                                ng-show="getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID).HasRealSubcategories">
+                            <optgroup label="{{getSubcategoryName(performanceMeasureExpectedSubcategoryOption)}}">
+                                <option ng-repeat="performanceMeasureSubcategoryOption in getSubcategoryOptionsForSubcategory(performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryID)" value="{{performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID}}" ng-selected="performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID == performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID">{{performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName}}</option>
+                            </optgroup>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" class="form-control"
+                               ng-model="performanceMeasureExpected.ExpectedValue" step="any"/> {{getMeasurementUnitTypeDisplayName(performanceMeasureExpected)}}
+                    </td>            
+                </tr>
+            </table>
+            @using (Html.BeginForm())
+            {
+                <div ng-repeat="performanceMeasureExpected in AngularModel.PerformanceMeasureExpecteds | orderBy:'PerformanceMeasureID'">
+                    <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureExpected.ProjectID}}">
+                    <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureExpected.PerformanceMeasureID}}">
+                    <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].ExpectedValue).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureExpected.ExpectedValue}}">
+                    <div ng-repeat="performanceMeasureExpectedSubcategoryOption in getPerformanceMeasureExpectedSubcategoryOptionsWithValues(performanceMeasureExpected)">
+                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureExpectedSubcategoryOptions[1].PerformanceMeasureSubcategoryOptionID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID}}">
+                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureExpectedSubcategoryOptions[1].PerformanceMeasureSubcategoryID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryID}}">
+                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureExpectedSubcategoryOptions[1].PerformanceMeasureID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureExpectedSubcategoryOption.PerformanceMeasureID}}">
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
 </div>
