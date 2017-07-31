@@ -77,13 +77,19 @@ Source code is available upon request via <support@sitkatech.com>.
         else
         {
             <div class="row">
-                <div class="col-md-3">@Html.LabelWithSugarFor(m => m.PrimaryContactPersonID, true)</div>
+                <div class="col-md-3">@Html.LabelWithSugarFor(m => m.LeadImplementerOrganizationID, false)</div>
                 <div class="col-md-9">
-                    @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.PrimaryContactPeople)                    
-                    @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
+                    @ViewDataTyped.LeadImplementerOrganization
                 </div>
             </div>
         }
+        <div class="row">
+            <div class="col-md-3">@Html.LabelWithSugarFor(m => m.PrimaryContactPersonID, false)</div>
+            <div class="col-md-9">
+                @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.PrimaryContactPeople)
+                @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-3">@Html.LabelWithSugarFor(m => m.ProjectStageID)</div>
             <div class="col-md-9">

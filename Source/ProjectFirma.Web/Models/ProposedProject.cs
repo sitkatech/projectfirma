@@ -238,8 +238,11 @@ namespace ProjectFirma.Web.Models
             project.ProjectNotes = proposedProject.ProposedProjectNotes.Select(x => new ProjectNote(project, x.Note, x.CreateDate)).ToList();
             project.ProjectClassifications = proposedProject.ProposedProjectClassifications.Select(x => new ProjectClassification(project.ProjectID, x.ClassificationID, x.ProposedProjectClassificationNotes)).ToList();
 
-            project.LeadImplementerOrganization = proposedProject.LeadImplementerOrganization;
-
+            if (proposedProject.PrimaryContactPerson != null)
+            {
+                project.PrimaryContactPerson = proposedProject.PrimaryContactPerson;
+            }
+            
             project.ProjectAssessmentQuestions = proposedProject.ProposedProjectAssessmentQuestions.OrderBy(x => x.AssessmentQuestionID).Select(x => new ProjectAssessmentQuestion(project.ProjectID, x.AssessmentQuestionID) {Answer = x.Answer}).ToList();
 
             foreach (var performanceMeasureExpectedProposed in proposedProject.PerformanceMeasureExpectedProposeds)

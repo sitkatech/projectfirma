@@ -136,7 +136,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
             if (PrimaryContactPersonID != null)
             {
-                proposedProject.PrimaryContactPerson.PersonID = PrimaryContactPersonID.Value;
+                proposedProject.PrimaryContactPersonID = PrimaryContactPersonID.Value;
             }
             
         }

@@ -80,12 +80,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
                 errors.Add(new ValidationResult($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} must be specfied."));
                 return errors;
             }
-
-            var leadOrg = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(ProjectOrganizationsViewModelJson.LeadOrganizationID.Value);
-            if (leadOrg.PrimaryContactPerson == null)
-            {
-                errors.Add(new ValidationResult($"{Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} must have a {Models.FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()} set."));
-            }
+           
             if (ProjectOrganizationsViewModelJson.ProjectOrganizations.Count != ProjectOrganizationsViewModelJson.ProjectOrganizations.Select(x => x.OrganizationID).Distinct().Count())
             {
                 errors.Add(new ValidationResult($"Cannot have the same {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} listed multiple times."));

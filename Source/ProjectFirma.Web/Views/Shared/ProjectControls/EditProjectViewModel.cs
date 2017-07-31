@@ -75,6 +75,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public Money? SecuredFunding { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.LeadImplementer)]
+        [Required]
         public int? LeadImplementerOrganizationID { get; set; }
 
         public bool HasExistingProjectUpdate { get; set; }
@@ -126,6 +127,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             SecuredFunding = proposedProject.SecuredFunding;
             LeadImplementerOrganizationID = proposedProject.LeadImplementerOrganizationID;
             HasExistingProjectUpdate = false;
+            PrimaryContactPersonID = proposedProject.PrimaryContactPersonID;
         }
 
         public void UpdateModel(Models.Project project)
@@ -138,8 +140,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             project.ImplementationStartYear = ImplementationStartYear;
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.CompletionYear = CompletionYear;
-            project.PrimaryContactPersonID = PrimaryContactPersonID;
+            project.LeadImplementerOrganizationID = LeadImplementerOrganizationID.Value;
 
+            if (PrimaryContactPersonID != null)
+            {
+                project.PrimaryContactPersonID = PrimaryContactPersonID.Value;
+            }    
+            
             if (FundingTypeID == FundingType.Capital.FundingTypeID)
             {
                 project.EstimatedTotalCost = EstimatedTotalCost;
@@ -152,16 +159,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                 project.EstimatedTotalCost = null;
                 project.SecuredFunding = null;
                 project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost; 
-            }
+            }         
 
-            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(project.ProjectID))
-            {
-                Check.RequireNotNull(LeadImplementerOrganizationID, $"{Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} must be specified");
-                if (LeadImplementerOrganizationID != null)
-                {
-                    project.LeadImplementerOrganizationID = LeadImplementerOrganizationID.Value;
-                }
-            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

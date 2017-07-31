@@ -54,22 +54,43 @@ h6 {
   float: right;
   padding: 10px;
 }
-.grayBackground {
-  background-color: #F8F8F8;
-}
 .hoverEditButton {
   position: absolute;
   right: 5px;
   top: -5px;
 }
 .hoverEditButton a.btn-firma {
-  opacity: 0.8;
   background-color: gray;
   color: white;
 }
 .hoverEmptySpace {
   width: 100%;
   height: 30px;
+}
+.firmaPageContent {
+  background-color: inherit;
+  -ms-transition: all 100ms ease-out;
+  -o-transition: all 100ms ease-out;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+}
+.firmaPageContent:hover {
+  background-color: #d3d3d3;
+  background-color: rgba(211, 211, 211, 0.2);
+}
+.firmaPageContent .hoverEditButton {
+  visibility: hidden;
+  -ms-opacity: 0;
+  opacity: 0;
+  -ms-transition: all 100ms ease-out;
+  -o-transition: all 100ms ease-out;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+}
+.firmaPageContent:hover .hoverEditButton {
+  visibility: visible;
+  -ms-opacity: 1;
+  opacity: 1;
 }
 form .form-group {
   margin-top: 20px;
@@ -79,7 +100,7 @@ form .form-group-condensed {
   margin-top: 5px;
   margin-bottom: 5px;
 }
-.bootstrap-select.btn-group .dropdown-menu {
+.bootstrap-select.btn-group.open .dropdown-menu {
   z-index: 1100;
 }
 .header {
