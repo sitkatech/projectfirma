@@ -226,7 +226,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                 </div>
 
-                <h2 data-toc-skip class="sectionHeader">@FieldDefinition.Project.GetFieldDefinitionLabel() @ViewDataTyped.ClassificationDisplayName</h2>
+                <h2 data-toc-skip class="sectionHeader">@FieldDefinition.ProposedProject.GetFieldDefinitionLabel() @ViewDataTyped.ClassificationDisplayName</h2>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationsUrl, string.Format("Edit {0}", ViewDataTyped.ClassificationDisplayNamePluralized), ViewDataTyped.UserHasProposedProjectClassificationManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.Classification, ViewDataTyped.ClassificationDisplayNamePluralized)</h2>
@@ -234,15 +234,15 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="panel-body">
                         @if (ViewDataTyped.ProposedProject.ProposedProjectClassifications.Any())
                         {
-                            foreach (var projectClassificationBatch in ViewDataTyped.ProposedProject.ProposedProjectClassifications.OrderBy(x => x.Classification.DisplayName).Batch(3))
+                            foreach (var proposedProjectClassificationBatch in ViewDataTyped.ProposedProject.ProposedProjectClassifications.OrderBy(x => x.Classification.DisplayName).Batch(3))
                             {
                                 <div class="row" style="padding-top: 10px;">
-                                    @foreach (var projectClassification in projectClassificationBatch)
+                                    @foreach (var proposedProjectClassification in proposedProjectClassificationBatch)
                                     {
                                         <div class="col-md-4">
-                                            <label>@projectClassification.Classification.GetDisplayNameAsUrl()</label>
+                                            <label>@proposedProjectClassification.Classification.GetDisplayNameAsUrl()</label>
 
-                                            <div>@projectClassification.ProposedProjectClassificationNotes</div>
+                                            <div>@proposedProjectClassification.ProposedProjectClassificationNotes</div>
                                         </div>
                                     }
                                 </div>
