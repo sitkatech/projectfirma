@@ -25,6 +25,7 @@ using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
 namespace ProjectFirma.Web.Views.ProposedProject
@@ -36,6 +37,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public readonly string ApproveProjectUrl;
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
         public readonly string ProposedProjectsUrl;
+        public readonly bool UserHasProposedProjectClassificationManagePermissions;
         public readonly string EditClassificationsUrl;
 
         public readonly string MapFormID;
@@ -63,7 +65,9 @@ namespace ProjectFirma.Web.Views.ProposedProject
             PageTitle = proposedProject.DisplayName;
             BreadCrumbTitle = $"{Models.FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} Detail";
             MapFormID = mapFormID;
-            
+
+            UserHasProposedProjectClassificationManagePermissions = new ProjectEditFeature().HasPermissionByPerson(currentPerson);
+
             EditProposedProjectUrl = proposedProject.GetEditUrl();
             EditMapUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditLocationSimple(proposedProject));
             ApproveProjectUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Approve(proposedProject));

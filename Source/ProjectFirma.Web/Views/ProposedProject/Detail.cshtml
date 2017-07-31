@@ -226,26 +226,28 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                 </div>
 
+                <h2 data-toc-skip class="sectionHeader">@FieldDefinition.Project.GetFieldDefinitionLabel() @ViewDataTyped.ClassificationDisplayName</h2>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h2>@ViewDataTyped.ClassificationDisplayNamePluralized</h2>
+                        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditClassificationsUrl, string.Format("Edit {0}", ViewDataTyped.ClassificationDisplayNamePluralized), ViewDataTyped.UserHasProposedProjectClassificationManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.Classification, ViewDataTyped.ClassificationDisplayNamePluralized)</h2>
                     </div>
                     <div class="panel-body">
-                        @if (ViewDataTyped.ProposedProject.ProposedProjectClassifications != null && ViewDataTyped.ProposedProject.ProposedProjectClassifications.Any())
+                        @if (ViewDataTyped.ProposedProject.ProposedProjectClassifications.Any())
                         {
-                            <div class="row">
-                                @foreach (var classificationsBatch in ViewDataTyped.ProposedProject.ProposedProjectClassifications.OrderBy(x => x.Classification.DisplayName).Batch(3))
-                                {
-                                    <div class="col-md-4">
-                                        <ul class="noListStyle">
-                                            @foreach (var classification in classificationsBatch.OrderBy(x => x.Classification.DisplayName))
-                                            {
-                                                <li>@classification.Classification.GetDisplayNameAsUrl(): @classification.ProposedProjectClassificationNotes</li>
-                                            }
-                                        </ul>
-                                    </div>
-                                }
-                            </div>
+                            foreach (var projectClassificationBatch in ViewDataTyped.ProposedProject.ProposedProjectClassifications.OrderBy(x => x.Classification.DisplayName).Batch(3))
+                            {
+                                <div class="row" style="padding-top: 10px;">
+                                    @foreach (var projectClassification in projectClassificationBatch)
+                                    {
+                                        <div class="col-md-4">
+                                            <label>@projectClassification.Classification.GetDisplayNameAsUrl()</label>
+
+                                            <div>@projectClassification.ProposedProjectClassificationNotes</div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+
                         }
                         else
                         {
@@ -253,6 +255,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         }
                     </div>
                 </div>
+
                 @if (ViewDataTyped.HasAssessments)
                 {
                     <div class="panel panelFirma">
