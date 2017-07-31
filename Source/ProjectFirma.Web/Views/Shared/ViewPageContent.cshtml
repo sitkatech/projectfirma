@@ -5,8 +5,8 @@
 
 @if (ViewDataTyped.ShowEditButton)
 {
-    <div id="@Html.Id(ViewDataTyped.FirmaPageContentID)" style="position: relative; min-height: 30px;">
-        <div id="@Html.Id(ViewDataTyped.FirmaPageEditHoverButtonID)" class="hoverEditButton" style="display: none;">
+    <div class="firmaPageContent" style="position: relative; min-height: 30px;">
+        <div class="hoverEditButton">
             <div style="margin-top: 10px">
                 @ModalDialogFormHelper.ModalDialogFormLink("Edit", ViewDataTyped.EditPageContentUrl, string.Format("Edit Content for {0}", ViewDataTyped.FirmaPage.FirmaPageType.FirmaPageTypeDisplayName), 900, "Save", "Cancel", new List<string> { "btn-firma btn-xs" }, null, null)                
             </div>
@@ -27,15 +27,3 @@ else
         @Html.Raw(ViewDataTyped.FirmaPage.FirmaPageContentHtmlString)
     </div>
 }
-
-<script>
-    jQuery("#@Html.Id(ViewDataTyped.FirmaPageContentID)").hover(function(){
-            jQuery("#@Html.Id(ViewDataTyped.FirmaPageEditHoverButtonID)").fadeIn("fast");
-            jQuery(this).addClass("grayBackground");
-        }
-        ,function(){
-            jQuery("#@Html.Id(ViewDataTyped.FirmaPageEditHoverButtonID)").fadeOut("fast");
-            jQuery(this).removeClass("grayBackground");
-        }
-    );
-</script>

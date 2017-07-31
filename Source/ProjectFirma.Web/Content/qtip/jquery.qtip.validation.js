@@ -4,13 +4,19 @@
         // Get the name of the element the error message is intended for
         // Note: ASP.NET MVC replaces the '[', ']', and '.' characters with an
         // underscore but the data-valmsg-for value will have the original characters
-        var inputElem = '#' + $(this).attr('data-valmsg-for').replace('.', '_').replace('[', '_').replace(']', '_');
+        var idText = $(this).attr('data-valmsg-for').replace('.', '_').replace('[', '_').replace(']', '_');
+        var inputElem = '#' + idText;
+
+        //if the input select is overridden by bootstrap-select, need to grad the data-id instead
+        if ($(inputElem).hasClass("selectpicker")) {            
+            inputElem = $('[data-id=' + idText+']');
+        }
 
         var corners = ['right center', 'left center'];
         var flipIt = $(inputElem).parents('span.right').length > 0;
 
         // Hide the default validation error
-        $(this).hide();
+        $(this).hide();     
 
         // Show the validation error using qTip
         $(inputElem).filter(':not(.valid)').qtip({

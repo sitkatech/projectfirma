@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -27,6 +28,7 @@ using GeoJSON.Net.Feature;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GeoJson;
+using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -115,7 +117,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditBasics(EditBasicsViewModel viewModel)
         {
             var adminFeature = new FirmaAdminFeature();
-            var tenantPeople = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => adminFeature.HasPermissionByPerson(x)).ToList();
+            var tenantPeople = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => adminFeature.HasPermissionByPerson(x)).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.FullNameFirstLast);
             var viewData = new EditBasicsViewData(CurrentPerson, tenantPeople);
             return RazorPartialView<EditBasics, EditBasicsViewData, EditBasicsViewModel>(viewData, viewModel);
         }

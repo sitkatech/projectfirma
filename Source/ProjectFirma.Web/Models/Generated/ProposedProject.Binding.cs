@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? taxonomyTierOneID, string performanceMeasureNotes, int? projectID, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID) : this()
+        public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? taxonomyTierOneID, string performanceMeasureNotes, int? projectID, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, int? primaryContactPersonID) : this()
         {
             this.ProposedProjectID = proposedProjectID;
             this.ProjectName = projectName;
@@ -63,6 +63,7 @@ namespace ProjectFirma.Web.Models
             this.SubmissionDate = submissionDate;
             this.ApprovalDate = approvalDate;
             this.ReviewedByPersonID = reviewedByPersonID;
+            this.PrimaryContactPersonID = primaryContactPersonID;
         }
 
         /// <summary>
@@ -152,6 +153,7 @@ namespace ProjectFirma.Web.Models
         public DateTime? SubmissionDate { get; set; }
         public DateTime? ApprovalDate { get; set; }
         public int? ReviewedByPersonID { get; set; }
+        public int? PrimaryContactPersonID { get; set; }
         public int PrimaryKey { get { return ProposedProjectID; } set { ProposedProjectID = value; } }
 
         public virtual ICollection<NotificationProposedProject> NotificationProposedProjects { get; set; }
@@ -164,6 +166,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProposedProjectNote> ProposedProjectNotes { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Organization LeadImplementerOrganization { get; set; }
+        public virtual Person PrimaryContactPerson { get; set; }
         public virtual Person ProposingPerson { get; set; }
         public virtual Person ReviewedByPerson { get; set; }
         public virtual ProjectLocationArea ProjectLocationArea { get; set; }

@@ -68,13 +68,14 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNew(viewModel);
             }
-            var project = new Project(viewModel.TaxonomyTierOneID,
+            var project = new Project(viewModel.TaxonomyTierOneID.Value,
                 viewModel.ProjectStageID,
                 viewModel.ProjectName,
                 viewModel.ProjectDescription,
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
-                FundingType.Capital.FundingTypeID);
+                FundingType.Capital.FundingTypeID,
+                viewModel.LeadImplementerOrganizationID.Value);
             HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
             viewModel.UpdateModel(project);
             HttpRequestStorage.DatabaseEntities.SaveChanges();

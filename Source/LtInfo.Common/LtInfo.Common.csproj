@@ -211,6 +211,7 @@
     <Compile Include="DhtmlWrappers\DhtmlxGridHtmlHelpersTest.cs" />
     <Compile Include="GeneralUtility.cs" />
     <Compile Include="GeneralUtilityTest.cs" />
+    <Compile Include="HtmlHelperExtensions\DropdownForExtensions.cs" />
     <Compile Include="HtmlHelperExtensions\FieldDefinitionHelpers.cs" />
     <Compile Include="HtmlHelperExtensions\FieldDefinitionInterfaces.cs" />
     <Compile Include="HtmlHelperExtensions\LabelForExtensions.cs" />

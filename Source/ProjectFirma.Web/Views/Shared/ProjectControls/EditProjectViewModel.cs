@@ -62,8 +62,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public int? CompletionYear { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierOne)]
-        [Required]
-        public int TaxonomyTierOneID { get; set; }
+        [Required(ErrorMessage = "This field is required.")]
+        public int? TaxonomyTierOneID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
         public Money? EstimatedTotalCost { get; set; }
@@ -75,6 +75,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public Money? SecuredFunding { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.LeadImplementer)]
+        [Required]
         public int? LeadImplementerOrganizationID { get; set; }
 
         public bool HasExistingProjectUpdate { get; set; }
@@ -126,20 +127,26 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             SecuredFunding = proposedProject.SecuredFunding;
             LeadImplementerOrganizationID = proposedProject.LeadImplementerOrganizationID;
             HasExistingProjectUpdate = false;
+            PrimaryContactPersonID = proposedProject.PrimaryContactPersonID;
         }
 
         public void UpdateModel(Models.Project project)
         {
             project.ProjectName = ProjectName;
             project.ProjectDescription = ProjectDescription;
-            project.TaxonomyTierOneID = TaxonomyTierOneID;
+            project.TaxonomyTierOneID = TaxonomyTierOneID.Value;
             project.ProjectStageID = ProjectStageID;
             project.FundingTypeID = FundingTypeID;
             project.ImplementationStartYear = ImplementationStartYear;
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.CompletionYear = CompletionYear;
-            project.PrimaryContactPersonID = PrimaryContactPersonID;
+            project.LeadImplementerOrganizationID = LeadImplementerOrganizationID.Value;
 
+            if (PrimaryContactPersonID != null)
+            {
+                project.PrimaryContactPersonID = PrimaryContactPersonID.Value;
+            }    
+            
             if (FundingTypeID == FundingType.Capital.FundingTypeID)
             {
                 project.EstimatedTotalCost = EstimatedTotalCost;
@@ -152,16 +159,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                 project.EstimatedTotalCost = null;
                 project.SecuredFunding = null;
                 project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost; 
-            }
+            }         
 
-            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(project.ProjectID))
-            {
-                Check.RequireNotNull(LeadImplementerOrganizationID, $"{Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} must be specified");
-                if (LeadImplementerOrganizationID != null)
-                {
-                    project.LeadImplementerOrganizationID = LeadImplementerOrganizationID;
-                }
-            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

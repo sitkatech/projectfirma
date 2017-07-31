@@ -116,26 +116,52 @@ h1, h2, h3, h4, h5, h6 {
     padding: 10px;
 }
 
-.grayBackground {
-    background-color: #F8F8F8;
-}
-
+// firma page edit
 .hoverEditButton {
     position: absolute;
     right: 5px;
     top: -5px;
+}
 
-    a.btn-firma {
-        opacity: 0.8;
-        background-color: gray;
-        color: white;
-    }
+.hoverEditButton a.btn-firma {
+    background-color: gray;
+    color: white;
 }
 
 .hoverEmptySpace {
     width: 100%;
     height: 30px;
 }
+
+.firmaPageContent {
+    background-color: inherit;
+    -ms-transition: all 100ms ease-out;
+    -o-transition: all 100ms ease-out;
+    -webkit-transition: all 100ms ease-out;
+    transition: all 100ms ease-out;
+}
+
+.firmaPageContent:hover {
+    background-color: rgb(211, 211, 211);
+    background-color: rgba(211, 211, 211, 0.2);
+}
+
+.firmaPageContent .hoverEditButton {
+    visibility: hidden;
+    -ms-opacity: 0;
+    opacity: 0;
+    -ms-transition: all 100ms ease-out;
+    -o-transition: all 100ms ease-out;
+    -webkit-transition: all 100ms ease-out;
+    transition: all 100ms ease-out;
+}
+
+.firmaPageContent:hover .hoverEditButton {
+    visibility: visible;
+    -ms-opacity: 1;
+    opacity: 1;
+}
+
 
 form {
     .form-group {
@@ -149,8 +175,10 @@ form {
     }
 }
 
+.bootstrap-select.btn-group.open .dropdown-menu {
+    z-index: 1100;
+}
 // Header
-
 .header {
     background-color: @firma-logoHeaderBackground-color;
     padding: 10px;

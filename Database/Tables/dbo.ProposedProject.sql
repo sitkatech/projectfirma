@@ -28,6 +28,7 @@ CREATE TABLE [dbo].[ProposedProject](
 	[SubmissionDate] [datetime] NULL,
 	[ApprovalDate] [datetime] NULL,
 	[ReviewedByPersonID] [int] NULL,
+	[PrimaryContactPersonID] [int] NULL,
  CONSTRAINT [PK_ProposedProject_ProposedProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProposedProjectID] ASC
@@ -66,6 +67,16 @@ ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProj
 REFERENCES [dbo].[Organization] ([OrganizationID], [TenantID])
 GO
 ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [FK_ProposedProject_Organization_LeadImplementerOrganizationID_TenantID_OrganizationID_TenantID]
+GO
+ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProject_Person_PrimaryContactPersonID_PersonID] FOREIGN KEY([PrimaryContactPersonID])
+REFERENCES [dbo].[Person] ([PersonID])
+GO
+ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [FK_ProposedProject_Person_PrimaryContactPersonID_PersonID]
+GO
+ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProject_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID] FOREIGN KEY([PrimaryContactPersonID], [TenantID])
+REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProposedProject] CHECK CONSTRAINT [FK_ProposedProject_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID]
 GO
 ALTER TABLE [dbo].[ProposedProject]  WITH CHECK ADD  CONSTRAINT [FK_ProposedProject_Person_ProposingPersonID_PersonID] FOREIGN KEY([ProposingPersonID])
 REFERENCES [dbo].[Person] ([PersonID])
