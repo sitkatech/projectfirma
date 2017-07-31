@@ -26,7 +26,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @section JavascriptAndStylesContent
 {   
     <style>
-        .bootstrap-select .disabled a, .bootstrap-select li.dropdown-header {
+        /*.bootstrap-select .disabled a, .bootstrap-select li.dropdown-header {
             cursor: default !important;
             font-size: 15px !important;
         }
@@ -49,7 +49,7 @@ Source code is available upon request via <support@sitkatech.com>.
         .bootstrap-select .disabled a:hover, .bootstrap-select li.dropdown-header:hover {
             background-color: lightgray !important;
             color: gray !important;
-        }
+        }*/
 
         .row {
             margin-top: 5px;
@@ -64,7 +64,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.ProposedTaxonomyTierOneID, 600, MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject())</div>
         <div class="col-md-6">
             <div>
-                @Html.DropDownListFor(x => x.ProposedTaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, new { style = "display: inline !important; height: 0; width: 1px; border:0; box-shadow:none; color:white; overflow:hidden; margin-right:-1px; background-color: green;"})
+                @Html.SearchableDropDownListFor(x => x.ProposedTaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, string.Format("Select a {0}", MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject()))
                 @Html.ValidationMessageFor(m => m.ProposedTaxonomyTierOneID)
             </div>
         </div>
@@ -86,30 +86,15 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="row">
         <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.LeadImplementerOrganizationID)</div>
         <div class="col-md-8">
-            <select name="@Html.NameFor(m => m.LeadImplementerOrganizationID)" id="@Html.IdFor(m => m.LeadImplementerOrganizationID)">
-                @foreach (var org in ViewDataTyped.Organizations)
-                {
-                    <option value="@org.OrganizationID">
-                        @org.OrganizationName
-                    </option>
-                }
-            </select>
+            @Html.SearchableDropDownListFor(m => m.LeadImplementerOrganizationID, ViewDataTyped.Organizations)
             @Html.ValidationMessageFor(m => m.LeadImplementerOrganizationID)
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.PrimaryContactPerson)</div>
+        <div class="col-md-4 col-lg-4">@Html.LabelWithSugarFor(m => m.PrimaryContactPersonID)</div>
         <div class="col-md-8">
-            <select name="@Html.NameFor(m => m.PrimaryContactPerson)" id="@Html.IdFor(m => m.PrimaryContactPerson)">
-                <option value="">Use Lead Implementer's Primary Contact</option>
-                @foreach (var person in ViewDataTyped.PrimaryContactPeople)
-                {
-                    <option value="@person.PersonID">
-                        @person.FullNameFirstLastAndOrg
-                    </option>
-                }
-            </select>
-            @Html.ValidationMessageFor(m => m.PrimaryContactPerson)
+            @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.PrimaryContactPeople)
+            @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
         </div>
     </div>
     <div class="row">
@@ -194,19 +179,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
     jQuery(document).ready(function ()
     {
-        displaySelectedFundingTypeFields();
-        jQuery("#@Html.IdFor(x => x.ProposedTaxonomyTierOneID)").selectpicker(
-            {
-                size: 12, title: 'Select the @MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject()', width: '400px'
-            });
-        jQuery("#@Html.IdFor(x => x.LeadImplementerOrganizationID)").selectpicker(
-            {
-                size: 12, liveSearch: true, width: 'auto', liveSearchPlaceholder: 'Search for an organization', size: 5, dropupAuto: false
-            });
-        jQuery("#@Html.IdFor(x => x.PrimaryContactPerson)").selectpicker(
-            {
-                size: 12, liveSearch: true, width: 'auto', liveSearchPlaceholder: 'Search for a user by name or organization', size: 5, dropupAuto: false
-            });
+        displaySelectedFundingTypeFields();        
         HookupCheckIfFormIsDirty(undefined, ".submitProposal");
     });
     // ]]>

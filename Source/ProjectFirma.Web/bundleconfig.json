@@ -10,5 +10,11 @@
     "inputFiles": [
       "ScriptsCustom/Maps/ProjectFirmaMaps.js"
     ]
+  },
+  {
+    "outputFileName": "Content/qtip/jquery.qtip.validation.min.js",
+    "inputFiles": [
+      "Content/qtip/jquery.qtip.validation.js"
+    ]
   }
 ]

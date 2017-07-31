@@ -26,31 +26,6 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits EditProject
 
 <style>
-    .bootstrap-select .disabled a, .bootstrap-select li.dropdown-header {
-        cursor: default !important;
-        font-size: 15px !important;
-    }
-
-    .bootstrap-select li:not(.disabled) > a {
-        padding-left: 42px !important;
-        font-size: 13px !important;
-    }
-
-    .bootstrap-select .dropdown-toggle {
-        font-size: 13px !important;
-        border-radius: 0 !important;
-        border: 1px solid black;
-    }
-
-    .bootstrap-select {
-        width: 100% !important;
-    }
-
-        .bootstrap-select .disabled a:hover, .bootstrap-select li.dropdown-header:hover {
-            background-color: lightgray !important;
-            color: gray !important;
-        }
-
     .row {
         margin-top: 5px;
     }
@@ -71,7 +46,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="row">
             <div class="col-md-3">@Html.LabelWithSugarFor(m => m.TaxonomyTierOneID, 600, MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject())</div>
             <div class="col-md-9">
-                @Html.DropDownListFor(x => x.TaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, new { style = "display: inline !important; height: 0; width: 1px; border:0; box-shadow:none; color:white; overflow:hidden; margin-right:-1px;" })
+                @Html.SearchableDropDownListFor(x => x.TaxonomyTierOneID, ViewDataTyped.TaxonomyTierOnes, string.Format("Select a {0}", MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject()))
                 @Html.ValidationMessageFor(m => m.TaxonomyTierOneID)
             </div>
         </div>        
@@ -92,9 +67,9 @@ Source code is available upon request via <support@sitkatech.com>.
         @if (ViewDataTyped.EditProjectType != EditProjectType.ExistingProject)
         {
             <div class="row">
-                <div class="col-md-3">@Html.LabelWithSugarFor(m => m.LeadImplementerOrganizationID)</div>
+                <div class="col-md-3">@Html.LabelWithSugarFor(m => m.LeadImplementerOrganizationID, true)</div>
                 <div class="col-md-9">
-                    @Html.DropDownListFor(m => m.LeadImplementerOrganizationID, ViewDataTyped.Organizations, new Dictionary<string, object> {{"style", "width:100%"}})
+                    @Html.SearchableDropDownListFor(m => m.LeadImplementerOrganizationID, ViewDataTyped.Organizations)
                     @Html.ValidationMessageFor(m => m.LeadImplementerOrganizationID)
                 </div>
             </div>
@@ -102,21 +77,19 @@ Source code is available upon request via <support@sitkatech.com>.
         else
         {
             <div class="row">
-                <div class="col-md-3">@Html.LabelWithSugarFor(m => m.PrimaryContactPersonID)</div>
+                <div class="col-md-3">@Html.LabelWithSugarFor(m => m.LeadImplementerOrganizationID, false)</div>
                 <div class="col-md-9">
-                    <select name="@Html.NameFor(m => m.PrimaryContactPersonID)" id="@Html.IdFor(m => m.PrimaryContactPersonID)">
-                        <option value="">Use @FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()'s @FieldDefinition.PrimaryContact.GetFieldDefinitionLabel(): @ViewDataTyped.LeadImplementerPrimaryContact</option>
-                        @foreach (var person in ViewDataTyped.PrimaryContactPeople)
-                        {
-                            <option value="@person.PersonID" @((Model.PrimaryContactPersonID == person.PersonID).ToSelectedOrEmpty())>
-                                @person.FullNameFirstLastAndOrg
-                            </option>
-                        }
-                    </select>
-                    @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
+                    @ViewDataTyped.LeadImplementerOrganization
                 </div>
             </div>
         }
+        <div class="row">
+            <div class="col-md-3">@Html.LabelWithSugarFor(m => m.PrimaryContactPersonID, false)</div>
+            <div class="col-md-9">
+                @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.PrimaryContactPeople)
+                @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-3">@Html.LabelWithSugarFor(m => m.ProjectStageID)</div>
             <div class="col-md-9">
@@ -201,15 +174,7 @@ Source code is available upon request via <support@sitkatech.com>.
     }
 
     jQuery(document).ready(function () {
-        displaySelectedFundingTypeFields();
-        jQuery("#@Html.IdFor(x => x.TaxonomyTierOneID)").selectpicker(
-            {
-                size: 12, title: 'Select the @MultiTenantHelpers.GetTaxonomyTierOneDisplayNameForProject()', width: '400px'
-            });
-        jQuery("#@Html.IdFor(x => x.PrimaryContactPersonID)").selectpicker(
-            {
-                size: 12, liveSearch: true, width: 'auto', liveSearchPlaceholder: 'Search for a user by name or organization', size: 5, dropupAuto: false
-            });
+        displaySelectedFundingTypeFields();       
     });
     // ]]>
 </script>

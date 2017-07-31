@@ -18,5 +18,9 @@
   {
     "outputFile": "Content/Bootstrap/firma/clackamas.css",
     "inputFile": "Content/Bootstrap/firma/clackamas.less"
+  },
+  {
+    "outputFile": "Content/qtip/jquery.qtip.validation.es5.js",
+    "inputFile": "Content/qtip/jquery.qtip.validation.js"
   }
 ]

@@ -52,11 +52,7 @@ namespace ProjectFirma.Web.Models
             return project == null;
         }
 
-        public Person PrimaryContactPerson
-        {
-            // Primary Contact could very well turn out to be null
-            get { return LeadImplementerOrganization != null ? (LeadImplementerOrganization.PrimaryContactPerson) : null; }
-        }
+        public Person GetPrimaryContactPerson => PrimaryContactPerson ?? LeadImplementerOrganization.PrimaryContactPerson;
 
         public decimal? UnfundedNeed => EstimatedTotalCost - SecuredFunding;
 
@@ -226,7 +222,8 @@ namespace ProjectFirma.Web.Models
                 proposedProject.ProjectDescription,
                 false,
                 ProjectLocationSimpleType.ProjectLocationSimpleTypeID,
-                FundingType.FundingTypeID)
+                FundingType.FundingTypeID,
+                proposedProject.LeadImplementerOrganizationID)
             {
                 PlanningDesignStartYear =  proposedProject.PlanningDesignStartYear,
                 ImplementationStartYear =  proposedProject.ImplementationStartYear,
@@ -241,8 +238,11 @@ namespace ProjectFirma.Web.Models
             project.ProjectNotes = proposedProject.ProposedProjectNotes.Select(x => new ProjectNote(project, x.Note, x.CreateDate)).ToList();
             project.ProjectClassifications = proposedProject.ProposedProjectClassifications.Select(x => new ProjectClassification(project.ProjectID, x.ClassificationID, x.ProposedProjectClassificationNotes)).ToList();
 
-            project.LeadImplementerOrganization = proposedProject.LeadImplementerOrganization;
-
+            if (proposedProject.PrimaryContactPerson != null)
+            {
+                project.PrimaryContactPerson = proposedProject.PrimaryContactPerson;
+            }
+            
             project.ProjectAssessmentQuestions = proposedProject.ProposedProjectAssessmentQuestions.OrderBy(x => x.AssessmentQuestionID).Select(x => new ProjectAssessmentQuestion(project.ProjectID, x.AssessmentQuestionID) {Answer = x.Answer}).ToList();
 
             foreach (var performanceMeasureExpectedProposed in proposedProject.PerformanceMeasureExpectedProposeds)
