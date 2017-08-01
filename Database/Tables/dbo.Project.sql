@@ -23,7 +23,7 @@ CREATE TABLE [dbo].[Project](
 	[EstimatedAnnualOperatingCost] [decimal](18, 0) NULL,
 	[FundingTypeID] [int] NOT NULL,
 	[PrimaryContactPersonID] [int] NULL,
-	[LeadImplementerOrganizationID] [int] NULL,
+	[LeadImplementerOrganizationID] [int] NOT NULL,
  CONSTRAINT [PK_Project_ProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectID] ASC

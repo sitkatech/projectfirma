@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             {
                 var taxonomyTierOne = TestTaxonomyTierOne.Create();
                 var projectStage = ProjectStage.PlanningDesign;
-                var project = Project.CreateNewBlank(taxonomyTierOne, projectStage, ProjectLocationSimpleType.None, FundingType.Capital);
+                var project = Project.CreateNewBlank(taxonomyTierOne, projectStage, ProjectLocationSimpleType.None, FundingType.Capital, TestOrganization.Create());
                 return project;
             }
 
@@ -47,7 +47,8 @@ namespace ProjectFirma.Web.UnitTestCommon
                     MakeTestName("Test Project Description"),
                     false,
                     ProjectLocationSimpleType.None,
-                    FundingType.Capital);
+                    FundingType.Capital,
+                    TestOrganization.Create());
 
                 dbContext.AllProjects.Add(project);
                 return project;
@@ -57,7 +58,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             {
                 var taxonomyTierOne = TestTaxonomyTierOne.Create();
                 var projectStage = ProjectStage.Implementation;
-                var project = new Project(taxonomyTierOne, projectStage, projectName, "Some description",  false, ProjectLocationSimpleType.None, FundingType.Capital)
+                var project = new Project(taxonomyTierOne, projectStage, projectName, "Some description",  false, ProjectLocationSimpleType.None, FundingType.Capital, TestOrganization.Create())
                 {
                     ProjectID = projectID
                 };

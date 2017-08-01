@@ -469,6 +469,10 @@
       <End Role="UpdatePerson" EntitySet="Person" />
       <End Role="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson" EntitySet="ProjectUpdateHistory" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProposedProject_Person_PrimaryContactPersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ProposedProject_Person_PrimaryContactPersonID_PersonID">
+      <End Role="PrimaryContactPerson" EntitySet="Person" />
+      <End Role="ProposedProjectsWhereYouAreThePrimaryContactPerson" EntitySet="ProposedProject" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProposedProject_Person_ProposingPersonID_PersonID" Association="ProjectFirma.Web.Models.FK_ProposedProject_Person_ProposingPersonID_PersonID">
       <End Role="ProposingPerson" EntitySet="Person" />
       <End Role="ProposedProjectsWhereYouAreTheProposingPerson" EntitySet="ProposedProject" />
@@ -1313,6 +1317,7 @@
     <NavigationProperty Name="ProjectNoteUpdatesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectNoteUpdate_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProjectNoteUpdatesWhereYouAreTheUpdatePerson" />
     <NavigationProperty Name="ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateBatch_Person_LastUpdatePersonID_PersonID" FromRole="LastUpdatePerson" ToRole="ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson" />
     <NavigationProperty Name="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_Person_UpdatePersonID_PersonID" FromRole="UpdatePerson" ToRole="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson" />
+    <NavigationProperty Name="ProposedProjectsWhereYouAreThePrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Person_PrimaryContactPersonID_PersonID" FromRole="PrimaryContactPerson" ToRole="ProposedProjectsWhereYouAreThePrimaryContactPerson" />
     <NavigationProperty Name="ProposedProjectsWhereYouAreTheProposingPerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Person_ProposingPersonID_PersonID" FromRole="ProposingPerson" ToRole="ProposedProjectsWhereYouAreTheProposingPerson" />
     <NavigationProperty Name="ProposedProjectsWhereYouAreTheReviewedByPerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Person_ReviewedByPersonID_PersonID" FromRole="ReviewedByPerson" ToRole="ProposedProjectsWhereYouAreTheReviewedByPerson" />
     <NavigationProperty Name="ProposedProjectLocationStagings" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocationStaging_Person_PersonID" FromRole="Person" ToRole="ProposedProjectLocationStagings" />
@@ -1345,7 +1350,7 @@
     <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="18" Scale="0" />
     <Property Name="FundingTypeID" Type="Int32" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="Int32" />
-    <Property Name="LeadImplementerOrganizationID" Type="Int32" />
+    <Property Name="LeadImplementerOrganizationID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="NotificationProjects" Relationship="ProjectFirma.Web.Models.FK_NotificationProject_Project_ProjectID" FromRole="Project" ToRole="NotificationProjects" />
     <NavigationProperty Name="LeadImplementerOrganization" Relationship="ProjectFirma.Web.Models.FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID" FromRole="ProjectsWhereYouAreTheLeadImplementerOrganization" ToRole="LeadImplementerOrganization" />
     <NavigationProperty Name="PerformanceMeasureActuals" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_Project_ProjectID" FromRole="Project" ToRole="PerformanceMeasureActuals" />
@@ -1802,9 +1807,11 @@
     <Property Name="SubmissionDate" Type="DateTime" />
     <Property Name="ApprovalDate" Type="DateTime" />
     <Property Name="ReviewedByPersonID" Type="Int32" />
+    <Property Name="PrimaryContactPersonID" Type="Int32" />
     <NavigationProperty Name="NotificationProposedProjects" Relationship="ProjectFirma.Web.Models.FK_NotificationProposedProject_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="NotificationProposedProjects" />
     <NavigationProperty Name="LeadImplementerOrganization" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID" FromRole="ProposedProjectsWhereYouAreTheLeadImplementerOrganization" ToRole="LeadImplementerOrganization" />
     <NavigationProperty Name="PerformanceMeasureExpectedProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="PerformanceMeasureExpectedProposeds" />
+    <NavigationProperty Name="PrimaryContactPerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Person_PrimaryContactPersonID_PersonID" FromRole="ProposedProjectsWhereYouAreThePrimaryContactPerson" ToRole="PrimaryContactPerson" />
     <NavigationProperty Name="ProposingPerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Person_ProposingPersonID_PersonID" FromRole="ProposedProjectsWhereYouAreTheProposingPerson" ToRole="ProposingPerson" />
     <NavigationProperty Name="ReviewedByPerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Person_ReviewedByPersonID_PersonID" FromRole="ProposedProjectsWhereYouAreTheReviewedByPerson" ToRole="ReviewedByPerson" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Project_ProjectID" FromRole="ProposedProjects" ToRole="Project" />
@@ -2646,7 +2653,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID">
-    <End Role="LeadImplementerOrganization" Type="ProjectFirma.Web.Models.Organization" Multiplicity="0..1" />
+    <End Role="LeadImplementerOrganization" Type="ProjectFirma.Web.Models.Organization" Multiplicity="1" />
     <End Role="ProjectsWhereYouAreTheLeadImplementerOrganization" Type="ProjectFirma.Web.Models.Project" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="LeadImplementerOrganization">
@@ -3242,6 +3249,18 @@
       </Principal>
       <Dependent Role="ProjectUpdateHistoriesWhereYouAreTheUpdatePerson">
         <PropertyRef Name="UpdatePersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProposedProject_Person_PrimaryContactPersonID_PersonID">
+    <End Role="PrimaryContactPerson" Type="ProjectFirma.Web.Models.Person" Multiplicity="0..1" />
+    <End Role="ProposedProjectsWhereYouAreThePrimaryContactPerson" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PrimaryContactPerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProposedProjectsWhereYouAreThePrimaryContactPerson">
+        <PropertyRef Name="PrimaryContactPersonID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

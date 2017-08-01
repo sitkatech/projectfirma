@@ -21,6 +21,7 @@ values
 (21, 'SpendingByOrganizationTypeByTaxonomyTier', 'Spending by Organization Type by Taxonomy Tier', 1),
 (22, 'ProjectMap', 'Project Map', 1),
 (23, 'ResultsByTaxonomyTierTwo', 'Results by Taxonomy Tier Two', 1),
+(24, 'HomeMapInfo', 'Home Page Map Info', 2),
 (25, 'HomeAdditionalInfo', 'Home Page Additional Info', 2),
 (26, 'FeaturedProjectList', 'Featured Project List', 1),
 (31, 'CostParameterSet', 'Cost Parameter Set', 1),

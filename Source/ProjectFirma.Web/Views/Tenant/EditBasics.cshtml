@@ -19,12 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Mvc
-@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Tenant
 @inherits EditBasics
 
-@using (@Html.BeginForm())
+@using (Html.BeginForm())
 {
 <div class="form-horizontal">
     @Html.HiddenFor(m => m.TenantID)
@@ -45,23 +45,14 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="form-group">
         <div class="col-md-4 text-right">@Html.LabelFor(m => m.PrimaryContactPersonID)</div>
         <div class="col-md-8">
-            <select id="@Html.IdFor(m => m.PrimaryContactPersonID)" name="@Html.NameFor(m => m.PrimaryContactPersonID)"
-                    class="selectpicker" title="Select person for @FieldDefinition.PrimaryContact.GetFieldDefinitionLabel()."
-                    data-live-search="true" data-live-search-placeholder="First Last">
-                @foreach (var person in ViewDataTyped.TenantPeople)
-                {
-                    <option value="@person.PersonID" data-tokens="@person.FullNameFirstLast" @((Model.PrimaryContactPersonID == person.PersonID).ToSelectedOrEmpty())>
-                        @person.FullNameFirstLast
-                    </option>
-                }
-            </select>
+            @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.TenantPeople)
             @Html.ValidationMessageFor(x => x.PrimaryContactPersonID)
         </div>
     </div>
     <div class="form-group">
         <div class="col-md-4 text-right">@Html.LabelFor(m => m.NumberOfTaxonomyTiersToUse)</div>
         <div class="col-md-8">
-            <select id="@Html.IdFor(m => m.NumberOfTaxonomyTiersToUse)" name="@Html.NameFor(m => m.NumberOfTaxonomyTiersToUse)" class="selectpicker">
+            <select id="@Html.IdFor(m => m.NumberOfTaxonomyTiersToUse)" name="@Html.NameFor(m => m.NumberOfTaxonomyTiersToUse)" class="form-control" style="width: auto">
                 <option value="1" @((Model.NumberOfTaxonomyTiersToUse == 1).ToSelectedOrEmpty())>1</option>
                 <option value="2" @((Model.NumberOfTaxonomyTiersToUse == 2).ToSelectedOrEmpty())>2</option>
                 <option value="3" @((Model.NumberOfTaxonomyTiersToUse == 3).ToSelectedOrEmpty())>3</option>
@@ -122,9 +113,3 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 </div>
 }
-
-<script type="text/javascript" language="javascript">
-    // <![CDATA[
-    jQuery(".selectpicker").selectpicker("refresh");
-    // ]]>
-</script>

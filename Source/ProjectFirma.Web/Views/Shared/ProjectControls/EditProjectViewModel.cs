@@ -62,12 +62,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public int? CompletionYear { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyTierOne)]
-        [Required]
-        public int TaxonomyTierOneID { get; set; }
+        [Required(ErrorMessage = "This field is required.")]
+        public int? TaxonomyTierOneID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
         public Money? EstimatedTotalCost { get; set; }
-        
+
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedAnnualOperatingCost)]
         public Money? EstimatedAnnualOperatingCost { get; set; }
 
@@ -126,18 +126,25 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             SecuredFunding = proposedProject.SecuredFunding;
             LeadImplementerOrganizationID = proposedProject.LeadImplementerOrganizationID;
             HasExistingProjectUpdate = false;
+            PrimaryContactPersonID = proposedProject.PrimaryContactPersonID;
         }
 
         public void UpdateModel(Models.Project project)
         {
             project.ProjectName = ProjectName;
             project.ProjectDescription = ProjectDescription;
-            project.TaxonomyTierOneID = TaxonomyTierOneID;
+            project.TaxonomyTierOneID = TaxonomyTierOneID.Value;
             project.ProjectStageID = ProjectStageID;
             project.FundingTypeID = FundingTypeID;
             project.ImplementationStartYear = ImplementationStartYear;
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.CompletionYear = CompletionYear;
+
+            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(project.ProjectID))
+            {
+                project.LeadImplementerOrganizationID = LeadImplementerOrganizationID.Value;
+            }
+
             project.PrimaryContactPersonID = PrimaryContactPersonID;
 
             if (FundingTypeID == FundingType.Capital.FundingTypeID)
@@ -145,23 +152,15 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                 project.EstimatedTotalCost = EstimatedTotalCost;
                 project.SecuredFunding = SecuredFunding;
                 project.EstimatedAnnualOperatingCost = null;
-                
+
             }
             else if (FundingTypeID == FundingType.OperationsAndMaintenance.FundingTypeID)
             {
                 project.EstimatedTotalCost = null;
                 project.SecuredFunding = null;
-                project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost; 
+                project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
             }
 
-            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(project.ProjectID))
-            {
-                Check.RequireNotNull(LeadImplementerOrganizationID, $"{Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} must be specified");
-                if (LeadImplementerOrganizationID != null)
-                {
-                    project.LeadImplementerOrganizationID = LeadImplementerOrganizationID;
-                }
-            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -192,7 +191,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             var isCompletedOrPostImplementation = ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID;
             if (isCompletedOrPostImplementation && CompletionYear > DateTime.Now.Year)
             {
-                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is in the Completed or Post-Implementation stage: the {Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be less than or equal to the current year", m => m.CompletionYear));    
+                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is in the Completed or Post-Implementation stage: the {Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be less than or equal to the current year", m => m.CompletionYear));
             }
 
             if (HasExistingProjectUpdate && OldProjectStageID != ProjectStageID)

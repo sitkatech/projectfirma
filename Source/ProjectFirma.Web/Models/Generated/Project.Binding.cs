@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int? primaryContactPersonID, int? leadImplementerOrganizationID) : this()
+        public Project(int projectID, int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int? primaryContactPersonID, int leadImplementerOrganizationID) : this()
         {
             this.ProjectID = projectID;
             this.TaxonomyTierOneID = taxonomyTierOneID;
@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, bool isFeatured, int projectLocationSimpleTypeID, int fundingTypeID) : this()
+        public Project(int taxonomyTierOneID, int projectStageID, string projectName, string projectDescription, bool isFeatured, int projectLocationSimpleTypeID, int fundingTypeID, int leadImplementerOrganizationID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -87,12 +87,13 @@ namespace ProjectFirma.Web.Models
             this.IsFeatured = isFeatured;
             this.ProjectLocationSimpleTypeID = projectLocationSimpleTypeID;
             this.FundingTypeID = fundingTypeID;
+            this.LeadImplementerOrganizationID = leadImplementerOrganizationID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Project(TaxonomyTierOne taxonomyTierOne, ProjectStage projectStage, string projectName, string projectDescription, bool isFeatured, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType) : this()
+        public Project(TaxonomyTierOne taxonomyTierOne, ProjectStage projectStage, string projectName, string projectDescription, bool isFeatured, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, Organization leadImplementerOrganization) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -105,14 +106,17 @@ namespace ProjectFirma.Web.Models
             this.IsFeatured = isFeatured;
             this.ProjectLocationSimpleTypeID = projectLocationSimpleType.ProjectLocationSimpleTypeID;
             this.FundingTypeID = fundingType.FundingTypeID;
+            this.LeadImplementerOrganizationID = leadImplementerOrganization.OrganizationID;
+            this.LeadImplementerOrganization = leadImplementerOrganization;
+            leadImplementerOrganization.ProjectsWhereYouAreTheLeadImplementerOrganization.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static Project CreateNewBlank(TaxonomyTierOne taxonomyTierOne, ProjectStage projectStage, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType)
+        public static Project CreateNewBlank(TaxonomyTierOne taxonomyTierOne, ProjectStage projectStage, ProjectLocationSimpleType projectLocationSimpleType, FundingType fundingType, Organization leadImplementerOrganization)
         {
-            return new Project(taxonomyTierOne, projectStage, default(string), default(string), default(bool), projectLocationSimpleType, fundingType);
+            return new Project(taxonomyTierOne, projectStage, default(string), default(string), default(bool), projectLocationSimpleType, fundingType, leadImplementerOrganization);
         }
 
         /// <summary>
@@ -150,7 +154,7 @@ namespace ProjectFirma.Web.Models
         public decimal? EstimatedAnnualOperatingCost { get; set; }
         public int FundingTypeID { get; set; }
         public int? PrimaryContactPersonID { get; set; }
-        public int? LeadImplementerOrganizationID { get; set; }
+        public int LeadImplementerOrganizationID { get; set; }
         public int PrimaryKey { get { return ProjectID; } set { ProjectID = value; } }
 
         public virtual ICollection<NotificationProject> NotificationProjects { get; set; }
