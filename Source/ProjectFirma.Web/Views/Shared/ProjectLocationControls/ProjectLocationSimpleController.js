@@ -83,7 +83,7 @@
                     }
                     break;
                 case "NamedAreas":
-                    document.getElementById($scope.AngularViewData.MapInitJson.MapDivID).style.cursor = "crosshair";
+                    document.getElementById($scope.AngularViewData.MapInitJson.MapDivID).style.cursor = null;
                     $scope.projectLocationMap.unblockMap();
                     $scope.projectLocationMap.map.scrollWheelZoom.enable();
 
