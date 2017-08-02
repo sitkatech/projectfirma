@@ -1,0 +1,153 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="EditProjectLocationSimple.cshtml" company="Tahoe Regional Planning Agency">
+Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Models
+@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectLocationSimple
+
+<style>
+    .groupedControl {
+        border: solid grey 1px;
+        border-radius: 5px;
+        margin: 5px;
+        padding: 5px;
+    }
+
+    #@ViewDataTyped.ViewDataForAngular.MapInitJson.MapDivID {
+        height: 500px;
+    }
+    .noBold {
+        font-weight: normal;
+    }
+</style>
+
+<div class="row">
+    <div class="col-xs-12">
+        <p>
+            Enter your @FieldDefinition.Project.GetFieldDefinitionLabel()’s location by plotting a point on the map or picking a known area from the list.
+            This "Simple" information is used to indicate the general location of your @FieldDefinition.Project.GetFieldDefinitionLabel() within the basin and for
+            summarizing accomplishments by geospatial categories such as State, County/City, or @FieldDefinition.Watershed.GetFieldDefinitionLabel().
+        </p>
+    </div>
+</div>
+
+<div class="row" ng-app="ProjectFirmaApp" ng-controller="ProjectLocationSimpleController">
+    <div class="col-xs-12 col-md-5 col-lg-4">
+        <form method="POST" action="#" id="@ViewDataTyped.MapFormID">
+            @Html.LabelWithSugarFor(FieldDefinition.ProjectLocation, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+            <strong>How do you want to specify your simple @FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()?</strong>
+            
+            <div class="form-group">
+                <div class="radio">
+                    <label class="noBold">
+                        <input type="radio" name="@Html.NameFor(m => m.ProjectLocationSimpleType)"
+                               ng-model="AngularModel.ProjectLocationSimpleType"
+                               value="@ProjectLocationSimpleTypeEnum.PointOnMap"
+                               ng-click="toggleMap()"/>
+                        Plot a point on the map
+                    </label>
+                </div>
+                <input type="hidden" name="@Html.NameFor(m => m.ProjectLocationPointX)" value="{{AngularModel.@Html.NameFor(m => m.ProjectLocationPointX)}}" />
+                <input type="hidden" name="@Html.NameFor(m => m.ProjectLocationPointY)" value="{{AngularModel.@Html.NameFor(m => m.ProjectLocationPointY)}}" />
+                @Html.ValidationMessageFor(x => x.ProjectLocationPointX)
+            </div>
+            <div class="form-group">
+                <div class="radio">
+                    <label class="noBold">
+                        <input type="radio" name="@Html.NameFor(m => m.ProjectLocationSimpleType)"
+                               ng-model="AngularModel.ProjectLocationSimpleType"
+                               value="@ProjectLocationSimpleTypeEnum.NamedAreas"
+                               ng-click="toggleMap()" />
+                        Pick from list of known areas
+                    </label>
+                </div>
+                <div ng-show="AngularModel.ProjectLocationSimpleType == '@ProjectLocationSimpleTypeEnum.NamedAreas'">
+                    <div class="input-group" style="padding-right: 10px">
+                        @* ReSharper disable once UnknownCssClass *@
+                        <input type="text" id="@ViewDataTyped.ViewDataForAngular.TypeAheadInputId" class="typeahead form-control" placeholder="Enter @FieldDefinition.Watershed.GetFieldDefinitionLabel() name" autocomplete="off" />
+                        <span class="input-group-btn">
+                            <button id="@(ViewDataTyped.ViewDataForAngular.TypeAheadInputId)Button" type="button" class="btn btn-default" ng-click="selectFirstSuggestionFunction()">
+                                <span class='glyphicon glyphicon-search'></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <input type="hidden" name="@Html.NameFor(m => m.ProjectLocationAreaID)" value="{{AngularModel.@Html.NameFor(m => m.ProjectLocationAreaID)}}" />
+            </div>
+            <div class="form-group">
+                <div class="radio">
+                    <label class="noBold">
+                        <input type="radio" name="@Html.NameFor(m => m.ProjectLocationSimpleType)"
+                               ng-model="AngularModel.ProjectLocationSimpleType"
+                               value="@ProjectLocationSimpleTypeEnum.None"
+                               ng-click="toggleMap()" />
+                        No Location
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">@Html.DisplayNameFor(m => m.ProjectLocationNotes)</label>
+                <textarea class="form-control" style="resize: none;" name="@Html.NameFor(m => m.ProjectLocationNotes)"
+                          ng-model="AngularModel.@Html.NameFor(m => m.ProjectLocationNotes)"></textarea>
+                @Html.ValidationMessageFor(m => m.ProjectLocationNotes)
+            </div>
+            <div ng-show="getProjectLocationProperties()">
+                <hr />
+                <table class="summaryLayout" >
+                    <tr>
+                        <th colspan="2">Location Information</th>
+                    </tr>
+                    <tr ng-repeat="(key, value) in getProjectLocationProperties()">
+                        <td>{{key}}:</td>
+                        <td>{{value}}</td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+    <div class="col-xs-12 col-md-7 col-lg-8" id="mapContainer">
+        <p>
+            To zoom, hold down Shift and drag a rectangle.
+        </p>
+        <div id="@ViewDataTyped.ViewDataForAngular.MapInitJson.MapDivID"></div>
+        <p>
+            If your @FieldDefinition.Project.GetFieldDefinitionLabel() has multiple locations, plot a point that best represents it, e.g. the centroid of the area where it is focused.
+        </p>
+    </div>
+</div>
+
+<script type="text/javascript" src="@Url.Content("~/Views/Shared/ProjectLocationControls/ProjectLocationSimpleController.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/typeahead/typeahead.min.js")"></script>
+<script type="text/javascript" language="javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp")
+        .factory("angularModelAndViewData",
+            function()
+            {
+                return {
+                    "AngularModel": @Html.Raw(JObject.FromObject(Model).ToString(Formatting.None)),
+                    "AngularViewData": @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular).ToString(Formatting.None))
+                };
+            });
+    angular.bootstrap(jQuery("[ng-controller=\"ProjectLocationSimpleController\"]"), ["ProjectFirmaApp"]);
+    // ]]>
+</script>

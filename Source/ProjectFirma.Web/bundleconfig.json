@@ -22,5 +22,11 @@
     "inputFiles": [
       "ScriptsCustom/Maps/ProjectFirmaMaps.ProjectLocationSummary.js"
     ]
+  },
+  {
+    "outputFileName": "Content/typeahead/typeahead.min.js",
+    "inputFiles": [
+      "Content/typeahead/typeahead.js"
+    ]
   }
 ]

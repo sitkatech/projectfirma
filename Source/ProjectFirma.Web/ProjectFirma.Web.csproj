@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -452,6 +452,10 @@
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.css" />
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.js" />
     <Content Include="Content\spinjs\spin.min.js" />
+    <Content Include="Content\typeahead\typeahead.js" />
+    <Content Include="Content\typeahead\typeahead.min.js">
+      <DependentUpon>typeahead.js</DependentUpon>
+    </Content>
     <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js.map" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js.map" />
     <Content Include="ScriptsCustom\CkEditorReady.min.js.map" />
@@ -1193,9 +1197,9 @@
     <Compile Include="Views\Shared\ProjectControls\AssessmentTreeViewData.cs" />
     <Compile Include="Views\Shared\ProjectLocationControls\ApproveGisUpload.cs" />
     <Compile Include="Views\Shared\ProjectLocationControls\ApproveGisUploadViewData.cs" />
-    <Compile Include="Views\Shared\ProjectLocationControls\EditProjectLocationSimple.cs" />
-    <Compile Include="Views\Shared\ProjectLocationControls\EditProjectLocationSimpleViewData.cs" />
-    <Compile Include="Views\Shared\ProjectLocationControls\EditProjectLocationSimpleViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectLocationControls\ProjectLocationSimple.cs" />
+    <Compile Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleViewData.cs" />
+    <Compile Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleViewModel.cs" />
     <Compile Include="Views\Shared\ProjectLocationControls\ImportGdbFile.cs" />
     <Compile Include="Views\Shared\ProjectLocationControls\ImportGdbFileViewData.cs" />
     <Compile Include="Views\Shared\ProjectLocationControls\ImportGdbFileViewModel.cs" />
@@ -1310,6 +1314,7 @@
     <Compile Include="Views\Watershed\IndexViewData.cs" />
     <Compile Include="Views\Watershed\Detail.cs" />
     <Compile Include="Views\Watershed\DetailViewData.cs" />
+    <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
     <Content Include="Views\User\PullUserFromKeystone.cshtml" />
     <Content Include="Views\Tenant\Detail.cshtml" />
     <Content Include="Views\Tenant\EditBasics.cshtml" />
@@ -3221,7 +3226,7 @@
     <Content Include="Views\Shared\ProjectControls\ProjectTaxonomy.cshtml" />
     <Content Include="Views\Shared\ProjectControls\AssessmentTree.cshtml" />
     <Content Include="Views\Shared\ProjectLocationControls\ApproveGisUpload.cshtml" />
-    <Content Include="Views\Shared\ProjectLocationControls\EditProjectLocationSimple.cshtml" />
+    <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimple.cshtml" />
     <Content Include="Views\Shared\ProjectLocationControls\ImportGdbFile.cshtml" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationDetail.cshtml" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationsMap.cshtml" />
