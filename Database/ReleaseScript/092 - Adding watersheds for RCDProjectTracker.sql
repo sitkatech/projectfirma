@@ -2,7 +2,7 @@ insert into dbo.ProjectLocationAreaGroup(ProjectLocationAreaGroupID, ProjectLoca
 values(6, 4, 3)
 
 insert into dbo.Watershed(WatershedName, WatershedFeature, TenantID)
-select concat(h6.Name, ' (', h6.HUC12, ')') as WatershedName, h6.Shape as WatershedFeature, 3 as TenantID
+select case when h6.Name = h6.HUC12 then h6.Name else concat(h6.Name, ' (', h6.HUC12, ')') end as WatershedName, h6.Shape as WatershedFeature, 3 as TenantID
 from GeoCentral.dbo.HUC6 h6
 where h6.States like '%CA%'
 
