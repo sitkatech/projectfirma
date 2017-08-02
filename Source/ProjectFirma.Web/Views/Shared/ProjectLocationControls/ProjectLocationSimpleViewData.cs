@@ -30,13 +30,15 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
     {
         public readonly ProjectLocationSimpleViewDataForAngular ViewDataForAngular;
         public readonly string MapFormID;
+        public readonly string MapPostUrl;
 
         public ProjectLocationSimpleViewData(Person currentPerson, MapInitJson mapInitJson,
-            string findWatershedByNameUrl, TenantAttribute tenantAttribute, Feature currentFeature)
+            string findWatershedByNameUrl, TenantAttribute tenantAttribute, Feature currentFeature, string mapPostUrl, string mapFormID)
             : base(currentPerson)
         {
             ViewDataForAngular = new ProjectLocationSimpleViewDataForAngular(mapInitJson, findWatershedByNameUrl, tenantAttribute, currentFeature);
-            MapFormID = "projectLocationSimpleForm";
+            MapPostUrl = mapPostUrl;
+            MapFormID = mapFormID;
         }
     }
 

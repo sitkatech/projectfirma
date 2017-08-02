@@ -52,7 +52,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="row" ng-app="ProjectFirmaApp" ng-controller="ProjectLocationSimpleController">
     <div class="col-xs-12 col-md-5 col-lg-4">
-        <form method="POST" action="#" id="@ViewDataTyped.MapFormID">
+        <form method="POST" action="@ViewDataTyped.MapPostUrl" id="@ViewDataTyped.MapFormID">
             @Html.LabelWithSugarFor(FieldDefinition.ProjectLocation, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
             <strong>How do you want to specify your simple @FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()?</strong>
             
