@@ -1172,6 +1172,7 @@
           <ScalarProperty Name="PrimaryKey" ColumnName="PrimaryKey" />
           <ScalarProperty Name="WatershedName" ColumnName="WatershedName" />
           <ScalarProperty Name="WatershedFeature" ColumnName="WatershedFeature" />
+          <ScalarProperty Name="Ogr_Geometry" ColumnName="Ogr_Geometry" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="TenantName" ColumnName="TenantName" />
         </MappingFragment>

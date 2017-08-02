@@ -98,6 +98,7 @@
 [vGeoServerWatershed].[PrimaryKey] AS [PrimaryKey], 
 [vGeoServerWatershed].[WatershedName] AS [WatershedName], 
 [vGeoServerWatershed].[WatershedFeature] AS [WatershedFeature], 
+[vGeoServerWatershed].[Ogr_Geometry] AS [Ogr_Geometry], 
 [vGeoServerWatershed].[TenantID] AS [TenantID], 
 [vGeoServerWatershed].[TenantName] AS [TenantName]
 FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
@@ -2053,6 +2054,7 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
     <Property Name="PrimaryKey" Type="int" Nullable="false" />
     <Property Name="WatershedName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="WatershedFeature" Type="geometry" />
+    <Property Name="Ogr_Geometry" Type="geometry" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="TenantName" Type="varchar" Nullable="false" MaxLength="100" />
   </EntityType>
