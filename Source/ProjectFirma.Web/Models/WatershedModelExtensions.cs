@@ -18,24 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Web;
-using ProjectFirma.Web.Controllers;
-using LtInfo.Common;
+
+using System.Collections.Generic;
+using System.Linq;
+using GeoJSON.Net.Feature;
 
 namespace ProjectFirma.Web.Models
 {
     public static class WatershedModelExtensions
     {
-        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<WatershedController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
-
-        public static string GetSummaryUrl(this Watershed watershed)
+        public static FeatureCollection ToGeoJsonFeatureCollection(this IEnumerable<Watershed> watersheds)
         {
-            return SummaryUrlTemplate.ParameterReplace(watershed.WatershedID);
-        }
-
-        public static HtmlString GetDisplayNameAsUrl(this Watershed watershed)
-        {
-            return UrlTemplate.MakeHrefString(watershed.GetSummaryUrl(), watershed.DisplayName);
+            return new FeatureCollection(watersheds.Select(x => x.MakeFeatureWithRelevantProperties()).ToList());
         }
     }
 }

@@ -29,7 +29,7 @@ using LtInfo.Common.DbSpatial;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class LocationSimpleViewModel : EditProjectLocationSimpleViewModel
+    public class LocationSimpleViewModel : ProjectLocationSimpleViewModel
     {
         [DisplayName("Show Validation Warnings?")]
         public bool ShowValidationWarnings { get; set; }

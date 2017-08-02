@@ -21,17 +21,19 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
+using GeoJSON.Net.Feature;
+using LtInfo.Common;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Models
 {
     public partial class Watershed : IAuditableEntity
     {
-        public string DisplayName
-        {
-            get { return WatershedName; }
-        }
+        public string DisplayName => WatershedName;
 
         public List<Project> AssociatedProjects
         {
@@ -44,23 +46,36 @@ namespace ProjectFirma.Web.Models
             return watershed == null;
         }
 
-        public string AuditDescriptionString
-        {
-            get { return WatershedName; }
-        }
+        public string AuditDescriptionString => WatershedName;
 
-        public static GeoJSON.Net.Feature.FeatureCollection ToGeoJsonFeatureCollection(List<Watershed> watersheds)
+        public Feature MakeFeatureWithRelevantProperties()
         {
-            var featureCollection = new GeoJSON.Net.Feature.FeatureCollection();
-            featureCollection.Features.AddRange(watersheds.Select(MakeFeatureWithRelevantProperties).ToList());
-            return featureCollection;
-        }
-
-        private static GeoJSON.Net.Feature.Feature MakeFeatureWithRelevantProperties(Watershed watershed)
-        {
-            var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(watershed.WatershedFeature);
-            feature.Properties.Add($"{FieldDefinition.Watershed.GetFieldDefinitionLabel()}", watershed.GetDisplayNameAsUrl().ToString());
+            var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(WatershedFeature);
+            feature.Properties.Add(FieldDefinition.Watershed.GetFieldDefinitionLabel(), GetDisplayNameAsUrl().ToString());
             return feature;
+        }
+
+        public HtmlString GetDisplayNameAsUrl()
+        {
+            return UrlTemplate.MakeHrefString(GetDetailUrl(), DisplayName);
+        }
+
+        public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<WatershedController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
+
+        public string GetDetailUrl()
+        {
+            return DetailUrlTemplate.ParameterReplace(WatershedID);
+        }
+
+        public static readonly UrlTemplate<int> MapTooltipUrlTemplate = new UrlTemplate<int>(SitkaRoute<WatershedController>.BuildUrlFromExpression(t => t.MapTooltip(UrlTemplate.Parameter1Int)));
+
+        public static LayerGeoJson GetWatershedWmsLayerGeoJson(string layerColor, decimal layerOpacity,
+            LayerInitialVisibility layerInitialVisibility = LayerInitialVisibility.Show)
+        {
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            return new LayerGeoJson(FieldDefinition.Watershed.GetFieldDefinitionLabel(), tenantAttribute.MapServiceUrl,
+                tenantAttribute.WatershedLayerName, MapTooltipUrlTemplate.UrlTemplateString, layerColor, layerOpacity,
+                layerInitialVisibility);
         }
     }
 }

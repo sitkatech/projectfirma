@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
-@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.ProjectUpdate
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 @using ProjectFirma.Web.Views.Shared
@@ -55,7 +54,7 @@ Source code is available upon request via <support@sitkatech.com>.
     }
 
     <style>
-        #@ViewDataTyped.EditProjectLocationSimpleViewData.MapInitJson.MapDivID
+        #@ViewDataTyped.ProjectLocationSimpleViewData.ViewDataForAngular.MapInitJson.MapDivID
         {
             height: 450px;
         }
@@ -73,7 +72,7 @@ else
      */
     @Html.ValidationSummary()
 
-    EditProjectLocationSimple.RenderPartialView(Html, ViewDataTyped.EditProjectLocationSimpleViewData, Model);
+    ProjectLocationSimple.RenderPartialView(Html, ViewDataTyped.ProjectLocationSimpleViewData, Model);
 
     if (ViewDataTyped.ShowApproveAndReturnButton)
     {
@@ -125,11 +124,11 @@ else
     @*This is intentionally down here because the document ready needs to be after the EditProjectLocation document ready*@
     <script type="text/javascript">
         // <![CDATA[
-        jQuery(document).ready(function() { HookupCheckIfFormIsDirty("#@ViewDataTyped.EditProjectLocationSimpleViewData.MapFormID", ".submitProject"); });
+        jQuery(document).ready(function() { HookupCheckIfFormIsDirty("#@ViewDataTyped.ProjectLocationSimpleViewData.MapFormID", ".submitProject"); });
 
         function saveForm()
         {
-            var form = jQuery("#@ViewDataTyped.EditProjectLocationSimpleViewData.MapFormID");
+            var form = jQuery("#@ViewDataTyped.ProjectLocationSimpleViewData.MapFormID");
             // Do not submit if the form
             // does not pass client side validation
 

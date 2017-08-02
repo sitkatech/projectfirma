@@ -70,6 +70,13 @@ namespace ProjectFirma.Web.Views.Tenant
         [SitkaFileExtensions("jpg|jpeg|gif|png")]
         public HttpPostedFileBase TenantSquareLogoFileResourceData { get; set; }
 
+        [DisplayName("Map Service Url")]
+        [Url]
+        public string MapServiceUrl { get; set; }
+
+        [DisplayName("Watershed Layer Name")]
+        public string WatershedLayerName { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -85,6 +92,8 @@ namespace ProjectFirma.Web.Views.Tenant
             PrimaryContactPersonID = tenantAttribute.PrimaryContactPersonID;
             NumberOfTaxonomyTiersToUse = tenantAttribute.NumberOfTaxonomyTiersToUse;
             MinimumYear = tenantAttribute.MinimumYear;
+            MapServiceUrl = tenantAttribute.MapServiceUrl;
+            WatershedLayerName = tenantAttribute.WatershedLayerName;
         }
 
         public void UpdateModel(Person currentPerson)
@@ -108,6 +117,9 @@ namespace ProjectFirma.Web.Views.Tenant
 
             Check.Assert(MinimumYear != null, "Minimum Year must not be null. This should have been ensured by validation.");
             tenantAttribute.MinimumYear = MinimumYear ?? 0;
+
+            tenantAttribute.MapServiceUrl = MapServiceUrl;
+            tenantAttribute.WatershedLayerName = WatershedLayerName;
 
             if (TenantStyleSheetFileResourceData != null)
             {

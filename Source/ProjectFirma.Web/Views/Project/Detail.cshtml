@@ -56,9 +56,6 @@
     footer {
         height: 600px;
     }
-    .firma-modal .modal-body {
-        overflow-y: visible;
-    }
 </style>
 
 @section RightOfPageTitle
@@ -308,7 +305,7 @@
                                         @foreach (var projectWatershed in ViewDataTyped.Project.ProjectWatersheds.OrderBy(x => x.Watershed.DisplayName))
                                         {
                                             <li>
-                                                <a href="@projectWatershed.Watershed.GetSummaryUrl()">@projectWatershed.Watershed.DisplayName</a>
+                                                <a href="@projectWatershed.Watershed.GetDetailUrl()">@projectWatershed.Watershed.DisplayName</a>
                                             </li>
                                         }
                                     </ul>
