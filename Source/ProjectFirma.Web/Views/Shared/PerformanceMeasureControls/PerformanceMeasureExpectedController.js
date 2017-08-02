@@ -20,28 +20,34 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedController", function ($scope, angularModelAndViewData)
 {
-    $scope.groupedPerformanceMeasures = function () {
-        var test = _.uniq($scope.AngularModel.PerformanceMeasureExpecteds, "PerformanceMeasureID");
-        console.log(test);
+    $scope.groupedPerformanceMeasures = function () {        
+        return _.uniq($scope.AngularModel.PerformanceMeasureExpecteds, "PerformanceMeasureID");
+    }
 
-        var test2 = _.chain($scope.AngularModel.PerformanceMeasureExpecteds).groupBy("PerformanceMeasureID").map(function(v,
-            i) {
-            return {
-                PerformanceMeasureID: i,
-                performanceMeasureOptionsRow
-            }
-        })
+    $scope.getGroupPerformanceMeasureExpecteds = function (performanceMeasureGroup) {
+        return _($scope.AngularModel.PerformanceMeasureExpecteds).filter(function (pm) { return pm.PerformanceMeasureID == performanceMeasureGroup.PerformanceMeasureID; }).value();
+    }
+
+    $scope.addPerformanceMeasureToGroup = function (performanceMeasureGroup) {
+        var newPerformanceMeasureExpected = $scope.createNewRow(performanceMeasureGroup);
+        $scope.AngularModel.PerformanceMeasureExpecteds.push(newPerformanceMeasureExpected);
+    }
+
+    $scope.numberOfSubcategoryOptions = function(performanceMeasureExpected) {
+        if (Sitka.Methods.isUndefinedNullOrEmpty($scope.AngularModel.PerformanceMeasureExpecteds)) {
+            return 0;
+        }
+
+        return Sitka.Methods.findElementInJsonArray($scope.AngularModel.PerformanceMeasureExpecteds,
+            "PerformanceMeasureID",
+            performanceMeasureExpected.PerformanceMeasureID).PerformanceMeasureExpectedSubcategoryOptions.length;
     }
 
     $scope.resetPerformanceMeasureToAdd = function () { $scope.PerformanceMeasureToAdd = null; };
-
-    $scope.resetProjectToAdd = function () { $scope.ProjectToAdd = $scope.getProject(angularModelAndViewData.AngularViewData.ProjectID); };
-
+   
     $scope.filteredPerformanceMeasures = function () {
         return _($scope.AngularViewData.AllPerformanceMeasures).sortBy(function (x) { return x.DisplayName; }).value();
-    };
-
-    
+    };    
     
     $scope.getPerformanceMeasureName = function (performanceMeasureExpected) {
         var performanceMeasureToFind = $scope.getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID);
@@ -90,16 +96,15 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedControll
     {
         if ($scope.PerformanceMeasureToAdd != null)
         {
-            var newPerformanceMeasureExpected = $scope.createNewRow($scope.ProjectToAdd, $scope.PerformanceMeasureToAdd);
+            var newPerformanceMeasureExpected = $scope.createNewRow($scope.PerformanceMeasureToAdd);
             $scope.AngularModel.PerformanceMeasureExpecteds.push(newPerformanceMeasureExpected);
             $scope.resetPerformanceMeasureToAdd();
-            $scope.resetProjectToAdd();
         }
     };
 
-    $scope.createNewRow = function (project, performanceMeasure) {
+    $scope.createNewRow = function (performanceMeasure) {
         var newPerformanceMeasureExpected = {
-            ProjectID: project.ProjectID,
+            ProjectID: performanceMeasure.ProjectID,
             PerformanceMeasureID: performanceMeasure.PerformanceMeasureID,
             CalendarYear: new Date().getFullYear(),
             ExpectedValue: null,
@@ -157,6 +162,5 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedControll
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     $scope.resetPerformanceMeasureToAdd();
-    $scope.resetProjectToAdd();
 });
 
