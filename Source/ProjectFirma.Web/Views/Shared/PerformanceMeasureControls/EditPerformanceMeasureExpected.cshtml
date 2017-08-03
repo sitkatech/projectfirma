@@ -106,7 +106,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </tr>
                 <tr>
                     <th></th>
-                    <th ng-repeat="performanceMeasureExpectedSubcategoryOption in performanceMeasureGroup.PerformanceMeasureExpectedSubcategoryOptions | orderBy:[getSubcategoryName]">{{getSubcategoryName(performanceMeasureExpectedSubcategoryOption)}}</th>
+                    <th ng-show="getPerformanceMeasure(performanceMeasureGroup.PerformanceMeasureID).HasRealSubcategories" ng-repeat="performanceMeasureExpectedSubcategoryOption in performanceMeasureGroup.PerformanceMeasureExpectedSubcategoryOptions | orderBy:[getSubcategoryName]">{{getSubcategoryName(performanceMeasureExpectedSubcategoryOption)}}</th>
                     <th>Value</th>
                 </tr>
                 </thead>
@@ -115,10 +115,9 @@ Source code is available upon request via <support@sitkatech.com>.
                     <td>
                         <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(performanceMeasureExpected)" style="cursor: pointer"></span>
                     </td>
-                    <td ng-repeat="performanceMeasureExpectedSubcategoryOption in performanceMeasureExpected.PerformanceMeasureExpectedSubcategoryOptions | orderBy:[getSubcategoryName]">
+                    <td ng-show="getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID).HasRealSubcategories" ng-repeat="performanceMeasureExpectedSubcategoryOption in performanceMeasureExpected.PerformanceMeasureExpectedSubcategoryOptions | orderBy:[getSubcategoryName]">
                         <select class="form-control"
-                                ng-model="performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID"
-                                ng-show="getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID).HasRealSubcategories"> 
+                                ng-model="performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID"> 
                             <option ng-repeat="performanceMeasureSubcategoryOption in getSubcategoryOptionsForSubcategory(performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryID)" 
                                     value="{{performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID}}" 
                                     ng-selected="performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID == performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID">{{performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName}}</option>

@@ -70,7 +70,7 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedControll
 
     $scope.getSubcategoryOptionsForSubcategory = function (performanceMeasureSubcategoryId)
     {
-        var subcategoryOptions = _($scope.AngularViewData.AllPerformanceMeasureSubcategoryOptions).filter(function (sco) { return sco.PerformanceMeasureSubcategoryID == performanceMeasureSubcategoryId; }).sortByAll(["SortOrder", "PerformanceMeasureSubcategoryOptionName"]).value();
+        var subcategoryOptions = _($scope.AngularViewData.AllPerformanceMeasureSubcategoryOptions).filter(function (sco) { return sco.PerformanceMeasureSubcategoryID == performanceMeasureSubcategoryId; }).sortByAll(["SortOrder", "PerformanceMeasureSubcategoryOptionName"]).value();        
         return subcategoryOptions;
     };
 
