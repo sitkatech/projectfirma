@@ -838,7 +838,6 @@
     <Compile Include="Models\ProjectExternalLinkSimple.cs" />
     <Compile Include="Models\ProjectClassificationSimple.cs" />
     <Compile Include="Models\MonitoringProgramPartnerSimple.cs" />
-    <Compile Include="Models\ProjectWatershedSimple.cs" />
     <Compile Include="Models\ProposedProjectImage.cs" />
     <Compile Include="Models\OrganizationTypeSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategory.cs" />
@@ -1314,6 +1313,7 @@
     <Compile Include="Views\Watershed\IndexViewData.cs" />
     <Compile Include="Views\Watershed\Detail.cs" />
     <Compile Include="Views\Watershed\DetailViewData.cs" />
+    <Content Include="Views\ProjectWatershed\EditProjectWatershedsController.js" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
     <Content Include="Views\User\PullUserFromKeystone.cshtml" />
     <Content Include="Views\Tenant\Detail.cshtml" />
@@ -1880,7 +1880,6 @@
     <Content Include="Views\ProjectUpdate\PerformanceMeasuresController.js" />
     <Content Include="Views\ProjectUpdate\ExpendituresController.js" />
     <Content Include="Views\ProjectUpdate\BudgetsController.js" />
-    <Content Include="Views\ProjectWatershed\ProjectWatershedController.js" />
     <Content Include="Views\Project\FeaturedProjectController.js" />
     <Content Include="Views\Project\FundingSourceCalendarYearExpenditureTest.CreateFromFundingSourcesAndCalendarYearsTest.approved.txt" />
     <Content Include="Views\Project\ProjectCalendarYearExpenditureTest.CreateFromProjectsAndCalendarYearsTest.approved.txt" />

@@ -181,7 +181,7 @@ namespace ProjectFirma.Web.Controllers
 
             var imageGalleryViewData = BuildImageGalleryViewData(project, CurrentPerson);
 
-            var editWatershedsUrl = SitkaRoute<ProjectWatershedController>.BuildUrlFromExpression(c => c.EditProjectWatershedsForProject(project));
+            var editWatershedsUrl = SitkaRoute<ProjectWatershedController>.BuildUrlFromExpression(c => c.EditProjectWatersheds(project));
 
             var tagHelper = new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList());
 
