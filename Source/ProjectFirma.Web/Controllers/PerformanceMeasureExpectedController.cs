@@ -54,17 +54,16 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditPerformanceMeasureExpecteds(project, viewModel);
             }
             var currentPerformanceMeasureExpecteds = project.PerformanceMeasureExpecteds.ToList();
-            return UpdatePerformanceMeasureExpecteds(viewModel, currentPerformanceMeasureExpecteds);
+            return UpdatePerformanceMeasureExpecteds(viewModel, currentPerformanceMeasureExpecteds, project);
         }
 
-        private static ActionResult UpdatePerformanceMeasureExpecteds(EditPerformanceMeasureExpectedViewModel viewModel,
-            List<PerformanceMeasureExpected> currentPerformanceMeasureExpecteds)
+        private static ActionResult UpdatePerformanceMeasureExpecteds(EditPerformanceMeasureExpectedViewModel viewModel, List<PerformanceMeasureExpected> currentPerformanceMeasureExpecteds, Project project)
         {
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpecteds.Load();
             var allPerformanceMeasureExpecteds = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpecteds.Local;
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptions.Load();
             var allPerformanceMeasureExpectedSubcategoryOptions = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpectedSubcategoryOptions.Local;
-            viewModel.UpdateModel(currentPerformanceMeasureExpecteds, allPerformanceMeasureExpecteds, allPerformanceMeasureExpectedSubcategoryOptions);
+            viewModel.UpdateModel(currentPerformanceMeasureExpecteds, allPerformanceMeasureExpecteds, allPerformanceMeasureExpectedSubcategoryOptions, project);
             return new ModalDialogFormJsonResult();
         }
 

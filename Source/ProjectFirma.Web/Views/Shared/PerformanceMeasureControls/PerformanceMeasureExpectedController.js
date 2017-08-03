@@ -29,7 +29,11 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedControll
     }
 
     $scope.addPerformanceMeasureToGroup = function (performanceMeasureGroup) {
-        var newPerformanceMeasureExpected = $scope.createNewRow(performanceMeasureGroup);
+        var performanceMeasureToAdd = Sitka.Methods.findElementInJsonArray(
+            $scope.AngularViewData.AllPerformanceMeasures,
+            "PerformanceMeasureID",
+            performanceMeasureGroup.PerformanceMeasureID);
+        var newPerformanceMeasureExpected = $scope.createNewRow(performanceMeasureToAdd);
         $scope.AngularModel.PerformanceMeasureExpecteds.push(newPerformanceMeasureExpected);
     }
 
@@ -94,10 +98,14 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedControll
 
     $scope.addRow = function()
     {
-        if ($scope.PerformanceMeasureToAdd != null)
-        {
-            var newPerformanceMeasureExpected = $scope.createNewRow($scope.PerformanceMeasureToAdd);
+        if ($scope.PerformanceMeasureToAdd != null) {
+            var performanceMeasureToAdd = Sitka.Methods.findElementInJsonArray(
+                $scope.AngularViewData.AllPerformanceMeasures,
+                "PerformanceMeasureID",
+                $scope.PerformanceMeasureToAdd);
+            var newPerformanceMeasureExpected = $scope.createNewRow(performanceMeasureToAdd);
             $scope.AngularModel.PerformanceMeasureExpecteds.push(newPerformanceMeasureExpected);
+            console.log($scope.AngularModel.PerformanceMeasureExpecteds);
             $scope.resetPerformanceMeasureToAdd();
         }
     };
