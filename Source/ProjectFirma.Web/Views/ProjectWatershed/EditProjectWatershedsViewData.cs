@@ -18,21 +18,50 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
+using System.Linq;
+using LtInfo.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.ProjectWatershed
 {
     public class EditProjectWatershedsViewData : FirmaUserControlViewData
     {
-        public readonly List<WatershedSimple> AllWatersheds;
-        public readonly int ProjectID;
+        public readonly EditProjectWatershedsViewDataForAngular ViewDataForAngular;
+        public readonly string EditProjectWatershedsFormID;
+        public readonly string EditProjectWatershedsUrl;
 
-        public EditProjectWatershedsViewData(Models.Project project, List<WatershedSimple> allWatersheds)
+        public EditProjectWatershedsViewData(Models.Project project, MapInitJson mapInitJson,
+            List<Models.Watershed> watershedsInViewModel, TenantAttribute tenantAttribute,
+            string editProjectWatershedsFormID)
         {
-            AllWatersheds = allWatersheds;
-            ProjectID = project.ProjectID;
+            ViewDataForAngular = new EditProjectWatershedsViewDataForAngular(mapInitJson, watershedsInViewModel, tenantAttribute);
+            EditProjectWatershedsFormID = editProjectWatershedsFormID;
+            EditProjectWatershedsUrl = SitkaRoute<ProjectWatershedController>.BuildUrlFromExpression(c => c.EditProjectWatersheds(project));
+        }
+    }
+
+    public class EditProjectWatershedsViewDataForAngular
+    {
+        public readonly MapInitJson MapInitJson;
+        public readonly string FindWatershedByNameUrl;
+        public readonly string TypeAheadInputId;
+        public Dictionary<int, string> WatershedNameByID;
+        public readonly string WatershedMapServiceLayerName;
+        public readonly string MapServiceUrl;
+        public readonly string WatershedFieldDefinitionLabel;
+
+        public EditProjectWatershedsViewDataForAngular(MapInitJson mapInitJson, List<Models.Watershed> watershedsInViewModel, TenantAttribute tenantAttribute)
+        {
+            MapInitJson = mapInitJson;
+            FindWatershedByNameUrl = SitkaRoute<ProjectWatershedController>.BuildUrlFromExpression(c => c.FindWatershedByName(null));
+            TypeAheadInputId = "watershedSearch";
+            WatershedNameByID = watershedsInViewModel.ToDictionary(x => x.WatershedID, x => x.WatershedName);
+            WatershedMapServiceLayerName = tenantAttribute.WatershedLayerName;
+            MapServiceUrl = tenantAttribute.MapServiceUrl;
+            WatershedFieldDefinitionLabel = Models.FieldDefinition.Watershed.GetFieldDefinitionLabel();
         }
     }
 }

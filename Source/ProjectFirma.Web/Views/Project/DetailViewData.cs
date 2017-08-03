@@ -100,9 +100,10 @@ namespace ProjectFirma.Web.Views.Project
 
         public readonly string ClassificationDisplayName;
         public readonly string ClassificationDisplayNamePluralized;
-
-
+        public readonly bool HasAssessment;
+        public readonly string EditProjectWatershedFormID;
         //TODO: Inline all url parameters
+
         public DetailViewData(Person currentPerson, Models.Project project, string confirmNonMandatoryUpdateUrl, List<ProjectStage> projectStages, ProjectTaxonomyViewData projectTaxonomyViewData,
             ProjectBudgetDetailViewData projectBudgetDetailViewData, 
             ProjectLocationSummaryViewData projectLocationSummaryViewData, string mapFormID, string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl,
@@ -194,8 +195,8 @@ namespace ProjectFirma.Web.Views.Project
 
             ClassificationDisplayNamePluralized = Models.FieldDefinition.Classification.GetFieldDefinitionLabelPluralized();
             ClassificationDisplayName = Models.FieldDefinition.Classification.GetFieldDefinitionLabel();
-        }
 
-        public readonly bool HasAssessment;
+            EditProjectWatershedFormID = ProjectWatershedController.GetEditProjectWatershedsFormID();
+        }
     }
 }

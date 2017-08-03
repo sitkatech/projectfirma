@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
@@ -34,8 +33,6 @@ using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.MvcResults;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace ProjectFirma.Web.Controllers
 {

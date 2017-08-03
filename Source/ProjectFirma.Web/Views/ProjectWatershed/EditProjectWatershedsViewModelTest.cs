@@ -24,6 +24,7 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.UnitTestCommon;
 using LtInfo.Common.Models;
 using NUnit.Framework;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.ProjectWatershed
 {
@@ -45,13 +46,13 @@ namespace ProjectFirma.Web.Views.ProjectWatershed
             TestFramework.TestProjectWatershed.Create(project, watershed3);
             TestFramework.TestProjectWatershed.Create(project, watershed4);
 
-            var allWatersheds = new List<Models.Watershed> {watershed1, watershed2, watershed3, watershed4};
+            var allWatersheds = new List<Models.Watershed> { watershed1, watershed2, watershed3, watershed4 };
 
             // Act
-            var viewModel = new EditProjectWatershedsViewModel(project.ProjectWatersheds.Select(x => new ProjectWatershedSimple(x)).ToList());
+            var viewModel = new EditProjectWatershedsViewModel(project);
 
             // Assert
-            Assert.That(viewModel.ProjectWatersheds.Select(x => x.WatershedID), Is.EquivalentTo(allWatersheds.Select(x => x.WatershedID)));
+            Assert.That(viewModel.WatershedIDs, Is.EquivalentTo(allWatersheds.Select(x => x.WatershedID)));
         }
 
         [Test]
@@ -67,19 +68,18 @@ namespace ProjectFirma.Web.Views.ProjectWatershed
             var projectWatershed1 = TestFramework.TestProjectWatershed.Create(project, watershed1);
             var projectWatershed2 = TestFramework.TestProjectWatershed.Create(project, watershed2);
 
-            Assert.That(project.ProjectWatersheds.Select(x => x.WatershedID), Is.EquivalentTo(new List<int> {projectWatershed1.WatershedID, projectWatershed2.WatershedID}));
+            Assert.That(project.ProjectWatersheds.Select(x => x.WatershedID), Is.EquivalentTo(new List<int> { projectWatershed1.WatershedID, projectWatershed2.WatershedID }));
 
-            var watershedsSelected = new List<Models.Watershed> {watershed1, watershed3, watershed4};
-            var allProjectWatersheds = new List<Models.ProjectWatershed> {projectWatershed1, projectWatershed2};
+            var watershedsSelected = new List<Models.Watershed> { watershed1, watershed3, watershed4 };
 
-            var viewModel = new EditProjectWatershedsViewModel();
-            viewModel.ProjectWatersheds = watershedsSelected.Select(x => new ProjectWatershedSimple(ModelObjectHelpers.NotYetAssignedID, project.ProjectID, x.WatershedID)).ToList();
+            var viewModel = new EditProjectWatershedsViewModel{ WatershedIDs = watershedsSelected.Select(x => x.WatershedID).ToList() };
 
             // Act
-            viewModel.UpdateModel(project.ProjectWatersheds.ToList(), allProjectWatersheds);
+            var currentProjectWatersheds = project.ProjectWatersheds.ToList();
+            viewModel.UpdateModel(project, currentProjectWatersheds, HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.Local);
 
             // Assert
-            Assert.That(allProjectWatersheds.Select(x => x.WatershedID), Is.EquivalentTo(watershedsSelected.Select(x => x.WatershedID)));
+            Assert.That(currentProjectWatersheds.Select(x => x.WatershedID), Is.EquivalentTo(watershedsSelected.Select(x => x.WatershedID)));
         }
     }
 }

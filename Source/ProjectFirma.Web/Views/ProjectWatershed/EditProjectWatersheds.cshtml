@@ -18,45 +18,88 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
-@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
-@inherits ProjectFirma.Web.Views.ProjectWatershed.EditProjectWatersheds
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.ProjectWatershed
+@inherits EditProjectWatersheds
+
+<script type="text/javascript" src="@Url.Content("~/Views/ProjectWatershed/EditProjectWatershedsController.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/typeahead/typeahead.min.js")"></script>
 <script type="text/javascript">
     // <![CDATA[
-    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
-    {
-        return {
-            AngularModel: @Html.Raw(JObject.FromObject(Model)),
-            AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
-        };
-    });
-    angular.bootstrap(jQuery("#EditProjectWatershedsApp"), ["ProjectFirmaApp"]);
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData",
+        function() {
+            return {
+                "AngularModel": @Html.Raw(JObject.FromObject(Model).ToString(Formatting.None)),
+                "AngularViewData":
+                    @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular).ToString(Formatting.None))
+            };
+        });
+    angular.bootstrap(jQuery("[ng-controller=\"EditProjectWatershedsController\"]"), ["ProjectFirmaApp"]);
     // ]]>
 </script>
-
-<div class="validationError">
-    @Html.ValidationSummary()
-</div>
-
-<div id="EditProjectWatershedsApp" ng-controller="ProjectWatershedController">
-    @FieldDefinition.Watershed.GetFieldDefinitionLabel() to Add:
-    <select ng-model="WatershedToAdd" ng-options="watershed.DisplayName for watershed in filteredWatersheds()" style="width: 700px"></select>
-    <button class="btn btn-xs btn-firma" type="button" ng-click="addRow()">Add</button>
-    <table class="dialogFormLayout">
-        <tr>
-            <th></th>
-            <th style="white-space: nowrap">@Html.LabelWithSugarFor(FieldDefinition.Watershed)</th>
-        </tr>
-        <tr ng-repeat="projectWatershed in AngularModel.ProjectWatersheds | orderBy:[getWatershedName, getProjectName]">
-            <td>
-                <span class="glyphicon glyphicon-trash blue" title="Remove row'" alt="Remove row" ng-click="deleteRow(projectWatershed)" style="cursor: pointer"></span></td>
-            <td ng-bind="getWatershedName(projectWatershed)"></td>
-        </tr>
-    </table>
-    @using (Html.BeginForm())
-    {
-        <input ng-repeat="projectWatershed in AngularModel.ProjectWatersheds" type="hidden" name="@Html.NameFor(x => x.ProjectWatersheds[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectWatershed.ProjectID}}">
-        <input ng-repeat="projectWatershed in AngularModel.ProjectWatersheds" type="hidden" name="@Html.NameFor(x => x.ProjectWatersheds[0].WatershedID).ToString().Replace("0", "{{$index}}")" value="{{projectWatershed.WatershedID}}">
+<style>
+    #@ViewDataTyped.ViewDataForAngular.MapInitJson.MapDivID {
+        height: 400px;
+        margin: 0;
     }
+</style>
+<p>
+    Select one or more @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized() to associate with this @FieldDefinition.Project.GetFieldDefinitionLabel().
+    You can select @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized() by clicking on the map or searching by @FieldDefinition.Watershed.GetFieldDefinitionLabel() name.
+</p>
+
+<div ng-app="ProjectFirmaApp" ng-controller="EditProjectWatershedsController">
+    <div class="row">
+        <div class="col-xs-12">
+            <div id="mapContainer">
+                <div id="@ViewDataTyped.ViewDataForAngular.MapInitJson.MapDivID"></div>
+            </div>
+        </div>
+    </div>
+    <form action="@ViewDataTyped.EditProjectWatershedsUrl" method="post" id="@ViewDataTyped.EditProjectWatershedsFormID">
+        <div class="row">
+            <hr/>
+            <div class="col-sm-4 col-xs-12">
+                <div class="input-group">
+                    @* ReSharper disable once UnknownCssClass *@
+                    <input type="text" id="@ViewDataTyped.ViewDataForAngular.TypeAheadInputId" class="typeahead form-control" placeholder="Search by @FieldDefinition.Watershed.GetFieldDefinitionLabel() name" autocomplete="off"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" id="@string.Format("{0}Button", ViewDataTyped.ViewDataForAngular.TypeAheadInputId)" ng-click="selectFirstSuggestionFunction()">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-8 col-xs-12">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td colspan="3" ng-if="!AngularModel.WatershedIDs || AngularModel.WatershedIDs.length < 1">
+                            <div class="alert alert-warning">
+                                There are no @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized() selected for this @FieldDefinition.Project.GetFieldDefinitionLabel().
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="watershedId in AngularModel.WatershedIDs">
+                        <td>
+                            <input type="hidden" name="@Html.NameFor(x => x.WatershedIDs)" value="{{watershedId}}"/>
+                            <a ng-click="toggleWatershed(watershedId)">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </a>
+                        </td>
+                        <td ng-bind="getWatershedName(watershedId)"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
 </div>
