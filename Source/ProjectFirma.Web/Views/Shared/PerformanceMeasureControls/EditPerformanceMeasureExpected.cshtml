@@ -108,11 +108,12 @@ Source code is available upon request via <support@sitkatech.com>.
                     <th></th>
                     <th ng-show="getPerformanceMeasure(performanceMeasureGroup.PerformanceMeasureID).HasRealSubcategories" ng-repeat="performanceMeasureExpectedSubcategoryOption in performanceMeasureGroup.PerformanceMeasureExpectedSubcategoryOptions | orderBy:[getSubcategoryName]">{{getSubcategoryName(performanceMeasureExpectedSubcategoryOption)}}</th>
                     <th>Value</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="performanceMeasureExpected in getGroupPerformanceMeasureExpecteds(performanceMeasureGroup)">
-                    <td>
+                    <td style="width: 50px">
                         <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(performanceMeasureExpected)" style="cursor: pointer"></span>
                     </td>
                     <td ng-show="getPerformanceMeasure(performanceMeasureExpected.PerformanceMeasureID).HasRealSubcategories" ng-repeat="performanceMeasureExpectedSubcategoryOption in performanceMeasureExpected.PerformanceMeasureExpectedSubcategoryOptions | orderBy:[getSubcategoryName]">
@@ -123,11 +124,9 @@ Source code is available upon request via <support@sitkatech.com>.
                                     ng-selected="performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID == performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID">{{performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName}}</option>
                         </select>
                     </td>
-                    <td>
-                        <div class="form-group">
-                            <input class="form-control" style="text-align: right"
-                                   ng-model="performanceMeasureExpected.ExpectedValue" />                            
-                        </div>                        
+                    <td style="width: 100px">
+                        <input class="form-control" style="text-align: right"
+                                   ng-model="performanceMeasureExpected.ExpectedValue" />                 
                     </td>
                     <td style="vertical-align: middle; padding-left: 0">
                         {{getMeasurementUnitTypeDisplayName(performanceMeasureExpected)}}
