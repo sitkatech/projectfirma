@@ -699,7 +699,7 @@ namespace ProjectFirma.Web.Controllers
             var mapPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.LocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project);
 
-            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJsonForEdit, findWatershedByNameUrl, tenantAttribute, currentFeature, mapPostUrl, mapFormID);
+            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, projectUpdate, mapInitJsonForEdit, findWatershedByNameUrl, tenantAttribute, currentFeature, mapPostUrl, mapFormID);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson);
             var viewDataForAngularClass = new LocationSimpleViewData.ViewDataForAngularClass(locationSimpleValidationResult.GetWarningMessages());
             var updateStatus = GetUpdateStatus(projectUpdateBatch);

@@ -32,11 +32,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly string MapFormID;
         public readonly string MapPostUrl;
 
-        public ProjectLocationSimpleViewData(Person currentPerson, MapInitJson mapInitJson,
+        public ProjectLocationSimpleViewData(Person currentPerson, IProject iProject, MapInitJson mapInitJson,
             string findWatershedByNameUrl, TenantAttribute tenantAttribute, Feature currentFeature, string mapPostUrl, string mapFormID)
             : base(currentPerson)
         {
-            ViewDataForAngular = new ProjectLocationSimpleViewDataForAngular(mapInitJson, findWatershedByNameUrl, tenantAttribute, currentFeature);
+            ViewDataForAngular = new ProjectLocationSimpleViewDataForAngular(iProject, mapInitJson, findWatershedByNameUrl, tenantAttribute, currentFeature);
             MapPostUrl = mapPostUrl;
             MapFormID = mapFormID;
         }
@@ -53,8 +53,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly string MapServiceUrl;
         public readonly Feature CurrentFeature;
         public readonly string ProjectLocationAreaIDFromWatershedIDUrlTemplate;
+        public readonly string InitialWatershedName;
 
-        public ProjectLocationSimpleViewDataForAngular(MapInitJson mapInitJson, string findWatershedByNameUrl,
+        public ProjectLocationSimpleViewDataForAngular(IProject iProject, MapInitJson mapInitJson, string findWatershedByNameUrl,
             TenantAttribute tenantAttribute, Feature currentFeature)
         {
             MapInitJson = mapInitJson;
@@ -69,6 +70,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
                 new UrlTemplate<int>(
                     SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(
                         c => c.ProjectLocationAreaIDFromWatershedID(UrlTemplate.Parameter1Int))).UrlTemplateString;
+            InitialWatershedName = iProject.ProjectLocationArea?.ProjectLocationAreaDisplayName;
         }
     }
 }

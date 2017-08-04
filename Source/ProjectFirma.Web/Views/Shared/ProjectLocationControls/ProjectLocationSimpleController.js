@@ -283,13 +283,44 @@
                                 return $scope.selectedStyle;
                             }
                         });
+
+                    $scope.propertiesForNamedArea = {};
+                    $scope.propertiesForNamedArea[$scope.AngularViewData.WatershedFieldDefinitionLabel] = $scope.AngularViewData.InitialWatershedName;
                 }
 
                 if ($scope.AngularModel.ProjectLocationPointX && $scope.AngularModel.ProjectLocationPointY) {
-                    $scope.projectLocationMap.currentSelectedPoint = L.marker(
-                        new L.LatLng($scope.AngularModel.ProjectLocationPointY,
-                            $scope.AngularModel.ProjectLocationPointX),
-                        { icon: L.MakiMarkers.icon({ icon: "marker", color: $scope.selectedStyle.color, size: "m" }) });
+                    var latlng = new L.LatLng($scope.AngularModel.ProjectLocationPointY, $scope.AngularModel.ProjectLocationPointX);
+                    $scope.projectLocationMap.currentSelectedPoint = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: $scope.selectedStyle.color, size: "m" }) });
+
+                    $scope.propertiesForPointOnMap = {
+                        Latitude: L.Util.formatNum(latlng.lat, 4),
+                        Longitude: L.Util.formatNum(latlng.lng, 4)
+                    };
+
+                    // Get the initial Location Information from the WMS service
+                    if ($scope.AngularViewData.MapServiceUrl && $scope.AngularViewData.WatershedMapSericeLayerName) {
+                        SitkaAjax.ajax({
+                                url: $scope.AngularViewData.MapServiceUrl +
+                                    L.Util.getParamString(L.Util.extend($scope.projectLocationMap.wfsParams,
+                                        {
+                                            typeName: $scope.AngularViewData.WatershedMapSericeLayerName,
+                                            cql_filter: "intersects(Ogr_Geometry, POINT(" + latlng.lat + " " + latlng.lng + "))"
+                                        })),
+                                dataType: "json",
+                                jsonpCallback: "getJson"
+                            },
+                            function(response) {
+                                if (response.features.length === 0)
+                                    return;
+
+                                var mergedProperties = _.merge.apply(_, _.map(response.features, "properties"));
+                                $scope.propertiesForPointOnMap[$scope.AngularViewData.WatershedFieldDefinitionLabel] = mergedProperties.WatershedName;
+                                $scope.$apply();
+                            },
+                            function() {
+                                console.error("There was an error getting the initial " + $scope.AngularViewData.WatershedFieldDefinitionLabel + " name to display.");
+                            });
+                    }
                 }
             };
 

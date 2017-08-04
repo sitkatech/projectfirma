@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Controllers
             var mapPostUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
 
-            var viewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJson, findWatershedByNameUrl, tenantAttribute, currentFeature, mapPostUrl, mapFormID);
+            var viewData = new ProjectLocationSimpleViewData(CurrentPerson, project, mapInitJson, findWatershedByNameUrl, tenantAttribute, currentFeature, mapPostUrl, mapFormID);
             return RazorPartialView<ProjectLocationSimple, ProjectLocationSimpleViewData, ProjectLocationSimpleViewModel>(viewData, viewModel);
         }
 
