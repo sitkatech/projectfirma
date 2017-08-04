@@ -33,7 +33,7 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
             $scope.AngularViewData.AllPerformanceMeasures,
             "PerformanceMeasureID",
             performanceMeasureGroup.PerformanceMeasureID);
-        var newPerformanceMeasureActualUpdate = $scope.createNewRow(performanceMeasureToAdd);
+        var newPerformanceMeasureActualUpdate = $scope.createNewRow($scope.ProjectToAdd, performanceMeasureToAdd);
         $scope.AngularModel.PerformanceMeasureActualUpdates.push(newPerformanceMeasureActualUpdate);
     }
 
