@@ -20,6 +20,33 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", function($scope, $timeout, angularModelAndViewData)
 {
+    $scope.groupedPerformanceMeasures = function () {
+        return _.uniq($scope.AngularModel.PerformanceMeasureActualUpdates, "PerformanceMeasureID");
+    }
+
+    $scope.getGroupPerformanceMeasureActualUpdates = function (performanceMeasureGroup) {
+        return _($scope.AngularModel.PerformanceMeasureActualUpdates).filter(function (pm) { return pm.PerformanceMeasureID == performanceMeasureGroup.PerformanceMeasureID; }).value();
+    }
+
+    $scope.addPerformanceMeasureToGroup = function (performanceMeasureGroup) {
+        var performanceMeasureToAdd = Sitka.Methods.findElementInJsonArray(
+            $scope.AngularViewData.AllPerformanceMeasures,
+            "PerformanceMeasureID",
+            performanceMeasureGroup.PerformanceMeasureID);
+        var newPerformanceMeasureActualUpdate = $scope.createNewRow(performanceMeasureToAdd);
+        $scope.AngularModel.PerformanceMeasureActualUpdates.push(newPerformanceMeasureActualUpdate);
+    }
+
+    $scope.numberOfSubcategoryOptions = function (performanceMeasureActual) {
+        if (Sitka.Methods.isUndefinedNullOrEmpty($scope.AngularModel.PerformanceMeasureActualUpdates)) {
+            return 0;
+        }
+
+        return Sitka.Methods.findElementInJsonArray($scope.AngularModel.PerformanceMeasureActualUpdates,
+            "PerformanceMeasureID",
+            performanceMeasureActual.PerformanceMeasureID).PerformanceMeasureActualSubcategoryOptionUpdates.length;
+    }
+
     $scope.nextID = -1;
     $scope.resetPerformanceMeasureToAdd = function() { $scope.PerformanceMeasureToAdd = null; };
 
@@ -88,7 +115,11 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
     {
         if ($scope.PerformanceMeasureToAdd != null)
         {
-            var newPerformanceMeasureActual = $scope.createNewRow($scope.ProjectToAdd, $scope.PerformanceMeasureToAdd);
+            var performanceMeasureToAdd = Sitka.Methods.findElementInJsonArray(
+                $scope.AngularViewData.AllPerformanceMeasures,
+                "PerformanceMeasureID",
+                $scope.PerformanceMeasureToAdd);
+            var newPerformanceMeasureActual = $scope.createNewRow($scope.ProjectToAdd, performanceMeasureToAdd);
             $scope.AngularModel.PerformanceMeasureActualUpdates.unshift(newPerformanceMeasureActual);
             $scope.resetPerformanceMeasureToAdd();
             $scope.repositionQtipPopups();
