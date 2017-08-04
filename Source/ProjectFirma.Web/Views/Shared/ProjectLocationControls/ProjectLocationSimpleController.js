@@ -148,8 +148,6 @@
                         jsonpCallback: "getJson"
                     },
                     function (response) {
-                        if (response.features.length === 0)
-                            return;
 
                         $scope.AngularModel.ProjectLocationPointX = L.Util.formatNum(event.latlng.lng);
                         $scope.AngularModel.ProjectLocationPointY = L.Util.formatNum(event.latlng.lat);
@@ -162,13 +160,17 @@
                         
                         $scope.projectLocationMap.map.addLayer($scope.projectLocationMap.currentSelectedPoint);
                         $scope.projectLocationMap.map.panTo(event.latlng);
-                        
-                        var mergedProperties = _.merge.apply(_, _.map(response.features, "properties")),
-                            propertiesForDisplay = {
-                                Latitude: L.Util.formatNum(event.latlng.lat, 4),
-                                Longitude: L.Util.formatNum(event.latlng.lng, 4)
-                            };
-                        propertiesForDisplay[$scope.AngularViewData.WatershedFieldDefinitionLabel] = mergedProperties.WatershedName;
+
+                        var propertiesForDisplay = {
+                            Latitude: L.Util.formatNum(event.latlng.lat, 4),
+                            Longitude: L.Util.formatNum(event.latlng.lng, 4)
+                        };
+
+                        if (response.features.length > 0) {
+                            var mergedProperties = _.merge.apply(_, _.map(response.features, "properties"));
+                            propertiesForDisplay[$scope.AngularViewData.WatershedFieldDefinitionLabel] =
+                                mergedProperties.WatershedName;
+                        }
 
                         $scope.propertiesForPointOnMap = propertiesForDisplay;
 
