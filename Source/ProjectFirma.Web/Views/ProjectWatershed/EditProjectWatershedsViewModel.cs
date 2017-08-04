@@ -18,9 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 
@@ -28,7 +29,8 @@ namespace ProjectFirma.Web.Views.ProjectWatershed
 {
     public class EditProjectWatershedsViewModel : FormViewModel
     {
-        public List<ProjectWatershedSimple> ProjectWatersheds { get; set; }
+        [DisplayName("Project Watersheds")]
+        public IEnumerable<int> WatershedIDs { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -37,20 +39,15 @@ namespace ProjectFirma.Web.Views.ProjectWatershed
         {
         }
 
-        public EditProjectWatershedsViewModel(List<ProjectWatershedSimple> projectWatersheds)
+        public EditProjectWatershedsViewModel(Models.Project project)
         {
-            ProjectWatersheds = projectWatersheds;
+            WatershedIDs = project.ProjectWatersheds.Select(x => x.WatershedID).ToList();
         }
 
-        public void UpdateModel(List<Models.ProjectWatershed> currentProjectWatersheds, IList<Models.ProjectWatershed> allProjectWatersheds)
+        public void UpdateModel(Models.Project project, List<Models.ProjectWatershed> currentProjectWatersheds, IList<Models.ProjectWatershed> allProjectWatersheds)
         {
-            var projectWatershedsUpdated = new List<Models.ProjectWatershed>();
-            if (ProjectWatersheds != null)
-            {
-                // Completely rebuild the list
-                projectWatershedsUpdated = ProjectWatersheds.Select(x => new Models.ProjectWatershed(x.ProjectID, x.WatershedID)).ToList();
-            }
-            currentProjectWatersheds.Merge(projectWatershedsUpdated, allProjectWatersheds, (x, y) => x.ProjectID == y.ProjectID && x.WatershedID == y.WatershedID);
+            var newProjectWatersheds = WatershedIDs?.Select(x => new Models.ProjectWatershed(project.ProjectID, x)).ToList() ?? new List<Models.ProjectWatershed>();
+            currentProjectWatersheds.Merge(newProjectWatersheds, allProjectWatersheds, (x, y) => x.ProjectID == y.ProjectID && x.WatershedID == y.WatershedID);
         }
     }
 }

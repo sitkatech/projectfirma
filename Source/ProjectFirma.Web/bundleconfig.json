@@ -16,5 +16,17 @@
     "inputFiles": [
       "Content/qtip/jquery.qtip.validation.js"
     ]
+  },
+  {
+    "outputFileName": "ScriptsCustom/Maps/ProjectFirmaMaps.ProjectLocationSummary.min.js",
+    "inputFiles": [
+      "ScriptsCustom/Maps/ProjectFirmaMaps.ProjectLocationSummary.js"
+    ]
+  },
+  {
+    "outputFileName": "Content/typeahead/typeahead.min.js",
+    "inputFiles": [
+      "Content/typeahead/typeahead.js"
+    ]
   }
 ]

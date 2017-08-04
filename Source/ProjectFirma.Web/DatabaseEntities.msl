@@ -1150,6 +1150,8 @@
           <ScalarProperty Name="ToolDisplayName" ColumnName="ToolDisplayName" />
           <ScalarProperty Name="RecaptchaPublicKey" ColumnName="RecaptchaPublicKey" />
           <ScalarProperty Name="RecaptchaPrivateKey" ColumnName="RecaptchaPrivateKey" />
+          <ScalarProperty Name="MapServiceUrl" ColumnName="MapServiceUrl" />
+          <ScalarProperty Name="WatershedLayerName" ColumnName="WatershedLayerName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1160,6 +1162,19 @@
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="WatershedName" ColumnName="WatershedName" />
           <ScalarProperty Name="WatershedFeature" ColumnName="WatershedFeature" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vGeoServerWatershed">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.vGeoServerWatershed">
+        <MappingFragment StoreEntitySet="vGeoServerWatershed">
+          <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
+          <ScalarProperty Name="PrimaryKey" ColumnName="PrimaryKey" />
+          <ScalarProperty Name="WatershedName" ColumnName="WatershedName" />
+          <ScalarProperty Name="WatershedFeature" ColumnName="WatershedFeature" />
+          <ScalarProperty Name="Ogr_Geometry" ColumnName="Ogr_Geometry" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="TenantName" ColumnName="TenantName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

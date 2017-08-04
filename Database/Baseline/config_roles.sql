@@ -5,6 +5,7 @@ if object_id('tempdb.dbo.#accountsToCreate') is not null drop table #accountsToC
 select '${db-user}' as AccountName
 into #accountsToCreate
 union select '${db-batch-user}'
+union select '${db-geoserver-user}'
 
 -- Clear out any existing logins
 print 'Clearing out any existing logins'
@@ -20,6 +21,9 @@ from
     union select '${local-db-batch-user}'
     union select '${qa-db-batch-user}'
     union select '${prod-db-batch-user}'
+	union select '${local-db-geoserver-user}'
+	union select '${qa-db-geoserver-user}'
+	union select '${prod-db-geoserver-user}'
 ) a left join #accountsToCreate ac on a.AccountName = ac.AccountName
 where ac.AccountName is null
 

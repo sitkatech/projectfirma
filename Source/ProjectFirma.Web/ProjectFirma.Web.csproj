@@ -362,10 +362,14 @@
     <Compile Include="Models\Generated\TenantAttribute.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\TenantAttributePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\TenantPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\vGeoServerWatershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Views\Watershed\MapTooltipViewData.cs" />
+    <Compile Include="Views\Watershed\MapTooltip.cs" />
     <Compile Include="Controllers\OrganizationAndRelationshipTypeController.cs" />
+    <Compile Include="Models\LayerGeoJsonType.cs" />
     <Compile Include="Views\Organization\EditBoundaryErrors.cs" />
     <Compile Include="Controllers\FirmaHomePageImageController.cs" />
     <Compile Include="Views\Organization\ApproveUploadGis.cs" />
@@ -448,6 +452,10 @@
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.css" />
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.js" />
     <Content Include="Content\spinjs\spin.min.js" />
+    <Content Include="Content\typeahead\typeahead.js" />
+    <Content Include="Content\typeahead\typeahead.min.js">
+      <DependentUpon>typeahead.js</DependentUpon>
+    </Content>
     <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js.map" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js.map" />
     <Content Include="ScriptsCustom\CkEditorReady.min.js.map" />
@@ -458,7 +466,9 @@
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.min.js">
       <DependentUpon>ProjectFirmaMaps.js</DependentUpon>
     </Content>
-    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.ProjectLocationSummary.min.js.map" />
+    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.ProjectLocationSummary.min.js">
+      <DependentUpon>ProjectFirmaMaps.ProjectLocationSummary.js</DependentUpon>
+    </Content>
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.SelectableMap.js" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.SelectableMap.min.js">
       <DependentUpon>ProjectFirmaMaps.SelectableMap.js</DependentUpon>
@@ -504,7 +514,6 @@
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.GeoServerMap.min.js" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.js" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.ProjectLocationSummary.js" />
-    <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.ProjectLocationSummary.min.js" />
     <Content Include="ScriptsCustom\ModalDialogForm.js" />
     <Content Include="ScriptsCustom\ModalDialogForm.min.js" />
     <Content Include="ScriptsCustom\qtippopuphelper.js" />
@@ -829,7 +838,6 @@
     <Compile Include="Models\ProjectExternalLinkSimple.cs" />
     <Compile Include="Models\ProjectClassificationSimple.cs" />
     <Compile Include="Models\MonitoringProgramPartnerSimple.cs" />
-    <Compile Include="Models\ProjectWatershedSimple.cs" />
     <Compile Include="Models\ProposedProjectImage.cs" />
     <Compile Include="Models\OrganizationTypeSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategory.cs" />
@@ -1188,9 +1196,9 @@
     <Compile Include="Views\Shared\ProjectControls\AssessmentTreeViewData.cs" />
     <Compile Include="Views\Shared\ProjectLocationControls\ApproveGisUpload.cs" />
     <Compile Include="Views\Shared\ProjectLocationControls\ApproveGisUploadViewData.cs" />
-    <Compile Include="Views\Shared\ProjectLocationControls\EditProjectLocationSimple.cs" />
-    <Compile Include="Views\Shared\ProjectLocationControls\EditProjectLocationSimpleViewData.cs" />
-    <Compile Include="Views\Shared\ProjectLocationControls\EditProjectLocationSimpleViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectLocationControls\ProjectLocationSimple.cs" />
+    <Compile Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleViewData.cs" />
+    <Compile Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleViewModel.cs" />
     <Compile Include="Views\Shared\ProjectLocationControls\ImportGdbFile.cs" />
     <Compile Include="Views\Shared\ProjectLocationControls\ImportGdbFileViewData.cs" />
     <Compile Include="Views\Shared\ProjectLocationControls\ImportGdbFileViewModel.cs" />
@@ -1305,6 +1313,8 @@
     <Compile Include="Views\Watershed\IndexViewData.cs" />
     <Compile Include="Views\Watershed\Detail.cs" />
     <Compile Include="Views\Watershed\DetailViewData.cs" />
+    <Content Include="Views\ProjectWatershed\EditProjectWatershedsController.js" />
+    <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
     <Content Include="Views\User\PullUserFromKeystone.cshtml" />
     <Content Include="Views\Tenant\Detail.cshtml" />
     <Content Include="Views\Tenant\EditBasics.cshtml" />
@@ -1314,6 +1324,7 @@
     <Content Include="Views\FirmaHomePageImage\Edit.cshtml" />
     <Content Include="Views\FirmaHomePageImage\New.cshtml" />
     <Content Include="Views\Shared\ViewPageContent.cshtml" />
+    <Content Include="Views\Watershed\MapTooltip.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -1869,7 +1880,6 @@
     <Content Include="Views\ProjectUpdate\PerformanceMeasuresController.js" />
     <Content Include="Views\ProjectUpdate\ExpendituresController.js" />
     <Content Include="Views\ProjectUpdate\BudgetsController.js" />
-    <Content Include="Views\ProjectWatershed\ProjectWatershedController.js" />
     <Content Include="Views\Project\FeaturedProjectController.js" />
     <Content Include="Views\Project\FundingSourceCalendarYearExpenditureTest.CreateFromFundingSourcesAndCalendarYearsTest.approved.txt" />
     <Content Include="Views\Project\ProjectCalendarYearExpenditureTest.CreateFromProjectsAndCalendarYearsTest.approved.txt" />
@@ -3215,7 +3225,7 @@
     <Content Include="Views\Shared\ProjectControls\ProjectTaxonomy.cshtml" />
     <Content Include="Views\Shared\ProjectControls\AssessmentTree.cshtml" />
     <Content Include="Views\Shared\ProjectLocationControls\ApproveGisUpload.cshtml" />
-    <Content Include="Views\Shared\ProjectLocationControls\EditProjectLocationSimple.cshtml" />
+    <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimple.cshtml" />
     <Content Include="Views\Shared\ProjectLocationControls\ImportGdbFile.cshtml" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationDetail.cshtml" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationsMap.cshtml" />

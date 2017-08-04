@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class LocationSimpleViewData : ProjectUpdateViewData
     {
-        public readonly EditProjectLocationSimpleViewData EditProjectLocationSimpleViewData;
+        public readonly ProjectLocationSimpleViewData ProjectLocationSimpleViewData;
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
         public readonly string RefreshUrl;
         public readonly SectionCommentsViewData SectionCommentsViewData;
@@ -36,10 +36,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public LocationSimpleViewData(Person currentPerson,
             Models.ProjectUpdate projectUpdate,
-            EditProjectLocationSimpleViewData editProjectLocationSimpleViewData,
+            ProjectLocationSimpleViewData projectLocationSimpleViewData,
             ProjectLocationSummaryViewData projectLocationSummaryViewData, ViewDataForAngularClass viewDataForAngularClass, UpdateStatus updateStatus) : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSectionEnum.LocationSimple, updateStatus)
         {
-            EditProjectLocationSimpleViewData = editProjectLocationSimpleViewData;
+            ProjectLocationSimpleViewData = projectLocationSimpleViewData;
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshProjectLocationSimple(projectUpdate.ProjectUpdateBatch.Project));
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.LocationSimpleComment, projectUpdate.ProjectUpdateBatch.IsReturned);

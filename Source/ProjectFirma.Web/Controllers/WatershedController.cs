@@ -56,13 +56,8 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult IndexImpl()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.WatershedsList);
-            var layerGeoJsons = new List<LayerGeoJson>();
+            var mapInitJson = new MapInitJson("watershedIndex", 10, new List<LayerGeoJson>{Watershed.GetWatershedWmsLayerGeoJson("#59ACFF", 0.2m)}, BoundingBox.MakeNewDefaultBoundingBox());
 
-            var watersheds = HttpRequestStorage.DatabaseEntities.Watersheds.GetWatershedsWithGeospatialFeatures();
-            var geoJsonForWatersheds = Watershed.ToGeoJsonFeatureCollection(watersheds);
-            layerGeoJsons.Add(new LayerGeoJson("Watershed", geoJsonForWatersheds, "#59ACFF", 0.6m, LayerInitialVisibility.Show));
-
-            var mapInitJson = new MapInitJson("watershedIndex", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox());
             var viewData = new IndexViewData(CurrentPerson, firmaPage, mapInitJson);
             return RazorView<Index, IndexViewData>(viewData);
         }
@@ -215,5 +210,10 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<GoogleChartPopup, GoogleChartPopupViewData>(viewData);
         }
 
+        public PartialViewResult MapTooltip(WatershedPrimaryKey watershedPrimaryKey)
+        {
+            var viewData = new MapTooltipViewData(CurrentPerson, watershedPrimaryKey.EntityObject);
+            return RazorPartialView<MapTooltip, MapTooltipViewData>(viewData);
+        }
     }
 }

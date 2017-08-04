@@ -37,6 +37,7 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
@@ -390,15 +391,20 @@ namespace ProjectFirma.Web.Controllers
         {
             var layerGeoJsons = MapInitJson.GetWatershedMapLayers();
             var mapInitJson = new MapInitJson($"proposedProject_{proposedProject.ProposedProjectID}_EditMap", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false};
-            var proposedProjectLocationAreas = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.ToSelectList();
 
-            var mapPostUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditLocationSimple(proposedProject, null));
+            var findWatershedByNameUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.FindWatershedByName(null));
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var geometry = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.SingleOrDefault(x => x.ProjectLocationAreaID == viewModel.ProjectLocationAreaID)?.GetGeometry();
+            var currentFeature = geometry != null ? DbGeometryToGeoJsonHelper.FromDbGeometry(geometry) : null;
+            var mapPostUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(c => c.EditLocationSimple(proposedProject, null));
             var mapFormID = GenerateEditProjectLocationSimpleFormID(proposedProject);
-            var editProjectLocationViewData = new EditProjectLocationSimpleViewData(CurrentPerson, mapInitJson, proposedProjectLocationAreas, mapPostUrl, mapFormID);
+
+            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, proposedProject, mapInitJson, findWatershedByNameUrl, tenantAttribute, currentFeature, mapPostUrl, mapFormID);
 
             var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
             proposalSectionsStatus.IsProjectLocationSimpleSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectLocationSimpleSectionComplete;
             var viewData = new LocationSimpleViewData(CurrentPerson, proposedProject, proposalSectionsStatus, editProjectLocationViewData);
+
             return RazorView<LocationSimple, LocationSimpleViewData, LocationSimpleViewModel>(viewData, viewModel);
         }
 
@@ -441,7 +447,7 @@ namespace ProjectFirma.Web.Controllers
             var editableLayerGeoJson = new LayerGeoJson($"Proposed {FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}n Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
 
             var boundingBox = new BoundingBox(proposedProject.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry));
-            var mapInitJson = new MapInitJson(mapDivID, 10, MapInitJson.GetWatershedMapLayersAndProjectLocationSimple(proposedProject), boundingBox) { AllowFullScreen = false };
+            var mapInitJson = new MapInitJson(mapDivID, 10, MapInitJson.GetWatershedAndProjectLocationSimpleMapLayers(proposedProject), boundingBox) { AllowFullScreen = false };
 
             var mapFormID = GenerateEditProposedProjectLocationFormID(proposedProject.ProposedProjectID);
             var uploadGisFileUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(c => c.ImportGdbFile(proposedProject.EntityID));

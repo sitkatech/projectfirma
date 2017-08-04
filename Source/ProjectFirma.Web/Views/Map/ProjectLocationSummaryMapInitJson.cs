@@ -19,7 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
-using System.Linq;
+using System.Collections.Generic;
+using System.Linq;  
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Map
@@ -57,13 +58,13 @@ namespace ProjectFirma.Web.Views.Map
                 case ProjectLocationSimpleTypeEnum.None:
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(string.Format("Invalid ProjectLocationType \"{0}\"", project.ProjectLocationSimpleType));
+                    throw new ArgumentOutOfRangeException($"Invalid ProjectLocationType \"{project.ProjectLocationSimpleType}\"");
             }
 
             var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
             HasDetailedLocation = detailedLocationGeoJsonFeatureCollection.Features.Any();
 
-            Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", project.SimpleLocationToGeoJsonFeatureCollection(true), "red", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
+            Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", project.SimpleLocationToGeoJsonFeatureCollection(true), "#ffff00", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
             Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "blue", 1, LayerInitialVisibility.Show));
 
             if (HasDetailedLocation)

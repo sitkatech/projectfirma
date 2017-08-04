@@ -71,15 +71,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.PrimaryContactPersonID)
             </div>
             <div class="col-sm-9">
-                <select name="@Html.NameFor(m => m.PrimaryContactPersonID)" id="@Html.IdFor(m => m.PrimaryContactPersonID)">
-                    <option value="">None</option>
-                    @foreach (var person in ViewDataTyped.People)
-                    {
-                        <option value="@person.PersonID" @((Model.PrimaryContactPersonID == person.PersonID).ToSelectedOrEmpty())>
-                            @person.FullNameFirstLastAndOrg
-                        </option>
-                    }
-                </select>
+                @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.People)                
                 @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
             </div>
         </div>

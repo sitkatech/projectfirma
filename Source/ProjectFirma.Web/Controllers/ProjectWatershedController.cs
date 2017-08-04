@@ -18,15 +18,17 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Data.Entity;
+
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectWatershed;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Security.Shared;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -34,36 +36,57 @@ namespace ProjectFirma.Web.Controllers
     {
         [HttpGet]
         [ProjectWatershedManageFromProjectFeature]
-        public PartialViewResult EditProjectWatershedsForProject(ProjectPrimaryKey projectPrimaryKey)
+        public PartialViewResult EditProjectWatersheds(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectWatershedSimples = project.ProjectWatersheds.Select(x => new ProjectWatershedSimple(x)).ToList();
-            var viewModel = new EditProjectWatershedsViewModel(projectWatershedSimples);
-            return ViewEditProjectWatershedsForProject(project, viewModel);
+            var viewModel = new EditProjectWatershedsViewModel(project);
+            return ViewEditProjectWatersheds(viewModel, project);
         }
 
         [HttpPost]
         [ProjectWatershedManageFromProjectFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditProjectWatershedsForProject(ProjectPrimaryKey projectPrimaryKey, EditProjectWatershedsViewModel viewModel)
+        public ActionResult EditProjectWatersheds(ProjectPrimaryKey projectPrimaryKey, EditProjectWatershedsViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditProjectWatershedsForProject(project, viewModel);
+                return ViewEditProjectWatersheds(viewModel, project);
             }
+
             var currentProjectWatersheds = project.ProjectWatersheds.ToList();
-            HttpRequestStorage.DatabaseEntities.ProjectWatersheds.Load();
             var allProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.Local;
-            viewModel.UpdateModel(currentProjectWatersheds, allProjectWatersheds);
+            viewModel.UpdateModel(project, currentProjectWatersheds, allProjectWatersheds);
+
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Watershed.GetFieldDefinitionLabel()} were successfully saved.");
+
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEditProjectWatershedsForProject(Project project, EditProjectWatershedsViewModel viewModel)
+        private PartialViewResult ViewEditProjectWatersheds(EditProjectWatershedsViewModel viewModel, Project project)
         {
-            var allWatersheds = HttpRequestStorage.DatabaseEntities.Watersheds.ToList().Select(x => new WatershedSimple(x)).OrderBy(p => p.WatershedName).ToList();
-            var viewData = new EditProjectWatershedsViewData(project, allWatersheds);
+            var mapInitJson = new MapInitJson("projectWatershedMap", 0, new List<LayerGeoJson>{ Watershed.GetWatershedWmsLayerGeoJson("layerColor", 0.2m) }, BoundingBox.MakeNewDefaultBoundingBox());
+            var watershedIDs = viewModel.WatershedIDs ?? new List<int>();
+            var watershedsInViewModel = HttpRequestStorage.DatabaseEntities.Watersheds.Where(x => watershedIDs.Contains(x.WatershedID)).ToList();
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var editProjectWatershedsFormID = GetEditProjectWatershedsFormID();
+
+            var viewData = new EditProjectWatershedsViewData(project, mapInitJson, watershedsInViewModel, tenantAttribute, editProjectWatershedsFormID);
             return RazorPartialView<EditProjectWatersheds, EditProjectWatershedsViewData, EditProjectWatershedsViewModel>(viewData, viewModel);
+        }
+        
+        [AnonymousUnclassifiedFeature]
+        public JsonResult FindWatershedByName(string term)
+        {
+            var searchString = term.Trim();
+            return Json(HttpRequestStorage.DatabaseEntities.Watersheds
+                .Where(x => x.WatershedName.Contains(searchString)).OrderBy(x => x.WatershedName).Take(20).ToList()
+                .Select(x => new {x.WatershedName, x.WatershedID}).ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        public static string GetEditProjectWatershedsFormID()
+        {
+            return "editProjectWatershedsForm";
         }
     }
 }

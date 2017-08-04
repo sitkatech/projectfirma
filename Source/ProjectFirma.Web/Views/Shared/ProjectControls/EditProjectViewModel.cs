@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
         public Money? EstimatedTotalCost { get; set; }
-        
+
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedAnnualOperatingCost)]
         public Money? EstimatedAnnualOperatingCost { get; set; }
 
@@ -75,7 +75,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public Money? SecuredFunding { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.LeadImplementer)]
-        [Required]
         public int? LeadImplementerOrganizationID { get; set; }
 
         public bool HasExistingProjectUpdate { get; set; }
@@ -140,26 +139,27 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             project.ImplementationStartYear = ImplementationStartYear;
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.CompletionYear = CompletionYear;
-            project.LeadImplementerOrganizationID = LeadImplementerOrganizationID.Value;
 
-            if (PrimaryContactPersonID != null)
+            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(project.ProjectID))
             {
-                project.PrimaryContactPersonID = PrimaryContactPersonID.Value;
-            }    
-            
+                project.LeadImplementerOrganizationID = LeadImplementerOrganizationID.Value;
+            }
+
+            project.PrimaryContactPersonID = PrimaryContactPersonID;
+
             if (FundingTypeID == FundingType.Capital.FundingTypeID)
             {
                 project.EstimatedTotalCost = EstimatedTotalCost;
                 project.SecuredFunding = SecuredFunding;
                 project.EstimatedAnnualOperatingCost = null;
-                
+
             }
             else if (FundingTypeID == FundingType.OperationsAndMaintenance.FundingTypeID)
             {
                 project.EstimatedTotalCost = null;
                 project.SecuredFunding = null;
-                project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost; 
-            }         
+                project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
+            }
 
         }
 
@@ -191,7 +191,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             var isCompletedOrPostImplementation = ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID;
             if (isCompletedOrPostImplementation && CompletionYear > DateTime.Now.Year)
             {
-                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is in the Completed or Post-Implementation stage: the {Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be less than or equal to the current year", m => m.CompletionYear));    
+                errors.Add(new SitkaValidationResult<EditProjectViewModel, int?>($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is in the Completed or Post-Implementation stage: the {Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be less than or equal to the current year", m => m.CompletionYear));
             }
 
             if (HasExistingProjectUpdate && OldProjectStageID != ProjectStageID)

@@ -40,6 +40,7 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 using MoreLinq;
@@ -690,10 +691,15 @@ namespace ProjectFirma.Web.Controllers
 
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
                 $"project_{project.ProjectID}_EditMap");
-            var projectLocationAreas = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.ToSelectList();
-            var mapPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(project, null));
+
+            var findWatershedByNameUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(x => x.FindWatershedByName(null));
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var geometry = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.SingleOrDefault(x => x.ProjectLocationAreaID == viewModel.ProjectLocationAreaID)?.GetGeometry();
+            var currentFeature = geometry != null ? DbGeometryToGeoJsonHelper.FromDbGeometry(geometry) : null;
+            var mapPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.LocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project);
-            var editProjectLocationViewData = new EditProjectLocationSimpleViewData(CurrentPerson, mapInitJsonForEdit, projectLocationAreas, mapPostUrl, mapFormID);
+
+            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, projectUpdate, mapInitJsonForEdit, findWatershedByNameUrl, tenantAttribute, currentFeature, mapPostUrl, mapFormID);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson);
             var viewDataForAngularClass = new LocationSimpleViewData.ViewDataForAngularClass(locationSimpleValidationResult.GetWarningMessages());
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
@@ -785,7 +791,7 @@ namespace ProjectFirma.Web.Controllers
             var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
 
             var boundingBox = new BoundingBox(projectUpdate.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry));
-            var mapInitJson = new MapInitJson(mapDivID, 10, MapInitJson.GetWatershedMapLayersAndProjectLocationSimple(project), boundingBox) {AllowFullScreen = false};
+            var mapInitJson = new MapInitJson(mapDivID, 10, MapInitJson.GetWatershedAndProjectLocationSimpleMapLayers(project), boundingBox) {AllowFullScreen = false};
             var mapFormID = ProjectLocationController.GenerateEditProjectLocationFormID(projectUpdateBatch.ProjectID);
             var uploadGisFileUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.ImportGdbFile(project.ProjectID));
             var saveFeatureCollectionUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationDetailed(project.ProjectID, null));

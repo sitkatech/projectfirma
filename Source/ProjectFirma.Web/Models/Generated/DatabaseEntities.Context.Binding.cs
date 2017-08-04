@@ -210,6 +210,7 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<TenantAttribute> TenantAttributes { get { return AllTenantAttributes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<Watershed> AllWatersheds { get; set; }
         public virtual IQueryable<Watershed> Watersheds { get { return AllWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<vGeoServerWatershed> vGeoServerWatersheds { get; set; }
 
         public object LoadType(Type type, int primaryKey)
         {

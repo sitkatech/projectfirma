@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web.Mvc;
+using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -30,7 +31,7 @@ using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Security.Shared;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
-using LtInfo.Common.Mvc;
+using LtInfo.Common.GeoJson;
 using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
@@ -42,25 +43,29 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditProjectLocationSimple(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new EditProjectLocationSimpleViewModel(project.ProjectLocationPoint, project.ProjectLocationAreaID, project.ProjectLocationSimpleType.ToEnum, project.ProjectLocationNotes);
+            var viewModel = new ProjectLocationSimpleViewModel(project.ProjectLocationPoint, project.ProjectLocationAreaID, project.ProjectLocationSimpleType.ToEnum, project.ProjectLocationNotes);
             return ViewEditProjectLocationSummaryPoint(project, viewModel);
         }
 
-        private PartialViewResult ViewEditProjectLocationSummaryPoint(Project project, EditProjectLocationSimpleViewModel viewModel)
+        private PartialViewResult ViewEditProjectLocationSummaryPoint(Project project, ProjectLocationSimpleViewModel viewModel)
         {
             var layerGeoJsons = MapInitJson.GetWatershedMapLayers();
             var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false};
-            var projectLocationAreas = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.ToSelectList(x => x.ProjectLocationAreaID.ToString(), x => x.ProjectLocationAreaDisplayName);
-            var mapPostUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(x => x.EditProjectLocationSimple(project, null));
+            var findWatershedByNameUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.FindWatershedByName(null));
+            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var geometry = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.SingleOrDefault(x => x.ProjectLocationAreaID == viewModel.ProjectLocationAreaID)?.GetGeometry();
+            var currentFeature = geometry != null ? DbGeometryToGeoJsonHelper.FromDbGeometry(geometry) : null;
+            var mapPostUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
-            var viewData = new EditProjectLocationSimpleViewData(CurrentPerson, mapInitJson, projectLocationAreas, mapPostUrl, mapFormID);
-            return RazorPartialView<EditProjectLocationSimple, EditProjectLocationSimpleViewData, EditProjectLocationSimpleViewModel>(viewData, viewModel);
+
+            var viewData = new ProjectLocationSimpleViewData(CurrentPerson, project, mapInitJson, findWatershedByNameUrl, tenantAttribute, currentFeature, mapPostUrl, mapFormID);
+            return RazorPartialView<ProjectLocationSimple, ProjectLocationSimpleViewData, ProjectLocationSimpleViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
         [ProjectMapManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditProjectLocationSimple(ProjectPrimaryKey projectPrimaryKey, EditProjectLocationSimpleViewModel viewModel)
+        public ActionResult EditProjectLocationSimple(ProjectPrimaryKey projectPrimaryKey, ProjectLocationSimpleViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -86,7 +91,7 @@ namespace ProjectFirma.Web.Controllers
             var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
 
             var boundingBox = new BoundingBox(project.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry));
-            var mapInitJson = new MapInitJson(mapDivID, 10, MapInitJson.GetWatershedMapLayersAndProjectLocationSimple(project), boundingBox) {AllowFullScreen = false};
+            var mapInitJson = new MapInitJson(mapDivID, 10, MapInitJson.GetWatershedAndProjectLocationSimpleMapLayers(project), boundingBox) {AllowFullScreen = false};
 
             var mapFormID = GenerateEditProjectLocationFormID(project.EntityID);
             var uploadGisFileUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.ImportGdbFile(project.EntityID));
@@ -225,6 +230,29 @@ namespace ProjectFirma.Web.Controllers
         public static string GenerateEditProjectLocationFormID(int projectID)
         {
             return $"editMapForProject{projectID}";
+        }
+
+        public ContentResult ProjectLocationAreaIDFromWatershedID(WatershedPrimaryKey watershedPrimaryKey)
+        {
+            return Content(watershedPrimaryKey.EntityObject.ProjectLocationAreas.Select(x => x.ProjectLocationAreaID).SingleOrDefault().ToString());
+        }
+
+        [AnonymousUnclassifiedFeature]
+        public JsonNetJArrayResult FindWatershedByName(string term)
+        {
+            var searchString = term.Trim();
+            var allParcelsMatchingSearchString =
+                HttpRequestStorage.DatabaseEntities.Watersheds.Where(x => x.WatershedName.Contains(searchString)).ToList();
+
+            var listItems = allParcelsMatchingSearchString
+                .ToDictionary(x => x.ProjectLocationAreas.Single().ProjectLocationAreaID).Select(x => new
+                    {
+                        ProjectLocationAreaID = x.Key,
+                        x.Value.WatershedName,
+                        GeoJson = new FeatureCollection(new List<Feature> { DbGeometryToGeoJsonHelper.FromDbGeometry(x.Value.WatershedFeature) })
+                    })
+                .OrderBy(x => x.WatershedName).Take(20);
+            return new JsonNetJArrayResult(listItems);
         }
     }
 }

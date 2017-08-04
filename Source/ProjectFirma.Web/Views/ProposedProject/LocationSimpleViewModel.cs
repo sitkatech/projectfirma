@@ -22,7 +22,7 @@ using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 
 namespace ProjectFirma.Web.Views.ProposedProject
 {    
-    public class LocationSimpleViewModel : EditProjectLocationSimpleViewModel
+    public class LocationSimpleViewModel : ProjectLocationSimpleViewModel
     {
         /// <summary>
         /// Needed by the ModelBinder
