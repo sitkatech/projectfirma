@@ -6,7 +6,7 @@ if(exists(select 1 from sys.columns c join sys.tables t on c.object_id = t.objec
 begin
 	declare @sql varchar(max)
 	set @sql = 'update dbo.TenantAttribute set MapServiceUrl = replace(MapServiceUrl, ''mapserver'', ''@ENVIRONMENT@-mapserver'')'
-	exec @sql
+	exec sp_executesql @sql
 	if (@@error != 0) goto failed
 end
 
