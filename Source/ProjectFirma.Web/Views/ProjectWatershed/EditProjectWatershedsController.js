@@ -42,7 +42,7 @@ angular.module("ProjectFirmaApp")
                     if (e.which === 13) {
                         e.preventDefault();
                         $scope.selectFirstSuggestionFunction(this);
-                        $scope.$appy();
+                        $scope.$apply();
                     }
                 });
             };
@@ -106,13 +106,12 @@ angular.module("ProjectFirmaApp")
             }
 
             function updateSelectedWatershedLayer() {
-                //debugger;
                 if ($scope.firmaMap.selectedWatershedLayer) {
                     $scope.firmaMap.layerControl.removeLayer($scope.firmaMap.selectedWatershedLayer);
                     $scope.firmaMap.map.removeLayer($scope.firmaMap.selectedWatershedLayer);
                 }
                 
-                var parameters = L.Util.extend(
+                var wmsParameters = L.Util.extend(
                     {
                         layers: $scope.AngularViewData.WatershedMapSericeLayerName,
                         cql_filter: "WatershedID in (" + $scope.AngularModel.WatershedIDs.join(",") + ")",
@@ -120,9 +119,32 @@ angular.module("ProjectFirmaApp")
                     },
                     $scope.firmaMap.wmsParams);
 
-                $scope.firmaMap.selectedWatershedLayer = L.tileLayer.wms($scope.AngularViewData.MapServiceUrl, parameters);
+                $scope.firmaMap.selectedWatershedLayer = L.tileLayer.wms($scope.AngularViewData.MapServiceUrl, wmsParameters);
                 $scope.firmaMap.layerControl.addOverlay($scope.firmaMap.selectedWatershedLayer, "Selected " + $scope.AngularViewData.WatershedFieldDefinitionLabel + "s");
                 $scope.firmaMap.map.addLayer($scope.firmaMap.selectedWatershedLayer);
+
+                // Update map extent to selected watersheds
+                if (_.any($scope.AngularModel.WatershedIDs)) {
+                    var wfsParameters = L.Util.extend($scope.firmaMap.wfsParams,
+                        {
+                            typeName: $scope.AngularViewData.WatershedMapServiceLayerName,
+                            cql_filter: "WatershedID in (" + $scope.AngularModel.WatershedIDs.join(",") + ")"
+                        });
+                    SitkaAjax.ajax({
+                            url: $scope.AngularViewData.MapServiceUrl + L.Util.getParamString(wfsParameters),
+                            dataType: "json",
+                            jsonpCallback: "getJson"
+                        },
+                        function (response) {
+                            if (response.features.length === 0)
+                                return;
+
+                            $scope.firmaMap.map.fitBounds(new L.geoJSON(response).getBounds());
+                        },
+                        function () {
+                            console.error("There was an error setting map extent to the selected " + $scope.AngularViewData.WatershedFieldDefinitionLabel + "s");
+                        });
+                }
             };
 
             ProjectFirmaMaps.Map.prototype.handleWmsPopupClickEventWithCurrentLayer = function() {
@@ -138,8 +160,7 @@ angular.module("ProjectFirmaApp")
                 typeaheadSearch("#" + $scope.AngularViewData.TypeAheadInputId,
                     "#" + $scope.AngularViewData.TypeAheadInputId + "Button",
                     $scope.AngularViewData.FindWatershedByNameUrl);
-
-                // TODO complete initialization of initial map state
+                
                 updateSelectedWatershedLayer();
             };
 
