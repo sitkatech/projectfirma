@@ -119,9 +119,6 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
                 $scope.PerformanceMeasureToAdd);
             var newPerformanceMeasureActual = $scope.createNewRow($scope.ProjectToAdd, performanceMeasureToAdd);
             $scope.AngularModel.PerformanceMeasureActuals.push(newPerformanceMeasureActual);
-            $scope.resetPerformanceMeasureToAdd();
-            $scope.resetProjectToAdd();
-            console.log($scope.AngularModel.PerformanceMeasureActuals);
         }
     };
 

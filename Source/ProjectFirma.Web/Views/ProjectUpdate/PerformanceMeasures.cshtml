@@ -145,7 +145,7 @@ else
                             </tr>
                             <tr>
                                 <th></th>
-                                <th>Year</th>
+                                <th>@Html.LabelWithRequiredTagFor("Year")</th>
                                 <th ng-show="getPerformanceMeasure(performanceMeasureGroup.PerformanceMeasureID).HasRealSubcategories" ng-repeat="performanceMeasureActualSubcategoryOptionUpdate in performanceMeasureGroup.PerformanceMeasureActualSubcategoryOptionUpdates | orderBy:[getSubcategoryName]">{{getSubcategoryName(performanceMeasureActualSubcategoryOptionUpdate)}}</th>
                                 <th>Value</th>
                                 <th></th>
@@ -229,40 +229,42 @@ else
                     }
                     <hr />
                     SectionComments.RenderPartialView(Html, ViewDataTyped.SectionCommentsViewData);
-                    <table style="width: 100%">
-                        <tr style="vertical-align: top">
-                            <td>
-                                @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
-                                @if (ViewDataTyped.UpdateStatus.IsPerformanceMeasuresUpdated)
-                                {
-                                    @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()), 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() { "btn-firma", "btn-xs" })
-                                }
-                            </td>
-                            <td>
-                                @if (ViewDataTyped.ViewDataForAngular.ValidationWarnings.Any())
-                                {
-                                    <div data-ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'alert alert-danger' : 'hidden'">
-                                        <ul>
-                                            <li data-ng-repeat="warning in AngularViewData.ValidationWarnings">
-                                                <span data-ng-bind="warning"></span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'alert alert-success' : 'hidden'">
-                                        <span>This page is all set!  Nice work.  You should take the rest of the day off.</span>
-                                    </div>
-                                }
-                            </td>
-                            <td style="text-align: right">
+                    <div class="row">
+                        <div class="col-xs-2">
+                            @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
+                            @if (ViewDataTyped.UpdateStatus.IsPerformanceMeasuresUpdated)
+                            {
+                                @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0}", MultiTenantHelpers.GetPerformanceMeasureNamePluralized()), 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() { "btn-firma", "btn-xs" })
+                            }
+                        </div>
+                        <div class="col-xs-9">
+                            <div style="margin-left: 10px">
                                 @Html.CheckBoxFor(x => x.ShowValidationWarnings, new { data_ng_model = "AngularModel.ShowValidationWarnings", @class = "ignoreSerialization" })
                                 @Html.LabelWithSugarFor(x => x.ShowValidationWarnings)
-                                <button class="btn btn-xs btn-firma" type="submit" ng-disabled="pmForm.$invalid" style="margin-left: 10px">Save</button>
-                            </td>
-                        </tr>
-                    </table>
+                            </div>
+                            
+                            @if (ViewDataTyped.ViewDataForAngular.ValidationWarnings.Any())
+                            {
+                                <div data-ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'alert alert-danger' : 'hidden'">
+                                    <ul>
+                                        <li data-ng-repeat="warning in AngularViewData.ValidationWarnings">
+                                            <span data-ng-bind="warning"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
+                            else
+                            {
+                                <div ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'alert alert-success' : 'hidden'">
+                                    <span>This page is all set! Nice work. You should take the rest of the day off.</span>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-xs-1">
+                            <button class="btn btn-xs btn-firma" type="submit" ng-disabled="pmForm.$invalid" style="margin-left: 10px">Save</button>
+                        </div>
+                    </div>
+                    
                 }
 
             </div>
