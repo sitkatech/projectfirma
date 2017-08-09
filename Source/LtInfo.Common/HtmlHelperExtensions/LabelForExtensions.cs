@@ -282,6 +282,11 @@ namespace LtInfo.Common.HtmlHelperExtensions
             return LabelWithFieldDefinitionForImpl(labelText, fullHtmlFieldID, fieldDefinitionData, urlToContent, popupWidth, displayStyle, hasRequiredAttribute);
         }
 
+        public static MvcHtmlString LabelWithRequiredTagFor(this HtmlHelper html, string labelText)
+        {
+            return LabelWithRequiredTagForImpl(html, null, null, true, labelText, null);
+        }
+
         private static MvcHtmlString LabelWithRequiredTagForImpl(HtmlHelper html, ModelMetadata metadata, string htmlFieldName, bool hasRequiredAttribute, string labelText = null, IDictionary<string, object> htmlAttributes = null)
         {
             string resolvedLabelText = labelText ?? metadata.DisplayName ?? metadata.PropertyName ?? htmlFieldName.Split('.').Last();

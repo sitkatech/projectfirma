@@ -20,6 +20,33 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController", function ($scope, angularModelAndViewData)
 {
+    $scope.groupedPerformanceMeasures = function () {
+        return _.uniq($scope.AngularModel.PerformanceMeasureActuals, "PerformanceMeasureID");
+    }
+
+    $scope.getGroupPerformanceMeasures = function (performanceMeasureGroup) {
+        return _($scope.AngularModel.PerformanceMeasureActuals).filter(function (pm) { return pm.PerformanceMeasureID == performanceMeasureGroup.PerformanceMeasureID; }).value();
+    }
+
+    $scope.addPerformanceMeasureToGroup = function (performanceMeasureGroup) {
+        var performanceMeasureToAdd = Sitka.Methods.findElementInJsonArray(
+            $scope.AngularViewData.AllPerformanceMeasures,
+            "PerformanceMeasureID",
+            performanceMeasureGroup.PerformanceMeasureID);
+        var newPerformanceMeasureActual = $scope.createNewRow($scope.ProjectToAdd, performanceMeasureToAdd);
+        $scope.AngularModel.PerformanceMeasureActuals.push(newPerformanceMeasureActual);
+    }
+
+    $scope.numberOfSubcategoryOptions = function (performanceMeasureActual) {
+        if (Sitka.Methods.isUndefinedNullOrEmpty($scope.AngularModel.PerformanceMeasureActuals)) {
+            return 0;
+        }
+
+        return Sitka.Methods.findElementInJsonArray($scope.AngularModel.PerformanceMeasureActuals,
+            "PerformanceMeasureID",
+            performanceMeasureActual.PerformanceMeasureID).PerformanceMeasureActualSubcategoryOptions.length;
+    }
+
     $scope.resetPerformanceMeasureToAdd = function () { $scope.PerformanceMeasureToAdd = null; };
 
     $scope.resetProjectToAdd = function () { $scope.ProjectToAdd = $scope.getProject(angularModelAndViewData.AngularViewData.ProjectID); };
@@ -86,10 +113,12 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
     {
         if ($scope.PerformanceMeasureToAdd != null)
         {
-            var newPerformanceMeasureActual = $scope.createNewRow($scope.ProjectToAdd, $scope.PerformanceMeasureToAdd);
+            var performanceMeasureToAdd = Sitka.Methods.findElementInJsonArray(
+                $scope.AngularViewData.AllPerformanceMeasures,
+                "PerformanceMeasureID",
+                $scope.PerformanceMeasureToAdd);
+            var newPerformanceMeasureActual = $scope.createNewRow($scope.ProjectToAdd, performanceMeasureToAdd);
             $scope.AngularModel.PerformanceMeasureActuals.push(newPerformanceMeasureActual);
-            $scope.resetPerformanceMeasureToAdd();
-            $scope.resetProjectToAdd();
         }
     };
 
@@ -97,7 +126,7 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
         var newPerformanceMeasureActual = {
             ProjectID: project.ProjectID,
             PerformanceMeasureID: performanceMeasure.PerformanceMeasureID,
-            CalendarYear: new Date().getFullYear(),
+            CalendarYear: null,
             ActualValue: null,
             MeasurementUnitTypeDisplayName: performanceMeasure.MeasurementUnitTypeDisplayName,
             PerformanceMeasureActualSubcategoryOptions: $scope.createPerformanceMeasureValueSubcategoryOptionRows(performanceMeasure)
@@ -139,6 +168,12 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
         }
         return measurementUnitTypeDisplayName;
     };
+
+    $scope.getSubcategoryOptionsSelected = function (performanceMeasureActual) {
+        var performanceMeasureActualSubcategoryOptionsSelected = _(performanceMeasureActual.PerformanceMeasureActualSubcategoryOptions).sortByAll(["PerformanceMeasureSubcategoryID", "PerformanceMeasureSubcategoryOptionID"]).value();
+        return performanceMeasureActualSubcategoryOptionsSelected;
+    }
+
 
     $scope.filteredCalendarYears = function()
     {

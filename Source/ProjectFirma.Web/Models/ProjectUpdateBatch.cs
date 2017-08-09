@@ -360,9 +360,12 @@ namespace ProjectFirma.Web.Models
                 missingYears = yearsExpected.GetMissingYears(yearsEntered);
             }
             // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
-            var performanceMeasureActualUpdatesWithWarnings = ValidateNoIncompletePerformanceMeasureActualUpdateRow();
+            var performanceMeasureActualUpdatesWithIncompleteWarnings = ValidateNoIncompletePerformanceMeasureActualUpdateRow();
 
-            var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(missingYears, performanceMeasureActualUpdatesWithWarnings);
+            //validation 3: duplicate PM row
+            var performanceMeasureActualUpdatesWithDuplicateWarnings = ValidateNoDuplicatePerformanceMeasureActualUpdateRow();
+
+            var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(missingYears, performanceMeasureActualUpdatesWithIncompleteWarnings, performanceMeasureActualUpdatesWithDuplicateWarnings);
             return performanceMeasuresValidationResult;
         }
 
@@ -372,6 +375,22 @@ namespace ProjectFirma.Web.Models
                 PerformanceMeasureActualUpdates.Where(
                     x => !x.ActualValue.HasValue || x.PerformanceMeasure.PerformanceMeasureSubcategories.Count != x.PerformanceMeasureActualSubcategoryOptionUpdates.Count).ToList();
             return new HashSet<int>(performanceMeasureActualUpdatesWithMissingSubcategoryOptions.Select(x => x.PerformanceMeasureActualUpdateID));
+        }
+
+        private HashSet<int> ValidateNoDuplicatePerformanceMeasureActualUpdateRow()
+        {
+            if (PerformanceMeasureActualUpdates == null)
+            {
+                return new HashSet<int>();
+            }
+            var duplicates =  PerformanceMeasureActualUpdates
+                .GroupBy(x => new { x.PerformanceMeasureID, x.CalendarYear })
+                .Select(x => x.ToList())
+                .ToList()
+                .Select(x => x)
+                .Where(x => x.Select(m => m.PerformanceMeasureActualSubcategoryOptionUpdates).ToList().Select(z => String.Join("_", z.Select(s => s.PerformanceMeasureSubcategoryOptionID).ToList())).ToList().HasDuplicates()).ToList();
+
+            return new HashSet<int>(duplicates.SelectMany(x => x).ToList().Select(x => x.PerformanceMeasureActualUpdateID));
         }
 
         public bool ArePerformanceMeasuresValid()

@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
                 // Completely rebuild the list
                 PerformanceMeasureExpecteds.ForEach(x =>
                 {
-                    var proposedProjectPerformanceMeasureExpected = new PerformanceMeasureExpectedProposed(x.ProjectID, x.PerformanceMeasureID) { ExpectedValue = x.ExpectedValue };
+                    var proposedProjectPerformanceMeasureExpected = new PerformanceMeasureExpectedProposed(proposedProject.ProposedProjectID, x.PerformanceMeasureID) { ExpectedValue = x.ExpectedValue };
                     allPerformanceMeasureExpectedProposeds.Add(proposedProjectPerformanceMeasureExpected);
                     if (x.PerformanceMeasureExpectedSubcategoryOptions != null)
                     {

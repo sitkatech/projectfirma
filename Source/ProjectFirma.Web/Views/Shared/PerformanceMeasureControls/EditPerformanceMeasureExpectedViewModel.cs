@@ -42,9 +42,7 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
             PerformanceMeasureExpecteds = performanceMeasureExpecteds;
         }
 
-        public void UpdateModel(List<PerformanceMeasureExpected> currentPerformanceMeasureExpecteds,
-            IList<PerformanceMeasureExpected> allPerformanceMeasureExpecteds,
-            IList<PerformanceMeasureExpectedSubcategoryOption> allPerformanceMeasureExpectedSubcategoryOptions)
+        public void UpdateModel(List<PerformanceMeasureExpected> currentPerformanceMeasureExpecteds, IList<PerformanceMeasureExpected> allPerformanceMeasureExpecteds, IList<PerformanceMeasureExpectedSubcategoryOption> allPerformanceMeasureExpectedSubcategoryOptions, Models.Project project)
         {
             // Remove all existing associations
             currentPerformanceMeasureExpecteds.ForEach(pmav =>
@@ -59,7 +57,7 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
                 // Completely rebuild the list
                 foreach (var x in PerformanceMeasureExpecteds)
                 {
-                    var performanceMeasureExpected = new PerformanceMeasureExpected(x.ProjectID, x.PerformanceMeasureID) {ExpectedValue = x.ExpectedValue};
+                    var performanceMeasureExpected = new PerformanceMeasureExpected(project.ProjectID, x.PerformanceMeasureID) {ExpectedValue = x.ExpectedValue};
                     allPerformanceMeasureExpecteds.Add(performanceMeasureExpected);                                   
                     if (x.PerformanceMeasureExpectedSubcategoryOptions != null)
                     {
