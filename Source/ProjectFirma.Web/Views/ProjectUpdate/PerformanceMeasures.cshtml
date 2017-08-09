@@ -132,6 +132,7 @@ else
                     </div>
                 </div>
                 <br />
+                @Html.ValidationSummary()
                 @using (Html.BeginForm<ProjectUpdateController>(x => x.PerformanceMeasures(ViewDataTyped.Project, null), FormMethod.Post, new Dictionary<string, object> { { "name", "pmForm" }, { "novalidate", "novalidate" } }))
                 {
                     <table class="table" ng-show="AngularModel.PerformanceMeasureActualUpdates.length > 0" ng-repeat="performanceMeasureGroup in groupedPerformanceMeasures()">
@@ -158,10 +159,11 @@ else
                                 </td>
                                 <td style="width: 100px">
                                     <select class="form-control"
-                                            ng-model="performanceMeasureActualUpdate.CalendarYear">
+                                            ng-model="performanceMeasureActualUpdate.CalendarYear" required>
                                         <option ng-repeat="calendarYear in filteredCalendarYears()"
                                                 value="{{calendarYear}}"
-                                                ng-selected="calendarYear == performanceMeasureActualUpdate.CalendarYear">
+                                                ng-selected="calendarYear == performanceMeasureActualUpdate.CalendarYear"
+                                                >
                                             {{calendarYear}}
                                         </option>
                                     </select>
@@ -187,7 +189,7 @@ else
                             <tr>
                                 <td colspan="{{numberOfSubcategoryOptions(performanceMeasureGroup) + 4}}" class="text-right">
                                     <button class="btn btn-xs btn-firma" type="button" ng-click="addPerformanceMeasureToGroup(performanceMeasureGroup)">
-                                        <span class="glyphicon glyphicon-plus"></span> Add Expected Value
+                                        <span class="glyphicon glyphicon-plus"></span> Add Reported Value
                                     </button>
                                 </td>
                             </tr>
