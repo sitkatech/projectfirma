@@ -18,7 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
@@ -107,15 +110,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
                 }
             }
         }
-        /*
-         * JHB & LC 10/10/16: We fixed issues around validating when Subcategory Options are not selected, but this ViewModel still has a bug. To reproduce:
-         * 1. Open "Reported Performance Measures" dialog
-         * 2. Click "What is my project has no accomplishments to report..."
-         * 3. Select a year, but do not enter any explanation text
-         * 4. Save
-         * 5. Select a Performance Measure and hit "Add". 
-         * 6. Angular pukes.            
-         */
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
@@ -130,7 +125,16 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
                 errors.Add(new ValidationResult(FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears));
             }
 
-            
+            var hasDuplicates = PerformanceMeasureActuals?.GroupBy(x => new { x.PerformanceMeasureID, x.CalendarYear })
+                                    .Select(x => x.ToList())
+                                    .ToList()
+                                    .Select(x => x)
+                                    .Any(x => x.Select(m => m.PerformanceMeasureActualSubcategoryOptions).ToList().Select(z => String.Join("_", z.Select(s => s.PerformanceMeasureSubcategoryOptionID).ToList())).ToList().HasDuplicates()) ?? false;
+
+            if (hasDuplicates)
+            {
+                errors.Add(new ValidationResult($"Found duplicate rows. The {Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page."));
+            }
 
             return errors;
         }

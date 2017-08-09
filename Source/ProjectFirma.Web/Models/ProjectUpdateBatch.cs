@@ -379,15 +379,18 @@ namespace ProjectFirma.Web.Models
 
         private HashSet<int> ValidateNoDuplicatePerformanceMeasureActualUpdateRow()
         {
-            var hasDuplicates = PerformanceMeasureActualUpdates
+            if (PerformanceMeasureActualUpdates == null)
+            {
+                return new HashSet<int>();
+            }
+            var duplicates =  PerformanceMeasureActualUpdates
                 .GroupBy(x => new { x.PerformanceMeasureID, x.CalendarYear })
                 .Select(x => x.ToList())
                 .ToList()
                 .Select(x => x)
                 .Where(x => x.Select(m => m.PerformanceMeasureActualSubcategoryOptionUpdates).ToList().Select(z => String.Join("_", z.Select(s => s.PerformanceMeasureSubcategoryOptionID).ToList())).ToList().HasDuplicates()).ToList();
-            var test = hasDuplicates.SelectMany(x => x).ToList();
 
-            return new HashSet<int>(test.Select(x => x.PerformanceMeasureActualUpdateID));
+            return new HashSet<int>(duplicates.SelectMany(x => x).ToList().Select(x => x.PerformanceMeasureActualUpdateID));
         }
 
         public bool ArePerformanceMeasuresValid()
