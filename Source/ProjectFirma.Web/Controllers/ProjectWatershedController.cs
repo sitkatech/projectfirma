@@ -22,11 +22,14 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectWatershed;
 using LtInfo.Common;
+using LtInfo.Common.GeoJson;
 using LtInfo.Common.MvcResults;
+using Newtonsoft.Json;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Security.Shared;
 
@@ -65,7 +68,12 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditProjectWatersheds(EditProjectWatershedsViewModel viewModel, Project project)
         {
-            var mapInitJson = new MapInitJson("projectWatershedMap", 0, new List<LayerGeoJson>{ Watershed.GetWatershedWmsLayerGeoJson("layerColor", 0.2m) }, BoundingBox.MakeNewDefaultBoundingBox());
+            var boundingBox = project.ProjectWatersheds.Any()
+                ? BoundingBox.MakeBoundingBoxFromGeoJson(JsonConvert.SerializeObject(new FeatureCollection(project.ProjectWatersheds
+                    .Select(x => DbGeometryToGeoJsonHelper.FromDbGeometry(x.Watershed.WatershedFeature)).ToList())))
+                : BoundingBox.MakeNewDefaultBoundingBox();
+
+            var mapInitJson = new MapInitJson("projectWatershedMap", 0, new List<LayerGeoJson>{ Watershed.GetWatershedWmsLayerGeoJson("layerColor", 0.2m) }, boundingBox);
             var watershedIDs = viewModel.WatershedIDs ?? new List<int>();
             var watershedsInViewModel = HttpRequestStorage.DatabaseEntities.Watersheds.Where(x => watershedIDs.Contains(x.WatershedID)).ToList();
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
