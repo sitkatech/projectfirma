@@ -35,6 +35,10 @@ Source code is available upon request via <support@sitkatech.com>.
     angular.bootstrap(jQuery("#EditPerformanceMeasureActualsApp"), ["ProjectFirmaApp"]);
 
     jQuery(".selectpicker").selectpicker("refresh");
+    jQuery(".modal").on("hidden.bs.modal",
+        function() {
+            jQuery(".bootstrap-select.open").removeClass("open");
+        });
     // ]]>
 </script>
 
@@ -47,17 +51,18 @@ Source code is available upon request via <support@sitkatech.com>.
     @if (Model.ProjectExemptReportingYears != null && Model.ProjectExemptReportingYears.Any())
     {
         <div style="margin-top: 5px">
-            <h4 ng-class="AngularViewData.ShowExemptYears ? 'expanded' : 'collapsed'" ng-click="AngularViewData.ShowExemptYears = !AngularViewData.ShowExemptYears"> What if my @FieldDefinition.Project.GetFieldDefinitionLabel() has no accomplishments to report?</h4>
-            <div ng-show="AngularViewData.ShowExemptYears" style="padding: 0 0 10px 27px">
-                Select the years for which you have no accomplishments to report and provide a brief explanation.
+            <h2 ng-class="AngularViewData.ShowExemptYears ? 'expanded' : 'collapsed'" ng-click="AngularViewData.ShowExemptYears = !AngularViewData.ShowExemptYears"> What if the @FieldDefinition.Project.GetFieldDefinitionLabel() has no accomplishments to report?</h2>
+            <div ng-show="AngularViewData.ShowExemptYears">
+                Select the years for which there are no accomplishments to report and provide a brief explanation.
                 <div>
                     <label ng-repeat="projectExemptYear in AngularModel.ProjectExemptReportingYears" style="padding-right: 10px">
                         <input type="checkbox" ng-model="projectExemptYear.IsExempt"/> <span ng-bind="projectExemptYear.CalendarYear"></span></label>
                 </div>
-                @Html.TextAreaFor(x => x.Explanation, new Dictionary<string, object> {{"style", "width:300px"}, {"placeholder", "Explanation here"}, {"ng-model", "AngularModel.Explanation"}})
+                @Html.TextAreaFor(x => x.Explanation, new Dictionary<string, object> {{"style", "width:100%"}, {"placeholder", "Explanation here"}, {"ng-model", "AngularModel.Explanation"}, {"class", "form-control"}})
                 @Html.ValidationMessageFor(x => x.Explanation)
             </div>
         </div>
+        <hr/>
     }
     <div class="form-group">
         <label class="control-label">@MultiTenantHelpers.GetPerformanceMeasureName() to Add:</label>
@@ -65,6 +70,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <select data-ng-model="PerformanceMeasureToAdd"
                     class="selectpicker"
                     data-live-search="true"
+                    data-container="body"
                     title="Select a @MultiTenantHelpers.GetPerformanceMeasureName()"
                     data-width="100%">
                 <option ng-repeat="performanceMeasure in filteredPerformanceMeasures()"

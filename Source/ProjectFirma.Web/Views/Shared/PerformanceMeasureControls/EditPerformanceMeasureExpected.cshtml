@@ -56,6 +56,10 @@ Source code is available upon request via <support@sitkatech.com>.
         angular.bootstrap(jQuery("#EditPerformanceMeasureExpectedsApp"), ["ProjectFirmaApp"]);
        
         jQuery(".selectpicker").selectpicker("refresh");
+        jQuery(".modal").on("hidden.bs.modal",
+            function() {
+                jQuery(".bootstrap-select.open").removeClass("open");
+            });
     });
     
     // ]]>
@@ -77,6 +81,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <select data-ng-model="PerformanceMeasureToAdd"                            
                             class="selectpicker"
                             data-live-search="true"
+                            data-container="body"
                             title="Select a @MultiTenantHelpers.GetPerformanceMeasureName()"
                             data-width="100%">
                         <option ng-repeat="performanceMeasure in filteredPerformanceMeasures()"

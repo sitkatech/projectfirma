@@ -120,6 +120,12 @@ Source code is available upon request via <support@sitkatech.com>.
     });
 
     angular.bootstrap(jQuery("#EditOrganizationsAngularApp"), ["EditOrganizationsAngularApp"]);
+
+    jQuery(".modal").on("hidden.bs.modal",
+        function() {
+            jQuery(".bootstrap-select.open").removeClass("open");
+        });
+
     // ]]>
 </script>
 <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
@@ -152,6 +158,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             ng-change="updateLeadOrgModel(AngularModel.ProjectOrganizationsViewModelJson.LeadOrganizationID)"
                             class="selectpicker"
                             data-live-search="true"
+                            data-container="body"
                             title="Select an Organization"
                             data-width="100%">
                         <option value="" disabled selected>Select an Organization</option>

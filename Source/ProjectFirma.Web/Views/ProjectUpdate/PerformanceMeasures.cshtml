@@ -37,15 +37,19 @@
         <script src="@Url.Content("~/Views/ProjectUpdate/PerformanceMeasuresController.js")" type="text/javascript"></script>
         <script type="text/javascript">
             // <![CDATA[
-            angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
-            {
-                return {
-                    AngularModel: @Html.Raw(JObject.FromObject(Model)),
-                    AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
+            angular.module("ProjectFirmaApp").factory("angularModelAndViewData",
+                function() {
+                    return {
+                        AngularModel: @Html.Raw(JObject.FromObject(Model)),
+                        AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
                     };
-            });
+                });
 
             jQuery(document).ready(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
+            jQuery(".modal").on("hidden.bs.modal",
+                function() {
+                    jQuery(".bootstrap-select.open").removeClass("open");
+                });
             // ]]>
         </script>
     }
@@ -112,6 +116,7 @@ else
                         <select data-ng-model="PerformanceMeasureToAdd"
                                 class="selectpicker"
                                 data-live-search="true"
+                                data-container="body"
                                 title="Select a @MultiTenantHelpers.GetPerformanceMeasureName()"
                                 data-width="100%">
                             <option ng-repeat="performanceMeasure in filteredPerformanceMeasures()"
