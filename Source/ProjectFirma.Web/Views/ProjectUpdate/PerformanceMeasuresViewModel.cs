@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -27,6 +29,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using MoreLinq;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -142,6 +145,21 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             if ((ProjectExemptReportingYearUpdates == null || !ProjectExemptReportingYearUpdates.Any(x => x.IsExempt)) && !string.IsNullOrWhiteSpace(Explanation))
             {
                 errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears, x => x.Explanation));
+            }
+
+            var hasDuplicates = PerformanceMeasureActualUpdates
+                .GroupBy(x => new {x.PerformanceMeasureID, x.CalendarYear})
+                .Select(x => x.ToList())
+                .ToList()
+                .Select(x => x)
+                .Any(x =>
+                {
+                    return x.Select(m => m.PerformanceMeasureActualSubcategoryOptionUpdates).ToList().Select(z => String.Join("_", z.Select(s => s.PerformanceMeasureSubcategoryOptionID).ToList())).ToList().HasDuplicates();
+                });
+
+            if (hasDuplicates)
+            {
+                errors.Add(new ValidationResult($"The {Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page."));
             }
 
             return errors;

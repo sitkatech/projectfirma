@@ -50,16 +50,18 @@
         </script>
     }
 }
-
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
 <p>
     To enter your project's annual accomplishments:
     <ul>
-        <li>Add the appropriate @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() to the list below</li>
-        <li>Select the appropriate @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() options for each @MultiTenantHelpers.GetPerformanceMeasureName()</li>
+        <li>Select and add the appropriate @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() to the list below</li>
+        <li>For each @MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), select the appropriate @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() options. </li>
         <li>Enter the accomplishment value</li>
         <li>
             You must enter at least one @MultiTenantHelpers.GetPerformanceMeasureName() per year for the duration defined by your project's Start and Completion
-            Years (or, if @FieldDefinition.CompletionYear.GetFieldDefinitionLabel() isn't set, through the @Html.LinkWithFieldDefinitionFor(FieldDefinition.ReportingYear, string.Format("current {0}", FieldDefinition.ReportingYear.GetFieldDefinitionLabel()), new List<string> { "fieldDefinitionLink" }).
+            Years (or, if @FieldDefinition.CompletionYear.GetFieldDefinitionLabel() isn't set, through the @Html.LinkWithFieldDefinitionFor(FieldDefinition.ReportingYear, string.Format("current {0}", FieldDefinition.ReportingYear.GetFieldDefinitionLabel()), new List<string> { "fieldDefinitionLink" })).
         </li>
     </ul>
     Click the <span class="helpicon glyphicon glyphicon-question-sign blue" title="Help"></span> icon to view reporting guidance
@@ -93,17 +95,18 @@ else
                 {
                     <div style="margin-top: 5px">
                         <h2 ng-class="AngularViewData.ShowExemptYears ? 'expanded' : 'collapsed'" ng-click="AngularViewData.ShowExemptYears = !AngularViewData.ShowExemptYears"> What if my project has no accomplishments to report?</h2>
-                        <div ng-show="AngularViewData.ShowExemptYears" style="padding: 0 0 10px 27px">
+                        <div ng-show="AngularViewData.ShowExemptYears" >
                             Select the years for which you have no accomplishments to report and provide a brief explanation.
                             <div>
                                 <label ng-repeat="projectExemptYearUpdate in AngularModel.ProjectExemptReportingYearUpdates" style="padding-right: 10px">
                                     <input type="checkbox" ng-model="projectExemptYearUpdate.IsExempt" ng-change="BlankOutEmptyYearsFromModel()" /> <span ng-bind="projectExemptYearUpdate.CalendarYear"></span>
                                 </label>
                             </div>
-                            @Html.TextAreaFor(x => x.Explanation, new Dictionary<string, object> { { "style", "width:550px" }, { "placeholder", "Explanation here" }, { "ng-model", "AngularModel.Explanation" } })
+                            @Html.TextAreaFor(x => x.Explanation, new Dictionary<string, object> { { "style", "width:100%" }, { "placeholder", "Explanation here" }, { "ng-model", "AngularModel.Explanation" }, {"class", "form-control"} })
                             @Html.ValidationMessageFor(x => x.Explanation)
                         </div>
                     </div>
+                    <hr />
                 }
                 <div class="form-group">
                     <label class="control-label">@MultiTenantHelpers.GetPerformanceMeasureName() to Add:</label>
@@ -124,6 +127,7 @@ else
                             </button>
                         </span>
                     </div>
+                    @Html.ValidationMessageFor(x => x.PerformanceMeasureActualUpdates)
                 </div>
                 <br />
                 @using (Html.BeginForm<ProjectUpdateController>(x => x.PerformanceMeasures(ViewDataTyped.Project, null), FormMethod.Post, new Dictionary<string, object> { { "name", "pmForm" }, { "novalidate", "novalidate" } }))
@@ -187,8 +191,6 @@ else
                             </tr>
                         </tbody>
                     </table>
-                    <hr />
-
                     <div ng-repeat="performanceMeasureActualUpdate in AngularModel.PerformanceMeasureActualUpdates | orderBy:'PerformanceMeasureID'">
                         <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActualUpdates[0].ActualValue).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureActualUpdate.ActualValue}}">
                         <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActualUpdates[0].CalendarYear).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureActualUpdate.CalendarYear}}">
