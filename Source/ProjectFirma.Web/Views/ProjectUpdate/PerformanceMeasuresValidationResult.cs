@@ -26,23 +26,35 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class PerformanceMeasuresValidationResult
     {
-        public static readonly string FoundIncompletePerformanceMeasureRowsMessage = string.Format("Found incomplete {0} rows. You must either delete irrelevant rows, or provide complete information for each row.", MultiTenantHelpers.GetPerformanceMeasureName());
+        public static readonly string FoundIncompletePerformanceMeasureRowsMessage =
+            $"Found incomplete {MultiTenantHelpers.GetPerformanceMeasureName()} rows. You must either delete irrelevant rows, or provide complete information for each row.";
+
+        public static readonly string FoundDuplicatePerformanceMeasureRowsMessage = $"Found duplicate rows. The {Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page.";
 
         private readonly List<string> _warningMessages;
 
         public readonly HashSet<int> PerformanceMeasureActualUpdatesWithWarnings;
 
-        public PerformanceMeasuresValidationResult(HashSet<int> missingYears, HashSet<int> performanceMeasureActualUpdatesWithWarnings)
+        public PerformanceMeasuresValidationResult(HashSet<int> missingYears, HashSet<int> performanceMeasureActualUpdatesWithIncompleteWarnings, HashSet<int> performanceMeasureActualUpdatesWithDuplicateWarnings)
         {
-            PerformanceMeasureActualUpdatesWithWarnings = performanceMeasureActualUpdatesWithWarnings;
+            var ints = new HashSet<int>();
+            ints.UnionWith(performanceMeasureActualUpdatesWithIncompleteWarnings);
+            ints.UnionWith(performanceMeasureActualUpdatesWithDuplicateWarnings);
+
+            PerformanceMeasureActualUpdatesWithWarnings = ints;
             _warningMessages = new List<string>();
             if (missingYears.Any())
             {
-                _warningMessages.Add(string.Format("Missing {0} for {1}", MultiTenantHelpers.GetPerformanceMeasureName(), string.Join(", ", missingYears)));
+                _warningMessages.Add(
+                    $"Missing {MultiTenantHelpers.GetPerformanceMeasureName()} for {string.Join(", ", missingYears)}");
             }
-            if (performanceMeasureActualUpdatesWithWarnings.Any())
+            if (performanceMeasureActualUpdatesWithIncompleteWarnings.Any())
             {
                 _warningMessages.Add(FoundIncompletePerformanceMeasureRowsMessage);
+            }
+            if (performanceMeasureActualUpdatesWithDuplicateWarnings.Any())
+            {
+                _warningMessages.Add(FoundDuplicatePerformanceMeasureRowsMessage);
             }
         }
 
@@ -56,9 +68,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             return _warningMessages;
         }
 
-        public bool IsValid
-        {
-            get { return !_warningMessages.Any(); }
-        }
+        public bool IsValid => !_warningMessages.Any();
     }
 }

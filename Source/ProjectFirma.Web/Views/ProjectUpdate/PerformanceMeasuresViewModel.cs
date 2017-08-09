@@ -147,21 +147,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears, x => x.Explanation));
             }
 
-            var hasDuplicates = PerformanceMeasureActualUpdates
-                .GroupBy(x => new {x.PerformanceMeasureID, x.CalendarYear})
-                .Select(x => x.ToList())
-                .ToList()
-                .Select(x => x)
-                .Any(x =>
-                {
-                    return x.Select(m => m.PerformanceMeasureActualSubcategoryOptionUpdates).ToList().Select(z => String.Join("_", z.Select(s => s.PerformanceMeasureSubcategoryOptionID).ToList())).ToList().HasDuplicates();
-                });
-
-            if (hasDuplicates)
-            {
-                errors.Add(new ValidationResult($"The {Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page."));
-            }
-
             return errors;
         }
     }
