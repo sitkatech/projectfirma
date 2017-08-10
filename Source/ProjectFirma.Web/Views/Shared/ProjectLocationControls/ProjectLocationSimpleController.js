@@ -163,7 +163,8 @@
 
                         var propertiesForDisplay = {
                             Latitude: L.Util.formatNum(event.latlng.lat, 4),
-                            Longitude: L.Util.formatNum(event.latlng.lng, 4)
+                            Longitude: L.Util.formatNum(event.latlng.lng, 4),
+                            Test: 2
                         };
 
                         if (response.features.length > 0) {
