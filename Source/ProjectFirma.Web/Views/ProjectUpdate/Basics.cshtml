@@ -42,7 +42,7 @@ Source code is available upon request via <support@sitkatech.com>.
             angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
             {
                 return {
-                    AngularModel: { ShowValidationWarnings: @Model.ShowValidationWarnings.ToString().ToLower() },
+                    AngularModel: { ShowValidationWarnings: true},
                     AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
                     };
             });
@@ -322,16 +322,8 @@ Source code is available upon request via <support@sitkatech.com>.
                                 </ul>
                             </div>
                         }
-                        else
-                        {
-                            <div ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'alert alert-success' : 'hidden'">
-                                <span>This page is all set!  Nice work.  You should take the rest of the day off.</span>
-                            </div>
-                        }
                     </td>
                     <td style="text-align: right; white-space: nowrap">
-                        @Html.CheckBoxFor(x => x.ShowValidationWarnings, new { data_ng_model = "AngularModel.ShowValidationWarnings", @class = "ignoreSerialization" })
-                        @Html.LabelWithSugarFor(x => x.ShowValidationWarnings)
                         <button class="btn btn-xs btn-firma" type="submit" style="margin-left: 10px">Save</button>
                     </td>
                 </tr>

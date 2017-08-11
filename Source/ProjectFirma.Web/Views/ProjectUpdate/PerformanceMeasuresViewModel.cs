@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +28,6 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
-using MoreLinq;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -38,8 +36,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string Explanation { get; set; }
         public List<ProjectExemptReportingYearUpdateSimple> ProjectExemptReportingYearUpdates { get; set; }
         public List<PerformanceMeasureActualUpdateSimple> PerformanceMeasureActualUpdates { get; set; }
-        [DisplayName("Show Validation Warnings?")]
-        public bool ShowValidationWarnings { get; set; }
 
         [DisplayName("Review Comments")]
         [StringLength(ProjectUpdateBatch.FieldLengths.PerformanceMeasuresComment)]
@@ -55,13 +51,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public PerformanceMeasuresViewModel(List<PerformanceMeasureActualUpdateSimple> performanceMeasureActualUpdates,
             string explanation,
             List<ProjectExemptReportingYearUpdateSimple> projectExemptReportingYearUpdates,
-            bool showValidationWarnings,
             string comments)
         {
             PerformanceMeasureActualUpdates = performanceMeasureActualUpdates;
             Explanation = explanation;
             ProjectExemptReportingYearUpdates = projectExemptReportingYearUpdates;
-            ShowValidationWarnings = showValidationWarnings;
             Comments = comments;
         }
 
@@ -130,7 +124,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 allProjectExemptYearUpdates,
                 (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.CalendarYear == y.CalendarYear);
             projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation = Explanation;
-            projectUpdateBatch.ShowPerformanceMeasuresValidationWarnings = ShowValidationWarnings;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

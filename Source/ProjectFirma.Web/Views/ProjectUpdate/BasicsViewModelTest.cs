@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             var projectUpdate = TestFramework.TestProjectUpdate.Create();
 
             // Act
-            var viewModel = new BasicsViewModel(projectUpdate, true, null);
+            var viewModel = new BasicsViewModel(projectUpdate, null);
 
             // Assert
             Assert.That(viewModel.ProjectDescription, Is.EqualTo(projectUpdate.ProjectDescription));
@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
             // Arrange
             var projectUpdate = TestFramework.TestProjectUpdate.Create();
-            var viewModel = new BasicsViewModel(projectUpdate, true, null);
+            var viewModel = new BasicsViewModel(projectUpdate, null);
             viewModel.ProjectDescription = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectDescription), Models.ProjectUpdate.FieldLengths.ProjectDescription);
 
             // Act

@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.UnitTestCommon
             public static ProjectUpdateBatch Create(Project project)
             {
                 var person = TestPerson.Create();
-                var projectUpdateBatch = new ProjectUpdateBatch(project, DateTime.Now, false, false, false, false, false, person, ProjectUpdateState.Created, false);
+                var projectUpdateBatch = new ProjectUpdateBatch(project, DateTime.Now, person, ProjectUpdateState.Created, false);
                 return projectUpdateBatch;
             }
         }

@@ -31,9 +31,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class LocationSimpleViewModel : ProjectLocationSimpleViewModel
     {
-        [DisplayName("Show Validation Warnings?")]
-        public bool ShowValidationWarnings { get; set; }
-
         [DisplayName("Review Comments")]
         [StringLength(ProjectUpdateBatch.FieldLengths.LocationSimpleComment)]
         public string Comments { get; set; }
@@ -45,17 +42,15 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public LocationSimpleViewModel(DbGeometry projectLocationPoint, int? projectLocationAreaID, ProjectLocationSimpleTypeEnum projectLocationSimpleType, string projectLocationNotes, string comments, bool showValidationWarnings)
+        public LocationSimpleViewModel(DbGeometry projectLocationPoint, int? projectLocationAreaID, ProjectLocationSimpleTypeEnum projectLocationSimpleType, string projectLocationNotes, string comments)
             : base(projectLocationPoint, projectLocationAreaID, projectLocationSimpleType, projectLocationNotes)
         {
             Comments = comments;
-            ShowValidationWarnings = showValidationWarnings;
         }
 
         public void UpdateModelBatch(ProjectUpdateBatch projectUpdateBatch)
         {
             var project = projectUpdateBatch.ProjectUpdate;
-            projectUpdateBatch.ShowLocationSimpleValidationWarnings = ShowValidationWarnings;
             project.ProjectLocationSimpleTypeID = Models.ProjectLocationSimpleType.ToType(ProjectLocationSimpleType).ProjectLocationSimpleTypeID;
             switch (ProjectLocationSimpleType)
             {

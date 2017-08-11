@@ -30,8 +30,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class BudgetsViewModel : FormViewModel
     {
-        [DisplayName("Show Validation Warnings?")]
-        public bool ShowValidationWarnings { get; set; }
 
         [DisplayName("Review Comments")]
         [StringLength(ProjectUpdateBatch.FieldLengths.ExpendituresComment)]
@@ -48,11 +46,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public BudgetsViewModel(List<ProjectBudgetUpdate> ProjectBudgetUpdates,
             List<int> calendarYearsToPopulate,
-            bool showBudgetsValidationWarnings,
             string comments)
         {
             ProjectBudgets = ProjectBudgetBulk.MakeFromList(new List<IProjectBudgetAmount>(ProjectBudgetUpdates), calendarYearsToPopulate);
-            ShowValidationWarnings = showBudgetsValidationWarnings;
             Comments = comments;
         }
 
@@ -71,8 +67,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 allProjectBudgetUpdates,
                 (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.FundingSourceID == y.FundingSourceID  && x.ProjectCostTypeID == y.ProjectCostTypeID && x.CalendarYear == y.CalendarYear,
                 (x, y) => x.BudgetedAmount = y.BudgetedAmount);
-
-            projectUpdateBatch.ShowBudgetsValidationWarnings = ShowValidationWarnings;
         }
     }
 }

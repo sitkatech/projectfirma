@@ -169,8 +169,7 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));                
             }
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
-            var showValidationWarnings = projectUpdateBatch.ShowBasicsValidationWarnings;
-            var viewModel = new BasicsViewModel(projectUpdate, showValidationWarnings, projectUpdateBatch.BasicsComment);
+            var viewModel = new BasicsViewModel(projectUpdate, projectUpdateBatch.BasicsComment);
             return ViewBasics(projectUpdate, viewModel);
         }
 
@@ -273,7 +272,6 @@ namespace ProjectFirma.Web.Controllers
             var viewModel = new PerformanceMeasuresViewModel(performanceMeasureActualUpdateSimples,
                 projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation,
                 projectExemptReportingYearUpdates.OrderBy(x => x.CalendarYear).ToList(),
-                projectUpdateBatch.ShowPerformanceMeasuresValidationWarnings,
                 projectUpdateBatch.PerformanceMeasuresComment);
             return ViewPerformanceMeasures(projectUpdateBatch, viewModel);
         }
@@ -403,7 +401,6 @@ namespace ProjectFirma.Web.Controllers
             var calendarYearRange = projectFundingSourceExpenditureUpdates.CalculateCalendarYearRangeForExpenditures(projectUpdateBatch.ProjectUpdate);
             var viewModel = new ExpendituresViewModel(projectFundingSourceExpenditureUpdates,
                 calendarYearRange,
-                projectUpdateBatch.ShowExpendituresValidationWarnings,
                 projectUpdateBatch.ExpendituresComment);
             return ViewExpenditures(projectUpdateBatch, calendarYearRange, viewModel);
         }
@@ -502,7 +499,6 @@ namespace ProjectFirma.Web.Controllers
             var calendarYearRange = projectFundingSourceBudgetUpdates.CalculateCalendarYearRangeForBudgets(projectUpdateBatch.ProjectUpdate);
             var viewModel = new BudgetsViewModel(projectFundingSourceBudgetUpdates,
                 calendarYearRange,
-                projectUpdateBatch.ShowBudgetsValidationWarnings,
                 projectUpdateBatch.BudgetsComment);
             return ViewBudgets(projectUpdateBatch, calendarYearRange, viewModel);
         }
@@ -650,8 +646,7 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdate.ProjectLocationAreaID,
                 projectUpdate.ProjectLocationSimpleType.ToEnum,
                 projectUpdate.ProjectLocationNotes,
-                projectUpdateBatch.LocationSimpleComment,
-                projectUpdateBatch.ShowLocationSimpleValidationWarnings);
+                projectUpdateBatch.LocationSimpleComment);
             return ViewLocationSimple(project, projectUpdateBatch, viewModel);
         }
 

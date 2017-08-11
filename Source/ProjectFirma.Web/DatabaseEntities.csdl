@@ -1720,11 +1720,6 @@
     <Property Name="ProjectID" Type="Int32" Nullable="false" />
     <Property Name="LastUpdateDate" Type="DateTime" Nullable="false" />
     <Property Name="PerformanceMeasureActualYearsExemptionExplanation" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
-    <Property Name="ShowBasicsValidationWarnings" Type="Boolean" Nullable="false" />
-    <Property Name="ShowPerformanceMeasuresValidationWarnings" Type="Boolean" Nullable="false" />
-    <Property Name="ShowExpendituresValidationWarnings" Type="Boolean" Nullable="false" />
-    <Property Name="ShowBudgetsValidationWarnings" Type="Boolean" Nullable="false" />
-    <Property Name="ShowLocationSimpleValidationWarnings" Type="Boolean" Nullable="false" />
     <Property Name="LastUpdatePersonID" Type="Int32" Nullable="false" />
     <Property Name="BasicsComment" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
     <Property Name="ExpendituresComment" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
