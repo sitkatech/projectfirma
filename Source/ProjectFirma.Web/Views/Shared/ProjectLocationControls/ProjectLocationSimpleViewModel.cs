@@ -106,7 +106,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             {
                 errors.Add(new SitkaValidationResult<ProjectLocationSimpleViewModel, double?>("Please specify a point on the map", x => x.ProjectLocationPointX));
             }
-
+            if (ProjectLocationSimpleType == ProjectLocationSimpleTypeEnum.NamedAreas && ProjectLocationAreaID.HasValue) //MIGHT NEED TO BE POSITIVE VALUE
+            {
+                errors.Add(
+                    new SitkaValidationResult<ProjectLocationSimpleViewModel, int?>(
+                        $"The simplified project location is set to '{Models.FieldDefinition.Watershed}' but no area is specified.",
+                        x => x.ProjectLocationAreaID));
+            }
             if (ProjectLocationSimpleType == ProjectLocationSimpleTypeEnum.None && string.IsNullOrWhiteSpace(ProjectLocationNotes))
             {
                 errors.Add(
