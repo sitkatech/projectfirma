@@ -39,100 +39,117 @@ Source code is available upon request via <support@sitkatech.com>.
     // ]]>
 </script>
 
+<style>
+    .panel-heading a:after {
+        font-family:'Glyphicons Halflings';
+        content:"\e114";
+        float: right;
+        color: grey;
+    }
+    .panel-heading a.collapsed:after {
+        content:"\e080";
+    }
+     
+</style>
+
 @using (Html.BeginForm())
 {
-<div ng-app="ProjectFirmaApp" ng-controller="EditSubcategoriesAndOptionsController">
-    <div>
-        <button type="button" class="btn btn-sm btn-firma" ng-click="addSubcategory()">
-            <span class="glyphicon glyphicon-plus"></span>
-            Add @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()
-        </button>
-    </div>
-    
-    <div class="alert alert-danger"
-         ng-show="!AngularModel.PerformanceMeasureSubcategorySimples || !AngularModel.PerformanceMeasureSubcategorySimples.length || AngularModel.PerformanceMeasureSubcategorySimples.length < 1">
-        There are currently no @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() on this @MultiTenantHelpers.GetPerformanceMeasureName()
-    </div>
-    <div class="row" ng-repeat="subcategorySimple in AngularModel.PerformanceMeasureSubcategorySimples">
-        <div class="panel panelFirma" style="margin: 10px 10px 0;">
-            <div class="panel-heading panelTitle">
-                <span>@MultiTenantHelpers.GetPerformanceMeasureName() @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() {{$index+1}}</span>
-                <span class="pull-right panel-heading-right">
-                    <a href="#" ng-show="!subcategoryHasAssociatedActuals(subcategorySimple)" ng-click="removeSubcategory(subcategorySimple)">
-                        <i class="glyphicon glyphicon-trash" title="Remove  @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()" alt="Remove  @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()"></i>
+    <div ng-app="ProjectFirmaApp" ng-controller="EditSubcategoriesAndOptionsController">
+        <div>
+            <button type="button" class="btn btn-sm btn-firma" ng-click="addSubcategory()">
+                <span class="glyphicon glyphicon-plus"></span>
+                Add @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()
+            </button>
+        </div>
+
+        <div class="alert alert-danger"
+             ng-show="!AngularModel.PerformanceMeasureSubcategorySimples || !AngularModel.PerformanceMeasureSubcategorySimples.length || AngularModel.PerformanceMeasureSubcategorySimples.length < 1">
+            There are currently no @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() on this @MultiTenantHelpers.GetPerformanceMeasureName()
+        </div>
+        <div class="row" ng-repeat="subcategorySimple in AngularModel.PerformanceMeasureSubcategorySimples">
+            <div class="panel panelFirma" style="margin: 10px 10px 0;">
+                <div class="panel-heading panelTitle">
+                    <a data-toggle="collapse" data-target="#collapse{{$index}}" ng-href="#collapse{{$index}}" class="collapsed">
+                        <span>@MultiTenantHelpers.GetPerformanceMeasureName() @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() {{$index+1}}</span>
                     </a>
-                </span>
-            </div>
-            <div class="panel-body" style="padding: 0 30px;">
-                <input type="hidden" value="{{subcategorySimple.PerformanceMeasureSubcategoryID}}"
-                       name="PerformanceMeasureSubcategorySimples[{{$index}}].PerformanceMeasureSubcategoryID" />
-                <div class="form-horizontal">
-                    <div class="form-group-condensed">
-                        <div ng-class="{'has-error': validateSubcategoryDisplayName(subcategorySimple).length != 0}">
-                            <label class="col-sm-2 control-label text-right">@FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() Name</label>
-                            <div class="col-md-5">
-                                <input type="text" class="form-control" ng-model="subcategorySimple.PerformanceMeasureSubcategoryDisplayName"
-                                       name="PerformanceMeasureSubcategorySimples[{{$index}}].PerformanceMeasureSubcategoryDisplayName" />
+                    <span class="pull-right panel-heading-right">
+                        <a href="#" ng-show="!subcategoryHasAssociatedActuals(subcategorySimple)" ng-click="removeSubcategory(subcategorySimple)">
+                            <i class="glyphicon glyphicon-trash" title="Remove  @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()" alt="Remove  @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()"></i>
+                        </a>
+                    </span>
+                </div>
+                <div id="#collapse{{$index}}" class="panel-collapse collapse">
+                    <div class="panel-body" style="padding: 0 30px;">
+                        <input type="hidden" value="{{subcategorySimple.PerformanceMeasureSubcategoryID}}"
+                               name="PerformanceMeasureSubcategorySimples[{{$index}}].PerformanceMeasureSubcategoryID"/>
+                        <div class="form-horizontal">
+                            <div class="form-group-condensed">
+                                <div ng-class="{'has-error': validateSubcategoryDisplayName(subcategorySimple).length != 0}">
+                                    <label class="col-sm-2 control-label text-right">@FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() Name</label>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" ng-model="subcategorySimple.PerformanceMeasureSubcategoryDisplayName"
+                                               name="PerformanceMeasureSubcategorySimples[{{$index}}].PerformanceMeasureSubcategoryDisplayName"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-sm-offset-2">
+                                    <button type="button" class="btn btn-sm btn-firma" ng-click="addSubcategoryOption(subcategorySimple)">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                        Add @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() Option
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group-condensed">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="col-sm-1"></th>
+                                        <th class="col-sm-3">Option Name</th>
+                                        <th class="col-sm-3">Option Shortname</th>
+                                        <th class="col-sm-5"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-show="!subcategorySimple.PerformanceMeasureSubcategoryOptions || !subcategorySimple.PerformanceMeasureSubcategoryOptions.length || subcategorySimple.PerformanceMeasureSubcategoryOptions.length < 1">
+                                        <td colspan="4">
+                                            <div class="alert alert-danger">There are currently no @FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized() on this @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel().</div>
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat="optionSimple in subcategorySimple.PerformanceMeasureSubcategoryOptions | orderBy: 'SortOrder'">
+                                        <td>
+                                            <input type="hidden" value="{{optionSimple.PerformanceMeasureSubcategoryOptionID}}"
+                                                   name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].PerformanceMeasureSubcategoryOptionID"/>
+                                            <input type="hidden" value="{{optionSimple.SortOrder}}"
+                                                   name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].SortOrder"/>
+                                            <a href="javascript:void(0)" ng-show="$index > 0 && subcategorySimple.PerformanceMeasureSubcategoryOptions.length > 0" ng-click="moveSubcategoryUp(subcategorySimple, optionSimple)">
+                                                <i class="glyphicon glyphicon-arrow-up" title="Move Up" alt="Move Up"></i>
+                                            </a>
+                                            <a href="javascript:void(0)" ng-show="$index < subcategorySimple.PerformanceMeasureSubcategoryOptions.length - 1 && subcategorySimple.PerformanceMeasureSubcategoryOptions.length > 0" ng-click="moveSubcategoryDown(subcategorySimple, optionSimple)">
+                                                <i class="glyphicon glyphicon-arrow-down" title="Move Down" alt="Move Down"></i>
+                                            </a>
+                                            <a href="javascript:void(0)" ng-show="!optionSimple.HasAssociatedActuals" ng-click="removeSubcategoryOption(subcategorySimple, optionSimple)">
+                                                <i class="glyphicon glyphicon-trash" title="Remove  @FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabel()" alt="Remove  @FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabel()"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="input-group input-group-sm" ng-class="{'has-error': validateOptionName(optionSimple).length != 0}">
+                                                <input class="form-control" type="text" ng-model="optionSimple.PerformanceMeasureSubcategoryOptionName"
+                                                       name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].PerformanceMeasureSubcategoryOptionName"/>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group input-group-sm" ng-class="{'has-error': validateOptionShortname(optionSimple).length != 0}">
+                                                <input class="form-control" type="text" ng-model="optionSimple.ShortName"
+                                                       name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].ShortName"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <div class="col-sm-3 col-sm-offset-2">
-                            <button type="button" class="btn btn-sm btn-firma" ng-click="addSubcategoryOption(subcategorySimple)">
-                                <span class="glyphicon glyphicon-plus"></span>
-                                Add @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() Option
-                            </button>
-                        </div>
-                    </div>
-                    <div class="form-group-condensed">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th class="col-sm-1"></th>
-                                    <th class="col-sm-3">Option Name</th>
-                                    <th class="col-sm-3">Option Shortname</th>
-                                    <th class="col-sm-5"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-show="!subcategorySimple.PerformanceMeasureSubcategoryOptions || !subcategorySimple.PerformanceMeasureSubcategoryOptions.length || subcategorySimple.PerformanceMeasureSubcategoryOptions.length < 1">
-                                    <td colspan="4">
-                                        <div class="alert alert-danger">There are currently no @FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized() on this @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel().</div>
-                                    </td>
-                                </tr>
-                                <tr ng-repeat="optionSimple in subcategorySimple.PerformanceMeasureSubcategoryOptions | orderBy: 'SortOrder'">
-                                    <td>
-                                        <input type="hidden" value="{{optionSimple.PerformanceMeasureSubcategoryOptionID}}"
-                                               name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].PerformanceMeasureSubcategoryOptionID" />
-                                        <input type="hidden" value="{{optionSimple.SortOrder}}"
-                                               name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].SortOrder" />
-                                        <a href="javascript:void(0)" ng-show="$index > 0 && subcategorySimple.PerformanceMeasureSubcategoryOptions.length > 0" ng-click="moveSubcategoryUp(subcategorySimple, optionSimple)">
-                                            <i class="glyphicon glyphicon-arrow-up" title="Move Up" alt="Move Up"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" ng-show="$index < subcategorySimple.PerformanceMeasureSubcategoryOptions.length - 1 && subcategorySimple.PerformanceMeasureSubcategoryOptions.length > 0" ng-click="moveSubcategoryDown(subcategorySimple, optionSimple)">
-                                            <i class="glyphicon glyphicon-arrow-down" title="Move Down" alt="Move Down"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" ng-show="!optionSimple.HasAssociatedActuals" ng-click="removeSubcategoryOption(subcategorySimple, optionSimple)">
-                                            <i class="glyphicon glyphicon-trash" title="Remove  @FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabel()" alt="Remove  @FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabel()"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <div class="input-group input-group-sm" ng-class="{'has-error': validateOptionName(optionSimple).length != 0}">
-                                            <input class="form-control" type="text" ng-model="optionSimple.PerformanceMeasureSubcategoryOptionName"
-                                                   name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].PerformanceMeasureSubcategoryOptionName" />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="input-group input-group-sm" ng-class="{'has-error': validateOptionShortname(optionSimple).length != 0}">
-                                            <input class="form-control" type="text" ng-model="optionSimple.ShortName"
-                                                   name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].ShortName" />
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 }
