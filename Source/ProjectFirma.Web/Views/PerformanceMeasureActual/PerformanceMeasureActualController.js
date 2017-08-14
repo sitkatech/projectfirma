@@ -20,6 +20,8 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController", function ($scope, angularModelAndViewData)
 {
+    $scope.PerformanceMeasureToAdd = {};
+
     $scope.groupedPerformanceMeasures = function () {
         return _.uniq($scope.AngularModel.PerformanceMeasureActuals, "PerformanceMeasureID");
     }
@@ -109,14 +111,12 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
         return anySubcategories;
     };
 
-    $scope.addRow = function()
-    {
-        if ($scope.PerformanceMeasureToAdd != null)
-        {
+    $scope.addRow = function () {
+        if ($scope.PerformanceMeasureToAdd.selected != null) {
             var performanceMeasureToAdd = Sitka.Methods.findElementInJsonArray(
                 $scope.AngularViewData.AllPerformanceMeasures,
                 "PerformanceMeasureID",
-                $scope.PerformanceMeasureToAdd);
+                $scope.PerformanceMeasureToAdd.selected.PerformanceMeasureID);
             var newPerformanceMeasureActual = $scope.createNewRow($scope.ProjectToAdd, performanceMeasureToAdd);
             $scope.AngularModel.PerformanceMeasureActuals.push(newPerformanceMeasureActual);
         }
@@ -133,6 +133,7 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
         };
         return newPerformanceMeasureActual;
     };
+
 
     $scope.createPerformanceMeasureValueSubcategoryOptionRows = function (performanceMeasure)
     {
@@ -183,7 +184,6 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-    $scope.resetPerformanceMeasureToAdd();
     $scope.resetProjectToAdd();
 });
 

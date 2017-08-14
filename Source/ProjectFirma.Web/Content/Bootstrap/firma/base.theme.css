@@ -937,20 +937,6 @@ td.stage {
 .stage.current {
   background-color: #2B6991;
 }
-h2.expanded {
-  padding: 0 0 10px 25px;
-  background: url("/Content/img/expanded.png") no-repeat scroll 0 0 transparent;
-  color: #007CB9;
-  cursor: pointer;
-  font-size: 13px;
-}
-h2.collapsed {
-  padding: 0 0 10px 25px;
-  background: url("/Content/img/collapsed.png") no-repeat scroll 0 0 transparent;
-  color: #007CB9;
-  cursor: pointer;
-  font-size: 13px;
-}
 .chartWrapper {
   background: #FFF;
   border-radius: 10px;

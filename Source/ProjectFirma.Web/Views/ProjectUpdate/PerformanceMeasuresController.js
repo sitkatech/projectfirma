@@ -20,6 +20,8 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", function($scope, $timeout, angularModelAndViewData)
 {
+    $scope.PerformanceMeasureToAdd = {};
+
     $scope.groupedPerformanceMeasures = function () {
         return _.uniq($scope.AngularModel.PerformanceMeasureActualUpdates, "PerformanceMeasureID");
     }
@@ -105,20 +107,13 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
         return anySubcategories;
     };
 
-    $scope.BlankOutEmptyYearsFromModel = function()
-    {
-        var filteredCalendarYears = $scope.filteredCalendarYears();
-        _($scope.AngularModel.PerformanceMeasureActualUpdates).filter(function(pmav) { return !_.contains(filteredCalendarYears, pmav.CalendarYear); }).each(function(pmav) { pmav.CalendarYear = ""; });
-    };
-
-    $scope.addRow = function()
-    {
-        if ($scope.PerformanceMeasureToAdd != null)
-        {
+    $scope.addRow = function () {
+        console.log($scope.PerformanceMeasureToAdd.selected);
+        if ($scope.PerformanceMeasureToAdd.selected != null) {
             var performanceMeasureToAdd = Sitka.Methods.findElementInJsonArray(
                 $scope.AngularViewData.AllPerformanceMeasures,
                 "PerformanceMeasureID",
-                $scope.PerformanceMeasureToAdd);
+                $scope.PerformanceMeasureToAdd.selected.PerformanceMeasureID);
             var newPerformanceMeasureActual = $scope.createNewRow($scope.ProjectToAdd, performanceMeasureToAdd);
             $scope.AngularModel.PerformanceMeasureActualUpdates.push(newPerformanceMeasureActual);
             $scope.repositionQtipPopups();
@@ -201,7 +196,6 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
     $scope.ModelState = angularModelAndViewData.ModelState;
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-    $scope.resetPerformanceMeasureToAdd();
     $scope.resetProjectToAdd();
 
     var repositionQtipPopupsTimeout = null;
