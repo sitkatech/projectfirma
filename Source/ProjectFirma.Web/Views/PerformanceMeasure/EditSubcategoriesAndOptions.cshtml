@@ -69,7 +69,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="row" ng-repeat="subcategorySimple in AngularModel.PerformanceMeasureSubcategorySimples">
             <div class="panel panelFirma" style="margin: 10px 10px 0;">
                 <div class="panel-heading panelTitle">
-                    <a data-toggle="collapse" data-target="#collapse{{$index}}" ng-href="#collapse{{$index}}" class="collapsed">
+                    <a data-toggle="collapse" data-target="#collapse{{$index}}" ng-href="#collapse{{$index}}">
                         <span>@MultiTenantHelpers.GetPerformanceMeasureName() @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() {{$index+1}}</span>
                     </a>
                     <span class="pull-right panel-heading-right">
@@ -78,7 +78,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         </a>
                     </span>
                 </div>
-                <div id="#collapse{{$index}}" class="panel-collapse collapse">
+                <div id="#collapse{{$index}}" class="panel-collapse collapse in">
                     <div class="panel-body" style="padding: 0 30px;">
                         <input type="hidden" value="{{subcategorySimple.PerformanceMeasureSubcategoryID}}"
                                name="PerformanceMeasureSubcategorySimples[{{$index}}].PerformanceMeasureSubcategoryID"/>
