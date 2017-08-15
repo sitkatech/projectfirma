@@ -737,11 +737,16 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProposedProject(proposedProject, viewModel);
             }
             DeleteProposedProject(proposedProject);
+            SetMessageForDisplay($"Proposed Project {proposedProject.DisplayName} successfully deleted.");
             return new ModalDialogFormJsonResult();
         }
 
         private static void DeleteProposedProject(ProposedProject proposedProject)
         {
+            proposedProject.ProposedProjectImages.DeleteProposedProjectImage();
+            proposedProject.ProposedProjectLocations.DeleteProposedProjectLocation();
+            proposedProject.ProposedProjectLocationStagings.DeleteProposedProjectLocationStaging();
+
             proposedProject.ProposedProjectNotes.DeleteProposedProjectNote();
             proposedProject.ProposedProjectClassifications.DeleteProposedProjectClassification();
 
