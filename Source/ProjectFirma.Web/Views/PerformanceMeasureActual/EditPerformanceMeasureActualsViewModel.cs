@@ -135,6 +135,11 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
             {
                 errors.Add(new ValidationResult($"Found duplicate rows. The {Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page."));
             }
+            var exemptYears = ProjectExemptReportingYears?.Where(x => x.IsExempt).Select(x => x.CalendarYear).ToList();
+            if (exemptYears != null && PerformanceMeasureActuals != null && PerformanceMeasureActuals.Any(x => x.CalendarYear != null && exemptYears.Contains(x.CalendarYear.Value)))
+            {
+                errors.Add(new ValidationResult($"Found reported value for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}."));
+            }
 
             return errors;
         }

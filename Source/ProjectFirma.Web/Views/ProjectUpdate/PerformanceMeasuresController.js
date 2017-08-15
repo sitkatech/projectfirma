@@ -105,16 +105,8 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
         return anySubcategories;
     };
 
-    $scope.BlankOutEmptyYearsFromModel = function()
-    {
-        var filteredCalendarYears = $scope.filteredCalendarYears();
-        _($scope.AngularModel.PerformanceMeasureActualUpdates).filter(function(pmav) { return !_.contains(filteredCalendarYears, pmav.CalendarYear); }).each(function(pmav) { pmav.CalendarYear = ""; });
-    };
-
-    $scope.addRow = function()
-    {
-        if ($scope.PerformanceMeasureToAdd != null)
-        {
+    $scope.addRow = function () {
+        if ($scope.PerformanceMeasureToAdd != null) {
             var performanceMeasureToAdd = Sitka.Methods.findElementInJsonArray(
                 $scope.AngularViewData.AllPerformanceMeasures,
                 "PerformanceMeasureID",
@@ -201,7 +193,6 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
     $scope.ModelState = angularModelAndViewData.ModelState;
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-    $scope.resetPerformanceMeasureToAdd();
     $scope.resetProjectToAdd();
 
     var repositionQtipPopupsTimeout = null;

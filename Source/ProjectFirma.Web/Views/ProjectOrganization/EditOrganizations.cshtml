@@ -218,6 +218,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                             ng-change="updateModel(primarySimple)"
                                             class="selectpicker"
                                             data-live-search="true"
+                                            data-container="body"
                                             title="Select an Organization">
                                         <option ng-repeat="organization in getAvailableOrganizations(primarySimple)"
                                                 value="{{organization.OrganizationID}}"
