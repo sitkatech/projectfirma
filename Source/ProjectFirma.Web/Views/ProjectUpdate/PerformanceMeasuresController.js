@@ -20,8 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", function($scope, $timeout, angularModelAndViewData)
 {
-    $scope.PerformanceMeasureToAdd = {};
-
     $scope.groupedPerformanceMeasures = function () {
         return _.uniq($scope.AngularModel.PerformanceMeasureActualUpdates, "PerformanceMeasureID");
     }
@@ -108,12 +106,11 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
     };
 
     $scope.addRow = function () {
-        console.log($scope.PerformanceMeasureToAdd.selected);
-        if ($scope.PerformanceMeasureToAdd.selected != null) {
+        if ($scope.PerformanceMeasureToAdd != null) {
             var performanceMeasureToAdd = Sitka.Methods.findElementInJsonArray(
                 $scope.AngularViewData.AllPerformanceMeasures,
                 "PerformanceMeasureID",
-                $scope.PerformanceMeasureToAdd.selected.PerformanceMeasureID);
+                $scope.PerformanceMeasureToAdd);
             var newPerformanceMeasureActual = $scope.createNewRow($scope.ProjectToAdd, performanceMeasureToAdd);
             $scope.AngularModel.PerformanceMeasureActualUpdates.push(newPerformanceMeasureActual);
             $scope.repositionQtipPopups();

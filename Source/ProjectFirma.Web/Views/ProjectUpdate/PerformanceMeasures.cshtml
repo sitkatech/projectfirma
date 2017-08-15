@@ -45,6 +45,12 @@
                     };
                 });
 
+            jQuery(".selectpicker").selectpicker("refresh");
+            jQuery(".modal").on("hidden.bs.modal",
+                function () {
+                    jQuery(".bootstrap-select.open").removeClass("open");
+                });
+
             jQuery(document).ready(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });            
             // ]]>
         </script>
@@ -111,15 +117,20 @@ else
                 }
                 <div class="form-group">
                     <label class="control-label">@MultiTenantHelpers.GetPerformanceMeasureName() to Add:</label>
-                    <div class="input-group">
-                        <ui-select ng-model="PerformanceMeasureToAdd.selected" title="Select a @MultiTenantHelpers.GetPerformanceMeasureName()">
-                            <ui-select-match>
-                                <span ng-bind="$select.selected.DisplayName"></span>
-                            </ui-select-match>
-                            <ui-select-choices repeat="performanceMeasure in filteredPerformanceMeasures() | filter: $select.search">
-                                <span ng-bind="performanceMeasure.DisplayName"></span>
-                            </ui-select-choices>
-                        </ui-select>                        
+                    <div class="input-group">                       
+                        <select ng-model="PerformanceMeasureToAdd"
+                                class="selectpicker"
+                                data-live-search="true"
+                                data-container="body"
+                                title="Select a @MultiTenantHelpers.GetPerformanceMeasureName()"
+                                data-width="100%">
+                            <option value="" disabled selected>Select a @MultiTenantHelpers.GetPerformanceMeasureName()</option>
+                            <option ng-repeat="performanceMeasure in filteredPerformanceMeasures()"
+                                    value="{{performanceMeasure.PerformanceMeasureID}}"
+                                    ng-selected="PerformanceMeasureToAdd == performanceMeasure.PerformanceMeasureID"
+                                    ng-bind="performanceMeasure.DisplayName"
+                                    data-tokens="{{performanceMeasure.DisplayName}}"></option>
+                        </select>
                         <span class="input-group-btn">
                             <button class="btn btn-firma" type="button" ng-click="addRow()">
                                 <span class="glyphicon glyphicon-plus"></span> Add

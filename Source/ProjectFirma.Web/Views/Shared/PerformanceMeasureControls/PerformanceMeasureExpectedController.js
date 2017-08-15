@@ -21,8 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedController", function ($scope, angularModelAndViewData)
 {
 
-    $scope.PerformanceMeasureToAdd = {};
-  
     $scope.groupedPerformanceMeasures = function () {        
         return _.uniq($scope.AngularModel.PerformanceMeasureExpecteds, "PerformanceMeasureID");
     }
@@ -100,11 +98,11 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedControll
     };
 
     $scope.addRow = function() {
-        if ($scope.PerformanceMeasureToAdd.selected != null) {
+        if ($scope.PerformanceMeasureToAdd != null) {
             var performanceMeasureToAdd = Sitka.Methods.findElementInJsonArray(
                 $scope.AngularViewData.AllPerformanceMeasures,
                 "PerformanceMeasureID",
-                $scope.PerformanceMeasureToAdd.selected.PerformanceMeasureID);
+                $scope.PerformanceMeasureToAdd);
             var newPerformanceMeasureExpected = $scope.createNewRow(performanceMeasureToAdd);
             $scope.AngularModel.PerformanceMeasureExpecteds.push(newPerformanceMeasureExpected);
         }

@@ -19,9 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController", function ($scope, angularModelAndViewData)
-{
-    $scope.PerformanceMeasureToAdd = {};
-
+{    
     $scope.groupedPerformanceMeasures = function () {
         return _.uniq($scope.AngularModel.PerformanceMeasureActuals, "PerformanceMeasureID");
     }
@@ -112,11 +110,11 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
     };
 
     $scope.addRow = function () {
-        if ($scope.PerformanceMeasureToAdd.selected != null) {
+        if ($scope.PerformanceMeasureToAdd != null) {
             var performanceMeasureToAdd = Sitka.Methods.findElementInJsonArray(
                 $scope.AngularViewData.AllPerformanceMeasures,
                 "PerformanceMeasureID",
-                $scope.PerformanceMeasureToAdd.selected.PerformanceMeasureID);
+                $scope.PerformanceMeasureToAdd);
             var newPerformanceMeasureActual = $scope.createNewRow($scope.ProjectToAdd, performanceMeasureToAdd);
             $scope.AngularModel.PerformanceMeasureActuals.push(newPerformanceMeasureActual);
         }

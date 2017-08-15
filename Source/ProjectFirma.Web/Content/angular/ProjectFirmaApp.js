@@ -4,9 +4,7 @@
     angular.module("ProjectFirmaApp", [
         "ng-currency",
         "server-validate",
-        "ui.bootstrap",
-        "ui.select",
-        "ngSanitize"
+        "ui.bootstrap"
     ]);
 
     angular.module("ProjectFirmaApp").filter("nfcurrency", ["$filter", "$locale", function ($filter, $locale) {
