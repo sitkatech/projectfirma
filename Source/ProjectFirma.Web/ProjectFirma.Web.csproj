@@ -924,7 +924,7 @@
     <Compile Include="Common\FirmaValidationMessages.cs" />
     <Compile Include="Common\ToadsValidationMessages.cs" />
     <Compile Include="Controllers\FieldDefinitionController.cs" />
-    <Compile Include="Controllers\GoogleChartConfigurationViewModel.cs" />
+    <Compile Include="Views\Shared\GoogleChartConfigurationViewModel.cs" />
     <Compile Include="Models\IRole.cs" />
     <Compile Include="Models\ProjectWizardComponents.cs" />
     <Compile Include="Security\FirmaAdminFeature.cs" />
