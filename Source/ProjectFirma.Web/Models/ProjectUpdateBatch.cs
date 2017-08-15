@@ -365,7 +365,10 @@ namespace ProjectFirma.Web.Models
             //validation 3: duplicate PM row
             var performanceMeasureActualUpdatesWithDuplicateWarnings = ValidateNoDuplicatePerformanceMeasureActualUpdateRow();
 
-            var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(missingYears, performanceMeasureActualUpdatesWithIncompleteWarnings, performanceMeasureActualUpdatesWithDuplicateWarnings);
+            //validation4: data entered for exempt years
+            var performanceMeasureActualUpdatesWithExemptYear = ValidateNoExemptYearsWithReportedPerformanceMeasureRow();
+
+            var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(missingYears, performanceMeasureActualUpdatesWithIncompleteWarnings, performanceMeasureActualUpdatesWithDuplicateWarnings, performanceMeasureActualUpdatesWithExemptYear);
             return performanceMeasuresValidationResult;
         }
 
@@ -391,6 +394,20 @@ namespace ProjectFirma.Web.Models
                 .Where(x => x.Select(m => m.PerformanceMeasureActualSubcategoryOptionUpdates).ToList().Select(z => String.Join("_", z.Select(s => s.PerformanceMeasureSubcategoryOptionID).ToList())).ToList().HasDuplicates()).ToList();
 
             return new HashSet<int>(duplicates.SelectMany(x => x).ToList().Select(x => x.PerformanceMeasureActualUpdateID));
+        }
+
+        private HashSet<int> ValidateNoExemptYearsWithReportedPerformanceMeasureRow()
+        {
+            if (PerformanceMeasureActualUpdates == null)
+            {
+                return new HashSet<int>();
+            }
+            var exemptYears = ProjectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList();
+
+            var performanceMeasureActualUpdatesWithExemptYear =
+                PerformanceMeasureActualUpdates.Where(x => exemptYears.Contains(x.CalendarYear)).ToList();            
+
+            return new HashSet<int>(performanceMeasureActualUpdatesWithExemptYear.Select(x => x.PerformanceMeasureActualUpdateID));
         }
 
         public bool ArePerformanceMeasuresValid()

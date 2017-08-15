@@ -35,7 +35,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
     jQuery(".selectpicker").selectpicker("refresh");
     jQuery(".modal").on("hidden.bs.modal",
-        function() {
+        function () {
             jQuery(".bootstrap-select.open").removeClass("open");
         });
     // ]]>
@@ -50,7 +50,10 @@ Source code is available upon request via <support@sitkatech.com>.
     @if (Model.ProjectExemptReportingYears != null && Model.ProjectExemptReportingYears.Any())
     {
         <div style="margin-top: 5px">
-            <h2 ng-class="AngularViewData.ShowExemptYears ? 'expanded' : 'collapsed'" ng-click="AngularViewData.ShowExemptYears = !AngularViewData.ShowExemptYears"> What if the @FieldDefinition.Project.GetFieldDefinitionLabel() has no accomplishments to report?</h2>
+            <a style="font-weight: bold; cursor: pointer" ng-click="AngularViewData.ShowExemptYears = !AngularViewData.ShowExemptYears">
+                <i ng-class="AngularViewData.ShowExemptYears ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'" ></i> 
+                What if the @FieldDefinition.Project.GetFieldDefinitionLabel() has no accomplishments to report?
+            </a>
             <div ng-show="AngularViewData.ShowExemptYears">
                 Select the years for which there are no accomplishments to report and provide a brief explanation.
                 <div>
@@ -66,14 +69,16 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="form-group">
         <label class="control-label">@MultiTenantHelpers.GetPerformanceMeasureName() to Add:</label>
         <div class="input-group">
-            <select data-ng-model="PerformanceMeasureToAdd"
+            <select ng-model="PerformanceMeasureToAdd"
                     class="selectpicker"
                     data-live-search="true"
                     data-container="body"
                     title="Select a @MultiTenantHelpers.GetPerformanceMeasureName()"
                     data-width="100%">
+                <option value="" disabled selected>Select a @MultiTenantHelpers.GetPerformanceMeasureName()</option>
                 <option ng-repeat="performanceMeasure in filteredPerformanceMeasures()"
                         value="{{performanceMeasure.PerformanceMeasureID}}"
+                        ng-selected="PerformanceMeasureToAdd == performanceMeasure.PerformanceMeasureID"
                         ng-bind="performanceMeasure.DisplayName"
                         data-tokens="{{performanceMeasure.DisplayName}}"></option>
             </select>
@@ -108,7 +113,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <td style="width: 100px">
                 <select class="form-control"
                         ng-model="performanceMeasureActual.CalendarYear">
-                    <option ng-repeat="calendarYear in filteredCalendarYears()"
+                    <option ng-repeat="calendarYear in AngularViewData.CalendarYears"
                             value="{{calendarYear}}"
                             ng-selected="calendarYear == performanceMeasureActual.CalendarYear">
                         {{calendarYear}}

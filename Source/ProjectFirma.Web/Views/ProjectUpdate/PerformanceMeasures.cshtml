@@ -45,11 +45,13 @@
                     };
                 });
 
-            jQuery(document).ready(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
+            jQuery(".selectpicker").selectpicker("refresh");
             jQuery(".modal").on("hidden.bs.modal",
-                function() {
+                function () {
                     jQuery(".bootstrap-select.open").removeClass("open");
                 });
+
+            jQuery(document).ready(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });            
             // ]]>
         </script>
     }
@@ -96,12 +98,15 @@ else
                 @if (Model.ProjectExemptReportingYearUpdates != null && Model.ProjectExemptReportingYearUpdates.Any())
                 {
                     <div style="margin-top: 5px">
-                        <h2 ng-class="AngularViewData.ShowExemptYears ? 'expanded' : 'collapsed'" ng-click="AngularViewData.ShowExemptYears = !AngularViewData.ShowExemptYears"> What if my project has no accomplishments to report?</h2>
+                        <a style="font-weight: bold; cursor: pointer" ng-click="AngularViewData.ShowExemptYears = !AngularViewData.ShowExemptYears">
+                            <i ng-class="AngularViewData.ShowExemptYears ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'" ></i> 
+                            What if the @FieldDefinition.Project.GetFieldDefinitionLabel() has no accomplishments to report?
+                        </a>
                         <div ng-show="AngularViewData.ShowExemptYears" >
                             Select the years for which you have no accomplishments to report and provide a brief explanation.
                             <div>
                                 <label ng-repeat="projectExemptYearUpdate in AngularModel.ProjectExemptReportingYearUpdates" style="padding-right: 10px">
-                                    <input type="checkbox" ng-model="projectExemptYearUpdate.IsExempt" ng-change="BlankOutEmptyYearsFromModel()" /> <span ng-bind="projectExemptYearUpdate.CalendarYear"></span>
+                                    <input type="checkbox" ng-model="projectExemptYearUpdate.IsExempt" /> <span ng-bind="projectExemptYearUpdate.CalendarYear"></span>
                                 </label>
                             </div>
                             @Html.TextAreaFor(x => x.Explanation, new Dictionary<string, object> { { "style", "width:100%" }, { "placeholder", "Explanation here" }, { "ng-model", "AngularModel.Explanation" }, {"class", "form-control"} })
@@ -112,15 +117,17 @@ else
                 }
                 <div class="form-group">
                     <label class="control-label">@MultiTenantHelpers.GetPerformanceMeasureName() to Add:</label>
-                    <div class="input-group">
-                        <select data-ng-model="PerformanceMeasureToAdd"
+                    <div class="input-group">                       
+                        <select ng-model="PerformanceMeasureToAdd"
                                 class="selectpicker"
                                 data-live-search="true"
                                 data-container="body"
                                 title="Select a @MultiTenantHelpers.GetPerformanceMeasureName()"
                                 data-width="100%">
+                            <option value="" disabled selected>Select a @MultiTenantHelpers.GetPerformanceMeasureName()</option>
                             <option ng-repeat="performanceMeasure in filteredPerformanceMeasures()"
                                     value="{{performanceMeasure.PerformanceMeasureID}}"
+                                    ng-selected="PerformanceMeasureToAdd == performanceMeasure.PerformanceMeasureID"
                                     ng-bind="performanceMeasure.DisplayName"
                                     data-tokens="{{performanceMeasure.DisplayName}}"></option>
                         </select>
@@ -160,10 +167,9 @@ else
                                 <td style="width: 100px">
                                     <select class="form-control"
                                             ng-model="performanceMeasureActualUpdate.CalendarYear" required>
-                                        <option ng-repeat="calendarYear in filteredCalendarYears()"
+                                        <option ng-repeat="calendarYear in AngularViewData.CalendarYears"
                                                 value="{{calendarYear}}"
-                                                ng-selected="calendarYear == performanceMeasureActualUpdate.CalendarYear"
-                                                >
+                                                ng-selected="calendarYear == performanceMeasureActualUpdate.CalendarYear">
                                             {{calendarYear}}
                                         </option>
                                     </select>

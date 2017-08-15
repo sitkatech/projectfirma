@@ -31,15 +31,19 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public static readonly string FoundDuplicatePerformanceMeasureRowsMessage = $"Found duplicate rows. The {Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page.";
 
+        public static readonly string FoundReportedPerformanceMeasureForExemptYearRowsMessage = $"Found reported value for exmept years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}.";
+
+
         private readonly List<string> _warningMessages;
 
         public readonly HashSet<int> PerformanceMeasureActualUpdatesWithWarnings;
 
-        public PerformanceMeasuresValidationResult(HashSet<int> missingYears, HashSet<int> performanceMeasureActualUpdatesWithIncompleteWarnings, HashSet<int> performanceMeasureActualUpdatesWithDuplicateWarnings)
+        public PerformanceMeasuresValidationResult(HashSet<int> missingYears, HashSet<int> performanceMeasureActualUpdatesWithIncompleteWarnings, HashSet<int> performanceMeasureActualUpdatesWithDuplicateWarnings, HashSet<int> performanceMeasureActualUpdatesWithExemptYear)
         {
             var ints = new HashSet<int>();
             ints.UnionWith(performanceMeasureActualUpdatesWithIncompleteWarnings);
             ints.UnionWith(performanceMeasureActualUpdatesWithDuplicateWarnings);
+            ints.UnionWith(performanceMeasureActualUpdatesWithExemptYear);
 
             PerformanceMeasureActualUpdatesWithWarnings = ints;
             _warningMessages = new List<string>();
@@ -56,6 +60,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             {
                 _warningMessages.Add(FoundDuplicatePerformanceMeasureRowsMessage);
             }
+            if (performanceMeasureActualUpdatesWithExemptYear.Any())
+            {
+                _warningMessages.Add(FoundReportedPerformanceMeasureForExemptYearRowsMessage);
+            }
+
         }
 
         public PerformanceMeasuresValidationResult(string customErrorMessage)

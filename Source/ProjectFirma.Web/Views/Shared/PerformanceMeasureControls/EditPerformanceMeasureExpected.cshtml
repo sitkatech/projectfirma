@@ -25,23 +25,6 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits ProjectFirma.Web.Views.Shared.PerformanceMeasureControls.EditPerformanceMeasureExpected
 
 
-    <style>
-
-        .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-            border-bottom: 0 !important;
-            border-top: 0 !important;
-        }
-        .table > tbody {
-            border-top: 0 !important;
-        }
-            .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-                padding-top: 4px;
-                padding-bottom: 0;
-            }
-
-    </style>
-
-
 <script type="text/javascript">
     // <![CDATA[
     jQuery(document).ready(function()
@@ -54,10 +37,10 @@ Source code is available upon request via <support@sitkatech.com>.
             };
         });
         angular.bootstrap(jQuery("#EditPerformanceMeasureExpectedsApp"), ["ProjectFirmaApp"]);
-       
+
         jQuery(".selectpicker").selectpicker("refresh");
         jQuery(".modal").on("hidden.bs.modal",
-            function() {
+            function () {
                 jQuery(".bootstrap-select.open").removeClass("open");
             });
     });
@@ -77,15 +60,17 @@ Source code is available upon request via <support@sitkatech.com>.
         <div id="EditPerformanceMeasureExpectedsApp" ng-controller="PerformanceMeasureExpectedController">
             <div class="form-group">
                 <label class="control-label">@MultiTenantHelpers.GetPerformanceMeasureName() to Add:</label>
-                <div class="input-group">
-                    <select data-ng-model="PerformanceMeasureToAdd"                            
+                <div class="input-group">                    
+                    <select ng-model="PerformanceMeasureToAdd"
                             class="selectpicker"
                             data-live-search="true"
                             data-container="body"
                             title="Select a @MultiTenantHelpers.GetPerformanceMeasureName()"
                             data-width="100%">
+                        <option value="" disabled selected>Select a @MultiTenantHelpers.GetPerformanceMeasureName()</option>
                         <option ng-repeat="performanceMeasure in filteredPerformanceMeasures()"
                                 value="{{performanceMeasure.PerformanceMeasureID}}"
+                                ng-selected="PerformanceMeasureToAdd == performanceMeasure.PerformanceMeasureID"
                                 ng-bind="performanceMeasure.DisplayName"
                                 data-tokens="{{performanceMeasure.DisplayName}}"></option>
                     </select>
