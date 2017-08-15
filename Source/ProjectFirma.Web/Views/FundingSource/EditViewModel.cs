@@ -43,6 +43,7 @@ namespace ProjectFirma.Web.Views.FundingSource
         public int OrganizationID { get; set; }
 
         [Required]
+        [DisplayName("Active?")]
         public bool IsActive { get; set; }
 
         [StringLength(Models.FundingSource.FieldLengths.FundingSourceDescription)]
