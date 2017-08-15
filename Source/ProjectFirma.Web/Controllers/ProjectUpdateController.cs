@@ -681,7 +681,7 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
             var mapInitJsonForEdit = new MapInitJson($"project_{project.ProjectID}_EditMap",
                 10,
-                MapInitJson.GetWatershedMapLayers(),
+                MapInitJson.GetWatershedMapLayers(LayerInitialVisibility.Hide),
                 BoundingBox.MakeNewDefaultBoundingBox(),
                 false);
             var locationSimpleValidationResult = projectUpdateBatch.ValidateProjectLocationSimple();
