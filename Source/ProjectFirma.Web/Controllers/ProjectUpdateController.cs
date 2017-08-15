@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Data.Entity.Spatial;
 using System.Linq;
@@ -169,8 +170,7 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));                
             }
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
-            var showValidationWarnings = projectUpdateBatch.ShowBasicsValidationWarnings;
-            var viewModel = new BasicsViewModel(projectUpdate, showValidationWarnings, projectUpdateBatch.BasicsComment);
+            var viewModel = new BasicsViewModel(projectUpdate, projectUpdateBatch.BasicsComment);
             return ViewBasics(projectUpdate, viewModel);
         }
 
@@ -273,7 +273,6 @@ namespace ProjectFirma.Web.Controllers
             var viewModel = new PerformanceMeasuresViewModel(performanceMeasureActualUpdateSimples,
                 projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation,
                 projectExemptReportingYearUpdates.OrderBy(x => x.CalendarYear).ToList(),
-                projectUpdateBatch.ShowPerformanceMeasuresValidationWarnings,
                 projectUpdateBatch.PerformanceMeasuresComment);
             return ViewPerformanceMeasures(projectUpdateBatch, viewModel);
         }
@@ -403,7 +402,6 @@ namespace ProjectFirma.Web.Controllers
             var calendarYearRange = projectFundingSourceExpenditureUpdates.CalculateCalendarYearRangeForExpenditures(projectUpdateBatch.ProjectUpdate);
             var viewModel = new ExpendituresViewModel(projectFundingSourceExpenditureUpdates,
                 calendarYearRange,
-                projectUpdateBatch.ShowExpendituresValidationWarnings,
                 projectUpdateBatch.ExpendituresComment);
             return ViewExpenditures(projectUpdateBatch, calendarYearRange, viewModel);
         }
@@ -502,7 +500,6 @@ namespace ProjectFirma.Web.Controllers
             var calendarYearRange = projectFundingSourceBudgetUpdates.CalculateCalendarYearRangeForBudgets(projectUpdateBatch.ProjectUpdate);
             var viewModel = new BudgetsViewModel(projectFundingSourceBudgetUpdates,
                 calendarYearRange,
-                projectUpdateBatch.ShowBudgetsValidationWarnings,
                 projectUpdateBatch.BudgetsComment);
             return ViewBudgets(projectUpdateBatch, calendarYearRange, viewModel);
         }
@@ -650,8 +647,7 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdate.ProjectLocationAreaID,
                 projectUpdate.ProjectLocationSimpleType.ToEnum,
                 projectUpdate.ProjectLocationNotes,
-                projectUpdateBatch.LocationSimpleComment,
-                projectUpdateBatch.ShowLocationSimpleValidationWarnings);
+                projectUpdateBatch.LocationSimpleComment);
             return ViewLocationSimple(project, projectUpdateBatch, viewModel);
         }
 
@@ -668,6 +664,7 @@ namespace ProjectFirma.Web.Controllers
             }
             if (!ModelState.IsValid)
             {
+                ShowValidationErrors(viewModel.GetValidationResults().ToList()); //call may be redundant
                 return ViewLocationSimple(project, projectUpdateBatch, viewModel);
             }
             viewModel.UpdateModelBatch(projectUpdateBatch);
@@ -684,7 +681,7 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
             var mapInitJsonForEdit = new MapInitJson($"project_{project.ProjectID}_EditMap",
                 10,
-                MapInitJson.GetWatershedMapLayers(),
+                MapInitJson.GetWatershedMapLayers(LayerInitialVisibility.Hide),
                 BoundingBox.MakeNewDefaultBoundingBox(),
                 false);
             var locationSimpleValidationResult = projectUpdateBatch.ValidateProjectLocationSimple();
@@ -786,7 +783,7 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
             var project = projectUpdateBatch.Project;
 
-            var mapDivID = string.Format("project_{0}_EditDetailedMap", project.ProjectID);
+            var mapDivID = $"project_{project.ProjectID}_EditDetailedMap";
             var detailedLocationGeoJsonFeatureCollection = projectUpdate.DetailedLocationToGeoJsonFeatureCollection();
             var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
 
@@ -2177,6 +2174,16 @@ namespace ProjectFirma.Web.Controllers
             // now go through all the modified calendar years and mark them as either "added" or an update, with "added" meaning not being in the original set
             calendarYearStrings.AddRange(calendarYearsUpdated.Select(i => new CalendarYearString(i, !calendarYearsOriginal.Contains(i) ? AddedDeletedOrRealElement.AddedElement : AddedDeletedOrRealElement.RealElement)));
             return calendarYearStrings;
+        }
+
+        private void ShowValidationErrors(List<ValidationResult> validationResults)
+        {
+            var validationErrorMessages = string.Empty;
+            if (validationResults.Any())
+            {
+                validationErrorMessages = $" Please fix these errors: <ul>{string.Join(Environment.NewLine, validationResults.Select(x => $"<li>{x.ErrorMessage}</li>"))}</ul>";
+            }
+            SetErrorForDisplay($"Could not save {FieldDefinition.ProposedProject.GetFieldDefinitionLabel()}.{validationErrorMessages}");
         }
     }
 }

@@ -55,12 +55,10 @@ namespace ProjectFirma.Web.Controllers
                 "RoleController.Detail",
                 "RoleController.PersonWithRoleGridJsonData",
             };
-            var missingHumanReadable = missing.Select(x => String.Format("{0}.{1}", x.ReflectedType.Name, x.Name)).Where(x => !exceptions.Contains(x)).ToList();
+            var missingHumanReadable = missing.Select(x => $"{x.ReflectedType.Name}.{x.Name}").Where(x => !exceptions.Contains(x)).ToList();
             Assert.That(missingHumanReadable,
                 Is.Empty,
-                string.Format(
-                    "Some controller actions methods may be using intergral data types for ID fields, consider using one of the types derived from \"{0}\" instead or add an exception to this test",
-                    typeof(LtInfoEntityPrimaryKey<>)));
+                $"Some controller actions methods may be using intergral data types for ID fields, consider using one of the types derived from \"{typeof(LtInfoEntityPrimaryKey<>)}\" instead or add an exception to this test");
         }
     }
 }

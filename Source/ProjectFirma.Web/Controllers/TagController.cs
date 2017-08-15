@@ -134,7 +134,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteTag(Tag tag, ConfirmDialogFormViewModel viewModel)
         {
-            var confirmMessage = string.Format("Are you sure you want to delete this Tag '{0}'?", tag.TagName);
+            var confirmMessage = $"Are you sure you want to delete this Tag '{tag.TagName}'?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }

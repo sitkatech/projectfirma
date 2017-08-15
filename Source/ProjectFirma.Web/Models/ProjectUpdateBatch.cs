@@ -150,7 +150,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static ProjectUpdateBatch CreateProjectUpdateBatchAndLogTransition(Project project, Person currentPerson)
         {
-            var projectUpdateBatch = new ProjectUpdateBatch(project, DateTime.Now, false, false, false, false, false, currentPerson, ProjectUpdateState.Created, false);
+            var projectUpdateBatch = new ProjectUpdateBatch(project, DateTime.Now, currentPerson, ProjectUpdateState.Created, false);
 
             // create a project update history record
             CreateNewTransitionRecord(projectUpdateBatch, ProjectUpdateState.Created, currentPerson, DateTime.Now);

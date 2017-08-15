@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditProjectLocationSummaryPoint(Project project, ProjectLocationSimpleViewModel viewModel)
         {
-            var layerGeoJsons = MapInitJson.GetWatershedMapLayers();
+            var layerGeoJsons = MapInitJson.GetWatershedMapLayers(LayerInitialVisibility.Hide);
             var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false};
             var findWatershedByNameUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.FindWatershedByName(null));
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();

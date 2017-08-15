@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             _warningMessages = new List<string>();
             if (missingYears.Any())
             {
-                _warningMessages.Add(string.Format("Missing Expenditures for {0}", string.Join(", ", missingYears)));
+                _warningMessages.Add($"Missing Expenditures for {string.Join(", ", missingYears)}");
             }
 
             if (missingFundingSourceYears.Any())
@@ -64,9 +64,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             return _warningMessages;
         }
 
-        public bool IsValid
-        {
-            get { return !_warningMessages.Any(); }
-        }
+        public bool IsValid => !_warningMessages.Any();
     }
 }

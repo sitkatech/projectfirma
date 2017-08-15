@@ -31,9 +31,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     [Validator(typeof(BasicsViewModelValidator))]
     public class BasicsViewModel : FormViewModel
     {
-        [DisplayName("Show Validation Warnings?")]
-        public bool ShowValidationWarnings { get; set; }
-
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
         [StringLength(Models.Project.FieldLengths.ProjectDescription)]
         public string ProjectDescription { get; set; }
@@ -70,7 +67,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public BasicsViewModel(Models.ProjectUpdate projectUpdate, bool showValidationWarnings, string comments)
+        public BasicsViewModel(Models.ProjectUpdate projectUpdate, string comments)
         {
             ProjectDescription = projectUpdate.ProjectDescription;
             ProjectStageID = projectUpdate.ProjectStageID;
@@ -80,7 +77,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             EstimatedTotalCost = projectUpdate.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = projectUpdate.EstimatedAnnualOperatingCost;
             SecuredFunding = projectUpdate.SecuredFunding;
-            ShowValidationWarnings = showValidationWarnings;
             Comments = comments;
         }
 
@@ -95,9 +91,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             projectUpdate.EstimatedTotalCost = EstimatedTotalCost;
             projectUpdate.SecuredFunding = SecuredFunding;
             projectUpdate.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
-
-            projectUpdateBatch.ShowBasicsValidationWarnings = ShowValidationWarnings;
-
         }
     }
 }

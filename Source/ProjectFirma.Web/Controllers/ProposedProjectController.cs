@@ -346,7 +346,7 @@ namespace ProjectFirma.Web.Controllers
             foreach (var question in allQuestionsAsSimples)
             {
                 var matchedQuestionOrNull = answeredQuestions.SingleOrDefault(answeredQuestion => answeredQuestion.AssessmentQuestionID == question.AssessmentQuestionID);                
-                question.Answer = matchedQuestionOrNull == null ? null : matchedQuestionOrNull.Answer;
+                question.Answer = matchedQuestionOrNull?.Answer;
             }
             return allQuestionsAsSimples;
         }
@@ -389,7 +389,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewEditLocationSimple(ProposedProject proposedProject, LocationSimpleViewModel viewModel)
         {
-            var layerGeoJsons = MapInitJson.GetWatershedMapLayers();
+            var layerGeoJsons = MapInitJson.GetWatershedMapLayers(LayerInitialVisibility.Hide);
             var mapInitJson = new MapInitJson($"proposedProject_{proposedProject.ProposedProjectID}_EditMap", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false};
 
             var findWatershedByNameUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.FindWatershedByName(null));

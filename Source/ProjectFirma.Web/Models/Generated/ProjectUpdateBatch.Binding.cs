@@ -40,17 +40,12 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdateBatch(int projectUpdateBatchID, int projectID, DateTime lastUpdateDate, string performanceMeasureActualYearsExemptionExplanation, bool showBasicsValidationWarnings, bool showPerformanceMeasuresValidationWarnings, bool showExpendituresValidationWarnings, bool showBudgetsValidationWarnings, bool showLocationSimpleValidationWarnings, int lastUpdatePersonID, string basicsComment, string expendituresComment, string performanceMeasuresComment, string locationSimpleComment, string locationDetailedComment, string budgetsComment, int projectUpdateStateID, bool isPhotosUpdated, string basicsDiffLog, string performanceMeasureDiffLog, string expendituresDiffLog, string budgetsDiffLog, string externalLinksDiffLog, string notesDiffLog) : this()
+        public ProjectUpdateBatch(int projectUpdateBatchID, int projectID, DateTime lastUpdateDate, string performanceMeasureActualYearsExemptionExplanation, int lastUpdatePersonID, string basicsComment, string expendituresComment, string performanceMeasuresComment, string locationSimpleComment, string locationDetailedComment, string budgetsComment, int projectUpdateStateID, bool isPhotosUpdated, string basicsDiffLog, string performanceMeasureDiffLog, string expendituresDiffLog, string budgetsDiffLog, string externalLinksDiffLog, string notesDiffLog) : this()
         {
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectID = projectID;
             this.LastUpdateDate = lastUpdateDate;
             this.PerformanceMeasureActualYearsExemptionExplanation = performanceMeasureActualYearsExemptionExplanation;
-            this.ShowBasicsValidationWarnings = showBasicsValidationWarnings;
-            this.ShowPerformanceMeasuresValidationWarnings = showPerformanceMeasuresValidationWarnings;
-            this.ShowExpendituresValidationWarnings = showExpendituresValidationWarnings;
-            this.ShowBudgetsValidationWarnings = showBudgetsValidationWarnings;
-            this.ShowLocationSimpleValidationWarnings = showLocationSimpleValidationWarnings;
             this.LastUpdatePersonID = lastUpdatePersonID;
             this.BasicsComment = basicsComment;
             this.ExpendituresComment = expendituresComment;
@@ -71,18 +66,13 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdateBatch(int projectID, DateTime lastUpdateDate, bool showBasicsValidationWarnings, bool showPerformanceMeasuresValidationWarnings, bool showExpendituresValidationWarnings, bool showBudgetsValidationWarnings, bool showLocationSimpleValidationWarnings, int lastUpdatePersonID, int projectUpdateStateID, bool isPhotosUpdated) : this()
+        public ProjectUpdateBatch(int projectID, DateTime lastUpdateDate, int lastUpdatePersonID, int projectUpdateStateID, bool isPhotosUpdated) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectUpdateBatchID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectID = projectID;
             this.LastUpdateDate = lastUpdateDate;
-            this.ShowBasicsValidationWarnings = showBasicsValidationWarnings;
-            this.ShowPerformanceMeasuresValidationWarnings = showPerformanceMeasuresValidationWarnings;
-            this.ShowExpendituresValidationWarnings = showExpendituresValidationWarnings;
-            this.ShowBudgetsValidationWarnings = showBudgetsValidationWarnings;
-            this.ShowLocationSimpleValidationWarnings = showLocationSimpleValidationWarnings;
             this.LastUpdatePersonID = lastUpdatePersonID;
             this.ProjectUpdateStateID = projectUpdateStateID;
             this.IsPhotosUpdated = isPhotosUpdated;
@@ -91,7 +81,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectUpdateBatch(Project project, DateTime lastUpdateDate, bool showBasicsValidationWarnings, bool showPerformanceMeasuresValidationWarnings, bool showExpendituresValidationWarnings, bool showBudgetsValidationWarnings, bool showLocationSimpleValidationWarnings, Person lastUpdatePerson, ProjectUpdateState projectUpdateState, bool isPhotosUpdated) : this()
+        public ProjectUpdateBatch(Project project, DateTime lastUpdateDate, Person lastUpdatePerson, ProjectUpdateState projectUpdateState, bool isPhotosUpdated) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectUpdateBatchID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -99,11 +89,6 @@ namespace ProjectFirma.Web.Models
             this.Project = project;
             project.ProjectUpdateBatches.Add(this);
             this.LastUpdateDate = lastUpdateDate;
-            this.ShowBasicsValidationWarnings = showBasicsValidationWarnings;
-            this.ShowPerformanceMeasuresValidationWarnings = showPerformanceMeasuresValidationWarnings;
-            this.ShowExpendituresValidationWarnings = showExpendituresValidationWarnings;
-            this.ShowBudgetsValidationWarnings = showBudgetsValidationWarnings;
-            this.ShowLocationSimpleValidationWarnings = showLocationSimpleValidationWarnings;
             this.LastUpdatePersonID = lastUpdatePerson.PersonID;
             this.LastUpdatePerson = lastUpdatePerson;
             lastUpdatePerson.ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Add(this);
@@ -116,7 +101,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static ProjectUpdateBatch CreateNewBlank(Project project, Person lastUpdatePerson, ProjectUpdateState projectUpdateState)
         {
-            return new ProjectUpdateBatch(project, default(DateTime), default(bool), default(bool), default(bool), default(bool), default(bool), lastUpdatePerson, projectUpdateState, default(bool));
+            return new ProjectUpdateBatch(project, default(DateTime), lastUpdatePerson, projectUpdateState, default(bool));
         }
 
         /// <summary>
@@ -139,11 +124,6 @@ namespace ProjectFirma.Web.Models
         public int ProjectID { get; set; }
         public DateTime LastUpdateDate { get; set; }
         public string PerformanceMeasureActualYearsExemptionExplanation { get; set; }
-        public bool ShowBasicsValidationWarnings { get; set; }
-        public bool ShowPerformanceMeasuresValidationWarnings { get; set; }
-        public bool ShowExpendituresValidationWarnings { get; set; }
-        public bool ShowBudgetsValidationWarnings { get; set; }
-        public bool ShowLocationSimpleValidationWarnings { get; set; }
         public int LastUpdatePersonID { get; set; }
         public string BasicsComment { get; set; }
         public string ExpendituresComment { get; set; }

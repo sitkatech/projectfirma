@@ -244,25 +244,15 @@ else
                             }
                         </div>
                         <div class="col-xs-9">
-                            <div style="margin-left: 10px">
-                                @Html.CheckBoxFor(x => x.ShowValidationWarnings, new { data_ng_model = "AngularModel.ShowValidationWarnings", @class = "ignoreSerialization" })
-                                @Html.LabelWithSugarFor(x => x.ShowValidationWarnings)
-                            </div>
                             
                             @if (ViewDataTyped.ViewDataForAngular.ValidationWarnings.Any())
                             {
-                                <div data-ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'alert alert-danger' : 'hidden'">
+                                <div class="alert alert-danger">
                                     <ul>
                                         <li data-ng-repeat="warning in AngularViewData.ValidationWarnings">
                                             <span data-ng-bind="warning"></span>
                                         </li>
                                     </ul>
-                                </div>
-                            }
-                            else
-                            {
-                                <div ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'alert alert-success' : 'hidden'">
-                                    <span>This page is all set! Nice work. You should take the rest of the day off.</span>
                                 </div>
                             }
                         </div>

@@ -45,7 +45,7 @@ Source code is available upon request via <support@sitkatech.com>.
             angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
             {
                 return {
-                    AngularModel: { ShowValidationWarnings: @Model.ShowValidationWarnings.ToString().ToLower() },
+                    AngularModel: { ShowValidationWarnings: true},
                     AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
                 };
             });
@@ -67,7 +67,7 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 else
 {
-    /*TODO: Each view seems to have it's own Html object - The partial view below therefore never receives the validation summary messages.
+    /*TODO: Each view seems to have its own Html object - The partial view below therefore never receives the validation summary messages.
      * There may be a better way to push the Html object and/or Validation Summary messages to the partial view
      */
     @Html.ValidationSummary()
@@ -96,7 +96,7 @@ else
                 <td>
                     @if (ViewDataTyped.ViewDataForAngular.ValidationWarnings.Any())
                     {
-                        <div data-ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'alert alert-danger' : 'hidden'">
+                        <div class="alert alert-danger">
                             <ul>
                                 <li data-ng-repeat="warning in AngularViewData.ValidationWarnings">
                                     <span data-ng-bind="warning"></span>
@@ -104,16 +104,8 @@ else
                             </ul>
                         </div>
                     }
-                    else
-                    {
-                        <div ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'alert alert-success' : 'hidden'">
-                            <span>This page is all set!  Nice work.  You should take the rest of the day off.</span>
-                        </div>
-                    }
                 </td>
                 <td style="text-align: right; white-space: nowrap">
-                    @Html.CheckBoxFor(x => x.ShowValidationWarnings, new {data_ng_model = "AngularModel.ShowValidationWarnings", @class = "ignoreSerialization"})
-                    @Html.LabelWithSugarFor(x => x.ShowValidationWarnings)
                     <button class="btn btn-xs btn-firma" type="button" style="margin-left: 10px" onclick="saveForm()">Save</button>
                 </td>
             </tr>
@@ -137,7 +129,7 @@ else
                 return false;
             }
 
-            form.append('<input type="hidden" name="@Html.NameFor(x => x.ShowValidationWarnings)" value=' + jQuery("#@Html.IdFor(x => x.ShowValidationWarnings)").is(":checked") + ' />');
+            form.append('<input type="hidden" name="true" value=' + jQuery("#true").is(":checked") + ' />');
             // we need to inject the comments field if we are in "Submitted" state
             @if (ViewDataTyped.ShowApproveAndReturnButton)
             {
