@@ -664,7 +664,7 @@ namespace ProjectFirma.Web.Controllers
             }
             if (!ModelState.IsValid)
             {
-                ShowValidationErrors(viewModel.GetValidationResults().ToList()); //wasn't doing anything like this before, although PP controller does
+                ShowValidationErrors(viewModel.GetValidationResults().ToList()); //call may be redundant
                 return ViewLocationSimple(project, projectUpdateBatch, viewModel);
             }
             viewModel.UpdateModelBatch(projectUpdateBatch);
