@@ -214,7 +214,7 @@ namespace ProjectFirma.Web.Controllers
                     });
                 }
 
-                feature.Properties["FeatueColor"] = featureColor;
+                feature.Properties["FeatureColor"] = featureColor;
 
                 return feature;
             }).ToList());
