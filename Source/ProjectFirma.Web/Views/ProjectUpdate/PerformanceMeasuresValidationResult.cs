@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public static readonly string FoundDuplicatePerformanceMeasureRowsMessage = $"Found duplicate rows. The {Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page.";
 
-        public static readonly string FoundReportedPerformanceMeasureForExemptYearRowsMessage = $"Found reported value for exmept years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}.";
+        public static readonly string FoundReportedPerformanceMeasureForExemptYearRowsMessage = $"Found reported value for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}.";
 
 
         private readonly List<string> _warningMessages;

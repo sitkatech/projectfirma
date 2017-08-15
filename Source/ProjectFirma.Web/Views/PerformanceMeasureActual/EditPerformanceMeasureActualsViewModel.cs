@@ -138,7 +138,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
             var exemptYears = ProjectExemptReportingYears?.Where(x => x.IsExempt).Select(x => x.CalendarYear).ToList();
             if (exemptYears != null && PerformanceMeasureActuals != null && PerformanceMeasureActuals.Any(x => x.CalendarYear != null && exemptYears.Contains(x.CalendarYear.Value)))
             {
-                errors.Add(new ValidationResult($"Found reported value for exmept years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}."));
+                errors.Add(new ValidationResult($"Found reported value for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}."));
             }
 
             return errors;
