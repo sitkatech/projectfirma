@@ -44,6 +44,10 @@ Source code is available upon request via <support@sitkatech.com>.
         height: 400px;
         margin: 0;
     }
+
+    .firma-modal .modal-body {
+        overflow-y: visible;
+    }
 </style>
 <p>
     Select one or more @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized() to associate with this @FieldDefinition.Project.GetFieldDefinitionLabel().
@@ -58,13 +62,17 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
     </div>
-    <form action="@ViewDataTyped.EditProjectWatershedsUrl" method="post" id="@ViewDataTyped.EditProjectWatershedsFormID">
+    <form action="@ViewDataTyped.EditProjectWatershedsUrl" method="post">
         <div class="row">
             <hr/>
             <div class="col-sm-4 col-xs-12">
-                <div class="input-group">
+                <div class="input-group" id="scrollable-dropdown-menu">
                     @* ReSharper disable once UnknownCssClass *@
-                    <input type="text" id="@ViewDataTyped.ViewDataForAngular.TypeAheadInputId" class="typeahead form-control" placeholder="Search by @FieldDefinition.Watershed.GetFieldDefinitionLabel() name" autocomplete="off"/>
+                    <input type="text" 
+                           id="@ViewDataTyped.ViewDataForAngular.TypeAheadInputId" 
+                           class="typeahead form-control" 
+                           placeholder="Search by @FieldDefinition.Watershed.GetFieldDefinitionLabel() name" 
+                           autocomplete="off"/>
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" id="@string.Format("{0}Button", ViewDataTyped.ViewDataForAngular.TypeAheadInputId)" ng-click="selectFirstSuggestionFunction()">
                             <i class="glyphicon glyphicon-search"></i>
