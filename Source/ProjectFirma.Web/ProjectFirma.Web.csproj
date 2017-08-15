@@ -379,8 +379,6 @@
     <Compile Include="Views\Organization\EditBoundaryViewData.cs" />
     <Compile Include="Views\Organization\EditBoundaryViewModel.cs" />
     <Compile Include="Controllers\TenantController.cs" />
-    <Content Include="Content\angular\select.min.css" />
-    <Content Include="Content\angular\select.min.js" />
     <Content Include="Content\Bootstrap\firma\base.theme.css">
       <DependentUpon>base.theme.less</DependentUpon>
     </Content>
@@ -498,8 +496,6 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
-    <Content Include="Content\angular\select.min.css.map" />
-    <Content Include="Content\angular\select.min.js.map" />
     <None Include="Service References\KeystoneDataService\KeystoneData.disco" />
     <None Include="Service References\KeystoneDataService\configuration91.svcinfo" />
     <None Include="Service References\KeystoneDataService\configuration.svcinfo" />
