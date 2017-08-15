@@ -53,10 +53,7 @@ namespace ProjectFirma.Web.Controllers
                 ControllerContextStatic = ControllerContext;
         }
 
-        public static ReadOnlyCollection<MethodInfo> AllControllerActionMethods
-        {
-            get { return AllControllerActionMethodsProtected; }
-        }
+        public static ReadOnlyCollection<MethodInfo> AllControllerActionMethods => AllControllerActionMethodsProtected;
 
         static FirmaBaseController()
         {
@@ -68,24 +65,12 @@ namespace ProjectFirma.Web.Controllers
             return CurrentPerson == null || CurrentPerson.IsAnonymousUser;
         }
 
-        protected override string LoginUrl
-        {
-            get { return FirmaHelpers.GenerateLogInUrlWithReturnUrl(); }
-        }
+        protected override string LoginUrl => FirmaHelpers.GenerateLogInUrlWithReturnUrl();
 
-        protected override ISitkaDbContext SitkaDbContext
-        {
-            get { return HttpRequestStorage.DatabaseEntities; }
-        }
+        protected override ISitkaDbContext SitkaDbContext => HttpRequestStorage.DatabaseEntities;
 
-        protected Person CurrentPerson
-        {
-            get { return HttpRequestStorage.Person; }
-        }
+        protected Person CurrentPerson => HttpRequestStorage.Person;
 
-        protected Tenant CurrentTenant
-        {
-            get { return HttpRequestStorage.Tenant; }
-        }
+        protected Tenant CurrentTenant => HttpRequestStorage.Tenant;
     }
 }

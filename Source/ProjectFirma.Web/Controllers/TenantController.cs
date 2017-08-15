@@ -18,7 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -211,7 +210,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteTenantBannerLogoFileResource(ConfirmDialogFormViewModel viewModel, TenantAttribute tenantAttribute)
         {
-            var confirmMessage = string.Format("Are you sure you want to delete Tenant Banner Logo for {0}?", tenantAttribute.TenantDisplayName);
+            var confirmMessage = $"Are you sure you want to delete Tenant Banner Logo for {tenantAttribute.TenantDisplayName}?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -244,7 +243,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteTenantSquareLogoFileResource(ConfirmDialogFormViewModel viewModel, TenantAttribute tenantAttribute)
         {
-            var confirmMessage = String.Format("Are you sure you want to delete Tenant Square Logo for {0}?", tenantAttribute.TenantDisplayName);
+            var confirmMessage = $"Are you sure you want to delete Tenant Square Logo for {tenantAttribute.TenantDisplayName}?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -277,7 +276,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteTenantStyleSheetFileResource(ConfirmDialogFormViewModel viewModel, TenantAttribute tenantAttribute)
         {
-            var confirmMessage = string.Format("Are you sure you want to delete Tenant Style Sheet for {0}?", tenantAttribute.TenantDisplayName);
+            var confirmMessage = $"Are you sure you want to delete Tenant Style Sheet for {tenantAttribute.TenantDisplayName}?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }

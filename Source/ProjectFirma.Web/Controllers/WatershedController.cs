@@ -128,7 +128,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var watershed = watershedPrimaryKey.EntityObject;
 
-            var mapDivID = string.Format("watershed_{0}_Map", watershed.WatershedID);
+            var mapDivID = $"watershed_{watershed.WatershedID}_Map";
             var layers = MapInitJson.GetWatershedAndAssociatedProjectLayers(watershed, watershed.AssociatedProjects);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, new BoundingBox(watershed.WatershedFeature));
 

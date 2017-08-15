@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Controllers
             foreach (var question in allQuestionsAsSimples)
             {
                 var matchedQuestionOrNull = answeredQuestions.SingleOrDefault(answeredQuestion => answeredQuestion.AssessmentQuestionID == question.AssessmentQuestionID);
-                question.Answer = matchedQuestionOrNull == null ? null : matchedQuestionOrNull.Answer;
+                question.Answer = matchedQuestionOrNull?.Answer;
             }
             return allQuestionsAsSimples;
         }

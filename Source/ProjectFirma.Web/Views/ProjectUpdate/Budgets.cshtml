@@ -264,7 +264,7 @@ else
                     <td>
                         @if (ViewDataTyped.ViewDataForAngular.ValidationWarnings.Any())
                         {
-                            <div data-ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'alert alert-danger' : 'hidden'">
+                            <div class="alert alert-danger">
                                 <ul>
                                     <li data-ng-repeat="warning in AngularViewData.ValidationWarnings">
                                         <span data-ng-bind="warning"></span>
