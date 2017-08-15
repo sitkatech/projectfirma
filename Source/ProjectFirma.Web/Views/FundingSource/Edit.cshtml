@@ -47,7 +47,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(FieldDefinition.Organization)
             </div>
             <div class="col-sm-9">
-                @Html.DropDownListFor(m => m.OrganizationID, ViewDataTyped.Organizations)
+                @Html.SearchableDropDownListFor(m => m.OrganizationID, ViewDataTyped.Organizations)
                 @Html.ValidationMessageFor(m => m.OrganizationID)
             </div>
         </div>
