@@ -52,17 +52,17 @@ namespace ProjectFirma.Web.Models
         {
         }
 
-        public static List<LayerGeoJson> GetWatershedMapLayers()
+        public static List<LayerGeoJson> GetWatershedMapLayers(LayerInitialVisibility layerInitialVisibility)
         {
-            return new List<LayerGeoJson> {Watershed.GetWatershedWmsLayerGeoJson("#90C3D4", 0.1m)};
+            return new List<LayerGeoJson> {Watershed.GetWatershedWmsLayerGeoJson("#90C3D4", 0.1m, layerInitialVisibility)};
         }
 
-        public static List<LayerGeoJson> GetWatershedLayers(Watershed watershed, List<Project> projects)
+        public static List<LayerGeoJson> GetWatershedAndAssociatedProjectLayers(Watershed watershed, List<Project> projects)
         {
             var layerGeoJsons = new List<LayerGeoJson>
             {
                 new LayerGeoJson(watershed.DisplayName, new List<Watershed> {watershed}.ToGeoJsonFeatureCollection(), "red", 1, LayerInitialVisibility.Show),
-                Watershed.GetWatershedWmsLayerGeoJson("#59ACFF", 0.6m),
+                Watershed.GetWatershedWmsLayerGeoJson("#59ACFF", 0.6m, LayerInitialVisibility.Show),
                 new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", Project.MappedPointsToGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show),
                 new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(projects, true), "red", 1, LayerInitialVisibility.Show)
             };
@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<LayerGeoJson> GetWatershedAndProjectLocationSimpleMapLayers(IProject project)
         {
-            var layerGeoJsons = GetWatershedMapLayers();
+            var layerGeoJsons = GetWatershedMapLayers(LayerInitialVisibility.Show);
             if (project.ProjectLocationPoint != null)
             {
                 layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple",

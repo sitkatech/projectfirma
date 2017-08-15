@@ -831,11 +831,6 @@
           <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
           <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
           <ScalarProperty Name="PerformanceMeasureActualYearsExemptionExplanation" ColumnName="PerformanceMeasureActualYearsExemptionExplanation" />
-          <ScalarProperty Name="ShowBasicsValidationWarnings" ColumnName="ShowBasicsValidationWarnings" />
-          <ScalarProperty Name="ShowPerformanceMeasuresValidationWarnings" ColumnName="ShowPerformanceMeasuresValidationWarnings" />
-          <ScalarProperty Name="ShowExpendituresValidationWarnings" ColumnName="ShowExpendituresValidationWarnings" />
-          <ScalarProperty Name="ShowBudgetsValidationWarnings" ColumnName="ShowBudgetsValidationWarnings" />
-          <ScalarProperty Name="ShowLocationSimpleValidationWarnings" ColumnName="ShowLocationSimpleValidationWarnings" />
           <ScalarProperty Name="LastUpdatePersonID" ColumnName="LastUpdatePersonID" />
           <ScalarProperty Name="BasicsComment" ColumnName="BasicsComment" />
           <ScalarProperty Name="ExpendituresComment" ColumnName="ExpendituresComment" />

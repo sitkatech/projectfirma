@@ -48,11 +48,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public ExpendituresViewModel(List<ProjectFundingSourceExpenditureUpdate> projectFundingSourceExpenditureUpdates,
             List<int> calendarYearsToPopulate,
-            bool showExpendituresValidationWarnings,
             string comments)
         {
             ProjectFundingSourceExpenditures = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceExpenditureUpdates, calendarYearsToPopulate);
-            ShowValidationWarnings = showExpendituresValidationWarnings;
+            ShowValidationWarnings = true;
             Comments = comments;
         }
 
@@ -71,8 +70,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 allProjectFundingSourceExpenditureUpdates,
                 (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.FundingSourceID == y.FundingSourceID && x.CalendarYear == y.CalendarYear,
                 (x, y) => x.ExpenditureAmount = y.ExpenditureAmount);
-
-            projectUpdateBatch.ShowExpendituresValidationWarnings = ShowValidationWarnings;
         }
     }
 }

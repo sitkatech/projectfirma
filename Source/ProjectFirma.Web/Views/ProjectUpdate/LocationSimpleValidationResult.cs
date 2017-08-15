@@ -27,6 +27,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     public class LocationSimpleValidationResult
     {
         public readonly Models.ProjectUpdate ProjectUpdate;
+
         private readonly List<string> _warningMessages;
 
         public LocationSimpleValidationResult(Models.ProjectUpdate projectUpdate)
@@ -40,6 +41,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             {
                 _warningMessages.Add("The simplified project location is set to 'Point on Map' but no point is specified.");
             }
+            if (ProjectUpdate.ProjectLocationSimpleType == ProjectLocationSimpleType.NamedAreas && ProjectUpdate.ProjectLocationArea == null)
+            {
+                _warningMessages.Add($"The simplified project location is set to '{Models.FieldDefinition.Watershed}' but no area is specified.");
+            }
 
             if (ProjectUpdate.ProjectLocationSimpleType == ProjectLocationSimpleType.None && string.IsNullOrWhiteSpace(ProjectUpdate.ProjectLocationNotes))
             {
@@ -52,9 +57,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             return _warningMessages;
         }
 
-        public bool IsValid
-        {
-            get { return !_warningMessages.Any(); }
-        }
+        public bool IsValid => !_warningMessages.Any();
     }
 }

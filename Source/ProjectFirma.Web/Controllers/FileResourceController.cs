@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Controllers
             }
             // Unhappy path - return an HTTP 404
             // ---------------------------------
-            var message = string.Format("File Resource {0} Not Found in database. It may have been deleted.", fileResourceGuidAsString);
+            var message = $"File Resource {fileResourceGuidAsString} Not Found in database. It may have been deleted.";
             throw new HttpException(404, message);
         }
 
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (fileResource == null)
             {
-                var message = string.Format("File Resource {0} Not Found in database. It may have been deleted.", fileResourcePrimaryKey);
+                var message = $"File Resource {fileResourcePrimaryKey} Not Found in database. It may have been deleted.";
                 throw new HttpException(404, message);
             }
 
@@ -118,7 +118,7 @@ namespace ProjectFirma.Web.Controllers
                         case FileResourceMimeTypeEnum.WordDOC:
                         case FileResourceMimeTypeEnum.PowerpointPPTX:
                         case FileResourceMimeTypeEnum.PowerpointPPT:
-                            throw new ArgumentOutOfRangeException(string.Format("Not supported mime type {0}", fileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName));
+                            throw new ArgumentOutOfRangeException($"Not supported mime type {fileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName}");
                         case FileResourceMimeTypeEnum.XPNG:
                         case FileResourceMimeTypeEnum.PNG:
                         case FileResourceMimeTypeEnum.TIFF:
@@ -142,7 +142,7 @@ namespace ProjectFirma.Web.Controllers
 
             // Unhappy path - return an HTTP 404
             // ---------------------------------
-            var message = string.Format("File Resource {0} Not Found in database. It may have been deleted.", fileResourceGuidAsString);
+            var message = $"File Resource {fileResourceGuidAsString} Not Found in database. It may have been deleted.";
             throw new HttpException(404, message);
         }
 
@@ -231,12 +231,12 @@ namespace ProjectFirma.Web.Controllers
 
             public string GetCkEditorJavascriptContentToReturn(FileResource fileResource)
             {
-                var ckEditorJavascriptContentToReturn = String.Format(@"
+                var ckEditorJavascriptContentToReturn = $@"
 <script language=""javascript"" type=""text/javascript"">
     // <![CDATA[
-    window.parent.CKEDITOR.tools.callFunction({0}, {1});
+    window.parent.CKEDITOR.tools.callFunction({CKEditorFuncNum}, {fileResource.FileResourceUrl.ToJS()});
     // ]]>
-</script>", CKEditorFuncNum, fileResource.FileResourceUrl.ToJS());
+</script>";
                 return ckEditorJavascriptContentToReturn;
             }
         }

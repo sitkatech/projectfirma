@@ -145,6 +145,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     "AngularViewData": @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular).ToString(Formatting.None))
                 };
             });
-    angular.bootstrap(jQuery("[ng-controller=\"ProjectLocationSimpleController\"]"), ["ProjectFirmaApp"]);
+    // angular.bootstrap(jQuery("[ng-controller=\"ProjectLocationSimpleController\"]"), ["ProjectFirmaApp"]);
+    // already used ng-app and ng-controller, so this gives console error
     // ]]>
 </script>

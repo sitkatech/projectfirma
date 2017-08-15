@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Controllers
                     .Select(x => DbGeometryToGeoJsonHelper.FromDbGeometry(x.Watershed.WatershedFeature)).ToList())))
                 : BoundingBox.MakeNewDefaultBoundingBox();
 
-            var mapInitJson = new MapInitJson("projectWatershedMap", 0, new List<LayerGeoJson>{ Watershed.GetWatershedWmsLayerGeoJson("layerColor", 0.2m) }, boundingBox);
+            var mapInitJson = new MapInitJson("projectWatershedMap", 0, new List<LayerGeoJson>{ Watershed.GetWatershedWmsLayerGeoJson("layerColor", 0.2m, LayerInitialVisibility.Show) }, boundingBox);
             var watershedIDs = viewModel.WatershedIDs ?? new List<int>();
             var watershedsInViewModel = HttpRequestStorage.DatabaseEntities.Watersheds.Where(x => watershedIDs.Contains(x.WatershedID)).ToList();
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();

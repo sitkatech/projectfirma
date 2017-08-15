@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult IndexImpl()
         {
             var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.WatershedsList);
-            var mapInitJson = new MapInitJson("watershedIndex", 10, new List<LayerGeoJson>{Watershed.GetWatershedWmsLayerGeoJson("#59ACFF", 0.2m)}, BoundingBox.MakeNewDefaultBoundingBox());
+            var mapInitJson = new MapInitJson("watershedIndex", 10, new List<LayerGeoJson>{Watershed.GetWatershedWmsLayerGeoJson("#59ACFF", 0.2m, LayerInitialVisibility.Show)}, BoundingBox.MakeNewDefaultBoundingBox());
 
             var viewData = new IndexViewData(CurrentPerson, firmaPage, mapInitJson);
             return RazorView<Index, IndexViewData>(viewData);
@@ -128,8 +128,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var watershed = watershedPrimaryKey.EntityObject;
 
-            var mapDivID = string.Format("watershed_{0}_Map", watershed.WatershedID);
-            var layers = MapInitJson.GetWatershedLayers(watershed, watershed.AssociatedProjects);
+            var mapDivID = $"watershed_{watershed.WatershedID}_Map";
+            var layers = MapInitJson.GetWatershedAndAssociatedProjectLayers(watershed, watershed.AssociatedProjects);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, new BoundingBox(watershed.WatershedFeature));
 
             var projectFundingSourceExpenditures = watershed.AssociatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures.Where(y => y.FundingSource.Organization.OrganizationTypeID.HasValue));

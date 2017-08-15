@@ -46,13 +46,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public bool IsClassificationsComplete { get; set; }
         public bool IsAssessmentComplete { get; set; }
         public bool IsNotesSectionComplete { get; set; }
-        public bool AreAllSectionsValid
-        {
-            get
-            {
-                return IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsClassificationsComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationSimpleSectionComplete && IsNotesSectionComplete;
-            }
-        }
+        public bool AreAllSectionsValid => IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsClassificationsComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationSimpleSectionComplete && IsNotesSectionComplete;
 
         public ProposalSectionsStatus(Models.ProposedProject proposedProject)
         {

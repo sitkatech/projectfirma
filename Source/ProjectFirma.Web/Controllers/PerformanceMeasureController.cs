@@ -169,7 +169,7 @@ namespace ProjectFirma.Web.Controllers
                     rtfContent = performanceMeasure.ProjectReportingHtmlString;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(string.Format("Invalid PerformanceMeasure Rich Text Content Type: '{0}'", performanceMeasureRichTextType));
+                    throw new ArgumentOutOfRangeException($"Invalid PerformanceMeasure Rich Text Content Type: '{performanceMeasureRichTextType}'");
             }
             var viewModel = new EditRtfContentViewModel(rtfContent);
             return ViewEditGuidance(viewModel, performanceMeasureRichTextType);
@@ -203,7 +203,7 @@ namespace ProjectFirma.Web.Controllers
                     viewData = new EditRtfContentViewData(CkEditorExtension.CkEditorToolbar.Minimal, null);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(string.Format("Unknown GuidanceType: {0}", performanceMeasureRichTextType));
+                    throw new ArgumentOutOfRangeException($"Unknown GuidanceType: {performanceMeasureRichTextType}");
             }
             return RazorPartialView<EditRtfContent, EditRtfContentViewData, EditRtfContentViewModel>(viewData, viewModel);
         }
@@ -315,7 +315,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Add(performanceMeasure);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay(string.Format("New {0} '{1}' successfully created!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.GetDisplayNameAsUrl()));
+            SetMessageForDisplay($"New {MultiTenantHelpers.GetPerformanceMeasureName()} '{performanceMeasure.GetDisplayNameAsUrl()}' successfully created!");
             return new ModalDialogFormJsonResult();
         }
 
@@ -340,7 +340,7 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             viewModel.UpdateModel(performanceMeasure);
 
-            SetMessageForDisplay(string.Format("Successfully updated {0} '{1}'!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName));
+            SetMessageForDisplay($"Successfully updated {MultiTenantHelpers.GetPerformanceMeasureName()} '{performanceMeasure.PerformanceMeasureDisplayName}'!");
             return new ModalDialogFormJsonResult();
         }
 
@@ -370,7 +370,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeletePerformanceMeasure(performanceMeasure, viewModel);
             }
             performanceMeasure.DeletePerformanceMeasureAndAllRelatedData();
-            SetMessageForDisplay(String.Format("Successfully deleted {0} '{1}'!", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName));
+            SetMessageForDisplay($"Successfully deleted {MultiTenantHelpers.GetPerformanceMeasureName()} '{performanceMeasure.PerformanceMeasureDisplayName}'!");
             return new ModalDialogFormJsonResult();
         }
 
@@ -378,7 +378,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var hasNoAssociations = !performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).Any(x => x.HasDependentObjects());
             var confirmMessage = hasNoAssociations
-                ? String.Format("<p>Are you sure you want to delete {0} \"{1}\"?</p>", MultiTenantHelpers.GetPerformanceMeasureName(), performanceMeasure.PerformanceMeasureDisplayName)
+                ? $"<p>Are you sure you want to delete {MultiTenantHelpers.GetPerformanceMeasureName()} \"{performanceMeasure.PerformanceMeasureDisplayName}\"?</p>"
                 : String.Format("<p>Are you sure you want to delete {0} \"{1}\"?</p><p>Deleting this {0} will <strong>delete all associated reported data</strong>, and this action cannot be undone. Click {2} to review.</p>",
                     MultiTenantHelpers.GetPerformanceMeasureName(),
                     performanceMeasure.PerformanceMeasureDisplayName,

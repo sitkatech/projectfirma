@@ -1684,11 +1684,6 @@ warning 6035: The relationship 'FK_ProjectUpdateHistory_ProjectUpdateBatch_Proje
     <Property Name="ProjectID" Type="int" Nullable="false" />
     <Property Name="LastUpdateDate" Type="datetime" Nullable="false" />
     <Property Name="PerformanceMeasureActualYearsExemptionExplanation" Type="varchar" MaxLength="4000" />
-    <Property Name="ShowBasicsValidationWarnings" Type="bit" Nullable="false" />
-    <Property Name="ShowPerformanceMeasuresValidationWarnings" Type="bit" Nullable="false" />
-    <Property Name="ShowExpendituresValidationWarnings" Type="bit" Nullable="false" />
-    <Property Name="ShowBudgetsValidationWarnings" Type="bit" Nullable="false" />
-    <Property Name="ShowLocationSimpleValidationWarnings" Type="bit" Nullable="false" />
     <Property Name="LastUpdatePersonID" Type="int" Nullable="false" />
     <Property Name="BasicsComment" Type="varchar" MaxLength="1000" />
     <Property Name="ExpendituresComment" Type="varchar" MaxLength="1000" />

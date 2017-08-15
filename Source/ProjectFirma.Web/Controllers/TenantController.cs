@@ -18,7 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -56,7 +55,7 @@ namespace ProjectFirma.Web.Controllers
                 FirmaHelpers.DefaultColorRange[0],
                 0.8m,
                 LayerInitialVisibility.Show);
-            var layers = MapInitJson.GetWatershedMapLayers();
+            var layers = MapInitJson.GetWatershedMapLayers(LayerInitialVisibility.Hide);
             layers.Add(boundingBoxLayer);
             var mapInitJson = new MapInitJson("TenantDetailBoundingBoxMap",
                 10,
@@ -157,7 +156,7 @@ namespace ProjectFirma.Web.Controllers
                 FirmaHelpers.DefaultColorRange[0],
                 0.8m,
                 LayerInitialVisibility.Show);
-            var mapInitJson = new MapInitJson("TenantEditBoundingBoxMap", 10, MapInitJson.GetWatershedMapLayers(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
+            var mapInitJson = new MapInitJson("TenantEditBoundingBoxMap", 10, MapInitJson.GetWatershedMapLayers(LayerInitialVisibility.Hide), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
             var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox()).BuildUrlFromExpression();
 
             var viewData = new EditBoundingBoxViewData(mapInitJson, editBoundingBoxUrl, EditBoundingBoxFormID);
@@ -211,7 +210,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteTenantBannerLogoFileResource(ConfirmDialogFormViewModel viewModel, TenantAttribute tenantAttribute)
         {
-            var confirmMessage = string.Format("Are you sure you want to delete Tenant Banner Logo for {0}?", tenantAttribute.TenantDisplayName);
+            var confirmMessage = $"Are you sure you want to delete Tenant Banner Logo for {tenantAttribute.TenantDisplayName}?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -244,7 +243,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteTenantSquareLogoFileResource(ConfirmDialogFormViewModel viewModel, TenantAttribute tenantAttribute)
         {
-            var confirmMessage = String.Format("Are you sure you want to delete Tenant Square Logo for {0}?", tenantAttribute.TenantDisplayName);
+            var confirmMessage = $"Are you sure you want to delete Tenant Square Logo for {tenantAttribute.TenantDisplayName}?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -277,7 +276,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteTenantStyleSheetFileResource(ConfirmDialogFormViewModel viewModel, TenantAttribute tenantAttribute)
         {
-            var confirmMessage = string.Format("Are you sure you want to delete Tenant Style Sheet for {0}?", tenantAttribute.TenantDisplayName);
+            var confirmMessage = $"Are you sure you want to delete Tenant Style Sheet for {tenantAttribute.TenantDisplayName}?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }

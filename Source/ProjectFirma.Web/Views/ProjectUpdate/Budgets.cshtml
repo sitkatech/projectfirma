@@ -255,16 +255,16 @@ else
             <table class="summaryLayout" style="width: 100%">
                 <tr>
                     <td>
-                        @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
+                        @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> {"btn btn-xs btn-firma"}, null, null)
                         @if (ViewDataTyped.UpdateStatus.IsBudgetsUpdated)
                         {
-                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to  Budget", 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null, new List<string>() { "btn-firma", "btn-xs" })
+                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, "Changes to  Budget", 800, "hidden-save-button", string.Empty, "diff-close-button", "Close", new List<string> {"btn btn-xs btn-firma"}, null, null, null, new List<string>() {"btn-firma", "btn-xs"})
                         }
                     </td>
                     <td>
                         @if (ViewDataTyped.ViewDataForAngular.ValidationWarnings.Any())
                         {
-                            <div data-ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'alert alert-danger' : 'hidden'">
+                            <div class="alert alert-danger">
                                 <ul>
                                     <li data-ng-repeat="warning in AngularViewData.ValidationWarnings">
                                         <span data-ng-bind="warning"></span>
@@ -272,18 +272,9 @@ else
                                 </ul>
                             </div>
                         }
-                        else
-                        {
-                            <div ng-show="AngularModel.ShowValidationWarnings" data-ng-class="AngularModel.ShowValidationWarnings ? 'alert alert-success' : 'hidden'">
-                                <span>This page is all set!  Nice work.  You should take the rest of the day off.</span>
-                            </div>
-                        }
-
                     </td>
                     <td style="text-align: right; white-space: nowrap">
-                        @Html.CheckBoxFor(x => x.ShowValidationWarnings, new { data_ng_model = "AngularModel.ShowValidationWarnings", @class = "ignoreSerialization" })
-                        @Html.LabelWithSugarFor(x => x.ShowValidationWarnings)
-                        <button class="btn btn-xs btn-firma" type="submit" ng-disabled="pmForm.$invalid" style="margin-left: 10px">Save</button>
+                        <button class="btn btn-xs btn-firma" type="submit" style="margin-left: 10px">Save</button>
                     </td>
                 </tr>
             </table>

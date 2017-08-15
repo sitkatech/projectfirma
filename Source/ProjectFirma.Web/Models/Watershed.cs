@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Models
         public static readonly UrlTemplate<int> MapTooltipUrlTemplate = new UrlTemplate<int>(SitkaRoute<WatershedController>.BuildUrlFromExpression(t => t.MapTooltip(UrlTemplate.Parameter1Int)));
 
         public static LayerGeoJson GetWatershedWmsLayerGeoJson(string layerColor, decimal layerOpacity,
-            LayerInitialVisibility layerInitialVisibility = LayerInitialVisibility.Show)
+            LayerInitialVisibility layerInitialVisibility)
         {
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
             return new LayerGeoJson(FieldDefinition.Watershed.GetFieldDefinitionLabel(), tenantAttribute.MapServiceUrl,

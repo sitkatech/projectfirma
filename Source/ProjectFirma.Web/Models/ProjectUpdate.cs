@@ -28,16 +28,10 @@ namespace ProjectFirma.Web.Models
 {
     public partial class ProjectUpdate : IProject
     {
-        public int EntityID
-        {
-            get { return ProjectUpdateID; }
-        }
-        public string DisplayName { get { return ProjectUpdateBatch.Project.DisplayName; } }
+        public int EntityID => ProjectUpdateID;
+        public string DisplayName => ProjectUpdateBatch.Project.DisplayName;
 
-        public decimal? UnfundedNeed
-        {
-            get { return EstimatedTotalCost - SecuredFunding; }
-        }
+        public decimal? UnfundedNeed => EstimatedTotalCost - SecuredFunding;
 
         public ProjectUpdate(ProjectUpdateBatch projectUpdateBatch) : this(projectUpdateBatch, projectUpdateBatch.Project.ProjectStage, projectUpdateBatch.Project.ProjectDescription, projectUpdateBatch.Project.ProjectLocationSimpleType)
         {
@@ -86,30 +80,15 @@ namespace ProjectFirma.Web.Models
             project.ProjectLocationSimpleTypeID = ProjectLocationSimpleTypeID;
         }
 
-        public bool HasProjectLocationPoint
-        {
-            get { return ProjectLocationPoint != null; }
-        }
+        public bool HasProjectLocationPoint => ProjectLocationPoint != null;
 
-        public double? ProjectLocationPointLatitude
-        {
-            get { return HasProjectLocationPoint ? ProjectLocationPoint.YCoordinate : null; }
-        }
+        public double? ProjectLocationPointLatitude => HasProjectLocationPoint ? ProjectLocationPoint.YCoordinate : null;
 
-        public double? ProjectLocationPointLongitude
-        {
-            get { return HasProjectLocationPoint ? ProjectLocationPoint.XCoordinate : null; }
-        }
+        public double? ProjectLocationPointLongitude => HasProjectLocationPoint ? ProjectLocationPoint.XCoordinate : null;
 
-        public FundingType FundingType
-        {
-            get { return ProjectUpdateBatch.Project.FundingType; }
-        }
+        public FundingType FundingType => ProjectUpdateBatch.Project.FundingType;
 
-        public ProjectType ProjectType
-        {
-            get { return ProjectType.ProjectUpdate; }
-        }
+        public ProjectType ProjectType => ProjectType.ProjectUpdate;
 
         public IEnumerable<IQuestionAnswer> GetQuestionAnswers()
         {
@@ -126,9 +105,9 @@ namespace ProjectFirma.Web.Models
             return ProjectUpdateBatch.ProjectLocationUpdates.ToGeoJsonFeatureCollection();
         }
 
-        public GeoJSON.Net.Feature.FeatureCollection SimpleLocationToGeoJsonFeatureCollection(bool addProjectProperties)
+        public FeatureCollection SimpleLocationToGeoJsonFeatureCollection(bool addProjectProperties)
         {
-            var featureCollection = new GeoJSON.Net.Feature.FeatureCollection();
+            var featureCollection = new FeatureCollection();
 
             if (ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap && ProjectLocationPoint != null)
             {

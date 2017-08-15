@@ -24,7 +24,6 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectImageUpdate;
-using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
