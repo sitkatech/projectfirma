@@ -421,12 +421,12 @@ namespace ProjectFirma.Web.Controllers
                 optionsHeaderCell.Style.Font.SetBold();
                 row++;
 
-                var unitsNameCell = ws.Cell(row, 1);
-                unitsNameCell.SetValue(performanceMeasure.PerformanceMeasureDisplayName);
-                unitsNameCell.SetDataType(XLCellValues.Text);
-                var performanceMeasureNameCell = ws.Cell(row, 2);
-                performanceMeasureNameCell.SetValue(performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName);
+                var performanceMeasureNameCell = ws.Cell(row, 1);
+                performanceMeasureNameCell.SetValue(performanceMeasure.PerformanceMeasureDisplayName);
                 performanceMeasureNameCell.SetDataType(XLCellValues.Text);
+                var unitsNameCell = ws.Cell(row, 2);
+                unitsNameCell.SetValue(performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName);
+                unitsNameCell.SetDataType(XLCellValues.Text);
 
                 foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
                 {
