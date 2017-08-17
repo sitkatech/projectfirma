@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
-using System.Collections.Generic;
 using System.Linq;  
 using ProjectFirma.Web.Models;
 
@@ -56,6 +55,7 @@ namespace ProjectFirma.Web.Views.Map
                     ProjectLocationXCoord = project.ProjectLocationPoint.XCoordinate;
                     break;
                 case ProjectLocationSimpleTypeEnum.None:
+                    Layers = GetWatershedMapLayers(LayerInitialVisibility.Hide);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException($"Invalid ProjectLocationType \"{project.ProjectLocationSimpleType}\"");
