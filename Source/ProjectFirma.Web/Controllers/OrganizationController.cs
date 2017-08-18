@@ -272,19 +272,14 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [OrganizationViewFeature]
-        public GridJsonNetJObjectResult<ProjectOrganization> ProjectOrganizationsGridJsonData(OrganizationPrimaryKey organizationPrimaryKey)
+        public GridJsonNetJObjectResult<Project> ProjectsIncludingLeadImplementingGridJsonData(OrganizationPrimaryKey organizationPrimaryKey)
         {
-            ProjectOrganizationsGridSpec gridSpec;
-            var projectOrganizations = GetProjectOrganizationsAndGridSpec(out gridSpec, organizationPrimaryKey.EntityObject);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectOrganization>(projectOrganizations, gridSpec);
+            ProjectsIncludingLeadImplementingGridSpec gridSpec;
+            var organization = organizationPrimaryKey.EntityObject;
+            gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization);
+            
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetAllProjectsIncludingLeadImplementing(), gridSpec);
             return gridJsonNetJObjectResult;
-        }
-
-        private static List<ProjectOrganization> GetProjectOrganizationsAndGridSpec(out ProjectOrganizationsGridSpec gridSpec,
-            Organization organization)
-        {
-            gridSpec = new ProjectOrganizationsGridSpec(organization.GetCalendarYearsForProjectExpenditures());
-            return organization.GetAllProjectOrganizations().ToList();
         }
 
         [HttpGet]

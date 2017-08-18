@@ -106,7 +106,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             {
                 errors.Add(new SitkaValidationResult<ProjectLocationSimpleViewModel, double?>("Please specify a point on the map", x => x.ProjectLocationPointX));
             }
-            if (ProjectLocationSimpleType == ProjectLocationSimpleTypeEnum.NamedAreas && ProjectLocationAreaID.HasValue) //MIGHT NEED TO BE POSITIVE VALUE
+            if (ProjectLocationSimpleType == ProjectLocationSimpleTypeEnum.NamedAreas && !ProjectLocationAreaID.HasValue) //MIGHT NEED TO BE POSITIVE VALUE
             {
                 errors.Add(
                     new SitkaValidationResult<ProjectLocationSimpleViewModel, int?>("Please specify an area on the map.", x => x.ProjectLocationAreaID));

@@ -36,20 +36,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             _warningMessages = new List<string>();
 
-            if (ProjectUpdate.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap &&
-                (!ProjectUpdate.ProjectLocationPointLatitude.HasValue || !ProjectUpdate.ProjectLocationPointLongitude.HasValue))
-            {
-                _warningMessages.Add("The simplified project location is set to 'Point on Map' but no point is specified.");
-            }
-            if (ProjectUpdate.ProjectLocationSimpleType == ProjectLocationSimpleType.NamedAreas && ProjectUpdate.ProjectLocationArea == null)
-            {
-                _warningMessages.Add($"The simplified project location is set to '{Models.FieldDefinition.Watershed}' but no area is specified.");
-            }
-
-            if (ProjectUpdate.ProjectLocationSimpleType == ProjectLocationSimpleType.None && string.IsNullOrWhiteSpace(ProjectUpdate.ProjectLocationNotes))
-            {
-                _warningMessages.Add("If a location point or general project area is not available, explanatory information in the Notes section is required.");
-            }
+         
         }
 
         public List<string> GetWarningMessages()

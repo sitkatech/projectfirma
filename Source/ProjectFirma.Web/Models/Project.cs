@@ -423,6 +423,17 @@ namespace ProjectFirma.Web.Models
             get { return ProjectOrganizations.Any() ? String.Join(", ", ProjectOrganizations.OrderBy(x => x.RelationshipType.RelationshipTypeName).ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName)) : String.Empty; }
         }
 
+        public string AssocatedOrganizationNames(Organization organization)
+        {
+            var projectOrganizationAssocationNames = new List<string>();
+            if (LeadImplementerOrganization == organization)
+            {
+                projectOrganizationAssocationNames.Add("Lead Implementer");
+            }
+            ProjectOrganizations.Where(x => x.Organization == organization).ForEach(x => projectOrganizationAssocationNames.Add(x.RelationshipType.RelationshipTypeName));
+            return string.Join(",", projectOrganizationAssocationNames);
+        }
+
         public ProjectImage KeyPhoto
         {
             get { return ProjectImages.SingleOrDefault(x => x.IsKeyPhoto); }

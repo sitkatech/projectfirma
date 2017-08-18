@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly string EditOrganizationUrl;
         public readonly string EditBoundaryUrl;
         public readonly string DeleteOrganizationBoundaryUrl;
-        public readonly ProjectOrganizationsGridSpec ProjectOrganizationsGridSpec;
+        public readonly ProjectsIncludingLeadImplementingGridSpec ProjectsIncludingLeadImplementingGridSpec;
         public readonly string ProjectOrganizationsGridName;
         public readonly string ProjectOrganizationsGridDataUrl;
         public readonly CalendarYearExpendituresLineChartViewData CalendarYearExpendituresLineChartViewData;
@@ -64,8 +64,8 @@ namespace ProjectFirma.Web.Views.Organization
                 SitkaRoute<OrganizationController>.BuildUrlFromExpression(
                     c => c.DeleteOrganizationBoundary(organization));
 
-            ProjectOrganizationsGridSpec =
-                new ProjectOrganizationsGridSpec(organization.GetCalendarYearsForProjectExpenditures())
+            ProjectsIncludingLeadImplementingGridSpec =
+                new ProjectsIncludingLeadImplementingGridSpec(organization)
                 {
                     ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
                     ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with {organization.DisplayName}",
@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Views.Organization
             ProjectOrganizationsGridName = "projectOrganizationsFromOrganizationGrid";
             ProjectOrganizationsGridDataUrl =
                 SitkaRoute<OrganizationController>.BuildUrlFromExpression(
-                    tc => tc.ProjectOrganizationsGridJsonData(organization));
+                    tc => tc.ProjectsIncludingLeadImplementingGridJsonData(organization));
             ManageFundingSourcesUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.Index());
             IndexUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Index());
 

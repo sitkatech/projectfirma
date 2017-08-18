@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common.HtmlHelperExtensions
+@using Microsoft.Web.Mvc.Html
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
@@ -80,7 +82,9 @@ Source code is available upon request via <support@sitkatech.com>.
                             </a>
                         </span>
                         <a data-toggle="collapse" data-target="#collapse{{$index}}" href="#collapse{{$index}}" class="collapsed collapsePanel">
-                            <span>@MultiTenantHelpers.GetPerformanceMeasureName() @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() {{$index+1}}</span>
+                            <span>
+                                @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel(): {{subcategorySimple.PerformanceMeasureSubcategoryDisplayName}}
+                            </span>
                         </a>
                     </div>
                     <div id="collapse{{$index}}" class="panel-collapse collapse">

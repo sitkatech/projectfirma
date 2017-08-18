@@ -29,8 +29,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class BasicsValidationResult
     {
-        public static readonly string ImplementationStartYearIsRequired = $"{Models.FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()} is a required field.";
         public static readonly string PlanningDesignStartYearIsRequired = $"{Models.FieldDefinition.PlanningDesignStartYear.GetFieldDefinitionLabel()} is a required field.";
+        public static readonly string ImplementationStartYearIsRequired = $"{Models.FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()} is a required field.";
         public static readonly string CompletionYearIsRequired = $"For projects in the Completed or Post-Implementation stage, {Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} is a required field.";
         public static readonly string ProjectDescriptionIsRequired = $"{Models.FieldDefinition.ProjectDescription.GetFieldDefinitionLabel()} is required.";
         public static readonly string CompletionYearShouldBeLessThanCurrentYear = $"Since project is in Completed or Post-Implementation stage, the {Models.FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} needs to be less than or equal to this year";

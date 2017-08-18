@@ -94,9 +94,19 @@ namespace ProjectFirma.Web.Models
         }
 
         public List<ProjectOrganization> GetAllProjectOrganizations()
-        {            
+        {
             return ProjectOrganizations.OrderBy(x => x.Project.DisplayName).ToList();
         }
+
+        
+        public List<Project> GetAllProjectsIncludingLeadImplementing()
+        {
+            var projects = ProjectOrganizations.Select(x => x.Project).ToList();
+            projects.AddRange(ProjectsWhereYouAreTheLeadImplementerOrganization.ToList());
+            return projects.Distinct().ToList();
+        }
+        
+
 
         public string AuditDescriptionString => OrganizationName;
 

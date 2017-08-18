@@ -677,8 +677,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         private ViewResult ViewLocationSimple(Project project, ProjectUpdateBatch projectUpdateBatch, LocationSimpleViewModel viewModel)
-        {
+        {          
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
+
             var mapInitJsonForEdit = new MapInitJson($"project_{project.ProjectID}_EditMap",
                 10,
                 MapInitJson.GetWatershedMapLayers(LayerInitialVisibility.Hide),

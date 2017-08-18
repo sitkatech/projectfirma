@@ -451,6 +451,15 @@
     <Content Include="Content\img\SitkaTechnologyGroup\favicon-96x96.png" />
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.css" />
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.js" />
+    <Content Include="Content\qtip\jquery.qtip.es5.js">
+      <DependentUpon>jquery.qtip.js</DependentUpon>
+    </Content>
+    <Content Include="Content\qtip\jquery.qtip.es5.min.js">
+      <DependentUpon>jquery.qtip.es5.js</DependentUpon>
+    </Content>
+    <Content Include="Content\qtip\jquery.qtip.validation.min.js">
+      <DependentUpon>jquery.qtip.validation.js</DependentUpon>
+    </Content>
     <Content Include="Content\spinjs\spin.min.js" />
     <Content Include="Content\typeahead\typeahead.js" />
     <Content Include="Content\typeahead\typeahead.min.js">
@@ -1802,9 +1811,6 @@
     <Content Include="Content\css\jquery.ui.firma.css" />
     <Content Include="Content\img\favicon.ico" />
     <Content Include="Content\qtip\jquery.qtip.firma.css" />
-    <Content Include="Content\qtip\jquery.qtip.validation.min.js">
-      <DependentUpon>jquery.qtip.validation.js</DependentUpon>
-    </Content>
     <Compile Include="Views\FirmaPage\FirmaPageDetails.cs" />
     <Compile Include="Views\FirmaPage\FirmaPageDetailsViewData.cs" />
     <Compile Include="Views\FirmaPage\FirmaPageGridSpec.cs" />
@@ -1819,7 +1825,7 @@
     <Compile Include="Views\Shared\SitkaRecaptcha.cs" />
     <Compile Include="Views\Shared\SitkaRecaptchaViewData.cs" />
     <Compile Include="Models\MapInitJson.cs" />
-    <Compile Include="Views\Organization\ProjectOrganizationsGridSpec.cs" />
+    <Compile Include="Views\Organization\ProjectsIncludingLeadImplementingGridSpec.cs" />
     <Compile Include="Views\Shared\TextControls\EntityNotes.cs" />
     <Compile Include="Views\Shared\TextControls\EditRtfContent.cs" />
     <Compile Include="Views\Shared\TextControls\EntityNotesViewData.cs" />
@@ -2463,9 +2469,6 @@
     <Content Include="Views\LtInfoMenuItemTest.CanRenderNestedMenuTest.approved.txt" />
     <Content Include="Views\LtInfoMenuItemTest.CanRenderSimpleMenuTest.approved.txt" />
     <Content Include="Views\FirmaPage\Edit.cshtml" />
-    <Content Include="Content\qtip\jquery.qtip.validation.min.js.map">
-      <DependentUpon>jquery.qtip.validation.min.js</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap-select\bootstrap-select.min.js.map">
       <DependentUpon>bootstrap-select.min.js</DependentUpon>
     </Content>
