@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Spatial;
@@ -73,11 +72,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     throw new ArgumentOutOfRangeException();
             }
             project.ProjectLocationNotes = ProjectLocationNotes;
-        }
-
-        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            return new List<ValidationResult>();
         }
     }
 }

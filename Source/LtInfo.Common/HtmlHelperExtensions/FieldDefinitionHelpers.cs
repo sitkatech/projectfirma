@@ -18,8 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using LtInfo.Common.Views;
-
 namespace LtInfo.Common.HtmlHelperExtensions
 {
     public static class FieldDefinitionHelpers
@@ -37,6 +35,11 @@ namespace LtInfo.Common.HtmlHelperExtensions
         public static string ToGridHeaderString(this IFieldDefinition fieldDefinition, int popupWidth)
         {
             return fieldDefinition.ToGridHeaderString(popupWidth, fieldDefinition.GetFieldDefinitionLabel());
+        }
+
+        public static string ToGridHeaderStringPlural(this IFieldDefinition fieldDefinition, string displayNamePlural) //there should be a better way to pass this
+        {
+            return fieldDefinition.ToGridHeaderString(displayNamePlural);
         }
 
         private static string ToGridHeaderString(this IFieldDefinition fieldDefinition, int popupWidth, string fieldDefinitionDisplayName)
