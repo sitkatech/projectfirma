@@ -7,9 +7,10 @@
         var idText = $(this).attr('data-valmsg-for').replace('.', '_').replace('[', '_').replace(']', '_');
         var inputElem = '#' + idText;
 
-        //if the input select is overridden by bootstrap-select, need to grad the data-id instead
-        if ($(inputElem).hasClass("selectpicker")) {            
-            inputElem = $('[data-id=' + idText+']');
+        // If the input select is overridden by bootstrap-select, need to grab the data-id instead
+        if ($(inputElem).hasClass("selectpicker")) {
+            $(inputElem).selectpicker("refresh"); // Make sure selectpicker can be found on page
+            inputElem = '[data-id=' + idText + ']';
         }
 
         var corners = ['right center', 'left center'];
