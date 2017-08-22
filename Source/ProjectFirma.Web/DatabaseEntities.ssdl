@@ -1839,6 +1839,7 @@ warning 6035: The relationship 'FK_ProjectOrganization_RelationshipType_Relation
     <Property Name="RelationshipTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
     <Property Name="RelationshipTypeName" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="CanApproveProjects" Type="bit" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.

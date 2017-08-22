@@ -6,6 +6,7 @@ CREATE TABLE [dbo].[RelationshipType](
 	[RelationshipTypeID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[RelationshipTypeName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[CanApproveProjects] [bit] NOT NULL,
  CONSTRAINT [PK_RelationshipType_RelationshipTypeID] PRIMARY KEY CLUSTERED 
 (
 	[RelationshipTypeID] ASC

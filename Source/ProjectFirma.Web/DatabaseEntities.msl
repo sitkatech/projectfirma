@@ -982,6 +982,7 @@
           <ScalarProperty Name="RelationshipTypeID" ColumnName="RelationshipTypeID" />
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="RelationshipTypeName" ColumnName="RelationshipTypeName" />
+          <ScalarProperty Name="CanApproveProjects" ColumnName="CanApproveProjects" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
