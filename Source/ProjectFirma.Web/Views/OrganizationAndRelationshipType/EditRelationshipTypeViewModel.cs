@@ -43,7 +43,10 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationType)]
         public List<int> OrganizationTypeIDs { get; set; }
-                
+
+        [Required]
+        [DisplayName("Can Approve Projects?")]
+        public bool? CanApproveProjects { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -59,6 +62,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             OrganizationTypeIDs = relationshipType.OrganizationTypeRelationshipTypes
                 .Select(x => x.OrganizationTypeID)
                 .ToList();
+            CanApproveProjects = relationshipType.CanApproveProjects;
         }
 
         public void UpdateModel(RelationshipType relationshipType, ICollection<OrganizationTypeRelationshipType> allOrganizationTypeRelationshipTypes)
@@ -70,6 +74,8 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             relationshipType.OrganizationTypeRelationshipTypes.Merge(organizationTypesUpdated,
                 allOrganizationTypeRelationshipTypes,
                 (x, y) => x.OrganizationTypeID == y.OrganizationTypeID && x.RelationshipTypeID == y.RelationshipTypeID);
+
+            relationshipType.CanApproveProjects = CanApproveProjects ?? false; // Should never be null due to required validation attribute
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -20,9 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Mvc
-@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
-@using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.OrganizationAndRelationshipType.EditRelationshipType
               
 
@@ -36,15 +34,32 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div class="form-horizontal">
             <div class="form-group">
-                <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.RelationshipTypeName)</div>
-                <div class="col-sm-8">
+                <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.RelationshipTypeName)</div>
+                <div class="col-xs-12 col-sm-9">
                     @Html.TextBoxFor(m => m.RelationshipTypeName, new { style = "width: 100%", @class = "form-control" })
                 </div>
-            </div>            
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.CanApproveProjects)</div>
+                <div class="col-xs-12 col-sm-9">
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.CanApproveProjects, true) Yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.CanApproveProjects, false) No
+                        </label>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.CanApproveProjects)
+                </div>
+            </div>
+            <hr />
             <p>Select which @FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized() can be associated to a @FieldDefinition.Project.GetFieldDefinitionLabel() with this @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()</p>
             <div class="form-group">
-                <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.OrganizationTypeIDs)</div>
-                <div class="col-sm-8">
+                <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.OrganizationTypeIDs)</div>
+                <div class="col-xs-12 col-sm-9">
                     @Html.CheckBoxListFor(x => x.OrganizationTypeIDs, ViewDataTyped.AllOrganizationTypes.ToSelectList(x => x.OrganizationTypeID.ToString(), x => x.OrganizationTypeName), new { style ="display:block"}, CheckboxExtensions.ColNumber.twoCols)
                 </div>
             </div>                        

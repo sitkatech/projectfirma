@@ -30,7 +30,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
-    public class OrganizationTypeGridSpec : GridSpec<Models.OrganizationType>
+    public class OrganizationTypeGridSpec : GridSpec<OrganizationType>
     {
         public OrganizationTypeGridSpec(bool hasManagePermissions)
         {            
@@ -44,7 +44,9 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 
             Add($"{Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabel()} Name", a => a.OrganizationTypeName, 240);
             Add("Abbreviation", a => a.OrganizationTypeAbbreviation, 200);
-            Add($"Show on {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map", a => a.ShowOnProjectMaps.ToCheckboxImageOrEmpty(), 100);
+            Add($"Show on {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map", a => new HtmlString(a.ShowOnProjectMaps
+                ? $"<span style='display:none'>Yes</span><span style='margin-left: 40px'>{a.ShowOnProjectMaps.ToCheckboxImageOrEmpty()}</span>"
+                : "<span style='display:none'>No</span>"), 100);
             Add("Legend Color", a => ToLegendColor(a), 50, DhtmlxGridColumnFilterType.None);
         }
 

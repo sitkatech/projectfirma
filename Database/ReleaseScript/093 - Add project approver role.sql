@@ -14,6 +14,14 @@ select
 from dbo.Tenant t
 where t.TenantID in (1, 2, 3)
 
+insert into dbo.OrganizationTypeRelationshipType(TenantID, OrganizationTypeID, RelationshipTypeID)
+select
+	o.TenantID,
+	o.OrganizationTypeID,
+	(select top 1 r.RelationshipTypeID from dbo.RelationshipType r where r.TenantID = o.TenantID and r.RelationshipTypeName = 'Lead Implementer') as RelationshipTypeID
+from dbo.OrganizationType o
+where o.TenantID in (1, 2, 3)
+
 go
 
 alter table dbo.RelationshipType alter column CanApproveProjects bit not null

@@ -29,11 +29,11 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
-    public class RelationshipTypeGridSpec : GridSpec<Models.RelationshipType>
+    public class RelationshipTypeGridSpec : GridSpec<RelationshipType>
     {
         public RelationshipTypeGridSpec(bool hasManagePermissions, List<OrganizationType> allOrganizationTypes)
         {
-            var basicsColumnGroupCount = 1;
+            var basicsColumnGroupCount = 2;
            
 
             if (hasManagePermissions)
@@ -46,6 +46,10 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             }
 
             Add($"{Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} Name", a => a.RelationshipTypeName, 240);
+            Add($"Can Approve {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}?", a => new HtmlString(a.CanApproveProjects
+                ? $"<span style='display:none'>Yes</span><span style='margin-left: 40px'>{a.CanApproveProjects.ToCheckboxImageOrEmpty()}</span>"
+                : "<span style='display:none'>No</span>"), 100);
+
             foreach (var organizationType in allOrganizationTypes)
             {               
                 Add(organizationType.OrganizationTypeName,
