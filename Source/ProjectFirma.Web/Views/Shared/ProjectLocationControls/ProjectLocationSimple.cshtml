@@ -75,28 +75,6 @@ Source code is available upon request via <support@sitkatech.com>.
                     <label class="noBold">
                         <input type="radio" name="@Html.NameFor(m => m.ProjectLocationSimpleType)"
                                ng-model="AngularModel.ProjectLocationSimpleType"
-                               value=""
-                               ng-click="toggleMap()" />
-                        Pick a @FieldDefinition.Watershed.GetFieldDefinitionLabel()
-                    </label>
-                </div>
-                <div ng-show="AngularModel.ProjectLocationSimpleType == ''">
-                    <div class="input-group" style="padding-right: 10px">
-                        @* ReSharper disable once UnknownCssClass *@
-                        <input type="text" id="@ViewDataTyped.ViewDataForAngular.TypeAheadInputId" class="typeahead form-control" placeholder="Enter @FieldDefinition.Watershed.GetFieldDefinitionLabel() name" autocomplete="off" />
-                        <span class="input-group-btn">
-                            <button id="@(ViewDataTyped.ViewDataForAngular.TypeAheadInputId)Button" type="button" class="btn btn-default" ng-click="selectFirstSuggestionFunction()">
-                                <span class='glyphicon glyphicon-search'></span>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="radio">
-                    <label class="noBold">
-                        <input type="radio" name="@Html.NameFor(m => m.ProjectLocationSimpleType)"
-                               ng-model="AngularModel.ProjectLocationSimpleType"
                                value="@ProjectLocationSimpleTypeEnum.None"
                                ng-click="toggleMap()" />
                         No Location
@@ -143,8 +121,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     "AngularModel": @Html.Raw(JObject.FromObject(Model).ToString(Formatting.None)),
                     "AngularViewData": @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular).ToString(Formatting.None))
                 };
-            });
-    // angular.bootstrap(jQuery("[ng-controller=\"ProjectLocationSimpleController\"]"), ["ProjectFirmaApp"]);
-    // already used ng-app and ng-controller, so this gives console error
+        });
+    angular.bootstrap(jQuery("[ng-controller=\"ProjectLocationSimpleController\"]"), ["ProjectFirmaApp"]);
     // ]]>
 </script>
