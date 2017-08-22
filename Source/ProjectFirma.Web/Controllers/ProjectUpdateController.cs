@@ -41,7 +41,6 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
-using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 using MoreLinq;
@@ -644,7 +643,6 @@ namespace ProjectFirma.Web.Controllers
             }
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
             var viewModel = new LocationSimpleViewModel(projectUpdate.ProjectLocationPoint,
-                projectUpdate.ProjectLocationAreaID,
                 projectUpdate.ProjectLocationSimpleType.ToEnum,
                 projectUpdate.ProjectLocationNotes,
                 projectUpdateBatch.LocationSimpleComment);
@@ -690,14 +688,11 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
                 $"project_{project.ProjectID}_EditMap");
 
-            var findWatershedByNameUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(x => x.FindWatershedByName(null));
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
-            var geometry = HttpRequestStorage.DatabaseEntities.ProjectLocationAreas.SingleOrDefault(x => x.ProjectLocationAreaID == viewModel.ProjectLocationAreaID)?.GetGeometry();
-            var currentFeature = geometry != null ? DbGeometryToGeoJsonHelper.FromDbGeometry(geometry) : null;
             var mapPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.LocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project);
 
-            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, projectUpdate, mapInitJsonForEdit, findWatershedByNameUrl, tenantAttribute, currentFeature, mapPostUrl, mapFormID);
+            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJsonForEdit, tenantAttribute, null, mapPostUrl, mapFormID);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson);
             var viewDataForAngularClass = new LocationSimpleViewData.ViewDataForAngularClass(locationSimpleValidationResult.GetWarningMessages());
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
@@ -1960,9 +1955,6 @@ namespace ProjectFirma.Web.Controllers
                         return true;
                     }
                     return project.ProjectLocationPoint.ToSqlGeometry().STEquals(projectUpdateBatch.ProjectUpdate.ProjectLocationPoint.ToSqlGeometry()).IsFalse;
-
-                case ProjectLocationSimpleTypeEnum.NamedAreas:
-                    return project.ProjectLocationAreaID != projectUpdateBatch.ProjectUpdate.ProjectLocationAreaID;
             }
 
             return false;

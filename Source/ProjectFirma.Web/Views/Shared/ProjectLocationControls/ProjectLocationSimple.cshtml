@@ -75,12 +75,12 @@ Source code is available upon request via <support@sitkatech.com>.
                     <label class="noBold">
                         <input type="radio" name="@Html.NameFor(m => m.ProjectLocationSimpleType)"
                                ng-model="AngularModel.ProjectLocationSimpleType"
-                               value="@ProjectLocationSimpleTypeEnum.NamedAreas"
+                               value=""
                                ng-click="toggleMap()" />
                         Pick a @FieldDefinition.Watershed.GetFieldDefinitionLabel()
                     </label>
                 </div>
-                <div ng-show="AngularModel.ProjectLocationSimpleType == '@ProjectLocationSimpleTypeEnum.NamedAreas'">
+                <div ng-show="AngularModel.ProjectLocationSimpleType == ''">
                     <div class="input-group" style="padding-right: 10px">
                         @* ReSharper disable once UnknownCssClass *@
                         <input type="text" id="@ViewDataTyped.ViewDataForAngular.TypeAheadInputId" class="typeahead form-control" placeholder="Enter @FieldDefinition.Watershed.GetFieldDefinitionLabel() name" autocomplete="off" />
@@ -91,7 +91,6 @@ Source code is available upon request via <support@sitkatech.com>.
                         </span>
                     </div>
                 </div>
-                <input type="hidden" name="@Html.NameFor(m => m.ProjectLocationAreaID)" value="{{AngularModel.@Html.NameFor(m => m.ProjectLocationAreaID)}}" />
             </div>
             <div class="form-group">
                 <div class="radio">

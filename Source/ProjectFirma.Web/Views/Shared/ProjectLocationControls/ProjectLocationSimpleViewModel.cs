@@ -34,8 +34,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
     public class ProjectLocationSimpleViewModel : FormViewModel, IValidatableObject
     {
-        public int? ProjectLocationAreaID { get; set; }
-
         public double? ProjectLocationPointX { get; set; }
         public double? ProjectLocationPointY { get; set; }
 
@@ -53,9 +51,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         {
         }
 
-        public ProjectLocationSimpleViewModel(DbGeometry projectLocationPoint, int? projectLocationAreaID, ProjectLocationSimpleTypeEnum projectLocationSimpleType, string projectLocationNotes)
+        public ProjectLocationSimpleViewModel(DbGeometry projectLocationPoint, ProjectLocationSimpleTypeEnum projectLocationSimpleType, string projectLocationNotes)
         {
-            ProjectLocationAreaID = projectLocationAreaID;
             ProjectLocationSimpleType = projectLocationSimpleType;
             if (projectLocationPoint != null)
             {
@@ -76,15 +73,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             switch (ProjectLocationSimpleType)
             {                
                 case ProjectLocationSimpleTypeEnum.PointOnMap:
-                    project.ProjectLocationAreaID = null;
                     project.ProjectLocationPoint = DbSpatialHelper.MakeDbGeometryFromCoordinates(ProjectLocationPointX.Value, ProjectLocationPointY.Value, MapInitJson.CoordinateSystemId);
                     break;
-                case ProjectLocationSimpleTypeEnum.NamedAreas:
-                    project.ProjectLocationAreaID = ProjectLocationAreaID;
-                    project.ProjectLocationPoint = null;
-                    break;
                 case ProjectLocationSimpleTypeEnum.None:
-                    project.ProjectLocationAreaID = null;
                     project.ProjectLocationPoint = null;
                     break;
                 default:
@@ -106,11 +97,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             {
                 errors.Add(new SitkaValidationResult<ProjectLocationSimpleViewModel, double?>("Please specify a point on the map", x => x.ProjectLocationPointX));
             }
-            if (ProjectLocationSimpleType == ProjectLocationSimpleTypeEnum.NamedAreas && !ProjectLocationAreaID.HasValue) //MIGHT NEED TO BE POSITIVE VALUE
-            {
-                errors.Add(
-                    new SitkaValidationResult<ProjectLocationSimpleViewModel, int?>("Please specify an area on the map.", x => x.ProjectLocationAreaID));
-            }
+
             if (ProjectLocationSimpleType == ProjectLocationSimpleTypeEnum.None && string.IsNullOrWhiteSpace(ProjectLocationNotes))
             {
                 errors.Add(

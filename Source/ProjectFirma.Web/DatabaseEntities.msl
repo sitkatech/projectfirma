@@ -504,7 +504,6 @@
           <ScalarProperty Name="EstimatedTotalCost" ColumnName="EstimatedTotalCost" />
           <ScalarProperty Name="SecuredFunding" ColumnName="SecuredFunding" />
           <ScalarProperty Name="ProjectLocationPoint" ColumnName="ProjectLocationPoint" />
-          <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
           <ScalarProperty Name="PerformanceMeasureActualYearsExemptionExplanation" ColumnName="PerformanceMeasureActualYearsExemptionExplanation" />
           <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
           <ScalarProperty Name="ProjectLocationNotes" ColumnName="ProjectLocationNotes" />
@@ -673,47 +672,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ProjectLocationArea">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationArea">
-        <MappingFragment StoreEntitySet="ProjectLocationArea">
-          <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
-          <ScalarProperty Name="ProjectLocationAreaGroupID" ColumnName="ProjectLocationAreaGroupID" />
-          <ScalarProperty Name="MappedRegionID" ColumnName="MappedRegionID" />
-          <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProjectLocationAreaGroup">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationAreaGroup">
-        <MappingFragment StoreEntitySet="ProjectLocationAreaGroup">
-          <ScalarProperty Name="ProjectLocationAreaGroupID" ColumnName="ProjectLocationAreaGroupID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="ProjectLocationAreaGroupTypeID" ColumnName="ProjectLocationAreaGroupTypeID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProjectLocationAreaStateProvince">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationAreaStateProvince">
-        <MappingFragment StoreEntitySet="ProjectLocationAreaStateProvince">
-          <ScalarProperty Name="ProjectLocationAreaStateProvinceID" ColumnName="ProjectLocationAreaStateProvinceID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
-          <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProjectLocationAreaWatershed">
-      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationAreaWatershed">
-        <MappingFragment StoreEntitySet="ProjectLocationAreaWatershed">
-          <ScalarProperty Name="ProjectLocationAreaWatershedID" ColumnName="ProjectLocationAreaWatershedID" />
-          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
-          <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
-          <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ProjectLocationStaging">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectLocationStaging">
         <MappingFragment StoreEntitySet="ProjectLocationStaging">
@@ -815,7 +773,6 @@
           <ScalarProperty Name="EstimatedTotalCost" ColumnName="EstimatedTotalCost" />
           <ScalarProperty Name="SecuredFunding" ColumnName="SecuredFunding" />
           <ScalarProperty Name="ProjectLocationPoint" ColumnName="ProjectLocationPoint" />
-          <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
           <ScalarProperty Name="ProjectLocationNotes" ColumnName="ProjectLocationNotes" />
           <ScalarProperty Name="PlanningDesignStartYear" ColumnName="PlanningDesignStartYear" />
           <ScalarProperty Name="ProjectLocationSimpleTypeID" ColumnName="ProjectLocationSimpleTypeID" />
@@ -886,7 +843,6 @@
           <ScalarProperty Name="EstimatedTotalCost" ColumnName="EstimatedTotalCost" />
           <ScalarProperty Name="SecuredFunding" ColumnName="SecuredFunding" />
           <ScalarProperty Name="ProjectLocationPoint" ColumnName="ProjectLocationPoint" />
-          <ScalarProperty Name="ProjectLocationAreaID" ColumnName="ProjectLocationAreaID" />
           <ScalarProperty Name="ProjectLocationNotes" ColumnName="ProjectLocationNotes" />
           <ScalarProperty Name="PlanningDesignStartYear" ColumnName="PlanningDesignStartYear" />
           <ScalarProperty Name="ProjectLocationSimpleTypeID" ColumnName="ProjectLocationSimpleTypeID" />

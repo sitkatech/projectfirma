@@ -20,8 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using GeoJSON.Net.Feature;
-using LtInfo.Common;
-using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
@@ -32,11 +30,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly string MapFormID;
         public readonly string MapPostUrl;
 
-        public ProjectLocationSimpleViewData(Person currentPerson, IProject iProject, MapInitJson mapInitJson,
-            string findWatershedByNameUrl, TenantAttribute tenantAttribute, Feature currentFeature, string mapPostUrl, string mapFormID)
+        public ProjectLocationSimpleViewData(Person currentPerson, MapInitJson mapInitJson, TenantAttribute tenantAttribute, Feature currentFeature, string mapPostUrl, string mapFormID)
             : base(currentPerson)
         {
-            ViewDataForAngular = new ProjectLocationSimpleViewDataForAngular(iProject, mapInitJson, findWatershedByNameUrl, tenantAttribute, currentFeature);
+            ViewDataForAngular = new ProjectLocationSimpleViewDataForAngular(mapInitJson, tenantAttribute, currentFeature);
             MapPostUrl = mapPostUrl;
             MapFormID = mapFormID;
         }
@@ -45,32 +42,23 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
     public class ProjectLocationSimpleViewDataForAngular
     {
         public readonly MapInitJson MapInitJson;
-        public readonly string FindWatershedByNameUrl;
         public readonly string TypeAheadInputId;
         public readonly string WatershedFieldDefinitionLabel;
         public readonly string ProjectLocationFieldDefinitionLabel;
         public readonly string WatershedMapSericeLayerName;
         public readonly string MapServiceUrl;
         public readonly Feature CurrentFeature;
-        public readonly string ProjectLocationAreaIDFromWatershedIDUrlTemplate;
-        public readonly string InitialWatershedName;
 
-        public ProjectLocationSimpleViewDataForAngular(IProject iProject, MapInitJson mapInitJson, string findWatershedByNameUrl,
+        public ProjectLocationSimpleViewDataForAngular(MapInitJson mapInitJson,
             TenantAttribute tenantAttribute, Feature currentFeature)
         {
             MapInitJson = mapInitJson;
-            FindWatershedByNameUrl = findWatershedByNameUrl;
             TypeAheadInputId = "projectLocationSearch";
             WatershedFieldDefinitionLabel = Models.FieldDefinition.Watershed.GetFieldDefinitionLabel();
             ProjectLocationFieldDefinitionLabel = Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel();
             WatershedMapSericeLayerName = tenantAttribute.WatershedLayerName;
             MapServiceUrl = tenantAttribute.MapServiceUrl;
             CurrentFeature = currentFeature;
-            ProjectLocationAreaIDFromWatershedIDUrlTemplate =
-                new UrlTemplate<int>(
-                    SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(
-                        c => c.ProjectLocationAreaIDFromWatershedID(UrlTemplate.Parameter1Int))).UrlTemplateString;
-            InitialWatershedName = iProject.ProjectLocationArea?.ProjectLocationAreaDisplayName;
         }
     }
 }

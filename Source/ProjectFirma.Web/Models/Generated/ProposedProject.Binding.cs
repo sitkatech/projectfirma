@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, int? projectLocationAreaID, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? taxonomyTierOneID, string performanceMeasureNotes, int? projectID, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, int? primaryContactPersonID) : this()
+        public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? taxonomyTierOneID, string performanceMeasureNotes, int? projectID, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, int? primaryContactPersonID) : this()
         {
             this.ProposedProjectID = proposedProjectID;
             this.ProjectName = projectName;
@@ -50,7 +50,6 @@ namespace ProjectFirma.Web.Models
             this.EstimatedTotalCost = estimatedTotalCost;
             this.SecuredFunding = securedFunding;
             this.ProjectLocationPoint = projectLocationPoint;
-            this.ProjectLocationAreaID = projectLocationAreaID;
             this.ProjectLocationNotes = projectLocationNotes;
             this.PlanningDesignStartYear = planningDesignStartYear;
             this.ProjectLocationSimpleTypeID = projectLocationSimpleTypeID;
@@ -140,7 +139,6 @@ namespace ProjectFirma.Web.Models
         public decimal? EstimatedTotalCost { get; set; }
         public decimal? SecuredFunding { get; set; }
         public DbGeometry ProjectLocationPoint { get; set; }
-        public int? ProjectLocationAreaID { get; set; }
         public string ProjectLocationNotes { get; set; }
         public int? PlanningDesignStartYear { get; set; }
         public int ProjectLocationSimpleTypeID { get; set; }
@@ -169,7 +167,6 @@ namespace ProjectFirma.Web.Models
         public virtual Person PrimaryContactPerson { get; set; }
         public virtual Person ProposingPerson { get; set; }
         public virtual Person ReviewedByPerson { get; set; }
-        public virtual ProjectLocationArea ProjectLocationArea { get; set; }
         public ProjectLocationSimpleType ProjectLocationSimpleType { get { return ProjectLocationSimpleType.AllLookupDictionary[ProjectLocationSimpleTypeID]; } }
         public FundingType FundingType { get { return FundingType.AllLookupDictionary[FundingTypeID]; } }
         public ProposedProjectState ProposedProjectState { get { return ProposedProjectState.AllLookupDictionary[ProposedProjectStateID]; } }

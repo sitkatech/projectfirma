@@ -132,14 +132,6 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectImage> ProjectImages { get { return AllProjectImages.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectImageUpdate> AllProjectImageUpdates { get; set; }
         public virtual IQueryable<ProjectImageUpdate> ProjectImageUpdates { get { return AllProjectImageUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectLocationAreaGroup> AllProjectLocationAreaGroups { get; set; }
-        public virtual IQueryable<ProjectLocationAreaGroup> ProjectLocationAreaGroups { get { return AllProjectLocationAreaGroups.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectLocationArea> AllProjectLocationAreas { get; set; }
-        public virtual IQueryable<ProjectLocationArea> ProjectLocationAreas { get { return AllProjectLocationAreas.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectLocationAreaStateProvince> AllProjectLocationAreaStateProvinces { get; set; }
-        public virtual IQueryable<ProjectLocationAreaStateProvince> ProjectLocationAreaStateProvinces { get { return AllProjectLocationAreaStateProvinces.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
-        public virtual DbSet<ProjectLocationAreaWatershed> AllProjectLocationAreaWatersheds { get; set; }
-        public virtual IQueryable<ProjectLocationAreaWatershed> ProjectLocationAreaWatersheds { get { return AllProjectLocationAreaWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectLocation> AllProjectLocations { get; set; }
         public virtual IQueryable<ProjectLocation> ProjectLocations { get { return AllProjectLocations.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectLocationStaging> AllProjectLocationStagings { get; set; }
@@ -436,23 +428,6 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectImageUpdate":
                     return ProjectImageUpdates.GetProjectImageUpdate(primaryKey);
-
-                case "ProjectLocationAreaGroup":
-                    return ProjectLocationAreaGroups.GetProjectLocationAreaGroup(primaryKey);
-
-                case "ProjectLocationAreaGroupType":
-                    var projectLocationAreaGroupType = ProjectLocationAreaGroupType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(projectLocationAreaGroupType, "ProjectLocationAreaGroupType", primaryKey);
-                    return projectLocationAreaGroupType;
-
-                case "ProjectLocationArea":
-                    return ProjectLocationAreas.GetProjectLocationArea(primaryKey);
-
-                case "ProjectLocationAreaStateProvince":
-                    return ProjectLocationAreaStateProvinces.GetProjectLocationAreaStateProvince(primaryKey);
-
-                case "ProjectLocationAreaWatershed":
-                    return ProjectLocationAreaWatersheds.GetProjectLocationAreaWatershed(primaryKey);
 
                 case "ProjectLocationFilterType":
                     var projectLocationFilterType = ProjectLocationFilterType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

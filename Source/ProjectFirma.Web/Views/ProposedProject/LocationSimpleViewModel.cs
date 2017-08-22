@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         {
         }
 
-        public LocationSimpleViewModel(Models.ProposedProject proposedProject) : base(proposedProject.ProjectLocationPoint, proposedProject.ProjectLocationAreaID, proposedProject.ProjectLocationSimpleType.ToEnum, proposedProject.ProjectLocationNotes)
+        public LocationSimpleViewModel(Models.ProposedProject proposedProject) : base(proposedProject.ProjectLocationPoint, proposedProject.ProjectLocationSimpleType.ToEnum, proposedProject.ProjectLocationNotes)
         {
         }
         

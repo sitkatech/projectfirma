@@ -84,8 +84,7 @@ namespace ProjectFirma.Web.Controllers
 
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyTierTwo, new List<int> {taxonomyTierTwo.TaxonomyTierTwoID}, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}", Project.MappedPointsToGeoJsonFeatureCollection(visibleProjectsForUser, true), "red", 1, LayerInitialVisibility.Show);
-            var namedAreasAsPointsLayerGeoJson = new LayerGeoJson("Named Areas", Project.NamedAreasToPointGeoJsonFeatureCollection(visibleProjectsForUser, true), "red", 1, LayerInitialVisibility.Show);
-            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, namedAreasAsPointsLayerGeoJson, projectMapCustomization, "TaxonomyTierTwoProjectMap");
+            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, projectMapCustomization, "TaxonomyTierTwoProjectMap");
 
             var taxonomyTierThrees = HttpRequestStorage.DatabaseEntities.TaxonomyTierThrees.ToList();
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.DisplayName, taxonomyTierThrees);

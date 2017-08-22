@@ -19,7 +19,6 @@ namespace ProjectFirma.Web.Models
     public abstract partial class ProjectLocationSimpleType : IHavePrimaryKey
     {
         public static readonly ProjectLocationSimpleTypePointOnMap PointOnMap = ProjectLocationSimpleTypePointOnMap.Instance;
-        public static readonly ProjectLocationSimpleTypeNamedAreas NamedAreas = ProjectLocationSimpleTypeNamedAreas.Instance;
         public static readonly ProjectLocationSimpleTypeNone None = ProjectLocationSimpleTypeNone.Instance;
 
         public static readonly List<ProjectLocationSimpleType> All;
@@ -30,7 +29,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         static ProjectLocationSimpleType()
         {
-            All = new List<ProjectLocationSimpleType> { PointOnMap, NamedAreas, None };
+            All = new List<ProjectLocationSimpleType> { PointOnMap, None };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectLocationSimpleType>(All.ToDictionary(x => x.ProjectLocationSimpleTypeID));
         }
 
@@ -101,8 +100,6 @@ namespace ProjectFirma.Web.Models
         {
             switch (enumValue)
             {
-                case ProjectLocationSimpleTypeEnum.NamedAreas:
-                    return NamedAreas;
                 case ProjectLocationSimpleTypeEnum.None:
                     return None;
                 case ProjectLocationSimpleTypeEnum.PointOnMap:
@@ -116,7 +113,6 @@ namespace ProjectFirma.Web.Models
     public enum ProjectLocationSimpleTypeEnum
     {
         PointOnMap = 1,
-        NamedAreas = 2,
         None = 3
     }
 
@@ -124,12 +120,6 @@ namespace ProjectFirma.Web.Models
     {
         private ProjectLocationSimpleTypePointOnMap(int projectLocationSimpleTypeID, string projectLocationSimpleTypeName, string displayInstructions, int displayOrder) : base(projectLocationSimpleTypeID, projectLocationSimpleTypeName, displayInstructions, displayOrder) {}
         public static readonly ProjectLocationSimpleTypePointOnMap Instance = new ProjectLocationSimpleTypePointOnMap(1, @"PointOnMap", @"Plot a point on the map", 1);
-    }
-
-    public partial class ProjectLocationSimpleTypeNamedAreas : ProjectLocationSimpleType
-    {
-        private ProjectLocationSimpleTypeNamedAreas(int projectLocationSimpleTypeID, string projectLocationSimpleTypeName, string displayInstructions, int displayOrder) : base(projectLocationSimpleTypeID, projectLocationSimpleTypeName, displayInstructions, displayOrder) {}
-        public static readonly ProjectLocationSimpleTypeNamedAreas Instance = new ProjectLocationSimpleTypeNamedAreas(2, @"NamedAreas", @"Pick from list of known areas", 2);
     }
 
     public partial class ProjectLocationSimpleTypeNone : ProjectLocationSimpleType

@@ -30,8 +30,6 @@ namespace ProjectFirma.Web.Views.Map
         public readonly int ProjectLocationSimpleTypeID;
         public readonly double? ProjectLocationXCoord;
         public readonly double? ProjectLocationYCoord;
-        public readonly string ProjectLocationAreaName;
-        public readonly string ProjectLocationAreaType;
         public bool HasDetailedLocation;
 
         public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID) 
@@ -40,17 +38,12 @@ namespace ProjectFirma.Web.Views.Map
             ProjectLocationSimpleTypeID = project.ProjectLocationSimpleType.ProjectLocationSimpleTypeID;            
             switch (project.ProjectLocationSimpleType.ToEnum)
             {
-                case ProjectLocationSimpleTypeEnum.NamedAreas:
-                    BoundingBox = new BoundingBox(project.ProjectLocationArea.GetGeometry());
-                    ProjectLocationAreaName = project.ProjectLocationArea.ProjectLocationAreaDisplayName;
-                    ProjectLocationAreaType = project.ProjectLocationArea.ProjectLocationAreaGroup.ProjectLocationAreaGroupType.ProjectLocationAreaGroupTypeDisplayName;
-                    break;
                 case ProjectLocationSimpleTypeEnum.PointOnMap:
                     if (project.ProjectLocationPoint == null)
                     {
                         break;
                     }
-                    BoundingBox = new BoundingBox(new Point(project.ProjectLocationPoint.YCoordinate.Value, project.ProjectLocationPoint.XCoordinate.Value), 0.25m);
+                    BoundingBox = new BoundingBox(new Point(project.ProjectLocationPoint.YCoordinate ?? 0, project.ProjectLocationPoint.XCoordinate ?? 0), 0.25m);
                     ProjectLocationYCoord = project.ProjectLocationPoint.YCoordinate;
                     ProjectLocationXCoord = project.ProjectLocationPoint.XCoordinate;
                     break;

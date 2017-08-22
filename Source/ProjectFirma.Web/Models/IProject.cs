@@ -35,10 +35,8 @@ namespace ProjectFirma.Web.Models
         int EntityID { get; }
         DbGeometry ProjectLocationPoint { get; set; }
         string DisplayName { get; }
-        int? ProjectLocationAreaID { get; set; }
         ProjectLocationSimpleType ProjectLocationSimpleType { get; }
         int ProjectLocationSimpleTypeID { get; set; }
-        ProjectLocationArea ProjectLocationArea { get; }
         string ProjectLocationNotes { get; set; }
 
         int? PlanningDesignStartYear { get; }

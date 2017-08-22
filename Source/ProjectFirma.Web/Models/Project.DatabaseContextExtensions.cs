@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Models
@@ -34,12 +33,6 @@ namespace ProjectFirma.Web.Models
             Func<Project, bool> filterFunction,
             List<StateProvince> stateProvinces)
         {
-            var projectLocationAreas =
-                HttpRequestStorage.DatabaseEntities.ProjectLocationAreas
-                    .Include(x => x.ProjectLocationAreaWatersheds.Select(y => y.Watershed))
-                    .Include(x => x.ProjectLocationAreaStateProvinces.Select(y => y.StateProvince))
-                    .ToDictionary(x => x.ProjectLocationAreaID);
-
             var projectsList = projects.Include(x => x.ProjectOrganizations.Select(y => y.Organization)).Include(x => x.ProjectFundingSourceExpenditures).ToList();
             if (filterFunction != null)
             {
@@ -47,8 +40,8 @@ namespace ProjectFirma.Web.Models
             }
             projectsList.ForEach(x =>
             {
-                x.SetProjectLocationStateProvince(stateProvinces, projectLocationAreas);
-                x.SetProjectLocationWatershed(watersheds, projectLocationAreas);
+                x.SetProjectLocationStateProvince(stateProvinces);
+                x.SetProjectLocationWatershed(watersheds);
             });
             return projectsList.OrderBy(x => x.DisplayName).ToList();
         }

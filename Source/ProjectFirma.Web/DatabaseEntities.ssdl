@@ -55,10 +55,6 @@
     <EntitySet Name="ProjectImage" EntityType="ProjectFirma.Web.Models.Store.ProjectImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectImageUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectImageUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectLocation" EntityType="ProjectFirma.Web.Models.Store.ProjectLocation" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProjectLocationArea" EntityType="ProjectFirma.Web.Models.Store.ProjectLocationArea" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProjectLocationAreaGroup" EntityType="ProjectFirma.Web.Models.Store.ProjectLocationAreaGroup" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProjectLocationAreaStateProvince" EntityType="ProjectFirma.Web.Models.Store.ProjectLocationAreaStateProvince" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProjectLocationAreaWatershed" EntityType="ProjectFirma.Web.Models.Store.ProjectLocationAreaWatershed" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectLocationStaging" EntityType="ProjectFirma.Web.Models.Store.ProjectLocationStaging" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectLocationStagingUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectLocationStagingUpdate" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectLocationUpdate" EntityType="ProjectFirma.Web.Models.Store.ProjectLocationUpdate" store:Type="Tables" Schema="dbo" />
@@ -355,10 +351,6 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="PrimaryContactPerson" EntitySet="Person" />
       <End Role="ProjectsWhereYouAreThePrimaryContactPerson" EntitySet="Project" />
     </AssociationSet>
-    <AssociationSet Name="FK_Project_ProjectLocationArea_ProjectLocationAreaID" Association="ProjectFirma.Web.Models.Store.FK_Project_ProjectLocationArea_ProjectLocationAreaID">
-      <End Role="ProjectLocationArea" EntitySet="ProjectLocationArea" />
-      <End Role="Projects" EntitySet="Project" />
-    </AssociationSet>
     <AssociationSet Name="FK_Project_TaxonomyTierOne_TaxonomyTierOneID" Association="ProjectFirma.Web.Models.Store.FK_Project_TaxonomyTierOne_TaxonomyTierOneID">
       <End Role="TaxonomyTierOne" EntitySet="TaxonomyTierOne" />
       <End Role="Projects" EntitySet="Project" />
@@ -451,38 +443,6 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectLocations" EntitySet="ProjectLocation" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProjectLocationArea_MappedRegion_MappedRegionID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationArea_MappedRegion_MappedRegionID">
-      <End Role="MappedRegion" EntitySet="MappedRegion" />
-      <End Role="ProjectLocationAreas" EntitySet="ProjectLocationArea" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectLocationArea_ProjectLocationAreaGroup_ProjectLocationAreaGroupID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationArea_ProjectLocationAreaGroup_ProjectLocationAreaGroupID">
-      <End Role="ProjectLocationAreaGroup" EntitySet="ProjectLocationAreaGroup" />
-      <End Role="ProjectLocationAreas" EntitySet="ProjectLocationArea" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectLocationArea_StateProvince_StateProvinceID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationArea_StateProvince_StateProvinceID">
-      <End Role="StateProvince" EntitySet="StateProvince" />
-      <End Role="ProjectLocationAreas" EntitySet="ProjectLocationArea" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectLocationArea_Watershed_WatershedID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationArea_Watershed_WatershedID">
-      <End Role="Watershed" EntitySet="Watershed" />
-      <End Role="ProjectLocationAreas" EntitySet="ProjectLocationArea" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectLocationAreaStateProvince_ProjectLocationArea_ProjectLocationAreaID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationAreaStateProvince_ProjectLocationArea_ProjectLocationAreaID">
-      <End Role="ProjectLocationArea" EntitySet="ProjectLocationArea" />
-      <End Role="ProjectLocationAreaStateProvinces" EntitySet="ProjectLocationAreaStateProvince" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectLocationAreaStateProvince_StateProvince_StateProvinceID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationAreaStateProvince_StateProvince_StateProvinceID">
-      <End Role="StateProvince" EntitySet="StateProvince" />
-      <End Role="ProjectLocationAreaStateProvinces" EntitySet="ProjectLocationAreaStateProvince" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectLocationAreaWatershed_ProjectLocationArea_ProjectLocationAreaID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationAreaWatershed_ProjectLocationArea_ProjectLocationAreaID">
-      <End Role="ProjectLocationArea" EntitySet="ProjectLocationArea" />
-      <End Role="ProjectLocationAreaWatersheds" EntitySet="ProjectLocationAreaWatershed" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectLocationAreaWatershed_Watershed_WatershedID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationAreaWatershed_Watershed_WatershedID">
-      <End Role="Watershed" EntitySet="Watershed" />
-      <End Role="ProjectLocationAreaWatersheds" EntitySet="ProjectLocationAreaWatershed" />
-    </AssociationSet>
     <AssociationSet Name="FK_ProjectLocationStaging_Person_PersonID" Association="ProjectFirma.Web.Models.Store.FK_ProjectLocationStaging_Person_PersonID">
       <End Role="Person" EntitySet="Person" />
       <End Role="ProjectLocationStagings" EntitySet="ProjectLocationStaging" />
@@ -547,10 +507,6 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="Tag" EntitySet="Tag" />
       <End Role="ProjectTags" EntitySet="ProjectTag" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProjectUpdate_ProjectLocationArea_ProjectLocationAreaID" Association="ProjectFirma.Web.Models.Store.FK_ProjectUpdate_ProjectLocationArea_ProjectLocationAreaID">
-      <End Role="ProjectLocationArea" EntitySet="ProjectLocationArea" />
-      <End Role="ProjectUpdates" EntitySet="ProjectUpdate" />
-    </AssociationSet>
     <AssociationSet Name="FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectUpdates" EntitySet="ProjectUpdate" />
@@ -597,10 +553,6 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
     </AssociationSet>
     <AssociationSet Name="FK_ProposedProject_Project_ProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProject_Project_ProjectID">
       <End Role="Project" EntitySet="Project" />
-      <End Role="ProposedProjects" EntitySet="ProposedProject" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProposedProject_ProjectLocationArea_ProjectLocationAreaID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProject_ProjectLocationArea_ProjectLocationAreaID">
-      <End Role="ProjectLocationArea" EntitySet="ProjectLocationArea" />
       <End Role="ProposedProjects" EntitySet="ProposedProject" />
     </AssociationSet>
     <AssociationSet Name="FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID">
@@ -938,9 +890,6 @@ warning 6035: The relationship 'FK_ProjectFundingSourceExpenditureUpdate_Funding
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="FundingSourceDescription" Type="varchar" MaxLength="500" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_ProjectLocationArea_MappedRegion_MappedRegionID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
   <EntityType Name="MappedRegion">
     <Key>
       <PropertyRef Name="MappedRegionID" />
@@ -1357,7 +1306,6 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="EstimatedTotalCost" Type="money" />
     <Property Name="SecuredFunding" Type="money" />
     <Property Name="ProjectLocationPoint" Type="geometry" />
-    <Property Name="ProjectLocationAreaID" Type="int" />
     <Property Name="PerformanceMeasureActualYearsExemptionExplanation" Type="varchar" MaxLength="4000" />
     <Property Name="IsFeatured" Type="bit" Nullable="false" />
     <Property Name="ProjectLocationNotes" Type="varchar" MaxLength="4000" />
@@ -1514,53 +1462,6 @@ warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageI
     <Property Name="ProjectLocationGeometry" Type="geometry" Nullable="false" />
     <Property Name="Annotation" Type="varchar" MaxLength="255" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_Project_ProjectLocationArea_ProjectLocationAreaID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProjectLocationAreaStateProvince_ProjectLocationArea_ProjectLocationAreaID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProjectLocationAreaWatershed_ProjectLocationArea_ProjectLocationAreaID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProjectUpdate_ProjectLocationArea_ProjectLocationAreaID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProposedProject_ProjectLocationArea_ProjectLocationAreaID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
-  <EntityType Name="ProjectLocationArea">
-    <Key>
-      <PropertyRef Name="ProjectLocationAreaID" />
-    </Key>
-    <Property Name="ProjectLocationAreaID" Type="int" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="StateProvinceID" Type="int" />
-    <Property Name="ProjectLocationAreaGroupID" Type="int" />
-    <Property Name="MappedRegionID" Type="int" />
-    <Property Name="WatershedID" Type="int" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_ProjectLocationArea_ProjectLocationAreaGroup_ProjectLocationAreaGroupID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
--->
-  <EntityType Name="ProjectLocationAreaGroup">
-    <Key>
-      <PropertyRef Name="ProjectLocationAreaGroupID" />
-    </Key>
-    <Property Name="ProjectLocationAreaGroupID" Type="int" Nullable="false" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProjectLocationAreaGroupTypeID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ProjectLocationAreaStateProvince">
-    <Key>
-      <PropertyRef Name="ProjectLocationAreaStateProvinceID" />
-    </Key>
-    <Property Name="ProjectLocationAreaStateProvinceID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProjectLocationAreaID" Type="int" Nullable="false" />
-    <Property Name="StateProvinceID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ProjectLocationAreaWatershed">
-    <Key>
-      <PropertyRef Name="ProjectLocationAreaWatershedID" />
-    </Key>
-    <Property Name="ProjectLocationAreaWatershedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProjectLocationAreaID" Type="int" Nullable="false" />
-    <Property Name="WatershedID" Type="int" Nullable="false" />
-  </EntityType>
   <EntityType Name="ProjectLocationStaging">
     <Key>
       <PropertyRef Name="ProjectLocationStagingID" />
@@ -1656,7 +1557,6 @@ warning 6035: The relationship 'FK_ProjectLocationArea_ProjectLocationAreaGroup_
     <Property Name="EstimatedTotalCost" Type="money" />
     <Property Name="SecuredFunding" Type="money" />
     <Property Name="ProjectLocationPoint" Type="geometry" />
-    <Property Name="ProjectLocationAreaID" Type="int" />
     <Property Name="ProjectLocationNotes" Type="varchar" MaxLength="4000" />
     <Property Name="PlanningDesignStartYear" Type="int" />
     <Property Name="ProjectLocationSimpleTypeID" Type="int" Nullable="false" />
@@ -1746,7 +1646,6 @@ warning 6035: The relationship 'FK_ProposedProjectNote_ProposedProject_ProposedP
     <Property Name="EstimatedTotalCost" Type="money" />
     <Property Name="SecuredFunding" Type="money" />
     <Property Name="ProjectLocationPoint" Type="geometry" />
-    <Property Name="ProjectLocationAreaID" Type="int" />
     <Property Name="ProjectLocationNotes" Type="varchar" MaxLength="4000" />
     <Property Name="PlanningDesignStartYear" Type="int" />
     <Property Name="ProjectLocationSimpleTypeID" Type="int" Nullable="false" />
@@ -1904,8 +1803,6 @@ warning 6035: The relationship 'FK_SnapshotPerformanceMeasureSubcategoryOption_S
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_County_StateProvince_StateProvinceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProjectLocationArea_StateProvince_StateProvinceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProjectLocationAreaStateProvince_StateProvince_StateProvinceID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="StateProvince">
     <Key>
@@ -2021,8 +1918,6 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
     <Property Name="WatershedLayerName" Type="varchar" MaxLength="255" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_ProjectLocationArea_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-warning 6035: The relationship 'FK_ProjectLocationAreaWatershed_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="Watershed">
@@ -2809,18 +2704,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Project_ProjectLocationArea_ProjectLocationAreaID">
-    <End Role="ProjectLocationArea" Type="ProjectFirma.Web.Models.Store.ProjectLocationArea" Multiplicity="0..1" />
-    <End Role="Projects" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProjectLocationArea">
-        <PropertyRef Name="ProjectLocationAreaID" />
-      </Principal>
-      <Dependent Role="Projects">
-        <PropertyRef Name="ProjectLocationAreaID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Project_TaxonomyTierOne_TaxonomyTierOneID">
     <End Role="TaxonomyTierOne" Type="ProjectFirma.Web.Models.Store.TaxonomyTierOne" Multiplicity="1" />
     <End Role="Projects" Type="ProjectFirma.Web.Models.Store.Project" Multiplicity="*" />
@@ -3097,102 +2980,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProjectLocationArea_MappedRegion_MappedRegionID">
-    <End Role="MappedRegion" Type="ProjectFirma.Web.Models.Store.MappedRegion" Multiplicity="0..1" />
-    <End Role="ProjectLocationAreas" Type="ProjectFirma.Web.Models.Store.ProjectLocationArea" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="MappedRegion">
-        <PropertyRef Name="MappedRegionID" />
-      </Principal>
-      <Dependent Role="ProjectLocationAreas">
-        <PropertyRef Name="MappedRegionID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectLocationArea_ProjectLocationAreaGroup_ProjectLocationAreaGroupID">
-    <End Role="ProjectLocationAreaGroup" Type="ProjectFirma.Web.Models.Store.ProjectLocationAreaGroup" Multiplicity="0..1" />
-    <End Role="ProjectLocationAreas" Type="ProjectFirma.Web.Models.Store.ProjectLocationArea" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProjectLocationAreaGroup">
-        <PropertyRef Name="ProjectLocationAreaGroupID" />
-      </Principal>
-      <Dependent Role="ProjectLocationAreas">
-        <PropertyRef Name="ProjectLocationAreaGroupID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectLocationArea_StateProvince_StateProvinceID">
-    <End Role="StateProvince" Type="ProjectFirma.Web.Models.Store.StateProvince" Multiplicity="0..1" />
-    <End Role="ProjectLocationAreas" Type="ProjectFirma.Web.Models.Store.ProjectLocationArea" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="StateProvince">
-        <PropertyRef Name="StateProvinceID" />
-      </Principal>
-      <Dependent Role="ProjectLocationAreas">
-        <PropertyRef Name="StateProvinceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectLocationArea_Watershed_WatershedID">
-    <End Role="Watershed" Type="ProjectFirma.Web.Models.Store.Watershed" Multiplicity="0..1" />
-    <End Role="ProjectLocationAreas" Type="ProjectFirma.Web.Models.Store.ProjectLocationArea" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Watershed">
-        <PropertyRef Name="WatershedID" />
-      </Principal>
-      <Dependent Role="ProjectLocationAreas">
-        <PropertyRef Name="WatershedID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectLocationAreaStateProvince_ProjectLocationArea_ProjectLocationAreaID">
-    <End Role="ProjectLocationArea" Type="ProjectFirma.Web.Models.Store.ProjectLocationArea" Multiplicity="1" />
-    <End Role="ProjectLocationAreaStateProvinces" Type="ProjectFirma.Web.Models.Store.ProjectLocationAreaStateProvince" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProjectLocationArea">
-        <PropertyRef Name="ProjectLocationAreaID" />
-      </Principal>
-      <Dependent Role="ProjectLocationAreaStateProvinces">
-        <PropertyRef Name="ProjectLocationAreaID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectLocationAreaStateProvince_StateProvince_StateProvinceID">
-    <End Role="StateProvince" Type="ProjectFirma.Web.Models.Store.StateProvince" Multiplicity="1" />
-    <End Role="ProjectLocationAreaStateProvinces" Type="ProjectFirma.Web.Models.Store.ProjectLocationAreaStateProvince" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="StateProvince">
-        <PropertyRef Name="StateProvinceID" />
-      </Principal>
-      <Dependent Role="ProjectLocationAreaStateProvinces">
-        <PropertyRef Name="StateProvinceID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectLocationAreaWatershed_ProjectLocationArea_ProjectLocationAreaID">
-    <End Role="ProjectLocationArea" Type="ProjectFirma.Web.Models.Store.ProjectLocationArea" Multiplicity="1" />
-    <End Role="ProjectLocationAreaWatersheds" Type="ProjectFirma.Web.Models.Store.ProjectLocationAreaWatershed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProjectLocationArea">
-        <PropertyRef Name="ProjectLocationAreaID" />
-      </Principal>
-      <Dependent Role="ProjectLocationAreaWatersheds">
-        <PropertyRef Name="ProjectLocationAreaID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectLocationAreaWatershed_Watershed_WatershedID">
-    <End Role="Watershed" Type="ProjectFirma.Web.Models.Store.Watershed" Multiplicity="1" />
-    <End Role="ProjectLocationAreaWatersheds" Type="ProjectFirma.Web.Models.Store.ProjectLocationAreaWatershed" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Watershed">
-        <PropertyRef Name="WatershedID" />
-      </Principal>
-      <Dependent Role="ProjectLocationAreaWatersheds">
-        <PropertyRef Name="WatershedID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ProjectLocationStaging_Person_PersonID">
     <End Role="Person" Type="ProjectFirma.Web.Models.Store.Person" Multiplicity="1" />
     <End Role="ProjectLocationStagings" Type="ProjectFirma.Web.Models.Store.ProjectLocationStaging" Multiplicity="*" />
@@ -3385,18 +3172,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProjectUpdate_ProjectLocationArea_ProjectLocationAreaID">
-    <End Role="ProjectLocationArea" Type="ProjectFirma.Web.Models.Store.ProjectLocationArea" Multiplicity="0..1" />
-    <End Role="ProjectUpdates" Type="ProjectFirma.Web.Models.Store.ProjectUpdate" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProjectLocationArea">
-        <PropertyRef Name="ProjectLocationAreaID" />
-      </Principal>
-      <Dependent Role="ProjectUpdates">
-        <PropertyRef Name="ProjectLocationAreaID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
     <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.Store.ProjectUpdateBatch" Multiplicity="1" />
     <End Role="ProjectUpdates" Type="ProjectFirma.Web.Models.Store.ProjectUpdate" Multiplicity="*" />
@@ -3538,18 +3313,6 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Principal>
       <Dependent Role="ProposedProjects">
         <PropertyRef Name="ProjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProposedProject_ProjectLocationArea_ProjectLocationAreaID">
-    <End Role="ProjectLocationArea" Type="ProjectFirma.Web.Models.Store.ProjectLocationArea" Multiplicity="0..1" />
-    <End Role="ProposedProjects" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProjectLocationArea">
-        <PropertyRef Name="ProjectLocationAreaID" />
-      </Principal>
-      <Dependent Role="ProposedProjects">
-        <PropertyRef Name="ProjectLocationAreaID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -54,7 +54,6 @@ namespace ProjectFirma.Web.Models
 
         public void LoadSimpleLocationFromProject(Project project)
         {
-            ProjectLocationAreaID = project.ProjectLocationAreaID;
             ProjectLocationPoint = project.ProjectLocationPoint;
             ProjectLocationNotes = project.ProjectLocationNotes;
             ProjectLocationSimpleTypeID = project.ProjectLocationSimpleTypeID;
@@ -74,7 +73,6 @@ namespace ProjectFirma.Web.Models
 
         public void CommitSimpleLocationToProject(Project project)
         {
-            project.ProjectLocationAreaID = ProjectLocationAreaID;
             project.ProjectLocationPoint = ProjectLocationPoint;
             project.ProjectLocationNotes = ProjectLocationNotes;
             project.ProjectLocationSimpleTypeID = ProjectLocationSimpleTypeID;
@@ -112,10 +110,6 @@ namespace ProjectFirma.Web.Models
             if (ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap && ProjectLocationPoint != null)
             {
                 featureCollection.Features.Add(DbGeometryToGeoJsonHelper.FromDbGeometry(ProjectLocationPoint));
-            }
-            else if (ProjectLocationSimpleType == ProjectLocationSimpleType.NamedAreas)
-            {
-                featureCollection.Features.Add(DbGeometryToGeoJsonHelper.FromDbGeometry(ProjectLocationArea.GetGeometry()));
             }
             return featureCollection;
         }
