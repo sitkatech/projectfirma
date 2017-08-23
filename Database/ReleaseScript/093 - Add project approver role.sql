@@ -42,6 +42,7 @@ go
 alter table dbo.RelationshipType alter column CanApproveProjects bit not null
 alter table dbo.RelationshipType alter column IsPrimaryContact bit not null
 
--- todo add unique index for is primary contact and can approve projects so that at most only one relationship per tenant can have a value == 1
+create unique index CK_RelationshipType_CanApproveProjects_OneTruePerTenant on dbo.RelationshipType (TenantID, CanApproveProjects) where CanApproveProjects = 1
+create unique index CK_RelationshipType_IsPrimaryContact_OneTruePerTenant on dbo.RelationshipType (TenantID, IsPrimaryContact) where IsPrimaryContact = 1
 
 alter table dbo.Project drop column LeadImplementerOrganizationID

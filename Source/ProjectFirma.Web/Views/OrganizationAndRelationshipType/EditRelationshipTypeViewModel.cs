@@ -90,7 +90,19 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             var existingRelationshipType = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
             if (!RelationshipType.IsRelationshipTypeNameUnique(existingRelationshipType, RelationshipTypeName, RelationshipTypeID))
             {
-                errors.Add(new SitkaValidationResult<EditRelationshipTypeViewModel, string>("Name already exists", x => x.RelationshipTypeName));
+                errors.Add(new SitkaValidationResult<EditRelationshipTypeViewModel, string>("Name already exists.", x => x.RelationshipTypeName));
+            }
+
+            if (CanApproveProjects == true &&
+                existingRelationshipType.Any(x => x.RelationshipTypeID != RelationshipTypeID && x.CanApproveProjects))
+            {
+                errors.Add(new ValidationResult($"There can only be one {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} in the system where \"Can Approve Projects?\" is set to \"Yes\"."));
+            }
+
+            if (IsPrimaryContact == true &&
+                existingRelationshipType.Any(x => x.RelationshipTypeID != RelationshipTypeID && x.IsPrimaryContact))
+            {
+                errors.Add(new ValidationResult($"There can only be one {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} in the system where \"Is Primary Contact?\" is set to \"Yes\"."));
             }
            
             return errors;
