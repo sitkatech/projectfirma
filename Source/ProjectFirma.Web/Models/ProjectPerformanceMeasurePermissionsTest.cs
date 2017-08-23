@@ -18,9 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Linq;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.UnitTestCommon;
 using NUnit.Framework;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Models
 {
@@ -317,7 +320,12 @@ namespace ProjectFirma.Web.Models
         private static void MakeOrganizationTheOnlyAndTheLeadImplementingOrganization(Project theProject, Organization leadOrganization)
         {
             theProject.ProjectOrganizations.Clear();
-            theProject.LeadImplementerOrganization = leadOrganization;
+
+            var leadImplementingRelationshipType = HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);
+            if (leadImplementingRelationshipType != null)
+            {
+                theProject.ProjectOrganizations.Add(new ProjectOrganization(theProject, leadOrganization, leadImplementingRelationshipType));
+            }
         }
 
         private static void TestExpectedUserPermission(Person user, Project project, IFirmaBaseFeatureWithContext<Project> projectCheckingFeature, bool expectedPermission)
@@ -331,8 +339,6 @@ namespace ProjectFirma.Web.Models
             Organization optionalOrganizationToMakeUserTemporaryMemberOf,
             bool expectedPermission)
         {
-            Assert.That(project.LeadImplementerOrganization == null);
-
             var originalUserOrg = user.Organization;
             var originalUserOrgID = user.OrganizationID;
             // Make sure the user WAS NOT already a member of this org. That would indicate some confusion or misuse in the test setup.
@@ -357,8 +363,6 @@ namespace ProjectFirma.Web.Models
             Organization organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg,
             bool expectedPermission)
         {
-            Assert.That(project.LeadImplementerOrganization == null);
-
             // We deliberately put user in a DIFFERENT org, so make user these aren't the same org
             Assert.That(orgUserShouldBeMemberOf.OrganizationID != organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg.OrganizationID);
             var originalUserOrg = user.Organization;
@@ -373,13 +377,10 @@ namespace ProjectFirma.Web.Models
             organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg.PrimaryContactPerson = user;
             organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg.PrimaryContactPersonID = user.PersonID;
 
-            Assert.That(project.LeadImplementerOrganization.OrganizationID == organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg.OrganizationID);
-
             Assert.That(projectCheckingFeature.HasPermission(user, project).HasPermission == expectedPermission);
 
             user.Organization = originalUserOrg;
             user.OrganizationID = originalUserOrgID;
-            Assert.That(project.LeadImplementerOrganization == null);
         }
     }
 }

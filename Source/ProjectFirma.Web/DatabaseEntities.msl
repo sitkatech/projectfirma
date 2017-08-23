@@ -513,7 +513,6 @@
           <ScalarProperty Name="EstimatedAnnualOperatingCost" ColumnName="EstimatedAnnualOperatingCost" />
           <ScalarProperty Name="FundingTypeID" ColumnName="FundingTypeID" />
           <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
-          <ScalarProperty Name="LeadImplementerOrganizationID" ColumnName="LeadImplementerOrganizationID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -983,6 +982,7 @@
           <ScalarProperty Name="TenantID" ColumnName="TenantID" />
           <ScalarProperty Name="RelationshipTypeName" ColumnName="RelationshipTypeName" />
           <ScalarProperty Name="CanApproveProjects" ColumnName="CanApproveProjects" />
+          <ScalarProperty Name="IsPrimaryContact" ColumnName="IsPrimaryContact" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

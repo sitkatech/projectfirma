@@ -178,18 +178,10 @@
                                 <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasProjectOrganizationManagePermissions) @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-xs-5">
-                                        @Html.LabelWithSugarFor(FieldDefinition.LeadImplementer)
-                                    </div>
-                                    <div class="col-xs-7">
-                                        @ViewDataTyped.Project.LeadImplementerOrganization.GetDisplayNameAsUrl()
-                                    </div>
-                                </div>                                
                                 <hr />
                                 @Html.Label(string.Format("Associated {0}", FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()))
                                 @if (ViewDataTyped.AllProjectOrganizations.Any())
-                                {                                    
+                                {
                                     <table class="summaryLayout">
                                         <tr>
                                             <th>@Html.LabelWithSugarFor(FieldDefinition.Organization)</th>

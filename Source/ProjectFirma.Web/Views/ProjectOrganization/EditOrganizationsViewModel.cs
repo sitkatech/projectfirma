@@ -39,20 +39,15 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
         {
         }
 
-        public EditOrganizationsViewModel(List<Models.ProjectOrganization> projectOrganizations, Models.Project project)
+        public EditOrganizationsViewModel(List<Models.ProjectOrganization> projectOrganizations)
         {
             var projectOrganizationJsons = projectOrganizations.GroupBy(po => po.Organization).Select(o => new ProjectOrganizationsViewModelJson.ProjectOrganizationJson(o.Key, o.ToList())).ToList();
 
-            var leadOrganization = project.LeadImplementerOrganization;
-            var leadOrganizationID = leadOrganization?.OrganizationID;
-
-            ProjectOrganizationsViewModelJson = new ProjectOrganizationsViewModelJson(leadOrganizationID, projectOrganizationJsons);
+            ProjectOrganizationsViewModelJson = new ProjectOrganizationsViewModelJson(projectOrganizationJsons);
         }
 
         public void UpdateModel(Models.Project project, ICollection<Models.ProjectOrganization> allProjectOrganizations)
-        {            
-            project.LeadImplementerOrganizationID = ProjectOrganizationsViewModelJson.LeadOrganizationID.Value;
-
+        {
             var projectOrganizationViewModelJsons =
                 ProjectOrganizationsViewModelJson.ProjectOrganizations.ToList();
 
@@ -69,12 +64,7 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-
-            if (ProjectOrganizationsViewModelJson.LeadOrganizationID == null)
-            {
-                errors.Add(new ValidationResult($"{Models.FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()} {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} is required."));
-                return errors;
-            }
+            
             if (ProjectOrganizationsViewModelJson.ProjectOrganizations.Any(x => x.OrganizationID == null))
             {
                 errors.Add(new ValidationResult($"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} must be specfied."));

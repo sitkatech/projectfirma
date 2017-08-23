@@ -34,8 +34,7 @@ namespace ProjectFirma.Web.Models
             var project = Project.CreateNewBlank(TaxonomyTierOne.CreateNewBlank(TaxonomyTierTwo.CreateNewBlank(TaxonomyTierThree.CreateNewBlank())),
                 ProjectStage.Completed,
                 ProjectLocationSimpleType.None,
-                FundingType.Capital,
-                Organization.CreateNewBlank());
+                FundingType.Capital);
 
             project.ProjectLocationPoint = DbGeometry.PointFromText("POINT(29.11 40.11)", 4326);
 

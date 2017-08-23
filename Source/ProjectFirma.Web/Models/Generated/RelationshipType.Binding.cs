@@ -31,23 +31,25 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public RelationshipType(int relationshipTypeID, string relationshipTypeName, bool canApproveProjects) : this()
+        public RelationshipType(int relationshipTypeID, string relationshipTypeName, bool canApproveProjects, bool isPrimaryContact) : this()
         {
             this.RelationshipTypeID = relationshipTypeID;
             this.RelationshipTypeName = relationshipTypeName;
             this.CanApproveProjects = canApproveProjects;
+            this.IsPrimaryContact = isPrimaryContact;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public RelationshipType(string relationshipTypeName, bool canApproveProjects) : this()
+        public RelationshipType(string relationshipTypeName, bool canApproveProjects, bool isPrimaryContact) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.RelationshipTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.RelationshipTypeName = relationshipTypeName;
             this.CanApproveProjects = canApproveProjects;
+            this.IsPrimaryContact = isPrimaryContact;
         }
 
 
@@ -56,7 +58,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static RelationshipType CreateNewBlank()
         {
-            return new RelationshipType(default(string), default(bool));
+            return new RelationshipType(default(string), default(bool), default(bool));
         }
 
         /// <summary>
@@ -78,6 +80,7 @@ namespace ProjectFirma.Web.Models
         public int TenantID { get; private set; }
         public string RelationshipTypeName { get; set; }
         public bool CanApproveProjects { get; set; }
+        public bool IsPrimaryContact { get; set; }
         public int PrimaryKey { get { return RelationshipTypeID; } set { RelationshipTypeID = value; } }
 
         public virtual ICollection<OrganizationTypeRelationshipType> OrganizationTypeRelationshipTypes { get; set; }

@@ -74,8 +74,15 @@ namespace ProjectFirma.Web.Controllers
                 viewModel.ProjectDescription,
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
-                FundingType.Capital.FundingTypeID,
-                viewModel.LeadImplementerOrganizationID.Value);
+                FundingType.Capital.FundingTypeID);
+
+            /*
+              if (person.BelongsToProjectApproverOrganizations)
+              {
+                    foreach (organization in person.Project
+                    project.Organizations.Add(person.ProjectApproversOrganization); 
+              }
+             */
             HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
             viewModel.UpdateModel(project);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -91,7 +98,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var latestNotApprovedUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             var viewModel = new EditProjectViewModel(project, latestNotApprovedUpdateBatch != null);
-            return ViewEdit(viewModel, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, latestNotApprovedUpdateBatch, project.LeadImplementerOrganization);
+            return ViewEdit(viewModel, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, latestNotApprovedUpdateBatch);
         }
 
         [HttpPost]
@@ -102,7 +109,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, project.GetLatestNotApprovedUpdateBatch(), project.LeadImplementerOrganization);
+                return ViewEdit(viewModel, EditProjectType.ExistingProject, project.TaxonomyTierOne.DisplayName, project.TotalExpenditures, project.GetLatestNotApprovedUpdateBatch());
             }
             viewModel.UpdateModel(project);
             return new ModalDialogFormJsonResult();
@@ -110,10 +117,10 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewNew(EditProjectViewModel viewModel)
         {
-            return ViewEdit(viewModel, EditProjectType.NewProject, string.Empty, null, null, null);
+            return ViewEdit(viewModel, EditProjectType.NewProject, string.Empty, null, null);
         }
 
-        private PartialViewResult ViewEdit(EditProjectViewModel viewModel, EditProjectType editProjectType, string taxonomyTierOneDisplayName, decimal? totalExpenditures, ProjectUpdateBatch projectUpdateBatch, Organization leadImplementer)
+        private PartialViewResult ViewEdit(EditProjectViewModel viewModel, EditProjectType editProjectType, string taxonomyTierOneDisplayName, decimal? totalExpenditures, ProjectUpdateBatch projectUpdateBatch)
         {
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var hasExistingProjectUpdate = projectUpdateBatch != null;
@@ -125,7 +132,7 @@ namespace ProjectFirma.Web.Controllers
                 ProjectStage.All, FundingType.All, organizations,
                 primaryContactPeople,
                 totalExpenditures, hasExistingProjectBudgetUpdates,
-                taxonomyTierOnes, leadImplementer
+                taxonomyTierOnes
             );
             return RazorPartialView<EditProject, EditProjectViewData, EditProjectViewModel>(viewData, viewModel);
         }

@@ -1879,8 +1879,7 @@ namespace ProjectFirma.Web.Controllers
             var dummyProject = Project.CreateNewBlank(TaxonomyTierOne.CreateNewBlank(TaxonomyTierTwo.CreateNewBlank(TaxonomyTierThree.CreateNewBlank())),
                 ProjectStage.Completed,
                 ProjectLocationSimpleType.None,
-                FundingType.Capital,
-                Organization.CreateNewBlank());
+                FundingType.Capital);
 
             var dummyProjectUpdateBatch = ProjectUpdateBatch.CreateNewBlank(dummyProject, CurrentPerson, ProjectUpdateState.Created);
 

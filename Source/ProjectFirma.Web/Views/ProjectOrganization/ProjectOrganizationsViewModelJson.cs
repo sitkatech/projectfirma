@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Models;
@@ -32,18 +31,16 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
     [ModelBinder(typeof(ProjectOrganizationsViewModelJsonModelBinder))]
     public class ProjectOrganizationsViewModelJson
     {
-        public ProjectOrganizationsViewModelJson(int? leadOrganizationID, List<ProjectOrganizationJson> projectOrganizations)
-        {
-            LeadOrganizationID = leadOrganizationID;
-            ProjectOrganizations = projectOrganizations;
-        }
-
-        public int? LeadOrganizationID;
         public List<ProjectOrganizationJson> ProjectOrganizations;
 
         [Obsolete("Needed by the ModelBinder")]
         public ProjectOrganizationsViewModelJson()
         {
+        }
+
+        public ProjectOrganizationsViewModelJson(List<ProjectOrganizationJson> projectOrganizations)
+        {
+            ProjectOrganizations = projectOrganizations;
         }
 
         public class ProjectOrganizationJson

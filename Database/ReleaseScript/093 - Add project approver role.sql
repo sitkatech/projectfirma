@@ -1,16 +1,17 @@
 alter table dbo.RelationshipType add CanApproveProjects bit null
+alter table dbo.RelationshipType add IsPrimaryContact bit null
 
 go
 
-update dbo.RelationshipType set CanApproveProjects = 0
-
+update dbo.RelationshipType set CanApproveProjects = 0, IsPrimaryContact = 0
 update dbo.RelationshipType set CanApproveProjects = 1 where TenantID = 3 and RelationshipTypeName = 'Associated RCD'
 
-insert into dbo.RelationshipType(TenantID, RelationshipTypeName, CanApproveProjects)
+insert into dbo.RelationshipType(TenantID, RelationshipTypeName, CanApproveProjects, IsPrimaryContact)
 select
 	t.TenantID,
 	'Lead Implementer' as RelationshipTypeName,
-	1 as CanApproveProjects
+	0 as CanApproveProjects,
+	1 as IsPrimaryContact
 from dbo.Tenant t
 where t.TenantID in (1, 2, 3)
 
@@ -24,4 +25,23 @@ where o.TenantID in (1, 2, 3)
 
 go
 
+insert into dbo.ProjectOrganization(TenantID, ProjectID, OrganizationID, RelationshipTypeID)
+select
+	p.TenantID,
+	p.ProjectID,
+	p.LeadImplementerOrganizationID,
+	(select top 1 RelationshipTypeID from dbo.RelationshipType where TenantID = p.TenantID and RelationshipTypeName = 'Lead Implementer') as RelationshipTypeID
+from dbo.Project p
+where p.LeadImplementerOrganizationID is not null
+
+alter table dbo.Project drop constraint FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID
+alter table dbo.Project drop constraint FK_Project_Organization_LeadImplementerOrganizationID_TenantID_OrganizationID_TenantID
+
+go
+
 alter table dbo.RelationshipType alter column CanApproveProjects bit not null
+alter table dbo.RelationshipType alter column IsPrimaryContact bit not null
+
+-- todo add unique index for is primary contact and can approve projects so that at most only one relationship per tenant can have a value == 1
+
+alter table dbo.Project drop column LeadImplementerOrganizationID

@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Models
 
         public static MailAddress DoNotReplyMailAddress()
         {
-            return new MailAddress(FirmaWebConfiguration.DoNotReplyEmail, "Sitka as Administrator of ProjectFirma");
+            return new MailAddress(FirmaWebConfiguration.DoNotReplyEmail, MultiTenantHelpers.GetToolDisplayName());
         }
 
         private static MailMessage GenerateProjectUpdateReturnedMessage(ProjectUpdateBatch projectUpdateBatch,

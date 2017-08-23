@@ -64,25 +64,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.ProjectDescription)
             </div>
         </div>
-        @if (ViewDataTyped.EditProjectType != EditProjectType.ExistingProject)
-        {
-            <div class="row">
-                <div class="col-md-3">@Html.LabelWithSugarFor(m => m.LeadImplementerOrganizationID, true)</div>
-                <div class="col-md-9">
-                    @Html.SearchableDropDownListFor(m => m.LeadImplementerOrganizationID, ViewDataTyped.Organizations)
-                    @Html.ValidationMessageFor(m => m.LeadImplementerOrganizationID)
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="row">
-                <div class="col-md-3">@Html.LabelWithSugarFor(m => m.LeadImplementerOrganizationID, false)</div>
-                <div class="col-md-9">
-                    @ViewDataTyped.LeadImplementerOrganization
-                </div>
-            </div>
-        }
         <div class="row">
             <div class="col-md-3">@Html.LabelWithSugarFor(m => m.PrimaryContactPersonID, false)</div>
             <div class="col-md-9">

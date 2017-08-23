@@ -20,9 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Models;
 using ProjectFirma.Web.UnitTestCommon;
-using FluentValidation.TestHelper;
 using NUnit.Framework;
 
 namespace ProjectFirma.Web.Views.ProjectOrganization
@@ -55,17 +53,15 @@ namespace ProjectFirma.Web.Views.ProjectOrganization
             
            
             var projectOrganizations = new List<Models.ProjectOrganization>();
-            var viewModel = new EditOrganizationsViewModel(projectOrganizations, project);
+            var viewModel = new EditOrganizationsViewModel(projectOrganizations);
 
             //TODO tests
         }
 
         private static void SetProjectOrganizationsViewModelJson(EditOrganizationsViewModel viewModel,
-            IEnumerable<Models.ProjectOrganization> projectOrganizations,
-            int? leadOrganizationID)
+            IEnumerable<Models.ProjectOrganization> projectOrganizations)
         {
-            viewModel.ProjectOrganizationsViewModelJson = new ProjectOrganizationsViewModelJson(leadOrganizationID,
-                projectOrganizations.GroupBy(x => x.Organization).Select(po => new ProjectOrganizationsViewModelJson.ProjectOrganizationJson(po.Key, po.ToList())).ToList());
+            viewModel.ProjectOrganizationsViewModelJson = new ProjectOrganizationsViewModelJson(projectOrganizations.GroupBy(x => x.Organization).Select(po => new ProjectOrganizationsViewModelJson.ProjectOrganizationJson(po.Key, po.ToList())).ToList());
         }
     }
 }

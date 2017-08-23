@@ -41,6 +41,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 
 <div class="panel featuredProjectsPanel">
+    @* ReSharper disable once UnknownCssClass *@
     <div id="featuredProjectsCarousel" class="carousel slide" data-ride="carousel" data-interval="8000">
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox" style="height: 400px">
@@ -68,10 +69,6 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <tr>
                                         <th>@FieldDefinition.TaxonomyTierOne.GetFieldDefinitionLabel()</th>
                                         <td>@featuredProject.TaxonomyTierOne.TaxonomyTierOneName</td>
-                                    </tr>
-                                    <tr>
-                                        <th>@FieldDefinition.LeadImplementer.GetFieldDefinitionLabel()</th>
-                                        <td>@(featuredProject.LeadImplementerOrganization != null ? featuredProject.LeadImplementerOrganization.OrganizationName : "None Identified")</td>
                                     </tr>
                                     <tr>
                                         <th>@FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</th>

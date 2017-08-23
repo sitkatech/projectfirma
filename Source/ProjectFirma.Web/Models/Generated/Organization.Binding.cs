@@ -27,7 +27,6 @@ namespace ProjectFirma.Web.Models
             this.MonitoringProgramPartners = new HashSet<MonitoringProgramPartner>();
             this.OrganizationBoundaryStagings = new HashSet<OrganizationBoundaryStaging>();
             this.People = new HashSet<Person>();
-            this.ProjectsWhereYouAreTheLeadImplementerOrganization = new HashSet<Project>();
             this.ProjectOrganizations = new HashSet<ProjectOrganization>();
             this.ProposedProjectsWhereYouAreTheLeadImplementerOrganization = new HashSet<ProposedProject>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
@@ -77,13 +76,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return FundingSources.Any() || MonitoringProgramPartners.Any() || OrganizationBoundaryStagings.Any() || People.Any() || ProjectsWhereYouAreTheLeadImplementerOrganization.Any() || ProjectOrganizations.Any() || ProposedProjectsWhereYouAreTheLeadImplementerOrganization.Any();
+            return FundingSources.Any() || MonitoringProgramPartners.Any() || OrganizationBoundaryStagings.Any() || People.Any() || ProjectOrganizations.Any() || ProposedProjectsWhereYouAreTheLeadImplementerOrganization.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(MonitoringProgramPartner).Name, typeof(OrganizationBoundaryStaging).Name, typeof(Person).Name, typeof(Project).Name, typeof(ProjectOrganization).Name, typeof(ProposedProject).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(MonitoringProgramPartner).Name, typeof(OrganizationBoundaryStaging).Name, typeof(Person).Name, typeof(ProjectOrganization).Name, typeof(ProposedProject).Name};
 
         [Key]
         public int OrganizationID { get; set; }
@@ -103,7 +102,6 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<MonitoringProgramPartner> MonitoringProgramPartners { get; set; }
         public virtual ICollection<OrganizationBoundaryStaging> OrganizationBoundaryStagings { get; set; }
         public virtual ICollection<Person> People { get; set; }
-        public virtual ICollection<Project> ProjectsWhereYouAreTheLeadImplementerOrganization { get; set; }
         public virtual ICollection<ProjectOrganization> ProjectOrganizations { get; set; }
         public virtual ICollection<ProposedProject> ProposedProjectsWhereYouAreTheLeadImplementerOrganization { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

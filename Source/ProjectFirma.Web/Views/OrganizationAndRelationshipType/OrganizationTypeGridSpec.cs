@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         private static HtmlString ToLegendColor(OrganizationType organizationType)
         {
             var div = new TagBuilder("div");
-            div.Attributes["style"] = $"background-color: {organizationType.LegendColor}; height: 1em; width: 1em; display: inline-block;";
+            div.Attributes["style"] = $"background-color: {organizationType.LegendColor}; height: 1em; width: 1em; display: block; margin: auto;";
             return div.ToString().ToHTMLFormattedString();
         }
     }

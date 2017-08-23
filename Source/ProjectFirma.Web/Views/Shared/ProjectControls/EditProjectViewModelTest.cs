@@ -50,7 +50,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             var viewModel = new EditProjectViewModel(project, false);
             viewModel.ProjectName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectName), Models.Project.FieldLengths.ProjectName);
             viewModel.ProjectDescription = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectDescription), Models.Project.FieldLengths.ProjectDescription);
-            viewModel.LeadImplementerOrganizationID = TestFramework.TestOrganization.Create().OrganizationID;
 
             // Act
             viewModel.UpdateModel(project);

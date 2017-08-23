@@ -120,5 +120,10 @@ namespace ProjectFirma.Web.Models
             Phone = keystoneUserClaims.PrimaryPhone.ToPhoneNumberString();
             Email = keystoneUserClaims.Email;
         }
+
+        public bool CanApproveProjectByOrganizationRelationship(Project project)
+        {
+            return project.ProjectOrganizations.Any(x => x.OrganizationID == OrganizationID && x.RelationshipType.CanApproveProjects);
+        }
     }
 }
