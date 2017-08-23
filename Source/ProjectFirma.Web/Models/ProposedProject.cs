@@ -216,6 +216,7 @@ namespace ProjectFirma.Web.Models
                 SecuredFunding= proposedProject.SecuredFunding,
                 ProjectLocationPoint = proposedProject.ProjectLocationPoint,
                 ProjectLocationNotes = proposedProject.ProjectLocationNotes,
+                ProjectWatershedNotes = proposedProject.ProjectWatershedNotes
             };
             project.ProjectNotes = proposedProject.ProposedProjectNotes.Select(x => new ProjectNote(project, x.Note, x.CreateDate)).ToList();
             project.ProjectClassifications = proposedProject.ProposedProjectClassifications.Select(x => new ProjectClassification(project.ProjectID, x.ClassificationID, x.ProposedProjectClassificationNotes)).ToList();
@@ -249,6 +250,12 @@ namespace ProjectFirma.Web.Models
             {
                 var projectLocation = new ProjectLocation(project, proposedProjectLocation.DbGeometry, proposedProjectLocation.Annotation);
                 project.ProjectLocations.Add(projectLocation);
+            }
+
+            foreach (var proposedProjectWatershed in proposedProject.ProposedProjectWatersheds)
+            {
+                var projectWatershed = new ProjectWatershed(project, proposedProjectWatershed.Watershed);
+                project.ProjectWatersheds.Add(projectWatershed);
             }
 
             foreach (var proposedProjectImage in proposedProject.ProposedProjectImages)
