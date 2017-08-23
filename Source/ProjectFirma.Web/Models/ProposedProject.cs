@@ -172,6 +172,11 @@ namespace ProjectFirma.Web.Models
             return ProposedProjectLocations.ToList();
         }
 
+        public IEnumerable<Watershed> GetProjectWatersheds()
+        {
+            return ProposedProjectWatersheds.Select(x => x.Watershed);
+        }
+
         public GeoJSON.Net.Feature.FeatureCollection DetailedLocationToGeoJsonFeatureCollection()
         {
             return ProposedProjectLocations.ToGeoJsonFeatureCollection();

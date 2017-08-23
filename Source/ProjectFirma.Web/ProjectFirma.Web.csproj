@@ -275,6 +275,9 @@
     <Compile Include="Models\Generated\ProjectWatershed.Binding.cs" />
     <Compile Include="Models\Generated\ProjectWatershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectWatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectWatershedUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectWatershedUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectWatershedUpdatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProject.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProject.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProposedProjectAssessmentQuestion.Binding.cs" />

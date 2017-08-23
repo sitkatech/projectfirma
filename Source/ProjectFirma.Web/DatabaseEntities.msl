@@ -830,6 +830,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ProjectWatershedUpdate">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProjectWatershedUpdate">
+        <MappingFragment StoreEntitySet="ProjectWatershedUpdate">
+          <ScalarProperty Name="ProjectWatershedUpdateID" ColumnName="ProjectWatershedUpdateID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProjectUpdateID" ColumnName="ProjectUpdateID" />
+          <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="ProposedProject">
       <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProject">
         <MappingFragment StoreEntitySet="ProposedProject">

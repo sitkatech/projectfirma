@@ -98,6 +98,11 @@ namespace ProjectFirma.Web.Models
             return ProjectUpdateBatch.ProjectLocationUpdates.ToList();
         }
 
+        public IEnumerable<Watershed> GetProjectWatersheds()
+        {
+            return ProjectWatershedUpdates.Select(x => x.Watershed);
+        }
+
         public FeatureCollection DetailedLocationToGeoJsonFeatureCollection()
         {
             return ProjectUpdateBatch.ProjectLocationUpdates.ToGeoJsonFeatureCollection();

@@ -54,7 +54,35 @@ Source code is available upon request via <support@sitkatech.com>.
             </label>
             <div id="projectLocationInformationContainer" style="min-width: 200px"></div>
         </div>
+    } 
+    @if (ViewDataTyped.HasWatersheds)
+    {
+        <div>
+            <label>
+                Watershed Information
+            </label>
+            <ul class="noListStyle">
+                @foreach (var projectWatershed in ViewDataTyped.Watersheds.OrderBy(x => x.DisplayName))
+                {
+                    <li>
+                        <a href="@projectWatershed.GetDetailUrl()">@projectWatershed.DisplayName</a>
+                    </li>
+                }
+            </ul>
+     </div>        
     }
+    else
+    {
+        <div>
+            <label>
+                Watershed Notes
+            </label>
+            <p class="alert">No watersheds set for this project.</p>
+            <div style="padding-left: 6px">
+                @ViewDataTyped.ProjectWatershedNotes
+            </div>
+        </div>             
+    }   
 </div>
 
 <script type="text/javascript">

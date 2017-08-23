@@ -66,6 +66,7 @@
     <EntitySet Name="ProjectUpdateBatch" EntityType="ProjectFirma.Web.Models.ProjectUpdateBatch" />
     <EntitySet Name="ProjectUpdateHistory" EntityType="ProjectFirma.Web.Models.ProjectUpdateHistory" />
     <EntitySet Name="ProjectWatershed" EntityType="ProjectFirma.Web.Models.ProjectWatershed" />
+    <EntitySet Name="ProjectWatershedUpdate" EntityType="ProjectFirma.Web.Models.ProjectWatershedUpdate" />
     <EntitySet Name="ProposedProject" EntityType="ProjectFirma.Web.Models.ProposedProject" />
     <EntitySet Name="ProposedProjectAssessmentQuestion" EntityType="ProjectFirma.Web.Models.ProposedProjectAssessmentQuestion" />
     <EntitySet Name="ProposedProjectClassification" EntityType="ProjectFirma.Web.Models.ProposedProjectClassification" />
@@ -610,6 +611,10 @@
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectUpdates" EntitySet="ProjectUpdate" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProjectWatershedUpdate_ProjectUpdate_ProjectUpdateID" Association="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_ProjectUpdate_ProjectUpdateID">
+      <End Role="ProjectUpdate" EntitySet="ProjectUpdate" />
+      <End Role="ProjectWatershedUpdates" EntitySet="ProjectWatershedUpdate" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID">
       <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectUpdateHistories" EntitySet="ProjectUpdateHistory" />
@@ -617,6 +622,10 @@
     <AssociationSet Name="FK_ProjectWatershed_Watershed_WatershedID" Association="ProjectFirma.Web.Models.FK_ProjectWatershed_Watershed_WatershedID">
       <End Role="Watershed" EntitySet="Watershed" />
       <End Role="ProjectWatersheds" EntitySet="ProjectWatershed" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectWatershedUpdate_Watershed_WatershedID" Association="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_Watershed_WatershedID">
+      <End Role="Watershed" EntitySet="Watershed" />
+      <End Role="ProjectWatershedUpdates" EntitySet="ProjectWatershedUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID" Association="ProjectFirma.Web.Models.FK_ProposedProject_TaxonomyTierOne_TaxonomyTierOneID">
       <End Role="TaxonomyTierOne" EntitySet="TaxonomyTierOne" />
@@ -1617,6 +1626,7 @@
     <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="18" Scale="0" />
     <Property Name="ProjectWatershedNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdates" ToRole="ProjectUpdateBatch" />
+    <NavigationProperty Name="ProjectWatershedUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_ProjectUpdate_ProjectUpdateID" FromRole="ProjectUpdate" ToRole="ProjectWatershedUpdates" />
   </EntityType>
   <EntityType Name="ProjectUpdateBatch">
     <Key>
@@ -1679,6 +1689,17 @@
     <Property Name="WatershedID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Project" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Project_ProjectID" FromRole="ProjectWatersheds" ToRole="Project" />
     <NavigationProperty Name="Watershed" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Watershed_WatershedID" FromRole="ProjectWatersheds" ToRole="Watershed" />
+  </EntityType>
+  <EntityType Name="ProjectWatershedUpdate">
+    <Key>
+      <PropertyRef Name="ProjectWatershedUpdateID" />
+    </Key>
+    <Property Name="ProjectWatershedUpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectUpdateID" Type="Int32" Nullable="false" />
+    <Property Name="WatershedID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ProjectUpdate" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_ProjectUpdate_ProjectUpdateID" FromRole="ProjectWatershedUpdates" ToRole="ProjectUpdate" />
+    <NavigationProperty Name="Watershed" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_Watershed_WatershedID" FromRole="ProjectWatershedUpdates" ToRole="Watershed" />
   </EntityType>
   <EntityType Name="ProposedProject">
     <Key>
@@ -2017,6 +2038,7 @@
     <Property Name="WatershedName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="WatershedFeature" Type="Geometry" />
     <NavigationProperty Name="ProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Watershed_WatershedID" FromRole="Watershed" ToRole="ProjectWatersheds" />
+    <NavigationProperty Name="ProjectWatershedUpdates" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershedUpdate_Watershed_WatershedID" FromRole="Watershed" ToRole="ProjectWatershedUpdates" />
     <NavigationProperty Name="ProposedProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectWatershed_Watershed_WatershedID" FromRole="Watershed" ToRole="ProposedProjectWatersheds" />
   </EntityType>
   <EntityType Name="vGeoServerWatershed">
@@ -3595,6 +3617,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectWatershedUpdate_ProjectUpdate_ProjectUpdateID">
+    <End Role="ProjectUpdate" Type="ProjectFirma.Web.Models.ProjectUpdate" Multiplicity="1" />
+    <End Role="ProjectWatershedUpdates" Type="ProjectFirma.Web.Models.ProjectWatershedUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectUpdate">
+        <PropertyRef Name="ProjectUpdateID" />
+      </Principal>
+      <Dependent Role="ProjectWatershedUpdates">
+        <PropertyRef Name="ProjectUpdateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID">
     <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.ProjectUpdateBatch" Multiplicity="1" />
     <End Role="ProjectUpdateHistories" Type="ProjectFirma.Web.Models.ProjectUpdateHistory" Multiplicity="*" />
@@ -3615,6 +3649,18 @@
         <PropertyRef Name="WatershedID" />
       </Principal>
       <Dependent Role="ProjectWatersheds">
+        <PropertyRef Name="WatershedID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectWatershedUpdate_Watershed_WatershedID">
+    <End Role="Watershed" Type="ProjectFirma.Web.Models.Watershed" Multiplicity="1" />
+    <End Role="ProjectWatershedUpdates" Type="ProjectFirma.Web.Models.ProjectWatershedUpdate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Watershed">
+        <PropertyRef Name="WatershedID" />
+      </Principal>
+      <Dependent Role="ProjectWatershedUpdates">
         <PropertyRef Name="WatershedID" />
       </Dependent>
     </ReferentialConstraint>

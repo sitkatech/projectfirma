@@ -158,6 +158,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProjectUpdate> ProjectUpdates { get { return AllProjectUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProjectWatershed> AllProjectWatersheds { get; set; }
         public virtual IQueryable<ProjectWatershed> ProjectWatersheds { get { return AllProjectWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProjectWatershedUpdate> AllProjectWatershedUpdates { get; set; }
+        public virtual IQueryable<ProjectWatershedUpdate> ProjectWatershedUpdates { get { return AllProjectWatershedUpdates.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProposedProjectAssessmentQuestion> AllProposedProjectAssessmentQuestions { get; set; }
         public virtual IQueryable<ProposedProjectAssessmentQuestion> ProposedProjectAssessmentQuestions { get { return AllProposedProjectAssessmentQuestions.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProposedProjectClassification> AllProposedProjectClassifications { get; set; }
@@ -489,6 +491,9 @@ namespace ProjectFirma.Web.Models
 
                 case "ProjectWatershed":
                     return ProjectWatersheds.GetProjectWatershed(primaryKey);
+
+                case "ProjectWatershedUpdate":
+                    return ProjectWatershedUpdates.GetProjectWatershedUpdate(primaryKey);
 
                 case "ProposedProjectAssessmentQuestion":
                     return ProposedProjectAssessmentQuestions.GetProposedProjectAssessmentQuestion(primaryKey);

@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.Linq;  
 using ProjectFirma.Web.Models;
 
@@ -59,11 +60,20 @@ namespace ProjectFirma.Web.Views.Map
 
             Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", project.SimpleLocationToGeoJsonFeatureCollection(true), "#ffff00", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
             Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "blue", 1, LayerInitialVisibility.Show));
+            Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - {Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}", detailedLocationGeoJsonFeatureCollection, "red", 0.7m, LayerInitialVisibility.Show));
+
+            project.GetProjectWatersheds()
+                .ToList()
+                .ForEach(watershed => Layers.Add(new LayerGeoJson(watershed.DisplayName,
+                    new List<Models.Watershed> {watershed}.ToGeoJsonFeatureCollection(), "red", 1,
+                    LayerInitialVisibility.Show)));
 
             if (HasDetailedLocation)
             {
                 BoundingBox = new BoundingBox(project.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry));
             }
+
+
         }
     }
 }

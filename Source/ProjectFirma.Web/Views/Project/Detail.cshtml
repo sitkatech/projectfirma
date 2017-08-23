@@ -133,46 +133,47 @@
                     </div>
                     <div class="col-sm-12 col-md-9 col-lg-10">
                         <h2 class="sectionHeader">@FieldDefinition.Project.GetFieldDefinitionLabel() Overview</h2>
-                        <div class="row">
-                            <div class="col-md-12 col-lg-8">
-                                <div class="panel panelFirma">
-                                    <div class="panel-heading panelTitle">
-                                        <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUrl, string.Format("Edit {0}", ViewDataTyped.Project.DisplayName), 950, ViewDataTyped.UserHasEditProjectPermissions) Basics</h3>
-                                    </div>
-                                    <div class="panel-body">
-                                        @{ ProjectBasics.RenderPartialView(Html, ViewDataTyped.ProjectBasicsViewData); }
-                                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-8">
+                            <div class="panel panelFirma">
+                                <div class="panel-heading panelTitle">
+                                    <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUrl, string.Format("Edit {0}", ViewDataTyped.Project.DisplayName), 950, ViewDataTyped.UserHasEditProjectPermissions) Basics</h3>
                                 </div>
-                            </div>
-                            <div class="col-md-12 col-lg-4">
-                                <div class="panel panelFirma">
-                                    <div class="panel-heading panelTitle">
-                                        <h3>Location</h3>
-                                    </div>
-                                    <div class="panel-body">
-                                        @if (ViewDataTyped.UserHasMapManagePermissions)
-                                        {
-                                            <ul style="list-style-type: none; padding-left: 0;">
-                                                <li style="display: inline-block; margin-right: 5px"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Simple", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditSimpleProjectLocationUrl, string.Format("Edit {0} - Simple", FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
-                                                <li style="display: inline-block"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Detailed", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditDetailedProjectLocationUrl, string.Format("Edit {0} - Detail", FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
-                                            </ul>
-                                        }
-                                        @{ ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData); }
-                                    </div>
+                                <div class="panel-body">
+                                    @{ ProjectBasics.RenderPartialView(Html, ViewDataTyped.ProjectBasicsViewData); }
                                 </div>
-                                @if (ViewDataTyped.UserHasTaggingPermissions)
-                                {
-                                    <div class="panel panelFirma">
-                                        <div class="panel-heading panelTitle">
-                                            <h3>Tags</h3>
-                                        </div>
-                                        <div class="panel-body">
-                                            @{ ProjectBasicsTags.RenderPartialView(Html, ViewDataTyped.ProjectBasicsTagsViewData); }
-                                        </div>
-                                    </div>
-                                                }
                             </div>
                         </div>
+                        <div class="col-md-12 col-lg-4">
+                            <div class="panel panelFirma">
+                                <div class="panel-heading panelTitle">
+                                    <h3>Location</h3>
+                                </div>
+                                <div class="panel-body">
+                                    @if (ViewDataTyped.UserHasMapManagePermissions)
+                                    {
+                                        <ul style="list-style-type: none; padding-left: 0;">
+                                            <li style="display: inline-block; margin-right: 5px"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Simple", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditSimpleProjectLocationUrl, string.Format("Edit {0} - Simple", FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
+                                            <li style="display: inline-block"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}Detailed", "<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditDetailedProjectLocationUrl, string.Format("Edit {0} - Detail", FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasMapManagePermissions, ViewDataTyped.MapFormID)</li>
+                                            <li style="display: inline-block"> @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0}{1}", FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized(),"<span class='glyphicon glyphicon-edit blue' style='margin-right:3px'></span>"), ViewDataTyped.EditWatershedsUrl, string.Format("Edit {0}", FieldDefinition.Watershed.GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasProjectWatershedManagePermissions, ViewDataTyped.EditProjectWatershedFormID)</li>
+                                        </ul>
+                                    }
+                                    @{ ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData); }
+                                </div>
+                            </div>
+                            @if (ViewDataTyped.UserHasTaggingPermissions)
+                            {
+                                <div class="panel panelFirma">
+                                    <div class="panel-heading panelTitle">
+                                        <h3>Tags</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        @{ ProjectBasicsTags.RenderPartialView(Html, ViewDataTyped.ProjectBasicsTagsViewData); }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasProjectOrganizationManagePermissions) @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</h3>
@@ -291,32 +292,8 @@
                                 </div>
                             </div>
                                         }
-                        <div class="panel panelFirma">
-                            <div class="panel-heading panelTitle">
-                                <h3>
-                                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditWatershedsUrl, string.Format("Edit {0}", FieldDefinition.Watershed.GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasProjectWatershedManagePermissions, ViewDataTyped.EditProjectWatershedFormID)
-                                    @Html.LabelWithSugarFor(FieldDefinition.Watershed, string.Format("{0}", FieldDefinition.Watershed.GetFieldDefinitionLabel()))
-                                </h3>
-                            </div>
-                            <div class="panel-body">
-                                @if (ViewDataTyped.Project.ProjectWatersheds.Any())
-                                {
-                                    <ul class="noListStyle">
-                                        @foreach (var projectWatershed in ViewDataTyped.Project.ProjectWatersheds.OrderBy(x => x.Watershed.DisplayName))
-                                        {
-                                            <li>
-                                                <a href="@projectWatershed.Watershed.GetDetailUrl()">@projectWatershed.Watershed.DisplayName</a>
-                                            </li>
-                                        }
-                                    </ul>
-                                }
-                                else
-                                {
-                                    <p class="alert">No watersheds set for this project.</p>
-                                }
-                            </div>
-                        </div>
-                        <div class="panel panelFirma">
+                   
+                    <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h3>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, string.Format("Edit {0}", FieldDefinition.ExternalLinks.GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasProjectExternalLinkManagePermissions) @Html.LabelWithSugarFor(FieldDefinition.ExternalLinks)</h3>
                             </div>

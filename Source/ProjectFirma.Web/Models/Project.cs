@@ -291,6 +291,11 @@ namespace ProjectFirma.Web.Models
             return ProjectLocations.ToList();
         }
 
+        public IEnumerable<Watershed> GetProjectWatersheds()
+        {
+            return ProjectWatersheds.Select(x => x.Watershed);
+        }
+
         public FeatureCollection DetailedLocationToGeoJsonFeatureCollection()
         {
             return ProjectLocations.ToGeoJsonFeatureCollection();
