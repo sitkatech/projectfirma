@@ -24,6 +24,7 @@ using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Views;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 
@@ -33,29 +34,24 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
     {
         public RelationshipTypeGridSpec(bool hasManagePermissions, List<OrganizationType> allOrganizationTypes)
         {
-            var basicsColumnGroupCount = 2;
-           
+            var basicsColumnGroupCount = 3;
 
             if (hasManagePermissions)
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, x.CanDelete()), 30);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, x.CanDelete()), 30, DhtmlxGridColumnFilterType.None);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.EditRelationshipType(a)),
-                        $"Edit {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} '{a.RelationshipTypeName}'")),
-                    30);
+                        $"Edit {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} \"{a.RelationshipTypeName}\"")),
+                    30, DhtmlxGridColumnFilterType.None);
                 basicsColumnGroupCount += 2;
             }
 
             Add($"{Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} Name", a => a.RelationshipTypeName, 240);
-            Add($"Can Approve {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}?", a => new HtmlString(a.CanApproveProjects
-                ? $"<span style='display:none'>Yes</span><span style='margin-left: 40px'>{a.CanApproveProjects.ToCheckboxImageOrEmpty()}</span>"
-                : "<span style='display:none'>No</span>"), 100);
+            Add($"Can Approve {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}?", a => a.CanApproveProjects.ToCheckboxImageOrEmptyForGrid(), 90);
+            Add("Is Primary Contact?", a => a.IsPrimaryContact.ToCheckboxImageOrEmptyForGrid(), 90);
 
             foreach (var organizationType in allOrganizationTypes)
-            {               
-                Add(organizationType.OrganizationTypeName,
-                    a => new HtmlString(a.IsAssociatedWithOrganiztionType(organizationType)
-                            ? $"<span style='display:none'>Yes</span><span style='margin-left: 40px'>{a.IsAssociatedWithOrganiztionType(organizationType).ToCheckboxImageOrEmpty()}</span>"
-                            : "<span style='display:none'>No</span>"), 100);
+            {
+                Add(organizationType.OrganizationTypeName, a => a.IsAssociatedWithOrganiztionType(organizationType).ToCheckboxImageOrEmptyForGrid(), 90);
             }
 
             GroupingHeader =

@@ -48,6 +48,10 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         [DisplayName("Can Approve Projects?")]
         public bool? CanApproveProjects { get; set; }
 
+        [Required]
+        [DisplayName("Is Primary Contact?")]
+        public bool? IsPrimaryContact { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -63,6 +67,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
                 .Select(x => x.OrganizationTypeID)
                 .ToList();
             CanApproveProjects = relationshipType.CanApproveProjects;
+            IsPrimaryContact = relationshipType.IsPrimaryContact;
         }
 
         public void UpdateModel(RelationshipType relationshipType, ICollection<OrganizationTypeRelationshipType> allOrganizationTypeRelationshipTypes)
@@ -76,6 +81,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
                 (x, y) => x.OrganizationTypeID == y.OrganizationTypeID && x.RelationshipTypeID == y.RelationshipTypeID);
 
             relationshipType.CanApproveProjects = CanApproveProjects ?? false; // Should never be null due to required validation attribute
+            relationshipType.IsPrimaryContact = IsPrimaryContact ?? false; // Should never be null due to required validation attribute
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

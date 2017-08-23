@@ -55,6 +55,22 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.ValidationMessageFor(m => m.CanApproveProjects)
                 </div>
             </div>
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.IsPrimaryContact)</div>
+                <div class="col-xs-12 col-sm-9">
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.IsPrimaryContact, true) Yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.IsPrimaryContact, false) No
+                        </label>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.IsPrimaryContact)
+                </div>
+            </div>
             <hr />
             <p>Select which @FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized() can be associated to a @FieldDefinition.Project.GetFieldDefinitionLabel() with this @FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()</p>
             <div class="form-group">
