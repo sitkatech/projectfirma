@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -298,6 +298,9 @@
     <Compile Include="Models\Generated\ProposedProjectPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProjectState.Binding.cs" />
     <Compile Include="Models\Generated\ProposedProjectStatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProposedProjectWatershed.Binding.cs" />
+    <Compile Include="Models\Generated\ProposedProjectWatershed.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProposedProjectWatershedPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\RelationshipType.Binding.cs" />
     <Compile Include="Models\Generated\RelationshipType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\RelationshipTypePrimaryKey.Binding.cs" />
@@ -352,6 +355,13 @@
     <Compile Include="Models\Generated\Watershed.Binding.cs" />
     <Compile Include="Models\Generated\Watershed.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WatershedPrimaryKey.Binding.cs" />
+    <Compile Include="Views\ProposedProject\Watershed.cs" />
+    <Compile Include="Views\ProposedProject\WatershedViewData.cs" />
+    <Compile Include="Views\ProposedProject\WatershedViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatersheds.cs" />
+    <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewData.cs" />
+    <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsViewModelTest.cs" />
     <Compile Include="Views\Watershed\MapTooltipViewData.cs" />
     <Compile Include="Views\Watershed\MapTooltip.cs" />
     <Compile Include="Controllers\OrganizationAndRelationshipTypeController.cs" />
@@ -1308,6 +1318,7 @@
     <Compile Include="Views\Watershed\DetailViewData.cs" />
     <Content Include="Views\ProjectWatershed\EditProjectWatershedsController.js" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
+    <Content Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsController.js" />
     <Content Include="Views\User\PullUserFromKeystone.cshtml" />
     <Content Include="Views\Tenant\Detail.cshtml" />
     <Content Include="Views\Tenant\EditBasics.cshtml" />
@@ -1318,6 +1329,8 @@
     <Content Include="Views\FirmaHomePageImage\New.cshtml" />
     <Content Include="Views\Shared\ViewPageContent.cshtml" />
     <Content Include="Views\Watershed\MapTooltip.cshtml" />
+    <Content Include="Views\ProposedProject\Watershed.cshtml" />
+    <Content Include="Views\Shared\ProjectWatershedControls\EditProjectWatersheds.cshtml" />
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

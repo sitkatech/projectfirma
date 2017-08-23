@@ -23,6 +23,7 @@ CREATE TABLE [dbo].[Project](
 	[FundingTypeID] [int] NOT NULL,
 	[PrimaryContactPersonID] [int] NULL,
 	[LeadImplementerOrganizationID] [int] NOT NULL,
+	[ProjectWatershedNotes] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_Project_ProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectID] ASC

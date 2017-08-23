@@ -31,13 +31,14 @@ namespace ProjectFirma.Web.Models
             this.ProposedProjectLocations = new HashSet<ProposedProjectLocation>();
             this.ProposedProjectLocationStagings = new HashSet<ProposedProjectLocationStaging>();
             this.ProposedProjectNotes = new HashSet<ProposedProjectNote>();
+            this.ProposedProjectWatersheds = new HashSet<ProposedProjectWatershed>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? taxonomyTierOneID, string performanceMeasureNotes, int? projectID, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, int? primaryContactPersonID) : this()
+        public ProposedProject(int proposedProjectID, string projectName, string projectDescription, int leadImplementerOrganizationID, int proposingPersonID, DateTime proposingDate, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, decimal? securedFunding, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int fundingTypeID, int proposedProjectStateID, int? taxonomyTierOneID, string performanceMeasureNotes, int? projectID, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, int? primaryContactPersonID, string projectWatershedNotes) : this()
         {
             this.ProposedProjectID = proposedProjectID;
             this.ProjectName = projectName;
@@ -63,6 +64,7 @@ namespace ProjectFirma.Web.Models
             this.ApprovalDate = approvalDate;
             this.ReviewedByPersonID = reviewedByPersonID;
             this.PrimaryContactPersonID = primaryContactPersonID;
+            this.ProjectWatershedNotes = projectWatershedNotes;
         }
 
         /// <summary>
@@ -118,13 +120,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return NotificationProposedProjects.Any() || PerformanceMeasureExpectedProposeds.Any() || ProposedProjectAssessmentQuestions.Any() || ProposedProjectClassifications.Any() || ProposedProjectImages.Any() || ProposedProjectLocations.Any() || ProposedProjectLocationStagings.Any() || ProposedProjectNotes.Any();
+            return NotificationProposedProjects.Any() || PerformanceMeasureExpectedProposeds.Any() || ProposedProjectAssessmentQuestions.Any() || ProposedProjectClassifications.Any() || ProposedProjectImages.Any() || ProposedProjectLocations.Any() || ProposedProjectLocationStagings.Any() || ProposedProjectNotes.Any() || ProposedProjectWatersheds.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProposedProject).Name, typeof(NotificationProposedProject).Name, typeof(PerformanceMeasureExpectedProposed).Name, typeof(ProposedProjectAssessmentQuestion).Name, typeof(ProposedProjectClassification).Name, typeof(ProposedProjectImage).Name, typeof(ProposedProjectLocation).Name, typeof(ProposedProjectLocationStaging).Name, typeof(ProposedProjectNote).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProposedProject).Name, typeof(NotificationProposedProject).Name, typeof(PerformanceMeasureExpectedProposed).Name, typeof(ProposedProjectAssessmentQuestion).Name, typeof(ProposedProjectClassification).Name, typeof(ProposedProjectImage).Name, typeof(ProposedProjectLocation).Name, typeof(ProposedProjectLocationStaging).Name, typeof(ProposedProjectNote).Name, typeof(ProposedProjectWatershed).Name};
 
         [Key]
         public int ProposedProjectID { get; set; }
@@ -152,6 +154,7 @@ namespace ProjectFirma.Web.Models
         public DateTime? ApprovalDate { get; set; }
         public int? ReviewedByPersonID { get; set; }
         public int? PrimaryContactPersonID { get; set; }
+        public string ProjectWatershedNotes { get; set; }
         public int PrimaryKey { get { return ProposedProjectID; } set { ProposedProjectID = value; } }
 
         public virtual ICollection<NotificationProposedProject> NotificationProposedProjects { get; set; }
@@ -162,6 +165,7 @@ namespace ProjectFirma.Web.Models
         public virtual ICollection<ProposedProjectLocation> ProposedProjectLocations { get; set; }
         public virtual ICollection<ProposedProjectLocationStaging> ProposedProjectLocationStagings { get; set; }
         public virtual ICollection<ProposedProjectNote> ProposedProjectNotes { get; set; }
+        public virtual ICollection<ProposedProjectWatershed> ProposedProjectWatersheds { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Organization LeadImplementerOrganization { get; set; }
         public virtual Person PrimaryContactPerson { get; set; }
@@ -179,6 +183,7 @@ namespace ProjectFirma.Web.Models
             public const int ProjectDescription = 4000;
             public const int ProjectLocationNotes = 4000;
             public const int PerformanceMeasureNotes = 500;
+            public const int ProjectWatershedNotes = 4000;
         }
     }
 }

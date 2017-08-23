@@ -73,6 +73,7 @@
     <EntitySet Name="ProposedProjectLocation" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectLocation" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProposedProjectLocationStaging" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectLocationStaging" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProposedProjectNote" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectNote" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProposedProjectWatershed" EntityType="ProjectFirma.Web.Models.Store.ProposedProjectWatershed" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RelationshipType" EntityType="ProjectFirma.Web.Models.Store.RelationshipType" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Snapshot" EntityType="ProjectFirma.Web.Models.Store.Snapshot" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SnapshotOrganizationTypeExpenditure" EntityType="ProjectFirma.Web.Models.Store.SnapshotOrganizationTypeExpenditure" store:Type="Tables" Schema="dbo" />
@@ -606,6 +607,14 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
     <AssociationSet Name="FK_ProposedProjectNote_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectNote_ProposedProject_ProposedProjectID">
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectNotes" EntitySet="ProposedProjectNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID">
+      <End Role="ProposedProject" EntitySet="ProposedProject" />
+      <End Role="ProposedProjectWatersheds" EntitySet="ProposedProjectWatershed" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectWatershed_Watershed_WatershedID" Association="ProjectFirma.Web.Models.Store.FK_ProposedProjectWatershed_Watershed_WatershedID">
+      <End Role="Watershed" EntitySet="Watershed" />
+      <End Role="ProposedProjectWatersheds" EntitySet="ProposedProjectWatershed" />
     </AssociationSet>
     <AssociationSet Name="FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID" Association="ProjectFirma.Web.Models.Store.FK_SnapshotOrganizationTypeExpenditure_OrganizationType_OrganizationTypeID">
       <End Role="OrganizationType" EntitySet="OrganizationType" />
@@ -1315,6 +1324,7 @@ warning 6035: The relationship 'FK_SnapshotProject_Project_ProjectID_TenantID' h
     <Property Name="FundingTypeID" Type="int" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="int" />
     <Property Name="LeadImplementerOrganizationID" Type="int" Nullable="false" />
+    <Property Name="ProjectWatershedNotes" Type="varchar" MaxLength="4000" />
   </EntityType>
   <EntityType Name="ProjectAssessmentQuestion">
     <Key>
@@ -1561,6 +1571,7 @@ warning 6035: The relationship 'FK_ProjectImageUpdate_ProjectImage_ProjectImageI
     <Property Name="PlanningDesignStartYear" Type="int" />
     <Property Name="ProjectLocationSimpleTypeID" Type="int" Nullable="false" />
     <Property Name="EstimatedAnnualOperatingCost" Type="decimal" />
+    <Property Name="ProjectWatershedNotes" Type="varchar" MaxLength="4000" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_PerformanceMeasureActualUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1629,6 +1640,7 @@ warning 6035: The relationship 'FK_ProposedProjectImage_ProposedProject_Proposed
 warning 6035: The relationship 'FK_ProposedProjectLocation_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProposedProjectNote_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="ProposedProject">
     <Key>
@@ -1659,6 +1671,7 @@ warning 6035: The relationship 'FK_ProposedProjectNote_ProposedProject_ProposedP
     <Property Name="ApprovalDate" Type="datetime" />
     <Property Name="ReviewedByPersonID" Type="int" />
     <Property Name="PrimaryContactPersonID" Type="int" />
+    <Property Name="ProjectWatershedNotes" Type="varchar" MaxLength="4000" />
   </EntityType>
   <EntityType Name="ProposedProjectAssessmentQuestion">
     <Key>
@@ -1726,6 +1739,15 @@ warning 6035: The relationship 'FK_ProposedProjectNote_ProposedProject_ProposedP
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
     <Property Name="UpdatePersonID" Type="int" />
     <Property Name="UpdateDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="ProposedProjectWatershed">
+    <Key>
+      <PropertyRef Name="ProposedProjectWatershedID" />
+    </Key>
+    <Property Name="ProposedProjectWatershedID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="int" Nullable="false" />
+    <Property Name="ProposedProjectID" Type="int" Nullable="false" />
+    <Property Name="WatershedID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_OrganizationTypeRelationshipType_RelationshipType_RelationshipTypeID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -1919,6 +1941,7 @@ warning 6035: The relationship 'FK_TaxonomyTierTwoPerformanceMeasure_TaxonomyTie
   </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_ProjectWatershed_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProposedProjectWatershed_Watershed_WatershedID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="Watershed">
     <Key>
@@ -3469,6 +3492,30 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Principal>
       <Dependent Role="ProposedProjectNotes">
         <PropertyRef Name="ProposedProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID">
+    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.Store.ProposedProject" Multiplicity="1" />
+    <End Role="ProposedProjectWatersheds" Type="ProjectFirma.Web.Models.Store.ProposedProjectWatershed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProposedProject">
+        <PropertyRef Name="ProposedProjectID" />
+      </Principal>
+      <Dependent Role="ProposedProjectWatersheds">
+        <PropertyRef Name="ProposedProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProposedProjectWatershed_Watershed_WatershedID">
+    <End Role="Watershed" Type="ProjectFirma.Web.Models.Store.Watershed" Multiplicity="1" />
+    <End Role="ProposedProjectWatersheds" Type="ProjectFirma.Web.Models.Store.ProposedProjectWatershed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Watershed">
+        <PropertyRef Name="WatershedID" />
+      </Principal>
+      <Dependent Role="ProposedProjectWatersheds">
+        <PropertyRef Name="WatershedID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

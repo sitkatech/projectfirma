@@ -40,6 +40,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public readonly string ProjectUpdatePerformanceMeasuresUrl;
         public readonly string ProjectUpdateLocationSimpleUrl;
         public readonly string ProjectUpdateLocationDetailedUrl;
+        public readonly string ProjectUpdateWatershedUrl;
         public readonly string ProjectUpdateClassificationsUrl;
         public readonly string ProjectUpdateAssessmentUrl;
         public readonly string ProjectUpdateNotesUrl;
@@ -84,6 +85,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             ProjectUpdatePerformanceMeasuresUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditExpectedPerformanceMeasureValues(proposedProject));
             ProjectUpdateLocationSimpleUrl =  SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditLocationSimple(proposedProject));
             ProjectUpdateLocationDetailedUrl =  SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditLocationDetailed(proposedProject));
+            ProjectUpdateWatershedUrl =  SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditWatershed(proposedProject));
             ProjectUpdateClassificationsUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditClassifications(proposedProject));
             ProjectUpdateAssessmentUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.EditAssessment(proposedProject));
             ProjectUpdateNotesUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(x => x.Notes(proposedProject.ProposedProjectID));

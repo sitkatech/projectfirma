@@ -172,6 +172,8 @@ namespace ProjectFirma.Web.Models
         public virtual IQueryable<ProposedProjectNote> ProposedProjectNotes { get { return AllProposedProjectNotes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<ProposedProject> AllProposedProjects { get; set; }
         public virtual IQueryable<ProposedProject> ProposedProjects { get { return AllProposedProjects.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
+        public virtual DbSet<ProposedProjectWatershed> AllProposedProjectWatersheds { get; set; }
+        public virtual IQueryable<ProposedProjectWatershed> ProposedProjectWatersheds { get { return AllProposedProjectWatersheds.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<RelationshipType> AllRelationshipTypes { get; set; }
         public virtual IQueryable<RelationshipType> RelationshipTypes { get { return AllRelationshipTypes.Where(x => x.TenantID == HttpRequestStorage.Tenant.TenantID); } }
         public virtual DbSet<SnapshotOrganizationTypeExpenditure> AllSnapshotOrganizationTypeExpenditures { get; set; }
@@ -513,6 +515,9 @@ namespace ProjectFirma.Web.Models
                     var proposedProjectState = ProposedProjectState.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(proposedProjectState, "ProposedProjectState", primaryKey);
                     return proposedProjectState;
+
+                case "ProposedProjectWatershed":
+                    return ProposedProjectWatersheds.GetProposedProjectWatershed(primaryKey);
 
                 case "RelationshipType":
                     return RelationshipTypes.GetRelationshipType(primaryKey);

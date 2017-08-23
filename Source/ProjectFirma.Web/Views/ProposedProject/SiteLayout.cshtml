@@ -83,7 +83,17 @@ Source code is available upon request via <support@sitkatech.com>.
                 {
                     @ProjectWizardComponents.MakeDisabledSectionLink("Location - Detailed")
                 }
-            </li>
+            </li>            
+            <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.Watershed, ViewDataTyped.SelectedProposedProjectSection)">
+                @if (ViewDataTyped.ProposalSectionsStatus.IsWatershedSectionComplete)
+                {
+                    <a href="@ViewDataTyped.ProjectUpdateWatershedUrl">@FieldDefinition.Watershed.GetFieldDefinitionLabel()</a>
+                }
+                else
+                {
+                    @ProjectWizardComponents.MakeDisabledSectionLink(FieldDefinition.Watershed.GetFieldDefinitionLabel())
+                }
+            </li>            
             <li class="@SetSelectedSectionStyle(ProposedProjectSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProposedProjectSection)">
                 @if (ViewDataTyped.ProposalSectionsStatus.IsBasicsSectionComplete)
                 {

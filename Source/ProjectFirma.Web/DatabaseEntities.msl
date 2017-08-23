@@ -513,6 +513,7 @@
           <ScalarProperty Name="FundingTypeID" ColumnName="FundingTypeID" />
           <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
           <ScalarProperty Name="LeadImplementerOrganizationID" ColumnName="LeadImplementerOrganizationID" />
+          <ScalarProperty Name="ProjectWatershedNotes" ColumnName="ProjectWatershedNotes" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -777,6 +778,7 @@
           <ScalarProperty Name="PlanningDesignStartYear" ColumnName="PlanningDesignStartYear" />
           <ScalarProperty Name="ProjectLocationSimpleTypeID" ColumnName="ProjectLocationSimpleTypeID" />
           <ScalarProperty Name="EstimatedAnnualOperatingCost" ColumnName="EstimatedAnnualOperatingCost" />
+          <ScalarProperty Name="ProjectWatershedNotes" ColumnName="ProjectWatershedNotes" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -856,6 +858,7 @@
           <ScalarProperty Name="ApprovalDate" ColumnName="ApprovalDate" />
           <ScalarProperty Name="ReviewedByPersonID" ColumnName="ReviewedByPersonID" />
           <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
+          <ScalarProperty Name="ProjectWatershedNotes" ColumnName="ProjectWatershedNotes" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -929,6 +932,16 @@
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="UpdatePersonID" ColumnName="UpdatePersonID" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProposedProjectWatershed">
+      <EntityTypeMapping TypeName="ProjectFirma.Web.Models.ProposedProjectWatershed">
+        <MappingFragment StoreEntitySet="ProposedProjectWatershed">
+          <ScalarProperty Name="ProposedProjectWatershedID" ColumnName="ProposedProjectWatershedID" />
+          <ScalarProperty Name="TenantID" ColumnName="TenantID" />
+          <ScalarProperty Name="ProposedProjectID" ColumnName="ProposedProjectID" />
+          <ScalarProperty Name="WatershedID" ColumnName="WatershedID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

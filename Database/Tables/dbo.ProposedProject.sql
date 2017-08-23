@@ -28,6 +28,7 @@ CREATE TABLE [dbo].[ProposedProject](
 	[ApprovalDate] [datetime] NULL,
 	[ReviewedByPersonID] [int] NULL,
 	[PrimaryContactPersonID] [int] NULL,
+	[ProjectWatershedNotes] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ProposedProject_ProposedProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProposedProjectID] ASC

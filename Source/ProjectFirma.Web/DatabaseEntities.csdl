@@ -73,6 +73,7 @@
     <EntitySet Name="ProposedProjectLocation" EntityType="ProjectFirma.Web.Models.ProposedProjectLocation" />
     <EntitySet Name="ProposedProjectLocationStaging" EntityType="ProjectFirma.Web.Models.ProposedProjectLocationStaging" />
     <EntitySet Name="ProposedProjectNote" EntityType="ProjectFirma.Web.Models.ProposedProjectNote" />
+    <EntitySet Name="ProposedProjectWatershed" EntityType="ProjectFirma.Web.Models.ProposedProjectWatershed" />
     <EntitySet Name="RelationshipType" EntityType="ProjectFirma.Web.Models.RelationshipType" />
     <EntitySet Name="Snapshot" EntityType="ProjectFirma.Web.Models.Snapshot" />
     <EntitySet Name="SnapshotOrganizationTypeExpenditure" EntityType="ProjectFirma.Web.Models.SnapshotOrganizationTypeExpenditure" />
@@ -644,6 +645,14 @@
     <AssociationSet Name="FK_ProposedProjectNote_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectNote_ProposedProject_ProposedProjectID">
       <End Role="ProposedProject" EntitySet="ProposedProject" />
       <End Role="ProposedProjectNotes" EntitySet="ProposedProjectNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID" Association="ProjectFirma.Web.Models.FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID">
+      <End Role="ProposedProject" EntitySet="ProposedProject" />
+      <End Role="ProposedProjectWatersheds" EntitySet="ProposedProjectWatershed" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProposedProjectWatershed_Watershed_WatershedID" Association="ProjectFirma.Web.Models.FK_ProposedProjectWatershed_Watershed_WatershedID">
+      <End Role="Watershed" EntitySet="Watershed" />
+      <End Role="ProposedProjectWatersheds" EntitySet="ProposedProjectWatershed" />
     </AssociationSet>
     <AssociationSet Name="FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID" Association="ProjectFirma.Web.Models.FK_SnapshotOrganizationTypeExpenditure_Snapshot_SnapshotID">
       <End Role="Snapshot" EntitySet="Snapshot" />
@@ -1301,6 +1310,7 @@
     <Property Name="FundingTypeID" Type="Int32" Nullable="false" />
     <Property Name="PrimaryContactPersonID" Type="Int32" />
     <Property Name="LeadImplementerOrganizationID" Type="Int32" Nullable="false" />
+    <Property Name="ProjectWatershedNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="NotificationProjects" Relationship="ProjectFirma.Web.Models.FK_NotificationProject_Project_ProjectID" FromRole="Project" ToRole="NotificationProjects" />
     <NavigationProperty Name="LeadImplementerOrganization" Relationship="ProjectFirma.Web.Models.FK_Project_Organization_LeadImplementerOrganizationID_OrganizationID" FromRole="ProjectsWhereYouAreTheLeadImplementerOrganization" ToRole="LeadImplementerOrganization" />
     <NavigationProperty Name="PerformanceMeasureActuals" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureActual_Project_ProjectID" FromRole="Project" ToRole="PerformanceMeasureActuals" />
@@ -1605,6 +1615,7 @@
     <Property Name="PlanningDesignStartYear" Type="Int32" />
     <Property Name="ProjectLocationSimpleTypeID" Type="Int32" Nullable="false" />
     <Property Name="EstimatedAnnualOperatingCost" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="ProjectWatershedNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="ProjectUpdateBatch" Relationship="ProjectFirma.Web.Models.FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" FromRole="ProjectUpdates" ToRole="ProjectUpdateBatch" />
   </EntityType>
   <EntityType Name="ProjectUpdateBatch">
@@ -1698,6 +1709,7 @@
     <Property Name="ApprovalDate" Type="DateTime" />
     <Property Name="ReviewedByPersonID" Type="Int32" />
     <Property Name="PrimaryContactPersonID" Type="Int32" />
+    <Property Name="ProjectWatershedNotes" Type="String" MaxLength="4000" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="NotificationProposedProjects" Relationship="ProjectFirma.Web.Models.FK_NotificationProposedProject_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="NotificationProposedProjects" />
     <NavigationProperty Name="LeadImplementerOrganization" Relationship="ProjectFirma.Web.Models.FK_ProposedProject_Organization_LeadImplementerOrganizationID_OrganizationID" FromRole="ProposedProjectsWhereYouAreTheLeadImplementerOrganization" ToRole="LeadImplementerOrganization" />
     <NavigationProperty Name="PerformanceMeasureExpectedProposeds" Relationship="ProjectFirma.Web.Models.FK_PerformanceMeasureExpectedProposed_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="PerformanceMeasureExpectedProposeds" />
@@ -1712,6 +1724,7 @@
     <NavigationProperty Name="ProposedProjectLocations" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocation_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectLocations" />
     <NavigationProperty Name="ProposedProjectLocationStagings" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectLocationStaging_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectLocationStagings" />
     <NavigationProperty Name="ProposedProjectNotes" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectNotes" />
+    <NavigationProperty Name="ProposedProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID" FromRole="ProposedProject" ToRole="ProposedProjectWatersheds" />
   </EntityType>
   <EntityType Name="ProposedProjectAssessmentQuestion">
     <Key>
@@ -1791,6 +1804,17 @@
     <NavigationProperty Name="CreatePerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_CreatePersonID_PersonID" FromRole="ProposedProjectNotesWhereYouAreTheCreatePerson" ToRole="CreatePerson" />
     <NavigationProperty Name="UpdatePerson" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_Person_UpdatePersonID_PersonID" FromRole="ProposedProjectNotesWhereYouAreTheUpdatePerson" ToRole="UpdatePerson" />
     <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectNote_ProposedProject_ProposedProjectID" FromRole="ProposedProjectNotes" ToRole="ProposedProject" />
+  </EntityType>
+  <EntityType Name="ProposedProjectWatershed">
+    <Key>
+      <PropertyRef Name="ProposedProjectWatershedID" />
+    </Key>
+    <Property Name="ProposedProjectWatershedID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenantID" Type="Int32" Nullable="false" />
+    <Property Name="ProposedProjectID" Type="Int32" Nullable="false" />
+    <Property Name="WatershedID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ProposedProject" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID" FromRole="ProposedProjectWatersheds" ToRole="ProposedProject" />
+    <NavigationProperty Name="Watershed" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectWatershed_Watershed_WatershedID" FromRole="ProposedProjectWatersheds" ToRole="Watershed" />
   </EntityType>
   <EntityType Name="RelationshipType">
     <Key>
@@ -1993,6 +2017,7 @@
     <Property Name="WatershedName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="WatershedFeature" Type="Geometry" />
     <NavigationProperty Name="ProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProjectWatershed_Watershed_WatershedID" FromRole="Watershed" ToRole="ProjectWatersheds" />
+    <NavigationProperty Name="ProposedProjectWatersheds" Relationship="ProjectFirma.Web.Models.FK_ProposedProjectWatershed_Watershed_WatershedID" FromRole="Watershed" ToRole="ProposedProjectWatersheds" />
   </EntityType>
   <EntityType Name="vGeoServerWatershed">
     <Key>
@@ -3675,6 +3700,30 @@
       </Principal>
       <Dependent Role="ProposedProjectNotes">
         <PropertyRef Name="ProposedProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProposedProjectWatershed_ProposedProject_ProposedProjectID">
+    <End Role="ProposedProject" Type="ProjectFirma.Web.Models.ProposedProject" Multiplicity="1" />
+    <End Role="ProposedProjectWatersheds" Type="ProjectFirma.Web.Models.ProposedProjectWatershed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProposedProject">
+        <PropertyRef Name="ProposedProjectID" />
+      </Principal>
+      <Dependent Role="ProposedProjectWatersheds">
+        <PropertyRef Name="ProposedProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProposedProjectWatershed_Watershed_WatershedID">
+    <End Role="Watershed" Type="ProjectFirma.Web.Models.Watershed" Multiplicity="1" />
+    <End Role="ProposedProjectWatersheds" Type="ProjectFirma.Web.Models.ProposedProjectWatershed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Watershed">
+        <PropertyRef Name="WatershedID" />
+      </Principal>
+      <Dependent Role="ProposedProjectWatersheds">
+        <PropertyRef Name="WatershedID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

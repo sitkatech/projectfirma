@@ -52,6 +52,7 @@ namespace ProjectFirma.Web
                     "~/Views/Shared/PerformanceMeasureControls/{0}.cshtml",
                     "~/Views/Shared/ProjectControls/{0}.cshtml",
                     "~/Views/Shared/ProjectLocationControls/{0}.cshtml",
+                    "~/Views/Shared/ProjectWatershedControls/{0}.cshtml",
                     "~/Views/Shared/ProjectUpdateDiffControls/{0}.cshtml"
                 }, defaultRoutes, AreasDictionary);
 

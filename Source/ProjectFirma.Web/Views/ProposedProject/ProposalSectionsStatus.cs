@@ -30,6 +30,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
         PerformanceMeasures,
         LocationSimple,
         LocationDetailed,
+        Watershed,
         Classifications,
         Assessment,
         Notes,
@@ -43,10 +44,11 @@ namespace ProjectFirma.Web.Views.ProposedProject
         public bool IsPerformanceMeasureSectionComplete { get; set; }
         public bool IsProjectLocationSimpleSectionComplete { get; set; }
         public bool IsProjectLocationDetailedSectionComplete { get; set; }
+        public bool IsWatershedSectionComplete { get; set; }
         public bool IsClassificationsComplete { get; set; }
         public bool IsAssessmentComplete { get; set; }
         public bool IsNotesSectionComplete { get; set; }
-        public bool AreAllSectionsValid => IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsClassificationsComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationSimpleSectionComplete && IsNotesSectionComplete;
+        public bool AreAllSectionsValid => IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsClassificationsComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationDetailedSectionComplete && IsWatershedSectionComplete && IsNotesSectionComplete;
 
         public ProposalSectionsStatus(Models.ProposedProject proposedProject)
         {
@@ -57,6 +59,9 @@ namespace ProjectFirma.Web.Views.ProposedProject
             IsProjectLocationSimpleSectionComplete = !locationSimpleValidationResults.Any();
 
             IsProjectLocationDetailedSectionComplete = IsBasicsSectionComplete;
+
+            //todo
+            IsWatershedSectionComplete = IsBasicsSectionComplete;
 
             var pmValidationResults = new ExpectedPerformanceMeasureValuesViewModel(proposedProject).GetValidationResults();
             IsPerformanceMeasureSectionComplete = !pmValidationResults.Any();
@@ -78,6 +83,7 @@ namespace ProjectFirma.Web.Views.ProposedProject
             IsAssessmentComplete = false;
             IsProjectLocationSimpleSectionComplete = false;
             IsProjectLocationDetailedSectionComplete = false;
+            IsWatershedSectionComplete = false;
             IsNotesSectionComplete = false;
         }
     }
