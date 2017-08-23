@@ -630,32 +630,13 @@ namespace ProjectFirma.Web.Controllers
             var allProposedProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProposedProjectWatersheds.Local;
             viewModel.UpdateModel(proposedProject, currentProposedProjectWatersheds, allProposedProjectWatersheds);
             SetMessageForDisplay($"{FieldDefinition.ProposedProject.GetFieldDefinitionLabel()} Watersheds succesfully saved.");
-            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditLocationDetailed(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditWatershed(proposedProject.PrimaryKey)));
+            return RedirectToAction(viewModel.AutoAdvance ? new SitkaRoute<ProposedProjectController>(x => x.EditExpectedPerformanceMeasureValues(proposedProject.PrimaryKey)) : new SitkaRoute<ProposedProjectController>(x => x.EditWatershed(proposedProject.PrimaryKey)));
         }
-
 
         private static string GenerateEditProjectWatershedFormID(ProposedProject proposedProject)
         {
             return $"editMapForProposedProject{proposedProject.ProposedProjectID}";
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         [ProposedProjectEditFeature]
         public ViewResult Notes(ProposedProjectPrimaryKey proposedProjectPrimaryKey)

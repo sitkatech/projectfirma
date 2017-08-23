@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Linq;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 
 namespace ProjectFirma.Web.Views.ProposedProject
 {
@@ -60,8 +61,8 @@ namespace ProjectFirma.Web.Views.ProposedProject
 
             IsProjectLocationDetailedSectionComplete = IsBasicsSectionComplete;
 
-            //todo
-            IsWatershedSectionComplete = IsBasicsSectionComplete;
+            var editWatershedValidationResults = new EditProjectWatershedsViewModel(proposedProject.ProposedProjectWatersheds.Select(x => x.WatershedID).ToList(), proposedProject.ProjectWatershedNotes).GetValidationResults();
+            IsWatershedSectionComplete = !editWatershedValidationResults.Any();
 
             var pmValidationResults = new ExpectedPerformanceMeasureValuesViewModel(proposedProject).GetValidationResults();
             IsPerformanceMeasureSectionComplete = !pmValidationResults.Any();

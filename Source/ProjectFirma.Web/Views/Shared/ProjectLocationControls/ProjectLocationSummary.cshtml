@@ -71,13 +71,12 @@ Source code is available upon request via <support@sitkatech.com>.
             </ul>
      </div>        
     }
-    else
+    @if(ViewDataTyped.HasWatershedNotes)
     {
         <div>
             <label>
                 Watershed Notes
             </label>
-            <p class="alert">No watersheds set for this project.</p>
             <div style="padding-left: 6px">
                 @ViewDataTyped.ProjectWatershedNotes
             </div>

@@ -78,12 +78,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectWatershedControls
         public IEnumerable<ValidationResult> GetValidationResults()
         {
             var errors = new List<ValidationResult>();
-
-            if (!WatershedIDs.Any() && string.IsNullOrWhiteSpace(ProjectWatershedNotes))
+            var noWatershedsSelected = WatershedIDs == null || WatershedIDs.Count().Equals(0);
+            if (noWatershedsSelected && string.IsNullOrWhiteSpace(ProjectWatershedNotes))
             {
                 errors.Add(
                     new SitkaValidationResult<EditProjectWatershedsViewModel, string>(
-                        "If no watershed are selected, explanatory information in the Notes section is required.",
+                        $"Select at least one {Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()} or explanatory information in the Notes section is required.",
                         x => x.ProjectWatershedNotes));
             }
 

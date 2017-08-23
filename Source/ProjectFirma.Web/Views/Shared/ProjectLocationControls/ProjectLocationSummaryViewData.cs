@@ -33,6 +33,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly string ProjectWatershedNotes;
         public readonly List<Models.Watershed> Watersheds;
         public readonly bool HasLocationNotes;
+        public readonly bool HasWatershedNotes;
         public readonly bool HasLocationInformation;
         public readonly bool HasWatersheds;
 
@@ -44,6 +45,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             ProjectWatershedNotes = project.ProjectWatershedNotes;
             Watersheds = project.GetProjectWatersheds().ToList();
             HasLocationNotes = !string.IsNullOrWhiteSpace(project.ProjectLocationNotes);
+            HasWatershedNotes = !string.IsNullOrWhiteSpace(project.ProjectWatershedNotes);
             HasLocationInformation = project.ProjectLocationSimpleType != ProjectLocationSimpleType.None;
             HasWatersheds = project.GetProjectWatersheds().Any();
         }
