@@ -210,6 +210,16 @@ namespace ProjectFirma.Web.Models
             return !layerGeoJsons.Any() ? MakeNewDefaultBoundingBox() : new BoundingBox(layerGeoJsons.Select(x => MakeBoundingBoxFromGeoJson(x.ToGeoJsonString())).ToList());
         }
 
+        public static BoundingBox MakeBoundingBoxFromPointAndGeometries(Point point, IEnumerable<DbGeometry> geometries)
+        {
+            var pointList = geometries.SelectMany(GetPointsFromDbGeometry).ToList();
+            if (point != null)
+            {
+                pointList.Add(point);
+            }
+            return !pointList.Any() ? MakeNewDefaultBoundingBox() : new BoundingBox(pointList);
+        }
+
         public static void DemandIsValid(Point southWestPoint, Point northEastPoint)
         {
             var isValid = southWestPoint.Latitude <= northEastPoint.Latitude;

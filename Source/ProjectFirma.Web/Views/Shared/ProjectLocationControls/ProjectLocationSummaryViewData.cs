@@ -46,8 +46,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             HasLocationNotes = !string.IsNullOrWhiteSpace(project.ProjectLocationNotes);
             HasLocationInformation = project.ProjectLocationSimpleType != ProjectLocationSimpleType.None;
             HasWatersheds = project.GetProjectWatersheds().Any();
-
-
         }
     }
 }

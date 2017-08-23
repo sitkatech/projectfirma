@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Spatial;
 using System.Linq;  
 using ProjectFirma.Web.Models;
 
@@ -32,10 +33,12 @@ namespace ProjectFirma.Web.Views.Map
         public readonly double? ProjectLocationXCoord;
         public readonly double? ProjectLocationYCoord;
         public bool HasDetailedLocation;
+        public bool HasWatersheds;
 
         public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID) 
-            : base(mapDivID, DefaultZoomLevel, GetWatershedMapLayers(LayerInitialVisibility.Show), BoundingBox.MakeNewDefaultBoundingBox())
+            : base(mapDivID, DefaultZoomLevel, GetWatershedMapLayers(LayerInitialVisibility.Hide), BoundingBox.MakeNewDefaultBoundingBox())
         {
+            Point point = null;
             ProjectLocationSimpleTypeID = project.ProjectLocationSimpleType.ProjectLocationSimpleTypeID;            
             switch (project.ProjectLocationSimpleType.ToEnum)
             {
@@ -44,12 +47,12 @@ namespace ProjectFirma.Web.Views.Map
                     {
                         break;
                     }
-                    BoundingBox = new BoundingBox(new Point(project.ProjectLocationPoint.YCoordinate ?? 0, project.ProjectLocationPoint.XCoordinate ?? 0), 0.25m);
+                    point = new Point(project.ProjectLocationPoint.YCoordinate ?? 0,
+                        project.ProjectLocationPoint.XCoordinate ?? 0);
                     ProjectLocationYCoord = project.ProjectLocationPoint.YCoordinate;
                     ProjectLocationXCoord = project.ProjectLocationPoint.XCoordinate;
                     break;
-                case ProjectLocationSimpleTypeEnum.None:
-                    Layers = GetWatershedMapLayers(LayerInitialVisibility.Hide);
+                case ProjectLocationSimpleTypeEnum.None:                    
                     break;
                 default:
                     throw new ArgumentOutOfRangeException($"Invalid ProjectLocationType \"{project.ProjectLocationSimpleType}\"");
@@ -58,9 +61,10 @@ namespace ProjectFirma.Web.Views.Map
             var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
             HasDetailedLocation = detailedLocationGeoJsonFeatureCollection.Features.Any();
 
+            HasWatersheds = project.GetProjectWatersheds().Any();
+
             Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", project.SimpleLocationToGeoJsonFeatureCollection(true), "#ffff00", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
-            Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "blue", 1, LayerInitialVisibility.Show));
-            Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - {Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()}", detailedLocationGeoJsonFeatureCollection, "red", 0.7m, LayerInitialVisibility.Show));
+            Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "blue", 1, LayerInitialVisibility.Show));            
 
             project.GetProjectWatersheds()
                 .ToList()
@@ -68,12 +72,9 @@ namespace ProjectFirma.Web.Views.Map
                     new List<Models.Watershed> {watershed}.ToGeoJsonFeatureCollection(), "red", 1,
                     LayerInitialVisibility.Show)));
 
-            if (HasDetailedLocation)
-            {
-                BoundingBox = new BoundingBox(project.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry));
-            }
+            var test = project.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry).Union(project.GetProjectWatersheds().Select(x => x.WatershedFeature));
 
-
+            BoundingBox = BoundingBox.MakeBoundingBoxFromPointAndGeometries(point, test);         
         }
     }
 }

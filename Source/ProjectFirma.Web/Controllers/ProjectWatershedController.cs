@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Controllers
             var allProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.Local;
             viewModel.UpdateModel(project, currentProjectWatersheds, allProjectWatersheds);
 
-            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Watershed.GetFieldDefinitionLabel()} were successfully saved.");
+            SetMessageForDisplay($"{FieldDefinition.Project.GetFieldDefinitionLabel()} {FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()} were successfully saved.");
 
             return new ModalDialogFormJsonResult();
         }
