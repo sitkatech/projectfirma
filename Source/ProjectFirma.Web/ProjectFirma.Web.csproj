@@ -1072,10 +1072,6 @@
     <Compile Include="Views\ProjectUpdate\BudgetsViewData.cs" />
     <Compile Include="Views\ProjectUpdate\BudgetsViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\UpdateStatus.cs" />
-    <Compile Include="Views\ProjectWatershed\EditProjectWatersheds.cs" />
-    <Compile Include="Views\ProjectWatershed\EditProjectWatershedsViewData.cs" />
-    <Compile Include="Views\ProjectWatershed\EditProjectWatershedsViewModel.cs" />
-    <Compile Include="Views\ProjectWatershed\EditProjectWatershedsViewModelTest.cs" />
     <Compile Include="Views\Project\BasicProjectInfoGridSpec.cs" />
     <Compile Include="Views\Project\EditFeaturedProjects.cs" />
     <Compile Include="Views\Project\EditFeaturedProjectsViewData.cs" />
@@ -1319,7 +1315,6 @@
     <Compile Include="Views\Watershed\IndexViewData.cs" />
     <Compile Include="Views\Watershed\Detail.cs" />
     <Compile Include="Views\Watershed\DetailViewData.cs" />
-    <Content Include="Views\ProjectWatershed\EditProjectWatershedsController.js" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
     <Content Include="Views\Shared\ProjectWatershedControls\EditProjectWatershedsController.js" />
     <Content Include="Views\User\PullUserFromKeystone.cshtml" />
@@ -3191,7 +3186,6 @@
     <Content Include="Views\ProjectUpdate\SiteLayout.cshtml" />
     <Content Include="Views\ProjectUpdate\Budgets.cshtml" />
     <Content Include="Views\ProjectUpdate\_ViewStart.cshtml" />
-    <Content Include="Views\ProjectWatershed\EditProjectWatersheds.cshtml" />
     <Content Include="Views\ProposedProjectImage\Edit.cshtml" />
     <Content Include="Views\ProposedProjectImage\New.cshtml" />
     <Content Include="Views\ProposedProject\Basics.cshtml" />

@@ -603,10 +603,10 @@ namespace ProjectFirma.Web.Controllers
             var watershedIDs = viewModel.WatershedIDs ?? new List<int>();
             var watershedsInViewModel = HttpRequestStorage.DatabaseEntities.Watersheds.Where(x => watershedIDs.Contains(x.WatershedID)).ToList();
             var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
-            var mapPostUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(c => c.EditWatershed(proposedProject, null));
-            var mapFormID = GenerateEditProjectWatershedFormID(proposedProject);
+            var editProjectWatershedsPostUrl = SitkaRoute<ProposedProjectController>.BuildUrlFromExpression(c => c.EditWatershed(proposedProject, null));
+            var editProjectWatershedsFormId = GenerateEditProjectWatershedFormID(proposedProject);
 
-            var editProjectLocationViewData = new EditProjectWatershedsViewData(CurrentPerson, mapInitJson, watershedsInViewModel, tenantAttribute, mapPostUrl, mapFormID);
+            var editProjectLocationViewData = new EditProjectWatershedsViewData(CurrentPerson, mapInitJson, watershedsInViewModel, tenantAttribute, editProjectWatershedsPostUrl, editProjectWatershedsFormId);
 
             var proposalSectionsStatus = new ProposalSectionsStatus(proposedProject);
             proposalSectionsStatus.IsWatershedSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsWatershedSectionComplete;
