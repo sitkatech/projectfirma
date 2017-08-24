@@ -2,6 +2,8 @@ alter table dbo.ProposedProject add ProjectWatershedNotes varchar(4000) null
 alter table dbo.ProjectUpdate add ProjectWatershedNotes varchar(4000) null
 alter table dbo.Project add ProjectWatershedNotes varchar(4000) null
 
+alter table dbo.ProjectUpdateBatch add WatershedComment varchar(1000) null
+
 CREATE TABLE dbo.ProposedProjectWatershed(
 	ProposedProjectWatershedID int NOT NULL IDENTITY(1,1) CONSTRAINT PK_ProposedProjectWatershed_ProposedProjectWatershedID PRIMARY KEY,
 	TenantID int NOT NULL CONSTRAINT FK_ProposedProjectWatershed_Tenant_TenantID FOREIGN KEY REFERENCES dbo.Tenant(TenantID),

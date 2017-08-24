@@ -51,9 +51,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectWatershedControls
             ProjectWatershedNotes = projectWatershedNotes;
         }
 
-        public void UpdateModel(Models.Project project, List<Models.ProjectWatershed> currentProjectWatersheds, IList<Models.ProjectWatershed> allProjectWatersheds)
+        public void UpdateModel(Models.Project project, List<ProjectWatershed> currentProjectWatersheds, IList<ProjectWatershed> allProjectWatersheds)
         {
-            var newProjectWatersheds = WatershedIDs?.Select(x => new Models.ProjectWatershed(project.ProjectID, x)).ToList() ?? new List<Models.ProjectWatershed>();
+            var newProjectWatersheds = WatershedIDs?.Select(x => new ProjectWatershed(project.ProjectID, x)).ToList() ?? new List<ProjectWatershed>();
             currentProjectWatersheds.Merge(newProjectWatersheds, allProjectWatersheds, (x, y) => x.ProjectID == y.ProjectID && x.WatershedID == y.WatershedID);
             project.ProjectWatershedNotes = ProjectWatershedNotes;
         }
@@ -65,9 +65,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectWatershedControls
             project.ProjectWatershedNotes = ProjectWatershedNotes;
         }
 
-        public void UpdateModel(Models.ProjectUpdate project, List<ProposedProjectWatershed> currentProjectWatersheds, IList<ProposedProjectWatershed> allProjectWatersheds)
+        public void UpdateModel(Models.ProjectUpdate project, List<ProjectWatershedUpdate> currentProjectWatersheds, IList<ProjectWatershedUpdate> allProjectWatersheds)
         {
-            //todo
+            var newProjectWatersheds = WatershedIDs?.Select(x => new ProjectWatershedUpdate(project.ProjectUpdateID, x)).ToList() ?? new List<ProjectWatershedUpdate>();
+            currentProjectWatersheds.Merge(newProjectWatersheds, allProjectWatersheds, (x, y) => x.ProjectUpdateID == y.ProjectUpdateID && x.WatershedID == y.WatershedID);
+            project.ProjectWatershedNotes = ProjectWatershedNotes;
         }
 
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

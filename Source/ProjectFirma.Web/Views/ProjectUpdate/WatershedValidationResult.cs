@@ -24,26 +24,26 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class LocationSimpleValidationResult
+    public class WatershedValidationResult
     {
-        public static readonly string MissingLocationSimpleOrNotesMessage = "Please specify a point on the map. If a location point or general project area is not available, explanatory information in the Notes section is required.";
+        public static readonly string MissingWatershedOrNotesMessage =
+            $"Select at least one {Models.FieldDefinition.Watershed.GetFieldDefinitionLabel()} or provide explanatory information in the Notes section.";
 
         private readonly List<string> _warningMessages;
 
-        public LocationSimpleValidationResult(bool isIncomplete)
-        {
+        public WatershedValidationResult(bool isIncomplete)
+        {           
             _warningMessages = new List<string>();
 
             if (isIncomplete)
             {
-                _warningMessages.Add(MissingLocationSimpleOrNotesMessage);
+                _warningMessages.Add(MissingWatershedOrNotesMessage);
             }
         }
-        public LocationSimpleValidationResult(string customErrorMessage)
+        public WatershedValidationResult(string customErrorMessage)
         {
             _warningMessages = new List<string> { customErrorMessage };
         }
-
 
         public List<string> GetWarningMessages()
         {     

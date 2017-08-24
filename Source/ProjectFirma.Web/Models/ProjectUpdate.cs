@@ -38,6 +38,7 @@ namespace ProjectFirma.Web.Models
             var project = projectUpdateBatch.Project;
             LoadUpdateFromProject(project);
             LoadSimpleLocationFromProject(project);
+            LoadWatershedFromProject(project);
         }
 
         public void LoadUpdateFromProject(Project project)
@@ -57,6 +58,12 @@ namespace ProjectFirma.Web.Models
             ProjectLocationPoint = project.ProjectLocationPoint;
             ProjectLocationNotes = project.ProjectLocationNotes;
             ProjectLocationSimpleTypeID = project.ProjectLocationSimpleTypeID;
+        }
+
+        public void LoadWatershedFromProject(Project project)
+        {
+            ProjectWatershedNotes = project.ProjectWatershedNotes;
+            ProjectWatershedUpdates = project.ProjectWatersheds.Select(x => new ProjectWatershedUpdate(this, x.Watershed)).ToList();
         }
 
         public void CommitChangesToProject(Project project)

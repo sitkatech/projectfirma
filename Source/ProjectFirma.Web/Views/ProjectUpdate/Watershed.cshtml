@@ -20,23 +20,40 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Views.ProjectUpdate
-@using ProjectFirma.Web.Views.Shared.ProjectLocationControls
+@using ProjectFirma.Web.Views.Shared.ProjectWatershedControls
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.ModalDialog
-@inherits LocationSimple
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Views.Shared.ProjectLocationControls
+@inherits Watershed
 
 @section JavascriptAndStylesContent
-{    
-    @{ MapJavascriptIncludes.RenderPartialView(Html); }   
+{
+    <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css"/>
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+   
+    <style>
+        #@ViewDataTyped.EditProjectWatershedsViewData.ViewDataForAngular.MapInitJson.MapDivID
+        {
+            height: 450px;
+        }
+    </style>
 }
 
 @if (!ViewDataTyped.IsEditable)
 {
     ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData);
 }
+
 else
-{    
-    ProjectLocationSimple.RenderPartialView(Html, ViewDataTyped.ProjectLocationSimpleViewData, Model);
+{
+    /*TODO: Each view seems to have its own Html object - The partial view below therefore never receives the validation summary messages.
+     * There may be a better way to push the Html object and/or Validation Summary messages to the partial view
+     */
+    @Html.ValidationSummary()
+
+    EditProjectWatersheds.RenderPartialView(Html, ViewDataTyped.EditProjectWatershedsViewData, Model);
 
     if (ViewDataTyped.ShowApproveAndReturnButton)
     {
@@ -55,7 +72,7 @@ else
         <div class="col-xs-2">
             @ModalDialogFormHelper.ModalDialogFormLink("Refresh", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null)
         </div>
-        <div class="col-xs-9">
+        <div class="col-xs-9">                            
             @if (ViewDataTyped.ValidationWarnings.Any())
             {
                 <div class="alert alert-danger">
@@ -65,24 +82,25 @@ else
                             <li>
                                 @warning
                             </li>
-                        }
+                        }                       
                     </ul>
                 </div>
             }
         </div>
         <div class="col-xs-1">
             <button class="btn btn-xs btn-firma" type="button" style="margin-left: 10px" onclick="saveForm()">Save</button>
-        </div>         
+        </div>       
     </div>
+
 
     @*This is intentionally down here because the document ready needs to be after the EditProjectLocation document ready*@
     <script type="text/javascript">
         // <![CDATA[
-        jQuery(document).ready(function() { HookupCheckIfFormIsDirty("#@ViewDataTyped.ProjectLocationSimpleViewData.MapFormID", ".submitProject"); });
+        jQuery(document).ready(function() { HookupCheckIfFormIsDirty("#@ViewDataTyped.EditProjectWatershedsViewData.EditProjectWatershedsFormID", ".submitProject"); });
 
         function saveForm()
         {
-            var form = jQuery("#@ViewDataTyped.ProjectLocationSimpleViewData.MapFormID");
+            var form = jQuery("#@ViewDataTyped.EditProjectWatershedsViewData.EditProjectWatershedsFormID");
             // Do not submit if the form
             // does not pass client side validation
 

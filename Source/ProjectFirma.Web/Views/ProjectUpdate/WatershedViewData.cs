@@ -23,27 +23,31 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
+using ProjectFirma.Web.Views.ProposedProject;
+using ProjectFirma.Web.Views.Shared.ProjectWatershedControls;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class LocationSimpleViewData : ProjectUpdateViewData
+    public class WatershedViewData : ProjectUpdateViewData
     {
-        public readonly ProjectLocationSimpleViewData ProjectLocationSimpleViewData;
+        public readonly EditProjectWatershedsViewData EditProjectWatershedsViewData;
         public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
         public readonly string RefreshUrl;
         public readonly SectionCommentsViewData SectionCommentsViewData;
         public readonly List<string> ValidationWarnings;
 
-        public LocationSimpleViewData(Person currentPerson,
+        public WatershedViewData(Person currentPerson,
             Models.ProjectUpdate projectUpdate,
-            ProjectLocationSimpleViewData projectLocationSimpleViewData,
-            ProjectLocationSummaryViewData projectLocationSummaryViewData, LocationSimpleValidationResult locationSimpleValidationResult, UpdateStatus updateStatus) : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSectionEnum.LocationSimple, updateStatus)
+            EditProjectWatershedsViewData editProjectWatershedsViewData,
+            ProjectLocationSummaryViewData projectLocationSummaryViewData, 
+            WatershedValidationResult watershedValidationResult,
+            UpdateStatus updateStatus) : base(currentPerson, projectUpdate.ProjectUpdateBatch, ProjectUpdateSectionEnum.Watershed, updateStatus)
         {
-            ProjectLocationSimpleViewData = projectLocationSimpleViewData;
+            EditProjectWatershedsViewData = editProjectWatershedsViewData;
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshProjectLocationSimple(projectUpdate.ProjectUpdateBatch.Project));
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.LocationSimpleComment, projectUpdate.ProjectUpdateBatch.IsReturned);
-            ValidationWarnings = locationSimpleValidationResult.GetWarningMessages();
+            ValidationWarnings = watershedValidationResult.GetWarningMessages();
         } 
     }
 }

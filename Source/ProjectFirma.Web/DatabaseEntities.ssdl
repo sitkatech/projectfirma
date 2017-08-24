@@ -1619,6 +1619,7 @@ warning 6035: The relationship 'FK_ProjectUpdateHistory_ProjectUpdateBatch_Proje
     <Property Name="BudgetsDiffLog" Type="varchar(max)" />
     <Property Name="ExternalLinksDiffLog" Type="varchar(max)" />
     <Property Name="NotesDiffLog" Type="varchar(max)" />
+    <Property Name="WatershedComment" Type="varchar" MaxLength="1000" />
   </EntityType>
   <EntityType Name="ProjectUpdateHistory">
     <Key>

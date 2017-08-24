@@ -89,6 +89,20 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.Raw(ViewDataTyped.UpdateStatus.IsLocationDetailUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
                 </a>
             </li>
+            
+            <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.Watershed, ViewDataTyped.SelectedProjectUpdateSection)">
+                <a href="@ViewDataTyped.ProjectUpdateWatershedUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">
+                    @FieldDefinition.Watershed.GetFieldDefinitionLabelPluralized()
+                    @Html.Raw(ViewDataTyped.UpdateStatus.IsWatershedUpdated ? ProjectWizardComponents.SectionHasUpdatesIcon : null)
+                </a>
+                @if (ViewDataTyped.HasUpdateStarted)
+                {
+                    <span class="pull-right statusIcon">
+                        @Html.Raw(ViewDataTyped.ProjectUpdateBatch.IsProjectWatershedValid() ? ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon : ProjectWizardComponents.RequiredInfoNotProvidedIcon)
+                    </span>
+                }
+            </li>
+
             <li class="@SetSelectedSectionStyle(ProjectUpdateSectionEnum.PerformanceMeasures, ViewDataTyped.SelectedProjectUpdateSection)">
                 <a href="@ViewDataTyped.ProjectUpdatePerformanceMeasuresUrl" class="@(!ViewDataTyped.HasUpdateStarted ? "disabled" : "")">
                     @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()

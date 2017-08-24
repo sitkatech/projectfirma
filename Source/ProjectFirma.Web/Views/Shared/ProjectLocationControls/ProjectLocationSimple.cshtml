@@ -24,6 +24,20 @@ Source code is available upon request via <support@sitkatech.com>.
 @using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectLocationSimple
 
+<script type="text/javascript" src="@Url.Content("~/Views/Shared/ProjectLocationControls/ProjectLocationSimpleController.js")"></script>
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData",
+        function() {
+            return {
+                "AngularModel": @Html.Raw(JObject.FromObject(Model).ToString(Formatting.None)),
+                "AngularViewData":
+                    @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular).ToString(Formatting.None))
+            };
+        });
+    angular.bootstrap(jQuery("[ng-controller=\"ProjectLocationSimpleController\"]"), ["ProjectFirmaApp"]);
+    // ]]>
+</script>
 <style>
     .groupedControl {
         border: solid grey 1px;
@@ -108,20 +122,3 @@ Source code is available upon request via <support@sitkatech.com>.
         <div id="@ViewDataTyped.ViewDataForAngular.MapInitJson.MapDivID"></div>
     </div>
 </div>
-
-<script type="text/javascript" src="@Url.Content("~/Views/Shared/ProjectLocationControls/ProjectLocationSimpleController.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/typeahead/typeahead.min.js")"></script>
-<script type="text/javascript" language="javascript">
-    // <![CDATA[
-    angular.module("ProjectFirmaApp")
-        .factory("angularModelAndViewData",
-            function()
-            {
-                return {
-                    "AngularModel": @Html.Raw(JObject.FromObject(Model).ToString(Formatting.None)),
-                    "AngularViewData": @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular).ToString(Formatting.None))
-                };
-        });
-    angular.bootstrap(jQuery("[ng-controller=\"ProjectLocationSimpleController\"]"), ["ProjectFirmaApp"]);
-    // ]]>
-</script>

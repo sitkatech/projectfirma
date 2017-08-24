@@ -805,6 +805,7 @@
           <ScalarProperty Name="BudgetsDiffLog" ColumnName="BudgetsDiffLog" />
           <ScalarProperty Name="ExternalLinksDiffLog" ColumnName="ExternalLinksDiffLog" />
           <ScalarProperty Name="NotesDiffLog" ColumnName="NotesDiffLog" />
+          <ScalarProperty Name="WatershedComment" ColumnName="WatershedComment" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

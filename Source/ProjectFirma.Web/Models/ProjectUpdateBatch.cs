@@ -511,13 +511,33 @@ namespace ProjectFirma.Web.Models
         }
 
         public LocationSimpleValidationResult ValidateProjectLocationSimple()
-        {
-            return new LocationSimpleValidationResult(ProjectUpdate);
+        {           
+            var incomplete = ProjectUpdate.ProjectLocationPoint == null &&
+                             string.IsNullOrWhiteSpace(ProjectUpdate.ProjectLocationNotes);
+
+            var locationSimpleValidationResult = new LocationSimpleValidationResult(incomplete);
+
+            return locationSimpleValidationResult;
         }
         
         public bool IsProjectLocationSimpleValid()
         {
             return ValidateProjectLocationSimple().IsValid;
+        }
+
+        public WatershedValidationResult ValidateProjectWatershed()
+        {
+            var incomplete = ProjectUpdate.ProjectWatershedUpdates.Count.Equals(0) &&
+                string.IsNullOrWhiteSpace(ProjectUpdate.ProjectWatershedNotes);            
+
+            var watershedValidationResult = new WatershedValidationResult(incomplete);
+
+            return watershedValidationResult;
+        }
+
+        public bool IsProjectWatershedValid()
+        {
+            return ValidateProjectWatershed().IsValid;
         }
 
         public void SubmitToReviewer(Person currentPerson, DateTime transitionDate)
