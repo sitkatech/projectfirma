@@ -77,7 +77,7 @@ go
 update dbo.Project
 set
 	ProjectLocationSimpleTypeID = 3,
-	ProjectLocationNotes = 'No location set due to system upgrade'
+	ProjectLocationNotes = 'No simple location set.'
 from
 	dbo.Project p
 	join dbo.ProjectLocationArea pla on p.ProjectLocationAreaID = pla.ProjectLocationAreaID
@@ -87,7 +87,7 @@ where p.ProjectLocationSimpleTypeID = 2
 update dbo.ProposedProject
 set
 	ProjectLocationSimpleTypeID = 3,
-	ProjectLocationNotes = 'No location set due to system upgrade'
+	ProjectLocationNotes = 'No simple location set.'
 from
 	dbo.ProposedProject p
 	join dbo.ProjectLocationArea pla on p.ProjectLocationAreaID = pla.ProjectLocationAreaID
@@ -97,7 +97,7 @@ where p.ProjectLocationSimpleTypeID = 2
 update dbo.ProjectUpdate
 set
 	ProjectLocationSimpleTypeID = 3,
-	ProjectLocationNotes = 'No location set due to system upgrade'
+	ProjectLocationNotes = 'No simple location set.'
 from
 	dbo.ProjectUpdate p
 	join dbo.ProjectLocationArea pla on p.ProjectLocationAreaID = pla.ProjectLocationAreaID
