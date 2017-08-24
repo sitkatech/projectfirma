@@ -34,6 +34,7 @@ namespace ProjectFirma.Web.Models
             this.ProjectNoteUpdates = new HashSet<ProjectNoteUpdate>();
             this.ProjectUpdates = new HashSet<ProjectUpdate>();
             this.ProjectUpdateHistories = new HashSet<ProjectUpdateHistory>();
+            this.ProjectWatershedUpdates = new HashSet<ProjectWatershedUpdate>();
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -111,13 +112,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return PerformanceMeasureActualUpdates.Any() || ProjectBudgetUpdates.Any() || ProjectExemptReportingYearUpdates.Any() || ProjectExternalLinkUpdates.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectImageUpdates.Any() || ProjectLocationStagingUpdates.Any() || ProjectLocationUpdates.Any() || ProjectNoteUpdates.Any() || (ProjectUpdate != null) || ProjectUpdateHistories.Any();
+            return PerformanceMeasureActualUpdates.Any() || ProjectBudgetUpdates.Any() || ProjectExemptReportingYearUpdates.Any() || ProjectExternalLinkUpdates.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectImageUpdates.Any() || ProjectLocationStagingUpdates.Any() || ProjectLocationUpdates.Any() || ProjectNoteUpdates.Any() || (ProjectUpdate != null) || ProjectUpdateHistories.Any() || ProjectWatershedUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectUpdateBatch).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(ProjectBudgetUpdate).Name, typeof(ProjectExemptReportingYearUpdate).Name, typeof(ProjectExternalLinkUpdate).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectImageUpdate).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectLocationUpdate).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateHistory).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectUpdateBatch).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(ProjectBudgetUpdate).Name, typeof(ProjectExemptReportingYearUpdate).Name, typeof(ProjectExternalLinkUpdate).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectImageUpdate).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectLocationUpdate).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateHistory).Name, typeof(ProjectWatershedUpdate).Name};
 
         [Key]
         public int ProjectUpdateBatchID { get; set; }
@@ -191,6 +192,7 @@ namespace ProjectFirma.Web.Models
         protected virtual ICollection<ProjectUpdate> ProjectUpdates { get; set; }
         public ProjectUpdate ProjectUpdate { get { return ProjectUpdates.SingleOrDefault(); } set { ProjectUpdates = new List<ProjectUpdate>{value};} }
         public virtual ICollection<ProjectUpdateHistory> ProjectUpdateHistories { get; set; }
+        public virtual ICollection<ProjectWatershedUpdate> ProjectWatershedUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual Person LastUpdatePerson { get; set; }

@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
             EditProjectWatershedsViewData = editProjectWatershedsViewData;
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
-            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshProjectLocationSimple(projectUpdate.ProjectUpdateBatch.Project));
+            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshProjectWatershed(projectUpdate.ProjectUpdateBatch.Project));
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.LocationSimpleComment, projectUpdate.ProjectUpdateBatch.IsReturned);
             ValidationWarnings = watershedValidationResult.GetWarningMessages();
         } 

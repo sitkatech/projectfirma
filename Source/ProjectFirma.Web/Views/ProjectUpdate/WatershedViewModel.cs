@@ -42,15 +42,15 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public WatershedViewModel(Models.ProjectUpdate projectUpdate, string comments)
-            : base(projectUpdate.ProjectWatershedUpdates.Select(x => x.WatershedID).ToList(), projectUpdate.ProjectWatershedNotes)
+        public WatershedViewModel(ProjectUpdateBatch projectUpdateBatch, string comments)
+            : base(projectUpdateBatch.ProjectWatershedUpdates.Select(x => x.WatershedID).ToList(), projectUpdateBatch.ProjectUpdate.ProjectWatershedNotes)
         {
             Comments = comments;
         }
 
         public void UpdateModelBatch(ProjectUpdateBatch projectUpdateBatch, List<ProjectWatershedUpdate> currentProjectUpdateWatersheds, ObservableCollection<ProjectWatershedUpdate> allProjectUpdateWatersheds)
         {
-            UpdateModel(projectUpdateBatch.ProjectUpdate, currentProjectUpdateWatersheds, allProjectUpdateWatersheds);
+            UpdateModel(projectUpdateBatch, currentProjectUpdateWatersheds, allProjectUpdateWatersheds);
         }
     }
 }

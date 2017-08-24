@@ -5,24 +5,29 @@ GO
 CREATE TABLE [dbo].[ProjectWatershedUpdate](
 	[ProjectWatershedUpdateID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
-	[ProjectUpdateID] [int] NOT NULL,
+	[ProjectUpdateBatchID] [int] NOT NULL,
 	[WatershedID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectWatershedUpdate_ProjectWatershedUpdateID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectWatershedUpdateID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_ProjectWatershedUpdate_ProjectUpdateID_WatershedID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_ProjectWatershedUpdate_ProjectUpdateBatchID_WatershedID] UNIQUE NONCLUSTERED 
 (
-	[ProjectUpdateID] ASC,
+	[ProjectUpdateBatchID] ASC,
 	[WatershedID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[ProjectWatershedUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectWatershedUpdate_ProjectUpdate_ProjectUpdateID] FOREIGN KEY([ProjectUpdateID])
-REFERENCES [dbo].[ProjectUpdate] ([ProjectUpdateID])
+ALTER TABLE [dbo].[ProjectWatershedUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID] FOREIGN KEY([ProjectUpdateBatchID])
+REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID])
 GO
-ALTER TABLE [dbo].[ProjectWatershedUpdate] CHECK CONSTRAINT [FK_ProjectWatershedUpdate_ProjectUpdate_ProjectUpdateID]
+ALTER TABLE [dbo].[ProjectWatershedUpdate] CHECK CONSTRAINT [FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID]
+GO
+ALTER TABLE [dbo].[ProjectWatershedUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID] FOREIGN KEY([ProjectUpdateBatchID], [TenantID])
+REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectWatershedUpdate] CHECK CONSTRAINT [FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectWatershedUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectWatershedUpdate_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

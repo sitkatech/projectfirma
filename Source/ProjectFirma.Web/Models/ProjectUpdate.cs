@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Models
             var project = projectUpdateBatch.Project;
             LoadUpdateFromProject(project);
             LoadSimpleLocationFromProject(project);
-            LoadWatershedFromProject(project);
+            LoadWatershedNotesFromProject(project);
         }
 
         public void LoadUpdateFromProject(Project project)
@@ -60,10 +60,9 @@ namespace ProjectFirma.Web.Models
             ProjectLocationSimpleTypeID = project.ProjectLocationSimpleTypeID;
         }
 
-        public void LoadWatershedFromProject(Project project)
+        public void LoadWatershedNotesFromProject(Project project)
         {
-            ProjectWatershedNotes = project.ProjectWatershedNotes;
-            ProjectWatershedUpdates = project.ProjectWatersheds.Select(x => new ProjectWatershedUpdate(this, x.Watershed)).ToList();
+            ProjectWatershedNotes = project.ProjectWatershedNotes;            
         }
 
         public void CommitChangesToProject(Project project)
@@ -107,7 +106,7 @@ namespace ProjectFirma.Web.Models
 
         public IEnumerable<Watershed> GetProjectWatersheds()
         {
-            return ProjectWatershedUpdates.Select(x => x.Watershed);
+            return ProjectUpdateBatch.ProjectWatershedUpdates.Select(x => x.Watershed);
         }
 
         public FeatureCollection DetailedLocationToGeoJsonFeatureCollection()

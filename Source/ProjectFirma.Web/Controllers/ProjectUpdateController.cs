@@ -960,9 +960,8 @@ namespace ProjectFirma.Web.Controllers
             if (projectUpdateBatch == null)
             {
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
-            }
-            var projectUpdate = projectUpdateBatch.ProjectUpdate;
-            var viewModel = new WatershedViewModel(projectUpdate,
+            }            
+            var viewModel = new WatershedViewModel(projectUpdateBatch,
                 projectUpdateBatch.WatershedComment);
             return ViewWatershed(project, projectUpdateBatch, viewModel);
         }
@@ -983,7 +982,7 @@ namespace ProjectFirma.Web.Controllers
                 ShowValidationErrors(viewModel.GetValidationResults().ToList()); //call may be redundant
                 return ViewWatershed(project, projectUpdateBatch, viewModel);
             }
-            var currentProjectUpdateWatersheds = projectUpdateBatch.ProjectUpdate.ProjectWatershedUpdates.ToList();
+            var currentProjectUpdateWatersheds = projectUpdateBatch.ProjectWatershedUpdates.ToList();
             var allProjectUpdateWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatershedUpdates.Local;
             viewModel.UpdateModelBatch(projectUpdateBatch, currentProjectUpdateWatersheds, allProjectUpdateWatersheds);
             if (projectUpdateBatch.IsSubmitted)
@@ -998,8 +997,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
 
-            var boundingBox = projectUpdate.ProjectWatershedUpdates.Any()
-                ? BoundingBox.MakeBoundingBoxFromGeoJson(JsonConvert.SerializeObject(new FeatureCollection(projectUpdate.ProjectWatershedUpdates
+            var boundingBox = projectUpdateBatch.ProjectWatershedUpdates.Any()
+                ? BoundingBox.MakeBoundingBoxFromGeoJson(JsonConvert.SerializeObject(new FeatureCollection(projectUpdateBatch.ProjectWatershedUpdates
                     .Select(x => DbGeometryToGeoJsonHelper.FromDbGeometry(x.Watershed.WatershedFeature)).ToList())))
                 : BoundingBox.MakeNewDefaultBoundingBox();
 
@@ -1043,7 +1042,11 @@ namespace ProjectFirma.Web.Controllers
             {
                 return new ModalDialogFormJsonResult();
             }
-            projectUpdate.LoadSimpleLocationFromProject(project);
+            projectUpdateBatch.DeleteProjectWatershedUpdates();
+
+            // refresh the data
+            projectUpdate.LoadWatershedNotesFromProject(project);
+            ProjectWatershedUpdate.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
@@ -1052,7 +1055,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var viewData =
                 new ConfirmDialogFormViewData(
-                    $"Are you sure you want to refresh the {FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} data? This will pull the most recently approved information for the {FieldDefinition.Project.GetFieldDefinitionLabel()} and any updates made in this section will be lost.");
+                    $"Are you sure you want to refresh the {FieldDefinition.Watershed.GetFieldDefinitionLabel()} data? This will pull the most recently approved information for the {FieldDefinition.Project.GetFieldDefinitionLabel()} and any updates made in this section will be lost.");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }       
 
@@ -1231,6 +1234,8 @@ namespace ProjectFirma.Web.Controllers
             var allProjectImages = HttpRequestStorage.DatabaseEntities.AllProjectImages.Local;
             HttpRequestStorage.DatabaseEntities.ProjectLocations.Load();
             var allProjectLocations = HttpRequestStorage.DatabaseEntities.AllProjectLocations.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectWatersheds.Load();
+            var allProjectWatersheds = HttpRequestStorage.DatabaseEntities.AllProjectWatersheds.Local;
 
             projectUpdateBatch.Approve(CurrentPerson,
                 DateTime.Now,
@@ -1242,7 +1247,8 @@ namespace ProjectFirma.Web.Controllers
                 allProjectExternalLinks,
                 allProjectNotes,
                 allProjectImages,
-                allProjectLocations);
+                allProjectLocations,
+                allProjectWatersheds);
 
 
             var peopleToCc = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();

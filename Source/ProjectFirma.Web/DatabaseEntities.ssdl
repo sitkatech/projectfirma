@@ -537,8 +537,8 @@ FROM [dbo].[vGeoServerWatershed] AS [vGeoServerWatershed]</DefiningQuery>
       <End Role="Watershed" EntitySet="Watershed" />
       <End Role="ProjectWatersheds" EntitySet="ProjectWatershed" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProjectWatershedUpdate_ProjectUpdate_ProjectUpdateID" Association="ProjectFirma.Web.Models.Store.FK_ProjectWatershedUpdate_ProjectUpdate_ProjectUpdateID">
-      <End Role="ProjectUpdate" EntitySet="ProjectUpdate" />
+    <AssociationSet Name="FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID" Association="ProjectFirma.Web.Models.Store.FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+      <End Role="ProjectUpdateBatch" EntitySet="ProjectUpdateBatch" />
       <End Role="ProjectWatershedUpdates" EntitySet="ProjectWatershedUpdate" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectWatershedUpdate_Watershed_WatershedID" Association="ProjectFirma.Web.Models.Store.FK_ProjectWatershedUpdate_Watershed_WatershedID">
@@ -1594,6 +1594,7 @@ warning 6035: The relationship 'FK_ProjectLocationUpdate_ProjectUpdateBatch_Proj
 warning 6035: The relationship 'FK_ProjectNoteUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 warning 6035: The relationship 'FK_ProjectUpdateHistory_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+warning 6035: The relationship 'FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
 -->
   <EntityType Name="ProjectUpdateBatch">
     <Key>
@@ -1647,7 +1648,7 @@ warning 6035: The relationship 'FK_ProjectUpdateHistory_ProjectUpdateBatch_Proje
     </Key>
     <Property Name="ProjectWatershedUpdateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="TenantID" Type="int" Nullable="false" />
-    <Property Name="ProjectUpdateID" Type="int" Nullable="false" />
+    <Property Name="ProjectUpdateBatchID" Type="int" Nullable="false" />
     <Property Name="WatershedID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
@@ -3299,15 +3300,15 @@ warning 6002: The table/view 'ProjectFirma.dbo.vGeoServerWatershed' does not hav
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProjectWatershedUpdate_ProjectUpdate_ProjectUpdateID">
-    <End Role="ProjectUpdate" Type="ProjectFirma.Web.Models.Store.ProjectUpdate" Multiplicity="1" />
+  <Association Name="FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID">
+    <End Role="ProjectUpdateBatch" Type="ProjectFirma.Web.Models.Store.ProjectUpdateBatch" Multiplicity="1" />
     <End Role="ProjectWatershedUpdates" Type="ProjectFirma.Web.Models.Store.ProjectWatershedUpdate" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="ProjectUpdate">
-        <PropertyRef Name="ProjectUpdateID" />
+      <Principal Role="ProjectUpdateBatch">
+        <PropertyRef Name="ProjectUpdateBatchID" />
       </Principal>
       <Dependent Role="ProjectWatershedUpdates">
-        <PropertyRef Name="ProjectUpdateID" />
+        <PropertyRef Name="ProjectUpdateBatchID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

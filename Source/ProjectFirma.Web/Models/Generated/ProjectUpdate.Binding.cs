@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         protected ProjectUpdate()
         {
-            this.ProjectWatershedUpdates = new HashSet<ProjectWatershedUpdate>();
+
             this.TenantID = HttpRequestStorage.Tenant.TenantID;
         }
 
@@ -90,13 +90,13 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectWatershedUpdates.Any();
+            return false;
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectUpdate).Name, typeof(ProjectWatershedUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectUpdate).Name};
 
         [Key]
         public int ProjectUpdateID { get; set; }
@@ -116,7 +116,6 @@ namespace ProjectFirma.Web.Models
         public string ProjectWatershedNotes { get; set; }
         public int PrimaryKey { get { return ProjectUpdateID; } set { ProjectUpdateID = value; } }
 
-        public virtual ICollection<ProjectWatershedUpdate> ProjectWatershedUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public ProjectStage ProjectStage { get { return ProjectStage.AllLookupDictionary[ProjectStageID]; } }

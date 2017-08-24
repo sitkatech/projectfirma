@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -131,6 +132,9 @@ namespace ProjectFirma.Web.Models
 
             // project locations - detailed
             ProjectLocationUpdate.CreateFromProject(projectUpdateBatch);
+
+            // project watershed
+            ProjectWatershedUpdate.CreateFromProject(projectUpdateBatch);
 
             // photos
             ProjectImageUpdate.CreateFromProject(projectUpdateBatch);
@@ -244,6 +248,12 @@ namespace ProjectFirma.Web.Models
         {
             ProjectLocationStagingUpdates.DeleteProjectLocationStagingUpdate();
             RefreshFromDatabase(ProjectLocationStagingUpdates);
+        }
+
+        public void DeleteProjectWatershedUpdates()
+        {
+            ProjectWatershedUpdates.DeleteProjectWatershedUpdate();
+            RefreshFromDatabase(ProjectWatershedUpdates);
         }
 
         public void DeleteAll()
@@ -527,7 +537,7 @@ namespace ProjectFirma.Web.Models
 
         public WatershedValidationResult ValidateProjectWatershed()
         {
-            var incomplete = ProjectUpdate.ProjectWatershedUpdates.Count.Equals(0) &&
+            var incomplete = ProjectWatershedUpdates.Count.Equals(0) &&
                 string.IsNullOrWhiteSpace(ProjectUpdate.ProjectWatershedNotes);            
 
             var watershedValidationResult = new WatershedValidationResult(incomplete);
@@ -552,17 +562,7 @@ namespace ProjectFirma.Web.Models
             CreateNewTransitionRecord(this, ProjectUpdateState.Returned, currentPerson, transitionDate);
         }
 
-        public void Approve(Person currentPerson,
-            DateTime transitionDate,
-            IList<ProjectExemptReportingYear> projectExemptReportingYears,
-            IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
-            IList<ProjectBudget> projectBudgets,
-            IList<PerformanceMeasureActual> performanceMeasureActuals,
-            IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
-            IList<ProjectExternalLink> projectExternalLinks,
-            IList<ProjectNote> projectNotes,
-            IList<ProjectImage> projectImages,
-            IList<ProjectLocation> projectLocations)
+        public void Approve(Person currentPerson, DateTime transitionDate, IList<ProjectExemptReportingYear> projectExemptReportingYears, IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, IList<ProjectBudget> projectBudgets, IList<PerformanceMeasureActual> performanceMeasureActuals, IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions, IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes, IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations, IList<ProjectWatershed> projectWatersheds)
         {
             Check.Require(IsSubmitted, "You cannot approve a project update that has not been submitted!");
             CommitChangesToProject(projectExemptReportingYears,
@@ -573,7 +573,8 @@ namespace ProjectFirma.Web.Models
                 projectExternalLinks,
                 projectNotes,
                 projectImages,
-                projectLocations);
+                projectLocations,
+                projectWatersheds);
             CreateNewTransitionRecord(this, ProjectUpdateState.Approved, currentPerson, transitionDate);
             PushTransitionRecordsToAuditLog();
         }
@@ -599,7 +600,8 @@ namespace ProjectFirma.Web.Models
             IList<ProjectExternalLink> projectExternalLinks,
             IList<ProjectNote> projectNotes,
             IList<ProjectImage> projectImages,
-            IList<ProjectLocation> projectLocations)
+            IList<ProjectLocation> projectLocations,
+            IList<ProjectWatershed> projectWatersheds)
         {
             // basics
             ProjectUpdate.CommitChangesToProject(Project);
@@ -624,6 +626,9 @@ namespace ProjectFirma.Web.Models
 
             // project location detailed
             ProjectLocationUpdate.CommitChangesToProject(this, projectLocations);
+
+            // project watershed
+            ProjectWatershedUpdate.CommitChangesToProject(this, projectWatersheds);
 
             // photos
             ProjectImageUpdate.CommitChangesToProject(this, projectImages);

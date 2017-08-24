@@ -30,35 +30,35 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectWatershedUpdate(int projectWatershedUpdateID, int projectUpdateID, int watershedID) : this()
+        public ProjectWatershedUpdate(int projectWatershedUpdateID, int projectUpdateBatchID, int watershedID) : this()
         {
             this.ProjectWatershedUpdateID = projectWatershedUpdateID;
-            this.ProjectUpdateID = projectUpdateID;
+            this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.WatershedID = watershedID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectWatershedUpdate(int projectUpdateID, int watershedID) : this()
+        public ProjectWatershedUpdate(int projectUpdateBatchID, int watershedID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectWatershedUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.ProjectUpdateID = projectUpdateID;
+            this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.WatershedID = watershedID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectWatershedUpdate(ProjectUpdate projectUpdate, Watershed watershed) : this()
+        public ProjectWatershedUpdate(ProjectUpdateBatch projectUpdateBatch, Watershed watershed) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectWatershedUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.ProjectUpdateID = projectUpdate.ProjectUpdateID;
-            this.ProjectUpdate = projectUpdate;
-            projectUpdate.ProjectWatershedUpdates.Add(this);
+            this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
+            this.ProjectUpdateBatch = projectUpdateBatch;
+            projectUpdateBatch.ProjectWatershedUpdates.Add(this);
             this.WatershedID = watershed.WatershedID;
             this.Watershed = watershed;
             watershed.ProjectWatershedUpdates.Add(this);
@@ -67,9 +67,9 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectWatershedUpdate CreateNewBlank(ProjectUpdate projectUpdate, Watershed watershed)
+        public static ProjectWatershedUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch, Watershed watershed)
         {
-            return new ProjectWatershedUpdate(projectUpdate, watershed);
+            return new ProjectWatershedUpdate(projectUpdateBatch, watershed);
         }
 
         /// <summary>
@@ -89,12 +89,12 @@ namespace ProjectFirma.Web.Models
         [Key]
         public int ProjectWatershedUpdateID { get; set; }
         public int TenantID { get; private set; }
-        public int ProjectUpdateID { get; set; }
+        public int ProjectUpdateBatchID { get; set; }
         public int WatershedID { get; set; }
         public int PrimaryKey { get { return ProjectWatershedUpdateID; } set { ProjectWatershedUpdateID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual ProjectUpdate ProjectUpdate { get; set; }
+        public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public virtual Watershed Watershed { get; set; }
 
         public static class FieldLengths

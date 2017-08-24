@@ -65,11 +65,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectWatershedControls
             project.ProjectWatershedNotes = ProjectWatershedNotes;
         }
 
-        public void UpdateModel(Models.ProjectUpdate project, List<ProjectWatershedUpdate> currentProjectWatersheds, IList<ProjectWatershedUpdate> allProjectWatersheds)
+        public void UpdateModel(Models.ProjectUpdateBatch project, List<ProjectWatershedUpdate> currentProjectWatersheds, IList<ProjectWatershedUpdate> allProjectWatersheds)
         {
-            var newProjectWatersheds = WatershedIDs?.Select(x => new ProjectWatershedUpdate(project.ProjectUpdateID, x)).ToList() ?? new List<ProjectWatershedUpdate>();
-            currentProjectWatersheds.Merge(newProjectWatersheds, allProjectWatersheds, (x, y) => x.ProjectUpdateID == y.ProjectUpdateID && x.WatershedID == y.WatershedID);
-            project.ProjectWatershedNotes = ProjectWatershedNotes;
+            var newProjectWatersheds = WatershedIDs?.Select(x => new ProjectWatershedUpdate(project.ProjectUpdateBatchID, x)).ToList() ?? new List<ProjectWatershedUpdate>();
+            currentProjectWatersheds.Merge(newProjectWatersheds, allProjectWatersheds, (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.WatershedID == y.WatershedID);
+            project.ProjectUpdate.ProjectWatershedNotes = ProjectWatershedNotes;
         }
 
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

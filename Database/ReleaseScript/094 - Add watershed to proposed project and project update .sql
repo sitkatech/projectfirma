@@ -18,9 +18,9 @@ CREATE TABLE dbo.ProposedProjectWatershed(
 CREATE TABLE dbo.ProjectWatershedUpdate(
 	ProjectWatershedUpdateID int NOT NULL IDENTITY(1,1) CONSTRAINT PK_ProjectWatershedUpdate_ProjectWatershedUpdateID PRIMARY KEY,
 	TenantID int NOT NULL CONSTRAINT FK_ProjectWatershedUpdate_Tenant_TenantID FOREIGN KEY REFERENCES dbo.Tenant(TenantID),
-	ProjectUpdateID int NOT NULL CONSTRAINT FK_ProjectWatershedUpdate_ProjectUpdate_ProjectUpdateID FOREIGN KEY REFERENCES dbo.ProjectUpdate(ProjectUpdateID),
+	ProjectUpdateBatchID int NOT NULL CONSTRAINT FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID FOREIGN KEY REFERENCES dbo.ProjectUpdateBatch(ProjectUpdateBatchID),
 	WatershedID int NOT NULL CONSTRAINT FK_ProjectWatershedUpdate_Watershed_WatershedID FOREIGN KEY REFERENCES dbo.Watershed (WatershedID),
-	CONSTRAINT AK_ProjectWatershedUpdate_ProjectUpdateID_WatershedID UNIQUE NONCLUSTERED (ProjectUpdateID, WatershedID),
-	--CONSTRAINT FK_ProjectWatershedUpdate_ProjectUpdate_ProjectUpdateID_TenantID FOREIGN KEY(ProjectUpdateID, TenantID) REFERENCES dbo.ProjectUpdate (ProjectUpdateID, TenantID),
+	CONSTRAINT AK_ProjectWatershedUpdate_ProjectUpdateBatchID_WatershedID UNIQUE NONCLUSTERED (ProjectUpdateBatchID, WatershedID),
+	CONSTRAINT FK_ProjectWatershedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID FOREIGN KEY(ProjectUpdateBatchID, TenantID) REFERENCES dbo.ProjectUpdateBatch (ProjectUpdateBatchID, TenantID),
 	CONSTRAINT FK_ProjectWatershedUpdate_Watershed_WatershedID_TenantID FOREIGN KEY(WatershedID, TenantID) REFERENCES dbo.Watershed (WatershedID, TenantID)
 )

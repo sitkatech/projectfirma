@@ -48,11 +48,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
 else
 {
-    /*TODO: Each view seems to have its own Html object - The partial view below therefore never receives the validation summary messages.
-     * There may be a better way to push the Html object and/or Validation Summary messages to the partial view
-     */
-    @Html.ValidationSummary()
-
     EditProjectWatersheds.RenderPartialView(Html, ViewDataTyped.EditProjectWatershedsViewData, Model);
 
     if (ViewDataTyped.ShowApproveAndReturnButton)
